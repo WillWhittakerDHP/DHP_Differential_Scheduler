@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-23T18:12:47.819Z",
-  "totalScanned": 739,
+  "generatedAt": "2026-02-23T21:42:40.921Z",
+  "totalScanned": 741,
   "tierModel": "tier1",
   "tier1Rules": [
     "nesting",
@@ -124,9 +124,9 @@
       "functions": [
         {
           "name": "createInvitesForAppointment",
-          "startLine": 46,
-          "endLine": 100,
-          "length": 55,
+          "startLine": 80,
+          "endLine": 141,
+          "length": 62,
           "maxNesting": 7,
           "branches": 6,
           "params": 0,
@@ -140,7 +140,7 @@
             },
             {
               "rule": "length",
-              "value": 55,
+              "value": 62,
               "threshold": 50,
               "tier": 1
             }
@@ -148,8 +148,8 @@
         },
         {
           "name": "findEventInstancesForBlockInstances",
-          "startLine": 152,
-          "endLine": 186,
+          "startLine": 193,
+          "endLine": 227,
           "length": 35,
           "maxNesting": 6,
           "branches": 4,
@@ -166,8 +166,8 @@
         },
         {
           "name": "createEventForInstance",
-          "startLine": 198,
-          "endLine": 280,
+          "startLine": 239,
+          "endLine": 321,
           "length": 83,
           "maxNesting": 5,
           "branches": 5,
@@ -187,33 +187,9 @@
               "tier": 1
             }
           ]
-        },
-        {
-          "name": "createFallbackEvent",
-          "startLine": 480,
-          "endLine": 550,
-          "length": 71,
-          "maxNesting": 6,
-          "branches": 4,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 71,
-              "threshold": 50,
-              "tier": 1
-            }
-          ]
         }
       ],
-      "score": 26,
+      "score": 19,
       "priority": "P0"
     },
     {
@@ -446,8 +422,8 @@
         },
         {
           "name": "if",
-          "startLine": 220,
-          "endLine": 228,
+          "startLine": 221,
+          "endLine": 229,
           "length": 9,
           "maxNesting": 5,
           "branches": 3,
@@ -464,8 +440,8 @@
         },
         {
           "name": "computeSlotsForOneDay",
-          "startLine": 359,
-          "endLine": 439,
+          "startLine": 360,
+          "endLine": 440,
           "length": 81,
           "maxNesting": 5,
           "branches": 3,
@@ -708,9 +684,9 @@
       "functions": [
         {
           "name": "createCalendarEventForAppointment",
-          "startLine": 56,
-          "endLine": 135,
-          "length": 80,
+          "startLine": 49,
+          "endLine": 129,
+          "length": 81,
           "maxNesting": 10,
           "branches": 9,
           "params": 0,
@@ -730,7 +706,7 @@
             },
             {
               "rule": "length",
-              "value": 80,
+              "value": 81,
               "threshold": 50,
               "tier": 1
             }
@@ -738,8 +714,8 @@
         },
         {
           "name": "buildAttendeesList",
-          "startLine": 240,
-          "endLine": 268,
+          "startLine": 233,
+          "endLine": 261,
           "length": 29,
           "maxNesting": 6,
           "branches": 4,
@@ -869,12 +845,67 @@
       "priority": "P0"
     },
     {
+      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
+      "functions": [
+        {
+          "name": "resolveEventShapes",
+          "startLine": 19,
+          "endLine": 46,
+          "length": 28,
+          "maxNesting": 7,
+          "branches": 6,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 4,
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "name": "derivePerspective",
+          "startLine": 85,
+          "endLine": 123,
+          "length": 39,
+          "maxNesting": 9,
+          "branches": 10,
+          "params": 0,
+          "returns": 9,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 9,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 13,
+      "priority": "P0"
+    },
+    {
       "repoPath": "client/src/utils/booking/timeSlotMatching.ts",
       "functions": [
         {
           "name": "extractTimeString",
-          "startLine": 11,
-          "endLine": 39,
+          "startLine": 10,
+          "endLine": 38,
           "length": 29,
           "maxNesting": 9,
           "branches": 9,
@@ -903,8 +934,8 @@
         },
         {
           "name": "matchLoadedTimeSlots",
-          "startLine": 72,
-          "endLine": 93,
+          "startLine": 75,
+          "endLine": 96,
           "length": 22,
           "maxNesting": 7,
           "branches": 5,
@@ -924,12 +955,91 @@
       "priority": "P0"
     },
     {
+      "repoPath": "client/src/utils/logger.ts",
+      "functions": [
+        {
+          "name": "levelToNumber",
+          "startLine": 22,
+          "endLine": 35,
+          "length": 14,
+          "maxNesting": 2,
+          "branches": 6,
+          "params": 1,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "getCallsiteFrame",
+          "startLine": 99,
+          "endLine": 128,
+          "length": 30,
+          "maxNesting": 11,
+          "branches": 10,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 11,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "createLogger",
+          "startLine": 130,
+          "endLine": 169,
+          "length": 40,
+          "maxNesting": 9,
+          "branches": 7,
+          "params": 1,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 13,
+      "priority": "P0"
+    },
+    {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "functions": [
         {
           "name": "getWriteToCalendarFromSettings",
-          "startLine": 23,
-          "endLine": 72,
+          "startLine": 45,
+          "endLine": 94,
           "length": 50,
           "maxNesting": 7,
           "branches": 12,
@@ -958,8 +1068,8 @@
         },
         {
           "name": "createAttendeeRecords",
-          "startLine": 137,
-          "endLine": 164,
+          "startLine": 159,
+          "endLine": 186,
           "length": 28,
           "maxNesting": 5,
           "branches": 5,
@@ -984,8 +1094,8 @@
         {
           "name": "matches",
           "startLine": 25,
-          "endLine": 58,
-          "length": 34,
+          "endLine": 59,
+          "length": 35,
           "maxNesting": 9,
           "branches": 10,
           "params": 0,
@@ -1013,8 +1123,8 @@
         },
         {
           "name": "matchFeaturesToBlocks",
-          "startLine": 60,
-          "endLine": 86,
+          "startLine": 61,
+          "endLine": 87,
           "length": 27,
           "maxNesting": 6,
           "branches": 4,
@@ -1026,6 +1136,85 @@
               "value": 6,
               "threshold": 4,
               "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 13,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "server/src/utils/logger.ts",
+      "functions": [
+        {
+          "name": "levelToNumber",
+          "startLine": 22,
+          "endLine": 35,
+          "length": 14,
+          "maxNesting": 2,
+          "branches": 6,
+          "params": 1,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "getCallsiteFrame",
+          "startLine": 93,
+          "endLine": 121,
+          "length": 29,
+          "maxNesting": 11,
+          "branches": 10,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 11,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "createLogger",
+          "startLine": 123,
+          "endLine": 164,
+          "length": 42,
+          "maxNesting": 9,
+          "branches": 7,
+          "params": 1,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 9,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
             }
           ]
         }
@@ -1253,28 +1442,28 @@
         {
           "name": "createWizardStatePlugin",
           "startLine": 20,
-          "endLine": 108,
-          "length": 89,
-          "maxNesting": 16,
-          "branches": 19,
+          "endLine": 112,
+          "length": 93,
+          "maxNesting": 18,
+          "branches": 21,
           "params": 1,
           "returns": 9,
           "violations": [
             {
               "rule": "nesting",
-              "value": 16,
+              "value": 18,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 19,
+              "value": 21,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 89,
+              "value": 93,
               "threshold": 50,
               "tier": 1
             },
@@ -1295,8 +1484,8 @@
       "functions": [
         {
           "name": "handleSearchUpdate",
-          "startLine": 143,
-          "endLine": 171,
+          "startLine": 141,
+          "endLine": 169,
           "length": 29,
           "maxNesting": 6,
           "branches": 7,
@@ -1313,8 +1502,8 @@
         },
         {
           "name": "handleSelectionChange",
-          "startLine": 205,
-          "endLine": 236,
+          "startLine": 203,
+          "endLine": 234,
           "length": 32,
           "maxNesting": 6,
           "branches": 5,
@@ -1338,8 +1527,8 @@
       "functions": [
         {
           "name": "useAppointmentsTableModel",
-          "startLine": 29,
-          "endLine": 134,
+          "startLine": 28,
+          "endLine": 133,
           "length": 106,
           "maxNesting": 8,
           "branches": 13,
@@ -1468,8 +1657,8 @@
         {
           "name": "useBusinessRuleForm",
           "startLine": 11,
-          "endLine": 169,
-          "length": 159,
+          "endLine": 171,
+          "length": 161,
           "maxNesting": 10,
           "branches": 26,
           "params": 1,
@@ -1489,7 +1678,7 @@
             },
             {
               "rule": "length",
-              "value": 159,
+              "value": 161,
               "threshold": 50,
               "tier": 1
             },
@@ -1510,9 +1699,9 @@
       "functions": [
         {
           "name": "useBusinessRules",
-          "startLine": 77,
-          "endLine": 244,
-          "length": 168,
+          "startLine": 82,
+          "endLine": 252,
+          "length": 171,
           "maxNesting": 7,
           "branches": 10,
           "params": 0,
@@ -1532,7 +1721,7 @@
             },
             {
               "rule": "length",
-              "value": 168,
+              "value": 171,
               "threshold": 50,
               "tier": 1
             },
@@ -1596,8 +1785,8 @@
       "functions": [
         {
           "name": "createMaxWorkHoursComputed",
-          "startLine": 17,
-          "endLine": 47,
+          "startLine": 18,
+          "endLine": 48,
           "length": 31,
           "maxNesting": 6,
           "branches": 4,
@@ -1614,8 +1803,8 @@
         },
         {
           "name": "createMaxIncomeComputed",
-          "startLine": 49,
-          "endLine": 79,
+          "startLine": 50,
+          "endLine": 80,
           "length": 31,
           "maxNesting": 6,
           "branches": 4,
@@ -1848,8 +2037,8 @@
       "functions": [
         {
           "name": "useFieldKeyboardGuard",
-          "startLine": 39,
-          "endLine": 108,
+          "startLine": 47,
+          "endLine": 116,
           "length": 70,
           "maxNesting": 18,
           "branches": 15,
@@ -2015,8 +2204,8 @@
         {
           "name": "useInstanceDragAndDrop",
           "startLine": 36,
-          "endLine": 187,
-          "length": 152,
+          "endLine": 188,
+          "length": 153,
           "maxNesting": 22,
           "branches": 20,
           "params": 0,
@@ -2036,7 +2225,7 @@
             },
             {
               "rule": "length",
-              "value": 152,
+              "value": 153,
               "threshold": 50,
               "tier": 1
             },
@@ -2100,29 +2289,29 @@
       "functions": [
         {
           "name": "createMetadataCacheInstance",
-          "startLine": 29,
-          "endLine": 109,
-          "length": 81,
-          "maxNesting": 9,
-          "branches": 9,
+          "startLine": 39,
+          "endLine": 133,
+          "length": 95,
+          "maxNesting": 11,
+          "branches": 13,
           "params": 0,
           "returns": 6,
           "violations": [
             {
               "rule": "nesting",
-              "value": 9,
+              "value": 11,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 9,
+              "value": 13,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 81,
+              "value": 95,
               "threshold": 50,
               "tier": 1
             },
@@ -2187,8 +2376,8 @@
         {
           "name": "usePartInstanceBulkEdit",
           "startLine": 46,
-          "endLine": 184,
-          "length": 139,
+          "endLine": 190,
+          "length": 145,
           "maxNesting": 16,
           "branches": 15,
           "params": 0,
@@ -2208,7 +2397,7 @@
             },
             {
               "rule": "length",
-              "value": 139,
+              "value": 145,
               "threshold": 50,
               "tier": 1
             },
@@ -2229,9 +2418,9 @@
       "functions": [
         {
           "name": "usePartInstanceCollection",
-          "startLine": 46,
-          "endLine": 209,
-          "length": 164,
+          "startLine": 45,
+          "endLine": 210,
+          "length": 166,
           "maxNesting": 11,
           "branches": 10,
           "params": 0,
@@ -2251,7 +2440,7 @@
             },
             {
               "rule": "length",
-              "value": 164,
+              "value": 166,
               "threshold": 50,
               "tier": 1
             },
@@ -2273,28 +2462,28 @@
         {
           "name": "usePartsCollectionField",
           "startLine": 20,
-          "endLine": 220,
-          "length": 201,
-          "maxNesting": 32,
-          "branches": 31,
+          "endLine": 261,
+          "length": 242,
+          "maxNesting": 33,
+          "branches": 32,
           "params": 0,
           "returns": 28,
           "violations": [
             {
               "rule": "nesting",
-              "value": 32,
+              "value": 33,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 31,
+              "value": 32,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 201,
+              "value": 242,
               "threshold": 50,
               "tier": 1
             },
@@ -2358,9 +2547,9 @@
       "functions": [
         {
           "name": "useRelationshipCollection",
-          "startLine": 70,
-          "endLine": 297,
-          "length": 228,
+          "startLine": 72,
+          "endLine": 304,
+          "length": 233,
           "maxNesting": 12,
           "branches": 14,
           "params": 0,
@@ -2380,7 +2569,7 @@
             },
             {
               "rule": "length",
-              "value": 228,
+              "value": 233,
               "threshold": 50,
               "tier": 1
             },
@@ -2445,8 +2634,8 @@
         {
           "name": "useSelectConfig",
           "startLine": 62,
-          "endLine": 312,
-          "length": 251,
+          "endLine": 329,
+          "length": 268,
           "maxNesting": 30,
           "branches": 30,
           "params": 0,
@@ -2466,7 +2655,7 @@
             },
             {
               "rule": "length",
-              "value": 251,
+              "value": 268,
               "threshold": 50,
               "tier": 1
             },
@@ -2530,29 +2719,29 @@
       "functions": [
         {
           "name": "useSelectFiltering",
-          "startLine": 59,
-          "endLine": 417,
-          "length": 359,
-          "maxNesting": 49,
-          "branches": 51,
+          "startLine": 62,
+          "endLine": 434,
+          "length": 373,
+          "maxNesting": 50,
+          "branches": 52,
           "params": 0,
           "returns": 44,
           "violations": [
             {
               "rule": "nesting",
-              "value": 49,
+              "value": 50,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 51,
+              "value": 52,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 359,
+              "value": 373,
               "threshold": 50,
               "tier": 1
             },
@@ -2660,8 +2849,8 @@
         {
           "name": "usePanelPosition",
           "startLine": 34,
-          "endLine": 167,
-          "length": 134,
+          "endLine": 173,
+          "length": 140,
           "maxNesting": 18,
           "branches": 17,
           "params": 0,
@@ -2681,7 +2870,7 @@
             },
             {
               "rule": "length",
-              "value": 134,
+              "value": 140,
               "threshold": 50,
               "tier": 1
             },
@@ -2746,8 +2935,8 @@
         {
           "name": "useSelectionCardState",
           "startLine": 34,
-          "endLine": 104,
-          "length": 71,
+          "endLine": 106,
+          "length": 73,
           "maxNesting": 8,
           "branches": 9,
           "params": 1,
@@ -2767,7 +2956,7 @@
             },
             {
               "rule": "length",
-              "value": 71,
+              "value": 73,
               "threshold": 50,
               "tier": 1
             },
@@ -2918,28 +3107,28 @@
         {
           "name": "useAvailabilityDefaults",
           "startLine": 38,
-          "endLine": 145,
-          "length": 108,
-          "maxNesting": 15,
-          "branches": 16,
+          "endLine": 173,
+          "length": 136,
+          "maxNesting": 17,
+          "branches": 18,
           "params": 1,
           "returns": 4,
           "violations": [
             {
               "rule": "nesting",
-              "value": 15,
+              "value": 17,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 16,
+              "value": 18,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 108,
+              "value": 136,
               "threshold": 50,
               "tier": 1
             }
@@ -2954,35 +3143,35 @@
       "functions": [
         {
           "name": "useAvailabilityLogic",
-          "startLine": 76,
-          "endLine": 362,
-          "length": 287,
-          "maxNesting": 26,
-          "branches": 26,
+          "startLine": 75,
+          "endLine": 382,
+          "length": 308,
+          "maxNesting": 27,
+          "branches": 27,
           "params": 1,
-          "returns": 23,
+          "returns": 24,
           "violations": [
             {
               "rule": "nesting",
-              "value": 26,
+              "value": 27,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 26,
+              "value": 27,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 287,
+              "value": 308,
               "threshold": 50,
               "tier": 1
             },
             {
               "rule": "returns",
-              "value": 23,
+              "value": 24,
               "threshold": 4,
               "tier": 2
             }
@@ -3040,9 +3229,9 @@
       "functions": [
         {
           "name": "useAvailabilityUI",
-          "startLine": 27,
-          "endLine": 106,
-          "length": 80,
+          "startLine": 28,
+          "endLine": 110,
+          "length": 83,
           "maxNesting": 15,
           "branches": 18,
           "params": 1,
@@ -3062,7 +3251,7 @@
             },
             {
               "rule": "length",
-              "value": 80,
+              "value": 83,
               "threshold": 50,
               "tier": 1
             }
@@ -3078,8 +3267,8 @@
         {
           "name": "useBookingWizard",
           "startLine": 16,
-          "endLine": 144,
-          "length": 129,
+          "endLine": 158,
+          "length": 143,
           "maxNesting": 14,
           "branches": 15,
           "params": 0,
@@ -3099,7 +3288,7 @@
             },
             {
               "rule": "length",
-              "value": 129,
+              "value": 143,
               "threshold": 50,
               "tier": 1
             }
@@ -3115,8 +3304,8 @@
         {
           "name": "useComputedAvailability",
           "startLine": 56,
-          "endLine": 219,
-          "length": 164,
+          "endLine": 220,
+          "length": 165,
           "maxNesting": 13,
           "branches": 17,
           "params": 0,
@@ -3136,7 +3325,7 @@
             },
             {
               "rule": "length",
-              "value": 164,
+              "value": 165,
               "threshold": 50,
               "tier": 1
             },
@@ -3280,9 +3469,9 @@
       "functions": [
         {
           "name": "usePropertyDetailsLogic",
-          "startLine": 79,
-          "endLine": 278,
-          "length": 200,
+          "startLine": 80,
+          "endLine": 295,
+          "length": 216,
           "maxNesting": 26,
           "branches": 25,
           "params": 1,
@@ -3302,7 +3491,7 @@
             },
             {
               "rule": "length",
-              "value": 200,
+              "value": 216,
               "threshold": 50,
               "tier": 1
             },
@@ -3324,8 +3513,8 @@
         {
           "name": "usePropertyFormWatchers",
           "startLine": 22,
-          "endLine": 80,
-          "length": 59,
+          "endLine": 84,
+          "length": 63,
           "maxNesting": 9,
           "branches": 18,
           "params": 0,
@@ -3345,7 +3534,7 @@
             },
             {
               "rule": "length",
-              "value": 59,
+              "value": 63,
               "threshold": 50,
               "tier": 1
             }
@@ -3361,28 +3550,28 @@
         {
           "name": "useTimeSlotCalculations",
           "startLine": 55,
-          "endLine": 189,
-          "length": 135,
-          "maxNesting": 14,
-          "branches": 14,
+          "endLine": 191,
+          "length": 137,
+          "maxNesting": 16,
+          "branches": 16,
           "params": 1,
           "returns": 14,
           "violations": [
             {
               "rule": "nesting",
-              "value": 14,
+              "value": 16,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 14,
+              "value": 16,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 135,
+              "value": 137,
               "threshold": 50,
               "tier": 1
             },
@@ -3404,8 +3593,8 @@
         {
           "name": "useWizardAppointmentManagement",
           "startLine": 72,
-          "endLine": 237,
-          "length": 166,
+          "endLine": 241,
+          "length": 170,
           "maxNesting": 16,
           "branches": 17,
           "params": 0,
@@ -3425,7 +3614,7 @@
             },
             {
               "rule": "length",
-              "value": 166,
+              "value": 170,
               "threshold": 50,
               "tier": 1
             },
@@ -3865,8 +4054,8 @@
         {
           "name": "useComponentDistribution",
           "startLine": 38,
-          "endLine": 169,
-          "length": 132,
+          "endLine": 175,
+          "length": 138,
           "maxNesting": 15,
           "branches": 17,
           "params": 1,
@@ -3886,7 +4075,7 @@
             },
             {
               "rule": "length",
-              "value": 132,
+              "value": 138,
               "threshold": 50,
               "tier": 1
             },
@@ -3907,29 +4096,29 @@
       "functions": [
         {
           "name": "useFormValidation",
-          "startLine": 15,
-          "endLine": 215,
-          "length": 201,
-          "maxNesting": 33,
-          "branches": 38,
+          "startLine": 17,
+          "endLine": 245,
+          "length": 229,
+          "maxNesting": 35,
+          "branches": 41,
           "params": 0,
           "returns": 46,
           "violations": [
             {
               "rule": "nesting",
-              "value": 33,
+              "value": 35,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 38,
+              "value": 41,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 201,
+              "value": 229,
               "threshold": 50,
               "tier": 1
             },
@@ -3993,9 +4182,9 @@
       "functions": [
         {
           "name": "useSelectOptions",
-          "startLine": 76,
-          "endLine": 305,
-          "length": 230,
+          "startLine": 79,
+          "endLine": 316,
+          "length": 238,
           "maxNesting": 22,
           "branches": 31,
           "params": 1,
@@ -4015,7 +4204,7 @@
             },
             {
               "rule": "length",
-              "value": 230,
+              "value": 238,
               "threshold": 50,
               "tier": 1
             },
@@ -4160,8 +4349,8 @@
         {
           "name": "fetchAutocompleteSuggestions",
           "startLine": 58,
-          "endLine": 93,
-          "length": 36,
+          "endLine": 94,
+          "length": 37,
           "maxNesting": 6,
           "branches": 5,
           "params": 0,
@@ -4177,8 +4366,8 @@
         },
         {
           "name": "fetchPlaceDetails",
-          "startLine": 95,
-          "endLine": 129,
+          "startLine": 96,
+          "endLine": 130,
           "length": 35,
           "maxNesting": 6,
           "branches": 5,
@@ -4189,6 +4378,43 @@
               "rule": "nesting",
               "value": 6,
               "threshold": 4,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/availabilityStepData.ts",
+      "functions": [
+        {
+          "name": "buildSelectedTimeSlots",
+          "startLine": 25,
+          "endLine": 76,
+          "length": 52,
+          "maxNesting": 7,
+          "branches": 9,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 52,
+              "threshold": 50,
               "tier": 1
             }
           ]
@@ -4521,9 +4747,9 @@
       "functions": [
         {
           "name": "AppointmentFactory",
-          "startLine": 57,
-          "endLine": 209,
-          "length": 153,
+          "startLine": 63,
+          "endLine": 237,
+          "length": 175,
           "maxNesting": 12,
           "branches": 9,
           "params": 1,
@@ -4543,7 +4769,7 @@
             },
             {
               "rule": "length",
-              "value": 153,
+              "value": 175,
               "threshold": 50,
               "tier": 1
             }
@@ -4597,12 +4823,55 @@
       "priority": "P1"
     },
     {
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 114,
+          "endLine": 128,
+          "length": 15,
+          "maxNesting": 5,
+          "branches": 5,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4,
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "name": "if",
+          "startLine": 228,
+          "endLine": 246,
+          "length": 19,
+          "maxNesting": 6,
+          "branches": 6,
+          "params": 1,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 6,
+              "threshold": 4,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
       "functions": [
         {
           "name": "validateAvailabilitySettings",
-          "startLine": 12,
-          "endLine": 317,
+          "startLine": 15,
+          "endLine": 320,
           "length": 306,
           "maxNesting": 82,
           "branches": 82,
@@ -4663,8 +4932,8 @@
         {
           "name": "validatePropertyDetailsPatchBody",
           "startLine": 158,
-          "endLine": 228,
-          "length": 71,
+          "endLine": 229,
+          "length": 72,
           "maxNesting": 12,
           "branches": 24,
           "params": 1,
@@ -4684,7 +4953,7 @@
             },
             {
               "rule": "length",
-              "value": 71,
+              "value": 72,
               "threshold": 50,
               "tier": 1
             }
@@ -4742,8 +5011,8 @@
       "functions": [
         {
           "name": "parseAddress",
-          "startLine": 124,
-          "endLine": 153,
+          "startLine": 123,
+          "endLine": 152,
           "length": 30,
           "maxNesting": 5,
           "branches": 4,
@@ -4760,8 +5029,8 @@
         },
         {
           "name": "extractClients",
-          "startLine": 155,
-          "endLine": 197,
+          "startLine": 154,
+          "endLine": 196,
           "length": 43,
           "maxNesting": 8,
           "branches": 8,
@@ -4785,9 +5054,9 @@
       "functions": [
         {
           "name": "for",
-          "startLine": 91,
-          "endLine": 103,
-          "length": 13,
+          "startLine": 96,
+          "endLine": 111,
+          "length": 16,
           "maxNesting": 5,
           "branches": 4,
           "params": 1,
@@ -4803,8 +5072,8 @@
         },
         {
           "name": "importCalendarData",
-          "startLine": 176,
-          "endLine": 213,
+          "startLine": 184,
+          "endLine": 221,
           "length": 38,
           "maxNesting": 6,
           "branches": 7,
@@ -4871,8 +5140,8 @@
       "functions": [
         {
           "name": "if",
-          "startLine": 107,
-          "endLine": 147,
+          "startLine": 109,
+          "endLine": 149,
           "length": 41,
           "maxNesting": 9,
           "branches": 6,
@@ -4889,9 +5158,9 @@
         },
         {
           "name": "if",
-          "startLine": 150,
-          "endLine": 193,
-          "length": 44,
+          "startLine": 152,
+          "endLine": 196,
+          "length": 45,
           "maxNesting": 9,
           "branches": 6,
           "params": 1,
@@ -4907,8 +5176,8 @@
         },
         {
           "name": "computeAvailabilityData",
-          "startLine": 306,
-          "endLine": 410,
+          "startLine": 309,
+          "endLine": 413,
           "length": 105,
           "maxNesting": 3,
           "branches": 5,
@@ -4932,9 +5201,9 @@
       "functions": [
         {
           "name": "createEvent",
-          "startLine": 13,
-          "endLine": 188,
-          "length": 176,
+          "startLine": 14,
+          "endLine": 192,
+          "length": 179,
           "maxNesting": 20,
           "branches": 23,
           "params": 1,
@@ -4954,7 +5223,7 @@
             },
             {
               "rule": "length",
-              "value": 176,
+              "value": 179,
               "threshold": 50,
               "tier": 1
             }
@@ -4969,8 +5238,8 @@
       "functions": [
         {
           "name": "mapFieldsToModel",
-          "startLine": 11,
-          "endLine": 78,
+          "startLine": 12,
+          "endLine": 79,
           "length": 68,
           "maxNesting": 11,
           "branches": 17,
@@ -5179,9 +5448,9 @@
       "functions": [
         {
           "name": "fetchPropertyEnrichment",
-          "startLine": 15,
+          "startLine": 14,
           "endLine": 54,
-          "length": 40,
+          "length": 41,
           "maxNesting": 12,
           "branches": 12,
           "params": 0,
@@ -5216,8 +5485,8 @@
       "functions": [
         {
           "name": "buildMetadataEntry",
-          "startLine": 15,
-          "endLine": 59,
+          "startLine": 14,
+          "endLine": 58,
           "length": 45,
           "maxNesting": 5,
           "branches": 10,
@@ -5270,43 +5539,6 @@
             {
               "rule": "returns",
               "value": 6,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 8,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
-      "functions": [
-        {
-          "name": "derivePerspective",
-          "startLine": 83,
-          "endLine": 121,
-          "length": 39,
-          "maxNesting": 9,
-          "branches": 10,
-          "params": 0,
-          "returns": 9,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "branches",
-              "value": 10,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 9,
               "threshold": 4,
               "tier": 2
             }
@@ -5506,8 +5738,8 @@
       "functions": [
         {
           "name": "createAdminInstance",
-          "startLine": 34,
-          "endLine": 157,
+          "startLine": 33,
+          "endLine": 156,
           "length": 124,
           "maxNesting": 10,
           "branches": 8,
@@ -5865,8 +6097,8 @@
         {
           "name": "useEntityMetadata",
           "startLine": 12,
-          "endLine": 77,
-          "length": 66,
+          "endLine": 75,
+          "length": 64,
           "maxNesting": 10,
           "branches": 8,
           "params": 0,
@@ -5880,7 +6112,7 @@
             },
             {
               "rule": "length",
-              "value": 66,
+              "value": 64,
               "threshold": 50,
               "tier": 1
             },
@@ -6148,8 +6380,8 @@
       "functions": [
         {
           "name": "useAvailabilityStepHandlers",
-          "startLine": 49,
-          "endLine": 107,
+          "startLine": 59,
+          "endLine": 117,
           "length": 59,
           "maxNesting": 5,
           "branches": 3,
@@ -6285,8 +6517,8 @@
         {
           "name": "useInstanceComponents",
           "startLine": 33,
-          "endLine": 90,
-          "length": 58,
+          "endLine": 94,
+          "length": 62,
           "maxNesting": 7,
           "branches": 5,
           "params": 0,
@@ -6300,7 +6532,7 @@
             },
             {
               "rule": "length",
-              "value": 58,
+              "value": 62,
               "threshold": 50,
               "tier": 1
             },
@@ -6358,8 +6590,8 @@
       "functions": [
         {
           "name": "usePropertyValidation",
-          "startLine": 32,
-          "endLine": 89,
+          "startLine": 40,
+          "endLine": 97,
           "length": 58,
           "maxNesting": 5,
           "branches": 2,
@@ -6574,11 +6806,11 @@
       "functions": [
         {
           "name": "useAppointment",
-          "startLine": 47,
-          "endLine": 108,
-          "length": 62,
+          "startLine": 48,
+          "endLine": 129,
+          "length": 82,
           "maxNesting": 7,
-          "branches": 5,
+          "branches": 7,
           "params": 0,
           "returns": 3,
           "violations": [
@@ -6590,7 +6822,7 @@
             },
             {
               "rule": "length",
-              "value": 62,
+              "value": 82,
               "threshold": 50,
               "tier": 1
             }
@@ -6630,37 +6862,6 @@
               "value": 6,
               "threshold": 4,
               "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/utils/booking/availabilityStepData.ts",
-      "functions": [
-        {
-          "name": "buildSelectedTimeSlots",
-          "startLine": 25,
-          "endLine": 75,
-          "length": 51,
-          "maxNesting": 6,
-          "branches": 8,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 51,
-              "threshold": 50,
-              "tier": 1
             }
           ]
         }
@@ -6710,8 +6911,8 @@
       "functions": [
         {
           "name": "transformSingleEntity",
-          "startLine": 80,
-          "endLine": 140,
+          "startLine": 81,
+          "endLine": 141,
           "length": 61,
           "maxNesting": 5,
           "branches": 3,
@@ -6959,8 +7160,8 @@
         {
           "name": "EventInstanceFactory",
           "startLine": 54,
-          "endLine": 206,
-          "length": 153,
+          "endLine": 207,
+          "length": 154,
           "maxNesting": 8,
           "branches": 5,
           "params": 1,
@@ -6974,7 +7175,7 @@
             },
             {
               "rule": "length",
-              "value": 153,
+              "value": 154,
               "threshold": 50,
               "tier": 1
             }
@@ -7358,6 +7559,31 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/components/booking/plugins/localStatePlugin.ts",
+      "functions": [
+        {
+          "name": "createLocalStatePlugin",
+          "startLine": 8,
+          "endLine": 36,
+          "length": 29,
+          "maxNesting": 5,
+          "branches": 4,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 4,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useConditionalFieldVisibility.ts",
       "functions": [
         {
@@ -7674,8 +7900,8 @@
         {
           "name": "useWizardNumberUpdate",
           "startLine": 24,
-          "endLine": 63,
-          "length": 40,
+          "endLine": 62,
+          "length": 39,
           "maxNesting": 7,
           "branches": 5,
           "params": 0,
@@ -7904,8 +8130,8 @@
       "functions": [
         {
           "name": "handleApiError",
-          "startLine": 41,
-          "endLine": 83,
+          "startLine": 40,
+          "endLine": 82,
           "length": 43,
           "maxNesting": 7,
           "branches": 8,
@@ -8016,8 +8242,8 @@
       "functions": [
         {
           "name": "for",
-          "startLine": 85,
-          "endLine": 112,
+          "startLine": 86,
+          "endLine": 113,
           "length": 28,
           "maxNesting": 9,
           "branches": 8,
@@ -8116,8 +8342,8 @@
       "functions": [
         {
           "name": "patchSelectDomTargets",
-          "startLine": 25,
-          "endLine": 33,
+          "startLine": 24,
+          "endLine": 32,
           "length": 9,
           "maxNesting": 5,
           "branches": 3,
@@ -8141,8 +8367,8 @@
       "functions": [
         {
           "name": "getIcon",
-          "startLine": 32,
-          "endLine": 57,
+          "startLine": 31,
+          "endLine": 56,
           "length": 26,
           "maxNesting": 9,
           "branches": 8,
@@ -8154,55 +8380,6 @@
               "value": 9,
               "threshold": 4,
               "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/utils/logger.ts",
-      "functions": [
-        {
-          "name": "levelToNumber",
-          "startLine": 22,
-          "endLine": 35,
-          "length": 14,
-          "maxNesting": 2,
-          "branches": 6,
-          "params": 1,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        },
-        {
-          "name": "createLogger",
-          "startLine": 85,
-          "endLine": 120,
-          "length": 36,
-          "maxNesting": 9,
-          "branches": 6,
-          "params": 1,
-          "returns": 7,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 7,
-              "threshold": 4,
-              "tier": 2
             }
           ]
         }
@@ -8427,8 +8604,8 @@
       "functions": [
         {
           "name": "withCalendarErrorHandling",
-          "startLine": 23,
-          "endLine": 47,
+          "startLine": 35,
+          "endLine": 59,
           "length": 25,
           "maxNesting": 5,
           "branches": 3,
@@ -8452,8 +8629,8 @@
       "functions": [
         {
           "name": "withMapsErrorHandling",
-          "startLine": 30,
-          "endLine": 51,
+          "startLine": 40,
+          "endLine": 61,
           "length": 22,
           "maxNesting": 5,
           "branches": 2,
@@ -8477,8 +8654,8 @@
       "functions": [
         {
           "name": "createCrudRouter",
-          "startLine": 56,
-          "endLine": 96,
+          "startLine": 55,
+          "endLine": 95,
           "length": 41,
           "maxNesting": 5,
           "branches": 5,
@@ -8502,8 +8679,8 @@
       "functions": [
         {
           "name": "for",
-          "startLine": 105,
-          "endLine": 135,
+          "startLine": 104,
+          "endLine": 134,
           "length": 31,
           "maxNesting": 6,
           "branches": 5,
@@ -8590,31 +8767,6 @@
           "branches": 2,
           "params": 1,
           "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 4,
-              "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "functions": [
-        {
-          "name": "if",
-          "startLine": 173,
-          "endLine": 191,
-          "length": 19,
-          "maxNesting": 6,
-          "branches": 6,
-          "params": 1,
-          "returns": 0,
           "violations": [
             {
               "rule": "nesting",
@@ -8733,8 +8885,8 @@
       "functions": [
         {
           "name": "buildRelationshipWhereClause",
-          "startLine": 68,
-          "endLine": 94,
+          "startLine": 67,
+          "endLine": 93,
           "length": 27,
           "maxNesting": 6,
           "branches": 6,
@@ -8758,8 +8910,8 @@
       "functions": [
         {
           "name": "buildPropertyDetailsUpdates",
-          "startLine": 20,
-          "endLine": 29,
+          "startLine": 24,
+          "endLine": 33,
           "length": 10,
           "maxNesting": 7,
           "branches": 6,
@@ -8814,8 +8966,8 @@
       "functions": [
         {
           "name": "extractCapacityConstraints",
-          "startLine": 157,
-          "endLine": 199,
+          "startLine": 158,
+          "endLine": 200,
           "length": 43,
           "maxNesting": 5,
           "branches": 6,
@@ -8920,8 +9072,8 @@
       "functions": [
         {
           "name": "checkRateLimit",
-          "startLine": 58,
-          "endLine": 96,
+          "startLine": 57,
+          "endLine": 95,
           "length": 39,
           "maxNesting": 5,
           "branches": 4,
@@ -8933,55 +9085,6 @@
               "value": 5,
               "threshold": 4,
               "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/utils/logger.ts",
-      "functions": [
-        {
-          "name": "levelToNumber",
-          "startLine": 22,
-          "endLine": 35,
-          "length": 14,
-          "maxNesting": 2,
-          "branches": 6,
-          "params": 1,
-          "returns": 5,
-          "violations": [
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        },
-        {
-          "name": "createLogger",
-          "startLine": 85,
-          "endLine": 120,
-          "length": 36,
-          "maxNesting": 9,
-          "branches": 6,
-          "params": 1,
-          "returns": 7,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 9,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 7,
-              "threshold": 4,
-              "tier": 2
             }
           ]
         }
@@ -9026,6 +9129,31 @@
           "branches": 9,
           "params": 0,
           "returns": 3,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
+      "functions": [
+        {
+          "name": "transformVersionToBookingInstance",
+          "startLine": 58,
+          "endLine": 107,
+          "length": 50,
+          "maxNesting": 4,
+          "branches": 9,
+          "params": 0,
+          "returns": 2,
           "violations": [
             {
               "rule": "branches",
@@ -9130,8 +9258,8 @@
       "functions": [
         {
           "name": "transformPropertyVersion",
-          "startLine": 24,
-          "endLine": 62,
+          "startLine": 22,
+          "endLine": 60,
           "length": 39,
           "maxNesting": 0,
           "branches": 21,

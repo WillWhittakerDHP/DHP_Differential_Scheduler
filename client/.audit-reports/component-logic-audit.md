@@ -91,18 +91,18 @@ await@193: await submitFeedback({
 - counts: computed=0, ref=0, watch=1, async=3, await=4, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-ref@138: const searchInput = ref('')
-ref@141: const isLoading = ref(false)
-ref@142: const errorMessage = ref('')
-ref@144: const hasInitialAddressFromProps = ref(false)
-watch@146: watch(
-async@174: const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
-await@184: const results = await fetchAutocompleteSuggestions(input, sessionToken.value)
-async@203: const handleSearchUpdate = async (value: string | null) => {
-await@208: await getToken()
-async@265: const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
-await@278: const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)
-await@283: await getToken()
+ref@136: const searchInput = ref('')
+ref@139: const isLoading = ref(false)
+ref@140: const errorMessage = ref('')
+ref@142: const hasInitialAddressFromProps = ref(false)
+watch@144: watch(
+async@172: const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
+await@182: const results = await fetchAutocompleteSuggestions(input, sessionToken.value)
+async@201: const handleSearchUpdate = async (value: string | null) => {
+await@206: await getToken()
+async@263: const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
+await@276: const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)
+await@281: await getToken()
 ```
 
 ### `client/src/views/admin/tabs/InstancesTab.vue`
@@ -110,25 +110,25 @@ await@283: await getToken()
 - counts: computed=0, ref=0, watch=1, async=2, await=2, map=2, reduce=0, dom=0, inlineConfig=0, console=0, alert=1
 
 ```
-ref@178: const createModalOpen = ref(false)
-ref@210: const isCreatingEventInstance = ref(false)
-ref@211: const eventInstanceMetadataModalOpen = ref(false)
-map@242: const knownVariableNames = new Set(templateVariables.map(v => v.name))
-computed@256: const templateWarnings = computed(() => {
-map@263: ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]
-computed@277: const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
-ref@278: const isCreatingEventInstanceLoading = ref(false)
-computed@286: const filteredEventInstances = computed(() => {
-sort@287: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-async@299: patchOrderIndex: async (updates) => {
-await@300: await patchEventInstanceOrderIndex(updates)
-watch@304: watch(filteredEventInstances, () => {
-alert@346: alert('Please create an event shape first')
-async@369: const handleEventInstanceCreate = async () => {
-await@374: await createEventInstance({
-filter@397: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-filter@408: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-ref@554: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
+ref@177: const createModalOpen = ref(false)
+ref@209: const isCreatingEventInstance = ref(false)
+ref@210: const eventInstanceMetadataModalOpen = ref(false)
+map@241: const knownVariableNames = new Set(templateVariables.map(v => v.name))
+computed@255: const templateWarnings = computed(() => {
+map@262: ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]
+computed@276: const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
+ref@277: const isCreatingEventInstanceLoading = ref(false)
+computed@285: const filteredEventInstances = computed(() => {
+sort@286: return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+async@298: patchOrderIndex: async (updates) => {
+await@299: await patchEventInstanceOrderIndex(updates)
+watch@303: watch(filteredEventInstances, () => {
+alert@345: alert('Please create an event shape first')
+async@368: const handleEventInstanceCreate = async () => {
+await@373: await createEventInstance({
+filter@396: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+filter@407: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+ref@553: groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
 ```
 
 ### `client/src/components/admin/generic/EntityCard.vue`
@@ -187,7 +187,7 @@ await@319: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@40:
+provideInject@40: // PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
 computed@100: const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
 map@105: return instances.map((block: BookingBlockInstance) => ({
 computed@138: const timeSlotResults = computed(() => {
@@ -364,8 +364,8 @@ ref@36: const isAppSearchBarVisible = ref(false)
 ref@37: const isLoading = ref(false)
 ref@97: const searchQuery = ref('')
 async@102: const fetchResults = async () => {
-await@105: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
-watch@114: watch(searchQuery, fetchResults)
+await@106: const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
+watch@115: watch(searchQuery, fetchResults)
 ```
 
 ### `client/src/views/admin/tabs/components/FeeCalibrationPanel.vue`
@@ -377,7 +377,7 @@ computed@28: const svgChart = computed(() => {
 filter@35: const allValues = datasets.flatMap(d => d.data).filter((v): v is number => typeof v === 'number')
 map@39: const polylines = datasets.map(d => {
 map@41: .map((val, i) => `${xScale(i)},${yScale(val)}`)
-map@45: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
+map@46: const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
 ```
 
 ### `client/src/components/admin/generic/EntityCardSubPanels.vue`
@@ -439,8 +439,8 @@ await@225: const [list, statsData] = await Promise.all([
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=0, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
 
 ```
-dom@22: window.addEventListener('keydown', handleKeyDown)
-dom@26: window.removeEventListener('keydown', handleKeyDown)
+dom@23: window.addEventListener('keydown', handleKeyDown)
+dom@27: window.removeEventListener('keydown', handleKeyDown)
 ```
 
 ### `client/src/layouts/components/NavBarNotifications.vue`
@@ -525,12 +525,12 @@ computed@129: const stackedFieldsConfig = computed(() => {
 - counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-watch@48: watch(() => props.entityId, (newId) => {
-computed@57: const entity = computed(() => {
-computed@68: const fieldKeys = computed(() => {
-computed@76: const instanceConfig = computed(() => {
-computed@80: const inlineFieldsConfig = computed(() => {
-computed@85: const stackedFieldsConfig = computed(() => {
+watch@52: watch(() => props.entityId, (newId) => {
+computed@61: const entity = computed(() => {
+computed@72: const fieldKeys = computed(() => {
+computed@80: const instanceConfig = computed(() => {
+computed@84: const inlineFieldsConfig = computed(() => {
+computed@89: const stackedFieldsConfig = computed(() => {
 ```
 
 ### `client/src/components/admin/generic/fields/DateInput.vue`
@@ -546,15 +546,15 @@ inlineConfig@20: :config="{ dateFormat: 'Y-m-d' }"
 - counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@78: const effectiveFieldContext = computed(() => {
-computed@108: const fieldKey = computed(() => effectiveFieldContext.value?.fieldKey)
-computed@109: const entityKey = computed(() => effectiveFieldContext.value?.entityKey)
-computed@127: entityForMetadataLookup = computed(() => null) as ComputedRef<GlobalEntity<GlobalEntityKey> | null>
-computed@130: const entityForMetadata = computed(() => {
-computed@139: const fieldMetadataRef = computed(() => {
-computed@153: const collectionType = computed(() => {
-computed@180: hasFieldContext: computed(() => !!effectiveFieldContext.value)
-watch@183: watch(
+computed@82: const effectiveFieldContext = computed(() => {
+computed@112: const fieldKey = computed(() => effectiveFieldContext.value?.fieldKey)
+computed@113: const entityKey = computed(() => effectiveFieldContext.value?.entityKey)
+computed@131: entityForMetadataLookup = computed(() => null) as ComputedRef<GlobalEntity<GlobalEntityKey> | null>
+computed@134: const entityForMetadata = computed(() => {
+computed@143: const fieldMetadataRef = computed(() => {
+computed@157: const collectionType = computed(() => {
+computed@184: hasFieldContext: computed(() => !!effectiveFieldContext.value)
+watch@187: watch(
 ```
 
 ### `client/src/components/admin/generic/fields/SelectInputs.vue`
@@ -579,12 +579,12 @@ map@330: const groupedByKeyComputed = computed(() => groupedByKey.value.map(grou
 - counts: computed=0, ref=0, watch=0, async=1, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@49: const chipStyle = computed(() => {
-computed@58: const isOverride = computed(() => {
-computed@63: const complementaryColor = computed(() => {
-computed@69: const chipColor = computed(() => {
-computed@74: const chipVariant = computed(() => {
-async@96: // PATTERN: Emit event, parent handles async operations
+computed@56: const chipStyle = computed(() => {
+computed@65: const isOverride = computed(() => {
+computed@70: const complementaryColor = computed(() => {
+computed@76: const chipColor = computed(() => {
+computed@81: const chipVariant = computed(() => {
+async@103: // PATTERN: Emit event, parent handles async operations
 ```
 
 ### `client/src/components/admin/InstanceBulkEditModal.vue`
@@ -619,9 +619,9 @@ computed@137: const fullAddress = computed(() => {
 - counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-ref@44: const localExpanded = ref(false)
-computed@46: const isExpandedState = computed(() => {
-watch@135: watch(isSelected, (newValue) => {
+ref@43: const localExpanded = ref(false)
+computed@45: const isExpandedState = computed(() => {
+watch@134: watch(isSelected, (newValue) => {
 ```
 
 ### `client/src/components/booking/steps/AvailabilityOptionsSection.vue`
@@ -637,10 +637,10 @@ inlineConfig@44: :config="{
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-computed@34: instances: computed(() => wizard.availableServices.value),
-computed@35: selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
-computed@41: selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
-map@63: get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
+computed@33: instances: computed(() => wizard.availableServices.value),
+computed@34: selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)
+computed@40: selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
+map@62: get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
 ```
 
 ### `client/src/layouts/blank.vue`

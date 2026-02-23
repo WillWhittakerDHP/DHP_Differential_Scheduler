@@ -4,7 +4,7 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-02-23T18:12:56.717Z
+Generated at: 2026-02-23T21:42:50.663Z
 
 ## Summary
 
@@ -40,7 +40,7 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 41 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 48 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 55 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/admin/useMetadataCache.ts` | composableExport | 122 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useMetadataCache.ts` | composableExport | 150 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/utils/nestedComputedFactory.ts` | composableFileName | 1 | pattern | Composable utility; factory name is intentional |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | composableExport | 34 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/booking/useStepValidation.ts` | composableExport | 22 | pattern | Composables may export camelCase helpers used by other co... |
@@ -68,7 +68,7 @@ Review periodically to ensure exceptions are still valid.
 | `server/src/db/models/admin/valid_event.ts` | functionExport | 25 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/valid_part.ts` | functionExport | 25 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/admin/valid_pricing_cascade.ts` | functionExport | 25 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/beta/beta_feedback.ts` | functionExport | 50 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/beta/beta_feedback.ts` | functionExport | 49 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/beta/beta_feedback_tag.ts` | functionExport | 20 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/active_annotation.ts` | functionExport | 47 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/active_event.ts` | functionExport | 51 | pattern | Sequelize model factory convention: ModelNameFactory |
@@ -77,10 +77,10 @@ Review periodically to ensure exceptions are still valid.
 | `server/src/db/models/booking/annotation_assignment.ts` | functionExport | 47 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/annotation_instance.ts` | functionExport | 43 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/annotation_shape.ts` | functionExport | 36 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/booking/appointment.ts` | functionExport | 56 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/appointment.ts` | functionExport | 62 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/appointment_attendee.ts` | functionExport | 50 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/appointment_fee_entry.ts` | functionExport | 33 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/booking/appointment_fee_summary.ts` | functionExport | 28 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/appointment_fee_summary.ts` | functionExport | 29 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/block_instance.ts` | functionExport | 39 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/block_instance_version.ts` | functionExport | 32 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/booking_cascade.ts` | functionExport | 25 | pattern | Sequelize model factory convention: ModelNameFactory |
@@ -94,11 +94,11 @@ Review periodically to ensure exceptions are still valid.
 | `server/src/db/models/booking/part_instance.ts` | functionExport | 32 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/part_instance_version.ts` | functionExport | 28 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/pricing_cascade.ts` | functionExport | 34 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/booking/property_details.ts` | functionExport | 33 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/property_details.ts` | functionExport | 32 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/property_version.ts` | functionExport | 20 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/property_version_type.ts` | functionExport | 35 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/relationships.ts` | functionExport | 25 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/mappings/property_feature_mapping.ts` | functionExport | 30 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/mappings/property_feature_mapping.ts` | functionExport | 31 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/mappings/property_field_mapping.ts` | functionExport | 26 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/participantModels/Users.ts` | functionExport | 27 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/types/express.d.ts` | typesFileName | 1 | specific | Express type augmentation; standard filename for declarat... |

@@ -42,6 +42,7 @@ Generated from `client/.audit-reports/component-logic-audit.json`.
 | `client/src/views/admin/entities/PartShapeList.vue` | P2 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/component/ComponentDistributionModal.vue` | P2 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
+*...and 14 more files. See full report for details.*
 
 ## Notes
 

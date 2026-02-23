@@ -7,18 +7,5 @@
 
 Generated from `client/.audit-reports/data-flow-audit.json`.
 
-- Requiring review: **9**
+- Requiring review: **0**
 - Allowed: **0**
-
-## Top 25 files
-
-| File | Count | Priority |
-| --- | ---: | --- |
-| `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts` | 2 | P2 |
-| `server/src/routes/external/calendarRoutes.ts` | 1 | P2 |
-| `server/src/routes/external/googleOauthRoutes.ts` | 1 | P2 |
-| `server/src/routes/external/mapsRoutes.ts` | 1 | P2 |
-| `server/src/routes/external/oauthCallbackRouter.ts` | 1 | P2 |
-| `server/src/routes/external/propertyEnrichmentRoutes.ts` | 1 | P2 |
-| `server/src/routes/helpers/requestHelpers.ts` | 1 | P2 |
-| `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts` | 1 | P2 |

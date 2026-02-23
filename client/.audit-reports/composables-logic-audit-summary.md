@@ -37,11 +37,12 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 | `client/src/composables/admin/useInstanceDragAndDrop.ts` | P2 | 8 | 1 | 0 | 2 | 1 | 4 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityLogic.ts` | P2 | 12 | 1 | 0 | 1 | 8 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/booking/useElementDimensions.ts` | P2 | 8 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 6 | 0 |
+| `client/src/composables/useAppointment.ts` | P2 | 10 | 1 | 2 | 0 | 2 | 0 | 2 | 4 | 0 | 0 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useSelectInputsAsync.ts` | P2 | 10 | 1 | 0 | 0 | 1 | 0 | 4 | 3 | 0 | 0 |
 | `client/src/composables/beta/useBetaFeedback.ts` | P2 | 11 | 1 | 0 | 0 | 0 | 0 | 6 | 5 | 0 | 0 |
-| `client/src/composables/booking/selectionCard/useSelectionCard.ts` | P2 | 11 | 2 | 0 | 0 | 3 | 8 | 0 | 0 | 0 | 0 |
 
+*...and 149 more. See full report.*
 
 ## Notes
 

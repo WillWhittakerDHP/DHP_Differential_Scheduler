@@ -35,8 +35,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **619**
-- Groups (window=10 lines, minOccurrences=2): **190**
+- Files scanned: **621**
+- Groups (window=10 lines, minOccurrences=2): **195**
 - Duplicate composable export names: **1**
 - Candidate findings from pattern-detection: **5**
 
@@ -62,6 +62,7 @@ Same `use*` export name in multiple composable files — consolidation or rename
 | `dup-081b9aedff50` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@12`, `server/src/db/models/booking/part_assignment.ts@12` |
 | `dup-0865f1a90261` | 2 | 2 | 10 | `client/src/utils/logger.ts@13`, `server/src/utils/logger.ts@13` |
 | `dup-08e13972093b` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@23`, `server/src/db/models/booking/part_assignment.ts@23` |
+| `dup-091d8b199bee` | 2 | 2 | 10 | `client/src/utils/logger.ts@136`, `server/src/utils/logger.ts@131` |
 | `dup-09542cc2230d` | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@143`, `server/src/db/models/admin/adminRelationshipMetadata.ts@143` |
 | `dup-0b9d7afa76c5` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@95`, `server/src/db/models/booking/annotation_assignment.ts@95` |
 | `dup-0bf0a50177b3` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@58`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@58` |
@@ -75,8 +76,7 @@ Same `use*` export name in multiple composable files — consolidation or rename
 | `dup-13bd9de36f5c` | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@111`, `client/src/composables/booking/useDevPanelsComputed.ts@64` |
 | `dup-1623de395200` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@18`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@18` |
 | `dup-167a50aae37b` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@92`, `server/src/db/models/booking/annotation_assignment.ts@92` |
-| `dup-170c9613a9b4` | 2 | 2 | 10 | `client/src/utils/logger.ts@105`, `server/src/utils/logger.ts@105` |
-| `dup-19862ce3c011` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@44`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@44` |
+| `dup-18bbe9ae71ef` | 2 | 2 | 10 | `client/src/utils/logger.ts@153`, `server/src/utils/logger.ts@148` |
 
 ## Per-group details (top)
 
@@ -295,6 +295,27 @@ return 'blockInstance';
 type: DataTypes.VIRTUAL,
 ```
 
+### Group `dup-091d8b199bee`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/utils/logger.ts` @ lines 136-149
+- `server/src/utils/logger.ts` @ lines 131-144
+
+```
+const infoEnabled = shouldLog(configuredLevel, 'info')
+const warnEnabled = shouldLog(configuredLevel, 'warn')
+const errorEnabled = shouldLog(configuredLevel, 'error')
+const appendCallsite = (args: unknown[]): unknown[] =>
+callsiteEnabled ? [...args, getCallsiteFrame()] : args
+debug: (...args: unknown[]): void => {
+if (!debugEnabled) return
+console.log(prefix, ...appendCallsite(args))
+info: (...args: unknown[]): void => {
+if (!infoEnabled) return
+```
+
 ### Group `dup-09542cc2230d`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
@@ -482,25 +503,4 @@ AnnotationAssignment.init(
 type: DataTypes.UUID,
 defaultValue: DataTypes.UUIDV4,
 blockInstanceId: {
-```
-
-### Group `dup-1378fa017b30`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/admin/adminPrimitiveMetadata.ts` @ lines 20-29
-- `server/src/db/models/admin/adminRelationshipMetadata.ts` @ lines 20-29
-
-```
-declare dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
-declare label: string;
-declare isRequired: boolean;
-declare visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
-declare layout: 'inline' | 'stacked';
-declare displayOrder: number;
-declare section: CreationOptional<string | null>;
-declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
-declare statusButtonColor: CreationOptional<string | null>;
-declare panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
 ```

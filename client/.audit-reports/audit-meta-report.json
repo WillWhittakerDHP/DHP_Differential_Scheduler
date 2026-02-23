@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-23T18:13:14.015Z",
+  "generatedAt": "2026-02-23T21:42:59.285Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -24,13 +24,13 @@
     },
     {
       "auditId": "hardcoding",
-      "filesWithFindings": 38,
-      "totalFindings": 64
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "function-complexity",
-      "filesWithFindings": 242,
-      "totalFindings": 242
+      "filesWithFindings": 244,
+      "totalFindings": 244
     },
     {
       "auditId": "pattern-detection",
@@ -49,13 +49,13 @@
     },
     {
       "auditId": "error-handling",
-      "filesWithFindings": 2,
-      "totalFindings": 2
+      "filesWithFindings": 16,
+      "totalFindings": 20
     },
     {
       "auditId": "deprecation",
-      "filesWithFindings": 1,
-      "totalFindings": 10
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "security",
@@ -64,8 +64,8 @@
     },
     {
       "auditId": "todo-aging",
-      "filesWithFindings": 5,
-      "totalFindings": 5
+      "filesWithFindings": 8,
+      "totalFindings": 9
     },
     {
       "auditId": "import-graph",
@@ -74,8 +74,8 @@
     },
     {
       "auditId": "file-cohesion",
-      "filesWithFindings": 18,
-      "totalFindings": 18
+      "filesWithFindings": 19,
+      "totalFindings": 19
     },
     {
       "auditId": "api-contract",
@@ -84,8 +84,8 @@
     },
     {
       "auditId": "constants-consolidation",
-      "filesWithFindings": 12,
-      "totalFindings": 27
+      "filesWithFindings": 3,
+      "totalFindings": 4
     },
     {
       "auditId": "bundle-size-budget",
@@ -104,13 +104,13 @@
     },
     {
       "auditId": "api-versioning",
-      "filesWithFindings": 47,
-      "totalFindings": 47
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "data-flow",
-      "filesWithFindings": 8,
-      "totalFindings": 9
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "dep-freshness",
@@ -119,13 +119,13 @@
     },
     {
       "auditId": "type-escape",
-      "filesWithFindings": 2,
-      "totalFindings": 2
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "type-import",
-      "filesWithFindings": 0,
-      "totalFindings": 0
+      "filesWithFindings": 2,
+      "totalFindings": 2
     },
     {
       "auditId": "lint",
@@ -140,15 +140,14 @@
   ],
   "hotspots": [
     {
-      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
-      "totalScore": 109.8,
-      "auditCount": 5,
+      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
+      "totalScore": 62,
+      "auditCount": 4,
       "auditIds": [
-        "hardcoding",
+        "composables-logic",
         "function-complexity",
-        "deprecation",
-        "file-cohesion",
-        "constants-consolidation"
+        "error-handling",
+        "file-cohesion"
       ]
     },
     {
@@ -158,15 +157,6 @@
       "auditIds": [
         "composables-logic",
         "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "server/src/utils/propertyTransformers.ts",
-      "totalScore": 44.5,
-      "auditCount": 2,
-      "auditIds": [
-        "function-complexity",
-        "constants-consolidation"
       ]
     },
     {
@@ -207,14 +197,6 @@
       ]
     },
     {
-      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
-      "totalScore": 40,
-      "auditCount": 1,
-      "auditIds": [
-        "constants-consolidation"
-      ]
-    },
-    {
       "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
       "totalScore": 37.5,
       "auditCount": 2,
@@ -233,11 +215,10 @@
       ]
     },
     {
-      "repoPath": "server/src/services/slotComputationService.ts",
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
       "totalScore": 34.5,
-      "auditCount": 3,
+      "auditCount": 2,
       "auditIds": [
-        "hardcoding",
         "function-complexity",
         "file-cohesion"
       ]
@@ -252,13 +233,13 @@
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
-      "totalScore": 32,
+      "repoPath": "client/src/composables/admin/useSelectConfig.ts",
+      "totalScore": 31.5,
       "auditCount": 3,
       "auditIds": [
         "composables-logic",
         "function-complexity",
-        "file-cohesion"
+        "error-handling"
       ]
     },
     {
@@ -271,31 +252,12 @@
       ]
     },
     {
-      "repoPath": "server/src/services/propertyFeatureMatcher.ts",
+      "repoPath": "server/src/services/slotComputationService.ts",
       "totalScore": 31.5,
       "auditCount": 2,
       "auditIds": [
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "totalScore": 30,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useSelectConfig.ts",
-      "totalScore": 30,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "function-complexity",
+        "file-cohesion"
       ]
     },
     {
@@ -407,13 +369,12 @@
       ]
     },
     {
-      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
-      "totalScore": 26,
-      "auditCount": 3,
+      "repoPath": "server/src/services/brightMls/brightMlsApiClient.ts",
+      "totalScore": 26.5,
+      "auditCount": 2,
       "auditIds": [
-        "composables-logic",
-        "hardcoding",
-        "function-complexity"
+        "function-complexity",
+        "type-import"
       ]
     },
     {
@@ -426,31 +387,13 @@
       ]
     },
     {
-      "repoPath": "server/src/services/propertyFieldMapper.ts",
-      "totalScore": 25.666666666666664,
-      "auditCount": 2,
-      "auditIds": [
-        "function-complexity",
-        "constants-consolidation"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/booking/appointmentDataBuilders.ts",
+      "repoPath": "client/src/composables/admin/useRelationshipCollection.ts",
       "totalScore": 25.5,
       "auditCount": 3,
       "auditIds": [
-        "hardcoding",
+        "composables-logic",
         "function-complexity",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/appointmentCalendarService.ts",
-      "totalScore": 25.5,
-      "auditCount": 2,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity"
+        "error-handling"
       ]
     },
     {
@@ -490,6 +433,16 @@
       ]
     },
     {
+      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
+      "totalScore": 24.5,
+      "auditCount": 3,
+      "auditIds": [
+        "composables-logic",
+        "function-complexity",
+        "todo-aging"
+      ]
+    },
+    {
       "repoPath": "client/src/composables/entityCrud/usePrimitiveMutation.ts",
       "totalScore": 24.5,
       "auditCount": 2,
@@ -501,25 +454,14 @@
     {
       "repoPath": "client/src/composables/admin/useBusinessRuleForm.ts",
       "totalScore": 24,
-      "auditCount": 3,
+      "auditCount": 2,
       "auditIds": [
         "composables-logic",
-        "hardcoding",
         "function-complexity"
       ]
     },
     {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "totalScore": 24,
-      "auditCount": 3,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useRelationshipCollection.ts",
+      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
       "totalScore": 24,
       "auditCount": 2,
       "auditIds": [
@@ -547,6 +489,15 @@
     },
     {
       "repoPath": "client/src/composables/admin/useFieldInputHandlers.ts",
+      "totalScore": 23,
+      "auditCount": 2,
+      "auditIds": [
+        "composables-logic",
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
       "totalScore": 23,
       "auditCount": 2,
       "auditIds": [
@@ -591,38 +542,80 @@
       ]
     },
     {
-      "repoPath": "server/src/scripts/importCalendarData.ts",
-      "totalScore": 23,
+      "repoPath": "client/src/composables/admin/useMetadataCache.ts",
+      "totalScore": 22.5,
       "auditCount": 2,
       "auditIds": [
-        "hardcoding",
+        "composables-logic",
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/admin/selectTypeResolver.ts",
+      "totalScore": 22.5,
+      "auditCount": 1,
+      "auditIds": [
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/forms/fieldLocationDispatcher.ts",
+      "totalScore": 22.5,
+      "auditCount": 1,
+      "auditIds": [
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "server/src/services/appointmentCalendarService.ts",
+      "totalScore": 22.5,
+      "auditCount": 1,
+      "auditIds": [
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartInstanceCollection.ts",
+      "totalScore": 22,
+      "auditCount": 2,
+      "auditIds": [
+        "composables-logic",
+        "function-complexity"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
+      "totalScore": 22,
+      "auditCount": 2,
+      "auditIds": [
+        "composables-logic",
         "function-complexity"
       ]
     }
   ],
-  "totalExceptions": 1205,
+  "totalExceptions": 1254,
   "previousExceptions": 1188,
   "exceptionAnalysis": {
     "totals": {
       "structural": 1125,
-      "specific": 43,
-      "total": 1205
+      "specific": 95,
+      "total": 1254
     },
     "perAudit": [
       {
         "auditId": "loop-mutation",
-        "structural": 533,
+        "structural": 532,
         "specific": 16,
-        "total": 553,
-        "totalScanned": 685,
-        "ratio": 0.778
+        "total": 552,
+        "totalScanned": 687,
+        "ratio": 0.774
       },
       {
         "auditId": "hardcoding",
-        "structural": 517,
-        "specific": 26,
-        "total": 576,
-        "totalScanned": 768,
+        "structural": 518,
+        "specific": 78,
+        "total": 626,
+        "totalScanned": 770,
         "ratio": 0.673
       },
       {
@@ -630,16 +623,16 @@
         "structural": 75,
         "specific": 1,
         "total": 76,
-        "totalScanned": 795,
+        "totalScanned": 797,
         "ratio": 0.094
       }
     ],
     "configFingerprints": {
-      "type-similarity": "e62360fd13200db8",
+      "type-similarity": "745662b350a9cfd0",
       "component-logic": "6a1df7b44b1a36ca",
       "composables-logic": "b3112dc6256c2f83",
       "loop-mutation": "e186b4bbb0743d29",
-      "hardcoding": "a0a4c22fb736c3a8",
+      "hardcoding": "435661033a350d60",
       "function-complexity": "2482ad8cfaa5feff",
       "pattern-detection": "ac978f6f45ef7083",
       "duplication": "7f01483f131e18ae",
@@ -656,25 +649,27 @@
       "naming-convention": "c78894b97b7acd15",
       "data-flow": "ad88896d02758326",
       "dep-freshness": "7a1119a7d6ed5be8",
-      "type-escape": "ac978f6f45ef7083",
+      "type-escape": "a7d2b081aa6a9715",
       "type-import": "aa99c85efd1cf10c",
       "lint": "ac978f6f45ef7083",
       "typecheck": "64796f4c14a70f8d"
     },
-    "configPatternCount": 86
+    "configPatternCount": 95
   },
   "exceptionDiff": {
-    "totalDelta": 17,
+    "totalDelta": 66,
     "structuralDelta": -15,
-    "specificDelta": -5,
+    "specificDelta": 47,
     "configsChanged": [
+      "type-similarity",
       "loop-mutation",
       "hardcoding",
       "error-handling",
       "deprecation",
+      "type-escape",
       "type-import"
     ],
-    "verdict": "stable"
+    "verdict": "suppression-creep"
   },
   "trend": [
     {
@@ -692,8 +687,8 @@
     {
       "auditId": "composables-logic",
       "current": 8,
-      "previous": 10,
-      "delta": -2
+      "previous": 9,
+      "delta": -1
     },
     {
       "auditId": "loop-mutation",
@@ -703,14 +698,14 @@
     },
     {
       "auditId": "hardcoding",
-      "current": 64,
+      "current": 0,
       "previous": 82,
-      "delta": -18
+      "delta": -82
     },
     {
       "auditId": "function-complexity",
-      "current": 242,
-      "previous": 254,
+      "current": 244,
+      "previous": 256,
       "delta": -12
     },
     {
@@ -733,15 +728,15 @@
     },
     {
       "auditId": "error-handling",
-      "current": 2,
+      "current": 20,
       "previous": 0,
-      "delta": 2
+      "delta": 20
     },
     {
       "auditId": "deprecation",
-      "current": 10,
-      "previous": 105,
-      "delta": -95
+      "current": 0,
+      "previous": 104,
+      "delta": -104
     },
     {
       "auditId": "security",
@@ -751,21 +746,21 @@
     },
     {
       "auditId": "todo-aging",
-      "current": 5,
+      "current": 9,
       "previous": 11,
-      "delta": -6
+      "delta": -2
     },
     {
       "auditId": "import-graph",
       "current": 2,
-      "previous": 4,
-      "delta": -2
+      "previous": 3,
+      "delta": -1
     },
     {
       "auditId": "file-cohesion",
-      "current": 18,
-      "previous": 25,
-      "delta": -7
+      "current": 19,
+      "previous": 23,
+      "delta": -4
     },
     {
       "auditId": "api-contract",
@@ -775,9 +770,9 @@
     },
     {
       "auditId": "constants-consolidation",
-      "current": 27,
+      "current": 4,
       "previous": 17,
-      "delta": 10
+      "delta": -13
     },
     {
       "auditId": "bundle-size-budget",
@@ -799,15 +794,15 @@
     },
     {
       "auditId": "api-versioning",
-      "current": 47,
+      "current": 0,
       "previous": 47,
-      "delta": 0
+      "delta": -47
     },
     {
       "auditId": "data-flow",
-      "current": 9,
+      "current": 0,
       "previous": 10,
-      "delta": -1
+      "delta": -10
     },
     {
       "auditId": "dep-freshness",
@@ -817,15 +812,15 @@
     },
     {
       "auditId": "type-escape",
-      "current": 2,
+      "current": 0,
       "previous": 1,
-      "delta": 1
+      "delta": -1
     },
     {
       "auditId": "type-import",
-      "current": 0,
-      "previous": 2,
-      "delta": -2
+      "current": 2,
+      "previous": 3,
+      "delta": -1
     },
     {
       "auditId": "lint",

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-23T18:12:56.717Z",
-  "totalScanned": 795,
+  "generatedAt": "2026-02-23T21:42:50.662Z",
+  "totalScanned": 797,
   "exceptionSummary": {
     "totalAllowed": 76,
     "totalRequiresReview": 3,
@@ -179,7 +179,7 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 122,
+          "lineNumber": 150,
           "line": "export function resetMetadataCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -583,7 +583,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 50,
+          "lineNumber": 49,
           "line": "export function BetaFeedbackFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
@@ -709,7 +709,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 56,
+          "lineNumber": 62,
           "line": "export function AppointmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
@@ -751,7 +751,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 28,
+          "lineNumber": 29,
           "line": "export function AppointmentFeeSummaryFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
@@ -947,7 +947,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 33,
+          "lineNumber": 32,
           "line": "export function PropertyDetailsFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
@@ -1003,7 +1003,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 30,
+          "lineNumber": 31,
           "line": "export function PropertyFeatureMappingFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",

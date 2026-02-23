@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-02-23T18:12:59.290Z
+Generated at: 2026-02-23T21:42:53.264Z
 
 ## Summary
 
-- **Total source files**: 795
+- **Total source files**: 797
 - **Total test files**: 0
-- **Untested source files**: 795
+- **Untested source files**: 797
 - **Orphaned test files**: 0
 - **Coverage**: 0%
 
@@ -35,19 +35,19 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | **7.6** | 10 | 8 | 6 | 0 | 1 |
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | **7.5** | 9 | 7 | 9 | 0 | 2 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
+| `client/src/composables/booking/useAvailabilityDefaults.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useTimeSlotCalculations.ts` | **7.5** | 10 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | **7.4** | 10 | 7 | 4 | 5 | 2 |
+| `client/src/utils/booking/partFinalizer.ts` | **7.4** | 7 | 9 | 8 | 3 | 4 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | **7.4** | 10 | 8 | 4 | 2 | 1 |
 | `client/src/composables/booking/useAvailabilitySlotColor.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityStepData.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityValidation.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useBookingWizardStepValidators.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useWizardStepDataRefs.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
-| `client/src/utils/booking/partFinalizer.ts` | **7.3** | 7 | 9 | 8 | 2 | 4 |
 | `client/src/utils/transformers/transformerCollections.ts` | **7.2** | 7 | 8 | 10 | 0 | 1 |
 | `client/src/composables/booking/useAppointmentTimes.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
-| `client/src/composables/booking/useAvailabilityDefaults.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useBookingWizard.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
 | `client/src/composables/booking/useDependentInstances.ts` | **7.1** | 9 | 7 | 7 | 0 | 2 |
 | `client/src/utils/booking/appointmentDataBuilders.ts` | **7.1** | 6 | 10 | 8 | 1 | 7 |

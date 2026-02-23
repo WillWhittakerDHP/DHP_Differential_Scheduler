@@ -11,44 +11,19 @@ Generated from `client/.audit-reports/type-escape-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Total scanned | 4 |
-| Findings | 2 |
-| Files with findings | 2 |
-
-## Delta (vs previous run)
-
-| Baseline state | Count |
-| --- | ---: |
-| New | 2 |
-| Regressed | 0 |
-| Unchanged | 0 |
-| Resolved | 0 |
-
-### By rule
-
-| Rule | New | Unchanged | Resolved | Regressed |
-| --- | ---: | ---: | ---: | ---: |
-| as-any | 2 | 0 | 0 | 0 |
-
-### New findings
-
-| File | Line | Rule | Snippet |
-| --- | ---: | --- | --- |
-| `client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts` | 3 | as-any | const y = x as any |
-| `client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts` | 3 | as-any | const y = x as any |
+| Total scanned | 797 |
+| Findings | 0 |
+| Files with findings | 0 |
 
 ## By rule
 
 | Rule | Count |
 | --- | ---: |
-| as-any | 2 |
 
-## Top 2 files
+## Top 0 files
 
 | File | Priority | Score |
 | --- | --- | ---: |
-| `undefined` | P2 | 3 |
-| `undefined` | P2 | 3 |
 
 ## Notes
 

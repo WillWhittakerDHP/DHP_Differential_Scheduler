@@ -7,18 +7,17 @@
 
 Generated from `client/.audit-reports/deprecation-audit.json`.
 
-- Files with findings: **1**
-- Requiring review: **10**
+- Files with findings: **0**
+- Requiring review: **0**
 - Allowed exceptions: **0**
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **14**
+- Runtime legacy accommodation: **0**
 
-## Top 1 files (ranked by score)
+## Top 0 files (ranked by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `server/src/services/invites/inviteOrchestrationService.ts` | P0 | 36 | 0 | 14 |
 
 ## Notes
 

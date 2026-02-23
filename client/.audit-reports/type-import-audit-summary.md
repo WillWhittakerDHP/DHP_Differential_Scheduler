@@ -11,15 +11,44 @@ Generated from `client/.audit-reports/type-import-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 4 |
-| value-import-from-type-only-file | 0 |
+| Files scanned | 797 |
+| value-import-from-type-only-file | 7 |
 | type-used-as-value | 0 |
-| Files with findings | 0 |
+| Files with findings | 2 |
 
-## Top 0 files (by score)
+## Delta (vs previous run)
+
+| Baseline state | Count |
+| --- | ---: |
+| New | 7 |
+| Regressed | 0 |
+| Unchanged | 0 |
+| Resolved | 0 |
+
+### By rule
+
+| Rule | New | Unchanged | Resolved | Regressed |
+| --- | ---: | ---: | ---: | ---: |
+| value-import-from-type-only-file | 7 | 0 | 0 | 0 |
+
+### New findings
+
+| File | Line | Rule | Snippet |
+| --- | ---: | --- | --- |
+| `server/src/services/brightMls/brightMlsApiClient.ts` | 3 | value-import-from-type-only-file | ../../types/brightMls.js BrightMlsPropertyResponse |
+| `server/src/services/brightMls/brightMlsApiClient.ts` | 3 | value-import-from-type-only-file | ../../types/brightMls.js BrightMlsODataResponse |
+| `server/src/services/google/maps/mapsHelpers.ts` | 7 | value-import-from-type-only-file | ./mapsTypes.js AddressComponents |
+| `server/src/services/google/maps/mapsHelpers.ts` | 7 | value-import-from-type-only-file | ./mapsTypes.js AutocompletePrediction |
+| `server/src/services/google/maps/mapsHelpers.ts` | 7 | value-import-from-type-only-file | ./mapsTypes.js Coordinates |
+| `server/src/services/google/maps/mapsHelpers.ts` | 7 | value-import-from-type-only-file | ./mapsTypes.js PlaceDetails |
+| `server/src/services/google/maps/mapsHelpers.ts` | 7 | value-import-from-type-only-file | ./mapsTypes.js RouteLocation |
+
+## Top 2 files (by score)
 
 | File | Score |
 | --- | ---: |
+| `server/src/services/google/maps/mapsHelpers.ts` | 10 |
+| `server/src/services/brightMls/brightMlsApiClient.ts` | 4 |
 
 ## Notes
 

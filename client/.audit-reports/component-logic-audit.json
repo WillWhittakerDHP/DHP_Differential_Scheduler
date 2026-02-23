@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T18:12:44.607Z",
+  "generatedAt": "2026-02-23T21:42:38.182Z",
   "totalScanned": 104,
   "exceptionSummary": {
     "totalRequiresReview": 44
@@ -290,104 +290,104 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 138,
+          "lineNumber": 136,
           "line": "const searchInput = ref('')"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 141,
+          "lineNumber": 139,
           "line": "const isLoading = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 142,
+          "lineNumber": 140,
           "line": "const errorMessage = ref('')"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 144,
+          "lineNumber": 142,
           "line": "const hasInitialAddressFromProps = ref(false)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 146,
+          "lineNumber": 144,
           "line": "watch("
         },
         {
           "ruleId": "async",
-          "lineNumber": 174,
+          "lineNumber": 172,
           "line": "const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 184,
+          "lineNumber": 182,
           "line": "const results = await fetchAutocompleteSuggestions(input, sessionToken.value)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 203,
+          "lineNumber": 201,
           "line": "const handleSearchUpdate = async (value: string | null) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 208,
+          "lineNumber": 206,
           "line": "await getToken()"
         },
         {
           "ruleId": "async",
-          "lineNumber": 265,
+          "lineNumber": 263,
           "line": "const handleSelectionChange = async (selection: AutocompletePrediction | null) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 278,
+          "lineNumber": 276,
           "line": "const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 283,
+          "lineNumber": 281,
           "line": "await getToken()"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "watch",
-          "lineNumber": 146,
+          "lineNumber": 144,
           "line": "watch("
         },
         {
           "ruleId": "async",
-          "lineNumber": 174,
+          "lineNumber": 172,
           "line": "const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 184,
+          "lineNumber": 182,
           "line": "const results = await fetchAutocompleteSuggestions(input, sessionToken.value)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 203,
+          "lineNumber": 201,
           "line": "const handleSearchUpdate = async (value: string | null) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 208,
+          "lineNumber": 206,
           "line": "await getToken()"
         },
         {
           "ruleId": "async",
-          "lineNumber": 265,
+          "lineNumber": 263,
           "line": "const handleSelectionChange = async (selection: AutocompletePrediction | null) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 278,
+          "lineNumber": 276,
           "line": "const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 283,
+          "lineNumber": 281,
           "line": "await getToken()"
         }
       ],
@@ -413,139 +413,139 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 178,
+          "lineNumber": 177,
           "line": "const createModalOpen = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 210,
+          "lineNumber": 209,
           "line": "const isCreatingEventInstance = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 211,
+          "lineNumber": 210,
           "line": "const eventInstanceMetadataModalOpen = ref(false)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 242,
+          "lineNumber": 241,
           "line": "const knownVariableNames = new Set(templateVariables.map(v => v.name))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 256,
+          "lineNumber": 255,
           "line": "const templateWarnings = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 263,
+          "lineNumber": 262,
           "line": "? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 277,
+          "lineNumber": 276,
           "line": "const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 278,
+          "lineNumber": 277,
           "line": "const isCreatingEventInstanceLoading = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 286,
+          "lineNumber": 285,
           "line": "const filteredEventInstances = computed(() => {"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 287,
+          "lineNumber": 286,
           "line": "return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
         },
         {
           "ruleId": "async",
-          "lineNumber": 299,
+          "lineNumber": 298,
           "line": "patchOrderIndex: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 300,
+          "lineNumber": 299,
           "line": "await patchEventInstanceOrderIndex(updates)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 304,
+          "lineNumber": 303,
           "line": "watch(filteredEventInstances, () => {"
         },
         {
           "ruleId": "alert",
-          "lineNumber": 346,
+          "lineNumber": 345,
           "line": "alert('Please create an event shape first')"
         },
         {
           "ruleId": "async",
-          "lineNumber": 369,
+          "lineNumber": 368,
           "line": "const handleEventInstanceCreate = async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 374,
+          "lineNumber": 373,
           "line": "await createEventInstance({"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 397,
+          "lineNumber": 396,
           "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 408,
+          "lineNumber": 407,
           "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 554,
+          "lineNumber": 553,
           "line": "groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "map",
-          "lineNumber": 242,
+          "lineNumber": 241,
           "line": "const knownVariableNames = new Set(templateVariables.map(v => v.name))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 263,
+          "lineNumber": 262,
           "line": "? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]"
         },
         {
           "ruleId": "async",
-          "lineNumber": 299,
+          "lineNumber": 298,
           "line": "patchOrderIndex: async (updates) => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 300,
+          "lineNumber": 299,
           "line": "await patchEventInstanceOrderIndex(updates)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 304,
+          "lineNumber": 303,
           "line": "watch(filteredEventInstances, () => {"
         },
         {
           "ruleId": "alert",
-          "lineNumber": 346,
+          "lineNumber": 345,
           "line": "alert('Please create an event shape first')"
         },
         {
           "ruleId": "async",
-          "lineNumber": 369,
+          "lineNumber": 368,
           "line": "const handleEventInstanceCreate = async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 374,
+          "lineNumber": 373,
           "line": "await createEventInstance({"
         }
       ],
@@ -1810,12 +1810,12 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 105,
+          "lineNumber": 106,
           "line": "const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 114,
+          "lineNumber": 115,
           "line": "watch(searchQuery, fetchResults)"
         }
       ],
@@ -1827,12 +1827,12 @@
         },
         {
           "ruleId": "await",
-          "lineNumber": 105,
+          "lineNumber": 106,
           "line": "const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 114,
+          "lineNumber": 115,
           "line": "watch(searchQuery, fetchResults)"
         }
       ],
@@ -1878,7 +1878,7 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 45,
+          "lineNumber": 46,
           "line": "const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))"
         }
       ],
@@ -1895,7 +1895,7 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 45,
+          "lineNumber": 46,
           "line": "const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))"
         }
       ],
@@ -2183,24 +2183,24 @@
       "matches": [
         {
           "ruleId": "dom",
-          "lineNumber": 22,
+          "lineNumber": 23,
           "line": "window.addEventListener('keydown', handleKeyDown)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 26,
+          "lineNumber": 27,
           "line": "window.removeEventListener('keydown', handleKeyDown)"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "dom",
-          "lineNumber": 22,
+          "lineNumber": 23,
           "line": "window.addEventListener('keydown', handleKeyDown)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 26,
+          "lineNumber": 27,
           "line": "window.removeEventListener('keydown', handleKeyDown)"
         }
       ],
@@ -2580,39 +2580,39 @@
       "matches": [
         {
           "ruleId": "watch",
-          "lineNumber": 48,
+          "lineNumber": 52,
           "line": "watch(() => props.entityId, (newId) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 57,
+          "lineNumber": 61,
           "line": "const entity = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "const fieldKeys = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 76,
+          "lineNumber": 80,
           "line": "const instanceConfig = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 80,
+          "lineNumber": 84,
           "line": "const inlineFieldsConfig = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 85,
+          "lineNumber": 89,
           "line": "const stackedFieldsConfig = computed(() => {"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "watch",
-          "lineNumber": 48,
+          "lineNumber": 52,
           "line": "watch(() => props.entityId, (newId) => {"
         }
       ],
@@ -2671,54 +2671,54 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 78,
+          "lineNumber": 82,
           "line": "const effectiveFieldContext = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 108,
+          "lineNumber": 112,
           "line": "const fieldKey = computed(() => effectiveFieldContext.value?.fieldKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 109,
+          "lineNumber": 113,
           "line": "const entityKey = computed(() => effectiveFieldContext.value?.entityKey)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 127,
+          "lineNumber": 131,
           "line": "entityForMetadataLookup = computed(() => null) as ComputedRef<GlobalEntity<GlobalEntityKey> | null>"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 130,
+          "lineNumber": 134,
           "line": "const entityForMetadata = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 139,
+          "lineNumber": 143,
           "line": "const fieldMetadataRef = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 153,
+          "lineNumber": 157,
           "line": "const collectionType = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 180,
+          "lineNumber": 184,
           "line": "hasFieldContext: computed(() => !!effectiveFieldContext.value)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 183,
+          "lineNumber": 187,
           "line": "watch("
         }
       ],
       "requiresReview": [
         {
           "ruleId": "watch",
-          "lineNumber": 183,
+          "lineNumber": 187,
           "line": "watch("
         }
       ],
@@ -2822,39 +2822,39 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 49,
+          "lineNumber": 56,
           "line": "const chipStyle = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 58,
+          "lineNumber": 65,
           "line": "const isOverride = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 63,
+          "lineNumber": 70,
           "line": "const complementaryColor = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 69,
+          "lineNumber": 76,
           "line": "const chipColor = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 74,
+          "lineNumber": 81,
           "line": "const chipVariant = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 96,
+          "lineNumber": 103,
           "line": "// PATTERN: Emit event, parent handles async operations"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "async",
-          "lineNumber": 96,
+          "lineNumber": 103,
           "line": "// PATTERN: Emit event, parent handles async operations"
         }
       ],
@@ -2994,24 +2994,24 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 44,
+          "lineNumber": 43,
           "line": "const localExpanded = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 46,
+          "lineNumber": 45,
           "line": "const isExpandedState = computed(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 135,
+          "lineNumber": 134,
           "line": "watch(isSelected, (newValue) => {"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "watch",
-          "lineNumber": 135,
+          "lineNumber": 134,
           "line": "watch(isSelected, (newValue) => {"
         }
       ],
@@ -3070,29 +3070,29 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 34,
+          "lineNumber": 33,
           "line": "instances: computed(() => wizard.availableServices.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 35,
+          "lineNumber": 34,
           "line": "selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 41,
+          "lineNumber": 40,
           "line": "selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 63,
+          "lineNumber": 62,
           "line": "get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "map",
-          "lineNumber": 63,
+          "lineNumber": 62,
           "line": "get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),"
         }
       ],

@@ -120,9 +120,9 @@ deep-selector@193: .icon-input-field :deep(input::placeholder) {
 - requiring review: 3, allowed: 0
 
 ```
-deep-selector@1068: .instances-tabs-container :deep(.v-tab) {
-deep-selector@1072: .instances-tabs-container :deep(.v-tabs) {
-deep-selector@1076: .instances-tabs-container :deep(.v-slide-group__content) {
+deep-selector@1067: .instances-tabs-container :deep(.v-tab) {
+deep-selector@1071: .instances-tabs-container :deep(.v-tabs) {
+deep-selector@1075: .instances-tabs-container :deep(.v-slide-group__content) {
 ```
 
 ### `client/src/components/admin/generic/fields/BaseInput.vue`
@@ -156,7 +156,7 @@ empty-style-block@53: <style> block is empty; remove or add styles
 - requiring review: 1, allowed: 0
 
 ```
-empty-style-block@307: <style> block is empty; remove or add styles
+empty-style-block@305: <style> block is empty; remove or add styles
 ```
 
 ### `client/src/views/admin/tabs/ShapesTab.vue`
@@ -221,7 +221,7 @@ deep-selector@86: :deep(.v-checkbox) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@59: :deep(.v-btn__content) {
+deep-selector@60: :deep(.v-btn__content) {
 ```
 
 ### `client/src/components/booking/IndependentSelectCard.vue`
@@ -245,5 +245,5 @@ deep-selector@305: :deep(.v-col) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@247: :deep(.summary-table) {
+deep-selector@246: :deep(.summary-table) {
 ```

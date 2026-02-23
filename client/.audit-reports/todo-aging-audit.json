@@ -1,16 +1,39 @@
 {
-  "generatedAt": "2026-02-23T18:12:58.425Z",
-  "totalScanned": 795,
+  "generatedAt": "2026-02-23T21:42:52.435Z",
+  "totalScanned": 797,
   "totals": {
-    "totalScanned": 795,
-    "totalMarkers": 5,
+    "totalScanned": 797,
+    "totalMarkers": 9,
     "fresh": 1,
     "aging": 0,
     "stale": 0,
-    "ancient": 4,
-    "orphaned": 5
+    "ancient": 8,
+    "orphaned": 9
   },
   "files": [
+    {
+      "repoPath": "server/src/middlewares/security.ts",
+      "markers": [
+        {
+          "lineNumber": 27,
+          "marker": "TODO",
+          "line": "// TODO(Feature 7): Implement real authentication check",
+          "category": "ancient",
+          "days": 999,
+          "orphaned": true
+        },
+        {
+          "lineNumber": 47,
+          "marker": "TODO",
+          "line": "// TODO(Feature 7): Implement real role check against req.user.role",
+          "category": "ancient",
+          "days": 999,
+          "orphaned": true
+        }
+      ],
+      "score": 14,
+      "priority": "P1"
+    },
     {
       "repoPath": "client/src/components/admin/generic/fields/BooleanInput.vue",
       "markers": [
@@ -18,6 +41,21 @@
           "lineNumber": 160,
           "marker": "TEMP",
           "line": "// WHY: useFieldContextState returns empty string '' for temp entities, but we need to treat it as false",
+          "category": "ancient",
+          "days": 999,
+          "orphaned": true
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
+      "markers": [
+        {
+          "lineNumber": 103,
+          "marker": "TODO",
+          "line": "* TODO: Update to use orderIndex-based matching when AppointmentSlots are available",
           "category": "ancient",
           "days": 999,
           "orphaned": true
@@ -63,6 +101,21 @@
           "lineNumber": 90,
           "marker": "TODO",
           "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Date Range Constraint UI -->",
+          "category": "ancient",
+          "days": 999,
+          "orphaned": true
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "markers": [
+        {
+          "lineNumber": 104,
+          "marker": "TODO",
+          "line": "// TODO(Feature 7): Set heldBy from authenticated user (req.user.id)",
           "category": "ancient",
           "days": 999,
           "orphaned": true

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T18:12:50.674Z",
+  "generatedAt": "2026-02-23T21:42:45.536Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 4,
+  "totalScanned": 795,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 2,
+    "totalRequiresReview": 20,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,34 +26,306 @@
   },
   "files": [
     {
-      "id": "client__fixtures__audits__type-escape__as-any__tp__has-as-any.ts",
-      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "id": "client__src__composables__admin__useSelectFiltering.ts",
+      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "as-any",
-          "lineNumber": 3,
-          "line": "const y = x as any",
+          "ruleId": "empty-catch",
+          "lineNumber": 176,
+          "line": "} catch {",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "empty-catch",
+          "lineNumber": 355,
+          "line": "} catch {",
+          "detectionStage": "validator",
           "suppressionStatus": "unsuppressed"
         }
       ],
-      "score": 5,
-      "priority": "P1"
+      "score": 20,
+      "priority": "P0"
     },
     {
-      "id": "client__fixtures__audits__type-escape__as-any__tp__unnecessary-as-any.ts",
-      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts",
+      "id": "client__src__composables__admin__tables__useCrudDataTableModel.ts",
+      "repoPath": "client/src/composables/admin/tables/useCrudDataTableModel.ts",
       "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "as-any",
-          "lineNumber": 3,
-          "line": "const y = x as any",
+          "ruleId": "catch-without-logger",
+          "lineNumber": 116,
+          "line": "} catch (_error) {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 142,
+          "line": "} catch (_error) {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 164,
+          "line": "} catch (_error) {",
+          "confidence": "high",
+          "detectionStage": "validator",
           "suppressionStatus": "unsuppressed"
         }
       ],
-      "score": 5,
-      "priority": "P1"
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__api__api.controller.ts",
+      "repoPath": "server/src/api/api.controller.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 6,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 15,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__admin__generic__collections__RelationshipCollection.vue",
+      "repoPath": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 256,
+          "line": "} catch (_error) {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__admin__generic__DynamicForm.vue",
+      "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 105,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__admin__generic__EntityFormContent.vue",
+      "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 65,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__beta__BetaFeedbackDashboard.vue",
+      "repoPath": "client/src/components/beta/BetaFeedbackDashboard.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 208,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useDragAndDropHelpers.ts",
+      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 25,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useEntityDisplay.ts",
+      "repoPath": "client/src/composables/admin/useEntityDisplay.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 47,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useFieldContextMetadataEntity.ts",
+      "repoPath": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 64,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__usePartsCollectionField.ts",
+      "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 32,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useRelationshipCollection.ts",
+      "repoPath": "client/src/composables/admin/useRelationshipCollection.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 149,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useRelationshipCollectionField.ts",
+      "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 30,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__admin__useSelectConfig.ts",
+      "repoPath": "client/src/composables/admin/useSelectConfig.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 79,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__composables__useFormValidation.ts",
+      "repoPath": "client/src/composables/useFormValidation.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 149,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__booking__timeSlotMatching.ts",
+      "repoPath": "client/src/utils/booking/timeSlotMatching.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 35,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
     }
   ],
   "ruleset": [

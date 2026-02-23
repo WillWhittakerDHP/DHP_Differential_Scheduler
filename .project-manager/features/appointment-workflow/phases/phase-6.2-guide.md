@@ -13,7 +13,7 @@
 **Description:** Prepare held appointment status and admin constraint-override as stub implementations. These stubs establish the server routes, model fields, and client UI scaffolding now, so Feature 7 (Authentication) can enact them with real role checks when auth is in place.
 
 **Duration:** 1–2 sessions
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -81,14 +81,14 @@
 
 ## Success Criteria
 
-- [ ] All sessions completed
+- [x] All sessions completed
 - [ ] Hold via PATCH works end-to-end (status: 'held' with computed heldUntil)
 - [ ] Override via PATCH works end-to-end (with stub auth)
 - [ ] Client UI elements exist but are properly gated
 - [ ] Enactment requirements documented for Feature 7
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Ready for next phase
+- [x] Code quality checks passing
+- [x] Documentation updated
+- [x] Ready for next phase
 
 ---
 

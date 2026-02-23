@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T18:12:50.034Z",
+  "generatedAt": "2026-02-23T21:42:43.045Z",
   "scope": {
     "included": [
       "client/src/**/*.vue",
@@ -382,17 +382,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1068,
+          "lineNumber": 1067,
           "line": ".instances-tabs-container :deep(.v-tab) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1072,
+          "lineNumber": 1071,
           "line": ".instances-tabs-container :deep(.v-tabs) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1076,
+          "lineNumber": 1075,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
         }
       ],
@@ -400,19 +400,19 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1068,
+          "lineNumber": 1067,
           "line": ".instances-tabs-container :deep(.v-tab) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1072,
+          "lineNumber": 1071,
           "line": ".instances-tabs-container :deep(.v-tabs) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1076,
+          "lineNumber": 1075,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -562,7 +562,7 @@
       "matches": [
         {
           "ruleId": "empty-style-block",
-          "lineNumber": 307,
+          "lineNumber": 305,
           "line": "<style> block is empty; remove or add styles"
         }
       ],
@@ -570,7 +570,7 @@
       "requiresReview": [
         {
           "ruleId": "empty-style-block",
-          "lineNumber": 307,
+          "lineNumber": 305,
           "line": "<style> block is empty; remove or add styles",
           "suppressionStatus": "unsuppressed"
         }
@@ -885,7 +885,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 59,
+          "lineNumber": 60,
           "line": ":deep(.v-btn__content) {"
         }
       ],
@@ -893,7 +893,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 59,
+          "lineNumber": 60,
           "line": ":deep(.v-btn__content) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -1014,7 +1014,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 247,
+          "lineNumber": 246,
           "line": ":deep(.summary-table) {"
         }
       ],
@@ -1022,7 +1022,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 247,
+          "lineNumber": 246,
           "line": ":deep(.summary-table) {",
           "suppressionStatus": "unsuppressed"
         }

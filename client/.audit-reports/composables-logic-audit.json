@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T18:12:44.887Z",
+  "generatedAt": "2026-02-23T21:42:38.395Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -45,167 +45,167 @@
         },
         {
           "ruleId": "ref",
-          "lineNumber": 78,
+          "lineNumber": 83,
           "line": "const rules: Ref<BusinessRule[]> = ref([])"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 79,
+          "lineNumber": 84,
           "line": "const loading = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 80,
+          "lineNumber": 85,
           "line": "const saving = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 81,
+          "lineNumber": 86,
           "line": "const error: Ref<string | null> = ref(null)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 82,
+          "lineNumber": 87,
           "line": "const success: Ref<string | null> = ref(null)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 88,
+          "lineNumber": 93,
           "line": "const fetchRules = async (filters?: {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 93,
+          "lineNumber": 98,
           "line": "await withAsyncOperation("
         },
         {
           "ruleId": "async",
-          "lineNumber": 94,
+          "lineNumber": 99,
           "line": "async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 97,
+          "lineNumber": 102,
           "line": "const response = await apiClient.get<BusinessRule[]>(url)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 116,
+          "lineNumber": 121,
           "line": "const fetchRulesByBlock = async (blockInstanceId: GlobalEntityId): Promise<BusinessRule[]> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 117,
+          "lineNumber": 122,
           "line": "const result = await withAsyncOperation("
         },
         {
           "ruleId": "async",
-          "lineNumber": 118,
+          "lineNumber": 123,
           "line": "async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 119,
+          "lineNumber": 124,
           "line": "const response = await apiClient.get<BusinessRule[]>("
         },
         {
           "ruleId": "async",
-          "lineNumber": 138,
+          "lineNumber": 143,
           "line": "const createRule = async (formData: BusinessRuleFormData): Promise<BusinessRule | null> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 139,
+          "lineNumber": 144,
           "line": "const result = await withAsyncOperation("
         },
         {
           "ruleId": "async",
-          "lineNumber": 140,
+          "lineNumber": 145,
           "line": "async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 141,
+          "lineNumber": 146,
           "line": "const response = await apiClient.post<BusinessRule>(BUSINESS_RULES_API_BASE, formData)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 143,
+          "lineNumber": 148,
           "line": "await fetchRules()"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 163,
-          "line": "const updateRule = async ("
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 167,
-          "line": "const result = await withAsyncOperation("
         },
         {
           "ruleId": "async",
           "lineNumber": 168,
-          "line": "async () => {"
+          "line": "const updateRule = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 169,
-          "line": "const response = await apiClient.put<BusinessRule>("
+          "lineNumber": 172,
+          "line": "const result = await withAsyncOperation("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 173,
+          "line": "async () => {"
         },
         {
           "ruleId": "await",
           "lineNumber": 174,
+          "line": "const response = await apiClient.put<BusinessRule>("
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 179,
           "line": "await fetchRules()"
         },
         {
           "ruleId": "async",
-          "lineNumber": 194,
+          "lineNumber": 199,
           "line": "const deleteRule = async (id: GlobalEntityId): Promise<boolean> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 195,
+          "lineNumber": 200,
           "line": "const result = await withAsyncOperation("
         },
         {
           "ruleId": "async",
-          "lineNumber": 196,
+          "lineNumber": 201,
           "line": "async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 197,
+          "lineNumber": 202,
           "line": "await apiClient.delete(`${BUSINESS_RULES_API_BASE}/${id}`)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 198,
+          "lineNumber": 203,
           "line": "await fetchRules()"
         },
         {
           "ruleId": "async",
-          "lineNumber": 212,
+          "lineNumber": 220,
           "line": "const toggleRuleActive = async (id: GlobalEntityId, active: boolean): Promise<boolean> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 213,
+          "lineNumber": 221,
           "line": "const result = await withAsyncOperation("
         },
         {
           "ruleId": "async",
-          "lineNumber": 214,
+          "lineNumber": 222,
           "line": "async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 215,
+          "lineNumber": 223,
           "line": "await apiClient.put(`${BUSINESS_RULES_API_BASE}/${id}`, { active })"
         },
         {
           "ruleId": "await",
-          "lineNumber": 216,
+          "lineNumber": 224,
           "line": "await fetchRules()"
         }
       ],
@@ -703,97 +703,97 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 42,
+          "lineNumber": 45,
           "line": "const sortedBlockShapes = computed(() => {"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 44,
+          "lineNumber": 47,
           "line": "return [...blockShapes].sort((a, b) => a.orderIndex - b.orderIndex)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 48,
+          "lineNumber": 54,
           "line": "const blockInstancesByShape = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 54,
+          "lineNumber": 60,
           "line": "return blockShapes.reduce((map, blockShape) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 56,
+          "lineNumber": 62,
           "line": ".filter(bi => bi.blockShapeRef === blockShape.id)"
         },
         {
           "ruleId": "sort",
-          "lineNumber": 57,
+          "lineNumber": 63,
           "line": ".sort((a, b) => a.orderIndex - b.orderIndex)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 63,
+          "lineNumber": 71,
           "line": "const blockInstancesCountByShape = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 66,
+          "lineNumber": 74,
           "line": "return Array.from(blockInstancesByShape.value.entries()).reduce((map, [blockShapeId, instances]) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 76,
+          "lineNumber": 84,
           "line": "const blockShapeComposable = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 81,
+          "lineNumber": 89,
           "line": "return blockShapes.reduce((map, blockShape) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 91,
+          "lineNumber": 99,
           "line": "const blockShapeStateControl = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 96,
+          "lineNumber": 104,
           "line": "return blockShapes.reduce((map, blockShape) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 102,
+          "lineNumber": 112,
           "line": "const blockShapeValidCascades = computed(() => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 107,
+          "lineNumber": 117,
           "line": "return blockShapes.reduce((map, blockShape) => {"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 115,
+          "lineNumber": 125,
           "line": "return blockShapes.reduce((map, blockShape) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 116,
+          "lineNumber": 126,
           "line": "const validCascadeRels = globalData.relationships.validCascades.filter("
         },
         {
           "ruleId": "map",
-          "lineNumber": 122,
+          "lineNumber": 132,
           "line": ".map(child => child.name)"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 123,
+          "lineNumber": 133,
           "line": ".filter(Boolean) as string[]"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 133,
+          "lineNumber": 143,
           "line": "watch(sortedBlockShapes, (shapes) => {"
         }
       ],
@@ -1208,57 +1208,57 @@
         },
         {
           "ruleId": "ref",
-          "lineNumber": 85,
+          "lineNumber": 84,
           "line": "const sqftMin = ref(DEFAULT_SQFT_MIN)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 86,
+          "lineNumber": 85,
           "line": "const sqftMax = ref(DEFAULT_SQFT_MAX)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 87,
+          "lineNumber": 86,
           "line": "const sqftStep = ref(DEFAULT_SQFT_STEP)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 88,
           "line": "const serviceFeeTotals = computed(() =>"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 98,
+          "lineNumber": 97,
           "line": "const sqftRange = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 113,
+          "lineNumber": 112,
           "line": "const labels = sqftRange.value.map(String)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 114,
+          "lineNumber": 113,
           "line": "const datasets = serviceFeeTotals.value.map((service, index) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 116,
+          "lineNumber": 115,
           "line": "data: sqftRange.value.map("
         },
         {
           "ruleId": "computed",
-          "lineNumber": 127,
+          "lineNumber": 126,
           "line": "const chartOptions = computed((): ChartOptions<'line'> => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 155,
+          "lineNumber": 154,
           "line": "const serviceCount = computed(() => serviceFeeTotals.value.length)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 156,
+          "lineNumber": 155,
           "line": "const hasData = computed(() => serviceCount.value > 0)"
         }
       ],
@@ -1501,77 +1501,77 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 69,
+          "lineNumber": 71,
           "line": "const isMetadataLoaded = computed(() => admin.isMetadataLoaded.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 71,
+          "lineNumber": 75,
           "line": "const entity = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 88,
+          "lineNumber": 94,
           "line": "const fieldMetadataEntry = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 95,
+          "lineNumber": 103,
           "line": "const isEnumSelect = computed(() => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 114,
+          "lineNumber": 124,
           "line": ".filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 115,
+          "lineNumber": 125,
           "line": ".map((option) => ({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 137,
+          "lineNumber": 147,
           "line": "const isOptionsSelect = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 147,
+          "lineNumber": 157,
           "line": "return config.options.map((option) => ({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 158,
+          "lineNumber": 168,
           "line": "const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 218,
+          "lineNumber": 228,
           "line": "const isAnnotationAssignmentSelect = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 228,
+          "lineNumber": 240,
           "line": "const isAttendeeSelect = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 239,
+          "lineNumber": 252,
           "line": "const isMultiple = computed(() =>"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 249,
+          "lineNumber": 264,
           "line": "const chipsProps = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 259,
+          "lineNumber": 276,
           "line": "const optionEntityKey = computed(() =>"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 272,
+          "lineNumber": 289,
           "line": "const optionLabelKey = computed(() => {"
         }
       ],
@@ -1626,62 +1626,62 @@
         },
         {
           "ruleId": "dom",
-          "lineNumber": 54,
+          "lineNumber": 56,
           "line": "const viewportWidth = window.innerWidth"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 77,
+          "lineNumber": 81,
           "line": "const viewportWidth = window.innerWidth"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 98,
+          "lineNumber": 104,
           "line": "watch(isExpanded, (newValue) => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 105,
+          "lineNumber": 111,
           "line": "onMounted(() => {"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 106,
+          "lineNumber": 112,
           "line": "window.addEventListener('resize', handleResize)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 109,
+          "lineNumber": 115,
           "line": "onUnmounted(() => {"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 110,
+          "lineNumber": 116,
           "line": "window.removeEventListener('resize', handleResize)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 117,
+          "lineNumber": 123,
           "line": "const handleToggle = async (willExpand: boolean): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 129,
+          "lineNumber": 135,
           "line": "await nextTick()"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 144,
+          "lineNumber": 150,
           "line": "// PATTERN: Use setTimeout to wait for VExpandTransition (300ms)"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 145,
+          "lineNumber": 151,
           "line": "setTimeout(() => {"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 153,
+          "lineNumber": 159,
           "line": "setTimeout(() => {"
         }
       ],
@@ -1987,72 +1987,72 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 73,
+          "lineNumber": 76,
           "line": "const fieldKey = computed(() => String(fieldContext.fieldKey))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 185,
+          "lineNumber": 194,
           "line": "const isAttendeeSelect = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 200,
+          "lineNumber": 216,
           "line": "const filteredEntities = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 210,
+          "lineNumber": 226,
           "line": "? currentFormValue.map(v => String(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 219,
+          "lineNumber": 235,
           "line": "const availableComponentsFiltered = availableComponents.filter("
         },
         {
           "ruleId": "map",
-          "lineNumber": 224,
+          "lineNumber": 240,
           "line": "const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 233,
+          "lineNumber": 249,
           "line": "? allEntities.value.filter((candidate) => allSelectedComponentIds.has(candidate.id))"
         },
         {
           "ruleId": "reduce",
-          "lineNumber": 237,
+          "lineNumber": 253,
           "line": "const uniqueComponents = allComponents.reduce((map, component) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 286,
+          "lineNumber": 303,
           "line": "const filtered = allEntities.value.filter((candidate) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 349,
+          "lineNumber": 366,
           "line": "const filtered = allEntities.value.filter((candidate) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 378,
+          "lineNumber": 395,
           "line": ".filter((bs: GlobalEntity<'blockShape'>) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 382,
+          "lineNumber": 399,
           "line": ".map((bs: GlobalEntity<'blockShape'>) => bs.id)"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 388,
+          "lineNumber": 405,
           "line": "const filtered = allEntities.value.filter((candidate) => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 399,
+          "lineNumber": 416,
           "line": "return allEntities.value.filter((candidate) =>"
         }
       ],
@@ -2324,72 +2324,72 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 88,
+          "lineNumber": 93,
           "line": "const groupedByKey = computed((): GroupedEntities[] => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 140,
+          "lineNumber": 147,
           "line": "const shouldUseMultipleSelects = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 154,
+          "lineNumber": 161,
           "line": "return group.entities.map((entity) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 162,
+          "lineNumber": 171,
           "line": "const groupEntityIds = new Set(group.entities.map(e => e.id))"
         },
         {
           "ruleId": "map",
-          "lineNumber": 166,
+          "lineNumber": 175,
           "line": "? currentValue.map(v => String(v))"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 169,
+          "lineNumber": 178,
           "line": "const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 181,
+          "lineNumber": 190,
           "line": "const options = computed((): SelectOption[] => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 191,
+          "lineNumber": 200,
           "line": "return entities.map((entity) => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 244,
+          "lineNumber": 253,
           "line": "const result = groupedEntities.map(group => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 247,
+          "lineNumber": 256,
           "line": "children: group.children.map((entity) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 267,
+          "lineNumber": 276,
           "line": "const flatOptions = entities.map((entity) => ({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 275,
+          "lineNumber": 286,
           "line": "const normalizedValue = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 280,
+          "lineNumber": 291,
           "line": "return value.map(v => String(v)).filter(v => v !== '')"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 280,
+          "lineNumber": 291,
           "line": "return value.map(v => String(v)).filter(v => v !== '')"
         }
       ],
@@ -2654,62 +2654,62 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 45,
+          "lineNumber": 55,
           "line": "* PATTERN: Function called in onMounted hook"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 71,
+          "lineNumber": 87,
           "line": "const isEdit = computed(() => !!route.params.id)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 73,
+          "lineNumber": 91,
           "line": "const entityId = computed(() => route.params.id as string | undefined)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 75,
+          "lineNumber": 95,
           "line": "const blockTypeOptions = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 76,
+          "lineNumber": 96,
           "line": "return getGlobalEntities('blockShape').map(bt => ({"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 93,
+          "lineNumber": 115,
           "line": "const isSubmitting = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 97,
+          "lineNumber": 123,
           "line": "const loadEntity = async (): Promise<void> => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 111,
+          "lineNumber": 139,
           "line": "const handleSubmit = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 117,
+          "lineNumber": 145,
           "line": "await update(formData.value as Partial<GlobalEntity<'blockInstance'>>, toGlobalEntityId(entityId.value!))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 119,
+          "lineNumber": 147,
           "line": "await create(formData.value as Partial<GlobalEntity<'blockInstance'>>)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 135,
+          "lineNumber": 165,
           "line": "* PATTERN: Call loadEntity in onMounted hook"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 137,
+          "lineNumber": 167,
           "line": "onMounted(() => {"
         }
       ],
@@ -2760,62 +2760,62 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 45,
+          "lineNumber": 55,
           "line": "* PATTERN: Function called in onMounted hook"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 71,
+          "lineNumber": 87,
           "line": "const isEdit = computed(() => !!route.params.id)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 73,
+          "lineNumber": 91,
           "line": "const entityId = computed(() => route.params.id as string | undefined)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 75,
+          "lineNumber": 95,
           "line": "const partTypeOptions = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 76,
+          "lineNumber": 96,
           "line": "return getGlobalEntities('partShape').map(pt => ({"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 93,
+          "lineNumber": 115,
           "line": "const isSubmitting = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 97,
+          "lineNumber": 123,
           "line": "const loadEntity = async (): Promise<void> => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 111,
+          "lineNumber": 139,
           "line": "const handleSubmit = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 117,
+          "lineNumber": 145,
           "line": "await update(formData.value as Partial<GlobalEntity<'partInstance'>>, toGlobalEntityId(entityId.value!))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 119,
+          "lineNumber": 147,
           "line": "await create(formData.value as Partial<GlobalEntity<'partInstance'>>)"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 135,
+          "lineNumber": 165,
           "line": "* PATTERN: Call loadEntity in onMounted hook"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 137,
+          "lineNumber": 167,
           "line": "onMounted(() => {"
         }
       ],
@@ -2906,17 +2906,17 @@
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 159,
+          "lineNumber": 160,
           "line": "onMounted(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 163,
+          "lineNumber": 164,
           "line": "onBeforeUnmount(() => {"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 170,
+          "lineNumber": 171,
           "line": "onUnmounted(() => {"
         }
       ],
@@ -2960,62 +2960,62 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 91,
+          "lineNumber": 90,
           "line": "const dateRangeForApi = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 160,
+          "lineNumber": 161,
           "line": "const propertyDetails = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 171,
+          "lineNumber": 174,
           "line": "const accumulatedBlockInstances = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 210,
+          "lineNumber": 218,
           "line": "return Array.from(slotsByDate.entries()).map(([date, slots]) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 224,
+          "lineNumber": 233,
           "line": "const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 240,
+          "lineNumber": 251,
           "line": "const isDifferentialService = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 245,
+          "lineNumber": 258,
           "line": "const hasDifferentialOverride = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 263,
+          "lineNumber": 276,
           "line": "const isEffectivelyDifferential = computed(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 277,
+          "lineNumber": 290,
           "line": "watch([timeSlots, selectedDate], ([slots, date]) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 300,
+          "lineNumber": 313,
           "line": "timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 309,
+          "lineNumber": 327,
           "line": "const selectedDateSingle = computed({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 332,
+          "lineNumber": 350,
           "line": "const currentAppointmentSlots = computed(() => {"
         }
       ],
@@ -3129,6 +3129,99 @@
           "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
         }
       ]
+    },
+    {
+      "id": "client__src__composables__useAppointment.ts",
+      "repoPath": "client/src/composables/useAppointment.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAppointment.ts",
+      "counts": {
+        "computed": 2,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 4,
+        "vueQuery": 2,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 2,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 71,
+          "line": "isLoading: computed(() => isLoading.value),"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 72,
+          "line": "error: computed(() => error.value),"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 75,
+          "line": "const holdSlot = async (id: string, durationMinutes?: number): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 79,
+          "line": ": (await getAvailabilitySettings()).calendarConfig?.holdDurationMinutes ?? FALLBACK_HOLD_DURATION_MINUTES"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 92,
+          "line": "const fetchRandom = async (): Promise<AppointmentResponse | null> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 98,
+          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 98,
+          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 104,
+          "line": "await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 105,
+          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 105,
+          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointment"
+      ],
+      "returnKeys": [
+        "applyOverrideConstraints",
+        "create",
+        "fetchAll",
+        "fetchById",
+        "fetchRandom",
+        "holdSlot",
+        "patch",
+        "releaseSlot",
+        "remove",
+        "update"
+      ],
+      "complexityScore": 11,
+      "priority": "P2",
+      "suggestions": []
     },
     {
       "id": "client__src__composables__admin__useDifferentialPerspectives.ts",
@@ -3548,32 +3641,32 @@
         },
         {
           "ruleId": "watch",
-          "lineNumber": 97,
+          "lineNumber": 103,
           "line": "watch(distributionStrategy, (newStrategy) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 103,
+          "lineNumber": 109,
           "line": "const componentIds = componentEntity.getComponents(composerIdValue).map(ac => ac.childId)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 123,
+          "lineNumber": 129,
           "line": "watch(modalOpen, (isOpen) => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 136,
+          "lineNumber": 142,
           "line": "const preview = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 141,
+          "lineNumber": 147,
           "line": "const componentIds = componentEntity.getComponents(composerId.value).map(ac => ac.childId)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 142,
+          "lineNumber": 148,
           "line": "return componentIds.map(componentId => {"
         }
       ],
@@ -3695,52 +3788,52 @@
       "matches": [
         {
           "ruleId": "map",
-          "lineNumber": 70,
+          "lineNumber": 69,
           "line": ".map(pt => pt.blockInstance?.name)"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 71,
+          "lineNumber": 70,
           "line": ".filter(Boolean)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 78,
+          "lineNumber": 77,
           "line": "itemsSource: computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 83,
+          "lineNumber": 82,
           "line": "isLoadingSource: computed(() => fetchAll.isLoading.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 84,
+          "lineNumber": 83,
           "line": "errorSource: computed(() => fetchAll.error.value),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 85,
+          "lineNumber": 84,
           "line": "createItem: async (payload) => create.mutateAsync(payload),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 86,
+          "lineNumber": 85,
           "line": "updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),"
         },
         {
           "ruleId": "async",
-          "lineNumber": 87,
+          "lineNumber": 86,
           "line": "deleteItem: async (id) => remove.mutateAsync(id),"
         },
         {
           "ruleId": "map",
-          "lineNumber": 105,
+          "lineNumber": 104,
           "line": "selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 117,
+          "lineNumber": 116,
           "line": "attendees: appointment.attendees?.map(attendee => ({"
         }
       ],
@@ -4365,42 +4458,42 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 107,
+          "lineNumber": 109,
           "line": "const parentEntityId = computed(() => fieldContext.entityId)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 112,
+          "lineNumber": 114,
           "line": "parentEntityKey: computed(() => fieldContext.entityKey),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 131,
+          "lineNumber": 133,
           "line": "const shouldShow = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 190,
+          "lineNumber": 195,
           "line": "const handleNewChildSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 218,
+          "lineNumber": 223,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 218,
+          "lineNumber": 223,
           "line": "await new Promise(resolve => setTimeout(resolve, 0))"
         },
         {
           "ruleId": "await",
-          "lineNumber": 220,
+          "lineNumber": 225,
           "line": "await createRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 225,
+          "lineNumber": 230,
           "line": "await Promise.all(["
         }
       ],
@@ -4409,86 +4502,6 @@
       ],
       "returnKeys": [
         "name"
-      ],
-      "complexityScore": 9,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "client__src__composables__useAppointment.ts",
-      "repoPath": "client/src/composables/useAppointment.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAppointment.ts",
-      "counts": {
-        "computed": 2,
-        "ref": 0,
-        "reactive": 0,
-        "watch": 0,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 1,
-        "await": 3,
-        "vueQuery": 2,
-        "map": 0,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 2,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "computed",
-          "lineNumber": 70,
-          "line": "isLoading: computed(() => isLoading.value),"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 71,
-          "line": "error: computed(() => error.value),"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 74,
-          "line": "const fetchRandom = async (): Promise<AppointmentResponse | null> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 80,
-          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 80,
-          "line": "await new Promise(resolve => setTimeout(resolve, 100))"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 86,
-          "line": "await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 87,
-          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 87,
-          "line": "await new Promise(resolve => setTimeout(resolve, 500))"
-        }
-      ],
-      "exportUseFunctions": [
-        "useAppointment"
-      ],
-      "returnKeys": [
-        "create",
-        "fetchAll",
-        "fetchById",
-        "fetchRandom",
-        "patch",
-        "remove",
-        "update"
       ],
       "complexityScore": 9,
       "priority": "P2",
@@ -4797,27 +4810,27 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 93,
+          "lineNumber": 94,
           "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 101,
+          "lineNumber": 102,
           "line": "const minorDuration = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 105,
+          "lineNumber": 106,
           "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
         },
         {
           "ruleId": "map",
-          "lineNumber": 109,
+          "lineNumber": 111,
           "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 117,
+          "lineNumber": 119,
           "line": "const differentialTimeBlocks = computed(() => {"
         }
       ],
@@ -5396,17 +5409,17 @@
         },
         {
           "ruleId": "watch",
-          "lineNumber": 140,
+          "lineNumber": 141,
           "line": "watch("
         },
         {
           "ruleId": "watch",
-          "lineNumber": 159,
+          "lineNumber": 160,
           "line": "watch("
         },
         {
           "ruleId": "watch",
-          "lineNumber": 172,
+          "lineNumber": 173,
           "line": "watch("
         }
       ],
@@ -5526,37 +5539,37 @@
         },
         {
           "ruleId": "async",
-          "lineNumber": 106,
+          "lineNumber": 108,
           "line": "const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 114,
+          "lineNumber": 116,
           "line": "appointment = await fetchRandom()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 124,
+          "lineNumber": 126,
           "line": "appointment = await loadAppointmentById(appointmentIdOrRandom)"
         },
         {
           "ruleId": "await",
-          "lineNumber": 143,
+          "lineNumber": 145,
           "line": "const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 171,
+          "lineNumber": 175,
           "line": "const handleUpdateAppointment = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 178,
+          "lineNumber": 182,
           "line": "const appointmentData = await collectAppointmentData()"
         },
         {
           "ruleId": "await",
-          "lineNumber": 183,
+          "lineNumber": 187,
           "line": "await updateAppointment.mutateAsync({"
         }
       ],
@@ -5858,17 +5871,17 @@
         },
         {
           "ruleId": "timers",
-          "lineNumber": 25,
+          "lineNumber": 27,
           "line": "interval.value = setInterval(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 35,
+          "lineNumber": 37,
           "line": "watch([progressValue, isFallbackState], () => {"
         },
         {
           "ruleId": "timers",
-          "lineNumber": 60,
+          "lineNumber": 62,
           "line": "setTimeout(() => {"
         }
       ],
@@ -5911,32 +5924,32 @@
       "matches": [
         {
           "ruleId": "async",
-          "lineNumber": 23,
+          "lineNumber": 33,
           "line": "async function fetchAllAdminMetadata(): Promise<MetadataCache> {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 25,
+          "lineNumber": 35,
           "line": "const response = await apiClient.get<MetadataCache>(endpoint)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 33,
+          "lineNumber": 43,
           "line": "const metadataLoadRequested = ref(false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 42,
+          "lineNumber": 55,
           "line": "enabled: computed(() => metadataLoadRequested.value), // LAZY: Only fetches when enabled"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 87,
+          "lineNumber": 111,
           "line": "const isLoaded = computed(() => !!metadataQuery.data.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 107,
+          "lineNumber": 131,
           "line": "metadataData: computed(() => metadataQuery.data.value),"
         }
       ],
@@ -5973,32 +5986,32 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 68,
+          "lineNumber": 67,
           "line": "const existingPartInstances = computed(() => existingPartInstancesRef.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 70,
+          "lineNumber": 69,
           "line": "const blockInstance = computed(() => getGlobalEntityById('blockInstance', blockInstanceId.value))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 74,
+          "lineNumber": 73,
           "line": "const shouldShowPartInstances = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 129,
+          "lineNumber": 130,
           "line": "const handleNewPartInstanceSaved = async ("
         },
         {
           "ruleId": "await",
-          "lineNumber": 139,
+          "lineNumber": 140,
           "line": "await createPartAssignmentsRelationship({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 144,
+          "lineNumber": 145,
           "line": "await Promise.all(["
         }
       ],
@@ -6114,27 +6127,27 @@
         },
         {
           "ruleId": "async",
-          "lineNumber": 88,
+          "lineNumber": 92,
           "line": "const applyPartInstanceBulkEdit = async (): Promise<void> => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 101,
+          "lineNumber": 105,
           "line": "const bulkEditEnabledFields = Object.keys(fieldMetadata).filter(fieldKey => {"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 107,
+          "lineNumber": 111,
           "line": "Object.entries(bulkEditData.value).filter(([fieldKey, value]) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 127,
+          "lineNumber": 131,
           "line": "const updates = instances.map(instance => ({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 133,
+          "lineNumber": 137,
           "line": "await patchBulk(updates)"
         }
       ],
@@ -6251,37 +6264,37 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 89,
+          "lineNumber": 92,
           "line": "const requiresUnitNumber = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 93,
+          "lineNumber": 98,
           "line": "const isMultiFamily = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 121,
+          "lineNumber": 128,
           "line": "const propertyTypeBlocksWithComponents = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 122,
+          "lineNumber": 129,
           "line": "return wizard.availablePropertyTypeBlocks.value.map(adjustment => {"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 174,
+          "lineNumber": 183,
           "line": "const isEnrichmentLoading = ref(false)"
         },
         {
           "ruleId": "async",
-          "lineNumber": 205,
+          "lineNumber": 222,
           "line": "const syncMLSData = async (): Promise<void> => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 219,
+          "lineNumber": 236,
           "line": "const enrichment = await fetchPropertyEnrichment("
         }
       ],
@@ -6730,32 +6743,32 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 56,
+          "lineNumber": 67,
           "line": "const appointmentSlotOrderIndex = computed({"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 74,
+          "lineNumber": 89,
           "line": "watch(loadedWizardState, () => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 85,
+          "lineNumber": 105,
           "line": "watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 94,
+          "lineNumber": 114,
           "line": "const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 107,
+          "lineNumber": 132,
           "line": "watch(timeSlots, (slots) => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 130,
+          "lineNumber": 158,
           "line": "watch(isDifferentialService, (isEffectivelyDifferential) => {"
         }
       ],
@@ -8661,12 +8674,12 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 83,
+          "lineNumber": 85,
           "line": "const pluginWatchSource = computed(() => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 92,
+          "lineNumber": 94,
           "line": "watch(() => {"
         }
       ],
@@ -8810,22 +8823,22 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 29,
+          "lineNumber": 30,
           "line": "const list = computed((): CollectionItem[] => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 36,
+          "lineNumber": 37,
           "line": "const isLoading = computed((): boolean => businessIsLoading.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 37,
+          "lineNumber": 38,
           "line": "const error = computed((): unknown | undefined => businessError.value ?? undefined)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 46,
+          "lineNumber": 47,
           "line": "const item = computed((): CollectionItem | undefined => {"
         }
       ],
@@ -8918,22 +8931,22 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 28,
+          "lineNumber": 29,
           "line": "const list = computed((): CollectionItem[] => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 35,
+          "lineNumber": 36,
           "line": "const isLoading = computed((): boolean => false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 36,
+          "lineNumber": 37,
           "line": "const error = computed((): unknown | undefined => undefined)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 45,
+          "lineNumber": 46,
           "line": "const item = computed((): CollectionItem | undefined => {"
         }
       ],
@@ -8972,17 +8985,17 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 53,
+          "lineNumber": 52,
           "line": "const transformedEntities = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 103,
+          "lineNumber": 102,
           "line": "const adminData = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 139,
+          "lineNumber": 138,
           "line": "* FIX: Changed from async to sync to prevent race condition - enables query immediately"
         }
       ],
@@ -9372,12 +9385,12 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 66,
+          "lineNumber": 65,
           "line": "isLoading: computed(() => metadataCache.isLoading.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 73,
+          "lineNumber": 71,
           "line": "error: computed(() => metadataCache.error.value),"
         }
       ],
@@ -9412,17 +9425,17 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 41,
+          "lineNumber": 45,
           "line": "const searchTerm = ref('')"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 47,
+          "lineNumber": 51,
           "line": "watch(currentIcon, (newIcon) => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 68,
+          "lineNumber": 72,
           "line": "watch(dialogOpen, (isOpen) => {"
         }
       ],
@@ -9613,12 +9626,12 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 64,
+          "lineNumber": 66,
           "line": "const instanceComponents = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 83,
+          "lineNumber": 87,
           "line": "const componentCount = computed(() => instanceComponents.value.length)"
         }
       ],
@@ -9707,17 +9720,17 @@
       "matches": [
         {
           "ruleId": "watch",
-          "lineNumber": 31,
+          "lineNumber": 33,
           "line": "watch(() => formData.squareFootage.value, (newVal) => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 37,
+          "lineNumber": 41,
           "line": "watch(() => formData.additionalUnits.value, (newVal) => {"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 47,
+          "lineNumber": 51,
           "line": "watch(loadedWizardState, (newState) => {"
         }
       ],
@@ -10498,12 +10511,12 @@
       "matches": [
         {
           "ruleId": "ref",
-          "lineNumber": 30,
+          "lineNumber": 33,
           "line": "const statusButtonHandlers = ref(new Map<string, ReturnType<typeof useStatusButtonToggle<GE>>>())"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 35,
+          "lineNumber": 38,
           "line": "watch(() => filteredEntities.value, (entities) => {"
         }
       ],
@@ -10877,12 +10890,12 @@
       "matches": [
         {
           "ruleId": "map",
-          "lineNumber": 124,
+          "lineNumber": 144,
           "line": "const [year, month, day] = dateParts.map(Number)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 194,
+          "lineNumber": 224,
           "line": "return computed(() => {"
         }
       ],
@@ -10926,7 +10939,7 @@
         },
         {
           "ruleId": "watch",
-          "lineNumber": 34,
+          "lineNumber": 33,
           "line": "watch([isFallbackStateActive, refLoadingIndicator], () => {"
         }
       ],
@@ -10968,7 +10981,7 @@
         },
         {
           "ruleId": "timers",
-          "lineNumber": 59,
+          "lineNumber": 67,
           "line": "setTimeout(() => {"
         }
       ],
@@ -11064,12 +11077,12 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 65,
+          "lineNumber": 63,
           "line": "isLoading: computed(() => isLoading.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 66,
+          "lineNumber": 64,
           "line": "error: computed(() => error.value),"
         }
       ],
@@ -11404,7 +11417,7 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 43,
+          "lineNumber": 47,
           "line": "const fieldMetadataEntry = computed(() => {"
         }
       ],
@@ -11577,7 +11590,7 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 19,
+          "lineNumber": 18,
           "line": "return computed({"
         }
       ],
@@ -11612,7 +11625,7 @@
       "matches": [
         {
           "ruleId": "computed",
-          "lineNumber": 39,
+          "lineNumber": 42,
           "line": "const shouldShowGridInline = computed(() => {"
         }
       ],
@@ -11956,7 +11969,7 @@
       "matches": [
         {
           "ruleId": "watchEffect",
-          "lineNumber": 58,
+          "lineNumber": 57,
           "line": "watchEffect(() => {"
         }
       ],

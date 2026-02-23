@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T19:21:18.209Z",
+  "generatedAt": "2026-02-23T21:42:51.921Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -15,11 +15,11 @@
   },
   "totalScanned": 770,
   "exceptionSummary": {
-    "totalAllowed": 627,
+    "totalAllowed": 626,
     "totalRequiresReview": 0,
     "bySource": {
-      "inline": 51,
-      "pattern": 517,
+      "inline": 49,
+      "pattern": 518,
       "specific": 29,
       "linePattern": 30
     }
@@ -49,7 +49,9 @@
     "server/src/routes/internal/relationships/relationshipConstants.ts",
     "server/src/routes/internal/users/userConstants.ts",
     "server/src/services/google/calendar/calendarConstants.ts",
-    "server/src/services/google/maps/mapsConstants.ts"
+    "server/src/services/google/maps/mapsConstants.ts",
+    "server/src/services/propertyMatchConstants.ts",
+    "server/src/utils/availabilities/availabilityConstants.ts"
   ],
   "files": []
 }

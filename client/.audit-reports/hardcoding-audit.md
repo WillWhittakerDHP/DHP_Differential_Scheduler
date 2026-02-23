@@ -42,13 +42,15 @@ When extracting literals to constants, prefer these constant files (from constan
 - `server/src/routes/internal/users/userConstants.ts`
 - `server/src/services/google/calendar/calendarConstants.ts`
 - `server/src/services/google/maps/mapsConstants.ts`
+- `server/src/services/propertyMatchConstants.ts`
+- `server/src/utils/availabilities/availabilityConstants.ts`
 
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
 - Total files scanned: **0**
 - **Requiring review: 0**
-- Allowed (with justification): 627 (inline: 51, pattern: 517, specific: 29, linePattern: 30)
+- Allowed (with justification): 626 (inline: 49, pattern: 518, specific: 29, linePattern: 30)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 

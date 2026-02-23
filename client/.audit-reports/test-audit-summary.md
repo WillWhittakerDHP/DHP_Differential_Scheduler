@@ -10,7 +10,7 @@ Generated from `client/.audit-reports/test-audit.json`.
 ## Quick Stats
 
 - Coverage: **0%**
-- Untested source files: **795**
+- Untested source files: **797**
 - Orphaned test files: **0**
 
 ## Top 20 untested files (with exports)
@@ -35,7 +35,7 @@ Generated from `client/.audit-reports/test-audit.json`.
 | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 7.6 | 7.6 | 10 | 8 | 1 |
 | `client/src/composables/booking/useAppointmentDataCollection.ts` | 7.5 | 7.5 | 9 | 7 | 2 |
 | `client/src/composables/booking/useAppointmentSlots.ts` | 7.5 | 7.5 | 10 | 7 | 2 |
+| `client/src/composables/booking/useAvailabilityDefaults.ts` | 7.5 | 7.5 | 10 | 7 | 2 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | 7.5 | 7.5 | 10 | 7 | 2 |
-| `client/src/composables/booking/useTimeSlotCalculations.ts` | 7.5 | 7.5 | 10 | 7 | 2 |
 
 Full report: `client/.audit-reports/test-audit.md`.

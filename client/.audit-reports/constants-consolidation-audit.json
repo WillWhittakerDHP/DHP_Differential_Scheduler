@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T20:47:33.290Z",
+  "generatedAt": "2026-02-23T21:42:51.638Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -13,10 +13,10 @@
   },
   "totalScanned": 692,
   "totalConstantsFiles": 26,
-  "totalExportsScanned": 79,
+  "totalExportsScanned": 80,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 4,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -52,6 +52,93 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "consolidationGroups": [],
-  "files": []
+  "consolidationGroups": [
+    {
+      "id": "inline-orphan-Override",
+      "classification": "HOIST",
+      "description": "Value 'Override' defined in constants but used inline in 3 locations",
+      "locations": [
+        {
+          "file": "client/src/constants/appointmentsTableConstants.ts",
+          "export": "APPOINTMENTS_TABLE_UI",
+          "line": 13,
+          "inline": false
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
+          "export": null,
+          "line": 57,
+          "inline": true
+        },
+        {
+          "file": "client/src/constants/statusButtonLabels.ts",
+          "export": null,
+          "line": 15,
+          "inline": true
+        },
+        {
+          "file": "client/src/constants/statusButtonLabels.ts",
+          "export": null,
+          "line": 24,
+          "inline": true
+        }
+      ],
+      "score": 20,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from client/src/constants/appointmentsTableConstants.ts"
+    }
+  ],
+  "files": [
+    {
+      "id": "client__src__constants__statusButtonLabels.ts",
+      "repoPath": "client/src/constants/statusButtonLabels.ts",
+      "score": 10,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 24,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__eventShapeFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
+      "score": 5,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 57,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__constants__appointmentsTableConstants.ts",
+      "repoPath": "client/src/constants/appointmentsTableConstants.ts",
+      "score": 5,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 13,
+          "line": "export: APPOINTMENTS_TABLE_UI",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    }
+  ]
 }

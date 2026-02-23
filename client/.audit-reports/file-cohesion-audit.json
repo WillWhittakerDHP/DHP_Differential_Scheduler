@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-23T18:12:48.062Z",
-  "totalScanned": 795,
+  "generatedAt": "2026-02-23T21:42:41.146Z",
+  "totalScanned": 797,
   "tierModel": "tier1",
   "tier1Rules": [
     "oversized",
@@ -58,7 +58,7 @@
     {
       "repoPath": "client/src/utils/booking/appointmentDataBuilders.ts",
       "category": "utils",
-      "lineCount": 201,
+      "lineCount": 206,
       "exportCount": 13,
       "mixedConcerns": false,
       "hasExports": true,
@@ -96,16 +96,16 @@
     {
       "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
       "category": "services",
-      "lineCount": 563,
+      "lineCount": 530,
       "exportCount": 2,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 563,
+          "value": 530,
           "threshold": 400,
-          "detail": "563 lines (services max: 400)",
+          "detail": "530 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -115,16 +115,16 @@
     {
       "repoPath": "server/src/services/slotComputationService.ts",
       "category": "services",
-      "lineCount": 505,
+      "lineCount": 506,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 505,
+          "value": 506,
           "threshold": 400,
-          "detail": "505 lines (services max: 400)",
+          "detail": "506 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -172,16 +172,16 @@
     {
       "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
       "category": "composables",
-      "lineCount": 421,
+      "lineCount": 438,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 421,
+          "value": 438,
           "threshold": 400,
-          "detail": "421 lines (composables max: 400)",
+          "detail": "438 lines (composables max: 400)",
           "tier": 1
         }
       ],
@@ -210,16 +210,16 @@
     {
       "repoPath": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
       "category": "utils",
-      "lineCount": 303,
+      "lineCount": 302,
       "exportCount": 4,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 303,
+          "value": 302,
           "threshold": 300,
-          "detail": "303 lines (utils max: 300)",
+          "detail": "302 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -229,16 +229,16 @@
     {
       "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
       "category": "components",
-      "lineCount": 525,
+      "lineCount": 540,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 525,
+          "value": 540,
           "threshold": 500,
-          "detail": "525 lines (components max: 500)",
+          "detail": "540 lines (components max: 500)",
           "tier": 1
         }
       ],
@@ -248,16 +248,16 @@
     {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "category": "services",
-      "lineCount": 411,
+      "lineCount": 414,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 411,
+          "value": 414,
           "threshold": 400,
-          "detail": "411 lines (services max: 400)",
+          "detail": "414 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -267,16 +267,16 @@
     {
       "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
       "category": "utils",
-      "lineCount": 352,
+      "lineCount": 353,
       "exportCount": 6,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 352,
+          "value": 353,
           "threshold": 300,
-          "detail": "352 lines (utils max: 300)",
+          "detail": "353 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -284,9 +284,28 @@
       "priority": "P2"
     },
     {
+      "repoPath": "client/src/components/admin/generic/entityCardConstants.ts",
+      "category": "components",
+      "lineCount": 30,
+      "exportCount": 11,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 11,
+          "threshold": 10,
+          "detail": "11 exports (max: 10)",
+          "tier": 1
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/configs/availabilitySettings.ts",
       "category": "general",
-      "lineCount": 307,
+      "lineCount": 402,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,

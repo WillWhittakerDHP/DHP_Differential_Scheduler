@@ -7,9 +7,9 @@
 
 Generated from `client/.audit-reports/file-cohesion-audit.json`.
 
-- Files with violations: **18**
+- Files with violations: **19**
 
-## Top 18 files
+## Top 19 files
 
 | File | Category | Priority | Score | Lines | Exports | Violations |
 | --- | --- | --- | ---: | ---: | ---: | --- |
@@ -27,6 +27,7 @@ Generated from `client/.audit-reports/file-cohesion-audit.json`.
 | `client/src/views/admin/tabs/components/AppointmentsTable.vue` | components | P2 | 3 | 0 | 0 | oversized |
 | `server/src/services/computedAvailabilityService.ts` | services | P2 | 3 | 0 | 0 | oversized |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | utils | P2 | 3 | 0 | 0 | oversized |
+| `client/src/components/admin/generic/entityCardConstants.ts` | components | P2 | 2 | 0 | 0 | high-exports |
 | `client/src/configs/availabilitySettings.ts` | general | P2 | 2 | 0 | 0 | high-exports |
 | `client/src/constants/entities.ts` | general | P2 | 2 | 0 | 0 | high-exports |
 | `client/src/types/entities.ts` | general | P2 | 2 | 0 | 0 | high-exports |
