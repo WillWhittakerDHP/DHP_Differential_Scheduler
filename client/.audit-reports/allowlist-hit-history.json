@@ -1,0 +1,10 @@
+{
+  "runs": [
+    {
+      "timestamp": "2026-02-23T17:01:45.734Z",
+      "auditType": "error-handling",
+      "hits": {}
+    }
+  ],
+  "maxRuns": 5
+}

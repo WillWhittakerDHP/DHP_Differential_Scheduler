@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T01:13:43.337Z",
+  "generatedAt": "2026-02-23T17:05:20.160Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -6911,7 +6911,7 @@
       "name": "AppointmentAttendeeWithUser",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 371,
+      "line": 397,
       "exported": false,
       "fingerprint": "c1e5c460606b",
       "propertyCount": 10,
@@ -6921,7 +6921,7 @@
       "name": "AppointmentWithRelations",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 387,
+      "line": 413,
       "exported": false,
       "fingerprint": "908690c4448d",
       "propertyCount": 2,

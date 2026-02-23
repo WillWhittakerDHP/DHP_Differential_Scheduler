@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T01:05:33.379Z",
+  "generatedAt": "2026-02-23T17:05:23.019Z",
   "totalFiles": 795,
   "thresholds": {
     "maxFanOut": 40,
@@ -8,6 +8,28 @@
   "cycles": [],
   "fanOutViolations": [],
   "fanInViolations": [],
-  "crossBoundary": [],
-  "files": []
+  "crossBoundary": [
+    {
+      "from": "client/src/composables/usePartInstanceData.ts",
+      "to": "client/src/composables/admin/useAdmin",
+      "direction": "composable-root->domain"
+    },
+    {
+      "from": "client/src/composables/useSelectOptions.ts",
+      "to": "client/src/composables/admin/useAdmin",
+      "direction": "composable-root->domain"
+    }
+  ],
+  "files": [
+    {
+      "file": "client/src/composables/usePartInstanceData.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/useSelectOptions.ts",
+      "score": 5,
+      "priority": "P2"
+    }
+  ]
 }

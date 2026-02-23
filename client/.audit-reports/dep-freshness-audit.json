@@ -1,17 +1,59 @@
 {
-  "generatedAt": "2026-02-23T01:05:32.796Z",
-  "totalScanned": 0,
+  "generatedAt": "2026-02-23T17:05:22.478Z",
+  "totalScanned": 2,
   "byBehind": {
-    "major-behind": 0,
+    "major-behind": 1,
     "minor-behind": 0,
-    "patch-behind": 0,
+    "patch-behind": 1,
     "current": 0
   },
-  "packages": [],
-  "files": [],
+  "packages": [
+    {
+      "package": "ts-morph",
+      "dependent": "client",
+      "current": "24.0.0",
+      "wanted": "24.0.0",
+      "latest": "27.0.2",
+      "behind": "major-behind",
+      "score": 5
+    },
+    {
+      "package": "vuetify",
+      "dependent": "client",
+      "current": "3.12.0",
+      "wanted": "3.12.1",
+      "latest": "3.12.1",
+      "behind": "patch-behind",
+      "score": 0.5
+    }
+  ],
+  "files": [
+    {
+      "repoPath": "client:ts-morph",
+      "score": 5,
+      "priority": "P0",
+      "package": "ts-morph",
+      "dependent": "client",
+      "current": "24.0.0",
+      "wanted": "24.0.0",
+      "latest": "27.0.2",
+      "behind": "major-behind"
+    },
+    {
+      "repoPath": "client:vuetify",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "vuetify",
+      "dependent": "client",
+      "current": "3.12.0",
+      "wanted": "3.12.1",
+      "latest": "3.12.1",
+      "behind": "patch-behind"
+    }
+  ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 2,
     "bySource": {
       "inline": 0,
       "pattern": 0,

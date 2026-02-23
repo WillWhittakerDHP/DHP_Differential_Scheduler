@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T16:51:21.083Z",
+  "generatedAt": "2026-02-23T17:01:41.546Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1,
+  "totalScanned": 793,
   "exceptionSummary": {
     "totalAllowed": 0,
     "totalRequiresReview": 0,
@@ -110,5 +110,6 @@
       "description": "File uses console.* but does not import createLogger.",
       "recommendedFix": "Import createLogger and replace console calls with logger methods."
     }
-  ]
+  ],
+  "suppressionHits": {}
 }

@@ -1163,8 +1163,10 @@ export function loadAllowlistHitHistory() {
   }
 }
 
+const MAX_HISTORY_RUNS = 100
+
 /**
- * Append one run's suppression hits to history and trim to maxRuns per audit type.
+ * Append one run's suppression hits to history. Keeps last MAX_HISTORY_RUNS runs total.
  * @param {string} auditType
  * @param {Record<string, number>} hitCounts - entryKey -> count from createSuppressionHitTracker().getCounts()
  */
@@ -1175,17 +1177,7 @@ export function recordSuppressionHits(auditType, hitCounts) {
     auditType,
     hits: hitCounts && typeof hitCounts === 'object' ? hitCounts : {},
   })
-  const byAudit = Object.create(null)
-  const trimmed = []
-  for (let i = runs.length - 1; i >= 0; i--) {
-    const r = runs[i]
-    const list = byAudit[r.auditType] || []
-    if (list.length < maxRuns) {
-      list.push(r)
-      byAudit[r.auditType] = list
-      trimmed.unshift(r)
-    }
-  }
+  const trimmed = runs.slice(-MAX_HISTORY_RUNS)
   const outDir = path.dirname(getAllowlistHitHistoryPath())
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
   fs.writeFileSync(getAllowlistHitHistoryPath(), JSON.stringify({ runs: trimmed, maxRuns }, null, 2))

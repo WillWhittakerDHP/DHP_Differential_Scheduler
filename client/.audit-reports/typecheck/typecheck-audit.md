@@ -12,18 +12,24 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-20T17:33:17.937Z**
+- Generated at: **2026-02-23T17:05:45.390Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 16**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **6**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS2345-ts2345-arg-readonly-bookingblockinstance-bookingblockinstance` | 68 | 6 | 1 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-collectionitem-readonly-collectionitem-undefined-collectionitem-null-undefined` | 46 | 4 | 1 | 0 | 0 |
+| P0 | `TS2345-ts2345-arg-undefined-record-null-undefined` | 37 | 3 | 2 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-globalentity` | 13 | 1 | 1 | 0 | 0 |
+| P1 | `TS2322-ts2322-assign-record` | 13 | 1 | 1 | 0 | 0 |
+| P2 | `TS1261-ts1261-already-included-file-name-users-differs-from-file-name-users-only-in-casing` | 9 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +40,61 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/utils/booking/confirmationStepData.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@177:21 Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.
+TS2345@178:21 Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.
+TS2345@179:21 Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.
+TS2345@180:21 Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.
+TS2345@196:21 Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.
+TS2345@248:39 Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.
+```
+
+### `src/composables/dataCollections/useDataCollectionActions.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@67:50 Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.
+TS2345@90:50 Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.
+TS2345@115:50 Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.
+TS2345@136:50 Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.
+```
+
+### `src/composables/admin/useBufferSettings.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@96:68 Type 'Record<"appointment" | "lunch" | "driveToCandidate" | "driveFromCandidate", BufferConfig | DriveTimeConfig | undefined>' is not assignable to type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; }'.
+TS2345@96:82 Argument of type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; } | undefined' is not assignable to parameter of type 'Record<"appointment" | "lunch" | "driveToCandidate" | "driveFromCandidate", BufferConfig | DriveTimeConfig | undefined> | null | undefined'.
+TS2345@196:19 Argument of type '{ businessHours?: RangeConstraint | undefined; leadTime?: RangeConstraint | undefined; dateRange?: RangeConstraint | undefined; } | undefined' is not assignable to parameter of type 'Record<"businessHours" | "leadTime" | "dateRange", RangeConstraint | undefined> | null | undefined'.
+```
+
+### `src/composables/admin/useInstanceBulkEdit.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@161:43 Argument of type '{ baseSqFt?: number | undefined; } | undefined' is not assignable to parameter of type 'Record<"baseSqFt", number | undefined> | null | undefined'.
+```
+
+### `src/utils/transformers/globalToAdminTransformer.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS1261@14:29 Already included file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts' differs from file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts' only in casing.
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@1061:8 Type '{ id: GlobalEntityId; name: string; entityKey: "eventInstance"; orderIndex: number; active: true; eventShapeRef: GlobalEntityId; titleTemplate: null; descriptionTemplate: null; locationTemplate: null; }' is not assignable to type 'GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">'.
+```

@@ -28,7 +28,7 @@ isProject: false
 
 ## Phase 3.6
 
-**Status:** In Progress
+**Status:** Complete
 **Branch:** `calendar-appointment-availability-phase-3.6`
 
 # Add `differentialRole` to EventShape and Re-enable Moveable Modal

@@ -11,16 +11,16 @@ Generated from `client/.audit-reports/type-import-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 795 |
-| value-import-from-type-only-file | 7 |
-| type-used-as-value | 0 |
-| Files with findings | 2 |
+| Files scanned | 2 |
+| value-import-from-type-only-file | 0 |
+| type-used-as-value | 1 |
+| Files with findings | 1 |
 
 ## Delta (vs previous run)
 
 | Baseline state | Count |
 | --- | ---: |
-| New | 7 |
+| New | 1 |
 | Regressed | 0 |
 | Unchanged | 0 |
 | Resolved | 0 |
@@ -29,26 +29,19 @@ Generated from `client/.audit-reports/type-import-audit.json`.
 
 | Rule | New | Unchanged | Resolved | Regressed |
 | --- | ---: | ---: | ---: | ---: |
-| value-import-from-type-only-file | 7 | 0 | 0 | 0 |
+| type-used-as-value | 1 | 0 | 0 | 0 |
 
 ### New findings
 
 | File | Line | Rule | Snippet |
 | --- | ---: | --- | --- |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | 12 | value-import-from-type-only-file | ../../types/brightMls.js BrightMlsPropertyResponse |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | 12 | value-import-from-type-only-file | ../../types/brightMls.js BrightMlsODataResponse |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | value-import-from-type-only-file | ./mapsTypes.js AddressComponents |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | value-import-from-type-only-file | ./mapsTypes.js AutocompletePrediction |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | value-import-from-type-only-file | ./mapsTypes.js Coordinates |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | value-import-from-type-only-file | ./mapsTypes.js PlaceDetails |
-| `server/src/services/google/maps/mapsHelpers.ts` | 14 | value-import-from-type-only-file | ./mapsTypes.js RouteLocation |
+| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 3 | type-used-as-value | Foo |
 
-## Top 2 files (by score)
+## Top 1 files (by score)
 
 | File | Score |
 | --- | ---: |
-| `server/src/services/google/maps/mapsHelpers.ts` | 10 |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | 4 |
+| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 2 |
 
 ## Notes
 

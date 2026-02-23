@@ -1,6 +1,138 @@
 {
-  "generatedAt": "2026-02-20T17:33:23.041Z",
-  "totalScanned": 563,
-  "findings": [],
-  "files": []
+  "generatedAt": "2026-02-23T17:05:50.601Z",
+  "totalScanned": 574,
+  "findings": [
+    {
+      "file": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "repoPath": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "lineNumber": 1,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'e' is defined but never used. Allowed unused caught errors must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "repoPath": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "lineNumber": 1,
+      "ruleId": "no-empty",
+      "severity": 2,
+      "message": "Empty block statement."
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/fp/no-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/fp/no-as-any.ts",
+      "lineNumber": 2,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'x' is assigned a value but never used. Allowed unused vars must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "lineNumber": 2,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'x' is assigned a value but never used. Allowed unused vars must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "lineNumber": 2,
+      "ruleId": "@typescript-eslint/no-explicit-any",
+      "severity": 2,
+      "message": "Unexpected any. Specify a different type."
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/ts-ignore/fp/clean.ts",
+      "repoPath": "client/fixtures/audits/type-escape/ts-ignore/fp/clean.ts",
+      "lineNumber": 1,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'x' is assigned a value but never used. Allowed unused vars must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/ts-ignore/tp/has-ts-ignore.ts",
+      "repoPath": "client/fixtures/audits/type-escape/ts-ignore/tp/has-ts-ignore.ts",
+      "lineNumber": 1,
+      "ruleId": "@typescript-eslint/ban-ts-comment",
+      "severity": 2,
+      "message": "Use \"@ts-expect-error\" instead of \"@ts-ignore\", as \"@ts-ignore\" will do nothing if the following line is error-free."
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/ts-ignore/tp/has-ts-ignore.ts",
+      "repoPath": "client/fixtures/audits/type-escape/ts-ignore/tp/has-ts-ignore.ts",
+      "lineNumber": 2,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'x' is assigned a value but never used. Allowed unused vars must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/type-import/type-used-as-value/fp/type-only-use.ts",
+      "repoPath": "client/fixtures/audits/type-import/type-used-as-value/fp/type-only-use.ts",
+      "lineNumber": 3,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'x' is assigned a value but never used. Allowed unused vars must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/type-import/type-used-as-value/fp/type-only-use.ts",
+      "repoPath": "client/fixtures/audits/type-import/type-used-as-value/fp/type-only-use.ts",
+      "lineNumber": 4,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'f' is defined but never used. Allowed unused vars must match /^_/u."
+    },
+    {
+      "file": "client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts",
+      "repoPath": "client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts",
+      "lineNumber": 3,
+      "ruleId": "@typescript-eslint/no-unused-vars",
+      "severity": 1,
+      "message": "'t' is assigned a value but never used. Allowed unused vars must match /^_/u."
+    }
+  ],
+  "files": [
+    {
+      "file": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "repoPath": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/ts-ignore/tp/has-ts-ignore.ts",
+      "repoPath": "client/fixtures/audits/type-escape/ts-ignore/tp/has-ts-ignore.ts",
+      "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-import/type-used-as-value/fp/type-only-use.ts",
+      "repoPath": "client/fixtures/audits/type-import/type-used-as-value/fp/type-only-use.ts",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/as-any/fp/no-as-any.ts",
+      "repoPath": "client/fixtures/audits/type-escape/as-any/fp/no-as-any.ts",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-escape/ts-ignore/fp/clean.ts",
+      "repoPath": "client/fixtures/audits/type-escape/ts-ignore/fp/clean.ts",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts",
+      "repoPath": "client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts",
+      "score": 2,
+      "priority": "P2"
+    }
+  ]
 }

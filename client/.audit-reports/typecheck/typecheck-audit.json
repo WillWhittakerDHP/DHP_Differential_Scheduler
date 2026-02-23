@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T17:33:17.937Z",
+  "generatedAt": "2026-02-23T17:05:45.390Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,19 +10,564 @@
       "cwd": "server"
     }
   },
-  "exitCode": 0,
+  "exitCode": 1,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 16,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "file": "src/composables/admin/useBufferSettings.ts",
+      "line": 96,
+      "col": 68,
+      "code": "TS2322",
+      "message": "Type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined>' is not assignable to type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; }'.",
+      "raw": "src/composables/admin/useBufferSettings.ts(96,68): error TS2322: Type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined>' is not assignable to type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; }'.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useBufferSettings.ts"
+    },
+    {
+      "file": "src/composables/admin/useBufferSettings.ts",
+      "line": 96,
+      "col": 82,
+      "code": "TS2345",
+      "message": "Argument of type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; } | undefined' is not assignable to parameter of type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined> | null | undefined'.",
+      "raw": "src/composables/admin/useBufferSettings.ts(96,82): error TS2345: Argument of type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; } | undefined' is not assignable to parameter of type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined> | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useBufferSettings.ts"
+    },
+    {
+      "file": "src/composables/admin/useBufferSettings.ts",
+      "line": 196,
+      "col": 19,
+      "code": "TS2345",
+      "message": "Argument of type '{ businessHours?: RangeConstraint | undefined; leadTime?: RangeConstraint | undefined; dateRange?: RangeConstraint | undefined; } | undefined' is not assignable to parameter of type 'Record<\"businessHours\" | \"leadTime\" | \"dateRange\", RangeConstraint | undefined> | null | undefined'.",
+      "raw": "src/composables/admin/useBufferSettings.ts(196,19): error TS2345: Argument of type '{ businessHours?: RangeConstraint | undefined; leadTime?: RangeConstraint | undefined; dateRange?: RangeConstraint | undefined; } | undefined' is not assignable to parameter of type 'Record<\"businessHours\" | \"leadTime\" | \"dateRange\", RangeConstraint | undefined> | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useBufferSettings.ts"
+    },
+    {
+      "file": "src/composables/admin/useInstanceBulkEdit.ts",
+      "line": 161,
+      "col": 43,
+      "code": "TS2345",
+      "message": "Argument of type '{ baseSqFt?: number | undefined; } | undefined' is not assignable to parameter of type 'Record<\"baseSqFt\", number | undefined> | null | undefined'.",
+      "raw": "src/composables/admin/useInstanceBulkEdit.ts(161,43): error TS2345: Argument of type '{ baseSqFt?: number | undefined; } | undefined' is not assignable to parameter of type 'Record<\"baseSqFt\", number | undefined> | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useInstanceBulkEdit.ts"
+    },
+    {
+      "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+      "line": 67,
+      "col": 50,
+      "code": "TS2345",
+      "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "raw": "src/composables/dataCollections/useDataCollectionActions.ts(67,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+    },
+    {
+      "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+      "line": 90,
+      "col": 50,
+      "code": "TS2345",
+      "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "raw": "src/composables/dataCollections/useDataCollectionActions.ts(90,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+    },
+    {
+      "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+      "line": 115,
+      "col": 50,
+      "code": "TS2345",
+      "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "raw": "src/composables/dataCollections/useDataCollectionActions.ts(115,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+    },
+    {
+      "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+      "line": 136,
+      "col": 50,
+      "code": "TS2345",
+      "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "raw": "src/composables/dataCollections/useDataCollectionActions.ts(136,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+      "scope": "client",
+      "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+    },
+    {
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 177,
+      "col": 21,
+      "code": "TS2345",
+      "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "raw": "src/utils/booking/confirmationStepData.ts(177,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/confirmationStepData.ts"
+    },
+    {
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 178,
+      "col": 21,
+      "code": "TS2345",
+      "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "raw": "src/utils/booking/confirmationStepData.ts(178,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/confirmationStepData.ts"
+    },
+    {
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 179,
+      "col": 21,
+      "code": "TS2345",
+      "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "raw": "src/utils/booking/confirmationStepData.ts(179,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/confirmationStepData.ts"
+    },
+    {
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 180,
+      "col": 21,
+      "code": "TS2345",
+      "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "raw": "src/utils/booking/confirmationStepData.ts(180,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/confirmationStepData.ts"
+    },
+    {
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 196,
+      "col": 21,
+      "code": "TS2345",
+      "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "raw": "src/utils/booking/confirmationStepData.ts(196,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/confirmationStepData.ts"
+    },
+    {
+      "file": "src/utils/booking/confirmationStepData.ts",
+      "line": 248,
+      "col": 39,
+      "code": "TS2345",
+      "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "raw": "src/utils/booking/confirmationStepData.ts(248,39): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+      "scope": "client",
+      "repoPath": "src/utils/booking/confirmationStepData.ts"
+    },
+    {
+      "file": "src/utils/transformers/globalToAdminTransformer.ts",
+      "line": 14,
+      "col": 29,
+      "code": "TS1261",
+      "message": "Already included file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts' differs from file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts' only in casing.",
+      "raw": "src/utils/transformers/globalToAdminTransformer.ts(14,29): error TS1261: Already included file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts' differs from file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts' only in casing.",
+      "scope": "client",
+      "repoPath": "src/utils/transformers/globalToAdminTransformer.ts"
+    },
+    {
+      "file": "src/views/admin/tabs/InstancesTab.vue",
+      "line": 1061,
+      "col": 8,
+      "code": "TS2322",
+      "message": "Type '{ id: GlobalEntityId; name: string; entityKey: \"eventInstance\"; orderIndex: number; active: true; eventShapeRef: GlobalEntityId; titleTemplate: null; descriptionTemplate: null; locationTemplate: null; }' is not assignable to type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | \"eventShape\" | \"eventInstance\" | \"annotationShape\" | \"annotationInstance\">'.",
+      "raw": "src/views/admin/tabs/InstancesTab.vue(1061,8): error TS2322: Type '{ id: GlobalEntityId; name: string; entityKey: \"eventInstance\"; orderIndex: number; active: true; eventShapeRef: GlobalEntityId; titleTemplate: null; descriptionTemplate: null; locationTemplate: null; }' is not assignable to type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | \"eventShape\" | \"eventInstance\" | \"annotationShape\" | \"annotationInstance\">'.",
+      "scope": "client",
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+    }
+  ],
   "allowedErrors": [],
-  "pools": [],
-  "files": []
+  "pools": [
+    {
+      "poolId": "TS2345-ts2345-arg-readonly-bookingblockinstance-bookingblockinstance",
+      "groupKey": "TS2345::arg:readonly BookingBlockInstance[]=>BookingBlockInstance[]",
+      "errorCount": 6,
+      "fileCount": 1,
+      "severityScore": 60,
+      "blastRadiusScore": 2,
+      "repetitionScore": 6,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 68,
+      "sample": [
+        {
+          "repoPath": "src/utils/booking/confirmationStepData.ts",
+          "line": 177,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'."
+        },
+        {
+          "repoPath": "src/utils/booking/confirmationStepData.ts",
+          "line": 178,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'."
+        },
+        {
+          "repoPath": "src/utils/booking/confirmationStepData.ts",
+          "line": 179,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS2345-ts2345-arg-collectionitem-readonly-collectionitem-undefined-collectionitem-null-undefined",
+      "groupKey": "TS2345::arg:CollectionItem[] | readonly CollectionItem[] | undefined=>CollectionItem[] | null | undefined",
+      "errorCount": 4,
+      "fileCount": 1,
+      "severityScore": 40,
+      "blastRadiusScore": 2,
+      "repetitionScore": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 46,
+      "sample": [
+        {
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 67,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'."
+        },
+        {
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 90,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'."
+        },
+        {
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 115,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS2345-ts2345-arg-undefined-record-null-undefined",
+      "groupKey": "TS2345::arg:{...} | undefined=>Record<...> | null | undefined",
+      "errorCount": 3,
+      "fileCount": 2,
+      "severityScore": 30,
+      "blastRadiusScore": 4,
+      "repetitionScore": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 37,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useBufferSettings.ts",
+          "line": 96,
+          "col": 82,
+          "code": "TS2345",
+          "message": "Argument of type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; } | undefined' is not assignable to parameter of type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined> | null | undefined'."
+        },
+        {
+          "repoPath": "src/composables/admin/useBufferSettings.ts",
+          "line": 196,
+          "col": 19,
+          "code": "TS2345",
+          "message": "Argument of type '{ businessHours?: RangeConstraint | undefined; leadTime?: RangeConstraint | undefined; dateRange?: RangeConstraint | undefined; } | undefined' is not assignable to parameter of type 'Record<\"businessHours\" | \"leadTime\" | \"dateRange\", RangeConstraint | undefined> | null | undefined'."
+        },
+        {
+          "repoPath": "src/composables/admin/useInstanceBulkEdit.ts",
+          "line": 161,
+          "col": 43,
+          "code": "TS2345",
+          "message": "Argument of type '{ baseSqFt?: number | undefined; } | undefined' is not assignable to parameter of type 'Record<\"baseSqFt\", number | undefined> | null | undefined'."
+        }
+      ],
+      "priority": "P0"
+    },
+    {
+      "poolId": "TS2322-ts2322-assign-globalentity",
+      "groupKey": "TS2322::assign:{...}=>GlobalEntity<...>",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 1061,
+          "col": 8,
+          "code": "TS2322",
+          "message": "Type '{ id: GlobalEntityId; name: string; entityKey: \"eventInstance\"; orderIndex: number; active: true; eventShapeRef: GlobalEntityId; titleTemplate: null; descriptionTemplate: null; locationTemplate: null; }' is not assignable to type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | \"eventShape\" | \"eventInstance\" | \"annotationShape\" | \"annotationInstance\">'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS2322-ts2322-assign-record",
+      "groupKey": "TS2322::assign:Record<...>=>{...}",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useBufferSettings.ts",
+          "line": 96,
+          "col": 68,
+          "code": "TS2322",
+          "message": "Type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined>' is not assignable to type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; }'."
+        }
+      ],
+      "priority": "P1"
+    },
+    {
+      "poolId": "TS1261-ts1261-already-included-file-name-users-differs-from-file-name-users-only-in-casing",
+      "groupKey": "TS1261::Already included file name '/Users/... differs from file name '/Users/... only in casing.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 6,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 9,
+      "sample": [
+        {
+          "repoPath": "src/utils/transformers/globalToAdminTransformer.ts",
+          "line": 14,
+          "col": 29,
+          "code": "TS1261",
+          "message": "Already included file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts' differs from file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts' only in casing."
+        }
+      ],
+      "priority": "P2"
+    }
+  ],
+  "files": [
+    {
+      "repoPath": "src/utils/booking/confirmationStepData.ts",
+      "errorCount": 6,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 177,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "raw": "src/utils/booking/confirmationStepData.ts(177,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/confirmationStepData.ts"
+        },
+        {
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 178,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "raw": "src/utils/booking/confirmationStepData.ts(178,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/confirmationStepData.ts"
+        },
+        {
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 179,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "raw": "src/utils/booking/confirmationStepData.ts(179,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/confirmationStepData.ts"
+        },
+        {
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 180,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "raw": "src/utils/booking/confirmationStepData.ts(180,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/confirmationStepData.ts"
+        },
+        {
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 196,
+          "col": 21,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "raw": "src/utils/booking/confirmationStepData.ts(196,21): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/confirmationStepData.ts"
+        },
+        {
+          "file": "src/utils/booking/confirmationStepData.ts",
+          "line": 248,
+          "col": 39,
+          "code": "TS2345",
+          "message": "Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "raw": "src/utils/booking/confirmationStepData.ts(248,39): error TS2345: Argument of type 'readonly BookingBlockInstance[]' is not assignable to parameter of type 'BookingBlockInstance[]'.",
+          "scope": "client",
+          "repoPath": "src/utils/booking/confirmationStepData.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts",
+      "errorCount": 4,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 67,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "raw": "src/composables/dataCollections/useDataCollectionActions.ts(67,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+        },
+        {
+          "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 90,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "raw": "src/composables/dataCollections/useDataCollectionActions.ts(90,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+        },
+        {
+          "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 115,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "raw": "src/composables/dataCollections/useDataCollectionActions.ts(115,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+        },
+        {
+          "file": "src/composables/dataCollections/useDataCollectionActions.ts",
+          "line": 136,
+          "col": 50,
+          "code": "TS2345",
+          "message": "Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "raw": "src/composables/dataCollections/useDataCollectionActions.ts(136,50): error TS2345: Argument of type 'CollectionItem[] | readonly CollectionItem[] | undefined' is not assignable to parameter of type 'CollectionItem[] | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/dataCollections/useDataCollectionActions.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/useBufferSettings.ts",
+      "errorCount": 3,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useBufferSettings.ts",
+          "line": 96,
+          "col": 68,
+          "code": "TS2322",
+          "message": "Type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined>' is not assignable to type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; }'.",
+          "raw": "src/composables/admin/useBufferSettings.ts(96,68): error TS2322: Type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined>' is not assignable to type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; }'.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useBufferSettings.ts"
+        },
+        {
+          "file": "src/composables/admin/useBufferSettings.ts",
+          "line": 96,
+          "col": 82,
+          "code": "TS2345",
+          "message": "Argument of type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; } | undefined' is not assignable to parameter of type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined> | null | undefined'.",
+          "raw": "src/composables/admin/useBufferSettings.ts(96,82): error TS2345: Argument of type '{ appointment?: BufferConfig | undefined; driveToCandidate?: DriveTimeConfig | undefined; driveFromCandidate?: DriveTimeConfig | undefined; lunch?: BufferConfig | undefined; } | undefined' is not assignable to parameter of type 'Record<\"appointment\" | \"lunch\" | \"driveToCandidate\" | \"driveFromCandidate\", BufferConfig | DriveTimeConfig | undefined> | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useBufferSettings.ts"
+        },
+        {
+          "file": "src/composables/admin/useBufferSettings.ts",
+          "line": 196,
+          "col": 19,
+          "code": "TS2345",
+          "message": "Argument of type '{ businessHours?: RangeConstraint | undefined; leadTime?: RangeConstraint | undefined; dateRange?: RangeConstraint | undefined; } | undefined' is not assignable to parameter of type 'Record<\"businessHours\" | \"leadTime\" | \"dateRange\", RangeConstraint | undefined> | null | undefined'.",
+          "raw": "src/composables/admin/useBufferSettings.ts(196,19): error TS2345: Argument of type '{ businessHours?: RangeConstraint | undefined; leadTime?: RangeConstraint | undefined; dateRange?: RangeConstraint | undefined; } | undefined' is not assignable to parameter of type 'Record<\"businessHours\" | \"leadTime\" | \"dateRange\", RangeConstraint | undefined> | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useBufferSettings.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/composables/admin/useInstanceBulkEdit.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useInstanceBulkEdit.ts",
+          "line": 161,
+          "col": 43,
+          "code": "TS2345",
+          "message": "Argument of type '{ baseSqFt?: number | undefined; } | undefined' is not assignable to parameter of type 'Record<\"baseSqFt\", number | undefined> | null | undefined'.",
+          "raw": "src/composables/admin/useInstanceBulkEdit.ts(161,43): error TS2345: Argument of type '{ baseSqFt?: number | undefined; } | undefined' is not assignable to parameter of type 'Record<\"baseSqFt\", number | undefined> | null | undefined'.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useInstanceBulkEdit.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/utils/transformers/globalToAdminTransformer.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/utils/transformers/globalToAdminTransformer.ts",
+          "line": 14,
+          "col": 29,
+          "code": "TS1261",
+          "message": "Already included file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts' differs from file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts' only in casing.",
+          "raw": "src/utils/transformers/globalToAdminTransformer.ts(14,29): error TS1261: Already included file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/adminEntity.ts' differs from file name '/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/admin/AdminEntity.ts' only in casing.",
+          "scope": "client",
+          "repoPath": "src/utils/transformers/globalToAdminTransformer.ts"
+        }
+      ]
+    },
+    {
+      "repoPath": "src/views/admin/tabs/InstancesTab.vue",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/views/admin/tabs/InstancesTab.vue",
+          "line": 1061,
+          "col": 8,
+          "code": "TS2322",
+          "message": "Type '{ id: GlobalEntityId; name: string; entityKey: \"eventInstance\"; orderIndex: number; active: true; eventShapeRef: GlobalEntityId; titleTemplate: null; descriptionTemplate: null; locationTemplate: null; }' is not assignable to type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | \"eventShape\" | \"eventInstance\" | \"annotationShape\" | \"annotationInstance\">'.",
+          "raw": "src/views/admin/tabs/InstancesTab.vue(1061,8): error TS2322: Type '{ id: GlobalEntityId; name: string; entityKey: \"eventInstance\"; orderIndex: number; active: true; eventShapeRef: GlobalEntityId; titleTemplate: null; descriptionTemplate: null; locationTemplate: null; }' is not assignable to type 'GlobalEntity<\"blockInstance\" | \"blockShape\" | \"partInstance\" | \"partShape\" | \"eventShape\" | \"eventInstance\" | \"annotationShape\" | \"annotationInstance\">'.",
+          "scope": "client",
+          "repoPath": "src/views/admin/tabs/InstancesTab.vue"
+        }
+      ]
+    }
+  ]
 }
