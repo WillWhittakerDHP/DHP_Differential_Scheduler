@@ -137,7 +137,7 @@
 - ✅ No hardcoded settings remain in codebase
 
 **Related Documents:**
-- **Feature Plan**: `../feature-plan.md` (Phase 1.4 Session 1)
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md` (Phase 1.4 Session 1)
 - **Detailed Plan**: `@business_controls_admin_tab_infrastructure_ade65402.plan.md`
 
 ---
@@ -1108,7 +1108,7 @@
 
 **Test Coverage:**
 
-The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers:
+The comprehensive test checklist in the feature guide Phase 1.4 Session 2 covers:
 - **Booking Wizard - Service Selection Step:** Single/multiple selection, filtering, cascading, icons, differential indicators
 - **Booking Wizard - Property Details Step:** Property/address creation, dwelling adjustments (single/multiple), validation
 - **Booking Wizard - Availability Step:** Calendar, time slots, differential scheduling (inspector/client toggle, Time On-Site Graph), duration calculation
@@ -1129,7 +1129,7 @@ The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers
 **Key Tasks:**
 
 1. **Execute Booking Wizard UAT**
-   - Follow test checklist from `feature-plan.md` Phase 1.4 Session 2
+   - Follow test checklist from the feature guide Phase 1.4 Session 2
    - Test each wizard step systematically
    - Test navigation and validation
    - Test appointment creation and loading
@@ -1261,7 +1261,7 @@ The comprehensive test checklist in `feature-plan.md` Phase 1.4 Session 2 covers
 4. Sign-off document confirming gate criteria met: `project-manager/features/data-flow-alignment/phases/phase-1.4-gate-signoff.md`
 
 **Related Documents:**
-- **Feature Plan**: `../feature-plan.md` (Phase 1.4 Session 2 - comprehensive test checklist)
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md` (Phase 1.4 Session 2 - comprehensive test checklist)
 - **Phase 1.3 Handoff**: `phase-1.3-handoff.md` (schema changes reference)
 - **Phase 1.4 Session 1.4.12 Log**: `../sessions/session-1.4.12-log.md` (seed data created)
 

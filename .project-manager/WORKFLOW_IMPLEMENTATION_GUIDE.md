@@ -8,7 +8,7 @@
 
 ## Overview
 
-This guide documents the implementation logic that should be used in Cursor rules/prompts to enforce the correct order: feature-level planning documents (`feature-plan.md`, `README.md`) must be created before any phase planning documents.
+This guide documents the implementation logic that should be used in Cursor rules/prompts to enforce the correct order: feature-level planning documents (feature guide, `README.md`) must be created before any phase planning documents.
 
 ---
 
@@ -33,9 +33,9 @@ When `/feature-start [name]` is called, execute in this **EXACT** order. **DO NO
    Action: Create directory if it doesn't exist
    ```
 
-3. **Create feature-plan.md with Template Structure**
+3. **Create feature guide with Template Structure**
    ```
-   Path: project-manager/features/[feature-name]/feature-plan.md
+   Path: project-manager/features/[feature-name]/feature-{feature-name}-guide.md
    Action: Create file with template structure (may be minimal initially)
    Required Sections (template):
    - Feature overview and objectives
@@ -43,7 +43,7 @@ When `/feature-start [name]` is called, execute in this **EXACT** order. **DO NO
    - Success criteria
    - Dependencies
    - Key files and architecture notes
-   Note: File may start as a template - will be populated by feature plan step
+   Note: File may start as a template - will be populated by plan-feature step
    ```
 
 4. **Create README.md with Template Structure**
@@ -58,15 +58,15 @@ When `/feature-start [name]` is called, execute in this **EXACT** order. **DO NO
    Note: File may start as a template - will be populated by feature plan step
    ```
 
-5. **Call `/feature-plan` Command**
+5. **Call `/plan-feature` Command**
    ```
    Action: Execute feature planning process
-   Purpose: Populate feature-plan.md and README.md with actual content
+   Purpose: Populate feature guide and README.md with actual content
    Process:
    - Review feature requirements and objectives
    - Break down into phases (high-level)
    - Document dependencies and key files
-   - Populate both feature-plan.md and README.md with complete content
+   - Populate both feature guide and README.md with complete content
    - This is a parallel process to phase planning (same tier structure)
    ```
 
@@ -75,18 +75,18 @@ When `/feature-start [name]` is called, execute in this **EXACT** order. **DO NO
    Action: Conduct research phase (if feature requires research)
    - Present 30+ questions covering 6 categories
    - Document findings in feature guide/log
-   - Update feature-plan.md with research insights
-   Note: May be part of feature-plan step or separate step
+   - Update feature-{feature-name}-guide.md with research insights
+   Note: May be part of plan-feature step or separate step
    ```
 
 7. **Validation Check**
    ```
    Action: Verify feature docs are complete and populated
-   - Check feature-plan.md exists and has substantial content (not just template)
+   - Check feature guide exists and has substantial content (not just template)
    - Check README.md exists and has substantial content (not just template)
-   - Verify feature plan includes phase breakdown with actual phases
+   - Verify feature guide includes phase breakdown with actual phases
    - Verify research phase completed (if required)
-   - Verify documents were populated by feature-plan (not just templates)
+   - Verify documents were populated by plan-feature (not just templates)
    ```
 
 8. **Only After Validation Passes:**
@@ -101,7 +101,7 @@ When `/feature-start [name]` is called, execute in this **EXACT** order. **DO NO
 ### Critical Rules
 
 **DO NOT:**
-- Skip the `feature-plan` step (step 5)
+- Skip the `plan-feature` step (step 5)
 - Start phase 1.1 immediately after creating templates
 - Proceed to phase work until feature docs are fully populated
 - Create phase documents until feature docs are validated
@@ -109,22 +109,22 @@ When `/feature-start [name]` is called, execute in this **EXACT** order. **DO NO
 **MUST:**
 - Create git branch first
 - Create document templates
-- Call `feature-plan` to populate documents
+- Call `plan-feature` to populate documents
 - Validate documents are complete (not just templates)
 - Only then allow phase planning commands
 
 ### Critical Rules
 
-**DO NOT create phase planning documents until feature-plan.md and README.md are complete and validated.**
+**DO NOT create phase planning documents until feature-{feature-name}-guide.md and README.md are complete and validated.**
 
 **DO NOT start phase 1.1 immediately after `feature-start` - this command is for feature-level setup only.**
 
-**MUST call `feature-plan` to populate documents before allowing any phase work.**
+**MUST call `plan-feature` to populate documents before allowing any phase work.**
 
 ### Parallel Process Note
 
-The `feature-start` → `feature-plan` process is parallel to the `phase-start` → `phase-plan` process:
-- **Feature tier:** `feature-start` creates structure → `feature-plan` populates documents → then phase work can begin
+The `feature-start` → `plan-feature` process is parallel to the `phase-start` → `phase-plan` process:
+- **Feature tier:** `feature-start` creates structure → `plan-feature` populates documents → then phase work can begin
 - **Phase tier:** `phase-start` creates structure → `phase-plan` populates documents → then session work can begin
 
 Both follow the same pattern: create structure first, populate documents second, validate third, then proceed to next tier.
@@ -139,16 +139,16 @@ Before creating any phase documents, execute validation:
 
 ```pseudocode
 function validateFeatureDocs(featureName):
-    // Check feature-plan.md exists
-    if not fileExists("project-manager/features/[feature-name]/feature-plan.md"):
-        return ERROR: "feature-plan.md missing"
+    // Check feature-{feature-name}-guide.md exists
+    if not fileExists("project-manager/features/[feature-name]/feature-{feature-name}-guide.md"):
+        return ERROR: "feature-{feature-name}-guide.md missing"
     
     // Check README.md exists
     if not fileExists("project-manager/features/[feature-name]/README.md"):
         return ERROR: "README.md missing"
     
-    // Read and validate feature-plan.md content
-    planContent = readFile("project-manager/features/[feature-name]/feature-plan.md")
+    // Read and validate feature-{feature-name}-guide.md content
+    planContent = readFile("project-manager/features/[feature-name]/feature-{feature-name}-guide.md")
     if not hasSection(planContent, "Overview"):
         return ERROR: "Feature plan missing Overview section"
     if not hasSection(planContent, "Phase breakdown"):
@@ -187,11 +187,11 @@ Same validation logic as `/plan-phase`. Must validate before creating phase stru
 ### Required Validation Checks
 
 1. **File Existence Checks**
-   - `feature-plan.md` exists at correct path
+   - `feature-{feature-name}-guide.md` exists at correct path
    - `README.md` exists at correct path
 
 2. **Content Validation**
-   - `feature-plan.md` has minimum required sections:
+   - Feature guide has minimum required sections:
      - Overview/Objectives
      - Phase breakdown (high-level)
      - Success criteria
@@ -214,15 +214,15 @@ Error: Feature-level planning documents incomplete
 The following items must be completed before phase planning can begin:
 
 Missing or Incomplete:
-- [ ] feature-plan.md (missing Overview section)
+- [ ] Feature guide (missing Overview section)
 - [ ] README.md (missing Description section)
 
 Required Paths:
-- project-manager/features/[feature-name]/feature-plan.md
+- project-manager/features/[feature-name]/feature-{feature-name}-guide.md (feature guide)
 - project-manager/features/[feature-name]/README.md
 
 Next Steps:
-1. Complete feature-plan.md with required sections
+1. Complete feature-{feature-name}-guide.md with required sections
 2. Complete README.md with required sections
 3. Run validation again before creating phase documents
 
@@ -244,10 +244,10 @@ When `/feature-start [name]` is called, execute in EXACT order:
 
 1. Create git branch: `git checkout -b feature/[name]`
 2. Create feature directory: `project-manager/features/[name]/`
-3. Create `feature-plan.md` with template structure (may be minimal)
+3. Create `feature-{feature-name}-guide.md` with template structure (may be minimal)
 4. Create `README.md` with template structure (may be minimal)
-5. **CRITICAL:** Call `/feature-plan` command to populate both documents
-   - This populates feature-plan.md with actual content
+5. **CRITICAL:** Call `/plan-feature` command to populate both documents
+   - This populates feature-{feature-name}-guide.md with actual content
    - This populates README.md with actual content
    - This is a parallel process to phase planning
 6. Conduct research phase (if required)
@@ -258,12 +258,12 @@ When `/feature-start [name]` is called, execute in EXACT order:
 
 ## Feature Plan Command Rule
 
-When `/feature-plan` is called (or as part of feature-start):
+When `/plan-feature` is called (or as part of feature-start):
 
 1. Review feature requirements and objectives
 2. Break down feature into phases (high-level, not detailed)
 3. Document dependencies and key files
-4. Populate feature-plan.md with complete content:
+4. Populate feature-{feature-name}-guide.md with complete content:
    - Overview and objectives
    - Phase breakdown (high-level)
    - Success criteria
@@ -280,7 +280,7 @@ When `/feature-plan` is called (or as part of feature-start):
 
 When `/plan-phase [N]` or `/phase-create [N]` is called:
 
-1. Check if `feature-plan.md` exists
+1. Check if `feature-{feature-name}-guide.md` exists
 2. Check if `README.md` exists
 3. Validate content has required sections AND is populated (not just template)
 4. If validation fails: Block phase creation, show error, suggest completing feature docs
@@ -289,17 +289,17 @@ When `/plan-phase [N]` or `/phase-create [N]` is called:
 
 ### Common Mistakes to Avoid
 
-**Mistake 1: Skipping feature-plan step**
+**Mistake 1: Skipping plan-feature step**
 - ❌ Wrong: Create templates → immediately start phase 1.1
-- ✅ Correct: Create templates → call feature-plan → validate → then allow phase work
+- ✅ Correct: Create templates → call plan-feature → validate → then allow phase work
 
 **Mistake 2: Starting phase work immediately**
 - ❌ Wrong: `feature-start` → checkout branch → start phase 1.1
-- ✅ Correct: `feature-start` → checkout branch → create docs → call feature-plan → validate → wait for phase command
+- ✅ Correct: `feature-start` → checkout branch → create docs → call plan-feature → validate → wait for phase command
 
 **Mistake 3: Not populating documents**
 - ❌ Wrong: Create empty templates → proceed to phase work
-- ✅ Correct: Create templates → populate via feature-plan → validate populated content → proceed
+- ✅ Correct: Create templates → populate via plan-feature → validate populated content → proceed
 
 ---
 
@@ -310,7 +310,7 @@ When `/plan-phase [N]` or `/phase-create [N]` is called:
 **Symptoms:**
 - `feature-start` checks out git branch ✓
 - `feature-start` starts work on phase 1.1 immediately ✗
-- `feature-start` does NOT call `feature-plan` ✗
+- `feature-start` does NOT call `plan-feature` ✗
 - `feature-start` does NOT create/populate docs ✗
 
 **Root Cause:**
@@ -320,9 +320,9 @@ The command is skipping steps 3-7 and jumping directly to phase work.
 Ensure `feature-start` follows the exact order:
 1. Create git branch
 2. Create feature directory
-3. Create feature-plan.md template
+3. Create feature-{feature-name}-guide.md template
 4. Create README.md template
-5. **Call feature-plan to populate documents** ← This step is being skipped
+5. **Call plan-feature to populate documents** ← This step is being skipped
 6. Validate documents are populated
 7. **DO NOT start phase 1.1** ← This should not happen automatically
 8. Wait for explicit phase planning command
@@ -330,7 +330,7 @@ Ensure `feature-start` follows the exact order:
 **Validation:**
 After `feature-start` completes, verify:
 - [ ] Git branch `feature/[name]` exists and is checked out
-- [ ] `project-manager/features/[name]/feature-plan.md` exists and has substantial content (not just template)
+- [ ] `project-manager/features/[name]/feature-{feature-name}-guide.md` exists and has substantial content (not just template)
 - [ ] `project-manager/features/[name]/README.md` exists and has substantial content (not just template)
 - [ ] Phase 1.1 has NOT been started automatically
 - [ ] Phase planning commands are available but phase work has not begun
@@ -341,9 +341,9 @@ After `feature-start` completes, verify:
 
 1. User calls `/feature-start test-feature`
 2. System creates git branch `feature/test-feature`
-3. System creates `feature-plan.md` template
+3. System creates `feature-{feature-name}-guide.md` template
 4. System creates `README.md` template
-5. **System calls `/feature-plan` to populate documents**
+5. **System calls `/plan-feature` to populate documents**
 6. System validates both files exist and have substantial content
 7. System does NOT start phase 1.1 automatically
 8. System allows phase planning commands (but doesn't execute them)
@@ -353,7 +353,7 @@ After `feature-start` completes, verify:
 ### Test Case 2: Premature Phase Planning
 
 1. User calls `/phase-create 1.1 "Test phase"` without feature docs
-2. System checks for `feature-plan.md` - not found
+2. System checks for `feature-{feature-name}-guide.md` - not found
 3. System blocks phase creation
 4. System shows error message
 
@@ -361,7 +361,7 @@ After `feature-start` completes, verify:
 
 ### Test Case 3: Incomplete Feature Docs
 
-1. User creates `feature-plan.md` but it's missing Overview section
+1. User creates `feature-{feature-name}-guide.md` but it's missing Overview section
 2. User calls `/phase-create 1.1 "Test phase"`
 3. System validates content - Overview section missing
 4. System blocks phase creation
@@ -374,7 +374,7 @@ After `feature-start` completes, verify:
 1. User calls `/feature-start test-feature`
 2. System creates templates but doesn't populate them
 3. System tries to start phase 1.1 immediately
-4. **System should:** Block phase work, call feature-plan, populate docs, then allow phase work
+4. **System should:** Block phase work, call plan-feature, populate docs, then allow phase work
 
 **Expected Result:** Feature docs populated before phase work begins
 
@@ -388,5 +388,5 @@ After `feature-start` completes, verify:
 
 ---
 
-**Last Updated:** 2025-02-01 (Updated to fix feature-start skipping feature-plan step)
+**Last Updated:** 2025-02-01 (Updated to fix feature-start skipping plan-feature step)
 

@@ -5,7 +5,7 @@
 
 ## ⚠️ PRE-PLANNING AUDIT REQUIRED
 
-Before starting this feature, we need to audit what calculation logic already exists in Vue.js and determine what needs to be added, fixed, or simplified. See `feature-plan.md` Phase 3.0 for details.
+Before starting this feature, we need to audit what calculation logic already exists in Vue.js and determine what needs to be added, fixed, or simplified. See `feature-booking-calculations-guide.md` Phases Breakdown (Phase 3.0) for details.
 
 ## Overview
 
@@ -62,7 +62,7 @@ Known issues with calendar pass logic that may need simplification or fixing.
 
 ## Related Documents
 
-- **Feature Plan**: `feature-plan.md`
+- **Feature Guide**: `feature-booking-calculations-guide.md`
 - **Appointment Status Types**: `client/src/types/appointment.ts`
 - **Availability DB Utils**: `server/src/utils/availabilities/availabiltiesDbUtils.ts`
 

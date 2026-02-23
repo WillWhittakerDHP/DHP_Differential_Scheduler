@@ -11,36 +11,12 @@
  */
 
 import { createLogger } from '@/utils/logger'
-import { createTimeRange, createTimeRangesFromSlotShape, findEventFinalByName } from './booking/appointmentSlotBuilder'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import { 
-  getMajorEventShape, 
-  getMinorEventShape 
-} from '@/utils/eventAttendeeUtils'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { createTimeRange, createTimeRangesFromSlotShape } from './booking/appointmentSlotBuilder'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventFinal, AppointmentSlot } from '@/types/appointment'
 
 const logger = createLogger('differentialScheduling')
-
-function resolveAttendeeIds(
-  perspectives: AvailabilitySettings['differentialPerspectives'],
-  context: string
-): { major: GlobalEntityId[]; minor: GlobalEntityId[] } {
-  const rawMajor = perspectives?.majorAttendees
-  const rawMinor = perspectives?.minorAttendees
-  if (rawMajor === undefined || rawMajor === null) {
-    logger.debug(`${context}: majorAttendees missing, using []`)
-  }
-  if (rawMinor === undefined || rawMinor === null) {
-    logger.debug(`${context}: minorAttendees missing, using []`)
-  }
-  return {
-    major: rawMajor !== undefined && rawMajor !== null ? rawMajor : [],
-    minor: rawMinor !== undefined && rawMinor !== null ? rawMinor : [],
-  }
-}
 
 function durationMinutes(eventFinal: EventFinal | undefined, context: string): number {
   if (eventFinal === undefined) {
@@ -51,45 +27,43 @@ function durationMinutes(eventFinal: EventFinal | undefined, context: string): n
   return d !== undefined && d !== null ? d : 0
 }
 
-function eventShapeName(eventFinal: EventFinal | undefined, defaultName: string, context: string): string {
-  if (eventFinal === undefined) {
-    logger.debug(`${context}: no event final, name "${defaultName}"`)
-    return defaultName
-  }
-  const name = eventFinal.eventShape?.name
-  return name !== undefined && name !== null && name !== '' ? name : defaultName
-}
-
 type SlotShapeWithFinals = AppointmentSlot['shape']['slotShape']
 
-/** Resolve major and minor EventFinal from slotShape (attendee-based or name-based). */
+/** Resolve major and minor EventFinal from slotShape via differentialRole. */
 function resolveMajorMinorEventFinals(
   slotShape: SlotShapeWithFinals,
-  globalData: GlobalData | undefined,
-  availabilitySettings: AvailabilitySettings | null | undefined,
   context: string
 ): {
   majorEventFinal: EventFinal | undefined
   minorEventFinal: EventFinal | undefined
 } {
-  let majorEventFinal: EventFinal | undefined
-  let minorEventFinal: EventFinal | undefined
-  if (globalData && slotShape.eventFinals && availabilitySettings?.differentialPerspectives) {
-    const { major: majorAttendeeIds, minor: minorAttendeeIds } = resolveAttendeeIds(
-      availabilitySettings.differentialPerspectives,
-      context
-    )
-    const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-    const majorEventShape = majorAttendeeIds.length > 0 ? getMajorEventShape(eventShapeEntities, majorAttendeeIds) : null
-    const eventShapesExcludingMajor = majorEventShape
-      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-      : eventShapeEntities
-    const minorEventShape = minorAttendeeIds.length > 0 ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds) : null
-    majorEventFinal = majorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id) : undefined
-    minorEventFinal = minorEventShape ? slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id) : undefined
+  if (!slotShape.eventFinals?.length) {
+    return { majorEventFinal: undefined, minorEventFinal: undefined }
   }
-  if (!majorEventFinal) majorEventFinal = findEventFinalByName(slotShape, 'Major')
-  if (!minorEventFinal) minorEventFinal = findEventFinalByName(slotShape, 'Minor')
+
+  const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+
+  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  if (!majorEventShape) {
+    logger.error(`${context}: no event shape with differentialRole=major`, {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
+
+  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  if (!minorEventShape) {
+    logger.error(`${context}: no event shape with differentialRole=minor`, {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
+
+  const majorEventFinal = majorEventShape
+    ? slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
+    : undefined
+  const minorEventFinal = minorEventShape
+    ? slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
+    : undefined
+
   return { majorEventFinal, minorEventFinal }
 }
 
@@ -150,40 +124,30 @@ function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: nu
  * 
  * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
  * @param majorStartTime - Major start time as ISO date string
- * @param globalData - Optional GlobalData for attendee-based logic
- * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
  * @returns AppointmentSlot with TimeSlot objects calculated from major start time
  */
 export function transformToMajorPerspective(
   appointmentSlot: AppointmentSlot,
   majorStartTime: string,
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
   const slotShape = appointmentSlot.shape.slotShape
   const { majorEventFinal, minorEventFinal } = resolveMajorMinorEventFinals(
     slotShape,
-    globalData,
-    availabilitySettings,
     'transformToMajorPerspective'
   )
 
   const majorDuration = durationMinutes(majorEventFinal, 'transformToMajorPerspective.major')
   const minorDuration = durationMinutes(minorEventFinal, 'transformToMajorPerspective.minor')
 
-  // PATTERN: Add majorDuration to major start time
   const minorStartTime = calculateMinorStartTimeFromMajor(majorStartTime, majorDuration)
 
-  // WHY: Transform slot to use major start time as base
-  // PATTERN: Use createTimeRangesFromSlotShape utility
   const timeRanges = createTimeRangesFromSlotShape(slotShape, majorStartTime)
 
-  // PATTERN: Use event shape names to look up time ranges (name-based keys when not configured)
-  const majorEventName = eventShapeName(majorEventFinal, 'Major', 'transformToMajorPerspective')
-  const minorEventName = eventShapeName(minorEventFinal, 'Minor', 'transformToMajorPerspective')
+  const majorEventName = majorEventFinal?.eventShape?.name
+  const minorEventName = minorEventFinal?.eventShape?.name
   
-  const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
-  let minorTimeRange = timeRanges.eventTimeRanges?.[minorEventName]
+  const majorTimeRange = majorEventName ? timeRanges.eventTimeRanges?.[majorEventName] : null
+  let minorTimeRange = minorEventName ? timeRanges.eventTimeRanges?.[minorEventName] : null
   
   if (majorTimeRange && minorDuration > 0 && slotShape.roundedDifferentialOffset >= 0) {
     const minorDurationAdjusted = majorTimeRange.duration - slotShape.roundedDifferentialOffset
@@ -195,7 +159,7 @@ export function transformToMajorPerspective(
   }
   
   const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
-  if (minorTimeRange) {
+  if (minorTimeRange && minorEventName) {
     adjustedEventTimeRanges[minorEventName] = minorTimeRange
   }
   
@@ -209,44 +173,31 @@ export function transformToMajorPerspective(
 
 /**
  * Transform AppointmentSlot to minor perspective
- * LEARNING: Creates AppointmentSlot with time slots calculated from minor start time
- * WHY: Provides minor perspective time slots for UI display
- * PATTERN: Use minor start time as base, calculate major times backwards from that base
  * 
  * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
  * @param minorStartTime - Minor start time as ISO date string
- * @param globalData - Optional GlobalData for attendee-based logic
- * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
  * @returns AppointmentSlot with TimeSlot objects calculated from minor start time
  */
 export function transformToMinorPerspective(
   appointmentSlot: AppointmentSlot,
   minorStartTime: string,
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
   const slotShape = appointmentSlot.shape.slotShape
   const { majorEventFinal, minorEventFinal } = resolveMajorMinorEventFinals(
     slotShape,
-    globalData,
-    availabilitySettings,
     'transformToMinorPerspective'
   )
 
   const majorTotal = durationMinutes(majorEventFinal, 'transformToMinorPerspective.major')
 
-  // PATTERN: Subtract majorTotal from minor start time
   const majorStartTime = calculateMajorStartTime(minorStartTime, majorTotal)
 
-  // WHY: Transform slot to use major start time as base for major work
-  // PATTERN: Use createTimeRangesFromSlotShape utility with major start time
   const timeRanges = createTimeRangesFromSlotShape(slotShape, majorStartTime)
 
-  // PATTERN: Use event shape names to look up time ranges (name-based keys when not configured)
-  const majorEventName = eventShapeName(majorEventFinal, 'Major', 'transformToMinorPerspective')
-  const minorEventName = eventShapeName(minorEventFinal, 'Minor', 'transformToMinorPerspective')
+  const majorEventName = majorEventFinal?.eventShape?.name
+  const minorEventName = minorEventFinal?.eventShape?.name
 
-  const majorTimeRange = timeRanges.eventTimeRanges?.[majorEventName]
+  const majorTimeRange = majorEventName ? timeRanges.eventTimeRanges?.[majorEventName] : null
   const minorDuration = durationMinutes(minorEventFinal, 'transformToMinorPerspective.minor')
   
   let minorTimeRange = null
@@ -258,11 +209,10 @@ export function transformToMinorPerspective(
   }
   
   const adjustedEventTimeRanges = { ...timeRanges.eventTimeRanges }
-  if (minorTimeRange) {
+  if (minorTimeRange && minorEventName) {
     adjustedEventTimeRanges[minorEventName] = minorTimeRange
   }
   
-  // DUAL-TRACK: Use roundedDuration for display
   const totalTimeRange = slotShape.roundedDuration > 0
     ? createTimeRange(minorStartTime, slotShape.roundedDuration)
     : null

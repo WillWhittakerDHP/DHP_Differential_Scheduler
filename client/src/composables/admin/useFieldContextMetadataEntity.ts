@@ -17,7 +17,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { FieldContextType } from '@/composables/fieldContext/types'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 
 export function useFieldContextMetadataEntity<
   GlobalEntityTypeKey extends GlobalEntityKey,

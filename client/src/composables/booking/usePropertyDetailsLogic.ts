@@ -8,7 +8,7 @@
 
 import { computed, ref, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
+import type { ComponentItem as SelectionCardComponentItem, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntity } from '@/composables/useComponentEntity'
@@ -31,13 +31,9 @@ function addressField(value: string | undefined | null, fieldName: string): stri
 }
 
 // FIX: Use shared PropertyDetailsData type from propertyForm.ts
-
-export interface ComponentItem {
-  id: string
-  name: string
+// TYPE_SIMILARITY: Extend canonical ComponentItem from selectionCardTypes instead of duplicating shape
+export interface ComponentItem extends SelectionCardComponentItem {
   description?: string
-  icon?: string
-  active: boolean
 }
 
 /** Extends SelectionCardItem so items are assignable to SelectionCardGroup without cast */

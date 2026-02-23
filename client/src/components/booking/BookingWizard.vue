@@ -9,7 +9,7 @@
  */
 
 import { computed, provide, ref } from 'vue'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
 import { useUser } from '@/composables/useUser'

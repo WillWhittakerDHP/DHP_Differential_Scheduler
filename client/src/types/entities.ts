@@ -74,6 +74,7 @@ export interface PartShapeEntity extends BaseGlobalEntity<"partShape"> {
 export interface EventShapeEntity extends BaseGlobalEntity<"eventShape"> {
   isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
   ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail gracefully)
+  differentialRole: 'major' | 'minor' | 'moveable' | null;
   attendees?: GlobalEntityId[]; // Array of UserTypeBlock BlockInstance IDs (attendees for this event)
 }
 

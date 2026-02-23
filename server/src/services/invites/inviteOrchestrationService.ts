@@ -92,7 +92,8 @@ export async function createInvitesForAppointment(
   logger.info(`Found ${eventInstances.length} EventInstance(s) for appointment`)
 
   const serviceName = await resolveServiceName(selectedBlockInstanceIds)
-  const context = buildInviteContext(appointment as InviteAppointmentData, serviceName)
+  const inviteData = toInviteAppointmentData(appointment)
+  const context = buildInviteContext(inviteData, serviceName)
 
   const events: SingleEventResult[] = []
   let totalAttendeesUpdated = 0
@@ -126,7 +127,7 @@ export async function createInvitesForAppointment(
 
 // ─── Data fetching ──────────────────────────────────────────────────────────
 
-async function fetchAppointmentWithRelations(appointmentId: string): Promise<AppointmentType | null> {
+async function fetchAppointmentWithRelations(appointmentId: string): Promise<AppointmentWithRelations | null> {
   return Appointment.findByPk(appointmentId, {
     include: [
       {
@@ -144,6 +145,31 @@ async function fetchAppointmentWithRelations(appointmentId: string): Promise<App
       },
     ],
   })
+}
+
+/**
+ * Normalize appointment from DB shape to InviteAppointmentData.
+ * Model selectedTimeSlots is Array<Record<string, unknown>>; builder expects { startTime, endTime }[].
+ */
+function toInviteAppointmentData(appointment: AppointmentWithRelations): InviteAppointmentData {
+  const rawSlots = appointment.selectedTimeSlots
+  const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots
+    ? rawSlots
+        .map((s: Record<string, unknown>) => {
+          const start = s.startTime
+          const end = s.endTime
+          if (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }
+          return null
+        })
+        .filter((slot): slot is { startTime: string; endTime: string } => slot !== null)
+    : null
+  return {
+    id: appointment.id,
+    selectedDate: appointment.selectedDate,
+    selectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,
+    status: appointment.status,
+    propertyVersion: appointment.propertyVersion ?? undefined,
+  }
 }
 
 /**
@@ -223,7 +249,7 @@ async function resolveServiceName(blockInstanceIds: string[]): Promise<string | 
  */
 async function createEventForInstance(
   eventInstance: EventInstanceType,
-  appointment: AppointmentType,
+  appointment: AppointmentWithRelations,
   context: Record<string, string>,
   calendarId: string
 ): Promise<SingleEventResult> {
@@ -323,7 +349,7 @@ async function createEventForInstance(
  */
 async function buildAttendeesForEventShape(
   eventShapeId: string,
-  appointment: AppointmentType
+  appointment: AppointmentWithRelations
 ): Promise<EventAttendee[]> {
   // Which user types should attend this event shape?
   const shapeAttendees = await EventShapeAttendee.findAll({
@@ -340,7 +366,7 @@ async function buildAttendeesForEventShape(
     return buildAllAttendees(appointment)
   }
 
-  const appointmentAttendees = (appointment as unknown as { attendees?: AppointmentAttendeeWithUser[] }).attendees ?? []
+  const appointmentAttendees = appointment.attendees ?? []
 
   return appointmentAttendees
     .filter(att =>
@@ -358,8 +384,8 @@ async function buildAttendeesForEventShape(
 /**
  * Fallback: invite all attendees who should receive invitations.
  */
-function buildAllAttendees(appointment: AppointmentType): EventAttendee[] {
-  const attendees = (appointment as unknown as { attendees?: AppointmentAttendeeWithUser[] }).attendees ?? []
+function buildAllAttendees(appointment: AppointmentWithRelations): EventAttendee[] {
+  const attendees = appointment.attendees ?? []
 
   return attendees
     .filter(att => att.shouldReceiveInvitation && att.user?.email)
@@ -383,6 +409,12 @@ interface AppointmentAttendeeWithUser {
   }
 }
 
+/** Appointment as returned by fetchAppointmentWithRelations with eager-loaded associations. */
+interface AppointmentWithRelations extends AppointmentType {
+  attendees?: AppointmentAttendeeWithUser[]
+  propertyVersion?: InviteAppointmentData['propertyVersion']
+}
+
 // ─── AppointmentAttendee record updates ─────────────────────────────────────
 
 /**
@@ -390,7 +422,7 @@ interface AppointmentAttendeeWithUser {
  * that were invited to this particular event.
  */
 async function updateAttendeeRecords(
-  appointment: AppointmentType,
+  appointment: AppointmentWithRelations,
   eventShapeId: string,
   googleEventId: string
 ): Promise<number> {
@@ -403,7 +435,7 @@ async function updateAttendeeRecords(
     shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
   )
 
-  const appointmentAttendees = (appointment as unknown as { attendees?: AppointmentAttendeeWithUser[] }).attendees ?? []
+  const appointmentAttendees = appointment.attendees ?? []
 
   // Find the attendees that match this event shape
   const matchingAttendees = allowedUserTypes.size > 0
@@ -437,7 +469,7 @@ async function updateAttendeeRecords(
  * so the failure is trackable in the database rather than only in logs.
  */
 async function markAttendeesAsFailed(
-  appointment: AppointmentType,
+  appointment: AppointmentWithRelations,
   eventShapeId: string,
   errorMessage: string
 ): Promise<number> {
@@ -450,7 +482,7 @@ async function markAttendeesAsFailed(
     shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
   )
 
-  const appointmentAttendees = (appointment as unknown as { attendees?: AppointmentAttendeeWithUser[] }).attendees ?? []
+  const appointmentAttendees = appointment.attendees ?? []
 
   const matchingAttendees = allowedUserTypes.size > 0
     ? appointmentAttendees.filter(
@@ -502,12 +534,12 @@ function extractEndTime(appointment: AppointmentType): string {
 
 // ─── Default content (used when templates are empty) ────────────────────────
 
-function buildDefaultSummary(appointment: AppointmentType): string {
-  const address = (appointment as unknown as InviteAppointmentData).propertyVersion?.address
+function buildDefaultSummary(appointment: AppointmentWithRelations): string {
+  const address = appointment.propertyVersion?.address
   return address ? `Inspection: ${address.streetAddress}` : 'Inspection Appointment'
 }
 
-function buildDefaultDescription(appointment: AppointmentType): string {
+function buildDefaultDescription(appointment: AppointmentWithRelations): string {
   return [
     'Home Inspection Appointment',
     '',
@@ -517,8 +549,8 @@ function buildDefaultDescription(appointment: AppointmentType): string {
   ].join('\n')
 }
 
-function buildDefaultLocation(appointment: AppointmentType): string {
-  const address = (appointment as unknown as InviteAppointmentData).propertyVersion?.address
+function buildDefaultLocation(appointment: AppointmentWithRelations): string {
+  const address = appointment.propertyVersion?.address
   if (!address) return ''
 
   return [address.streetAddress, address.city, address.state, address.zipCode]
@@ -534,13 +566,9 @@ function buildDefaultLocation(appointment: AppointmentType): string {
  * appointmentCalendarService behavior.
  */
 async function createFallbackEvent(
-  appointment: AppointmentType,
+  appointment: AppointmentWithRelations,
   calendarId: string
 ): Promise<InviteOrchestrationResult> {
-  const appointmentData = appointment as unknown as InviteAppointmentData & {
-    attendees?: AppointmentAttendeeWithUser[]
-  }
-
   try {
     const summary = buildDefaultSummary(appointment)
     const description = buildDefaultDescription(appointment)
@@ -561,7 +589,7 @@ async function createFallbackEvent(
     const createdEvent = await createEvent(eventParams)
 
     // Update all attendees who should receive invitations
-    const attendeesToUpdate = appointmentData.attendees?.filter(a => a.shouldReceiveInvitation) ?? []
+    const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) ?? []
     let attendeesUpdated = 0
 
     for (const attendee of attendeesToUpdate) {

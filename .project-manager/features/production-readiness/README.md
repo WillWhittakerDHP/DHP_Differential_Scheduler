@@ -23,7 +23,7 @@ Monitoring, logging, error tracking, database backups, uptime monitoring, produc
 
 ## Related Documents
 
-- **Feature Plan (full spec):** `feature-plan.md`
+- **Feature Guide (full spec):** `feature-production-readiness-guide.md`
 - **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 5
 
 ---

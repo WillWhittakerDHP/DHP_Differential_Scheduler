@@ -12,7 +12,7 @@ import ShapesTab from './tabs/ShapesTab.vue'
 import DataManagementTab from './tabs/DataManagementTab.vue'
 import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
 import PropertyMappingsTab from './tabs/PropertyMappingsTab.vue'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 
 /**
  * LEARNING: Initialize admin data context when admin panel mounts

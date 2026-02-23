@@ -70,7 +70,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { generateIncrementedName } from '@/utils/blockInstanceUtils'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 
 interface Props {
   modelValue?: boolean

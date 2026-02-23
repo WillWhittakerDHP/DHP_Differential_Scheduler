@@ -163,6 +163,6 @@ After completing all sessions in a phase:
 
 - Phase Log: `phase-1.5-log.md`
 - Phase Handoff: `phase-1.5-handoff.md`
-- Feature Plan: `../feature-plan.md`
+- Feature Guide: `../feature-data-flow-alignment-guide.md`
 - Phase 1.4 Handoff: `phase-1.4-handoff.md`
 - Cache Architecture: `../docs/CACHE_ARCHITECTURE.md`

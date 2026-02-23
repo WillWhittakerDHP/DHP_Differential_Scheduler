@@ -18,15 +18,9 @@ import type {
 } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { applyShapeToTime, derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { useGlobal } from '@/composables/useGlobal'
 import { createLogger } from '@/utils/logger'
-import { asEmptyArray } from '@/utils/safeDefaults'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
-import {
-  getMajorEventShape,
-  getMinorEventShape,
-} from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 
@@ -67,8 +61,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     isDifferentialService,
   } = params
 
-  const { settings } = useAvailabilitySettings()
-  const { getGlobalData } = useGlobal()
   const { appointmentShape } = useAppointmentShape({ blockInstances })
 
   const appointmentSlots = computed(() => {
@@ -78,8 +70,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     const serverSlots = serverSlotsForDay.value
     if (serverSlots.length === 0) return []
 
-    const globalData = getGlobalData()
-
     try {
       return serverSlots.map((serverSlot, index) => {
         const slot = applyShapeToTime(
@@ -88,8 +78,6 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
           index,
           undefined,
           true,
-          globalData ?? undefined,
-          settings.value ?? null
         )
         return {
           ...slot,
@@ -113,54 +101,35 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
   const getDisplayTime = (buttonIndex: number): TimeRange | null => {
     const slot = appointmentSlots.value.find((s) => s.buttonIndex === buttonIndex)
     if (!slot) return null
-    return derivePerspective(
-      slot,
-      perspective.value,
-      getGlobalData() ?? undefined,
-      settings.value ?? null
-    )
+    return derivePerspective(slot, perspective.value)
   }
 
   const graphBars = computed(() => {
     const slot = selectedSlot.value
     if (!slot) return { major: null, minor: null }
 
-    const globalData = getGlobalData()
-    const availabilitySettingsValue = settings.value
-    if (!globalData || !availabilitySettingsValue?.differentialPerspectives) {
-      return { major: null, minor: null }
-    }
-
-    const majorAttendeeIds = asEmptyArray(availabilitySettingsValue.differentialPerspectives.majorAttendees)
-    const minorAttendeeIds = asEmptyArray(availabilitySettingsValue.differentialPerspectives.minorAttendees)
     const shape = appointmentShape.value
-    if (!shape?.slotShape.eventFinals) return { major: null, minor: null }
+    if (!shape?.slotShape.eventFinals?.length) return { major: null, minor: null }
 
     const eventShapeEntities = shape.slotShape.eventFinals.map(
       (ef) => ef.eventShape
     ) as EventShapeEntity[]
-    const majorEventShape =
-      majorAttendeeIds.length > 0
-        ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-        : null
-    const eventShapesExcludingMajor = majorEventShape
-      ? eventShapeEntities.filter((es) => es.id !== majorEventShape.id)
-      : eventShapeEntities
-    const minorEventShape =
-      minorAttendeeIds.length > 0 && isDifferentialService.value
-        ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-        : null
 
-    if (!majorEventShape) return { major: null, minor: null }
+    const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+    if (!majorEventShape) {
+      logger.error('graphBars: no event shape with differentialRole=major')
+      return { major: null, minor: null }
+    }
 
-    const majorEventName = majorEventShape.name
-    const minorEventName = minorEventShape?.name ?? null
+    const minorEventShape = isDifferentialService.value
+      ? getEventShapeByRole(eventShapeEntities, 'minor')
+      : null
 
     return {
-      major: slot.eventTimeRanges?.[majorEventName] ?? null,
+      major: slot.eventTimeRanges?.[majorEventShape.name] ?? null,
       minor:
-        isDifferentialService.value && minorEventName
-          ? (slot.eventTimeRanges?.[minorEventName] ?? null)
+        isDifferentialService.value && minorEventShape
+          ? (slot.eventTimeRanges?.[minorEventShape.name] ?? null)
           : null,
     }
   })

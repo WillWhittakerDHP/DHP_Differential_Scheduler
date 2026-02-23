@@ -8,7 +8,7 @@
 ## 📋 Quick Reference
 
 ### Key Documents
-- **[Feature Plan](./feature-plan.md)** - Complete feature specification (5 phases, ~5 weeks)
+- **[Feature Guide](./feature-gpt-admin-automation-guide.md)** - Complete feature specification (5 phases, ~5 weeks)
 - **[Phase 1 Tasks](./phase-1-tasks.md)** - Detailed Phase 1 implementation guide
 - **[Phase 1 Todos](./todos/phase-1-todos.json)** - Task tracking JSON
 - **[README](./README.md)** - Quick start and overview
@@ -236,7 +236,7 @@ curl -X POST http://localhost:3000/api/internal/ai/execute \
 - `client/src/views/admin/AdminPanel.vue` - Admin panel integration point
 
 ### New Files to Create
-See [feature-plan.md](./feature-plan.md) for complete file list.
+See [feature guide](./feature-gpt-admin-automation-guide.md) for complete file list.
 
 ---
 

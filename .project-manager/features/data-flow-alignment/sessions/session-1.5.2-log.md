@@ -201,7 +201,7 @@
 
 - **Phase 1.5 Handoff:** `../phases/phase-1.5-handoff.md`
 - **Session 1.5.1 Log:** `session-1.5.1-log.md`
-- **Feature Plan:** `../feature-plan.md`
+- **Feature Guide:** `../feature-data-flow-alignment-guide.md`
 
 ---
 

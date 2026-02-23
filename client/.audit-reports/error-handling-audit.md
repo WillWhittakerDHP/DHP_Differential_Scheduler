@@ -12,7 +12,7 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 - Files with findings: **0**
 - Requiring review: **0**
-- Allowed (with justification): 45
+- Allowed (with justification): 0
 
 - P0 (silent catches): **0**
 - P1 (console-in-catch, alert-in-catch, type suppressions): **0**

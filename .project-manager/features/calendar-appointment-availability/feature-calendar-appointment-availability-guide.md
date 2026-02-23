@@ -10,11 +10,11 @@
 
 **Feature Name:** calendar-appointment-availability
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
-**Status:** Partial (Phases 3.1–3.4 Complete, Phase 3.5 Remaining)
+**Status:** Reopened
 
 **Duration:** ~12 months (built alongside Features 2, 4, 5)
 **Started:** 2025-02-01
-**Completed:** —
+**Completed:** 2026-02-21
 
 ---
 
@@ -95,14 +95,26 @@ The availability system follows a pipeline pattern: the server fetches calendar 
 - Complete end-to-end flow from property selection to slot selection
 - Validation enforced before proceeding
 
-- [ ] ### Phase 3.5: Calendar Event Creation/Editing UI
-**Description:** Add UI for creating and editing calendar events
-**Status:** Not Started
-**Dependencies:** Feature 7 (Authentication)
+- [x] ### Phase 3.5: Calendar Invite Configuration & Wiring
+**Description:** EventInstance calendar properties, template variable resolution, and invite pipeline wiring
+**Status:** ✅ Complete
+**Completed:** 2026-02-21
+**Key Files:** `server/src/services/invites/`, `server/src/db/models/booking/event_instance.ts`, `client/src/views/admin/tabs/InstancesTab.vue`
 **Success Criteria:**
-- Users can create calendar events from the UI
-- Users can edit existing calendar events
-- Events sync with Google Calendar
+- EventInstance model extended with 10 Google Calendar property columns
+- Admin UI for configuring all calendar properties per EventInstance
+- Template variable resolution for summary/description/location fields
+- Invite orchestration pipeline wired to appointment creation and status transitions
+
+- [ ] ### Phase 3.6: differentialRole with Moveable Modal
+**Description:** Add `differentialRole` enum field to EventShape for direct role declaration (major/minor/moveable), update 9 consumer files to use role-based resolution, and re-enable the moveable parts scheduling modal
+**Status:** In Progress
+**Key Files:** `server/src/db/models/booking/event_shape.ts`, `client/src/utils/eventAttendeeUtils.ts`, `client/src/composables/booking/useMoveablePartsScheduling.ts`, `client/src/composables/booking/useAvailabilityStepHandlers.ts`
+**Success Criteria:**
+- EventShape has `differentialRole` column with migration and seed data
+- All consumer files use `differentialRole`-first resolution with attendee fallback
+- Moveable parts modal triggers when moveable parts detected in slot selection
+- TypeScript compiles, linting passes, app starts
 
 ---
 
@@ -130,7 +142,8 @@ The availability system follows a pipeline pattern: the server fetches calendar 
 - [x] Phase 3.2 complete — Client-side calendar UI
 - [x] Phase 3.3 complete — Differential scheduling
 - [x] Phase 3.4 complete — Wizard integration
-- [ ] Phase 3.5 complete — Calendar event creation/editing UI
+- [x] Phase 3.5 complete — Calendar invite configuration & wiring
+- [ ] Phase 3.6 complete — differentialRole field and moveable modal re-enabled
 - [x] Architecture decisions documented
 - [x] Code quality checks passing
 - [ ] All tests passing (deferred — Feature 9)
@@ -142,11 +155,10 @@ The availability system follows a pipeline pattern: the server fetches calendar 
 
 **Branch Name:** `feature/calendar-appointment-availability`
 **Branch From:** `develop`
-**Built On:** `feature/google-apis-integration` (alongside Features 2, 4, 5)
 
 **Branch Management:**
 - Created: 2026-02-21 (formalized with feature-start)
-- Original work done on: `feature/google-apis-integration`
+- Historical note: Phases 3.1–3.5 were originally built on `feature/google-apis-integration` alongside Features 2, 4, 5
 
 ---
 
@@ -154,7 +166,7 @@ The availability system follows a pipeline pattern: the server fetches calendar 
 
 **CRITICAL: Prompt before ending feature**
 
-After completing Phase 3.5, **prompt the user** before running `/feature-end`:
+After completing Phase 3.6, **prompt the user** before running `/feature-end`:
 
 ```
 ## Ready to End Feature?
@@ -185,7 +197,7 @@ All phases complete. Ready to merge feature branch?
 
 ## Related Documents
 
-- Feature Plan: `.project-manager/features/calendar-appointment-availability/feature-plan.md`
+- Feature Guide (this document): `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
 - Feature Log: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-log.md`
 - Feature Handoff: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-handoff.md`
 - PROJECT_PLAN.md: Feature 3 section

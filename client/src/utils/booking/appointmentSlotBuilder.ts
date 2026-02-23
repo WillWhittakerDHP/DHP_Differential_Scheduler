@@ -17,9 +17,7 @@ const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import {
   calculateSlotShape
 } from './partFinalizer'
@@ -132,7 +130,6 @@ export function buildAppointmentShape(
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
-  globalData?: GlobalData
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
   const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
@@ -160,8 +157,7 @@ export function buildAppointmentShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
     resolvedEventShapes,
-    globalData,
-    settings ?? null
+    settings ?? null,
   )
 
   return {
@@ -191,8 +187,6 @@ export function applyShapeToTime(
   buttonIndex: number,
   fallbackDuration?: number,
   isAvailable: boolean = true,
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
   const effectiveSlotShape = shape.slotShape.roundedDuration > 0
     ? shape.slotShape
@@ -203,35 +197,14 @@ export function applyShapeToTime(
   
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
-  const differentialPerspectives = globalData && availabilitySettings?.differentialPerspectives
-    ? availabilitySettings.differentialPerspectives
-    : null
-  let majorAttendeeIds: GlobalEntityId[]
-  let minorAttendeeIds: GlobalEntityId[]
-  if (differentialPerspectives) {
-    const rawMajor = differentialPerspectives.majorAttendees
-    const rawMinor = differentialPerspectives.minorAttendees
-    if (rawMajor === undefined || rawMajor === null) {
-      logger.debug('applyShapeToTime: majorAttendees missing, using []')
-    }
-    if (rawMinor === undefined || rawMinor === null) {
-      logger.debug('applyShapeToTime: minorAttendees missing, using []')
-    }
-    majorAttendeeIds = rawMajor !== undefined && rawMajor !== null ? rawMajor : []
-    minorAttendeeIds = rawMinor !== undefined && rawMinor !== null ? rawMinor : []
-  } else {
-    majorAttendeeIds = []
-    minorAttendeeIds = []
-  }
-  const resolved =
-    differentialPerspectives && effectiveSlotShape.eventFinals.length > 0
-      ? resolveEventShapes(majorAttendeeIds, minorAttendeeIds, effectiveSlotShape.eventFinals)
-      : {
-          majorEventShape: null,
-          minorEventShape: null,
-          majorEventName: null,
-          minorEventName: null
-        }
+  const resolved = effectiveSlotShape.eventFinals.length > 0
+    ? resolveEventShapes(effectiveSlotShape.eventFinals)
+    : {
+        majorEventShape: null,
+        minorEventShape: null,
+        majorEventName: null,
+        minorEventName: null
+      }
 
   const majorTimeRange =
     resolved.majorEventName != null

@@ -19,7 +19,7 @@ import type {
   SelectionCardItem, 
   SelectionCardConfig
 } from './types/selectionCardTypes'
-import { useSelectionCardGroup } from '@/composables/useSelectionCard'
+import { useSelectionCardGroup } from '@/composables/booking/useSelectionCard'
 import { useSelectionCardGroupConfig } from '@/composables/booking/useSelectionCardGroupConfig'
 import { useSelectionCardGroupState } from '@/composables/booking/useSelectionCardGroupState'
 import { useWizardNumberUpdate } from '@/composables/booking/useWizardNumberUpdate'

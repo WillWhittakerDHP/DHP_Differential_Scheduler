@@ -8,15 +8,13 @@
 
 import { computed, type Ref, type ComputedRef } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { EventFinal, TimeSlot, AppointmentShape } from '@/types/appointment'
+import type { TimeSlot, AppointmentShape } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useLocalTime } from '@/composables/useLocalTime'
 import { toRFC3339DateTime } from '@/types/datetime'
-import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { useGlobal } from '@/composables/useGlobal'
-import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 
 const logger = createLogger('useTimeSlotCalculations')
@@ -70,9 +68,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   const { formatDuration } = useTimeFormatting()
   const { formatTimeRangeForDisplay } = useLocalTime()
   
-  // PATTERN: Use composable to access reactive settings
   const { settings: availabilitySettings } = useAvailabilitySettings()
-  const { getGlobalData } = useGlobal()
   
   const majorLabel = computed(() => {
     const label = availabilitySettings.value?.differentialPerspectives?.majorLabel
@@ -99,39 +95,18 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    */
   const majorDuration = computed(() => {
     const shape = appointmentShape.value
-    if (!shape) return 0
+    if (!shape || shape.slotShape.eventFinals.length === 0) return 0
     
-    const globalData = getGlobalData()
-    const settings = availabilitySettings.value
-    
-    // PATTERN: Use attendee-based logic when available
-    let majorEventFinal: EventFinal | undefined
-    if (globalData && settings?.differentialPerspectives && shape.slotShape.eventFinals.length > 0) {
-      let majorAttendeeIds = settings.differentialPerspectives.majorAttendees
-      if (majorAttendeeIds === undefined || majorAttendeeIds === null) {
-        logger.debug('Time slot: majorAttendees missing, using []')
-        majorAttendeeIds = []
-      }
-      if (majorAttendeeIds.length > 0) {
-        const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-        const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-        if (majorEventShape) {
-          majorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === majorEventShape.id)
-        }
-      }
-    }
-    
-    // PATTERN: Fall back to name-based lookup if attendee-based logic didn't find event
-    if (!majorEventFinal) {
-      majorEventFinal = findEventFinalByName(shape.slotShape, 'Major')
-    }
-    
-    if (majorEventFinal === undefined) {
-      logger.debug('Time slot: no major event final found, duration 0')
+    const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    const majorShape = getEventShapeByRole(eventShapeEntities, 'major')
+    if (!majorShape) {
+      logger.error('majorDuration: no event shape with differentialRole=major', {
+        availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+      })
       return 0
     }
-    const duration = majorEventFinal.roundedDuration
-    return duration !== undefined && duration !== null ? duration : 0
+    const majorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === majorShape.id)
+    return majorEventFinal?.roundedDuration ?? 0
   })
 
   /**
@@ -142,53 +117,18 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
    */
   const minorDuration = computed(() => {
     const shape = appointmentShape.value
-    if (!shape) return 0
+    if (!shape || shape.slotShape.eventFinals.length === 0) return 0
     
-    const globalData = getGlobalData()
-    const settings = availabilitySettings.value
-    
-    // PATTERN: Use attendee-based logic when available
-    let minorEventFinal: EventFinal | undefined
-    if (globalData && settings?.differentialPerspectives && shape.slotShape.eventFinals.length > 0) {
-      let majorAttendeeIds = settings.differentialPerspectives.majorAttendees
-      if (majorAttendeeIds === undefined || majorAttendeeIds === null) {
-        logger.debug('Time slot: majorAttendees missing (minor calc), using []')
-        majorAttendeeIds = []
-      }
-      let minorAttendeeIds = settings.differentialPerspectives.minorAttendees
-      if (minorAttendeeIds === undefined || minorAttendeeIds === null) {
-        logger.debug('Time slot: minorAttendees missing, using []')
-        minorAttendeeIds = []
-      }
-
-      // PATTERN: Exclude major event when finding minor event
-      const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-      const majorEventShape = majorAttendeeIds.length > 0
-        ? getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-        : null
-      const eventShapesExcludingMajor = majorEventShape
-        ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-        : eventShapeEntities
-      
-      if (minorAttendeeIds.length > 0) {
-        const minorEventShape = getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-        if (minorEventShape) {
-          minorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === minorEventShape.id)
-        }
-      }
-    }
-    
-    // PATTERN: Fall back to name-based lookup if attendee-based logic didn't find event
-    if (!minorEventFinal) {
-      minorEventFinal = findEventFinalByName(shape.slotShape, 'Minor')
-    }
-    
-    if (minorEventFinal === undefined) {
-      logger.debug('Time slot: no minor event final found, duration 0')
+    const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    const minorShape = getEventShapeByRole(eventShapeEntities, 'minor')
+    if (!minorShape) {
+      logger.error('minorDuration: no event shape with differentialRole=minor', {
+        availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+      })
       return 0
     }
-    const duration = minorEventFinal.roundedDuration
-    return duration !== undefined && duration !== null ? duration : 0
+    const minorEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === minorShape.id)
+    return minorEventFinal?.roundedDuration ?? 0
   })
 
   /**

@@ -19,8 +19,8 @@ Use this checklist to verify the command executes in the correct order:
 - [ ] Directory `project-manager/features/[name]/` exists
 - [ ] Directory is empty (or contains only new files)
 
-### ✅ Step 3: Feature Plan Template Creation
-- [ ] File `project-manager/features/[name]/feature-plan.md` exists
+### ✅ Step 3: Feature Guide Template Creation
+- [ ] File `project-manager/features/[name]/feature-{name}-guide.md` exists
 - [ ] File has template structure (may be minimal initially)
 
 ### ✅ Step 4: README Template Creation
@@ -28,8 +28,8 @@ Use this checklist to verify the command executes in the correct order:
 - [ ] File has template structure (may be minimal initially)
 
 ### ✅ Step 5: Feature Plan Execution (CRITICAL)
-- [ ] `/feature-plan` command is called (automatically or explicitly)
-- [ ] `feature-plan.md` is populated with actual content:
+- [ ] `/plan-feature` command is called (automatically or explicitly)
+- [ ] Feature guide is populated with actual content:
   - [ ] Overview and objectives section has content
   - [ ] Phase breakdown section lists phases (high-level)
   - [ ] Success criteria section has content
@@ -48,7 +48,7 @@ Use this checklist to verify the command executes in the correct order:
 
 ### ✅ Step 7: Validation
 - [ ] Feature docs validated as complete (not just templates)
-- [ ] All required sections present in feature-plan.md
+- [ ] All required sections present in feature guide
 - [ ] All required sections present in README.md
 - [ ] Documents have substantial content (not just placeholders)
 
@@ -69,12 +69,12 @@ Use this checklist to verify the command executes in the correct order:
 ### Issue: Phase 1.1 Starts Immediately
 **Symptom:** After `feature-start`, phase 1.1 work begins automatically.
 
-**Fix:** Ensure step 5 (feature-plan) executes and step 9 (phase work) does NOT execute automatically.
+**Fix:** Ensure step 5 (plan-feature) executes and step 9 (phase work) does NOT execute automatically.
 
 ### Issue: Documents Are Empty Templates
-**Symptom:** `feature-plan.md` and `README.md` exist but contain only template/placeholder content.
+**Symptom:** Feature guide and `README.md` exist but contain only template/placeholder content.
 
-**Fix:** Ensure step 5 (feature-plan) is called to populate documents with actual content.
+**Fix:** Ensure step 5 (plan-feature) is called to populate documents with actual content.
 
 ### Issue: Feature-Plan Step Is Skipped
 **Symptom:** Documents are created but never populated, phase work starts anyway.
@@ -96,13 +96,13 @@ After running `/feature-start [name]`, verify:
 2. **File Existence:**
    ```bash
    ls project-manager/features/[name]/
-   # Should show: feature-plan.md, README.md
+   # Should show: feature-{name}-guide.md, README.md
    ```
 
 3. **File Content:**
    ```bash
-   # Check feature-plan.md has content (not just template)
-   grep -c "Phase" project-manager/features/[name]/feature-plan.md
+   # Check feature guide has content (not just template)
+   grep -c "Phase" project-manager/features/[name]/feature-{name}-guide.md
    # Should return: > 0
    
    # Check README.md has content (not just template)

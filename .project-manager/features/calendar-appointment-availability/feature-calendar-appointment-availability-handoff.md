@@ -4,24 +4,26 @@
 
 **Tier:** Feature (Tier 0 - Highest Level)
 
-**Last Updated:** 2026-02-21
-**Feature Status:** Complete (Phases 3.1–3.5)
-**Current Session:** 3.5.4 Complete — Phase 3.5 Complete — Feature Complete
+**Last Updated:** 2026-02-23
+**Feature Status:** In progress (Phase 3.6)
+**Current Session:** 3.6.2 Complete
 
 ---
 
 ## Current Status
 
-**Feature calendar-appointment-availability:** Complete
-**Last Completed Session:** Session 3.5.4 (Polish, Edge Cases & Validation)
-**Phase 3.5:** Complete (all 4 sessions)
+**Feature calendar-appointment-availability:** In progress
+**Last Completed Session:** Session 3.6.2 (differentialRole field and moveable modal re-enablement)
+**Phase 3.6:** Complete
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-Phase 3.5 is complete. All EventInstance calendar properties are configurable from the admin UI, templates support `{variable}` substitution, and the full invite pipeline is wired from appointment creation/status change through to Google Calendar event creation with per-shape attendee determination.
+Session 3.6.2 complete: Verified all differentialRole work is implemented — migration applied, model updated, client types/configs done, all 9 consumer files use `getEventShapeByRole()` with differentialRole-first resolution, moveable modal trigger re-enabled. Fixed leftover broken `useAdmin` imports from session 3.6.1 composable moves. Phase 3.6 (differentialRole with moveable) is now complete.
+
+**Next Action:** Run `/phase-end 3.6` to finalize phase, or proceed to next phase if applicable.
 
 **What was built across Phase 3.5:**
 - **Session 3.5.1:** 10 new Google Calendar property columns on `event_instances`, Sequelize model + client types updated, `eventCreationService` passes all properties to Google API
@@ -41,7 +43,7 @@ Phase 3.5 is complete. All EventInstance calendar properties are configurable fr
 ## Feature Summary
 
 **Phases Completed:** 3.1, 3.2, 3.3, 3.4, 3.5
-**Remaining:** None — Feature complete
+**Remaining:** Phase 3.6 (differentialRole with Moveable Modal)
 
 **Key Accomplishments:**
 - Server-side slot computation with constraint-based filtering (range, overlap, capacity)
@@ -74,7 +76,7 @@ Pipeline pattern: Server fetches calendar events + drive times → extracts cons
 **Branch:** `feature/calendar-appointment-availability`
 **Status:** Active
 **Created From:** `develop`
-**Original Work On:** `feature/google-apis-integration`
+**Note:** Phases 3.1–3.5 were originally built on `feature/google-apis-integration`
 
 ---
 
@@ -88,5 +90,5 @@ Phase 3.5 scope was refined: not building a calendar event editor UI (that's don
 
 - Feature Guide: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
 - Feature Log: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-log.md`
-- Feature Plan: `.project-manager/features/calendar-appointment-availability/feature-plan.md`
+- Phase 3.6 Guide: `.project-manager/features/calendar-appointment-availability/phases/phase-3.6-guide.md`
 - PROJECT_PLAN.md: Feature 3 section

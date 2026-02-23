@@ -11,7 +11,6 @@ import type { AppointmentSlots, TimeSlot, TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { transformToMajorPerspective, transformToMinorPerspective } from '@/utils/differentialScheduling'
-import { useGlobal } from '@/composables/useGlobal'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 export interface UseAppointmentTimesParams {
@@ -105,21 +104,12 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     }
 
     // PATTERN: Map over AppointmentSlots, transform each one
-    const globalData = useGlobal().getGlobalData()
-    const { settings: availabilitySettings } = useAvailabilitySettings()
-    
     return slots.map(appointmentSlot => {
-      const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData || undefined, availabilitySettings.value || null)
-      // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
-      return transformed.totalTimeRange || transformed.eventTimeRanges?.['Major'] || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
+      const transformed = transformToMajorPerspective(appointmentSlot, startTime)
+      return transformed.totalTimeRange || null
     }).filter((slot): slot is TimeSlot => slot !== null)
   })
 
-  /**
-   * LEARNING: Transform AppointmentSlots to minor perspective
-   * WHY: Provides minor time slots for UI display
-   * PATTERN: Transform each AppointmentSlot using minor start time
-   */
   const minorTimeSlots = computed(() => {
     const slots = appointmentSlots.value
     const startTime = baseStartTimeRef.value
@@ -129,15 +119,10 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
       return []
     }
 
-    // PATTERN: Use baseStartTime as minor start time
     const minorStartTime = startTime
 
-    // PATTERN: Map over AppointmentSlots, transform each one
-    const globalData = useGlobal().getGlobalData()
-    const { settings: availabilitySettings } = useAvailabilitySettings()
-    
     return slots.map(appointmentSlot => {
-      const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
+      const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime)
       // PATTERN: Use eventTimeRanges keys instead of hardcoded 'Minor'
       // Get first available event time range, or fall back to totalTimeRange
       const eventTimeRanges = transformed.eventTimeRanges !== undefined && transformed.eventTimeRanges !== null ? transformed.eventTimeRanges : {}
@@ -160,12 +145,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     const appointmentSlot = slots.find(slot => slot.orderIndex === orderIndex)
     if (!appointmentSlot) return null
 
-    const globalData = useGlobal().getGlobalData()
-    const { settings: availabilitySettings } = useAvailabilitySettings()
-    const transformed = transformToMajorPerspective(appointmentSlot, startTime, globalData || undefined, availabilitySettings.value || null)
-    // PATTERN: Return TimeRange properties from eventTimeRanges
-    // NOTE: Uses 'Major'/'Minor' as fallback for backward compatibility
-    return transformed.eventTimeRanges?.['Major'] || transformed.totalTimeRange || transformed.eventTimeRanges?.['Minor'] || transformed.eventTimeRanges?.['Moveable'] || null
+    const transformed = transformToMajorPerspective(appointmentSlot, startTime)
+    return transformed.totalTimeRange || null
   }
 
   /**
@@ -184,9 +165,7 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     if (!appointmentSlot) return null
 
     const minorStartTime = startTime
-    const globalData = useGlobal().getGlobalData()
-    const { settings: availabilitySettings } = useAvailabilitySettings()
-    const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime, globalData || undefined, availabilitySettings.value || null)
+    const transformed = transformToMinorPerspective(appointmentSlot, minorStartTime)
     // PATTERN: Return first available event time range from eventTimeRanges, or fall back to totalTimeRange
     const eventTimeRanges = transformed.eventTimeRanges !== undefined && transformed.eventTimeRanges !== null ? transformed.eventTimeRanges : {}
     const firstEventTimeRange = Object.values(eventTimeRanges).find(tr => tr !== null) || null

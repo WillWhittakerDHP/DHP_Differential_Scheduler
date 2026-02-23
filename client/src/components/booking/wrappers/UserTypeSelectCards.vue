@@ -18,7 +18,7 @@
 import { computed } from 'vue'
 import SelectionCardGroup from '../SelectionCardGroup.vue'
 import type { SelectionCardConfig } from '../types/selectionCardTypes'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'

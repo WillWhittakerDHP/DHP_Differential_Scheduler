@@ -292,7 +292,7 @@
 ## Related Documents
 
 - **Phase Guide**: `phase-1.2-guide.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.1 Handoff**: `phase-1.1-handoff.md`
 
 ---

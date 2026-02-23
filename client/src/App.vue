@@ -65,7 +65,7 @@ import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'
 import { hexToRgb } from '@core/utils/colorConverter'
 import type { AppointmentResponse } from '@/types/appointment'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 
 const { global } = useTheme()
 const route = useRoute()

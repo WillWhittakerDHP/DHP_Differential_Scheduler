@@ -36,7 +36,7 @@ This feature addresses remaining data flow issues identified after the Vue migra
 
 ## Related Documents
 
-- **Feature Plan**: `feature-plan.md`
+- **Feature Guide**: `feature-data-flow-alignment-guide.md`
 - **Naming Conventions**: `docs/NAMING_CONVENTIONS.md` ⭐ **NEW**
 - **Phase 1.1 Handoff**: `phases/phase-1.1-handoff.md`
 - **Phase 1.2 Guide**: `phases/phase-1.2-guide.md`

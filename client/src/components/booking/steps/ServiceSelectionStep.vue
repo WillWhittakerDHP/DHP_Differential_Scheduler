@@ -13,7 +13,7 @@
  */
 
 import { computed, inject, type Ref } from 'vue'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'

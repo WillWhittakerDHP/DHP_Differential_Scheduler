@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-02-19T22:25:21.179Z",
+  "generatedAt": "2026-02-23T01:13:48.324Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
-      "totalFindings": 46,
-      "filesWithFindings": 46,
-      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 46"
+      "totalFindings": 20,
+      "filesWithFindings": 20,
+      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 20"
     },
     {
       "auditId": "dep-freshness",
@@ -33,9 +33,9 @@
     },
     {
       "auditId": "type-escape",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Type escape hatches (as any, ts-ignore, etc.): 0"
+      "totalFindings": 49,
+      "filesWithFindings": 28,
+      "detail": "Type escape hatches (as any, ts-ignore, etc.): 49"
     },
     {
       "auditId": "type-import",
@@ -44,19 +44,244 @@
       "detail": "Value-from-type-only: 0, Type-used-as-value: 0"
     }
   ],
-  "hotspots": [],
+  "hotspots": [
+    {
+      "repoPath": "client/src/composables/admin/useEntityList.ts",
+      "totalScore": 18,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useBlockInstanceForm.ts",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartInstanceForm.ts",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityDisplay.ts",
+      "totalScore": 9,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityCardActions.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useFieldLocation.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useFormElementPatching.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useInstanceBulkEdit.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useNotification.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useDialogFormState.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityCardSaveState.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityCardStoreSync.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useIconPickerState.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useShapeEditModal.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAvailabilityDevPanel.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAvailabilitySlotColor.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAvailabilityUI.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBlockInstanceSelection.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useContactsStepData.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useDurationRounding.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardNavigation.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/useFormValidation.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/booking/timeSlotMatching.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    },
+    {
+      "repoPath": "client/src/utils/env/devMode.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "type-escape"
+      ]
+    }
+  ],
   "trend": [
     {
       "auditId": "type-similarity",
-      "current": 46,
-      "previous": 46,
-      "delta": 0
+      "current": 20,
+      "previous": 21,
+      "delta": -1
     },
     {
       "auditId": "dep-freshness",
       "current": 0,
-      "previous": 11,
-      "delta": -11
+      "previous": 7,
+      "delta": -7
     },
     {
       "auditId": "import-hygiene",
@@ -78,15 +303,15 @@
     },
     {
       "auditId": "type-escape",
-      "current": 0,
-      "previous": 13,
-      "delta": -13
+      "current": 49,
+      "previous": 8,
+      "delta": 41
     },
     {
       "auditId": "type-import",
       "current": 0,
-      "previous": 0,
-      "delta": 0
+      "previous": 4,
+      "delta": -4
     }
   ]
 }

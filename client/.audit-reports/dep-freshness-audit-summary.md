@@ -9,5 +9,5 @@ Generated from `client/.audit-reports/dep-freshness-audit.json`.
 
 - Major behind: **0**
 - Minor behind: **1**
-- Patch behind: **4**
-- Total scanned: **5**
+- Patch behind: **6**
+- Total scanned: **7**

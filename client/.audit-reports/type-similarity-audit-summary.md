@@ -9,16 +9,16 @@ Generated from `client/.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- File count: **810**
-- Total definitions: **656**
-- Groups: **20**
+- File count: **819**
+- Total definitions: **668**
+- Groups: **21**
 
 ## Action table
 
 | Action | Count | Meaning |
 | --- | ---: | --- |
 | UNIFY | 0 | Merge duplicate shapes |
-| BRAND | 3 | Nominal typing |
+| BRAND | 4 | Nominal typing |
 | EXTEND | 16 | Extend shared base |
 | REVIEW | 1 | Manual review |
 
@@ -39,6 +39,7 @@ Generated from `client/.audit-reports/type-similarity-audit.json`.
 | P0 | EXTEND | SUBSET | Props, DefaultLocation... | 0 | 13 |
 | P0 | EXTEND | SUBSET | PropertyFormData, WizardStateData, Prope... | 0 | 12 |
 | P0 | EXTEND | SUBSET | DevPanelButtons, UseAppointmentDropdownR... | 0 | 12 |
+| P1 | BRAND | EXACT | OptionsSelectConfig, OptionsSelectConfig... | 0 | 10 |
 | P1 | REVIEW | HIGH_OVERLAP | WizardState, WizardBlocksForBuilders... | 0 | 9 |
 | P1 | EXTEND | SUBSET | Props, ContingencyPeriod... | 0 | 8 |
 | P1 | EXTEND | SUBSET | Props, TimeBasisHandlerProps... | 0 | 8 |

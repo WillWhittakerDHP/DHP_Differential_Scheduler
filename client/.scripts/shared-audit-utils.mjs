@@ -68,6 +68,217 @@ export function getAuditReportHeaderLines() {
 export const AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED =
   AUDIT_REPORT_AI_INSTRUCTIONS + '\n\n' + AUDIT_REPORT_AI_FIX_INSTRUCTIONS
 
+// ─── Phase A: Finding metadata schema (optional fields, non-breaking) ─────────
+/** Confidence: high = AST + narrow context, medium = AST only, low = regex/heuristic */
+export const CONFIDENCE_LEVELS = Object.freeze({ HIGH: 'high', MEDIUM: 'medium', LOW: 'low' })
+/** Detection stage: detector = broad candidate, validator = precision pass */
+export const DETECTION_STAGES = Object.freeze({ DETECTOR: 'detector', VALIDATOR: 'validator' })
+/** Baseline state: filled during delta comparison */
+export const BASELINE_STATES = Object.freeze({ NEW: 'new', REGRESSED: 'regressed', UNCHANGED: 'unchanged', RESOLVED: 'resolved' })
+/** How the finding was suppressed (or unsuppressed). Plan enum: unsuppressed | suppressedByPattern | suppressedBySpecific | suppressedInline */
+export const SUPPRESSION_STATUS = Object.freeze({
+  UNSUPPRESSED: 'unsuppressed',
+  SUPPRESSED_BY_PATTERN: 'suppressedByPattern',
+  SUPPRESSED_BY_SPECIFIC: 'suppressedBySpecific',
+  SUPPRESSED_INLINE: 'suppressedInline',
+})
+
+/**
+ * Map allowlist source to suppressionStatus.
+ * @param {'inline'|'pattern'|'specific'|'linePattern'|null} source
+ * @returns {string}
+ */
+export function sourceToSuppressionStatus(source) {
+  if (source === 'inline') return SUPPRESSION_STATUS.SUPPRESSED_INLINE
+  if (source === 'pattern' || source === 'linePattern') return SUPPRESSION_STATUS.SUPPRESSED_BY_PATTERN
+  if (source === 'specific') return SUPPRESSION_STATUS.SUPPRESSED_BY_SPECIFIC
+  return SUPPRESSION_STATUS.UNSUPPRESSED
+}
+
+/**
+ * Enrich a finding with optional Phase A metadata. Does not mutate; returns new object.
+ * Use when building findings so reports can carry confidence, stage, whyFlagged, suppressionStatus, baselineState.
+ *
+ * @param {object} finding - Base finding (file, lineNumber, ruleId, line/snippet, message, etc.)
+ * @param {{ confidence?: string, detectionStage?: string, whyFlagged?: string, suppressionStatus?: string, baselineState?: string }} meta
+ * @returns {object}
+ */
+export function enrichFinding(finding, meta = {}) {
+  const out = { ...finding }
+  if (meta.confidence != null) out.confidence = meta.confidence
+  if (meta.detectionStage != null) out.detectionStage = meta.detectionStage
+  if (meta.whyFlagged != null) out.whyFlagged = meta.whyFlagged
+  if (meta.suppressionStatus != null) out.suppressionStatus = meta.suppressionStatus
+  if (meta.baselineState != null) out.baselineState = meta.baselineState
+  return out
+}
+
+/**
+ * Two-phase detection: run detector candidates through a validator; attach detectionStage to passed items.
+ * Phase A framework for detectorPass (broad) -> validatorPass (precision).
+ *
+ * @param {Array<object>} candidates - Raw findings from detector pass
+ * @param {(candidate: object) => boolean} validate - Return true to keep the finding
+ * @param {{ stagePassed?: string, stageDropped?: string }} [opts] - detectionStage for passed/dropped (default: 'validator' / 'detector')
+ * @returns {{ passed: object[], dropped: object[] }}
+ */
+export function runTwoPhaseFilter(candidates, validate, opts = {}) {
+  const stagePassed = opts.stagePassed ?? DETECTION_STAGES.VALIDATOR
+  const stageDropped = opts.stageDropped ?? DETECTION_STAGES.DETECTOR
+  const passed = []
+  const dropped = []
+  for (const c of candidates) {
+    if (validate(c)) {
+      passed.push({ ...c, detectionStage: stagePassed })
+    } else {
+      dropped.push({ ...c, detectionStage: stageDropped })
+    }
+  }
+  return { passed, dropped }
+}
+
+/**
+ * Compute a stable identity key for a finding (for delta comparison).
+ * Uses file, lineNumber, ruleId, and normalized snippet (trimmed, truncated).
+ *
+ * @param {object} f - Finding with file, lineNumber, ruleId, line or snippet
+ * @param {number} [snippetMaxLen=120]
+ * @returns {string}
+ */
+export function findingIdentityKey(f, snippetMaxLen = 120) {
+  const snippet = (f.line ?? f.snippet ?? '').trim().slice(0, snippetMaxLen)
+  return `${f.file}\t${f.lineNumber}\t${f.ruleId}\t${snippet}`
+}
+
+/**
+ * Path to the previous run's audit JSON (convention: *-audit-previous.json in same dir as audit JSON).
+ *
+ * @param {string} auditType
+ * @param {{ auditOutputSubdir?: string }} [options]
+ * @returns {string}
+ */
+export function getPreviousAuditJsonPath(auditType, options = {}) {
+  const { auditDir } = resolveSummaryPaths(auditType, options)
+  return path.join(auditDir, `${auditType}-audit-previous.json`)
+}
+
+/**
+ * Load previous audit snapshot JSON if it exists.
+ *
+ * @param {string} previousJsonPath - From getPreviousAuditJsonPath()
+ * @returns {object | null} Parsed payload or null if missing/invalid
+ */
+export function loadPreviousAuditSnapshot(previousJsonPath) {
+  if (!fs.existsSync(previousJsonPath)) return null
+  try {
+    const raw = fs.readFileSync(previousJsonPath, 'utf8')
+    return JSON.parse(raw)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Compute delta between current and previous findings. Each finding must have file, lineNumber, ruleId, and optionally line/snippet.
+ *
+ * @param {Array<object>} currentFindings - Flat list with file, lineNumber, ruleId, line/snippet
+ * @param {Array<object>} previousFindings - Same shape
+ * @param {(f: object) => string} [getKey] - Identity key function (default: findingIdentityKey)
+ * @returns {{ newFindings: object[], unchangedFindings: object[], resolvedFindings: object[], regressedFindings: object[], counts: object, byRule: object }}
+ */
+export function computeFindingDelta(currentFindings, previousFindings, getKey = findingIdentityKey) {
+  const cur = Array.isArray(currentFindings) ? currentFindings : []
+  const prev = Array.isArray(previousFindings) ? previousFindings : []
+  const prevKeys = new Set(prev.map(getKey))
+  const curKeys = new Set(cur.map(getKey))
+
+  const newFindings = cur.filter(f => !prevKeys.has(getKey(f)))
+  const unchangedFindings = cur.filter(f => prevKeys.has(getKey(f)))
+  const resolvedFindings = prev.filter(f => !curKeys.has(getKey(f)))
+  const regressedFindings = [] // Phase A: no severity/confidence comparison yet
+
+  const byRule = {}
+  function inc(r, state) {
+    if (!byRule[r]) byRule[r] = { new: 0, unchanged: 0, resolved: 0, regressed: 0 }
+    byRule[r][state]++
+  }
+  for (const f of newFindings) inc(f.ruleId || 'unknown', 'new')
+  for (const f of unchangedFindings) inc(f.ruleId || 'unknown', 'unchanged')
+  for (const f of resolvedFindings) inc(f.ruleId || 'unknown', 'resolved')
+  for (const f of regressedFindings) inc(f.ruleId || 'unknown', 'regressed')
+
+  return {
+    newFindings,
+    unchangedFindings,
+    resolvedFindings,
+    regressedFindings,
+    counts: {
+      new: newFindings.length,
+      unchanged: unchangedFindings.length,
+      resolved: resolvedFindings.length,
+      regressed: regressedFindings.length,
+    },
+    byRule,
+  }
+}
+
+/**
+ * Extract a flat list of findings for delta comparison. Each item has { file, lineNumber, ruleId, line }.
+ * Used by summary runner for audits that support delta. Missing extractor => no delta.
+ *
+ * @type {Record<string, (data: object) => Array<{ file: string, lineNumber: number, ruleId: string, line?: string }>>}
+ */
+export const DELTA_FINDING_EXTRACTORS = {
+  'type-import'(data) {
+    const out = []
+    const v = Array.isArray(data.valueImportFromTypeOnlyFile) ? data.valueImportFromTypeOnlyFile : []
+    const t = Array.isArray(data.typeUsedAsValue) ? data.typeUsedAsValue : []
+    for (const f of v) {
+      out.push({
+        file: f.file,
+        lineNumber: f.lineNumber,
+        ruleId: 'value-import-from-type-only-file',
+        line: [f.specifier, f.symbol].filter(Boolean).join(' '),
+      })
+    }
+    for (const f of t) {
+      out.push({
+        file: f.file,
+        lineNumber: f.lineNumber,
+        ruleId: 'type-used-as-value',
+        line: f.symbol ?? '',
+      })
+    }
+    return out
+  },
+  'type-escape'(data) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    return findings.map(f => ({
+      file: f.file ?? f.repoPath,
+      lineNumber: f.lineNumber,
+      ruleId: f.ruleId ?? 'unknown',
+      line: f.line ?? f.snippet ?? '',
+    }))
+  },
+  'error-handling'(data) {
+    const files = Array.isArray(data.files) ? data.files : []
+    const out = []
+    for (const f of files) {
+      const repoPath = f.repoPath ?? f.file
+      const review = Array.isArray(f.requiresReview) ? f.requiresReview : []
+      for (const m of review) {
+        out.push({
+          file: repoPath,
+          lineNumber: m.lineNumber,
+          ruleId: m.ruleId ?? 'unknown',
+          line: m.line ?? '',
+        })
+      }
+    }
+    return out
+  },
+}
+
 /**
  * Detect if a .js file is compiled output from a TypeScript source (sibling .ts exists).
  * Audits should skip these to avoid false positives from transpiled polyfills and helpers.
@@ -187,6 +398,25 @@ export function writeAuditReports(auditType, jsonPayload, mdContent, options = {
   fs.writeFileSync(paths.outJson, JSON.stringify(jsonPayload, null, 2))
   fs.writeFileSync(paths.outMd, mdContent)
   return { outJson: paths.outJson, outMd: paths.outMd }
+}
+
+/**
+ * Return the list of directories to scan for an audit. When AUDIT_FIXTURE_DIRS is set (e.g. by golden-sample runner),
+ * returns those dirs (absolute); otherwise returns the default client/server src dirs.
+ *
+ * @param {string} _auditType - Audit type (for future use)
+ * @param {{ projectRoot?: string, clientSrc: string, serverSrc: string }} paths - From resolveAuditPaths
+ * @returns {string[]}
+ */
+export function getAuditScanDirs(_auditType, paths) {
+  const envDirs = process.env.AUDIT_FIXTURE_DIRS
+  if (envDirs && envDirs.trim()) {
+    return envDirs.split(path.delimiter).map((p) => {
+      const trimmed = p.trim()
+      return path.isAbsolute(trimmed) ? trimmed : path.resolve(paths.projectRoot ?? process.cwd(), trimmed)
+    }).filter(Boolean)
+  }
+  return [paths.clientSrc, paths.serverSrc]
 }
 
 /**
@@ -738,43 +968,46 @@ function simpleGlobMatch(filePath, pattern) {
  * @param {string} ruleId - The rule ID that matched
  * @param {number} lineNumber - Line number of the match
  * @param {{patterns: Array, specific: Array} | null} allowlist - Loaded config allowlist
- * @returns {{allowed: boolean, reason: string | null, source: 'pattern' | 'specific' | null}}
+ * @returns {{allowed: boolean, reason: string | null, source: 'pattern' | 'specific' | null, entryKey?: string}}
  */
 export function checkConfigAllowlist(repoPath, ruleId, lineNumber, allowlist) {
   if (!allowlist) {
     return { allowed: false, reason: null, source: null }
   }
 
+  let i = 0
   for (const pattern of allowlist.patterns) {
     const globMatch = simpleGlobMatch(repoPath, pattern.glob)
     if (globMatch) {
       const ruleIds = Array.isArray(pattern.ruleIds) ? pattern.ruleIds : [pattern.ruleIds]
       if (ruleIds.includes(ruleId) || ruleIds.includes('*')) {
-        return { allowed: true, reason: pattern.reason, source: 'pattern' }
+        return { allowed: true, reason: pattern.reason, source: 'pattern', entryKey: `pattern:${i}` }
       }
     }
+    i++
   }
 
+  i = 0
   for (const specific of allowlist.specific) {
     const fileMatch = repoPath === specific.file || repoPath.endsWith(specific.file)
-    if (!fileMatch) continue
-
-    const specificRuleIds = specific.ruleIds
-      ? (Array.isArray(specific.ruleIds) ? specific.ruleIds : [specific.ruleIds])
-      : specific.ruleId
-        ? [specific.ruleId]
-        : []
-
-    if (specificRuleIds.includes(ruleId) || specificRuleIds.includes('*')) {
-      if (specific.lineRange) {
-        const [start, end] = specific.lineRange
-        if (lineNumber >= start && lineNumber <= end) {
-          return { allowed: true, reason: specific.reason, source: 'specific' }
+    if (fileMatch) {
+      const specificRuleIds = specific.ruleIds
+        ? (Array.isArray(specific.ruleIds) ? specific.ruleIds : [specific.ruleIds])
+        : specific.ruleId
+          ? [specific.ruleId]
+          : []
+      if (specificRuleIds.includes(ruleId) || specificRuleIds.includes('*')) {
+        if (specific.lineRange) {
+          const [start, end] = specific.lineRange
+          if (lineNumber >= start && lineNumber <= end) {
+            return { allowed: true, reason: specific.reason, source: 'specific', entryKey: `specific:${i}` }
+          }
+        } else {
+          return { allowed: true, reason: specific.reason, source: 'specific', entryKey: `specific:${i}` }
         }
-      } else {
-        return { allowed: true, reason: specific.reason, source: 'specific' }
       }
     }
+    i++
   }
 
   return { allowed: false, reason: null, source: null }
@@ -786,24 +1019,27 @@ export function checkConfigAllowlist(repoPath, ruleId, lineNumber, allowlist) {
  * @param {string} lineContent - The source line text
  * @param {string} ruleId - The rule ID that matched
  * @param {Array<{ruleId: string, pattern: string, reason: string}>} linePatterns - From config allowlist
- * @returns {{allowed: boolean, reason: string | null, source: 'linePattern' | null}}
+ * @returns {{allowed: boolean, reason: string | null, source: 'linePattern' | null, entryKey?: string}}
  */
 export function checkLinePatternAllowlist(lineContent, ruleId, linePatterns) {
   if (!linePatterns?.length || lineContent == null || lineContent === '') {
     return { allowed: false, reason: null, source: null }
   }
 
+  let i = 0
   for (const entry of linePatterns) {
-    if (entry.ruleId !== ruleId && entry.ruleId !== '*') continue
-    try {
-      // eslint-disable-next-line security/detect-non-literal-regexp
-      const re = new RegExp(entry.pattern)
-      if (re.test(lineContent)) {
-        return { allowed: true, reason: entry.reason ?? null, source: 'linePattern' }
+    if (entry.ruleId === ruleId || entry.ruleId === '*') {
+      try {
+        // eslint-disable-next-line security/detect-non-literal-regexp
+        const re = new RegExp(entry.pattern)
+        if (re.test(lineContent)) {
+          return { allowed: true, reason: entry.reason ?? null, source: 'linePattern', entryKey: `linePattern:${i}` }
+        }
+      } catch (_err) {
+        // Bad pattern in config; skip this entry
       }
-    } catch (_err) {
-      // Bad pattern in config; skip this entry
     }
+    i++
   }
 
   return { allowed: false, reason: null, source: null }
@@ -841,12 +1077,12 @@ export function checkInlineException(matchLineNumber, ruleId, inlineExceptions) 
  * @param {Array<{lineNumber: number, ruleId: string, reason: string}>} inlineExceptions - Parsed inline exceptions
  * @param {{patterns: Array, specific: Array, linePatterns?: Array} | null} configAllowlist - Loaded config allowlist
  * @param {string} [lineContent] - Optional source line text for line-pattern allowlist
- * @returns {{allowed: boolean, reason: string | null, source: 'inline' | 'pattern' | 'specific' | 'linePattern' | null}}
+ * @returns {{allowed: boolean, reason: string | null, source: 'inline' | 'pattern' | 'specific' | 'linePattern' | null, entryKey?: string}}
  */
 export function isMatchAllowed(repoPath, ruleId, lineNumber, inlineExceptions, configAllowlist, lineContent) {
   const inlineResult = checkInlineException(lineNumber, ruleId, inlineExceptions)
   if (inlineResult.allowed) {
-    return { ...inlineResult, source: 'inline' }
+    return { ...inlineResult, source: 'inline', entryKey: undefined }
   }
 
   const configResult = checkConfigAllowlist(repoPath, ruleId, lineNumber, configAllowlist)
@@ -865,6 +1101,148 @@ export function isMatchAllowed(repoPath, ruleId, lineNumber, inlineExceptions, c
 }
 
 /**
+ * Create a suppression hit tracker for Phase A allowlist pruning. Call add(entryKey, ruleId) when a finding is suppressed by an allowlist entry.
+ *
+ * @returns {{ add: (entryKey: string, ruleId: string) => void, getCounts: () => Record<string, number> }}
+ */
+export function createSuppressionHitTracker() {
+  const counts = Object.create(null)
+  return {
+    add(entryKey, _ruleId) {
+      if (entryKey != null && entryKey !== '') {
+        counts[entryKey] = (counts[entryKey] || 0) + 1
+      }
+    },
+    getCounts() {
+      return { ...counts }
+    },
+  }
+}
+
+const ALLOWLIST_HIT_HISTORY_FILENAME = 'allowlist-hit-history.json'
+const DEFAULT_PRUNE_RUNS_TO_CONSIDER = 5
+
+function getAllowlistHitHistoryPath() {
+  return path.join(resolveAuditPaths('type-import').outDir, ALLOWLIST_HIT_HISTORY_FILENAME)
+}
+
+/**
+ * Return stable entry keys for an audit type's allowlist (pattern:0, specific:0, linePattern:0, ...).
+ * @param {string} auditType
+ * @returns {string[]}
+ */
+export function getAllAllowlistEntryKeys(auditType) {
+  const w = loadCentralAllowlist(auditType)
+  if (!w) return []
+  const keys = []
+  const patterns = Array.isArray(w.patterns) ? w.patterns : []
+  for (let i = 0; i < patterns.length; i++) keys.push(`pattern:${i}`)
+  const specific = Array.isArray(w.specific) ? w.specific : []
+  for (let i = 0; i < specific.length; i++) keys.push(`specific:${i}`)
+  const linePatterns = Array.isArray(w.linePatterns) ? w.linePatterns : []
+  for (let i = 0; i < linePatterns.length; i++) keys.push(`linePattern:${i}`)
+  return keys
+}
+
+/**
+ * Load allowlist hit history from disk. Shape: { runs: Array<{ timestamp, auditType, hits }>, maxRuns: number }.
+ * @returns {{ runs: Array<{timestamp: string, auditType: string, hits: Record<string, number}>>, maxRuns: number }}
+ */
+export function loadAllowlistHitHistory() {
+  const p = getAllowlistHitHistoryPath()
+  if (!fs.existsSync(p)) return { runs: [], maxRuns: DEFAULT_PRUNE_RUNS_TO_CONSIDER }
+  try {
+    const raw = fs.readFileSync(p, 'utf8')
+    const data = JSON.parse(raw)
+    return {
+      runs: Array.isArray(data.runs) ? data.runs : [],
+      maxRuns: typeof data.maxRuns === 'number' ? data.maxRuns : DEFAULT_PRUNE_RUNS_TO_CONSIDER,
+    }
+  } catch {
+    return { runs: [], maxRuns: DEFAULT_PRUNE_RUNS_TO_CONSIDER }
+  }
+}
+
+/**
+ * Append one run's suppression hits to history and trim to maxRuns per audit type.
+ * @param {string} auditType
+ * @param {Record<string, number>} hitCounts - entryKey -> count from createSuppressionHitTracker().getCounts()
+ */
+export function recordSuppressionHits(auditType, hitCounts) {
+  const { runs, maxRuns } = loadAllowlistHitHistory()
+  runs.push({
+    timestamp: new Date().toISOString(),
+    auditType,
+    hits: hitCounts && typeof hitCounts === 'object' ? hitCounts : {},
+  })
+  const byAudit = Object.create(null)
+  const trimmed = []
+  for (let i = runs.length - 1; i >= 0; i--) {
+    const r = runs[i]
+    const list = byAudit[r.auditType] || []
+    if (list.length < maxRuns) {
+      list.push(r)
+      byAudit[r.auditType] = list
+      trimmed.unshift(r)
+    }
+  }
+  const outDir = path.dirname(getAllowlistHitHistoryPath())
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
+  fs.writeFileSync(getAllowlistHitHistoryPath(), JSON.stringify({ runs: trimmed, maxRuns }, null, 2))
+}
+
+/**
+ * Generate allowlist-prune-suggestions.json and .md: entries with zero hits for the last N runs get remove-review.
+ * @param {{ runsToConsider?: number }} [opts]
+ * @returns {{ jsonPath: string, mdPath: string, suggestions: Array<{auditType: string, entryKey: string, recommendation: string, reason: string}> }}
+ */
+export function generateAllowlistPruneSuggestions(opts = {}) {
+  const runsToConsider = opts.runsToConsider ?? DEFAULT_PRUNE_RUNS_TO_CONSIDER
+  const { runs } = loadAllowlistHitHistory()
+  const byAudit = Object.create(null)
+  for (const r of runs) {
+    if (!byAudit[r.auditType]) byAudit[r.auditType] = []
+    byAudit[r.auditType].push(r)
+  }
+  const suggestions = []
+  const auditTypes = [...new Set(runs.map((r) => r.auditType))]
+  for (const auditType of auditTypes) {
+    const keys = getAllAllowlistEntryKeys(auditType)
+    const recent = (byAudit[auditType] || []).slice(-runsToConsider)
+    if (recent.length < runsToConsider) continue
+    for (const entryKey of keys) {
+      const allZero = recent.every((run) => (run.hits[entryKey] || 0) === 0)
+      if (allZero) {
+        suggestions.push({
+          auditType,
+          entryKey,
+          recommendation: 'remove-review',
+          reason: `Zero suppression hits in last ${recent.length} runs`,
+        })
+      }
+    }
+  }
+  const outDir = path.dirname(getAllowlistHitHistoryPath())
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
+  const jsonPath = path.join(outDir, 'allowlist-prune-suggestions.json')
+  const mdPath = path.join(outDir, 'allowlist-prune-suggestions.md')
+  const payload = { generatedAt: new Date().toISOString(), runsToConsider, suggestions }
+  fs.writeFileSync(jsonPath, JSON.stringify(payload, null, 2))
+  const mdLines = [
+    '# Allowlist prune suggestions (Phase A)',
+    '',
+    `Generated: ${payload.generatedAt}. Entries with zero hits in last ${runsToConsider} runs.`,
+    '',
+    '| Audit type | Entry key | Recommendation | Reason |',
+    '| --- | --- | --- | --- |',
+    ...suggestions.map((s) => `| ${s.auditType} | ${s.entryKey} | ${s.recommendation} | ${s.reason} |`),
+    '',
+  ]
+  fs.writeFileSync(mdPath, mdLines.join('\n'))
+  return { jsonPath, mdPath, suggestions }
+}
+
+/**
  * Separate matches into allowed and requiring-review categories
  *
  * @param {Array<{ruleId: string, lineNumber: number, line: string}>} matches - All matches found
@@ -872,12 +1250,13 @@ export function isMatchAllowed(repoPath, ruleId, lineNumber, inlineExceptions, c
  * @param {string} fileContent - File content for parsing inline exceptions
  * @param {string} auditType - Audit type for inline comment parsing
  * @param {{patterns: Array, specific: Array} | null} configAllowlist - Loaded config allowlist
+ * @param {{ add: (entryKey: string, ruleId: string) => void } | null} [suppressionHitTracker] - Optional; record which allowlist entry suppressed each match
  * @returns {{
  *   allowed: Array<{ruleId: string, lineNumber: number, line: string, reason: string, source: string}>,
  *   requiresReview: Array<{ruleId: string, lineNumber: number, line: string}>
  * }}
  */
-export function categorizeMatches(matches, repoPath, fileContent, auditType, configAllowlist) {
+export function categorizeMatches(matches, repoPath, fileContent, auditType, configAllowlist, suppressionHitTracker = null) {
   const inlineExceptions = parseInlineExceptions(fileContent, auditType)
 
   const allowed = []
@@ -893,14 +1272,18 @@ export function categorizeMatches(matches, repoPath, fileContent, auditType, con
       match.line
     )
 
+    const suppressionStatus = sourceToSuppressionStatus(result.source)
+
     if (result.allowed) {
+      if (suppressionHitTracker && result.entryKey) suppressionHitTracker.add(result.entryKey, match.ruleId)
       allowed.push({
         ...match,
         reason: result.reason,
         source: result.source,
+        suppressionStatus,
       })
     } else {
-      requiresReview.push(match)
+      requiresReview.push({ ...match, suppressionStatus: SUPPRESSION_STATUS.UNSUPPRESSED })
     }
   }
 

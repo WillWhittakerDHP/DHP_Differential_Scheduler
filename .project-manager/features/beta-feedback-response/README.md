@@ -38,7 +38,7 @@ Beta testers need to know their feedback is heard. Without a response loop:
 
 ## Related Documents
 
-- **Feature Plan:** `feature-plan.md`
+- **Feature Guide:** `feature-beta-feedback-response-guide.md`
 - **Feature 5 (Collection System):** `../beta-feedback/`
 - **Beta Launch Checklist:** `../../BETA_LAUNCH_CHECKLIST.md`
 

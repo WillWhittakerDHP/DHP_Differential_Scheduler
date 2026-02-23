@@ -44,7 +44,7 @@
 ### Feature Level (Tier 1)
 Each feature directory contains:
 - **README.md** — Feature overview, key objectives, architecture
-- **feature-plan.md** — Detailed phases, sessions, success criteria
+- **feature-{feature-name}-guide.md** — Detailed phases, sessions, success criteria
 - **feature-completion-summary.md** — Post-completion summary (for completed features)
 - **feature-[N]-handoff.md** — Current status and transition context (for in-progress features)
 
@@ -125,7 +125,7 @@ Each feature directory contains:
 ### For Current Planning
 1. **Start with:** `PROJECT_PLAN.md` ⭐ — Single source of truth for feature development
 2. **Launch readiness:** `../../BETA_LAUNCH_CHECKLIST.md` — Infrastructure and deployment
-3. **Feature details:** `features/[feature-name]/feature-plan.md` — Detailed feature plans
+3. **Feature details:** `features/[feature-name]/feature-{feature-name}-guide.md` — Detailed feature plans
 4. **Feature overviews:** `features/[feature-name]/README.md` — Quick feature summaries
 5. **Validation:** See `FEATURE_VALIDATION_CHECKLIST.md` for pre-phase planning requirements
 
@@ -144,7 +144,7 @@ Each feature directory contains:
 
 - **Path Consistency:** All path references should use `.project-manager/` (project root, not inside `.cursor/`)
 - **Client Directory:** The Vue 3 application lives in `client/` (previously `client-vue/` — renamed after React codebase removal)
-- **Feature-Level Docs Requirement:** Feature-level planning documents (`feature-plan.md`, `README.md`) MUST be created before any phase planning documents. See `FEATURE_VALIDATION_CHECKLIST.md`.
+- **Feature-Level Docs Requirement:** Feature-level planning documents (feature guide, `README.md`) MUST be created before any phase planning documents. See `FEATURE_VALIDATION_CHECKLIST.md`.
 - **3-Tier Structure:** Feature → Phase → Session. Each tier has its own documentation as needed.
 - **Features 6–7:** Pricing Cascades and Property Enrichment are complete sub-features documented in PROJECT_PLAN without dedicated directories.
 - **Feature 14:** "Admin Assistance Wizard" replaces the original "GPT Admin Automation" concept. The directory `gpt-admin-automation/` will be renamed when work begins.

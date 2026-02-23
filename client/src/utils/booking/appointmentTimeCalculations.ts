@@ -59,7 +59,7 @@ export function calculateAppointmentSlots(
   
   // PATTERN: Use applyShapeToTime to create slot
   if (baseStartTime) {
-    const appointmentSlot = applyShapeToTime(shape, baseStartTime, 0, undefined, true, undefined, undefined)
+    const appointmentSlot = applyShapeToTime(shape, baseStartTime, 0, undefined, true)
     return [appointmentSlot]
   }
   

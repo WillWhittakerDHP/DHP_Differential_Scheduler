@@ -6,7 +6,7 @@
 
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { toGlobalEntityId, type BlockShapeEntity, type GlobalEntity, type PartShapeEntity } from '@/types/entities'
 
 export interface UseInstanceShapeOptions {

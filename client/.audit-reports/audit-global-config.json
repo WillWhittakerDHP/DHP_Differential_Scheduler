@@ -60,16 +60,7 @@
           "file": "client/src/views/admin/AdminPanel.vue",
           "ruleId": "value-import-from-type-only-file",
           "reason": "Vue SFC default export (component) from PropertyMappingsTab.vue; script-setup has no literal export default"
-        },
-        { "file": "client/src/composables/admin/usePartsCollectionField.ts", "ruleId": "type-used-as-value", "reason": "RelationshipFieldType used in type assertion only; type import correct" },
-        { "file": "client/src/composables/booking/usePerspectiveMapping.ts", "ruleId": "type-used-as-value", "reason": "PerspectiveKey used in type position only; audit heuristic false positive" },
-        { "file": "client/src/composables/fieldContext/useFieldContextState.ts", "ruleId": "type-used-as-value", "reason": "GlobalEntity used in type assertion only; type import correct" },
-        { "file": "client/src/composables/useLocalTime.ts", "ruleId": "type-used-as-value", "reason": "RFC3339DateTime branded type in type position only; no runtime value" },
-        { "file": "client/src/utils/booking/partFinalizer.ts", "ruleId": "type-used-as-value", "reason": "PartFinal in return type only; type import correct" },
-        { "file": "client/src/utils/booking/slotShapeLookups.ts", "ruleId": "type-used-as-value", "reason": "SlotShape in parameter type only; type import correct" },
-        { "file": "client/src/utils/datetime.ts", "ruleId": "type-used-as-value", "reason": "RFC3339DateTime branded type in return type only; no runtime value" },
-        { "file": "client/src/utils/transformers/annotationTransformers.ts", "ruleId": "type-used-as-value", "reason": "AnnotationInstance in return type only; type import correct" },
-        { "file": "client/src/utils/transformers/transformerPrimitives.ts", "ruleId": "type-used-as-value", "reason": "TernaryBoolean in parameter/return type only; type import correct" }
+        }
       ]
     },
     "error-handling": {

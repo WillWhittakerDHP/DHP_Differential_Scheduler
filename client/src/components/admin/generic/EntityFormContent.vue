@@ -16,7 +16,7 @@ import FieldRenderer from './fields/FieldRenderer.vue'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFormFields } from '@/composables/useFormFields'
 import { useAdminConfig } from '@/composables/useAdminConfig'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { getFieldKeys } from '@/utils/forms/getFieldKeys'
 import type { FormContext } from 'vee-validate'
 

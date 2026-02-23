@@ -16,7 +16,6 @@ import {
   type AvailabilityStepData,
   type SelectedTimeSlot,
 } from '@/utils/booking/availabilityStepData'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 
 export type { SelectedTimeSlot, AvailabilityStepData }
@@ -46,9 +45,6 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
   } = params
 
   // LEARNING: Get availability settings for dynamic event name lookup
-  // WHY: Event names are configurable (e.g., 'OnSite' not 'Major'), need settings to find them
-  // SESSION: 2.1.3b - Fixed hardcoded event names
-  const { settings: availabilitySettings } = useAvailabilitySettings()
 
   /**
    * LEARNING: Transform selected time slots to API format
@@ -59,7 +55,6 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     return buildSelectedTimeSlots({
       selectedDateStart: selectedDate.value.start,
       selectedSlot: selectedSlot.value,
-      availabilitySettings: availabilitySettings.value,
     })
   })
 

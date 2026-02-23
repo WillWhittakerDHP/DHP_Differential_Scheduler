@@ -1,36 +1,36 @@
 /**
  * Booking Wizard Composable
- * 
+ *
  * LEARNING: Vue composable pattern for managing wizard state
  * WHY: Centralizes all wizard selections and provides computed filtered options
  * PATTERN: Composable that uses reactive refs and computed properties
  * COMPARISON: React uses Context. Vue uses composables with reactive state
- * 
+ *
  * Session 6.1: Booking Wizard State Management
  * Phase 6: Booking Wizard Logic Integration
  */
 
 import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
-import { useBooking } from './useBooking'
+import { useBooking } from '../useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { UseBookingWizardReturn } from '@/types/wizard'
-import { useWizardFilteredOptions } from '@/composables/booking/useWizardFilteredOptions'
+import { useWizardFilteredOptions } from './useWizardFilteredOptions'
 
 /**
  * Booking Wizard Composable
  * LEARNING: Manages all wizard selections and provides filtered options
  * WHY: Single source of truth for wizard state with cascading filters
  * PATTERN: Reactive state + computed properties + selection methods
- * 
+ *
  * State Management:
  * - selectedUserTypeBlock: Currently selected state control block (dynamically determined from isStateControl: true block shapes)
  * - selectedServiceTypeBlocks: Array of selected service type blocks (single-select UI, but stored as array for consistency)
  * - selectedOptionTypeBlocks: Array of selected availability options
  * - selectedPropertyTypeBlocks: Array of selected property type blocks (property types)
- * 
+ *
  * NOTE: Additional services functionality was removed - will be merged into base services in future work
- * 
+ *
  * Cascading Logic:
  * - User Type selection filters available Base Services via activeBlockIds
  * - Base Service selection filters Availability Options and Property Adjustments via activeBlockIds
@@ -38,7 +38,7 @@ import { useWizardFilteredOptions } from '@/composables/booking/useWizardFiltere
  */
 export function useBookingWizard(): UseBookingWizardReturn {
   const { bookingData } = useBooking()
-  
+
   // LEARNING: Reactive state for wizard selections
   // PATTERN: Use ref for single values, ref([]) for arrays
   const selectedUserTypeBlock = ref<BookingBlockInstance | null>(null)
@@ -46,7 +46,7 @@ export function useBookingWizard(): UseBookingWizardReturn {
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
-  
+
   // PATTERN: Use useStorage from VueUse for reactive localStorage binding
   const isQuoteMode = useStorage<boolean>('booking-wizard-quote-mode', false)
 
@@ -191,6 +191,3 @@ export function useBookingWizard(): UseBookingWizardReturn {
     bookingData,
   }
 }
-
-
-

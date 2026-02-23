@@ -9,7 +9,7 @@
 
 import { ref, provide, inject, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import type { WizardDevOptionsBase } from '@/types/wizardDevOptions'
 
 /** Extends shared base; adds dev mode state and handlers (TYPE_SIMILARITY 1.14). */

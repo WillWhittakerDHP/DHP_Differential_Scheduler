@@ -72,6 +72,8 @@ export function useAvailabilityStepHandlers(
 ): UseAvailabilityStepHandlersReturn {
   const {
     appointmentSlotOrderIndex,
+    hasMoveableParts,
+    openMoveableModal,
     closeMoveableModal,
     moveableOptions,
     selectedMoveableSlotIndex,
@@ -79,15 +81,12 @@ export function useAvailabilityStepHandlers(
     startTimeType
   } = params
 
-  /**
-   * LEARNING: Handler for appointment slot click
-   * WHY: Updates selectedButtonIndex when slot is clicked, checks for moveable parts
-   * PATTERN: Event handler that updates selection state and opens modal if needed
-   */
   const handleAppointmentSlotClick = (buttonIndex: number): void => {
     appointmentSlotOrderIndex.value = buttonIndex
     
-    // TEMPORARY: Moveable parts scheduling disabled
+    if (hasMoveableParts.value) {
+      openMoveableModal()
+    }
   }
 
   /**

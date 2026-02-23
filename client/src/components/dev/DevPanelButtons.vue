@@ -9,7 +9,7 @@
 
 import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 
 interface DevPanelButtons {
   selectedAppointmentId: Ref<string | null>

@@ -14,7 +14,7 @@
 
 import { computed, watch, type ComputedRef, type Ref } from 'vue'
 import { useGlobal } from '../useGlobal'
-import { useAdmin } from '../useAdmin'
+import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 
 export interface UseInstanceGroupingOptions {

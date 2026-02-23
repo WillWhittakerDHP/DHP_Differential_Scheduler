@@ -80,8 +80,14 @@ export function useInputConfigEditor(
       }
     }
     
-    if (!formData.targetMode || !formData.selectMode) {
+    if (!formData.selectMode) {
       return null
+    }
+
+    // Simple enum selects have selectMode but no targetMode — preserve as minimal config
+    // so computeRenderAs sees a truthy inputConfig and keeps render_as as 'select'
+    if (!formData.targetMode) {
+      return { selectMode: formData.selectMode }
     }
     
     const baseConfig: Record<string, unknown> = {

@@ -23,7 +23,7 @@ Protect the API and data before exposing it to any external users, even trusted 
 
 ## Related Documents
 
-- **Feature Plan:** `feature-plan.md`
+- **Feature Guide:** `feature-security-hardening-guide.md`
 - **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 2
 - **Authentication (Phase 2.1):** `../authentication/` — Feature 10
 

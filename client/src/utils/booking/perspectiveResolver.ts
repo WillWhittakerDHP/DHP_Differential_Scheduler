@@ -8,14 +8,13 @@
 
 import type { TimeRange, AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { EventShapeEntity } from '@/types/entities'
-import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
-import { asEmptyArray } from '@/utils/safeDefaults'
+import { createLogger } from '@/utils/logger'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
+
+const logger = createLogger('perspectiveResolver')
 
 export interface ResolvedEventShapes {
   majorEventShape: EventShapeEntity | null
@@ -25,26 +24,27 @@ export interface ResolvedEventShapes {
 }
 
 /**
- * Resolve major and minor event shapes from slot shape and availability settings.
- * LEARNING: Single place for the duplicated logic previously in applyShapeToTime and derivePerspective.
- * WHY: Eliminates duplication and reduces nesting in callers.
+ * Resolve major and minor event shapes using differentialRole.
+ * Logs an error if no event shape has the expected role.
  */
 export function resolveEventShapes(
-  majorAttendeeIds: GlobalEntityId[],
-  minorAttendeeIds: GlobalEntityId[],
   eventFinals: SlotShape['eventFinals']
 ): ResolvedEventShapes {
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
-  const majorEventShape =
-    majorAttendeeIds.length > 0 ? getMajorEventShape(eventShapeEntities, majorAttendeeIds) : null
-  const eventShapesExcludingMajor = majorEventShape
-    ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-    : eventShapeEntities
-  const minorEventShape =
-    minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-      : null
+  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  if (!majorEventShape) {
+    logger.error('resolveEventShapes: no event shape with differentialRole=major', {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
+
+  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  if (!minorEventShape) {
+    logger.error('resolveEventShapes: no event shape with differentialRole=minor', {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
 
   return {
     majorEventShape,
@@ -104,24 +104,17 @@ export function adjustMinorTimeRange(
 export function derivePerspective(
   slot: AppointmentSlot,
   perspective: 'major' | 'minor' | 'nonDifferential',
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
 ): TimeRange | null {
-  const differentialPerspectives = availabilitySettings?.differentialPerspectives
   const eventFinals = slot.shape.slotShape.eventFinals
 
-  if (!globalData || !eventFinals?.length || !differentialPerspectives) {
+  if (!eventFinals?.length) {
     if (perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL || perspective === EVENT_PERSPECTIVE_KEYS.MAJOR) {
       return slot.totalTimeRange
     }
     return null
   }
 
-  const majorAttendeeIds = asEmptyArray(differentialPerspectives.majorAttendees)
-  const minorAttendeeIds = asEmptyArray(differentialPerspectives.minorAttendees)
   const { majorEventShape, minorEventShape, majorEventName, minorEventName } = resolveEventShapes(
-    majorAttendeeIds,
-    minorAttendeeIds,
     eventFinals
   )
 

@@ -362,7 +362,7 @@ Phase 2.2 will:
 
 ## Reference Documents
 
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-feature-2-google-apis-integration-guide.md`
 - **Phase 2.1 Handoff**: `phase-2.1-handoff.md`
 - **Drive Time Buffer Refactor Plan**: `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md` ✅ Complete
 - **Google Maps Places API**: [developers.google.com/maps/documentation/places](https://developers.google.com/maps/documentation/places/web-service/overview)

@@ -21,7 +21,7 @@ Ensure that tests verify **desired behavior**, not just that code runs without c
 
 ## Related Documents
 
-- **Feature Plan (full spec):** `feature-plan.md`
+- **Feature Guide (full spec):** `feature-test-quality-validation-guide.md`
 - **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 3A
 - **Test Suite Setup:** `../test-suite-setup/` — Feature 9
 

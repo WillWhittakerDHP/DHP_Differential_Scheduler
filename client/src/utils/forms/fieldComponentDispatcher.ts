@@ -76,16 +76,22 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   // PATTERN: Check renderAs for select/multiselect/reference
   const selectRenderAs: Array<FieldMetadataEntry['renderAs']> = ['select', 'multiselect', 'reference']
   if (selectRenderAs.includes(renderAs)) {
-    // PATTERN: Check entityKey and fieldKey to identify known enum selects
     const isEnumSelect = String(fieldKey) === 'type' && 
       (entityKey === 'blockShape' || entityKey === 'partShape')
-    
-    // PATTERN: Return 'select' type for enum selects even without inputConfig
+
     if (isEnumSelect) {
       return { type: 'select', reason: renderAs as 'select' | 'multiselect' | 'reference' }
     }
+
+    // Options-based selects store their choices in inputConfig.options
+    const hasOptions = inputConfig &&
+      typeof inputConfig === 'object' &&
+      Array.isArray((inputConfig as Record<string, unknown>).options)
+
+    if (hasOptions) {
+      return { type: 'select', reason: renderAs as 'select' | 'multiselect' | 'reference' }
+    }
     
-    // PATTERN: Return unknown if inputConfig is missing, preventing render error
     if (!inputConfig) {
       return { type: 'unknown', reason: 'invalidRenderAs' }
     }

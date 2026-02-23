@@ -20,8 +20,6 @@ import type { TimeRange, AppointmentSlots } from '@/types/appointment'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
 import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
-import { useGlobal } from '@/composables/useGlobal'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { getColorForViolation, formatViolationTooltip } from '@/utils/booking/constraintColors'
 
@@ -73,8 +71,6 @@ const {
 // PATTERN: Composable provides pure utility functions
 const { formatTimeRange } = useTimeFormatting()
 
-const { getGlobalData } = useGlobal()
-const { settings: availabilitySettings } = useAvailabilitySettings()
 const isDevMode = isDevModeEnabled()
 
 // LEARNING: Constraint colors and formatting utilities imported from shared module
@@ -97,15 +93,9 @@ interface SlotDisplayData {
  */
 const displaySlots = computed(() => {
   const currentPerspective = props.timeBasis
-  const globalData = getGlobalData()
   
   const slots = props.appointmentSlots.map(appointmentSlot => {
-    const displayTime = derivePerspective(
-      appointmentSlot, 
-      currentPerspective,
-      globalData || undefined,
-      availabilitySettings.value || null
-    )
+    const displayTime = derivePerspective(appointmentSlot, currentPerspective)
     
     // LEARNING: Include violations for dev mode dot display
     // WHY: Dots are now integrated into buttons, not overlay

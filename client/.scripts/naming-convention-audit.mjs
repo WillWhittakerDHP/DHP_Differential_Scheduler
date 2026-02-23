@@ -12,6 +12,11 @@ import {
   renderAllowedExceptionsSection,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
+import {
+  createSourceFileFromContent,
+  extractVueScriptWithLineOffset,
+  loadTsMorph,
+} from './shared-ast-facade.mjs'
 
 /**
  * Naming Convention Audit Script
@@ -64,56 +69,89 @@ function checkFileName(repoPath, fileName) {
   return violations
 }
 
-const EXPORT_CONST_RE = /^\s*export\s+const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/gm
 const EXPORT_FUNCTION_RE = /^\s*export\s+function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/gm
-const EXPORT_TYPE_RE = /^\s*export\s+type\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/gm
-const EXPORT_INTERFACE_RE = /^\s*export\s+interface\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\{/gm
+const EXPORT_CONST_RE = /^\s*export\s+const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/gm
 
-function checkExports(content, repoPath, lineOffset) {
-  const matches = []
-  let m
+/**
+ * AST: collect export naming findings (const, function, type, interface).
+ * Returns same shape as checkExports: { ruleId, lineNumber, line }[].
+ */
+function collectExportFindingsFromAst(sourceFile, getLine, repoPath, SyntaxKind) {
+  const findings = []
   const isConstantsFile = repoPath.includes('/constants/')
   const isComposablesFile = repoPath.includes('/composables/')
 
-  EXPORT_CONST_RE.lastIndex = 0
-  while ((m = EXPORT_CONST_RE.exec(content)) !== null) {
+  const exported = sourceFile.getExportedDeclarations?.()
+  if (!exported) return findings
+
+  for (const [name, decls] of exported) {
+    if (!name || name === 'default') continue
+    for (const decl of decls) {
+      const lineNum = getLine(decl)
+      const lineSnippet = (typeof decl.getText === 'function' ? decl.getText() : '').trim().slice(0, 80) || name
+      const kind = typeof decl.getKind === 'function' ? decl.getKind() : null
+
+      if (kind === SyntaxKind.VariableDeclaration) {
+        if (isConstantsFile && !UPPER_SNAKE.test(name)) {
+          findings.push({ ruleId: 'constantExport', lineNumber: lineNum, line: lineSnippet })
+        }
+        continue
+      }
+      if (kind === SyntaxKind.FunctionDeclaration) {
+        if (isComposablesFile && !USE_PREFIX.test(name)) {
+          findings.push({ ruleId: 'composableExport', lineNumber: lineNum, line: lineSnippet })
+        } else if (!isComposablesFile && !CAMEL.test(name)) {
+          findings.push({ ruleId: 'functionExport', lineNumber: lineNum, line: lineSnippet })
+        }
+        continue
+      }
+      if (kind === SyntaxKind.TypeAliasDeclaration || kind === SyntaxKind.InterfaceDeclaration) {
+        if (!PASCAL.test(name)) {
+          findings.push({ ruleId: 'typeExport', lineNumber: lineNum, line: lineSnippet })
+        }
+      }
+    }
+  }
+
+  return findings
+}
+
+function checkExports(content, repoPath, lineOffset) {
+  const matches = []
+  const isConstantsFile = repoPath.includes('/constants/')
+  const isComposablesFile = repoPath.includes('/composables/')
+  const reConst = /^\s*export\s+const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/gm
+  const reFunc = /^\s*export\s+function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/gm
+  const reType = /^\s*export\s+type\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/gm
+  const reIface = /^\s*export\s+interface\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\{/gm
+  let m
+  while ((m = reConst.exec(content)) !== null) {
     const name = m[1]
-    const lineNum = (content.slice(0, m.index).split('\n').length) + lineOffset
+    const lineNum = content.slice(0, m.index).split('\n').length + lineOffset
     if (isConstantsFile && !UPPER_SNAKE.test(name) && name !== 'default') {
-      matches.push({ ruleId: 'constantExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80), name })
+      matches.push({ ruleId: 'constantExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80) })
     }
   }
-
-  EXPORT_FUNCTION_RE.lastIndex = 0
-  while ((m = EXPORT_FUNCTION_RE.exec(content)) !== null) {
+  while ((m = reFunc.exec(content)) !== null) {
     const name = m[1]
-    const lineNum = (content.slice(0, m.index).split('\n').length) + lineOffset
+    const lineNum = content.slice(0, m.index).split('\n').length + lineOffset
     if (isComposablesFile && !USE_PREFIX.test(name)) {
-      matches.push({ ruleId: 'composableExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80), name })
+      matches.push({ ruleId: 'composableExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80) })
     } else if (!isComposablesFile && !CAMEL.test(name) && name !== 'default') {
-      matches.push({ ruleId: 'functionExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80), name })
+      matches.push({ ruleId: 'functionExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80) })
     }
   }
-
-  EXPORT_TYPE_RE.lastIndex = 0
-  while ((m = EXPORT_TYPE_RE.exec(content)) !== null) {
+  while ((m = reType.exec(content)) !== null) {
     const name = m[1]
-    const lineNum = (content.slice(0, m.index).split('\n').length) + lineOffset
-    if (!PASCAL.test(name)) {
-      matches.push({ ruleId: 'typeExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80), name })
-    }
+    const lineNum = content.slice(0, m.index).split('\n').length + lineOffset
+    if (!PASCAL.test(name)) matches.push({ ruleId: 'typeExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80) })
   }
-
-  EXPORT_INTERFACE_RE.lastIndex = 0
-  while ((m = EXPORT_INTERFACE_RE.exec(content)) !== null) {
+  while ((m = reIface.exec(content)) !== null) {
     const name = m[1]
-    const lineNum = (content.slice(0, m.index).split('\n').length) + lineOffset
-    if (!PASCAL.test(name)) {
-      matches.push({ ruleId: 'typeExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80), name })
-    }
+    const lineNum = content.slice(0, m.index).split('\n').length + lineOffset
+    if (!PASCAL.test(name)) matches.push({ ruleId: 'typeExport', lineNumber: lineNum, line: m[0].trim().slice(0, 80) })
   }
-
-  return matches.map(({ ruleId, lineNumber, line }) => ({ ruleId, lineNumber, line }))
+  return matches
 }
 
 function checkComposableSemanticNaming(content, repoPath, lineOffset) {
@@ -186,10 +224,12 @@ function renderMarkdownReport(scanned, exceptionSummary) {
   return lines.join('\n')
 }
 
-function main() {
+async function main() {
   const paths = resolveAuditPaths(AUDIT_TYPE)
   const configAllowlist = loadCentralAllowlist('naming-convention')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
+
+  const { SyntaxKind } = await loadTsMorph()
 
   const allFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   const scanned = []
@@ -201,7 +241,30 @@ function main() {
     const content = fs.readFileSync(abs, 'utf8')
     const fileName = path.basename(abs)
     const fileViolations = checkFileName(repoPath, fileName)
-    const exportMatches = checkExports(content, repoPath, 0)
+
+    let exportMatches
+    const useAst = process.env.AUDIT_NAMING_USE_AST === '1' && /\.(ts|tsx)$/i.test(abs)
+    if (useAst) {
+      let scriptContent = content
+      let lineOffset = 0
+      if (abs.endsWith('.vue')) {
+        const extracted = extractVueScriptWithLineOffset(content)
+        if (extracted) {
+          scriptContent = extracted.scriptContent
+          lineOffset = extracted.startLineInFile
+        }
+      }
+      if (scriptContent.trim().length > 0) {
+        const virtualPath = abs.endsWith('.vue') ? abs.replace(/\.vue$/, '.vue.ts') : abs
+        const { sourceFile, getLine } = await createSourceFileFromContent(virtualPath, scriptContent, { lineOffset, useCache: false })
+        exportMatches = collectExportFindingsFromAst(sourceFile, getLine, repoPath, SyntaxKind)
+      } else {
+        exportMatches = []
+      }
+    } else {
+      exportMatches = checkExports(content, repoPath, 0)
+    }
+
     const composableSemanticMatches = checkComposableSemanticNaming(content, repoPath, 0)
 
     const matches = [
@@ -247,4 +310,7 @@ function main() {
   process.exitCode = 0
 }
 
-main()
+main().catch((err) => {
+  console.error(err)
+  process.exitCode = 1
+})

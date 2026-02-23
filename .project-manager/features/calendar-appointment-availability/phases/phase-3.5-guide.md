@@ -200,7 +200,6 @@ After completing all sessions, prompt before running `/phase-end`.
 
 ## Related Documents
 
-- Feature Plan: `.project-manager/features/calendar-appointment-availability/feature-plan.md`
 - Feature Guide: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
 - Feature Log: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-log.md`
 - Feature Handoff: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-handoff.md`

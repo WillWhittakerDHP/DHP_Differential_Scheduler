@@ -69,4 +69,18 @@ export const eventShapeFields = {
     ],
   },
 
+  differentialRole: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Differential Role",
+    globalField: "differentialRole" as const,
+    expandable: false,
+    options: [
+      { value: null, label: 'None' },
+      { value: 'major', label: 'Major' },
+      { value: 'minor', label: 'Minor' },
+      { value: 'moveable', label: 'Moveable' },
+    ],
+  },
+
 } as const;

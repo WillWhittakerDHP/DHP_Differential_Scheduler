@@ -25,7 +25,7 @@ export type GlobalDataCollectionCrudConfig<CollectionItem extends { id: string }
   selectCollection: GlobalDataCollectionSelector<CollectionItem>
   updateCollection: GlobalDataCollectionUpdater<CollectionItem>
   endpoints: GlobalDataCollectionEndpoints
-}
+} & { readonly __brand?: 'GlobalDataCollectionCrudConfig' }
 
 export type { UpdateByIdPayload }
 
@@ -45,6 +45,6 @@ export type GlobalDataCollectionCrudComposableReturn<
    * LEARNING: Some domain composables add extra helpers (e.g. `fetchRandom`).
    */
   extras?: Record<string, unknown>
-}
+} & { readonly __brand?: 'GlobalDataCollectionCrudComposableReturn' }
 
 

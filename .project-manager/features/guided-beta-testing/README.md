@@ -20,7 +20,7 @@ Interactive, in-app guided testing: welcome beta testers, assign randomized test
 
 ## Related Documents
 
-- **Feature Plan (full spec):** `feature-plan.md`
+- **Feature Guide (full spec):** `feature-guided-beta-testing-guide.md`
 - **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 6A
 - **Authentication:** `../authentication/` — Feature 10
 - **Beta Feedback:** `../beta-feedback/` — Feature 5 (feedback modal/widget)

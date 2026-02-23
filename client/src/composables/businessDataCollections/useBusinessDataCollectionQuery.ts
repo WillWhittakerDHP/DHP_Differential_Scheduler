@@ -19,7 +19,7 @@ import type {
 
 type BusinessDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
   selectCollection: BusinessDataCollectionSelector<CollectionItem>
-}
+} & { readonly __brand?: 'BusinessDataCollectionQueryOptions' }
 
 /**
  * Read-only query helpers for BusinessData-backed collections (appointments/users/properties).

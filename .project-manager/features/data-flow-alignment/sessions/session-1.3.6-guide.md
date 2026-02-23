@@ -374,7 +374,7 @@
 
 - **Phase Guide**: `../phases/phase-1.3-guide.md`
 - **Phase Handoff**: `../phases/phase-1.3-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **USER_STORY.md**: `../../../../USER_STORY.md`
 - **Scope Plan**: `../../../../.cursor/plans/timeslot-grid-enhancement-and-availability-refactor.plan.md`
 

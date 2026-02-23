@@ -12,7 +12,7 @@
 import { computed, type Ref } from 'vue'
 import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
 import { useGlobal } from './useGlobal'
-import { useAdmin } from './useAdmin'
+import { useAdmin } from './admin/useAdmin'
 import { useRelationshipCrud } from './useRelationship'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'

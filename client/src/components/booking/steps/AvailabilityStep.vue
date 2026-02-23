@@ -8,7 +8,7 @@
 import { inject, type Ref } from 'vue'
 import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'

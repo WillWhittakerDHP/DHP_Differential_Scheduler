@@ -59,7 +59,7 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 
 ## Documentation
 
-- **[Feature Plan](./feature-plan.md)** - Complete feature specification with phases, implementation details, and success criteria
+- **[Feature Guide](./feature-admin-ui-overhaul-guide.md)** - Complete feature specification with phases, implementation details, and success criteria
 
 ---
 
@@ -112,7 +112,7 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 
 ## Questions?
 
-See [feature-plan.md](./feature-plan.md) for detailed specifications and implementation details.
+See [feature guide](./feature-admin-ui-overhaul-guide.md) for detailed specifications and implementation details.
 
 ---
 

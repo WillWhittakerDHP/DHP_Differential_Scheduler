@@ -4,18 +4,20 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-02-20T17:33:36.418Z
+Generated at: 2026-02-23T16:14:04.535Z
 
 ## Summary
 
-- Total allowed: **75**
-- Requiring review: **1**
+- Total allowed: **76**
+- Requiring review: **3**
 
 ## Files with naming violations
 
 | File | Rule | Line | Snippet |
 | --- | --- | ---: | --- |
 | `client/src/layouts/blank.vue` | componentFileName | 1 | Component file should be PascalCase: blank.vue |
+| `client/src/layouts/default.vue` | componentFileName | 1 | Component file should be PascalCase: default.vue |
+| `client/src/types/admin/AdminEntity.ts` | typesFileName | 1 | Types file should be camelCase: AdminEntity.ts |
 
 ## Allowed Exceptions (for transparency)
 
@@ -40,11 +42,12 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 79 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/useMetadataCache.ts` | composableExport | 170 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/utils/nestedComputedFactory.ts` | composableFileName | 1 | pattern | Composable utility; factory name is intentional |
+| `client/src/composables/booking/useMoveablePartsScheduling.ts` | composableExport | 38 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/booking/useStepValidation.ts` | composableExport | 31 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/businessDataCollections/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
 | `client/src/composables/entityCrud/useSharedMutationHandlers.ts` | composableExport | 17 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/entityCrud/useSharedMutationHandlers.ts` | composableExport | 28 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/entityCrud/useSharedMutationHandlers.ts` | composableExport | 58 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/entityCrud/useSharedMutationHandlers.ts` | composableExport | 55 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/entityCrud/useSharedMutationHandlers.ts` | composableExport | 85 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/fieldContext/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
 | `client/src/composables/formFields/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
 | `client/src/composables/globalDataCollections/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
@@ -83,8 +86,8 @@ Review periodically to ensure exceptions are still valid.
 | `server/src/db/models/booking/booking_cascade.ts` | functionExport | 37 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/dependent_instance.ts` | functionExport | 41 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/event_assignment.ts` | functionExport | 47 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/booking/event_instance.ts` | functionExport | 46 | pattern | Sequelize model factory convention: ModelNameFactory |
-| `server/src/db/models/booking/event_shape.ts` | functionExport | 41 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/event_instance.ts` | functionExport | 56 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/event_shape.ts` | functionExport | 42 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/event_shape_attendee.ts` | functionExport | 47 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/instance_component.ts` | functionExport | 38 | pattern | Sequelize model factory convention: ModelNameFactory |
 | `server/src/db/models/booking/part_assignment.ts` | functionExport | 35 | pattern | Sequelize model factory convention: ModelNameFactory |

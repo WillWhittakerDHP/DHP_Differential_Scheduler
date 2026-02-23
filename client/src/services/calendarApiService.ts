@@ -105,19 +105,8 @@ function handleApiError(error: unknown): CalendarApiError {
   )
 }
 
-/**
- * Calendar event with location data
- * LEARNING: Structure matches server CachedCalendarEvent
- * WHY: Used for drive time calculations between appointments
- * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
- */
-export interface CalendarEvent {
-  id: string
-  start: string
-  end: string
-  placeId?: string        // Google Place ID for drive time calculation (primary location identifier)
-  summary: string | null   // Event title for context/debugging
-}
+// TYPE_SIMILARITY: Use shared CalendarEvent as single source of truth (extends TimeRangeBounds shape)
+export type { CalendarEvent } from '@shared/types/availabilityTypes'
 
 // Phase 9: Removed fetchCalendarEvents
 // WHY: Calendar events are now fetched server-side via fetchComputedAvailabilityData

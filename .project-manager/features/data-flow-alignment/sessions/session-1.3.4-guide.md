@@ -280,7 +280,7 @@
 
 - **Phase Guide**: `../phases/phase-1.3-guide.md`
 - **Phase Handoff**: `../phases/phase-1.3-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 
 ---
 

@@ -30,7 +30,7 @@
 
 **Research Documentation:**
 - Research Questions: `project-manager/features/admin-ui-overhaul/research-questions.md`
-- Feature Plan: `project-manager/features/admin-ui-overhaul/feature-plan.md`
+- Feature Guide: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md`
 
 ---
 

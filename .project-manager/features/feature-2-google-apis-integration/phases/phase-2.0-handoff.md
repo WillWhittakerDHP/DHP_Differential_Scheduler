@@ -137,7 +137,7 @@ const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
 
 ## Reference Documents
 
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-feature-2-google-apis-integration-guide.md`
 - **Availability Settings**: `client/src/configs/availabilitySettings.ts`
 - **Business Controls Tab**: `client/src/views/admin/tabs/BusinessControlsTab.vue`
 

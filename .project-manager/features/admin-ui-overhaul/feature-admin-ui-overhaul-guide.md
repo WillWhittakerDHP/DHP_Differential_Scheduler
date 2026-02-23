@@ -45,7 +45,7 @@
 **Research Documentation:**
 - Research Questions: `project-manager/features/admin-ui-overhaul/research-questions.md`
 - External Research: [Links to research sources]
-- Feature Plan: `project-manager/features/admin-ui-overhaul/feature-plan.md`
+- Feature Guide (this document): `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md`
 
 ---
 
@@ -220,7 +220,7 @@ After completing all phases in a feature:
 
 ## Related Documents
 
-- Feature Plan: `project-manager/features/admin-ui-overhaul/feature-plan.md`
+- Feature Guide (this document): `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md`
 - Feature Log: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-log.md`
 - Feature Handoff: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-handoff.md`
 - Phase Guides: `project-manager/features/admin-ui-overhaul/phases/phase-[N]-guide.md`

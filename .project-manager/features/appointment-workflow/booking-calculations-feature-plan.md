@@ -275,7 +275,7 @@ When User A is actively booking a time slot (status: `started` or `held`), User 
 
 ## Reference Documents
 
-- **Admin UI Overhaul**: `project-manager/features/admin-ui-overhaul/feature-plan.md` (Phase 2.1: Booking Calculation Engine)
+- **Admin UI Overhaul**: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md` (Phase 2.1: Booking Calculation Engine)
 - **React Calculation Utils**: `client/src/scheduler/utils/ProfileToFinalTimeUtils.ts` (archived)
 - **React Fee Calculations**: `client/src/scheduler/dataTransformation/appointmentTransformer.ts` (archived)
 - **Appointment Status Types**: `client/src/types/appointment.ts`

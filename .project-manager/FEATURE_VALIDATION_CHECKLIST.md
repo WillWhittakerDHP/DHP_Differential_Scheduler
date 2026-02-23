@@ -18,8 +18,8 @@ The following checks MUST pass before allowing phase planning:
 
 ### Required Documents
 
-- [ ] **`feature-plan.md` exists**
-  - File path: `project-manager/features/[feature-name]/feature-plan.md`
+- [ ] **`feature guide` exists**
+  - File path: `project-manager/features/[feature-name]/feature-{feature-name}-guide.md`
   - File must exist and be non-empty
 
 - [ ] **`README.md` exists**
@@ -54,13 +54,13 @@ The following checks MUST pass before allowing phase planning:
 
 - [ ] **Phase list present**
   - Must reference phases (can be simple list, not full plans)
-  - Should reference `feature-plan.md` for detailed plans
+  - Should reference `feature guide` for detailed plans
 
 ### Research Phase Validation (if required)
 
 - [ ] **Research phase completed** (if feature requires research)
   - Research findings documented in feature guide/log
-  - Research insights incorporated into `feature-plan.md`
+  - Research insights incorporated into `feature guide`
 
 ### Directory Structure Validation
 
@@ -102,14 +102,14 @@ If validation passes:
 
 ## Error Messages
 
-### Missing feature-plan.md
+### Missing feature guide
 
 ```
 Error: Feature-level planning document missing
 
-The feature-plan.md file must be created before phase planning can begin.
+The feature guide file must be created before phase planning can begin.
 
-Required path: project-manager/features/[feature-name]/feature-plan.md
+Required path: project-manager/features/[feature-name]/feature-{feature-name}-guide.md
 
 Please complete the feature planning first using /feature-create or /feature-start.
 ```
@@ -126,12 +126,12 @@ Required path: project-manager/features/[feature-name]/README.md
 Please complete the feature planning first using /feature-create or /feature-start.
 ```
 
-### Incomplete feature-plan.md
+### Incomplete feature guide
 
 ```
 Error: Feature plan incomplete
 
-The feature-plan.md file exists but is missing required sections:
+The feature guide file exists but is missing required sections:
 - [List of missing sections]
 
 Please complete the feature plan before proceeding with phase planning.
@@ -155,7 +155,7 @@ Warning: Phase directory exists before feature docs complete
 
 The phases/ directory exists but feature-level planning documents are incomplete.
 
-Please complete feature-plan.md and README.md before creating phase documents.
+Please complete feature guide and README.md before creating phase documents.
 ```
 
 ---

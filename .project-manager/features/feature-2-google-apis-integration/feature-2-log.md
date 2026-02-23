@@ -135,7 +135,7 @@ Phase 2.3 (MLS API Integration) was largely implemented as **Feature 7: Property
 **Status:** Documentation Alignment
 
 ### Summary
-Updated all Feature 2 planning documents to reflect actual completion state. Phase 2.0 and Phase 2.3 had been implemented but their sub-documents were stale. PROJECT_PLAN.md was already accurate. Feature-level and phase-level handoffs, feature-plan.md, README.md, and this log updated to match reality.
+Updated all Feature 2 planning documents to reflect actual completion state. Phase 2.0 and Phase 2.3 had been implemented but their sub-documents were stale. PROJECT_PLAN.md was already accurate. Feature-level and phase-level handoffs, feature guide, README.md, and this log updated to match reality.
 
 ---
 

@@ -1,6 +1,6 @@
 /**
  * Admin Composable
- * 
+ *
  * LEARNING: Provides admin-specific entity operations with transformed entities
  * WHY: Encapsulates admin context and entity management with relationships attached
  * PATTERN: Composable that transforms GlobalData to AdminObject using transformer
@@ -8,7 +8,7 @@
  */
 
 import { computed } from 'vue'
-import { useGlobal } from './useGlobal'
+import { useGlobal } from '../useGlobal'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities'
@@ -40,27 +40,27 @@ function createAdminInstance() {
   instanceCount++
   const callSite = getCallSiteInfo()
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
-  
-  
+
+
   const { globalData } = useGlobal()
-  
+
   // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
   // PATTERN: Separate cache key ['adminMetadata'] from globalData
   const metadataCache = useMetadataCache()
-  
+
   /**
    * Transform GlobalData to AdminObjectMap
    * LEARNING: Caches transformed entities to avoid re-transforming on every access
    * WHY: Transformation includes relationship attachment and validation - expensive operation
    * PATTERN: Use computed to reactively transform when GlobalData changes
-   * 
+   *
    * PERFORMANCE: Vue's computed automatically caches the result and only recalculates when
    * globalData.value changes. Since globalData comes from VueQuery cache, it's stable and
    * only changes when actual data updates occur (not reference changes).
    */
   const transformedEntities = computed(() => {
     const data = globalData?.value ?? null
-    
+
     if (!data) {
       return {
         blockInstance: [],
@@ -73,10 +73,10 @@ function createAdminInstance() {
         annotationInstance: []
       }
     }
-    
+
     return adminTransformer.transformGlobalToAdmin(data)
   })
-  
+
   /**
    * Get entity by key and ID from transformed entities
    * LEARNING: Returns AdminObject with relationships attached
@@ -90,7 +90,7 @@ function createAdminInstance() {
     const entities = transformedEntities.value[entityKey]
     return entities.find((e) => e.id === entityId) as AdminObject<GE> | undefined
   }
-  
+
   /**
    * Get all entities of a type from transformed entities
    * LEARNING: Returns AdminObject[] with relationships attached
@@ -103,7 +103,7 @@ function createAdminInstance() {
     // PATTERN: Return empty array as safe default
     return asEmptyArray(entities)
   }
-  
+
   /**
    * Get entities by key (alias for getEntities)
    * LEARNING: Matches React's AdminContext API
@@ -131,7 +131,7 @@ function createAdminInstance() {
     }
     return entityMap
   }
-  
+
   /**
    * Collect all admin entities for logging
    * LEARNING: Computed property that collects all admin entities
@@ -150,13 +150,13 @@ function createAdminInstance() {
       annotationInstance: getEntities('annotationInstance'),
     }
   })
-  
+
   /**
    * Get metadata for an entity (from lazy-loaded metadata cache)
    * LEARNING: Reads metadata from dedicated metadata cache (not globalData)
    * WHY: Metadata is lazy-loaded only when admin page is accessed, not during app startup
    * PATTERN: Delegates to useMetadataCache for lookup logic
-   * 
+   *
    * @param entityKey - Entity key (blockShape, partShape, blockInstance, partInstance)
    * @param entity - Entity object (GlobalEntity or AdminObject, used to determine blockShapeRef for blockInstance)
    * @returns Record<fieldKey, FieldMetadataEntry> - combined primitive + relationship metadata
@@ -169,19 +169,19 @@ function createAdminInstance() {
     if (!entityType) {
       return {}
     }
-    
+
     // PATTERN: useMetadataCache.getMetadata handles the fallback logic
     let blockShapeRef: string | null = null
     if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
       const blockInstanceEntity = entity as GlobalEntity<'blockInstance'>
       blockShapeRef = blockInstanceEntity.blockShapeRef || null
     }
-    
+
     // LEARNING: Delegate to metadata cache composable
     // PATTERN: Single source of truth for metadata access
     return metadataCache.getMetadata(entityType, blockShapeRef)
   }
-  
+
   /**
    * Ensure metadata is loaded (call on admin page mount)
    * LEARNING: Triggers lazy loading of metadata cache synchronously
@@ -192,14 +192,14 @@ function createAdminInstance() {
   function ensureMetadataLoaded(): void {
     metadataCache.ensureMetadataLoaded()
   }
-  
+
   /**
    * Check if metadata is loaded
    * LEARNING: Reactive property for metadata loading state
    * WHY: Components can show loading states while metadata fetches
    */
   const isMetadataLoaded = metadataCache.isLoaded
-  
+
   return {
     getEntity,
     getEntities,
@@ -218,16 +218,16 @@ function createAdminInstance() {
  * WHY: Centralized admin operations with transformed entity access
  * PATTERN: Singleton pattern - creates instance on first call, reuses it afterwards
  *          This prevents recalculation of transformedEntities on every component mount
- * 
+ *
  * @returns Admin operations and entity access with relationships attached
  */
 export function useAdmin() {
   callCount++
-  
+
   if (!adminInstance) {
     adminInstance = createAdminInstance()
   }
-  
+
   return adminInstance
 }
 
@@ -242,4 +242,3 @@ attachDebugToWindow('__useAdminDebug', {
     adminInstance = null
   }
 })
-

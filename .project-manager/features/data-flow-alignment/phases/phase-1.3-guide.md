@@ -623,7 +623,7 @@
 
 ## Related Documents
 
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.2 Handoff**: `phase-1.2-handoff.md`
 - **Phase 1.3 Handoff**: `phase-1.3-handoff.md` (to be created)
 

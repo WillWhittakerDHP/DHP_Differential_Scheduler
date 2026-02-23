@@ -506,7 +506,7 @@ WHERE EXISTS (
 
 - **Phase 1.5 Guide:** `phase-1.5-guide.md`
 - **Phase 1.5 Handoff:** `phase-1.5-handoff.md`
-- **Feature Plan:** `../feature-plan.md`
+- **Feature Guide:** `../feature-data-flow-alignment-guide.md`
 - **Business Settings Model:** `server/src/db/models/admin/business_settings.ts`
 - **Annotation Infrastructure:** `server/src/db/models/booking/annotation_*.ts`
 

@@ -45,14 +45,19 @@ function hasAttendee(
 }
 
 /**
+ * Find event shape by its differentialRole field.
+ * Primary resolution method — direct field lookup, no attendee matching needed.
+ */
+export function getEventShapeByRole(
+  eventShapes: EventShapeEntity[],
+  role: 'major' | 'minor' | 'moveable'
+): EventShapeEntity | null {
+  return eventShapes.find(es => es.differentialRole === role) ?? null
+}
+
+/**
  * Find event shape with major attendee
- * LEARNING: Finds the first event shape that has a major attendee UserTypeBlock in its attendees
- * WHY: Used to identify which event represents major perspective (replaces hardcoded "OnSite"/"inspector" check)
- * PATTERN: Filter event shapes by attendee presence using configured major attendee IDs
- * 
- * @param eventShapes - Array of EventShapeEntity to search
- * @param majorAttendeeIds - Array of major attendee UserTypeBlock BlockInstance IDs (from configuration)
- * @returns EventShapeEntity with major attendee, or null if not found
+ * @deprecated Use getEventShapeByRole(shapes, 'major') for direct lookup; this remains as fallback.
  */
 export function getMajorEventShape(
   eventShapes: EventShapeEntity[],
@@ -69,13 +74,7 @@ export function getMajorEventShape(
 
 /**
  * Find event shape with minor attendee
- * LEARNING: Finds the first event shape that has a minor attendee UserTypeBlock in its attendees
- * WHY: Used to identify which event represents minor perspective (replaces hardcoded ClientPresent/USER_ROLE_CLIENT check)
- * PATTERN: Filter event shapes by attendee presence using configured minor attendee IDs
- * 
- * @param eventShapes - Array of EventShapeEntity to search
- * @param minorAttendeeIds - Array of minor attendee UserTypeBlock BlockInstance IDs (from configuration)
- * @returns EventShapeEntity with minor attendee, or null if not found
+ * @deprecated Use getEventShapeByRole(shapes, 'minor') for direct lookup; this remains as fallback.
  */
 export function getMinorEventShape(
   eventShapes: EventShapeEntity[],

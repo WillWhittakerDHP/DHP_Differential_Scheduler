@@ -35,4 +35,11 @@ export const eventShapeDisplays = {
     inline: true,
     stacked: false,
   },
+
+  differentialRole: {
+    label: "Differential Role",
+    placeholder: "Select differential role",
+    inline: true,
+    stacked: false,
+  },
 } as const;

@@ -40,7 +40,7 @@ Pluggable authentication using a Strategy Pattern: Magic Link for beta/developme
 
 ## Related Documents
 
-- **Feature Plan (full spec):** `feature-plan.md`
+- **Feature Guide (full spec):** `feature-authentication-guide.md`
 - **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 2A
 
 ---

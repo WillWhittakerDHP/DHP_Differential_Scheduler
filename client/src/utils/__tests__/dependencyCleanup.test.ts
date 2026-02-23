@@ -30,7 +30,7 @@ vi.mock('@/composables/useAdminConfig', () => ({
   useAdminConfig: vi.fn(() => mockAdminConfig),
 }))
 
-vi.mock('@/composables/useAdmin', () => ({
+vi.mock('@/composables/admin/useAdmin', () => ({
   useAdmin: vi.fn(() => mockAdmin),
 }))
 

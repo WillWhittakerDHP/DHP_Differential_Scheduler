@@ -7,7 +7,7 @@
  */
 
 import { computed, type ComputedRef } from 'vue'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'

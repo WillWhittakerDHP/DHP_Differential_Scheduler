@@ -10,6 +10,13 @@ import { inject } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { WIZARD_FIELD_CONFIGS, type WizardInstance, type WizardStateField } from '@/utils/wizardStateFieldConfig'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('wizardStatePlugin')
+
+function isBookingBlockInstance(item: SelectionCardItem): item is BookingBlockInstance {
+  return 'entityKey' in item && (item as Record<string, unknown>).entityKey === 'blockInstance'
+}
 
 export type { WizardStateField }
 
@@ -63,8 +70,12 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
      * Session 1.3.9.3: Updated to handle arrays for multi-select fields
      */
     setValue: (item: SelectionCardItem, value: boolean | string | null): void => {
-      const blockInstance = item as unknown as BookingBlockInstance
-      
+      if (!isBookingBlockInstance(item)) {
+        logger.error('wizardStatePlugin.setValue: item is not a BookingBlockInstance', { item })
+        return
+      }
+      const blockInstance = item
+
       if (!fieldConfig.isArray) {
         if (value === true || value === item.id) {
           setSelectedValue(blockInstance)

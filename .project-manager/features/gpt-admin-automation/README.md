@@ -62,7 +62,7 @@ This directory originally contained plans for a GPT-powered natural language aut
 - Step-by-step guidance achieves the same goal (reducing setup time) without AI
 - Templates cover the most common use cases more predictably
 
-The original planning documents (`feature-plan.md`, `phase-1-tasks.md`, `IMPLEMENTATION_SUMMARY.md`) reflect the GPT-based design and will be replaced when work on this feature begins.
+The original planning documents (`feature guide`, `phase-1-tasks.md`, `IMPLEMENTATION_SUMMARY.md`) reflect the GPT-based design and will be replaced when work on this feature begins.
 
 ---
 

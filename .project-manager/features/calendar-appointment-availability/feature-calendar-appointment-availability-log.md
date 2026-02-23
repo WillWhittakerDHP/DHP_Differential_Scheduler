@@ -9,9 +9,9 @@
 ## Feature Status
 
 **Feature:** calendar-appointment-availability
-**Status:** Complete (Phases 3.1–3.5)
+**Status:** Reopened (Phases 3.1–3.5)
 **Started:** 2025-02-01
-**Completed:** —
+**Completed:** 2026-02-21
 
 ---
 
@@ -176,5 +176,10 @@
 
 - Feature Guide: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
 - Feature Handoff: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-handoff.md`
-- Feature Plan: `.project-manager/features/calendar-appointment-availability/feature-plan.md`
+- Feature Guide: `.project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
 - PROJECT_PLAN.md: Feature 3 section
+
+
+## Reopen - 2026-02-22
+**Reason:** Additional work needed
+**Status:** Reopened

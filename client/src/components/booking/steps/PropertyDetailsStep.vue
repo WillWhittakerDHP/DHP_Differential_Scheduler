@@ -12,7 +12,7 @@
 
 import { ref, inject, computed, onMounted, type Ref } from 'vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
 import { usePropertyTypeBlockSelection } from '@/composables/booking/usePropertyTypeBlockSelection'

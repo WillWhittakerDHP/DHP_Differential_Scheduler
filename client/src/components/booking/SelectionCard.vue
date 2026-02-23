@@ -22,7 +22,7 @@ import type {
   SelectionCardItem, 
   SelectionCardConfig
 } from './types/selectionCardTypes'
-import { useSelectionCard } from '@/composables/useSelectionCard'
+import { useSelectionCard } from '@/composables/booking/useSelectionCard'
 import { useSelectionCardConfig } from '@/composables/booking/useSelectionCardConfig'
 import { useSelectionCardState } from '@/composables/booking/useSelectionCardState'
 import { useSelectionCardHandlers } from '@/composables/booking/useSelectionCardHandlers'

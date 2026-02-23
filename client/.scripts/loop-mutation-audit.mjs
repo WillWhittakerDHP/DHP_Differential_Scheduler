@@ -10,6 +10,12 @@ import {
   summarizeExceptions,
   parseChangedOnlyFlag,
 } from './shared-audit-utils.mjs'
+import {
+  createSourceFileFromContent,
+  extractVueScriptWithLineOffset,
+  forEachDescendant,
+  loadTsMorph,
+} from './shared-ast-facade.mjs'
 
 /**
  * Loop Mutation Audit Script
@@ -133,98 +139,80 @@ function scanLines(lines) {
   return { counts, matches }
 }
 
-/**
- * Check if a mutation is legitimate and should be excluded from audit
- * @param {string} mutationLine - The line containing the mutation
- * @param {string} mutationRuleId - Type of mutation (e.g., 'push', 'assignProp')
- * @param {string} forEachLine - The line containing the forEach
- * @param {string} repoPath - File path for context-aware detection
- * @returns {boolean} True if mutation should be excluded
- */
-function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, _repoPath = '') {
-  // Vue ref assignments - legitimate reactive state updates
-  if (mutationRuleId === 'assignProp' && /\.value\s*=/.test(mutationLine)) {
-    return true
-  }
-  
-  // Vue template directives - not actual mutations (template syntax)
-  if (mutationRuleId === 'assignProp' && /v-model|@\w+|:[\w-]+=/.test(mutationLine)) {
-    return true
-  }
-  
-  // Set/Map operations - legitimate for Set/Map data structures
-  if (/\.(add|set|delete|clear|has)\s*\(/.test(mutationLine)) {
-    return true
-  }
-  
-  // Array spread operations - functional pattern, not mutation
-  if (mutationRuleId === 'assignProp' && /\[.*\.\.\..*\]/.test(mutationLine)) {
-    return true
-  }
-  
-  // Object spread operations - functional pattern, not mutation
-  if (mutationRuleId === 'assignProp' && /\{.*\.\.\..*\}/.test(mutationLine)) {
-    return true
-  }
-  
-  // Filter/map operations on ref.value - functional patterns
-  if (mutationRuleId === 'assignProp' && /\.value\s*=\s*.*\.(filter|map|reduce|flatMap)\s*\(/.test(mutationLine)) {
-    return true
-  }
-  
-  // Array.from() + spread patterns - functional construction, not mutation
-  if (/Array\.from\s*\(/.test(mutationLine)) {
-    return true
-  }
-  
-  // Pinia/store reactive state updates (.value = on store refs)
-  if (mutationRuleId === 'assignProp' && /store.*\.value\s*=|\.state\.\w+\s*=/.test(mutationLine)) {
-    return true
-  }
-  
-  // Map constructor and WeakMap/WeakSet operations
-  if (/new\s+(Map|Set|WeakMap|WeakSet)\s*\(/.test(mutationLine)) {
-    return true
-  }
-  
-  // DOM mutations in main.ts are legitimate side effects
-  if (/MutationObserver|querySelector|appendChild|removeChild/.test(mutationLine)) {
-    return true
-  }
-  
-  // Theme config mutations in @core/initCore.ts are legitimate
-  if (/themeConfig|themes\.value|colors\[/.test(mutationLine)) {
-    return true
-  }
-  
-  return false
-}
+const MUTATION_RULE_IDS = new Set(['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse', 'assignIndex', 'assignProp', 'delete'])
+const MUTATOR_METHOD_NAMES = new Set(['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'])
 
-function countForEachPushNearby(matches, repoPath = '') {
-  // Heuristic: forEach with push/splice/etc in the next N lines is a good "replace with map/reduce" target.
-  const window = 22
-  /** @type {Array<{forEachAt: number, mutationAt: number, mutationRuleId: string}>} */
+/**
+ * AST: find forEach calls and mutations inside the same callback body.
+ * Returns { forEachAt, mutationAt, mutationRuleId }[] with 1-based line numbers.
+ *
+ * @param {import('ts-morph').SourceFile} sourceFile
+ * @param {(node: import('ts-morph').Node) => number} getLine
+ * @param {{ SyntaxKind: object }} sk - SyntaxKind from loadTsMorph()
+ * @returns {Promise<Array<{forEachAt: number, mutationAt: number, mutationRuleId: string}>>}
+ */
+async function collectForEachMutationHitsFromAst(sourceFile, getLine, sk) {
+  const SyntaxKind = sk
   const hits = []
 
-  const forEachLines = matches.filter(m => m.ruleId === 'forEach').map(m => m.lineNumber)
-  const mutationRules = new Set(['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse', 'assignIndex', 'assignProp', 'delete'])
-  const mutationMatches = matches.filter(m => mutationRules.has(m.ruleId))
-
-  for (const fl of forEachLines) {
-    const forEachMatch = matches.find(m => m.ruleId === 'forEach' && m.lineNumber === fl)
-    const forEachLine = forEachMatch?.line || ''
-    
-    const inWindow = mutationMatches.filter(m => m.lineNumber > fl && m.lineNumber <= fl + window)
-    for (const m of inWindow) {
-      // Skip legitimate mutations (pass repoPath for context-aware detection)
-      if (isLegitimateMutation(m.line, m.ruleId, forEachLine, repoPath)) {
-        continue
-      }
-      hits.push({ forEachAt: fl, mutationAt: m.lineNumber, mutationRuleId: m.ruleId })
+  function getCallbackBody(call) {
+    const args = call.getArguments()
+    if (args.length === 0) return null
+    const cb = args[0]
+    const kind = cb.getKind()
+    if (kind === SyntaxKind.ArrowFunction) {
+      const body = cb.getBody()
+      return body.getKind?.() === SyntaxKind.Block ? body : null
     }
+    if (kind === SyntaxKind.FunctionExpression) {
+      return cb.getBody?.() ?? null
+    }
+    return null
   }
 
-  // Stable ordering
+  function getMutationRuleId(node) {
+    const kind = node.getKind()
+    if (kind === SyntaxKind.CallExpression) {
+      const expr = node.getExpression?.()
+      if (expr?.getKind?.() === SyntaxKind.PropertyAccessExpression) {
+        const name = expr.getName?.()
+        if (name && MUTATOR_METHOD_NAMES.has(name)) return name
+      }
+      return null
+    }
+    if (kind === SyntaxKind.AssignmentExpression || kind === SyntaxKind.BinaryExpression) {
+      const left = node.getLeft?.()
+      if (!left) return null
+      const leftKind = left.getKind()
+      if (leftKind === SyntaxKind.ElementAccessExpression) return 'assignIndex'
+      if (leftKind === SyntaxKind.PropertyAccessExpression) return 'assignProp'
+      return null
+    }
+    if (kind === SyntaxKind.DeleteExpression) return 'delete'
+    return null
+  }
+
+  for (const node of sourceFile.getDescendants?.() ?? []) {
+    if (node.getKind() !== SyntaxKind.CallExpression) continue
+    const expr = node.getExpression?.()
+    if (!expr || expr.getKind() !== SyntaxKind.PropertyAccessExpression) continue
+    if (expr.getName?.() !== 'forEach') continue
+
+    const forEachLine = getLine(node)
+    const body = getCallbackBody(node)
+    if (!body) continue
+
+    forEachDescendant(body, (desc) => {
+      const ruleId = getMutationRuleId(desc)
+      if (!ruleId) return
+      hits.push({
+        forEachAt: forEachLine,
+        mutationAt: getLine(desc),
+        mutationRuleId: ruleId,
+      })
+    })
+  }
+
   hits.sort((a, b) => a.forEachAt - b.forEachAt || a.mutationAt - b.mutationAt || a.mutationRuleId.localeCompare(b.mutationRuleId))
   return hits
 }
@@ -369,14 +357,12 @@ function renderMarkdownReport(files, exceptionSummary) {
   return lines.join('\n')
 }
 
-function main() {
+async function main() {
   const paths = resolveAuditPaths(AUDIT_TYPE)
 
-  // Load exception config
   const configAllowlist = loadCentralAllowlist('loop-mutation')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
-  // Load priority config
   let priorityConfig = {}
   try {
     const configRaw = fs.readFileSync(paths.configPath, 'utf8')
@@ -384,6 +370,9 @@ function main() {
   } catch (_error) {
     // Config might not exist or be invalid, use defaults
   }
+
+  const { SyntaxKind } = await loadTsMorph()
+  const sk = { SyntaxKind }
 
   const absFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
   const clientFiles = absFiles.filter((p) => p.startsWith(paths.clientSrc))
@@ -396,8 +385,7 @@ function main() {
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
     const { counts, matches } = scanLines(lines)
-    
-    // Categorize matches into allowed vs requiring-review
+
     const { allowed, requiresReview } = categorizeMatches(
       matches,
       repoPath,
@@ -405,11 +393,37 @@ function main() {
       AUDIT_TYPE,
       configAllowlist
     )
-    
-    // Calculate forEach→mutation hits only for requiresReview matches
-    const forEachMutationHits = countForEachPushNearby(requiresReview, repoPath)
-    
-    // Tier 1: only matches that participate in a forEach→mutation hit count toward requiring review and score
+
+    let forEachMutationHits
+    const useAst = /\.(ts|tsx|vue|js|mjs)$/i.test(abs)
+    if (useAst) {
+      let scriptContent = contents
+      let lineOffset = 0
+      if (abs.endsWith('.vue')) {
+        const extracted = extractVueScriptWithLineOffset(contents)
+        if (extracted) {
+          scriptContent = extracted.scriptContent
+          lineOffset = extracted.startLineInFile
+        }
+      }
+      if (scriptContent.trim().length > 0) {
+        const virtualPath = abs.endsWith('.vue') ? abs.replace(/\.vue$/, '.vue.ts') : abs
+        const { sourceFile, getLine } = await createSourceFileFromContent(virtualPath, scriptContent, { lineOffset })
+        const astHits = await collectForEachMutationHitsFromAst(sourceFile, getLine, sk)
+        const forEachLinesInReview = new Set(requiresReview.filter((m) => m.ruleId === 'forEach').map((m) => m.lineNumber))
+        const mutationLinesInReview = new Set(
+          requiresReview.filter((m) => MUTATION_RULE_IDS.has(m.ruleId)).map((m) => m.lineNumber)
+        )
+        forEachMutationHits = astHits.filter(
+          (h) => forEachLinesInReview.has(h.forEachAt) && mutationLinesInReview.has(h.mutationAt)
+        )
+      } else {
+        forEachMutationHits = []
+      }
+    } else {
+      forEachMutationHits = []
+    }
+
     const lineNumbersInHits = new Set()
     for (const h of forEachMutationHits) {
       lineNumbersInHits.add(h.forEachAt)
@@ -419,7 +433,7 @@ function main() {
     const reviewCounts = recalculateCounts(requiresReviewTier1)
     const fileScore = score(reviewCounts, forEachMutationHits)
     const filePriority = assignPriority(fileScore, priorityConfig)
-    
+
     scanned.push({
       id: toStableId(repoPath),
       repoPath,

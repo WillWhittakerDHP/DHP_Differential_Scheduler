@@ -4,13 +4,22 @@ import {
   loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
+  getAuditScanDirs,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
   parseChangedOnlyFlag,
+  runTwoPhaseFilter,
+  createSuppressionHitTracker,
   AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED,
   getAuditReportHeaderLines,
 } from './shared-audit-utils.mjs'
+import {
+  createSourceFileFromContent,
+  extractVueScriptWithLineOffset,
+  forEachDescendant,
+  loadTsMorph,
+} from './shared-ast-facade.mjs'
 
 /**
  * Type-Import Audit Script
@@ -76,68 +85,88 @@ function isTypeOnlyFile(absPath) {
   return hasTypeExport
 }
 
-/** Extract value imports: import { X } from '...' or import X from '...' (no "type" keyword) */
-function extractValueImports(content) {
+/**
+ * AST: collect value imports (no "type" keyword). Returns { lineNumber, specifier, symbols }[].
+ * lineNumber is 1-based; use getLine(decl) for correct file/script line.
+ */
+function collectValueImportsFromAst(sourceFile, getLine) {
   const out = []
-  const re = /import\s+(?!type\s)(?:\{([^}]*)\}|(\w+))\s+from\s+['"]([^'"]+)['"]/g
-  const lines = content.split('\n')
-  for (let i = 0; i < lines.length; i++) {
-    for (const m of lines[i].matchAll(re)) {
-      const specifier = m[3]
-      const symbols = m[1] ? m[1].split(',').map(s => s.replace(/\s+as\s+.*$/, '').trim()).filter(Boolean) : (m[2] ? [m[2]] : [])
-      out.push({ lineNumber: i + 1, specifier, symbols })
+  for (const decl of sourceFile.getImportDeclarations()) {
+    if (decl.isTypeOnly()) continue
+    const specifier = decl.getModuleSpecifierValue()
+    const symbols = []
+    const defaultImport = decl.getDefaultImport()
+    if (defaultImport) symbols.push(defaultImport.getText())
+    for (const spec of decl.getNamedImports()) {
+      const name = spec.getName()
+      if (name) symbols.push(name)
     }
+    if (symbols.length === 0) continue
+    out.push({ lineNumber: getLine(decl), specifier, symbols })
   }
   return out
 }
 
-/** Extract import type { A, B } and return list of type-only symbols per line */
-function extractTypeOnlyImports(content) {
-  const out = []
-  const re = /import\s+type\s+\{([^}]+)\}\s+from\s+['"][^'"]+['"]/g
-  const lines = content.split('\n')
-  for (let i = 0; i < lines.length; i++) {
-    for (const m of lines[i].matchAll(re)) {
-      const symbols = m[1].split(',').map(s => s.replace(/\s+as\s+.*$/, '').trim()).filter(Boolean)
-      out.push({ lineNumber: i + 1, symbols })
+/**
+ * AST: collect names that are imported with "import type { ... }".
+ */
+function collectTypeOnlyImportNamesFromAst(sourceFile) {
+  const names = new Set()
+  for (const decl of sourceFile.getImportDeclarations()) {
+    if (!decl.isTypeOnly()) continue
+    for (const spec of decl.getNamedImports()) {
+      const name = spec.getName()
+      if (name) names.add(name)
     }
   }
-  return out
+  return names
 }
 
-/** Heuristic: is symbol S used in a value position (new S(, S.(, S(, typeof S)? */
-function findTypeUsedAsValue(content, symbol) {
-  // eslint-disable-next-line security/detect-non-literal-regexp
-  const re = new RegExp(`\\b${escapeRegex(symbol)}\\s*\\(|\\bnew\\s+${escapeRegex(symbol)}\\s*\\(|\\.${escapeRegex(symbol)}\\b|typeof\\s+${escapeRegex(symbol)}`, 'g')
-  const lines = content.split('\n')
-  const hits = []
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]
-    if (/import\s+type\s+/.test(line)) continue
-    for (const _ of line.matchAll(re)) {
-      hits.push(i + 1)
-      break
-    }
-  }
-  return hits
+/**
+ * AST: true if this identifier node is used in a value position (call, new, typeof, property access name).
+ */
+function isIdentifierInValuePosition(identifierNode, SyntaxKind) {
+  const parent = identifierNode.getParent()
+  if (!parent) return false
+  const kind = parent.getKind()
+  if (kind === SyntaxKind.CallExpression && parent.getExpression?.() === identifierNode) return true
+  if (kind === SyntaxKind.NewExpression && parent.getExpression?.() === identifierNode) return true
+  if (kind === SyntaxKind.TypeOfExpression && parent.getExpression?.() === identifierNode) return true
+  if (kind === SyntaxKind.PropertyAccessExpression && parent.getNameNode?.() === identifierNode) return true
+  return false
 }
 
-function escapeRegex(s) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+/**
+ * AST: find usages of type-only-imported names in value positions. Returns { lineNumber, symbol }[].
+ */
+function collectTypeUsedAsValueFromAst(sourceFile, typeOnlyNames, getLine, SyntaxKind) {
+  const findings = []
+  forEachDescendant(sourceFile, (node) => {
+    if (node.getKind() !== SyntaxKind.Identifier) return
+    const name = node.getText()
+    if (!typeOnlyNames.has(name)) return
+    if (!isIdentifierInValuePosition(node, SyntaxKind)) return
+    findings.push({ lineNumber: getLine(node), symbol: name })
+  })
+  return findings
 }
 
-function main() {
+async function main() {
   const paths = resolveAuditPaths('type-import')
 
   const configAllowlist = loadCentralAllowlist('type-import')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
 
-  const allFiles = listAuditFiles('type-import', [paths.clientSrc, paths.serverSrc])
+  const { SyntaxKind } = await loadTsMorph()
+
+  const scanDirs = getAuditScanDirs('type-import', paths)
+  const allFiles = listAuditFiles('type-import', scanDirs)
 
   const valueImportFromTypeOnlyFile = []
   const typeUsedAsValue = []
   const fileScores = new Map()
   let scannedCount = 0
+  const suppressionHitTracker = createSuppressionHitTracker()
 
   for (const abs of allFiles) {
     const repoPath = toRepoPath(abs, paths.projectRoot)
@@ -145,9 +174,26 @@ function main() {
 
     scannedCount++
     const raw = fs.readFileSync(abs, 'utf-8')
-    const content = extractScriptContent(raw, abs)
+    let content = extractScriptContent(raw, abs)
+    let lineOffset = 0
+    if (abs.endsWith('.vue')) {
+      const extracted = extractVueScriptWithLineOffset(raw)
+      if (extracted) {
+        content = extracted.scriptContent
+        lineOffset = extracted.startLineInFile
+      }
+    }
 
-    const valueImports = extractValueImports(content)
+    if (content.trim().length === 0) continue
+
+    const virtualPath = abs.endsWith('.vue') ? abs.replace(/\.vue$/, '.vue.ts') : abs
+    let sourceFile
+    let getLine
+    const created = await createSourceFileFromContent(virtualPath, content, { lineOffset })
+    sourceFile = created.sourceFile
+    getLine = created.getLine
+
+    const valueImports = collectValueImportsFromAst(sourceFile, getLine)
     for (const imp of valueImports) {
       if (!imp.specifier.startsWith('.') && !imp.specifier.startsWith('@/')) continue
       const targetAbs = resolveSpecifierToAbs(imp.specifier, abs, paths.clientSrc)
@@ -158,7 +204,9 @@ function main() {
       if (!isTypeOnlyFile(targetAbs)) continue
       for (const sym of imp.symbols) {
         const result = checkConfigAllowlist(repoPath, 'value-import-from-type-only-file', imp.lineNumber, configAllowlist)
-        if (!result.allowed) {
+        if (result.allowed) {
+          if (result.entryKey) suppressionHitTracker.add(result.entryKey, 'value-import-from-type-only-file')
+        } else {
           valueImportFromTypeOnlyFile.push({
             file: repoPath,
             lineNumber: imp.lineNumber,
@@ -171,20 +219,22 @@ function main() {
       }
     }
 
-    const typeImports = extractTypeOnlyImports(content)
-    for (const imp of typeImports) {
-      for (const sym of imp.symbols) {
-        const lineNumbers = findTypeUsedAsValue(content, sym)
-        for (const lineNum of lineNumbers) {
-          const result = checkConfigAllowlist(repoPath, 'type-used-as-value', lineNum, configAllowlist)
-          if (!result.allowed) {
-            typeUsedAsValue.push({
-              file: repoPath,
-              lineNumber: lineNum,
-              symbol: sym,
-            })
-            fileScores.set(repoPath, (fileScores.get(repoPath) || 0) + 2)
-          }
+    const typeOnlyNames = collectTypeOnlyImportNamesFromAst(sourceFile)
+    if (typeOnlyNames.size > 0) {
+      const detectorCandidates = collectTypeUsedAsValueFromAst(sourceFile, typeOnlyNames, getLine, SyntaxKind)
+      const { passed: validatorFindings } = runTwoPhaseFilter(detectorCandidates, () => true)
+      for (const u of validatorFindings) {
+        const result = checkConfigAllowlist(repoPath, 'type-used-as-value', u.lineNumber, configAllowlist)
+        if (result.allowed) {
+          if (result.entryKey) suppressionHitTracker.add(result.entryKey, 'type-used-as-value')
+        } else {
+          typeUsedAsValue.push({
+            file: repoPath,
+            lineNumber: u.lineNumber,
+            symbol: u.symbol,
+            detectionStage: u.detectionStage,
+          })
+          fileScores.set(repoPath, (fileScores.get(repoPath) || 0) + 2)
         }
       }
     }
@@ -202,6 +252,7 @@ function main() {
     valueImportFromTypeOnlyFile,
     typeUsedAsValue,
     files,
+    suppressionHits: suppressionHitTracker.getCounts(),
   }
 
   const { outJson, outMd } = writeAuditReports('type-import', result, renderMarkdownReport(result))
@@ -268,4 +319,7 @@ function renderMarkdownReport(data) {
   return lines.join('\n')
 }
 
-main()
+main().catch((err) => {
+  console.error(err)
+  process.exitCode = 1
+})

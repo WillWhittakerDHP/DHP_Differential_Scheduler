@@ -36,7 +36,7 @@ export type BusinessDataCollectionCrudConfig<CollectionItem extends { id: string
   updateCollection: BusinessDataCollectionUpdater<CollectionItem>
   endpoints: BusinessDataCollectionEndpoints
   patchOptimistically?: (current: CollectionItem, patch: Partial<unknown>) => CollectionItem
-}
+} & { readonly __brand?: 'BusinessDataCollectionCrudConfig' }
 
 export type { UpdateByIdPayload }
 
@@ -56,5 +56,5 @@ export type BusinessDataCollectionCrudComposableReturn<
    * LEARNING: Some domain composables add extra helpers (e.g. `fetchRandom`).
    */
   extras?: Record<string, unknown>
-}
+} & { readonly __brand?: 'BusinessDataCollectionCrudComposableReturn' }
 

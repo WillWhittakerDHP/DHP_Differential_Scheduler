@@ -225,6 +225,6 @@ useBusiness()
 ## Related Documents
 
 - **Phase 1.4 Handoff**: `../phases/phase-1.4-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Session 1.4.7 Log**: `../sessions/session-1.4.7-log.md`
 

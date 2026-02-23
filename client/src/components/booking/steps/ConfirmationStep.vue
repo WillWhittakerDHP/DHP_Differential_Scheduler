@@ -8,7 +8,7 @@
  */
 
 import { inject, ref, type Ref } from 'vue'
-import { useBookingWizard } from '@/composables/useBookingWizard'
+import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import type { AvailabilityStepData } from '@/types/wizardStepData'

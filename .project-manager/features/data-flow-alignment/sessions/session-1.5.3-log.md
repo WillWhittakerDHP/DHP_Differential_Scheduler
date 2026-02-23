@@ -209,7 +209,7 @@ OR
 - **Session 1.5.1 Log:** `session-1.5.1-log.md`
 - **Session 1.5.2 Log:** `session-1.5.2-log.md`
 - **Phase 1.5 Handoff:** `../phases/phase-1.5-handoff.md`
-- **Feature Plan:** `../feature-plan.md`
+- **Feature Guide:** `../feature-data-flow-alignment-guide.md`
 
 ---
 

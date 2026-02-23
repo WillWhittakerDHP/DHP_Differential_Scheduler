@@ -26,7 +26,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
 | 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
 | 2 | Google APIs Integration | ✅ Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
-| 3 | Calendar & Appointment Availability | ⏳ Partial | `features/calendar-appointment-availability/` | — |
+| 3 | Calendar & Appointment Availability | ⏳ Reopened | `features/calendar-appointment-availability/` | Completed 2026-02-21 |
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
 | 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
@@ -178,9 +178,9 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 3: Calendar & Appointment Availability
 
-**Status:** ⏳ Partial
+**Status:** ⏳ Reopened (Phase 3.6 in progress)
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
-**Branch:** `feature/google-apis-integration` (built alongside other features)
+**Branch:** `feature/calendar-appointment-availability`
 
 ### What's Built
 
@@ -778,7 +778,7 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **BETA_LAUNCH_CHE
 - **Vue Migration (Feature 0) is Core Complete** — structural migration achieved; remaining work is feature development
 - **Data Flow Alignment (Feature 1) is Complete** — all 5 phases finished 2026-01-31
 - **Google APIs (Feature 2) is Complete** — Calendar and Maps fully working, MLS infrastructure built (returns 503 until configured). Production OAuth storage and MLS activation are tracked in Feature 12 (Alpha Launch).
-- **Calendar & Availability (Feature 3) is Functionally Complete** — full server-side computation and client-side UI working for booking flow
+- **Calendar & Availability (Feature 3) is Complete** — full server-side computation, client-side UI, invite configuration, and template pipeline working for booking flow
 - **Features 4–5 (Pricing Cascades, Property Enrichment)** are complete sub-features without dedicated directories
 - **Feature 6 (Appointment Workflow & Booking Calculations)** — workflow Phase 1 complete; booking calculation logic core complete, needs consolidation composable
 - **Launch infrastructure** is tracked in BETA_LAUNCH_CHECKLIST.md (hosting, auth, security, CI/CD)

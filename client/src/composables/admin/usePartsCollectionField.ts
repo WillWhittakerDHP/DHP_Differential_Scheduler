@@ -14,7 +14,7 @@
  */
 
 import { computed } from 'vue'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'

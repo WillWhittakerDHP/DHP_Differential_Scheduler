@@ -14,7 +14,7 @@ import type { SelectGroup } from '@/types/entity/selectOptions'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import { useAdmin } from './useAdmin'
+import { useAdmin } from './admin/useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { createLogger } from '@/utils/logger'
 

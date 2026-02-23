@@ -943,7 +943,7 @@ function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
     <MetadataEditModal
       v-model="eventShapeMetadataModalOpen"
       entity-key="eventShape"
-      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'), name: 'Event Shape Fields (Global)', entityKey: 'eventShape', orderIndex: 0, active: true, isTernary: false, ternaryDefault: null }"
+      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'), name: 'Event Shape Fields (Global)', entityKey: 'eventShape', orderIndex: 0, active: true, isTernary: false, ternaryDefault: null, differentialRole: null }"
       entity-name="Event Shape Fields (Global)"
     />
   </div>

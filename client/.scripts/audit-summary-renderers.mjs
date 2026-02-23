@@ -1,11 +1,93 @@
 /**
  * Registry of summary renderers: auditType -> (data, context) => markdown body.
  * The runner prepends getAuditReportHeaderLines(); renderers return body only.
- * context = { projectRoot, auditJsonPath, toRepoPath }
+ * context = { projectRoot, auditJsonPath, toRepoPath, delta?: { counts, newFindings, ... } }
  */
 
 function genFrom(ctx) {
   return `Generated from \`${ctx.toRepoPath(ctx.auditJsonPath)}\`.`
+}
+
+/**
+ * Render delta-first summary block: counts then sections New → Regressed → Unchanged → Resolved.
+ * Only emits when ctx.delta is present (previous snapshot existed).
+ *
+ * @param {object} ctx - context with optional ctx.delta
+ * @param {{ maxNew?: number, maxResolved?: number }} [opts] - Cap rows per section
+ * @returns {string[]} Markdown lines (no trailing newline)
+ */
+function renderDeltaFirstBlock(ctx, opts = {}) {
+  const delta = ctx.delta
+  if (!delta || !delta.counts) return []
+
+  const lines = []
+  const c = delta.counts
+  const hasAny = c.new > 0 || c.regressed > 0 || c.unchanged > 0 || c.resolved > 0
+  if (!hasAny) return []
+
+  lines.push('## Delta (vs previous run)')
+  lines.push('')
+  lines.push('| Baseline state | Count |')
+  lines.push('| --- | ---: |')
+  lines.push(`| New | ${c.new} |`)
+  lines.push(`| Regressed | ${c.regressed} |`)
+  lines.push(`| Unchanged | ${c.unchanged} |`)
+  lines.push(`| Resolved | ${c.resolved} |`)
+  lines.push('')
+
+  const byRule = delta.byRule && Object.keys(delta.byRule).length > 0
+  if (byRule) {
+    lines.push('### By rule')
+    lines.push('')
+    lines.push('| Rule | New | Unchanged | Resolved | Regressed |')
+    lines.push('| --- | ---: | ---: | ---: | ---: |')
+    for (const [ruleId, r] of Object.entries(delta.byRule).sort((a, b) => (b[1].new + b[1].unchanged) - (a[1].new + a[1].unchanged))) {
+      lines.push(`| ${ruleId} | ${r.new} | ${r.unchanged} | ${r.resolved} | ${r.regressed} |`)
+    }
+    lines.push('')
+  }
+
+  const maxNew = opts.maxNew ?? 20
+  const maxResolved = opts.maxResolved ?? 15
+  if (delta.newFindings?.length > 0) {
+    lines.push('### New findings')
+    lines.push('')
+    lines.push('| File | Line | Rule | Snippet |')
+    lines.push('| --- | ---: | --- | --- |')
+    for (const f of delta.newFindings.slice(0, maxNew)) {
+      const snip = (f.line ?? '').slice(0, 60)
+      lines.push(`| \`${f.file}\` | ${f.lineNumber} | ${f.ruleId} | ${snip} |`)
+    }
+    if (delta.newFindings.length > maxNew) {
+      lines.push(`| *...and ${delta.newFindings.length - maxNew} more* | | | |`)
+    }
+    lines.push('')
+  }
+  if (delta.regressedFindings?.length > 0) {
+    lines.push('### Regressed')
+    lines.push('')
+    lines.push('| File | Line | Rule |')
+    lines.push('| --- | ---: | --- |')
+    for (const f of delta.regressedFindings.slice(0, maxNew)) {
+      lines.push(`| \`${f.file}\` | ${f.lineNumber} | ${f.ruleId} |`)
+    }
+    lines.push('')
+  }
+  if (delta.resolvedFindings?.length > 0) {
+    lines.push('### Resolved (no longer in current run)')
+    lines.push('')
+    lines.push('| File | Line | Rule |')
+    lines.push('| --- | ---: | --- |')
+    for (const f of delta.resolvedFindings.slice(0, maxResolved)) {
+      lines.push(`| \`${f.file}\` | ${f.lineNumber} | ${f.ruleId} |`)
+    }
+    if (delta.resolvedFindings.length > maxResolved) {
+      lines.push(`| *...and ${delta.resolvedFindings.length - maxResolved} more* | | |`)
+    }
+    lines.push('')
+  }
+
+  return lines
 }
 
 export const SUMMARY_RENDERERS = {
@@ -386,6 +468,7 @@ export const SUMMARY_RENDERERS = {
     lines.push(`- Requiring review: **${summary.totalRequiresReview ?? 0}**`)
     lines.push(`- Allowed exceptions: **${summary.totalAllowed ?? 0}**`)
     lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
     const MAX_ROWS = 30
     lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (ranked by score)`)
     lines.push('')
@@ -896,6 +979,7 @@ export const SUMMARY_RENDERERS = {
     const lines = []
     const findings = Array.isArray(data.findings) ? data.findings : []
     const files = Array.isArray(data.files) ? data.files : []
+    const functionTypeOffenders = Array.isArray(data.functionTypeOffenders) ? data.functionTypeOffenders : []
     lines.push('# Type-Escape Audit Summary (Generated)')
     lines.push('')
     lines.push(genFrom(ctx))
@@ -908,6 +992,7 @@ export const SUMMARY_RENDERERS = {
     lines.push(`| Findings | ${findings.length} |`)
     lines.push(`| Files with findings | ${files.length} |`)
     lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
     const byRule = {}
     for (const f of findings) {
       byRule[f.ruleId] = (byRule[f.ruleId] || 0) + 1
@@ -921,6 +1006,20 @@ export const SUMMARY_RENDERERS = {
       lines.push(`| ${rule} | ${count} |`)
     }
     lines.push('')
+    if (functionTypeOffenders.length > 0) {
+      lines.push('## Function Type (`: Function`) Offenders')
+      lines.push('')
+      lines.push('| File | Count | Likely Use |')
+      lines.push('| --- | ---: | --- |')
+      for (const offender of functionTypeOffenders.slice(0, 20)) {
+        lines.push(`| \`${offender.file}\` | ${offender.count} | ${offender.likelyUse} |`)
+      }
+      if (functionTypeOffenders.length > 20) {
+        lines.push('')
+        lines.push(`*...and ${functionTypeOffenders.length - 20} more files. See full report for details.*`)
+      }
+      lines.push('')
+    }
     const MAX_ROWS = 20
     lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files`)
     lines.push('')
@@ -959,6 +1058,7 @@ export const SUMMARY_RENDERERS = {
     lines.push(`| type-used-as-value | ${typeUsedAsValue.length} |`)
     lines.push(`| Files with findings | ${files.length} |`)
     lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
     const MAX_ROWS = 20
     lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files (by score)`)
     lines.push('')

@@ -1651,7 +1651,7 @@ See **Phase 3A** for full details on test quality validation (mutation testing, 
   - See Plan D in the fix_constants_types_component_audits plan (`.cursor/plans/` or audit script docs) for central config details
 - [ ] **3.1** Create feature documentation in `.project-manager/features/test-suite-setup/`
   - `README.md` — Feature overview
-  - `feature-plan.md` — Detailed plan with phases/sessions
+  - `feature-{feature-name}-guide.md` — Detailed plan with phases/sessions
   - Register in `PROJECT_PLAN.md` and `MASTER_FEATURE_INDEX.md`
 - [ ] **3.2** Audit existing test coverage
   - Run `npx vitest --coverage` in client to generate coverage report

@@ -1,36 +1,18 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-20T17:32:56.353Z",
-  "totalScanned": 787,
+  "generatedAt": "2026-02-23T16:50:14.808Z",
+  "totalScanned": 2,
   "valueImportFromTypeOnlyFile": [],
   "typeUsedAsValue": [
     {
-      "file": "client/src/configs/usStates.ts",
-      "lineNumber": 5,
-      "symbol": "SelectOptionBase"
-    },
-    {
-      "file": "client/src/types/component.ts",
-      "lineNumber": 32,
-      "symbol": "CreateRelationshipPayloadBase"
-    },
-    {
-      "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
-      "lineNumber": 17,
-      "symbol": "ParsedProperty"
+      "file": "client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts",
+      "lineNumber": 3,
+      "symbol": "Foo"
     }
   ],
   "files": [
     {
-      "file": "client/src/configs/usStates.ts",
-      "score": 2
-    },
-    {
-      "file": "client/src/types/component.ts",
-      "score": 2
-    },
-    {
-      "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
+      "file": "client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts",
       "score": 2
     }
   ]

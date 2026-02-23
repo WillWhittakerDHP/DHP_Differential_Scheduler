@@ -7,22 +7,18 @@
 
 ## Summary
 
-- Files scanned: **787**
+- Files scanned: **2**
 - value-import-from-type-only-file: **0**
-- type-used-as-value: **3**
+- type-used-as-value: **1**
 
 ## type-used-as-value
 
 | File | Line | Symbol |
 | --- | ---: | --- |
-| `client/src/configs/usStates.ts` | 5 | SelectOptionBase |
-| `client/src/types/component.ts` | 32 | CreateRelationshipPayloadBase |
-| `server/src/scripts/helpers/calendarImportHelpers.ts` | 17 | ParsedProperty |
+| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 3 | Foo |
 
 ## Files by finding count (score)
 
 | File | Score |
 | --- | ---: |
-| `client/src/configs/usStates.ts` | 2 |
-| `client/src/types/component.ts` | 2 |
-| `server/src/scripts/helpers/calendarImportHelpers.ts` | 2 |
+| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 2 |

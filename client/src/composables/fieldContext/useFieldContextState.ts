@@ -7,7 +7,7 @@ import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { createLogger } from '@/utils/logger'
 import { asEmptyObject, asEmptyString } from '@/utils/safeDefaults'
 

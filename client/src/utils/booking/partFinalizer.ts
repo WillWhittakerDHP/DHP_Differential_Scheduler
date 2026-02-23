@@ -12,12 +12,7 @@ import type { BlockFinal } from './bookingFinalTypes'
 import type { EventInstance, EventShape } from '@/types/events'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import { 
-  getMajorEventShape, 
-  getMinorEventShape 
-} from '@/utils/eventAttendeeUtils'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { toGlobalEntityId, type EventShapeEntity } from '@/types/entities'
 import type { EventFinal, SlotShape } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
@@ -113,16 +108,14 @@ export function filterZeroedParts(
  * @param blockFinals - Array of BlockFinal instances
  * @param eventAssignmentsByPartShape - Record mapping partShape name → EventInstance[]
  * @param eventShapes - Array of EventShape objects for metadata lookup
- * @param globalData - Optional GlobalData for attendee-based logic (if not provided, falls back to name-based logic)
- * @param availabilitySettings - Optional AvailabilitySettings for major/minor attendee configuration
+ * @param roundingSettings - Optional AvailabilitySettings for rounding configuration
  * @returns SlotShape with eventFinals array and duration totals
  */
 export function calculateSlotShape(
   blockFinals: BlockFinal[],
   eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
   eventShapes: EventShape[] = [],
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
+  roundingSettings?: AvailabilitySettings | null,
 ): SlotShape {
   // DUAL-TRACK ARCHITECTURE: Track both raw and rounded durations
   let rawDuration = 0
@@ -131,25 +124,6 @@ export function calculateSlotShape(
   const eventRawDurationsByShapeId = new Map<string, number>()
   
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
-  
-  // PATTERN: Use availabilitySettings to get major/minor attendee IDs, fall back to name-based logic if not available
-  let majorAttendeeIds: GlobalEntityId[] = []
-  let minorAttendeeIds: GlobalEntityId[] = []
-  let useAttendeeBasedLogic = false
-
-  if (globalData && availabilitySettings?.differentialPerspectives) {
-    const rawMajor = availabilitySettings.differentialPerspectives.majorAttendees
-    const rawMinor = availabilitySettings.differentialPerspectives.minorAttendees
-    if (rawMajor === undefined || rawMajor === null) {
-      logger.debug('calculateSlotShape: majorAttendees missing, using []')
-    }
-    if (rawMinor === undefined || rawMinor === null) {
-      logger.debug('calculateSlotShape: minorAttendees missing, using []')
-    }
-    majorAttendeeIds = rawMajor !== undefined && rawMajor !== null ? rawMajor : []
-    minorAttendeeIds = rawMinor !== undefined && rawMinor !== null ? rawMinor : []
-    useAttendeeBasedLogic = majorAttendeeIds.length > 0 || minorAttendeeIds.length > 0
-  }
   
   const eventShapeEntities = eventShapes as EventShapeEntity[]
   
@@ -191,26 +165,12 @@ export function calculateSlotShape(
               const isActive = toBoolean(ternaryValue, 'strict')
               
               if (isActive) {
-                // Accumulate raw duration only - rounding happens after accumulation
                 const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
                 updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
-                
-                // PATTERN: Just log event processing, offset calculation happens after all events are processed
-                if (useAttendeeBasedLogic) {
-                  getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-                  getMinorEventShape(eventShapeEntities, minorAttendeeIds)
-                }
               }
             } else {
-              // Accumulate raw duration only - rounding happens after accumulation
               const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
               updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
-              
-              // PATTERN: Just log event processing, offset calculation happens after all events are processed
-              if (useAttendeeBasedLogic) {
-                getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-                getMinorEventShape(eventShapeEntities, minorAttendeeIds)
-              }
             }
           }
           
@@ -236,7 +196,7 @@ export function calculateSlotShape(
   const eventRoundedDurationsByShapeId = new Map(
     Array.from(eventRawDurations.entries()).map(([eventShapeId, rawDuration]) => [
       eventShapeId,
-      roundDuration(rawDuration, availabilitySettings || null),
+      roundDuration(rawDuration, roundingSettings ?? null),
     ])
   )
   
@@ -271,26 +231,24 @@ export function calculateSlotShape(
   // DUAL-TRACK: Calculate both raw and rounded differential offsets
   let rawDifferentialOffset = 0
   let roundedDifferentialOffset = 0
-  if (useAttendeeBasedLogic) {
-    const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-    // PATTERN: Filter out major event shape before searching for minor event shape
-    const eventShapesExcludingMajor = majorEventShape 
-      ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-      : eventShapeEntities
-    const minorEventShape = getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-    
-    if (majorEventShape) {
-      const majorRawDuration = eventRawDurations.get(majorEventShape.id) || 0
-      const majorRoundedDuration = eventRoundedDurationsByShapeId.get(majorEventShape.id) || 0
-      if (minorEventShape) {
-        const minorRawDuration = eventRawDurations.get(minorEventShape.id) || 0
-        const minorRoundedDuration = eventRoundedDurationsByShapeId.get(minorEventShape.id) || 0
-        rawDifferentialOffset = majorRawDuration - minorRawDuration
-        roundedDifferentialOffset = majorRoundedDuration - minorRoundedDuration
-      } else {
-        rawDifferentialOffset = majorRawDuration
-        roundedDifferentialOffset = majorRoundedDuration
-      }
+  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  if (!majorEventShape) {
+    logger.error('calculateSlotShape: no event shape with differentialRole=major', {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
+  if (majorEventShape) {
+    const majorRawDuration = eventRawDurations.get(majorEventShape.id) || 0
+    const majorRoundedDuration = eventRoundedDurationsByShapeId.get(majorEventShape.id) || 0
+    if (minorEventShape) {
+      const minorRawDuration = eventRawDurations.get(minorEventShape.id) || 0
+      const minorRoundedDuration = eventRoundedDurationsByShapeId.get(minorEventShape.id) || 0
+      rawDifferentialOffset = majorRawDuration - minorRawDuration
+      roundedDifferentialOffset = majorRoundedDuration - minorRoundedDuration
+    } else {
+      rawDifferentialOffset = majorRawDuration
+      roundedDifferentialOffset = majorRoundedDuration
     }
   }
   

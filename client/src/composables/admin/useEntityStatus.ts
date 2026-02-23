@@ -15,7 +15,7 @@
 
 import { computed, type ComputedRef } from 'vue'
 import { useComponentEntity } from '../useComponentEntity'
-import { useAdmin } from '../useAdmin'
+import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 

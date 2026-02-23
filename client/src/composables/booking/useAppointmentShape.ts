@@ -107,7 +107,6 @@ export function useAppointmentShape(
         eventShapes,
         eventAssignmentsRelationships,
         partShapeById,
-        globalData || undefined
       )
       
       return shape

@@ -16,7 +16,7 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'

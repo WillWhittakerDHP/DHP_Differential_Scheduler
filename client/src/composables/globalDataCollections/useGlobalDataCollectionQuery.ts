@@ -9,7 +9,7 @@ import type {
 
 type GlobalDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
   selectCollection: GlobalDataCollectionSelector<CollectionItem>
-}
+} & { readonly __brand?: 'GlobalDataCollectionQueryOptions' }
 
 /**
  * Read-only query helpers for GlobalData-backed collections (appointments/users/properties/annotations).

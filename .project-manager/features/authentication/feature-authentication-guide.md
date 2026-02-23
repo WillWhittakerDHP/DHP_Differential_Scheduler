@@ -20,7 +20,7 @@
 
 ## Research Phase
 
-Research phase not yet started — see feature-plan.md for architectural decisions.
+Research phase not yet started — architectural decisions to be documented in this guide.
 
 ---
 

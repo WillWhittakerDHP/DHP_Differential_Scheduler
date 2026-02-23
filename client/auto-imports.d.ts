@@ -143,6 +143,7 @@ declare global {
   const getEventMetadataEndpoint: typeof import('./src/utils/api').getEventMetadataEndpoint
   const getEventOrderIndexEndpoint: typeof import('./src/utils/api').getEventOrderIndexEndpoint
   const getEventShapeByIdEndpoint: typeof import('./src/utils/api').getEventShapeByIdEndpoint
+  const getEventShapeByRole: typeof import('./src/utils/eventAttendeeUtils').getEventShapeByRole
   const getEventShapeEndpoint: typeof import('./src/utils/api').getEventShapeEndpoint
   const getFieldMetadata: typeof import('./src/composables/useFieldMetadata').getFieldMetadata
   const getIcon: typeof import('./src/utils/iconMapper').getIcon
@@ -578,9 +579,6 @@ declare global {
   export type { SelectOptionBase, SelectOption, GroupedEntities, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
   // @ts-ignore
-  export type { UseSelectionCardOptions, UseSelectionCardReturn, UseSelectionCardGroupOptions, UseSelectionCardGroupReturn } from './src/composables/useSelectionCard'
-  import('./src/composables/useSelectionCard')
-  // @ts-ignore
   export type { UseTimeFormattingReturn, TimeRange, TimeSlot } from './src/composables/useTimeFormatting'
   import('./src/composables/useTimeFormatting')
   // @ts-ignore
@@ -661,6 +659,7 @@ declare module 'vue' {
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
     readonly getDefaultEntityValues: UnwrapRef<typeof import('./src/utils/entityDefaults')['getDefaultEntityValues']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
+    readonly getEventShapeByRole: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getEventShapeByRole']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>
@@ -774,7 +773,6 @@ declare module 'vue' {
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly urlValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['urlValidator']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
-    readonly useAdmin: UnwrapRef<typeof import('./src/composables/useAdmin')['useAdmin']>
     readonly useAdminConfig: UnwrapRef<typeof import('./src/composables/useAdminConfig')['useAdminConfig']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useAppointment: UnwrapRef<typeof import('./src/composables/useAppointment')['useAppointment']>
@@ -799,7 +797,6 @@ declare module 'vue' {
     readonly useBattery: UnwrapRef<typeof import('@vueuse/core')['useBattery']>
     readonly useBluetooth: UnwrapRef<typeof import('@vueuse/core')['useBluetooth']>
     readonly useBooking: UnwrapRef<typeof import('./src/composables/useBooking')['useBooking']>
-    readonly useBookingWizard: UnwrapRef<typeof import('./src/composables/useBookingWizard')['useBookingWizard']>
     readonly useBreakpoints: UnwrapRef<typeof import('@vueuse/core')['useBreakpoints']>
     readonly useBroadcastChannel: UnwrapRef<typeof import('@vueuse/core')['useBroadcastChannel']>
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
@@ -922,8 +919,6 @@ declare module 'vue' {
     readonly useScroll: UnwrapRef<typeof import('@vueuse/core')['useScroll']>
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
     readonly useSelectOptions: UnwrapRef<typeof import('./src/composables/useSelectOptions')['useSelectOptions']>
-    readonly useSelectionCard: UnwrapRef<typeof import('./src/composables/useSelectionCard')['useSelectionCard']>
-    readonly useSelectionCardGroup: UnwrapRef<typeof import('./src/composables/useSelectionCard')['useSelectionCardGroup']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useShare: UnwrapRef<typeof import('@vueuse/core')['useShare']>
     readonly useSkins: UnwrapRef<typeof import('./src/@core/composable/useSkins')['useSkins']>

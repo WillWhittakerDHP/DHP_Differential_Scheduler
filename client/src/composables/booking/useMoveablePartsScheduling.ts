@@ -17,12 +17,8 @@ import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/composables/useLocalTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/types/datetime'
-import { findEventFinalByName } from '@/utils/booking/appointmentSlotBuilder'
-import { getMajorEventShape } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
-import { useGlobal } from '@/composables/useGlobal'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('useMoveablePartsScheduling')
 
@@ -120,8 +116,6 @@ function formatTimeLabel(
 export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams) {
   const { appointmentShape, selectedSlot } = params
   const { formatDateForDisplay, formatTimeForDisplay } = useLocalTime()
-  const { getGlobalData } = useGlobal()
-  const { settings } = useAvailabilitySettings()
   
   const showModal = ref(false)
   
@@ -135,16 +129,24 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
   
   const hasMoveableParts = computed(() => {
     const shape = appointmentShape.value
-    if (!shape) return false
-    const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
-    const moveableDuration = moveableEventFinal?.roundedDuration ?? 0
-    return moveableDuration > 0
+    if (!shape || shape.slotShape.eventFinals.length === 0) return false
+    const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    const moveableShape = getEventShapeByRole(eventShapes, 'moveable')
+    if (!moveableShape) return false
+    const moveableEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === moveableShape.id)
+    return (moveableEventFinal?.roundedDuration ?? 0) > 0
   })
   
   const moveableDuration = computed(() => {
     const shape = appointmentShape.value
-    if (!shape) return 0
-    const moveableEventFinal = findEventFinalByName(shape.slotShape, 'Moveable')
+    if (!shape || shape.slotShape.eventFinals.length === 0) return 0
+    const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+    const moveableShape = getEventShapeByRole(eventShapes, 'moveable')
+    if (!moveableShape) {
+      logger.error('moveableDuration: no event shape with differentialRole=moveable')
+      return 0
+    }
+    const moveableEventFinal = shape.slotShape.eventFinals.find(ef => ef.eventShape.id === moveableShape.id)
     return moveableEventFinal?.roundedDuration ?? 0
   })
   
@@ -158,18 +160,15 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const slot = selectedSlot.value
     const duration = moveableDuration.value
     
-    // PATTERN: Find major event shape using attendee-based logic, then use its name to look up time range
     let majorTimeRange: TimeRange | null = null
-    const globalData = getGlobalData()
-    if (globalData && settings.value?.differentialPerspectives && slot.shape.slotShape.eventFinals.length > 0) {
-      const majorAttendeeIds = asEmptyArray(settings.value.differentialPerspectives.majorAttendees)
-      if (majorAttendeeIds.length > 0) {
-        const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-        const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
-        if (majorEventShape) {
-          const majorEventName = majorEventShape.name
-          majorTimeRange = slot.eventTimeRanges?.[majorEventName] ?? null
-        }
+    if (slot.shape.slotShape.eventFinals.length > 0) {
+      const eventShapeEntities = slot.shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+      const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+      if (!majorEventShape) {
+        logger.error('moveable watchEffect: no event shape with differentialRole=major')
+      }
+      if (majorEventShape) {
+        majorTimeRange = slot.eventTimeRanges?.[majorEventShape.name] ?? null
       }
     }
     const innerBoundary = majorTimeRange?.endTime ?? slot.totalTimeRange?.endTime

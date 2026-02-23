@@ -6,19 +6,14 @@
  * PATTERN: Load active mappings, apply value_mapping and fallback_value
  */
 
-import type { BrightMlsPropertyResponse } from '../types/brightMls.js';
-import type { PropertyFieldMapping } from '../db/models/mappings/property_field_mapping.js';
-import { mapFoundationType } from '../config/brightMlsFoundationMapping.js';
-import { asEmptyString } from '../utils/safeDefaults.js';
+import type { PropertyDetailsBase } from '../../../shared/types/propertyTypes.js'
+import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
+import type { PropertyFieldMapping } from '../db/models/mappings/property_field_mapping.js'
+import { mapFoundationType } from '../config/brightMlsFoundationMapping.js'
+import { asEmptyString } from '../utils/safeDefaults.js'
 
-export interface PartialPropertyDetails {
-  mlsNumber?: string | null;
-  squareFootage?: number | null;
-  bedrooms?: number | null;
-  bathrooms?: number | null;
-  foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null;
-  additionalUnits?: number | null;
-}
+/** TYPE_SIMILARITY: Extend shared PropertyDetailsBase as single source of truth. */
+export type PartialPropertyDetails = PropertyDetailsBase
 
 /**
  * Map RESO response to Partial<PropertyDetails> using DB mappings and built-in defaults

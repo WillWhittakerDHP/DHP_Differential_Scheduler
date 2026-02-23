@@ -13,7 +13,7 @@ import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { toGlobalEntityId } from '@/types/entities'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 

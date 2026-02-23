@@ -305,7 +305,7 @@
 ## Related Documents
 
 - **Phase Guide**: `phase-1.4-guide.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Cache Architecture**: `../docs/CACHE_ARCHITECTURE.md`
 - **Phase 1.3 Handoff**: `phase-1.3-handoff.md`
 

@@ -1,18 +1,31 @@
 {
-  "generatedAt": "2026-02-20T17:33:36.417Z",
-  "totalScanned": 787,
+  "generatedAt": "2026-02-23T16:14:04.534Z",
+  "totalScanned": 795,
   "exceptionSummary": {
-    "totalAllowed": 75,
-    "totalRequiresReview": 1,
+    "totalAllowed": 76,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
-      "pattern": 74,
-      "specific": 1
+      "pattern": 75,
+      "specific": 1,
+      "linePattern": 0
     }
   },
   "files": [
     {
       "repoPath": "client/src/layouts/blank.vue",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/layouts/default.vue",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
       "score": 2,
       "priority": "P2",
       "count": 1
@@ -174,6 +187,19 @@
       "requiresReview": []
     },
     {
+      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 38,
+          "line": "export function computeMoveableSlots(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
       "repoPath": "client/src/composables/booking/useStepValidation.ts",
       "allowed": [
         {
@@ -211,14 +237,14 @@
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 28,
+          "lineNumber": 55,
           "line": "export function createRefetchQueriesHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 58,
+          "lineNumber": 85,
           "line": "export function createRestorePreviousDataHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern"
@@ -326,6 +352,28 @@
           "ruleId": "componentFileName",
           "lineNumber": 1,
           "line": "Component file should be PascalCase: blank.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/layouts/default.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "componentFileName",
+          "lineNumber": 1,
+          "line": "Component file should be PascalCase: default.vue"
+        }
+      ]
+    },
+    {
+      "repoPath": "client/src/types/admin/AdminEntity.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "typesFileName",
+          "lineNumber": 1,
+          "line": "Types file should be camelCase: AdminEntity.ts"
         }
       ]
     },
@@ -724,7 +772,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 46,
+          "lineNumber": 56,
           "line": "export function EventInstanceFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"
@@ -737,7 +785,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 41,
+          "lineNumber": 42,
           "line": "export function EventShapeFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern"

@@ -234,6 +234,6 @@ This document defines naming conventions for the codebase, established during Ph
 ## Related Documents
 
 - **Session Summary**: `../sessions/session-1.3.1-summary.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase Guide**: `../phases/phase-1.3-guide.md`
 
