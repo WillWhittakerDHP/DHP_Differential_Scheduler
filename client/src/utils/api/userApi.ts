@@ -1,6 +1,5 @@
 /**
  * User API endpoint builders
- * WHY: Single place for user CRUD endpoints; reduces api.ts export count
  */
 
 export function getUserEndpoint(): string {

@@ -1,10 +1,7 @@
 /**
- * Entity Field Constants (client mirror of server entityConstants)
- *
- * WHY: Single source of truth for field names and temporary-id patterns; aligns with server contract
- * PATTERN: Mirror of server/src/routes/internal/entities/entityConstants.ts for client-only usage
+ * WHY: Entity Field Constants (client mirror of server entityConstants)
+WHY: Si...
  */
-
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   BOOKING_MODE: 'bookingMode',

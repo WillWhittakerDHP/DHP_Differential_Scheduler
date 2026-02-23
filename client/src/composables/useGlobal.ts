@@ -1,14 +1,8 @@
 /**
- * Global Entity Composable
- * 
- * LEARNING: Provides access to global configuration entities from Vue Query cache
- * WHY: Centralized access to configuration entity data without prop drilling
- * PATTERN: Composable that reads from Vue Query cache
- * COMPARISON: React uses Context API. Vue uses composables + Vue Query cache
- * ARCHITECTURAL REFACTOR: Only handles configuration data (entities, relationships, annotations)
- * Business entities (appointments, properties, users) use separate composables with separate cache keys
- */
+ * PATTERN: Global Entity Composable
 
+PATTERN: Composable that reads from Vue Query ...
+ */
 import { useQuery } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -40,18 +34,12 @@ function createGlobalInstance() {
   
   
   /**
-   * LEARNING: Use Vue Query to fetch and cache globalData (configuration data only)
-   * WHY: Enables automatic refetching when cache is invalidated
-   * PATTERN: useQuery with queryFn that fetches and transforms data
    * NOTE: This query will automatically refetch when ['globalData'] is invalidated
    * ARCHITECTURAL REFACTOR: globalData now only contains static configuration data
    * Business entities (appointments, properties, users) use separate cache keys
    */
   /**
-   * LEARNING: Avoid destructuring `data = null` from vue-query.
-   * WHY: `data = null` creates a union like `null | Ref<T | undefined>`, which then forces
    *      null-checks everywhere and triggers TS18047 ("possibly null").
-   * PATTERN: Keep the query object, then use its `.data` ref directly.
    */
   const globalDataQuery = useQuery<GlobalData>({
     queryKey: ['globalData'],
@@ -70,10 +58,9 @@ function createGlobalInstance() {
   const globalData = globalDataQuery.data
   
   /**
-   * Get entities by type from cache
-   * LEARNING: Reads from globalData.entities (matching React pattern)
-   * WHY: Efficient access to already-loaded data from prefetched globalData
-   * PATTERN: Extract entities from globalData object
+   * WHY: /**
+Get entities by type from cache
+LEARNING: Reads from globalData.enti...
    */
   function getGlobalEntities<GE extends GlobalEntityKey>(entityKey: GE): GlobalEntity<GE>[] {
     const data = globalData.value
@@ -83,9 +70,6 @@ function createGlobalInstance() {
   
   /**
    * Get entity by ID from cache
-   * LEARNING: Searches cached entities for specific ID
-   * WHY: Quick lookup without API call
-   * PATTERN: Filter cached array
    */
   function getGlobalEntityById<GE extends GlobalEntityKey>(
     entityKey: GE,
@@ -97,9 +81,6 @@ function createGlobalInstance() {
   
   /**
    * Get global data value
-   * LEARNING: Returns the current value of globalData ref
-   * WHY: Provides synchronous access to globalData value (non-reactive)
-   * PATTERN: Access ref value directly
    */
   function getGlobalData(): GlobalData | null {
     return globalData.value || null
@@ -118,12 +99,8 @@ function createGlobalInstance() {
 }
 
 /**
- * Global entity composable
- * LEARNING: Reads entities from Vue Query cache
- * WHY: Provides reactive access to cached entity data
- * PATTERN: Singleton pattern - creates instance on first call, reuses it afterwards
- * 
- * @returns Functions to get entities by type
+ * PATTERN: Global entity composable
+PATTERN: Singleton pattern - creates instance o...
  */
 export function useGlobal() {
   callCount++

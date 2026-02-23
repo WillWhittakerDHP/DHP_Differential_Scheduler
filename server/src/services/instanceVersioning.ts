@@ -5,9 +5,6 @@ import { FIELD_NAMES, SORT_ORDERS } from '../routes/internal/entities/entityCons
 /**
  * Instance Versioning Service
  * 
- * LEARNING: Lazy versioning - creates immutable versions only when appointments reference instances
- * WHY: Preserves historical data for appointments while avoiding unnecessary storage
- * PATTERN: Temporal/tuple versioning - immutable snapshots of block and part instances
  * 
  * CRITICAL: Capture old state BEFORE update/delete to preserve historical data correctly
  */
@@ -102,12 +99,8 @@ async function createVersionFromInstance(
 }
 
 /**
- * CRITICAL: Capture old state BEFORE update
- * WHY: Versions must preserve historical data, not new data
- * PATTERN: Pass old data as parameter, don't fetch after update
- * 
- * Creates a block instance version if any appointments reference it
- * Returns the version ID if created, null if not needed
+ * PATTERN: CRITICAL: Capture old state BEFORE update
+PATTERN: Pass old data as para...
  */
 export async function createBlockInstanceVersionIfReferenced(
   blockInstanceId: string,

@@ -1,14 +1,8 @@
 /**
- * Select Options Composable
- * 
- * LEARNING: Provides select option transformation logic extracted from SelectInputs component
- * WHY: Encapsulates all option mapping, grouping, value normalization, and transformation logic
- * PATTERN: Composable that transforms entities into select options format with grouping support
- * 
- * This composable addresses recursion issues by moving all data transformations out of components
- * and into properly memoized computed properties.
- */
+ * PATTERN: Select Options Composable
 
+PATTERN: Composable that transforms entities ...
+ */
 import { computed, type Ref } from 'vue'
 import type { SelectGroup } from '@/types/entity/selectOptions'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -78,11 +72,9 @@ export interface UseSelectOptionsReturn {
 }
 
 /**
- * Select Options Composable
- * 
- * LEARNING: Transforms entities into select options format with grouping and value normalization
- * WHY: Prevents recursion by moving all transformations to computed properties
- * PATTERN: Composable with computed options and helper functions for group operations
+ * WHY: Select Options Composable
+
+LEARNING: Transforms entities into select opt...
  */
 export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOptionsReturn {
   const {
@@ -97,9 +89,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   const adminComp = providedAdminComp || useAdmin()
   
   /**
-   * LEARNING: Group entities by groupByKey value
-   * WHY: When groupByKey is configured, we want to group entities by that property (e.g., blockShapeRef)
-   * PATTERN: Group filtered entities by groupByKey value, get group labels from parent entities
    */
   const groupedByKey = computed((): GroupedEntities[] => {
     const entities = filteredEntities.value
@@ -154,9 +143,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   })
   
   /**
-   * LEARNING: Detect when to use multiple select fields instead of single grouped select
-   * WHY: When there are multiple distinct groups, separate selects provide clearer UX
-   * PATTERN: Use multiple selects when groupByKey is configured AND there are multiple groups
    */
   const shouldUseMultipleSelects = computed(() => {
     const config = selectConfig.value
@@ -169,8 +155,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   })
   
   /**
-   * LEARNING: Get options for a specific group
-   * WHY: When using multiple selects, each select needs its own options
    * PATTERN: Map entities in group to { title, value } format
    */
   const getGroupOptions = (group: GroupedEntities): SelectOption[] => {
@@ -181,9 +165,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   }
   
   /**
-   * LEARNING: Get selected values for a specific group
-   * WHY: When using multiple selects, need to split fieldValue across groups
-   * PATTERN: Filter fieldValue to only include entities that belong to this group
    */
   const getGroupValue = (group: GroupedEntities): string | string[] | null => {
     const currentValue = rawFieldValue.value
@@ -203,9 +184,9 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   }
   
   /**
-   * LEARNING: Transform entities to select options format
-   * WHY: AppSelect needs { title, value } format, optionally grouped
-   * PATTERN: Map entities to option format, handle grouping if configured
+   * WHY: /**
+LEARNING: Transform entities to select options format
+WHY: AppSelect...
    */
   const options = computed((): SelectOption[] => {
     const entities = filteredEntities.value
@@ -268,8 +249,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
         
         /**
          * LEARNING: Transform grouped entities to select options format
-         * WHY: Allows grouping options by parent entity (e.g., blockInstances grouped by blockShape)
-         * PATTERN: Group header has title and children array, children have title and value
          */
         const groupedEntities = Array.from(groupedMap.values())
         const result = groupedEntities.map(group => ({
@@ -304,9 +283,6 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
   })
   
   /**
-   * LEARNING: Normalize field value for select component
-   * WHY: AppSelect with multiple prop expects an array, but stored value might be string or single value
-   * PATTERN: Convert to array for multiple selects, ensure it's always an array when multiple is true
    */
   const normalizedValue = computed(() => {
     const value = rawFieldValue.value

@@ -262,9 +262,6 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(Appointment, { foreignKey: 'user_type_id', as: 'userTypeAppointments' });
   Appointment.belongsTo(BlockInstance, { foreignKey: 'user_type_id', as: 'userType' });
 
-  // AppointmentAttendee relationships
-  // LEARNING: Junction table linking appointments to actual users with roles
-  // WHY: Replaces hardcoded clientId/agentId with flexible attendee model
   Appointment.hasMany(AppointmentAttendee, { 
     foreignKey: 'appointment_id', 
     as: 'attendees' 
@@ -292,7 +289,6 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'userTypeBlockInstance'
   });
 
-  // AppointmentFeeSummary / AppointmentFeeEntry (1:1 summary per appointment, many entries per summary)
   Appointment.hasOne(AppointmentFeeSummary, {
     foreignKey: 'appointment_id',
     as: 'feeSummary',

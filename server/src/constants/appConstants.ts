@@ -1,9 +1,6 @@
 /**
  * Application Constants
  * 
- * LEARNING: Centralized constants for application-level messages and configuration
- * WHY: Avoids hardcoding strings throughout the codebase, improves maintainability
- * PATTERN: Grouped constants by domain (API, OAuth, Routes)
  */
 
 /**

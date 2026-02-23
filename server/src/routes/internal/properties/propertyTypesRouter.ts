@@ -1,9 +1,6 @@
 /**
  * Property Types Router
  * 
- * LEARNING: Extracted property types operations
- * WHY: Separates property types operations from CRUD operations, improves maintainability
- * PATTERN: Express router with RESTful endpoints for property type management
  */
 
 import { Router, Request, Response } from 'express'
@@ -25,9 +22,6 @@ const router = Router()
  * GET /properties/:id/types
  * List all property types for a property version
  * 
- * LEARNING: Fetches property types with block instance associations
- * WHY: Provides complete property type data including block instance details
- * PATTERN: Sequelize findAll with includes, ordered by orderIndex
  */
 router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -55,9 +49,6 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
  * - blockInstanceId: UUID of the block_instance (must be BLOCK_SHAPE_NAMES.PROPERTIES block_shape)
  * - orderIndex (optional): Order position
  *
- * LEARNING: Application-level validation complements database trigger
- * WHY: Better error messages and prevents bad data from being attempted
- * PATTERN: Validate block_shape is BLOCK_SHAPE_NAMES.PROPERTIES before attempting insert
  */
 router.post(
   '/:id/types',
@@ -124,9 +115,6 @@ router.post(
  * PATCH /properties/:id/types/:typeId
  * Update property type order
  * 
- * LEARNING: Updates orderIndex for property type
- * WHY: Allows reordering of property types
- * PATTERN: Find by ID, update orderIndex, reload with associations
  */
 router.patch(
   '/:id/types/:typeId',
@@ -161,9 +149,6 @@ router.patch(
  * DELETE /properties/:id/types/:typeId
  * Remove property type from property version
  * 
- * LEARNING: Deletes property type assignment
- * WHY: Removes property type from property
- * PATTERN: Find by ID, destroy if found, return 204 on success
  */
 router.delete(
   '/:id/types/:typeId',
@@ -196,9 +181,6 @@ router.delete(
  * Request body:
  * - blockInstanceIds: Array of block_instance UUIDs
  * 
- * LEARNING: Bulk replacement for property types
- * WHY: Booking wizard typically selects all property types at once
- * PATTERN: Delete all existing, then create new ones in transaction
  * 
  * NOTE: Complexity reduction will extract validation and bulk creation logic
  */
@@ -231,7 +213,6 @@ router.put(
       }
     }
     
-    // Replace all property types in transaction
     await PropertyVersion.sequelize!.transaction(async (transaction) => {
       await createPropertyTypesBulk(propertyVersionId, blockInstanceIds, transaction)
     })

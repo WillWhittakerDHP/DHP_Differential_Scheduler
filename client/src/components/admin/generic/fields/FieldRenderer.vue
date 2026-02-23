@@ -1,11 +1,8 @@
 <template>
   <div v-if="effectiveFieldContext">
-    <!-- LEARNING: Use componentType directly with component map for cleaner template -->
-    <!-- WHY: Single source of truth, easier to add new component types, more performant -->
-    <!-- PATTERN: Dynamic component rendering based on componentType discriminated union -->
-    <!-- LEARNING: Use computed to determine if component exists in map -->
-    <!-- WHY: Ensures consistent logic between template and watch -->
-    <!-- PATTERN: Use computed property for component map lookup -->
+    /**
+     * <!-- WHY: Single source of truth, easier to add new component types, mor...
+     */
     <component
       v-if="hasValidComponent"
       :is="componentToRender"
@@ -43,17 +40,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: FieldRenderer determines which input component to render based on field component dispatcher
- * 
- * WHY: Different field types need different input components (primitive vs select)
- *      Component type is determined from fieldComponentDispatcher, parallel to fieldLocationDispatcher
- * 
- * PATTERN: Factory pattern - uses getFieldComponent() dispatcher to determine component type and renders appropriate input component
- * 
- * COMPARISON: Parallel to field location dispatcher pattern - getFieldLocation() determines WHERE,
- *             getFieldComponent() determines WHAT component to render
+ * WHY: Component type is determined from fieldComponentDispatcher, parallel to ...
  */
-
 import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
@@ -77,15 +65,12 @@ interface Props {
   fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   showLabel?: boolean
   /**
-   * LEARNING: Optional pre-loaded field metadata
-   * WHY: Avoids duplicate metadata loads when parent component already has metadata
-   * PATTERN: Pass metadata from EntityCard to avoid re-loading in FieldRenderer
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /**
-   * LEARNING: Optional override for readOnly state
-   * WHY: Allows parent components to dynamically control read-only state (e.g., make name field readonly when card is collapsed)
-   * PATTERN: Overrides fieldContext.displayConfig.readOnly when provided
+   * WHY: /**
+LEARNING: Optional override for readOnly state
+WHY: Allows parent co...
    */
   readOnly?: boolean
 }
@@ -139,18 +124,9 @@ if (fieldContext.value) {
 }
 
 /**
- * LEARNING: Use field component composable
- * WHY: Extracts component type determination logic from component to composable
- * PATTERN: Composable provides type checking computed properties via fieldComponentDispatcher
- * LEARNING: Use composable for entity lookup
- * WHY: Extracts entity lookup logic to reusable composable
- * PATTERN: Composable handles both temporary and existing entities
+ * WHY: Composables must be called at setup time, but fieldContext can be undefined
+ * PATTERN: Guard composable call, use computed wrapper to handle effectiveFieldCont...
  */
-// LEARNING: Call composable at setup time with fieldContext (guarded by conditional)
-// WHY: Composables must be called at setup time, but fieldContext can be undefined
-// PATTERN: Guard composable call, use computed wrapper to handle effectiveFieldContext changes
-// NOTE: This pattern is necessary because fieldContext can be undefined, but composable requires non-null value
-// FIX: Call composable unconditionally by providing a fallback - composable handles missing entityKey/entityId
 let entityForMetadataLookup: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
 if (fieldContext.value) {
   entityForMetadataLookup = useFieldContextMetadataEntity(fieldContext.value)

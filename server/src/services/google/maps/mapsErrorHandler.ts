@@ -1,18 +1,14 @@
 /**
  * Google Maps API Error Handler
  * 
- * LEARNING: Centralized error handling for Google Maps API operations
- * WHY: Provides typed errors and consistent error responses
- * PATTERN: Error class with user-friendly messages
  */
 
 import type { MapsApiErrorType } from './mapsTypes.js'
 import { ERROR_MESSAGES } from './mapsConstants.js'
 
 /**
- * Maps API error class
- * LEARNING: Typed errors for consistent error handling
- * PATTERN: Matches CalendarApiError pattern
+ * PATTERN: Maps API error class
+PATTERN: Matches CalendarApiError pattern
  */
 export class MapsApiError extends Error {
   constructor(
@@ -26,8 +22,6 @@ export class MapsApiError extends Error {
 
   /**
    * Get user-friendly error message
-   * LEARNING: Maps technical errors to user-friendly messages
-   * WHY: Users shouldn't see technical error details
    */
   getUserMessage(): string {
     const messages: Record<MapsApiErrorType, string> = {

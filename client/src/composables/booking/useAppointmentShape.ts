@@ -1,11 +1,8 @@
 /**
- * useAppointmentShape Composable
- * 
- * LEARNING: Single-responsibility composable that builds AppointmentShape from block instances
- * WHY: Eliminates duplicate shape-building logic across multiple composables
- * PATTERN: Composable that builds shape once, exposes it for reuse
- */
+ * WHY: useAppointmentShape Composable
 
+LEARNING: Single-responsibility composab...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentShape } from '@/types/appointment'
@@ -30,11 +27,9 @@ export interface UseAppointmentShapeReturn {
 }
 
 /**
- * useAppointmentShape composable
- * 
- * LEARNING: Builds AppointmentShape from block instances, exposes as ComputedRef
- * WHY: Single source of truth for shape building, eliminates duplication
- * PATTERN: Composable that builds shape once, shared efficiently via Vue reactivity
+ * WHY: useAppointmentShape composable
+
+LEARNING: Builds AppointmentShape from b...
  */
 export function useAppointmentShape(
   params: UseAppointmentShapeParams

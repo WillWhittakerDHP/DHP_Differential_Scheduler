@@ -1,12 +1,9 @@
 /**
- * LEARNING: Wizard Dev Mode Management
- * WHY: Encapsulates dev mode logic and dev panel buttons injection
  * PATTERN: Composable for managing dev mode state and handlers
- * 
- * Used by:
- * - BookingWizard.vue
- */
 
+Used by:
+- BookingW...
+ */
 import { ref, provide, inject, type Ref, type ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
@@ -56,9 +53,6 @@ export function useWizardDevMode(
   provide('resetMocksSignal', resetMocksSignal)
 
   /**
-   * LEARNING: Handle resetting mock calendar data
-   * WHY: Allows developers to regenerate mock busy periods for testing
-   * PATTERN: Provide reset function that AvailabilityStep can call via inject
    */
   const handleResetMocks = (): void => {
     resetMocksSignal.value++

@@ -1,11 +1,7 @@
 /**
- * Transformer Collections
- *
- * LEARNING: Generic entity lookup, grouping, and immutable sort for transformers.
- * WHY: DRY - replaces duplicated Map accumulation, Set building, and sort patterns.
- * PATTERN: Pure functions; reuses existing @/utils/collections where applicable.
+ * WHY: Transformer Collections
+LEARNING: Generic entity lookup, grouping, and i...
  */
-
 import { findById as findByIdBase } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 

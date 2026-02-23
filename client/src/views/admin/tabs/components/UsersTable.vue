@@ -28,9 +28,6 @@ const {
 } = useUsersTableModel()
 
 /**
- * LEARNING: Table headers configuration
- * WHY: Defines columns displayed in VDataTable
- * PATTERN: Array of header objects with title and key
  */
 const headers = [
   { title: 'First Name', key: 'firstName', sortable: true },

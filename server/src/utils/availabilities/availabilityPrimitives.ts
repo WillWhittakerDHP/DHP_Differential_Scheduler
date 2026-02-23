@@ -1,9 +1,6 @@
 /**
  * Availability primitives
  *
- * LEARNING: Pure helpers for slot/date iteration and event partitioning
- * WHY: Single place for date-range and slot-generation logic; avoids loop-mutation in services
- * PATTERN: Small pure functions, no DB or API; used by slotComputationService and computedAvailabilityService
  */
 
 import type { CalendarEvent } from '../../../../shared/types/availabilityTypes.js'

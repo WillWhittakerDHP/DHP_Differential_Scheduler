@@ -1,9 +1,6 @@
 /**
  * Property Feature Mapping Model
  *
- * LEARNING: Maps RESO source features to block_instance suggestions
- * WHY: Admin-configurable feature-to-block mapping (Pool -> Pool block, etc.)
- * PATTERN: match_type (exists, contains, equals, greater_than)
  */
 
 import {

@@ -1,9 +1,6 @@
 /**
  * Field Component Dispatcher
  * 
- * LEARNING: Single source of truth for WHAT component renders a field based on metadata
- * WHY: Consolidates scattered component type logic into one place, parallel to field location dispatcher
- * PATTERN: Pure function that determines component type from metadata
  * 
  * This utility handles:
  * - Component type determination (icon, primitive, relationshipCollection, annotations, select)
@@ -17,8 +14,6 @@ import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 /**
  * Field component types with reasons
- * WHY: Provides clear component assignment with explanation for debugging
- * PATTERN: Discriminated union for type safety, parallel to FieldLocation type
  */
 export type FieldComponent =
   | { type: 'icon'; reason: 'iconSelect' } // Renders IconInput component
@@ -30,9 +25,6 @@ export type FieldComponent =
 /**
  * Field Component Dispatcher
  * 
- * LEARNING: Determines WHAT component should render a field based on metadata
- * WHY: Single source of truth for component type determination - all logic in one place
- * PATTERN: Pure function that returns component type with reason, parallel to getFieldLocation()
  * 
  * Logic Flow:
  * 1. Check for missing metadata → unknown
@@ -83,7 +75,6 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
       return { type: 'select', reason: renderAs as 'select' | 'multiselect' | 'reference' }
     }
 
-    // Options-based selects store their choices in inputConfig.options
     const hasOptions = inputConfig &&
       typeof inputConfig === 'object' &&
       Array.isArray((inputConfig as Record<string, unknown>).options)

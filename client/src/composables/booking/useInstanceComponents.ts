@@ -1,17 +1,8 @@
 /**
- * Service Components Composable
- * 
- * LEARNING: Extracts component logic from ServiceSelectionStep component
- * WHY: Components should be thin UI wrappers - component logic belongs in composables
- * PATTERN: Composable that provides component extraction and composable detection
- * 
- * This composable handles:
- * - Composable block detection
- * - Active components extraction
- * - Component description filtering
- * - Component icon mapping
- */
+ * WHY: Service Components Composable
 
+WHY: Components should be thin UI wrapper...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useComponentEntity } from '../useComponentEntity'
@@ -35,11 +26,9 @@ export interface UseInstanceComponentsReturn {
 }
 
 /**
- * Service Components Composable
- * 
- * LEARNING: Provides component logic extracted from ServiceSelectionStep component
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with computed properties for component detection and extraction
+ * WHY: Service Components Composable
+
+WHY: Moves business logic out of componen...
  */
 export function useInstanceComponents(
   options: UseInstanceComponentsOptions
@@ -57,9 +46,8 @@ export function useInstanceComponents(
   }
 
   /**
-   * LEARNING: Only composable blocks can have option components (instanceComponents)
-   * WHY: Check blockShape.composable property from globalData
-   * PATTERN: Use utility function to check composable status
+   * WHY: /**
+LEARNING: Only composable blocks can have option components (instanc...
    */
   const isComposable = computed(() => {
     const blockInstance = service.value
@@ -75,9 +63,6 @@ export function useInstanceComponents(
   })
 
   /**
-   * LEARNING: Get active components for composable blocks
-   * WHY: Provides components that are part of composable services
-   * PATTERN: Use utility function to extract components
    */
   const instanceComponents = computed(() => {
     const blockInstance = service.value
@@ -99,9 +84,6 @@ export function useInstanceComponents(
   })
 
   /**
-   * LEARNING: Component count
-   * WHY: Provides count of active components
-   * PATTERN: Computed property that returns length of active components
    */
   const componentCount = computed(() => instanceComponents.value.length)
 

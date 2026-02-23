@@ -1,11 +1,7 @@
 /**
- * useBetaFeedback Composable
- *
- * LEARNING: Encapsulates beta feedback API calls for widget and dashboard
- * WHY: Single place for fetch/mutate logic; easy to swap or add caching later
- * PATTERN: Composable that returns async functions calling apiClient
+ * PATTERN: useBetaFeedback Composable
+PATTERN: Composable that returns async functi...
  */
-
 import apiClient, {
   getBetaFeedbackEndpoint,
   getBetaFeedbackByIdEndpoint,

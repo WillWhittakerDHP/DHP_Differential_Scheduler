@@ -1,11 +1,8 @@
 /**
- * ESLint Configuration for Server (Express + TypeScript)
- * 
- * LEARNING: ESLint 9 flat config format for TypeScript
- * WHY: ESLint 9 requires flat config format, migrating from legacy .eslintrc
- * PATTERN: Flat config with TypeScript ESLint recommended rules
- */
+ * WHY: ESLint Configuration for Server (Express + TypeScript)
 
+LEARNING: ESLint...
+ */
 import js from '@eslint/js'
 import tseslintParser from '@typescript-eslint/parser'
 import tseslintPlugin from '@typescript-eslint/eslint-plugin'
@@ -119,9 +116,6 @@ export default [
   },
   {
     ignores: [
-      'node_modules/**',
-      'dist/**',
-      'jest.config.js',
       'src/db/migrations/**',
       'src/**/__tests__/**',
       'src/**/*.test.ts',

@@ -40,19 +40,8 @@ export interface PartInstanceCollectionModel {
 }
 
 /**
- * usePartInstanceCollection
- *
- * LEARNING: Collection-level composable for PartInstances within a BlockInstance.
- * WHY: Moves relationship creation, invalidation, name generation, and dialog state out of the SFC.
- * PATTERN: Composable owns all non-UI state and handlers; SFC becomes template wiring.
- * 
- * UPDATED: Added inline creation support with expandable placeholder cards
- * WHY: User requested inline creation instead of dialog for better UX
- * PATTERN: Expandable cards with form inputs, save creates entity + relationship
- * 
- * UPDATED: Made metadata-driven with optionsFieldKey parameter
- * WHY: Removes hardcoded field names, uses metadata-driven approach
- * PATTERN: Accept optionsFieldKey from metadata and pass to usePartInstanceData
+ * WHY: usePartInstanceCollection
+LEARNING: Collection-level composable for Part...
  */
 export function usePartInstanceCollection(
   blockInstanceId: ComputedRef<string>,
@@ -89,19 +78,13 @@ export function usePartInstanceCollection(
   })
 
   /**
-   * LEARNING: Inline creation state for placeholder cards
-   * WHY: Track which placeholder cards are expanded
-   * PATTERN: Separate expansion state from existing PartInstances
+   * WHY: /**
+LEARNING: Inline creation state for placeholder cards
+PATTERN: Separ...
    */
   const expandedPlaceholders = ref<string[]>([])
 
   /**
-   * LEARNING: Get temporary entity for new PartInstance creation
-   * WHY: EntityCard needs an entity object to work with, even for new entities
-   * PATTERN: Create temporary entity with `new-{partShapeId}` ID prefix for EntityCard isNew detection
-   * LEARNING: Use getDefaultEntityValues() to ensure all required fields are included
-   * WHY: No hardcoded field lists - automatically includes all fields from metadata (including zeroOutPart, differentialOverride)
-   * PATTERN: Use dynamic defaults from metadata instead of hardcoding fields
    */
   const getNewPartInstanceEntity = (partShapeId: string): GlobalEntity<'partInstance'> => {
     // PATTERN: Use getDefaultEntityValues() which uses metadata to determine defaults
@@ -144,9 +127,6 @@ export function usePartInstanceCollection(
   }
 
   /**
-   * LEARNING: Handle EntityCard save for new PartInstance
-   * WHY: After EntityCard creates the entity, we need to create the relationship
-   * PATTERN: EntityCard handles entity creation, we handle relationship + cleanup
    * FIX: Use entity from saved event instead of looking it up (avoids timing issues)
    */
   const handleNewPartInstanceSaved = async (
@@ -182,9 +162,7 @@ export function usePartInstanceCollection(
   }
 
   /**
-   * LEARNING: Handle EntityCard cancel for new PartInstance
    * WHY: Just collapse the placeholder - no cleanup needed since EntityCard handles its own state
-   * PATTERN: Simple collapse of expansion panel
    */
   const handleNewPartInstanceCancelled = (partShapeId: string): void => {
     const index = expandedPlaceholders.value.indexOf(partShapeId)

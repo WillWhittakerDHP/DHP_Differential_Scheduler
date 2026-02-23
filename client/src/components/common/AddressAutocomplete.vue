@@ -60,14 +60,11 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: AddressAutocomplete Component
  * 
- * WHY: Provides Google Places address autocomplete with coordinate extraction.
  *      Essential for drive time calculations in Phase 2.2.
  * 
  * PATTERN: Uses VAutocomplete as base, integrates with mapsApiService
  * 
- * COMPARISON: Similar to Google Places Autocomplete widget but integrated
  *             with Vuetify styling and our API proxy for security.
  */
 
@@ -87,14 +84,11 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('AddressAutocomplete')
 
 // LEARNING: Use shared session token composable
-// WHY: Token can be pre-fetched by parent component (PropertyDetailsStep)
-// PATTERN: Shared token across all AddressAutocomplete instances
 const { token: sessionToken, getToken, resetToken } = useMapsSessionToken()
 
 /**
- * Props interface
- * LEARNING: Standard v-model pattern plus additional configuration
- * Session 2.2.2: Added placeId prop for Routes API integration
+ * WHY: Props interface
+LEARNING: Standard v-model pattern plus additional confi...
  */
 interface Props {
   modelValue: string
@@ -128,9 +122,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /**
- * Emits
- * LEARNING: Standard v-model pattern with additional events
- * Session 2.2.2: Added update:placeId for Routes API integration
+ * WHY: Emits
+LEARNING: Standard v-model pattern with additional events
+Session ...
  */
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -141,24 +135,18 @@ const emit = defineEmits<{
   'error': [error: MapsApiError]
 }>()
 
-// Local state
 const searchInput = ref('')
 const selectedAddress = ref<AutocompletePrediction | null>(null)
 const suggestions = ref<AutocompletePrediction[]>([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 
-// LEARNING: Track if we're showing an existing address from props (no prediction object)
-// WHY: VAutocomplete with return-object emits null when there's no object, even if we have text
-// PATTERN: Skip clearing the modelValue when we're just displaying existing text
 const hasInitialAddressFromProps = ref(false)
 
 /**
  * Sync initial value from prop
- * LEARNING: When modelValue is provided, show it in the input
  * Session 2.2.2: Create synthetic item for VAutocomplete to display existing address
  * 
- * WHY: VAutocomplete with return-object only displays items from its items array.
  * When loading an existing address, we need to create a "fake" prediction object
  * so VAutocomplete can display it properly.
  */
@@ -175,18 +163,14 @@ watch(
         secondaryText: ''
       }
       
-      // Add to suggestions so VAutocomplete can find it
       suggestions.value = [syntheticPrediction]
       
-      // Set as selected address
       selectedAddress.value = syntheticPrediction
       searchInput.value = newValue
       
-      // Mark that we have an address from props (not from selection)
       hasInitialAddressFromProps.value = true
       logger.debug('[watch:modelValue] Created synthetic item for initial address:', newValue)
     }
-    // If modelValue was externally cleared, reset our flag
     if (!newValue && oldValue) {
       hasInitialAddressFromProps.value = false
       selectedAddress.value = null
@@ -198,8 +182,6 @@ watch(
 
 /**
  * Debounced function to fetch suggestions
- * LEARNING: Debounce prevents excessive API calls while typing
- * WHY: Google charges per autocomplete session, debounce reduces requests
  */
 const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
   if (input.length < props.minInputLength) {
@@ -232,43 +214,32 @@ const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
 
 /**
  * Handle search input changes
- * LEARNING: Triggers debounced API call when user types
  * Session 2.2.2: Also clears placeId when user types new address
  * Session 2.2.5: Token is pre-fetched by parent component, but lazy-load as fallback
  */
 const handleSearchUpdate = async (value: string | null) => {
   const input = value !== undefined && value !== null && value !== '' ? value : ''
 
-  // Lazy-load session token on first use when not pre-fetched
-  // LEARNING: Token should be pre-fetched by PropertyDetailsStep, but fetch if needed
-  // WHY: Ensures token is available even if pre-fetch didn't complete
   if (!sessionToken.value && input.length >= props.minInputLength) {
     try {
       await getToken()
       logger.debug('[handleSearchUpdate] Got session token (lazy-loaded)')
     } catch (error) {
       logger.warn('[handleSearchUpdate] Failed to get token:', error)
-      // Continue without token - will generate client-side fallback
     }
   }
   
-  // If user is typing (not selecting), emit the raw value
   if (!selectedAddress.value || selectedAddress.value.description !== input) {
-    // LEARNING: Only emit/clear if user is actually changing the text
-    // WHY: Avoid clearing when component is just initializing with existing address
     const isUserTyping = input !== props.modelValue
     
     if (isUserTyping) {
-      // User is typing something new - clear the initial-from-props flag
       hasInitialAddressFromProps.value = false
       emit('update:modelValue', input)
-      // Clear coordinates and placeId when user is typing a new address
       emit('update:coordinates', undefined)
       emit('update:placeId', undefined)
     }
   }
   
-  // Fetch suggestions
   if (input.length >= props.minInputLength) {
     fetchSuggestionsDebounced(input)
   } else {
@@ -310,7 +281,6 @@ function handleSyntheticSelection(
 
 /**
  * Handle selection from dropdown
- * LEARNING: When user selects a suggestion, fetch full details
  * Session 2.2.2: Also emits placeId for Routes API integration
  */
 const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
@@ -348,13 +318,10 @@ const handleSelectionChange = async (selection: AutocompletePrediction | null) =
 
 /**
  * Handle blur event
- * LEARNING: Clear error on blur if no input
  */
 const handleBlur = () => {
-  // Clear suggestions when leaving the field
   suggestions.value = []
   
-  // Clear error if input is empty
   if (!searchInput.value) {
     errorMessage.value = ''
   }
@@ -362,5 +329,4 @@ const handleBlur = () => {
 </script>
 
 <style scoped>
-/* Component uses Vuetify's built-in styling */
 </style>

@@ -1,11 +1,8 @@
 /**
- * usePropertyTypeBlockConfig Composable
- * 
- * LEARNING: Extracts property type block selection config construction logic from PropertyDetailsStep component
- * WHY: Moves complex config construction logic to composable
- * PATTERN: Composable that provides computed config for SelectionCardGroup
- */
+ * WHY: usePropertyTypeBlockConfig Composable
 
+WHY: Moves complex config constru...
+ */
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import type { ComponentItem } from './usePropertyDetailsLogic'
@@ -47,11 +44,9 @@ export interface UsePropertyTypeBlockConfigReturn {
 }
 
 /**
- * usePropertyTypeBlockConfig composable
- * 
- * LEARNING: Provides computed config for property type block selection cards
- * WHY: Extracts config construction logic from component to composable
- * PATTERN: Computed that returns config object with reactive dependencies
+ * WHY: usePropertyTypeBlockConfig composable
+
+WHY: Extracts config construction...
  */
 export function usePropertyTypeBlockConfig(
   params: UsePropertyTypeBlockConfigParams
@@ -63,8 +58,6 @@ export function usePropertyTypeBlockConfig(
   } = params
 
   /**
-   * LEARNING: Computed property for row selection config
-   * WHY: Ensures config re-evaluates when wizard state changes (e.g., when loading appointments)
    * PATTERN: Shared config object matching user types configuration with enhanced config properties and wizard state plugin
    */
   const rowSelectionConfig = computed(() => {

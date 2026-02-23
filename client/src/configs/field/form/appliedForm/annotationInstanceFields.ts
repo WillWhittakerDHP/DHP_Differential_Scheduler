@@ -1,7 +1,4 @@
 /**
- * LEARNING: AnnotationInstance Field Definitions
- * WHY: Defines which fields are primitive for AnnotationInstance (configuration data, not entity)
- * PATTERN: Similar to entity field configs but for configuration data
  * NOTE: orderIndex is hidden (managed via drag-and-drop UI, not editable field)
  */
 

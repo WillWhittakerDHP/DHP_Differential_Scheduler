@@ -1,17 +1,8 @@
 /**
- * Part Instance Form Composable
- * 
- * LEARNING: Extracts form management logic from PartInstanceForm component
- * WHY: Components should be thin UI wrappers - form logic belongs in composables
- * PATTERN: Composable that handles form state, entity loading, and submission
- * 
- * This composable handles:
- * - Form data state management
- * - Entity loading for edit mode
- * - Form submission (create/update)
- * - Error handling
- */
+ * WHY: Part Instance Form Composable
 
+WHY: Components should be thin UI wrapper...
+ */
 import { ref, computed, onMounted, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
@@ -35,75 +26,50 @@ export type UsePartInstanceFormOptions = UseEntityFormRedirectOptions
 
 export interface UsePartInstanceFormReturn {
   /**
-   * LEARNING: Whether component is in edit mode
-   * WHY: Determines if loading existing entity or creating new
-   * PATTERN: Computed property based on route params
    */
   isEdit: Ref<boolean>
   
   /**
-   * LEARNING: Entity ID from route
-   * WHY: Used to load existing entity in edit mode
-   * PATTERN: Computed property from route params
    */
   entityId: Ref<string | undefined>
   
   /**
-   * LEARNING: Part type options for select dropdown
-   * WHY: Component needs options for partShapeRef select
-   * PATTERN: Computed property that maps entities to select options
    */
   partTypeOptions: Ref<Array<{ id: string; name: string }>>
   
   /**
-   * LEARNING: Form data state
-   * WHY: Component needs reactive form data
-   * PATTERN: Ref containing form data object
    */
   formData: Ref<PartInstanceFormData>
   
   /**
-   * LEARNING: Submission loading state
-   * WHY: Component needs to show loading state during submit
-   * PATTERN: Ref boolean flag
+   * WHY: /**
+LEARNING: Submission loading state
+WHY: Component needs to show load...
    */
   isSubmitting: Ref<boolean>
   
   /**
-   * LEARNING: Error state
-   * WHY: Component needs to display errors
-   * PATTERN: Ref string or null
    */
   error: Ref<string | null>
   
   /**
-   * LEARNING: Load entity data for edit mode
-   * WHY: Populates form with existing entity data
    * PATTERN: Function called in onMounted hook
    */
   loadEntity: () => Promise<void>
   
   /**
-   * LEARNING: Handle form submission
-   * WHY: Creates or updates entity based on mode
-   * PATTERN: Async function that handles create/update logic
    */
   handleSubmit: () => Promise<void>
   
   /**
-   * LEARNING: Navigate back to list
-   * WHY: Component needs navigation function
-   * PATTERN: Function that uses router to navigate
    */
   goBack: () => void
 }
 
 /**
- * Part Instance Form Composable
- * 
- * LEARNING: Provides form management logic extracted from components
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with form state, entity loading, and submission logic
+ * WHY: Part Instance Form Composable
+
+WHY: Moves business logic out of componen...
  */
 export function usePartInstanceForm(
   options: UsePartInstanceFormOptions = {}
@@ -118,23 +84,14 @@ export function usePartInstanceForm(
   const { getGlobalEntities } = useGlobal()
   
   /**
-   * LEARNING: Whether component is in edit mode
-   * WHY: Determines if loading existing entity or creating new
-   * PATTERN: Computed property based on route params
    */
   const isEdit = computed(() => !!route.params.id)
   
   /**
-   * LEARNING: Entity ID from route
-   * WHY: Used to load existing entity in edit mode
-   * PATTERN: Computed property from route params
    */
   const entityId = computed(() => route.params.id as string | undefined)
   
   /**
-   * LEARNING: Part type options for select dropdown
-   * WHY: Component needs options for partShapeRef select
-   * PATTERN: Computed property that maps entities to select options
    */
   const partTypeOptions = computed(() => {
     return getGlobalEntities('partShape').map(pt => ({
@@ -144,9 +101,6 @@ export function usePartInstanceForm(
   })
   
   /**
-   * LEARNING: Form data state
-   * WHY: Component needs reactive form data
-   * PATTERN: Ref containing form data object
    */
   const formData = ref<PartInstanceFormData>({
     name: '',
@@ -156,23 +110,17 @@ export function usePartInstanceForm(
   })
   
   /**
-   * LEARNING: Submission loading state
-   * WHY: Component needs to show loading state during submit
-   * PATTERN: Ref boolean flag
+   * WHY: /**
+LEARNING: Submission loading state
+WHY: Component needs to show load...
    */
   const isSubmitting = ref(false)
   
   /**
-   * LEARNING: Error state
-   * WHY: Component needs to display errors
-   * PATTERN: Ref string or null
    */
   const error = ref<string | null>(null)
   
   /**
-   * LEARNING: Load entity data for edit mode
-   * WHY: Populates form with existing entity data
-   * PATTERN: Function that finds entity and populates formData
    */
   const loadEntity = async (): Promise<void> => {
     if (!isEdit.value || !entityId.value) return
@@ -189,9 +137,6 @@ export function usePartInstanceForm(
   }
   
   /**
-   * LEARNING: Handle form submission
-   * WHY: Creates or updates entity based on mode
-   * PATTERN: Async function that handles create/update logic with error handling
    */
   const handleSubmit = async (): Promise<void> => {
     isSubmitting.value = true
@@ -213,17 +158,12 @@ export function usePartInstanceForm(
   }
   
   /**
-   * LEARNING: Navigate back to list
-   * WHY: Component needs navigation function
-   * PATTERN: Function that uses router to navigate
    */
   const goBack = (): void => {
     router.push({ name: redirectRouteName })
   }
   
   /**
-   * LEARNING: Load entity when component mounts (if in edit mode)
-   * WHY: Form needs to be populated with existing data
    * PATTERN: Call loadEntity in onMounted hook
    */
   onMounted(() => {

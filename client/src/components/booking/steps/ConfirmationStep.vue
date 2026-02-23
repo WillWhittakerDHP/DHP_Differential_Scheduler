@@ -1,12 +1,9 @@
 <script setup lang="ts">
 /**
- * ConfirmationStep Component
- * 
- * LEARNING: Final step for confirming appointment details and pricing
- * WHY: Displays summary of all selections and calculated fees
- * PATTERN: Uses composable to aggregate wizard state and step data
- */
+ * PATTERN: ConfirmationStep Component
 
+PATTERN: Uses composable to aggregate wizard...
+ */
 import { inject, ref, type Ref } from 'vue'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
@@ -22,7 +19,6 @@ if (!wizard) {
 const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
 const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
 
-// Stub state for useWizardStepSync; summary step participates in same sync pattern as other steps
 const stepData = ref<ConfirmationStepData>({})
 const isFormValid = ref(true)
 function validateForm(): boolean {

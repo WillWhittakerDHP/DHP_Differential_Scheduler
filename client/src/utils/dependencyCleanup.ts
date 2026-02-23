@@ -1,14 +1,8 @@
 /**
- * Dependency Cleanup Utility
- * 
- * LEARNING: Automatically cleans up invalid active relationships when valid relationships change
- * WHY: When validCascades/validParts change on a blockShape, invalid bookingCascades/partAssignments
- *      relationships may exist that reference removed valid relationships
- * PATTERN: Check dependencyImpact config and clean up affected relationships
- * 
- * ARCHITECTURE: This runs after relationship saves to maintain data integrity
- */
+ * PATTERN: Dependency Cleanup Utility
 
+     relationships may exist that reference ...
+ */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { toGlobalEntityId } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -21,17 +15,9 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('dependencyCleanup')
 
 /**
- * Clean up invalid active relationships based on dependencyImpact config
- * 
- * LEARNING: When validCascades changes, remove invalid bookingCascades
- * WHY: If a blockShape's validCascades changes, blockInstances using that blockShape
- *      may have bookingCascades pointing to blockInstances that are no longer valid
- * PATTERN: Read dependencyImpact config → find affected entities → check relationships → remove invalid ones
- * 
- * @param entityKey - Entity type that was changed (e.g., 'blockShape')
- * @param entityId - ID of entity that was changed
- * @param relationshipKey - Relationship that was changed (e.g., 'validCascades')
- * @param newValidChildIds - New valid child IDs (e.g., new validCascades array)
+ * PATTERN: Clean up invalid active relationships based on dependencyImpact config
+
+...
  */
 export async function cleanupInvalidActiveRelationships(
   entityKey: GlobalEntityKey,

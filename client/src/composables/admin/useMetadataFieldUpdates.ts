@@ -1,12 +1,6 @@
 /**
- * LEARNING: Metadata field update logic with validation
- * WHY: Encapsulates field rendering update logic with renderAs computation and validation
- * PATTERN: Composable for updating field metadata with automatic renderAs computation
- * 
- * Used by:
- * - AdminPrimitiveMetadataEditor.vue
+ * PATTERN: Composable for updating field metadata with automatic renderAs computati...
  */
-
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatcher'
 
@@ -30,9 +24,6 @@ export function useMetadataFieldUpdates(
   const { getEffectiveFieldMetadata, pendingChanges } = options
 
   /**
-   * LEARNING: Auto-compute renderAs based on dataType and inputConfig
-   * WHY: renderAs should be automatically determined, not manually configured
-   * PATTERN: Compute renderAs from field characteristics
    */
   function computeRenderAs(
     dataType: string | undefined,
@@ -74,9 +65,6 @@ export function useMetadataFieldUpdates(
   }
 
   /**
-   * LEARNING: Update field rendering configuration
-   * WHY: Handles field updates with automatic renderAs computation and validation
-   * PATTERN: Compute renderAs, validate panel/layout, update pending changes
    */
   function updateFieldRendering(fieldKey: string, updates: Partial<FieldMetadataEntry>): void {
     // PATTERN: Compute renderAs if inputConfig is being updated

@@ -1,13 +1,8 @@
 /**
- * Theme Mode Composable
- * 
- * LEARNING: Manages theme switching between normal and quote mode
- * WHY: Provides reactive theme colors based on quote mode state
- * PATTERN: Composable that watches isQuoteMode and provides theme color values
- * 
- * When quote mode is active, all primary/secondary/warning colors switch to quote variants
- */
+ * PATTERN: Theme Mode Composable
 
+PATTERN: Composable that watches isQuoteMode and ...
+ */
 import { computed, watch } from 'vue'
 import { useTheme } from 'vuetify'
 import { quoteModeColors } from '@/plugins/5.vuetify/theme'
@@ -15,11 +10,9 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
 /**
- * LEARNING: Theme mode composable
- * WHY: Provides reactive access to current theme colors based on quote mode
- * PATTERN: Watches isQuoteMode and provides computed color values
- * 
- * @param wizard - Wizard instance with isQuoteMode state (optional, can be injected if not provided)
+ * WHY: Theme mode composable
+
+@param wizard - Wizard instance with isQuoteMode ...
  */
 export function useThemeMode(wizard?: UseBookingWizardReturn) {
   const theme = useTheme()
@@ -77,9 +70,8 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
 }
 
 /**
- * LEARNING: Convert hex color to RGB format for CSS variables
- * WHY: CSS variables need RGB format (r, g, b) for rgba() usage
- * PATTERN: Parse hex color and return comma-separated RGB values
+ * WHY: Convert hex color to RGB format for CSS variables
+WHY: CSS variables nee...
  */
 function hexToRgb(hex: string): string {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)

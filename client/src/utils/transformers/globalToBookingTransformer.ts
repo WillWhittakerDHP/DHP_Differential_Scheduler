@@ -1,11 +1,7 @@
 /**
- * Global to Booking Transformer
- *
- * LEARNING: Transforms GlobalData into booking-optimized format
- * WHY: Provides lightweight data structure for booking views
- * PATTERN: Plain objects with embedded relationships
+ * WHY: Global to Booking Transformer
+LEARNING: Transforms GlobalData into booki...
  */
-
 import type { BlockInstanceLike } from '@shared/types/blockInstanceTypes'
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
@@ -83,7 +79,6 @@ function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
 
 /**
  * Shared filter, map, and sort for block instances (main blocks vs line items).
- * PATTERN: DRY - single implementation for booking blocks and line item blocks.
  */
 function filterAndSortBlockInstances(
   blockInstances: GlobalEntity<'blockInstance'>[],
@@ -124,7 +119,6 @@ function filterAndSortBlockInstances(
 
 /**
  * Resolve part instance IDs from composite block's component relationships.
- * LEARNING: For composite instances, get part IDs via instanceComponents + partAssignments.
  */
 function resolveComponentPartIds(
   blockInstanceId: string,
@@ -150,7 +144,6 @@ function resolveComponentPartIds(
 
 /**
  * Resolve part instance IDs for a block (own parts + component parts if composite).
- * LEARNING: For composite instances, merge own parts with component parts.
  */
 function resolvePartInstanceIds(
   blockInstance: GlobalEntity<'blockInstance'>,
@@ -248,7 +241,6 @@ function buildBookingBlockInstance(
 
 /**
  * Transform a single block instance with embedded part instances
- * LEARNING: Denormalizes blockShape and embeds part instances; each part may have activePartIds from pricing cascade.
  */
 function transformBlockInstance(
   blockInstance: GlobalEntity<'blockInstance'>,
@@ -347,7 +339,6 @@ function transformPartInstance(
 
 /**
  * Transform GlobalData to booking-optimized format.
- * LEARNING: Creates lightweight plain objects with embedded relationships.
  */
 export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const { entities, relationships } = globalData

@@ -1,11 +1,8 @@
 /**
- * useWizardStepSync Composable
- * 
- * LEARNING: Syncs local step data and validation state to parent-provided refs
- * WHY: Extracts parent ref syncing logic from step components (reusable across all steps)
- * PATTERN: Composable that injects parent refs and sets up watchers for syncing
- */
+ * WHY: useWizardStepSync Composable
 
+LEARNING: Syncs local step data and valida...
+ */
 import { watch, inject, type Ref } from 'vue'
 
 export interface UseWizardStepSyncParams<TStepData> {
@@ -30,11 +27,9 @@ export interface UseWizardStepSyncParams<TStepData> {
 }
 
 /**
- * useWizardStepSync composable
- * 
- * LEARNING: Syncs local step data and validation state to parent-provided refs
- * WHY: Extracts parent ref syncing logic from step components
- * PATTERN: Composable that injects parent refs and sets up watchers
+ * WHY: useWizardStepSync composable
+
+LEARNING: Syncs local step data and valida...
  */
 export function useWizardStepSync<TStepData>(
   params: UseWizardStepSyncParams<TStepData>

@@ -1,9 +1,6 @@
 /**
  * Bright MLS Authentication
  *
- * LEARNING: Supports both direct Bearer token and OAuth 2.0 client credentials
- * WHY: Bright MLS may provide either; credentials are MLS-specific
- * PATTERN: Graceful degradation when not configured (returns null for 503)
  *
  * Env vars:
  * - BRIGHT_MLS_ACCESS_TOKEN: Direct Bearer token (if provided)

@@ -22,14 +22,12 @@ import { BlockInstance } from './block_instance';
  * - Dynamic attendee configuration (admins can configure which user types attend which events)
  * - Type-safe references to UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
  * 
- * WHY: Using a relationship table instead of storing attendees directly on event shapes allows:
  * - Flexibility: Event shapes can have multiple attendees
  * - Reusability: Same user type can attend multiple event shapes
  * - Maintainability: User types are configurable BlockInstances, not hardcoded strings
  * - Consistency: Matches annotation_assignment pattern with userTypeBlockInstanceId
  * 
  * PATTERN: Relationship model matching annotation_assignment pattern
- * COMPARISON: EventShapeAttendee links shapes to user types, EventAssignment links instances to events
  */
 export class EventShapeAttendee extends Model<
   InferAttributes<EventShapeAttendee>,

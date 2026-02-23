@@ -50,7 +50,6 @@ export class Appointment extends Model<
   /** Tracks which user engaged/interacted with the scheduler to create this appointment */
   declare scheduledById: ForeignKey<string> | null;
   declare propertyDetails: Record<string, unknown> | null;
-  // Note: clientId, agentId, additionalContacts removed - use appointment_attendees table instead
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -177,7 +176,6 @@ export function AppointmentFactory(sequelize: Sequelize) {
           key: 'id',
         },
       },
-      // Note: clientId, agentId, additionalContacts columns removed - use appointment_attendees table
       propertyDetails: {
         type: DataTypes.JSONB,
         allowNull: true,

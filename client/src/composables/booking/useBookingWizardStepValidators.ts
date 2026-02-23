@@ -9,7 +9,6 @@ import {
 export interface BookingWizardStepValidators {
   /**
    * Map of stepIndex -> validator(stepIndex)
-   * LEARNING: Centralizes validation orchestration so BookingWizard.vue stays thin.
    */
   stepValidators: ComputedRef<Record<number, StepValidator | null>>
 }

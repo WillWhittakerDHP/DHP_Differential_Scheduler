@@ -1,10 +1,7 @@
 
 /**
- * WHY: Vite Environment Types
-
-LEARNING: Type definitions for Vite's import.meta.env
-WHY: Provides TypeScript support for Vite environment variables
-PATTERN: Reference vite/client types and extend ImportMetaEnv
+ * WHY: Type definitions for Vite's import.meta.env
+WHY: Provides TypeScript sup...
  */
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string
@@ -22,10 +19,8 @@ interface ImportMeta {
 }
 
 /**
- * Vue SFC Module Declaration
- * LEARNING: Declares .vue files as valid modules for TypeScript
- * WHY: TypeScript needs to know that .vue files can be imported
- * PATTERN: Module declaration for Vue Single File Components
+ * WHY: Vue SFC Module Declaration
+LEARNING: Declares .vue files as valid module...
  */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
@@ -34,10 +29,8 @@ declare module '*.vue' {
 }
 
 /**
- * SVG Module Declaration
- * LEARNING: Declares .svg files as valid modules for TypeScript
- * WHY: TypeScript needs to know that .svg files can be imported
- * PATTERN: Module declaration for SVG assets
+ * WHY: SVG Module Declaration
+LEARNING: Declares .svg files as valid modules fo...
  */
 declare module '*.svg' {
   const content: string
@@ -45,10 +38,8 @@ declare module '*.svg' {
 }
 
 /**
- * SVG Module Declaration (with ?raw query)
- * LEARNING: Declares .svg?raw files as valid modules for TypeScript
- * WHY: Vite allows importing SVG as raw string with ?raw query
- * PATTERN: Module declaration for raw SVG imports
+ * WHY: SVG Module Declaration (with ?raw query)
+LEARNING: Declares .svg?raw fil...
  */
 declare module '*.svg?raw' {
   const content: string
@@ -56,10 +47,8 @@ declare module '*.svg?raw' {
 }
 
 /**
- * Image Module Declarations
- * LEARNING: Declares image files (.png, .jpg, .jpeg, .gif, .webp) as valid modules
- * WHY: TypeScript needs to know that image files can be imported
- * PATTERN: Module declaration for image assets
+ * WHY: Image Module Declarations
+LEARNING: Declares image files (.png, .jpg, .j...
  */
 declare module '*.png' {
   const content: string
@@ -88,8 +77,6 @@ declare module '*.webp' {
 
 /**
  * Third-party Module Declarations
- * LEARNING: Declares modules that may not have type definitions
- * WHY: Some packages don't provide TypeScript types or use internal paths
  */
 declare module 'shepherd.js' {
   export class Shepherd {
@@ -115,8 +102,6 @@ declare module 'shiki' {
 
 /**
  * Vuetify Internal Module Declarations
- * LEARNING: Declares Vuetify internal modules that may be accessed directly
- * WHY: Some components access Vuetify internals for advanced functionality
  * NOTE: These are internal APIs and may change in Vuetify updates
  */
 declare module 'vuetify/lib/components/VField/VField' {

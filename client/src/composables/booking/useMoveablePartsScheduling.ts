@@ -1,12 +1,8 @@
 /**
- * useMoveablePartsScheduling Composable
- * 
- * LEARNING: Manages moveable parts scheduling state and calculations
- * WHY: Extracts moveable parts scheduling logic from component
- * PATTERN: Composable that detects moveable parts, manages modal state, and calculates available slots
- * Session 1.4.15: Moveable Parts Scheduling Modal
- */
+ * PATTERN: useMoveablePartsScheduling Composable
 
+PATTERN: Composable that detects ...
+ */
 import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot, TimeRange } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
@@ -66,9 +62,8 @@ interface UseMoveablePartsSchedulingParams {
 }
 
 /**
- * Helper function to format day label
- * LEARNING: Uses useLocalTime composable for UI-boundary date formatting
- * WHY: All local time conversions must go through useLocalTime composable
+ * WHY: Helper function to format day label
+LEARNING: Uses useLocalTime composab...
  */
 function formatDayLabel(
   isoDate: RFC3339DateTime,
@@ -91,9 +86,8 @@ function formatDayLabel(
 }
 
 /**
- * Helper function to format time label
- * LEARNING: Uses useLocalTime composable for UI-boundary time formatting
- * WHY: All local time conversions must go through useLocalTime composable
+ * WHY: Helper function to format time label
+LEARNING: Uses useLocalTime composa...
  */
 function formatTimeLabel(
   startIso: RFC3339DateTime,

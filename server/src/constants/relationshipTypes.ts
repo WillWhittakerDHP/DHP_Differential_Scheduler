@@ -1,16 +1,7 @@
 /**
- * Relationship Type Constants
- * 
- * LEARNING: Constants for relationship type strings used in switch statements
- * WHY: Eliminates hardcoded strings in switch/case statements for type safety
- * PATTERN: Const object with relationship type values
- */
+ * WHY: Relationship Type Constants
 
-/**
- * Relationship type constants for switch statements
- * LEARNING: Use these constants instead of hardcoded strings
- * WHY: Type-safe, maintainable, single source of truth
- * PATTERN: Const object with relationship type values matching RelationshipKind type
+LEARNING: Constants for relationship type s...
  */
 export const RELATIONSHIP_TYPES = {
   ANNOTATION_ASSIGNMENTS: 'annotationAssignments',
@@ -29,9 +20,7 @@ export const RELATIONSHIP_TYPES = {
 } as const
 
 /**
- * Relationship type type
- * LEARNING: Derived from RELATIONSHIP_TYPES values
- * WHY: Type-safe relationship type references
- * PATTERN: typeof pattern for type extraction
+ * PATTERN: Relationship type type
+PATTERN: typeof pattern for type extraction
  */
 export type RelationshipType = typeof RELATIONSHIP_TYPES[keyof typeof RELATIONSHIP_TYPES]

@@ -1,19 +1,14 @@
 /**
- * Router Response Helpers
- * 
- * LEARNING: Standardized response formatting utilities for all router operations
- * WHY: Eliminates duplication, provides consistent response shapes across all routers
- * PATTERN: Helper functions that wrap Express response methods with standardized formats
- */
+ * WHY: Router Response Helpers
 
+LEARNING: Standardized response formatting util...
+ */
 import { Response } from 'express'
 import { HTTP_STATUS_CODES } from '../../constants/router.js'
 
 /**
  * Send a successful response with data
  * LEARNING: Standardized success response format
- * WHY: Consistent response structure, prevents magic numbers
- * PATTERN: Helper function that sets status and sends JSON
  * 
  * @param res - Express response object
  * @param data - Data to send in response body
@@ -26,8 +21,6 @@ export function sendSuccess(res: Response, data: unknown, statusCode: number = H
 /**
  * Send a created response (201)
  * LEARNING: Standardized created response format
- * WHY: Consistent response structure for POST operations
- * PATTERN: Helper function that sets 201 status and sends JSON
  * 
  * @param res - Express response object
  * @param data - Created resource data to send in response body
@@ -40,7 +33,6 @@ export function sendCreated(res: Response, data: unknown): void {
  * Send a no content response (204)
  * LEARNING: Standardized no content response format
  * WHY: Consistent response structure for DELETE operations (HTTP-correct approach)
- * PATTERN: Helper function that sets 204 status and sends empty response
  * 
  * @param res - Express response object
  */
@@ -51,8 +43,6 @@ export function sendNoContent(res: Response): void {
 /**
  * Send an error response
  * LEARNING: Standardized error response format
- * WHY: Consistent error structure, prevents magic numbers
- * PATTERN: Helper function that sets status and sends error JSON
  * 
  * @param res - Express response object
  * @param message - Error message
@@ -83,8 +73,6 @@ export function sendError(
 /**
  * Send a not found response (404)
  * LEARNING: Standardized not found response format
- * WHY: Consistent response structure for missing resources
- * PATTERN: Helper function that sets 404 status and sends error JSON
  * 
  * @param res - Express response object
  * @param message - Error message
@@ -97,8 +85,6 @@ export function sendNotFound(res: Response, message: string, id?: string): void 
 /**
  * Send a bad request response (400)
  * LEARNING: Standardized bad request response format
- * WHY: Consistent response structure for validation errors
- * PATTERN: Helper function that sets 400 status and sends error JSON
  * 
  * @param res - Express response object
  * @param message - Error message

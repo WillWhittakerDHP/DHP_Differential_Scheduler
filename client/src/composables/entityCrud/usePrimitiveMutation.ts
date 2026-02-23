@@ -15,9 +15,7 @@ const logger = createLogger('usePrimitiveMutation')
  * Primitive mutation for updating a single field on an entity.
  *
  * LEARNING: Optimistic update pattern using mutation variables
- * WHY: PATCH response only contains {updated: 1}, not the updated entity
  *      We update cache using what we sent (variables), not what server returns
- * PATTERN: onMutate for optimistic update, onError for rollback, onSuccess for side effects
  * 
  * PERFORMANCE: Eliminates 26+ GET requests per field update
  * UX: Instant UI feedback, automatic rollback on error
@@ -122,7 +120,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
         // PATTERN: Update specific field using variables.admin.key and variables.admin.value
         const updatedEntities = [...currentEntities]
         updatedEntities[entityIndex] = {
-          ...currentEntities[entityIndex], // LEARNING: Spread preserves all existing fields
           [variables.admin.key]: variables.admin.value, // Only update the single field being changed
         } as GlobalEntity<GlobalEntityTypeKey>
 

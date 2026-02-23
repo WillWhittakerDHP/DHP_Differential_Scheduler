@@ -11,16 +11,10 @@ export type UseFormElementPatchingOptions = FormElementPatchingOptionsBase
 
 export interface UseFormElementPatchingReturn {
   /**
-   * LEARNING: Try to patch form element immediately
-   * WHY: Browser extension might access form.elements before async operations run
-   * PATTERN: Synchronous function that attempts to find and patch form element
    */
   tryPatchFormImmediately: () => boolean
   
   /**
-   * LEARNING: Patch form element from formRef
-   * WHY: VForm might not have rendered form element during setup, so patch in onMounted
-   * PATTERN: Function that attempts to patch form element from VForm ref
    */
   patchFormFromRef: () => void
 }
@@ -36,26 +30,18 @@ export function useFormElementPatching(
   let cleanupObserver: (() => void) | null = null
   
   /**
-   * LEARNING: Try to patch form element immediately (synchronously)
-   * WHY: Browser extension might access form.elements before async operations run
-   * PATTERN: Synchronous function that attempts to find and patch form element
    */
   const tryPatchFormImmediately = (): boolean => {
     return tryPatchFormImmediatelyBySelector(formSelector)
   }
   
   /**
-   * LEARNING: Patch form element from formRef
-   * WHY: VForm might not have rendered form element during setup, so patch in onMounted
-   * PATTERN: Function that attempts to patch form element from VForm ref
    */
   const patchFormFromRef = (): void => {
     void patchFormFromVFormRef(formRef, formSelector)
   }
   
   /**
-   * LEARNING: Patch form element when component mounts
-   * WHY: VForm might not have rendered form element during setup, so patch in onMounted
    * PATTERN: Use onMounted hook to patch form element
    */
   onMounted(() => {
@@ -69,8 +55,6 @@ export function useFormElementPatching(
   })
   
   /**
-   * LEARNING: Clean up MutationObserver on unmount
-   * WHY: Prevent memory leaks by disconnecting observer
    * PATTERN: Use onBeforeUnmount hook to disconnect observer
    */
   onBeforeUnmount(() => {

@@ -41,8 +41,8 @@ export type GlobalDataCollectionCrudComposableReturn<
   fetchAll: GlobalDataCollectionQueryResult<CollectionItem>
   fetchById: (id: string) => GlobalDataCollectionByIdQueryResult<CollectionItem>
   /**
-   * Optional domain helper hook point.
-   * LEARNING: Some domain composables add extra helpers (e.g. `fetchRandom`).
+   * WHY: /**
+Optional domain helper hook point
    */
   extras?: Record<string, unknown>
 } & { readonly __brand?: 'GlobalDataCollectionCrudComposableReturn' }

@@ -1,18 +1,8 @@
 /**
- * usePartsCollectionField Composable
- * 
- * LEARNING: Parses relationship select config from metadata and determines display conditions
- * WHY: Extracts config parsing logic from PartsCollection component
- * PATTERN: Composable that provides config-derived values and display validation
- * 
- * Features:
- * - Parse relationship select config from metadata.inputConfig (direct format)
- * - Determine child entity key
- * - Determine relationship key
- * - Hardcode options field key to 'validParts' (always the same for partsCollection)
- * - Validate display conditions (parent type has valid options)
- */
+ * PATTERN: usePartsCollectionField Composable
 
+PATTERN: Composable that provides co...
+ */
 import { computed } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -24,10 +14,8 @@ import { useEntityMetadata } from './useEntityMetadata'
 import type { RelationshipFieldType } from '@/types/entity/formFields'
 
 /**
- * usePartsCollectionField composable
- * LEARNING: Provides config parsing and display validation for partsCollection fields
- * WHY: Centralizes config logic for reuse
- * PATTERN: Composable that returns computed properties based on field context
+ * PATTERN: usePartsCollectionField composable
+PATTERN: Composable that returns comp...
  */
 export function usePartsCollectionField<
   GE extends GlobalEntityKey,
@@ -36,9 +24,6 @@ export function usePartsCollectionField<
   const adminComp = useAdmin()
   
   /**
-   * LEARNING: Get entity for metadata fetch
-   * WHY: useEntityMetadata needs entity to determine entityId
-   * PATTERN: Get entity from admin store using entityKey and entityId
    */
   const entity = computed<GlobalEntity<GE> | null>(() => {
     try {
@@ -50,8 +35,6 @@ export function usePartsCollectionField<
   })
   
   /**
-   * LEARNING: Fetch field metadata from /admin-input-metadata
-   * WHY: Metadata is the source of truth for field configuration, including inputConfig
    * PATTERN: Use useEntityMetadata composable to fetch metadata
    */
   const { fieldMetadata } = useEntityMetadata(
@@ -60,9 +43,6 @@ export function usePartsCollectionField<
   )
   
   /**
-   * LEARNING: Get field metadata entry for this field
-   * WHY: Contains inputConfig with partsCollection field configuration
-   * PATTERN: Read from metadata Record by fieldKey
    */
   const fieldMetadataEntry = computed(() => {
     if (!fieldMetadata.value) {
@@ -72,9 +52,7 @@ export function usePartsCollectionField<
   })
 
   /**
-   * LEARNING: Extract select config from metadata.inputConfig - NO FALLBACKS
    * WHY: inputConfig stores relationship select config for partsCollection fields (direct format)
-   * PATTERN: Read inputConfig from metadata entry, fail explicitly if missing
    */
   const selectConfig = computed<RelationshipFieldType<GE>>(() => {
     const meta = fieldMetadataEntry.value
@@ -109,10 +87,9 @@ export function usePartsCollectionField<
   })
 
   /**
-   * Get child entity key from config - NO FALLBACKS
-   * LEARNING: Extract candidateChildKey from config
-   * WHY: Determines which entity type to display (e.g., "partInstance" for partAssignments)
-   * PATTERN: Read candidateChildKey from config, fail if missing
+   * WHY: /**
+Get child entity key from config - NO FALLBACKS
+LEARNING: Extract ca...
    */
   const childEntityKey = computed<GlobalEntityKey>(() => {
     const config = selectConfig.value
@@ -129,10 +106,9 @@ export function usePartsCollectionField<
   })
 
   /**
-   * Get relationship key from config - NO FALLBACKS
-   * LEARNING: Extract targetKey from config
-   * WHY: Determines which relationship field to use (e.g., "partAssignments")
-   * PATTERN: Read targetKey from config, fail if missing
+   * WHY: /**
+Get relationship key from config - NO FALLBACKS
+LEARNING: Extract ta...
    */
   const relationshipKey = computed<string>(() => {
     const config = selectConfig.value
@@ -149,10 +125,9 @@ export function usePartsCollectionField<
   })
 
   /**
-   * Get options field key - HARDCODED for partsCollection
-   * LEARNING: partsCollection always reads from 'validParts' field on parent type
-   * WHY: Simplifies configuration - no need to specify optionsFieldKey in metadata
-   * PATTERN: Hardcode 'validParts' since it's always the same for partsCollection fields
+   * PATTERN: /**
+Get options field key - HARDCODED for partsCollection
+PATTERN: Hardc...
    */
   const optionsFieldKey = computed<string>(() => {
     // PATTERN: Hardcode instead of requiring configuration
@@ -160,10 +135,9 @@ export function usePartsCollectionField<
   })
 
   /**
-   * Get parent entity from admin store
-   * LEARNING: Read parent entity using admin composable
-   * WHY: Need parent entity (e.g., blockInstance) to check relationships and type
-   * PATTERN: Computed property that reads from admin store
+   * WHY: /**
+Get parent entity from admin store
+LEARNING: Read parent entity usin...
    */
   const parentEntity = computed<GlobalEntity<GE> | undefined>(() => {
     return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
@@ -171,9 +145,6 @@ export function usePartsCollectionField<
 
   /**
    * Determine parent type field based on entity key
-   * LEARNING: Map entityKey to type field name
-   * WHY: Different entity types use different properties for type reference
-   * PATTERN: Computed property with conditional mapping
    */
   const parentTypeProperty = computed<string | null>(() => {
     if (fieldContext.entityKey === 'blockInstance') return 'blockShapeRef'
@@ -183,9 +154,6 @@ export function usePartsCollectionField<
 
   /**
    * Get parent type entity key based on entity key
-   * LEARNING: Map entityKey to type entity key
-   * WHY: Determines which shape entity to fetch (blockShape or partShape)
-   * PATTERN: Computed property with conditional mapping
    */
   const parentTypeEntityKey = computed<GlobalEntityKey | null>(() => {
     if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
@@ -195,9 +163,6 @@ export function usePartsCollectionField<
 
   /**
    * Get parent type reference from parent entity
-   * LEARNING: Read type reference property from parent entity
-   * WHY: Need type reference to fetch parent type entity
-   * PATTERN: Computed property that reads from parentEntity
    */
   const parentTypeRef = computed<string | null>(() => {
     if (!parentEntity.value || !parentTypeProperty.value) return null
@@ -205,10 +170,9 @@ export function usePartsCollectionField<
   })
 
   /**
-   * Get parent type entity from admin store
-   * LEARNING: Read parent shape entity using admin composable
-   * WHY: Need parent shape entity to check valid options (e.g., blockShape.validParts)
-   * PATTERN: Computed property that reads from admin store
+   * WHY: /**
+Get parent type entity from admin store
+LEARNING: Read parent shape ...
    */
   const parentTypeEntity = computed<GlobalEntity<GlobalEntityKey> | undefined>(() => {
     if (!parentTypeEntityKey.value || !parentTypeRef.value) return undefined
@@ -217,9 +181,6 @@ export function usePartsCollectionField<
 
   /**
    * Determine if partsCollection field should be displayed
-   * LEARNING: Check if parent type has valid options configured
-   * WHY: Only show partsCollection field if parent type has valid options array
-   * PATTERN: Computed property that validates display conditions
    */
   const shouldDisplay = computed<boolean>(() => {
     if (!parentEntity.value || !parentTypeProperty.value) {
@@ -242,9 +203,6 @@ export function usePartsCollectionField<
 
   /**
    * Default expanded state - NO DEFAULTS
-   * LEARNING: Controls whether partsCollection is expanded by default
-   * WHY: Should be configured in metadata if needed
-   * PATTERN: Read from metadata, undefined if not configured (no default)
    */
   const defaultExpanded = computed<boolean | undefined>(() => {
     const meta = fieldMetadataEntry.value
@@ -255,9 +213,6 @@ export function usePartsCollectionField<
 
   /**
    * Function to get child's parent ID - NO DEFAULTS
-   * LEARNING: Check if child ID is in parent's relationship array
-   * WHY: Determines if a child entity belongs to this parent
-   * PATTERN: Function that checks relationship array, fails if required data missing
    */
   const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
     // PATTERN: Fail explicitly when required data is missing
@@ -286,9 +241,6 @@ export function usePartsCollectionField<
 
   /**
    * Function to get parent ID
-   * LEARNING: Simple getter for parent ID
-   * WHY: Returns parent entity ID for filtering
-   * PATTERN: Function that returns parent ID
    */
   const getParentId = (parent: GlobalEntity<GlobalEntityKey>): string => {
     return parent.id

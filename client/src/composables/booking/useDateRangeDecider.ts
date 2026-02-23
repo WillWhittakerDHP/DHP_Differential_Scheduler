@@ -1,9 +1,6 @@
 /**
  * useDateRangeDecider Composable
  * 
- * LEARNING: Calculates date range for displayed calendar month
- * WHY: Provides shared date range calculation for all API composables
- * PATTERN: Accepts displayed month parameter, returns reactive computed date range
  * 
  * Session 2.2.3: Created for API call timing optimization
  */
@@ -17,19 +14,13 @@ export interface DisplayedMonth {
 }
 
 /**
- * useDateRangeDecider
- * 
- * LEARNING: Calculates date range for displayed calendar month
- * WHY: Single source of truth for date range used by all API composables
- * PATTERN: Reactive computed that updates when displayedMonth changes
- * 
- * @param displayedMonth - Reactive month parameter (year, month) from calendar widget
- * @returns Computed date range (start and end of month in UTC)
+ * WHY: useDateRangeDecider
+
+WHY: Single source of truth for date range used by ...
  */
 export function useDateRangeDecider(
   displayedMonth?: Ref<DisplayedMonth> | ComputedRef<DisplayedMonth>
 ): ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }> {
-  // Default to current month if no month provided
   const defaultMonth = computed<DisplayedMonth>(() => {
     const now = new Date()
     return { year: now.getUTCFullYear(), month: now.getUTCMonth() }

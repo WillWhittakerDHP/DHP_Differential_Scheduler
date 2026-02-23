@@ -1,17 +1,8 @@
 /**
- * Select Field Value Composable
- * 
- * LEARNING: Extracts field value normalization and validation logic from SelectInputs component
- * WHY: Components should be thin UI wrappers - value normalization belongs in composables
- * PATTERN: Composable that provides normalized field value with option validation
- * 
- * This composable handles:
- * - Annotation value extraction from relationships
- * - Value normalization (array for multiple, string for single)
- * - Option validation (filter out invalid values)
- * - Debug logging for filtered values
- */
+ * WHY: Select Field Value Composable
 
+WHY: Components should be thin UI wrapper...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -33,8 +24,9 @@ export interface UseSelectFieldValueOptions {
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   
   /**
-   * Whether this is an AnnotationAssignmentSelect field
-   * LEARNING: Annotations are now core entities, use standard relationship select pattern
+   * WHY: /**
+Whether this is an AnnotationAssignmentSelect field
+LEARNING: Annota...
    */
   isAnnotationAssignmentSelect?: ComputedRef<boolean>
 }
@@ -44,11 +36,9 @@ export interface UseSelectFieldValueReturn {
 }
 
 /**
- * Select Field Value Composable
- * 
- * LEARNING: Provides field value normalization logic extracted from SelectInputs component
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with computed property for normalized field value
+ * WHY: Select Field Value Composable
+
+WHY: Moves business logic out of componen...
  */
 export function useSelectFieldValue(
   options: UseSelectFieldValueOptions
@@ -61,15 +51,9 @@ export function useSelectFieldValue(
   } = options
 
   /**
-   * LEARNING: Normalize field value for display with option validation
-   * WHY: AppSelect with multiple prop expects an array, but stored value might be string or single value
-   *      Need to filter out invalid values that don't exist in options
-   * PATTERN: Convert to array for multiple selects, ensure it's always an array when multiple is true
-   *          Filter out values that don't exist in options to prevent "enabled nodes mismatch" errors
-   * 
-   * LEARNING: Annotations now work like other relationship selects
-   * WHY: annotationAssignments is attached to entities by transformer, value comes from rawFieldValue
-   * PATTERN: No special handling needed - annotations use same pattern as partAssignments
+   * WHY: /**
+     Need to filter out invalid values that don't exist in options
+ ...
    */
   const fieldValue = computed(() => {
     const value = rawFieldValue.value
@@ -92,7 +76,6 @@ export function useSelectFieldValue(
         
         // PATTERN: Check if missing entities actually exist before warning
         if (isDevModeEnabled() && normalized.length !== validValues.length) {
-          // Dev-only: could log missing entity ids here
         }
         
         return validValues

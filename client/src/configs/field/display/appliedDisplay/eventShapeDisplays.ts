@@ -1,9 +1,6 @@
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
 /**
- * LEARNING: EventShape Display Configs (Configuration Data)
- * WHY: Defines labels, placeholders, and layout for EventShape fields
- * PATTERN: Similar structure to entity display configs but for configuration data
  * NOTE: These are NOT entities, so they may not integrate into full display config system
  */
 

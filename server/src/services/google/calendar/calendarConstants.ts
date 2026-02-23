@@ -1,11 +1,7 @@
 /**
- * Google Calendar API Constants
- *
- * LEARNING: Centralized constants for Google Calendar API operations
- * WHY: Single source of truth for Calendar API constants, eliminates magic strings
- * PATTERN: Constants module (matches Maps pattern from mapsConstants.ts)
+ * PATTERN: Google Calendar API Constants
+PATTERN: Constants module (matches Maps pa...
  */
-
 import { OAUTH_ERROR_MESSAGES } from '../../../constants/appConstants.js'
 import {
   DEFAULT_RETRY_CONFIG,
@@ -14,26 +10,22 @@ import {
 
 /**
  * Default send updates value for event creation
- * LEARNING: Default to sending invitation emails
  */
 export const DEFAULT_SEND_UPDATES: 'all' | 'externalOnly' | 'none' = 'all'
 
 /**
  * Maximum results for calendar events list API
- * LEARNING: Google Calendar API limit
  */
 export const MAX_EVENTS_RESULTS = 2500
 
 /**
- * Retry configuration for Calendar API operations
- * LEARNING: Reuses shared Google API retry config (matches Maps pattern)
+ * WHY: Retry configuration for Calendar API operations
+LEARNING: Reuses shared ...
  */
 export const CALENDAR_RETRY_CONFIG: RetryConfig = DEFAULT_RETRY_CONFIG
 
 /**
  * User-friendly error messages for each Calendar API error type
- * LEARNING: Single source of truth for user-facing messages
- * WHY: Eliminates magic strings in getUserMessage, improves maintainability
  */
 export const CALENDAR_ERROR_MESSAGES = {
   auth: 'Calendar authentication failed. Please reconnect your Google Calendar.',
@@ -48,7 +40,6 @@ export const CALENDAR_ERROR_MESSAGES = {
 
 /**
  * Maps CalendarErrorType to HTTP status code
- * LEARNING: Consistent status codes for route error responses
  */
 export const CALENDAR_ERROR_TO_STATUS = {
   auth: 401,
@@ -63,8 +54,6 @@ export const CALENDAR_ERROR_TO_STATUS = {
 
 /**
  * Maps HTTP status codes to error classification (for classifyError)
- * LEARNING: Lookup table replaces nested if/else chain
- * WHY: Reduces function complexity, single source of truth
  */
 export const CALENDAR_STATUS_MAP: Record<
   number,
@@ -77,7 +66,6 @@ export const CALENDAR_STATUS_MAP: Record<
 
 /**
  * Network error codes from Node.js (no HTTP response received)
- * LEARNING: Single source of truth for network error detection
  */
 export const NETWORK_ERROR_CODES = new Set<string>([
   'ECONNREFUSED',
@@ -87,13 +75,11 @@ export const NETWORK_ERROR_CODES = new Set<string>([
 
 /**
  * Keywords in error message indicating rate limit (vs permission denied)
- * LEARNING: 403 can mean either; distinguish via message content
  */
 export const RATE_LIMIT_KEYWORDS = ['rate', 'quota', 'limit'] as const
 
 /**
  * Technical error messages (internal, not user-facing)
- * LEARNING: Consolidates strings; uses appConstants where shared
  */
 export const CALENDAR_INTERNAL_MESSAGES = {
   RATE_LIMIT_EXCEEDED: 'Rate limit exceeded',

@@ -1,9 +1,6 @@
 /**
  * Business Settings Router Helper Functions
  * 
- * LEARNING: Extracted helper functions for business settings operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure functions for complex logic
  */
 
 import { AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js'
@@ -15,13 +12,8 @@ interface BusinessSettingRecord {
 }
 
 /**
- * Transform setting to response format
- * LEARNING: Transforms BusinessSettings model to API response format
- * WHY: Provides consistent format for settings responses
- * PATTERN: Map model to response format
- *
- * @param setting - BusinessSettings model instance
- * @returns Response format object
+ * WHY: Transform setting to response format
+LEARNING: Transforms BusinessSettin...
  */
 export function transformSettingToResponse(setting: BusinessSettingRecord): { setting_key: string; setting_value: unknown } {
   return {
@@ -32,9 +24,6 @@ export function transformSettingToResponse(setting: BusinessSettingRecord): { se
 
 /**
  * Get setting with default fallback for availability settings
- * LEARNING: Gets setting or returns default for availability settings
- * WHY: Provides default values when availability settings don't exist
- * PATTERN: Check if setting exists, return default if not
  *
  * @param setting - BusinessSettings model instance or null
  * @param key - Setting key
@@ -59,9 +48,6 @@ export function getSettingWithDefault(
 
 /**
  * Merge setting values for PATCH operation
- * LEARNING: Merges existing setting value with new value
- * WHY: Enables partial updates for settings
- * PATTERN: Spread existing value, then new value
  *
  * @param existingValue - Existing setting value
  * @param newValue - New setting value to merge

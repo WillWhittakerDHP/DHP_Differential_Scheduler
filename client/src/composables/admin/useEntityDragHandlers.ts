@@ -1,11 +1,8 @@
 /**
- * useEntityDragHandlers Composable
- * 
- * LEARNING: Generic drag end handler logic for any entity type
- * WHY: Entities all have the same drag-and-drop behavior - no need for separate composables
- * PATTERN: Generic composable that works for any GlobalEntity type
- */
+ * WHY: useEntityDragHandlers Composable
 
+WHY: Entities all have the same drag-a...
+ */
 import { type Ref, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -30,11 +27,9 @@ export interface UseEntityDragHandlersReturn {
 }
 
 /**
- * useEntityDragHandlers composable
- * 
- * LEARNING: Provides drag end handlers for any entity type
- * WHY: All entities have the same drag-and-drop behavior - reorder by orderIndex
- * PATTERN: Generic composable that works for blockShape, partShape, blockInstance, etc.
+ * PATTERN: useEntityDragHandlers composable
+
+PATTERN: Generic composable that works...
  */
 export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
   params: UseEntityDragHandlersParams<EntityKey>
@@ -47,12 +42,8 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
   } = params
 
   /**
-   * LEARNING: Handle drag end for any entity type
-   * WHY: Updates orderIndex values after drag-and-drop operation
-   * PATTERN: Reorder array based on new ID order, normalize indices, sync to backend
    * 
    * FIX: Normalize orderIndex for ALL entities in the group, not just dragged ones
-   * WHY: Ensures all entities have sequential orderIndex values, preventing gaps that cause
    *      incorrect ordering on page reload
    */
   const handleDragEnd = async (): Promise<void> => {
@@ -104,9 +95,6 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
   }
 
   /**
-   * LEARNING: Sync reactive arrays with filtered results
-   * WHY: Keep drag-and-drop arrays in sync with filtered/sorted results
-   * PATTERN: Update ref arrays from filtered computed
    */
   const syncArrays = (): void => {
     entityList.value = [...filteredEntities.value] as typeof entityList.value

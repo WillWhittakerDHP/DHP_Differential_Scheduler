@@ -1,9 +1,6 @@
 /**
  * Capacity Computer Service
  * 
- * LEARNING: Pre-computes scheduled hours for all capacity constraints in a date range
- * WHY: Eliminates N individual client API calls by computing all capacity hours server-side
- * PATTERN: Batch computation of capacity hours for entire date range
  * 
  * Phase 3: Server-Side Computed Availability Data Refactor
  * - Pre-computes capacity hours for all dates in requested range
@@ -34,14 +31,7 @@ export interface ScheduledCapacityResult {
 }
 
 /**
- * Pre-compute scheduled hours and income for all capacity constraints in a date range
- * LEARNING: Batch computation of capacity hours and income; income uses same key shape as hours
- * WHY: Server can efficiently compute all capacity data in one pass; income for threshold gate
- * PATTERN: Generate all unique capacity keys, fetch hours and income per key, return both maps
- *
- * @param dateRange - Date range to compute capacity for
- * @param capacityConstraints - Array of capacity constraints to compute
- * @returns scheduledHoursByKey and scheduledIncomeByKey
+ * WHY: Pre-compute scheduled hours and income for all capacity constraints in a...
  */
 export async function computeScheduledHoursForRange(
   dateRange: { start: string; end: string },

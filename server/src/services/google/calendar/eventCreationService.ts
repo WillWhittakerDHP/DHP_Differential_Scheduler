@@ -1,9 +1,6 @@
 /**
  * Google Calendar Event Creation Service
  * 
- * LEARNING: Service for creating Google Calendar events
- * WHY: Centralized event creation with rate limiting, retry, and cache invalidation
- * PATTERN: Service layer with infrastructure integration
  */
 
 import { google } from 'googleapis'
@@ -20,9 +17,6 @@ const logger = createLogger('EventCreationService')
 /**
  * Create a calendar event with optional invitations
  * 
- * LEARNING: Creates event on Google Calendar with attendee support
- * WHY: Core booking functionality - creates appointment on calendar
- * PATTERN: Integrates rate limiting, retry for transient errors, and invalidates cache after creation
  * 
  * @param params - Event creation parameters
  * @returns Created event details
@@ -60,7 +54,6 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
     return await withRateLimit('google-calendar', async () => {
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client })
       
-      // Build event resource with all configurable properties
       const eventResource: Record<string, unknown> = {
         summary,
         start: { dateTime: startDate.toISOString() },

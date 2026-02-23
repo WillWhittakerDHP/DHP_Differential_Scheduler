@@ -1,9 +1,6 @@
 /**
  * Vue Query Plugin - Integration with Vuexy plugin system
  * 
- * LEARNING: Vuexy plugin system integration
- * WHY: Integrates Vue Query with Vuexy's plugin registration
- * PATTERN: Export default function that registers Vue Query with app
  * NOTE: QueryClient will be created in main.ts and passed here
  */
 

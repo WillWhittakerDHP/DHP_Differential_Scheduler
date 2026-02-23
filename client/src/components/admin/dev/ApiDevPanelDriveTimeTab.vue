@@ -2,9 +2,6 @@
 /**
  * API Dev Panel DriveTime Tab Component
  * 
- * LEARNING: Extracted DriveTime tab content from ApiDevPanel
- * WHY: Reduces main component complexity and file size
- * PATTERN: Sub-component with props for data and handlers
  */
 
 import { formatTTL } from '@/utils/dev/formatDevPanelData'

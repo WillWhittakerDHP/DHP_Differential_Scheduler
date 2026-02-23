@@ -1,14 +1,8 @@
 /**
- * Component Transformer
- * 
- * Composes properties from components to create computed composed entities.
- * Component relationships are lateral component relationships (same shape, e.g., service → service).
- * 
- * LEARNING: Computed view pattern - composers are always calculated from components at query time
- * WHY: No stored composed values, ensures data consistency
- * PATTERN: Property-specific component strategies (sum, merge, first, every)
- */
+ * WHY: Component Transformer
 
+Composes properties from components to create com...
+ */
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities';
 import type { InstanceComponent } from '@/types/component'
@@ -22,11 +16,9 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 const logger = createLogger('componentAggregator')
 
 /**
- * Convert GlobalRelationship[] to InstanceComponent[] format
- * 
- * LEARNING: Components are now stored as relationships, need to convert format
- * WHY: Component functions expect InstanceComponent[] format
- * PATTERN: Transform relationship structure to component structure
+ * WHY: Convert GlobalRelationship[] to InstanceComponent[] format
+
+LEARNING: Co...
  */
 function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
   entityKind: GE,
@@ -90,9 +82,6 @@ export function getComponentsRecursive(
 /**
  * Compose part instances from composed block instances
  * 
- * LEARNING: When composing block instances, compose all part instances from all composed blocks
- * WHY: Composer should show all part instances from all component blocks
- * PATTERN: Merge partAssignments relationships from all composed blocks
  */
 export function composePartInstances(
   composedBlockIds: string[],
@@ -120,11 +109,9 @@ export function composePartInstances(
 }
 
 /**
- * Compose properties from components
- * 
- * LEARNING: Computed view pattern - always recalculate from components
- * WHY: Ensures data consistency, no stored composed values
- * PATTERN: Property-specific component based on config rules
+ * WHY: Compose properties from components
+
+LEARNING: Computed view pattern - al...
  */
 export function composeProperties<GE extends GlobalEntityKey>(
   composerId: string,
@@ -161,7 +148,6 @@ export function composeProperties<GE extends GlobalEntityKey>(
   )
   
   if (entityKind === 'blockInstance') {
-    // Block instance composition handled above
   }
   
   return composed as Partial<GlobalEntity<GE>>

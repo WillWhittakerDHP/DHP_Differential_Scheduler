@@ -1,9 +1,7 @@
 /**
  * Request param/query normalization
  *
- * WHY: Express typings (and runtime) can give req.params[key] and req.query[key]
  * as string | string[]; route handlers expect string for IDs and single values.
- * PATTERN: Single helper so all routes normalize consistently.
  */
 
 import type { Request } from 'express'

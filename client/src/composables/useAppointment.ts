@@ -1,17 +1,8 @@
 /**
- * useAppointment Composable
- * 
- * LEARNING: Vue composable for appointment CRUD operations
- * WHY: Provides reactive appointment mutations with error handling
- * PATTERN: Vue Query useMutation for data mutations
- * 
- * Session 1.4.7: Refactored to use BusinessData cache
- * ARCHITECTURAL DECISION: Business entities use ['businessData'] cache key
- * - Keeps business data changes from invalidating static configuration data
- * - Uses optimistic updates + refetchQueries for cache consistency
- * - Mirrors globalData architecture for consistency
- */
+ * WHY: useAppointment Composable
 
+LEARNING: Vue composable for appointment CRUD...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { getAppointmentByIdEndpoint, getAppointmentEndpoint } from '@/utils/api'
@@ -31,13 +22,9 @@ type UpdateByIdPayload = {
 }
 
 /**
- * useAppointment composable
- * 
- * LEARNING: Provides appointment CRUD operations from BusinessData cache
- * WHY: Centralizes appointment API logic with reactive state management
- * PATTERN: Uses useBusinessDataCollectionCrud for standardized CRUD operations
- * 
- * Session 1.4.7: Refactored to use BusinessData cache with optimistic + refetchQueries pattern
+ * WHY: useAppointment composable
+
+WHY: Centralizes appointment API logic with r...
  */
 type UseAppointmentReturn = {
   create: UseMutationReturnType<AppointmentResponse, unknown, AppointmentRequest, unknown>
@@ -87,9 +74,6 @@ export function useAppointment(): UseAppointmentReturn {
   /**
    * Fetch random appointment
    * 
-   * LEARNING: Domain-specific helper for picking a random appointment
-   * WHY: Useful for testing and demo scenarios
-   * PATTERN: Wait for data to load, then pick random item
    */
   const fetchRandom = async (): Promise<AppointmentResponse | null> => {
     try {

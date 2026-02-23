@@ -1,6 +1,5 @@
 /**
  * Appointment API request/response types.
- * WHY: Separates API contracts from domain types to improve file cohesion; re-exported from appointment.ts for existing imports.
  */
 
 import type { AppointmentFeeBreakdownPayload } from '@shared/types/appointmentFeeTypes'
@@ -29,8 +28,6 @@ import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
 /**
  * Attendee response from API
- * LEARNING: Includes user details and invitation status
- * WHY: Frontend needs full context for displaying attendee information
  * SESSION: 2.1.3b - Appointment Attendees Architecture
  */
 export interface AttendeeResponse {

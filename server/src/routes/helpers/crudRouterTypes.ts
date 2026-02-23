@@ -1,9 +1,6 @@
 /**
  * CRUD Router Types
  *
- * LEARNING: Shared types for the CRUD router factory and route handlers
- * WHY: Single source of truth for config and handler signatures; enables handler extraction
- * PATTERN: Config interface for orchestration; context interface for handler factories
  */
 
 import type { Request, Response, RequestHandler } from 'express'

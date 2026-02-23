@@ -1,10 +1,7 @@
 /**
- * Fee Calibration Chart Composable
- * LEARNING: Builds Chart.js line chart data from service block instances and their part pricing
- * WHY: Enables visual calibration of fees vs square footage across services on the admin Instances tab
- * PATTERN: Same relationship resolution as usePartsTotals; shared calculatePartsTotals for fee math
+ * PATTERN: Fee Calibration Chart Composable
+PATTERN: Same relationship resolution a...
  */
-
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useRelationshipCrud } from '@/composables/useRelationship'
@@ -78,9 +75,8 @@ function getServiceFeeTotals(
 }
 
 /**
- * useCalibrationChart
- * LEARNING: Produces Chart.js line data and options for fee vs sqft per service
- * WHY: Single composable for the calibration panel; reactive to admin entity/relationship data
+ * WHY: useCalibrationChart
+WHY: Single composable for the calibration panel; re...
  */
 export function useCalibrationChart(): UseCalibrationChartReturn {
   const { entities: blockInstances } = useEntityCrud('blockInstance')

@@ -14,9 +14,6 @@ import {
  * Represents valid annotation relationships between block shapes and annotation shapes.
  * Annotation relationships are Block → Annotation relationships (similar to Block → Part).
  * 
- * LEARNING: Annotation relationships enable block-annotation composition
- * WHY: Block shapes need to define which annotation shapes can be annotations of them
- * PATTERN: Through table for many-to-many annotation relationships between block shapes and annotation shapes
  */
 export class ValidAnnotation extends Model<
   InferAttributes<ValidAnnotation>,

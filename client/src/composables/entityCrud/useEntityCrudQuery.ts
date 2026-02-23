@@ -8,11 +8,7 @@ export type UseEntityCrudQueryReturn<GlobalEntityTypeKey extends GlobalEntityKey
 }
 
 /**
- * Query/state module for `useEntityCrud`.
- *
- * PATTERN: query/state/actions separation
- * - query: computed reads from globalData cache
- * - actions live in `useEntityCrudActions`
+ * PATTERN: Query/state module for `useEntityCrud`
  */
 export function useEntityCrudQuery<GlobalEntityTypeKey extends GlobalEntityKey>(
   entityKey: GlobalEntityTypeKey

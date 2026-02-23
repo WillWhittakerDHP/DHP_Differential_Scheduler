@@ -1,16 +1,8 @@
 /**
- * useAppointmentLoader Composable
- * 
- * LEARNING: Helper composable for loading appointments by ID with cache refresh
- * WHY: BookingWizard needs to ensure appointment is loaded with all relationships
- * PATTERN: Refetches businessData cache if appointment not found, then uses fetchById
- * 
- * ARCHITECTURAL DECISION: Wraps useAppointment.fetchById with cache refresh logic
- * - Ensures appointment is fresh from API when needed
- * - Falls back to cache if already loaded
- * - Provides loading state for async operations
- */
+ * WHY: useAppointmentLoader Composable
 
+LEARNING: Helper composable for loading...
+ */
 import { ref, type Ref } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useAppointment } from '@/composables/useAppointment'

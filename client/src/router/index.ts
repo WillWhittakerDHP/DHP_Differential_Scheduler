@@ -1,10 +1,6 @@
 /**
  * Vue Router Configuration
  * 
- * LEARNING: Vue Router setup for SPA routing
- * WHY: Enables client-side routing without page reloads
- * PATTERN: Define routes and create router instance
- * COMPARISON: React uses React Router. Vue uses Vue Router
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
@@ -18,9 +14,6 @@ const logger = createLogger('Router Guard')
 
 /**
  * Route definitions
- * LEARNING: Route records define path-to-component mappings
- * WHY: Centralized route configuration
- * PATTERN: Array of route objects with path, name, and component
  */
 const routes: RouteRecordRaw[] = [
   {

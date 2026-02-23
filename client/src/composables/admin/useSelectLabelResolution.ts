@@ -1,11 +1,8 @@
 /**
- * useSelectLabelResolution Composable
- * 
- * LEARNING: Extracts label resolution logic from SelectInputs component
- * WHY: Moves label placeholder replacement logic out of component into reusable composable
- * PATTERN: Composable that resolves dynamic label placeholders like {blockShapeName}
- */
+ * WHY: useSelectLabelResolution Composable
 
+WHY: Moves label placeholder replac...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
@@ -25,9 +22,8 @@ export interface UseSelectLabelResolutionReturn {
 }
 
 /**
- * LEARNING: Select label resolution composable
- * WHY: Extracts label placeholder replacement logic from component to composable
- * PATTERN: Composable that resolves dynamic label placeholders
+ * WHY: Select label resolution composable
+WHY: Extracts label placeholder repla...
  */
 export function useSelectLabelResolution(
   options: UseSelectLabelResolutionOptions
@@ -36,9 +32,6 @@ export function useSelectLabelResolution(
   const adminComp = useAdmin()
 
   /**
-   * LEARNING: Resolve dynamic label placeholders like {blockShapeName}
-   * WHY: Labels should reflect the entity's context (e.g., "Service Components" vs "User Components")
-   * PATTERN: Replace placeholders in label with actual values from entity relationships
    */
   const resolvedLabel = computed(() => {
     const labelVal = fieldContext.displayConfig.label

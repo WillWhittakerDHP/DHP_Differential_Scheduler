@@ -2,10 +2,9 @@
 
 ## ADR-001: Slot Generation Strategy (Generate All Then Filter)
 
-**Date:** 2026-01-21  
-**Status:** Accepted  
-**Deciders:** Category 4 Performance Optimization
-
+/**
+ * *Deciders:** Category 4 Performance Optimization
+ */
 ### Context
 
 Two approaches exist for slot generation with availability checking:

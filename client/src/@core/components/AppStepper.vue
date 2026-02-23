@@ -256,7 +256,6 @@ watchEffect(() => {
   }
 
   &.app-stepper-icons:not(.stepper-icon-step-bg) {
-    /* stylelint-disable-next-line no-descending-specificity */
     .stepper-icon {
       line-height: 0;
     }
@@ -285,28 +284,23 @@ watchEffect(() => {
   .v-slide-group__content {
     row-gap: 1rem;
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .stepper-title {
       color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
       font-size: 0.9375rem;
       font-weight: 500 !important;
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .stepper-subtitle {
       color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
       font-size: 0.8125rem;
       line-height: 1.25rem;
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .stepper-chevron-indicator {
       color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .stepper-steps-completed {
-      /* stylelint-disable-next-line no-descending-specificity */
       .stepper-title,
       .stepper-subtitle {
         color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity));
@@ -317,7 +311,6 @@ watchEffect(() => {
       }
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .stepper-steps-active {
       .v-avatar.bg-primary {
         @include templateMixins.custom-elevation(var(--v-theme-primary), "sm");

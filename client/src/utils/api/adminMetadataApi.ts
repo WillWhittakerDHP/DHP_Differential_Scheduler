@@ -1,6 +1,5 @@
 /**
  * Admin metadata API endpoint builders
- * WHY: Single place for admin metadata and batch endpoints; reduces api.ts export count
  */
 
 export function getAdminMetadataEndpoint(entityType: string, entityId: string): string {

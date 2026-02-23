@@ -1,11 +1,8 @@
 /**
- * useAvailabilityEmptyState Composable
- * 
- * LEARNING: Provides empty state message for availability step
- * WHY: Extracts empty state message logic from AvailabilityStep component
- * PATTERN: Composable that provides computed property for empty state message
- */
+ * WHY: useAvailabilityEmptyState Composable
 
+WHY: Extracts empty state message ...
+ */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
@@ -20,18 +17,14 @@ export interface UseAvailabilityEmptyStateParams {
 export interface UseAvailabilityEmptyStateReturn {
   /**
    * Empty state message (null if slots are available)
-   * LEARNING: Provides user-friendly message when no slots are available
-   * WHY: Guides users on what to do when no slots are shown
    */
   emptyStateMessage: ComputedRef<string | null>
 }
 
 /**
- * useAvailabilityEmptyState composable
- * 
- * LEARNING: Provides empty state message for availability step
- * WHY: Extracts empty state message logic from component to composable
- * PATTERN: Composable that returns reactive computed property
+ * WHY: useAvailabilityEmptyState composable
+
+WHY: Extracts empty state message ...
  */
 export function useAvailabilityEmptyState(
   params: UseAvailabilityEmptyStateParams
@@ -50,8 +43,6 @@ export function useAvailabilityEmptyState(
 
   /**
    * LEARNING: Compute empty state message based on service type and perspective
-   * WHY: Provides contextual guidance when no slots are available
-   * PATTERN: Return null if slots are available, otherwise return appropriate message
    */
   const emptyStateMessage = computed<string | null>(() => {
     if (appointmentSlotsCount.value > 0) {

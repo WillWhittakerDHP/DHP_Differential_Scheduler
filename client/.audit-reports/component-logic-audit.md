@@ -110,7 +110,6 @@ await@334: await getToken()
 - counts: computed=0, ref=0, watch=1, async=2, await=2, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@73: * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
 computed@226: const formForTemplate = computed(() => form.value!)
 watch@277: watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
 map@282: fieldsNeedingContexts: fieldsNeedingContexts.map(String)
@@ -185,7 +184,6 @@ await@319: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@48: // PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
 computed@108: const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
 map@113: return instances.map((block: BookingBlockInstance) => ({
 computed@146: const timeSlotResults = computed(() => {

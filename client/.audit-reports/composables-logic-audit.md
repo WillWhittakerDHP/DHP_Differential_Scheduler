@@ -371,7 +371,6 @@ ref@53: const panelTransform = ref('translateX(0)')
 ref@54: const isTransitioning = ref(false)
 dom@68: const viewportWidth = window.innerWidth
 dom@96: const viewportWidth = window.innerWidth
-dom@112: * WHY: Recalculate position when window resizes
 watch@122: watch(isExpanded, (newValue) => {
 lifecycle@129: onMounted(() => {
 dom@130: window.addEventListener('resize', handleResize)
@@ -771,7 +770,6 @@ computed@119: const minorStateLabel = computed({
 ```
 lifecycle@9: import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
 ref@58: const isMounted = ref(false)
-watch@62: * WHY: Vue's watch() returns a stop function that must be called to prevent memory leaks
 lifecycle@63: * PATTERN: Store stop function in ref to call it in onBeforeUnmount
 lifecycle@67: onMounted(() => {
 watch@70: watcherStop.value = watch([containerRef, panelsContainerRef], ([container, panelsComponentRef]) => {
@@ -859,9 +857,7 @@ map@125: attendees: appointment.attendees?.map(attendee => ({
 
 ```
 lifecycle@1: import { onMounted, onBeforeUnmount } from 'vue'
-async@15: * WHY: Browser extension might access form.elements before async operations run
 lifecycle@22: * WHY: VForm might not have rendered form element during setup, so patch in onMounted
-async@40: * WHY: Browser extension might access form.elements before async operations run
 lifecycle@49: * WHY: VForm might not have rendered form element during setup, so patch in onMounted
 lifecycle@58: * WHY: VForm might not have rendered form element during setup, so patch in onMounted
 lifecycle@59: * PATTERN: Use onMounted hook to patch form element

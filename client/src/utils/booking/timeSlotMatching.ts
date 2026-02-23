@@ -1,15 +1,8 @@
 /**
- * Time Slot Matching Utilities
- * 
- * LEARNING: Shared utilities for matching loaded time slots to available slots
- * WHY: Extracted from useAvailabilityDefaults and useAvailabilityLogic to eliminate duplication
- * PATTERN: Pure functions that can be used by any composable needing time slot matching
- * 
- * Used by:
- * - useAvailabilityDefaults (for populating state from loaded appointments)
- * - useAvailabilityLogic (for matching API time slots)
- */
+ * PATTERN: Time Slot Matching Utilities
 
+PATTERN: Pure functions that can be used b...
+ */
 import type { Ref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -46,18 +39,10 @@ function extractTimeString(value: string | Date): string | null {
 }
 
 /**
- * Find a time slot that matches a given time string
- * 
- * LEARNING: Searches available slots for a matching time
- * WHY: Need to map loaded appointment times to available TimeSlot objects
- * PATTERN: Pure function that returns matching slot or undefined
- * 
- * LEARNING: Function used internally - not exported as it's not part of public API
- * WHY: This function is only used within this file by other functions
- * 
- * @param timeString - Time to match in any format (will be normalized to HH:mm)
- * @param availableSlots - Array of available TimeSlot objects
- * @returns Matching TimeSlot or undefined if no match found
+ * WHY: Find a time slot that matches a given time string
+
+
+LEARNING: Function u...
  */
 function findMatchingTimeSlot(
   timeString: string,
@@ -80,9 +65,6 @@ export interface LoadedTimeSlot {
 /**
  * Match loaded time slots to available time slots and update refs
  * 
- * LEARNING: Enables validation to pass when appointment is loaded with time slots
- * WHY: When editing an appointment, we need to restore the previously selected time slots
- * PATTERN: Matches loaded times to available slots, updates refs for major/minor slots
  * 
  * Algorithm:
  * 1. First loaded slot → major time slot (legacy: inspector)

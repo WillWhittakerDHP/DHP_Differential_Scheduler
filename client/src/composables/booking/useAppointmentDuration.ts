@@ -1,11 +1,8 @@
 /**
- * useAppointmentDuration Composable
- * 
- * LEARNING: Calculates authoritative slot span duration from AppointmentShape
- * WHY: Extracts duration calculation logic from AvailabilityStep component
- * PATTERN: Composable that uses shared shape composable to get duration
- */
+ * PATTERN: useAppointmentDuration Composable
 
+PATTERN: Composable that uses shared ...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
@@ -19,11 +16,9 @@ export interface UseAppointmentDurationReturn {
 }
 
 /**
- * useAppointmentDuration composable
- * 
- * LEARNING: Calculates authoritative slot span duration from AppointmentShape
- * WHY: Extracts duration calculation logic from component to composable
- * PATTERN: Composable that uses shared shape composable to get duration
+ * WHY: useAppointmentDuration composable
+
+WHY: Extracts duration calculation lo...
  */
 export function useAppointmentDuration(
   params: UseAppointmentDurationParams
@@ -31,15 +26,11 @@ export function useAppointmentDuration(
   const { accumulatedBlockInstances } = params
   
   // PATTERN: Use shared shape composable
-  // WHY: Eliminates duplicate shape-building logic, single source of truth
   const { appointmentShape } = useAppointmentShape({
     blockInstances: accumulatedBlockInstances
   })
 
   /**
-   * LEARNING: Extract authoritative slot span duration from shared shape
-   * WHY: slotShape.roundedDuration = max(eventFinal.roundedDuration) = slot span from start to latest event end
-   * PATTERN: Return slotShape.roundedDuration directly from shared shape
    * NOTE: In differential services, this equals major event duration. In non-differential, equals single event duration.
    */
   const appointmentDuration = computed<number | null>(() => {

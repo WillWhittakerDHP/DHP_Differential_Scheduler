@@ -1,11 +1,8 @@
 /**
- * useSelectDomTargets Composable
- * 
- * LEARNING: Extracts DOM target calculation logic from SelectInputs component
- * WHY: Moves DOM association target calculation out of component into reusable composable
- * PATTERN: Composable that calculates DOM targets for form association
- */
+ * WHY: useSelectDomTargets Composable
 
+WHY: Moves DOM association target calcul...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -29,9 +26,8 @@ export interface UseSelectDomTargetsReturn {
 }
 
 /**
- * LEARNING: Select DOM targets composable
- * WHY: Extracts DOM target calculation logic from component to composable
- * PATTERN: Composable that calculates DOM targets for form association
+ * WHY: Select DOM targets composable
+WHY: Extracts DOM target calculation logic...
  */
 export function useSelectDomTargets(
   options: UseSelectDomTargetsOptions
@@ -39,9 +35,6 @@ export function useSelectDomTargets(
   const { fieldContext, shouldUseMultipleSelects, groupedByKey } = options
 
   /**
-   * LEARNING: Calculate DOM targets for form association
-   * WHY: Browser extensions need predictable DOM structure for form filling
-   * PATTERN: Generate targets based on whether using multiple selects or single select
    */
   const selectDomTargets = computed(() => {
     const fieldKeyString = String(fieldContext.fieldKey)

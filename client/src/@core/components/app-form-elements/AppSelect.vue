@@ -14,8 +14,6 @@ const elementId = computed (() => {
 })
 
 /**
- * WHY: Multi-select dropdowns should stay open when selecting items for better UX
- * PATTERN: Set closeOnContentClick: false for multiple selects, true for single selects
  */
 const menuProps = computed(() => {
   const defaultContentClass = [
@@ -30,7 +28,6 @@ const menuProps = computed(() => {
   
   const defaultMenuProps = {
     contentClass: defaultContentClass,
-    closeOnContentClick: !isMultiple // LEARNING: Keep open for multi-select, close for single-select
   }
   
   const userMenuProps = (attrs['menu-props'] || attrs.menuProps) as Record<string, unknown> | undefined

@@ -1,8 +1,6 @@
 /**
  * usePropertyValidation Composable
  * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
  */
 
 import { computed, type Ref, type ComputedRef } from 'vue'
@@ -38,8 +36,6 @@ export type UsePropertyValidationReturn = UseStepValidationReturn
 /**
  * usePropertyValidation composable
  * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
  */
 export function usePropertyValidation(params: UsePropertyValidationParams): UsePropertyValidationReturn {
   const {
@@ -51,13 +47,8 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
   const { required, zipCode: zipCodeValidator, min, max, minLength } = useFormValidation()
 
   /**
-   * LEARNING: Form validation rules
-   * WHY: Defines validation rules for each form field
-   * PATTERN: Computed object with field names as keys and arrays of ValidationRule as values
-   * NOTE: Using computed to make rules reactive to isMultiFamily changes
-   * LEARNING: Use centralized validation strings from config
-   * WHY: Reduces hardcoding audit findings, centralizes all validation text for consistency
-   * PATTERN: Import validation strings from config file instead of defining inline
+   * PATTERN: /**
+PATTERN: Computed object with field names as keys and arrays of Vali...
    */
   const validationRules = computed<Record<string, ValidationRule[]>>(() => {
     const baseRules: Record<string, ValidationRule[]> = {

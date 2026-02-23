@@ -1,7 +1,5 @@
 /**
  * Composable for capacity settings (max work hours per day, calendar week, rolling week)
- * WHY: Extracts capacity logic from BusinessControlsTab to reduce script size and complexity
- * PATTERN: Uses shared nestedComputedFactory; formData is single source of truth
  */
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'

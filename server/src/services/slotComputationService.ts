@@ -1,9 +1,6 @@
 /**
  * Slot Computation Service
  *
- * LEARNING: Generates time slots and checks all constraints server-side using event-level context
- * WHY: Eliminates client-side flattening and drive-time anchoring bugs; single source of truth
- * PATTERN: Pure slot generation + constraint checking over CalendarEvent[] (not flattened BusyTimeRange[])
  */
 
 import type {
@@ -207,7 +204,6 @@ function checkOverlapConstraints(
 
 /**
  * Check one capacity constraint; returns pass/fail and optional violation.
- * LEARNING: Income is a threshold gate (no candidate fee added); blocks when scheduledIncome >= maxIncome
  */
 function checkOneCapacityConstraint(
   slotDate: string,

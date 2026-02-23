@@ -1,11 +1,7 @@
 /**
- * Calendar Parsing Helpers
- *
- * LEARNING: Pure parsing functions extracted from importCalendarData.ts for better testability and cohesion
- * WHY: Reduces main script file size, isolates parsing logic, enables independent testing
- * PATTERN: Pure functions with no side effects, focused on data transformation
+ * WHY: Calendar Parsing Helpers
+WHY: Reduces main script file size, isolates pa...
  */
-
 import { createLogger } from '../../utils/logger.js'
 import { ATTENDEE_ROLE_CLIENT } from '../../constants/userRoles.js'
 import type { ContactInfoBase } from '@shared/types/contactTypes'
@@ -26,16 +22,12 @@ function withDefault(value: string | null | undefined, defaultVal: string, conte
 
 /**
  * Default values for client name parsing
- * LEARNING: Named constants replace magic strings
- * WHY: Eliminates hardcoding audit findings, provides single source of truth
  */
 const DEFAULT_FIRST_NAME = 'Unknown' as const
 const DEFAULT_LAST_NAME = ATTENDEE_ROLE_CLIENT
 
 /**
  * Calendar Event interface
- * LEARNING: Google Calendar API event structure
- * WHY: Type safety for calendar event parsing
  */
 export interface CalendarEvent {
   id?: string;
@@ -63,8 +55,6 @@ export interface CalendarEvent {
 
 /**
  * Parsed client data structure
- * LEARNING: Normalized client information extracted from calendar events
- * WHY: Type safety for client data processing; extends shared ContactInfoBase
  */
 export interface ParsedClient extends ContactInfoBase {
   phone: string | null;
@@ -72,8 +62,6 @@ export interface ParsedClient extends ContactInfoBase {
 
 /**
  * Parsed property data structure
- * LEARNING: Normalized property information extracted from calendar events
- * WHY: Type safety for property data processing; extends shared address + details bases
  */
 export interface ParsedProperty extends PropertyAddressBase, PropertyDetailsBase {
   unit: string | null;
@@ -89,7 +77,6 @@ export interface ParsedProperty extends PropertyAddressBase, PropertyDetailsBase
  * Create empty property structure with default values
  * LEARNING: Helper to eliminate duplication of null-field pattern
  * WHY: Reduces parseAddress complexity, addresses deprecation patterns
- * PATTERN: Explicit empty strings instead of `|| ''` fallbacks
  * 
  * @param address - Street address (required)
  * @returns ParsedProperty with all optional fields set to null/empty
@@ -112,8 +99,6 @@ function createEmptyProperty(address: string): ParsedProperty {
 
 /**
  * Extract unit number from address string
- * LEARNING: Helper to extract unit/apartment/suite information
- * WHY: Reduces parseAddress complexity and nesting
  * 
  * @param address - Street address string
  * @returns Object with extracted address and unit, or original address with null unit
@@ -134,8 +119,6 @@ function extractUnitFromAddress(address: string): { address: string; unit: strin
 
 /**
  * Parse full name into first and last name
- * LEARNING: Handles comma-separated (Last, First) and space-separated formats
- * WHY: Normalizes name parsing for client extraction
  * 
  * @param fullName - Full name string (may be "Last, First" or "First Last")
  * @returns Object with firstName and lastName
@@ -166,12 +149,8 @@ export function parseName(fullName: string): { firstName: string; lastName: stri
 }
 
 /**
- * Extract phone number from text
- * LEARNING: Regex-based phone extraction with formatting
- * WHY: Extracts phone numbers from calendar event descriptions
- * 
- * @param text - Text that may contain a phone number
- * @returns Formatted phone number (XXX-XXX-XXXX) or null
+ * WHY: Extract phone number from text
+LEARNING: Regex-based phone extraction wi...
  */
 function extractPhone(text: string | undefined): string | null {
   if (!text) return null;
@@ -183,9 +162,6 @@ function extractPhone(text: string | undefined): string | null {
 
 /**
  * Parse address string into structured property data
- * LEARNING: Handles multiple address formats with regex and fallback parsing
- * WHY: Extracts property information from calendar event location/description
- * PATTERN: Uses createEmptyProperty and extractUnitFromAddress helpers to reduce complexity
  * 
  * @param addressString - Address string from calendar event
  * @returns ParsedProperty or null if address is invalid/empty
@@ -223,8 +199,6 @@ export function parseAddress(addressString: string): ParsedProperty | null {
 
 /**
  * Extract clients from calendar event attendees
- * LEARNING: Filters out organizer and system emails, parses names and phone numbers
- * WHY: Extracts client information from calendar event attendees
  * 
  * @param event - Calendar event with attendees
  * @param organizerEmail - Email of the event organizer (to exclude)
@@ -275,17 +249,11 @@ export function extractClients(event: CalendarEvent, organizerEmail: string): Pa
 }
 
 /**
- * Extract property from calendar event
- * LEARNING: Tries location, description, then summary as address sources
- * WHY: Extracts property information from calendar event fields
- * PATTERN: Uses explicit empty string fallback instead of `|| ''` chain
- * 
- * @param event - Calendar event with location/description/summary
- * @returns ParsedProperty or null if no address found
+ * WHY: Extract property from calendar event
+LEARNING: Tries location, descripti...
  */
 export function extractProperty(event: CalendarEvent): ParsedProperty | null {
   // LEARNING: Explicit fallback chain instead of `|| ''` pattern
-  // WHY: Addresses deprecation audit finding for unhelpful-default-or
   const addressSource = event.location 
     ? event.location 
     : event.description 

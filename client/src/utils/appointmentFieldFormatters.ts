@@ -1,12 +1,7 @@
 /**
- * LEARNING: Appointment field formatters
- * WHY: Field formatting logic is hardcoded in useAppointmentsTableModel with repeated field checks
- * PATTERN: Config-driven formatter map that can be extended without modifying the composable
- * 
- * Used by:
- * - useAppointmentsTableModel.ts
+ * WHY: Appointment field formatters
+WHY: Field formatting logic is hardcoded in...
  */
-
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
@@ -113,14 +108,12 @@ function formatAgentField(
 }
 
 /**
- * LEARNING: Config-driven field formatter map
- * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
- * PATTERN: Map field names to formatter functions
+ * WHY: Config-driven field formatter map
+WHY: Eliminates repeated field === ".....
  */
 const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   propertyVersionId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   propertyId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
-  // Extract from attendees array
   client: (appointment, value, properties, users) => formatClientField(appointment, value, properties, users),
   agent: (appointment, value, properties, users) => formatAgentField(appointment, value, properties, users),
   scheduledById: (_appointment, value, _properties, users) => formatScheduledByField(value, users),

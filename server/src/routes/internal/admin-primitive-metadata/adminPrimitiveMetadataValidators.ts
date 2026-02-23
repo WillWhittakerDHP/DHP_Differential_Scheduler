@@ -1,9 +1,6 @@
 /**
  * Admin Primitive Metadata Router Validation Utilities
  * 
- * LEARNING: Extracted validation logic for admin primitive metadata operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure validation functions that return validation results
  */
 
 import {
@@ -14,9 +11,6 @@ import { ERROR_MESSAGES, REQUIRED_FIELDS, VALID_ENTITY_TYPES, RENDER_AS_REQUIRIN
 
 /**
  * Validate entity type
- * LEARNING: Extracted entity type validation logic
- * WHY: Reusable validation for admin primitive metadata operations
- * PATTERN: Check entity type against valid types, return validation result
  * 
  * @param entityType - Entity type to validate
  * @returns ValidationResult indicating if entity type is valid
@@ -39,9 +33,6 @@ export function validateEntityType(entityType: unknown): ValidationResult {
 
 /**
  * Validate required fields for metadata creation/update
- * LEARNING: Extracted required field validation logic
- * WHY: Reusable validation for admin primitive metadata operations
- * PATTERN: Check required fields, return validation result
  * 
  * @param data - Metadata data object
  * @returns ValidationResult indicating if required fields are present
@@ -63,9 +54,6 @@ export function validateRequiredFields(data: {
 
 /**
  * Validate renderAs value
- * LEARNING: Extracted renderAs validation logic
- * WHY: Reusable validation for admin primitive metadata operations
- * PATTERN: Check renderAs value, return validation result
  * 
  * @param renderAs - RenderAs value to validate
  * @returns ValidationResult indicating if renderAs is valid
@@ -86,9 +74,6 @@ export function validateRenderAs(renderAs: unknown): ValidationResult {
 
 /**
  * Validate inputConfig is present when required
- * LEARNING: Extracted inputConfig validation logic
- * WHY: Reusable validation for admin primitive metadata operations
- * PATTERN: Check if renderAs requires inputConfig, validate inputConfig exists
  * 
  * @param renderAs - RenderAs value
  * @param inputConfig - InputConfig value to validate

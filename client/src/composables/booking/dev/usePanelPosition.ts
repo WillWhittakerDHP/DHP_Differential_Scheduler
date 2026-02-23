@@ -1,16 +1,8 @@
 /**
- * usePanelPosition Composable
- * 
- * LEARNING: Extracts panel positioning logic from CalendarMockDevPanel component
- * WHY: Moves DOM manipulation logic out of component into reusable composable
- * PATTERN: Composable that handles panel positioning calculations and updates
- * 
- * Features:
- * - Calculates panel position to prevent overflow
- * - Handles window resize events
- * - Manages transform transitions
- */
+ * WHY: usePanelPosition Composable
 
+WHY: Moves DOM manipulation logic out of co...
+ */
 import { ref, watch, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
 
 export interface UsePanelPositionOptions {
@@ -36,9 +28,8 @@ export interface UsePanelPositionReturn {
 }
 
 /**
- * LEARNING: Panel positioning composable
- * WHY: Extracts DOM manipulation logic from component to composable
- * PATTERN: Composable that handles all panel positioning concerns
+ * WHY: Panel positioning composable
+WHY: Extracts DOM manipulation logic from c...
  */
 export function usePanelPosition(
   options: UsePanelPositionOptions
@@ -54,9 +45,6 @@ export function usePanelPosition(
   const isTransitioning = ref(false)
 
   /**
-   * LEARNING: Calculate transform using expected panel dimensions
-   * WHY: Panel should be positioned correctly from the start of expansion
-   * PATTERN: Calculate using expected width before DOM update
    */
   const calculatePanelPosition = (): string => {
     if (!wrapperRef.value) {
@@ -78,9 +66,6 @@ export function usePanelPosition(
   }
 
   /**
-   * LEARNING: Refine position after DOM update for accurate measurements
-   * WHY: Initial calculation uses expected width, this refines with actual width
-   * PATTERN: Use requestAnimationFrame for accurate measurements after expansion
    */
   const updatePanelPosition = (): void => {
     if (!isExpanded.value || !panelRef.value || !wrapperRef.value) {
@@ -108,9 +93,6 @@ export function usePanelPosition(
   }
 
   /**
-   * LEARNING: Handle resize events
-   * WHY: Recalculate position when window resizes
-   * PATTERN: Event handler that calls updatePanelPosition
    */
   const handleResize = (): void => {
     if (isExpanded.value) {
@@ -135,9 +117,9 @@ export function usePanelPosition(
   })
 
   /**
-   * LEARNING: Handle expansion toggle click
-   * WHY: Calculates transform before state change to prevent visual hop
-   * PATTERN: Calculate transform synchronously, apply it, then toggle state
+   * WHY: /**
+WHY: Calculates transform before state change to prevent visual hop
+...
    */
   const handleToggle = async (willExpand: boolean): Promise<void> => {
     if (willExpand) {
@@ -153,11 +135,10 @@ export function usePanelPosition(
       // PATTERN: Use nextTick to ensure DOM update happens before state change
       await nextTick()
       
-      // LEARNING: Expansion state is managed by component
-      // WHY: Component controls isExpanded, composable only handles positioning
-      // PATTERN: Component will set isExpanded.value = true after calling this
-      
-      // PATTERN: Use nextTick then requestAnimationFrame for precise timing
+      /**
+       * WHY: // WHY: Component controls isExpanded, composable only handles positioning
+       * PATTERN: // PATTERN: Use nextTick then requestAnimationFrame for precise timing
+       */
       nextTick(() => {
         requestAnimationFrame(() => {
           isTransitioning.value = false

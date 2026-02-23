@@ -2,11 +2,8 @@ import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
 
 /**
- * WHY: Property Type Definitions
-
-LEARNING: TypeScript interfaces for property API data with three-table structure
-WHY: Ensures type safety when working with property data
-PATTERN: Match server-side transformed property structure (Address + PropertyVersion + PropertyDetails)
+ * WHY: TypeScript interfaces for property API data with three-table structure
+W...
  */
 export interface PropertyRequest extends PropertyAddressBase {
   placeId?: string | null
@@ -36,9 +33,6 @@ export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBa
 
 /**
  * PropertyVersionType interface
- * LEARNING: Junction table linking property_versions to block_instances (property types)
- * WHY: Properties can have multiple types (e.g., Single-Family with ADU)
- * PATTERN: Similar to instance_components relationship
  */
 export interface PropertyVersionType {
   id: string;

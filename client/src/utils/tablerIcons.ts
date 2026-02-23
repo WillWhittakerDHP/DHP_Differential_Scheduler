@@ -1,9 +1,6 @@
 /**
- * LEARNING: Tabler Icons list for icon picker
  * 
- * WHY: Provides comprehensive list of Tabler icons for visual selection
  * 
- * PATTERN: Array of icon name strings (without 'tabler-' prefix in some cases, but we'll use full names)
  * 
  * NOTE: This is a curated list of commonly used Tabler icons. Can be expanded as needed.
  *       Full list available at https://tablericons.com/

@@ -1,19 +1,9 @@
 <script setup lang="ts">
 /**
- * SelectionCard Component
- * 
- * LEARNING: Component that handles parent card rendering with dependent options
- * WHY: Simplified architecture - dependent options render inside card border as checkbox list
- * PATTERN: Self-contained component that renders parent card and dependent options within border
- * 
- * Features:
- * - Renders parent card with radio/checkbox selection
- * - Renders dependent options as checkbox list inside card border (when expanded)
- * - Auto-expands when parent is selected
- * - Manages its own expansion state
- * - Handles selection (radio/checkbox for parent, multi-select checkboxes for dependent options)
- */
+ * WHY: SelectionCard Component
 
+WHY: Simplified architecture - dependent option...
+ */
 import { ref, computed, watch } from 'vue'
 import CardButton from '@/components/admin/generic/CardButton.vue'
 import { Icon } from '@iconify/vue'
@@ -102,9 +92,8 @@ const {
 })
 
 /**
- * LEARNING: Use selection card composable for core logic
- * WHY: Moves data transformation logic out of component to prevent recursion
- * PATTERN: Composable handles visibleChildren filtering and core selection logic
+ * WHY: Use selection card composable for core logic
+PATTERN: Composable handles...
  */
 const selectionCardComposable = useSelectionCard({
   item: computed(() => props.item),
@@ -140,11 +129,8 @@ const {
 
 
 /**
- * LEARNING: Auto-expand when parent card is selected
- * WHY: Dependent options should appear automatically when parent is selected
  * PATTERN: Watch isSelected and trigger expansion (only for uncontrolled state)
- * NOTE: When used in SelectionCardGroup, expansion is controlled and auto-expand
- *       is handled by useSelectionCardGroupState composable
+NOT...
  */
 watch(isSelected, (newValue) => {
   if (newValue && hasChildren.value && props.isExpanded === undefined) {
@@ -161,10 +147,9 @@ const handleNumberUpdate = (value: string | number | null) => {
 </script>
 
 <template>
-  <!-- LEARNING: SelectionCard with explicit state management -->
-  <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configurability -->
-  <!-- PATTERN: SelectionCard wrapper contains parent card with dependent options inside border -->
-  <!-- Refactor: Dependent options now render inside card border as checkbox list -->
+  /**
+   * <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configur...
+   */
   <div class="selection-card-wrapper">
     <!-- LEARNING: Parent Card with dynamic selection component -->
     <!-- WHY: Selection component is rendered dynamically based on config -->

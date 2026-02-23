@@ -10,16 +10,13 @@ import { asEmptyString } from '@/utils/safeDefaults'
 import { useNotification } from '@/composables/useNotification'
 
 /**
- * LEARNING: Notification composable
- * WHY: Provides shared notification state and methods
- * PATTERN: useNotification composable with singleton state
+ * WHY: Notification composable
+PATTERN: useNotification composable with singlet...
  */
 const { notification, showNotification, close } = useNotification()
 
 /**
  * LEARNING: Computed message for proper reactivity tracking
- * WHY: Ensures slot content is tracked within render function
- * PATTERN: Computed property for slot content
  */
 const message = computed(() => asEmptyString(notification.value?.message))
 const color = computed(() => notification.value?.color || 'info')
@@ -54,6 +51,5 @@ const timeout = computed(() => notification.value?.timeout || 4000)
 </template>
 
 <style scoped>
-/* No custom styles needed - Vuexy components handle styling */
 </style>
 

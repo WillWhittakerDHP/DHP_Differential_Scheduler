@@ -1,8 +1,6 @@
 /**
  * Shared metadata payload mapping (DUPLICATION P0 extraction).
- * WHY: Single implementation for the repeated meta → payload block used by
  *      adminPrimitiveMetadataComposer, adminRelationshipMetadataComposer, and route helpers.
- * PATTERN: map-over-drill; one function, many call sites.
  */
 
 import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';

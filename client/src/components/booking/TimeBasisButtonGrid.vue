@@ -2,9 +2,6 @@
 /**
  * TimeBasisButtonGrid Component
  * 
- * LEARNING: Grid-styled buttons for selecting major/minor time views
- * WHY: Matches the styling of AppointmentSlotGrid buttons for visual consistency
- * PATTERN: Self-contained component with props/events for parent communication
  * 
  * Features:
  * - Two buttons styled like appointment slot grid buttons

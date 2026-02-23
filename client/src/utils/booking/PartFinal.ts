@@ -1,9 +1,6 @@
 /**
  * PartFinal: Aggregated part instance representing all parts of a given shape
  * 
- * LEARNING: Groups multiple part instances by part shape and totals their values
- * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
- * PATTERN: Plain interface with utility functions for calculations
  * 
  * This eliminates the need for categorization - parts are grouped by their actual
  * part shape, and boolean flags determine how they're used in calculations.
@@ -14,9 +11,6 @@ import type { TernaryBoolean } from '@/types/ternary'
 
 /**
  * PartFinal: Aggregated part instance representing all parts of a given shape
- * LEARNING: Groups multiple part instances by part shape and totals their values
- * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
- * PATTERN: Plain interface with utility functions for calculations
  */
 export interface PartFinal {
   partShape: string  // Part shape name (e.g., "Client Presentation")
@@ -46,9 +40,6 @@ const PART_FINAL_DEFAULT_MOVEABLE = false
 
 /**
  * Create PartFinal from grouped part instances
- * LEARNING: Computes raw baseTime only - rounding happens at event level
- * WHY: Rounding moved to event level to prevent double rounding inflation
- * PATTERN: Sum raw values, rounding applied later when accumulating events
  *
  * @param partShape - Part shape name
  * @param parts - Array of BookingPartInstance objects with same partShape

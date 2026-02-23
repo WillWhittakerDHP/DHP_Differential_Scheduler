@@ -1,12 +1,8 @@
 /**
- * Relationship CRUD Composable
- * 
- * LEARNING: Provides CRUD operations for entity relationships
- * WHY: Encapsulates relationship management logic with Vue Query
- * PATTERN: Composable pattern for relationship operations
- * COMPARISON: React uses useRelationshipMutation hook. Vue uses composables.
- */
+ * WHY: Relationship CRUD Composable
 
+PATTERN: Composable pattern for relationsh...
+ */
 import { computed } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoint } from '@/utils/api'
@@ -31,7 +27,6 @@ interface RelationshipKeyConfig {
 
 /**
  * Pure helper: produce updated GlobalData with one relationship added (for optimistic create).
- * WHY: Shrinks onMutate callback and reduces nesting in useRelationship.
  */
 function addRelationshipToCache(
   old: GlobalData,
@@ -90,7 +85,6 @@ function addRelationshipToCache(
 
 /**
  * Pure helper: produce updated GlobalData with one relationship removed (for optimistic delete).
- * WHY: Shrinks onMutate callback and reduces nesting in useRelationship.
  */
 function removeRelationshipFromCache(
   old: GlobalData,
@@ -125,13 +119,8 @@ function removeRelationshipFromCache(
 }
 
 /**
- * Relationship CRUD composable
- * LEARNING: Provides full CRUD operations for relationships
- * WHY: Encapsulates all relationship operations in one composable
- * PATTERN: Composable that wraps Vue Query hooks
- * 
- * @param relationshipKey - The relationship type key (validCascades, validParts, bookingCascades, partAssignments, dependentInstances, instanceComponents)
- * @returns CRUD operations and relationship list
+ * WHY: Relationship CRUD composable
+WHY: Encapsulates all relationship operatio...
  */
 export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationshipKey: RK) {
   const queryClient = useQueryClient()
@@ -139,10 +128,8 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   const endpoint = getRelationshipEndpoint(relationshipKey)
   
   /**
-   * LEARNING: Transform GlobalRelationship[] to FetchedRelationship[] format
-   * WHY: Callers expect FetchedRelationship[] format (flat list)
-   * PATTERN: Flatten GlobalRelationship[] (parent -> children[]) to FetchedRelationship[] (flat list)
-   * NOTE: GlobalRelationship doesn't have id, disabled flag - we'll use defaults
+   * WHY: /**
+LEARNING: Transform GlobalRelationship[] to FetchedRelationship[] fo...
    */
   function transformGlobalRelationshipsToFetched(relationships: GlobalRelationship[]): FetchedRelationship[] {
     const fetched: FetchedRelationship[] = []
@@ -167,9 +154,6 @@ export function useRelationshipCrud<RK extends GlobalRelationshipKey>(relationsh
   }
   
   /**
-   * LEARNING: Read relationships from globalData instead of direct API call
-   * WHY: Centralized data flow - all data comes from globalData cache
-   * PATTERN: Computed property that reads from globalData.relationships[relationshipKey]
    * ARCHITECTURAL CHANGE: Removed direct useQuery, now reads from globalData
    */
   const relationships = computed(() => {

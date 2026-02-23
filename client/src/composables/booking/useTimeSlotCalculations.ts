@@ -1,11 +1,8 @@
 /**
- * useTimeSlotCalculations Composable
- * 
- * LEARNING: Extracts time slot calculation logic from AvailabilityStep component
- * WHY: Moves duration calculations and time block formatting to composable
- * PATTERN: Composable that provides computed properties for time calculations
- */
+ * WHY: useTimeSlotCalculations Composable
 
+WHY: Moves duration calculations and...
+ */
 import { computed, type Ref, type ComputedRef } from 'vue'
 import { createLogger } from '@/utils/logger'
 import type { TimeSlot, AppointmentShape } from '@/types/appointment'
@@ -51,11 +48,9 @@ interface UseTimeSlotCalculationsReturn {
 }
 
 /**
- * useTimeSlotCalculations composable
- * 
- * LEARNING: Provides computed properties for time slot duration calculations
- * WHY: Extracts calculation logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useTimeSlotCalculations composable
+
+WHY: Extracts calculation logic from...
  */
 export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {
   const {
@@ -88,9 +83,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   })
 
   /**
-   * LEARNING: Get major event total from SlotShape (source of truth)
-   * WHY: SlotShape already contains calculated major event duration, no need to filter raw parts
-   * PATTERN: Use attendee-based logic to find major event, fall back to 'Major' name if settings unavailable
    * DUAL-TRACK: Use roundedDuration - rounding already computed at event level
    */
   const majorDuration = computed(() => {
@@ -110,9 +102,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   })
 
   /**
-   * LEARNING: Get minor event duration from SlotShape (source of truth)
-   * WHY: SlotShape already contains calculated minor event duration, no need to filter raw parts
-   * PATTERN: Use attendee-based logic to find minor event, fall back to 'Minor' name if settings unavailable
    * DUAL-TRACK: Use roundedDuration - rounding already computed at event level
    */
   const minorDuration = computed(() => {
@@ -132,9 +121,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   })
 
   /**
-   * LEARNING: Calculate time blocks for Time On-Site Graph
-   * WHY: Shows major and minor time ranges when time slot is selected
-   * PATTERN: Calculate from selected time slot and durations
    * NOTE: Inspector and the client column label are UI labels for differential scheduling roles (see APPOINTMENTS_TABLE_UI.CLIENT_LABEL)
    */
   const differentialTimeBlocks = computed(() => {

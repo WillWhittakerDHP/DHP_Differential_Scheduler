@@ -23,8 +23,6 @@ export interface UsePricingCascadeInstancesReturn {
 /**
  * usePricingCascadeInstances composable
  *
- * LEARNING: Part-level cascade resolution for pricing (partInstance -> partInstance).
- * WHY: Service parts can pull in property part pricing; this exposes the cascaded parts.
  *
  * @example
  * ```ts

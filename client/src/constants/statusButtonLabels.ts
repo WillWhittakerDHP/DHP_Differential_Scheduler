@@ -1,11 +1,8 @@
 import { ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
 /**
- * State-specific display labels for admin status buttons.
- * WHY: Status buttons show the current state (e.g. ENTITY_STATUS.ACTIVE vs ENTITY_STATUS.INACTIVE) instead of a static label.
- * PATTERN: Used by BooleanInput to compute displayLabel from normalizedValue.
+ * WHY: State-specific display labels for admin status buttons
  */
-
 export const STATUS_BUTTON_LABELS: Record<
   string,
   { true: string; false: string; override?: string }

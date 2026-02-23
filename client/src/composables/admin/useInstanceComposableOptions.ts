@@ -1,6 +1,5 @@
 /**
  * Shared options for instance composables that need blockInstancesByShape.
- * WHY: Single canonical shape for useInstanceBulkEdit and useInstanceFiltering.
  */
 
 import type { ComputedRef } from 'vue'

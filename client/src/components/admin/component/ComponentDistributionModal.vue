@@ -135,9 +135,8 @@ const strategyItems = [
 ]
 
 /**
- * LEARNING: Use component distribution composable for distribution logic
- * WHY: Moves distribution calculations and formatting logic out of component to prevent recursion
- * PATTERN: Composable handles preview calculation, value formatting, and component name retrieval
+ * WHY: Use component distribution composable for distribution logic
+WHY: Moves ...
  */
 const componentDistributionComposable = useComponentDistribution({
   entityKey: props.entityKey,

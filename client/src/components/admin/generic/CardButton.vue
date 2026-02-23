@@ -9,85 +9,52 @@
 import { computed } from 'vue'
 
 /**
- * LEARNING: Card button type definitions
- * WHY: Type-safe button type specification
- * PATTERN: Union type for button types
  */
 type ButtonType = 'expansion' | 'delete' | 'action' | 'options'
 
 /**
- * LEARNING: Button position definitions
- * WHY: Type-safe position specification for absolute positioning
- * PATTERN: Union type for position values
  */
 type ButtonPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'inline'
 
 /**
- * LEARNING: Props interface for CardButton component
- * WHY: Type-safe prop definition with sensible defaults
- * PATTERN: Comprehensive props interface with optional configuration
  */
 interface Props {
   /**
-   * LEARNING: Button type determines icon and behavior
-   * WHY: Different button types need different icons and styling
-   * PATTERN: Type-based rendering
    */
   type: ButtonType
   
   /**
-   * LEARNING: Expansion state for expansion type buttons
-   * WHY: Expansion buttons need to show up/down chevron based on state
-   * PATTERN: Conditional icon rendering
+   * WHY: /**
+LEARNING: Expansion state for expansion type buttons
+WHY: Expansion ...
    */
   expanded?: boolean
   
   /**
-   * LEARNING: Button position for absolute positioning
-   * WHY: Buttons can be positioned in corners or inline
-   * PATTERN: CSS positioning based on position prop
    */
   position?: ButtonPosition
   
   /**
-   * LEARNING: Stacked mode for nested cards
-   * WHY: Nested cards need higher z-index to appear above parent
-   * PATTERN: Z-index calculation based on stacked prop
    */
   stacked?: boolean
   
   /**
-   * LEARNING: Custom icon for action type buttons
-   * WHY: Action buttons may need custom icons
-   * PATTERN: Optional icon prop with type-based defaults
    */
   icon?: string
   
   /**
-   * LEARNING: Button size
-   * WHY: Different contexts need different button sizes
-   * PATTERN: Vuetify size prop passthrough
    */
   size?: 'x-small' | 'small' | 'default' | 'large'
   
   /**
-   * LEARNING: Button variant
-   * WHY: Different visual styles for different contexts
-   * PATTERN: Vuetify variant prop passthrough
    */
   variant?: 'text' | 'flat' | 'tonal' | 'outlined'
   
   /**
-   * LEARNING: Button color
-   * WHY: Different button types need different colors (e.g., delete = error)
-   * PATTERN: Vuetify color prop passthrough
    */
   color?: string
   
   /**
-   * LEARNING: Stop propagation control
-   * WHY: Most card buttons need stop-propagation, but some may not
-   * PATTERN: Configurable with sensible default (true)
    */
   stopPropagation?: boolean
 }
@@ -102,9 +69,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /**
- * LEARNING: Component emits for click events
- * WHY: Parent components need to handle button clicks
- * PATTERN: defineEmits with TypeScript interface
  */
 interface Emits {
   (e: 'click', event: MouseEvent): void
@@ -113,9 +77,6 @@ interface Emits {
 const emit = defineEmits<Emits>()
 
 /**
- * LEARNING: Computed property for button icon
- * WHY: Different button types need different icons
- * PATTERN: Type-based icon selection with fallbacks
  */
 const buttonIcon = computed(() => {
   if (props.type === 'expansion') {
@@ -131,9 +92,6 @@ const buttonIcon = computed(() => {
 })
 
 /**
- * LEARNING: Computed property for button color
- * WHY: Different button types need different default colors
- * PATTERN: Type-based color selection with prop override
  */
 const buttonColor = computed(() => {
   if (props.color) {
@@ -146,9 +104,6 @@ const buttonColor = computed(() => {
 })
 
 /**
- * LEARNING: Computed property for button classes
- * WHY: Need dynamic classes for positioning and styling
- * PATTERN: Computed class string based on props
  */
 const buttonClasses = computed(() => {
   const classes: string[] = ['card-button']
@@ -169,18 +124,12 @@ const buttonClasses = computed(() => {
 })
 
 /**
- * LEARNING: Computed property for z-index
- * WHY: Stacked buttons need higher z-index to appear above parent
- * PATTERN: Base z-index 10, +5 for each stacked level
  */
 const zIndex = computed(() => {
   return props.stacked ? 15 : 10
 })
 
 /**
- * LEARNING: Event handler for button clicks
- * WHY: Need to handle stop-propagation and emit click event
- * PATTERN: Event handler that conditionally stops propagation
  */
 function handleClick(event: MouseEvent): void {
   if (props.stopPropagation) {

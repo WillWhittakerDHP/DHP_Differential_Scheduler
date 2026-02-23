@@ -1,9 +1,6 @@
 /**
  * Bright MLS Foundation Mapping
  *
- * LEARNING: RESO FoundationDetails values vary by MLS; map to app enum
- * WHY: property_details.foundationAccess expects 'basement' | 'crawlspace' | 'slab'
- * PATTERN: Keyword-based mapping with fallback
  */
 
 type FoundationAccessType = 'basement' | 'crawlspace' | 'slab' | null;

@@ -1,8 +1,6 @@
 /**
  * Calendar Debug Routes
  *
- * LEARNING: Debug endpoints for Calendar API (events cache, rate limit)
- * WHY: Separates debug routes from main calendar routes for better cohesion
  */
 
 import { Router, Request, Response } from 'express';

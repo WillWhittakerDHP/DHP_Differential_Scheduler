@@ -1,13 +1,7 @@
 /**
- * LEARNING: Shared table model helpers and base type for formatNullValue
- * WHY: Table model setup patterns are duplicated across usePropertiesTableModel and useUsersTableModel
- * PATTERN: Extract shared helper functions and shared interface
- *
- * Used by:
- * - usePropertiesTableModel.ts
- * - useUsersTableModel.ts
+ * WHY: Shared table model helpers and base type for formatNullValue
+WHY: Table ...
  */
-
 import { computed, type ComputedRef } from 'vue'
 
 /** Shared shape for table models that provide formatNullValue. */

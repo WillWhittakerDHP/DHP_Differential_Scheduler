@@ -1,17 +1,6 @@
 /**
- * WHY: Icon Mapper Utility
-
-LEARNING: Maps database icon strings (Ant Design names) to Vuetify/Tabler icon names
-WHY: Ensures icons display correctly regardless of format stored in database
-PATTERN: Mapping function with default handling for null/undefined/unknown icons
-
-Session 6.3: Icon Integration
-Phase 6: Booking Wizard Logic Integration
-
-NOTE: Database icons are primarily Tabler format, but supports Ant Design format
-for backward compatibility and admin-entered values
+ * WHY: Maps database icon strings (Ant Design names) to Vuetify/Tabler icon nam...
  */
-
 const iconMap: Record<string, string> = {
   // User Type icons (from seeds/migration)
   'DollarOutlined': 'tabler-currency-dollar',
@@ -40,18 +29,12 @@ const DEFAULT_ICON = 'tabler-circle'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 /**
- * Map database icon string to Vuetify/Tabler icon name
- * LEARNING: Handles icon format conversion with default for unknown icons
- * WHY: Ensures UI always has a valid icon to display, preventing empty icon slots
- * PATTERN: Check mapping first, then check if already Tabler format, then default path
- * 
- * @param iconString - Icon string from database (Ant Design or Tabler format) or null/undefined
- * @returns Vuetify/Tabler icon name (e.g., "tabler-currency-dollar")
+ * PATTERN: Map database icon string to Vuetify/Tabler icon name
+PATTERN: Check mapp...
  */
 export function getIcon(iconString: string | null | undefined): string {
   if (!iconString || iconString.trim() === '') {
     if (isDevModeEnabled()) {
-      // Dev-only: could log missing icon here
     }
     return DEFAULT_ICON
   }

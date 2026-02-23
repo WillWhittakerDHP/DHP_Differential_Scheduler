@@ -1,7 +1,4 @@
 /**
- * LEARNING: BlockInstance Display Configs - Display configs for blockInstance fields
- * WHY: Defines labels, placeholders, and layout for blockInstance fields
- * PATTERN: Spreads baseEntityDisplays and adds entity-specific configs
  */
 
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'

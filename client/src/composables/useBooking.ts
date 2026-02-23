@@ -1,12 +1,8 @@
 /**
- * Booking Composable
- * 
- * LEARNING: Provides booking-optimized data transformation
- * WHY: Transforms global data into booking format with embedded part profiles
- * PATTERN: Composable that transforms globalData using booking transformer
- * COMPARISON: React uses BookingContext. Vue uses composables + transformer
- */
+ * WHY: Booking Composable
 
+WHY: Transforms global data into booking format with...
+ */
 import { computed, watchEffect } from 'vue'
 import { useGlobal } from './useGlobal'
 import { bookingTransformer } from '@/utils/transformers/globalToBookingTransformer'
@@ -46,9 +42,6 @@ function createBookingInstance() {
   
   /**
    * Transform global data to booking data
-   * LEARNING: Computed property that transforms globalData reactively
-   * WHY: Matches React's bookingData structure for debugging
-   * PATTERN: Use computed to reactively transform data
    * 
    * NOTE: The transformer expects GlobalData format from React app.
    * Vue's globalData structure should match, but relationships may need
@@ -81,12 +74,8 @@ function createBookingInstance() {
 }
 
 /**
- * Booking composable
- * LEARNING: Transforms global data to booking-optimized format
- * WHY: Provides booking data with embedded part profiles for efficient access
- * PATTERN: Singleton pattern - creates instance on first call, reuses it afterwards
- * 
- * @returns Booking data and transformation utilities
+ * WHY: Booking composable
+LEARNING: Transforms global data to booking-optimized...
  */
 export function useBooking() {
   callCount++

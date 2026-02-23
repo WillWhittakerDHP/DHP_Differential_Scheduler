@@ -1,16 +1,7 @@
 /**
- * useRelationshipCollection Composable
- *
- * LEARNING: Generic collection-level composable for any relationship collection type
- * WHY: Moves relationship creation, invalidation, and state management out of SFCs
- * PATTERN: Composable owns all non-UI state and handlers; SFC becomes template wiring
- * 
- * Supports:
- * - Parts (BlockInstance → PartInstance via partAssignments)
- * - Annotations (BlockInstance → AnnotationInstance via annotationAssignments)
- * - Events (BlockShape/PartShape → EventInstance via eventAssignments)
+ * WHY: useRelationshipCollection Composable
+LEARNING: Generic collection-level ...
  */
-
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
@@ -32,9 +23,8 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('useRelationshipCollection')
 
 /**
- * Name generation function type
- * LEARNING: Allows collection-specific name generation logic
- * WHY: Different collection types may have different naming patterns
+ * WHY: Name generation function type
+WHY: Different collection types may have d...
  */
 export type NameGenerator = (
   parentName: string,
@@ -78,11 +68,8 @@ export interface UseRelationshipCollectionOptions {
 }
 
 /**
- * useRelationshipCollection
- *
- * LEARNING: Generic collection-level composable for any relationship type
- * WHY: Provides unified pattern for parts, annotations, and events
- * PATTERN: Composable owns all non-UI state and handlers
+ * WHY: useRelationshipCollection
+LEARNING: Generic collection-level composable ...
  */
 export function useRelationshipCollection(
   options: UseRelationshipCollectionOptions
@@ -154,13 +141,9 @@ export function useRelationshipCollection(
   const expandedPlaceholders = ref<string[]>([])
   
   /**
-   * LEARNING: Get temporary entity for new child creation
-   * WHY: EntityCard needs an entity object to work with, even for new entities
-   * PATTERN: Create temporary entity with `new-{shapeId}` ID prefix
-   * 
-   * LEARNING: Shape reference property must be set explicitly
-   * WHY: Required fields like eventShapeRef/partShapeRef must be included even if not form fields
-   * PATTERN: Set shape reference property explicitly, matching usePartInstanceCollection pattern
+   * PATTERN: /**
+
+PATTERN: Set shape reference property explicitly, matching usePartI...
    */
   const getNewChildEntity = (shapeId: string): GlobalEntity<GlobalEntityKey> => {
     let defaults: Record<string, unknown>
@@ -210,13 +193,7 @@ export function useRelationshipCollection(
   }
   
   /**
-   * LEARNING: Handle EntityCard save for new child
-   * WHY: After EntityCard creates the entity, we need to create the relationship
-   * PATTERN: EntityCard handles entity creation, we handle relationship + cleanup
    * 
-   * LEARNING: Ensure entity is in cache before creating relationship
-   * WHY: Relationship optimistic update requires child entity to exist in cache
-   * PATTERN: Wait for globalData refetch or manually ensure entity is in cache
    */
   const handleNewChildSaved = async (
     shapeId: string,
@@ -271,9 +248,6 @@ export function useRelationshipCollection(
   }
   
   /**
-   * LEARNING: Handle EntityCard cancel for new child
-   * WHY: Just collapse the placeholder - no cleanup needed
-   * PATTERN: Simple collapse of expansion panel
    */
   const handleNewChildCancelled = (shapeId: string): void => {
     const index = expandedPlaceholders.value.indexOf(shapeId)

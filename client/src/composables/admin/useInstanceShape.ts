@@ -1,9 +1,7 @@
 /**
- * LEARNING: Shared composable for getting shape entity from instance entity
- * WHY: BlockInstance and PartInstance both need to get their shape entity to read fieldMetadata
- * PATTERN: Generic composable that works for both entity types using the same code path
+ * WHY: Shared composable for getting shape entity from instance entity
+PATTERN:...
  */
-
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAdmin } from '@/composables/admin/useAdmin'

@@ -1,9 +1,6 @@
 /**
  * Relationship Instance Component Router
  * 
- * LEARNING: Special router for instance component operations
- * WHY: Instance components have special endpoints (PATCH, DELETE by ID) and complex validation
- * PATTERN: Express router with instance component-specific endpoints
  */
 
 import { Router, Request, Response } from 'express'
@@ -24,9 +21,6 @@ const router = Router()
  * PATCH /relationships/instanceComponents/:id
  * Update an instance component
  * 
- * LEARNING: Updates instance component orderIndex and disabled status
- * WHY: Enables instance component updates via API
- * PATTERN: Find component, update fields, save, return JSON
  */
 router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const id = paramString(req, 'id')
@@ -67,7 +61,6 @@ router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promis
  * 
  * LEARNING: Soft deletes instance component and restores active state if needed
  * WHY: Enables instance component deletion via API with active state management
- * PATTERN: Find component, set disabled, restore active if no other components, return success message
  */
 router.delete('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const id = paramString(req, 'id')

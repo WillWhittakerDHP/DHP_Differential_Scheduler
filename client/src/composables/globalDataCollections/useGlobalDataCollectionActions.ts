@@ -7,7 +7,6 @@ import type { GlobalDataCollectionCrudConfig, UpdateByIdPayload } from './types'
  * Mutation factory for GlobalData-backed collections.
  *
  * LEARNING: These mutations refresh `['globalData']` because all consumers read from that cache.
- * WHY: Keeps cache invalidation consistent and centralizes optimistic "append-on-create" behavior.
  * FIX: Use shared generic composable for collection actions
  */
 export function useGlobalDataCollectionActions<

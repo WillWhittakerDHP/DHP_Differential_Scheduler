@@ -1,9 +1,6 @@
 /**
  * Google Calendar API Helper Functions
  * 
- * LEARNING: Utility functions for Google Calendar API operations
- * WHY: Reusable helper functions for data transformation
- * PATTERN: Pure helper functions
  */
 
 import type { CachedCalendarEvent } from '../../calendarEventsCache.js'
@@ -14,13 +11,8 @@ import { createLogger } from '../../../utils/logger.js'
 const logger = createLogger('CalendarHelpers')
 
 /**
- * Transform Google Calendar API events to cached format with geocoding
- * LEARNING: Converts Google Calendar API response to our cached format and geocodes locations
- * WHY: Provides consistent format and adds placeId for drive time calculations
- * PATTERN: Map over events, geocode locations in parallel
- * 
- * @param googleEvents - Array of events from Google Calendar API
- * @returns Array of cached calendar events with placeIds
+ * WHY: Transform Google Calendar API events to cached format with geocoding
+LEA...
  */
 export async function transformEventsWithGeocoding(
   googleEvents: Array<{
@@ -33,7 +25,6 @@ export async function transformEventsWithGeocoding(
     transparency?: string | null  // 'opaque' (blocks time) or 'transparent' (free)
   }>
 ): Promise<CachedCalendarEvent[]> {
-  // Filter and transform events
   const eventsWithLocations = googleEvents
     .filter(event => event.start && event.end) // Filter out events without start/end
     .map(event => {
@@ -59,8 +50,6 @@ export async function transformEventsWithGeocoding(
     .filter((event): event is NonNullable<typeof event> => event !== null)
   
   // Geocode addresses to placeIds
-  // LEARNING: Convert address strings to placeIds for accurate drive time calculations
-  // WHY: placeId is primary location identifier throughout codebase
   // PATTERN: Process geocoding in parallel for all events with locations
   const events = await Promise.all(
     eventsWithLocations.map(async (event) => {
@@ -94,7 +83,6 @@ export async function transformEventsWithGeocoding(
           }
         }
       }
-      // Event has no location
       return {
         id: event.id,
         start: event.start,

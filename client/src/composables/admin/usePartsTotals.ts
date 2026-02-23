@@ -1,10 +1,7 @@
 /**
- * Parts Totals Composable for Admin
- * LEARNING: Calculates totals from parts for a blockInstance entity
- * WHY: Provides reactive totals calculation for display in entity cards
- * PATTERN: Composable that determines if entity can have parts and calculates totals
+ * PATTERN: Parts Totals Composable for Admin
+PATTERN: Composable that determines if...
  */
-
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
@@ -27,9 +24,6 @@ export interface UsePartsTotalsReturn {
 
 /**
  * Calculate parts totals for an entity
- * LEARNING: Determines if entity can have parts and calculates totals
- * WHY: Provides reactive totals for display in entity cards
- * PATTERN: Check entity type and blockShape canHaveParts property, then calculate totals
  * 
  * @param entityKey - The entity type key
  * @param entityId - The entity ID
@@ -44,9 +38,6 @@ export function usePartsTotals(
   const { entities: partInstances } = useEntityCrud('partInstance')
 
   /**
-   * LEARNING: Check if entity can have parts
-   * WHY: Only blockInstance entities with canHaveParts blockShape can have parts
-   * PATTERN: Check entity type, get blockShape, check canHaveParts property
    */
   const canHaveParts = computed((): boolean => {
     if (entityKey !== 'blockInstance') {
@@ -69,9 +60,6 @@ export function usePartsTotals(
   })
 
   /**
-   * LEARNING: Get part instances for this blockInstance
-   * WHY: Need part instances to calculate totals
-   * PATTERN: Filter partAssignments relationships by parent_id, resolve to partInstance entities
    */
   const partInstancesForEntity = computed((): GlobalEntity<'partInstance'>[] => {
     if (!canHaveParts.value) {
@@ -109,9 +97,7 @@ export function usePartsTotals(
   })
 
   /**
-   * LEARNING: Calculate totals using shared utility
    * WHY: Uses same calculation logic as wizard for consistency
-   * PATTERN: Call calculatePartsTotals with part instances
    */
   const totals = computed(() => {
     if (!canHaveParts.value || partInstancesForEntity.value.length === 0) {

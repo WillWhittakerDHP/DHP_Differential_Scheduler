@@ -1,7 +1,6 @@
 /**
  * Google OAuth Route Constants
  *
- * WHY: Single source of truth for OAuth route strings; reduces hardcoding audit findings
  */
 
 export const GOOGLE_OAUTH_MESSAGES = {

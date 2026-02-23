@@ -1,30 +1,7 @@
 /**
- * CRUD Router Factory
- *
- * LEARNING: Generic factory pattern for creating standardized CRUD routers
- * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
- * PATTERN: Config-driven router generation with optional lifecycle hooks for domain-specific behavior
- *
- * This follows the same "generic pattern with runtime config" approach used in entityRegistry.ts
- *
- * @example
- * ```typescript
- * import { ERROR_MESSAGES } from './myResourceConstants.js'
- * const router = createCrudRouter({
- *   model: MyModel,
- *   resourceName: 'myResource',
- *   errorMessages: {
- *     FETCH_ALL: ERROR_MESSAGES.FETCH_RESOURCES,
- *     FETCH_ONE: ERROR_MESSAGES.FETCH_RESOURCE,
- *     NOT_FOUND: ERROR_MESSAGES.RESOURCE_NOT_FOUND,
- *     CREATE: ERROR_MESSAGES.CREATE_RESOURCE,
- *     UPDATE: ERROR_MESSAGES.UPDATE_RESOURCE,
- *     DELETE: ERROR_MESSAGES.DELETE_RESOURCE,
- *   }
- * })
- * ```
+ * WHY: CRUD Router Factory
+LEARNING: Generic factory pattern for creating stand...
  */
-
 import { Router } from 'express'
 import { Model } from 'sequelize'
 import { csrfProtection, checkOwnership } from '../../middlewares/security.js'
@@ -79,7 +56,6 @@ function buildHandlerContext<T extends Model>(config: CrudRouterConfig<T>): Crud
 /**
  * Create a standardized CRUD router with optional lifecycle hooks
  *
- * LEARNING: Factory function that generates Express router with all standard CRUD routes
  * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
  * PATTERN: Config-driven router generation with optional hooks for domain-specific behavior
  *

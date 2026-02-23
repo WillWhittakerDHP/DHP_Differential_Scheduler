@@ -1,9 +1,6 @@
 /**
  * Differential Scheduling Utilities
  *
- * LEARNING: Calculation functions for differential scheduling (major and minor arrival times)
- * WHY: Supports services where major attendee arrives earlier than minor attendee
- * PATTERN: Pure functions for calculating major and minor start times
  * Session 1.3.7: Client-Side Availability Calculations
  *
  * NOTE: "Major" and "minor" are configurable via AvailabilitySettings.differentialPerspectives.
@@ -69,9 +66,6 @@ function resolveMajorMinorEventFinals(
 
 /**
  * Calculate major start time from minor start time
- * LEARNING: Major arrives earlier: majorStart = minorStart - majorTotal
- * WHY: Major needs time to prepare before minor arrives
- * PATTERN: Subtract majorTotal minutes from minor start time
  * 
  * @param minorStartTime - Minor start time as ISO date string
  * @param majorTotal - Total minutes major needs before minor arrives
@@ -98,9 +92,6 @@ function calculateMajorStartTime(minorStartTime: string, majorTotal: number): st
 
 /**
  * Calculate minor start time from major start time
- * LEARNING: Minor arrives later: minorStart = majorStart + majorTotal
- * WHY: For differential scheduling, minor arrives after major has prepared
- * PATTERN: Add majorTotal minutes to major start time
  * 
  * @param majorStartTime - Major start time as ISO date string
  * @param majorTotal - Total minutes major needs before minor arrives
@@ -117,14 +108,8 @@ function calculateMinorStartTimeFromMajor(majorStartTime: string, majorTotal: nu
 }
 
 /**
- * Transform AppointmentSlot to major perspective
- * LEARNING: Creates AppointmentSlot with time slots calculated from major start time
- * WHY: Provides major perspective time slots for UI display
- * PATTERN: Use major start time as base, calculate all category time slots from that base
- * 
- * @param appointmentSlot - AppointmentSlot object (may have null TimeSlots)
- * @param majorStartTime - Major start time as ISO date string
- * @returns AppointmentSlot with TimeSlot objects calculated from major start time
+ * PATTERN: Transform AppointmentSlot to major perspective
+PATTERN: Use major start ...
  */
 export function transformToMajorPerspective(
   appointmentSlot: AppointmentSlot,

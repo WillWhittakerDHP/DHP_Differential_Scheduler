@@ -1,11 +1,8 @@
 /**
- * Entity Card Metadata Composable
- * 
- * LEARNING: Extracts metadata-related computed properties from EntityCard component
- * WHY: Reduces component complexity by moving metadata logic to composable
- * PATTERN: Composable that provides composed metadata and loading state
- */
+ * WHY: Entity Card Metadata Composable
 
+WHY: Reduces component complexity by mo...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'

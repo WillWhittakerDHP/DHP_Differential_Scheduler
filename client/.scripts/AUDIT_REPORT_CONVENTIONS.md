@@ -20,7 +20,6 @@ Audit scripts that emit Markdown (`.md`) and/or JSON reports should follow these
 - For audits that write a top-level `instructionsForAi` (or similar) in JSON, set it to **both** instructions:
   ```js
   import { AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED } from './shared-audit-utils.mjs'
-  // ...
   instructionsForAi: AUDIT_REPORT_AI_INSTRUCTIONS_COMBINED
   ```
 

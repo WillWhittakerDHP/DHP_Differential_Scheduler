@@ -1,9 +1,6 @@
 /**
  * Perspective Resolver
  *
- * LEARNING: Shared logic for resolving major/minor event shapes and deriving display time ranges.
- * WHY: applyShapeToTime and derivePerspective duplicated this logic; single place reduces complexity.
- * PATTERN: Pure functions; no slot shape building, only perspective/time derivation.
  */
 
 import type { TimeRange, AppointmentSlot } from '@/types/appointment'
@@ -56,8 +53,6 @@ export function resolveEventShapes(
 
 /**
  * Adjust minor time range to end at major end time using roundedDifferentialOffset.
- * LEARNING: Differential display: minor starts after offset, ends with major.
- * WHY: Extracted from applyShapeToTime to share and reduce complexity.
  */
 export function adjustMinorTimeRange(
   startTime: string,
@@ -98,8 +93,6 @@ export function adjustMinorTimeRange(
 
 /**
  * Derive the display TimeRange for a slot given a perspective (major / minor / nonDifferential).
- * LEARNING: Single place for perspective-to-time mapping; uses resolveEventShapes.
- * WHY: Used by useAppointmentSlots and AppointmentSlotGrid for display.
  */
 export function derivePerspective(
   slot: AppointmentSlot,

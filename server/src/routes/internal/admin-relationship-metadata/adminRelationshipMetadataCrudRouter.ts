@@ -1,9 +1,6 @@
 /**
  * Admin Relationship Metadata CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for admin relationship metadata
- * WHY: Separates CRUD operations from router setup, improves maintainability
- * PATTERN: Express router with RESTful endpoints
  */
 
 import { Router, Request, Response } from 'express'
@@ -25,16 +22,12 @@ const router = Router()
  * GET /admin-relationship-metadata/:entityType/:entityId
  * Get relationship metadata for a specific entity
  * 
- * LEARNING: Fetches relationship metadata for a specific entity type and ID
- * WHY: Provides entity-specific relationship metadata
- * PATTERN: Validate entity type, fetch metadata, transform to record, return JSON
  */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
     const entityId = paramString(req, 'entityId')
 
-    // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
       sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
@@ -58,9 +51,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
  * POST /admin-relationship-metadata/:entityType/:entityId
  * Create or update relationship metadata for an entity
  * 
- * LEARNING: Creates or updates relationship metadata record
- * WHY: Enables relationship metadata management via API
- * PATTERN: Validate, find or create, return JSON
  */
 router.post(
   '/:entityType/:entityId',
@@ -84,7 +74,6 @@ router.post(
       inputConfig = null,
     } = req.body
 
-    // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
       sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
@@ -105,7 +94,6 @@ router.post(
       return
     }
 
-    // Validate inputConfig
     const inputConfigValidation = validateInputConfig(renderAs, inputConfig)
     if (!inputConfigValidation.valid) {
       sendBadRequest(res, inputConfigValidation.error, inputConfigValidation.details?.message as string)
@@ -166,9 +154,6 @@ router.post(
  * DELETE /admin-relationship-metadata/:entityType/:entityId/:relationshipKey
  * Delete relationship metadata for an entity
  * 
- * LEARNING: Deletes relationship metadata record for a specific entity and relationship key
- * WHY: Enables relationship metadata deletion via API
- * PATTERN: Validate entity type, find metadata, delete, return 204
  */
 router.delete(
   '/:entityType/:entityId/:relationshipKey',
@@ -179,7 +164,6 @@ router.delete(
     const entityId = paramString(req, 'entityId')
     const relationshipKey = paramString(req, 'relationshipKey')
 
-    // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
       sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)

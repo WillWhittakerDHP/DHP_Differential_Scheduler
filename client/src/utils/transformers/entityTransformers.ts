@@ -1,18 +1,13 @@
 /**
- * Entity Transformers
- * 
- * LEARNING: Common utilities for entity transformation
- * WHY: DRY principle - shared logic for all entity operations
- * PATTERN: Utility functions for entity transformation, following annotationTransformers pattern
- */
+ * PATTERN: Entity Transformers
 
+PATTERN: Utility functions for entity transformatio...
+ */
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 
 /**
  * Transform API response to frontend format
- * LEARNING: All models use underscored: true; Sequelize toJSON() returns camelCase
- * PATTERN: Spread raw entity as-is (no snake_case conversion)
  *
  * @param rawEntity - Raw entity from API (camelCase)
  * @param entityKey - Entity type key

@@ -10,9 +10,6 @@ import {
 /**
  * OAuth Callback Router
  * 
- * LEARNING: Handles Google OAuth callback at root level for compatibility
- * WHY: Google OAuth requires simpler redirect URI paths (not nested under /api)
- * PATTERN: Express router with OAuth flow handling and structured logging
  * 
  * Extracted from app.ts to reduce complexity and improve separation of concerns
  */
@@ -24,8 +21,6 @@ const router = Router()
  * GET /oauth2callback
  * Handle OAuth callback - exchanges authorization code for tokens
  * 
- * LEARNING: Root-level route for OAuth callback compatibility
- * WHY: Google OAuth redirect URIs work better with simpler paths
  * 
  * Query parameters:
  * - code: Authorization code from Google
@@ -42,7 +37,6 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
   try {
     const { code, error, error_description } = req.query
 
-    // Handle authorization errors
     if (error) {
       logger.error('OAuth error:', error)
       logger.error('Error description:', error_description)
@@ -68,10 +62,8 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
 
     logger.info('Authorization code received, exchanging for tokens...')
 
-    // Exchange code for tokens
     const tokens = await getTokens(code)
 
-    // Set credentials on OAuth client
     setCredentials(tokens)
 
     // Save tokens to file for persistence across restarts

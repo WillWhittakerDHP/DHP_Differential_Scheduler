@@ -1,10 +1,7 @@
 /**
- * Select DOM Association Utilities
- *
- * WHY: Vuetify/AppSelect may render native <select> asynchronously and not forward `name` attributes.
- * PATTERN: Keep DOM access here (utilities), not in composables/components.
+ * PATTERN: Select DOM Association Utilities
+PATTERN: Keep DOM access here (utilitie...
  */
-
 import { patchFormElements } from '@/utils/patchFormElements'
 
 export interface SelectDomTarget {

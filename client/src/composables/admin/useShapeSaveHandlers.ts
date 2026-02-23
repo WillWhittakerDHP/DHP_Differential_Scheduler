@@ -1,9 +1,7 @@
 /**
- * Composable for shape save handlers
- * WHY: Extracts save handler logic from ShapesTab
- * PATTERN: Composable that manages save and cancel handlers
+ * PATTERN: Composable for shape save handlers
+PATTERN: Composable that manages save...
  */
-
 import type { Ref } from 'vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useNotification } from '@/composables/useNotification'
@@ -35,8 +33,6 @@ export interface UseShapeSaveHandlersReturn {
 
 /**
  * Composable for handling shape save events
- * WHY: Centralizes all shape save and cancel handlers
- * PATTERN: Returns handler functions for all shape types
  */
 export function useShapeSaveHandlers(
   options: UseShapeSaveHandlersOptions
@@ -104,9 +100,6 @@ export function useShapeSaveHandlers(
   }
 
   /**
-   * LEARNING: Handle save on existing Shape - collapse the card
-   * WHY: User expects card to collapse after saving changes
-   * PATTERN: Remove entity ID from expandedShapes to collapse the panel
    */
   const handleExistingShapeSaved = (entity: GlobalEntity<GlobalEntityKey>): void => {
     expandedShapes.value = expandedShapes.value.filter(id => id !== entity.id)

@@ -1,9 +1,6 @@
 /**
  * Relationship Annotation Assignment Router
  * 
- * LEARNING: Special router for annotation assignment operations
- * WHY: Annotation assignments have special endpoint (PATCH by blockInstanceId/annotationId)
- * PATTERN: Express router with annotation assignment-specific endpoints
  */
 
 import { Router, Request, Response } from 'express'
@@ -22,9 +19,6 @@ const router = Router()
  * PATCH /relationships/annotationAssignments/:blockInstanceId/:annotationId
  * Update an annotation assignment
  * 
- * LEARNING: Updates annotation assignment userTypeBlockInstanceId
- * WHY: Enables annotation assignment updates via API
- * PATTERN: Find assignment by blockInstanceId/annotationId, update field, save, return JSON
  * NOTE: This endpoint is specific to annotationAssignments for parent/child ID-based updates
  */
 router.patch('/:blockInstanceId/:annotationId', csrfProtection, async (req: Request, res: Response): Promise<void> => {

@@ -1,9 +1,6 @@
 /**
  * Property Enrichment Routes
  *
- * LEARNING: Proxy for Bright MLS / RESO property lookup
- * WHY: Server holds credentials; client receives transformed enrichment data
- * PATTERN: GET route, cache-first, 503 when not configured
  */
 
 import { Router, Request, Response } from 'express';
@@ -45,7 +42,6 @@ function parseAddressComponents(address: string): {
       zipCode: match[4].trim(),
     };
   }
-  // Fallback: use whole address as street, empty rest
   return {
     street: trimmed,
     city: '',

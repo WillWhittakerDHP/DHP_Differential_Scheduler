@@ -1,9 +1,6 @@
 /**
  * Field Sorting Utility
  * 
- * LEARNING: Reusable utility for sorting fields by displayOrder
- * WHY: Single source of truth for field sorting logic, reusable across codebase
- * PATTERN: Pure function that sorts field keys by displayOrder from metadata
  * 
  * This utility handles:
  * - Sorting by displayOrder (ascending)
@@ -17,9 +14,6 @@ import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 /**
  * Sort fields by displayOrder
  * 
- * LEARNING: Sorts field keys by displayOrder from metadata, with alphabetical fallback
- * WHY: Maintains consistent field ordering across the application
- * PATTERN: Pure function that returns sorted array (doesn't mutate input)
  * 
  * @param fields - Array of field keys to sort
  * @param metadata - Field metadata containing displayOrder values

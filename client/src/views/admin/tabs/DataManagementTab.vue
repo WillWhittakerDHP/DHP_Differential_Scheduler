@@ -14,9 +14,8 @@ import PropertiesTable from './components/PropertiesTable.vue'
 import UsersTable from './components/UsersTable.vue'
 
 /**
- * LEARNING: Use tab navigation composable
- * WHY: All logic moved to composable - component is pure rendering
- * PATTERN: Composable handles tab state and navigation
+ * WHY: Use tab navigation composable
+WHY: All logic moved to composable - compo...
  */
 const { currentTab: currentSubTab, navigateToTab: handleNavigateToTab } = useTabNavigation({ initialTab: 'appointments' })
 </script>

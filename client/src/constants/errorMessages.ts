@@ -1,9 +1,6 @@
 /**
  * Error Message Constants
  * 
- * LEARNING: Centralized error messages for API dev panel
- * WHY: Eliminates hardcoding audit findings, provides single source of truth
- * PATTERN: Named constants for all user-facing error messages
  */
 
 /** Fallback when error type is unknown (re-export from shared). */

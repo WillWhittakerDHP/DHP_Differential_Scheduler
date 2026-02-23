@@ -2,9 +2,6 @@
 /**
  * DifferentialGraph Component
  * 
- * LEARNING: Visual bars showing major and minor time blocks for differential scheduling
- * WHY: Encapsulates time bar display logic and styling
- * PATTERN: Self-contained component with props for time block data
  * 
  * Features:
  * - Differential service: Two stacked bars (major full width, minor right-justified half width)
@@ -126,10 +123,9 @@ const showStateLabel = computed(() => {
 </script>
 
 <template>
-  <!-- LEARNING: Differential Graph -->
-  <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
-  <!-- PATTERN: Stacked horizontal bars with conditional rendering based on differential -->
-  <!-- Show graph when service is differential -->
+  /**
+   * <!-- WHY: Visual bars showing major and minor time blocks for differenti...
+   */
   <div v-if="isDifferentialService" class="differential-graph" :class="{ 'has-overlay': !hasSelectedSlot }">
     <!-- LEARNING: Overlay when no slot is selected -->
     <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
@@ -143,14 +139,9 @@ const showStateLabel = computed(() => {
       {{ stateLabel }}
     </div>
     
-    <!-- LEARNING: Differential Service - Two stacked bars -->
-    <!-- WHY: Shows major and minor time blocks separately for differential services -->
-    <!-- PATTERN: Top bar full width (Major), bottom bar right-justified half width (Minor) -->
-    <!-- Always show bars so users can click them, even when no time slot is selected -->
-    <!-- LEARNING: Major Time Bar - Full Width, Clickable, Filled with Color -->
-    <!-- WHY: Shows major time block with filled background, full width, primary color, clickable to select perspective -->
-    <!-- USER_STORY: Top bar extends across full length, filled with color when slot selected -->
-    <!-- USER_STORY: Bar becomes Selected when clicked, Active otherwise -->
+    /**
+     * <!-- WHY: Shows major and minor time blocks separately for differential ...
+     */
     <div 
       class="time-bar major-bar clickable-bar" 
       :class="[majorBarState, { filled: hasSelectedSlot && !!graphBars.major }]"
@@ -164,10 +155,9 @@ const showStateLabel = computed(() => {
       <span v-if="majorTimeDisplay" class="bar-text" :class="{ 'selected-text': startTimeType === 'major' }">{{ majorTimeDisplay }}</span>
     </div>
     
-    <!-- LEARNING: Minor Time Bar - Right-Justified Half Width, Clickable, Filled with Color -->
-    <!-- WHY: Shows minor time block with filled background, right-justified, half width, secondary color, clickable to select perspective -->
-    <!-- USER_STORY: Bottom bar is right justified, extends across half the length, filled with color when slot selected -->
-    <!-- USER_STORY: Bar becomes Selected when clicked, Active otherwise -->
+    /**
+     * <!-- WHY: Shows minor time block with filled background, right-justified...
+     */
     <div 
       class="time-bar minor-bar clickable-bar" 
       :class="[minorBarState, { filled: hasSelectedSlot && !!graphBars.minor }]"

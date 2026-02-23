@@ -1,9 +1,6 @@
 /**
  * Relationship Router Validation Utilities
  * 
- * LEARNING: Extracted validation logic for relationship operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure validation functions that return validation results
  */
 
 import type { ValidationResult } from '../../helpers/routerValidators.js'
@@ -11,9 +8,6 @@ import { ERROR_MESSAGES, RELATIONSHIP_REGISTRY, type RelationshipKind } from './
 
 /**
  * Validate relationship kind
- * LEARNING: Extracted relationship kind validation logic
- * WHY: Reusable validation for relationship operations
- * PATTERN: Check relationship kind against registry, return validation result
  * 
  * @param value - Relationship kind value to validate
  * @returns true if value is valid RelationshipKind
@@ -24,9 +18,6 @@ export function isValidRelationshipKind(value: string): value is RelationshipKin
 
 /**
  * Normalize relationship kind
- * LEARNING: Normalizes relationship kind string to RelationshipKind type
- * WHY: Ensures relationship kind is valid and normalized
- * PATTERN: Check if valid, return normalized kind or throw error
  * 
  * @param value - Relationship kind value to normalize
  * @returns Normalized RelationshipKind
@@ -42,9 +33,6 @@ export function normalizeRelationshipKind(value: string): RelationshipKind {
 
 /**
  * Validate required fields for relationship creation
- * LEARNING: Extracted required field validation logic
- * WHY: Reusable validation for relationship operations
- * PATTERN: Check required fields, return validation result
  * 
  * @param data - Relationship data object
  * @returns ValidationResult indicating if required fields are present
@@ -65,9 +53,6 @@ export function validateRequiredFields(data: {
 
 /**
  * Validate parent and child are different
- * LEARNING: Extracted validation for instance components
- * WHY: Prevents self-referential relationships
- * PATTERN: Check if parent and child are the same, return validation result
  * 
  * @param parentId - Parent ID
  * @param childId - Child ID

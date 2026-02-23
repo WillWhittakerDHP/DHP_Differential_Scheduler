@@ -1,7 +1,3 @@
-/**
- * Display field type definitions (shared to break circular deps with appliedDisplay modules).
- * WHY: fullFieldDisplayConfig imports runtime from appliedDisplay/* which import DisplayFieldType from it.
- * PATTERN: Types live here; fullFieldDisplayConfig and appliedDisplay files import from this file only.
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'

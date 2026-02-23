@@ -28,9 +28,6 @@ const {
 } = usePropertiesTableModel()
 
 /**
- * LEARNING: Table headers configuration
- * WHY: Defines columns displayed in VDataTable
- * PATTERN: Array of header objects with title and key
  */
 const headers = [
   { title: 'Address', key: 'address', sortable: true },

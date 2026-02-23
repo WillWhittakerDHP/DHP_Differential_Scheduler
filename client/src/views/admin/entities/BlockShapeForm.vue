@@ -64,9 +64,6 @@
 /**
  * Block Type Form Page
  * 
- * LEARNING: Placeholder form page for Block Shapes (no UI polish)
- * WHY: Session 3.3 focuses on data flow verification, not UI building
- * PATTERN: Simple form with basic fields
  */
 
 import { ref, computed, onMounted } from 'vue'

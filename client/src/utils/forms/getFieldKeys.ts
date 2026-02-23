@@ -1,7 +1,4 @@
 /**
- * LEARNING: Utility for extracting and filtering field keys from entities
- * WHY: Eliminates duplication between DynamicForm and EntityFormContent
- * PATTERN: Pure function that extracts field keys with system field filtering
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -11,9 +8,6 @@ import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 
 /**
  * System fields that should be excluded from field rendering
- * LEARNING: These fields are managed by the system or handled separately
- * WHY: Prevents "Unknown input type" warnings and ensures proper field handling
- * PATTERN: Centralized list of system fields to filter (uses entityFieldConstants)
  */
 const SYSTEM_FIELDS = [
   FIELD_NAMES.ID,

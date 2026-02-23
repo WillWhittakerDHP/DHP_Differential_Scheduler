@@ -90,15 +90,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: IconPicker component provides visual icon selection dialog
- * 
- * WHY: Users need to see icons visually to select them, not just type names
- * 
- * PATTERN: Dialog component with searchable grid of icons
- * 
- * COMPARISON: Based on vuexy's icons page pattern with dialog wrapper
+ * WHY: Based on vuexy's icons page pattern with dialog wrapper
  */
-
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useIconPickerState } from '@/composables/admin/useIconPickerState'

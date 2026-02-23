@@ -1,13 +1,9 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 
 /**
- * useCrudDataTableModel
- *
- * LEARNING: Extracts the repeated "editable CRUD table" state machine out of `.vue` files.
- * WHY: Our admin tables repeat the same pattern (edit row, create row, confirm delete, save/cancel).
- * PATTERN: Generic composable with table-item and request payload typing.
+ * WHY: useCrudDataTableModel
+LEARNING: Extracts the repeated "editable CRUD tab...
  */
-
 export interface CrudDataTableModelOptions<
   TableItem extends { id: string },
   CreatePayload extends object,

@@ -1,9 +1,6 @@
 /**
  * Client-side Maps API Service
  *
- * LEARNING: Service layer for Google Maps API calls via server proxy
- * WHY: Centralized API calls, error handling, response transformation
- * PATTERN: Service layer between components and server endpoints
  *
  * Session 2.2.1: Created for Address Autocomplete
  */
@@ -29,7 +26,6 @@ export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErr
 const logger = createLogger('mapsApiService')
 const { recordApiCall } = useApiCallStatus()
 
-// Use environment variable or default to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
 /**
@@ -56,9 +52,6 @@ export function getErrorMessage(type: MapsApiErrorType): string {
 /**
  * Generate a new session token for billing optimization
  * 
- * LEARNING: Session tokens group autocomplete + details into one billing session
- * WHY: Reduces cost when user selects from suggestions
- * PATTERN: Get token from server (maintains consistent token format)
  * 
  * @returns Session token string
  */
@@ -69,23 +62,15 @@ export async function getSessionToken(): Promise<string> {
     )
     return response.data.sessionToken
   } catch (_error) {
-    // Generate client-side as fallback
     logger.warn('[getSessionToken] Failed to get token from server, generating locally')
     return crypto.randomUUID()
   }
 }
 
 /**
- * Fetch address autocomplete suggestions
- * 
- * LEARNING: Main function for getting address suggestions as user types
- * WHY: Provides real-time address suggestions for better UX
- * PATTERN: Debounce should be handled by caller, this just makes the request
- * 
- * @param input User's input text (minimum 3 characters)
- * @param sessionToken Optional session token for billing optimization
- * @returns Array of autocomplete predictions
- * @throws MapsApiError on failure
+ * WHY: Fetch address autocomplete suggestions
+
+LEARNING: Main function for gett...
  */
 export async function fetchAutocompleteSuggestions(
   input: string,
@@ -131,9 +116,6 @@ export async function fetchAutocompleteSuggestions(
 /**
  * Fetch place details including coordinates
  * 
- * LEARNING: Get full address and coordinates after user selects a suggestion
- * WHY: Need coordinates for distance calculations
- * PATTERN: Session token ends the billing session on this call
  * 
  * @param placeId Google Place ID from autocomplete selection
  * @param sessionToken Optional session token (ends the session for billing)
@@ -232,15 +214,8 @@ function handleApiError(error: unknown): MapsApiError {
   )
 }
 
-// =============================================================================
-// ROUTES API - Session 2.2.2
-// =============================================================================
-
 /**
- * Drive time result from Routes API
- * LEARNING: Contains duration and distance for a route with source metadata
- * WHY: Indicates whether time is calculated (from API), estimated (fallback), or cached
- * Session 2.2.3: Added 'estimated' source type for fallback values
+ * ROUTES API - Session 2.2.2
  */
 export interface DriveTimeResult {
   durationMinutes: number
@@ -252,6 +227,4 @@ export interface DriveTimeResult {
   }
 }
 
-// Phase 9: Removed fetchDriveTime and fetchRouteMatrix
-// WHY: Drive times are now calculated server-side via fetchComputedAvailabilityData
 

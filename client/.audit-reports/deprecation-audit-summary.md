@@ -49,7 +49,6 @@ Generated from `client/.audit-reports/deprecation-audit.json`.
 | `client/src/composables/useRelationship.ts` | P1 | 4 | 0 | 2 |
 | `client/src/configs/field/display/fullFieldDisplayConfig.ts` | P1 | 4 | 0 | 2 |
 
-*...and 17 more. See full report for details.*
 
 ## Notes
 

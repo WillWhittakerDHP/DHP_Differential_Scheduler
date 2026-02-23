@@ -1,16 +1,8 @@
 /**
- * Business Data Composable
- * 
- * LEARNING: Provides access to business data (appointments, properties, users)
- * WHY: Unified cache for business entities that change frequently
- * PATTERN: Mirrors useGlobal composable for consistency
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- * ARCHITECTURAL DECISION: Business entities use separate ['businessData'] cache key
- * - Keeps business data changes from invalidating static configuration data
- * - Uses optimistic updates + refetchQueries for cache consistency
- */
+ * PATTERN: Business Data Composable
 
+PATTERN: Mirrors useGlobal composable for cons...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { businessTransformer, type BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
@@ -21,9 +13,6 @@ export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
 /**
  * useBusiness composable
  * 
- * LEARNING: Provides reactive access to business data
- * WHY: Components can read business data without managing cache directly
- * PATTERN: Similar to useGlobal for configuration data
  * 
  * @returns businessData - Reactive business data (appointments, properties, users)
  * @returns isLoading - Loading state
@@ -58,9 +47,6 @@ export function useBusiness(): {
 /**
  * useAppointments computed ref
  * 
- * LEARNING: Convenience accessor for appointments from businessData
- * WHY: Components often need just appointments, not full businessData
- * PATTERN: Computed ref that reads from businessData cache
  */
 export function useAppointments(): ComputedRef<BusinessData['appointments']> {
   const { businessData } = useBusiness()
@@ -70,9 +56,6 @@ export function useAppointments(): ComputedRef<BusinessData['appointments']> {
 /**
  * useProperties computed ref
  * 
- * LEARNING: Convenience accessor for properties from businessData
- * WHY: Components often need just properties, not full businessData
- * PATTERN: Computed ref that reads from businessData cache
  */
 export function useProperties(): ComputedRef<BusinessData['properties']> {
   const { businessData } = useBusiness()
@@ -82,9 +65,6 @@ export function useProperties(): ComputedRef<BusinessData['properties']> {
 /**
  * useUsers computed ref
  * 
- * LEARNING: Convenience accessor for users from businessData
- * WHY: Components often need just users, not full businessData
- * PATTERN: Computed ref that reads from businessData cache
  */
 export function useUsers(): ComputedRef<BusinessData['users']> {
   const { businessData } = useBusiness()

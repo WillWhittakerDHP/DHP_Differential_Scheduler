@@ -2,10 +2,6 @@
 /**
  * ContactsStep Component
  * 
- * LEARNING: Fourth step for contact information collection
- * WHY: Collects contact details for all parties involved in the inspection
- * PATTERN: Always-visible forms for Client/Agent, optional sections with add/delete
- * COMPARISON: React uses FormControlLabel. Vue uses VTextField with VFormControl
  * 
  * Phase 1.2.3: Added support for loading contact data from appointments
  */
@@ -20,8 +16,6 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
 /**
- * WHY: Check selected services for database-driven requiresAgent flag (not hardcoded)
- * PATTERN: Inject wizard from parent BookingWizard component
  */
 const wizard = inject<UseBookingWizardReturn>('wizard')
 
@@ -30,8 +24,6 @@ if (!wizard) {
 }
 
 /**
- * WHY: Database-driven agent requirement (not hardcoded always-required)
- * PATTERN: Check requiresAgent flag on selected service block_instances
  */
 const requiresAgent = computed(() => {
   return wizard.selectedServiceTypeBlocks.value.some(
@@ -59,7 +51,6 @@ const {
 } = contactsStepData
 
 /**
- * WHY: Conditionally require agent fields based on selected services (requiresAgent flag)
  * PATTERN: Composable handles validation rules, error state, and validation functions
  */
 const {

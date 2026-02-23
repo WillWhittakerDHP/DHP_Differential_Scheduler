@@ -1,11 +1,8 @@
 /**
- * Block Finalizer
- * 
- * LEARNING: Creates BlockFinal instances from block instances
- * WHY: Preserves block-level context and creates clear pipeline: Blocks → BlockFinals → SlotShape
- * PATTERN: Pure functions for block finalization, similar to partFinalizer pattern
- */
+ * PATTERN: Block Finalizer
 
+PATTERN: Pure functions for block finalization, similar...
+ */
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockFinal } from './BlockFinal'
 import { createBlockFinal } from './BlockFinal'
@@ -13,9 +10,6 @@ import { filterZeroedParts } from './partFinalizer'
 
 /**
  * Create BlockFinal instances from block instances
- * LEARNING: Finalizes each block instance individually, preserving block-level context
- * WHY: Block instance is the semantic unit - each block is finalized independently
- * PATTERN: Map over block instances, create BlockFinal for each
  * 
  * @param blockInstances - Array of BookingBlockInstance objects
  * @returns Array of BlockFinal instances
@@ -30,9 +24,6 @@ export function createBlockFinals(
 
 /**
  * Filter out BlockFinal instances that have all zeroed parts
- * LEARNING: Removes BlockFinal instances where all parts are zeroed out
- * WHY: Blocks with all zeroed parts should not contribute to calculations
- * PATTERN: Filter based on whether block has any non-zeroed parts
  * 
  * @param blockFinals - Array of BlockFinal instances
  * @returns Array of BlockFinal instances excluding blocks with all zeroed parts

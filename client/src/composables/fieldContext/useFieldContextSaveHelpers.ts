@@ -1,9 +1,6 @@
 /**
  * Field Context Save Helpers
  * 
- * LEARNING: Extracts save logic from useFieldContextActions to reduce complexity
- * WHY: Separates component entity, relationship, and regular field save logic into focused functions
- * PATTERN: Helper functions that handle specific save scenarios
  */
 
 import { toRaw } from 'vue'

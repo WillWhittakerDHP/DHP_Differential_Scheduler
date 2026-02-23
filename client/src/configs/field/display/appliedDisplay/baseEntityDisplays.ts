@@ -1,7 +1,4 @@
 /**
- * LEARNING: Base Entity Displays - Common display configs for all entities
- * WHY: Shared display configs (id) used by all entities
- * PATTERN: Base displays spread into entity-specific display configs
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'

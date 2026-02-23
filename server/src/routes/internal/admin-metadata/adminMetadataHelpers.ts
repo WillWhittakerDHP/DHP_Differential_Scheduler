@@ -1,9 +1,6 @@
 /**
  * Admin Metadata Router Helper Functions
  * 
- * LEARNING: Extracted helper functions for admin metadata operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure functions for complex logic
  */
 
 import { Op } from 'sequelize'
@@ -14,13 +11,8 @@ import { GLOBAL_CONFIG_IDS, VALID_ENTITY_TYPES } from './adminMetadataConstants.
 type AdminMetadataEntityType = (typeof VALID_ENTITY_TYPES)[number]
 
 /**
- * Determine metadata type from field key
- * LEARNING: Backend determines metadataType by checking RELATIONSHIP_KEYS
- * WHY: Matches entity pattern - backend routes based on field type
- * PATTERN: Check if fieldKey is in RELATIONSHIP_KEYS to determine metadataType
- * 
- * @param fieldKey - Field key to check
- * @returns 'relationship' or 'primitive'
+ * WHY: Determine metadata type from field key
+WHY: Matches entity pattern - bac...
  */
 export function determineMetadataType(fieldKey: string): 'relationship' | 'primitive' {
   return isRelationshipKey(fieldKey) ? 'relationship' : 'primitive'
@@ -28,9 +20,6 @@ export function determineMetadataType(fieldKey: string): 'relationship' | 'primi
 
 /**
  * Get default renderAs based on metadata type
- * LEARNING: Default renderAs values based on metadata type
- * WHY: Provides sensible defaults for renderAs
- * PATTERN: Return default based on metadata type
  * 
  * @param metadataType - Metadata type ('relationship' or 'primitive')
  * @returns Default renderAs value
@@ -41,9 +30,6 @@ export function getDefaultRenderAs(metadataType: 'relationship' | 'primitive'): 
 
 /**
  * Get default panel based on metadata type
- * LEARNING: Default panel values based on metadata type
- * WHY: Provides sensible defaults for panel
- * PATTERN: Return default based on metadata type
  * 
  * @param metadataType - Metadata type ('relationship' or 'primitive')
  * @returns Default panel value
@@ -53,15 +39,8 @@ export function getDefaultPanel(metadataType: 'relationship' | 'primitive'): str
 }
 
 /**
- * Resolve entity ID and blockShapeRef for blockInstance metadata
- * LEARNING: When saving blockInstance metadata with blockShapeRef, use global config ID
- * WHY: BlockShape-specific instance metadata uses global config ID pattern
- * PATTERN: Check entityType and blockShapeRef, return resolved values
- * 
- * @param entityType - Entity type
- * @param entityId - Original entity ID
- * @param blockShapeRef - BlockShape reference (optional)
- * @returns Resolved entity ID and blockShapeRef
+ * WHY: Resolve entity ID and blockShapeRef for blockInstance metadata
+WHY: Bloc...
  */
 export function resolveBlockInstanceMetadata(
   entityType: string,
@@ -83,9 +62,6 @@ export function resolveBlockInstanceMetadata(
 
 /**
  * Build where clause for finding existing metadata
- * LEARNING: Builds Sequelize where clause for metadata lookup
- * WHY: Reusable logic for finding existing metadata records
- * PATTERN: Build where clause based on entity type and blockShapeRef
  * 
  * @param entityType - Entity type
  * @param entityId - Entity ID
@@ -119,9 +95,6 @@ export function buildMetadataWhereClause(
 
 /**
  * Build batch metadata result structure
- * LEARNING: Builds the structured result for batch metadata endpoint
- * WHY: Centralized logic for batch metadata result construction
- * PATTERN: Transform flat metadata array into structured result
  * 
  * @param allMetadata - Array of all metadata records
  * @returns Structured batch metadata result

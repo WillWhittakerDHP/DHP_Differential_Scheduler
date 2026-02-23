@@ -1,17 +1,8 @@
 /**
- * Entity Card Actions Composable
- * 
- * LEARNING: Extracts action handlers (save/reset/delete) from EntityCard component
- * WHY: Moves business logic out of component into reusable composable
- * PATTERN: Composable that wraps useEntityForm + useEntityCrud and provides action handlers
- * 
- * This composable handles:
- * - Form validation and save operations
- * - Form reset operations
- * - Delete operations with confirmation
- * - Success/error notifications
- */
+ * WHY: Entity Card Actions Composable
 
+WHY: Moves business logic out of compone...
+ */
 import { ref, type Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { useEntityForm } from '../useEntityForm'
@@ -65,11 +56,9 @@ export interface UseEntityCardActionsReturn {
 }
 
 /**
- * Entity Card Actions Composable
- * 
- * LEARNING: Provides action handlers for EntityCard component
- * WHY: Extracts save/reset/delete logic from component to composable
- * PATTERN: Composable that wraps useEntityForm + useEntityCrud
+ * WHY: Entity Card Actions Composable
+
+WHY: Extracts save/reset/delete logic fr...
  */
 export function useEntityCardActions(
   options: UseEntityCardActionsOptions
@@ -115,9 +104,6 @@ export function useEntityCardActions(
   } = entityFormComposable
   
   /**
-   * LEARNING: Save handler - handles both create and update
-   * WHY: Validates form and creates or updates entity in database
-   * PATTERN: Check isNew flag to determine operation type
    */
   const handleSave = async (): Promise<void> => {
     try {
@@ -154,17 +140,12 @@ export function useEntityCardActions(
   }
   
   /**
-   * LEARNING: Reset/undo handler
-   * WHY: Resets form to original entity values
-   * PATTERN: Use composable reset method
    */
   const handleUndo = (): void => {
     resetForm()
   }
   
   /**
-   * LEARNING: Delete click handler
-   * WHY: Opens delete confirmation dialog
    * PATTERN: Function that updates reactive state
    */
   const handleDeleteClick = (): void => {
@@ -172,9 +153,6 @@ export function useEntityCardActions(
   }
   
   /**
-   * LEARNING: Delete confirmation handler
-   * WHY: Deletes entity from the database and emits delete event
-   * PATTERN: Async function that calls remove mutation and emits event
    */
   const handleDelete = async (): Promise<void> => {
     try {
@@ -192,8 +170,6 @@ export function useEntityCardActions(
   }
   
   /**
-   * LEARNING: Cancel delete handler
-   * WHY: Closes delete confirmation dialog without deleting
    * PATTERN: Function that resets reactive state
    */
   const handleCancelDelete = (): void => {
@@ -201,9 +177,6 @@ export function useEntityCardActions(
   }
   
   /**
-   * LEARNING: Cancel creation handler
-   * WHY: Allows user to cancel new entity creation
-   * PATTERN: Emit cancelled event so parent can remove the blank card
    */
   const handleCancel = (): void => {
     onCancelled?.()

@@ -1,14 +1,7 @@
 /**
- * LEARNING: Entity Card Store Sync Composable
- * WHY: Extracts store entity synchronization logic from EntityCard component
- * PATTERN: Composable that handles form sync when store entity updates
- * 
- * This composable handles:
- * - Syncing form values when store entity updates
- * - Detecting entity ID changes vs field value changes
- * - Resetting form on entity change, updating individual fields on value change
+ * WHY: Entity Card Store Sync Composable
+PATTERN: Composable that handles form ...
  */
-
 import { computed, watch, type Ref, type ComputedRef } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntity } from '@/types/entities'
@@ -25,8 +18,6 @@ export interface UseEntityCardStoreSyncOptions<GE extends GlobalEntityKey> {
   
   /**
    * Function to get store entity
-   * WHY: Allows parent to control how store entity is retrieved
-   * PATTERN: Function that returns store entity or undefined
    */
   getStoreEntity: () => GlobalEntity<GE> | undefined
   
@@ -39,8 +30,6 @@ export interface UseEntityCardStoreSyncReturn<GE extends GlobalEntityKey> {
 
 /**
  * LEARNING: Entity Card Store Sync Composable
- * WHY: Handles form synchronization when store entity updates
- * PATTERN: Watch store entity and sync form values appropriately
  */
 export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   options: UseEntityCardStoreSyncOptions<GE>
@@ -54,8 +43,6 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   } = options
 
   /**
-   * LEARNING: Get entity from store with relationships attached
-   * WHY: Store entity has relationships attached via adminTransformer, props.entity might not
    * PATTERN: Use store entity (with relationships) as source of truth for form initialization
    */
   const storeEntity = computed(() => {
@@ -66,15 +53,9 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   })
 
   /**
-   * LEARNING: Sync form values when store entity updates
-   * WHY: If store entity updates (e.g., relationships load), form should reflect that
-   * PATTERN: Use resetForm for entity changes, setFieldValue for individual field updates
    * NOTE: Only sync for existing entities (not new ones), and only if form wasn't provided by parent
-   * LEARNING: Track entity ID to detect actual entity changes vs reference changes
-   * WHY: Entity object reference might change (e.g., modal open/close, store refetch)
    *      but we only want to reset form when entity ID changes or entity is actually updated
    *      Prevents resetting form when modal opens/closes or store refetches with same data
-   * PATTERN: Compare entity IDs, not object references, to avoid unnecessary resets
    */
   if (!isNew) {
     let lastEntityId = String(entityId.value)

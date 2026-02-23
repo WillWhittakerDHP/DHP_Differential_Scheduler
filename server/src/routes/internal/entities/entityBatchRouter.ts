@@ -1,9 +1,6 @@
 /**
  * Entity Batch Router
  * 
- * LEARNING: Batch endpoint that fetches all entity types in a single request
- * WHY: Reduces N+8 HTTP requests to 1 request, improving initial load performance
- * PATTERN: Fetch all entity types in parallel, return structured response
  */
 
 import { Router, Request, Response } from 'express'
@@ -25,14 +22,11 @@ const router = Router()
  * Get all entities of all types in batch format
  * 
  * LEARNING: Batch endpoint that returns all entity types in structured format
- * WHY: Provides complete entity data in a single request, reducing network overhead
- * PATTERN: Fetch all entity types in parallel, transform to structured result
  */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('GET /entities/batch')
 
-    // LEARNING: Fetch all entity types in parallel using Promise.all
     // WHY: Consistent parallel fetching pattern, maximizes performance
     // PATTERN: Map entity keys to fetch promises, await all in parallel
     const entityPromises = ENTITY_KEYS_ARRAY.map(async (entityKey) => {
@@ -44,7 +38,6 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
 
     const entityResults = await Promise.all(entityPromises)
 
-    // LEARNING: Transform parallel results into structured response object
     // WHY: Matches expected batch response format with entity keys as top-level properties
     // PATTERN: Reduce array of results to object keyed by entityKey
     const result = entityResults.reduce((acc, { entityKey, data }) => {

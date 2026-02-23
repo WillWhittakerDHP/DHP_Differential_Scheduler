@@ -1,19 +1,9 @@
 <script setup lang="ts">
 /**
- * IndependentSelectCard Component
- * 
- * LEARNING: Standalone card for child/dependent selections
- * WHY: Simpler than nested rendering - independent component with its own state
- * PATTERN: Checkbox-based multi-select, no expansion logic needed
- * 
- * Use cases:
- * - Dependent instance options within a parent card
- * - Child selections in any nested context
- * - Add-on services, property options, etc.
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- */
+ * WHY: IndependentSelectCard Component
 
+WHY: Simpler than nested rendering - in...
+ */
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectionCardItem, SelectionCardConfig } from './types/selectionCardTypes'
@@ -183,9 +173,6 @@ const contentClasses = computed(() => {
 
 <style scoped lang="scss">
 /**
- * LEARNING: Independent select card styling
- * WHY: Clean, consistent appearance for dependent options
- * PATTERN: Uses Vuetify tokens for theme consistency
  */
 .independent-select-card {
   transition: all 0.2s ease-in-out;

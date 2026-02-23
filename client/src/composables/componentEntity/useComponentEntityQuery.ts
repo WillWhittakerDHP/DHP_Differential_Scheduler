@@ -32,10 +32,7 @@ function transformGlobalRelationshipsToInstanceComponents(relationships: GlobalR
 }
 
 /**
- * Query/state module for `useComponentEntity`.
- *
- * PATTERN: query/state/actions separation
- * - query: computed reads from globalData cache
+ * PATTERN: Query/state module for `useComponentEntity`
  */
 export function useComponentEntityQuery(): UseComponentEntityQueryReturn {
   const { globalData, getGlobalData } = useGlobal()

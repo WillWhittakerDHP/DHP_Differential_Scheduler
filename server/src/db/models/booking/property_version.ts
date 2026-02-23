@@ -11,9 +11,6 @@ import {
 /**
  * PropertyVersion Model
  * 
- * LEARNING: PropertyVersion links addresses to versioned property details
- * WHY: Name clearly indicates versioning purpose, prepares for future versioning logic in MLS API phase
- * PATTERN: Minimal structure (versioning logic implemented later), foreign key to Address
  */
 export class PropertyVersion extends Model<
   InferAttributes<PropertyVersion>,

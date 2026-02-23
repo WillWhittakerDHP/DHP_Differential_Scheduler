@@ -1,17 +1,8 @@
 /**
- * Part Instance Bulk Edit Composable
- * 
- * LEARNING: Extracts bulk edit logic from PartInstancesNestedSection component
- * WHY: Components should be thin UI wrappers - bulk edit logic belongs in composables
- * PATTERN: Composable that provides bulk edit state and operations
- * 
- * This composable handles:
- * - Bulk edit mode state
- * - Bulk edit form data
- * - Toggle bulk edit mode
- * - Apply bulk edit to all PartInstances
- */
+ * WHY: Part Instance Bulk Edit Composable
 
+WHY: Components should be thin UI wr...
+ */
 import { ref, computed, type ComputedRef } from 'vue'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
@@ -23,9 +14,6 @@ const logger = createLogger('usePartInstanceBulkEdit')
 
 /**
  * Part Instance Bulk Edit Data Interface
- * LEARNING: Dynamic interface that supports any field with bulkEdit: true
- * WHY: Fields enabled for bulk edit are config-driven, not hardcoded
- * PATTERN: Index signature allows any field key with number | null values
  * FIX: Changed from hardcoded 4 fields to dynamic interface to match config-driven approach
  */
 export interface PartInstanceBulkEditData {
@@ -51,11 +39,9 @@ export interface UsePartInstanceBulkEditReturn {
 }
 
 /**
- * Part Instance Bulk Edit Composable
- * 
- * LEARNING: Provides bulk edit functionality extracted from PartInstancesNestedSection component
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with state and handlers for bulk edit operations
+ * WHY: Part Instance Bulk Edit Composable
+
+WHY: Moves business logic out of com...
  */
 export function usePartInstanceBulkEdit(
   options: UsePartInstanceBulkEditOptions
@@ -77,24 +63,18 @@ export function usePartInstanceBulkEdit(
   )
 
   /**
-   * LEARNING: Bulk edit mode state for PartInstances
-   * WHY: Tracks whether bulk edit mode is enabled for this BlockInstance's PartInstances
-   * PATTERN: ref for reactive boolean state
+   * WHY: /**
+LEARNING: Bulk edit mode state for PartInstances
+PATTERN: ref for re...
    */
   const bulkEditMode = ref(false)
 
   /**
-   * LEARNING: Bulk edit form data for PartInstances
-   * WHY: Stores bulk edit values for fields with bulkEdit: true
-   * PATTERN: ref object with dynamic field keys
    * FIX: Initialize as empty object since fields are now config-driven, not hardcoded
    */
   const bulkEditData = ref<PartInstanceBulkEditData>({})
 
   /**
-   * LEARNING: Toggle bulk edit mode
-   * WHY: Enables/disables bulk edit mode for PartInstances
-   * PATTERN: Function that toggles boolean ref
    */
   const toggleBulkEditMode = (): void => {
     bulkEditMode.value = !bulkEditMode.value
@@ -109,9 +89,6 @@ export function usePartInstanceBulkEdit(
   }
 
   /**
-   * LEARNING: Apply bulk edit to all PartInstances for this BlockInstance
-   * WHY: Updates all PartInstances with bulk edit values using bulk PATCH endpoint
-   * PATTERN: Single bulk PATCH request instead of N individual PUT requests
    */
   const applyPartInstanceBulkEdit = async (): Promise<void> => {
     try {
@@ -171,19 +148,14 @@ export function usePartInstanceBulkEdit(
   }
 
   /**
-   * LEARNING: Handle bulk edit modal visibility update
-   * WHY: Updates bulkEditMode ref when modal opens/closes
-   * PATTERN: Access ref directly to ensure it's not unwrapped
    */
   const handleBulkEditModalUpdate = (value: boolean): void => {
     bulkEditMode.value = value
   }
 
   /**
-   * LEARNING: Handle bulk edit modal confirm event
-   * WHY: Updates bulk edit data and applies changes to all PartInstances
-   * PATTERN: Method handler for modal @confirm event, properly accesses composable refs
-   * FIX: Filter data to only include fields with bulkEdit: true from config to prevent non-bulk-edit fields from being cleared
+   * PATTERN: /**
+PATTERN: Method handler for modal @confirm event, properly accesses ...
    */
   const handleBulkEditConfirm = (data: PartInstanceBulkEditData): void => {
     // LEARNING: Trust the data from modal since it's already filtered by PartInstance metadata

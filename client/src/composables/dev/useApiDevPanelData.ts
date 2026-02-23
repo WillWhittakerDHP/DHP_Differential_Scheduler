@@ -1,11 +1,8 @@
 /**
- * API Dev Panel Data Composable
- * 
- * LEARNING: Manages API fetching and state for dev panel
- * WHY: Reduces component complexity, centralizes API logic
- * PATTERN: Composable with reactive state and fetch functions
- */
+ * PATTERN: API Dev Panel Data Composable
 
+PATTERN: Composable with reactive state a...
+ */
 import { ref, type Ref } from 'vue'
 import axios from 'axios'
 import { createLogger } from '@/utils/logger'
@@ -28,8 +25,6 @@ export interface DevPanelCacheShape { stats?: DevPanelCacheStats; entries?: DevP
 
 /**
  * Handle rate limit response from Promise.allSettled
- * LEARNING: Extracted helper to reduce fetchRateLimitStats complexity
- * WHY: Reduces nesting depth from 9 to <= 3
  * 
  * @param response - Promise.allSettled response
  * @param apiType - Type of API ('calendar' | 'maps')
@@ -49,8 +44,6 @@ function handleRateLimitResponse(
 
 /**
  * Check if both rate limit APIs failed
- * LEARNING: Extracted helper to reduce fetchRateLimitStats complexity
- * WHY: Simplifies error handling logic
  * 
  * @param calendarResponse - Calendar API response
  * @param mapsResponse - Maps API response
@@ -65,14 +58,11 @@ function checkBothRateLimitsFailed(
 
 /**
  * Composable for managing API dev panel data
- * LEARNING: Extracted all API fetching logic from component
- * WHY: Reduces main component from ~1349 to ~800 lines
  * 
  * @param apiBaseUrl - Base URL for API requests
  * @returns Reactive state and fetch functions
  */
 export function useApiDevPanelData(apiBaseUrl: string) {
-  // API data state
   const oauthStatus = ref<OAuthStatusShape | null>(null)
   const eventsCache = ref<DevPanelCacheShape | null>(null)
   const rateLimitStats = ref<{
@@ -136,8 +126,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
 
   /**
    * Fetch rate limit stats for both APIs
-   * LEARNING: Reduced complexity through helper extraction
-   * WHY: Nesting reduced from 9 to <= 3
    */
   async function fetchRateLimitStats(): Promise<void> {
     loading.value.ratelimit = true
@@ -183,8 +171,6 @@ export function useApiDevPanelData(apiBaseUrl: string) {
 
   /**
    * Fetch aggregated dev status from backend
-   * LEARNING: Single endpoint reduces client requests from 5+ to 1
-   * WHY: Improves page load performance, reduces external route calls
    */
   async function fetchDevStatus(): Promise<void> {
     loading.value.oauth = true
@@ -196,16 +182,13 @@ export function useApiDevPanelData(apiBaseUrl: string) {
       const response = await axios.get(`${apiBaseUrl}/api/v1/internal/dev/status`)
       const data = response.data
       
-      // Extract OAuth status
       oauthStatus.value = data.oauth
       
-      // Extract rate limit stats
       rateLimitStats.value = {
         calendar: data.rateLimits.calendar,
         maps: data.rateLimits.maps
       }
       
-      // Extract cache data (for use when tabs are opened)
       eventsCache.value = data.caches.events
       driveTimeCache.value = data.caches.driveTime
     } catch (error: unknown) {
@@ -222,21 +205,18 @@ export function useApiDevPanelData(apiBaseUrl: string) {
 
   /**
    * Fetch all data
-   * LEARNING: Uses single aggregated endpoint instead of multiple calls
    */
   async function fetchAll(): Promise<void> {
     await fetchDevStatus()
   }
 
   return {
-    // State
     oauthStatus,
     eventsCache,
     rateLimitStats,
     driveTimeCache,
     loading,
     errors,
-    // Functions
     fetchOAuthStatus,
     fetchEventsCache,
     fetchRateLimitStats,

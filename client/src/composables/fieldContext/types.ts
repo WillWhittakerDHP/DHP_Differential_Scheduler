@@ -26,10 +26,8 @@ export interface FieldValidationRules {
 }
 
 /**
- * Field context type
- *
- * LEARNING: Provides all field-related state and operations
- * WHY: Single source of truth for field state
+ * WHY: Field context type
+WHY: Single source of truth for field state
  */
 export interface FieldContextType<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   fieldKey: FieldKey

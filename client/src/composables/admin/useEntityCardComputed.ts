@@ -1,11 +1,8 @@
 /**
- * Entity Card Computed Properties Composable
- * 
- * LEARNING: Extracts computed properties from EntityCard component
- * WHY: Reduces component complexity by moving computed logic to composable
- * PATTERN: Composable that provides computed properties for entity card display
- */
+ * WHY: Entity Card Computed Properties Composable
 
+WHY: Reduces component compl...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'

@@ -16,7 +16,6 @@ import {
  * a service part's pricing (e.g. Buyer's Inspection part cascades from property
  * detail parts such as interiors, decks, HVAC equipment).
  *
- * PATTERN: Through table for partInstance -> partInstance; mirrors bookingCascades (blockInstance -> blockInstance).
  */
 export class PricingCascade extends Model<
   InferAttributes<PricingCascade>,

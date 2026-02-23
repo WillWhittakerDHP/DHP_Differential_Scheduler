@@ -13,9 +13,6 @@ import {
  * Represents component relationships between block instances.
  * Component relationships define which block instances are used as components of other block instances.
  * 
- * LEARNING: Instance component relationships enable runtime option component selection
- * WHY: Block instances need to define which other block instances are components at runtime
- * PATTERN: Through table for many-to-many component relationships between block instances
  * 
  * NOTE: Renamed from ServiceComponent to InstanceComponent for generalized terminology (2026-01-07)
  * The component pattern applies to any composable block instance, not just "services".

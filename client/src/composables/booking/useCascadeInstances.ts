@@ -1,17 +1,8 @@
 /**
- * useCascadeInstances Composable
- * 
- * LEARNING: Extracts cascade instance IDs from a parent block instance
- * WHY: Generic composable for resolving booking cascades, not service-specific
- * PATTERN: Works with any block shape (user type, service, property, option)
- * 
- * Cascades are vertical hierarchy relationships (different shapes):
- * - User Type → Base Service (user type cascades to services)
- * - Base Service → Availability Option (service cascades to options)
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- */
+ * WHY: useCascadeInstances Composable
 
+WHY: Generic composable for resolving bo...
+ */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
@@ -34,9 +25,6 @@ export interface UseCascadeInstancesReturn {
 /**
  * useCascadeInstances composable
  * 
- * LEARNING: Generic cascade resolution for any block instance
- * WHY: Decouples cascade logic from service-specific naming
- * PATTERN: Returns reactive computed properties for cascade data
  * 
  * @example
  * ```ts
@@ -54,8 +42,6 @@ export function useCascadeInstances(
   const { parentInstance, bookingData, targetBlockShapeName } = options
   
   /**
-   * LEARNING: Extract cascade IDs from parent's activeBlockIds
-   * WHY: activeBlockIds is populated from bookingCascades relationship
    * PATTERN: Use activeBlockIds directly - already resolved by transformer
    */
   const cascadeInstanceIds = computed((): string[] => {
@@ -67,9 +53,6 @@ export function useCascadeInstances(
   })
   
   /**
-   * LEARNING: Resolve cascade IDs to full instances
-   * WHY: Need full instances for rendering (name, icon, description)
-   * PATTERN: Filter bookingData.blockInstances by cascade IDs
    */
   const cascadeInstances = computed((): BookingBlockInstance[] => {
     const data = bookingData.value

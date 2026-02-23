@@ -1,6 +1,5 @@
 /**
  * Pure helpers for appointment attendees (client/agent).
- * WHY: Single place for attendee conversion; no loop mutations; used by AppointmentsTable create/edit.
  */
 
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'

@@ -23,14 +23,12 @@ import type { EventInstance } from './event_instance.js';
  * - Additional metadata on the relationship (orderIndex, ternaryValue)
  * - Shape-level configuration (all instances of a shape inherit the same event configuration)
  * 
- * WHY: Using an assignment relationship table instead of storing event instances directly on shapes allows:
  * - Reusability: Same event instance templates can be shared across multiple shapes
  * - Ordering: Multiple event instances per shape can be ordered via orderIndex
  * - Ternary logic: Event instances can specify ternary values (true/false/override) for onSite/clientPresent
  * - Shape-level configuration: Events are configured at shape level, not instance level
  * 
  * PATTERN: Assignment relationship model matching part_assignments/annotation_assignments pattern
- * COMPARISON: EventAssignment is runtime (which events are assigned), EventShape/Instance are definitions/entities
  * 
  * NOTE: Links to shapes (PartShape/BlockShape), not instances, because events are about the semantic meaning
  * of the shape, not specific instances. All instances of a shape inherit the same event configuration.

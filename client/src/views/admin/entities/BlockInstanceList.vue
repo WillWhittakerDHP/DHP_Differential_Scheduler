@@ -67,9 +67,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: Use entity list composable
- * WHY: Extracts list management logic from component to composable
- * PATTERN: Composable provides navigation and delete operations
+ * WHY: Use entity list composable
+WHY: Extracts list management logic from comp...
  */
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useEntityList } from '@/composables/admin/useEntityList'

@@ -2,9 +2,6 @@
 /**
  * TimeBasisSelector Component
  * 
- * LEARNING: Toggle buttons for switching between major and minor time views
- * WHY: Encapsulates time basis selection logic and UI for differential services
- * PATTERN: Self-contained component with props/events for parent communication
  * 
  * Features:
  * - Major/Minor toggle buttons for differential services
@@ -36,12 +33,9 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props, emit)
 </script>
 
 <template>
-  <!-- LEARNING: Major/Minor Toggle Buttons -->
-  <!-- WHY: Allows switching between major and minor time views for differential services -->
-  <!-- PATTERN: Conditional rendering based on isDifferentialService -->
-  <!-- USER_STORY: Both buttons Active by default (neither Selected), toggle between Selected/Active -->
-  <!-- LEARNING: Use Vuetify responsive flex utilities for true responsive behavior -->
-  <!-- WHY: flex-column on mobile, flex-row on sm+ breakpoint - buttons stack when column is narrow -->
+  /**
+   * <!-- WHY: Allows switching between major and minor time views for differ...
+   */
   <div v-if="isDifferentialService" class="d-flex flex-column flex-sm-row align-sm-center align-start mb-4 mb-sm-6 toggle-buttons">
     <div class="d-flex gap-2 flex-wrap">
       <VBtn
@@ -71,6 +65,5 @@ const { handleTimeBasisClick } = useTimeBasisHandler(props, emit)
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  min-width: 0; // LEARNING: Allow flex container to shrink below content size
 }
 </style>

@@ -1,17 +1,8 @@
 /**
- * Field Location Dispatcher
- * 
- * LEARNING: Single source of truth for WHERE fields render based on metadata
- * WHY: Consolidates scattered location logic (visibility, panel, layout, expansion state) into one place
- * PATTERN: Pure function that determines field location from metadata + context
- * 
- * This utility handles:
- * - Visibility-based location assignment (titleRow → titleRow, expandedDirect → form body, etc.)
- * - Panel assignment (parts, relationships, annotations)
- * - Layout assignment (inline vs stacked)
- * - Expansion state checks (expandedDirect/expandedPanel fields only render when expanded)
- */
+ * WHY: Field Location Dispatcher
 
+WHY: Consolidates scattered location logic (v...
+ */
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -29,16 +20,10 @@ import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
 
 /**
- * LEARNING: Valid panel values for expandedPanel visibility
- * WHY: Derived from SUB_PANEL_KEYS so add/remove panels in one place
- * PATTERN: Set for O(1) lookup
  */
 const VALID_PANELS = new Set<SubPanelKey>(SUB_PANEL_KEYS)
 
 /**
- * LEARNING: Determine panel type from field key
- * WHY: Panel is automatically determined from field key, not manually configured
- * PATTERN: Check RELATIONSHIP_KEYS to determine panel for relationship fields
  */
 export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelKey {
   if (fieldKey in RELATIONSHIP_KEYS) {
@@ -63,8 +48,6 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
 
 /**
  * Field location types with reasons
- * WHY: Provides clear location assignment with explanation for debugging
- * PATTERN: Discriminated union for type safety
  */
 export type FieldLocation =
   | { type: 'titleRow'; reason: 'titleRow' | 'staticAsTitle' } // Renders in title row area
@@ -74,9 +57,8 @@ export type FieldLocation =
   | { type: 'hidden'; reason: 'hidden' | 'notConfigured' | 'notExpanded' }
 
 /**
- * Context for field location determination
- * WHY: Location depends on component state (expansion, etc.)
- * PATTERN: Pure function takes context as parameter
+ * WHY: Context for field location determination
+WHY: Location depends on compon...
  */
 export interface FieldLocationContext {
   isExpanded: boolean
@@ -85,9 +67,6 @@ export interface FieldLocationContext {
 /**
  * Field Location Dispatcher
  * 
- * LEARNING: Determines WHERE a field should render based on metadata and context
- * WHY: Single source of truth for location assignment - all logic in one place
- * PATTERN: Pure function that returns location type with reason
  * 
  * Logic Flow:
  * 1. Check visibility first (titleRow → titleRow, hidden → hidden, etc.)
@@ -172,8 +151,6 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
 
 /**
  * Group fields by location
- * WHY: Helper function to organize fields for rendering
- * PATTERN: Pure function that groups field keys by their location
  */
 export function groupFieldsByLocation<GE extends GlobalEntityKey>(
   fieldKeys: GlobalFieldKey<GE>[],

@@ -1,9 +1,6 @@
 /**
  * Entity Type Parameter Middleware
  * 
- * LEARNING: Shared param handler for entity type validation and configuration attachment
- * WHY: Express router.param() only fires on the router where the param is defined, not on mounted sub-routers
- * PATTERN: Extract param handler to shared function, register on each sub-router that uses :entityType
  */
 
 import { Request, Response, NextFunction } from 'express'
@@ -15,15 +12,8 @@ import { createLogger } from '../../../utils/logger.js'
 const logger = createLogger('EntityRouter')
 
 /**
- * Entity type parameter handler
- * LEARNING: Validates entity type and attaches entityConfig to request
- * WHY: Provides entity configuration to route handlers
- * PATTERN: Express param middleware that validates and enriches request
- * 
- * @param req - Express request object
- * @param res - Express response object
- * @param next - Express next function
- * @param entityType - Entity type from route parameter
+ * PATTERN: Entity type parameter handler
+PATTERN: Express param middleware that val...
  */
 export function entityTypeParamHandler(
   req: Request, res: Response, next: NextFunction, entityType: string

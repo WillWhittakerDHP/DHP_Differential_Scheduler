@@ -2,10 +2,6 @@
 /**
  * BookingWizard Component
  * 
- * LEARNING: Multi-step wizard component with horizontal stepper
- * WHY: Provides guided step-by-step booking flow matching Jose's design
- * PATTERN: Horizontal stepper at top, step content below, navigation buttons at bottom
- * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
  */
 
 import { computed, provide, ref } from 'vue'
@@ -62,7 +58,6 @@ const { validateStep } = useWizardValidation({
   stepValidators: stepValidators, // Pass computed ref directly so validation uses current values
 })
 
-// NOTE: Define showError explicitly to avoid temporal dead zone issues
 const notificationComposable = useNotification()
 const showError = notificationComposable.error
 const success = notificationComposable.success
@@ -134,7 +129,6 @@ const { collectAppointmentData } = useAppointmentDataCollection({
   showError
 })
 
-// NOTE: Must be called before useWizardDisplay since it provides loadedWizardState
 const {
   loadedWizardState,
   loadedAppointmentId,
@@ -200,28 +194,20 @@ const { handleSubmit } = useWizardSubmission({
 
 provide('loadedWizardState', loadedWizardState)
 
-// LEARNING: Initialize displayed month for API orchestrator
-// WHY: Tracks which month is displayed in calendar widget, triggers API prefetching
-// PATTERN: Defaults to current month, Step 3 can update via inject
 const now = new Date()
 const displayedMonth = ref<DisplayedMonth>({
   year: now.getUTCFullYear(),
   month: now.getUTCMonth()
 })
 
-// Allow Step 3 to update displayedMonth via provide/inject
 provide('displayedMonth', displayedMonth)
 provide('updateDisplayedMonth', (month: DisplayedMonth) => {
   displayedMonth.value = month
 })
 
-// LEARNING: Create date range decider for displayed month
 // WHY: Single source of truth for date range used by all API composables
 const dateRange = useDateRangeDecider(displayedMonth)
 
-// LEARNING: Create appointment duration ref for computed availability
-// WHY: Duration is computed in AvailabilityStep, but needs to flow back to parent for accurate capacity calculations
-// PATTERN: Provide/inject pattern allows child to update parent ref reactively
 const appointmentDurationRef = ref<number | null>(null)
 provide('appointmentDuration', appointmentDurationRef)
 
@@ -231,8 +217,6 @@ const selectedDateForSlots = computed(() => {
   return start ? (start.includes('T') ? start.split('T')[0] : start) : null
 })
 
-// LEARNING: Fetch server-computed availability data in parent component
-// WHY: Data persists across step navigation, 14-day prefetch + per-day fallback when date not in cache
 const computedAvailability = useComputedAvailability({
   propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
   dateRange,
@@ -241,7 +225,6 @@ const computedAvailability = useComputedAvailability({
   selectedDate: selectedDateForSlots,
 })
 
-// Provide computed availability data for all steps
 provide('computedAvailability', computedAvailability)
 
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal

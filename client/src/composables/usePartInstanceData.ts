@@ -1,14 +1,8 @@
 /**
- * Part Instance Data Composable
- * 
- * LEARNING: Provides PartInstance data transformation logic extracted from PartInstancesNestedSection component
- * WHY: Encapsulates all PartInstance filtering, sorting, and name generation logic
- * PATTERN: Composable that manages PartInstance data transformations and helper functions
- * 
- * This composable addresses recursion issues by moving all data transformations out of components
- * and into properly memoized computed properties.
- */
+ * PATTERN: Part Instance Data Composable
 
+PATTERN: Composable that manages PartInst...
+ */
 import { computed, type Ref } from 'vue'
 import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
 import { useGlobal } from './useGlobal'
@@ -36,11 +30,9 @@ export interface UsePartInstanceDataReturn {
 }
 
 /**
- * Part Instance Data Composable
- * 
- * LEARNING: Manages PartInstance data transformations including filtering, sorting, and name generation
- * WHY: Prevents recursion by moving all logic to computed properties, not functions called during render
- * PATTERN: Composable with computed properties for data transformations and helper functions
+ * PATTERN: Part Instance Data Composable
+
+PATTERN: Composable with computed propert...
  */
 export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePartInstanceDataReturn {
   const { blockInstanceId } = options
@@ -55,18 +47,12 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   
   /**
-   * LEARNING: Get BlockInstance entity
-   * WHY: Need BlockInstance to get blockShapeRef
-   * PATTERN: Get entity by ID from global entities
    */
   const blockInstance = computed(() => {
     return getGlobalEntityById('blockInstance', blockInstanceIdRef.value)
   })
   
   /**
-   * LEARNING: Get BlockShape entity
-   * WHY: Need BlockShape to check canHaveParts and get validParts
-   * PATTERN: Get BlockShape from blockInstance.blockShapeRef
    */
   const blockShape = computed(() => {
     if (!blockInstance.value) return null
@@ -75,9 +61,6 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   })
   
   /**
-   * LEARNING: Get valid PartShapes for this BlockShape
-   * WHY: Shows all PartShapes that can be added to this BlockInstance
-   * PATTERN: Get validParts from BlockShape (via admin store for relationships)
    */
   const validPartShapes = computed((): GlobalEntity<'partShape'>[] => {
     if (!blockShape.value) return []
@@ -94,9 +77,6 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   })
   
   /**
-   * LEARNING: Get existing PartInstances for this BlockInstance
-   * WHY: Shows PartInstances that are already associated with this BlockInstance
-   * PATTERN: Filter partAssignments relationships by parent_id
    */
   const existingPartInstances = computed((): GlobalEntity<'partInstance'>[] => {
     if (!partAssignments.value) return []
@@ -112,18 +92,12 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   })
   
   /**
-   * LEARNING: Get PartInstance for a specific PartShape
-   * WHY: Check if a PartInstance exists for a given PartShape
-   * PATTERN: Find PartInstance where partShapeRef matches PartShape ID
    */
   const getPartInstanceForShape = (partShapeId: string): GlobalEntity<'partInstance'> | undefined => {
     return existingPartInstances.value.find(pi => pi.partShapeRef === partShapeId)
   }
   
   /**
-   * LEARNING: Get PartShape name for display
-   * WHY: Show PartShape name in "Add [PartShape]" cards
-   * PATTERN: Get PartShape entity and return name
    */
   const getPartShapeName = (partShapeId: string): string => {
     const partShape = getGlobalEntityById('partShape', partShapeId)
@@ -132,9 +106,6 @@ export function usePartInstanceData(options: UsePartInstanceDataOptions): UsePar
   }
   
   /**
-   * LEARNING: Generate auto name for partInstance
-   * WHY: Creates name in format: blockInstanceName-partShapeName-numberIfThatApplies
-   * PATTERN: Check existing partInstances with same blockInstanceRef and partShapeRef to determine number
    */
   const generatePartInstanceName = (
     blockInstanceName: string,

@@ -1,16 +1,8 @@
 /**
- * Field Location Composable
- * 
- * LEARNING: Vue composable wrapper for FieldLocationDispatcher
- * WHY: Provides reactive location determination for use in components
- * PATTERN: Composable that wraps pure dispatcher function with Vue reactivity
- * 
- * This composable provides:
- * - Reactive field location determination
- * - Helper functions for checking field locations
- * - Grouped fields by location for easy rendering
- */
+ * WHY: Field Location Composable
 
+LEARNING: Vue composable wrapper for FieldLoc...
+ */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -34,15 +26,11 @@ export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {
 export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
   /**
    * Get location for a specific field
-   * WHY: Components need to check where individual fields should render
-   * PATTERN: Function that returns location type with reason
    */
   getFieldLocation: (fieldKey: GlobalFieldKey<GE>) => FieldLocation
   
   /**
    * Fields grouped by location
-   * WHY: Components can iterate over fields by location for rendering
-   * PATTERN: Computed property that groups all fields by their location
    */
   fieldsByLocation: ComputedRef<{
     titleRow: GlobalFieldKey<GE>[]
@@ -53,20 +41,15 @@ export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
   }>
   
   /**
-   * LEARNING: Title row fields for declarative rendering
-   * WHY: Components render fields based on their metadata properties directly
-   * PATTERN: Return all title row fields - no filtering or categorization
    * NOTE: Component reads metadata directly to determine rendering behavior
    */
   titleRowFields: ComputedRef<GlobalFieldKey<GE>[]>
 }
 
 /**
- * Field Location Composable
- * 
- * LEARNING: Provides reactive field location determination
- * WHY: Components need reactive location checks that update when metadata or expansion state changes
- * PATTERN: Composable that wraps pure dispatcher function with Vue reactivity
+ * WHY: Field Location Composable
+
+WHY: Components need reactive location checks...
  */
 export function useFieldLocation<GE extends GlobalEntityKey>(
   options: UseFieldLocationOptions<GE>
@@ -74,18 +57,12 @@ export function useFieldLocation<GE extends GlobalEntityKey>(
   const { fieldKeys, fieldMetadata, isExpanded } = options
 
   /**
-   * LEARNING: Create context computed property
-   * WHY: Context is reactive and needs to update when isExpanded changes
-   * PATTERN: Computed property that creates context object
    */
   const context = computed<FieldLocationContext>(() => ({
     isExpanded: isExpanded.value
   }))
 
   /**
-   * LEARNING: Get location for a specific field
-   * WHY: Components need to check where individual fields should render
-   * PATTERN: Function that uses dispatcher with current metadata and context
    */
   const getFieldLocationForField = (fieldKey: GlobalFieldKey<GE>): FieldLocation => {
     const metadata = fieldMetadata.value[String(fieldKey)]
@@ -93,9 +70,6 @@ export function useFieldLocation<GE extends GlobalEntityKey>(
   }
 
   /**
-   * LEARNING: Group all fields by location
-   * WHY: Components can iterate over fields by location for rendering
-   * PATTERN: Computed property that groups fields using dispatcher
    */
   const fieldsByLocation = computed(() => {
     return groupFieldsByLocation(
@@ -106,9 +80,6 @@ export function useFieldLocation<GE extends GlobalEntityKey>(
   })
 
   /**
-   * LEARNING: Title row fields for declarative rendering
-   * WHY: Components render fields based on their metadata properties directly - no filtering
-   * PATTERN: Return all title row fields - component reads metadata to determine rendering
    * NOTE: NO filtering or categorization - purely declarative
    */
   const titleRowFields = computed(() => {

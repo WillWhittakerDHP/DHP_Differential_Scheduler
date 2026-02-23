@@ -39,9 +39,8 @@ type Props = EntityCardSharedProps
 const props = defineProps<Props>()
 
 /**
- * LEARNING: Use parts totals composable
- * WHY: Provides reactive totals calculation and canHaveParts flag
- * PATTERN: Composable handles all logic, component just displays
+ * WHY: Use parts totals composable
+PATTERN: Composable handles all logic, compo...
  */
 const {
   canHaveParts,
@@ -62,6 +61,5 @@ function formatRate(rate: number): string {
 
 <style scoped>
 .parts-totals-section {
-  /* Add any specific styling if needed */
 }
 </style>

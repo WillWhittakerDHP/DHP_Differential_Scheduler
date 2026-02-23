@@ -1,11 +1,7 @@
 /**
- * useStepValidation Composable
- *
- * LEARNING: Generic step validation with config-driven rules
- * WHY: Eliminates validation duplication across wizard steps
- * PATTERN: Accepts dynamic validation rules and custom validators. Uses pure collectErrors for DRY validation.
+ * PATTERN: useStepValidation Composable
+PATTERN: Accepts dynamic validation rules a...
  */
-
 import { computed, ref, type Ref, type ComputedRef } from 'vue'
 import type { ValidationRule } from '@/composables/useFormValidation'
 
@@ -58,10 +54,8 @@ function getFormValues(formData: Record<string, Ref<unknown>>): Record<string, u
 }
 
 /**
- * Generic step validation composable
- *
- * LEARNING: Config-driven validation for any wizard step
- * WHY: Eliminates repeated validation patterns; collectErrors is pure and testable
+ * WHY: Generic step validation composable
+WHY: Eliminates repeated validation p...
  */
 export function useStepValidation(params: UseStepValidationParams): UseStepValidationReturn {
   const { formData, validationRules: rulesInput, customValidators = {} } = params

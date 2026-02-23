@@ -1,14 +1,8 @@
 /**
- * Entity Form Composable
- * 
- * LEARNING: Provides entity form operations extracted from EntityCard component
- * WHY: Encapsulates form validation, save, reset, and change detection logic
- * PATTERN: Composable that manages entity form state and operations
- * 
- * This composable addresses recursion issues by moving all logic out of components
- * and into properly memoized computed properties.
- */
+ * PATTERN: Entity Form Composable
 
+PATTERN: Composable that manages entity form sta...
+ */
 import { computed, type Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -31,11 +25,9 @@ export interface UseEntityFormReturn {
 }
 
 /**
- * Entity Form Composable
- * 
- * LEARNING: Manages entity form operations including validation, save, and reset
- * WHY: Prevents recursion by moving all logic to computed properties
- * PATTERN: Composable with computed properties for state and methods for operations
+ * PATTERN: Entity Form Composable
+
+PATTERN: Composable with computed properties for...
  */
 export function useEntityForm(options: UseEntityFormOptions): UseEntityFormReturn {
   const {
@@ -46,27 +38,18 @@ export function useEntityForm(options: UseEntityFormOptions): UseEntityFormRetur
   const entity = 'value' in entityOption ? entityOption : computed(() => entityOption)
   
   /**
-   * LEARNING: Check if form can be saved
-   * WHY: Form can be saved if it's valid and has changes
-   * PATTERN: Computed property that checks form validity and changes
    */
   const canSave = computed(() => {
     return form.meta.value.valid && form.meta.value.dirty
   })
   
   /**
-   * LEARNING: Check if form has changes
-   * WHY: Determines if form values differ from original entity values
-   * PATTERN: Computed property that compares form values with entity values
    */
   const hasChanges = computed(() => {
     return form.meta.value.dirty
   })
   
   /**
-   * LEARNING: Validate form
-   * WHY: Validates all form fields
-   * PATTERN: Call form.validate() and return validation result
    */
   const validate = async (): Promise<boolean> => {
     const { valid } = await form.validate()
@@ -74,9 +57,6 @@ export function useEntityForm(options: UseEntityFormOptions): UseEntityFormRetur
   }
   
   /**
-   * LEARNING: Save form
-   * WHY: Validates and prepares form values for saving
-   * PATTERN: Validate form, then return form values (actual save handled by component)
    */
   const save = async (): Promise<void> => {
     const isValid = await validate()
@@ -86,9 +66,6 @@ export function useEntityForm(options: UseEntityFormOptions): UseEntityFormRetur
   }
   
   /**
-   * LEARNING: Reset form
-   * WHY: Resets form to original entity values
-   * PATTERN: Call form.resetForm() with entity values
    */
   const reset = (): void => {
     const val = entity.value

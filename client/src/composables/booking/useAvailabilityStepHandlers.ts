@@ -1,11 +1,8 @@
 /**
- * useAvailabilityStepHandlers Composable
- * 
- * LEARNING: Event handlers for availability step interactions
- * WHY: Extracts event handler logic from AvailabilityStep component
- * PATTERN: Composable that provides event handler functions
- */
+ * PATTERN: useAvailabilityStepHandlers Composable
 
+PATTERN: Composable that provide...
+ */
 import { type Ref } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
@@ -33,39 +30,33 @@ export interface UseAvailabilityStepHandlersParams {
 export interface UseAvailabilityStepHandlersReturn {
   /**
    * Handler for appointment slot click
-   * LEARNING: Updates selectedButtonIndex when slot is clicked, checks for moveable parts
-   * WHY: Updates selection state and opens modal if needed
    */
   handleAppointmentSlotClick: (buttonIndex: number) => void
   
   /**
    * Handler for moveable modal confirm
-   * LEARNING: Stores confirmed moveable scheduling and closes modal
-   * WHY: Updates state with confirmed selection
    */
   handleMoveableConfirm: () => void
   
   /**
-   * Handler for moveable modal cancel
-   * LEARNING: Closes modal without saving
-   * WHY: Resets state when canceling
+   * WHY: /**
+Handler for moveable modal cancel
+WHY: Resets state when canceling
    */
   handleMoveableCancel: () => void
   
   /**
-   * Handler for Time Basis Graph time basis change event
-   * LEARNING: Updates startTimeType when DifferentialGraph component emits change event
-   * WHY: Maps UI labels to internal state
+   * WHY: /**
+Handler for Time Basis Graph time basis change event
+WHY: Maps UI la...
    */
   handleTimeBasisChange: (type: 'major' | 'minor') => void
 }
 
 /**
- * useAvailabilityStepHandlers composable
- * 
- * LEARNING: Event handlers for availability step interactions
- * WHY: Extracts event handler logic from component to composable
- * PATTERN: Composable that returns event handler functions
+ * WHY: useAvailabilityStepHandlers composable
+
+WHY: Extracts event handler logi...
  */
 export function useAvailabilityStepHandlers(
   params: UseAvailabilityStepHandlersParams
@@ -90,8 +81,6 @@ export function useAvailabilityStepHandlers(
   }
 
   /**
-   * LEARNING: Handler for moveable modal confirm
-   * WHY: Stores confirmed moveable scheduling and closes modal
    * PATTERN: Event handler that updates state, fails explicitly if moveableOptions is null
    */
   const handleMoveableConfirm = (): void => {
@@ -107,8 +96,6 @@ export function useAvailabilityStepHandlers(
   }
 
   /**
-   * LEARNING: Handler for moveable modal cancel
-   * WHY: Closes modal without saving
    * PATTERN: Event handler that resets state
    */
   const handleMoveableCancel = (): void => {
@@ -117,8 +104,6 @@ export function useAvailabilityStepHandlers(
   }
 
   /**
-   * LEARNING: Handler for Time Basis Graph time basis change event
-   * WHY: Updates startTimeType when DifferentialGraph component emits change event
    * PATTERN: Event handler that maps UI labels to internal state
    */
   const handleTimeBasisChange = (type: 'major' | 'minor'): void => {

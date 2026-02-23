@@ -99,15 +99,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: IconInput renders icon selection input with visual preview
- * 
- * WHY: Icon fields need visual selection, not just text input
- * 
- * PATTERN: Wrapper component pattern - wraps input with icon picker dialog
- * 
- * COMPARISON: Similar to DateInput pattern - readonly input with picker dialog
+ * WHY: PATTERN: Wrapper component pattern - wraps input with icon picker dialog...
  */
-
 import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
@@ -192,9 +185,6 @@ const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
   cursor: pointer;
 }
 
-/* LEARNING: Hide the actual text input value, show only icon visually */
-/* WHY: Users should see icon, not the string value */
-/* PATTERN: Use CSS to hide input text while keeping it for form submission */
 .icon-input-field :deep(input) {
   color: transparent;
   caret-color: transparent;

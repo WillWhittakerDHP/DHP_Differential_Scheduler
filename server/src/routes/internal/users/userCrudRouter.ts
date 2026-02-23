@@ -1,21 +1,16 @@
 /**
- * User CRUD Router
- * 
- * LEARNING: Refactored to use CRUD router factory pattern
- * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
- * PATTERN: Factory-generated router with standardized CRUD operations
- */
+ * WHY: User CRUD Router
 
+LEARNING: Refactored to use CRUD router factory patter...
+ */
 import { User } from '../../../config/app.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { ERROR_MESSAGES } from './userConstants.js'
 
 /**
- * User CRUD Router
- * 
- * LEARNING: Uses factory pattern to generate standardized CRUD routes
- * WHY: Reduces code from 166 lines to ~20 lines, ensures consistency, adds security middleware
- * PATTERN: Config-driven router generation with no custom hooks (pure CRUD)
+ * WHY: User CRUD Router
+
+LEARNING: Uses factory pattern to generate standardize...
  */
 const router = createCrudRouter({
   model: User,

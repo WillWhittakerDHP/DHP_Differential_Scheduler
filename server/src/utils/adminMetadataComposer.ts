@@ -1,8 +1,5 @@
 /**
- * LEARNING: Unified Admin Metadata Composer Utility
- * WHY: Fetches and merges admin metadata (primitives + relationships)
  *      Follows entity pattern: single composer for unified metadata
- * PATTERN: Unified fetching for all metadata types
  * NOTE: Returns merged metadata as single Record (primitives + relationships together)
  */
 
@@ -106,10 +103,8 @@ export async function getAdminMetadata(
 
 
 /**
- * Build metadata record from array of metadata entries
- * LEARNING: Convert array to Record format expected by client
- * WHY: Client expects Record<fieldKey, FieldMetadataEntry> structure
- * PATTERN: Map array to Record, exclude fieldKey from value (it's the key)
+ * WHY: Build metadata record from array of metadata entries
+LEARNING: Convert a...
  */
 function buildMetadataRecord(
   metadata: Array<{

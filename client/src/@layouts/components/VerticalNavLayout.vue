@@ -135,7 +135,6 @@ const verticalNavAttrs = computed(() => {
           @if variables.$layout-vertical-nav-navbar-is-contained {
             @include mixins.boxed-content;
           }
-          /* stylelint-disable-next-line @stylistic/indentation */
           @else {
             .navbar-content-container {
               @include mixins.boxed-content;

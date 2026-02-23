@@ -15,7 +15,6 @@ import {
  * Shape-level validation: which part shapes can pricing-cascade into which others
  * (e.g. "HVAC Equipment" partShape can cascade into "Mechanical Inspection" partShape).
  *
- * PATTERN: Through table for partShape -> partShape; mirrors validCascades (blockShape -> blockShape).
  */
 export class ValidPricingCascade extends Model<
   InferAttributes<ValidPricingCascade>,

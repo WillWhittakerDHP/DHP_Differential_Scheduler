@@ -1,7 +1,4 @@
 /**
- * LEARNING: Shared utility for building metadata entries
- * WHY: Eliminates duplication between primitive and relationship metadata mutations
- * PATTERN: Generic function that handles both fieldKey and relationshipKey cases
  */
 
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -14,11 +11,8 @@ export interface BuildMetadataEntryOptions {
 }
 
 /**
- * Build a full metadata entry from updates and existing metadata
- * LEARNING: Merges rendering updates with existing canonical fields
- * WHY: Ensures canonical fields are preserved while allowing rendering updates
- * PATTERN: Use existing values as fallback, no defaults
- * NOTE: Returns Record<string, unknown> to allow dynamic key (fieldKey or relationshipKey)
+ * PATTERN: Build a full metadata entry from updates and existing metadata
+PATTERN: ...
  */
 export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<string, unknown> {
   const { renderingUpdates, existingMetadata } = options

@@ -6,13 +6,7 @@ import { useFieldContextState, type UseFieldContextStateOptions } from './useFie
 import { useFieldContextActions } from './useFieldContextActions'
 
 /**
- * Field context composable (facade).
- *
- * PATTERN: query/state/actions separation
- * - state: `useFieldContextState` (vee-validate wiring + derived values)
- * - actions: `useFieldContextActions` (save/reset/relationship updates)
- *
- * NOTE: This keeps the public API stable; it’s a mechanical split of the old large file.
+ * PATTERN: Field context composable (facade)
  */
 export function useFieldContext<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   fieldKey: FieldKey,

@@ -1,9 +1,6 @@
 /**
  * useFieldContextMetadataEntity Composable
  * 
- * LEARNING: Extracts entity lookup logic for metadata fetching from field context
- * WHY: Eliminates duplication of entity lookup logic across BooleanInput, PrimitiveInputs, and FieldRenderer
- * PATTERN: Handles both temporary entities (new-* IDs) and existing entities from admin store
  * 
  * ARCHITECTURAL DECISION: Centralizes entity construction for metadata lookup
  * - Handles temporary entity construction from form values

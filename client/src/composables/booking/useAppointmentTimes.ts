@@ -1,11 +1,8 @@
 /**
- * useAppointmentTimes Composable
- * 
- * LEARNING: Provides normalized AppointmentSlots and major/minor perspective transformations
- * WHY: Extracts AppointmentSlots calculation and transformation logic from components
- * PATTERN: Composable that provides reactive computed properties for AppointmentSlots
- */
+ * PATTERN: useAppointmentTimes Composable
 
+PATTERN: Composable that provides reacti...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { AppointmentSlots, TimeSlot, TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -28,11 +25,9 @@ export interface UseAppointmentTimesReturn {
 }
 
 /**
- * useAppointmentTimes composable
- * 
- * LEARNING: Provides normalized AppointmentSlots and perspective-specific time slots
- * WHY: Centralizes AppointmentSlots calculation and transformation logic
- * PATTERN: Composable that returns reactive computed properties
+ * PATTERN: useAppointmentTimes composable
+
+PATTERN: Composable that returns reactiv...
  */
 export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppointmentTimesReturn {
   const {
@@ -69,9 +64,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   const { settings } = useAvailabilitySettings()
 
   /**
-   * LEARNING: Calculate normalized AppointmentSlots from block instances
-   * WHY: Provides base AppointmentSlots structure with durations
-   * PATTERN: Use calculation function, normalize by orderIndex
    */
   const appointmentSlots = computed(() => {
     const instances = blockInstancesRef.value
@@ -92,8 +84,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
 
   /**
    * LEARNING: Transform AppointmentSlots to major perspective
-   * WHY: Provides major time slots for UI display
-   * PATTERN: Transform each AppointmentSlot using major start time
    */
   const majorTimeSlots = computed(() => {
     const slots = appointmentSlots.value
@@ -132,9 +122,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   })
 
   /**
-   * LEARNING: Get major time slot for a specific orderIndex
-   * WHY: Allows lookup of major time slot by normalized position
-   * PATTERN: Find AppointmentSlot by orderIndex, transform to major perspective, return TimeSlot or TimeRange
    */
   const getMajorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
     const slots = appointmentSlots.value
@@ -150,9 +137,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   }
 
   /**
-   * LEARNING: Get minor time slot for a specific orderIndex
-   * WHY: Allows lookup of minor time slot by normalized position
-   * PATTERN: Find AppointmentSlot by orderIndex, transform to minor perspective, return TimeSlot or TimeRange
    */
   const getMinorTimeSlot = (orderIndex: number): TimeSlot | TimeRange | null => {
     const slots = appointmentSlots.value

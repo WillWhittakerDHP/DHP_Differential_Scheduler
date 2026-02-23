@@ -1,9 +1,6 @@
 /**
  * Wizard Step Configuration
  *
- * LEARNING: Centralized step configuration for booking wizard
- * WHY: Extracts hardcoded step config from component to reusable config file
- * PATTERN: Array of step objects with metadata (icon, title, subtitle)
  *
  * Component-Composable Alignment: Extracted from BookingWizard.vue
  */
@@ -12,9 +9,6 @@ import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 
 /**
  * Wizard Step Configuration Interface
- * LEARNING: Defines structure for wizard step metadata
- * WHY: Provides type safety for step configuration
- * PATTERN: Interface with icon, title, and subtitle properties
  */
 export interface WizardStepConfig {
   /** Icon name (Tabler icon) */
@@ -27,9 +21,6 @@ export interface WizardStepConfig {
 
 /**
  * Wizard Steps Configuration
- * LEARNING: Array of step configurations matching Jose's wizard structure
- * WHY: Centralized step configuration with icons, titles, and subtitles
- * PATTERN: Array of step objects with metadata
  */
 export const WIZARD_STEPS: WizardStepConfig[] = [
   {

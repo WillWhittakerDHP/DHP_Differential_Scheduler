@@ -1,10 +1,6 @@
 /**
  * Admin Entity Class
  *
- * LEARNING: Provides validation, default values, and type-safe property access
- * WHY: Validates entity structure and ensures all properties exist with defaults
- * PATTERN: Class-based entity with validation methods, converted to plain object for Vue
- * COMPARISON: React uses AdminEntity instances. Vue uses AdminEntity temporarily, then converts to plain object.
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -62,9 +58,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   /**
    * Convert to plain object for serialization
    * Returns all properties (immutable + form-editable) for Vue reactivity
-   * LEARNING: Can use formFieldConfig if displayConfig is empty
-   * WHY: Display config is no longer required for transformation
-   * PATTERN: Use formFieldConfig if provided, otherwise fall back to displayConfig
    * NOTE: formFieldConfig is only used to get property names (via Object.keys), not values
    *       So we accept any object-like type since we only need the keys
    */
@@ -80,7 +73,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
     }
     
     /**
-     * WHY: // WHY: fieldNames contains entity field keys (from formFieldConfig or displayConfig),
      * PATTERN: // PATTERN: Assert to ValidAdminValue since these are field keys, not internal class properties
      */
     const formAdmin = fieldNames.reduce((acc, fieldKey) => {
@@ -149,9 +141,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
 
   /**
    * Get default value for a field
-   * LEARNING: In Vue, we don't have globalEntityConfig, so return undefined
-   * WHY: Defaults should come from adminConfig or be handled at transformation time
-   * PATTERN: Return undefined if no default available
    */
   private getDefaultValue<FieldKey extends GlobalFieldKey<GE>>(_fieldKey: FieldKey): ValidAdminValue {
     return undefined
@@ -165,9 +154,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   /**
    * Get all field names for this entity type
    * Returns only primitive field names (not relationships)
-   * LEARNING: Can use formFieldConfig if displayConfig is empty
-   * WHY: Display config is no longer required for validation
-   * PATTERN: Use formFieldConfig if provided, otherwise fall back to displayConfig
    * NOTE: Relationships are not part of GlobalFieldKey, so they are excluded
    */
   getFieldNames(formFieldConfig?: Record<string, ValidAdminValue>): GlobalFieldKey<GE>[] {
@@ -182,9 +168,6 @@ export class AdminEntity<GE extends GlobalEntityKey> {
   
   /**
    * Get all relationship property names for this entity type
-   * LEARNING: Can use formFieldConfig if displayConfig is empty
-   * WHY: Display config is no longer required
-   * PATTERN: Use formFieldConfig if provided, otherwise fall back to displayConfig
    */
   getRelationshipNames(formFieldConfig?: FormFieldConfigMap[GE] | Record<string, unknown>): string[] {
     if (formFieldConfig) {

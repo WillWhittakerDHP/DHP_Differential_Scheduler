@@ -1,9 +1,6 @@
 /**
  * Business Controls Tab UI Strings Configuration
  * 
- * LEARNING: Centralized UI strings for BusinessControlsTab component
- * WHY: Reduces hardcoding audit findings, centralizes all UI text for consistency
- * PATTERN: Single config object with all UI strings grouped by section
  */
 export const BUSINESS_CONTROLS_TAB_STRINGS = {
   loading: 'Loading settings...',

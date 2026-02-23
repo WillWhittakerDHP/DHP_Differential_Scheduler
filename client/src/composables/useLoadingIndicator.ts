@@ -21,9 +21,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const interval = ref<ReturnType<typeof setInterval>>()
 
   /**
-   * LEARNING: Start buffer animation
-   * WHY: Incrementally increases progress and buffer values to simulate loading
-   * PATTERN: Set interval that updates progress and buffer values randomly
    */
   function startBuffer(): void {
     clearInterval(interval.value)
@@ -34,9 +31,9 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   }
 
   /**
-   * LEARNING: Watch progress and fallback state
-   * WHY: Adjusts progress when fallback state is active and progress is high
-   * PATTERN: Watch both progressValue and isFallbackState, start buffer animation
+   * WHY: /**
+LEARNING: Watch progress and fallback state
+WHY: Adjusts progress wh...
    */
   watch([progressValue, isFallbackState], () => {
     if (progressValue.value > 80 && isFallbackState.value)
@@ -46,8 +43,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   })
 
   /**
-   * LEARNING: Fallback handler
-   * WHY: Shows loading indicator and starts progress animation
    * PATTERN: Set showProgress to true, reset progress, set fallback state, start buffer
    */
   const fallbackHandle = (): void => {
@@ -58,9 +53,9 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   }
 
   /**
-   * LEARNING: Resolve handler
-   * WHY: Hides loading indicator and resets progress state
-   * PATTERN: Set fallback state to false, complete progress, clear interval, reset values
+   * WHY: /**
+WHY: Hides loading indicator and resets progress state
+PATTERN: Set ...
    */
   const resolveHandle = (): void => {
     isFallbackState.value = false

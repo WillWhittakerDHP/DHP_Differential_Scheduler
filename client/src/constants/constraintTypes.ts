@@ -1,9 +1,6 @@
 /**
  * Constraint Type Constants
  * 
- * LEARNING: Re-exports shared constraint constants for client-side use
- * WHY: Maintains backward compatibility with existing client imports while using shared source
- * PATTERN: Re-export from shared constants
  * 
  * Phase: Constraint DRY Refactor
  * - Now imports from @shared/constants/constraintConstants

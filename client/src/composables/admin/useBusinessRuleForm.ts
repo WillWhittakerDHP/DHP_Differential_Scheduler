@@ -1,8 +1,7 @@
 /**
- * Business Rule Form composable
- * WHY: Extracts form state, rule-type config computeds, and format helpers from BusinessRulesTab (complexity/file-cohesion).
+ * WHY: Business Rule Form composable
+WHY: Extracts form state, rule-type config...
  */
-
 import { ref, computed, watch, type Ref } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'

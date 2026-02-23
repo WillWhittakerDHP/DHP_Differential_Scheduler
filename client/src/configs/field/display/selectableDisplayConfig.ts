@@ -1,7 +1,4 @@
 /**
- * LEARNING: Selectable Display Config Builder
- * WHY: Defines display configs for selectable fields (relationship and type selects)
- * PATTERN: Configures display properties for selectable fields
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -14,7 +11,6 @@ import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum 
 // FIX: Use entity key constants (these are string literals, so they work in types)
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
 
-// NOTE: Using string literals here because TypeScript type system needs literal types, not typeof constants
 type ValidRelationshipKeys<GE extends GlobalEntityKey> =
   GE extends "blockShape" ? "validCascades" | "validParts" | "validAnnotations" | "eventAssignments" :
   GE extends "blockInstance" ? "bookingCascades" | "partAssignments" | "annotationAssignments" | "instanceComponents" | "dependentInstances" :
@@ -104,7 +100,6 @@ type VirtualDisplayType<
   displayFormat?: "text" | "badge" | "icon" | "chip";
   emptyStateText?: string;
   showIcon?: boolean;
-  showCount?: boolean; // LEARNING: Show count of selected items (useful for multi-select virtual properties)
   
   meta?: {
     visible?: boolean;

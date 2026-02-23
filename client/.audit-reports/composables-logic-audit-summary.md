@@ -42,7 +42,6 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | P2 | 10 | 1 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/composables/admin/useDragAndDrop.ts` | P2 | 4 | 1 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
 
-*...and 151 more. See full report.*
 
 ## Notes
 

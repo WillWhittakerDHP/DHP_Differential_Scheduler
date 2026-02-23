@@ -1,12 +1,8 @@
 /**
- * LEARNING: Input config editor for metadata fields
- * WHY: Handles parsing and updating inputConfig for select/multiselect/reference fields
  * PATTERN: Composable for managing inputConfig editing in metadata editor
- * 
- * Used by:
- * - AdminPrimitiveMetadataEditor.vue
- */
 
+Used by:...
+ */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 export interface InputConfigFormData {
@@ -36,8 +32,6 @@ export function useInputConfigEditor(
 
   /**
    * LEARNING: Parse inputConfig into form-friendly structure
-   * WHY: Extract individual fields from inputConfig object for form editing
-   * PATTERN: Read from inputConfig, provide defaults for missing fields
    */
   function getInputConfigData(fieldKey: string): InputConfigFormData {
     const meta = getEffectiveFieldMetadata(fieldKey)
@@ -69,9 +63,6 @@ export function useInputConfigEditor(
   }
 
   /**
-   * LEARNING: Construct inputConfig object from form values
-   * WHY: Build inputConfig object when form fields change
-   * PATTERN: Construct object based on targetMode and field values
    */
   function buildInputConfig(fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
     if (formData.options !== null) {
@@ -111,7 +102,6 @@ export function useInputConfigEditor(
       
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
       if (renderAs === 'relationshipCollection') {
-        // TODO: handle relationshipCollection renderAs when needed
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
@@ -126,9 +116,6 @@ export function useInputConfigEditor(
   }
 
   /**
-   * LEARNING: Update a specific field in inputConfig
-   * WHY: Helper function to update individual inputConfig fields without replacing the entire object
-   * PATTERN: Read current inputConfig, update specific field, reconstruct object
    */
   function updateInputConfigField(fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown): void {
     const currentData = getInputConfigData(fieldKey)

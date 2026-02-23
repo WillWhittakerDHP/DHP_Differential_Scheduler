@@ -1,18 +1,8 @@
 /**
- * useDependentInstances Composable
- * 
- * LEARNING: Extracts dependent instances from a parent block instance
- * WHY: Generic composable for resolving nested child options, not service-specific
- * PATTERN: Works with any block shape that has dependent instances
- * 
- * Dependent instances are lateral relationships (same or different shapes):
- * - Service A → Service B, Service C (dependent add-on services)
- * - Property Type A → Property Type B (dependent property options)
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- * NOTE: Renamed from useDependentInstanceOptions to useDependentInstances (2026-01-20)
- */
+ * WHY: useDependentInstances Composable
 
+WHY: Generic composable for resolving ...
+ */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
@@ -41,9 +31,6 @@ export interface UseDependentInstancesReturn {
 /**
  * useDependentInstances composable
  * 
- * LEARNING: Generic dependent instance resolution for any block instance
- * WHY: Decouples nested option logic from service-specific naming
- * PATTERN: Returns reactive computed properties for dependent instances
  * 
  * @example
  * ```ts
@@ -60,9 +47,6 @@ export function useDependentInstances(
   const { getGlobalData, getGlobalEntityById } = useGlobal()
   
   /**
-   * LEARNING: Get dependentInstances relationships
-   * WHY: Need to find parent's dependent children
-   * PATTERN: Use globalData relationships if not provided externally
    */
   const dependentInstanceRelationships = computed((): GlobalRelationship[] => {
     if (externalRelationships?.value) {
@@ -78,9 +62,6 @@ export function useDependentInstances(
   })
   
   /**
-   * LEARNING: Extract dependent instance IDs from relationships
-   * WHY: Find children of the parent instance
-   * PATTERN: Use shared utility for relationship finding
    */
   const dependentInstanceIds = computed((): string[] => {
     const parent = parentInstance.value
@@ -95,9 +76,6 @@ export function useDependentInstances(
   })
   
   /**
-   * LEARNING: Resolve dependent instance IDs to full instances
-   * WHY: Need full instances for rendering (name, icon, description)
-   * PATTERN: Look up each ID in global data
    */
   const dependentInstances = computed((): BookingBlockInstance[] => {
     const ids = dependentInstanceIds.value

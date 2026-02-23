@@ -1,11 +1,7 @@
 /**
- * Appointment Slot Builder
- *
- * LEARNING: Pure utility functions for building AppointmentShape and AppointmentSlot
- * WHY: Separates time-independent structure (shape) from time-applied data (slot)
- * PATTERN: Pure functions, no side effects, no reactivity
+ * PATTERN: Appointment Slot Builder
+PATTERN: Pure functions, no side effects, no re...
  */
-
 import { createLogger } from '@/utils/logger'
 import type {
   AppointmentShape,
@@ -34,9 +30,6 @@ export { derivePerspective } from './perspectiveResolver'
 
 /**
  * Look up EventInstance[] for a partShape by name
- * LEARNING: Finds PartInstances with the given partShape name, then filters eventAssignments relationships
- * WHY: Events are configured at instance level (PartInstance → EventInstance), need to look up by PartInstance
- * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
  * 
  * @param partShapeName - Part shape name (e.g., "Client Presentation")
  * @param partShapeById - Map of partShape ID → partShape entity
@@ -81,7 +74,6 @@ function lookupEventsForPartShape(
 
 /**
  * Build eventAssignmentsByPartShape from nonZeroedParts and relationships.
- * LEARNING: Extracted to keep buildAppointmentShape under complexity thresholds.
  */
 function buildEventAssignmentsByPartShape(
   nonZeroedParts: { partShape: string }[],
@@ -112,9 +104,6 @@ function buildEventAssignmentsByPartShape(
  * Calculates durations and stores finalized parts (no times).
  * This is calculated once and reused for each available start time.
  * 
- * LEARNING: Events are appointment-level features, stored on AppointmentShape
- * WHY: Events are configured at instance level (PartInstance → EventInstance), parts determine which events apply
- * PATTERN: Look up EventInstance[] for each unique partShape (aggregated from PartInstances) and store on AppointmentShape
  * 
  * @param blockInstances - Array of block instances to build shape from
  * @param settings - Optional availability settings for rounding configuration

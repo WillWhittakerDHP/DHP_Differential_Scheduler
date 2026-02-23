@@ -1,10 +1,7 @@
 /**
- * Selection Card Composable (booking domain)
- *
- * WHY: This composable is booking-specific (it imports booking selection card types), so it lives under
- * `src/composables/booking/` to keep domains isolated.
+ * WHY: Selection Card Composable (booking domain)
+WHY: This composable is booki...
  */
-
 import { computed, isRef, ref, type Ref, type ComputedRef } from 'vue'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'

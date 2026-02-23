@@ -3,9 +3,6 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 /**
  * Moveable Parts Scheduling Types
  * 
- * LEARNING: Type definitions for moveable parts scheduling feature
- * WHY: Type-safe structures for contingency periods and moveable scheduling options
- * PATTERN: Interfaces and constants for moveable parts workflow
  * Session 1.4.15: Moveable Parts Scheduling Modal
  */
 

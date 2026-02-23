@@ -1,11 +1,8 @@
 /**
- * usePropertyTypeBlockSelection Composable
- * 
- * LEARNING: Thin wrapper around generic useBlockInstanceSelection
- * WHY: Provides backward compatibility with existing code
- * PATTERN: Delegates to generic composable
- */
+ * PATTERN: usePropertyTypeBlockSelection Composable
 
+PATTERN: Delegates to generic ...
+ */
 import { type ComputedRef, type Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useBlockInstanceSelection } from './useBlockInstanceSelection'
@@ -21,11 +18,9 @@ export interface UsePropertyTypeBlockSelectionReturn {
 }
 
 /**
- * usePropertyTypeBlockSelection composable
- * 
- * LEARNING: Thin wrapper around generic useBlockInstanceSelection
- * WHY: Provides backward compatibility with existing code
- * PATTERN: Delegates to generic composable
+ * PATTERN: usePropertyTypeBlockSelection composable
+
+PATTERN: Delegates to generic ...
  */
 export function usePropertyTypeBlockSelection(
   params: UsePropertyTypeBlockSelectionParams

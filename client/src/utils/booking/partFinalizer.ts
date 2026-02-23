@@ -1,9 +1,6 @@
 /**
  * Part Finalizer
  * 
- * LEARNING: Groups parts by part shape and creates PartFinal instances
- * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
- * PATTERN: Pure functions for aggregation and flag-based grouping
  */
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -23,9 +20,6 @@ const logger = createLogger('partFinalizer')
 
 /**
  * Group parts by part shape
- * LEARNING: Groups part instances by their partShape property
- * WHY: Part shape is the semantic unit - all instances of same shape should be totaled together
- * PATTERN: Use reduce to build Map of part shape name to array of parts
  * 
  * @param parts - Array of BookingPartInstance objects
  * @returns Map of part shape name to array of parts with that shape
@@ -54,9 +48,6 @@ function groupPartsByShape(
 
 /**
  * Create PartFinal instances from part instances
- * LEARNING: Groups parts by shape and creates PartFinal with raw baseTime only
- * WHY: Part shape is the semantic unit - all instances of same shape should be totaled
- * PATTERN: Group by shape, then create PartFinal (rounding happens at event level)
  * 
  * @param parts - Array of BookingPartInstance objects
  * @returns Array of PartFinal instances
@@ -73,9 +64,6 @@ export function createPartFinals(
 
 /**
  * Filter out PartFinal instances that should be zeroed out
- * LEARNING: Removes PartFinal instances where zeroOutPart === true
- * WHY: Zeroed parts should not contribute to calculations
- * PATTERN: Filter based on zeroOutPart flag
  * 
  * @param partFinals - Array of PartFinal instances
  * @returns Array of PartFinal instances excluding zeroed parts
@@ -87,29 +75,7 @@ export function filterZeroedParts(
 }
 
 /**
- * Calculate SlotShape from BlockFinal instances (single-pass optimization)
- * LEARNING: Single iteration through blockFinals instead of multiple separate filter+reduce operations
- * WHY: More efficient - O(n) instead of O(5n), reduces array iterations
- * PATTERN: Accumulate all totals in one pass, iterating over blocks and their finalized parts
- * 
- * BlockFinal Refactor: Now accepts BlockFinal[] instead of PartFinal[]
- * WHY: Makes it explicit that we're accumulating finalized blocks, preserving block-level context
- * PATTERN: Iterate over BlockFinal[], then iterate over each blockFinal.finalizedParts
- * 
- * Session Event Refactor: Computes eventFinals array dynamically from EventInstance[]
- * WHY: Enables fully generic event system - no hardcoded event names, matches PartFinal[] pattern
- * PATTERN: Build EventFinal[] array from EventInstance[] stored on AppointmentShape
- * NOTE: Events are looked up from eventAssignmentsByPartShape keyed by partShape name
- * 
- * LEARNING: Events are appointment-level features, not part properties
- * WHY: Events are configured at shape level (PartShape → EventInstance), stored on AppointmentShape
- * PATTERN: Look up EventInstance[] for each partShape, read metadata from EventShape
- * 
- * @param blockFinals - Array of BlockFinal instances
- * @param eventAssignmentsByPartShape - Record mapping partShape name → EventInstance[]
- * @param eventShapes - Array of EventShape objects for metadata lookup
- * @param roundingSettings - Optional AvailabilitySettings for rounding configuration
- * @returns SlotShape with eventFinals array and duration totals
+ * WHY: Calculate SlotShape from BlockFinal instances (single-pass optimization)...
  */
 export function calculateSlotShape(
   blockFinals: BlockFinal[],
@@ -117,7 +83,6 @@ export function calculateSlotShape(
   eventShapes: EventShape[] = [],
   roundingSettings?: AvailabilitySettings | null,
 ): SlotShape {
-  // DUAL-TRACK ARCHITECTURE: Track both raw and rounded durations
   let rawDuration = 0
   
   // PATTERN: Map<eventShapeId, rawDuration> for accumulation, then round ONCE per event after accumulation
@@ -128,8 +93,6 @@ export function calculateSlotShape(
   const eventShapeEntities = eventShapes as EventShapeEntity[]
   
   // PATTERN: Use reduce to accumulate raw durations only
-  // LEARNING: Iterate over BlockFinal[], then accumulate from each blockFinal.finalizedParts
-  // WHY: Makes it explicit that we're accumulating finalized blocks, preserving block-level context
   // NOTE: Rounding happens AFTER accumulation, once per event total
   const { totalRawDuration, eventRawDurations } = blockFinals.reduce(
     (blockAcc, blockFinal) => {
@@ -190,8 +153,6 @@ export function calculateSlotShape(
   
   rawDuration = totalRawDuration
   
-  // LEARNING: Round ONCE per event after accumulation (prevents double rounding inflation)
-  // WHY: Rounding at part level causes inflation - round(sum of parts) != sum(round(part))
   // PATTERN: Build new Map from reduce result (no mutation); use eventRawDurations from reduce
   const eventRoundedDurationsByShapeId = new Map(
     Array.from(eventRawDurations.entries()).map(([eventShapeId, rawDuration]) => [
@@ -219,8 +180,6 @@ export function calculateSlotShape(
     .filter((ef): ef is EventFinal => ef !== null)
     .filter(ef => ef.rawDuration > 0) // Only include events with raw duration > 0
   
-  // LEARNING: SlotShape.roundedDuration = max event roundedDuration (slot span from start to latest event end)
-  // WHY: In differential services, events overlap - slot ends when the longest event ends
   // PATTERN: Use max instead of sum to get the actual slot span
   const roundedDuration = eventFinals.length > 0
     ? Math.max(...eventFinals.map(ef => ef.roundedDuration))
@@ -264,9 +223,6 @@ export function calculateSlotShape(
 
 /**
  * Calculate total duration for a group of PartFinal instances
- * LEARNING: Sums baseTime from all parts in group
- * WHY: Provides total duration for flag-based groups
- * PATTERN: Reduce to sum baseTime values
  * 
  * @param parts - Array of PartFinal instances
  * @returns Total duration in minutes

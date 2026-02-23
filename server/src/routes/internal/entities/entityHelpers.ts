@@ -1,9 +1,6 @@
 /**
  * Entity Router Helper Functions
  * 
- * LEARNING: Extracted helper functions for entity operations
- * WHY: Improves code reusability, reduces complexity, improves maintainability
- * PATTERN: Pure helper functions with proper types
  */
 
 import { Op, ModelStatic, Model, Order, Includeable } from 'sequelize'
@@ -18,8 +15,6 @@ const logger = createLogger('EntityRouter')
 
 /**
  * Ensure block instance versions exist before bulk update (captures old state for versioning).
- * LEARNING: Used by PATCH /:entityType/bulk when entityType is blockInstance.
- * WHY: Reduces nesting in route handler; versioning must run before bulkPatch.
  *
  * @param updates - Array of update objects with id (block instance IDs)
  */
@@ -36,9 +31,7 @@ export async function ensureBlockInstanceVersionsBeforeBulkUpdate(
 
 /**
  * Handle block instance versioning before update/delete
- * LEARNING: Extracted versioning logic for block instances
  * WHY: Reusable versioning logic, ensures old state is captured before changes
- * PATTERN: Fetch old instance with associations, create version if referenced
  * 
  * @param blockInstanceId - Block instance ID
  * @param includeParts - Whether to include part instances in the fetch (default: true)
@@ -74,9 +67,6 @@ export async function handleBlockInstanceVersioning(
 
 /**
  * Handle part instance cleanup after update
- * LEARNING: Extracted part assignment cleanup logic
- * WHY: Reusable cleanup logic, disables old relationships after part instance update
- * PATTERN: Find duplicate part instances, disable old relationships
  * 
  * @param partInstanceId - Part instance ID
  */
@@ -131,9 +121,6 @@ export async function handlePartInstanceCleanup(
 
 /**
  * Build fetch options for entity queries
- * LEARNING: Extracted options building logic from GET /:entityType
- * WHY: Reusable options building, ensures consistent ordering
- * PATTERN: Check model attributes, build options with appropriate ordering
  * 
  * @param model - Sequelize model class
  * @returns Options object for Sequelize findAll/findByPk

@@ -1,11 +1,8 @@
 /**
- * Entity CRUD Router
- * 
- * LEARNING: Refactored to use response helpers and security middleware while preserving :entityType/:id pattern
- * WHY: Uses dynamic model selection via req.entityConfig, can't use factory directly but benefits from standardization
- * PATTERN: Express router with RESTful endpoints, security middleware on state-changing routes
- */
+ * WHY: Entity CRUD Router
 
+LEARNING: Refactored to use response helpers and sec...
+ */
 import { Router, Request, Response } from 'express'
 import { 
   fetchAll, 
@@ -32,18 +29,12 @@ const logger = createLogger('EntityRouter')
 
 const router = Router()
 
-// Register param handler for entityType parameter
-// LEARNING: router.param() must be registered on the router that defines routes with :entityType
-// WHY: Express param callbacks only fire for params on routes defined on that specific router
 router.param('entityType', entityTypeParamHandler)
 
 /**
  * GET /entities/:entityType
  * List all entities of a given type
  * 
- * LEARNING: Fetches all entities with appropriate ordering
- * WHY: Provides complete entity data with consistent ordering
- * PATTERN: Build options functionally, fetch with options
  */
 router.get('/:entityType', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
@@ -70,9 +61,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
  * GET /entities/:entityType/:id
  * Get single entity by ID
  * 
- * LEARNING: Fetches single entity by ID
- * WHY: Provides complete entity data for a specific entity
- * PATTERN: Fetch by ID, return 404 if not found
  */
 router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
@@ -102,9 +90,6 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
  * POST /entities/:entityType
  * Create a new entity
  * 
- * LEARNING: Creates entity with data sanitization
- * WHY: Ensures enum fields are properly handled, prevents database errors
- * PATTERN: Sanitize data, create record, handle validation errors
  */
 router.post(
   '/:entityType',
@@ -134,9 +119,6 @@ router.post(
  * PUT /entities/:entityType/:id
  * Update an entity (full update)
  * 
- * LEARNING: Updates entity with versioning and cleanup logic
- * WHY: Ensures data integrity, preserves historical data, maintains relationships
- * PATTERN: Version block instances, sanitize data, update record, cleanup part assignments
  */
 router.put(
   '/:entityType/:id',
@@ -198,9 +180,6 @@ router.put(
  * PATCH /entities/:entityType/:id
  * Partial update an entity
  * 
- * LEARNING: Updates entity with versioning and cleanup logic
- * WHY: Ensures data integrity, preserves historical data, maintains relationships
- * PATTERN: Validate ID, version block instances, sanitize data, update record, cleanup part assignments
  */
 router.patch(
   '/:entityType/:id',
@@ -234,7 +213,6 @@ router.patch(
         updateData = req.body
       }
       
-      // Sanitize update data
       const sanitizedData = sanitizeEntityDataForUpdate(updateData, paramString(req, 'entityType'))
       
       // WHY: Standard PATCH pattern - log essentials, not entire entity state
@@ -276,9 +254,6 @@ router.patch(
  * DELETE /entities/:entityType/:id
  * Delete an entity
  * 
- * LEARNING: Deletes entity with versioning logic
- * WHY: Ensures data integrity, preserves historical data
- * PATTERN: Version block instances, delete record, return 404 if not found
  */
 router.delete(
   '/:entityType/:id',

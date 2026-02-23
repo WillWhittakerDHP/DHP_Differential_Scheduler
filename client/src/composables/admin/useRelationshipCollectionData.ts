@@ -1,16 +1,8 @@
 /**
- * Relationship Collection Data Composable
- * 
- * LEARNING: Generic version of usePartInstanceData - works for any relationship collection type
- * WHY: Encapsulates relationship data transformation logic for parts, annotations, events
- * PATTERN: Composable that manages relationship data transformations and helper functions
- * 
- * This composable provides:
- * - Valid shapes/entities from parent type
- * - Existing child entities from relationships
- * - Helper functions for finding entities by shape
- */
+ * PATTERN: Relationship Collection Data Composable
 
+PATTERN: Composable that manage...
+ */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -45,11 +37,9 @@ export interface UseRelationshipCollectionDataReturnBase {
 export type UseRelationshipCollectionDataReturn = UseRelationshipCollectionDataReturnBase
 
 /**
- * Relationship Collection Data Composable
- * 
- * LEARNING: Manages relationship data transformations for any collection type
- * WHY: Prevents recursion by moving all logic to computed properties
- * PATTERN: Composable with computed properties for data transformations and helper functions
+ * PATTERN: Relationship Collection Data Composable
+
+PATTERN: Composable with comput...
  */
 export function useRelationshipCollectionData(
   options: UseRelationshipCollectionDataOptions
@@ -113,9 +103,6 @@ export function useRelationshipCollectionData(
   
   
   /**
-   * LEARNING: Get parent type entity
-   * WHY: Need parent type entity to get valid shapes/options
-   * PATTERN: Get type entity from parentTypeRef
    */
   const parentTypeEntity = computed(() => {
     if (!parentTypeRef.value) return null
@@ -123,9 +110,6 @@ export function useRelationshipCollectionData(
   })
   
   /**
-   * LEARNING: Get valid shapes for this parent type
-   * WHY: Shows all shapes that can be added to this parent
-   * PATTERN: Get valid options from parent type entity (via admin store for relationships)
    */
   const validShapes = computed((): GlobalEntity<GlobalEntityKey>[] => {
     if (!parentTypeEntity.value) return []
@@ -146,9 +130,6 @@ export function useRelationshipCollectionData(
   })
   
   /**
-   * LEARNING: Get existing child entities for this parent
-   * WHY: Shows child entities that are already associated with this parent
-   * PATTERN: Filter relationships by parent_id
    */
   const existingChildren = computed((): GlobalEntity<GlobalEntityKey>[] => {
     if (!relationshipsRef.value) return []
@@ -168,9 +149,6 @@ export function useRelationshipCollectionData(
   })
   
   /**
-   * LEARNING: Get child entity for a specific shape
-   * WHY: Check if a child entity exists for a given shape
-   * PATTERN: Find child where shapeRefProperty matches shape ID
    */
   const getChildForShape = (shapeId: string): GlobalEntity<GlobalEntityKey> | undefined => {
     return existingChildren.value.find(child => {
@@ -180,9 +158,6 @@ export function useRelationshipCollectionData(
   }
   
   /**
-   * LEARNING: Get shape name for display
-   * WHY: Show shape name in "Add [Shape]" cards
-   * PATTERN: Get shape entity and return name
    */
   const getShapeName = (shapeId: string): string => {
     const shape = getGlobalEntityById(shapeEntityKey.value, shapeId)

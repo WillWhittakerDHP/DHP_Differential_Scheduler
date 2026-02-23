@@ -1,9 +1,6 @@
 /**
  * Beta Feedback Types
  *
- * LEARNING: Shared types for beta feedback submission and API responses
- * WHY: Type safety for widget and dashboard; matches server schema
- * PATTERN: Category/severity/status enums and submission/response interfaces
  */
 
 export type FeedbackCategory =

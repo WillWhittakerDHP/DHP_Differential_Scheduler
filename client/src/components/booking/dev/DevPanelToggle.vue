@@ -2,9 +2,6 @@
 /**
  * Dev Panel Toggle Component
  * 
- * LEARNING: Floating action button to toggle dev panel visibility
- * WHY: Provides easy access to debug panels from anywhere in the app
- * PATTERN: Fixed position FAB with keyboard shortcut support
  */
 
 import { onMounted, onUnmounted } from 'vue'

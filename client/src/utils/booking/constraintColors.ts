@@ -1,26 +1,9 @@
 /**
- * Constraint Colors and Formatting Utilities
- * 
- * LEARNING: Shared constants and utilities for constraint violation display
- * WHY: Centralizes color mapping and formatting logic used across components
- * PATTERN: Pure utility functions and constants
- */
+ * WHY: Constraint Colors and Formatting Utilities
 
-/**
- * Color mapping for constraint violation types
- * LEARNING: Maps violation strings to hex colors for visual distinction
- * WHY: Provides consistent color coding across all constraint displays
- * PATTERN: Record mapping violation type to hex color
- * 
- * DISTINCTION: Direct vs Buffer
- * - .direct = Slot directly overlaps with busy period (darker shade)
- * - .buffer = Slot only blocked due to buffer, not direct overlap (lighter shade)
- * 
- * Format: 'overlap.{type}.{direct|buffer}', 'capacity.{type}', 'range.{type}'
+WHY: Centralizes color mappi...
  */
 export const CONSTRAINT_COLORS: Record<string, string> = {
-  // Direct overlap - by DATA SOURCE (what made the calendar busy)
-  // LEARNING: Direct violations use BusyPeriodSource vocabulary, NOT constraint type
   'overlap.event.direct': '#1565C0',          // Dark Blue - regular calendar event
   'overlap.outOfOffice.direct': '#64B5F6',    // Light Blue - out-of-office event
   
@@ -53,33 +36,26 @@ export const CONSTRAINT_COLORS: Record<string, string> = {
 
 /**
  * Get color for violation type, handling buffer:minutes format
- * LEARNING: Strips minutes suffix before color lookup
- * WHY: Violation strings may include minutes (e.g., 'overlap.driveToCandidate.buffer:20')
- * PATTERN: Try exact match first, then strip suffix and retry
  * 
  * @param violationType - Violation type string (e.g., 'overlap.event.direct' or 'overlap.driveToCandidate.buffer:20')
  * @returns Hex color string or default gray
  */
 export function getColorForViolation(violationType: string): string {
-  // Try exact match first
   if (CONSTRAINT_COLORS[violationType]) {
     return CONSTRAINT_COLORS[violationType]
   }
   
-  // Strip minutes suffix if present (e.g., 'overlap.driveToCandidate.buffer:20' -> 'overlap.driveToCandidate.buffer')
   const baseType = violationType.replace(/:\d+$/, '')
   if (CONSTRAINT_COLORS[baseType]) {
     return CONSTRAINT_COLORS[baseType]
   }
   
-  // Default gray for unknown types
   return '#757575'
 }
 
 /**
  * Format constraint violation to human-readable tooltip text
  * LEARNING: Parses violation type and formats friendly message
- * WHY: Shows which constraint blocked this slot with clear direct/buffer distinction and buffer value
  * PATTERN: Parse constraint type and format human-readable message
  * Format: 'overlap.{constraintType}.{direct|buffer}' or 'overlap.{constraintType}.buffer:{minutes}'
  * 
@@ -144,6 +120,5 @@ export function formatViolationTooltip(violationType: string): string {
     return typeMap[rangeType] || `Range: ${rangeType}`
   }
   
-  // Fallback for unknown types
   return `Blocked by: ${violationType}`
 }

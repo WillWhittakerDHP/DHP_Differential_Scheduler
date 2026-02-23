@@ -1,9 +1,6 @@
 import { ENTITY_STATUS } from '@/constants/entityFieldConstants'
 
 /**
- * LEARNING: AnnotationInstance Display Configs (Configuration Data)
- * WHY: Defines labels, placeholders, and layout for AnnotationInstance fields
- * PATTERN: Similar structure to entity display configs but for configuration data
  * NOTE: These are NOT entities, so they may not integrate into full display config system
  */
 

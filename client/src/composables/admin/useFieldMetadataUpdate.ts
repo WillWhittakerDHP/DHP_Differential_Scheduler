@@ -1,12 +1,9 @@
 /**
- * LEARNING: Shared field metadata update logic
- * WHY: Field metadata update logic is shared across metadata editing components
  * PATTERN: Extract shared logic into composable
- * 
- * Used by:
- * - MetadataEditModal.vue
- */
 
+Used by:
+- MetadataEditModal.vue
+ */
 import type { Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 

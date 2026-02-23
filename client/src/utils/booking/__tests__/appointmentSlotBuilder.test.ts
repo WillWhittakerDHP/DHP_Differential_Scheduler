@@ -325,7 +325,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'major', undefined, undefined)
-      // When no globalData/settings, derivePerspective falls back to totalTimeRange
       expect(result).toEqual(slot.totalTimeRange)
     })
 
@@ -386,7 +385,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'minor', undefined, undefined)
-      // When no globalData/settings, minor perspective returns null
       expect(result).toBeNull()
     })
 
@@ -417,7 +415,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'minor', undefined, undefined)
-      // When no globalData/settings, minor returns null
       expect(result).toBeNull()
     })
 
@@ -448,7 +445,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'nonDifferential', undefined, undefined)
-      // When no globalData/settings, nonDifferential falls back to totalTimeRange
       expect(result).toEqual(slot.totalTimeRange)
     })
   })

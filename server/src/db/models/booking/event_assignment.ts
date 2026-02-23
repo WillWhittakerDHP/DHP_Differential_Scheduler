@@ -20,12 +20,10 @@ import type { EventInstance } from './event_instance.js';
  * - Many-to-many relationships (one instance can have many event instances, one event instance can be used by many instances)
  * - Instance-level configuration (events are configured per instance, not per shape)
  * 
- * WHY: Using an assignment relationship table instead of storing event instances directly on instances allows:
  * - Reusability: Same event instance templates can be shared across multiple instances
  * - Instance-level configuration: Events are configured at instance level, matching the pattern used by parts and annotations
  * 
  * PATTERN: Assignment relationship model matching part_assignments pattern exactly
- * COMPARISON: EventAssignment is runtime (which events are assigned), EventShape/Instance are definitions/entities
  * 
  * NOTE: Uses parent_id/child_id pattern with parent_kind enum to handle multiple parent types (partInstance or blockInstance)
  */

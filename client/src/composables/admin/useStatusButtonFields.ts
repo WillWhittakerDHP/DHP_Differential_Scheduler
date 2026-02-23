@@ -1,9 +1,7 @@
 /**
- * Composable for status button fields computation
- * WHY: Extracts status button fields computation logic from ShapesTab
- * PATTERN: Composable that computes status button fields from metadata
+ * PATTERN: Composable for status button fields computation
+PATTERN: Composable that...
  */
-
 import { computed, type ComputedRef } from 'vue'
 import { categorizeFieldsBySection, type StatusButtonField } from '@/utils/forms/fieldSectionCategorization'
 import { useEntityMetadata } from './useEntityMetadata'
@@ -22,8 +20,6 @@ export interface UseStatusButtonFieldsReturn<GE extends GlobalEntityKey> {
 
 /**
  * Composable for computing status button fields
- * WHY: Centralizes status button fields computation logic
- * PATTERN: Returns computed property for status button fields
  */
 export function useStatusButtonFields<GE extends GlobalEntityKey>(
   options: UseStatusButtonFieldsOptions<GE>

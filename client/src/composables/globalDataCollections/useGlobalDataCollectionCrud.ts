@@ -3,11 +3,7 @@ import { useGlobalDataCollectionQuery } from './useGlobalDataCollectionQuery'
 import { useGlobalDataCollectionActions } from './useGlobalDataCollectionActions'
 
 /**
- * Facade composable for GlobalData-backed collections.
- *
- * PATTERN: query/state/actions separation
- * - query: `useGlobalDataCollectionQuery` (read from globalData cache)
- * - actions: `useGlobalDataCollectionActions` (mutations that refetch ['globalData'])
+ * PATTERN: Facade composable for GlobalData-backed collections
  */
 export function useGlobalDataCollectionCrud<
   CollectionItem extends { id: string },

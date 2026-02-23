@@ -1,11 +1,8 @@
 /**
- * Entity Card Field Configuration Composable
- * 
- * LEARNING: Extracts field configuration computed properties from EntityCard component
- * WHY: Reduces component complexity by moving field configuration logic to composable
- * PATTERN: Composable that provides field keys and layout configuration
- */
+ * WHY: Entity Card Field Configuration Composable
 
+WHY: Reduces component compl...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -48,8 +45,6 @@ export function useEntityCardFieldConfiguration(
   })
 
   /**
-   * LEARNING: Use field location for field categorization
-   * WHY: Single source of truth for WHERE fields render based on metadata
    * PATTERN: Composable that determines field locations from metadata + context
    */
   const fieldLocation = useFieldLocation({

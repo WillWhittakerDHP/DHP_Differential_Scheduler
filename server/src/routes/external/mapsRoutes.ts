@@ -1,8 +1,6 @@
 /**
  * Maps Routes
  *
- * LEARNING: API endpoints for Google Maps operations (Places, Routes)
- * WHY: Proxy Google Maps API calls through server to hide API key
  *
  * SESSION: 2.2.1 - Address Autocomplete (Places API)
  * SESSION: 2.2.2 - Drive Time Calculations (Routes API)

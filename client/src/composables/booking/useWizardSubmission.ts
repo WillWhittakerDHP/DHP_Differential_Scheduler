@@ -1,11 +1,8 @@
 /**
- * useWizardSubmission Composable
- * 
- * LEARNING: Extracts submission logic from BookingWizard component
- * WHY: Moves appointment submission orchestration logic to composable
- * PATTERN: Composable that provides submission function
- */
+ * WHY: useWizardSubmission Composable
 
+WHY: Moves appointment submission orches...
+ */
 import { type Ref } from 'vue'
 import type { AppointmentRequest } from '@/types/appointment'
 import { ERROR_CREATE_APPOINTMENT } from '@/constants/errorMessages'
@@ -29,11 +26,9 @@ export interface UseWizardSubmissionReturn {
 }
 
 /**
- * useWizardSubmission composable
- * 
- * LEARNING: Provides submission logic for wizard
- * WHY: Extracts submission logic from component to composable
- * PATTERN: Composable that returns submission function
+ * WHY: useWizardSubmission composable
+
+WHY: Extracts submission logic from comp...
  */
 export function useWizardSubmission(
   params: UseWizardSubmissionParams
@@ -48,9 +43,6 @@ export function useWizardSubmission(
   } = params
 
   /**
-   * LEARNING: Submit handler for appointment creation
-   * WHY: Creates appointment when wizard is submitted
-   * PATTERN: Async function that collects data, calls mutation, handles success/error
    */
   const handleSubmit = async (): Promise<void> => {
     try {

@@ -1,9 +1,7 @@
 /**
- * Composable for shape creation logic
- * WHY: Extracts creation logic from ShapesTab
- * PATTERN: Composable that manages creation state and handlers
+ * PATTERN: Composable for shape creation logic
+PATTERN: Composable that manages cre...
  */
-
 import { ref, type Ref } from 'vue'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { GlobalEntity } from '@/types/entities'
@@ -25,9 +23,8 @@ export interface UseShapeCreationOptions {
 }
 
 /**
- * Composable for managing shape creation
- * WHY: Centralizes shape creation state and handlers
- * PATTERN: Returns reactive state and creation functions
+ * WHY: Composable for managing shape creation
+WHY: Centralizes shape creation s...
  */
 export function useShapeCreation(
   options: UseShapeCreationOptions
@@ -36,8 +33,6 @@ export function useShapeCreation(
 
   /**
    * LEARNING: Inline creation state for all shape types
-   * WHY: Instead of dialogs, show inline EntityCards for creating new entities
-   * PATTERN: Boolean flags and initial values for each entity type
    */
   const isCreatingBlockShape = ref(false)
   const isCreatingPartShape = ref(false)

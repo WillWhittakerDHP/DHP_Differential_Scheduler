@@ -57,10 +57,7 @@ export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey exte
 }
 
 /**
- * State module for `useFieldContext`.
- *
- * LEARNING: Holds all derived state + vee-validate wiring, but no save/relationship side effects.
- * WHY: Makes the facade composable smaller and easier to reason about.
+ * WHY: State module for `useFieldContext`
  */
 export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   fieldKey: FieldKey,

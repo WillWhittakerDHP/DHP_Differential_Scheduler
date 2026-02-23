@@ -23,15 +23,9 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: BooleanInput renders status button chip
- * 
  * WHY: All boolean fields should render as status buttons, not toggle switches
- * 
- * PATTERN: Wrapper component pattern - wraps StatusButton chip with field context
- * 
- * COMPARISON: Previously used VSwitch toggle, now uses StatusButton chip for consistency
+...
  */
-
 import { computed, inject } from 'vue'
 import BaseInput from './BaseInput.vue'
 import StatusButton from '../StatusButton.vue'

@@ -1,8 +1,5 @@
 /**
- * LEARNING: Admin Primitive Metadata Composer Utility
- * WHY: Fetches and merges admin primitive metadata
  *      Renamed from adminInputMetadataComposer to align with entity data pattern
- * PATTERN: Unified fetching for all entity types
  * NOTE: Aligns with displayConfig.primitives pattern from regular entity data
  *       All entity types have completely independent metadata (no inheritance between shapes and instances)
  */

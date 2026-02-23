@@ -1,11 +1,7 @@
 /**
- * Property Enrichment API Service
- *
- * LEARNING: Client service for Bright MLS / RESO property enrichment via server proxy
- * WHY: Server holds credentials; client receives transformed property data
- * PATTERN: Same pattern as mapsApiService.ts
+ * PATTERN: Property Enrichment API Service
+PATTERN: Same pattern as mapsApiService.ts
  */
-
 import axios from 'axios'
 import { createLogger } from '@/utils/logger'
 import type { PropertyEnrichmentResponse } from '@shared/types/propertyEnrichmentTypes'

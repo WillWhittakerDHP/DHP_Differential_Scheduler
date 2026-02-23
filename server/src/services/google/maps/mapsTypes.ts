@@ -1,8 +1,6 @@
 /**
  * Google Maps API Types
  *
- * LEARNING: Re-exports shared types, defines server-only types
- * WHY: Single source of truth via shared/types/mapsTypes.ts
  */
 
 import type {
@@ -37,7 +35,6 @@ export interface AutocompleteResponse {
 
 /**
  * Drive time calculation result
- * LEARNING: Convenience result type for single origin-destination calculations
  */
 export interface DriveTimeResult {
   durationMinutes: number

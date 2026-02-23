@@ -1,12 +1,9 @@
 /**
- * LEARNING: Metadata field ordering and drag-and-drop management
- * WHY: Encapsulates display order computation and drag-and-drop reordering logic
  * PATTERN: Composable for managing field ordering in metadata editor
- * 
- * Used by:
- * - AdminPrimitiveMetadataEditor.vue
- */
 
+Used by:
+- Ad...
+ */
 import { ref, computed, watch, type Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalFieldKey } from '@/constants/primitives'

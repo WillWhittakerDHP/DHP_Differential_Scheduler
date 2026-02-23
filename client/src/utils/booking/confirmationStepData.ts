@@ -45,9 +45,6 @@ type BlockInstanceFeeResult = FeeEntryBase
 
 /**
  * Calculate base fee and overage fee from all partInstances in a blockInstance.
- * LEARNING: Uses snapshot data from appointment if available for historical accuracy
- * WHY: Calculates fees based on pricing at booking time, not current pricing
- * PATTERN: Snapshots are merged into BookingBlockInstance before calculation
  * 
  * Fee calculation:
  * - Base fee: sum of all baseFee values from all parts in the block
@@ -81,7 +78,6 @@ function calculateBlockInstanceFee(
       ? blockInstance
       : { ...blockInstance, partInstances: effectiveParts }
   // PATTERN: Create BlockFinal for consistency with new architecture
-  // LEARNING: Uses createBlockFinal to finalize the block instance (with optional cascaded parts)
   const blockFinal = createBlockFinal(blockForFinal)
   const nonZeroedFinalizedParts = filterZeroedParts(blockFinal.finalizedParts)
   
@@ -157,8 +153,6 @@ export function buildConfirmationSummaryData(
 /**
  * Build fee breakdown payload for appointment submission (summary + per-block entries).
  * LEARNING: Pure function that reuses calculateBlockInstanceFee per block; server persists in afterCreate hook
- * WHY: Single source for both confirmation UI (via buildConfirmationPriceData) and API payload
- * PATTERN: Returns AppointmentFeeBreakdownPayload (summary without id/appointmentId, entries without id/feeSummaryId)
  *
  * @param wizard - Wizard selection state with selected block instances
  * @param squareFootage - Property square footage for overage fee calculation
@@ -228,9 +222,6 @@ export function buildAppointmentFeeBreakdown(
 
 /**
  * Build confirmation price data from wizard selections
- * LEARNING: Derives PriceData from buildAppointmentFeeBreakdown; adds UI-layer fields (coupons, delivery)
- * WHY: Aggregates pricing information for display in confirmation step
- * PATTERN: Single call to buildAppointmentFeeBreakdown, then map to PriceData shape
  *
  * @param wizard - Wizard selection state with selected block instances
  * @param squareFootage - Property square footage for overage fee calculation

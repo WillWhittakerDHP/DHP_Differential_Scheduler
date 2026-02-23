@@ -1,9 +1,6 @@
 /**
  * Appointment Slot Calculations
  * 
- * LEARNING: Functions to calculate AppointmentSlots from block instances
- * WHY: Groups parts by flag combinations and calculates time slots for differential scheduling
- * PATTERN: Collect parts, create finalized parts, group by flags, calculate durations and time slots
  */
 
 import type { AppointmentSlot, AppointmentSlots } from '@/types/appointment'
@@ -16,13 +13,7 @@ import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilde
 
 /**
  * Calculate AppointmentSlots from block instances
- * LEARNING: Uses buildAppointmentShape and applyShapeToTime for consistency
- * WHY: Creates normalized AppointmentSlots structure using the new architecture
- * PATTERN: Build shape once, apply to start time
  * 
- * LEARNING: Events are optional - if not provided, AppointmentShape will have empty eventAssignmentsByPartShape
- * WHY: Backward compatibility - some callers may not have access to events data
- * PATTERN: Make events data optional parameters
  * 
  * @param blockInstances - Array of BookingBlockInstance objects (service, property type block, availability options)
  * @param baseStartTime - Optional base start time (ISO date string) - if provided, calculates TimeRange objects
@@ -79,9 +70,6 @@ export function calculateAppointmentSlots(
 
 /**
  * Normalize time slots by orderIndex
- * LEARNING: Sorts AppointmentSlots by orderIndex and ensures sequential orderIndex values
- * WHY: Provides consistent UI positioning regardless of original orderIndex values
- * PATTERN: Sort by orderIndex, reassign sequential orderIndex values (0, 1, 2, ...)
  * 
  * @param appointmentSlots - Array of AppointmentSlot objects
  * @returns Array of AppointmentSlot objects with normalized orderIndex values
@@ -108,9 +96,6 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
 
 /**
  * Calculate total duration from AppointmentSlots
- * LEARNING: Sums totalTime durations from all AppointmentSlot objects
- * WHY: Provides total appointment duration across all normalized time slots
- * PATTERN: Reduce AppointmentSlots to sum of totalTime durations
  * DUAL-TRACK: Uses roundedDuration for display (totalTimeRange already uses rounded)
  * 
  * @param appointmentSlots - Array of AppointmentSlot objects

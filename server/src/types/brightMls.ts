@@ -1,9 +1,6 @@
 /**
  * Bright MLS / RESO Property Response Types
  *
- * LEARNING: RESO Data Dictionary uses PascalCase field names
- * WHY: OData responses from Bright MLS align with RESO Property resource
- * RESOURCE: https://ddwiki.reso.org/display/DDW17/Property+Resource
  * Type similarity UNIFY: PropertyEnrichmentResponse from shared (Phase 1.3).
  */
 

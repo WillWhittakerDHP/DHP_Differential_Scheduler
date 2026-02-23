@@ -1,11 +1,8 @@
 /**
- * Calendar Data Import Script
- * 
- * LEARNING: Imports clients and properties from Google Calendar events
- * WHY: Enables bulk import of calendar data into the scheduling system
- * PATTERN: Orchestrator pattern with focused helper functions
- */
+ * PATTERN: Calendar Data Import Script
 
+PATTERN: Orchestrator pattern with focused ...
+ */
 import 'dotenv/config';
 import { Address, PropertyVersion, User, sequelize, initializeDatabase } from '../config/app.js';
 import { USER_ROLE_CLIENT } from '../constants/userRoles.js';
@@ -32,15 +29,11 @@ const logger = createLogger('CalendarImport');
 
 /**
  * Default organizer email fallback
- * LEARNING: Named constant replaces hardcoded email
- * WHY: Eliminates hardcoding audit finding
  */
 const DEFAULT_ORGANIZER_EMAIL = 'will@districthomepro.com';
 
 /**
  * Interface for Address with eager-loaded propertyVersions
- * LEARNING: Proper typing for Sequelize associations
- * WHY: Replaces unsafe type cast with type-safe interface
  */
 interface AddressWithVersions extends InstanceType<typeof Address> {
   propertyVersions?: InstanceType<typeof PropertyVersion>[];
@@ -48,8 +41,6 @@ interface AddressWithVersions extends InstanceType<typeof Address> {
 
 /**
  * Upsert user from parsed client data
- * LEARNING: Creates or updates user record with client role
- * WHY: Normalizes client data into User model
  * 
  * @param client - Parsed client data
  * @returns User ID
@@ -104,8 +95,6 @@ async function upsertProperty(property: ParsedProperty): Promise<string> {
 
 /**
  * Process clients from a single event
- * LEARNING: Extracted helper to reduce processEvents complexity
- * WHY: Separates client processing logic from main loop
  * 
  * @param event - Calendar event
  * @param organizerEmail - Organizer email to exclude
@@ -140,8 +129,6 @@ async function processEventClients(
 
 /**
  * Process property from a single event
- * LEARNING: Extracted helper to reduce processEvents complexity
- * WHY: Separates property processing logic from main loop
  * 
  * @param event - Calendar event
  * @param processedProperties - Set of already processed property keys
@@ -167,7 +154,6 @@ async function processEventProperty(
     return;
   }
   
-  // Check for existing PropertyVersion by looking up Address first
   const existingAddress = await Address.findOne({
     where: {
       address: property.address,
@@ -196,8 +182,6 @@ async function processEventProperty(
 
 /**
  * Process all calendar events and import clients/properties
- * LEARNING: Orchestrates event processing with extracted helpers
- * WHY: Reduced complexity through helper extraction
  * 
  * @param events - Array of calendar events
  * @param organizerEmail - Organizer email to exclude from clients

@@ -1,12 +1,6 @@
 /**
- * LEARNING: Field Context Manager
- * WHY: Encapsulates field context retrieval with warnings for missing contexts
- * PATTERN: Composable for managing field context access and tracking missing contexts
- * 
- * Used by:
- * - EntityCard.vue
+ * PATTERN: Composable for managing field context access and tracking missing contex...
  */
-
 import { computed, type ComputedRef } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -49,9 +43,6 @@ export function useFieldContextManager(
   const { warning: showWarning } = useNotification()
 
   /**
-   * LEARNING: Wrapped getFieldContext with warnings for missing contexts
-   * WHY: Fail visibly - warn when fields don't have contexts instead of silently hiding them
-   * PATTERN: Wrap original function to add error handling and notifications
    */
   function getFieldContext(fieldKey: GlobalFieldKey<GlobalEntityKey>): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined {
     const context = originalGetFieldContext(fieldKey)
@@ -69,9 +60,6 @@ export function useFieldContextManager(
   }
 
   /**
-   * LEARNING: Track fields missing contexts for UI display
-   * WHY: Show which fields are missing contexts in the UI
-   * PATTERN: Computed property that filters fields by location and missing contexts
    */
   const fieldsMissingContexts = computed(() => {
     const locations = fieldsByLocation.value

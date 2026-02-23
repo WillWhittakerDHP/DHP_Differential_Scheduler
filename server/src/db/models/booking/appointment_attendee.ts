@@ -20,14 +20,12 @@ import { BlockInstance } from './block_instance';
  * 
  * LEARNING: Junction table pattern for flexible appointment attendees
  * WHY: Enables N attendees per appointment, proper calendar invitations, role tracking
- * PATTERN: Similar to EventShapeAttendee but for actual appointment instances
  * 
  * Key relationships:
  * - appointment_id → appointments.id (the appointment)
  * - user_id → users.id (actual person with email for invitations)
  * - user_type_block_instance_id → block_instances.id (their role: Buyer, Agent, etc.)
  * 
- * COMPARISON: 
  * - EventShapeAttendee: Template config (which user TYPES attend event TYPES)
  * - AppointmentAttendee: Actual instance (which actual USERS attend this appointment)
  */
@@ -45,7 +43,6 @@ export class AppointmentAttendee extends Model<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  // Associations (populated when included in queries)
   declare appointment?: Appointment;
   declare user?: User;
   declare userTypeBlockInstance?: BlockInstance;

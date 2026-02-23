@@ -1,7 +1,5 @@
 /**
  * Composable for status button value extraction
- * WHY: Extracts value extraction logic from ShapesTab
- * PATTERN: Pure helper function
  */
 
 import type { GlobalEntity } from '@/types/entities'

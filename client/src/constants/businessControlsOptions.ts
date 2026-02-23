@@ -1,7 +1,5 @@
 /**
  * Business Controls Tab option arrays for selects and dropdowns
- * WHY: Centralizes option arrays to fix hardcoding audit; single source for labels
- * PATTERN: Typed option arrays matching config types from availabilitySettings
  */
 import type {
   DriveTimeApplyTo,

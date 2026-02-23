@@ -1,11 +1,8 @@
 /**
- * Appointment to Wizard Transformer Helpers
- * 
- * LEARNING: Reusable helper functions extracted from appointmentToWizardTransformer
- * WHY: Reduces duplication and complexity in the main transformer
- * PATTERN: Pure functions for block resolution and version transformation
- */
+ * WHY: Appointment to Wizard Transformer Helpers
 
+WHY: Reduces duplication and ...
+ */
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import type { TernaryBoolean } from '@/types/ternary'
@@ -18,8 +15,8 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
 
 /**
- * Version data structure from API
- * LEARNING: Matches server-side version format
+ * WHY: Version data structure from API
+LEARNING: Matches server-side version fo...
  */
 interface VersionBlockInstance {
   id: string // blockInstanceId
@@ -28,7 +25,6 @@ interface VersionBlockInstance {
   baseSqFt: number
   allowMultiple: boolean
   // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-  differential: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   partInstances: Array<{
     id: string // partInstanceId
     name: string
@@ -37,9 +33,7 @@ interface VersionBlockInstance {
     rateOverBaseFee: number
     rateOverBaseTime: number
     // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-    onSite?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
     // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-    clientPresent?: boolean | TernaryBoolean // LEARNING: May be boolean (legacy) or TernaryBoolean
   }>
 }
 
@@ -52,9 +46,6 @@ export interface AppointmentVersionsResponse {
 
 /**
  * Find block instance by ID in scheduler data
- * LEARNING: Helper to find block instance from scheduler data
- * WHY: Maps appointment IDs to BookingBlockInstance objects
- * PATTERN: Search through blockInstances array
  */
 export function findBlockInstanceById(
   bookingData: BookingData,
@@ -66,9 +57,6 @@ export function findBlockInstanceById(
 
 /**
  * Find multiple block instances by IDs
- * LEARNING: Helper to find multiple block instances
- * WHY: Maps array of IDs to array of BookingBlockInstance objects
- * PATTERN: Filter blockInstances array by IDs
  */
 function findBlockInstancesByIds(
   bookingData: BookingData,
@@ -80,9 +68,6 @@ function findBlockInstancesByIds(
 
 /**
  * Transform version data to BookingBlockInstance format
- * LEARNING: Versions are complete immutable records, but need metadata from current instance
- * WHY: Versions contain versioned fields, but BookingBlockInstance needs additional metadata
- * PATTERN: Merge version data with current instance metadata
  */
 function transformVersionToBookingInstance(
   version: VersionBlockInstance,
@@ -176,10 +161,8 @@ function logMissingAndWrongShapeIds(
 }
 
 /**
- * Resolve block category (services, properties, options, or line items)
- * LEARNING: Generic function replacing 4 duplicated block-resolution sections
- * WHY: Eliminates duplication and reduces complexity in main transformer
- * PATTERN: Find instances by IDs, filter by shape, log missing/wrong shape, apply versions
+ * WHY: Resolve block category (services, properties, options, or line items)
+WH...
  */
 export function resolveBlockCategory(params: {
   ids: string[]
@@ -192,7 +175,6 @@ export function resolveBlockCategory(params: {
 }): BookingBlockInstance[] {
   const { ids, bookingData, blockShapeType, versionsData, categoryKey, logger, lineItemBlocks } = params
 
-  // Special handling for line items (they come from bookingData.lineItemBlocks, not blockInstances)
   if (categoryKey === 'lineItems' && lineItemBlocks) {
     const found = ids.length > 0 ? lineItemBlocks.filter(block => ids.includes(block.id)) : []
     logMissingAndWrongShapeIds({
@@ -213,7 +195,6 @@ export function resolveBlockCategory(params: {
     return found
   }
 
-  // Standard handling for services, properties, and options
   const blockShapeId = blockShapeType ? getBlockShapeIdByType(bookingData, BLOCK_SHAPE_TYPES[blockShapeType]) : null
   const allFound = findBlockInstancesByIds(bookingData, ids)
   const found = blockShapeId
@@ -240,13 +221,11 @@ export function resolveBlockCategory(params: {
   return found
 }
 
-// --- Property details extraction (used by appointmentToWizardTransformer) ---
 
 const PROPERTY_DETAILS_CONTEXT = 'propertyDetails'
 
 /**
  * Extract foundation access value with type guard
- * LEARNING: Centralized type guard for foundation access enum
  */
 export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
   if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
@@ -257,7 +236,6 @@ export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspac
 
 /**
  * Extract address fields from address object
- * LEARNING: Single responsibility - address line fields only
  */
 export function extractAddressFields(address: unknown): {
   address: string
@@ -288,7 +266,6 @@ function isAddressWithGeo(v: unknown): v is AddressWithGeo {
 
 /**
  * Extract location data (placeId, coordinates) from address object
- * LEARNING: Single responsibility - geo fields only
  */
 export function extractLocationData(address: unknown): {
   candidatePlaceId: string | undefined
@@ -306,7 +283,6 @@ export function extractLocationData(address: unknown): {
 
 /**
  * Extract property details fields from property details record
- * LEARNING: Single responsibility - mlsNumber, squareFootage, bedrooms, etc.
  */
 export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
   propertySize: number | null

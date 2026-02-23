@@ -1,12 +1,8 @@
 /**
- * Business Rules Composable
- * 
- * LEARNING: Manages business rules CRUD operations and state
- * WHY: Centralizes all business rules logic - component is pure rendering
- * PATTERN: Composable handles API calls, state management, and validation
- * COMPARISON: Similar to useAvailabilitySettings pattern
- */
+ * WHY: Business Rules Composable
 
+PATTERN: Composable handles API calls, state ...
+ */
 import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
@@ -45,12 +41,9 @@ function buildBusinessRulesQueryString(filters?: {
 
 /**
  * Rule Type Enumeration
- * LEARNING: Derived from shared RULE_TYPE_VALUES for single source of truth
- * WHY: Type safety for rule_type field; no inline literals
  */
 export type RuleType = (typeof RULE_TYPE_VALUES)[keyof typeof RULE_TYPE_VALUES]
 
-// Re-export shared rule config types (Phase 1.2 type-similarity)
 export type {
   ConditionalValidationRuleConfig,
   RequiredFieldsRuleConfig,
@@ -61,9 +54,6 @@ export type {
 
 /**
  * Business Rule Model
- * LEARNING: TypeScript interface matching server-side BusinessRule model
- * WHY: Type safety for business rule objects
- * PATTERN: Matches Sequelize model attributes
  */
 /** Shared core shape (P2 type-similarity); form data and API entity extend. */
 export interface BusinessRuleCore {
@@ -81,18 +71,14 @@ export interface BusinessRule extends BusinessRuleCore {
 }
 
 /**
- * Business Rule Form Data
- * LEARNING: Form data structure for creating/editing business rules
- * WHY: Separates form state from API response data
- * PATTERN: Omit id/timestamps for create, include for update
+ * WHY: Business Rule Form Data
+WHY: Separates form state from API response data
  */
 export type BusinessRuleFormData = BusinessRuleCore
 
 /**
- * Use Business Rules Composable
- * LEARNING: Provides reactive state and methods for business rules management
- * WHY: Centralizes all business rules logic - component only handles rendering
- * PATTERN: Composable with loading states, error handling, and CRUD methods
+ * PATTERN: Use Business Rules Composable
+PATTERN: Composable with loading states, e...
  */
 export function useBusinessRules() {
   const rules: Ref<BusinessRule[]> = ref([])
@@ -102,10 +88,9 @@ export function useBusinessRules() {
   const success: Ref<string | null> = ref(null)
   
   /**
-   * Fetch all business rules (with optional filters)
-   * LEARNING: GET /api/v1/internal/business-rules with query params
-   * WHY: Loads all rules or filters by blockInstanceId, ruleType, active
-   * PATTERN: Async function with loading state and error handling
+   * PATTERN: /**
+Fetch all business rules (with optional filters)
+PATTERN: Async func...
    */
   const fetchRules = async (filters?: {
     blockInstanceId?: GlobalEntityId
@@ -132,10 +117,9 @@ export function useBusinessRules() {
   }
   
   /**
-   * Fetch business rules for specific block instance
-   * LEARNING: GET /api/v1/internal/business-rules/block/:blockInstanceId
-   * WHY: Wizard needs to load rules for all selected services/dwelling adjustments
-   * PATTERN: Async function with loading state, returns only active rules
+   * PATTERN: /**
+Fetch business rules for specific block instance
+PATTERN: Async func...
    */
   const fetchRulesByBlock = async (blockInstanceId: GlobalEntityId): Promise<BusinessRule[]> => {
     const result = await withAsyncOperation(
@@ -156,10 +140,9 @@ export function useBusinessRules() {
   }
   
   /**
-   * Create new business rule
-   * LEARNING: POST /api/v1/internal/business-rules
-   * WHY: Admin creates new validation rules via admin panel
-   * PATTERN: Async function with saving state, success message, auto-refresh
+   * PATTERN: /**
+Create new business rule
+PATTERN: Async function with saving state, ...
    */
   const createRule = async (formData: BusinessRuleFormData): Promise<BusinessRule | null> => {
     const result = await withAsyncOperation(
@@ -183,10 +166,9 @@ export function useBusinessRules() {
   }
   
   /**
-   * Update existing business rule
-   * LEARNING: PUT /api/v1/internal/business-rules/:id
-   * WHY: Admin edits existing validation rules via admin panel
-   * PATTERN: Async function with saving state, success message, auto-refresh
+   * PATTERN: /**
+Update existing business rule
+PATTERN: Async function with saving st...
    */
   const updateRule = async (
     id: GlobalEntityId,
@@ -216,10 +198,9 @@ export function useBusinessRules() {
   }
   
   /**
-   * Delete business rule
-   * LEARNING: DELETE /api/v1/internal/business-rules/:id
-   * WHY: Admin removes validation rules via admin panel
-   * PATTERN: Async function with saving state, success message, auto-refresh
+   * PATTERN: /**
+Delete business rule
+PATTERN: Async function with saving state, succ...
    */
   const deleteRule = async (id: GlobalEntityId): Promise<boolean> => {
     const result = await withAsyncOperation(
@@ -241,9 +222,6 @@ export function useBusinessRules() {
   
   /**
    * Toggle business rule active status
-   * LEARNING: PATCH /api/v1/internal/business-rules/:id with { active }
-   * WHY: Admin enables/disables validation rules without deleting
-   * PATTERN: Async function using PATCH for partial update
    */
   const toggleRuleActive = async (id: GlobalEntityId, active: boolean): Promise<boolean> => {
     const result = await withAsyncOperation(

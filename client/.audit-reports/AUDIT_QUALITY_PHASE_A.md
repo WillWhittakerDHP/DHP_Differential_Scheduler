@@ -53,4 +53,3 @@ Phase B will add **semantic precision and deeper analysis** on top of Phase A. S
 
 ---
 
-*Generated as part of Phase A audit quality work. See `.cursor/plans/` for the full Phase A plan.*

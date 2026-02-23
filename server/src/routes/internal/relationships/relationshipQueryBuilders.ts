@@ -1,10 +1,7 @@
 /**
- * Shared relationship query builders
- *
- * WHY: Single place for where-clause and query-options logic used by CRUD and batch routers
- * PATTERN: Pure functions with explicit return types; include configs as small helpers
+ * PATTERN: Shared relationship query builders
+PATTERN: Pure functions with explicit...
  */
-
 import type { Includeable } from 'sequelize'
 import {
   EventInstance,

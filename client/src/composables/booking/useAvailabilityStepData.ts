@@ -1,13 +1,8 @@
 /**
- * useAvailabilityStepData Composable
- * 
- * LEARNING: Extracts step data aggregation and time slot transformation logic from AvailabilityStep component
- * WHY: Moves data transformation and step data exposure logic to composable
- * PATTERN: Composable that provides computed properties for step data and transformations
- * 
- * SESSION: 2.1.3b - Updated to pass availabilitySettings for dynamic event name lookup
- */
+ * WHY: useAvailabilityStepData Composable
 
+WHY: Moves data transformation and s...
+ */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import {
@@ -31,11 +26,9 @@ export interface UseAvailabilityStepDataReturn {
 }
 
 /**
- * useAvailabilityStepData composable
- * 
- * LEARNING: Provides computed properties for step data aggregation and time slot transformation
- * WHY: Extracts data transformation logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useAvailabilityStepData composable
+
+WHY: Extracts data transformation lo...
  */
 export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): UseAvailabilityStepDataReturn {
   const {
@@ -44,12 +37,11 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     moveableScheduling
   } = params
 
-  // LEARNING: Get availability settings for dynamic event name lookup
 
   /**
-   * LEARNING: Transform selected time slots to API format
-   * WHY: Converts AppointmentSlot totals to ISO timestamps with duration for API
-   * PATTERN: Computed that transforms AppointmentSlot to API format
+   * WHY: /**
+LEARNING: Transform selected time slots to API format
+WHY: Converts ...
    */
   const selectedTimeSlots = computed<SelectedTimeSlot[] | null>(() => {
     return buildSelectedTimeSlots({
@@ -59,9 +51,6 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
   })
 
   /**
-   * LEARNING: Step data computed property for exposing to parent wizard
-   * WHY: Enables parent to collect availability data for appointment creation
-   * PATTERN: Computed ref that exposes step data
    */
   const stepData = computed<AvailabilityStepData>(() =>
     buildAvailabilityStepData({

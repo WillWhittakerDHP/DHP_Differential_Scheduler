@@ -1,14 +1,7 @@
 /**
- * BlockFinal: Aggregated block instance representing a finalized block
- *
- * LEARNING: Represents a single block instance with its finalized parts and block-level totals
- * WHY: Block instance is the semantic unit - preserves block-level context (allowMultiple, block metadata)
- * PATTERN: Plain interface with utility functions for calculations, similar to PartFinal pattern
- *
- * This preserves block-level context that is lost when flattening blocks immediately.
- * Each BlockFinal contains the finalized parts within that block and block-level totals.
+ * PATTERN: BlockFinal: Aggregated block instance representing a finalized block
+PAT...
  */
-
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockFinal } from './bookingFinalTypes'
 import { createPartFinals } from './partFinalizer'
@@ -17,9 +10,6 @@ export type { BlockFinal } from './bookingFinalTypes'
 
 /**
  * Create BlockFinal from a single block instance
- * LEARNING: Finalizes parts within the block and calculates block-level totals
- * WHY: Creates finalized representation of a block instance with its parts
- * PATTERN: Create finalized parts, then calculate block totals from those parts
  * 
  * @param blockInstance - Block instance to finalize
  * @returns BlockFinal with finalized parts and block totals

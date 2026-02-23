@@ -1,15 +1,5 @@
 /**
- * USE CONFIRMATION STEP DATA TESTS
- * 
- * Unit tests for useConfirmationStepData composable.
- * Tests ADU (Additional Units) calculation reactivity and price data updates.
- * 
- * WHAT: Tests that price calculations update reactively when ADU count changes
- * HOW: Uses refs and computed properties to simulate wizard state and property details
- * VALIDATES: Computed property reactivity, ADU multiplier effect, dependency tracking
- * DEPENDENCIES: useConfirmationStepData, buildConfirmationPriceData, BookingBlockInstance types
  */
-
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ref, computed, nextTick } from 'vue'
 import { useConfirmationStepData } from '../useConfirmationStepData'

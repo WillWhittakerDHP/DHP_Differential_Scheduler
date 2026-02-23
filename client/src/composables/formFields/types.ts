@@ -15,9 +15,6 @@ export interface UseFormFieldsOptionsBase {
   form: Ref<FormContext | undefined>
   fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   /**
-   * LEARNING: Metadata is the source of truth for field rendering (labels/required/renderAs/inputConfig)
-   * WHY: Removes reliance on legacy adminConfig formFieldConfig for rendering decisions
-   * PATTERN: Pass the already-fetched metadata (EntityCard fetches it once) to avoid duplicate queries
    */
   fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
   adminConfig?: ReturnType<typeof useAdminConfig>

@@ -1,9 +1,6 @@
 /**
  * Relationship CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for relationships
- * WHY: Separates CRUD operations from router setup, improves maintainability
- * PATTERN: Express router with RESTful endpoints
  */
 
 import { Router, Request, Response } from 'express'
@@ -35,18 +32,12 @@ const logger = createLogger('RelationshipRouter')
 
 const router = Router()
 
-// Register param handler for relationshipType parameter
-// LEARNING: router.param() must be registered on the router that defines routes with :relationshipType
-// WHY: Express param callbacks only fire for params on routes defined on that specific router
 router.param('relationshipType', relationshipTypeParamHandler)
 
 /**
  * GET /relationships/:relationshipType
  * List all relationships of a specific type
  * 
- * LEARNING: Fetches all relationships of a specific type with optional filtering
- * WHY: Provides flexible querying of relationships
- * PATTERN: Build where clause and options, fetch with model, return JSON
  */
 router.get('/:relationshipType', async (req: Request, res: Response): Promise<void> => {
   const relationshipConfig = req.relationshipConfig
@@ -175,7 +166,6 @@ export async function handleInstanceComponentCreate(req: Request, res: Response)
  * POST /relationships/:relationshipType
  * Create a new relationship
  *
- * LEARNING: Dispatches to handleInstanceComponentCreate for instance components; generic create otherwise
  */
 router.post(
   '/:relationshipType',
@@ -266,9 +256,6 @@ router.post(
  * DELETE /relationships/:relationshipType/:parentId/:childId
  * Delete a relationship
  * 
- * LEARNING: Deletes relationship record
- * WHY: Enables relationship deletion via API
- * PATTERN: Map fields, delete record, return 404 if not found, return success message
  */
 router.delete(
   '/:relationshipType/:parentId/:childId',

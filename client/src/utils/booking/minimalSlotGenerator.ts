@@ -1,11 +1,7 @@
 /**
- * Minimal slot generator for moveable parts scheduling
- *
- * LEARNING: Generates time slots in a range without overlap/capacity checking
- * WHY: useMoveablePartsScheduling needs slot options; server computes availability per day
- * PATTERN: Pure slot generation only (no constraint pipeline dependency)
+ * PATTERN: Minimal slot generator for moveable parts scheduling
+PATTERN: Pure slot ...
  */
-
 import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { validateSlotGenerationParams, type SlotGenerationParamsBase } from './slotGenerationValidation'

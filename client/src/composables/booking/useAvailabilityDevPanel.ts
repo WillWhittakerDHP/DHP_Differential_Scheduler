@@ -1,11 +1,8 @@
 /**
- * useAvailabilityDevPanel Composable
- * 
- * LEARNING: Manages shared dev panel data for floating debug panels
- * WHY: Provides a shared state that both AvailabilityStep and DevPanelsContainer can access
- * PATTERN: Singleton pattern with shared refs that can be updated and accessed from anywhere
- */
+ * PATTERN: useAvailabilityDevPanel Composable
 
+PATTERN: Singleton pattern with shar...
+ */
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentSlot, AppointmentShape } from '@/types/appointment'
@@ -13,10 +10,8 @@ import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands
 import type { BusyTimeRange } from '@shared/types/availabilityTypes'
 
 /**
- * Shared dev panel data state
- * LEARNING: Singleton pattern for shared state
- * WHY: Allows both AvailabilityStep and DevPanelsContainer to access the same data
- * PATTERN: Module-level refs that can be updated and accessed from any component
+ * WHY: Shared dev panel data state
+LEARNING: Singleton pattern for shared state
  */
 const sharedDevPanelData = ref<{
   selectedBlockInstances?: ComputedRef<BookingBlockInstance[]>
@@ -43,7 +38,6 @@ export interface UseAvailabilityDevPanelParams {
   
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   
-  /** Session 2.1.2: Accept Ref or ComputedRef for busy periods */
   busyPeriods: Ref<BusyTimeRange[]> | ComputedRef<BusyTimeRange[]>
   
   refreshKey: Ref<number>
@@ -53,11 +47,9 @@ export interface UseAvailabilityDevPanelParams {
 }
 
 /**
- * useAvailabilityDevPanel composable - sets dev panel data
- * 
- * LEARNING: Updates shared dev panel data from AvailabilityStep
- * WHY: Allows AvailabilityStep to update shared state that DevPanelsContainer can read
- * PATTERN: Function that updates shared refs
+ * WHY: useAvailabilityDevPanel composable - sets dev panel data
+
+WHY: Allows Av...
  */
 export function useAvailabilityDevPanel(
   params: UseAvailabilityDevPanelParams
@@ -99,9 +91,6 @@ export function useAvailabilityDevPanel(
 /**
  * useDevPanelData composable - gets dev panel data
  * 
- * LEARNING: Provides access to shared dev panel data
- * WHY: Allows DevPanelsContainer to read the data set by AvailabilityStep
- * PATTERN: Returns shared ref that components can access
  */
 export function useDevPanelData() {
   return sharedDevPanelData

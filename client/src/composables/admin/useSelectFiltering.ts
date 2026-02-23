@@ -1,23 +1,8 @@
 /**
- * Select Filtering Composable
- * 
- * LEARNING: Extracts entity filtering logic from SelectInputs component
- * WHY: Components should be thin UI wrappers - filtering logic belongs in composables
- * PATTERN: Composable that provides filtered entities based on select config
- *
- * LEARNING (entity source): For entities not yet persisted, we detect them via
- * TEMPORARY_ID_PATTERNS.NEW_PREFIX on fieldContext.entityId. When currentEntity
- * is missing or the entity is new, we read from form values (useForm()) so that
- * parent type ref and path values are available for filtering before save.
- *
- * This composable handles:
- * - Active child select filtering (bookingCascades, partAssignments)
- * - Direct matching select filtering (dependentInstances)
- * - Active components filtering (composable services)
- * - Filter options function application
- * - Annotation filtering (no filtering needed)
- */
+ * WHY: Select Filtering Composable
 
+WHY: Components should be thin UI wrappers ...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useForm } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -46,8 +31,9 @@ export interface UseSelectFilteringOptions {
   rawFieldValue: ReadonlyVueRef<unknown>
   
   /**
-   * Whether this is an AnnotationAssignmentSelect field
-   * LEARNING: Annotations are now core entities, use standard relationship select pattern
+   * WHY: /**
+Whether this is an AnnotationAssignmentSelect field
+LEARNING: Annota...
    */
   isAnnotationAssignmentSelect: ComputedRef<boolean>
   
@@ -71,11 +57,9 @@ export interface UseSelectFilteringReturn {
 }
 
 /**
- * Select Filtering Composable
- * 
- * LEARNING: Provides entity filtering logic extracted from SelectInputs component
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with computed properties for entity filtering
+ * WHY: Select Filtering Composable
+
+WHY: Moves business logic out of components...
  */
 export function useSelectFiltering(
   options: UseSelectFilteringOptions
@@ -94,9 +78,9 @@ export function useSelectFiltering(
   const fieldKey = computed(() => String(fieldContext.fieldKey))
 
   /**
-   * LEARNING: Detect active child select pattern from config
-   * WHY: Config-driven approach allows any field with this pattern to work, not just bookingCascades
-   * PATTERN: Detect when candidateParentKey !== selectedParentKey AND candidateChildPath is empty
+   * WHY: /**
+LEARNING: Detect active child select pattern from config
+WHY: Config...
    */
   const isActiveChildSelect = computed<boolean>(() => {
     const config = selectConfig.value
@@ -123,8 +107,6 @@ export function useSelectFiltering(
 
   /**
    * LEARNING: Detect direct matching pattern from config
-   * WHY: When candidateChildPath has a value, we're doing direct matching (e.g., dependentInstances)
-   * PATTERN: Detect when both candidateParentPath and candidateChildPath have values
    */
   const isDirectMatchingSelect = computed<boolean>(() => {
     const config = selectConfig.value
@@ -157,7 +139,6 @@ export function useSelectFiltering(
   })
 
   /**
-   * LEARNING: Get parent type reference (blockShapeRef/partShapeRef). See file LEARNING for new-entity/form fallback.
    */
   const parentTypeRef = computed<string | null>(() => {
     if (!isActiveChildSelect.value) return null
@@ -181,7 +162,6 @@ export function useSelectFiltering(
       }
     }
     
-    // When entity is new (not yet persisted), read from form values. See file LEARNING.
     const entityIdString = String(fieldContext.entityId)
     const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
     
@@ -205,9 +185,6 @@ export function useSelectFiltering(
   })
 
   /**
-   * LEARNING: Get parent type entity from admin store (with relationships attached)
-   * WHY: Need AdminEntity with validCascades/validParts attached for filtering
-   * PATTERN: Use admin store getEntity which returns AdminEntity with relationships
    */
   const parentTypeEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
     if (!parentTypeEntityKey.value || !parentTypeRef.value) return null
@@ -216,9 +193,6 @@ export function useSelectFiltering(
   })
 
   /**
-   * LEARNING: Check if this is an AttendeeSelect field
-   * WHY: Attendee selects filter BlockInstances by BlockShape.isStateControl === true
-   * PATTERN: Check selectType from selectConfig
    */
   const isAttendeeSelect = computed(() => {
     const config = selectConfig.value
@@ -229,23 +203,19 @@ export function useSelectFiltering(
   })
 
   /**
-   * LEARNING: Conditionally initialize useComponentEntity during setup (not inside computed)
-   * WHY: Composables can only be called during setup, not inside computed properties
-   * PATTERN: Call composable conditionally during setup, use its methods in computed
+   * WHY: /**
+WHY: Composables can only be called during setup, not inside compute...
    */
   const composedEntityComposable = (String(fieldContext.fieldKey) === 'instanceComponents' && fieldContext.entityKey === 'blockInstance')
     ? useComponentEntity('blockInstance')
     : null
 
   /**
-   * LEARNING: Filter entities based on select config
-   * WHY: Different select types need different filtering:
    * - instanceComponents: Filter by component availability
    * - bookingCascades/partAssignments: Filter by parent's type's valid children
    * - Direct matching: Filter by matching path values
    * - Annotations: No filtering needed
    * - filterOptions: Apply custom filter function
-   * PATTERN: Use computed to reactively filter based on current entity and config
    */
   const filteredEntities = computed(() => {
     if (!selectConfig.value) {
@@ -295,7 +265,6 @@ export function useSelectFiltering(
     }
     
     if (isActiveChildSelect.value) {
-      // parentTypeRef already considers form values for new entities. See file LEARNING.
       const entityIdString = String(fieldContext.entityId)
       const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
       
@@ -363,7 +332,6 @@ export function useSelectFiltering(
       const parentPathKey = candidateParentPath[0]
       const childPathKey = candidateChildPath[0]
       
-      // Get from currentEntity or form for new entities. Same pattern as parentTypeRef (see file LEARNING).
       let currentEntityValue: string | null = null
       
       if (currentEntity.value) {
@@ -389,7 +357,6 @@ export function useSelectFiltering(
               }
             }
           } catch {
-            // Ignore form value read errors
           }
         }
       }

@@ -1,9 +1,6 @@
 /**
  * Vuetify Plugin - Load Order: 5
  * 
- * LEARNING: Vuetify UI framework integration
- * WHY: Provides Vue.js Material Design component library
- * PATTERN: Export default function that registers Vuetify with app
  * 
  * DEPENDENCY: Uses @layouts/stores/config (cookieRef) which requires Pinia
  * LOAD ORDER: Must load after Layouts (4.layouts) which initializes the layout store

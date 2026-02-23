@@ -1,6 +1,5 @@
 /**
  * Shared types for data collection composables (business and global).
- * WHY: Single canonical definitions used by both collection layers; brand by type param.
  */
 
 import type { ComputedRef } from 'vue'

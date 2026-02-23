@@ -1,11 +1,8 @@
 /**
- * Appointment CRUD Router
- * 
- * LEARNING: Refactored to use CRUD router factory pattern with complex POST logic in afterCreate hook
- * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
- * PATTERN: Factory-generated router with afterCreate hook for snapshots, attendees, and calendar events
- */
+ * WHY: Appointment CRUD Router
 
+LEARNING: Refactored to use CRUD router factory...
+ */
 import { Request, Response } from 'express'
 import { Appointment, AppointmentAttendee } from '../../../config/app.js'
 import { checkOwnership } from '../../../middlewares/security.js'
@@ -32,7 +29,6 @@ import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('AppointmentRouter')
 
-// Create base CRUD router using factory with custom handlers for includes
 const router = createCrudRouter({
   model: Appointment,
   resourceName: 'appointment',
@@ -115,7 +111,6 @@ const router = createCrudRouter({
       return raw
     }
 
-    // Create snapshots for block instances
     const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))
     const propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))
     const optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))
@@ -125,17 +120,14 @@ const router = createCrudRouter({
     await validateSnapshotIds(propertySnapshotIds)
     await validateSnapshotIds(optionSnapshotIds)
     
-    // Update appointment with snapshot IDs
     await record.update({
       serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
       propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
       optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
     })
     
-    // Create attendee records
     await createAttendeeRecords(record.id, attendeesData)
 
-    // Create fee summary + entries (from client buildAppointmentFeeBreakdown)
     await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)
 
     // Create calendar invites if status requires it
@@ -182,7 +174,6 @@ const router = createCrudRouter({
     // Check if status transitioned to one that requires calendar invites
     const newStatus = req.body?.status as string | undefined
     if (newStatus && shouldCreateCalendarEvent(newStatus)) {
-      // Only create invites if no attendee already has a googleEventId (prevents duplicates)
       const existingInvites = await AppointmentAttendee.count({
         where: {
           appointmentId: record.id,
@@ -232,9 +223,6 @@ const router = createCrudRouter({
  * GET /appointments/:id/versions
  * Get appointment versions (snapshots)
  * 
- * LEARNING: Extra route for fetching appointment version snapshots
- * WHY: Provides historical state of block instances at appointment creation time
- * PATTERN: Fetch appointment, load versions, return JSON
  * IDOR: Same ownership middleware as GET /:id (user can only read own org's appointments when auth is implemented).
  */
 router.get('/:id/versions', checkOwnership('appointment', 'id'), async (req: Request, res: Response): Promise<void> => {

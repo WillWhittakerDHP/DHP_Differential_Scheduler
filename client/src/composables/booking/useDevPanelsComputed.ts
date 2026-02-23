@@ -1,11 +1,8 @@
 /**
- * Dev Panels Computed Logic Composable
- * 
- * LEARNING: Extracts computed logic from DevPanelsContainer.vue into reusable composable
- * WHY: Reduces component complexity, improves testability, enables reuse
- * PATTERN: Composable that provides computed properties for dev panel display
- */
+ * WHY: Dev Panels Computed Logic Composable
 
+LEARNING: Extracts computed logic ...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TernaryBoolean } from '@/types/ternary'

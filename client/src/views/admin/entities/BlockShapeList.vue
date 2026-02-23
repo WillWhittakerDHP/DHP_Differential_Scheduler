@@ -69,9 +69,6 @@
 /**
  * Block Type List Page
  * 
- * LEARNING: Placeholder list page for Block Shapes (no UI polish)
- * WHY: Session 3.3 focuses on data flow verification, not UI building
- * PATTERN: Simple list display with CRUD operations
  */
 
 import { useRouter } from 'vue-router'

@@ -1,9 +1,6 @@
 /**
  * Property Mappings Router
  *
- * LEARNING: CRUD for property_field_mappings and property_feature_mappings
- * WHY: Admin-configurable MLS field and feature mappings
- * PATTERN: Two sub-routes under /property-mappings
  */
 
 import { Router } from 'express';

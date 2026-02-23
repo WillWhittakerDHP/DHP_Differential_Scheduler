@@ -1,7 +1,6 @@
 /**
- * Shared factory for nested writable computeds bound to formData
- * WHY: Used by useCapacitySettings and useBufferSettings to avoid duplication
- * PATTERN: Generic get/set computed with ensure-parent pattern; no direct mutation in callers
+ * PATTERN: Shared factory for nested writable computeds bound to formData
+PATTERN: ...
  */
 import { computed, type WritableComputedRef } from 'vue'
 

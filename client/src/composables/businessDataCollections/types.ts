@@ -1,9 +1,6 @@
 /**
  * Business Data Collection Types
  * 
- * LEARNING: Type definitions for business data collection CRUD operations
- * WHY: Type safety for business entity (appointment, property, user) operations
- * PATTERN: Mirrors globalDataCollections/types.ts structure
  * 
  * Session 1.4.7: Created as part of data flow consolidation
  */
@@ -52,8 +49,8 @@ export type BusinessDataCollectionCrudComposableReturn<
   fetchAll: BusinessDataCollectionQueryResult<CollectionItem>
   fetchById: (id: string) => BusinessDataCollectionByIdQueryResult<CollectionItem>
   /**
-   * Optional domain helper hook point.
-   * LEARNING: Some domain composables add extra helpers (e.g. `fetchRandom`).
+   * WHY: /**
+Optional domain helper hook point
    */
   extras?: Record<string, unknown>
 } & { readonly __brand?: 'BusinessDataCollectionCrudComposableReturn' }

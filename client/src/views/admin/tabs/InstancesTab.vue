@@ -58,21 +58,12 @@ function createBlockInstanceConfigSentinel(blockShapeId: string): BlockInstanceE
 
 /**
  * LEARNING: Reactive active tab state
- * WHY: Tracks which tab is currently active (BlockShape ID)
- * PATTERN: ref for reactive string value
  */
 const activeTab = ref<string>('')
 
 /**
- * LEARNING: Use instance grouping composable for grouping logic and metadata
- * WHY: Moves grouping logic out of component into reusable composable
- * PATTERN: Composable handles BlockInstance grouping and metadata (expansion state moved to useExpansionState)
- */
-/**
- * LEARNING: Use instance grouping composable for grouping logic and metadata
- * WHY: Moves grouping logic out of component into reusable composable
- * PATTERN: Composable handles BlockInstance grouping and metadata (expansion state moved to useExpansionState)
- * NOTE: blockInstancesByShape is exported from useInstanceGrouping to avoid duplicate computation
+ * WHY: Use instance grouping composable for grouping logic and metadata
+WHY: Mo...
  */
 const instanceGroupingComposable = useInstanceGrouping({ activeTab })
 const {
@@ -85,17 +76,15 @@ const {
 } = instanceGroupingComposable
 
 /**
- * LEARNING: Use expansion state composable for expansion state management
- * WHY: Moves expansion state logic out of component into reusable composable
- * PATTERN: Composable handles expansion state (single shared array, like ShapesTab)
+ * WHY: Use expansion state composable for expansion state management
+WHY: Moves...
  */
 const expansionStateComposable = useExpansionState()
 const { expandedEntities: expandedInstances, isPanelExpanded } = expansionStateComposable
 
 /**
- * LEARNING: Use instance bulk edit composable for bulk edit logic
- * WHY: Moves bulk edit logic out of component into reusable composable
- * PATTERN: Composable handles bulk edit state, form data, and operations
+ * WHY: Use instance bulk edit composable for bulk edit logic
+WHY: Moves bulk ed...
  */
 const instanceBulkEditComposable = useInstanceBulkEdit({
   blockInstancesByShape
@@ -109,16 +98,14 @@ const {
 } = instanceBulkEditComposable
 
 /**
- * LEARNING: Entity CRUD composable for BlockInstance
- * WHY: Provides orderIndex operations for drag-and-drop
- * PATTERN: useEntityCrud composable wraps Vue Query mutations
+ * WHY: Entity CRUD composable for BlockInstance
+PATTERN: useEntityCrud composab...
  */
 const { patchOrderIndex: patchBlockInstanceOrderIndex } = useEntityCrud('blockInstance')
 
 /**
- * LEARNING: Entity CRUD composable for BlockShape
- * WHY: Provides access to BlockShape entities for entity card display
- * PATTERN: useEntityCrud composable wraps Vue Query queries
+ * WHY: Entity CRUD composable for BlockShape
+PATTERN: useEntityCrud composable ...
  */
 const { entities: _blockShapes } = useEntityCrud('blockShape')
 
@@ -126,16 +113,15 @@ const { globalData: _globalData } = useGlobal()
 
 
 /**
- * LEARNING: Expansion state for BlockShape entity cards
- * WHY: Separate expansion state for BlockShape entity cards (different from BlockInstances)
- * PATTERN: Use separate expansion state composable instance
+ * WHY: Expansion state for BlockShape entity cards
+WHY: Separate expansion stat...
  */
 const blockShapeExpansionState = useExpansionState()
 const { expandedEntities: expandedBlockShapes } = blockShapeExpansionState
 
 /**
- * LEARNING: Use shape edit modal composable
- * WHY: Modal handlers moved to composable
+ * WHY: Use shape edit modal composable
+WHY: Modal handlers moved to composable
  */
 const {
   shapeEditModalOpen,
@@ -150,20 +136,8 @@ const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, number
 
 
 /**
- * LEARNING: EntityCard is now self-contained
- * WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields
- * PATTERN: No need for refs, readiness maps, or field context access - EntityCard handles everything internally
- */
-
-/**
- * LEARNING: EntityCard is now self-contained
- * WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields
- * PATTERN: No need for titleRowRenderMap or diagnostic logic - EntityCard handles everything internally
- */
-
-/**
- * LEARNING: Use instance filtering composable
- * WHY: Filtering logic moved to composable
+ * WHY: Use instance filtering composable
+WHY: Filtering logic moved to composable
  */
 const {
   mainInstancesByShape,
@@ -173,8 +147,8 @@ const {
 })
 
 /**
- * LEARNING: Use instance drag-and-drop composable
- * WHY: Drag-and-drop setup logic moved to composable
+ * WHY: Use instance drag-and-drop composable
+WHY: Drag-and-drop setup logic mov...
  */
 const {
   blockInstancesLists,
@@ -191,21 +165,19 @@ const {
 
 
 /**
- * LEARNING: Use instance deletion composable
- * WHY: Deletion handler moved to composable
+ * WHY: Use instance deletion composable
+WHY: Deletion handler moved to composable
  */
 const { handleDeleteBlockInstance } = useInstanceDeletion()
 
 /**
  * LEARNING: Use instance save handlers composable
- * WHY: Save handlers moved to composable
  */
 const { handleExistingBlockInstanceSaved } = useInstanceSaveHandlers()
 
 /**
- * LEARNING: Modal state for create/duplicate operations
- * WHY: Unified modal approach for both create and duplicate
- * PATTERN: Simple boolean + optional sourceEntity for duplicate
+ * WHY: Modal state for create/duplicate operations
+WHY: Unified modal approach ...
  */
 const createModalOpen = ref(false)
 const createModalBlockShapeId = ref<GlobalEntityId>(toGlobalEntityId(''))
@@ -230,14 +202,13 @@ const handleInstanceCreated = (_entity: GlobalEntity<'blockInstance'>): void => 
 }
 
 /**
- * LEARNING: Use instance tab handlers composable
- * WHY: Tab click handler moved to composable
+ * WHY: Use instance tab handlers composable
+WHY: Tab click handler moved to com...
  */
 const { handleTabClick } = useInstanceTabHandlers({ activeTab })
 
 /**
  * LEARNING: Event Instances state and handlers
- * WHY: Event instances are now part of InstancesTab
  */
 const { success } = useNotification()
 const isCreatingEventInstance = ref(false)
@@ -259,7 +230,6 @@ const newEventInstanceData = ref<{
   status: 'confirmed' | 'tentative'
 } | null>(null)
 
-// Template variable reference for the help panel and validation
 const templateVariables = [
   { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
   { name: 'city', description: 'Property city', example: 'Austin' },
@@ -596,10 +566,9 @@ function handleDeleteEventInstance(_id: string) {
               v-model="expandedInstances"
               multiple
             >
-              <!-- Existing BlockInstances -->
-              <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
-              <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
-              <!-- PATTERN: Use EntityCard directly - no need for parent VExpansionPanel wrapper -->
+              /**
+               * <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own...
+               */
               <EntityCard
                 v-for="instance in (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || [])"
                 :key="instance.id"

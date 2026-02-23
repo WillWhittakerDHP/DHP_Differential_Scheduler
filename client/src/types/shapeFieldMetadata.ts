@@ -1,7 +1,4 @@
 /**
- * LEARNING: Shape Field Metadata Types
- * WHY: Type definitions for canonical field metadata and layout configs
- * PATTERN: Separate types for canonical metadata vs layout configs
  */
 
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'

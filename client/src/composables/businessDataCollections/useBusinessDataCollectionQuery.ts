@@ -1,9 +1,6 @@
 /**
  * Business Data Collection Query Composable
  * 
- * LEARNING: Read-only query helpers for BusinessData-backed collections
- * WHY: Separates query concerns from mutation logic
- * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionQuery.ts
  * 
  * Session 1.4.7: Created as part of data flow consolidation
  */
@@ -24,7 +21,6 @@ type BusinessDataCollectionQueryOptions<CollectionItem extends { id: string }> =
 /**
  * Read-only query helpers for BusinessData-backed collections (appointments/users/properties).
  *
- * LEARNING: These collections are stored on `businessData` (Vue Query cache) and are not fetched per-collection.
  * WHY: Keeping "query" concerns separate makes CRUD composables smaller and easier to reuse.
  */
 export function useBusinessDataCollectionQuery<CollectionItem extends { id: string }>(

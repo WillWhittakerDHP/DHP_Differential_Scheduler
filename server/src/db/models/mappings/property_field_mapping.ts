@@ -1,9 +1,6 @@
 /**
  * Property Field Mapping Model
  *
- * LEARNING: Maps RESO source fields to property_details target fields
- * WHY: Admin-configurable field mapping (foundationAccess, additionalUnits)
- * PATTERN: data_source discriminator for multi-MLS support
  */
 
 import {

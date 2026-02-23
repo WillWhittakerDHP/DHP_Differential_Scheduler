@@ -21,9 +21,7 @@ Enhance `calculateScore()` function to reduce weight for simple patterns:
 
 ```javascript
 function isSimpleReactiveWrapper(line, lines, lineIndex) {
-  // Check if computed is just wrapping a prop: computed(() => props.xyz)
   const isPropWrapper = /computed\s*\(\s*\(\)\s*=>\s*props\.\w+/.test(line)
-  // Check if computed is passed to composable (next few lines)
   const nextLines = lines.slice(lineIndex, Math.min(lineIndex + 5, lines.length)).join('\n')
   const isComposableParam = /use\w+\([^)]*computed/.test(nextLines)
   
@@ -31,12 +29,10 @@ function isSimpleReactiveWrapper(line, lines, lineIndex) {
 }
 
 function calculateScore(counts, matches, lines) {
-  // Count simple reactive wrappers separately
   const simpleWrapperCount = matches.filter(m => 
     m.ruleId === 'computed' && isSimpleReactiveWrapper(m.line, lines, m.lineNumber - 1)
   ).length
   
-  // Reduce weight for simple wrappers (count as 0.3 instead of 1)
   const effectiveComputedCount = (counts.computed || 0) - (simpleWrapperCount * 0.7)
   
   // Calculate severity score based on risky patterns

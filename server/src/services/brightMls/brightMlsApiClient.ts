@@ -1,11 +1,7 @@
 /**
  * Bright MLS API Client
  *
- * LEARNING: RESO Web API uses OData $filter and $select
- * WHY: Fetch property data by address for booking wizard enrichment
- * PATTERN: External proxy; server holds credentials
  *
- * RESOURCE: https://reso.org/blog/web-api-example/filter-for-specific-property-7
  */
 
 import { createLogger } from '../../utils/logger.js';
@@ -146,7 +142,6 @@ export async function searchPropertyByAddress(
     return null;
   }
 
-  // Parse address into street number and name if not provided
   const streetParts = parseStreetAddress(address);
   const streetNumber = streetParts.number;
   const streetName = streetParts.name || address.trim();

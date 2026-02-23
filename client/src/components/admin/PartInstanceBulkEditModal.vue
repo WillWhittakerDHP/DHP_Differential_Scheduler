@@ -22,10 +22,9 @@
           Apply the same values to all PartInstances for this BlockInstance. Leave fields empty to skip them.
         </p>
 
-        <!-- LEARNING: EntityCard with only bulkEdit fields visible -->
-        <!-- WHY: Uses EntityCard for consistency, but filters metadata to show only bulkEdit fields -->
-        <!-- PATTERN: Filter metadata to only include fields where bulkEdit: true -->
-        <!-- NOTE: Hide EntityCard's action buttons with CSS, use modal's Apply button instead -->
+        /**
+         * <!-- WHY: Uses EntityCard for consistency, but filters metadata to show ...
+         */
         <div class="bulk-edit-entity-card">
           <!--
             LEARNING: EntityCard for bulk edit form
@@ -135,9 +134,6 @@ const partShapeRef = computed(() => {
 })
 
 /**
- * LEARNING: Template entity for bulk edit form
- * WHY: EntityCard needs an entity object, but we don't want to save it
- * PATTERN: Use a placeholder UUID that will fail gracefully when field blur tries to save
  * NOTE: Field blur will try to save, but since this ID doesn't exist, it will fail safely
  * NOTE: Defined early so it can be used by useEntityMetadata below
  * FIX: Create templateEntity FIRST with partShapeRef (like InstanceBulkEditModal does with blockShapeRef)
@@ -184,9 +180,6 @@ import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
 
 /**
- * LEARNING: Filter metadata to only include fields with bulkEdit: true
- * WHY: Bulk edit modals should only show fields enabled for bulk edit
- * PATTERN: Filter metadata before passing to EntityCard
  */
 const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
   const metadata = partInstanceMetadata.value
@@ -234,9 +227,6 @@ function handleApply() {
 </script>
 
 <style scoped>
-/* LEARNING: Hide EntityCard's action buttons in bulk edit modal */
-/* WHY: Modal has its own Apply button, don't need EntityCard's Save button */
-/* PATTERN: Use CSS to hide the action buttons section */
 .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
   display: none !important;
 }

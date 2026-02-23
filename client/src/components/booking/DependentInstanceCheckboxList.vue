@@ -1,18 +1,9 @@
 <script setup lang="ts">
 /**
- * DependentInstanceCheckboxList Component
- * 
- * LEARNING: Renders dependent instance options as a multi-select checkbox list
- * WHY: Provides multi-select capabilities for dependent options within parent card
- * PATTERN: Simple checkbox list component that integrates into SelectionCard
- * 
- * Features:
- * - Renders VCheckbox items for each dependent option
- * - Handles multi-select with array of selected IDs
- * - Displays option name and description
- * - Integrates seamlessly within SelectionCard border
- */
+ * WHY: DependentInstanceCheckboxList Component
 
+LEARNING: Renders dependent ins...
+ */
 import type { SelectionCardItem } from './types/selectionCardTypes'
 
 interface Props {
@@ -89,9 +80,6 @@ function handleToggle(optionId: string, selected: boolean): void {
 
 <style scoped lang="scss">
 /**
- * LEARNING: Dependent instance checkbox list styling
- * WHY: Provides proper spacing and layout within parent card
- * PATTERN: Indented block with consistent spacing
  */
 .dependent-instance-checkbox-list {
   margin-top: 1rem;

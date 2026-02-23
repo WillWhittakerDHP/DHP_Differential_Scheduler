@@ -12,16 +12,9 @@
     class="dynamic-form"
     :autocomplete="autocompleteOff"
   >
-    <!-- LEARNING: Unified layout-based rendering for ALL entity types -->
-    <!-- WHY: Single rendering path for all entities using inline/stacked layout -->
-    <!-- PATTERN: No entity-type-specific code paths - all entities use same layout mechanism -->
-    
-    <!-- Inline Fields Row -->
-    <!-- LEARNING: Only render fields with ready contexts to avoid timing errors -->
-    <!-- WHY: Contexts are created asynchronously, template may render before all are ready -->
-    <!-- LEARNING: Use Vuetify responsive grid for inline fields -->
-    <!-- WHY: Ensures fields stack properly on mobile and display inline on larger screens -->
-    <!-- PATTERN: Use VRow/VCol with responsive breakpoints for mobile-first responsive design -->
+    /**
+     * <!-- WHY: Single rendering path for all entities using inline/stacked la...
+     */
     <VRow v-if="readyInlineFields && readyInlineFields.length > 0" class="mb-4">
       <VCol
         v-for="fieldKey in readyInlineFields"
@@ -53,23 +46,9 @@
 <script setup lang="ts">
 
 /**
- * LEARNING: DynamicForm generates form fields dynamically from admin configs
- * 
- * WHY: Consolidated component that replaces DynamicFormInputs and DynamicFormFields
- *      Replaces hardcoded fields with config-driven approach
- *      Ensures all fields from FIELD_KEYS are included
- * 
- * PATTERN: 
- * 1. Get formFieldConfig for entity
- * 2. Get instanceConfig to determine field layout (inline, stacked, omitted)
- * 3. Filter out omitted fields
- * 4. Group fields by layout (inline, stacked, regular)
- * 5. Create FieldContext for each field
- * 6. Render FieldRenderer for each field
- * 
- * COMPARISON: React uses similar pattern with GenericInstance component
+ * WHY: Replaces hardcoded fields with config-driven approach
+     Ensures all f...
  */
-
 import { computed, ref, watch } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -94,10 +73,7 @@ interface Props {
   entityId?: GlobalEntityId
   form: FormContext
   /**
-   * LEARNING: Modal mode flag - when true, includes titleField in visible fields
-   * WHY: In modal dialogs, the name field should be editable even though it's the titleField
    *      In card views, titleField is rendered in the card title, not as a form field
-   * PATTERN: Conditional field visibility based on context (modal vs card)
    */
   modalMode?: boolean
 }
@@ -109,23 +85,17 @@ const formRef = ref<InstanceType<typeof VForm> | null>(null)
 
 /**
  * WHY: Admin config composable (initialized immediately for computed properties)
- * WHY: Computed properties need access to adminConfig, so it must be initialized before they're created
- * PATTERN: Initialize immediately, not inside try-catch, so computed properties can access it
  */
 const adminConfig = useAdminConfig()
 const adminComp = useAdmin()
 
 /**
- * LEARNING: Form is always provided by parent (EntityCard via useEntityCardForm)
- * WHY: Form ownership lives in composables; DynamicForm only consumes
- * PATTERN: Parent passes form ref/instance; no useForm() in .vue files
  */
 const formRefForComposable = computed<FormContext>(() => props.form)
 
 /**
- * LEARNING: Current entity ID for composable
- * WHY: Need stable reference for composable
- * PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID
+ * WHY: Current entity ID for composable
+WHY: Need stable reference for composable
  */
 const tempEntityId = ref<GlobalEntityId>(toGlobalEntityId('new-' + String(Date.now())))
 const currentEntityId = ref<GlobalEntityId>(props.entityId || tempEntityId.value)
@@ -171,9 +141,8 @@ const stackedFieldsConfig = computed(() => {
 })
 
 /**
- * LEARNING: Use form fields composable for all field management logic
- * WHY: Moves all field categorization, context management, and layout logic to composable
- * PATTERN: Call composable with required parameters, use returned computed properties and methods
+ * WHY: Use form fields composable for all field management logic
+WHY: Moves all...
  */
 const formFields = useFormFields({
   entityKey: props.entityKey,
@@ -193,9 +162,8 @@ const {
 } = formFields
 
 /**
- * LEARNING: Use form element patching composable
- * WHY: Extracts DOM patching logic from component to composable
- * PATTERN: Composable handles form element patching and MutationObserver setup
+ * WHY: Use form element patching composable
+WHY: Extracts DOM patching logic fr...
  */
 const { tryPatchFormImmediately } = useFormElementPatching({
   formRef,
@@ -205,14 +173,9 @@ const { tryPatchFormImmediately } = useFormElementPatching({
 
 tryPatchFormImmediately()
 
-// LEARNING: Removed empty config watch - computed properties handle reactivity automatically
-// PATTERN: Trust Vue's reactivity system - no manual watch needed
-
 /**
- * LEARNING: Expose form instance and form inputs to parent
- * WHY: Parent needs form to get values for save operation
- *      Parent also needs form inputs to render them separately (EntityCard)
- * PATTERN: defineExpose must be at top level of script setup, not inside try-catch
+ * WHY: Removed empty config watch - computed properties handle reactivity autom...
+ * PATTERN: Trust Vue's reactivity system - no manual watch needed
  */
 defineExpose({
   form: props.form,

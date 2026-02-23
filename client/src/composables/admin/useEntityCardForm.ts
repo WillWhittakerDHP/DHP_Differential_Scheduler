@@ -1,13 +1,7 @@
 /**
- * Entity Card Form Owner Composable
- *
- * LEARNING: Single place that owns form creation for the entity-card flow
- * WHY: Keeps form creation and store sync in composables so .vue files only consume
- * PATTERN: When form not provided, creates form, sets initial values, and runs store sync
- *
- * Use this in EntityCard (or any future UI) so form logic stays out of components.
+ * WHY: Entity Card Form Owner Composable
+WHY: Keeps form creation and store syn...
  */
-
 import { computed, type Ref, type ComputedRef } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'

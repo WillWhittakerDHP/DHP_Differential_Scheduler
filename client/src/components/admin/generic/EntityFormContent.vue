@@ -25,16 +25,11 @@ interface Props {
   entityId?: GlobalEntityId
   form: FormContext<Record<string, unknown>>
   /**
-   * LEARNING: Modal mode flag
-   * WHY: In dialogs, titleField should be rendered as a form field (modalMode=true)
-   *      In cards, titleField is rendered in card title, not as form field (modalMode=false or undefined)
-   * PATTERN: Based on EntityCard pattern - cards don't pass modalMode, dialogs pass modalMode=true
+   * WHY: /**
+WHY: In dialogs, titleField should be rendered as a form field (moda...
    */
   modalMode?: boolean
   /**
-   * LEARNING: Toggle rendering vs context-only
-   * WHY: EntityCard uses contexts but renders its own layout
-   * PATTERN: Keep rendering defaulted to true for backward compatibility
    */
   renderLayout?: boolean
 }
@@ -45,17 +40,13 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /**
- * LEARNING: Reference to DynamicForm component
- * WHY: Need to access field contexts and expose methods for parent components
- * PATTERN: Template ref to access child component methods
  */
 const dynamicFormRef = ref<InstanceType<typeof DynamicForm> | null>(null)
 void dynamicFormRef.value // ref used by template
 
 /**
- * LEARNING: Current entity ID for composable
- * WHY: Need stable reference for composable
- * PATTERN: Ref that uses props.entityId if available, otherwise uses stable temp ID
+ * WHY: Current entity ID for composable
+WHY: Need stable reference for composable
  */
 const currentEntityId = ref<GlobalEntityId>(props.entityId ?? toGlobalEntityId('new-' + String(Date.now())))
 
@@ -103,10 +94,8 @@ const stackedFieldsConfig = computed(() => {
 })
 
 /**
- * LEARNING: Use form fields composable for unified layout-based rendering
- * WHY: Provides readyInlineFields, readyStackedFields for ALL entity types
- * PATTERN: Use same composable for all entities - no special cases
- * VeeValidate useForm return is compatible with FormContext at runtime.
+ * WHY: Use form fields composable for unified layout-based rendering
+PATTERN: U...
  */
 const formRefForComposable = computed<FormContext | undefined>(() => props.form)
 
@@ -128,8 +117,6 @@ const {
 } = formFields
 
 /**
- * LEARNING: Helper function to get field context
- * WHY: Need to render fields using FieldRenderer
  * PATTERN: Use formFields composable's getFieldContext for consistency
  */
 const getFieldContextFromFormFields = (fieldKey: GlobalFieldKey<GlobalEntityKey>) => {
@@ -137,8 +124,6 @@ const getFieldContextFromFormFields = (fieldKey: GlobalFieldKey<GlobalEntityKey>
 }
 
 /**
- * LEARNING: Helper functions for name and active field contexts
- * WHY: Used to render name and active inline at top (rendered separately above this component)
  * PATTERN: Access field contexts from formFields composable
  */
 const getNameFieldContext = () => {
@@ -151,9 +136,6 @@ const getActiveFieldContext = () => {
 
 
 /**
- * LEARNING: Expose methods and properties for parent components
- * WHY: EntityCard needs access to field contexts
- * PATTERN: Expose getFieldContext and name/active helpers
  */
 defineExpose({
   readyInlineFields,
@@ -191,13 +173,9 @@ defineExpose({
       />
     </div>
     
-    <!-- LEARNING: Unified Layout-Based Field Rendering for ALL Entity Types -->
-    <!-- WHY: Single rendering path for all entities using inline/stacked layout -->
-    <!-- PATTERN: No entity-type-specific code paths - all entities use same layout mechanism -->
-    
-    <!-- LEARNING: Inline Fields Row -->
-    <!-- WHY: Fields configured as inlineFields appear in a horizontal row -->
-    <!-- PATTERN: Use VRow/VCol with responsive breakpoints for mobile-first responsive design -->
+    /**
+     * <!-- WHY: Single rendering path for all entities using inline/stacked la...
+     */
     <template v-if="renderLayout">
       <VRow v-if="readyInlineFields && readyInlineFields.length > 0" class="mb-4">
         <VCol

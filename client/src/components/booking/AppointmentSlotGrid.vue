@@ -2,9 +2,6 @@
 /**
  * AppointmentSlotGrid Component
  * 
- * LEARNING: Responsive appointment slot button grid with dynamic column calculation
- * WHY: Encapsulates grid layout logic, ResizeObserver, and responsive behavior
- * PATTERN: Self-contained component with props/events for parent communication
  * 
  * Features:
  * - Dynamic column calculation based on available width
@@ -42,7 +39,6 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'primary',
   variant: 'outlined',
   loading: false,
-  minColumns: 1, // LEARNING: Minimum of 1 column allows grid to shrink to single column when space is tight
   maxColumns: 8,
   buttonMinWidth: 140, // Increased from 80 to accommodate "10:00 AM - 10:30 AM" format
   gap: 10
@@ -74,7 +70,6 @@ const { formatTimeRange } = useTimeFormatting()
 const isDevMode = isDevModeEnabled()
 
 // LEARNING: Constraint colors and formatting utilities imported from shared module
-// WHY: Centralized constants and utilities used across components
 
 interface SlotDisplayData {
   buttonIndex: number
@@ -84,12 +79,8 @@ interface SlotDisplayData {
 }
 
 /**
- * LEARNING: Compute display slots from AppointmentSlots
  * WHY: Derives perspective directly using timeBasis prop for reactivity
- * PATTERN: Map over appointmentSlots, call derivePerspective with current timeBasis
- * NOTE: Directly uses timeBasis prop to ensure reactivity when perspective changes
- * LEARNING: Availability doesn't change with perspective - only display time changes
- * WHY: Slots are the same regardless of perspective, only the label/time shown changes
+NOTE: D...
  */
 const displaySlots = computed(() => {
   const currentPerspective = props.timeBasis
@@ -97,8 +88,6 @@ const displaySlots = computed(() => {
   const slots = props.appointmentSlots.map(appointmentSlot => {
     const displayTime = derivePerspective(appointmentSlot, currentPerspective)
     
-    // LEARNING: Include violations for dev mode dot display
-    // WHY: Dots are now integrated into buttons, not overlay
     const violations = !appointmentSlot.isAvailable && appointmentSlot.flexibleViolations
       ? appointmentSlot.flexibleViolations
       : undefined

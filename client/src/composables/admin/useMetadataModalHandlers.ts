@@ -1,9 +1,7 @@
 /**
- * Composable for metadata modal handlers
- * WHY: Extracts metadata modal handler logic from ShapesTab
- * PATTERN: Composable that manages modal state and handlers
+ * PATTERN: Composable for metadata modal handlers
+PATTERN: Composable that manages ...
  */
-
 import { ref, type Ref } from 'vue'
 
 export interface UseMetadataModalHandlersReturn {
@@ -13,14 +11,11 @@ export interface UseMetadataModalHandlersReturn {
 }
 
 /**
- * Composable for managing metadata modal
- * WHY: Centralizes metadata modal state and handlers
- * PATTERN: Returns reactive state and handler functions
+ * WHY: Composable for managing metadata modal
+WHY: Centralizes metadata modal s...
  */
 export function useMetadataModalHandlers(): UseMetadataModalHandlersReturn {
   /**
-   * LEARNING: Track if the global PartInstance metadata modal is open
-   * WHY: Single modal for configuring all PartInstance field definitions globally
    * PATTERN: Simple boolean ref for single modal state
    */
   const partInstanceMetadataModalOpen = ref(false)

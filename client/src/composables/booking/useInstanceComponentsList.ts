@@ -1,16 +1,8 @@
 /**
- * useInstanceComponentsList Composable
- * 
- * LEARNING: Extracts component aggregation logic for multiple services
- * WHY: Extracts component extraction logic from ServiceSelectionStep component
- * PATTERN: Composable that maps services and adds component data for composable blocks
- * 
- * Features:
- * - Map services and add component data when service is composable
- * - Extract components per service using useComponentEntity
- * - Filter active components based on selected user type
- */
+ * PATTERN: useInstanceComponentsList Composable
 
+PATTERN: Composable that maps serv...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useComponentEntity } from '../useComponentEntity'
@@ -26,10 +18,8 @@ export interface UseInstanceComponentsListOptions {
 }
 
 /**
- * useInstanceComponentsList composable
- * LEARNING: Provides component extraction for multiple services
- * WHY: Centralizes component aggregation logic for reuse
- * PATTERN: Composable that returns computed property with enhanced services
+ * PATTERN: useInstanceComponentsList composable
+PATTERN: Composable that returns co...
  */
 export function useInstanceComponentsList(options: UseInstanceComponentsListOptions) {
   const { services } = options
@@ -38,10 +28,9 @@ export function useInstanceComponentsList(options: UseInstanceComponentsListOpti
   const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
 
   /**
-   * Helper function to get components for a service
-   * LEARNING: Uses shared utility function to extract components
-   * WHY: Avoids code duplication, uses composable logic
-   * PATTERN: Helper function that uses utility function from instanceComponentUtils
+   * WHY: /**
+Helper function to get components for a service
+WHY: Avoids code dup...
    */
   const getInstanceComponents = (service: BookingBlockInstance): ComponentItem[] => {
     return getInstanceComponentsForService({
@@ -55,10 +44,9 @@ export function useInstanceComponentsList(options: UseInstanceComponentsListOpti
   }
 
   /**
-   * Enhance services with component data for composable blocks
-   * LEARNING: Map services and add component data when service is composable
-   * WHY: Composable blocks need their active components attached for expansion display
-   * PATTERN: Computed property that maps services and adds component data
+   * WHY: /**
+Enhance services with component data for composable blocks
+LEARNING:...
    */
   const servicesWithComponents = computed<SelectionCardItem[]>(() => {
     return mapServicesWithComponents({

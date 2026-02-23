@@ -1,21 +1,9 @@
 <script setup lang="ts">
 /**
- * ServiceSelectCards Component
- * 
- * LEARNING: Thin wrapper for service selection cards with dependent options
- * WHY: Provides clean interface while keeping SelectionCardGroup generic
- * PATTERN: Wrapper component that connects wizard state to generic UI
- * 
- * Features:
- * - Connects to useBookingWizard for services
- * - Uses stack layout for vertical list display
- * - Single-select behavior (radio-like) - selecting one deselects others
- * - Maps display properties (icons)
- * - Supports dependent instances (nested children)
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- */
+ * PATTERN: ServiceSelectCards Component
 
+PATTERN: Wrapper component that connects w...
+ */
 import { computed } from 'vue'
 import SelectionCardGroup from '../SelectionCardGroup.vue'
 import type { SelectionCardConfig } from '../types/selectionCardTypes'
@@ -109,9 +97,7 @@ const selectedIds = computed<string[]>({
 </template>
 
 <style scoped>
-/* LEARNING: Minimal styling - let SelectionCardGroup handle layout */
 .service-select-cards {
-  /* Wrapper-specific styling if needed */
 }
 </style>
 

@@ -1,11 +1,8 @@
 /**
- * useShapeDisplayNames Composable
- * 
- * LEARNING: Extracts shape display names map logic from ShapesTab component
- * WHY: Moves display names map creation to composable
- * PATTERN: Composable that provides computed maps of entity IDs to display names
- */
+ * WHY: useShapeDisplayNames Composable
 
+WHY: Moves display names map creation t...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityDisplay } from './useEntityDisplay'
@@ -16,20 +13,15 @@ export interface UseShapeDisplayNamesReturn {
 }
 
 /**
- * useShapeDisplayNames composable
- * 
- * LEARNING: Provides computed maps of entity IDs to display names
- * WHY: Extracts display names map logic from component to composable
- * PATTERN: Composable that returns reactive computed maps
+ * WHY: useShapeDisplayNames composable
+
+WHY: Extracts display names map logic f...
  */
 export function useShapeDisplayNames(): UseShapeDisplayNamesReturn {
   const { getGlobalEntities } = useGlobal()
   const { getEntityDisplayName } = useEntityDisplay()
 
   /**
-   * LEARNING: Computed property for entity display names map
-   * WHY: Provides reactive access to entity display names that updates when entity properties change
-   * PATTERN: Map entity IDs to display names, recomputes when entities change
    */
   const blockShapeDisplayNames = computed(() => {
     const blockShapes = getGlobalEntities('blockShape')

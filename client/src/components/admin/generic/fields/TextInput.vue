@@ -66,19 +66,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: TextInput renders single-line text input or textarea based on content length
- * 
- * WHY: Text fields are the most common input type. Auto-converts to textarea for long content.
- * 
- * PATTERN: Wrapper component pattern - wraps Vuexy App components with field context
- * 
- * COMPARISON: React uses Ant Design Input. Vue uses Vuexy AppTextField/AppTextarea.
- *             Both provide same functionality but different APIs.
- * 
- * MIGRATION: Migrated from VTextField/VTextarea to AppTextField/AppTextarea following
- *            SelectInputs.vue pattern. App components handle labels internally.
+ * PATTERN: Wrapper component pattern - wraps Vuexy App components with field contex...
  */
-
 import { computed, inject, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
@@ -187,28 +176,17 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
 </script>
 
 <style scoped>
-/* LEARNING: Responsive text input field styling */
-/* WHY: Fields should fit content and wrap appropriately on different screen sizes */
-/* PATTERN: Use CSS to make fields responsive and fit content */
-/* LEARNING: Minimum width matches name field, but can grow larger */
-/* WHY: Ensures consistency - all text/number fields are at least as wide as name field */
-/*      But allows growth for longer content (names, numbers, etc.) */
 .text-input-field {
   width: 100%;
   min-width: 200px; /* Minimum width to match typical name field width */
 }
 
-/* LEARNING: Title row fields should size based on content */
-/* WHY: Name fields in title row should fit their text content, not be constrained to fixed width */
-/* PATTERN: Use CSS selector to detect when field is in title row context */
 :deep(.title-row-field) .text-input-field {
   width: auto;
   min-width: 150px;
   max-width: 100%;
 }
 
-/* LEARNING: On mobile, make fields stack and take full width */
-/* WHY: Better UX on small screens */
 @media (max-width: 600px) {
   .text-input-field {
     width: 100%;
@@ -216,11 +194,6 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   }
 }
 
-/* LEARNING: Readonly text display styling */
-/* WHY: Plain text looks better than disabled input for readonly fields */
-/* PATTERN: Use text styling that matches input appearance */
-/* LEARNING: Minimum width matches name field for consistency */
-/* WHY: Readonly text should match editable field width */
 .readonly-text {
   display: inline-block;
   width: 100%;
@@ -232,17 +205,12 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   font-size: 16px;
 }
 
-/* LEARNING: Title row readonly text should size based on content */
-/* WHY: Name fields in title row should fit their text content */
-/* PATTERN: Use CSS selector to detect when field is in title row context */
 :deep(.title-row-field) .readonly-text {
   width: auto;
   min-width: 150px;
   max-width: 100%;
 }
 
-/* LEARNING: On mobile, allow readonly text to shrink */
-/* WHY: Better UX on small screens */
 @media (max-width: 600px) {
   .readonly-text {
     min-width: 0; /* Allow shrinking on mobile */

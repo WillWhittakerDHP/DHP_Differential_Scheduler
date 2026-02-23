@@ -2,9 +2,6 @@
 /**
  * Shared Dev Panel Buttons Component
  * 
- * LEARNING: Extracted dev panel buttons to eliminate duplication
- * WHY: Used in both ApiDevPanel and DevPanelsContainer
- * PATTERN: Shared component with injected dev panel buttons
  */
 
 import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'

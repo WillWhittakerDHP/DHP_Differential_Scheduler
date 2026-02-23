@@ -1,12 +1,8 @@
 /**
- * LEARNING: Wizard Validation Error Handling
- * WHY: Encapsulates step-specific validation error message logic
  * PATTERN: Composable for handling validation errors with user-friendly messages
- * 
- * Used by:
- * - BookingWizard.vue
- */
 
+U...
+ */
 import { nextTick, type Ref } from 'vue'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -29,9 +25,6 @@ export interface UseWizardValidationErrorsReturn {
 }
 
 /**
- * LEARNING: Enhanced handleNext with step-specific error handling
- * WHY: Provides user-friendly error messages for each step's validation failures
- * PATTERN: Wraps baseHandleNext with error message logic
  */
 export function useWizardValidationErrors(
   options: UseWizardValidationErrorsOptions

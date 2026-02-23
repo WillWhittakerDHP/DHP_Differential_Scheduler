@@ -1,9 +1,7 @@
 /**
- * Composable for part instance expansion handlers
- * WHY: Extracts expansion toggle logic from PartsCollection template
- * PATTERN: Helper function for expansion state management
+ * WHY: Composable for part instance expansion handlers
+WHY: Extracts expansion ...
  */
-
 import type { Ref } from 'vue'
 
 export interface UsePartInstanceExpansionOptions {
@@ -16,8 +14,6 @@ export interface UsePartInstanceExpansionReturn {
 
 /**
  * Composable for managing part instance expansion
- * WHY: Centralizes expansion toggle logic
- * PATTERN: Returns function to toggle expansion state
  */
 export function usePartInstanceExpansion(
   options: UsePartInstanceExpansionOptions
@@ -26,8 +22,6 @@ export function usePartInstanceExpansion(
 
   /**
    * Toggle part instance expansion
-   * WHY: Handles expansion/collapse of part instance panels
-   * PATTERN: Add/remove instance ID from expanded array
    */
   const togglePartInstanceExpansion = (instanceId: string): void => {
     // PATTERN: Access array directly, not through .value

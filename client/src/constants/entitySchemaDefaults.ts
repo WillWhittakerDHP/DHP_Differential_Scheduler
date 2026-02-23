@@ -1,7 +1,6 @@
 /**
  * Entity schema default field sets for dehydrate/serialization.
  * WHY: Metadata may incorrectly mark fields as not required; database schema is source of truth.
- * PATTERN: Used by fetchToGlobalTransformer.dehydrateEntity to coerce empty strings and defaults.
  */
 
 export const ENTITY_SCHEMA_DEFAULTS = {

@@ -20,9 +20,6 @@ const app = express()
 /**
  * Initialize Database and OAuth tokens
  * 
- * LEARNING: Async initialization function called immediately
- * WHY: Separates initialization logic from app setup
- * PATTERN: Immediately invoked async function for startup tasks
  * 
  * NOTE: This function is called immediately on line 27, so it's not unused.
  * The audit flagging it as unused is a false positive.
@@ -43,7 +40,6 @@ const startServer = async (): Promise<void> => {
 
 startServer()
 
-/* Middleware */
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(cors())
@@ -54,21 +50,15 @@ app.use((req, _res, next) => {
   next()
 })
 
-/* Routes */
 app.use(ROUTE_PATHS.API, routes)
 
 /**
  * OAuth Callback Route (Root Level)
- * LEARNING: Handles Google OAuth callback at simpler path for compatibility
- * WHY: Google OAuth requires simpler redirect URI paths
- * PATTERN: Root-level route for OAuth callback
  */
 app.use('/', OAuthCallbackRouter)
 
 /**
  * Root route handler
- * LEARNING: Provides API information at root endpoint
- * WHY: Simple way to verify server is running and get API info
  */
 app.get('/', (_req, res) => {
   res.json({
@@ -81,7 +71,6 @@ app.get('/', (_req, res) => {
   })
 })
 
-/* Custom Error Handling Middlewares */
 app.use(notFound)
 app.use(errorHandler)
 

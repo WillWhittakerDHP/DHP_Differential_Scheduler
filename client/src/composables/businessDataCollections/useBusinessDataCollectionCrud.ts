@@ -1,23 +1,14 @@
 /**
- * Business Data Collection CRUD Composable
- * 
- * LEARNING: Facade composable for BusinessData-backed collections
- * WHY: Provides unified CRUD operations for business entities
- * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionCrud.ts
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- */
+ * WHY: Business Data Collection CRUD Composable
 
+LEARNING: Facade composable fo...
+ */
 import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from './types'
 import { useBusinessDataCollectionQuery } from './useBusinessDataCollectionQuery'
 import { useBusinessDataCollectionActions } from './useBusinessDataCollectionActions'
 
 /**
- * Facade composable for BusinessData-backed collections.
- *
- * PATTERN: query/state/actions separation
- * - query: `useBusinessDataCollectionQuery` (read from businessData cache)
- * - actions: `useBusinessDataCollectionActions` (mutations that refetch ['businessData'])
+ * PATTERN: Facade composable for BusinessData-backed collections
  */
 export function useBusinessDataCollectionCrud<
   CollectionItem extends { id: string },

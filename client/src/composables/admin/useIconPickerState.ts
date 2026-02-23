@@ -1,16 +1,8 @@
 /**
- * Icon Picker State Composable
- * 
- * LEARNING: Extracts icon picker state management from IconPicker component
- * WHY: Moves state sync logic out of component into reusable composable
- * PATTERN: Composable that manages icon selection state and syncs with props
- * 
- * This composable handles:
- * - Icon selection state
- * - Syncing internal state with currentIcon prop
- * - Resetting state when dialog closes
- */
+ * WHY: Icon Picker State Composable
 
+LEARNING: Extracts icon picker state manag...
+ */
 import { ref, watch, type Ref } from 'vue'
 
 export interface UseIconPickerStateOptions {
@@ -28,11 +20,9 @@ export interface UseIconPickerStateReturn {
 }
 
 /**
- * Icon Picker State Composable
- * 
- * LEARNING: Manages icon picker state and syncs with props
- * WHY: Extracts state management from component to composable
- * PATTERN: Composable with state refs and watchers for prop sync
+ * WHY: Icon Picker State Composable
+
+WHY: Extracts state management from compon...
  */
 export function useIconPickerState(
   options: UseIconPickerStateOptions
@@ -43,9 +33,6 @@ export function useIconPickerState(
   } = options
   
   /**
-   * LEARNING: Selected icon state
-   * WHY: Tracks which icon is currently selected
-   * PATTERN: Ref initialized with currentIcon prop value
    */
   const currentIconValue = typeof currentIcon === 'string' || currentIcon === null
     ? currentIcon
@@ -54,15 +41,10 @@ export function useIconPickerState(
   const selectedIcon = ref<string | null>(currentIconValue || null)
   
   /**
-   * LEARNING: Search term state
-   * WHY: Tracks search input for filtering icons
-   * PATTERN: Ref for search term string
    */
   const searchTerm = ref('')
   
   /**
-   * LEARNING: Watch for currentIcon prop changes
-   * WHY: When dialog opens with existing icon, highlight it
    * PATTERN: Watch prop and update local state
    */
   if (currentIcon && typeof currentIcon !== 'string' && currentIcon !== null) {
@@ -72,9 +54,9 @@ export function useIconPickerState(
   }
   
   /**
-   * LEARNING: Reset state when dialog closes
-   * WHY: Clears search and resets selection when dialog closes
-   * PATTERN: Function that resets state to initial values
+   * WHY: /**
+LEARNING: Reset state when dialog closes
+PATTERN: Function that rese...
    */
   const resetState = (): void => {
     searchTerm.value = ''
@@ -85,9 +67,9 @@ export function useIconPickerState(
   }
   
   /**
-   * LEARNING: Watch dialog open state and reset when dialog closes
-   * WHY: Ensures clean state when dialog reopens
-   * PATTERN: Watch dialogOpen ref, reset state when it becomes false
+   * WHY: /**
+LEARNING: Watch dialog open state and reset when dialog closes
+PATTE...
    */
   watch(dialogOpen, (isOpen) => {
     if (!isOpen) {

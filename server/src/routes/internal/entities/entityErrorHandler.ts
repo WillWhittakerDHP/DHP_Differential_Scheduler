@@ -1,9 +1,6 @@
 /**
  * Entity Router Error Handler
  * 
- * LEARNING: Centralized error handling utilities for entity router operations
- * WHY: Eliminates console.error calls, provides consistent error responses, improves maintainability
- * PATTERN: Uses shared router error handlers with domain-specific constraint handling
  */
 
 import { Response } from 'express'
@@ -16,9 +13,6 @@ import { ERROR_MESSAGES, CONSTRAINT_NAMES, ERROR_CODES } from './entityConstants
 
 /**
  * Handle Sequelize validation errors
- * LEARNING: Wrapper around shared error handler with entity-specific error message
- * WHY: Provides consistent error responses for validation failures
- * PATTERN: Delegates to shared handler with entity-specific error message template
  * 
  * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
  * @param res - Express response object
@@ -43,9 +37,6 @@ export function handleSequelizeValidationError(
 
 /**
  * Handle database constraint violations
- * LEARNING: Extracted database constraint error handling logic
- * WHY: Provides consistent error responses for constraint violations
- * PATTERN: Check error message for specific constraint violations, return appropriate response
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -90,9 +81,6 @@ export function handleDatabaseConstraintError(
 
 /**
  * Handle general errors with logging
- * LEARNING: Wrapper around shared error handler with entity-specific context
- * WHY: Eliminates console.error calls, provides consistent error responses
- * PATTERN: Delegates to shared handler with entity-specific error message template
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -114,9 +102,6 @@ export function handleGeneralError(
 
 /**
  * Handle route errors with comprehensive error handling
- * LEARNING: Wrapper around shared error handler with entity-specific constraint handling
- * WHY: Provides consistent error handling across all routes
- * PATTERN: Delegates to shared handler with domain-specific constraint handler
  * 
  * @param error - Error object
  * @param res - Express response object

@@ -60,7 +60,6 @@ Add logic to detect constants/config files more intelligently:
 
 ```javascript
 function isConstantsFile(repoPath, lines) {
-  // Detect if file exports constants/config objects
   const hasConstExport = lines.some(l => 
     /export\s+(const|default)\s+\w+\s*=\s*\{/.test(l) ||
     /export\s+const\s+\w+\s*=\s*\{/.test(l)
@@ -72,7 +71,6 @@ function isConstantsFile(repoPath, lines) {
   return isInConfigsDir || isInConstantsDir || (hasConstExport && filenameIndicatesConfig)
 }
 
-// In scanFile function, exclude magicLabel for constants files
 if (isConstantsFile(repoPath, lines) && ruleId === 'magicLabel') {
   continue // Skip this match
 }
@@ -128,45 +126,36 @@ Enhance `isLegitimateMutation` function:
 
 ```javascript
 function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, repoPath) {
-  // Vue ref assignments - legitimate reactive state updates
   if (mutationRuleId === 'assignProp' && /\.value\s*=/.test(mutationLine)) {
     return true
   }
   
-  // Vue template directives - not actual mutations
   if (mutationRuleId === 'assignProp' && /v-model|@\w+|:[\w-]+=/.test(mutationLine)) {
     return true
   }
   
-  // Set/Map operations - legitimate for Set/Map data structures
   if (mutationRuleId === 'assignProp' && /\.(add|set|delete|clear)\s*\(/.test(mutationLine)) {
     return true
   }
   
-  // Vue component files - most assignProp are reactive state
   if (mutationRuleId === 'assignProp' && repoPath.endsWith('.vue')) {
-    // Check if it's a ref assignment or template directive
     if (/\.value\s*=|v-model|@\w+|:[\w-]+=/.test(mutationLine)) {
       return true
     }
   }
   
-  // DOM mutations - legitimate side effects
   if (/MutationObserver|querySelector|appendChild|removeChild/.test(mutationLine)) {
     return true
   }
   
-  // Theme config mutations - legitimate
   if (/themeConfig|themes\.value|colors\[/.test(mutationLine)) {
     return true
   }
   
-  // Array spread operations - functional pattern, not mutation
   if (mutationRuleId === 'assignProp' && /\[.*\.\.\..*\]/.test(mutationLine)) {
     return true
   }
   
-  // Filter/map operations - functional patterns
   if (mutationRuleId === 'assignProp' && /\.(filter|map|reduce|flatMap)\s*\(/.test(mutationLine)) {
     return true
   }
@@ -178,16 +167,12 @@ function isLegitimateMutation(mutationLine, mutationRuleId, forEachLine, repoPat
 Also update the `assignProp` rule detection to be more context-aware:
 
 ```javascript
-// In RULES array, make assignProp detection smarter
 { 
   id: 'assignProp', 
   label: 'obj.prop = ...', 
   test: (l) => {
-    // Exclude Vue template directives
     if (/v-model|@\w+|:[\w-]+=/.test(l)) return false
-    // Exclude Vue ref assignments (will be filtered by isLegitimateMutation)
     if (/\.value\s*=/.test(l)) return true
-    // Standard property assignment
     return /\.\w+\s*=/.test(l) && !/\/\/|['"]/.test(l.split('=')[0])
   }
 }
@@ -212,16 +197,13 @@ The component logic audit is actually working correctly - it's flagging complexi
 
 ```javascript
 function isSimpleReactiveWrapper(line, lines, lineIndex) {
-  // Check if computed is just wrapping a prop
   const isPropWrapper = /computed\s*\(\s*\(\)\s*=>\s*props\.\w+/.test(line)
-  // Check if computed is passed to composable (next few lines)
   const nextLines = lines.slice(lineIndex, lineIndex + 5).join('\n')
   const isComposableParam = /use\w+\(.*computed/.test(nextLines)
   
   return isPropWrapper || isComposableParam
 }
 
-// In scoring, reduce weight for simple wrappers
 const computedCount = matches.filter(m => m.ruleId === 'computed').length
 const simpleWrapperCount = matches.filter(m => 
   m.ruleId === 'computed' && isSimpleReactiveWrapper(m.line, lines, m.lineNumber - 1)
@@ -257,17 +239,14 @@ Apply rules differently based on file type:
 
 ```javascript
 function shouldApplyRule(ruleId, repoPath, line) {
-  // Don't flag magicLabel in constants files
   if (ruleId === 'magicLabel' && isConstantsFile(repoPath)) {
     return false
   }
   
-  // Don't flag assignProp in Vue files for ref.value assignments
   if (ruleId === 'assignProp' && isVueComponent(repoPath) && /\.value\s*=/.test(line)) {
     return false
   }
   
-  // Don't flag entityKeyString in Vue templates (slot names)
   if (ruleId === 'entityKeyString' && isVueComponent(repoPath) && /<slot/.test(line)) {
     return false
   }

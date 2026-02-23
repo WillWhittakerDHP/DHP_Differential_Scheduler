@@ -1,11 +1,8 @@
 /**
- * useSelectionCardComponent Composable
- * 
- * LEARNING: Extracts selection component name and props logic from SelectionCard component
- * WHY: Moves dynamic component rendering logic to composable
- * PATTERN: Composable that provides component name and props
- */
+ * WHY: useSelectionCardComponent Composable
 
+WHY: Moves dynamic component rende...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import { buildSelectionComponentProps, getSelectionComponentName } from '@/utils/booking/selectionCardComponent'
@@ -23,11 +20,9 @@ export interface UseSelectionCardComponentReturn {
 }
 
 /**
- * useSelectionCardComponent composable
- * 
- * LEARNING: Provides selection component name and props
- * WHY: Extracts component rendering logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useSelectionCardComponent composable
+
+WHY: Extracts component rendering ...
  */
 export function useSelectionCardComponent(params: UseSelectionCardComponentParams): UseSelectionCardComponentReturn {
   const {
@@ -38,18 +33,12 @@ export function useSelectionCardComponent(params: UseSelectionCardComponentParam
   } = params
 
   /**
-   * LEARNING: Selection component name based on config
-   * WHY: Allows dynamic component rendering
-   * PATTERN: Computed property that returns component name
    */
   const selectionComponentName = computed(() => {
     return getSelectionComponentName(configWithDefaults.value)
   })
 
   /**
-   * LEARNING: Selection component props
-   * WHY: Props to pass to dynamic selection component
-   * PATTERN: Computed object with component-specific props
    */
   const selectionComponentProps = computed(() => {
     return buildSelectionComponentProps({

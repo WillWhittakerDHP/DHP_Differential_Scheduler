@@ -27,16 +27,10 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: Reusable StatusButton component
- * WHY: Ensures all status buttons use the same event handling and styling
  * PATTERN: Uses Vue's emit pattern (like CardButton) instead of function props
- * 
- * Supports ternary boolean values:
- * - 'true': success color, flat variant
- * - 'false': default color, outlined variant
- * - 'override': warning color, flat variant with icon indicator
- */
 
+Sup...
+ */
 import { computed } from 'vue'
 import type { TernaryBoolean } from '@/types/ternary'
 import { getComplementaryColor } from '@/utils/colors/complementaryColors'
@@ -85,8 +79,6 @@ const chipVariant = computed(() => {
 })
 
 /**
- * LEARNING: Component emits for click events
- * WHY: Parent components need to handle button clicks
  * PATTERN: defineEmits with TypeScript interface (same as CardButton)
  */
 interface Emits {
@@ -105,8 +97,6 @@ const handleClick = (event: Event) => {
   emit('click', event)
 }
 
-// LEARNING: ARIA role="switch" requires Space and Enter to toggle
-// WHY: Keyboard users must be able to activate the switch without a mouse
 const handleKeydown = (event: KeyboardEvent) => {
   const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
   const isEnter = event.key === 'Enter' || event.keyCode === 13

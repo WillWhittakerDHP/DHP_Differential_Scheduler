@@ -1,11 +1,8 @@
 /**
- * Relationship API Helpers
- * 
- * LEARNING: Shared utilities for relationship API operations
- * WHY: Eliminates duplication of error handling and API call patterns
- * PATTERN: Pure utility functions for relationship operations
- */
+ * WHY: Relationship API Helpers
 
+WHY: Eliminates duplication of error handling ...
+ */
 import type { AxiosError } from 'axios'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'

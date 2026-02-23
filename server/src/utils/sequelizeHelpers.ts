@@ -30,9 +30,6 @@ export function getModelAttributesExcluding<T extends Model>(
 /**
  * Check if a Sequelize model uses `underscored: true` option.
  * 
- * LEARNING: Sequelize stores model options in the model's options property
- * WHY: Need to detect underscored models to automatically add attributes
- * PATTERN: Check model.options.underscored property
  * 
  * @param ModelClass - The Sequelize model class
  * @returns True if model uses underscored: true, false otherwise

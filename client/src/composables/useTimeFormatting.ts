@@ -1,7 +1,6 @@
 /**
  * useTimeFormatting (shim)
  *
- * WHY: The underlying logic is pure, so it now lives in `src/utils/time/timeFormatting.ts`.
  * This composable remains as a stable import point for existing call sites.
  */
 

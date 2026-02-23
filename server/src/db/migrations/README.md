@@ -74,7 +74,6 @@ npm run db:migrate:generate -- migration-name
 ```javascript
 const tableExists = await queryInterface.tableExists('table_name');
 if (tableExists) {
-  // Perform operation
 } else {
   console.log('ℹ️  Table does not exist, skipping');
 }

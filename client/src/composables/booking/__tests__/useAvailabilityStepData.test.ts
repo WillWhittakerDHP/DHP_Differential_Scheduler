@@ -9,7 +9,6 @@ vi.mock('@/utils/booking/availabilityStepData', () => ({
   buildAvailabilityStepData: vi.fn(),
 }))
 
-// Mock useAvailabilitySettings - SESSION: 2.1.3b
 vi.mock('@/composables/booking/useAvailabilitySettings', () => ({
   useAvailabilitySettings: vi.fn(() => ({
     settings: computed(() => ({

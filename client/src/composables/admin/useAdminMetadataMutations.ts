@@ -1,19 +1,7 @@
 /**
- * LEARNING: Unified Admin Metadata Mutations Composable
- * WHY: Single composable for saving/deleting all metadata (primitives + relationships)
- *      Follows entity pattern - single mutation, backend routes based on fieldKey type
- * PATTERN: Vue Query mutations with proper cache invalidation
- * 
- * This composable handles:
- * - Saving field rendering configuration (POST with full entry)
- * - Deleting field overrides (DELETE)
- * - Invalidating Vue Query cache after mutations
- * 
- * LEARNING: No metadataType parameter - backend determines type by checking RELATIONSHIP_KEYS
- * WHY: Matches entity pattern where mutations accept all fields, backend routes based on type
- * PATTERN: Frontend sends fieldKey, backend checks RELATIONSHIP_KEYS to determine metadataType
+ * WHY: Unified Admin Metadata Mutations Composable
+WHY: Single composable for s...
  */
-
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/constants/fieldMetadata'

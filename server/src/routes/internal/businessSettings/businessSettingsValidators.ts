@@ -1,9 +1,6 @@
 /**
  * Business Settings Router Validation Utilities
  * 
- * LEARNING: Extracted validation logic for business settings operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure validation functions that return validation results
  */
 
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
@@ -12,9 +9,6 @@ import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsCon
 
 /**
  * Validate availability settings structure
- * LEARNING: Complex validation function for availability settings
- * WHY: Ensures availability settings conform to expected structure and rejects deprecated fields
- * PATTERN: Type guard function that validates all aspects of availability settings
  * 
  * @param data - Data to validate
  * @returns true if data is valid AvailabilitySettingsData, false otherwise
@@ -309,7 +303,6 @@ export function validateAvailabilitySettings(data: unknown): data is Availabilit
       if (!Array.isArray(calendarConfig.calendars)) {
         return false // Must be array format
       }
-      // Validate array entries
       for (const entry of calendarConfig.calendars as Array<Record<string, unknown>>) {
         if (typeof entry !== 'object' ||
             typeof entry.email !== 'string' ||
@@ -329,9 +322,6 @@ export function validateAvailabilitySettings(data: unknown): data is Availabilit
 
 /**
  * Validate setting key
- * LEARNING: Extracted setting key validation logic
- * WHY: Reusable validation for business settings operations
- * PATTERN: Check setting key, return validation result
  * 
  * @param settingKey - Setting key to validate
  * @returns ValidationResult indicating if setting key is valid
@@ -349,9 +339,6 @@ export function validateSettingKey(settingKey: unknown): ValidationResult {
 
 /**
  * Validate setting value
- * LEARNING: Extracted setting value validation logic
- * WHY: Reusable validation for business settings operations
- * PATTERN: Check setting value, return validation result
  * 
  * @param settingValue - Setting value to validate
  * @returns ValidationResult indicating if setting value is valid
@@ -369,9 +356,6 @@ export function validateSettingValue(settingValue: unknown): ValidationResult {
 
 /**
  * Validate availability settings with detailed error message
- * LEARNING: Wrapper around validateAvailabilitySettings with detailed error message
- * WHY: Provides detailed validation error for availability settings
- * PATTERN: Check validation, return validation result with details
  * 
  * @param settingKey - Setting key
  * @param settingValue - Setting value to validate

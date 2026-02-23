@@ -1,9 +1,6 @@
 /**
  * API Status Constants
  * 
- * LEARNING: Centralized constants for API status values, colors, and labels
- * WHY: Eliminates hardcoding audit findings, provides single source of truth
- * PATTERN: Constants for status values and their corresponding display properties
  */
 
 /**

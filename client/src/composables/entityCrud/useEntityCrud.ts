@@ -9,14 +9,7 @@ import { useEntityCrudQuery } from './useEntityCrudQuery'
 import { useEntityCrudActions } from './useEntityCrudActions'
 
 /**
- * Entity CRUD composable (facade).
- *
- * PATTERN: query/state/actions separation
- * - state: computed `entities` read from globalData cache
- * - actions: mutations that refetch `['globalData']`
- * - domain helpers: composer + computed-property detection
- *
- * NOTE: This is a mechanical extraction from legacy `src/composables/useEntity.ts` to reduce file size.
+ * PATTERN: Entity CRUD composable (facade)
  */
 export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entityKey: GlobalEntityTypeKey) {
   const logger = createLogger('useEntityCrud')

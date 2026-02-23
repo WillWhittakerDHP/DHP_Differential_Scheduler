@@ -1,8 +1,5 @@
 <script setup lang="ts">
 /**
- * LEARNING: Entity Card Sub Panels Component
- * WHY: Renders expansion panels for Parts, Relationships, and Annotations with truncated summaries
- * PATTERN: Config-driven sub panels with computed summary badges showing truncated lists + counts
  * 
  * Panel Title Format: "Parts: PartName1, PartName2 +X more" or "Parts" if empty
  */
@@ -30,9 +27,6 @@ interface Props extends EntityCardSharedProps {
     fieldKey: GlobalFieldKey<GlobalEntityKey>
   ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   /**
-   * LEARNING: Optional pre-fetched field metadata
-   * WHY: Avoids duplicate metadata fetches when parent component already has metadata
-   * PATTERN: Pass metadata from EntityCard to avoid re-fetching in FieldRenderer
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
@@ -40,9 +34,6 @@ interface Props extends EntityCardSharedProps {
 const props = defineProps<Props>()
 
 /**
- * LEARNING: Access entity stores to look up names by ID
- * WHY: Form values contain entity IDs, we need to resolve them to display names
- * PATTERN: Use useEntityCrud to access entities computed from global data
  */
 const { entities: blockInstances } = useEntityCrud('blockInstance')
 const { entities: partInstances } = useEntityCrud('partInstance')
@@ -57,16 +48,11 @@ const blockShapeName = computed((): string => {
 })
 
 /**
- * LEARNING: Maximum items to show before truncating
- * WHY: Keep panel titles concise while still providing useful preview
- * PATTERN: Configurable constant for truncation threshold
  */
 const MAX_DISPLAY_ITEMS = 2
 
 /**
  * LEARNING: Helper to format truncated list with count
- * WHY: Provides consistent "Item1, Item2 +X more" format across all panels
- * PATTERN: Pure function that handles empty, partial, and full lists
  */
 function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
   if (items.length === 0) return ''
@@ -95,8 +81,6 @@ function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInsta
 }
 
 /**
- * LEARNING: Computed summary for Parts panel
- * WHY: Shows preview of part instances attached to this entity
  * PATTERN: Extract IDs from form values, resolve to names, format as truncated list
  */
 const partsSummary = computed((): string => {
@@ -110,8 +94,6 @@ const partsSummary = computed((): string => {
 })
 
   /**
-   * LEARNING: Check if a field is relationshipCollection based on metadata
-   * WHY: Need to determine if field should render RelationshipCollection directly (for bulk edit access) or FieldRenderer
    * PATTERN: Use getFieldComponent() as single source of truth for component type determination
    */
 function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
@@ -176,9 +158,6 @@ watch(partsBulkEditMode, (isEnabled) => {
 })
 
 /**
- * LEARNING: Computed summary for Relationships panel
- * WHY: Shows preview of relationship types (not instance names)
- * PATTERN: Show relationship type labels like "Booking Cascades, {BlockShape} Components"
  */
 const relationshipsSummary = computed((): string => {
   const formValues = props.form.values

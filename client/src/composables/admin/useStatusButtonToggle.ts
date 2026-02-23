@@ -1,15 +1,7 @@
 /**
- * LEARNING: Reusable status button toggle composable
- * WHY: Centralizes status button toggle logic for all entity types
- * PATTERN: Pure configuration-based composable that handles toggle logic consistently
- * 
- * Features:
- * - Prevents duplicate rapid clicks (pending toggle tracking)
- * - Handles nullable booleans (treats null/undefined as false)
- * - Stops event propagation to prevent triggering parent handlers
- * - Uses primitive mutation for efficient single-field updates
+ * WHY: Reusable status button toggle composable
+PATTERN: Pure configuration-bas...
  */
-
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
@@ -27,9 +19,7 @@ export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {
   entityId: string | Ref<string> | ComputedRef<string>
   entity?: Ref<GlobalEntity<GE>> | ComputedRef<GlobalEntity<GE>> | GlobalEntity<GE>
   /**
-   * LEARNING: Optional callback when status button is toggled
    * WHY: Allows parent component to track status button changes for save state management
-   * PATTERN: Called after successful toggle with the field key that was changed
    */
   onToggle?: (fieldKey: string) => void
 }
@@ -39,9 +29,8 @@ export interface UseStatusButtonToggleReturn<GE extends GlobalEntityKey> {
 }
 
 /**
- * LEARNING: Reusable status button toggle composable
- * WHY: Ensures all status buttons use the same reliable toggle logic
- * PATTERN: Pure composable that handles all toggle concerns
+ * WHY: Reusable status button toggle composable
+PATTERN: Pure composable that h...
  */
 export function useStatusButtonToggle<GE extends GlobalEntityKey>(
   options: UseStatusButtonToggleOptions<GE>

@@ -4,7 +4,6 @@
  * Builds a flat Record<string, string> context from appointment data
  * for use with the template resolver.
  *
- * PATTERN: Data transformation — no side effects, accepts pre-loaded appointment data.
  *
  * Available template variables:
  *
@@ -60,7 +59,6 @@ export function buildInviteContext(
   context.appointmentId = appointment.id
   context.status = appointment.status
 
-  // Property / address variables
   const address = appointment.propertyVersion?.address
   if (address) {
     context.streetAddress = address.streetAddress
@@ -77,7 +75,6 @@ export function buildInviteContext(
       .join(', ')
   }
 
-  // Date / time variables
   if (appointment.selectedDate) {
     const dateObj =
       typeof appointment.selectedDate === 'string'
@@ -101,7 +98,6 @@ export function buildInviteContext(
     })
   }
 
-  // Service variable
   if (serviceName) {
     context.service = serviceName
   }

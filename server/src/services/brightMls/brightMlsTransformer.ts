@@ -1,9 +1,6 @@
 /**
  * Bright MLS Transformer
  *
- * LEARNING: Maps RESO Property response to PropertyEnrichmentResponse
- * WHY: Single transformation pipeline for booking wizard enrichment
- * PATTERN: Built-in mapping + optional DB field/feature mappers
  */
 
 import type {

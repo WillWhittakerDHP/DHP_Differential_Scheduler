@@ -1,6 +1,5 @@
 /**
  * Builders for appointment request payload from wizard step data.
- * WHY: Reduces complexity in useAppointmentDataCollection and centralizes field mapping.
  */
 
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'

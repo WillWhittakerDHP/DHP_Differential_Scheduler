@@ -47,10 +47,6 @@
 /**
  * App Root Component - Vuexy Integration
  * 
- * LEARNING: Root component with Vuexy layout system
- * WHY: Provides app-level structure, theme, and router outlet
- * PATTERN: Uses Vuexy's VApp and VLocaleProvider components
- * COMPARISON: React App.tsx. Vue App.vue with Vuexy components
  */
 
 import { useTheme } from 'vuetify'
@@ -71,9 +67,6 @@ const { global } = useTheme()
 const route = useRoute()
 
 /**
- * LEARNING: Check if current route is admin page
- * WHY: Admin page has its own ApiDevPanel, so hide global booking wizard dev panel
- * PATTERN: Reactive computed based on route path
  */
 const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 
@@ -84,7 +77,6 @@ initConfigStore()
 const configStore = useConfigStore()
 
 /**
- * WHY: Initializing here ensures global data is available before route-specific contexts initialize
  * PATTERN: Only initialize shared/base composables at app root level
  */
 import { useGlobal } from './composables/useGlobal'
@@ -97,7 +89,6 @@ const isDevMode = isDevModeEnabled()
 const debugPanelVisible = ref(false)
 const apiDevPanelVisible = ref(false)
 
-// Handle slot panel toggle - close API panel if open
 const handleSlotPanelToggle = (): void => {
   if (apiDevPanelVisible.value) {
     apiDevPanelVisible.value = false
@@ -105,7 +96,6 @@ const handleSlotPanelToggle = (): void => {
   debugPanelVisible.value = !debugPanelVisible.value
 }
 
-// Handle API panel toggle - close slot panel if open
 const handleApiPanelToggle = (): void => {
   if (debugPanelVisible.value) {
     debugPanelVisible.value = false
@@ -128,13 +118,11 @@ provide('devPanelButtons', devPanelButtons)
 </script>
 
 <style>
-/* Global styles */
 #app {
   width: 100%;
   min-height: 100vh;
 }
 
-/* Wizard dev panel buttons - positioned at top-right, stacked vertically */
 .wizard-api-toggle {
   position: fixed;
   top: 72px; /* 24px (top) + 48px (button height + gap) */

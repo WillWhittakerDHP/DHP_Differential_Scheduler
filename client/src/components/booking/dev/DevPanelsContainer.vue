@@ -2,9 +2,6 @@
 /**
  * Slot Dev Panel Component (formerly DevPanelsContainer)
  * 
- * LEARNING: Unified floating container for slot/wizard dev mode debug panels
- * WHY: Provides tabbed interface for switching between different debug panels
- * PATTERN: Teleport to body, fixed positioning, tab interface with VWindow
  * NOTE: Renamed from DevPanelsContainer to distinguish from ApiDevPanel
  */
 
@@ -260,9 +257,6 @@ const eventShapes = computed<EventShape[]>(() => {
 })
 
 /**
- * LEARNING: Use the same isEffectivelyDifferential value that the grid uses
- * WHY: Ensures dev panel flag matches what the grid actually shows - single source of truth
- * PATTERN: Read from shared dev panel data instead of duplicating logic
  */
 const isSelectedServiceDifferential = computed(() => {
   const data = devPanelData.value
@@ -270,8 +264,6 @@ const isSelectedServiceDifferential = computed(() => {
   if (!isEffectivelyDifferentialRef) {
     return false
   }
-  // Unwrap ComputedRef to get the actual boolean value
-  // LEARNING: Type guard to check if it's a ComputedRef
   if (typeof isEffectivelyDifferentialRef === 'object' && 'value' in isEffectivelyDifferentialRef) {
     return (isEffectivelyDifferentialRef as { value: boolean }).value
   }
@@ -678,7 +670,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   }
 }
 
-// Flexible and responsive tab spacing
 :deep(.flexible-tabs) {
   .v-tab {
     min-width: auto;
@@ -699,7 +690,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
     overflow-y: hidden;
   }
   
-  // Responsive spacing - tighter on smaller screens
   @media (max-width: 600px) {
     .v-tab {
       padding: 0 6px !important;
@@ -712,7 +702,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
     }
   }
   
-  // More space on larger screens
   @media (min-width: 960px) {
     .v-tab {
       padding: 0 12px !important;

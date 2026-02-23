@@ -2,9 +2,6 @@
 /**
  * API Dev Panel Status Tab Component
  * 
- * LEARNING: Extracted Status tab content from ApiDevPanel
- * WHY: Reduces main component complexity and file size
- * PATTERN: Sub-component with props for data and handlers
  */
 
 import { formatTimestamp, getApiStatusColor, getApiStatusLabel } from '@/utils/dev/formatDevPanelData'

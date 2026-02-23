@@ -97,15 +97,9 @@ export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseF
   })
 
   /**
-   * LEARNING: Map unified metadata → FieldContext.displayConfig.fieldType
-   * WHY: PrimitiveInputs uses displayConfig.fieldType to choose Text/Number/Boolean inputs
-   * PATTERN: Derive from renderAs + dataType + inputConfig (metadata-only)
    */
   /**
-   * LEARNING: fieldType should be based on dataType only, not renderAs
-   * WHY: renderAs is checked by component dispatcher to determine which component to render
    *      fieldType is purely about the data type (text, number, boolean, date, textarea)
-   * PATTERN: Use dataType to determine fieldType - component dispatcher handles renderAs
    * NOTE: Component dispatcher determines if PrimitiveInputs renders BooleanInput vs TextInput
    *       based on renderAs. fieldType here is just about the underlying data type.
    */

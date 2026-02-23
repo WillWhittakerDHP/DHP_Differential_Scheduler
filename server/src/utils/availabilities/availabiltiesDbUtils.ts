@@ -66,9 +66,6 @@ function sumDurationsFromAppointments(
 
 /**
  * Helper Function: Sum Work Hours for Day
- * LEARNING: Calculates total scheduled work hours for a specific date
- * WHY: Used to enforce maximum work hours per day limit
- * PATTERN: Query appointments for the date and sum durations from selectedTimeSlots
  * 
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Queries database appointments directly (not Google Calendar events)
@@ -116,9 +113,6 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
 
 /**
  * Helper Function: Sum Work Hours for Date Range
- * LEARNING: Calculates total scheduled work hours for a date range (inclusive)
- * WHY: Used for calendar week and rolling week capacity calculations
- * PATTERN: Query appointments in date range and sum durations from selectedTimeSlots
  * 
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Queries database appointments directly (not Google Calendar events)
@@ -193,9 +187,6 @@ function getCalendarWeekRange(date: Date): { start: Date; end: Date } {
 
 /**
  * Helper Function: Sum Work Hours for Calendar Week
- * LEARNING: Calculates total scheduled work hours for the calendar week (Monday-Sunday) containing the date
- * WHY: Used for calendar week capacity filter
- * PATTERN: Calculate Monday and Sunday of the week, then query date range
  *
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Delegates to sumWorkHoursForDateRange which queries database appointments (not Google Calendar events)
@@ -260,9 +251,6 @@ function getRollingWeekRange(
 
 /**
  * Helper Function: Sum Work Hours for Rolling Week
- * LEARNING: Calculates total scheduled work hours for a rolling 7-day window based on direction
- * WHY: Used for rolling week capacity filter with configurable direction
- * PATTERN: Calculate date range based on direction, then query date range
  *
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Delegates to sumWorkHoursForDateRange which queries database appointments (not Google Calendar events)
@@ -294,7 +282,6 @@ export async function sumWorkHoursForRollingWeek(
 /**
  * Sum income (total_fee) from appointment_fee_summaries for a given date.
  * LEARNING: Same pattern as sumWorkHoursForDay but JOINs fee summaries; only counts submitted/confirmed
- * WHY: Used for daily income capacity constraint
  */
 export async function sumIncomeForDay(date: Date): Promise<number> {
   try {

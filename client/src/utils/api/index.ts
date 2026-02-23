@@ -1,6 +1,5 @@
 /**
  * API barrel: shared axios client and domain endpoint getters
- * WHY: Single entry for api client and endpoints; domain modules keep export count low per file
  */
 
 import axios, { type AxiosInstance, type AxiosError } from 'axios'

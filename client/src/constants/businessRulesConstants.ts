@@ -1,6 +1,5 @@
 /**
  * Business Rules client constants
- * WHY: Single source for API paths and user-facing messages; mirrors server message intent (client cannot import server).
  */
 
 import { RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES } from '@shared/constants/businessRulesConstants'

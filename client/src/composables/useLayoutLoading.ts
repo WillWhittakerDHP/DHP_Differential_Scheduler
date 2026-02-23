@@ -1,13 +1,8 @@
 /**
- * Layout Loading Composable
- * 
- * LEARNING: Extracts loading indicator watcher from default layout
- * WHY: Moves loading indicator watcher logic out of layout component into reusable composable
- * PATTERN: Composable that manages loading indicator state and watchers
- * 
- * Component-Composable Alignment: Extracted from layouts/Default.vue
- */
+ * WHY: Layout Loading Composable
 
+WHY: Moves loading indicator watcher logic ou...
+ */
 import { ref, watch, type Ref } from 'vue'
 import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
 
@@ -20,11 +15,9 @@ export interface UseLayoutLoadingReturn {
 }
 
 /**
- * Layout Loading Composable
- * 
- * LEARNING: Manages loading indicator state and watchers for layout
- * WHY: Extracts loading indicator watcher from layout component to composable
- * PATTERN: Composable with ref for fallback state and watcher for loading indicator
+ * WHY: Layout Loading Composable
+
+WHY: Extracts loading indicator watcher from ...
  */
 export function useLayoutLoading(
   options: UseLayoutLoadingOptions
@@ -34,9 +27,9 @@ export function useLayoutLoading(
   const isFallbackStateActive = ref(false)
 
   /**
-   * LEARNING: Watch fallback state and loading indicator ref
-   * WHY: Calls loading indicator handlers when fallback state changes
-   * PATTERN: Watch both isFallbackStateActive and refLoadingIndicator, call appropriate handler
+   * WHY: /**
+LEARNING: Watch fallback state and loading indicator ref
+WHY: Calls ...
    */
   watch([isFallbackStateActive, refLoadingIndicator], () => {
     if (isFallbackStateActive.value && refLoadingIndicator.value)

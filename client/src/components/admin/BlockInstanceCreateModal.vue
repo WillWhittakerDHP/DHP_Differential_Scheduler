@@ -94,9 +94,6 @@ const admin = useAdmin()
 const tempEntityId = ref<string>(`new-${Date.now()}`)
 
 /**
- * LEARNING: Modal title based on operation type
- * WHY: Shows "Create" or "Duplicate" in modal title
- * PATTERN: Computed property that checks if sourceEntity exists
  */
 const modalTitle = computed(() => {
   return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
@@ -107,9 +104,6 @@ const createButtonText = computed(() => {
 })
 
 /**
- * LEARNING: Initial entity values for form
- * WHY: Pre-fills form with defaults (create) or duplicated values (duplicate)
- * PATTERN: If sourceEntity provided, use it with incremented name. Otherwise use defaults.
  * NOTE: Uses stable tempEntityId ref to avoid regenerating ID on every computed evaluation
  */
 const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
@@ -143,9 +137,6 @@ watch(() => props.modelValue, (isOpen) => {
 })
 
 /**
- * LEARNING: Check if form can be saved
- * WHY: Disable Create button if form is not ready
- * PATTERN: Check EntityCard's form readiness - for new entities, allow save even if not dirty
  */
 const canSave = computed(() => {
   if (!entityCardRef.value?.form) {
@@ -179,9 +170,6 @@ function handleCancel(): void {
 </script>
 
 <style scoped>
-/* LEARNING: Hide EntityCard's action buttons in create modal */
-/* WHY: Modal has its own Create/Cancel buttons, don't need EntityCard's buttons */
-/* PATTERN: Use CSS to hide the action buttons section */
 .create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
   display: none !important;
 }

@@ -1,9 +1,6 @@
 /**
  * useAvailability Composable
  *
- * LEARNING: Gutted after server-side slot computation; slot data now comes from useComputedAvailability -> slotsByDay
- * WHY: AvailabilityStep no longer uses this; server returns pre-computed slots per day
- * PATTERN: Returns empty time slots; kept for tests/callers that still reference the composable
  *
  * Phase 5/6: Server-Side Slot Computation — slot generation and constraint checks moved to server
  */
@@ -49,7 +46,6 @@ export function useAvailability(
         timeSlots.value = []
         return
       }
-      // Phase 6: No client-side slot generation; slots come from server (slotsByDay)
       timeSlots.value = []
       error.value = null
       isLoading.value = false

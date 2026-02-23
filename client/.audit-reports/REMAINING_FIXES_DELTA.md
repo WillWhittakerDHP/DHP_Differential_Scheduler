@@ -18,5 +18,4 @@
 3. **Phase 3 (Wave 2):** SelectedTimeSlot now extends shared SlotTimeBounds; BusyTimeRange re-exported from shared in client timeSlotTypes; PartialPropertyDetails (server) is now alias for shared PropertyDetailsBase.
 
 ## Intentionally left for follow-up
-- **type-escape:** The 49 remaining hits are all in JSDoc/comment text (e.g. `* PATTERN: Function that ...`). Per plan, only code annotations were changed; comment wording was left unchanged. To clear the audit, either reword those comments or allowlist the `function-type` rule for comment lines in the audit script.
 - **type-similarity:** 20 groups remain (e.g. PriceData/FeeEntryBase, SlotDisplayData/ComputedSlot, Props/DefaultLocation, capacity filters, FieldsByLocation, etc.). These can be tackled in future batches using the same EXTEND/BRAND/UNIFY pattern.

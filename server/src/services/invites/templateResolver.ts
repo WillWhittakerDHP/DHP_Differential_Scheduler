@@ -4,7 +4,6 @@
  * Resolves `{variable}` placeholders in EventInstance template strings
  * using a context object built from appointment/property/user data.
  *
- * PATTERN: Pure utility — no side effects, no DB access, fully testable.
  *
  * Usage:
  *   resolveTemplate("{service} at {streetAddress}", { service: "Buyer's Inspection", streetAddress: "123 Main St" })

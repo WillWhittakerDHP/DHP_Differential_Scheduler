@@ -1,13 +1,9 @@
 /**
- * LEARNING: Shared time basis click handler
- * WHY: Time basis toggle logic is duplicated across TimeBasisButtonGrid and TimeBasisSelector
  * PATTERN: Extract shared handler logic into composable
- * 
- * Used by:
- * - TimeBasisButtonGrid.vue
- * - TimeBasisSelector.vue
- */
 
+Used by:
+- TimeBasisButton...
+ */
 export interface TimeBasisHandlerProps {
   isDifferentialService: boolean
   startTimeType: 'major' | 'minor' | 'nonDifferential'

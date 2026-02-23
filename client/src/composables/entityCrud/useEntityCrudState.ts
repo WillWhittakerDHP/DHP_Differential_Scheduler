@@ -5,9 +5,7 @@ import type { UseEntityCrudStateReturnBase } from './useEntityCrudTypes'
 export type UseEntityCrudStateReturn = UseEntityCrudStateReturnBase
 
 /**
- * State module: provides shared loading/error and refetch helpers.
- * WHY: Keeps state concerns separate from mutation orchestration.
- * PATTERN: Thin wrapper around Vue Query client.
+ * WHY: State module: provides shared loading/error and refetch helpers
  */
 export function useEntityCrudState(): UseEntityCrudStateReturn {
   const queryClient = useQueryClient()

@@ -46,7 +46,6 @@ Generated from `client/.audit-reports/hardcoding-audit.json`.
 | `client/src/services/propertyEnrichmentApiService.ts` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/utils/appointmentFieldFormatters.ts` | P2 | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
 
-*...and 22 more files. See full report for details.*
 
 ## Notes
 

@@ -1,14 +1,8 @@
 /**
- * LEARNING: Admin Relationship Metadata Mutations Composable
- * WHY: Provides mutations for saving/deleting admin relationship metadata
- * PATTERN: Vue Query mutations with proper cache invalidation
- * 
- * This composable handles:
- * - Saving relationship field rendering configuration (POST with full entry)
- * - Deleting relationship field overrides (DELETE)
- * - Invalidating Vue Query cache after mutations
- */
+ * WHY: Admin Relationship Metadata Mutations Composable
 
+This composable handle...
+ */
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminRelationshipMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/constants/fieldMetadata'

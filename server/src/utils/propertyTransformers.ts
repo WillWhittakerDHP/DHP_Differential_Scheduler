@@ -1,18 +1,12 @@
 /**
  * Property Transformer Utilities
  *
- * LEARNING: Config-driven field mappings for property transformation
- * WHY: Eliminates hardcoded field names in property transformation logic
- * PATTERN: Const object with field mappings, utility function for transformation
  */
 
 import { normalizeToSingle } from './arrayNormalize.js'
 
 /**
  * Property field mappings
- * LEARNING: Maps database field names to API response field names
- * WHY: Single source of truth for field mappings, enables easier maintenance
- * PATTERN: Const object with field name mappings
  */
 const PROPERTY_FIELD_MAPPINGS = {
   ADDRESS: 'address',
@@ -36,9 +30,6 @@ const PROPERTY_FIELD_MAPPINGS = {
 
 /**
  * Transform PropertyVersion with relationships to flat property object
- * LEARNING: Combines Address, PropertyVersion, and PropertyDetails into single response
- * WHY: Maintains backward compatibility with existing API consumers
- * PATTERN: Pure function that transforms nested structure to flat object
  */
 export function transformPropertyVersion(propertyVersion: unknown): Record<string, unknown> {
   const pv = propertyVersion as Record<string, unknown> & {

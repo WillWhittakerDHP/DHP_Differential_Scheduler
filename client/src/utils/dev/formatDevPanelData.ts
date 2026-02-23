@@ -1,11 +1,8 @@
 /**
- * Dev Panel Data Formatting Utilities
- * 
- * LEARNING: Pure formatting functions for dev panel display
- * WHY: Reduces component complexity, enables reuse
- * PATTERN: Pure functions with no side effects
- */
+ * WHY: Dev Panel Data Formatting Utilities
 
+LEARNING: Pure formatting functions...
+ */
 import {
   API_STATUS_COLOR_MAP,
   API_STATUS_LABEL_MAP,
@@ -15,7 +12,6 @@ import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 /**
  * Format timestamp for display
- * LEARNING: Converts Unix timestamp to locale string
  * 
  * @param timestamp - Unix timestamp in milliseconds
  * @returns Formatted date/time string
@@ -39,7 +35,6 @@ export function formatTTL(ttl: number): string {
 
 /**
  * Format busy period for display
- * LEARNING: Formats date range with duration
  * 
  * @param period - Busy period with start and end times
  * @param formatDateTimeForDisplay - Function to format date/time
@@ -74,7 +69,6 @@ export function formatBusyPeriod(
 
 /**
  * Get API status chip color
- * LEARNING: Maps API status to Vuetify color
  * WHY: Replaces switch statement with constant lookup
  * 
  * @param status - API status value
@@ -86,7 +80,6 @@ export function getApiStatusColor(status: ApiStatusValue): string {
 
 /**
  * Get API status display label
- * LEARNING: Maps API status to display label
  * WHY: Replaces switch statement with constant lookup
  * 
  * @param status - API status value

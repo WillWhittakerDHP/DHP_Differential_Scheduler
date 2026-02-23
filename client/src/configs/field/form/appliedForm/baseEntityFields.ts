@@ -1,7 +1,4 @@
 /**
- * LEARNING: Base Entity Fields - Common fields for all entities
- * WHY: Shared field definitions (id, entityKey) used by all entities
- * PATTERN: Base fields spread into entity-specific field configs
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'

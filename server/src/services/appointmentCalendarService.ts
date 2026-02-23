@@ -1,9 +1,6 @@
 /**
  * Appointment Calendar Service
  * 
- * LEARNING: Integrates appointment creation with Google Calendar
- * WHY: Automatically creates calendar events and sends invitations when appointments are booked
- * PATTERN: Service layer that bridges appointment data with Google Calendar API
  * 
  * SESSION: 2.1.3b - Appointment Attendees Architecture
  */
@@ -28,15 +25,10 @@ interface CalendarEventResult {
 }
 
 /**
- * Time slot structure from appointment
- * 
- * LEARNING: Requires RFC3339 format - no legacy fallback
- * WHY: Explicit failure over silent fallback prevents wrong calendar times
- * PATTERN: Client must send full RFC3339 datetime strings
- * 
- * SESSION: 2.1.3b - Removed legacy format support
+ * WHY: Time slot structure from appointment
+
+LEARNING: Requires RFC3339 format ...
  */
-/** Server-side time slot shape; branded to distinguish from client SelectedTimeSlot. */
 interface ServerTimeSlot {
   startTime: string;   // RFC3339 format, e.g., "2026-02-01T21:00:00.000Z"
   endTime: string;     // RFC3339 format
@@ -46,7 +38,6 @@ interface ServerTimeSlot {
 
 /**
  * Appointment data needed for calendar event creation
- * LEARNING: Uses actual Appointment model field names
  */
 interface AppointmentWithDetails {
   id: string;
@@ -91,7 +82,6 @@ export async function createCalendarEventForAppointment(
   logger.info(`Creating calendar event for appointment ${appointmentId}`);
   
   try {
-    // Fetch appointment with all needed relationships
     const appointment = await Appointment.findByPk(appointmentId, {
       include: [
         {
@@ -115,16 +105,11 @@ export async function createCalendarEventForAppointment(
       };
     }
     
-    // Build event parameters including calendarId
     const eventParams = buildEventParams(appointment, calendarId);
     
-    // Create the calendar event
-    // LEARNING: createEvent returns CreatedEventResponse directly (not wrapped in success/error)
-    // WHY: Service layer handles errors via try/catch
     try {
       const createdEvent = await createEvent(eventParams);
       
-      // Update attendee records with event ID and status
       const filtered = appointment.attendees?.filter(a => a.shouldReceiveInvitation)
       const attendeesToUpdate = filtered !== undefined && filtered !== null ? filtered : []
       let attendeesUpdated = 0;
@@ -172,24 +157,19 @@ export async function createCalendarEventForAppointment(
 }
 
 /**
- * Build event parameters from appointment data
- * 
- * LEARNING: Transforms appointment model to Google Calendar event format
+ * WHY: Build event parameters from appointment data
+
+LEARNING: Transforms appoi...
  */
 function buildEventParams(appointment: AppointmentWithDetails, calendarId: string): CreateEventParams {
-  // Build event summary (title)
   const summary = buildEventSummary(appointment);
   
-  // Build location from address
   const location = buildEventLocation(appointment);
   
-  // Build description
   const description = buildEventDescription(appointment);
   
-  // Calculate start and end times
   const { start, end } = calculateEventTimes(appointment);
   
-  // Build attendees list
   const attendees = buildAttendeesList(appointment);
   
   return {
@@ -253,13 +233,9 @@ function buildEventDescription(appointment: AppointmentWithDetails): string {
 }
 
 /**
- * Calculate event start and end times
- * 
- * LEARNING: Extracts RFC3339 times from selectedTimeSlots
- * WHY: Google Calendar API expects ISO 8601 datetime strings
- * PATTERN: Explicit failure over silent fallback - missing data should fail loudly
- * 
- * SESSION: 2.1.3b - Removed legacy fallback; now requires proper RFC3339 format
+ * WHY: Calculate event start and end times
+
+LEARNING: Extracts RFC3339 times fr...
  */
 function calculateEventTimes(appointment: AppointmentWithDetails): { start: string; end: string } {
   const firstSlot = appointment.selectedTimeSlots?.[0];
@@ -283,7 +259,6 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
   
   logger.debug(`Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`);
   
-  // Validate the dates
   const startDate = new Date(firstSlot.startTime);
   const endDate = new Date(firstSlot.endTime);
   
@@ -299,10 +274,9 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
 }
 
 /**
- * Build attendees list for calendar event
- * 
- * LEARNING: Filters attendees who should receive invitations
- * WHY: Some attendees may not need calendar invites (e.g., internal tracking only)
+ * WHY: Build attendees list for calendar event
+
+WHY: Some attendees may not nee...
  */
 function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[] {
   const attendees: EventAttendee[] = [];
@@ -317,7 +291,6 @@ function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[
       continue;
     }
     
-    // Skip if no user or email
     if (!attendee.user?.email) {
       logger.warn(`Attendee ${attendee.id} has no email, skipping`);
       continue;

@@ -1,9 +1,6 @@
 /**
  * Calendar Error Handler
  *
- * LEARNING: Centralized error handling for Google Calendar API operations
- * WHY: Provides typed errors, exponential backoff retry, and graceful degradation
- * PATTERN: Error classification with retry strategies (matches Maps error handler)
  */
 
 import { createLogger } from '../utils/logger.js'
@@ -22,15 +19,11 @@ const logger = createLogger('CalendarErrorHandler')
 
 /**
  * Calendar API error types
- * LEARNING: Discriminated union for different error scenarios
- * WHY: Allows type-safe handling of different error cases
  */
 export type CalendarErrorType = keyof typeof CALENDAR_ERROR_MESSAGES
 
 /**
  * Calendar API Error Class
- * LEARNING: Typed error class with metadata for error handling
- * WHY: Enables type-safe error handling and consistent error responses
  */
 export class CalendarApiError extends Error {
   public readonly type: CalendarErrorType
@@ -60,9 +53,9 @@ export class CalendarApiError extends Error {
   }
 
   /**
-   * Create user-friendly error message
-   * LEARNING: Record lookup (matches MapsApiError pattern)
-   * WHY: Eliminates switch complexity, single source of truth
+   * WHY: /**
+Create user-friendly error message
+LEARNING: Record lookup (matches ...
    */
   getUserMessage(): string {
     return CALENDAR_ERROR_MESSAGES[this.type]
@@ -70,7 +63,6 @@ export class CalendarApiError extends Error {
 
   /**
    * Get HTTP status code for this error type
-   * LEARNING: Centralized status mapping for route handlers
    */
   getStatusCode(): number {
     return CALENDAR_ERROR_TO_STATUS[this.type] ?? 500
@@ -79,7 +71,6 @@ export class CalendarApiError extends Error {
 
 /**
  * Map CalendarErrorType to HTTP status code
- * LEARNING: Re-export for route handlers that receive error type
  */
 function _getStatusCodeForError(errorType: CalendarErrorType): number {
   return CALENDAR_ERROR_TO_STATUS[errorType] ?? 500
@@ -95,8 +86,6 @@ function isRateLimitError(message: string): boolean {
 
 /**
  * Classify error from Google API response
- * LEARNING: Lookup-table pipeline replaces nested if/else
- * WHY: Reduces complexity, max nesting depth 2
  */
 function toHttpStatus(value: unknown): number | undefined {
   if (typeof value === 'number' && !Number.isNaN(value)) return value
@@ -118,7 +107,6 @@ export function classifyError(error: unknown): CalendarApiError {
     })
   }
 
-  // Timeout errors
   if (err.code === 'ETIMEDOUT' || (typeof err.message === 'string' && err.message.toLowerCase().includes('timeout'))) {
     return new CalendarApiError('timeout', CALENDAR_INTERNAL_MESSAGES.REQUEST_TIMED_OUT, {
       retryable: true,
@@ -128,7 +116,6 @@ export function classifyError(error: unknown): CalendarApiError {
 
   const statusCode = toHttpStatus(err.code ?? err.status ?? err.response?.status)
 
-  // 403: distinguish rate limit vs permission
   if (statusCode === 403) {
     const message = typeof err.message === 'string' ? err.message : ''
     const type = isRateLimitError(message) ? 'rateLimit' : 'permission'
@@ -140,7 +127,6 @@ export function classifyError(error: unknown): CalendarApiError {
     })
   }
 
-  // Direct status lookup
   const entry = statusCode !== undefined ? CALENDAR_STATUS_MAP[statusCode] : undefined
   if (entry) {
     return new CalendarApiError(entry.type, entry.message, {
@@ -150,7 +136,6 @@ export function classifyError(error: unknown): CalendarApiError {
     })
   }
 
-  // Server errors (5xx)
   if (statusCode !== undefined && statusCode >= 500) {
     return new CalendarApiError('unknown', `Server error: ${statusCode}`, {
       statusCode,
@@ -171,8 +156,6 @@ export type { RetryConfig }
 
 /**
  * Execute function with exponential backoff retry
- * LEARNING: Thin wrapper around shared Google API retry
- * WHY: Ensures CalendarApiError is always thrown to caller
  */
 export async function withRetry<T>(
   operation: () => Promise<T>,
@@ -197,8 +180,6 @@ export async function withRetry<T>(
 
 /**
  * Result type for operations with cache degradation
- * LEARNING: Indicates whether result is fresh or from cache
- * WHY: Caller needs to know if data might be stale
  */
 interface FallbackResult<T> {
   data: T
@@ -208,8 +189,6 @@ interface FallbackResult<T> {
 
 /**
  * Execute operation with cache degradation
- * LEARNING: Returns cached data when API fails (graceful degradation)
- * WHY: Better to show potentially stale data than nothing
  */
 export async function withFallback<T>(
   operation: () => Promise<T>,
@@ -235,9 +214,8 @@ export async function withFallback<T>(
 }
 
 /**
- * Log error with context
- * LEARNING: Consistent error logging format
- * WHY: Makes debugging easier with structured logs
+ * WHY: Log error with context
+LEARNING: Consistent error logging format
  */
 export function logCalendarError(
   context: string,

@@ -12,18 +12,15 @@ import {
  * Represents event shapes (shape-level: defines what event types can exist).
  * Shapes are fully dynamic and can be created/deleted by admins via CRUD interface.
  * 
- * LEARNING: Separating event shapes into their own entity enables:
  * - Dynamic shape management (admins can create/edit/delete shapes)
  * - Shape validation (ensures event instances use valid shapes)
  * - Shape filtering and organization
  * 
- * WHY: Instead of hardcoding event shapes, we use a dynamic entity:
  * - Flexibility: Admins can add new shapes without code changes
  * - Maintainability: Shapes are managed through admin UI
  * - Data integrity: Foreign key constraints ensure valid shapes
  * 
  * PATTERN: Shape-level entity model matching block_shapes/part_shapes/annotation_shapes pattern
- * COMPARISON: EventShape is shape-level (definitions), EventInstance is instance-level (concrete entities)
  */
 export class EventShape extends Model<
   InferAttributes<EventShape>,

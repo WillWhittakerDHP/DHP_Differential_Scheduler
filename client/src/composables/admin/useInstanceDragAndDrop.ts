@@ -1,9 +1,7 @@
 /**
- * Composable for instance drag-and-drop setup
- * WHY: Extracts drag-and-drop initialization logic from InstancesTab
- * PATTERN: Composable that manages drag-and-drop setup watchers and lifecycle
+ * PATTERN: Composable for instance drag-and-drop setup
+PATTERN: Composable that man...
  */
-
 import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
 import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
@@ -32,9 +30,8 @@ export interface UseInstanceDragAndDropReturn {
 }
 
 /**
- * Composable for managing instance drag-and-drop
- * WHY: Centralizes drag-and-drop setup, watchers, and lifecycle management
- * PATTERN: Returns reactive state and manages drag-and-drop initialization
+ * WHY: Composable for managing instance drag-and-drop
+WHY: Centralizes drag-and...
  */
 export function useInstanceDragAndDrop(
   options: UseInstanceDragAndDropOptions
@@ -42,39 +39,25 @@ export function useInstanceDragAndDrop(
   const { mainInstancesByShape, patchBlockInstanceOrderIndex } = options
 
   /**
-   * LEARNING: Reactive arrays for drag-and-drop per BlockShape group
-   * WHY: Need mutable arrays that can be reordered during drag operations
-   * PATTERN: Maps of ref arrays that sync with computed filtered results (similar to ShapesTab but per group)
    */
   const blockInstancesLists = ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>(new Map())
   const blockInstanceIdsMap = ref<Map<string, Ref<string[]>>>(new Map())
 
   /**
-   * LEARNING: Template refs for drag-and-drop containers per group
-   * WHY: Need DOM references to initialize drag-and-drop for each BlockShape group
-   * PATTERN: Maps of container refs (one per BlockShape group)
    */
   const groupContainers = ref<Map<string, HTMLElement | null>>(new Map())
   const groupPanelsContainers = ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>(new Map())
 
   /**
-   * LEARNING: Drag handlers per group
-   * WHY: Each BlockShape group needs its own drag handlers
-   * PATTERN: Map of drag handlers (one per BlockShape group)
    */
   const groupDragHandlers = ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>(new Map())
 
   /**
-   * LEARNING: Drag-and-drop instances per group
-   * WHY: Track drag-and-drop instances for cleanup
-   * PATTERN: Map of drag-and-drop instances (one per BlockShape group)
    */
   const groupDragInstances = ref<Map<string, ReturnType<typeof dragAndDrop>>>(new Map())
   const isMounted = ref(false)
 
   /**
-   * LEARNING: Initialize drag handlers and arrays for each BlockShape group
-   * WHY: Set up drag handlers and sync arrays when BlockShapes are available
    * PATTERN: Watch blockInstancesByShape and create handlers/arrays for each group (similar to ShapesTab pattern)
    */
   watch(mainInstancesByShape, (instancesMap) => {
@@ -110,8 +93,6 @@ export function useInstanceDragAndDrop(
   }, { immediate: true, deep: true })
 
   /**
-   * LEARNING: Set up drag-and-drop for each group when containers are available
-   * WHY: Initialize drag-and-drop when component mounts and containers are set
    * PATTERN: Watch containers and panels containers, set up drag-and-drop manually (similar to useDragAndDrop pattern)
    */
   watch(() => [groupContainers.value, groupPanelsContainers.value], ([containers, panelsContainers]) => {
@@ -163,7 +144,6 @@ export function useInstanceDragAndDrop(
           
           groupDragInstances.value.set(blockShapeId, dragAndDrop({
             parent: panelsRefForDrag,
-            values: instanceIds, // LEARNING: Pass Ref, not plain array
             // PATTERN: Pass the Ref directly, not the .value
             group: `blockInstances-${blockShapeId}`,
             // PATTERN: Extract common logic to shared utility
@@ -185,18 +165,12 @@ export function useInstanceDragAndDrop(
   }, { immediate: true, deep: true })
 
   /**
-   * LEARNING: Initialize when component mounts
-   * WHY: Set mount status to enable drag-and-drop setup
-   * PATTERN: Set isMounted flag on mount
    */
   onMounted(() => {
     isMounted.value = true
   })
 
   /**
-   * LEARNING: Cleanup BEFORE component unmount starts
-   * WHY: Prevents watchers from running during Vue's unmount process
-   * PATTERN: Clear drag instances and set mount status to false
    */
   onBeforeUnmount(() => {
     isMounted.value = false
@@ -206,9 +180,6 @@ export function useInstanceDragAndDrop(
   })
 
   /**
-   * LEARNING: Final cleanup after component unmount completes
-   * WHY: Ensures all Maps are cleared for garbage collection
-   * PATTERN: Clear Maps after Vue finishes unmounting
    */
   onUnmounted(() => {
     groupContainers.value.clear()

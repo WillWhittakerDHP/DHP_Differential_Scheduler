@@ -1,11 +1,8 @@
 /**
- * useBlockInstanceSelection Composable
- * 
- * LEARNING: Generic composable for block instance selection (single or multi-select)
- * WHY: Eliminates code duplication across different block type selections
- * PATTERN: Generic helper that adapts to single or multi-select modes
- */
+ * WHY: useBlockInstanceSelection Composable
 
+LEARNING: Generic composable for b...
+ */
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { findById } from '@/utils/collections/findById'
@@ -31,9 +28,6 @@ interface UseBlockInstanceSelectionReturnMultiple {
 /**
  * Generic block instance selection composable
  *
- * LEARNING: Handles both single and multi-select for any block type
- * WHY: Eliminates duplication between option/property/service selection
- * PATTERN: Function overloads give exact return type from selectionMode
  */
 export function useBlockInstanceSelection(
   params: UseBlockInstanceSelectionParams & { selectionMode: 'single' }

@@ -1,9 +1,6 @@
 /**
  * Field Classification for Dehydrate
  *
- * LEARNING: Determines which fields are used vs unused and their default values for API payloads.
- * WHY: Centralizes metadata + schema logic so dehydrateEntity stays simple.
- * PATTERN: Schema defaults override metadata; flat guard clauses for default selection.
  */
 
 import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
@@ -32,7 +29,6 @@ function isReferenceField(
 
 /**
  * Build field classification sets for dehydrateEntity from entity type and metadata.
- * PATTERN: Schema defaults override metadata; used to coerce empty strings and defaults.
  */
 export function buildFieldClassificationSets(
   entityType: string,
@@ -93,7 +89,6 @@ export function buildFieldClassificationSets(
 
 /**
  * Transform a single field entry for dehydrate (frontend → API).
- * PATTERN: Flat guard clauses; returns [key, value] or null to filter.
  */
 export function transformFieldForDehydrate(
   [frontendKey, value]: [string, unknown],

@@ -17,13 +17,11 @@ Exceptions should be:
 Add a comment on the line before (or same line as) the flagged code:
 
 ```typescript
-// @audit-allow:hardcoding:entityKeyString - Entity routing by design, see ENTITY_CONFIG
 const entityType = 'blockInstance'
 
 // @audit-allow:loop-mutation:push - Building Vue reactive array, mutation is required
 items.forEach(item => reactiveArray.value.push(transform(item)))
 
-// @audit-allow:typecheck:TS2322 - Third-party types are incomplete
 const result = apiResponse as unknown as ExpectedType
 ```
 

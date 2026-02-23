@@ -1,6 +1,5 @@
 /**
- * Canonical param shapes for composables that take AvailabilitySettings formData.
- * WHY: Branded aliases prevent passing one composable's params to another.
+ * WHY: Canonical param shapes for composables that take AvailabilitySettings fo...
  */
 import type { Ref } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'

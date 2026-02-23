@@ -34,62 +34,35 @@ import { createLogger } from '@/utils/logger'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
 /**
- * LEARNING: Disable automatic attribute inheritance
- * WHY: Component has multiple root nodes (div and VDialog), so Vue can't automatically inherit attributes
  *      Since we explicitly declare all props, we don't need automatic inheritance
- * PATTERN: Set inheritAttrs to false to suppress warnings about non-prop attributes
  */
 defineOptions({
   inheritAttrs: false
 })
 
 /**
- * LEARNING: Generic props interface that works for all entity types
- * WHY: Type-safe prop definition that accepts any entity type
- * PATTERN: Generic component with entityKey and entity props
  */
 interface Props<GE extends GlobalEntityKey> {
   entityKey: GE
   /**
-   * LEARNING: Entity can be existing entity OR initial values for new entity
-   * WHY: Unified component for both create and edit operations
-   * PATTERN: When isNew=true, entity contains initial values; when isNew=false, entity is existing entity
    */
   entity: GlobalEntity<GE>
   /**
-   * LEARNING: Expanded state prop
-   * WHY: Controls whether the card is expanded, which determines if titleField is editable
-   * PATTERN: Optional prop defaults to true (standalone cards are always expanded)
    */
   expanded?: boolean
   /**
-   * LEARNING: Whether EntityCard should wrap itself in VExpansionPanel
-   * WHY: When true (default), EntityCard is self-contained with its own expand/collapse. When false (modals), renders without wrapper
-   * PATTERN: Optional prop defaults to true for self-contained behavior
    */
   useExpansionPanel?: boolean
   /**
-   * LEARNING: Optional form instance prop
-   * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
-   * PATTERN: Optional prop - if not provided, EntityCard creates its own form instance
    */
   form?: FormContext
   /**
-   * LEARNING: New entity mode flag
-   * WHY: When true, this card is for creating a new entity (not editing existing)
-   * PATTERN: Changes Save behavior to create, shows Cancel instead of Delete
    */
   isNew?: boolean
   /**
-   * LEARNING: Disable auto-save on field blur prop
-   * WHY: Prevents field blur from triggering auto-save (e.g., in bulk edit modals with template entities)
-   * PATTERN: When true, field components won't auto-save on blur
    */
   disableAutoSave?: boolean
   /**
-   * LEARNING: Optional filtered field metadata
-   * WHY: Allows parent components to pass filtered metadata (e.g., bulk edit modals showing only bulkEdit fields)
-   * PATTERN: If provided, use this instead of fetching metadata
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
@@ -102,9 +75,6 @@ const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
 })
 
 /**
- * LEARNING: Component emits for parent communication
- * WHY: Allows parent component to handle delete, save, and cancel actions
- * PATTERN: defineEmits with TypeScript interface
  */
 interface Emits {
   (e: 'delete', id: string): void
@@ -118,17 +88,12 @@ const emit = defineEmits<Emits>()
 
 /**
  * LEARNING: Expansion state management
- * WHY: Title field should be read-only when collapsed, editable when expanded
- * PATTERN: Use composable for expansion state management
  */
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
 
 /**
- * LEARNING: Stop Space/Enter from reaching VExpansionPanelTitle's button when focus is in an editable field
- * WHY: Title slot is rendered inside a <button>; the button handles keydown in capture phase, so we run in capture on VExpansionPanel to intercept first
- * PATTERN: Intercept in capture, stop original so button never sees it, then re-dispatch a non-bubbling keydown on the editable so the input still inserts the character
  */
 function handleTitleKeydown(event: KeyboardEvent): void {
   if (!event.isTrusted) {
@@ -157,7 +122,6 @@ function handleTitleKeydown(event: KeyboardEvent): void {
   if (synthetic.defaultPrevented || !('value' in editable) || !('setSelectionRange' in editable)) {
     return
   }
-  // Use shape-compatible type to avoid DOM global reference (lint no-undef in non-DOM env)
   interface InputLikeElement extends Element {
     value: string
     selectionStart: number | null
@@ -179,9 +143,8 @@ function handleTitleKeydown(event: KeyboardEvent): void {
 }
 
 /**
- * LEARNING: Use entity display composable for display name and messages
- * WHY: Moves display logic out of component into reusable composable
- * PATTERN: Composable handles entity name, success message, and delete title
+ * WHY: Use entity display composable for display name and messages
+WHY: Moves d...
  */
 const entityDisplayComposable = useEntityDisplay()
 const {
@@ -189,9 +152,8 @@ const {
 } = entityDisplayComposable
 
 /**
- * LEARNING: Use entity status composable for component status checks
- * WHY: Moves component status logic out of component into reusable composable
- * PATTERN: Composable handles composer, component, and composable detection
+ * WHY: Use entity status composable for component status checks
+WHY: Moves comp...
  */
 void useEntityStatus({
   entityKey: props.entityKey,
@@ -203,15 +165,10 @@ const adminConfig = useAdminConfig()
 const admin = useAdmin()
 
 /**
- * LEARNING: Scoped logger for EntityCard debugging
- * WHY: Provides structured logging for debugging form state, metadata loading, and save operations
- * PATTERN: Use createLogger with scope name, enable via VITE_DEBUG_SCOPES=EntityCard
  */
 const logger = createLogger('EntityCard')
 
 /**
- * LEARNING: Form owned by composable only
- * WHY: EntityCard does not create form; useEntityCardForm creates or uses provided form and runs store sync
  * PATTERN: Single form owner in composable; component only consumes and passes form ref down
  */
 const { form } = useEntityCardForm({
@@ -287,9 +244,6 @@ watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
 const isFormReady = computed(() => formFields.isFormReady.value)
 
 /**
- * LEARNING: Field context management with warnings
- * WHY: Encapsulates field context retrieval with warnings for missing contexts
- * PATTERN: Use composable for managing field context access
  */
 const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
   getFieldContext: formFields.getFieldContext,
@@ -299,13 +253,8 @@ const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
   fieldsNeedingContexts: formFields.fieldsNeedingContexts,
 })
 
-// LEARNING: isComposable is now provided by useEntityCardComputed composable
-// WHY: Extracted to composable to reduce component complexity
-
 /**
- * LEARNING: Conditional field visibility filtering
- * WHY: Some fields should only show under certain conditions (e.g., composite when composable=true)
- * PATTERN: Use composable for filtering fieldsByLocation based on business rules
+ * WHY: Some fields should only show under certain conditions (e.g., composite w...
  */
 const { filteredFieldsByLocation } = useConditionalFieldVisibility({
   fieldsByLocation: fieldLocation.fieldsByLocation,
@@ -314,13 +263,8 @@ const { filteredFieldsByLocation } = useConditionalFieldVisibility({
   form: form.value!,
 })
 
-// LEARNING: entityName is now provided by useEntityCardComputed composable
-// WHY: Extracted to composable to reduce component complexity
-
 /**
- * LEARNING: Use entity card actions composable for save/reset/delete handlers
- * WHY: Extracts action handlers from component to composable
- * PATTERN: Composable wraps useEntityForm + useEntityCrud and provides action handlers
+ * WHY: Extracted to composable to reduce component complexity
  */
 const entityCardActions = useEntityCardActions({
   entityKey: props.entityKey,
@@ -352,9 +296,8 @@ const {
 } = entityCardActions
 
 /**
- * LEARNING: Unified save state management
- * WHY: Tracks both form field changes AND status button changes
- * PATTERN: Composable that combines form dirty state with status button change tracking
+ * WHY: Unified save state management
+PATTERN: Composable that combines form dir...
  */
 const unifiedSaveState = useEntityCardSaveState({
   form: form.value!,
@@ -380,10 +323,8 @@ function resetFormWithSavedEntity(): void {
 }
 
 /**
- * LEARNING: Wrapped save handler that resets unified save state and form after save
- * WHY: After successful save, we need to reset both form and status button change tracking
- *      Also need to reset form with updated entity values from store
- * PATTERN: Wrap original handleSave, reset form with store entity, then reset save state
+ * WHY: Wrapped save handler that resets unified save state and form after save
+...
  */
 const handleSave = async (): Promise<void> => {
   logger.debug('Save triggered', { 
@@ -402,8 +343,6 @@ const handleSave = async (): Promise<void> => {
 
 /**
  * LEARNING: Wrapped undo handler that resets unified save state
- * WHY: Undo should reset both form and status button changes
- * PATTERN: Wrap original handleUndo, call resetSaveState
  */
 const handleUndo = (): void => {
   _handleUndo()
@@ -411,8 +350,6 @@ const handleUndo = (): void => {
 }
 
 /**
- * LEARNING: Duplicate handler that emits duplicate event for parent to handle
- * WHY: Allows parent (InstancesTab) to show inline creation card with pre-filled values
  * PATTERN: Emit event instead of creating immediately - same pattern as create flow
  */
 const handleDuplicate = async (): Promise<void> => {
@@ -433,20 +370,15 @@ provide(ENTITY_CARD_SAVE_KEY, {
 
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
-// PATTERN: Call function directly in template when value doesn't need reactivity
-
 /**
- * LEARNING: Title row fields from composable - NO filtering
- * WHY: Composable returns all title row fields - component renders based on metadata directly
- * PATTERN: Use composable's titleRowFields - read metadata in template to determine rendering
+ * PATTERN: Call function directly in template when value doesn't need reactivity
  */
 const titleRowFields = fieldLocation.titleRowFields
 
 
 /**
- * LEARNING: Expose methods and state for parent components (minimal API)
- * WHY: EntityCard is now self-contained, but some parent components may need form access
- * PATTERN: Expose only what's needed for external access (form, readiness state)
+ * WHY: Expose methods and state for parent components (minimal API)
+PATTERN: Ex...
  */
 defineExpose({
   getFieldContext,

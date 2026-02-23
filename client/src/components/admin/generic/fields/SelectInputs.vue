@@ -130,16 +130,12 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: SelectInputs component renders select/relationship inputs with config-based option filtering
  * 
- * WHY: Options depend on config type:
  * - Type selects: All entities of candidateChildKey type (no filtering)
  * - Valid child selects: Filtered by filterOptions function from config
  * - Active child selects: Filtered by parent's type's valid children
  * 
- * PATTERN: Read config → determine optionEntityKey → apply filtering logic → transform to options
  * 
- * COMPARISON: React uses adminConfig.formFieldConfig and AdminContext. Vue will use same pattern
  *             once adminConfig is ported. For now, accepts config as props.
  */
 
@@ -365,9 +361,6 @@ const {
 </script>
 
 <style scoped>
-/* LEARNING: Style multiple select field groups */
-/* WHY: When rendering multiple selects (one per group), need spacing between them */
-/* PATTERN: Add margin-bottom to separate groups visually */
 .select-field-group {
   margin-bottom: 16px;
 }
@@ -388,9 +381,6 @@ const {
   padding-bottom: 4px !important;
 }
 
-/* LEARNING: Style individual chips with borders and backgrounds */
-/* WHY: Each selection should be visually distinct, matching React's customTagRender styling */
-/* PATTERN: Override AppSelect/Vuetify chip default styles to add borders and background colors */
 .select-field--multiple.v-select--chips :deep(.v-chip) {
   background-color: rgba(var(--v-theme-surface-variant), 0.5) !important;
   border: 1px solid rgba(var(--v-theme-outline), 0.3) !important;
@@ -402,9 +392,6 @@ const {
   min-height: 24px !important;
 }
 
-/* LEARNING: Style chip close button */
-/* WHY: Close button should be visible and accessible */
-/* PATTERN: Match React's close button styling with proper spacing */
 .select-field--multiple.v-select--chips :deep(.v-chip__close) {
   margin-left: 4px !important;
   opacity: 0.7 !important;
@@ -415,9 +402,6 @@ const {
   opacity: 1 !important;
 }
 
-/* LEARNING: Style attendee quick-select button group */
-/* WHY: Provides visual separation and proper spacing for quick-select buttons */
-/* PATTERN: Add margin-bottom to separate from select field */
 .attendee-quick-select {
   margin-bottom: 12px;
 }

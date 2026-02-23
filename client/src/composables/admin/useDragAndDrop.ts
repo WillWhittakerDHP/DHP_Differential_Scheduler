@@ -1,11 +1,8 @@
 /**
- * useDragAndDrop Composable
- * 
- * LEARNING: Extracts drag-and-drop logic from ShapesTab component
- * WHY: Moves drag-and-drop initialization, handlers, and cleanup to composable
- * PATTERN: Composable that provides drag-and-drop setup and handlers
- */
+ * WHY: useDragAndDrop Composable
 
+WHY: Moves drag-and-drop initialization, hand...
+ */
 import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
 import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
@@ -34,11 +31,9 @@ export interface UseDragAndDropReturn {
 
 
 /**
- * useDragAndDrop composable
- * 
- * LEARNING: Provides drag-and-drop setup and handlers
- * WHY: Extracts drag-and-drop logic from component to composable
- * PATTERN: Composable that sets up drag-and-drop and returns mount state
+ * WHY: useDragAndDrop composable
+
+WHY: Extracts drag-and-drop logic from compon...
  */
 export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropReturn {
   const {
@@ -51,16 +46,11 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   } = params
 
   /**
-   * LEARNING: Track mount status to prevent operations after unmount
-   * WHY: Guards against accessing DOM refs that Vue is unmounting
    * PATTERN: Use ref flag to track component lifecycle state
    */
   const isMounted = ref(false)
 
   /**
-   * LEARNING: Store watcher stop function for cleanup
-   * WHY: Vue's watch() returns a stop function that must be called to prevent memory leaks
-   * PATTERN: Store stop function in ref to call it in onBeforeUnmount
    */
   const watcherStop = ref<(() => void) | null>(null)
 
@@ -119,9 +109,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   })
 
   /**
-   * LEARNING: Cleanup BEFORE component unmount starts
-   * WHY: Prevents watchers from running during Vue's unmount process
-   * PATTERN: Use onBeforeUnmount to stop watchers before Vue starts unmounting
    */
   onBeforeUnmount(() => {
     // Mark as unmounted immediately to prevent any watcher callbacks from running
@@ -131,9 +118,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   })
 
   /**
-   * LEARNING: Final cleanup after component unmount completes
-   * WHY: Ensures all refs are cleared for garbage collection
-   * PATTERN: Use onUnmounted for final cleanup after Vue finishes unmounting
    */
   onUnmounted(() => {
     containerRef.value = null

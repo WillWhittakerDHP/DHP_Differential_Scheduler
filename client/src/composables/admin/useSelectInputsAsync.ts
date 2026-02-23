@@ -1,11 +1,8 @@
 /**
- * Select Inputs Async Logic Composable
- * 
- * LEARNING: Extracts async logic from SelectInputs.vue into reusable composable
- * WHY: Reduces component complexity, improves testability, enables reuse
- * PATTERN: Composable that provides async handlers for select input operations
- */
+ * WHY: Select Inputs Async Logic Composable
 
+LEARNING: Extracts async logic fro...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { useAttendeeQuickSelect } from '@/composables/admin/useAttendeeQuickSelect'
@@ -33,8 +30,6 @@ export function useSelectInputsAsync(
   const quickSelect = useAttendeeQuickSelect()
 
   /**
-   * LEARNING: Get valid option IDs for quick-select filtering
-   * WHY: Quick-select should only select attendees that are actually available in the select field
    * PATTERN: Extract value from options array
    */
   const validOptionIds = computed(() => {
@@ -50,9 +45,6 @@ export function useSelectInputsAsync(
   })
 
   /**
-   * LEARNING: Handle quick-select for major attendees
-   * WHY: Replaces current selection with major attendees from business settings
-   * PATTERN: Get IDs from quick-select composable, then call handleChange
    */
   const handleQuickSelectMajor = async (): Promise<void> => {
     const majorIds = quickSelect.selectMajor(validOptionIds.value)
@@ -62,9 +54,6 @@ export function useSelectInputsAsync(
   }
 
   /**
-   * LEARNING: Handle quick-select for minor attendees
-   * WHY: Replaces current selection with minor attendees from business settings
-   * PATTERN: Get IDs from quick-select composable, then call handleChange
    */
   const handleQuickSelectMinor = async (): Promise<void> => {
     const minorIds = quickSelect.selectMinor(validOptionIds.value)
@@ -74,9 +63,6 @@ export function useSelectInputsAsync(
   }
 
   /**
-   * LEARNING: Handle quick-select for all attendees (major + minor)
-   * WHY: Replaces current selection with all configured attendees from business settings
-   * PATTERN: Get IDs from quick-select composable, then call handleChange
    */
   const handleQuickSelectAll = async (): Promise<void> => {
     const allIds = quickSelect.selectAll(validOptionIds.value)

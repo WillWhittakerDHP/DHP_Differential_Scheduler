@@ -1,6 +1,5 @@
 /**
  * Appointment API endpoint builders
- * WHY: Single place for appointment CRUD endpoints; reduces api.ts export count
  */
 
 export function getAppointmentEndpoint(): string {

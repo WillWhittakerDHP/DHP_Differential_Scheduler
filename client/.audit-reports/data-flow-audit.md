@@ -20,8 +20,6 @@ Generated at: 2026-02-20T17:33:38.564Z
 | `server/src/routes/external/mapsRoutes.ts` | reqQueryUnvalidated | 65 | const { input, sessionToken } = req.query |
 | `server/src/routes/external/oauthCallbackRouter.ts` | reqQueryUnvalidated | 37 | logger.debug('Query params:', JSON.stringify(req.q |
 | `server/src/routes/external/propertyEnrichmentRoutes.ts` | reqQueryUnvalidated | 61 | const addressParam = req.query.address; |
-| `server/src/routes/helpers/requestHelpers.ts` | reqParamsUnvalidated | 4 | * WHY: Express typings (and runtime) can give req. |
-| `server/src/routes/helpers/requestHelpers.ts` | reqQueryUnvalidated | 4 | * WHY: Express typings (and runtime) can give req. |
 | `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts` | reqParamsUnvalidated | 31 | const { blockInstanceId, annotationId } = req.para |
 | `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts` | reqBodyUnvalidated | 32 | const { userTypeBlockInstanceId } = req.body |
 | `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts` | reqBodyUnvalidated | 33 | const orderIndex = req.body.orderIndex ?? req.body |

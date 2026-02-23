@@ -1,9 +1,7 @@
 /**
- * Composable for tab navigation state management
- * WHY: Extracts tab navigation logic from components
- * PATTERN: Simple composable that manages tab state
+ * PATTERN: Composable for tab navigation state management
+PATTERN: Simple composabl...
  */
-
 import { ref, type Ref } from 'vue'
 
 export interface UseTabNavigationOptions {
@@ -16,9 +14,8 @@ export interface UseTabNavigationReturn {
 }
 
 /**
- * Composable for managing tab navigation state
- * WHY: Centralizes tab state management logic
- * PATTERN: Returns reactive tab state and navigation function
+ * WHY: Composable for managing tab navigation state
+WHY: Centralizes tab state ...
  */
 export function useTabNavigation(options: UseTabNavigationOptions = {}): UseTabNavigationReturn {
   const { initialTab = '' } = options

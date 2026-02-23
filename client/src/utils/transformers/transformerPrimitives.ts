@@ -1,9 +1,6 @@
 /**
  * Transformer Primitives
  *
- * LEARNING: Typed safe-extraction at the API boundary.
- * WHY: Replaces scattered nullish-coalescing-to-empty fallbacks with explicit, observable behavior.
- * PATTERN: Accept unknown, use type guards, optional context for debug logging when fallback is used.
  */
 
 import { createLogger } from '@/utils/logger'
@@ -111,7 +108,6 @@ export function safeArray<ItemType>(value: readonly ItemType[] | ItemType[] | nu
 
 /**
  * Convert boolean or TernaryBoolean to TernaryBoolean (canonical for transformers).
- * LEARNING: Backward compatibility for legacy boolean values from API/versions.
  */
 export function convertToTernaryBoolean(
   value: TernaryBoolean | boolean | undefined,
@@ -140,7 +136,6 @@ export function safeId(value: unknown): string | null {
 /**
  * Normalize a primitive value before save: trim strings, empty string to undefined, normalize numbers.
  * Used at the single save choke point (saveRegularField) so all primitive field values are scrubbed in one place.
- * WHY: Avoids persisting leading/trailing spaces; normalizes numeric strings from inputs.
  */
 export function normalizePrimitiveForSave(
   value: unknown

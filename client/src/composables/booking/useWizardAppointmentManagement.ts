@@ -1,12 +1,7 @@
 /**
- * LEARNING: Wizard Appointment Management
- * WHY: Encapsulates appointment loading, updating, and wizard reset logic
  * PATTERN: Composable for managing appointment operations and wizard state
- *
- * Used by:
- * - BookingWizard.vue
+Used by:...
  */
-
 import { ref, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { createLogger } from '@/utils/logger'
@@ -20,8 +15,7 @@ import { APPOINTMENT_NOT_FOUND, ERROR_UPDATE_APPOINTMENT } from '@/constants/err
 const logger = createLogger('useWizardAppointmentManagement')
 
 /**
- * Apply transformed wizard state to wizard refs and step data refs in one place.
- * WHY: Groups all state assignments so failure handling can be consistent.
+ * WHY: Apply transformed wizard state to wizard refs and step data refs in one ...
  */
 function applyWizardState(
   wizard: UseBookingWizardReturn,
@@ -110,9 +104,6 @@ export function useWizardAppointmentManagement(
   const isLoadingAppointment = ref(false)
 
   /**
-   * LEARNING: Handle loading appointment into wizard
-   * WHY: Enables testing time slot creation by loading existing appointments
-   * PATTERN: Load appointment, transform to wizard state, populate wizard refs
    */
   const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
     if (!appointmentIdOrRandom) return
@@ -180,9 +171,6 @@ export function useWizardAppointmentManagement(
   }
 
   /**
-   * LEARNING: Handle updating appointment from wizard state
-   * WHY: Saves current wizard state back to the loaded appointment
-   * PATTERN: Collect wizard data, update appointment via API
    */
   const handleUpdateAppointment = async (): Promise<void> => {
     if (!loadedAppointmentId.value) {
@@ -210,9 +198,9 @@ export function useWizardAppointmentManagement(
   }
 
   /**
-   * LEARNING: Handle resetting wizard state
-   * WHY: Clears all wizard state and loaded appointment tracking
-   * PATTERN: Clear all wizard refs and reset loaded state
+   * WHY: /**
+WHY: Clears all wizard state and loaded appointment tracking
+PATTERN...
    */
   const handleResetWizard = (): void => {
     wizard.selectUserTypeBlock(null)

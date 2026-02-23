@@ -1,23 +1,15 @@
 /**
- * Component Entity Composable (facade).
- *
- * PATTERN: query/state/actions separation
- * - query: `useComponentEntityQuery` (read from globalData cache)
- * - domain: `useComponentEntityDomain` (pure-ish computations)
- * - actions: `useComponentEntityActions` (mutations that refetch ['globalData'])
+ * PATTERN: Component Entity Composable (facade)
  */
-
 import type { GlobalEntityKey } from '@/constants/entities'
 import { useComponentEntityQuery } from '@/composables/componentEntity/useComponentEntityQuery'
 import { useComponentEntityDomain } from '@/composables/componentEntity/useComponentEntityDomain'
 import { useComponentEntityActions } from '@/composables/componentEntity/useComponentEntityActions'
 
 /**
- * useComponentEntity Composable
- * 
- * LEARNING: Provides component management operations for entities
- * WHY: Centralizes component CRUD and component logic
- * PATTERN: Composable with Vue Query integration
+ * PATTERN: useComponentEntity Composable
+
+PATTERN: Composable with Vue Query integr...
  */
 export function useComponentEntity<GE extends GlobalEntityKey>(entityKey: GE) {
   const { instanceComponents, getGlobalData } = useComponentEntityQuery()

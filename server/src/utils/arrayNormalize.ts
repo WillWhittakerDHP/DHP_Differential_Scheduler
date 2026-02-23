@@ -1,6 +1,5 @@
 /**
  * Normalize single-or-array values to a consistent shape.
- * WHY: Replaces repeated "Array.isArray(x) ? x : [x]" and "Array.isArray(x) ? x[0] : x" patterns.
  */
 
 /**

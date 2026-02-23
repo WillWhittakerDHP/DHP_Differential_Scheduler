@@ -1,11 +1,8 @@
 /**
- * useMockCalendarRefresh Composable
- * 
- * LEARNING: Manages mock calendar refresh key and reset functionality
- * WHY: Extracts mock calendar refresh management from AvailabilityStep component
- * PATTERN: Composable that manages refresh state and watches parent signal
- */
+ * PATTERN: useMockCalendarRefresh Composable
 
+PATTERN: Composable that manages refr...
+ */
 import { ref, watch, inject, type Ref } from 'vue'
 
 export interface UseMockCalendarRefreshReturn {
@@ -15,11 +12,9 @@ export interface UseMockCalendarRefreshReturn {
 }
 
 /**
- * useMockCalendarRefresh composable
- * 
- * LEARNING: Manages mock calendar refresh key and reset functionality
- * WHY: Extracts refresh management logic from component to composable
- * PATTERN: Composable that manages state and watches parent signal
+ * WHY: useMockCalendarRefresh composable
+
+WHY: Extracts refresh management logi...
  */
 export function useMockCalendarRefresh(): UseMockCalendarRefreshReturn {
   // PATTERN: Incrementing ref forces computed properties to recalculate

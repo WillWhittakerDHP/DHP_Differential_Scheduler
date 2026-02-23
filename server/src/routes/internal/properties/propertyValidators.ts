@@ -1,9 +1,6 @@
 /**
  * Property Router Validation Utilities
  * 
- * LEARNING: Extracted validation logic for property operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure validation functions that return validation results
  */
 
 import {
@@ -18,10 +15,8 @@ import {
 import { isBlockInstanceWithShape } from './propertyHelpers.js'
 
 /**
- * Validation result type
- * LEARNING: Structured validation result for consistent error handling
- * WHY: Enables type-safe validation results with clear success/failure states
- * PATTERN: Discriminated union type for validation results
+ * WHY: Validation result type
+WHY: Enables type-safe validation results with cl...
  */
 export type ValidationResult = 
   | { valid: true }
@@ -29,9 +24,6 @@ export type ValidationResult =
 
 /**
  * Validate required address fields
- * LEARNING: Extracted address field validation logic
- * WHY: Reusable validation for address creation and updates
- * PATTERN: Check required fields, return validation result
  * 
  * @param addressData - Address data object
  * @returns ValidationResult indicating if address fields are valid
@@ -65,9 +57,6 @@ export function validateAddressFields(addressData: {
 
 /**
  * Validate block instance has Properties block shape (BLOCK_SHAPE_NAMES.PROPERTIES)
- * LEARNING: Extracted block shape validation logic
- * WHY: Reusable validation for property type assignment
- * PATTERN: Check block shape name, return validation result
  * 
  * @param blockInstance - BlockInstance with block_shape association
  * @param blockInstanceId - Block instance ID for error messages
@@ -102,9 +91,6 @@ export function validateBlockShape(
 
 /**
  * Validate multiple block instances for bulk operations
- * LEARNING: Extracted bulk block instance validation logic
- * WHY: Reusable validation for bulk property type operations
- * PATTERN: Validate all instances, collect invalid ones, return validation result
  * 
  * @param blockInstances - Array of BlockInstance with block_shape associations
  * @param requestedIds - Array of requested block instance IDs
@@ -114,7 +100,6 @@ export function validateBlockInstancesForPropertyTypes(
   blockInstances: unknown[],
   requestedIds: string[]
 ): ValidationResult {
-  // Check for invalid block shapes
   const invalidInstances = blockInstances.filter((bi: unknown) => {
     if (!isBlockInstanceWithShape(bi)) return true
     const blockShape = bi.block_shape
@@ -131,7 +116,6 @@ export function validateBlockInstancesForPropertyTypes(
     }
   }
   
-  // Check for missing block instances
   const foundIds = blockInstances.map((bi: unknown) => (bi as { id: string }).id)
   const missingIds = requestedIds.filter((id) => !foundIds.includes(id))
   
@@ -150,9 +134,6 @@ export function validateBlockInstancesForPropertyTypes(
 
 /**
  * Validate required field for property type operations
- * LEARNING: Extracted property type field validation logic
- * WHY: Reusable validation for property type operations
- * PATTERN: Check required field, return validation result
  * 
  * @param fieldValue - Value to validate
  * @param fieldName - Name of the field being validated
@@ -174,7 +155,6 @@ export function validateRequiredField(
 
 /**
  * Result type for PATCH property details validation
- * LEARNING: Discriminated union for type-safe validated payload
  */
 export type PatchPropertyDetailsResult =
   | { valid: true; data: Record<string, unknown> }
@@ -182,9 +162,6 @@ export type PatchPropertyDetailsResult =
 
 /**
  * Validate and allowlist PATCH body for property details (mass-assignment safety)
- * LEARNING: Only allowed fields are extracted; enums and types are validated/coerced
- * WHY: Prevents mass-assignment; req.body must not be passed directly to Sequelize update()
- * PATTERN: Allowlist keys, validate enums, coerce numbers, return plain object for update
  *
  * @param body - Raw request body (unknown)
  * @returns PatchPropertyDetailsResult with validated data or error

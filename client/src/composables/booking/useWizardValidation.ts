@@ -1,12 +1,8 @@
 /**
- * useWizardValidation Composable
- * 
- * LEARNING: Extracts validation logic from BookingWizard component
- * WHY: Moves step validation checking to composable
- * PATTERN: Composable that provides validation function
- * FIX: Accept reactive validators so validation always uses current values
- */
+ * WHY: useWizardValidation Composable
 
+WHY: Moves step validation checking to c...
+ */
 import { type Ref, type ComputedRef } from 'vue'
 import type { StepValidator, UseWizardValidationReturn } from '@/utils/booking/wizardValidation'
 
@@ -17,12 +13,9 @@ export interface UseWizardValidationParams {
 }
 
 /**
- * useWizardValidation composable
- * 
- * LEARNING: Provides validation logic for wizard steps
- * WHY: Extracts validation from component to composable
- * PATTERN: Composable that returns validation function
- * FIX: Access validators reactively to ensure validation always uses current validator functions with current values
+ * WHY: useWizardValidation composable
+
+WHY: Extracts validation from component ...
  */
 export function useWizardValidation(params: UseWizardValidationParams): UseWizardValidationReturn {
   const { stepValidators } = params

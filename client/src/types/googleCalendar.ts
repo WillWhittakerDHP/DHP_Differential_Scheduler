@@ -1,8 +1,6 @@
 /**
  * Google Calendar API Type Definitions
  *
- * LEARNING: Uses shared TimeRangeBounds; branded so not assignable to DayHours/DateRangeConfig.
- * Reference: https://developers.google.com/calendar/api/v3/reference/freebusy/query
  */
 
 import type { TimeRangeBounds } from '@shared/types/availabilityTypes'
@@ -17,9 +15,6 @@ interface GoogleCalendarError {
 
 /**
  * Free/busy information for a single calendar
- * LEARNING: Each calendar can have multiple busy periods and optional errors
- * WHY: Google Calendar API returns busy periods per calendar
- * PATTERN: busy array contains all busy periods, errors array is optional
  */
 interface GoogleCalendarFreeBusy {
   busy: GoogleCalendarBusyPeriod[]
@@ -32,24 +27,8 @@ interface GoogleCalendarGroup {
 }
 
 /**
- * Google Calendar free/busy API response structure
- * LEARNING: Matches the exact response format from Google Calendar API v3
- * WHY: Type safety when working with API responses
- * PATTERN: calendars is a map of calendar IDs to their free/busy data
- * 
- * Example response:
- * {
- *   "kind": "calendar#freeBusy",
- *   "timeMin": "2026-01-15T00:00:00Z",
- *   "timeMax": "2026-01-16T00:00:00Z",
- *   "calendars": {
- *     "primary": {
- *       "busy": [
- *         { "start": "2026-01-15T10:00:00Z", "end": "2026-01-15T11:00:00Z" }
- *       ]
- *     }
- *   }
- * }
+ * WHY: Google Calendar free/busy API response structure
+LEARNING: Matches the e...
  */
 export interface GoogleFreeBusyResponse {
   kind: 'calendar#freeBusy'

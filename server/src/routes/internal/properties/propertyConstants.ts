@@ -1,18 +1,12 @@
 /**
  * Property Router Constants
  * 
- * LEARNING: Centralized constants for property router operations
- * WHY: Eliminates magic strings, improves maintainability, enables type safety
- * PATTERN: Const objects with categorized constants
  */
 
 import { DEFAULT_PROPERTY_SOURCE } from '../../../../../shared/constants/propertyConstants.js'
 
 /**
  * Block shape names used in property validation
- * LEARNING: Block shape names are validated against these constants
- * WHY: Single source of truth for block shape names, prevents typos
- * PATTERN: Const object with block shape name values
  */
 export const BLOCK_SHAPE_NAMES = {
   PROPERTIES: 'Properties',
@@ -20,12 +14,8 @@ export const BLOCK_SHAPE_NAMES = {
 
 /**
  * Error messages for property operations
- * LEARNING: Centralized error messages for consistent API responses
- * WHY: Single source of truth for error messages, easier to maintain and translate
- * PATTERN: Const object with error message values organized by operation type
  */
 export const ERROR_MESSAGES = {
-  // Property CRUD operations
   FETCH_PROPERTIES: 'Failed to fetch properties',
   FETCH_PROPERTY: 'Error fetching property',
   PROPERTY_NOT_FOUND: 'Property not found',
@@ -34,7 +24,6 @@ export const ERROR_MESSAGES = {
   PATCH_PROPERTY: 'Failed to patch property',
   DELETE_PROPERTY: 'Failed to delete property',
   
-  // Property types operations
   FETCH_PROPERTY_TYPES: 'Failed to fetch property types',
   PROPERTY_VERSION_NOT_FOUND: 'Property version not found',
   ADD_PROPERTY_TYPE: 'Failed to add property type',
@@ -44,7 +33,6 @@ export const ERROR_MESSAGES = {
   PROPERTY_TYPE_NOT_FOUND: 'Property type not found',
   PROPERTY_TYPE_ALREADY_ASSIGNED: 'Property type already assigned to this property version',
   
-  // Validation errors
   INVALID_PATCH_BODY: 'Invalid PATCH body: only allowed property detail fields may be updated',
   MISSING_REQUIRED_FIELDS: 'Missing required fields',
   MISSING_BLOCK_INSTANCE_ID: 'Missing required field: blockInstanceId',
@@ -56,9 +44,6 @@ export const ERROR_MESSAGES = {
 
 /**
  * Required field names for property operations
- * LEARNING: Centralized required field lists for validation
- * WHY: Single source of truth for required fields, easier to maintain
- * PATTERN: Const arrays with required field names
  */
 export const REQUIRED_FIELDS = {
   ADDRESS: ['address', 'city', 'state', 'zipCode'] as const,
@@ -67,8 +52,6 @@ export const REQUIRED_FIELDS = {
 
 /**
  * Allowed fields for PATCH property details (mass-assignment safety)
- * LEARNING: Only these keys are accepted from req.body for partial updates
- * WHY: Prevents arbitrary field injection; matches PropertyDetails updatable columns
  */
 export const PATCH_PROPERTY_DETAILS_FIELDS = [
   'mlsNumber',
@@ -81,8 +64,8 @@ export const PATCH_PROPERTY_DETAILS_FIELDS = [
 ] as const
 
 /**
- * PATCH field key constants for switch/case (hardcoding audit)
- * LEARNING: Use in validators instead of string literals in case clauses
+ * WHY: PATCH field key constants for switch/case (hardcoding audit)
+LEARNING: U...
  */
 export const PATCH_PROPERTY_FIELD_KEY = {
   MLS_NUMBER: 'mlsNumber',
@@ -106,9 +89,6 @@ export const PROPERTY_SOURCE_VALUES = ['api', 'manual', DEFAULT_PROPERTY_SOURCE]
 
 /**
  * Default values for property operations
- * LEARNING: Centralized default values for optional fields
- * WHY: Single source of truth for defaults; SOURCE from shared constant
- * PATTERN: Const object with default values
  */
 export const DEFAULT_VALUES = {
   SOURCE: DEFAULT_PROPERTY_SOURCE,
@@ -117,8 +97,5 @@ export const DEFAULT_VALUES = {
 
 /**
  * Unknown error fallback message
- * LEARNING: Re-export from shared constants
- * WHY: Single source of truth, already defined in constants/router.ts
- * PATTERN: Re-export from shared constants
  */
 export { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'

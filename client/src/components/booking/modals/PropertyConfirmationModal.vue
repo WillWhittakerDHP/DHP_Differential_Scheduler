@@ -131,9 +131,8 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 /**
- * LEARNING: Full address computed property
  * WHY: Combines address, unit, city, state, and zip code into readable format
- * PATTERN: Computed property that formats address components
+P...
  */
 const fullAddress = computed(() => {
   const parts: string[] = []

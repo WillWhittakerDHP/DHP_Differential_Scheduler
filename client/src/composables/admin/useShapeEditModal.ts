@@ -1,9 +1,7 @@
 /**
- * Composable for shape edit modal handlers
- * WHY: Extracts shape edit modal handler logic from InstancesTab
- * PATTERN: Composable that manages modal state and handlers
+ * PATTERN: Composable for shape edit modal handlers
+PATTERN: Composable that manage...
  */
-
 import { ref, type Ref } from 'vue'
 import type { Ref as VueRef } from 'vue'
 
@@ -18,9 +16,8 @@ export interface UseShapeEditModalReturn {
 }
 
 /**
- * Composable for managing shape edit modal
- * WHY: Centralizes shape edit modal state and handlers
- * PATTERN: Returns reactive state and handler functions
+ * WHY: Composable for managing shape edit modal
+WHY: Centralizes shape edit mod...
  */
 export function useShapeEditModal(
   options: UseShapeEditModalOptions
@@ -29,15 +26,10 @@ export function useShapeEditModal(
 
   /**
    * LEARNING: Shape edit modal state per BlockShape
-   * WHY: Tracks which BlockShapes have shape edit modal open
-   * PATTERN: Map of BlockShape ID to boolean
    */
   const shapeEditModalOpen = ref<Map<string, boolean>>(new Map())
 
   /**
-   * LEARNING: Toggle shape edit modal for a BlockShape
-   * WHY: Opens/closes shape edit modal
-   * PATTERN: Function that toggles boolean in Map
    */
   const toggleShapeEditModal = (blockShapeId: string): void => {
     const current = shapeEditModalOpen.value.get(blockShapeId) || false
@@ -45,9 +37,6 @@ export function useShapeEditModal(
   }
 
   /**
-   * LEARNING: Handle save on existing BlockShape - close modal and refresh
-   * WHY: User expects modal to close after saving changes
-   * PATTERN: Close modal and let EntityCard handle the save
    * NOTE: MetadataEditModal emits 'saved' with no parameters, so we create a wrapper that captures shapeId
    */
   const handleExistingBlockShapeSaved = (shapeId: string): void => {

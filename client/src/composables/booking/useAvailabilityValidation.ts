@@ -1,8 +1,6 @@
 /**
  * useAvailabilityValidation Composable
  * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
  */
 
 import { computed } from 'vue'
@@ -19,8 +17,6 @@ export type UseAvailabilityValidationReturn = UseStepValidationReturn
 /**
  * useAvailabilityValidation composable
  * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
  */
 export function useAvailabilityValidation(
   params: UseAvailabilityValidationParams

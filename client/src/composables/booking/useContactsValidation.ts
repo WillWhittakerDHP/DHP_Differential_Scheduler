@@ -1,8 +1,6 @@
 /**
  * useContactsValidation Composable
  * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
  */
 
 import { computed, type Ref } from 'vue'
@@ -30,8 +28,6 @@ export type UseContactsValidationReturn = UseStepValidationReturn
 /**
  * useContactsValidation composable
  * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
  */
 export function useContactsValidation(params: UseContactsValidationParams): UseContactsValidationReturn {
   const {
@@ -49,9 +45,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
   const { required, email } = useFormValidation()
 
   /**
-   * WHY: Agent fields conditionally required based on selected services (some require agent, others don't)
-   * PATTERN: requiresAgent parameter determines if agent validation rules apply
-   * LEARNING: Centralized validation strings from config reduce hardcoding
    */
   const validationRules: Record<string, ValidationRule[]> = {
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
@@ -91,8 +84,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
   }
 
   /**
-   * WHY: Validation rules only apply to visible/required fields (reactive rules based on flags)
-   * PATTERN: Computed property dynamically builds rules object based on requiresAgent
    */
   const reactiveRules = computed(() => {
     const rules: Record<string, ValidationRule[]> = {

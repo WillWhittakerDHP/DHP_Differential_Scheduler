@@ -1,9 +1,8 @@
 <template>
   <div>
-    <!-- LEARNING: Check renderAs from metadata to determine which input to render -->
-    <!-- WHY: renderAs is the source of truth for rendering - component dispatcher already determined this is primitive -->
-    <!-- PATTERN: Use renderAs to determine TextInput vs BooleanInput, fieldType for other types -->
-    <!-- Text Input (renderAs: 'text' or fieldType: 'text') -->
+    /**
+     * <!-- WHY: renderAs is the source of truth for rendering - component disp...
+     */
     <TextInput
       v-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
       :field-context="fieldContext"
@@ -48,16 +47,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: PrimitiveInputs component renders primitive input components
- * 
- * WHY: Different field types need different input components
- * 
- * PATTERN: Factory pattern - determines field type and renders appropriate input component
- * 
- * COMPARISON: React uses switch statements in render functions. Vue uses v-if directives
- *             in templates. Both provide same functionality.
+ * WHY: PATTERN: Factory pattern - determines field type and renders appropriate...
  */
-
 import { computed } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'

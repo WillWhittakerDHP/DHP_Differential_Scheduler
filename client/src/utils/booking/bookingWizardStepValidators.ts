@@ -13,10 +13,7 @@ export type BuildBookingWizardStepValidatorsOptions = {
 }
 
 /**
- * Build the step validator map for BookingWizard.
- *
- * LEARNING: Keep the mapping pure so the composable only wires refs/computed.
- * NOTE: Step indices match `configs/wizardSteps.ts`.
+ * WHY: Build the step validator map for BookingWizard
  */
 export function buildBookingWizardStepValidators(
   options: BuildBookingWizardStepValidatorsOptions

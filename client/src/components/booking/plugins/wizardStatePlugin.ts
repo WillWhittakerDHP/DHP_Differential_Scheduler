@@ -1,11 +1,8 @@
 /**
- * Wizard State Plugin
- * 
- * LEARNING: State plugin for wizard composable state management
- * WHY: Allows SelectionCard to work with wizard state (useBookingWizard)
- * PATTERN: Plugin that reads/writes to wizard composable
- */
+ * WHY: Wizard State Plugin
 
+LEARNING: State plugin for wizard composable state ...
+ */
 import { inject } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -65,8 +62,6 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
     
     /**
      * Set value for an item
-     * LEARNING: Toggles item in array (for multi-select) or sets single value (for userTypeBlock)
-     * WHY: Updates wizard selection state
      * Session 1.3.9.3: Updated to handle arrays for multi-select fields
      */
     setValue: (item: SelectionCardItem, value: boolean | string | null): void => {
@@ -107,9 +102,9 @@ export function createWizardStatePlugin(field: WizardStateField): StatePlugin | 
     },
     
     /**
-     * Watch source for reactivity
-     * LEARNING: Returns computed that tracks wizard field changes
-     * WHY: Enables SelectionCard to react to wizard state changes
+     * WHY: /**
+Watch source for reactivity
+WHY: Enables SelectionCard to react to w...
      */
     watchSource: () => {
       return watchSource()

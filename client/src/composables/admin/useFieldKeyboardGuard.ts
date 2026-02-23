@@ -1,6 +1,4 @@
 /**
- * LEARNING: Unified keyboard event containment for form fields
- * WHY: Prevents spacebar/enter from bubbling to parent containers (e.g. expansion panels)
  *      and ensures consistent behavior across all field types.
  * PATTERN: Single composable used by useFieldInputHandlers, useSelectHandlers, BooleanInput, IconInput
  *
@@ -39,8 +37,6 @@ function resolveEditable(isEditable: ComputedRef<boolean> | boolean): boolean {
 }
 
 /**
- * LEARNING: Keyboard guard prevents field keyboard events from reaching parent containers.
- * WHY: Expansion panels and cards may react to Space/Enter; typing or toggling in a field
  *      must not trigger those. Tab is intentionally not stopped so focus can move.
  */
 export function useFieldKeyboardGuard(
@@ -74,7 +70,6 @@ export function useFieldKeyboardGuard(
     }
 
     if (fieldType === 'icon') {
-      // Readonly click-only field: contain all keyboard events
       event.stopPropagation()
       if (isSpace || isEnter) {
         event.preventDefault()
@@ -92,13 +87,11 @@ export function useFieldKeyboardGuard(
       return
     }
 
-    // text, number, textarea
     if (fieldType === 'text' || fieldType === 'number' || fieldType === 'textarea') {
       if (!editable) {
         return
       }
       if (isSpace) {
-        // Allow default (type space) but prevent parent from receiving
         event.stopPropagation()
         return
       }

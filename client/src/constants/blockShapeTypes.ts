@@ -1,9 +1,6 @@
 /**
  * Block Shape Type Constants
  * 
- * LEARNING: Immutable semantic identifiers for block shape types
- * WHY: Provides stable type-based filtering independent of display names
- * PATTERN: Enum-like constants with TypeScript type union
  */
 
 export const BLOCK_SHAPE_TYPES = {

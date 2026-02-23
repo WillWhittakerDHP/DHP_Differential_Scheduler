@@ -1,9 +1,6 @@
 /**
  * Property Validation UI Strings Configuration
  * 
- * LEARNING: Centralized validation messages for property step
- * WHY: Reduces hardcoding audit findings, centralizes all validation text for consistency
- * PATTERN: Single config object with all validation messages grouped by field
  */
 export const PROPERTY_VALIDATION_STRINGS = {
   address: {

@@ -14,19 +14,16 @@ import {
  * that can be associated with part shapes or block shapes. Event instances contain templates
  * for calendar event creation (title, description, location).
  * 
- * LEARNING: Separating event instances into their own entity enables:
  * - Shared event configurations across multiple shapes
  * - Template management (update templates once, affects all shapes using it)
  * - Centralized event instance management
  * 
- * WHY: Instead of storing event configurations directly on shapes, we use a many-to-many
  * relationship through EventAssignment. This allows:
  * - Reusability: Same event instance can be used by multiple shapes
  * - Flexibility: Shapes can have multiple event instances (ordered)
  * - Maintainability: Update event templates once, all shapes using it get the update
  * 
  * PATTERN: Instance-level entity model matching block_instances/part_instances/annotation_instances pattern
- * COMPARISON: EventShape is shape-level (definitions), EventInstance is instance-level (concrete entities)
  */
 export class EventInstance extends Model<
   InferAttributes<EventInstance>,

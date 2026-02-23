@@ -1,8 +1,6 @@
 /**
  * Server Logger Utility
  *
- * WHY: Centralizes logging so we can control noise, keep production clean, and avoid scattered `console.*`.
- * PATTERN: Scoped logger + level gating via Node.js env vars.
  *
  * Controls:
  * - `LOG_LEVEL`: debug | info | warn | error | silent
@@ -51,7 +49,6 @@ function levelToNumber(level: LogLevel): number {
   }
 }
 
-// Cache parsed config to avoid re-parsing on every logger creation
 let cachedLogLevel: LogLevel | null = null
 let cachedDebugScopes: Set<string> | null | undefined = undefined // undefined = not parsed yet
 
@@ -82,8 +79,6 @@ function isDebugScopeEnabled(scope: string): boolean {
 
 /**
  * Check if a scope is explicitly enabled in DEBUG_SCOPES
- * WHY: Some scopes should be opt-in only (require explicit enabling, not via wildcard)
- * PATTERN: Returns true only if DEBUG_SCOPES is set and explicitly contains the scope (not via *)
  */
 export function isScopeExplicitlyEnabled(scope: string): boolean {
   if (isProduction()) return false

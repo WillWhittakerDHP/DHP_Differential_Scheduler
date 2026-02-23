@@ -1,15 +1,8 @@
 /**
- * Drive Time Cache Service
- * 
- * LEARNING: TTL-based caching for Routes API drive time calculations
- * WHY: Same routes don't change often, caching reduces API calls and costs
- * PATTERN: Memory-efficient cache with TTL-based expiration, following calendarEventsCache pattern
- * 
- * SESSION: 2.2.2 - Drive Time Calculations (Routes API)
- * 
- * CRITICAL: Cache reduces API calls - Routes API charges per element
- */
+ * PATTERN: Drive Time Cache Service
 
+PATTERN: Memory-efficient cache with TTL-based...
+ */
 import type { RouteLocation } from './google/maps/mapsTypes.js';
 import { createLogger } from '../utils/logger.js';
 
@@ -17,7 +10,6 @@ const logger = createLogger('DriveTimeCache');
 
 /**
  * Cached drive time entry
- * LEARNING: Minimal data needed for drive time results
  */
 export interface DriveTimeCacheEntry {
   durationSeconds: number;
@@ -27,14 +19,12 @@ export interface DriveTimeCacheEntry {
 
 /**
  * Cache storage
- * LEARNING: Map-based cache with TTL entries
  */
 const cache: Map<string, DriveTimeCacheEntry> = new Map();
 
 /**
- * Default TTL: 24 hours
- * LEARNING: Routes don't change often, 24 hour cache is reasonable
- * WHY: Traffic patterns change, but basic route structure is stable
+ * WHY: Default TTL: 24 hours
+WHY: Traffic patterns change, but basic route stru...
  */
 const _DEFAULT_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds (reserved for future use)
 
@@ -45,18 +35,12 @@ const CACHE_TTL_HOURS = parseInt(process.env.DRIVE_TIME_CACHE_TTL_HOURS || '24',
 const TTL = CACHE_TTL_HOURS * 60 * 60 * 1000;
 
 /**
- * Generate location key for cache
- * 
- * LEARNING: Normalize location to consistent key format
- * WHY: Same location specified different ways should hit same cache entry
- * PATTERN: Priority: placeId > coordinates (rounded) > address
- * 
- * @param location Location to generate key for
- * @returns Normalized location key
+ * WHY: Generate location key for cache
+
+LEARNING: Normalize location to consist...
  */
 function locationToKey(location: RouteLocation): string {
   if (location.placeId) {
-    // Place ID is most precise - use as-is
     return `pid:${location.placeId}`;
   }
   
@@ -69,7 +53,6 @@ function locationToKey(location: RouteLocation): string {
   }
   
   if (location.address) {
-    // Normalize address: lowercase, trim, remove extra spaces
     const normalizedAddress = location.address
       .toLowerCase()
       .trim()
@@ -83,8 +66,6 @@ function locationToKey(location: RouteLocation): string {
 /**
  * Generate cache key from origin and destination
  * 
- * LEARNING: Combine origin and destination keys
- * WHY: Drive time depends on both endpoints
  * 
  * @param origin Origin location
  * @param destination Destination location
@@ -101,8 +82,6 @@ export function generateCacheKey(
 
 /**
  * Clean expired cache entries
- * LEARNING: Remove entries that have exceeded their TTL
- * WHY: Prevent memory leaks and ensure fresh data
  */
 function cleanExpiredEntries(): void {
   const now = Date.now();
@@ -117,8 +96,6 @@ function cleanExpiredEntries(): void {
 /**
  * Get cached drive time for origin-destination pair
  * 
- * LEARNING: Check cache before making API call
- * WHY: Reduces API calls and improves performance
  * 
  * @param origin Origin location
  * @param destination Destination location
@@ -141,7 +118,6 @@ export function getCachedDriveTime(
   const age = now - entry.timestamp;
   
   if (age > TTL) {
-    // Entry expired, remove it
     cache.delete(key);
     return null;
   }
@@ -153,8 +129,6 @@ export function getCachedDriveTime(
 /**
  * Cache drive time for origin-destination pair
  * 
- * LEARNING: Store API response in cache
- * WHY: Enable future cache hits for same queries
  * 
  * @param origin Origin location
  * @param destination Destination location
@@ -177,7 +151,6 @@ export function cacheDriveTime(
   
   logger.debug(`Cached drive time for ${key.substring(0, 50)}...`);
   
-  // Clean expired entries periodically (every 10th cache write)
   if (cache.size % 10 === 0) {
     cleanExpiredEntries();
   }
@@ -185,8 +158,6 @@ export function cacheDriveTime(
 
 /**
  * Invalidate all cache entries
- * LEARNING: Clear entire cache
- * WHY: Useful for testing or manual cache clearing
  */
 export function clearDriveTimeCache(): void {
   cache.clear();
@@ -195,7 +166,6 @@ export function clearDriveTimeCache(): void {
 
 /**
  * Get cache statistics
- * LEARNING: Useful for monitoring cache performance
  * @returns Cache statistics
  */
 export function getDriveTimeCacheStats(): {
@@ -225,8 +195,6 @@ export function getDriveTimeCacheStats(): {
 
 /**
  * Get all cached entries (for debugging)
- * LEARNING: Returns all cache entries for inspection
- * WHY: Useful for dev panel to display cache contents
  * @returns Map of cache keys to entries
  */
 export function getAllCachedDriveTimes(): Map<string, DriveTimeCacheEntry> {

@@ -1,13 +1,7 @@
 /**
- * LEARNING: Generic data collection actions composable
- * WHY: Collection action mutations are duplicated across businessDataCollections and globalDataCollections
- * PATTERN: Extract shared mutation logic into generic composable
- * 
- * Used by:
- * - useBusinessDataCollectionActions.ts
- * - useGlobalDataCollectionActions.ts
+ * WHY: Generic data collection actions composable
+PATTERN: Extract shared mutat...
  */
-
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
@@ -30,8 +24,6 @@ export interface DataCollectionCrudConfig<
 }
 
 /**
- * LEARNING: Generic mutation factory for data collection CRUD operations
- * WHY: Provides consistent mutation behavior across different data collection types
  * PATTERN: Accepts query key and data type as parameters for flexibility
  */
 export function useDataCollectionActions<

@@ -1,11 +1,8 @@
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 
 /**
- * WHY: User Type Definitions
-
-LEARNING: TypeScript interfaces for user API data
-WHY: Ensures type safety when working with user data
-PATTERN: Match server-side model structure for consistency
+ * WHY: TypeScript interfaces for user API data
+WHY: Ensures type safety when wo...
  */
 export interface UserRequest {
   firstName: string;

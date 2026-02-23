@@ -1,9 +1,6 @@
 /**
  * Property Field Mapper
  *
- * LEARNING: Maps RESO response fields to PropertyDetails using DB-configured mappings
- * WHY: Admin-configurable field mappings (foundationAccess, additionalUnits)
- * PATTERN: Load active mappings, apply value_mapping and fallback_value
  */
 
 import type { PropertyDetailsBase } from '../../../shared/types/propertyTypes.js'
@@ -24,7 +21,6 @@ export function mapFieldsToModel(
 ): PartialPropertyDetails {
   const result: PartialPropertyDetails = {};
 
-  // Built-in mappings (always applied first)
   result.mlsNumber =
     response.ListingId ?? response.ListingKey ?? null;
   if (result.mlsNumber && typeof result.mlsNumber !== 'string') {
@@ -55,7 +51,6 @@ export function mapFieldsToModel(
 
   result.foundationAccess = mapFoundationType(response.FoundationDetails);
 
-  // additionalUnits from UnitTypes/OtherStructures - simple count or ADU detection
   const unitTypes = toArray(response.UnitTypes);
   const otherStructs = toArray(response.OtherStructures);
   const aduKeywords = ['adu', 'accessory', 'in-law', 'guest', 'unit'];
@@ -64,7 +59,6 @@ export function mapFieldsToModel(
   );
   result.additionalUnits = hasAdu ? 1 : unitTypes.length > 0 ? unitTypes.length : null;
 
-  // Apply DB mappings (override built-in when mapping exists)
   for (const m of mappings) {
     if (!m.active) continue;
 

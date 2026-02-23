@@ -14,7 +14,6 @@ type GlobalDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
 /**
  * Read-only query helpers for GlobalData-backed collections (appointments/users/properties/annotations).
  *
- * LEARNING: These collections are stored on `globalData` (Vue Query cache) and are not fetched per-collection.
  * WHY: Keeping "query" concerns separate makes CRUD composables smaller and easier to reuse.
  */
 export function useGlobalDataCollectionQuery<CollectionItem extends { id: string }>(

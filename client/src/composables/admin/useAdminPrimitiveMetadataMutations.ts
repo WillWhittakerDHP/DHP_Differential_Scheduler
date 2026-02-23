@@ -1,15 +1,7 @@
 /**
- * LEARNING: Admin Primitive Metadata Mutations Composable
- * WHY: Provides mutations for saving/deleting admin primitive metadata
- *      Renamed from useAdminInputMetadataMutations to align with entity data pattern
- * PATTERN: Vue Query mutations with proper cache invalidation
- * 
- * This composable handles:
- * - Saving field rendering configuration (POST with full entry)
- * - Deleting field overrides (DELETE)
- * - Invalidating Vue Query cache after mutations
+ * WHY: Admin Primitive Metadata Mutations Composable
+     Renamed from useAdmin...
  */
-
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminPrimitiveMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/constants/fieldMetadata'

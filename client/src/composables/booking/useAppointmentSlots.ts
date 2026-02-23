@@ -1,9 +1,6 @@
 /**
  * useAppointmentSlots Composable
  *
- * LEARNING: Builds AppointmentSlot from server-computed slots + client shape (eventTimeRanges, graph bars)
- * WHY: Server provides isAvailable and violations; client applies AppointmentShape for display only
- * PATTERN: Map server ComputedSlot[] -> applyShapeToTime -> carry over isAvailable and flexibleViolations
  *
  * Phase 5: Server-Side Slot Computation — no client overlap/capacity re-check
  */
@@ -49,8 +46,6 @@ export interface UseAppointmentSlotsReturn {
 /**
  * useAppointmentSlots
  *
- * LEARNING: Applies AppointmentShape to each server slot and carries over server availability/violations
- * WHY: Server does range/overlap/capacity; client only builds eventTimeRanges and graph bars for display
  */
 export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppointmentSlotsReturn {
   const {

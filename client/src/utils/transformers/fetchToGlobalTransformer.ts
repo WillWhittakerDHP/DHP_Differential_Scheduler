@@ -1,11 +1,7 @@
 /**
- * Fetch to Global Transformer
- *
- * LEARNING: Transforms API responses (snake_case) to GlobalData format (camelCase)
- * WHY: Converts backend database field names to frontend property names
- * PATTERN: Transformer class that handles entity and relationship transformation
+ * WHY: Fetch to Global Transformer
+LEARNING: Transforms API responses (snake_ca...
  */
-
 import apiClient, { getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
@@ -31,7 +27,6 @@ const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
 
 /**
  * Apply name fallback for annotationInstance: use text as name when name is missing.
- * LEARNING: API may return annotation with text but no name; frontend expects name.
  */
 function applyAnnotationInstanceNameFallback(
   entities: GlobalEntity<'annotationInstance'>[]
@@ -45,9 +40,6 @@ function applyAnnotationInstanceNameFallback(
 
 /**
  * Transform batch entities response to expected structure
- * LEARNING: Converts batch endpoint response (object keyed by entityKey) to Record<GlobalEntityKey, GlobalEntity[]>
- * WHY: Batch endpoint returns structured object, need to transform each entity type's array
- * PATTERN: Map over ENTITY_KEYS, transform and sort each entity type's data
  */
 function transformBatchEntities(
   batchResponse: Record<GlobalEntityKey, Record<string, unknown>[]>
@@ -75,8 +67,6 @@ function transformBatchEntities(
 
 /**
  * Transform batch relationships response to flat array
- * LEARNING: Converts batch endpoint response (object keyed by relationshipKey) to flat FetchedRelationship[]
- * PATTERN: Map over RELATIONSHIP_KEYS, transform each relationship type's data, flatten to single array
  */
 function transformBatchRelationships(
   batchResponse: Record<GlobalRelationshipKey, Record<string, unknown>[]>
@@ -89,9 +79,8 @@ function transformBatchRelationships(
 }
 
 /**
- * GlobalRelationship type matching React's structure
- * LEARNING: Nested structure with parent and children arrays
- * WHY: Matches format expected by scheduler transformer
+ * WHY: GlobalRelationship type matching React's structure
+WHY: Matches format e...
  */
 export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
   relationshipKind: GlobalRelationshipKey
@@ -100,31 +89,9 @@ export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
 }
 
 /**
- * GlobalData type - matches React's structure
- * LEARNING: Entities and relationships organized by type
- * WHY: Consistent data structure across React and Vue apps
- * 
- * ARCHITECTURAL CHANGE: instanceComponents are now in relationships.instanceComponents
- * This makes components consistent with other relationship types (validCascades, bookingCascades, etc.)
- * 
- * ARCHITECTURAL REFACTOR: Removed business entities (appointments, properties, users) from globalData
- * WHY: Business data changes frequently and should have separate cache keys for granular invalidation
- * PATTERN: Keep only static configuration data (entities, relationships) in globalData
- * Business entities (appointments, properties, users) use separate cache key: ['businessData']
- * 
- * Session 1.4.6: Added annotations to globalData cache
- * WHY: Annotations are configuration data that changes infrequently
- * PATTERN: Keep annotations in globalData as they're part of configuration
- * 
- * Session 1.4.7: Added annotationShapes to globalData cache
- * WHY: AnnotationShapes are configuration data (like blockShape), not business data
- * PATTERN: Keep all configuration data together in globalData for unified cache management
- * NOTE: Renamed from annotationShapes to annotationShapes (2026-01-30)
- * 
- * METADATA REFACTOR: Removed metadata from globalData
- * WHY: Metadata is only needed for admin page - lazy load via ['adminMetadata'] cache instead
- * PATTERN: Use useMetadataCache() composable for admin metadata access
- * BENEFIT: Non-admin users don't load metadata, faster app startup
+ * PATTERN: GlobalData type - matches React's structure
+
+ARCHITECTURAL CHANGE: insta...
  */
 export type GlobalData = {
   entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
@@ -134,7 +101,6 @@ export type GlobalData = {
 
 /**
  * Resolve parent/child ID fields from raw API response by relationship kind.
- * LEARNING: Some relationship types use alternate field names (e.g. annotationAssignments use blockInstanceId/annotationId).
  */
 function resolveRelationshipIds(
   raw: Record<string, unknown>,
@@ -167,11 +133,8 @@ function resolveRelationshipIds(
 }
 
 /**
- * Transform API relationship response to FetchedRelationship format
- * LEARNING: Converts API response field names to expected frontend format
- * WHY: API endpoint already filters by relationship type, so response doesn't include 'kind'
- *      We use the relationshipKey parameter to set kind and get parent/child entity types from config
- * PATTERN: Use relationshipKey to determine kind and entity types, handle snake_case/camelCase for IDs
+ * WHY: Transform API relationship response to FetchedRelationship format
+LEARNI...
  */
 function transformApiRelationship(
   raw: Record<string, unknown>,
@@ -210,8 +173,6 @@ function transformApiRelationship(
 
 /**
  * Attach instanceComponents arrays to entities for backward compatibility.
- * LEARNING: instanceComponents are now in relationships; this keeps entity.instanceComponents in sync.
- * PATTERN: Use groupByParentId for parent -> childIds; then map entities to attach or clear.
  */
 function attachLegacyInstanceComponents(
   fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
@@ -243,46 +204,29 @@ function attachLegacyInstanceComponents(
 }
 
 /**
- * Global Transformer Class
- * LEARNING: Transforms API responses to GlobalData format
- * WHY: Centralizes data transformation logic
- * PATTERN: Class-based transformer matching React's structure
+ * WHY: Global Transformer Class
+LEARNING: Transforms API responses to GlobalDat...
  */
 export class GlobalTransformer {
   /**
-   * Stage entities, relationships, and annotations for hydration
-   * LEARNING: Fetches all data from API and transforms field names
-   * WHY: Prepares data for transformation to GlobalData format
-   * PATTERN: Fetch -> Transform -> Hydrate
-   * 
-   * ARCHITECTURAL CHANGE: 
-   * - instanceComponents are now fetched via relationship endpoint
-   * - Annotations are now fetched separately (consistent with relationships pattern)
-   * 
-   * METADATA REFACTOR: Metadata is no longer fetched here
-   * WHY: Metadata is lazy-loaded via useMetadataCache() only when admin page is accessed
-   * BENEFIT: Non-admin users don't load metadata, faster app startup
+   * WHY: /**
+Stage entities, relationships, and annotations for hydration
+WHY: Pr...
    */
   async stageForHydration(): Promise<{
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
   }> {
     try {
-      // LEARNING: Use batch endpoints to reduce N+18 HTTP requests to 2 requests
-      // WHY: Dramatically improves initial load performance, reduces network overhead
       // PATTERN: Fetch entities and relationships in parallel using batch endpoints
       const [entitiesResponse, relationshipsResponse] = await Promise.all([
         apiClient.get<Record<GlobalEntityKey, Record<string, unknown>[]>>(getEntitiesBatchEndpoint()),
         apiClient.get<Record<GlobalRelationshipKey, Record<string, unknown>[]>>(getRelationshipsBatchEndpoint())
       ])
 
-      // LEARNING: Transform batch entities response to expected structure
-      // WHY: Batch endpoint returns object keyed by entityKey, need to transform each array
       // PATTERN: Map over ENTITY_KEYS, transform each entity type's data
       const fetchedEntities = transformBatchEntities(entitiesResponse.data)
 
-      // LEARNING: Transform batch relationships response to flat array
-      // WHY: Batch endpoint returns object keyed by relationshipKey, need to flatten and transform
       // PATTERN: Map over RELATIONSHIP_KEYS, transform each relationship type's data, flatten
       const fetchedRelationships = transformBatchRelationships(relationshipsResponse.data)
       
@@ -310,8 +254,6 @@ export class GlobalTransformer {
 
   /**
    * Hydrate staged data into final GlobalData format
-   * LEARNING: Resolves relationships and annotations, creates final data structure
-   * PATTERN: Transform flat relationships to nested parent/children structure.
    * NOTE: attachLegacyInstanceComponents remains until consumers (serviceSelectionConfigBuilders,
    * selectionCardChildren, usePropertyTypeBlockConfig, globalToAdminTransformer tests) no longer
    * read entity.instanceComponents; they currently depend on it for composite block display.
@@ -345,13 +287,7 @@ export class GlobalTransformer {
 
   /**
    * Dehydrate entity: Transform frontend field names to backend field names
-   * LEARNING: All models now use underscored: true with camelCase properties
-   * WHY: Sequelize expects camelCase properties and automatically converts to snake_case columns
-   * PATTERN: Return entity as-is with camelCase - Sequelize handles conversion internally
    * 
-   * LEARNING: Dynamic boolean field detection from metadata
-   * WHY: No hardcoded field lists - automatically includes all boolean fields from metadata
-   * PATTERN: Uses metadata cache to determine boolean fields and their nullable status
    * 
    * @param entity - Entity with frontend field names (camelCase), must include entityKey property
    * @returns Entity with camelCase properties (Sequelize converts to snake_case internally)

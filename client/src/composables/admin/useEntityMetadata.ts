@@ -1,14 +1,7 @@
 /**
- * LEARNING: Unified Entity Metadata Composable
- * WHY: Single composable for all entity types
- * PATTERN: Uses entity type mapping utility to eliminate special casing
- * 
- * This composable replaces useFormFieldMetadata and removes all special casing
- * for different entity types. It works uniformly for blockShape, partShape,
- * blockInstance, and partInstance entities.
- * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
+ * WHY: Unified Entity Metadata Composable
+WHY: Single composable for all entity...
  */
-
 import { computed, unref, type MaybeRef } from 'vue'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
@@ -66,16 +59,16 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
     fieldMetadata,
     
     /**
-     * Loading state from metadata cache
-     * LEARNING: Metadata is lazy-loaded, so loading state is available
-     * WHY: Reflects actual loading state from metadata query
+     * WHY: /**
+Loading state from metadata cache
+LEARNING: Metadata is lazy-loaded,...
      */
     isLoading: computed(() => metadataCache.isLoading.value),
     
     /**
-     * Error from metadata cache
-     * LEARNING: Metadata query can have errors
-     * WHY: Reflects actual error state from metadata query
+     * WHY: /**
+Error from metadata cache
+WHY: Reflects actual error state from meta...
      */
     error: computed(() => metadataCache.error.value),
     

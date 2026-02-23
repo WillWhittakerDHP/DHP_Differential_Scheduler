@@ -17,9 +17,6 @@ export type { UseFormFieldsStandardLayoutReturn }
 /**
  * Query/state module: unified layout breakdown for ALL entity types.
  * 
- * LEARNING: Field visibility comes from metadata, not config
- * WHY: Metadata is the single source of truth for which fields should render
- * PATTERN: Fields with visibility: 'hidden' in metadata won't render
  */
 export function useFormFieldsStandardLayout(
   options: UseFormFieldsStandardLayoutOptions

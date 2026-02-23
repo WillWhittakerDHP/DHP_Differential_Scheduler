@@ -1,17 +1,8 @@
 /**
- * Attendee Quick Select Composable
- * 
- * LEARNING: Provides quick-select functionality for attendee assignment fields
- * WHY: Allows users to quickly select major/minor attendees from business settings instead of picking one by one
- * PATTERN: Composable that fetches business settings and provides selection functions
- * 
- * This composable handles:
- * - Fetching business settings with differentialPerspectives configuration
- * - Extracting majorAttendees and minorAttendees arrays
- * - Filtering attendees to only include valid options
- * - Providing selection functions: selectMajor(), selectMinor(), selectAll()
- */
+ * PATTERN: Attendee Quick Select Composable
 
+PATTERN: Composable that fetches busin...
+ */
 import { ref, computed, type Ref } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
@@ -38,11 +29,9 @@ export interface UseAttendeeQuickSelectReturn {
 }
 
 /**
- * Attendee Quick Select Composable
- * 
- * LEARNING: Provides quick-select functions for attendee assignment fields
- * WHY: Fetches business settings and provides filtered attendee IDs for quick selection
- * PATTERN: Composable with async settings fetch and selection functions
+ * PATTERN: Attendee Quick Select Composable
+
+PATTERN: Composable with async setting...
  */
 export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   const isLoading = ref(false)
@@ -50,8 +39,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   const settings = ref<AvailabilitySettings | null>(null)
 
   /**
-   * LEARNING: Fetch business settings on initialization
-   * WHY: Need differentialPerspectives config to determine major/minor attendees
    * PATTERN: Async fetch with loading and error states
    */
   const loadSettings = async (): Promise<void> => {
@@ -78,9 +65,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   loadSettings()
 
   /**
-   * LEARNING: Check if major attendees are configured
-   * WHY: Need to know if major attendees button should be enabled
-   * PATTERN: Check differentialPerspectives.majorAttendees array
    */
   const hasMajorAttendees = computed(() => {
     const majorAttendees = settings.value?.differentialPerspectives?.majorAttendees
@@ -88,9 +72,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   })
 
   /**
-   * LEARNING: Check if minor attendees are configured
-   * WHY: Need to know if minor attendees button should be enabled
-   * PATTERN: Check differentialPerspectives.minorAttendees array
    */
   const hasMinorAttendees = computed(() => {
     const minorAttendees = settings.value?.differentialPerspectives?.minorAttendees
@@ -98,9 +79,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   })
 
   /**
-   * LEARNING: Filter attendee IDs to only include valid options
-   * WHY: Some configured attendees might not be in the current select options
-   * PATTERN: Filter array to only include IDs present in validOptionIds
    */
   const filterToValidOptions = (attendeeIds: GlobalEntityId[], validOptionIds: string[]): string[] => {
     const validSet = new Set(validOptionIds.map(id => String(id)))
@@ -110,8 +88,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   }
 
   /**
-   * LEARNING: Get major attendee IDs filtered to valid options
-   * WHY: Returns only attendees that are actually available in the select field
    * PATTERN: Extract majorAttendees from settings and filter to valid options
    */
   const selectMajor = (validOptionIds: string[]): string[] => {
@@ -123,8 +99,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   }
 
   /**
-   * LEARNING: Get minor attendee IDs filtered to valid options
-   * WHY: Returns only attendees that are actually available in the select field
    * PATTERN: Extract minorAttendees from settings and filter to valid options
    */
   const selectMinor = (validOptionIds: string[]): string[] => {
@@ -136,9 +110,6 @@ export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   }
 
   /**
-   * LEARNING: Get all attendee IDs (major + minor) filtered to valid options
-   * WHY: Combines both major and minor attendees for "Select All" functionality
-   * PATTERN: Combine major and minor arrays, deduplicate, filter to valid options
    */
   const selectAll = (validOptionIds: string[]): string[] => {
     const majorIds = selectMajor(validOptionIds)

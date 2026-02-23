@@ -1,12 +1,7 @@
 /**
- * LEARNING: Entity Card Expansion State Management
- * WHY: Encapsulates expansion state logic for VExpansionPanel integration
- * PATTERN: Composable for managing single card expansion state
- * 
- * Used by:
- * - EntityCard.vue
+ * WHY: Entity Card Expansion State Management
+WHY: Encapsulates expansion state...
  */
-
 import { ref, computed, watch, isRef, type Ref, type ComputedRef } from 'vue'
 
 export interface UseEntityCardExpansionOptions {

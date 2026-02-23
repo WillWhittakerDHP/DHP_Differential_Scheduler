@@ -211,7 +211,6 @@ const elementId = computed (() => {
 <style lang="scss">
 @use "@core/scss/template/mixins" as templateMixins;
 
-/* stylelint-disable no-descending-specificity */
 @use "flatpickr/dist/flatpickr.css";
 @use "@core/scss/base/mixins";
 
@@ -510,7 +509,6 @@ input[altinputclass="inlinePicker"] {
   }
 
   .flatpickr-prev-month {
-    /* stylelint-disable-next-line liberty/use-logical-spec */
     right: 3.65rem;
     left: unset !important;
   }

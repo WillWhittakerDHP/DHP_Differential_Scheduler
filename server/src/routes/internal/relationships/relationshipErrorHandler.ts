@@ -1,9 +1,6 @@
 /**
  * Relationship Router Error Handler
  * 
- * LEARNING: Centralized error handling utilities for relationship router operations
- * WHY: Eliminates console.error calls, provides consistent error responses, improves maintainability
- * PATTERN: Uses shared router error handlers with domain-specific constraint handling
  */
 
 import { Response } from 'express'
@@ -17,9 +14,6 @@ import { VALIDATION_FAILED_MESSAGE } from '../../../constants/router.js'
 
 /**
  * Handle Sequelize unique constraint errors
- * LEARNING: Extracted unique constraint error handling for relationships
- * WHY: Provides consistent error responses for duplicate relationships
- * PATTERN: Check error type, return 409 Conflict
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -58,9 +52,6 @@ function handleUniqueConstraintError(
 
 /**
  * Handle Sequelize foreign key constraint errors
- * LEARNING: Extracted foreign key constraint error handling for relationships
- * WHY: Provides consistent error responses for invalid entity references
- * PATTERN: Check error type, return 400 Bad Request
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -97,9 +88,6 @@ function handleForeignKeyConstraintError(
 
 /**
  * Handle Sequelize validation errors
- * LEARNING: Wrapper around shared error handler
- * WHY: Provides consistent error responses for validation failures
- * PATTERN: Delegates to shared handler
  * 
  * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
  * @param res - Express response object
@@ -118,9 +106,6 @@ export function handleSequelizeValidationError(
 
 /**
  * Handle general errors with logging
- * LEARNING: Wrapper around shared error handler
- * WHY: Eliminates console.error calls, provides consistent error responses
- * PATTERN: Delegates to shared handler
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -138,9 +123,6 @@ export function handleGeneralError(
 
 /**
  * Handle route errors with comprehensive error handling
- * LEARNING: Wrapper around shared error handler with domain-specific constraint handlers
- * WHY: Provides consistent error handling across all routes
- * PATTERN: Delegates to shared handler with domain-specific constraint handlers
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -172,6 +154,5 @@ export function handleRouteError(
     }
   }
   
-  // Fallback to shared handler
   sharedHandleRouteError(error, res, errorMessage, context)
 }

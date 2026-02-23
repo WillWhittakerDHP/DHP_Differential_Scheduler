@@ -1,6 +1,5 @@
 /**
  * Appointments table client constants (headers, copy).
- * WHY: Single place for table headers and UI strings (plan Phase 3).
  */
 
 export const APPOINTMENTS_TABLE_HEADERS = [

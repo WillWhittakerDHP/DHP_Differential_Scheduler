@@ -23,11 +23,8 @@ export interface AppointmentsTableModel extends CrudDataTableModel<
 }
 
 /**
- * useAppointmentsTableModel
- *
- * LEARNING: Table-specific wrapper around the generic CRUD table model.
- * WHY: Appointments need relationship display mapping (property + users).
- * PATTERN: Thin view uses this composable + a headers constant.
+ * PATTERN: useAppointmentsTableModel
+PATTERN: Thin view uses this composable + a he...
  */
 export function useAppointmentsTableModel(): AppointmentsTableModel {
   const { success, error } = useNotification()
@@ -66,9 +63,6 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
   }
 
   /**
-   * LEARNING: Helper to derive property type names for display
-   * WHY: Appointments should show the property type(s) now that properties are normalized
-   * PATTERN: Look up the property by propertyVersionId and join its type names
    */
   const getPropertyTypeNames = (propertyVersionId: string | null | undefined): string => {
     const property = getPropertyById(propertyVersionId)

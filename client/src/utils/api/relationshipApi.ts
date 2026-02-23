@@ -1,6 +1,5 @@
 /**
  * Relationship API endpoint builders
- * WHY: Single place for relationship and batch endpoints; reduces api.ts export count
  */
 
 export function getRelationshipEndpoint(relationshipKey: string): string {

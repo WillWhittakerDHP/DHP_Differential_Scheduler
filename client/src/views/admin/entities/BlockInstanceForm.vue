@@ -74,9 +74,8 @@
 import { useBlockInstanceForm } from '@/composables/admin/useBlockInstanceForm'
 
 /**
- * LEARNING: Use block instance form composable for all form logic
- * WHY: Moves form management logic out of component into reusable composable
- * PATTERN: Composable handles form state, entity loading, and submission
+ * WHY: Use block instance form composable for all form logic
+WHY: Moves form ma...
  */
 const {
   isEdit,

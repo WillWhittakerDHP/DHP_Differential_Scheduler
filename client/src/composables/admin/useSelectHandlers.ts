@@ -1,18 +1,8 @@
 /**
- * Select Handlers Composable
- * 
- * LEARNING: Extracts change handler logic from SelectInputs component
- * WHY: Components should be thin UI wrappers - event handling belongs in composables
- * PATTERN: Composable that provides change handlers for select inputs
- * 
- * This composable handles:
- * - Group change handling (for multiple selects with grouping)
- * - Standard change handling (single and multiple selects)
- * - Value normalization and form updates
- * - Focus/blur handling
- * - Value normalization and validation
- */
+ * WHY: Select Handlers Composable
 
+WHY: Components should be thin UI wrappers -...
+ */
 import { ref, nextTick, computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -40,8 +30,9 @@ export interface UseSelectHandlersOptions {
   disableAutoSave?: boolean
   
   /**
-   * Whether this is an AnnotationAssignmentSelect field
-   * LEARNING: Annotations are now core entities, use standard relationship select pattern
+   * WHY: /**
+Whether this is an AnnotationAssignmentSelect field
+LEARNING: Annota...
    */
   isAnnotationAssignmentSelect?: ComputedRef<boolean>
 }
@@ -61,11 +52,9 @@ export interface UseSelectHandlersReturn {
 }
 
 /**
- * Select Handlers Composable
- * 
- * LEARNING: Provides change handler logic extracted from SelectInputs component
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with event handlers for select inputs
+ * WHY: Select Handlers Composable
+
+WHY: Moves business logic out of components ...
  */
 export function useSelectHandlers(
   options: UseSelectHandlersOptions
@@ -81,17 +70,11 @@ export function useSelectHandlers(
   } = options
 
   /**
-   * LEARNING: Flag to prevent recursive updates when form value changes programmatically
-   * WHY: When setValue updates form, fieldValue computed updates, which updates :model-value,
    *      which can trigger @update:model-value again, causing infinite loop
-   * PATTERN: Set flag before programmatic update, clear after, ignore @update events during flag
    */
   const isUpdatingProgrammatically = ref(false)
 
   /**
-   * LEARNING: Handle change for a specific group when using multiple selects
-   * WHY: When using multiple selects, need to combine values from all groups
-   * PATTERN: Remove old values for this group, add new values, combine with other groups
    */
   const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
     const currentValue = rawFieldValue.value
@@ -119,13 +102,7 @@ export function useSelectHandlers(
   }
 
   /**
-   * LEARNING: Handle standard change event
-   * WHY: Handles value changes for both single and multiple selects
-   * PATTERN: Normalize value, then update form (EntityCard handles relationship CRUD on save)
    * 
-   * LEARNING: Annotations now work like other relationship selects
-   * WHY: annotationAssignments is attached to entities, form value is array of IDs
-   * PATTERN: Just update form value - EntityCard handles relationship create/delete on save
    */
   const handleChange = async (value: string | string[] | null): Promise<void> => {
     // PATTERN: Check flag before processing update
@@ -187,18 +164,13 @@ export function useSelectHandlers(
   }
 
   /**
-   * LEARNING: Handle focus event
    * WHY: Component needs to track focus state
-   * PATTERN: Call fieldContext.setFocus
    */
   const handleFocus = (): void => {
     fieldContext.setFocus(true)
   }
 
   /**
-   * LEARNING: Handle blur event
-   * WHY: Component needs to validate and save on blur
-   * PATTERN: Validate, then save if valid
    */
   const handleBlur = async (): Promise<void> => {
     fieldContext.setFocus(false)

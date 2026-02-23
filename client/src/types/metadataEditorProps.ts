@@ -1,8 +1,6 @@
 /**
  * Metadata editor props base (P3 type-similarity)
  *
- * LEARNING: Shared props for metadata editor components.
- * WHY: AdminPrimitiveMetadataEditor and MetadataEditModal share entityKey, entity, blockShapeRef.
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'

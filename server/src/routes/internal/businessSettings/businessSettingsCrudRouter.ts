@@ -1,9 +1,6 @@
 /**
  * Business Settings CRUD Router
  * 
- * LEARNING: Extracted CRUD operations for business settings
- * WHY: Separates CRUD operations from router setup, improves maintainability
- * PATTERN: Express router with RESTful endpoints
  */
 
 import { Router, Request, Response } from 'express'
@@ -24,9 +21,6 @@ const router = Router()
  * GET /business-settings
  * List all settings or get setting by query key
  * 
- * LEARNING: Fetches all settings or single setting by query parameter
- * WHY: Provides flexible querying of business settings
- * PATTERN: Check query parameter, fetch single or all, return JSON
  */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -57,9 +51,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
  * GET /business-settings/:key
  * Get single setting by key
  * 
- * LEARNING: Fetches single setting by key with default fallback for availability settings
- * WHY: Provides complete setting data for a specific key
- * PATTERN: Fetch by key, return default if not found for availability settings, return 404 otherwise
  */
 router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -85,9 +76,6 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
  * POST /business-settings
  * Create a new setting
  * 
- * LEARNING: Creates a new setting record with validation
- * WHY: Enables setting creation via API
- * PATTERN: Validate, check if exists, create record, return 201
  */
 router.post(
   '/',
@@ -96,14 +84,12 @@ router.post(
   try {
     const { setting_key, setting_value } = req.body
 
-    // Validate setting key
     const keyValidation = validateSettingKey(setting_key)
     if (!keyValidation.valid) {
       sendBadRequest(res, keyValidation.error)
       return
     }
 
-    // Validate setting value
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
       sendBadRequest(res, valueValidation.error)
@@ -142,9 +128,6 @@ router.post(
  * PUT /business-settings/:key
  * Update a setting (full update or create if not exists)
  * 
- * LEARNING: Updates setting record with full replacement, creates if not exists
- * WHY: Enables full setting updates via API
- * PATTERN: Validate, find or create, update, return JSON
  */
 router.put(
   '/:key',
@@ -155,7 +138,6 @@ router.put(
     const key = paramString(req, 'key')
     const { setting_value } = req.body
 
-    // Validate setting value
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
       sendBadRequest(res, valueValidation.error)
@@ -196,9 +178,6 @@ router.put(
  * PATCH /business-settings/:key
  * Partially update a setting
  * 
- * LEARNING: Updates setting record with partial data
- * WHY: Enables partial setting updates via API
- * PATTERN: Patch record, merge values, validate, return 404 if not found, return updated record
  */
 router.patch(
   '/:key',
@@ -209,7 +188,6 @@ router.patch(
     const key = paramString(req, 'key')
     const { setting_value } = req.body
 
-    // Validate setting value
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
       sendBadRequest(res, valueValidation.error)
@@ -253,9 +231,6 @@ router.patch(
  * DELETE /business-settings/:key
  * Delete a setting
  * 
- * LEARNING: Deletes setting record
- * WHY: Enables setting deletion via API
- * PATTERN: Delete record, return 404 if not found, return 204 on success
  */
 router.delete(
   '/:key',

@@ -1,11 +1,8 @@
 /**
- * usePropertyDetailsLogic Composable
- * 
- * LEARNING: Extracts property details step business logic from PropertyDetailsStep component
- * WHY: Moves property type block logic, property type checks, and data transformations to composable
- * PATTERN: Composable that provides reactive computed properties and helper functions
- */
+ * WHY: usePropertyDetailsLogic Composable
 
+WHY: Moves property type block logic...
+ */
 import { computed, ref, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { ComponentItem as SelectionCardComponentItem, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
@@ -76,11 +73,9 @@ export interface UsePropertyDetailsLogicReturn {
 }
 
 /**
- * usePropertyDetailsLogic composable
- * 
- * LEARNING: Provides reactive computed properties for property details logic
- * WHY: Extracts business logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: usePropertyDetailsLogic composable
+
+WHY: Extracts business logic from co...
  */
 export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): UsePropertyDetailsLogicReturn {
   const {
@@ -93,16 +88,12 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
 
   /**
-   * WHY: Shows/hides fields based on property type block selection
-   * PATTERN: Computed boolean based on selected property type blocks (check if any matches)
    */
   const requiresUnitNumber = computed(() => {
     return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
   })
 
   /**
-   * WHY: Database flag (isMultiFamily) instead of hardcoded name matching
-   * PATTERN: Database-driven validation for multi-family property detection
    */
   const isMultiFamily = computed(() => {
     return wizard.selectedPropertyTypeBlocks.value.some(
@@ -111,9 +102,8 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   })
 
   /**
-   * LEARNING: Helper function to check if a block instance is composable
-   * WHY: Only composable blocks can have option components (instanceComponents)
-   * PATTERN: Check blockShape.composable property from globalData
+   * WHY: /**
+LEARNING: Helper function to check if a block instance is composable...
    */
   const isComposableBlock = (blockInstance: BookingBlockInstance | null): boolean => {
     if (!blockInstance) return false
@@ -135,8 +125,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   }
 
   /**
-   * WHY: Enables expandable cards to show nested components
-   * PATTERN: Map available property type blocks and add component data
    */
   const propertyTypeBlocksWithComponents = computed(() => {
     return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
@@ -172,9 +160,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
 
 
   /**
-   * LEARNING: Step data computed property
-   * WHY: Enables parent to collect property form data for appointment creation
-   * PATTERN: Computed ref that exposes all form field values
    */
   const stepData = computed<PropertyDetailsData>(() => ({
     address: formData.address.value,
@@ -199,9 +184,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   const isEnrichmentLoading = ref(false)
 
   /**
-   * LEARNING: Handle place selection from AddressAutocomplete
-   * WHY: Extracts address components and coordinates from Google Places API response
-   * PATTERN: Populates form fields and expands UI to show editable fields
    */
   const handlePlaceSelected = (details: PlaceDetails): void => {
     const { addressComponents, coordinates, placeId } = details
@@ -213,23 +195,17 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     formData.state.value = addressField(addressComponents.state, 'state')
     formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')
     
-    // Store location data for drive time calculations
     formData.candidatePlaceId.value = placeId
     formData.candidateCoordinates.value = coordinates
     
-    // Expand to show editable fields
     isAddressExpanded.value = true
 
-    // Trigger MLS enrichment (gate: valid placeId + address)
     syncMLSData().catch((err) => {
       logger.warn('MLS enrichment failed', { err })
     })
   }
 
   /**
-   * LEARNING: Handle autocomplete errors
-   * WHY: Fallback to manual entry if autocomplete API fails
-   * PATTERN: Expand fields to allow manual entry
    */
   const handleAutocompleteError = (error: Error): void => {
     logger.warn('Autocomplete error, showing manual fields', { error })
@@ -237,18 +213,12 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
   }
 
   /**
-   * LEARNING: Change address handler
-   * WHY: Returns to autocomplete-only mode when user wants to change address
-   * PATTERN: Collapse expanded fields back to autocomplete-only
    */
   const changeAddress = (): void => {
     isAddressExpanded.value = false
   }
 
   /**
-   * LEARNING: Sync MLS data from Bright MLS / RESO property enrichment
-   * WHY: Fetches listing data when user selects address; populates form and suggests blocks
-   * PATTERN: Gate on candidatePlaceId + address; call enrichment API; populate form; apply suggested blocks
    */
   const syncMLSData = async (): Promise<void> => {
     const placeId = formData.candidatePlaceId?.value
@@ -256,7 +226,6 @@ export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): 
     if (!placeId || !address) {
       return
     }
-    // Skip synthetic/test place IDs (Google Place IDs are typically 20+ chars)
     if (placeId.length < 15) {
       return
     }

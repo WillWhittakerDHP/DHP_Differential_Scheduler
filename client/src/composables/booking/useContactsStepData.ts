@@ -1,16 +1,8 @@
 /**
- * Contacts Step Data Composable
- * 
- * LEARNING: Extracts contact form data management and loaded wizard state handling from ContactsStep component
- * WHY: Moves business logic out of component into reusable composable
- * PATTERN: Composable that manages contact form state and watches loaded wizard state
- * 
- * This composable handles:
- * - Contact form data state (client, agent, optional contacts)
- * - Optional section visibility state
- * - Loading contact data from loaded wizard state
- */
+ * WHY: Contacts Step Data Composable
 
+LEARNING: Extracts contact form data mana...
+ */
 import { ref, watch, computed, type Ref } from 'vue'
 import { createLogger } from '@/utils/logger'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
@@ -20,7 +12,6 @@ const logger = createLogger('useContactsStepData')
 
 /**
  * Use contact field value or empty string; log when value is unexpectedly null/undefined.
- * WHY: Avoid silent fallbacks that mask missing data (per explicit-error-handling rule).
  */
 function contactField(value: string | null | undefined, context: string): string {
   if (value === null || value === undefined) {
@@ -63,11 +54,9 @@ export interface UseContactsStepDataReturn {
 }
 
 /**
- * Contacts Step Data Composable
- * 
- * LEARNING: Manages contact form data and loaded wizard state handling
- * WHY: Extracts contact form state management from component to composable
- * PATTERN: Composable with refs for state and watcher for loaded wizard state
+ * WHY: Contacts Step Data Composable
+
+WHY: Extracts contact form state manageme...
  */
 export function useContactsStepData(
   options: UseContactsStepDataOptions = {}
@@ -113,9 +102,6 @@ export function useContactsStepData(
   const showSeller = ref(false)
 
   /**
-   * LEARNING: Toggle optional section visibility
-   * WHY: Shows/hides optional contact forms
-   * PATTERN: Function that sets visibility ref and clears form data when hiding
    */
   const toggleSection = (
     section: 'anotherClient' | 'transactionManager' | 'seller',
@@ -141,8 +127,6 @@ export function useContactsStepData(
 
   /**
    * LEARNING: Watch loaded wizard state and populate contact form fields
-   * WHY: Enables loading appointment data into contacts step
-   * PATTERN: Watch loadedWizardState and update local refs when data is available
    */
   if (loadedWizardState) {
     watch(loadedWizardState, (newState) => {
@@ -203,9 +187,6 @@ export function useContactsStepData(
   }
 
   /**
-   * LEARNING: Step data computed property
-   * WHY: Exposes all contact form data for parent wizard
-   * PATTERN: Computed ref that aggregates all contact refs
    */
   const stepData = computed(() => ({
     clientInfo: clientInfo.value,

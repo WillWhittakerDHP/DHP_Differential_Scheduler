@@ -1,9 +1,6 @@
 /**
  * Ternary Boolean Utilities
  * 
- * LEARNING: Pure utility functions for three-valued logic operations
- * WHY: Provides context-agnostic operations for ternary boolean values
- * PATTERN: Standard three-valued logic operations (aggregation, coercion, comparison)
  * 
  * These utilities work for both partInstance and blockInstance ternary properties
  * without hardcoding property names.
@@ -13,9 +10,6 @@ import type { TernaryBoolean } from '@/types/ternary'
 
 /**
  * Aggregate multiple ternary values
- * LEARNING: Combines multiple ternary values using OR logic with override precedence
- * WHY: When aggregating partInstances by partShape, if ANY has 'override', result is 'override'
- * PATTERN: Override takes precedence, then OR logic for 'true' values
  * 
  * Logic:
  * - If ANY value is 'override', return 'override'
@@ -43,9 +37,6 @@ export function aggregate(values: TernaryBoolean[]): TernaryBoolean {
 
 /**
  * Coerce ternary value to boolean for calculations
- * LEARNING: Converts ternary value to boolean based on mode
- * WHY: Different calculations need different coercion rules
- * PATTERN: 'strict' mode excludes override, 'inclusive' mode includes override
  * 
  * @param value - Ternary boolean value to coerce
  * @param mode - Coercion mode
@@ -63,14 +54,8 @@ export function toBoolean(value: TernaryBoolean, mode?: 'strict' | 'inclusive'):
 }
 
 /**
- * Compare ternary value to specific state
- * LEARNING: Checks if value equals a specific ternary state
- * WHY: Used for differential checks and other state comparisons
- * PATTERN: Direct equality check
- * 
- * @param value - Ternary boolean value to check
- * @param state - State to compare against
- * @returns True if value equals state
+ * WHY: Compare ternary value to specific state
+LEARNING: Checks if value equals...
  */
 export function equals(value: TernaryBoolean, state: TernaryBoolean): boolean {
   return value === state

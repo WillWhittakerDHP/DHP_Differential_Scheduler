@@ -1,11 +1,7 @@
 /**
- * AppointmentFeeSummary Model
- *
- * LEARNING: 1:1 with appointment; persisted at booking time as authoritative fee record
- * WHY: Enables fast income constraint queries (SUM total_fee) and auditability
- * PATTERN: Mirrors property_version structure — minimal parent record with FK to appointment
+ * WHY: AppointmentFeeSummary Model
+LEARNING: 1:1 with appointment; persisted at...
  */
-
 import {
   Model,
   DataTypes,

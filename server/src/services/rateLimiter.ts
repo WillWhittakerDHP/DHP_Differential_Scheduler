@@ -1,13 +1,8 @@
 /**
- * Rate Limiter Service
- * 
- * LEARNING: Sliding window rate limiting for external API calls
- * WHY: Google Calendar API enforces per-minute quotas (sliding window). Exceeding quotas returns 403/429 errors.
- * PATTERN: Per-API rate limit tracking with sliding window calculation matching Google's quota system
- * 
- * CRITICAL: Must be implemented before making API calls to prevent quota exhaustion
- */
+ * PATTERN: Rate Limiter Service
 
+PATTERN: Per-API rate limit tracking with sliding ...
+ */
 import { asEmptyArray } from '../utils/safeDefaults.js';
 
 type ApiName = 'google-calendar' | 'google-maps' | 'mls';
@@ -22,8 +17,6 @@ interface RequestRecord {
 
 /**
  * Rate limit configuration per API
- * LEARNING: Configurable limits per API endpoint
- * WHY: Different APIs have different quota limits
  */
 const rateLimitConfigs: Record<ApiName, RateLimitConfig> = {
   'google-calendar': {
@@ -39,8 +32,6 @@ const rateLimitConfigs: Record<ApiName, RateLimitConfig> = {
 
 /**
  * Request timestamp storage per API
- * LEARNING: Map to track request timestamps for sliding window calculation
- * WHY: Need to track when requests were made to calculate requests per minute
  */
 const requestTimestamps: Map<ApiName, RequestRecord[]> = new Map();
 
@@ -55,8 +46,6 @@ function initializeApiStorage(apiName: ApiName): void {
 
 /**
  * Clean old timestamps outside the sliding window
- * LEARNING: Remove timestamps older than 1 minute to maintain sliding window
- * WHY: Only need to track requests within the current window
  */
 function cleanOldTimestamps(apiName: ApiName): void {
   const timestamps = requestTimestamps.get(apiName);
@@ -80,8 +69,6 @@ interface RateLimitResult {
 
 /**
  * Check if API call is allowed based on rate limit
- * LEARNING: Sliding window rate limiting calculation
- * WHY: Matches Google's quota system which uses sliding window
  * @param apiName API name to check rate limit for
  * @returns Rate limit result with status and remaining requests
  */
@@ -127,8 +114,6 @@ export function checkRateLimit(apiName: ApiName): RateLimitResult {
 
 /**
  * Record an API request
- * LEARNING: Add timestamp to sliding window
- * WHY: Track requests for rate limit calculation
  * @param apiName API name that made the request
  */
 export function recordRequest(apiName: ApiName): void {
@@ -140,8 +125,6 @@ export function recordRequest(apiName: ApiName): void {
 
 /**
  * Wait until rate limit allows request
- * LEARNING: Promise-based waiting for rate limit window
- * WHY: Allows queuing requests when rate limit is reached
  * @param apiName API name to wait for
  * @param maxWaitTime Maximum time to wait in milliseconds (default: 60 seconds)
  * @returns Promise that resolves when rate limit allows request
@@ -159,7 +142,6 @@ export async function waitForRateLimit(
       return;
     }
 
-    // Wait until reset time or 1 second, whichever is smaller
     const waitTime = Math.min(result.resetTime, 1000);
     await new Promise(resolve => setTimeout(resolve, waitTime));
   }
@@ -169,7 +151,6 @@ export async function waitForRateLimit(
 
 /**
  * Get rate limit statistics for an API
- * LEARNING: Useful for monitoring and debugging
  * @param apiName API name to get stats for
  * @returns Current rate limit statistics
  */

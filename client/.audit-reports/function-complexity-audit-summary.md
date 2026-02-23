@@ -44,4 +44,3 @@ Generated from `client/.audit-reports/function-complexity-audit.json`.
 | `client/src/composables/admin/useBusinessRuleForm.ts` | P1 | 10 | 1 | 10 | 159 |
 | `client/src/composables/admin/useBusinessRules.ts` | P1 | 10 | 1 | 14 | 182 |
 
-*...and 226 more. See full report.*

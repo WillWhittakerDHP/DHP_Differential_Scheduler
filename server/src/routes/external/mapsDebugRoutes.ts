@@ -1,8 +1,6 @@
 /**
  * Maps Debug Routes
  *
- * LEARNING: Debug endpoints for Maps API (rate limit, drive time cache)
- * WHY: Separates debug routes from main Places API routes for better cohesion
  */
 
 import { Router, Request, Response } from 'express'

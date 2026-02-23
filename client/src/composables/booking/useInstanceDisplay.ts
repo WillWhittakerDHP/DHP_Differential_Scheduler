@@ -1,19 +1,8 @@
 /**
- * Instance Display Composable
- * 
- * LEARNING: Generic display transformation logic for block instances
- * WHY: Not service-specific - works with any block shape (user type, service, property, option)
- * PATTERN: Composable that provides icon mapping and display transformations
- * 
- * This composable handles:
- * - Icon mapping with fallback handling
- * - Display transformations for any block instance type
- * - Description filtering by user type context
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- * NOTE: Renamed from useServiceDisplay to useInstanceDisplay for generic usage
- */
+ * PATTERN: Instance Display Composable
 
+PATTERN: Composable that provides icon mapp...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { mapSelectionCardItemsWithIconAndDescription } from '@/utils/booking/selectionCardItemDisplay'
@@ -31,26 +20,9 @@ export interface UseInstanceDisplayReturn {
 
 
 /**
- * Instance Display Composable
- * 
- * LEARNING: Generic display transformation for any block instance type
- * WHY: Decoupled from service-specific naming for broader reuse
- * PATTERN: Composable with computed properties for display transformations
- * 
- * @example
- * ```ts
- * // User types
- * const { instancesWithDisplay: wizardStateSelector } = useInstanceDisplay({
- *   instances: computed(() => wizard.availableUserTypeBlocks.value)
- * })
- * 
- * // Services with user-type-specific descriptions
- * const { instancesWithDisplay: servicesWithIcons } = useInstanceDisplay({
- *   instances: computed(() => wizard.availableServices.value),
- *   selectedUserTypeBlock: computed(() => wizard.selectedUserTypeBlock.value),
- *   getFilteredDescription: (service, userTypeBlockName) => filterDescription(service, userTypeBlockName)
- * })
- * ```
+ * PATTERN: Instance Display Composable
+
+PATTERN: Composable with computed propertie...
  */
 export function useInstanceDisplay(
   options: UseInstanceDisplayOptions
@@ -60,9 +32,6 @@ export function useInstanceDisplay(
   } = options
 
   /**
-   * LEARNING: Maps block instances with icons
-   * WHY: Consistent display transformation for any block instance type
-   * PATTERN: Use shared utility for icon mapping
    */
   const instancesWithDisplay = computed(() => {
     return mapSelectionCardItemsWithIconAndDescription({

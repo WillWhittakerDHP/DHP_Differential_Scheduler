@@ -2,10 +2,6 @@
 /**
  * PropertyDetailsStep Component
  * 
- * LEARNING: Second step for property information collection
- * WHY: Collects property details including property type, location, and size
- * PATTERN: Property type cards, form fields with conditional rendering
- * COMPARISON: React uses CustomRadioIcons. Vue uses SelectionCardGroup component
  * 
  * Phase 1.2: Removed hardcoded data - all form values initialize empty, ready for API integration
  */
@@ -31,20 +27,14 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('PropertyDetailsStep')
 
-// LEARNING: Pre-fetch Maps API session token when Step 2 becomes active
-// WHY: Token ready when user needs it, no delay on first keystroke
-// PATTERN: Pre-fetch in background without blocking component initialization
 const { prefetchToken } = useMapsSessionToken()
 
 /**
  * Pre-fetch session token when component mounts (Step 2 becomes active)
- * LEARNING: Component only mounts when Step 2 is active, so this is the right time
- * WHY: Token ready when user starts typing, better UX than lazy-loading
  */
 onMounted(() => {
   prefetchToken().catch(error => {
     logger.warn('[onMounted] Failed to pre-fetch session token:', error)
-    // Continue without token - AddressAutocomplete will lazy-load as fallback
   })
 })
 
@@ -131,10 +121,9 @@ const { rowSelectionConfig } = usePropertyTypeBlockConfig({
 })
 
 
-// PATTERN: Clean up unused state
-
-// LEARNING: Use property form watchers composable
-// PATTERN: Composable sets up watchers for form data synchronization
+/**
+ * PATTERN: Composable sets up watchers for form data synchronization
+ */
 usePropertyFormWatchers({
   formData: {
     address: formData.address,
@@ -205,10 +194,9 @@ function handlePropertyEdit(): void {
 
 <template>
   <VForm ref="formRef" class="property-details-step">
-    <!-- LEARNING: Property Adjustment Selection Cards -->
-    <!-- WHY: Prominent selection at top matching Jose's design -->
-    <!-- PATTERN: SelectionCardGroup with row layout config, reusing shared rowSelectionConfig (same as user types) -->
-    <!-- NOTE: Property adjustments are universally available (no longer require base service selection) -->
+    /**
+     * <!-- WHY: Prominent selection at top matching Jose's design
+     */
     <div class="mb-6">
       <!-- Cascade configuration error -->
       <VAlert

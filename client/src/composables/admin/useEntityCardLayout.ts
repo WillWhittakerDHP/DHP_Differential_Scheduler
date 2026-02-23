@@ -1,20 +1,8 @@
 /**
- * Entity Card Layout Composable
- * 
- * LEARNING: Extracts layout logic for unified field rendering from EntityFormContent component
- * WHY: Moves field selection and layout logic out of component into reusable composable
- * PATTERN: Composable that determines which fields to render using unified layout mechanism
- * 
- * LEARNING: Updated to use unified layout (no entity-type-specific code)
- * WHY: All entities now use same layout mechanism (inline/stacked fields)
- * PATTERN: Single unified layout for all entity types
- * 
- * This composable handles:
- * - Field extraction from EntityFormContent using unified layout
- * - Field context retrieval for fields
- * - Layout determination for inline/stacked fields
- */
+ * WHY: Entity Card Layout Composable
 
+WHY: Moves field selection and layout log...
+ */
 import { computed, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -49,11 +37,9 @@ export interface UseEntityCardLayoutReturn {
 }
 
 /**
- * Entity Card Layout Composable
- * 
- * LEARNING: Provides unified layout logic for EntityCard component
- * WHY: Extracts field selection and layout logic from component to composable
- * PATTERN: Composable that determines which fields to render using unified layout mechanism
+ * WHY: Entity Card Layout Composable
+
+WHY: Extracts field selection and layout ...
  */
 export function useEntityCardLayout(
   options: UseEntityCardLayoutOptions
@@ -63,9 +49,6 @@ export function useEntityCardLayout(
   } = options
   
   /**
-   * LEARNING: Fields from EntityFormContent using unified layout
-   * WHY: All entities use same layout mechanism (inline/stacked fields)
-   * PATTERN: Access fields from EntityFormContent ref when available
    */
   const fields = computed<FieldsByLayout>(() => {
     if (!formContentRef.value) {
@@ -79,9 +62,6 @@ export function useEntityCardLayout(
   })
   
   /**
-   * LEARNING: Helper function to get field context from EntityFormContent
-   * WHY: Need to render fields using FieldRenderer
-   * PATTERN: Access getFieldContext method from EntityFormContent ref
    */
   const getFieldContext = (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
@@ -91,9 +71,6 @@ export function useEntityCardLayout(
   }
   
   /**
-   * LEARNING: Whether fields should be rendered
-   * WHY: Only render when fields are available and not empty
-   * PATTERN: Computed property that checks fields structure
    */
   const shouldRenderFields = computed(() => {
     const fieldData = fields.value

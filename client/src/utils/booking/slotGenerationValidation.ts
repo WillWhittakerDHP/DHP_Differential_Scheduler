@@ -1,9 +1,6 @@
 /**
  * Slot Generation Validation Utility
  * 
- * LEARNING: Shared validation for slot generation parameters
- * WHY: Eliminates duplicate validation logic across multiple slot generation functions
- * PATTERN: Pure validation functions that throw descriptive errors
  * 
  * P2-5: Created to consolidate slot generation validation from multiple locations
  */
@@ -25,9 +22,6 @@ export type SlotGenerationParams = SlotGenerationParamsBase
 
 /**
  * Validate slot generation parameters
- * LEARNING: Comprehensive validation for all slot generation parameters
- * WHY: Prevents invalid slot generation, infinite loops, and runtime errors
- * PATTERN: Validate all parameters, throw descriptive errors with parameter values
  * 
  * @param params - Slot generation parameters to validate
  * @throws Error if any parameter is invalid

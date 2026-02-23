@@ -1,10 +1,6 @@
 /**
  * Main Application Entry Point
  * 
- * LEARNING: Vue 3 app initialization with Vuexy plugin system
- * WHY: Sets up Vue app with Pinia, Vue Query, Vue Router, and Vuetify using Vuexy's plugin registration
- * PATTERN: Create app, register plugins via Vuexy system, mount to DOM
- * COMPARISON: React uses ReactDOM.render. Vue uses createApp().mount()
  */
 
 import { createApp } from 'vue'
@@ -82,9 +78,6 @@ if (typeof window !== 'undefined') {
 
 if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
   /**
-   * LEARNING: Extract form patching logic to pure function
-   * WHY: Separates DOM mutation logic from iteration logic
-   * PATTERN: Pure function that handles single element, returns forms to patch
    */
   const patchElementForms = (element: HTMLElement): HTMLFormElement[] => {
     if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
@@ -152,14 +145,9 @@ setQueryClient(queryClient)
 
 const logger = createLogger('main')
 
-// PATTERN: Register plugins directly (more explicit than auto-discovery)
-// WHY: Direct registration is clearer, easier to debug, and follows Vue best practices
-// LEARNING: Vue plugins are registered with app.use() - no need for auto-discovery magic
 
-// 1. Router
 app.use(router)
 
-// 2. Vue Query
 app.use(VueQueryPlugin, {
   queryClient: queryClient,
 })
@@ -216,18 +204,13 @@ const prefetchGlobalData = async () => {
   }
 }
 
-// WHY: Prefetch data before mounting to prevent race condition
-// PATTERN: Prefetch completes before components mount, ensuring cache is populated
-// LEARNING: This prevents duplicate API calls - components will read from cache instead of triggering new queries
 // FIX: Changed from mount-then-prefetch to prefetch-then-mount to eliminate race condition
-// PATTERN: Use async IIFE to handle async prefetch before mount
 (async () => {
   try {
     await prefetchGlobalData()
     app.mount('#app')
   } catch (error) {
     logger.error('Failed to prefetch global data, mounting app anyway', { error })
-    // Mount app even if prefetch fails - components will fetch data themselves via useGlobal()
     app.mount('#app')
   }
 })()

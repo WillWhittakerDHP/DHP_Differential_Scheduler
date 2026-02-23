@@ -15,8 +15,6 @@ export function filterFieldsInConfigOrder<FieldKey extends string>(
 /**
  * Split a list of fields into inline/stacked/hidden using layout configs.
  * 
- * LEARNING: Field visibility comes from metadata, not config
- * WHY: Metadata is the single source of truth for which fields should render
  * PATTERN: Fields not in inlineFields or stackedFields are categorized as hidden
  */
 export function categorizeFieldsByLayout(

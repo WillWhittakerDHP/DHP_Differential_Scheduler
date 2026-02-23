@@ -1,7 +1,4 @@
 /**
- * LEARNING: Full Display Field Config Builder
- * WHY: Merges primitive and selectable display configs into complete display configuration
- * PATTERN: Combines primitive + selectable display configs, iterates over all field keys
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'

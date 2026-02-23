@@ -13,7 +13,6 @@
  *      d. Update AppointmentAttendee records with googleEventId and invitationStatus
  *   4. Return aggregate results
  *
- * PATTERN: Orchestration service — coordinates multiple models and services.
  * Replaces the hardcoded appointmentCalendarService for richer, configurable invite behavior.
  */
 
@@ -40,7 +39,6 @@ import { createLogger } from '../../utils/logger.js'
 
 const logger = createLogger('InviteOrchestrationService')
 
-// ─── Result types ───────────────────────────────────────────────────────────
 
 interface SingleEventResult {
   eventInstanceId: string
@@ -61,7 +59,6 @@ export interface InviteOrchestrationResult {
   fallbackUsed: boolean
 }
 
-// ─── Main orchestration function ────────────────────────────────────────────
 
 /**
  * Create calendar invites for an appointment using configured EventInstances.
@@ -125,7 +122,6 @@ export async function createInvitesForAppointment(
   }
 }
 
-// ─── Data fetching ──────────────────────────────────────────────────────────
 
 async function fetchAppointmentWithRelations(appointmentId: string): Promise<AppointmentWithRelations | null> {
   return Appointment.findByPk(appointmentId, {
@@ -195,14 +191,12 @@ async function findEventInstancesForBlockInstances(
 ): Promise<EventInstanceType[]> {
   if (blockInstanceIds.length === 0) return []
 
-  // Step 1: Find part instance IDs assigned to these block instances
   const partAssignments = await PartAssignment.findAll({
     where: { parentId: { [Op.in]: blockInstanceIds } },
     attributes: ['childId'],
   })
   const partInstanceIds = partAssignments.map(pa => pa.childId)
 
-  // Step 2: Find event assignments for both part instances and direct block instances
   const parentIds = [...partInstanceIds, ...blockInstanceIds]
   if (parentIds.length === 0) return []
 
@@ -215,7 +209,6 @@ async function findEventInstancesForBlockInstances(
     }],
   })
 
-  // Deduplicate by EventInstance ID (same instance may be linked multiple times)
   const seen = new Set<string>()
   const uniqueInstances: EventInstanceType[] = []
 
@@ -242,7 +235,6 @@ async function resolveServiceName(blockInstanceIds: string[]): Promise<string | 
   return firstBlock?.name ?? undefined
 }
 
-// ─── Per-EventInstance event creation ───────────────────────────────────────
 
 /**
  * Create a single Google Calendar event for one EventInstance.
@@ -256,7 +248,6 @@ async function createEventForInstance(
   const instanceName = eventInstance.name
 
   try {
-    // Resolve templates
     const resolved = resolveEventTemplates(
       {
         titleTemplate: eventInstance.titleTemplate,
@@ -266,18 +257,15 @@ async function createEventForInstance(
       context
     )
 
-    // Use resolved templates, falling back to defaults when templates are empty
     const summary = resolved.summary || buildDefaultSummary(appointment)
     const description = resolved.description || buildDefaultDescription(appointment)
     const location = resolved.location || buildDefaultLocation(appointment)
 
-    // Determine attendees for this event shape
     const attendees = await buildAttendeesForEventShape(
       eventInstance.eventShapeRef,
       appointment
     )
 
-    // Build CreateEventParams with all EventInstance calendar properties
     const eventParams: CreateEventParams = {
       calendarId,
       summary,
@@ -300,7 +288,6 @@ async function createEventForInstance(
 
     const createdEvent = await createEvent(eventParams)
 
-    // Update AppointmentAttendee records for the attendees that were invited
     const attendeesUpdated = await updateAttendeeRecords(
       appointment,
       eventInstance.eventShapeRef,
@@ -320,7 +307,6 @@ async function createEventForInstance(
   } catch (error) {
     logger.error(`Failed to create event for "${instanceName}":`, error)
 
-    // Mark matching attendees as 'failed' so the failure is visible in the data
     const failedCount = await markAttendeesAsFailed(
       appointment,
       eventInstance.eventShapeRef,
@@ -337,7 +323,6 @@ async function createEventForInstance(
   }
 }
 
-// ─── Attendee resolution ────────────────────────────────────────────────────
 
 /**
  * Determine which AppointmentAttendees should be invited to an event of a given shape.
@@ -415,7 +400,6 @@ interface AppointmentWithRelations extends AppointmentType {
   propertyVersion?: InviteAppointmentData['propertyVersion']
 }
 
-// ─── AppointmentAttendee record updates ─────────────────────────────────────
 
 /**
  * After creating a Google Calendar event, update the AppointmentAttendee records
@@ -437,7 +421,6 @@ async function updateAttendeeRecords(
 
   const appointmentAttendees = appointment.attendees ?? []
 
-  // Find the attendees that match this event shape
   const matchingAttendees = allowedUserTypes.size > 0
     ? appointmentAttendees.filter(
         att =>
@@ -514,7 +497,6 @@ async function markAttendeesAsFailed(
   return updated
 }
 
-// ─── Time extraction ────────────────────────────────────────────────────────
 
 function extractStartTime(appointment: AppointmentType): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ startTime: string }> | null)?.[0]
@@ -532,7 +514,6 @@ function extractEndTime(appointment: AppointmentType): string {
   return new Date(firstSlot.endTime).toISOString()
 }
 
-// ─── Default content (used when templates are empty) ────────────────────────
 
 function buildDefaultSummary(appointment: AppointmentWithRelations): string {
   const address = appointment.propertyVersion?.address
@@ -638,7 +619,6 @@ async function createFallbackEvent(
   }
 }
 
-// ─── Helpers ────────────────────────────────────────────────────────────────
 
 function emptyResult(appointmentId: string): InviteOrchestrationResult {
   return {

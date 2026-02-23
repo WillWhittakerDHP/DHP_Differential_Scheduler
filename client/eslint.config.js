@@ -1,14 +1,8 @@
 /**
- * ESLint Configuration for Vue App
- * 
- * LEARNING: ESLint 9 flat config format for Vue 3 + TypeScript
- * WHY: Prevents accidental imports from React app during migration
- * PATTERN: Flat config with Vue, TypeScript, and import restrictions
- * 
- * This configuration blocks imports from the React app (client/) directory
- * to prevent migration violations and ensure clean separation during Vue migration.
- */
+ * WHY: ESLint Configuration for Vue App
 
+LEARNING: ESLint 9 flat config format ...
+ */
 import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
@@ -141,8 +135,8 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-object-type': 'warn',
       
       /**
-       * WHY: // WHY: detect-object-injection flags legitimate TypeScript/Vue dynamic property access patterns
-       * PATTERN: // PATTERN: Disable this rule as it doesn't provide value for our codebase patterns
+       * WHY: /**
+WHY: // WHY: detect-object-injection flags legitimate TypeScript/Vue...
        */
       'security/detect-object-injection': 'off',
       //      We keep this as 'warn' to catch potential issues, but will add disable comments
@@ -246,7 +240,6 @@ export default tseslint.config(
   
   {
     ignores: [
-      'node_modules/**',
       'dist/**',
       '**/*.d.ts',
       'src/**/__tests__/**',
@@ -254,8 +247,3 @@ export default tseslint.config(
       'src/**/*.test.tsx',
       'src/**/*.spec.ts',
       'src/**/*.spec.tsx',
-      '.scripts/**',
-      '.audit-reports/**',
-    ],
-  },
-)

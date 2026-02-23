@@ -1,9 +1,6 @@
 /**
  * Calendar Import Helpers
  *
- * LEARNING: Extracted upsert and property-details logic from importCalendarData.ts
- * WHY: Reduces main script size, lowers function complexity, centralizes field mappings
- * PATTERN: Small async helpers used in sequence inside a transaction
  */
 
 import type { Transaction } from 'sequelize';

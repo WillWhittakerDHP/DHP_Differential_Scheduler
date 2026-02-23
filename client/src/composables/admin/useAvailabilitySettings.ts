@@ -1,9 +1,7 @@
 /**
- * Composable for availability settings management
- * WHY: Extracts API calls, validation, and state management from BusinessControlsTab
- * PATTERN: Composable handles all availability settings logic
+ * WHY: Composable for availability settings management
+WHY: Extracts API calls,...
  */
-
 import { ref, type Ref } from 'vue'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
@@ -27,9 +25,6 @@ type BusinessHoursDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 /**
  * Calculate maximum business hours across all days
- * LEARNING: Helper to compute workHoursLimit default from businessHours
- * WHY: Provides default value for workHoursLimit if not configured
- * PATTERN: Pure function that calculates max hours
  * 
  * @param businessHours - Business hours configuration
  * @returns Maximum hours across all days (as number)
@@ -66,13 +61,8 @@ export interface UseAvailabilitySettingsReturn {
 }
 
 /**
- * Composable for managing availability settings
- * WHY: Centralizes all availability settings logic (API calls, validation, state)
- * PATTERN: Returns reactive state and functions for settings management
- * 
- * LEARNING: Conditional loading based on enabled state
- * WHY: Prevents API calls until tab is active, improving initial page load performance
- * PATTERN: Watch enabled ref and only load when true
+ * WHY: Composable for managing availability settings
+WHY: Centralizes all avail...
  */
 export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions): UseAvailabilitySettingsReturn {
   const formData = ref<AvailabilitySettings | null>(null)
@@ -92,9 +82,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
 
   /**
    * Load settings from API
-   * LEARNING: Fetches current settings from business-settings API
-   * WHY: Populates form with current configuration
-   * PATTERN: API call with error handling and fallback to defaults
    */
   const loadSettings = async (): Promise<void> => {
     loading.value = true
@@ -144,9 +131,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
         durationRounding,
         differentialPerspectives: rawSettings.differentialPerspectives,
         calendarConfig,
-        // Session 2.2.2: Load defaultLocation for drive time calculations
         defaultLocation: rawSettings.defaultLocation,
-        // OOO enforcement: Load overlapSources for out-of-office toggle
         overlapSources: rawSettings.overlapSources
       } as AvailabilitySettings
     } catch (err: unknown) {
@@ -160,9 +145,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
 
   /**
    * Validate business hours
-   * LEARNING: Ensures end time is after start time for each day
-   * WHY: Prevents invalid time ranges (e.g., end before start)
-   * PATTERN: Validation function that checks time logic
    */
   const validateBusinessHours = (): boolean => {
     if (!formData.value) {
@@ -193,9 +175,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
 
   /**
    * Save settings to API
-   * LEARNING: Saves form data to business-settings API
-   * WHY: Persists admin configuration changes
-   * PATTERN: API call with error handling and success feedback
    */
   const saveSettings = async (): Promise<void> => {
     error.value = null
@@ -270,7 +249,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       }
       
       // PATTERN: Include overlapSources if present in formData
-      // LEARNING: Controls whether event sources (e.g. out-of-office) participate in overlap blocking
       if (formData.value.overlapSources) {
         ;(settingsToSave as Record<string, unknown>).overlapSources = formData.value.overlapSources
       }
@@ -298,7 +276,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       }
       
       // PATTERN: Include calendarConfig if present in formData
-      // Session 2.0.2: Added for calendar integration
       if (formData.value && 'calendarConfig' in formData.value) {
         const calendarConfig = (formData.value as Record<string, unknown>).calendarConfig
         if (calendarConfig) {
@@ -307,7 +284,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       }
       
       // PATTERN: Include defaultLocation if present in formData
-      // Session 2.2.2: Added for drive time calculations
       if (formData.value && 'defaultLocation' in formData.value) {
         const defaultLocation = (formData.value as Record<string, unknown>).defaultLocation
         if (defaultLocation) {
@@ -337,14 +313,10 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
   }
 
   /**
-   * LEARNING: Load settings conditionally based on enabled state
-   * WHY: Prevents API calls until tab is active, improving initial page load performance
-   * PATTERN: Watch enabled ref and only load when true
    */
   const enabled = options?.enabled
   if (enabled) {
     // LEARNING: Watch enabled state and load when tab becomes active
-    // WHY: Only fetch settings when user navigates to BusinessControlsTab
     // PATTERN: Watch ref and call loadSettings when enabled becomes true
     watch(
       enabled,
@@ -356,8 +328,6 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       { immediate: true } // Check immediately in case enabled starts as true
     )
   } else {
-    // LEARNING: Fallback - load immediately if no enabled option provided
-    // WHY: Maintains backward compatibility for components that don't need conditional loading
     // PATTERN: Call loadSettings immediately if no enabled option
     loadSettings()
   }

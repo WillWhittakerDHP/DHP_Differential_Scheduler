@@ -51,7 +51,6 @@ Tier 1 (nesting, branches, length-when-branchy) drives score and file count; Tie
 | `client/src/composables/admin/useAvailabilitySettings.ts` | P1 | 10 | 1 | 50 | 299 |
 | `client/src/composables/admin/useBufferSettings.ts` | P1 | 10 | 2 | 5 | 28 |
 
-*...and 228 more files.*
 
 ## Per-file details
 

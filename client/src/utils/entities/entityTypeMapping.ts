@@ -1,7 +1,4 @@
 /**
- * LEARNING: Entity Type Mapping Utility
- * WHY: Provides generic entity type handling without special casing
- * PATTERN: Single source of truth for mapping entityKey to metadata entityType
  *
  * This utility eliminates the need for if (entityKey === 'blockShape') checks
  * by providing generic mapping functions that work for all entity types.

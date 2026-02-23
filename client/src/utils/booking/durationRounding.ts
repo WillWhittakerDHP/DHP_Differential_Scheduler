@@ -1,26 +1,17 @@
 /**
  * Duration Rounding Utility
  * 
- * LEARNING: Centralized rounding logic for duration calculations
- * WHY: Provides configurable rounding with multiple methods (round up, round down, round nearest)
- * PATTERN: Pure functions that apply rounding based on configuration
  */
 
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 /**
  * Rounding method type
- * LEARNING: Defines how durations should be rounded
- * WHY: Supports different rounding strategies (round up, round down, round nearest)
- * PATTERN: String literal union type
  */
 export type RoundingMethod = 'roundUp' | 'roundDown' | 'roundNearest'
 
 /**
  * Duration rounding configuration
- * LEARNING: Configuration for duration rounding behavior
- * WHY: Allows admin to control rounding via Business Controls tab
- * PATTERN: Interface with enabled flag, increment, and method
  */
 export interface DurationRoundingConfig {
   enabled: boolean
@@ -30,9 +21,6 @@ export interface DurationRoundingConfig {
 
 /**
  * Round duration up to nearest increment
- * LEARNING: Ceiling function for time durations
- * WHY: Rounds up to ensure durations don't fall short
- * PATTERN: Use Math.ceil to round up, then multiply by increment
  * 
  * @param duration - Duration in minutes
  * @param increment - Increment in minutes
@@ -45,9 +33,6 @@ function roundUp(duration: number, increment: number): number {
 
 /**
  * Round duration down to nearest increment
- * LEARNING: Floor function for time durations
- * WHY: Rounds down to ensure durations don't exceed
- * PATTERN: Use Math.floor to round down, then multiply by increment
  * 
  * @param duration - Duration in minutes
  * @param increment - Increment in minutes
@@ -60,9 +45,6 @@ function roundDown(duration: number, increment: number): number {
 
 /**
  * Round duration to nearest increment
- * LEARNING: Standard rounding function for time durations
- * WHY: Rounds to closest increment (halfway rounds up)
- * PATTERN: Use Math.round to round to nearest, then multiply by increment
  * 
  * @param duration - Duration in minutes
  * @param increment - Increment in minutes
@@ -74,15 +56,8 @@ function roundNearest(duration: number, increment: number): number {
 }
 
 /**
- * Apply rounding method to duration
- * LEARNING: Routes to appropriate rounding function based on method
- * WHY: Centralizes rounding logic selection
- * PATTERN: Switch statement routing to method-specific functions
- * 
- * @param duration - Duration in minutes
- * @param increment - Increment in minutes
- * @param method - Rounding method to apply
- * @returns Rounded duration
+ * PATTERN: Apply rounding method to duration
+PATTERN: Switch statement routing to m...
  */
 function applyRoundingMethod(
   duration: number,
@@ -119,9 +94,6 @@ function getRoundingConfig(settings: AvailabilitySettings | null): DurationRound
 
 /**
  * Round duration based on availability settings
- * LEARNING: Main entry point for duration rounding
- * WHY: Centralizes all rounding logic, respects settings configuration
- * PATTERN: Check if rounding enabled, apply method if enabled, return original if disabled
  * 
  * @param duration - Duration in minutes to round
  * @param settings - Availability settings (may be null)

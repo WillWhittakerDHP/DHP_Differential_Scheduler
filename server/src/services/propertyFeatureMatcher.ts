@@ -1,9 +1,6 @@
 /**
  * Property Feature Matcher
  *
- * LEARNING: Maps RESO feature fields to suggested block_instance IDs
- * WHY: Admin-configurable feature-to-block mappings (Pool, Deck, ADU)
- * PATTERN: match_type (exists, contains, equals, greater_than)
  */
 
 import type { BrightMlsPropertyResponse } from '../types/brightMls.js'

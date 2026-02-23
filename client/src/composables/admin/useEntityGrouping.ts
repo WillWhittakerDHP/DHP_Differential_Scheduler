@@ -1,11 +1,8 @@
 /**
- * useEntityGrouping Composable
- * 
- * LEARNING: Generic grouping logic for entities grouped by another entity type
- * WHY: Entities can be grouped by other entities (e.g., blockInstances by blockShape)
- * PATTERN: Generic composable that groups entities by a grouping key
- */
+ * PATTERN: useEntityGrouping Composable
 
+PATTERN: Generic composable that groups en...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntity } from '@/types/entities'
@@ -27,11 +24,9 @@ export interface UseEntityGroupingReturn<EntityKey extends GlobalEntityKey> {
 }
 
 /**
- * useEntityGrouping composable
- * 
- * LEARNING: Provides grouped entity arrays
- * WHY: Extracts grouping logic from component to reusable generic composable
- * PATTERN: Generic composable that groups entities by another entity type
+ * WHY: useEntityGrouping composable
+
+WHY: Extracts grouping logic from componen...
  */
 export function useEntityGrouping<
   EntityKey extends GlobalEntityKey,
@@ -43,9 +38,6 @@ export function useEntityGrouping<
   const { getGlobalEntities } = useGlobal()
 
   /**
-   * LEARNING: Computed property for entities grouped by group key
-   * WHY: Groups entities by another entity type for display in tabs
-   * PATTERN: Computed property with Map data structure
    * NOTE: Must copy arrays before sorting because getGlobalEntities returns readonly Vue Query proxy
    */
   const entitiesByGroup = computed(() => {

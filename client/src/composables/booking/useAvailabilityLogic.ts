@@ -1,11 +1,8 @@
 /**
- * useAvailabilityLogic Composable
- * 
- * LEARNING: Extracts availability step business logic from AvailabilityStep component
- * WHY: Moves date range calculation, property details extraction, and time slot grouping to composable
- * PATTERN: Composable that provides reactive computed properties and data transformations
- */
+ * WHY: useAvailabilityLogic Composable
 
+WHY: Moves date range calculation, prop...
+ */
 import { computed, watch, ref, type Ref, type ComputedRef } from 'vue'
 import { matchLoadedTimeSlots as matchLoadedTimeSlotsUtil } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
@@ -20,11 +17,8 @@ import { equals } from '@/utils/ternary/ternaryUtils'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 /**
- * Date range structure
- * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
- * WHY: Consistent with RFC3339 datetime approach, aligns with international standards
- * PATTERN: ISO8601Date type documents intent and ensures consistency
- * NOTE: Internal type only - not exported as it's not used outside this file
+ * WHY: Date range structure
+LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) fo...
  */
 interface DateRange {
   start: ISO8601Date | null
@@ -75,11 +69,9 @@ interface UseAvailabilityLogicReturn {
 }
 
 /**
- * useAvailabilityLogic composable
- * 
- * LEARNING: Provides reactive computed properties for availability step logic
- * WHY: Extracts business logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useAvailabilityLogic composable
+
+WHY: Extracts business logic from compo...
  */
 export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAvailabilityLogicReturn {
   const {
@@ -94,8 +86,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const { settings } = useAvailabilitySettings()
 
   /**
-   * LEARNING: Computed property for date range for API call
-   * WHY: Creates date range from selected date (start date + 1 day for end date) in RFC3339 format
    * PATTERN: Computed that creates RFC3339 datetime range when date is selected
    */
   const dateRangeForApi = computed(() => {
@@ -168,9 +158,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Computed property for property details
-   * WHY: Provides property details to availability calculations
-   * PATTERN: Computed that extracts property details from step data
    */
   const propertyDetails = computed(() => {
     if (!propertyDetailsStepData?.value) return null
@@ -184,9 +171,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Computed property for all accumulated block instances
-   * WHY: Duration calculation needs all selected blocks (user type, service, property type block, availability options)
-   * PATTERN: Collect all selected block instances into array
    */
   const accumulatedBlockInstances = computed(() => {
     const result = [
@@ -199,16 +183,10 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Time slots structure for date range support
-   * WHY: Supports time slots per day for date range selection
-   * PATTERN: Ref that watches timeSlots and selectedDate, transforms into per-day structure
    */
   const timeSlotsPerDay = ref<TimeSlotsPerDay[]>([])
 
   /**
-   * LEARNING: AppointmentSlots structure for normalized time slot support
-   * WHY: Supports complex differential scheduling with normalized positions
-   * PATTERN: Computed that calculates AppointmentSlots lazily - only when accessed
    * P2-2: Made lazy - calculates only when accessed, not preemptively for all slots
    */
   const appointmentSlotsPerDay = computed<AppointmentSlotsPerDay[]>(() => {
@@ -252,7 +230,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
           settings.value // settings for rounding
         )
         // PATTERN: Propagate TimeSlot availability data to AppointmentSlot
-        // WHY: TimeSlot has isAvailable and flexibleViolations from constraint checking
         // These values are computed during slot generation and need to flow through to UI
         const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
           ...calculatedSlot,
@@ -271,9 +248,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Computed property to check if service supports differential scheduling
-   * WHY: Determines whether to show Inspector/Client toggle
-   * PATTERN: Check if any selected service has differential === 'true' (using ternary equals)
    */
   const isDifferentialService = computed(() => {
     const selectedServices = wizard.selectedServiceTypeBlocks.value
@@ -281,9 +255,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Check if any block instance has differential: 'override'
-   * WHY: Allows explicit override of differential behavior at blockInstance level
-   * PATTERN: Check all selected services and option type blocks for differential === 'override'
    */
   const hasDifferentialOverride = computed(() => {
     const serviceHasOverride = wizard.selectedServiceTypeBlocks.value.some(service =>
@@ -298,14 +269,11 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Effective differential state for UI rendering
-   * WHY: Service may be differential but overridden by selected options
-   * PATTERN: Returns false if service is not differential OR if override exists
-   * 
-   * Logic:
-   * - If no service has differential === 'true' → return false (non-differential)
-   * - If any blockInstance has differential === 'override' → return false (overridden to non-differential)
-   * - If service.differential === 'true' AND no override → return true (differential)
+   * WHY: /**
+LEARNING: Effective differential state for UI rendering
+
+Logic:
+- If...
    */
   const isEffectivelyDifferential = computed(() => {
     if (!isDifferentialService.value) {
@@ -318,10 +286,9 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Watch timeSlots and selectedDate to populate timeSlotsPerDay
-   * WHY: Transforms API response into component's expected format
-   * PATTERN: Watch API response, transform and group by date
-   * P2-2: Removed AppointmentSlots calculation from watch - now computed lazily
+   * WHY: /**
+WHY: Transforms API response into component's expected format
+P2-2: ...
    */
   watch([timeSlots, selectedDate], ([slots, date]) => {
     if (!slots || slots.length === 0 || !date?.start) {
@@ -348,8 +315,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
     timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
       /**
-       * WHY: Differential scheduling (separate inspector/client times) will be implemented in Feature 4
-       * PATTERN: Currently using same time slots for both, will be separated based on service configuration
        */
       return {
         date,
@@ -360,9 +325,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   }, { immediate: true })
 
   /**
-   * LEARNING: Computed property for current selected date (single date mode)
-   * WHY: Backward compatibility with existing UI (single date picker)
-   * PATTERN: Extract start date from date range structure
    * NOTE: VDatePicker may return Date object, so convert to ISO 8601 date format (YYYY-MM-DD)
    */
   const selectedDateSingle = computed({
@@ -386,9 +348,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Computed property for current appointment slots
-   * WHY: Shows appointment slots for selected date (from timeSlotsPerDay structure)
-   * PATTERN: Get appointment slots from timeSlotsPerDay array based on selected date
    * NOTE: startTimeType filtering is handled in component since it's UI state
    */
   const currentAppointmentSlots = computed(() => {
@@ -405,9 +364,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   /**
-   * LEARNING: Wrapper around shared matchLoadedTimeSlots utility
-   * WHY: Maintains backwards-compatible API while using shared implementation
-   * PATTERN: Re-export utility function with same signature
    */
   const matchLoadedTimeSlots = matchLoadedTimeSlotsUtil
 

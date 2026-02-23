@@ -1,8 +1,6 @@
 /**
  * Maps API Error Message Constants
  *
- * LEARNING: Centralized user-facing error messages for Maps/Places API
- * WHY: Eliminates hardcoding, single source of truth
  */
 
 import type { MapsApiErrorType } from '@shared/types/mapsTypes'

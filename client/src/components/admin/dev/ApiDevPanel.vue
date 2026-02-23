@@ -2,9 +2,6 @@
 /**
  * API Dev Panel Component
  * 
- * LEARNING: Dev mode panel for viewing API status, caches, and live data
- * WHY: Provides visibility into OAuth, rate limits, API calls, and cached responses for debugging
- * PATTERN: Tabbed interface matching slot dev panel styling, unified API debugging
  * 
  * REFACTORED: Extracted sub-components, composables, and utilities to reduce complexity
  */
@@ -36,25 +33,20 @@ const isDevMode = isDevModeEnabled()
 const panelRef = ref<HTMLElement | null>(null)
 void panelRef.value // ref used by template
 
-// Phase 7: Inject computed availability data for display
 const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
 
 // API base URL for external routes
 // LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
-// WHY: Addresses deprecation audit finding
 const rawApiBase = import.meta.env.VITE_API_BASE_URL
 const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBase !== '' ? rawApiBase : ''
 
 // API status tracking from shared state
 const { apiStatus } = useApiCallStatus()
 
-// Local time formatting
 const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
 
-// Tab management
 const { activeTab } = useDevPanelTabs()
 
-// API data management
 const {
   oauthStatus,
   eventsCache,
@@ -68,11 +60,8 @@ const {
   fetchAll,
 } = useApiDevPanelData(API_BASE_URL)
 
-// Fetch dev status only when panel becomes visible (not on mount)
-// WHY: Prevents unnecessary API calls when panel is hidden, improves page load performance
 watch(() => props.visible, (isVisible) => {
   if (isVisible && isDevMode) {
-    // Only fetch if data hasn't been loaded yet (lazy loading)
     if (!oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps) {
       fetchDevStatus()
     }

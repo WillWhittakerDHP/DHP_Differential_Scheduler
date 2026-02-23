@@ -1,11 +1,7 @@
 /**
- * useAppointmentDataCollection Composable
- *
- * LEARNING: Extracts appointment data collection logic from BookingWizard component
- * WHY: Moves massive data collection and transformation logic to composable
- * PATTERN: Composable that provides data collection function
+ * WHY: useAppointmentDataCollection Composable
+WHY: Moves massive data collecti...
  */
-
 import type { Ref } from 'vue'
 import type { AppointmentRequest } from '@/types/appointment'
 import type { PropertyRequest } from '@/types/property'
@@ -56,11 +52,8 @@ export interface UseAppointmentDataCollectionReturn {
 }
 
 /**
- * useAppointmentDataCollection composable
- *
- * LEARNING: Provides appointment data collection logic
- * WHY: Extracts massive data collection function from component to composable
- * PATTERN: Composable that returns data collection function
+ * WHY: useAppointmentDataCollection composable
+WHY: Extracts massive data colle...
  */
 export function useAppointmentDataCollection(params: UseAppointmentDataCollectionParams): UseAppointmentDataCollectionReturn {
   const {

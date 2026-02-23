@@ -1,11 +1,8 @@
 /**
- * useSelectionCardState Composable
- * 
- * LEARNING: Extracts selection state management logic from SelectionCard component
- * WHY: Moves state plugin selection and selection state calculation to composable
- * PATTERN: Composable that provides selection state management
- */
+ * WHY: useSelectionCardState Composable
 
+LEARNING: Extracts selection state man...
+ */
 import { computed, watch, ref, type ComputedRef } from 'vue'
 import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
 import { createLocalStatePlugin } from '@/components/booking/plugins/localStatePlugin'
@@ -30,11 +27,9 @@ export interface UseSelectionCardStateReturn {
 }
 
 /**
- * useSelectionCardState composable
- * 
- * LEARNING: Provides selection state management
- * WHY: Extracts state management logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useSelectionCardState composable
+
+WHY: Extracts state management logic f...
  */
 export function useSelectionCardState(params: UseSelectionCardStateParams): UseSelectionCardStateReturn {
   const {
@@ -45,9 +40,7 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
   } = params
 
   /**
-   * LEARNING: Get active state plugin
    * WHY: Determines which plugin to use for state management
-   * PATTERN: Use first plugin if available, otherwise create local plugin
    */
   const activeStatePlugin = computed<StatePlugin | null>(() => {
     const config = configWithDefaults.value
@@ -71,9 +64,9 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
   })
 
   /**
-   * LEARNING: Explicit selection state management
-   * WHY: Replaces VRadioGroup's internal state management for better reactivity
-   * PATTERN: Computed property that uses state plugin to determine selection state
+   * WHY: /**
+LEARNING: Explicit selection state management
+WHY: Replaces VRadioGr...
    */
   const isSelected = computed(() => {
     const plugin = activeStatePlugin.value
@@ -89,9 +82,6 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
   })
 
   /**
-   * LEARNING: Get watchSource ref from plugin
-   * WHY: Stores the watchSource ref once to avoid recreating it on each watch evaluation
-   * PATTERN: Computed property that gets the watchSource ref from the plugin
    */
   const pluginWatchSource = computed(() => {
     const plugin = activeStatePlugin.value
@@ -99,9 +89,9 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
   })
 
   /**
-   * LEARNING: Watch state plugin source for reactivity
-   * WHY: Ensures SelectionCard reacts to external state changes
-   * PATTERN: Watch the computed ref's value directly - Vue will track the computed ref dependency
+   * WHY: /**
+LEARNING: Watch state plugin source for reactivity
+PATTERN: Watch th...
    */
   watch(() => {
     const watchSourceRef = pluginWatchSource.value

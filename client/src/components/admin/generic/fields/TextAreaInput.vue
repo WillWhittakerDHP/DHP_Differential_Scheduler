@@ -28,19 +28,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: TextAreaInput renders multi-line text input
- * 
- * WHY: Textarea fields need multi-line input
- * 
- * PATTERN: Wrapper component pattern - wraps Vuexy App component with field context
- * 
- * COMPARISON: React uses Ant Design Input.TextArea. Vue uses Vuexy AppTextarea.
- *             Both provide multi-line text input.
- * 
- * MIGRATION: Migrated from VTextarea to AppTextarea following SelectInputs.vue pattern.
- *            App components handle labels internally.
+ * PATTERN: Wrapper component pattern - wraps Vuexy App component with field context...
  */
-
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppTextarea from '@/@core/components/app-form-elements/AppTextarea.vue'

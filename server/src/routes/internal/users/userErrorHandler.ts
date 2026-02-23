@@ -1,9 +1,6 @@
 /**
  * User Router Error Handler
  * 
- * LEARNING: Centralized error handling utilities for user router operations
- * WHY: Eliminates console.error calls, provides consistent error responses, improves maintainability
- * PATTERN: Uses shared router error handlers (no domain-specific constraints needed)
  */
 
 import { Response } from 'express'
@@ -16,9 +13,6 @@ import { ERROR_MESSAGES } from './userConstants.js'
 
 /**
  * Handle Sequelize validation errors
- * LEARNING: Wrapper around shared error handler with user-specific error message
- * WHY: Provides consistent error responses for validation failures
- * PATTERN: Delegates to shared handler with user-specific error message
  * 
  * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
  * @param res - Express response object
@@ -37,9 +31,6 @@ export function handleSequelizeValidationError(
 
 /**
  * Handle general errors with logging
- * LEARNING: Wrapper around shared error handler
- * WHY: Eliminates console.error calls, provides consistent error responses
- * PATTERN: Delegates to shared handler
  * 
  * @param error - Error object
  * @param res - Express response object
@@ -57,9 +48,6 @@ export function handleGeneralError(
 
 /**
  * Handle route errors with comprehensive error handling
- * LEARNING: Wrapper around shared error handler
- * WHY: Provides consistent error handling across all routes
- * PATTERN: Delegates to shared handler (no domain-specific constraints)
  * 
  * @param error - Error object
  * @param res - Express response object

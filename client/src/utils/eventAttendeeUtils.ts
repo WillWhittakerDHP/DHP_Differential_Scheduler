@@ -1,9 +1,6 @@
 /**
  * Event Attendee Utilities
  * 
- * LEARNING: Helper functions for working with event attendees (UserTypeBlock instances)
- * WHY: Encapsulates logic for finding event shapes by attendee type and checking attendee presence
- * PATTERN: Pure utility functions that work with EventShapeEntity and GlobalEntity types
  * 
  * NOTE: Attendees are UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
  * They are referenced by BlockInstance ID in the event_shape_attendees relationship table
@@ -31,8 +28,6 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
 
 /**
  * Check if an event shape has a specific attendee (UserTypeBlock).
- * LEARNING: Checks if the event shape's attendees array includes the given UserTypeBlock ID
- * WHY: Used by getMajorEventShape and getMinorEventShape
  */
 function hasAttendee(
   eventShape: EventShapeEntity,

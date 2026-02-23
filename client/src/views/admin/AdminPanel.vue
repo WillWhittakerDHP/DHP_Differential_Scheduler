@@ -15,25 +15,17 @@ import PropertyMappingsTab from './tabs/PropertyMappingsTab.vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 
 /**
- * LEARNING: Initialize admin data context when admin panel mounts
- * WHY: Ensures admin data (with transformer) only loads when admin page is accessed
  * PATTERN: Initialize route-specific composables in view component setup
- * PERFORMANCE: Admin transformer only runs on admin pages, not on scheduler pages
- * NOTE: Metadata is prefetched in route guard before component renders (same pattern as globalData)
+PERFORMANC...
  */
 useAdmin()
 
 /**
  * LEARNING: Reactive tab state management
- * WHY: Tracks which tab is currently active for two-way binding with VTabs/VWindow
- * PATTERN: Use ref for reactive primitive values in Vue 3 Composition API
  */
 const currentTab = ref('instances')
 
 /**
- * LEARNING: Provide currentTab to child components
- * WHY: Allows child tabs to know if they're active and conditionally load data
- * PATTERN: Provide/inject pattern for cross-component communication
  */
 provide('adminCurrentTab', currentTab)
 </script>

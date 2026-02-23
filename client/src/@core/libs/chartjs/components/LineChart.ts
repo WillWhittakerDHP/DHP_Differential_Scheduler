@@ -44,7 +44,6 @@ export default defineComponent({
   },
   setup(props) {
     return () =>
-      // WHY: vue-chartjs Line has strict prop types; bridge accepts our chartData/chartOptions shape
       h(Line, {
         chartId: props.chartId,
         width: props.width,

@@ -1,12 +1,6 @@
 /**
- * LEARNING: Conditional Field Visibility Filtering
- * WHY: Encapsulates business logic for filtering fields based on conditions (composable/composite)
- * PATTERN: Composable for filtering field locations based on entity properties and form values
- * 
- * Used by:
- * - EntityCard.vue
+ * WHY: Encapsulates business logic for filtering fields based on conditions (co...
  */
-
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -33,9 +27,7 @@ export interface UseConditionalFieldVisibilityReturn {
 }
 
 /**
- * LEARNING: Filter fields based on conditional visibility rules
  * WHY: Some fields should only show under certain conditions (e.g., composite when composable=true)
- * PATTERN: Filter fieldsByLocation based on business rules
  */
 export function useConditionalFieldVisibility(
   options: UseConditionalFieldVisibilityOptions

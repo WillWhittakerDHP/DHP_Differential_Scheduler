@@ -12,18 +12,15 @@ import {
  * Represents annotation shapes (shape-level: defines what annotation types can exist).
  * Shapes are fully dynamic and can be created/deleted by admins via CRUD interface.
  * 
- * LEARNING: Separating annotation shapes into their own entity enables:
  * - Dynamic shape management (admins can create/edit/delete shapes)
  * - Shape validation (ensures annotation instances use valid shapes)
  * - Shape filtering and organization
  * 
- * WHY: Instead of hardcoding annotation shapes, we use a dynamic entity:
  * - Flexibility: Admins can add new shapes without code changes
  * - Maintainability: Shapes are managed through admin UI
  * - Data integrity: Foreign key constraints ensure valid shapes
  * 
  * PATTERN: Shape-level entity model matching block_shapes/part_shapes pattern
- * COMPARISON: AnnotationShape is shape-level (definitions), AnnotationInstance is instance-level (concrete entities)
  */
 export class AnnotationShape extends Model<
   InferAttributes<AnnotationShape>,

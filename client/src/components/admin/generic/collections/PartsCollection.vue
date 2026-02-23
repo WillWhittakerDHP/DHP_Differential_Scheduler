@@ -15,12 +15,9 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: PartsCollection component - wrapper for parts collection
  * 
- * WHY: Wraps RelationshipCollection with parts-specific features (bulk edit modal)
  *      Maintains backward compatibility while using generic collection pattern
  * 
- * PATTERN: Thin wrapper component that adds collection-specific features
  */
 
 import { computed, ref, type Ref } from 'vue'

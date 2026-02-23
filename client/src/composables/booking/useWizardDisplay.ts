@@ -1,11 +1,8 @@
 /**
- * useWizardDisplay Composable
- * 
- * LEARNING: Extracts display-related computed properties from BookingWizard component
- * WHY: Moves step subtitle generation and loaded data display logic to composable
- * PATTERN: Composable that provides computed properties for wizard display
- */
+ * WHY: useWizardDisplay Composable
 
+WHY: Moves step subtitle generation and loa...
+ */
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
@@ -26,11 +23,9 @@ export interface UseWizardDisplayReturn {
 }
 
 /**
- * useWizardDisplay composable
- * 
- * LEARNING: Provides computed properties for wizard display
- * WHY: Extracts display logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useWizardDisplay composable
+
+WHY: Extracts display logic from component ...
  */
 export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDisplayReturn {
   const {
@@ -40,9 +35,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
   } = params
 
   /**
-   * LEARNING: Computed property for step subtitles with dynamic service name
-   * WHY: Shows selected service name(s) in stepper subtitle when services are selected
-   * PATTERN: Computed array that updates step subtitles reactively
    * Session 1.3.9.5: Updated to show first service name or count for multiple selections
    */
   const stepSubtitles = computed(() => {
@@ -61,9 +53,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
   })
 
   /**
-   * LEARNING: Computed property for loaded service name
-   * WHY: Displays service type in mock data loading bar
-   * PATTERN: Extract from loadedWizardState or wizard.selectedServices
    * Session 1.3.9.5: Updated to use array - show first service name or count
    */
   const loadedServiceName = computed(() => {
@@ -84,9 +73,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
   })
 
   /**
-   * LEARNING: Computed property for loaded property address
-   * WHY: Displays property address in mock data loading bar
-   * PATTERN: Extract from loadedWizardState propertyDetails
    */
   const loadedPropertyAddress = computed(() => {
     if (!loadedWizardState?.value?.propertyDetails) return null

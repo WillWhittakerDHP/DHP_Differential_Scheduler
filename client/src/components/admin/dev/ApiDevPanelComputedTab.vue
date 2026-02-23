@@ -2,9 +2,6 @@
 /**
  * API Dev Panel Computed Tab Component
  * 
- * LEARNING: Extracted Computed Data tab content from ApiDevPanel
- * WHY: Reduces main component complexity and file size
- * PATTERN: Sub-component with props for computed availability data
  */
 
 import { computed } from 'vue'
@@ -35,7 +32,6 @@ const scheduledHoursByKey = computed(() => {
   return result
 })
 
-// Slots by day summary (server-computed slots cache)
 const slotsByDaySummary = computed(() => {
   if (!props.computedAvailability) return { dayCount: 0, totalSlots: 0, sample: [] as [string, number][] }
   const map = props.computedAvailability.slotsByDay.value

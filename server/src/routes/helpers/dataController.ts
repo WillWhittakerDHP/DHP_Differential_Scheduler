@@ -7,9 +7,6 @@ const logger = createLogger('DataController');
 
 /**
  * Type helper for creating where clauses by ID
- * LEARNING: All Sequelize models in this codebase have id: CreationOptional<string>
- * WHY: Provides type-safe way to create where clauses via attribute extraction
- * PATTERN: Extract id type from model attributes - all models use string IDs
  * 
  * API Best Practice: Use proper type extraction instead of type assertions
  * This ensures type safety while working with Sequelize's generic model types
@@ -28,10 +25,8 @@ type WhereById<T extends Model> = {
  * to avoid duplicate columns in SQL queries (both snake_case and camelCase versions).
  * This function automatically detects `underscored: true` models and adds attributes if missing.
  * 
- * WHY: Models with `underscored: true` have camelCase attributes that map to snake_case database columns.
  * When `attributes` aren't specified, Sequelize selects both formats, creating duplicate columns.
  * 
- * PATTERN: Use `getModelAttributes()` utility from `sequelizeHelpers.ts` to extract attributes programmatically.
  * Example:
  * ```typescript
  * import { getModelAttributes } from '../../../utils/sequelizeHelpers.js';
@@ -46,14 +41,7 @@ type WhereById<T extends Model> = {
  * @param options.order - Optional array of order clauses (e.g., [[FIELD_NAMES.ORDER_INDEX, 'ASC']])
  * @returns An array of model instances.
  * 
- * WHY: Uses Model without generics for generic model references
- * PATTERN: T extends Model is sufficient when using ModelStatic<T>
- * LEARNING: Added includes parameter to support fetching associations (e.g., descriptions for blockInstance)
- * WHY: Enables fetching related data in a single query instead of multiple queries
- * PATTERN: Optional includes parameter allows flexible association loading
  * 
- * LEARNING: Automatically detects models with `underscored: true` and adds attributes if missing
- * WHY: Prevents duplicate columns in SQL queries (both snake_case and camelCase versions)
  * PATTERN: Fail-safe approach - automatically fixes the issue if attributes are missing
  * NOTE: A warning will be logged if auto-extraction is used, encouraging explicit specification
  */
@@ -103,8 +91,6 @@ const fetchAll = async <T extends Model>(
  * @param id - The ID of the record to find.
  * @returns A single model instance or null if not found.
  * 
- * LEARNING: Automatically detects models with `underscored: true` and adds attributes if needed
- * WHY: Prevents duplicate columns in SQL queries (both snake_case and camelCase versions)
  * PATTERN: Fail-safe approach - automatically fixes the issue if attributes are missing
  */
 const fetchById = async <T extends Model>(
@@ -134,7 +120,6 @@ const updateRecord = async <T extends Model>(
   id: string, 
   data: Partial<T["_creationAttributes"]> 
 ): Promise<number> => {
-  // WHY: Uses proper type extraction from model attributes for type safety
   // PATTERN: NonNullable ensures we use the defined string type, not string | undefined
   const whereClause: WhereById<T> = { id };
   
@@ -152,7 +137,6 @@ const patchRecord = async <T extends Model>(
   id: string,
   data: Partial<T["_creationAttributes"]>
 ): Promise<number> => {
-  // WHY: Uses proper type extraction from model attributes for type safety
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
   // PATTERN: Server validates and rejects invalid types with clear errors
@@ -172,7 +156,6 @@ const bulkPatch = async <T extends Model>(
 
   for (const { id, ...data } of updates) {
 /**
- * WHY: Uses proper type extraction from model attributes for type safety
  */
     const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
     const [count] = await Entity.update(data as Partial<Attributes<T>>, {
@@ -187,7 +170,6 @@ const deleteRecord = async <T extends Model>(
   Entity: ModelStatic<T>,
   id: string
 ): Promise<number> => {
-  // WHY: Uses proper type extraction from model attributes for type safety
   const whereClause: WhereById<T> = { id: id as T["_attributes"]["id"] };
 
   const deletedRows = await Entity.destroy({

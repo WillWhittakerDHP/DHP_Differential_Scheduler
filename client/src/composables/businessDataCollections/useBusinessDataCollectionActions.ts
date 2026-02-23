@@ -1,9 +1,6 @@
 /**
  * Business Data Collection Actions Composable
  * 
- * LEARNING: Mutation factory for BusinessData-backed collections
- * WHY: Uses optimistic updates + refetchQueries for cache consistency
- * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionActions.ts
  * 
  * Session 1.4.7: Created as part of data flow consolidation
  * ARCHITECTURAL DECISION: Optimistic + refetchQueries pattern
@@ -21,8 +18,6 @@ import type { BusinessDataCollectionCrudConfig, UpdateByIdPayload } from './type
  * Mutation factory for BusinessData-backed collections.
  *
  * LEARNING: These mutations refresh `['businessData']` because all consumers read from that cache.
- * WHY: Keeps cache invalidation consistent and centralizes optimistic "append-on-create" behavior.
- * PATTERN: Optimistic update followed by refetch for consistency
  * FIX: Use shared generic composable for collection actions
  */
 export function useBusinessDataCollectionActions<

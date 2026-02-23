@@ -1,11 +1,6 @@
 /**
- * LEARNING: Unified Admin Metadata Model
- * WHY: Single model for both primitive and relationship metadata (follows entity pattern)
- *      Replaces AdminPrimitiveMetadata and AdminRelationshipMetadata
- * PATTERN: Single table with metadataType discriminator, unified fieldKey column
- *          Matches entity pattern: single endpoint/table, backend routes based on field type
+ * WHY: Single model for both primitive and relationship metadata (follows entit...
  */
-
 import {
   Model,
   DataTypes,

@@ -1,15 +1,9 @@
 /**
- * LEARNING: Shared field input handlers
- * WHY: Field input handlers (focus, blur, enter key) are duplicated across NumberInput and TextInput
  * PATTERN: Extract shared handler logic into composable
- * 
- * Used by:
- * - NumberInput.vue
- * - TextInput.vue
- * - DateInput.vue
- * - TextAreaInput.vue
- */
 
+Used by:
+- NumberInput.vue...
+ */
 import { computed } from 'vue'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -30,9 +24,6 @@ export interface UseFieldInputHandlersParams {
 }
 
 /**
- * LEARNING: Shared field input handlers
- * WHY: Provides consistent behavior across all field input components
- * PATTERN: Centralized handlers for focus, blur, and enter key events
  */
 export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   const {

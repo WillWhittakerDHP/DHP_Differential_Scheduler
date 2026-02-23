@@ -1,12 +1,7 @@
 /**
- * Global to Admin Transformer
- *
- * LEARNING: Transforms GlobalData to AdminObject format
- * WHY: Validates entities, attaches relationships, and ensures data integrity for admin interface
- * PATTERN: Uses AdminEntity temporarily for validation, then converts to plain objects for Vue reactivity
- * COMPARISON: React outputs AdminEntity class instances. Vue outputs AdminObject (plain objects with relationships + validated properties)
+ * WHY: Global to Admin Transformer
+LEARNING: Transforms GlobalData to AdminObje...
  */
-
 import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
@@ -17,9 +12,6 @@ import { safeArray } from './transformerPrimitives'
 
 /**
  * AdminObject type - Enhanced GlobalEntity with relationships and validated properties
- * LEARNING: This represents admin-enhanced entities, not just GlobalEntity
- * WHY: Admin interface needs entities with relationship arrays attached and validated properties
- * PATTERN: GlobalEntity + relationships + validated properties
  */
 export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   validCascades?: GlobalEntityId[]
@@ -53,8 +45,6 @@ const RELATIONSHIP_KEYS = [
 
 /**
  * Build relationship data for an entity (immutable).
- * LEARNING: Extracts child IDs from GlobalRelationship[] and returns a new object.
- * WHY: Select fields need relationship arrays attached; building a new object avoids mutating the entity.
  */
 function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
   entityId: GlobalEntityId,
@@ -92,8 +82,6 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
 
 /**
  * Transform a single GlobalEntity to AdminObject.
- * LEARNING: Uses AdminEntity temporarily for validation, then converts to plain object.
- * WHY: Validates data structure and ensures all properties exist with defaults.
  */
 function transformSingleEntity<GE extends GlobalEntityKey>(
   globalEntity: GlobalEntity<GE>,
@@ -127,7 +115,6 @@ function transformSingleEntity<GE extends GlobalEntityKey>(
     ...plainObjectFromConfig,
   } as AdminObject<GE>
 
-  // Build relationship slice for known keys (immutable reduce)
   const relationshipData = RELATIONSHIP_KEYS.reduce<Partial<AdminObject<GE>>>(
     (acc, relKey) => {
       if (Object.prototype.hasOwnProperty.call(entityWithRelationships, relKey)) {
@@ -160,8 +147,6 @@ function transformSingleEntity<GE extends GlobalEntityKey>(
 
 /**
  * Transform GlobalData to AdminObjectMap.
- * LEARNING: Validates entities, attaches relationships, and ensures data integrity.
- * WHY: Admin interface needs entities with relationships attached and validated properties.
  *
  * @param globalData - GlobalData with entities and relationships
  * @returns AdminObjectMap with validated entities and relationships attached

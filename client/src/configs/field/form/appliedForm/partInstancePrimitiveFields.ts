@@ -1,7 +1,4 @@
 /**
- * LEARNING: PartInstance Primitive Fields - Field definitions for partInstance entity
- * WHY: Defines which fields are primitive (text, number, boolean) for partInstance
- * PATTERN: Spreads baseEntityFields and adds entity-specific fields
  */
 
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'

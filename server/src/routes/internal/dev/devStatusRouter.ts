@@ -1,9 +1,6 @@
 /**
  * Dev Status Router
  * 
- * LEARNING: Aggregated dev status endpoint for API debugging panel
- * WHY: Single endpoint reduces client requests, improves page load performance
- * PATTERN: Internal route that aggregates external API status and cache stats
  * 
  * SECURITY: Only available in development mode (when !isProduction())
  */
@@ -27,9 +24,6 @@ const router = Router()
  * GET /api/v1/internal/dev/status
  * Get aggregated dev status (OAuth, rate limits, cache stats)
  * 
- * LEARNING: Single endpoint that aggregates all dev debugging information
- * WHY: Reduces client requests from 5+ calls to 1 call, improves page load
- * PATTERN: Aggregates data from multiple services into single response
  * 
  * SECURITY: Only available in development mode
  * 
@@ -39,14 +33,12 @@ const router = Router()
  * - caches: Cache stats and entries for events and drive-time
  */
 router.get('/status', (_req: Request, res: Response): void => {
-  // Only allow in development
   if (isProduction()) {
     sendError(res, CALENDAR_ROUTE_MESSAGES.DEBUG_DISABLED, HTTP_STATUS_CODES.FORBIDDEN)
     return
   }
   
   try {
-    // Get OAuth status
     let oauthStatus
     try {
       const credentials = getCredentials()
@@ -67,13 +59,11 @@ router.get('/status', (_req: Request, res: Response): void => {
       }
     }
     
-    // Get rate limit stats
     const rateLimits = {
       calendar: getRateLimitStats('google-calendar'),
       maps: getRateLimitStats('google-maps')
     }
     
-    // Get events cache stats
     const eventsCacheStats = getEventsCacheStats()
     const eventsEntries = getAllEventsEntries()
     const eventsEntriesArray = Array.from(eventsEntries.entries()).map((entryPair: [string, EventsCacheEntry]) => {
@@ -88,7 +78,6 @@ router.get('/status', (_req: Request, res: Response): void => {
       }
     })
     
-    // Get drive-time cache stats
     const driveTimeCacheStats = getDriveTimeCacheStats()
     const driveTimeEntries = getAllCachedDriveTimes()
     const driveTimeEntriesArray: Array<{
@@ -119,7 +108,6 @@ router.get('/status', (_req: Request, res: Response): void => {
       })
     }
     
-    // Aggregate all data
     const devStatus = {
       oauth: oauthStatus,
       rateLimits,

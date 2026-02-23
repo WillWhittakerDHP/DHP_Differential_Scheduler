@@ -1,9 +1,6 @@
 /**
  * Calendar Routes
  *
- * LEARNING: Routes for Google Calendar API operations
- * WHY: Provides HTTP endpoints for calendar functionality
- * PATTERN: Express router with typed error handling, CSRF protection, debug mount
  *
  * SESSION: 2.1.5 - Enhanced error handling with CalendarApiError
  */

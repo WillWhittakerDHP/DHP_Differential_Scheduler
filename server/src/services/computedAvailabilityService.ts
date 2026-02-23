@@ -1,9 +1,6 @@
 /**
  * Computed Availability Service
  * 
- * LEARNING: Orchestrates all API calls and data processing to return pre-computed availability data
- * WHY: Eliminates multiple client-side API calls and constraint extraction
- * PATTERN: Single service that coordinates multiple data sources
  * 
  * Phase 4: Server-Side Computed Availability Data Refactor
  * - Fetches settings from database
@@ -49,9 +46,6 @@ const CACHE_STATUS_MISS = 'miss' as const
 
 /**
  * Extract calendar emails configured for reading (readFrom: true)
- * LEARNING: Returns emails from calendars marked for availability checking
- * WHY: Events API calls need array of email strings for calendars to check
- * PATTERN: Filter calendars by readFrom flag, return email array
  * 
  * @param calendarConfig - CalendarConfig object (optional)
  * @returns Array of calendar email strings where readFrom is true
@@ -68,9 +62,6 @@ function getReadFromCalendars(calendarConfig?: AvailabilitySettingsData['calenda
 
 /**
  * Calculate drive times for all unique placeIds in events
- * LEARNING: Pre-computes drive times between candidate location and each event location (event->candidate and candidate->event)
- * WHY: Eliminates client-side drive time API calls, reduces Routes API calls from 2N to 2 (batched), skips entirely until candidate placeId exists
- * PATTERN: Gate on candidate placeId, check cache per pair, batch uncached pairs into Nx1 and 1xN matrix calls
  *
  * @param calendarEvents - Regular calendar events (with placeId)
  * @param candidatePlaceId - Candidate/customer placeId - if not provided, skips all drive time calculations (lazy loading)
@@ -80,13 +71,11 @@ async function calculateDriveTimesForPlaceIds(
   calendarEvents: CalendarEvent[],
   candidatePlaceId: string | undefined
 ): Promise<Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>> {
-  // Gate: Skip drive time calculations if no candidate placeId exists
   if (!candidatePlaceId) {
     logger.debug('Skipping drive time calculation: no candidate placeId provided')
     return {}
   }
 
-  // Collect unique placeIds from events
   const uniquePlaceIds = [...new Set(
     calendarEvents
       .map(event => event.placeId)

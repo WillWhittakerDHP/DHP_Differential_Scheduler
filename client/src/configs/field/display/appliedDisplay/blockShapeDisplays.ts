@@ -1,7 +1,4 @@
 /**
- * LEARNING: BlockShape Display Configs - Display configs for blockShape fields
- * WHY: Defines labels, placeholders, and layout for blockShape fields
- * PATTERN: Spreads baseEntityDisplays and adds entity-specific configs
  */
 
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'

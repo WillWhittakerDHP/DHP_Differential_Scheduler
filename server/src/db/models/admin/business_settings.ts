@@ -25,14 +25,9 @@ import type {
 import type { CalendarConfig, CalendarEntry, CalendarProvider } from '../../../../../shared/types/calendarTypes.js'
 
 /**
- * Business Settings Model
- *
- * LEARNING: Stores admin-configurable business logic settings as key-value pairs with JSONB
- * WHY: Allows admin to configure availability settings (business hours, time increments, lead time) without code changes
- * PATTERN: Single record pattern with setting_key AVAILABILITY_SETTINGS_KEY storing AvailabilitySettings JSONB object
- * Type similarity UNIFY: availability and calendar types imported from shared (Phase 1.1/1.2).
+ * WHY: Business Settings Model
+LEARNING: Stores admin-configurable business log...
  */
-
 export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation, DurationRoundingConfig }
 export type { CalendarConfig, CalendarEntry, CalendarProvider }
 
@@ -70,10 +65,9 @@ export interface AvailabilitySettingsData {
     rollingWeek?: RollingWeekIncomeCapacityFilter;
   };
   /**
-   * Overlap source enforcement (optional)
-   * LEARNING: Controls whether specific event sources participate in overlap blocking
-   * WHY: Allows admin to toggle out-of-office events as blockers without changing data fetching
-   * PATTERN: Each source has an enforcement level (off = ignored, flexible = warn, hard = block)
+   * WHY: /**
+Overlap source enforcement (optional)
+WHY: Allows admin to toggle ou...
    */
   overlapSources?: {
     outOfOffice?: {

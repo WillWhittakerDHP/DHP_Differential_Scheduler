@@ -1,20 +1,8 @@
 /**
- * useInstanceSelectionConfig Composable
- * 
- * LEARNING: Generic selection configs for any block instance type
- * WHY: Not service-specific - works with any block shape selection (user type, service, property, option)
- * PATTERN: Composable that provides row and stack selection configs with wizard state plugins
- * 
- * Features:
- * - Build row selection config (horizontal grid layout)
- * - Build stack selection config (vertical stack layout)
- * - Create wizard state plugins for any selection type
- * - Expose configWithDefaults
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- * NOTE: Renamed from useServiceSelectionConfig to useInstanceSelectionConfig for generic usage
- */
+ * PATTERN: useInstanceSelectionConfig Composable
 
+PATTERN: Composable that provides...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { createWizardStatePlugin, type WizardStateField } from '@/components/booking/plugins/wizardStatePlugin'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
@@ -25,13 +13,11 @@ export interface UseInstanceSelectionConfigOptions {
   
   /**
    * Wizard state field for state plugin
-   * LEARNING: Maps to wizard selection arrays (userTypeBlock, services, propertyTypeBlocks, optionTypeBlocks)
    */
   stateField?: WizardStateField
   
   /**
    * Selected value (for reactivity tracking)
-   * LEARNING: Computed value that triggers config recalculation
    */
   selectedValue?: ComputedRef<unknown>
 }
@@ -43,28 +29,9 @@ export interface UseInstanceSelectionConfigReturn {
 }
 
 /**
- * useInstanceSelectionConfig composable
- * 
- * LEARNING: Generic selection config for any block instance type
- * WHY: Decoupled from service-specific naming for broader reuse
- * PATTERN: Composable that returns computed configs based on selection type
- * 
- * @example
- * ```ts
- * // Row layout for user types
- * const { selectionConfig, statePlugin } = useInstanceSelectionConfig({
- *   selectionType: 'row',
- *   stateField: 'userTypeBlock',
- *   selectedValue: computed(() => wizard.selectedUserTypeBlock.value)
- * })
- * 
- * // Stack layout for services
- * const { selectionConfig, statePlugin } = useInstanceSelectionConfig({
- *   selectionType: 'stack',
- *   stateField: 'services',
- *   selectedValue: computed(() => wizard.selectedServiceTypeBlocks.value)
- * })
- * ```
+ * PATTERN: useInstanceSelectionConfig composable
+
+PATTERN: Composable that returns ...
  */
 export function useInstanceSelectionConfig(
   options: UseInstanceSelectionConfigOptions = {}
@@ -76,9 +43,9 @@ export function useInstanceSelectionConfig(
   } = options
 
   /**
-   * Create wizard state plugin for the selection
-   * LEARNING: Plugin enables SelectionCard to use wizard state directly
-   * WHY: Decouples SelectionCard from specific wizard implementation
+   * WHY: /**
+Create wizard state plugin for the selection
+LEARNING: Plugin enable...
    */
   const statePlugin = createWizardStatePlugin(stateField)
 

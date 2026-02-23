@@ -9,9 +9,6 @@ const logger = createLogger('GoogleOAuthRoutes');
 /**
  * Google OAuth Routes
  * 
- * LEARNING: Routes for Google OAuth 2.0 authentication flow
- * WHY: Provides HTTP endpoints for OAuth authentication
- * PATTERN: Express router with OAuth flow handling
  * 
  * SESSION: 2.1.3b - Added file-based token persistence for development
  * NOTE: Tokens are saved to .google-tokens.json (gitignored) for persistence
@@ -49,7 +46,6 @@ router.get('/callback', async (req: Request, res: Response) => {
   try {
     const { code, error } = req.query;
     
-    // Handle authorization errors
     if (error) {
       logger.error('OAuth error:', error);
       res.status(400).json({
@@ -68,10 +64,8 @@ router.get('/callback', async (req: Request, res: Response) => {
       return;
     }
     
-    // Exchange code for tokens
     const tokens = await getTokens(code);
     
-    // Set credentials on OAuth client
     setCredentials(tokens);
     
     // Save tokens to file for persistence across restarts
@@ -105,7 +99,6 @@ router.get('/callback', async (req: Request, res: Response) => {
  */
 router.get('/status', (_req: Request, res: Response): void => {
   try {
-    // Check OAuth client credentials (loaded from file on startup)
     let credentials;
     let authenticated = false;
     
@@ -115,7 +108,6 @@ router.get('/status', (_req: Request, res: Response): void => {
     } catch (credError: unknown) {
       const credMessage = credError instanceof Error ? credError.message : String(credError);
       logger.error('Error getting credentials:', credError);
-      // Return unauthenticated status if credentials check fails
       res.json({
         authenticated: false,
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
@@ -158,8 +150,6 @@ router.get('/status', (_req: Request, res: Response): void => {
 /**
  * GET /api/v1/external/oauth/test-url
  * Get OAuth authorization URL as JSON (for testing/debugging)
- * LEARNING: Returns URL without redirecting, useful for debugging
- * WHY: Allows copying URL directly to browser to test OAuth flow
  */
 router.get('/test-url', (_req: Request, res: Response) => {
   try {

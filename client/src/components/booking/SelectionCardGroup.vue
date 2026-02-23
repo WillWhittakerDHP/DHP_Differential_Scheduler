@@ -1,18 +1,9 @@
 <script setup lang="ts">
 /**
- * SelectionCardGroup Component
- * 
- * LEARNING: Simple wrapper that manages VRadioGroup and state for multiple SelectionCard components
- * WHY: Separates concerns - SelectionCard handles rendering, SelectionCardGroup handles grouping
- * PATTERN: Container component that wraps child components and manages shared state
- * 
- * Features:
- * - Wraps SelectionCard components in VRadioGroup for parent selection
- * - Manages expansion state for all cards
- * - Manages nested selection state
- * - Handles auto-expansion when cards are selected
- */
+ * WHY: SelectionCardGroup Component
 
+LEARNING: Simple wrapper that manages VRad...
+ */
 import { computed } from 'vue'
 import SelectionCard from './SelectionCard.vue'
 import type { 
@@ -55,9 +46,8 @@ const {
 
 
 /**
- * LEARNING: Use selection card group composable for group-level logic
- * WHY: Moves data transformation logic out of component to prevent recursion
- * PATTERN: Composable handles shouldExpand logic and group operations
+ * WHY: Use selection card group composable for group-level logic
+PATTERN: Compo...
  */
 const selectionCardGroupComposable = useSelectionCardGroup({
   items: computed(() => props.items),

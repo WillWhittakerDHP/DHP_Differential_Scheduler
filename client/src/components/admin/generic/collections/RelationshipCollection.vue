@@ -105,14 +105,10 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: RelationshipCollection component - generic for all collection types
- * 
- * WHY: Renders relationship collections (parts, annotations, events) within a parent entity
- *      Uses EntityCard directly, matching the pattern used by InstancesTab
- * 
- * PATTERN: Generic rendering of EntityCard component, exposes bulk edit state to parent (when applicable)
- */
+ * PATTERN: Uses EntityCard directly, matching the pattern used by InstancesTab
 
+PAT...
+ */
 import { computed, defineAsyncComponent } from 'vue'
 
 const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
@@ -263,9 +259,8 @@ const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
 }
 
 /**
- * LEARNING: Expose bulk edit state and functions to parent (when applicable)
- * WHY: Parent component (EntityCardSubPanels) needs to render bulk edit button in panel title
- * PATTERN: defineExpose to expose reactive state and functions
+ * WHY: Expose bulk edit state and functions to parent (when applicable)
+PATTERN...
  */
 defineExpose({
   bulkEditMode,

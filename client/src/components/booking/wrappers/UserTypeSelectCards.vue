@@ -1,20 +1,9 @@
 <script setup lang="ts">
 /**
- * UserTypeBlockSelectCards Component
- * 
- * LEARNING: Thin wrapper for user type selection cards
- * WHY: Provides clean interface while keeping SelectionCardGroup generic
- * PATTERN: Wrapper component that connects wizard state to generic UI
- * 
- * Features:
- * - Connects to useBookingWizard for user types
- * - Uses row layout for horizontal grid display
- * - Single-select behavior (radio-like)
- * - Maps display properties (icons, descriptions)
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- */
+ * PATTERN: UserTypeBlockSelectCards Component
 
+PATTERN: Wrapper component that conn...
+ */
 import { computed } from 'vue'
 import SelectionCardGroup from '../SelectionCardGroup.vue'
 import type { SelectionCardConfig } from '../types/selectionCardTypes'
@@ -100,9 +89,7 @@ const selectedId = computed<string | null>({
 </template>
 
 <style scoped>
-/* LEARNING: Minimal styling - let SelectionCardGroup handle layout */
 .user-type-select-cards {
-  /* Wrapper-specific styling if needed */
 }
 </style>
 

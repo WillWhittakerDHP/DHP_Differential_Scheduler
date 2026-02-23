@@ -1,12 +1,6 @@
 /**
- * WHY: Availability Settings Configuration
- *
-LEARNING: Client-side settings for time slot generation and business hours
-WHY: Centralizes business hours and time slot configuration (admin-configurable via Business Controls tab)
-PATTERN: TypeScript interface with default values, fetches from API with defaults when not yet loaded
-Session 1.3.7: Created to replace hardcoded values in generateTimeSlots
-Session 1.4.1: Updated to fetch from API instead of hardcoded defaults
- * Type similarity UNIFY: availability types imported from shared (single source of truth).
+ * WHY: Client-side settings for time slot generation and business hours
+WHY: Ce...
  */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { toGlobalEntityId } from '@/types/entities'
@@ -36,7 +30,6 @@ import type { CalendarConfig, CalendarEntry, CalendarProvider } from '@shared/ty
 
 const logger = createLogger('availabilitySettings')
 
-// Re-export shared types so existing imports from this file keep working
 export type { ConstraintEnforcement, Coordinates, DefaultLocation, DriveTimeApplyTo, DriveTimeConfig, DurationRoundingConfig, RangeConstraintType, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RollingWeekDirection, LeadTimeConfig, BusinessHoursConfig, DateRangeConfig, BufferConfig }
 export type { DayHours }
 
@@ -46,13 +39,10 @@ export type { DayHours }
  */
 export type RangeConstraint = SharedRangeConstraint
 
-// Re-export calendar types from shared (Phase 1.2 type-similarity)
 export type { CalendarConfig, CalendarEntry, CalendarProvider }
 
 /**
  * Default calendar configuration
- * LEARNING: Default values when no calendar config is set
- * WHY: Provides sensible defaults (disabled, no provider, empty array)
  * Session 2.0.1: Added for calendar configuration
  * Session 2.X: Updated to use CalendarEntry[] array
  */
@@ -64,9 +54,6 @@ export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
 
 /**
  * Availability settings interface
- * LEARNING: Complete configuration for time slot generation
- * WHY: Type-safe settings structure for availability calculations
- * PATTERN: Interface matching server-side adminSettings structure
  */
 export interface AvailabilitySettings {
   businessHours: {
@@ -83,9 +70,6 @@ export interface AvailabilitySettings {
   
   /**
    * Range constraints (optional)
-   * LEARNING: Time-based restrictions that filter slots by when they can occur
-   * WHY: Consolidates business hours, leadTime, and date range boundaries into unified structure
-   * PATTERN: Optional nested object with businessHours, leadTime, and dateRange constraints
    */
   rangeConstraints?: {
     businessHours?: RangeConstraint  // Business hours per day (always enforced)
@@ -95,9 +79,6 @@ export interface AvailabilitySettings {
   
   /**
    * Overlap constraints (buffers) (optional)
-   * LEARNING: Time gaps around appointments to prevent overlaps
-   * WHY: Groups related buffer settings together for consistency and better organization
-   * PATTERN: Optional nested object with appointment, driveToCandidate, driveFromCandidate, and lunch buffers
    * 
    * Note: leadTime moved to rangeConstraints.leadTime
    * Note: Legacy 'driveTime' replaced with semantic 'driveToCandidate'/'driveFromCandidate' in drive time buffer refactor
@@ -112,17 +93,11 @@ export interface AvailabilitySettings {
   
   /**
    * Default location for drive time calculations (optional)
-   * LEARNING: Starting/ending point for first/last appointment drive times
-   * WHY: Needed to calculate travel time from home/office to first appointment and back
-   * PATTERN: Optional field with address and optional coordinates for Google Maps integration
    */
   defaultLocation?: DefaultLocation
   
   /**
    * Maximum work hours capacity filters (optional)
-   * LEARNING: Consolidated capacity filters for day, calendar week, and rolling week limits
-   * WHY: Groups related capacity settings together for consistency and better organization
-   * PATTERN: Optional nested object with day, calendarWeek, and rollingWeek filters
    */
   maxWorkHours?: {
     day?: WorkCapacityFilter
@@ -131,10 +106,9 @@ export interface AvailabilitySettings {
   }
 
   /**
-   * Maximum income capacity filters (optional)
-   * LEARNING: Income caps per day, calendar week, or rolling week (same time basis as maxWorkHours)
-   * WHY: Enables income-based scheduling limits alongside or instead of hours
-   * PATTERN: Optional nested object with day, calendarWeek, and rollingWeek filters
+   * WHY: /**
+Maximum income capacity filters (optional)
+LEARNING: Income caps per...
    */
   maxIncome?: {
     day?: IncomeCapacityFilter
@@ -143,10 +117,9 @@ export interface AvailabilitySettings {
   }
   
   /**
-   * Overlap source enforcement (optional)
-   * LEARNING: Controls whether specific event sources participate in overlap blocking
-   * WHY: Allows admin to toggle out-of-office events as blockers without changing data fetching
-   * PATTERN: Each source has an enforcement level (off = ignored, flexible = warn, hard = block)
+   * WHY: /**
+Overlap source enforcement (optional)
+WHY: Allows admin to toggle ou...
    */
   overlapSources?: {
     outOfOffice?: {
@@ -155,10 +128,9 @@ export interface AvailabilitySettings {
   }
   
   /**
-   * IANA timezone string (optional)
-   * LEARNING: Timezone used for all availability calculations
-   * WHY: Allows admin to configure timezone instead of hardcoded default
-   * PATTERN: Optional field, defaults to "America/New_York" if not set
+   * WHY: /**
+IANA timezone string (optional)
+LEARNING: Timezone used for all avai...
    */
   timezone?: string
   
@@ -169,9 +141,6 @@ export interface AvailabilitySettings {
 
   /**
    * Differential perspectives configuration (optional)
-   * LEARNING: Configures which attendees make an event "major" vs "minor" for differential scheduling
-   * WHY: Makes differential scheduling configurable instead of hardcoded to inspector/client
-   * PATTERN: Optional nested object with arrays of UserTypeBlock IDs and display labels
    */
   differentialPerspectives?: {
     majorAttendees?: GlobalEntityId[]  // UserTypeBlock IDs that make an event "major" (e.g., inspector)
@@ -186,9 +155,6 @@ export interface AvailabilitySettings {
   
   /**
    * Calendar configuration (optional)
-   * LEARNING: Configuration for which calendars to check for free-busy data
-   * WHY: Allows admin to configure calendar integration for availability checking
-   * PATTERN: Optional nested object with enabled flag, provider, and calendar emails
    * Session 2.0.1: Added for Google Calendar API integration
    */
   calendarConfig?: CalendarConfig
@@ -207,9 +173,6 @@ function ensureRangeConstraintCategory(rc: RawAvailabilitySettings['rangeConstra
 }
 
 /**
- * LEARNING: Raw availability settings type from API response
- * WHY: Eliminates duplication between useAvailabilitySettings and availabilitySettings config
- * PATTERN: Extract shared type for API response structure
  */
 export interface RawAvailabilitySettings {
   minuteIncrement: number
@@ -257,9 +220,6 @@ export interface RawAvailabilitySettings {
 
 /**
  * Cache entry with metadata
- * LEARNING: Track cache timestamp for TTL-based invalidation
- * WHY: Allows automatic refresh after configured time period
- * PATTERN: Cache entry with timestamp and data
  */
 interface CacheEntry {
   settings: AvailabilitySettings
@@ -268,17 +228,11 @@ interface CacheEntry {
 
 /**
  * In-memory cache for availability settings
- * LEARNING: Caches settings with timestamp for TTL-based invalidation
- * WHY: Improves performance and reduces server load, with automatic refresh
- * PATTERN: Cache entry with timestamp, validated against TTL
  */
 let cachedSettings: CacheEntry | null = null
 
 /**
  * Cache TTL in milliseconds (default: 5 minutes)
- * LEARNING: Configurable via environment variable
- * WHY: Different TTL for dev (short) vs production (longer)
- * PATTERN: Environment-based configuration
  * P3-2: Extracted magic number to constant
  */
 const DEFAULT_CACHE_TTL_MINUTES = 5
@@ -288,9 +242,6 @@ const CACHE_TTL_MS = import.meta.env.VITE_AVAILABILITY_CACHE_TTL
 
 /**
  * Check if cached settings are still valid
- * LEARNING: TTL-based cache validation
- * WHY: Automatic refresh after configured time period
- * PATTERN: Compare current time with cached timestamp
  */
 function isCacheValid(): boolean {
   if (!cachedSettings) return false
@@ -352,11 +303,8 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
               minorAttendees: rawSettings.differentialPerspectives.minorAttendees?.map(toGlobalEntityId),
             }
           : undefined,
-        // Session 2.1.2: Include calendarConfig from raw settings
         calendarConfig: rawSettings.calendarConfig,
-        // Drive time buffer refactor: Include defaultLocation for drive time calculations
         defaultLocation: rawSettings.defaultLocation,
-        // OOO enforcement: Include overlapSources for out-of-office toggle
         overlapSources: rawSettings.overlapSources
       }
       
@@ -379,9 +327,6 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
 
 /**
  * Manually invalidate cached settings
- * LEARNING: Allows admin UI to force refresh after updates
- * WHY: Immediate visibility of admin changes without waiting for TTL
- * PATTERN: Export public invalidation function
  * 
  * @example
  * // In admin settings panel after save:
@@ -397,14 +342,8 @@ export function invalidateAvailabilitySettingsCache(): void {
 }
 
 /**
- * Validate email format for calendar configuration
- * LEARNING: Basic email format validation
- * WHY: Ensures calendar emails are valid before saving
- * PATTERN: Returns true if valid or empty (optional fields)
- * Session 2.0.1: Added for calendar configuration validation
- * 
- * @param email - Email address to validate
- * @returns true if email is valid format or empty string (optional)
+ * WHY: Validate email format for calendar configuration
+LEARNING: Basic email f...
  */
 export function isValidCalendarEmail(email: string): boolean {
   if (!email || email.trim() === '') {
@@ -416,9 +355,6 @@ export function isValidCalendarEmail(email: string): boolean {
 
 /**
  * Extract calendar emails that are configured for reading (readFrom: true)
- * LEARNING: Returns emails from calendars marked for availability checking
- * WHY: Free-busy API calls need array of email strings for calendars to check
- * PATTERN: Filter calendars by readFrom flag, return email array
  * Session 2.0.1: Added for Google Calendar API integration
  * Session 2.X: Updated to use CalendarEntry[] with readFrom flag
  * 
@@ -448,9 +384,6 @@ export function getReadFromCalendars(config: CalendarConfig | undefined): string
 
 /**
  * Extract the calendar email configured for writing (writeTo: true)
- * LEARNING: Returns single email from calendar marked for event creation
- * WHY: Event creation needs single calendar ID where appointments are created
- * PATTERN: Find first calendar with writeTo flag, return email or undefined
  * Session 2.X: Added for writeTo calendar configuration
  * 
  * @param config - CalendarConfig object (optional)

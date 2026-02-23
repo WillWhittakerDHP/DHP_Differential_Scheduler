@@ -7,16 +7,11 @@ import { asEmptyString } from '../utils/safeDefaults.js';
 const logger = createLogger('SnapshotLoader');
 
 /**
- * Appointment Snapshot Loader Service
- * 
- * LEARNING: Loads block instance versions for appointments
- * WHY: Provides complete historical data for appointments
- * PATTERN: Transform versions to BookingBlockInstance format
- */
+ * WHY: Transform block instance version to BookingBlockInstance format
+WHY: Ver...
+ * PATTERN: Appointment Snapshot Loader Service
 
-/**
- * Transform block instance version to BookingBlockInstance format
- * WHY: Versions are complete - no merge needed, just transform format
+PATTERN: Transform versions to Book...
  */
 function transformBlockVersionToBookingInstance(
   blockVersion: InstanceType<typeof BlockInstanceVersion>

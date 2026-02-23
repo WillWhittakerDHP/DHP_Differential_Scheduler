@@ -1,11 +1,8 @@
 /**
- * useConfirmationStepData Composable
- * 
- * LEARNING: Extracts confirmation step data aggregation and fee calculation logic from ConfirmationStep component
- * WHY: Moves data aggregation and business logic to composable
- * PATTERN: Composable that aggregates wizard state and step data, calculates fees
- */
+ * WHY: useConfirmationStepData Composable
 
+WHY: Moves data aggregation and busi...
+ */
 import { computed, type Ref, type ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
@@ -37,11 +34,9 @@ export interface UseConfirmationStepDataReturn {
 }
 
 /**
- * useConfirmationStepData composable
- * 
- * LEARNING: Aggregates wizard state and step data for confirmation display
- * WHY: Extracts data aggregation and fee calculation from component to composable
- * PATTERN: Composable that aggregates data from wizard and steps, calculates fees
+ * WHY: useConfirmationStepData composable
+
+LEARNING: Aggregates wizard state an...
  */
 export function useConfirmationStepData(
   params: UseConfirmationStepDataParams
@@ -53,8 +48,6 @@ export function useConfirmationStepData(
 
   /**
    * LEARNING: Aggregate summary data from wizard state and step data
-   * WHY: Combines data from multiple sources for display
-   * PATTERN: Computed property that aggregates wizard selections and step data
    */
   const summaryData = computed<SummaryData>(() => {
     return buildConfirmationSummaryData(
@@ -69,17 +62,11 @@ export function useConfirmationStepData(
   })
 
   /**
-   * LEARNING: Calculate price data from wizard selections
-   * WHY: Aggregates pricing information from selected services and options
-   * PATTERN: Computed property that calculates fees based on selections
-   * 
-   * LEARNING: Extract square footage and ADU count from propertyDetailsStepData
-   * WHY: Square footage is needed for overage fee calculation, ADU count for multipliers
-   * PATTERN: Extract squareFootage (with propertySize fallback) and additionalUnits from propertyDetailsStepData
-   * 
-   * FIX: Explicitly access value to ensure reactivity tracking
-   * WHY: Optional chaining may break reactivity tracking in Vue computed properties
-   * PATTERN: Extract stepDataValue first, then access nested properties
+   * WHY: /**
+
+
+FIX: Explicitly access value to ensure reactivity tracking
+WHY: Op...
    */
   const priceData = computed<PriceData>(() => {
     const stepDataValue = propertyDetailsStepData?.value

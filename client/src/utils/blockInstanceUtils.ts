@@ -1,9 +1,6 @@
 /**
  * Block Instance Utilities
  * 
- * LEARNING: Generic utilities for working with block instances
- * WHY: Replaces hardcoded block shape name references with dynamic filtering
- * PATTERN: Generic functions that accept block shape IDs or filter by properties
  */
 
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
@@ -78,9 +75,6 @@ export function getBlockShapeIdByType(
 }
 
 /**
- * LEARNING: Generate incremented name for duplicated block instance
- * WHY: Ensures unique names when duplicating instances
- * PATTERN: Extract base name, check for number suffix, find next available number
  * 
  * @param currentName - Current name of the source entity
  * @param blockShapeRef - BlockShape ID to filter instances

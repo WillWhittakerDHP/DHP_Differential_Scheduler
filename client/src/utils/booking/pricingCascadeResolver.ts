@@ -14,7 +14,6 @@ const partInstanceById = (all: BookingPartInstance[]): Map<string, BookingPartIn
 
 /**
  * Resolve pricing cascade child parts from the full part instance pool.
- * LEARNING: For each service part with activePartIds, collects the corresponding
  * downstream parts (e.g. property parts) that contribute to this part's pricing.
  *
  * @param serviceParts - Part instances on the service (or any parent) block

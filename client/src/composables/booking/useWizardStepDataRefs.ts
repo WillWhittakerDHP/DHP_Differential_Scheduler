@@ -1,12 +1,6 @@
 /**
- * LEARNING: Wizard Step Data Refs Management
- * WHY: Encapsulates step data and validation state refs creation and provide/inject setup
- * PATTERN: Composable for managing step data refs and validation state refs
- * 
- * Used by:
- * - BookingWizard.vue
+ * WHY: Encapsulates step data and validation state refs creation and provide/in...
  */
-
 import { ref, provide } from 'vue'
 import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, ConfirmationStepData, WizardStepDataAndValidationRefs } from '@/types/wizard'
 

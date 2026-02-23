@@ -1,21 +1,16 @@
 /**
- * Wizard State Types
- * 
- * LEARNING: TypeScript types for booking wizard state
- * WHY: Provides type safety for wizard state management
- * PATTERN: Define types for wizard state and return type of useBookingWizard composable
- * 
- * Phase 1.3.1: Wizard State Management Refactoring
- */
+ * WHY: Wizard State Types
 
+LEARNING: TypeScript types for booking wizard state
+...
+ */
 import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import type { ComputedRef, Ref } from 'vue'
 
 /**
- * Wizard State Interface
- * LEARNING: Defines the structure of wizard state
- * WHY: Ensures type safety when accessing wizard state
- * PATTERN: Interface matching the state structure in useBookingWizard
+ * WHY: Wizard State Interface
+LEARNING: Defines the structure of wizard state
+P...
  */
 export interface WizardState {
   /** Currently selected state control block (dynamically determined from constituable: false block shapes) */
@@ -33,10 +28,8 @@ export interface WizardState {
 }
 
 /**
- * Wizard Selection Methods Interface
- * LEARNING: Defines methods for updating wizard state
- * WHY: Provides type safety for wizard state mutations
- * PATTERN: Interface matching the methods in useBookingWizard
+ * WHY: Wizard Selection Methods Interface
+LEARNING: Defines methods for updatin...
  */
 export interface WizardSelectionMethods {
   /** Select user type and clear dependent selections */
@@ -55,9 +48,6 @@ export interface WizardSelectionMethods {
 
 /**
  * Wizard Computed Properties Interface
- * LEARNING: Defines computed properties for filtered options
- * WHY: Provides type safety for accessing filtered wizard options
- * PATTERN: Interface matching the computed properties in useBookingWizard
  */
 export interface WizardComputedProperties {
   /** Available user types (all visible user types) */
@@ -83,10 +73,8 @@ export interface WizardComputedProperties {
 }
 
 /**
- * Use Booking Wizard Return Type
- * LEARNING: Complete return type for useBookingWizard composable
- * WHY: Provides full type safety when using the composable
- * PATTERN: Combines state, methods, and computed properties
+ * WHY: Use Booking Wizard Return Type
+LEARNING: Complete return type for useBoo...
  */
 export type UseBookingWizardReturn = {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
@@ -101,9 +89,6 @@ export type UseBookingWizardReturn = {
 
 /**
  * Availability Step Data Interface
- * LEARNING: Type for availability step form data
- * WHY: Provides type safety for availability step data collection
- * PATTERN: Interface matching the structure used in AvailabilityStep component
  */
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { AvailabilityStepData } from '@/types/wizardStepData'
@@ -113,18 +98,12 @@ export type { AvailabilityStepData }
 
 /**
  * Property Details Step Data Interface
- * LEARNING: Type for property details step form data
- * WHY: Provides type safety for property details step data collection
- * PATTERN: Interface matching the structure used in PropertyDetailsStep component
  * FIX: Use shared PropertyDetailsData type from propertyForm.ts
  */
 export type PropertyDetailsStepData = PropertyDetailsData
 
 /**
  * Contacts Step Data Interface
- * LEARNING: Type for contacts step form data
- * WHY: Provides type safety for contacts step data collection
- * PATTERN: Interface matching the structure used in ContactsStep component
  */
 export interface ContactsStepData {
   clientInfo: { firstName: string; lastName: string; email: string }
@@ -138,20 +117,17 @@ export interface ContactsStepData {
 }
 
 /**
- * Confirmation Step Data Interface
- * LEARNING: Stub type for summary step; future "user acknowledged" / "terms accepted" can be added here
- * WHY: Enables useWizardStepSync pattern for ConfirmationStep without changing ref type later
+ * WHY: Confirmation Step Data Interface
+WHY: Enables useWizardStepSync pattern ...
  */
 export interface ConfirmationStepData {
   acknowledged?: boolean
 }
 
 /**
- * Wizard Step Data and Validation Refs
- * 
- * LEARNING: Shared interface for wizard step data refs and validation state refs
- * WHY: Eliminates duplication between useWizardStepDataRefs and useWizardAppointmentManagement
- * PATTERN: Extract common interface properties to shared type
+ * WHY: Wizard Step Data and Validation Refs
+
+LEARNING: Shared interface for wiz...
  */
 export interface WizardStepDataAndValidationRefs {
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null>

@@ -1,9 +1,6 @@
 /**
  * CRUD Route Handler Factories
  *
- * LEARNING: Extracted route handlers from createCrudRouter to reduce complexity and file size
- * WHY: Each handler is a small, testable unit; PUT and PATCH share one mutation handler
- * PATTERN: Factory functions that close over CrudHandlerContext and return Express route handlers
  */
 
 import type { Request, Response } from 'express'

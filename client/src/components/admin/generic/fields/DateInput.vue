@@ -28,20 +28,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: DateInput renders date input with FlatPickr date picker
- * 
- * WHY: Date fields need date picker UI with better UX than native HTML date input
- * 
- * PATTERN: Wrapper component pattern - wraps Vuexy AppDateTimePicker with field context
- * 
- * COMPARISON: React uses Ant Design DatePicker. Vue uses Vuexy AppDateTimePicker (FlatPickr).
- *             Both provide date input with validation.
- * 
- * MIGRATION: Migrated from VTextField with type="date" to AppDateTimePicker following
- *            SelectInputs.vue pattern. App components handle labels internally.
- *            Configured FlatPickr for date-only mode (no time picker) with Y-m-d format.
+ * PATTERN: Wrapper component pattern - wraps Vuexy AppDateTimePicker with field con...
  */
-
 import BaseInput from './BaseInput.vue'
 import AppDateTimePicker from '@/@core/components/app-form-elements/AppDateTimePicker.vue'
 import { useFieldInputSetup } from '@/composables/admin/useFieldInputSetup'

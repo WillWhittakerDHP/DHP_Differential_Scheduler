@@ -1,11 +1,8 @@
 /**
- * useSelectionCardStyles Composable
- * 
- * LEARNING: Extracts CSS class computation logic from SelectionCard component
- * WHY: Moves class calculation logic to composable
- * PATTERN: Composable that provides computed class strings
- */
+ * WHY: useSelectionCardStyles Composable
 
+WHY: Moves class calculation logic to...
+ */
 import { computed, type ComputedRef } from 'vue'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import {
@@ -29,11 +26,9 @@ export interface UseSelectionCardStylesReturn {
 }
 
 /**
- * useSelectionCardStyles composable
- * 
- * LEARNING: Provides CSS class computations
- * WHY: Extracts class calculation logic from component to composable
- * PATTERN: Composable that returns reactive computed class strings
+ * WHY: useSelectionCardStyles composable
+
+WHY: Extracts class calculation logic...
  */
 export function useSelectionCardStyles(params: UseSelectionCardStylesParams): UseSelectionCardStylesReturn {
   const {
