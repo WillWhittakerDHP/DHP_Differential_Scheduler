@@ -2,11 +2,11 @@
  * WHY: Transformer Collections
 LEARNING: Generic entity lookup, grouping, and i...
  */
+import type { WithId } from '@/composables/useCollectionTypes'
 import { findById as findByIdBase } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 
-/** Entity shape used by findById/findByIds. Accepts { id: string } for compatibility with BookingBlockInstance and API responses. */
-type WithId = { id: string }
+export type { WithId }
 
 export function findById<EntityType extends WithId>(
   items: readonly EntityType[],

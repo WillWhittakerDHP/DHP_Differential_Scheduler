@@ -1,5 +1,7 @@
-
 import type { ComputedRef } from 'vue'
+
+/** Shared shape for entities with string id. Used by collection CRUD and transformers. */
+export type WithId = { id: string }
 
 export type UpdateByIdPayload<UpdatePayload> = {
   id: string

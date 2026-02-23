@@ -1,7 +1,7 @@
-
 import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
 import type { PropertyFeatureMapping } from '../db/models/mappings/property_feature_mapping.js'
 import { normalizeToArray } from '../utils/arrayNormalize.js'
+import { PROPERTY_MATCH_TYPE } from './propertyMatchConstants.js'
 
 export interface FeatureMatchResult {
   blockInstanceId: string;
@@ -27,29 +27,30 @@ function matches(
   matchType: string,
   matchValue: string | null
 ): boolean {
-  if (raw == null) return matchType === 'exists' && false;
+  if (raw == null) return matchType === PROPERTY_MATCH_TYPE.EXISTS && false;
 
   if (typeof raw === 'number') {
     if (matchType === 'greater_than' && matchValue != null) {
       const threshold = Number(matchValue);
       return !Number.isNaN(threshold) && raw > threshold;
     }
-    if (matchType === 'equals' && matchValue != null) {
+    if (matchType === PROPERTY_MATCH_TYPE.EQUALS && matchValue != null) {
       return raw === Number(matchValue);
     }
-    return matchType === 'exists';
+    return matchType === PROPERTY_MATCH_TYPE.EXISTS;
   }
 
   const arr = raw as string[];
   const lower = arr.map((s) => s.toLowerCase());
 
+  // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on match type
   switch (matchType) {
-    case 'exists':
+    case PROPERTY_MATCH_TYPE.EXISTS:
       return arr.length > 0;
-    case 'contains':
+    case PROPERTY_MATCH_TYPE.CONTAINS:
       if (!matchValue) return false;
       return lower.some((s) => s.includes(matchValue.toLowerCase()));
-    case 'equals':
+    case PROPERTY_MATCH_TYPE.EQUALS:
       if (!matchValue) return false;
       return lower.includes(matchValue.toLowerCase());
     default:

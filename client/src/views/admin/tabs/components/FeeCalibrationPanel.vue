@@ -42,6 +42,7 @@ const svgChart = computed(() => {
       .join(' ')
     return { points, color: d.borderColor ?? 'currentColor' }
   })
+  // @audit-allow:hardcoding:fieldMapping - Chart legend DTO shape
   const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
   return { polylines, legend, xScale, yScale, yMax }
 })

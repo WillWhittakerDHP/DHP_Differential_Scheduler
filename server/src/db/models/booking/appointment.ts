@@ -49,6 +49,12 @@ export class Appointment extends Model<
   declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted';
   /** Tracks which user engaged/interacted with the scheduler to create this appointment */
   declare scheduledById: ForeignKey<string> | null;
+  /** FK → users.id — who placed the hold (populated when status = 'held') */
+  declare heldBy: ForeignKey<string> | null;
+  /** When the hold expires (populated when status = 'held') */
+  declare heldUntil: Date | null;
+  /** JSONB — which slot-computation constraints are bypassed by admin override (populated via PATCH) */
+  declare overrideConstraints: Record<string, boolean> | null;
   declare propertyDetails: Record<string, unknown> | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -175,6 +181,28 @@ export function AppointmentFactory(sequelize: Sequelize) {
           model: 'users',
           key: 'id',
         },
+      },
+      heldBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'held_by',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      heldUntil: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'held_until',
+      },
+      overrideConstraints: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'override_constraints',
+        comment: 'Admin constraint overrides — keys match slot computation constraints (capacity, buffer, blackout, businessHours)',
       },
       propertyDetails: {
         type: DataTypes.JSONB,

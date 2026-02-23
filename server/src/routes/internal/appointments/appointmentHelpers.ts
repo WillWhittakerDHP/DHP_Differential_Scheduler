@@ -17,8 +17,30 @@ import { createBlockInstanceVersion } from '../../../services/instanceVersioning
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
 import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES } from './appointmentConstants.js'
+import { defaultAvailabilitySettings } from '../businessSettings/businessSettingsConstants.js'
+import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 
 const logger = createLogger('AppointmentRouter')
+
+const HOLD_DURATION_MIN = 1
+const HOLD_DURATION_MAX = 60
+const HOLD_DURATION_FALLBACK = 15
+
+/**
+ * Default hold duration (minutes) from admin availability settings.
+ * WHY: Server takes its cue from admin settings; no hardcoded fallback in router.
+ */
+export async function getHoldDurationDefaultFromSettings(): Promise<number> {
+  const setting = await BusinessSettings.findOne({
+    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
+  })
+  const data: AvailabilitySettingsData = (setting?.settingValue != null)
+    ? (setting.settingValue as AvailabilitySettingsData)
+    : defaultAvailabilitySettings
+  const raw = data.calendarConfig?.holdDurationMinutes
+  const parsed = typeof raw === 'number' && !Number.isNaN(raw) ? Math.floor(raw) : HOLD_DURATION_FALLBACK
+  return Math.min(HOLD_DURATION_MAX, Math.max(HOLD_DURATION_MIN, parsed))
+}
 
 export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
   try {

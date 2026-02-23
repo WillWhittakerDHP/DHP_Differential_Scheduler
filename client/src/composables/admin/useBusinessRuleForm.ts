@@ -6,7 +6,7 @@ import { ref, computed, watch, type Ref } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { toGlobalEntityId } from '@/types/entities'
-import { RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
+import { RULE_CONDITION_VALUES, RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 
 export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {
   const showRuleDialog = ref(false)
@@ -72,6 +72,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
   watch(
     () => formData.value.ruleType,
     (newType) => {
+      // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on rule type
       switch (newType) {
         case RULE_TYPE_VALUES.REQUIRED_FIELDS:
           formData.value.ruleConfig = { fields: [] }
@@ -80,7 +81,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
           formData.value.ruleConfig = { requiresAgent: false }
           break
         case RULE_TYPE_VALUES.CONDITIONAL_VALIDATION:
-          formData.value.ruleConfig = { field: '', dependsOn: '', condition: 'equals', value: '' }
+          formData.value.ruleConfig = { field: '', dependsOn: '', condition: RULE_CONDITION_VALUES.EQUALS, value: '' }
           break
         case RULE_TYPE_VALUES.VALIDATION_MESSAGE:
           formData.value.ruleConfig = { field: '', messageType: 'required' }
@@ -130,6 +131,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
   }
 
   const formatRuleConfig = (rule: BusinessRule): string => {
+    // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on rule type
     switch (rule.ruleType) {
       case RULE_TYPE_VALUES.REQUIRED_FIELDS: {
         const reqFields = rule.ruleConfig as { fields: string[]; condition?: string }

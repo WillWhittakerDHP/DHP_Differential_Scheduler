@@ -11,7 +11,8 @@ import type {
   CollectionQueryResult,
   CollectionByIdQueryResult,
   CollectionEndpoints,
-  UpdateByIdPayload
+  UpdateByIdPayload,
+  WithId
 } from '@/composables/useCollectionTypes'
 export type BusinessDataCollectionQueryResult<CollectionItem> = CollectionQueryResult<CollectionItem>
 export type BusinessDataCollectionByIdQueryResult<CollectionItem> = CollectionByIdQueryResult<CollectionItem>
@@ -27,7 +28,7 @@ export type BusinessDataCollectionUpdater<CollectionItem> = (
 
 export type BusinessDataCollectionEndpoints = CollectionEndpoints
 
-export type BusinessDataCollectionCrudConfig<CollectionItem extends { id: string }> = {
+export type BusinessDataCollectionCrudConfig<CollectionItem extends WithId> = {
   collectionName: keyof BusinessData
   selectCollection: BusinessDataCollectionSelector<CollectionItem>
   updateCollection: BusinessDataCollectionUpdater<CollectionItem>
@@ -38,7 +39,7 @@ export type BusinessDataCollectionCrudConfig<CollectionItem extends { id: string
 export type { UpdateByIdPayload }
 
 export type BusinessDataCollectionCrudComposableReturn<
-  CollectionItem extends { id: string },
+  CollectionItem extends WithId,
   CreatePayload = unknown,
   UpdatePayload = unknown
 > = {

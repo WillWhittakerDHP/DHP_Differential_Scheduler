@@ -82,31 +82,75 @@ function shouldLog(configured: LogLevel, messageLevel: LogLevel): boolean {
   return levelToNumber(messageLevel) >= levelToNumber(configured)
 }
 
+/** Frames we skip when resolving caller (logger internals and safeDefaults). */
+const CALLSITE_SKIP_PATTERNS = ['logger.ts', 'safeDefaults.ts']
+
+/**
+ * Returns first stack frame that is not from logger/safeDefaults.
+ * Only runs when not production and LOG_CALLSITE or VITE_LOG_CALLSITE is set.
+ * Same env name as client (VITE_LOG_CALLSITE) so root .env works for both.
+ */
+function getCallsiteFrame(): string {
+  if (isProduction()) return ''
+  const raw = process.env.VITE_LOG_CALLSITE ?? process.env.LOG_CALLSITE
+  if (!raw || String(raw).trim() === '') return ''
+  try {
+    const stack = new Error().stack
+    if (!stack) return ''
+    const lines = stack.split('\n')
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i]
+      const isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))
+      if (isInternal) continue
+      const parenMatch = line.match(/\(([^)]+)\)/)
+      if (parenMatch) {
+        const pathLineCol = parenMatch[1]
+        const short = pathLineCol.replace(/^.*\/(src\/)/, '$1').trim()
+        return short ? ` @ ${short}` : ''
+      }
+      const bareMatch = line.match(/(\S+):(\d+)(?::(\d+))?\s*$/)
+      if (bareMatch) {
+        const file = bareMatch[1].replace(/^.*\/(src\/)/, '$1')
+        return ` @ ${file}:${bareMatch[2]}`
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return ''
+}
+
 export function createLogger(scope: string): AppLogger {
   const configuredLevel = getConfiguredLogLevel()
   const prefix = `[${scope}]`
+  const callsiteEnabled = Boolean(
+    !isProduction() && (process.env.VITE_LOG_CALLSITE?.trim() || process.env.LOG_CALLSITE?.trim())
+  )
 
   const debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)
   const infoEnabled = shouldLog(configuredLevel, 'info')
   const warnEnabled = shouldLog(configuredLevel, 'warn')
   const errorEnabled = shouldLog(configuredLevel, 'error')
 
+  const appendCallsite = (args: unknown[]): unknown[] =>
+    callsiteEnabled ? [...args, getCallsiteFrame()] : args
+
   return {
     debug: (...args: unknown[]): void => {
       if (!debugEnabled) return
-      console.log(prefix, ...args)
+      console.log(prefix, ...appendCallsite(args))
     },
     info: (...args: unknown[]): void => {
       if (!infoEnabled) return
-      console.log(prefix, ...args)
+      console.log(prefix, ...appendCallsite(args))
     },
     warn: (...args: unknown[]): void => {
       if (!warnEnabled) return
-      console.warn(prefix, ...args)
+      console.warn(prefix, ...appendCallsite(args))
     },
     error: (...args: unknown[]): void => {
       if (!errorEnabled) return
-      console.error(prefix, ...args)
+      console.error(prefix, ...appendCallsite(args))
     },
     groupCollapsed: (title: string, ...args: unknown[]): void => {
       if (!debugEnabled && !infoEnabled) return

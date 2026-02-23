@@ -21,6 +21,7 @@ export async function fetchPropertyEnrichment(
     return null
   }
 
+  // @audit-allow:hardcoding:fieldMapping - URLSearchParams query shape
   const params = new URLSearchParams({ address: address.trim() })
   if (city?.trim()) params.set('city', city.trim())
   if (state?.trim()) params.set('state', state.trim())

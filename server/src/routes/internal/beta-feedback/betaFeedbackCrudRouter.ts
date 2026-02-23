@@ -70,8 +70,10 @@ const router = createCrudRouter({
       };
     }
     if (method === 'update' || method === 'patch') {
+      // @audit-allow:hardcoding:fieldMapping - Sequelize update payload shape
       return {
         ...(body.status !== undefined && { status: body.status }),
+        // @audit-allow:hardcoding:fieldMapping - Sequelize update payload shape
         ...(body.resolutionNotes !== undefined && { resolutionNotes: body.resolutionNotes }),
       };
     }

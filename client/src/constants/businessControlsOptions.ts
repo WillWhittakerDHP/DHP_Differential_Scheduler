@@ -1,8 +1,10 @@
 import type {
   DriveTimeApplyTo,
   CalendarProvider,
-  ConstraintEnforcement
+  ConstraintEnforcement,
+  RollingWeekDirection
 } from '@/configs/availabilitySettings'
+import { ROLLING_WEEK_DIRECTION } from '@shared/constants/availabilityConstants'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 
 export interface OptionItem<T = string> {
@@ -16,10 +18,12 @@ export const ENFORCEMENT_OPTIONS: OptionItem<ConstraintEnforcement>[] = [
   { title: 'Hard', value: 'hard' }
 ]
 
-export const ROLLING_WEEK_DIRECTION_OPTIONS: OptionItem<'past' | 'centered' | 'future'>[] = [
-  { title: 'Past 7 days', value: 'past' },
-  { title: 'Centered (3 before + day + 3 after)', value: 'centered' },
-  { title: 'Future 7 days', value: 'future' }
+export const ROLLING_WEEK_DIRECTION_VALUES = ROLLING_WEEK_DIRECTION
+
+export const ROLLING_WEEK_DIRECTION_OPTIONS: OptionItem<RollingWeekDirection>[] = [
+  { title: 'Past 7 days', value: ROLLING_WEEK_DIRECTION_VALUES.PAST },
+  { title: 'Centered (3 before + day + 3 after)', value: ROLLING_WEEK_DIRECTION_VALUES.CENTERED },
+  { title: 'Future 7 days', value: ROLLING_WEEK_DIRECTION_VALUES.FUTURE }
 ]
 
 export const BUFFER_PLACEMENT_OPTIONS: OptionItem<'off' | 'before' | 'after' | 'both'>[] = [

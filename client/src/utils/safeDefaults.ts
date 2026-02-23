@@ -3,8 +3,8 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('safeDefaults')
 
-export function asEmptyArray<T>(x: T[] | null | undefined): T[] {
-  if (x != null) return x
+export function asEmptyArray<T>(x: readonly T[] | null | undefined): T[] {
+  if (x != null) return [...x]
   logger.debug('asEmptyArray fallback', { received: x })
   return []
 }
@@ -15,10 +15,10 @@ export function asEmptyString(x: string | null | undefined): string {
   return ''
 }
 
-export function asEmptyObject<K extends string, V>(
-  x: Record<K, V> | null | undefined
-): Record<K, V> {
+export function asEmptyObject<ObjectType extends object>(
+  x: ObjectType | null | undefined
+): ObjectType {
   if (x != null) return x
   logger.debug('asEmptyObject fallback', { received: x })
-  return {} as Record<K, V>
+  return {} as ObjectType
 }

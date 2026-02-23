@@ -1,7 +1,7 @@
-
+import { PATCH_PROPERTY_FIELD_KEY } from '../routes/internal/properties/propertyConstants.js'
 import { normalizeToSingle } from './arrayNormalize.js'
 
-const PROPERTY_FIELD_MAPPINGS = {
+const ADDRESS_AND_META_KEYS = {
   ADDRESS: 'address',
   UNIT: 'unit',
   CITY: 'city',
@@ -10,15 +10,13 @@ const PROPERTY_FIELD_MAPPINGS = {
   PLACE_ID: 'placeId',
   LATITUDE: 'latitude',
   LONGITUDE: 'longitude',
-  MLS_NUMBER: 'mlsNumber',
-  SQUARE_FOOTAGE: 'squareFootage',
-  BEDROOMS: 'bedrooms',
-  BATHROOMS: 'bathrooms',
-  FOUNDATION_ACCESS: 'foundationAccess',
-  ADDITIONAL_UNITS: 'additionalUnits',
-  SOURCE: 'source',
   PROPERTY_VERSION_ID: 'propertyVersionId',
   ADDRESS_ID: 'addressId',
+} as const
+
+const PROPERTY_FIELD_MAPPINGS = {
+  ...ADDRESS_AND_META_KEYS,
+  ...PATCH_PROPERTY_FIELD_KEY,
 } as const
 
 export function transformPropertyVersion(propertyVersion: unknown): Record<string, unknown> {

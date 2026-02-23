@@ -168,7 +168,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { useLocalTime } from '@/composables/useLocalTime'
 
@@ -178,18 +178,14 @@ interface Props {
   showModal: boolean
   moveableOptions: MoveableSchedulingOptions | null
   selectedSlotIndex: number | null
-  contingencyPeriod: {
-    hasContingency: boolean
-    endDate: string | null
-    endTime: string | null
-  }
+  contingencyPeriod: ContingencyPeriod
   isLoadingOptions: boolean
 }
 
 interface Emits {
   (e: 'update:showModal', value: boolean): void
   (e: 'selectSlot', index: number): void
-  (e: 'update:contingencyPeriod', value: Props['contingencyPeriod']): void
+  (e: 'update:contingencyPeriod', value: ContingencyPeriod): void
   (e: 'confirm'): void
   (e: 'cancel'): void
 }

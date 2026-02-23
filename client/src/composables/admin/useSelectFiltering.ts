@@ -10,7 +10,6 @@ import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { useAdmin } from './useAdmin'
 import { useComponentEntity } from '../useComponentEntity'
 import type { FieldContextType } from '@/composables/fieldContext/types'
@@ -197,7 +196,7 @@ WHY: Config...
     if (!config || !('selectType' in config)) {
       return false
     }
-    return config.selectType === RelationshipSelectTypeEnum.AttendeeSelect
+    return String(config.selectType) === 'attendeeSelect'
   })
 
   /**

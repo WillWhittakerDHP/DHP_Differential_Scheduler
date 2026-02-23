@@ -4,7 +4,8 @@ import type {
   CollectionQueryResult,
   CollectionByIdQueryResult,
   CollectionEndpoints,
-  UpdateByIdPayload
+  UpdateByIdPayload,
+  WithId
 } from '@/composables/useCollectionTypes'
 export type GlobalDataCollectionQueryResult<CollectionItem> = CollectionQueryResult<CollectionItem>
 export type GlobalDataCollectionByIdQueryResult<CollectionItem> = CollectionByIdQueryResult<CollectionItem>
@@ -20,7 +21,7 @@ export type GlobalDataCollectionUpdater<CollectionItem> = (
 
 export type GlobalDataCollectionEndpoints = CollectionEndpoints
 
-export type GlobalDataCollectionCrudConfig<CollectionItem extends { id: string }> = {
+export type GlobalDataCollectionCrudConfig<CollectionItem extends WithId> = {
   collectionName: string
   selectCollection: GlobalDataCollectionSelector<CollectionItem>
   updateCollection: GlobalDataCollectionUpdater<CollectionItem>
@@ -30,7 +31,7 @@ export type GlobalDataCollectionCrudConfig<CollectionItem extends { id: string }
 export type { UpdateByIdPayload }
 
 export type GlobalDataCollectionCrudComposableReturn<
-  CollectionItem extends { id: string },
+  CollectionItem extends WithId,
   CreatePayload = unknown,
   UpdatePayload = unknown
 > = {

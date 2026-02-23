@@ -1,4 +1,4 @@
-
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes.js';
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
 import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
@@ -15,14 +15,8 @@ interface CalendarEventResult {
   attendeesUpdated: number;
 }
 
-/**
-
-LEARNING: Requires RFC3339 format ...
- */
-interface ServerTimeSlot {
-  startTime: string;   // RFC3339 format, e.g., "2026-02-01T21:00:00.000Z"
-  endTime: string;     // RFC3339 format
-  duration?: number;   // Optional - in minutes (can be calculated from start/end)
+/** Server slot shape aligned with shared SlotTimeBounds (RFC3339 start/end, duration in minutes). */
+interface ServerTimeSlot extends SlotTimeBounds {
   readonly __brand?: 'ServerTimeSlot'
 }
 
@@ -94,10 +88,11 @@ export async function createCalendarEventForAppointment(
       for (const attendee of attendeesToUpdate) {
         try {
           await AppointmentAttendee.update(
-            {
+              {
               googleEventId: createdEvent.id,
               invitationStatus: 'sent',
             },
+            // @audit-allow:hardcoding:fieldMapping - Sequelize where shape
             { where: { id: attendee.id } }
           );
           attendeesUpdated++;

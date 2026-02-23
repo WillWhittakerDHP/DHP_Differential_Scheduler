@@ -15,6 +15,7 @@ import {
   sumIncomeForRollingWeek,
 } from '../utils/availabilities/availabiltiesDbUtils.js'
 import { getUniqueDatesInRange } from '../utils/availabilities/availabilityPrimitives.js'
+import { ROLLING_WEEK_DIRECTION } from '../utils/availabilities/availabilityConstants.js'
 
 export interface ScheduledCapacityResult {
   scheduledHoursByKey: Record<string, number>
@@ -66,8 +67,8 @@ export async function computeScheduledHoursForRange(
           income = await sumIncomeForCalendarWeek(dateObj)
           break
         case TIME_BASIS_TYPES.ROLLING_WEEK:
-          hours = await sumWorkHoursForRollingWeek(dateObj, keyParts.direction || 'past')
-          income = await sumIncomeForRollingWeek(dateObj, keyParts.direction || 'past')
+          hours = await sumWorkHoursForRollingWeek(dateObj, keyParts.direction || ROLLING_WEEK_DIRECTION.PAST)
+          income = await sumIncomeForRollingWeek(dateObj, keyParts.direction || ROLLING_WEEK_DIRECTION.PAST)
           break
       }
 

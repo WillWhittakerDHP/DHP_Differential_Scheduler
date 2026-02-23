@@ -1,4 +1,4 @@
-# DHP Differential Scheduler — Project Plan
+so# DHP Differential Scheduler — Project Plan
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 

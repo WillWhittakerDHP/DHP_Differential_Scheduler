@@ -102,6 +102,7 @@ const searchResult = ref<SearchResults[]>([])
 const fetchResults = async () => {
   isLoading.value = true
 
+  // @audit-allow:hardcoding:fieldMapping - Request query shape
   const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
 
   searchResult.value = response.data

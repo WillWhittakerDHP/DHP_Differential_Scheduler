@@ -13,24 +13,25 @@ import { useBusinessDataCollectionCrud } from '@/composables/businessDataCollect
 import { useBusiness, BUSINESS_DATA_QUERY_KEY } from './useBusiness'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import { createLogger } from '@/utils/logger'
+import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 
 const logger = createLogger('useAppointment')
+
+const FALLBACK_HOLD_DURATION_MINUTES = 15
 
 type UpdateByIdPayload = {
   id: string
   data: Partial<AppointmentRequest>
 }
 
-/**
- * WHY: useAppointment composable
-
-WHY: Centralizes appointment API logic with r...
- */
 type UseAppointmentReturn = {
   create: UseMutationReturnType<AppointmentResponse, unknown, AppointmentRequest, unknown>
   update: UseMutationReturnType<AppointmentResponse, unknown, UpdateByIdPayload, unknown>
   patch: UseMutationReturnType<AppointmentResponse, unknown, UpdateByIdPayload, unknown>
   remove: UseMutationReturnType<void, unknown, string, unknown>
+  holdSlot: (id: string, durationMinutes?: number) => Promise<void>
+  releaseSlot: (id: string) => void
+  applyOverrideConstraints: (id: string, constraints: Record<string, boolean> | null) => void
   fetchAll: {
     data: ComputedRef<AppointmentResponse[]>
     isLoading: ComputedRef<boolean>
@@ -71,6 +72,23 @@ export function useAppointment(): UseAppointmentReturn {
     error: computed(() => error.value),
   }
 
+  const holdSlot = async (id: string, durationMinutes?: number): Promise<void> => {
+    const minutes =
+      durationMinutes !== undefined
+        ? durationMinutes
+        : (await getAvailabilitySettings()).calendarConfig?.holdDurationMinutes ?? FALLBACK_HOLD_DURATION_MINUTES
+    patch.mutate({ id, data: { status: 'held', holdDurationMinutes: minutes } })
+  }
+
+  const releaseSlot = (id: string): void => {
+    patch.mutate({ id, data: { status: 'started' } })
+  }
+
+  // ENACTMENT(Feature 7): requireRole('admin') will gate this on the server
+  const applyOverrideConstraints = (id: string, constraints: Record<string, boolean> | null): void => {
+    patch.mutate({ id, data: { overrideConstraints: constraints } })
+  }
+
   const fetchRandom = async (): Promise<AppointmentResponse | null> => {
     try {
       if (isLoading.value) {
@@ -101,6 +119,9 @@ export function useAppointment(): UseAppointmentReturn {
     update,
     patch,
     remove,
+    holdSlot,
+    releaseSlot,
+    applyOverrideConstraints,
     fetchAll,
     fetchById,
     fetchRandom,

@@ -1,9 +1,10 @@
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { AvailabilitySettings, RollingWeekDirection } from '@/configs/availabilitySettings'
 import {
   createNestedComputed,
   createEnsureNested
 } from '@/composables/admin/utils/nestedComputedFactory'
+import { ROLLING_WEEK_DIRECTION_VALUES } from '@/constants/businessControlsOptions'
 
 type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
 type MaxIncome = NonNullable<AvailabilitySettings['maxIncome']>
@@ -85,14 +86,14 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
   maxWorkHoursCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
   maxWorkHoursRollingWeekMaxHours: WritableComputedRef<number>
   maxWorkHoursRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxWorkHoursRollingWeekDirection: WritableComputedRef<'past' | 'centered' | 'future'>
+  maxWorkHoursRollingWeekDirection: WritableComputedRef<RollingWeekDirection>
   maxIncomeDayMaxIncome: WritableComputedRef<number>
   maxIncomeDayEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
   maxIncomeCalendarWeekMaxIncome: WritableComputedRef<number>
   maxIncomeCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
   maxIncomeRollingWeekMaxIncome: WritableComputedRef<number>
   maxIncomeRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxIncomeRollingWeekDirection: WritableComputedRef<'past' | 'centered' | 'future'>
+  maxIncomeRollingWeekDirection: WritableComputedRef<RollingWeekDirection>
 } {
   const { formData, maxBusinessHours } = params
 
@@ -123,7 +124,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     () => ({
       maxHours: maxBusinessHours.value * 7,
       enforcement: 'off' as const,
-      direction: 'past' as const
+      direction: ROLLING_WEEK_DIRECTION_VALUES.PAST
     }),
     (parent) => {
       if (parent.rollingWeek && !parent.rollingWeek.direction) {
@@ -131,7 +132,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
           ...parent,
           rollingWeek: {
             ...parent.rollingWeek,
-            direction: 'past' as const
+            direction: ROLLING_WEEK_DIRECTION_VALUES.PAST
           }
         }
       }
@@ -187,7 +188,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     formData,
     'rollingWeek',
     'direction',
-    () => 'past' as const,
+    () => ROLLING_WEEK_DIRECTION_VALUES.PAST,
     ensureRollingWeekLimit
   )
 
@@ -208,13 +209,13 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     () => ({
       maxIncome: 0,
       enforcement: 'off' as const,
-      direction: 'past' as const
+      direction: ROLLING_WEEK_DIRECTION_VALUES.PAST
     }),
     (parent) => {
       if (parent.rollingWeek && !parent.rollingWeek.direction) {
         return {
           ...parent,
-          rollingWeek: { ...parent.rollingWeek, direction: 'past' as const }
+          rollingWeek: { ...parent.rollingWeek, direction: ROLLING_WEEK_DIRECTION_VALUES.PAST }
         }
       }
       return parent
@@ -267,7 +268,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     formData,
     'rollingWeek',
     'direction',
-    () => 'past' as const,
+    () => ROLLING_WEEK_DIRECTION_VALUES.PAST,
     ensureIncomeRollingWeek
   )
 

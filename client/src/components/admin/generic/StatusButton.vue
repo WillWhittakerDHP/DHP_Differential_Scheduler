@@ -34,6 +34,13 @@ Sup...
 import { computed } from 'vue'
 import type { TernaryBoolean } from '@/types/ternary'
 import { getComplementaryColor } from '@/utils/colors/complementaryColors'
+import {
+  KEY_ENTER,
+  KEY_SPACE,
+  KEY_SPACEBAR,
+  KEY_CODE_ENTER,
+  KEY_CODE_SPACE,
+} from './entityCardConstants'
 
 interface Props {
   label: string
@@ -98,8 +105,8 @@ const handleClick = (event: Event) => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
-  const isEnter = event.key === 'Enter' || event.keyCode === 13
+  const isSpace = event.key === KEY_SPACE || event.key === KEY_SPACEBAR || event.keyCode === KEY_CODE_SPACE
+  const isEnter = event.key === KEY_ENTER || event.keyCode === KEY_CODE_ENTER
   if (isSpace || isEnter) {
     event.preventDefault()
     event.stopPropagation()

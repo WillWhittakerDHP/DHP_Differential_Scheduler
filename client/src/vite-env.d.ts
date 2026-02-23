@@ -5,6 +5,8 @@ interface ImportMetaEnv {
   readonly VITE_VERBOSE_LOGGING?: string
   readonly VITE_DEBUG_SCOPES?: string
   readonly VITE_LOG_LEVEL?: string
+  /** When set (e.g. "1" or "true"), logger appends caller file:line for debug/warn/error. Dev-only. */
+  readonly VITE_LOG_CALLSITE?: string
   readonly VITE_AVAILABILITY_CACHE_TTL?: string
   readonly DEV?: boolean
 }

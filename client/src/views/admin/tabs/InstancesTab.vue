@@ -27,7 +27,6 @@ import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDr
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { useNotification } from '@/composables/useNotification'
-import type { EventInstance } from '@/types/events'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { animations } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
@@ -277,7 +276,7 @@ const { entities: eventShapes } = useEntityCrud('eventShape')
 const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
 const isCreatingEventInstanceLoading = ref(false)
 
-const eventInstancesList = ref<EventInstance[]>([])
+const eventInstancesList = ref<GlobalEntity<'eventInstance'>[]>([])
 const eventInstanceIds = ref<string[]>([])
 const eventInstancesContainer = ref<HTMLElement | null>(null)
 void eventInstancesContainer.value // ref used by template
@@ -1020,7 +1019,7 @@ function handleDeleteEventInstance(_id: string) {
     <MetadataEditModal
       v-model="eventInstanceMetadataModalOpen"
       entity-key="eventInstance"
-      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000012'), name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: toGlobalEntityId(''), titleTemplate: null, descriptionTemplate: null, locationTemplate: null }"
+      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000012'), name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: toGlobalEntityId(''), titleTemplate: null, descriptionTemplate: null, locationTemplate: null, visibility: 'default', transparency: 'opaque', guestsCanModify: false, guestsCanInviteOthers: false, guestsCanSeeOtherGuests: true, addConferenceLink: false, sendUpdates: 'none', colorId: null, status: 'confirmed', reminderOverrides: null }"
       entity-name="Event Instance Fields (Global)"
     />
   </div>

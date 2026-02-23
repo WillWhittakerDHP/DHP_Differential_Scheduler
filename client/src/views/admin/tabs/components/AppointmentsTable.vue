@@ -427,6 +427,21 @@ function setFormAgentId(v: string | null): void {
             <VBtn prepend-icon="tabler-pencil" size="small" variant="text" @click="handleStartEdit(item)">
               {{ APPOINTMENTS_TABLE_UI.EDIT }}
             </VBtn>
+            <VTooltip location="top">
+              <template #activator="{ props: overrideTooltipProps }">
+                <VBtn
+                  v-bind="overrideTooltipProps"
+                  prepend-icon="tabler-shield-check"
+                  size="small"
+                  variant="text"
+                  color="warning"
+                  disabled
+                >
+                  {{ APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS }}
+                </VBtn>
+              </template>
+              {{ APPOINTMENTS_TABLE_UI.OVERRIDE_TOOLTIP }}
+            </VTooltip>
             <VBtn prepend-icon="tabler-trash" size="small" color="error" variant="text" @click="openDeleteDialog(item.id)">
               {{ APPOINTMENTS_TABLE_UI.DELETE }}
             </VBtn>

@@ -97,6 +97,7 @@ export function checkRateLimit(apiName: ApiName): RateLimitResult {
 export function recordRequest(apiName: ApiName): void {
   initializeApiStorage(apiName);
   const timestamps = asEmptyArray(requestTimestamps.get(apiName));
+  // @audit-allow:hardcoding:fieldMapping - Rate limit record shape
   timestamps.push({ timestamp: Date.now() });
   requestTimestamps.set(apiName, timestamps);
 }

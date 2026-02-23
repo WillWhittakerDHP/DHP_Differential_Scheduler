@@ -1,4 +1,5 @@
 
+import type { RFC3339DateTime } from '@shared/types/availabilityTypes.js'
 import { google } from 'googleapis'
 import { oauth2Client } from '../../../config/googleOAuth.js'
 import { withRateLimit } from '../shared/googleApiRateLimiter.js'
@@ -44,7 +45,9 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
       
       const eventResource: Record<string, unknown> = {
         summary,
+        // @audit-allow:hardcoding:fieldMapping - Google Calendar API event payload
         start: { dateTime: startDate.toISOString() },
+        // @audit-allow:hardcoding:fieldMapping - Google Calendar API event payload
         end: { dateTime: endDate.toISOString() }
       }
       
@@ -138,6 +141,7 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
       
       logger.debug('Invalidating caches after event creation', { calendarId })
       invalidateEventsCache(calendarId)
+      // @audit-allow:hardcoding:fieldMapping - Logger context object
       logger.debug('Successfully created event', { eventId: createdEvent.id })
       
       const result: CreatedEventResponse = {
@@ -147,8 +151,8 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
           return raw !== undefined && raw !== null && raw !== '' ? raw : ''
         })(),
         summary: createdEvent.summary || summary,
-        start: createdEvent.start?.dateTime || createdEvent.start?.date || startDate.toISOString(),
-        end: createdEvent.end?.dateTime || createdEvent.end?.date || endDate.toISOString()
+        start: (createdEvent.start?.dateTime || createdEvent.start?.date || startDate.toISOString()) as RFC3339DateTime,
+        end: (createdEvent.end?.dateTime || createdEvent.end?.date || endDate.toISOString()) as RFC3339DateTime
       }
       
       if (createdEvent.location) {

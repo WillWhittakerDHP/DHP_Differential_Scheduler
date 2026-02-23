@@ -5,13 +5,14 @@ LEARNING: State plugin for wizard composable state ...
 import { inject } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { WIZARD_FIELD_CONFIGS, type WizardInstance, type WizardStateField } from '@/utils/wizardStateFieldConfig'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('wizardStatePlugin')
 
 function isBookingBlockInstance(item: SelectionCardItem): item is BookingBlockInstance {
-  return 'entityKey' in item && (item as Record<string, unknown>).entityKey === 'blockInstance'
+  return FIELD_NAMES.ENTITY_KEY in item && (item as Record<string, unknown>)[FIELD_NAMES.ENTITY_KEY] === 'blockInstance'
 }
 
 export type { WizardStateField }

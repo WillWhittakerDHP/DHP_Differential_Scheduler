@@ -5,15 +5,14 @@ import type { TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useTimeFormatting } from '@/composables/useTimeFormatting'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { TimeBasisHandlerProps } from '@/composables/booking/useTimeBasisHandler'
 
-interface Props {
-  isDifferentialService: boolean
+interface Props extends TimeBasisHandlerProps {
   graphBars: {
     major: TimeRange | null
     minor: TimeRange | null
   }
   selectedServices: BookingBlockInstance[]
-  startTimeType: 'major' | 'minor' | 'nonDifferential'
 }
 
 const props = defineProps<Props>()

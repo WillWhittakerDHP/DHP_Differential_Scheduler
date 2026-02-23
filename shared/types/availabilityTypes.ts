@@ -321,11 +321,9 @@ export interface DurationRoundingConfig {
  * Busy time range
  * LEARNING: Represents a time period when the calendar is busy
  * WHY: Used to exclude time slots that conflict with existing appointments
- * PATTERN: Interface with start/end times and optional placeId for drive time calculations
+ * PATTERN: Extends TimeRangeBounds; optional placeId for drive time calculations
  */
-export interface BusyTimeRange {
-  start: RFC3339DateTime  // RFC3339 datetime string (ISO 8601 with timezone)
-  end: RFC3339DateTime    // RFC3339 datetime string (ISO 8601 with timezone)
+export interface BusyTimeRange extends TimeRangeBounds {
   placeId?: string        // Optional Google Place ID for drive time calculations (primary location identifier)
   source?: BusyPeriodSource  // Optional data-origin tag (e.g., 'event' from Events API, 'outOfOffice' from Events API)
   driveToCandidate?: number    // Drive time in minutes FROM this event's location TO the candidate location
@@ -336,12 +334,10 @@ export interface BusyTimeRange {
  * Calendar event with location
  * LEARNING: Represents a calendar event with optional location for drive time calculations
  * WHY: Used to calculate drive times between appointments
- * PATTERN: Interface with event details and optional placeId
+ * PATTERN: Extends TimeRangeBounds (start/end); event details and optional placeId
  */
-export interface CalendarEvent {
+export interface CalendarEvent extends TimeRangeBounds {
   id: string
-  start: string
-  end: string
   placeId?: string        // Google Place ID for drive time calculation (primary location identifier)
   summary: string | null   // Event title for context/debugging
   eventType?: string       // 'default' | 'outOfOffice' - distinguishes regular events from out-of-office events
@@ -356,10 +352,7 @@ export interface CalendarEvent {
  * affect settings/constraints extraction (those always come from the database).
  */
 export interface ComputedAvailabilityRequest {
-  dateRange: {
-    start: string    // RFC3339
-    end: string      // RFC3339
-  }
+  dateRange: TimeRangeBounds
   candidatePlaceId?: string           // Candidate property placeId for drive time (from wizard, not yet saved)
   duration: number                    // appointment duration in minutes (for capacity keys)
   /**

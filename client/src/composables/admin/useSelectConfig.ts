@@ -15,6 +15,7 @@ import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
 import {
+  type OptionsSelectConfigLike,
   unwrapInputConfig,
   getSelectConfigFromUnwrapped,
   resolveSelectMultiple,
@@ -51,14 +52,6 @@ LEARNING: Annota...
   optionEntityKey: ComputedRef<GlobalEntityKey>
   
   optionLabelKey: ComputedRef<string>
-}
-
-/**
- * NOTE: value can be null for fields like ternaryDefault where null means "fail gracefully"
- */
-interface OptionsSelectConfig {
-  options: Array<{ value: string | null; label: string }>
-  selectMode?: RelationshipSelectModeEnum
 }
 
 /**
@@ -114,7 +107,7 @@ export function useSelectConfig(
 
   /**
    */
-  const optionsSelectConfig = computed<OptionsSelectConfig | undefined>(() => {
+  const optionsSelectConfig = computed<OptionsSelectConfigLike | undefined>(() => {
     const meta = fieldMetadataEntry.value
     if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
       return undefined
@@ -251,8 +244,7 @@ export function useSelectConfig(
     }
     
     const inputConfig = meta.inputConfig as Record<string, unknown>
-    return inputConfig.selectType === RelationshipSelectTypeEnum.AttendeeSelect || 
-           inputConfig.selectType === 'attendeeSelect'
+    return inputConfig.selectType === 'attendeeSelect'
   })
 
   /**

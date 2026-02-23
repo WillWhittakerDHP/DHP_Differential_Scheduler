@@ -16,6 +16,7 @@ export interface UseAvailabilityUIParams {
 }
 
 export interface UseAvailabilityUIReturn {
+  shouldShowGridInline: ComputedRef<boolean>
   handleDateChange: (value: string | Date | string[] | Date[] | null) => void
 }
 

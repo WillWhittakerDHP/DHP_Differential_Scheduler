@@ -6,7 +6,7 @@ import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
-import { AdminEntity } from '@/types/admin/adminEntity'
+import { AdminEntity } from '@/types/admin/AdminEntity'
 import { groupByParentId } from './transformerCollections'
 import { safeArray } from './transformerPrimitives'
 
@@ -66,6 +66,7 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
     (acc, [relType, propName]) => {
       const relationships = safeArray(globalRelationships[relType])
       const flat = relationships.flatMap((rel) =>
+        // @audit-allow:hardcoding:fieldMapping - DTO shape for parent/child ids
         rel.children.map((child) => ({ parentId: rel.parent.id, childId: child.id }))
       )
       const parentToChildren = groupByParentId(flat, (x) => x.parentId, (x) => x.childId)

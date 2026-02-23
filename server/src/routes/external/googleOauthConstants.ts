@@ -1,3 +1,4 @@
+import { UNKNOWN_ERROR_MESSAGE } from '../../../../shared/constants/errorMessages.js'
 
 export const GOOGLE_OAUTH_MESSAGES = {
   AUTH_URL_GENERATE_FAILED: 'Failed to generate authorization URL',
@@ -10,7 +11,7 @@ export const GOOGLE_OAUTH_MESSAGES = {
   AUTH_UNEXPECTED_ERROR: 'An unexpected error occurred during authentication',
   VISIT_AUTH_URL: 'Visit the authUrl to authenticate with Google',
   CHECK_STATUS_FAILED: 'Failed to check authentication status',
-  UNKNOWN_ERROR: 'Unknown error',
+  UNKNOWN_ERROR: UNKNOWN_ERROR_MESSAGE,
   TEST_URL_MESSAGE: 'Copy this URL and paste it in your browser to test the OAuth flow',
 } as const
 

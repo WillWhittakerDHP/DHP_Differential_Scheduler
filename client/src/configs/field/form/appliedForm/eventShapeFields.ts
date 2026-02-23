@@ -1,4 +1,5 @@
 
+import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
 
@@ -64,7 +65,7 @@ export const eventShapeFields = {
     globalField: "differentialRole" as const,
     expandable: false,
     options: [
-      { value: null, label: 'None' },
+      { value: null, label: BUSINESS_RULES_UI.VALIDATION_NONE },
       { value: 'major', label: 'Major' },
       { value: 'minor', label: 'Minor' },
       { value: 'moveable', label: 'Moveable' },

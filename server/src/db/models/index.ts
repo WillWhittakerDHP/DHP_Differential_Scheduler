@@ -260,6 +260,9 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(Appointment, { foreignKey: 'user_type_id', as: 'userTypeAppointments' });
   Appointment.belongsTo(BlockInstance, { foreignKey: 'user_type_id', as: 'userType' });
 
+  Appointment.belongsTo(User, { foreignKey: 'scheduled_by_id', as: 'scheduledBy' });
+  Appointment.belongsTo(User, { foreignKey: 'held_by', as: 'heldByUser' });
+
   Appointment.hasMany(AppointmentAttendee, { 
     foreignKey: 'appointment_id', 
     as: 'attendees' 

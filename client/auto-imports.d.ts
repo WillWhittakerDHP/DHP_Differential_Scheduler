@@ -549,7 +549,7 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
-  export type { UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
+  export type { WithId, UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
   import('./src/composables/useCollectionTypes')
   // @ts-ignore
   export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from './src/composables/useComponentDistribution'

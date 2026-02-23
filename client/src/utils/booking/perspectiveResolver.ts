@@ -24,6 +24,7 @@ export function resolveEventShapes(
   const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
   if (!majorEventShape) {
     logger.error('resolveEventShapes: no event shape with differentialRole=major', {
+      // @audit-allow:hardcoding:fieldMapping - Stable DTO shape for event shape entities
       availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
     })
   }
@@ -31,6 +32,7 @@ export function resolveEventShapes(
   const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
   if (!minorEventShape) {
     logger.error('resolveEventShapes: no event shape with differentialRole=minor', {
+      // @audit-allow:hardcoding:fieldMapping - Stable DTO shape for event shape entities
       availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
     })
   }

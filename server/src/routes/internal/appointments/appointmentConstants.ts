@@ -25,3 +25,11 @@ export const DEFAULT_CALENDAR_EMAIL = 'scheduling@districthomepro.com'
 
 export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const
 export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]
+
+/**
+ * Constraint keys that admins can override when scheduling appointments.
+ * Each key corresponds to a check in the slot computation pipeline.
+ * Phase 6.7 will wire these into the actual constraint engine.
+ */
+export const ALLOWED_OVERRIDE_CONSTRAINTS = ['capacity', 'buffer', 'blackout', 'businessHours'] as const
+export type OverrideConstraintKey = (typeof ALLOWED_OVERRIDE_CONSTRAINTS)[number]

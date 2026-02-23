@@ -10,6 +10,7 @@ const apiGet = async (req: Request, res: Response): Promise<void> => {
 
 const apiPost = async (req: Request, res: Response): Promise<void> => {
   try {
+    // @audit-allow:hardcoding:fieldMapping - Response shape
     res.status(200).json({ msg: req.body });
   } catch {
     res.status(500).json({ error: "An error occurred" });

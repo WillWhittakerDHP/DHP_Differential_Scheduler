@@ -37,4 +37,6 @@ export interface CalendarConfig {
   enabled: boolean
   provider: CalendarProvider
   calendars: CalendarEntry[]
+  /** Default minutes a slot is held before expiring (1–60). Admin-adjustable under Calendar subtab. */
+  holdDurationMinutes?: number
 }

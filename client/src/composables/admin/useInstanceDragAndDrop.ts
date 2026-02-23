@@ -136,6 +136,7 @@ export function useInstanceDragAndDrop(
           
           groupDragInstances.value.set(blockShapeId, dragAndDrop({
             parent: panelsRefForDrag,
+            values: instanceIds,
             // PATTERN: Pass the Ref directly, not the .value
             group: `blockInstances-${blockShapeId}`,
             // PATTERN: Extract common logic to shared utility

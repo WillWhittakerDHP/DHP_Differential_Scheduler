@@ -21,9 +21,6 @@ const menuProps = computed(() => {
     attrs.multiple !== undefined ? 'v-list-select-multiple' : ''
   ].filter(Boolean)
   
-  // PATTERN: Set closeOnContentClick based on multiple prop
-  const isMultiple = attrs.multiple !== undefined
-  
   const defaultMenuProps = {
     contentClass: defaultContentClass,
   }

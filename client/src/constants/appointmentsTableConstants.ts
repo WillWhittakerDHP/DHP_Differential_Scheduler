@@ -53,4 +53,6 @@ export const APPOINTMENTS_TABLE_UI = {
   EMAIL: 'Email',
   PHONE: 'Phone',
   ROLE: 'Role',
+  OVERRIDE_CONSTRAINTS: 'Override',
+  OVERRIDE_TOOLTIP: 'Override requires admin authentication (Feature 7)',
 } as const

@@ -7,6 +7,10 @@ import type { CalendarEvent, ParsedProperty } from './calendarParsingHelpers.js'
 
 const logger = createLogger('calendarImportHelpers');
 
+/** Usage hint for calendar import (avoids inline hardcoded label in logger). */
+const IMPORT_CALENDAR_USAGE_HINT =
+  "💡 Usage: echo '[{\"summary\":\"...\",\"location\":\"...\"}]' | npm run import:calendar";
+
 /** Shape for PropertyDetails update from ParsedProperty (single place for field list). */
 type PropertyDetailsUpdateShape = Partial<{
   mlsNumber: string | null;
@@ -47,6 +51,7 @@ export async function findOrCreateAddress(addressData: {
 
   if (existingAddress) {
     if (addressData.unit != null && existingAddress.unit !== addressData.unit) {
+      // @audit-allow:hardcoding:fieldMapping - Sequelize update payload
       await existingAddress.update({ unit: addressData.unit });
     }
     return existingAddress;
@@ -137,7 +142,7 @@ export async function readEventsFromStdin(): Promise<CalendarEvent[]> {
     return JSON.parse(inputData) as CalendarEvent[];
   } catch (parseError) {
     logger.error('Failed to parse JSON input:', parseError);
-    logger.info('💡 Usage: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+    logger.info(IMPORT_CALENDAR_USAGE_HINT);
     throw parseError;
   }
 }

@@ -122,6 +122,18 @@ const calendarProvider = computed({
   }
 })
 
+const holdDurationMinutes = computed({
+  get: () => formData.value?.calendarConfig?.holdDurationMinutes ?? DEFAULT_CALENDAR_CONFIG.holdDurationMinutes ?? 15,
+  set: (value: number) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) {
+        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      }
+      formData.value.calendarConfig.holdDurationMinutes = value
+    }
+  }
+})
+
 const {
   entries: calendarEntries,
   addEntry: addCalendarEntry,
@@ -324,6 +336,7 @@ function setMinuteIncrement(v: number): void {
               <CalendarIntegrationPanel
                 :calendar-enabled="calendarEnabled"
                 :calendar-provider="calendarProvider"
+                :hold-duration-minutes="holdDurationMinutes"
                 :calendar-entries="calendarEntries"
                 :write-to-index="writeToIndex"
                 :calendar-validation-error="calendarValidationError"
@@ -331,6 +344,7 @@ function setMinuteIncrement(v: number): void {
                 :save-button-props="saveButtonProps"
                 @update:calendar-enabled="(v: boolean) => { calendarEnabled = v }"
                 @update:calendar-provider="setCalendarProvider"
+                @update:hold-duration-minutes="(v: number) => { holdDurationMinutes = v }"
                 @add-calendar-entry="addCalendarEntry"
                 @remove-calendar-entry="removeCalendarEntry"
                 @update-calendar-entry="updateCalendarEntry"

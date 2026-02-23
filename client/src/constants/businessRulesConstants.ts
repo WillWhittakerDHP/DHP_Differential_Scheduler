@@ -21,6 +21,11 @@ export const BUSINESS_RULES_MESSAGES = {
 /** Rule type value constants (re-exported from shared for switch/case and form defaults) */
 export const RULE_TYPE_VALUES = SHARED_RULE_TYPE_VALUES
 
+/** Condition/operator values for conditional validation configs. */
+export const RULE_CONDITION_VALUES = {
+  EQUALS: 'equals',
+} as const
+
 /** Rule type options for selects (title, value, description) */
 export const RULE_TYPE_OPTIONS = [
   { title: 'Required Fields', value: RULE_TYPE_VALUES.REQUIRED_FIELDS, description: 'Additional required fields based on block selection' },

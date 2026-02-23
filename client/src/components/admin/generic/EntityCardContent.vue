@@ -9,18 +9,12 @@ import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FormContext } from 'vee-validate'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { ComputedRef } from 'vue'
 import type { EntityCardSharedProps } from './entityCardConstants'
-
-interface FieldsByLocation {
-  directInline: GlobalFieldKey<GlobalEntityKey>[]
-  directStacked: GlobalFieldKey<GlobalEntityKey>[]
-  subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
-}
+import type { FieldsByLocation } from '@/composables/admin/useConditionalFieldVisibility'
 
 interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>

@@ -78,10 +78,12 @@ async function calculateDriveTimesForPlaceIds(
         const nextEntry = {
           ...(existingResult !== undefined && existingResult !== null ? existingResult : {}),
           ...(cachedTo
-            ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+            ? // @audit-allow:hardcoding:fieldMapping - API drive-time payload shape
+              { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
             : {}),
           ...(cachedFrom
-            ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+            ? // @audit-allow:hardcoding:fieldMapping - API drive-time payload shape
+              { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
             : {}),
         }
         return {
@@ -176,6 +178,7 @@ async function calculateDriveTimesForPlaceIds(
           }
         }
         if (result.status !== 'OK') {
+          // @audit-allow:hardcoding:fieldMapping - Logger context object
           logger.warn(
             `Route not found for driveFromCandidate: placeId ${uncachedFromPlaceIds[result.destinationIndex]}`,
             { status: result.status, condition: result.condition }

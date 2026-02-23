@@ -140,7 +140,12 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     authAfterSave: 'After saving, you\'ll need to authenticate with',
     authToAllow: 'to allow the system to access your calendar data.',
     authPrivacy: 'Calendar data is only used to check availability. No events will be modified without your permission.',
-    disabledHint: 'Calendar integration is currently disabled. Enable it above to configure calendar connections.'
+    disabledHint: 'Calendar integration is currently disabled. Enable it above to configure calendar connections.',
+    appointmentHoldsTitle: 'Appointment Holds',
+    holdDurationLabel: 'Default Hold Duration (minutes)',
+    holdDurationHint: 'How long a slot is held before it expires when a user holds a time slot. Between 1 and 60 minutes.',
+    holdDurationMin: 'Hold duration must be at least 1 minute',
+    holdDurationMax: 'Hold duration cannot exceed 60 minutes'
   },
   driveTime: {
     calculatedTitle: 'Calculated Drive Times',

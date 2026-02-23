@@ -48,7 +48,8 @@ export type { CalendarConfig, CalendarEntry, CalendarProvider }
 export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
   enabled: false,
   provider: 'none',
-  calendars: []
+  calendars: [],
+  holdDurationMinutes: 15
 }
 
 /**

@@ -10,7 +10,15 @@
  */
 
 import type { ComputedRef } from 'vue'
-import { KEY_ENTER } from '@/components/admin/generic/entityCardConstants'
+import {
+  KEY_ENTER,
+  KEY_SPACE,
+  KEY_SPACEBAR,
+  KEY_TAB,
+  KEY_CODE_ENTER,
+  KEY_CODE_SPACE,
+  KEY_CODE_TAB,
+} from '@/components/admin/generic/entityCardConstants'
 
 export type FieldKeyboardGuardType =
   | 'text'
@@ -44,9 +52,9 @@ export function useFieldKeyboardGuard(
   const handleKeydown = (event: KeyboardEvent): void => {
     const editable = resolveEditable(isEditable)
     const key = event.key
-    const isSpace = key === ' ' || key === 'Spacebar' || event.keyCode === 32
-    const isEnter = key === KEY_ENTER || event.keyCode === 13
-    const isTab = key === 'Tab' || event.keyCode === 9
+    const isSpace = key === KEY_SPACE || key === KEY_SPACEBAR || event.keyCode === KEY_CODE_SPACE
+    const isEnter = key === KEY_ENTER || event.keyCode === KEY_CODE_ENTER
+    const isTab = key === KEY_TAB || event.keyCode === KEY_CODE_TAB
 
     // PATTERN: Never stop Tab so focus navigation between fields works
     if (isTab) {

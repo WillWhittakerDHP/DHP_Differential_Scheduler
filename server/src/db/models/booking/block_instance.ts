@@ -27,7 +27,7 @@ export class BlockInstance extends Model<
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
-  declare requiresUnitNumber: boolean | null;
+  declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
   declare createdAt: CreationOptional<Date>;
@@ -98,7 +98,8 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       },
       requiresUnitNumber: {
         type: DataTypes.BOOLEAN,
-        allowNull: true,
+        allowNull: false,
+        defaultValue: false,
       },
       isMultiFamily: {
         type: DataTypes.BOOLEAN,

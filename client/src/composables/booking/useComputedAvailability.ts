@@ -100,6 +100,7 @@ export function useComputedAvailability(
       logger.debug(`[useComputedAvailability] ${label}:`, range.start, 'to', range.end)
 
       const data = await fetchComputedAvailabilityData({
+        // @audit-allow:hardcoding:fieldMapping - Request payload shape
         dateRange: { start: range.start, end: range.end },
         candidatePlaceId: currentPlaceId ?? undefined,
         duration: currentDuration,

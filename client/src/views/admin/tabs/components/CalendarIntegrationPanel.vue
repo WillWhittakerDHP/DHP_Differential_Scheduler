@@ -8,9 +8,26 @@ import { CALENDAR_PROVIDER_OPTIONS } from '@/constants/businessControlsOptions'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
+const HOLD_DURATION_MIN = 1
+const HOLD_DURATION_MAX = 60
+
+function clampHoldDuration(value: number): number {
+  const n = Number.isNaN(value) ? 15 : Math.floor(value)
+  return Math.min(HOLD_DURATION_MAX, Math.max(HOLD_DURATION_MIN, n))
+}
+
+function holdDurationRule(value: unknown): true | string {
+  const n = Number(value)
+  if (Number.isNaN(n)) return UI_STRINGS.calendar.holdDurationMin
+  if (n < HOLD_DURATION_MIN) return UI_STRINGS.calendar.holdDurationMin
+  if (n > HOLD_DURATION_MAX) return UI_STRINGS.calendar.holdDurationMax
+  return true
+}
+
 defineProps<{
   calendarEnabled: boolean
   calendarProvider: string
+  holdDurationMinutes: number
   calendarEntries: Array<{ email: string; label?: string; readFrom: boolean; writeTo: boolean }>
   writeToIndex: number
   calendarValidationError: string | null
@@ -21,6 +38,7 @@ defineProps<{
 const emit = defineEmits<{
   'update:calendarEnabled': [value: boolean]
   'update:calendarProvider': [value: string]
+  'update:holdDurationMinutes': [value: number]
   addCalendarEntry: []
   removeCalendarEntry: [index: number]
   updateCalendarEntry: [index: number, patch: { email?: string; label?: string }]
@@ -56,6 +74,23 @@ const calendarProviderOptions = CALENDAR_PROVIDER_OPTIONS
       persistent-hint
       :disabled="!calendarEnabled"
       class="mb-4"
+    />
+
+    <VDivider class="my-4" />
+
+    <div class="text-subtitle-2 mb-2">{{ UI_STRINGS.calendar.appointmentHoldsTitle }}</div>
+    <VTextField
+      :model-value="holdDurationMinutes"
+      @update:model-value="(v: string | number) => emit('update:holdDurationMinutes', clampHoldDuration(Number(v)))"
+      type="number"
+      :min="1"
+      :max="60"
+      :label="UI_STRINGS.calendar.holdDurationLabel"
+      :hint="UI_STRINGS.calendar.holdDurationHint"
+      persistent-hint
+      class="mb-4"
+      :rules="[holdDurationRule]"
+      validate-on="blur"
     />
 
     <div v-if="calendarEnabled && calendarProvider !== 'none'" class="mt-6">

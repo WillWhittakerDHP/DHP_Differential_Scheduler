@@ -51,7 +51,10 @@
   "allowlists": {
     "type-escape": {
       "patterns": [],
-      "specific": []
+      "specific": [
+        { "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts", "ruleId": "as-any", "reason": "Golden fixture for type-escape audit" },
+        { "file": "client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts", "ruleId": "as-any", "reason": "Golden fixture for type-escape audit" }
+      ]
     },
     "type-import": {
       "patterns": [],
@@ -247,7 +250,12 @@
       "patterns": [
         { "glob": "**/express.d.ts", "ruleIds": ["*"], "reason": "Declaration file; leave as-is" }
       ],
-      "specific": []
+      "specific": [
+        { "groupId": "sim-exact-primitive:string", "reason": "Intentional distinct string concepts; branding deferred." },
+        { "groupId": "sim-high_overlap-76c5e2a1d396", "reason": "UseBlockInstanceFormReturn vs UsePartInstanceFormReturn: parallel block/part form composable return types; unification would require generic form return abstraction — deferred." },
+        { "groupId": "sim-high_overlap-99828820f350", "reason": "WizardState vs WizardBlocksForBuilders: wizard state vs builder-focused slice; overlap from shared booking/line-item shape — intentional separation of concerns; deferred." },
+        { "groupId": "sim-subset-f928ba1a3d99", "reason": "RelationshipFieldType vs DependencyImpact: shared affectedEntities/affectedEntityKey shape; different domains (form config vs dependency impact) — document only; deferred." }
+      ]
     },
     "constants-consolidation": {
       "patterns": [],
@@ -342,7 +350,10 @@
       ],
       "specific": [
         { "file": "server/src/services/brightMls/brightMlsApiClient.ts", "ruleIds": ["magicLabel"], "reason": "Bright MLS API field names and client-specific strings (external API contract)" },
-        { "file": "client/src/components/booking/types/selectionCardTypes.ts", "ruleId": "magicLabel", "reason": "UI component type unions for selection config" }
+        { "file": "client/src/components/booking/types/selectionCardTypes.ts", "ruleId": "magicLabel", "reason": "UI component type unions for selection config" },
+        { "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue", "ruleId": "fieldMapping", "lineRange": [174, 176], "reason": "Chart legend style binding in template; Vue :style object shape" },
+        { "file": "client/src/components/booking/IndependentSelectCard.vue", "ruleId": "fieldMapping", "lineRange": [119, 121], "reason": "Vue :style binding from config (minHeight); template shape" },
+        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "fieldMapping", "lineRange": [156, 158], "reason": "Vue :style binding from config (minHeight); template shape" }
       ],
       "linePatterns": [
         { "ruleId": "switchTypeLike", "pattern": "switch\\s*\\(\\s*\\w+\\.type\\s*\\)", "reason": "Exhaustive dispatch on discriminated union (.type); not config-driven branching" },

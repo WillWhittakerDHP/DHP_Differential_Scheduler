@@ -322,16 +322,35 @@ useWizardDevMode({
                 Previous
               </VBtn>
               
-              <VBtn
-                :color="isLastStep ? 'success' : 'primary'"
-                :prepend-icon="isLastStep ? 'tabler-check' : undefined"
-                :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"
-                :loading="isLastStep && create.isPending.value"
-                :disabled="isLastStep && create.isPending.value"
-                @click="isLastStep ? handleSubmit() : handleNext()"
-              >
-                {{ isLastStep ? (create.isPending.value ? 'Creating...' : 'Submit') : 'Next' }}
-              </VBtn>
+              <div class="d-flex gap-3">
+                <!-- ENACTMENT(Feature 7): Enable when authentication is implemented -->
+                <VTooltip v-if="isLastStep" location="top">
+                  <template #activator="{ props: tooltipProps }">
+                    <div v-bind="tooltipProps">
+                      <VBtn
+                        variant="outlined"
+                        color="warning"
+                        prepend-icon="tabler-clock-pause"
+                        disabled
+                      >
+                        Hold Slot
+                      </VBtn>
+                    </div>
+                  </template>
+                  <span>Hold requires authentication (Feature 7)</span>
+                </VTooltip>
+
+                <VBtn
+                  :color="isLastStep ? 'success' : 'primary'"
+                  :prepend-icon="isLastStep ? 'tabler-check' : undefined"
+                  :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"
+                  :loading="isLastStep && create.isPending.value"
+                  :disabled="isLastStep && create.isPending.value"
+                  @click="isLastStep ? handleSubmit() : handleNext()"
+                >
+                  {{ isLastStep ? (create.isPending.value ? 'Creating...' : 'Submit') : 'Next' }}
+                </VBtn>
+              </div>
             </div>
           </VCardText>
         </VCol>

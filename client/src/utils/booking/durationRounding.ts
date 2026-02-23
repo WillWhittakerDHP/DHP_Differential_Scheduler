@@ -1,7 +1,13 @@
-
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 
 export type RoundingMethod = 'roundUp' | 'roundDown' | 'roundNearest'
+
+/** Constants for duration rounding method (avoids hardcoded case strings). */
+export const DURATION_ROUNDING_MODE = {
+  ROUND_UP: 'roundUp',
+  ROUND_DOWN: 'roundDown',
+  ROUND_NEAREST: 'roundNearest',
+} as const satisfies Record<string, RoundingMethod>
 
 export interface DurationRoundingConfig {
   enabled: boolean
@@ -33,11 +39,11 @@ function applyRoundingMethod(
   method: RoundingMethod
 ): number {
   switch (method) {
-    case 'roundUp':
+    case DURATION_ROUNDING_MODE.ROUND_UP:
       return roundUp(duration, increment)
-    case 'roundDown':
+    case DURATION_ROUNDING_MODE.ROUND_DOWN:
       return roundDown(duration, increment)
-    case 'roundNearest':
+    case DURATION_ROUNDING_MODE.ROUND_NEAREST:
       return roundNearest(duration, increment)
     default:
       return roundUp(duration, increment)
@@ -49,14 +55,14 @@ function getRoundingConfig(settings: AvailabilitySettings | null): DurationRound
     return {
       enabled: false,
       increment: settings?.minuteIncrement !== undefined && settings?.minuteIncrement !== null ? settings.minuteIncrement : 15,
-      method: 'roundUp'
+      method: DURATION_ROUNDING_MODE.ROUND_UP,
     }
   }
-  
+
   return {
     enabled: settings.durationRounding.enabled,
     increment: settings.durationRounding.increment !== undefined && settings.durationRounding.increment !== null ? settings.durationRounding.increment : (settings.minuteIncrement !== undefined && settings.minuteIncrement !== null ? settings.minuteIncrement : 15),
-    method: settings.durationRounding.method !== undefined && settings.durationRounding.method !== null ? settings.durationRounding.method : 'roundUp'
+    method: settings.durationRounding.method !== undefined && settings.durationRounding.method !== null ? settings.durationRounding.method : DURATION_ROUNDING_MODE.ROUND_UP,
   }
 }
 

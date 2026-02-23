@@ -5,7 +5,6 @@ WHY: Reduces duplication and ...
  */
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
@@ -101,8 +100,8 @@ function transformVersionToBookingInstance(
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
     baseSqFt: safeNumber(version.baseSqFt, 'VersionBlockInstance.baseSqFt'),
     allowMultiple: version.allowMultiple,
-    // LEARNING: Convert boolean to TernaryBoolean for differential
-    differential: convertToTernaryBoolean(version.differential, 'false'),
+    // Preserve existing differential state when present; fallback to false for legacy payloads.
+    differential: convertToTernaryBoolean(currentInstance?.differential ?? false, 'false'),
     partInstances,
   } as BookingBlockInstance
 }

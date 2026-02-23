@@ -17,6 +17,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.query
 
+    // @audit-allow:hardcoding:fieldEqualsString - Type guard for query key
     if (key && typeof key === 'string') {
       const setting = await BusinessSettings.findOne({
         where: { settingKey: key },

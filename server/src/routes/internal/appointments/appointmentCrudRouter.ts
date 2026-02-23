@@ -4,7 +4,7 @@ import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
-import { ERROR_MESSAGES } from './appointmentConstants.js'
+import { ERROR_MESSAGES, ALLOWED_OVERRIDE_CONSTRAINTS } from './appointmentConstants.js'
 import { handleRouteError } from './appointmentErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
@@ -15,6 +15,7 @@ import {
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
   getCalendarIdForAppointment,
+  getHoldDurationDefaultFromSettings,
   type AttendeeRequest,
 } from './appointmentHelpers.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
@@ -66,13 +67,66 @@ const router = createCrudRouter({
       handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT, 'fetching appointment')
     }
   },
+  beforeUpdate: async (req): Promise<void> => {
+    const body = req.body as { status?: string; _holdDurationDefaultFromSettings?: number }
+    if (body?.status === 'held') {
+      body._holdDurationDefaultFromSettings = await getHoldDurationDefaultFromSettings()
+    }
+  },
   sanitizeInput: (data: unknown): unknown => {
     const appointmentData = data as {
       attendees?: AttendeeRequest[]
       feeBreakdown?: unknown
+      holdDurationMinutes?: unknown
+      overrideConstraints?: unknown
+      _holdDurationDefaultFromSettings?: number
+      status?: string
       [key: string]: unknown
     }
-    const { attendees: _, feeBreakdown: __, ...appointmentFields } = appointmentData
+    const {
+      attendees: _,
+      feeBreakdown: __,
+      holdDurationMinutes: rawDuration,
+      overrideConstraints: rawOverrides,
+      _holdDurationDefaultFromSettings: defaultFromSettings,
+      ...appointmentFields
+    } = appointmentData
+
+    if (appointmentFields.status === 'held') {
+      const HOLD_DURATION_MAX = 60
+      const parsed = Number(rawDuration)
+      const fromRequest = (!Number.isNaN(parsed) && parsed >= 1 && parsed <= HOLD_DURATION_MAX)
+        ? Math.floor(parsed)
+        : undefined
+      const durationMinutes = fromRequest ?? (typeof defaultFromSettings === 'number' ? defaultFromSettings : 15)
+
+      appointmentFields.heldUntil = new Date(Date.now() + durationMinutes * 60_000)
+      // TODO(Feature 7): Set heldBy from authenticated user (req.user.id)
+      appointmentFields.heldBy = null
+    }
+
+    if (appointmentFields.status !== undefined && appointmentFields.status !== 'held') {
+      appointmentFields.heldBy = null
+      appointmentFields.heldUntil = null
+    }
+
+    // ENACTMENT(Feature 7): requireRole('admin') will gate this — only admins can set overrides
+    if (rawOverrides !== undefined) {
+      if (rawOverrides === null || (typeof rawOverrides === 'object' && Object.keys(rawOverrides as object).length === 0)) {
+        appointmentFields.overrideConstraints = null
+      } else if (typeof rawOverrides === 'object' && rawOverrides !== null) {
+        const allowedSet = new Set<string>(ALLOWED_OVERRIDE_CONSTRAINTS)
+        const validated = Object.entries(rawOverrides as Record<string, unknown>)
+          .filter(([key]) => allowedSet.has(key))
+          .reduce<Record<string, boolean>>((acc, [key, value]) => {
+            acc[key] = Boolean(value)
+            return acc
+          }, {})
+
+        appointmentFields.overrideConstraints = Object.keys(validated).length > 0 ? validated : null
+      }
+    }
+
     return appointmentFields
   },
   afterCreate: async (record, req, res) => {
@@ -137,9 +191,10 @@ const router = createCrudRouter({
         if (inviteResult.totalEventsCreated > 0) {
           logger.debug(
             `Calendar invites created: ${inviteResult.totalEventsCreated}/${inviteResult.totalEventsAttempted} events, ` +
-            `${inviteResult.totalAttendeesUpdated} attendees updated` +
-            (inviteResult.fallbackUsed ? ' (fallback)' : '')
+            `${inviteResult.totalAttendeesUpdated} attendees updated`
           )
+        } else if (inviteResult.noEventInstances) {
+          logger.debug('No EventInstances — calendar invites skipped')
         } else {
           const errors = inviteResult.events
             .filter(e => !e.success)
