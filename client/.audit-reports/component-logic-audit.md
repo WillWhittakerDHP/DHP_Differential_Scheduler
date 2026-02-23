@@ -187,7 +187,7 @@ await@319: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 - counts: computed=0, ref=0, watch=0, async=0, await=0, map=2, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@40: // PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
+provideInject@40:
 computed@100: const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
 map@105: return instances.map((block: BookingBlockInstance) => ({
 computed@138: const timeSlotResults = computed(() => {

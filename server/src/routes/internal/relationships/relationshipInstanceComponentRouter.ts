@@ -1,5 +1,5 @@
-
 import { Router, Request, Response } from 'express'
+import Joi from 'joi'
 import { InstanceComponent } from '../../../config/app.js'
 import { ERROR_MESSAGES } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
@@ -8,15 +8,27 @@ import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { paramString } from '../../helpers/requestHelpers.js'
+import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 
 const logger = createLogger('RelationshipRouter')
+
+const patchBodySchema = Joi.object({
+  orderIndex: Joi.number().optional(),
+  order_index: Joi.number().optional(),
+  disabled: Joi.boolean().optional(),
+}).unknown(true)
 
 const router = Router()
 
 router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const id = paramString(req, 'id')
-  const orderIndex = req.body.orderIndex ?? req.body.order_index
-  const { disabled } = req.body
+  const bodyValidation = patchBodySchema.validate(req.body, { abortEarly: false })
+  if (bodyValidation.error) {
+    sendBadRequest(res, bodyValidation.error.message)
+    return
+  }
+  const { orderIndex, order_index, disabled } = bodyValidation.value
+  const orderIndexResolved = orderIndex ?? order_index
 
   try {
     const component = await InstanceComponent.findByPk(id)
@@ -29,10 +41,10 @@ router.patch('/:id', csrfProtection, async (req: Request, res: Response): Promis
       return
     }
 
-    if (orderIndex !== undefined) {
-      component.orderIndex = orderIndex
+    if (orderIndexResolved !== undefined) {
+      component.orderIndex = orderIndexResolved
     }
-    
+
     if (disabled !== undefined) {
       component.disabled = disabled
     }

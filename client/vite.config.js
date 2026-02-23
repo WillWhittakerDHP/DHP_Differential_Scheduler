@@ -73,9 +73,6 @@ export default defineConfig({
                     if (id.includes('node_modules/axios/')) {
                         return 'axios';
                     }
-                    if (id.includes('node_modules/date-fns/')) {
-                        return 'date-fns';
-                    }
                     if (id.includes('node_modules/@tanstack/vue-query')) {
                         return 'vue-query';
                     }

@@ -79,9 +79,6 @@ router.get(
       }
 
       const { street, city, state, zipCode } = parseAddressComponents(address);
-      const cityOverride = req.query.city as string | undefined;
-      const stateOverride = req.query.state as string | undefined;
-      const zipOverride = req.query.zipCode as string | undefined;
 
       const finalCity = cityOverride?.trim() || city;
       const finalState = stateOverride?.trim() || state;

@@ -8,5 +8,6 @@ import { commentCleanup, PHASE_CLEANUP_CONFIG } from '../../.cursor/commands/com
 (async () => {
   const result = await commentCleanup({ ...PHASE_CLEANUP_CONFIG, dryRun: false });
   console.log(result.summary);
-  process.exit(result.success ? 0 : 1);
+  const hasFailure = !result.success || (result.filesSkipped ?? 0) > 0;
+  process.exit(hasFailure ? 1 : 0);
 })();

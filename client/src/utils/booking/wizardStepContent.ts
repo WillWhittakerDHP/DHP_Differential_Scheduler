@@ -1,22 +1,18 @@
 import type { Component } from 'vue'
-import ConfirmationStep from '@/components/booking/steps/ConfirmationStep.vue'
-import ServiceSelectionStep from '@/components/booking/steps/ServiceSelectionStep.vue'
-import PropertyDetailsStep from '@/components/booking/steps/PropertyDetailsStep.vue'
-import AvailabilityStep from '@/components/booking/steps/AvailabilityStep.vue'
-import ContactsStep from '@/components/booking/steps/ContactsStep.vue'
+import { defineAsyncComponent } from 'vue'
 
 export function getBookingWizardStepContent(step: number): Component | null {
   switch (step) {
     case 0:
-      return ServiceSelectionStep
+      return defineAsyncComponent(() => import('@/components/booking/steps/ServiceSelectionStep.vue'))
     case 1:
-      return PropertyDetailsStep
+      return defineAsyncComponent(() => import('@/components/booking/steps/PropertyDetailsStep.vue'))
     case 2:
-      return AvailabilityStep
+      return defineAsyncComponent(() => import('@/components/booking/steps/AvailabilityStep.vue'))
     case 3:
-      return ContactsStep
+      return defineAsyncComponent(() => import('@/components/booking/steps/ContactsStep.vue'))
     case 4:
-      return ConfirmationStep
+      return defineAsyncComponent(() => import('@/components/booking/steps/ConfirmationStep.vue'))
     default:
       return null
   }

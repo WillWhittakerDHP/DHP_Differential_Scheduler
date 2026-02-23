@@ -6,13 +6,14 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref, provide } from 'vue'
-import InstancesTab from './tabs/InstancesTab.vue'
-import ShapesTab from './tabs/ShapesTab.vue'
-import DataManagementTab from './tabs/DataManagementTab.vue'
-import BusinessControlsTab from './tabs/BusinessControlsTab.vue'
-import PropertyMappingsTab from './tabs/PropertyMappingsTab.vue'
+import { ref, provide, defineAsyncComponent } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
+
+const InstancesTab = defineAsyncComponent(() => import('./tabs/InstancesTab.vue'))
+const ShapesTab = defineAsyncComponent(() => import('./tabs/ShapesTab.vue'))
+const DataManagementTab = defineAsyncComponent(() => import('./tabs/DataManagementTab.vue'))
+const BusinessControlsTab = defineAsyncComponent(() => import('./tabs/BusinessControlsTab.vue'))
+const PropertyMappingsTab = defineAsyncComponent(() => import('./tabs/PropertyMappingsTab.vue'))
 
 /**
  * PATTERN: Initialize route-specific composables in view component setup

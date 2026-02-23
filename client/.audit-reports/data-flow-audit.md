@@ -4,26 +4,16 @@
 
 # Data Flow Validation Audit (Generated)
 
-Generated at: 2026-02-23T18:12:58.786Z
+Generated at: 2026-02-23T18:40:38.326Z
 
 ## Summary
 
 - Total allowed: **0**
-- Requiring review: **9**
+- Requiring review: **0**
 
 ## Files with potential unvalidated input
 
-| File | Rule | Line | Snippet |
-| --- | --- | ---: | --- |
-| `server/src/routes/external/calendarRoutes.ts` | reqBodyUnvalidated | 62 | } = req.body; |
-| `server/src/routes/external/googleOauthRoutes.ts` | reqQueryUnvalidated | 28 | const { code, error } = req.query; |
-| `server/src/routes/external/mapsRoutes.ts` | reqQueryUnvalidated | 56 | const { input, sessionToken } = req.query |
-| `server/src/routes/external/oauthCallbackRouter.ts` | reqQueryUnvalidated | 22 | logger.debug('Query params:', JSON.stringify(req.q |
-| `server/src/routes/external/propertyEnrichmentRoutes.ts` | reqQueryUnvalidated | 49 | const addressParam = req.query.address; |
-| `server/src/routes/helpers/requestHelpers.ts` | reqParamsUnvalidated | 6 | const raw = req.params[key] |
-| `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts` | reqParamsUnvalidated | 15 | const { blockInstanceId, annotationId } = req.para |
-| `server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts` | reqBodyUnvalidated | 16 | const { userTypeBlockInstanceId } = req.body |
-| `server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts` | reqBodyUnvalidated | 18 | const orderIndex = req.body.orderIndex ?? req.body |
+None.
 
 ## Allowed Exceptions (for transparency)
 
