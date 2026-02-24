@@ -17,6 +17,7 @@ import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId } from '@/types/entities'
 import { useDevPanelsComputed, type DevPanelsComputedData, type ServiceSummary } from '@/composables/booking/useDevPanelsComputed'
 import { useDevPanelsAppointmentData } from '@/composables/booking/useDevPanelsAppointmentData'
+import { useDevPanelsFormatters } from '@/composables/booking/useDevPanelsFormatters'
 import type { DevPanelVisibleProps } from '@/components/admin/dev/devPanelTypes'
 
 type Props = DevPanelVisibleProps
