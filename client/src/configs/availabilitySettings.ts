@@ -405,6 +405,7 @@ export function getReadFromCalendars(config: CalendarConfig | undefined): string
 // ─── Pure helpers for admin save/validate (load/save symmetry with getAvailabilitySettings) ─────
 
 import { DAY_NAMES } from '@/constants/availabilitySettings'
+import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
 /**
  * Validate that every day's business hours has end > start.
@@ -412,7 +413,7 @@ import { DAY_NAMES } from '@/constants/availabilitySettings'
  */
 export function validateBusinessHoursRange(
   businessHours: AvailabilitySettings['businessHours'],
-  rfc3339ToHHmm: (rfc3339: string) => string
+  rfc3339ToHHmm: (rfc3339: RFC3339DateTime) => string
 ): { valid: boolean; errorMessage?: string } {
   for (let day = 0; day <= 6; day++) {
     const dayHours = businessHours[day as 0 | 1 | 2 | 3 | 4 | 5 | 6]

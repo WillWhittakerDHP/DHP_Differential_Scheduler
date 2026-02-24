@@ -1,24 +1,45 @@
 {
-  "generatedAt": "2026-02-24T15:07:36.615Z",
-  "buildTimestamp": "2026-02-23T17:23:45.993Z",
-  "totalScanned": 21,
+  "generatedAt": "2026-02-24T15:29:11.790Z",
+  "buildTimestamp": "2026-02-24T15:28:40.179Z",
+  "totalScanned": 55,
   "chunks": [
     {
-      "file": "assets/AdminPanel-B_LZhKf4.css",
-      "sizeKb": 35.44,
-      "gzipKb": 6.35,
-      "type": "css",
-      "isEntry": false
-    },
-    {
-      "file": "assets/AdminPanel-DLQF0qiJ.js",
-      "sizeKb": 423.69,
-      "gzipKb": 109.25,
+      "file": "assets/AddressAutocomplete.vue_vue_type_script_setup_true_lang-CfU4BrEB.js",
+      "sizeKb": 7.91,
+      "gzipKb": 3.01,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/BetaFeedbackView-Bv8zFrvO.js",
+      "file": "assets/AdminPanel-CmlQsXoK.js",
+      "sizeKb": 7.21,
+      "gzipKb": 2.78,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/AdminPanel-Epraq2yH.css",
+      "sizeKb": 0.04,
+      "gzipKb": 0.06,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/AvailabilityStep-BIP40UrN.css",
+      "sizeKb": 11.76,
+      "gzipKb": 2.13,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/AvailabilityStep-mHhw_nit.js",
+      "sizeKb": 46.96,
+      "gzipKb": 14.44,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/BetaFeedbackView-DvXVRaha.js",
       "sizeKb": 10.15,
       "gzipKb": 2.96,
       "type": "js",
@@ -32,24 +53,143 @@
       "isEntry": false
     },
     {
-      "file": "assets/BookingWizardView-8JiL63Qa.css",
-      "sizeKb": 21.96,
-      "gzipKb": 3.85,
+      "file": "assets/BookingWizardView-BHJvpMdm.css",
+      "sizeKb": 5.79,
+      "gzipKb": 1.34,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/BookingWizardView-BjvgfNg8.js",
-      "sizeKb": 167.32,
-      "gzipKb": 46.06,
+      "file": "assets/BookingWizardView-DwH5LZuv.js",
+      "sizeKb": 52.93,
+      "gzipKb": 16.4,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/EntityCard-B6JWAjvk.js",
+      "file": "assets/BusinessControlsTab-BcWyGmsa.css",
       "sizeKb": 0.36,
-      "gzipKb": 0.23,
+      "gzipKb": 0.22,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/BusinessControlsTab-Yf7Qs3GS.js",
+      "sizeKb": 95.74,
+      "gzipKb": 21.42,
       "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ConfirmationStep-ChInDEax.css",
+      "sizeKb": 0.47,
+      "gzipKb": 0.25,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ConfirmationStep-DfaJNxrg.js",
+      "sizeKb": 6.01,
+      "gzipKb": 2.03,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ContactsStep-CtsbCE7X.js",
+      "sizeKb": 13.4,
+      "gzipKb": 2.88,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ContactsStep-uvBumCKy.css",
+      "sizeKb": 0.02,
+      "gzipKb": 0.04,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/DataManagementTab-BQa2fP4b.js",
+      "sizeKb": 42.22,
+      "gzipKb": 8.83,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/DataManagementTab-CmQBojYL.css",
+      "sizeKb": 1.22,
+      "gzipKb": 0.45,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/EntityCard-D7zV1LD9.js",
+      "sizeKb": 0.59,
+      "gzipKb": 0.34,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/InstancesTab-3tPdZXGQ.js",
+      "sizeKb": 37.68,
+      "gzipKb": 11.59,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/InstancesTab-MW0QPhUX.css",
+      "sizeKb": 1.7,
+      "gzipKb": 0.61,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/PropertyDetailsStep-C3C_xucV.js",
+      "sizeKb": 23.55,
+      "gzipKb": 6.84,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/SelectionCardGroup-BbGWSTB4.css",
+      "sizeKb": 3.61,
+      "gzipKb": 0.89,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/SelectionCardGroup-ElRJ7GGp.js",
+      "sizeKb": 18.78,
+      "gzipKb": 5.35,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ServiceSelectionStep-0GRjbpog.js",
+      "sizeKb": 6.06,
+      "gzipKb": 2.29,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ServiceSelectionStep-C4fNvUHl.css",
+      "sizeKb": 0.41,
+      "gzipKb": 0.18,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ShapesTab-BXUbyKAq.js",
+      "sizeKb": 17.07,
+      "gzipKb": 4.44,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ShapesTab-DypL076T.css",
+      "sizeKb": 0.84,
+      "gzipKb": 0.33,
+      "type": "css",
       "isEntry": false
     },
     {
@@ -60,91 +200,189 @@
       "isEntry": false
     },
     {
-      "file": "assets/dependencyCleanup-rF8Rl5Jb.js",
+      "file": "assets/datetime-hfIxVIOq.js",
+      "sizeKb": 6.86,
+      "gzipKb": 2.5,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/dependencyCleanup-Buglbox7.js",
       "sizeKb": 0.59,
       "gzipKb": 0.37,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/index-B1IH1aXA.css",
+      "file": "assets/errorMessages-ChOmi9qr.js",
+      "sizeKb": 0.19,
+      "gzipKb": 0.14,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/eventAttendeeUtils-KWTUWumJ.js",
+      "sizeKb": 0.32,
+      "gzipKb": 0.23,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/iconify-DxUG9h9y.js",
+      "sizeKb": 18.05,
+      "gzipKb": 7.05,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/index-C_yQZvHO.js",
+      "sizeKb": 99.57,
+      "gzipKb": 29.28,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/index-D0-jxQAz.css",
       "sizeKb": 126.3,
-      "gzipKb": 14.89,
+      "gzipKb": 14.9,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/index-DdNYZZGA.js",
-      "sizeKb": 97.82,
-      "gzipKb": 28.65,
+      "file": "assets/instanceComponentUtils-k1m53kwc.js",
+      "sizeKb": 3.23,
+      "gzipKb": 1.15,
       "type": "js",
-      "isEntry": true
+      "isEntry": false
     },
     {
-      "file": "assets/pinia-B5X-hN8x.js",
+      "file": "assets/partsTotals-C8R03hxC.js",
+      "sizeKb": 0.29,
+      "gzipKb": 0.15,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/pinia-CyDfLiNr.js",
       "sizeKb": 3.67,
       "gzipKb": 1.82,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/timeFormatting-I7Ly4XHi.js",
-      "sizeKb": 37.74,
-      "gzipKb": 13.62,
+      "file": "assets/timeFormatting-Psmzx-9V.js",
+      "sizeKb": 0.67,
+      "gzipKb": 0.39,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useBetaFeedback-tl9cCPdS.js",
+      "file": "assets/useBetaFeedback-DofjSJrM.js",
       "sizeKb": 0.74,
-      "gzipKb": 0.37,
+      "gzipKb": 0.38,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vee-validate-CAZXNrDj.js",
+      "file": "assets/useBlockInstanceSelection-B6Qzsl5E.js",
+      "sizeKb": 0.48,
+      "gzipKb": 0.3,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useComponentEntity-BcaYPf0C.js",
+      "sizeKb": 4.72,
+      "gzipKb": 1.62,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useDragAndDropHelpers-BdhLY93s.js",
+      "sizeKb": 242.01,
+      "gzipKb": 68.03,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useDragAndDropHelpers-CUugQ4tZ.css",
+      "sizeKb": 31.3,
+      "gzipKb": 5.46,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useSharedMutationHandlers-Cb2_Jfil.js",
+      "sizeKb": 0.59,
+      "gzipKb": 0.28,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useStepValidation-Dx3v6BXu.js",
+      "sizeKb": 2.73,
+      "gzipKb": 1.15,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useTabNavigation-PRoos8Ch.js",
+      "sizeKb": 0.15,
+      "gzipKb": 0.15,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/useWizardStepSync-CBHCliKQ.js",
+      "sizeKb": 0.5,
+      "gzipKb": 0.33,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/vee-validate-X9dUdhq7.js",
       "sizeKb": 27.86,
       "gzipKb": 10.05,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vue-JsoSmu5X.js",
+      "file": "assets/vue-CcbpGyuJ.js",
       "sizeKb": 77.77,
       "gzipKb": 30.75,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vue-query-Bwll3ySA.js",
+      "file": "assets/vue-query-BHaqrhEi.js",
       "sizeKb": 36.95,
       "gzipKb": 10.93,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vue-router-BAniQuVs.js",
+      "file": "assets/vue-router-BsZwhYGn.js",
       "sizeKb": 24.94,
       "gzipKb": 9.79,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vuetify-CA15CqLa.css",
-      "sizeKb": 514.58,
-      "gzipKb": 66.58,
-      "type": "css",
-      "isEntry": false
-    },
-    {
-      "file": "assets/vuetify-DxIkWGut.js",
+      "file": "assets/vuetify-CpYpwDyl.js",
       "sizeKb": 349.69,
-      "gzipKb": 109.55,
+      "gzipKb": 108.4,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vueuse-BcYULufa.js",
+      "file": "assets/vuetify-QbqqxFlv.css",
+      "sizeKb": 514.58,
+      "gzipKb": 66.42,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/vueuse-BwVgCutz.js",
       "sizeKb": 11.64,
       "gzipKb": 4.96,
       "type": "js",
@@ -152,35 +390,35 @@
     }
   ],
   "totals": {
-    "totalJsKb": 393.71000000000004,
-    "totalCssKb": 91.82,
-    "largestChunkKb": 109.55,
-    "entryPointKb": 28.65
+    "totalJsKb": 410.15000000000003,
+    "totalCssKb": 93.43,
+    "largestChunkKb": 108.4,
+    "entryPointKb": 0
   },
   "budgetResults": {
     "totalJsKb": {
       "budget": 800,
-      "actual": 393.71,
+      "actual": 410.15,
       "pass": true,
-      "pctOfBudget": 49
+      "pctOfBudget": 51
     },
     "totalCssKb": {
       "budget": 200,
-      "actual": 91.82,
+      "actual": 93.43,
       "pass": true,
-      "pctOfBudget": 46
+      "pctOfBudget": 47
     },
     "largestChunkKb": {
       "budget": 250,
-      "actual": 109.55,
+      "actual": 108.4,
       "pass": true,
-      "pctOfBudget": 44
+      "pctOfBudget": 43
     },
     "entryPointKb": {
       "budget": 150,
-      "actual": 28.65,
+      "actual": 0,
       "pass": true,
-      "pctOfBudget": 19
+      "pctOfBudget": 0
     }
   },
   "exceptionSummary": {
@@ -194,30 +432,60 @@
   },
   "files": [
     {
-      "repoPath": "assets/AdminPanel-B_LZhKf4.css",
-      "score": 6.35,
+      "repoPath": "assets/AddressAutocomplete.vue_vue_type_script_setup_true_lang-CfU4BrEB.js",
+      "score": 3.01,
       "priority": "P2",
-      "file": "assets/AdminPanel-B_LZhKf4.css",
-      "sizeKb": 35.44,
-      "gzipKb": 6.35,
-      "type": "css",
-      "isEntry": false
-    },
-    {
-      "repoPath": "assets/AdminPanel-DLQF0qiJ.js",
-      "score": 109.25,
-      "priority": "P2",
-      "file": "assets/AdminPanel-DLQF0qiJ.js",
-      "sizeKb": 423.69,
-      "gzipKb": 109.25,
+      "file": "assets/AddressAutocomplete.vue_vue_type_script_setup_true_lang-CfU4BrEB.js",
+      "sizeKb": 7.91,
+      "gzipKb": 3.01,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/BetaFeedbackView-Bv8zFrvO.js",
+      "repoPath": "assets/AdminPanel-CmlQsXoK.js",
+      "score": 2.78,
+      "priority": "P2",
+      "file": "assets/AdminPanel-CmlQsXoK.js",
+      "sizeKb": 7.21,
+      "gzipKb": 2.78,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/AdminPanel-Epraq2yH.css",
+      "score": 0.06,
+      "priority": "P2",
+      "file": "assets/AdminPanel-Epraq2yH.css",
+      "sizeKb": 0.04,
+      "gzipKb": 0.06,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/AvailabilityStep-BIP40UrN.css",
+      "score": 2.13,
+      "priority": "P2",
+      "file": "assets/AvailabilityStep-BIP40UrN.css",
+      "sizeKb": 11.76,
+      "gzipKb": 2.13,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/AvailabilityStep-mHhw_nit.js",
+      "score": 14.44,
+      "priority": "P2",
+      "file": "assets/AvailabilityStep-mHhw_nit.js",
+      "sizeKb": 46.96,
+      "gzipKb": 14.44,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/BetaFeedbackView-DvXVRaha.js",
       "score": 2.96,
       "priority": "P2",
-      "file": "assets/BetaFeedbackView-Bv8zFrvO.js",
+      "file": "assets/BetaFeedbackView-DvXVRaha.js",
       "sizeKb": 10.15,
       "gzipKb": 2.96,
       "type": "js",
@@ -234,33 +502,203 @@
       "isEntry": false
     },
     {
-      "repoPath": "assets/BookingWizardView-8JiL63Qa.css",
-      "score": 3.85,
+      "repoPath": "assets/BookingWizardView-BHJvpMdm.css",
+      "score": 1.34,
       "priority": "P2",
-      "file": "assets/BookingWizardView-8JiL63Qa.css",
-      "sizeKb": 21.96,
-      "gzipKb": 3.85,
+      "file": "assets/BookingWizardView-BHJvpMdm.css",
+      "sizeKb": 5.79,
+      "gzipKb": 1.34,
       "type": "css",
       "isEntry": false
     },
     {
-      "repoPath": "assets/BookingWizardView-BjvgfNg8.js",
-      "score": 46.06,
+      "repoPath": "assets/BookingWizardView-DwH5LZuv.js",
+      "score": 16.4,
       "priority": "P2",
-      "file": "assets/BookingWizardView-BjvgfNg8.js",
-      "sizeKb": 167.32,
-      "gzipKb": 46.06,
+      "file": "assets/BookingWizardView-DwH5LZuv.js",
+      "sizeKb": 52.93,
+      "gzipKb": 16.4,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/EntityCard-B6JWAjvk.js",
-      "score": 0.23,
+      "repoPath": "assets/BusinessControlsTab-BcWyGmsa.css",
+      "score": 0.22,
       "priority": "P2",
-      "file": "assets/EntityCard-B6JWAjvk.js",
+      "file": "assets/BusinessControlsTab-BcWyGmsa.css",
       "sizeKb": 0.36,
-      "gzipKb": 0.23,
+      "gzipKb": 0.22,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/BusinessControlsTab-Yf7Qs3GS.js",
+      "score": 21.42,
+      "priority": "P2",
+      "file": "assets/BusinessControlsTab-Yf7Qs3GS.js",
+      "sizeKb": 95.74,
+      "gzipKb": 21.42,
       "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ConfirmationStep-ChInDEax.css",
+      "score": 0.25,
+      "priority": "P2",
+      "file": "assets/ConfirmationStep-ChInDEax.css",
+      "sizeKb": 0.47,
+      "gzipKb": 0.25,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ConfirmationStep-DfaJNxrg.js",
+      "score": 2.03,
+      "priority": "P2",
+      "file": "assets/ConfirmationStep-DfaJNxrg.js",
+      "sizeKb": 6.01,
+      "gzipKb": 2.03,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ContactsStep-CtsbCE7X.js",
+      "score": 2.88,
+      "priority": "P2",
+      "file": "assets/ContactsStep-CtsbCE7X.js",
+      "sizeKb": 13.4,
+      "gzipKb": 2.88,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ContactsStep-uvBumCKy.css",
+      "score": 0.04,
+      "priority": "P2",
+      "file": "assets/ContactsStep-uvBumCKy.css",
+      "sizeKb": 0.02,
+      "gzipKb": 0.04,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/DataManagementTab-BQa2fP4b.js",
+      "score": 8.83,
+      "priority": "P2",
+      "file": "assets/DataManagementTab-BQa2fP4b.js",
+      "sizeKb": 42.22,
+      "gzipKb": 8.83,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/DataManagementTab-CmQBojYL.css",
+      "score": 0.45,
+      "priority": "P2",
+      "file": "assets/DataManagementTab-CmQBojYL.css",
+      "sizeKb": 1.22,
+      "gzipKb": 0.45,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/EntityCard-D7zV1LD9.js",
+      "score": 0.34,
+      "priority": "P2",
+      "file": "assets/EntityCard-D7zV1LD9.js",
+      "sizeKb": 0.59,
+      "gzipKb": 0.34,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/InstancesTab-3tPdZXGQ.js",
+      "score": 11.59,
+      "priority": "P2",
+      "file": "assets/InstancesTab-3tPdZXGQ.js",
+      "sizeKb": 37.68,
+      "gzipKb": 11.59,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/InstancesTab-MW0QPhUX.css",
+      "score": 0.61,
+      "priority": "P2",
+      "file": "assets/InstancesTab-MW0QPhUX.css",
+      "sizeKb": 1.7,
+      "gzipKb": 0.61,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/PropertyDetailsStep-C3C_xucV.js",
+      "score": 6.84,
+      "priority": "P2",
+      "file": "assets/PropertyDetailsStep-C3C_xucV.js",
+      "sizeKb": 23.55,
+      "gzipKb": 6.84,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/SelectionCardGroup-BbGWSTB4.css",
+      "score": 0.89,
+      "priority": "P2",
+      "file": "assets/SelectionCardGroup-BbGWSTB4.css",
+      "sizeKb": 3.61,
+      "gzipKb": 0.89,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/SelectionCardGroup-ElRJ7GGp.js",
+      "score": 5.35,
+      "priority": "P2",
+      "file": "assets/SelectionCardGroup-ElRJ7GGp.js",
+      "sizeKb": 18.78,
+      "gzipKb": 5.35,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ServiceSelectionStep-0GRjbpog.js",
+      "score": 2.29,
+      "priority": "P2",
+      "file": "assets/ServiceSelectionStep-0GRjbpog.js",
+      "sizeKb": 6.06,
+      "gzipKb": 2.29,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ServiceSelectionStep-C4fNvUHl.css",
+      "score": 0.18,
+      "priority": "P2",
+      "file": "assets/ServiceSelectionStep-C4fNvUHl.css",
+      "sizeKb": 0.41,
+      "gzipKb": 0.18,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ShapesTab-BXUbyKAq.js",
+      "score": 4.44,
+      "priority": "P2",
+      "file": "assets/ShapesTab-BXUbyKAq.js",
+      "sizeKb": 17.07,
+      "gzipKb": 4.44,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/ShapesTab-DypL076T.css",
+      "score": 0.33,
+      "priority": "P2",
+      "file": "assets/ShapesTab-DypL076T.css",
+      "sizeKb": 0.84,
+      "gzipKb": 0.33,
+      "type": "css",
       "isEntry": false
     },
     {
@@ -274,130 +712,270 @@
       "isEntry": false
     },
     {
-      "repoPath": "assets/dependencyCleanup-rF8Rl5Jb.js",
+      "repoPath": "assets/datetime-hfIxVIOq.js",
+      "score": 2.5,
+      "priority": "P2",
+      "file": "assets/datetime-hfIxVIOq.js",
+      "sizeKb": 6.86,
+      "gzipKb": 2.5,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/dependencyCleanup-Buglbox7.js",
       "score": 0.37,
       "priority": "P2",
-      "file": "assets/dependencyCleanup-rF8Rl5Jb.js",
+      "file": "assets/dependencyCleanup-Buglbox7.js",
       "sizeKb": 0.59,
       "gzipKb": 0.37,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/index-B1IH1aXA.css",
-      "score": 14.89,
+      "repoPath": "assets/errorMessages-ChOmi9qr.js",
+      "score": 0.14,
       "priority": "P2",
-      "file": "assets/index-B1IH1aXA.css",
+      "file": "assets/errorMessages-ChOmi9qr.js",
+      "sizeKb": 0.19,
+      "gzipKb": 0.14,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/eventAttendeeUtils-KWTUWumJ.js",
+      "score": 0.23,
+      "priority": "P2",
+      "file": "assets/eventAttendeeUtils-KWTUWumJ.js",
+      "sizeKb": 0.32,
+      "gzipKb": 0.23,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/iconify-DxUG9h9y.js",
+      "score": 7.05,
+      "priority": "P2",
+      "file": "assets/iconify-DxUG9h9y.js",
+      "sizeKb": 18.05,
+      "gzipKb": 7.05,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/index-C_yQZvHO.js",
+      "score": 29.28,
+      "priority": "P2",
+      "file": "assets/index-C_yQZvHO.js",
+      "sizeKb": 99.57,
+      "gzipKb": 29.28,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/index-D0-jxQAz.css",
+      "score": 14.9,
+      "priority": "P2",
+      "file": "assets/index-D0-jxQAz.css",
       "sizeKb": 126.3,
-      "gzipKb": 14.89,
+      "gzipKb": 14.9,
       "type": "css",
       "isEntry": false
     },
     {
-      "repoPath": "assets/index-DdNYZZGA.js",
-      "score": 28.65,
+      "repoPath": "assets/instanceComponentUtils-k1m53kwc.js",
+      "score": 1.15,
       "priority": "P2",
-      "file": "assets/index-DdNYZZGA.js",
-      "sizeKb": 97.82,
-      "gzipKb": 28.65,
+      "file": "assets/instanceComponentUtils-k1m53kwc.js",
+      "sizeKb": 3.23,
+      "gzipKb": 1.15,
       "type": "js",
-      "isEntry": true
+      "isEntry": false
     },
     {
-      "repoPath": "assets/pinia-B5X-hN8x.js",
+      "repoPath": "assets/partsTotals-C8R03hxC.js",
+      "score": 0.15,
+      "priority": "P2",
+      "file": "assets/partsTotals-C8R03hxC.js",
+      "sizeKb": 0.29,
+      "gzipKb": 0.15,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/pinia-CyDfLiNr.js",
       "score": 1.82,
       "priority": "P2",
-      "file": "assets/pinia-B5X-hN8x.js",
+      "file": "assets/pinia-CyDfLiNr.js",
       "sizeKb": 3.67,
       "gzipKb": 1.82,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/timeFormatting-I7Ly4XHi.js",
-      "score": 13.62,
+      "repoPath": "assets/timeFormatting-Psmzx-9V.js",
+      "score": 0.39,
       "priority": "P2",
-      "file": "assets/timeFormatting-I7Ly4XHi.js",
-      "sizeKb": 37.74,
-      "gzipKb": 13.62,
+      "file": "assets/timeFormatting-Psmzx-9V.js",
+      "sizeKb": 0.67,
+      "gzipKb": 0.39,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/useBetaFeedback-tl9cCPdS.js",
-      "score": 0.37,
+      "repoPath": "assets/useBetaFeedback-DofjSJrM.js",
+      "score": 0.38,
       "priority": "P2",
-      "file": "assets/useBetaFeedback-tl9cCPdS.js",
+      "file": "assets/useBetaFeedback-DofjSJrM.js",
       "sizeKb": 0.74,
-      "gzipKb": 0.37,
+      "gzipKb": 0.38,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/vee-validate-CAZXNrDj.js",
+      "repoPath": "assets/useBlockInstanceSelection-B6Qzsl5E.js",
+      "score": 0.3,
+      "priority": "P2",
+      "file": "assets/useBlockInstanceSelection-B6Qzsl5E.js",
+      "sizeKb": 0.48,
+      "gzipKb": 0.3,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useComponentEntity-BcaYPf0C.js",
+      "score": 1.62,
+      "priority": "P2",
+      "file": "assets/useComponentEntity-BcaYPf0C.js",
+      "sizeKb": 4.72,
+      "gzipKb": 1.62,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useDragAndDropHelpers-BdhLY93s.js",
+      "score": 68.03,
+      "priority": "P2",
+      "file": "assets/useDragAndDropHelpers-BdhLY93s.js",
+      "sizeKb": 242.01,
+      "gzipKb": 68.03,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useDragAndDropHelpers-CUugQ4tZ.css",
+      "score": 5.46,
+      "priority": "P2",
+      "file": "assets/useDragAndDropHelpers-CUugQ4tZ.css",
+      "sizeKb": 31.3,
+      "gzipKb": 5.46,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useSharedMutationHandlers-Cb2_Jfil.js",
+      "score": 0.28,
+      "priority": "P2",
+      "file": "assets/useSharedMutationHandlers-Cb2_Jfil.js",
+      "sizeKb": 0.59,
+      "gzipKb": 0.28,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useStepValidation-Dx3v6BXu.js",
+      "score": 1.15,
+      "priority": "P2",
+      "file": "assets/useStepValidation-Dx3v6BXu.js",
+      "sizeKb": 2.73,
+      "gzipKb": 1.15,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useTabNavigation-PRoos8Ch.js",
+      "score": 0.15,
+      "priority": "P2",
+      "file": "assets/useTabNavigation-PRoos8Ch.js",
+      "sizeKb": 0.15,
+      "gzipKb": 0.15,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/useWizardStepSync-CBHCliKQ.js",
+      "score": 0.33,
+      "priority": "P2",
+      "file": "assets/useWizardStepSync-CBHCliKQ.js",
+      "sizeKb": 0.5,
+      "gzipKb": 0.33,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/vee-validate-X9dUdhq7.js",
       "score": 10.05,
       "priority": "P2",
-      "file": "assets/vee-validate-CAZXNrDj.js",
+      "file": "assets/vee-validate-X9dUdhq7.js",
       "sizeKb": 27.86,
       "gzipKb": 10.05,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/vue-JsoSmu5X.js",
+      "repoPath": "assets/vue-CcbpGyuJ.js",
       "score": 30.75,
       "priority": "P2",
-      "file": "assets/vue-JsoSmu5X.js",
+      "file": "assets/vue-CcbpGyuJ.js",
       "sizeKb": 77.77,
       "gzipKb": 30.75,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/vue-query-Bwll3ySA.js",
+      "repoPath": "assets/vue-query-BHaqrhEi.js",
       "score": 10.93,
       "priority": "P2",
-      "file": "assets/vue-query-Bwll3ySA.js",
+      "file": "assets/vue-query-BHaqrhEi.js",
       "sizeKb": 36.95,
       "gzipKb": 10.93,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/vue-router-BAniQuVs.js",
+      "repoPath": "assets/vue-router-BsZwhYGn.js",
       "score": 9.79,
       "priority": "P2",
-      "file": "assets/vue-router-BAniQuVs.js",
+      "file": "assets/vue-router-BsZwhYGn.js",
       "sizeKb": 24.94,
       "gzipKb": 9.79,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/vuetify-CA15CqLa.css",
-      "score": 66.58,
+      "repoPath": "assets/vuetify-CpYpwDyl.js",
+      "score": 108.4,
       "priority": "P2",
-      "file": "assets/vuetify-CA15CqLa.css",
-      "sizeKb": 514.58,
-      "gzipKb": 66.58,
-      "type": "css",
-      "isEntry": false
-    },
-    {
-      "repoPath": "assets/vuetify-DxIkWGut.js",
-      "score": 109.55,
-      "priority": "P2",
-      "file": "assets/vuetify-DxIkWGut.js",
+      "file": "assets/vuetify-CpYpwDyl.js",
       "sizeKb": 349.69,
-      "gzipKb": 109.55,
+      "gzipKb": 108.4,
       "type": "js",
       "isEntry": false
     },
     {
-      "repoPath": "assets/vueuse-BcYULufa.js",
+      "repoPath": "assets/vuetify-QbqqxFlv.css",
+      "score": 66.42,
+      "priority": "P2",
+      "file": "assets/vuetify-QbqqxFlv.css",
+      "sizeKb": 514.58,
+      "gzipKb": 66.42,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "repoPath": "assets/vueuse-BwVgCutz.js",
       "score": 4.96,
       "priority": "P2",
-      "file": "assets/vueuse-BcYULufa.js",
+      "file": "assets/vueuse-BwVgCutz.js",
       "sizeKb": 11.64,
       "gzipKb": 4.96,
       "type": "js",

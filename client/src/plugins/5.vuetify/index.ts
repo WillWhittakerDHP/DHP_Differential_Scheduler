@@ -3,7 +3,6 @@ import { deepMerge } from '@antfu/utils'
 import type { App } from 'vue'
 import { createVuetify } from 'vuetify'
 import { VBtn } from 'vuetify/components/VBtn'
-import { VVideo } from 'vuetify/labs/VVideo'
 import defaults from './defaults'
 import { icons } from './icons'
 import { staticPrimaryColor, staticPrimaryDarkenColor, themes } from './theme'
@@ -39,13 +38,9 @@ export default function (app: App) {
     aliases: {
       IconBtn: VBtn,
     },
-    components: {
-      VVideo,
-    },
     defaults,
     icons,
     theme: optionTheme,
-    // Locale adapter removed since i18n is disabled in themeConfig
   })
 
   app.use(vuetify)

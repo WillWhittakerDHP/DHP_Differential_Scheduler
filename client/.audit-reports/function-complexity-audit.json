@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-24T15:07:36.001Z",
-  "totalScanned": 756,
+  "generatedAt": "2026-02-24T15:28:45.139Z",
+  "totalScanned": 763,
   "tierModel": "tier1",
   "tier1Rules": [
     "nesting",
@@ -470,67 +470,6 @@
         }
       ],
       "score": 17,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "functions": [
-        {
-          "name": "to",
-          "startLine": 65,
-          "endLine": 86,
-          "length": 22,
-          "maxNesting": 5,
-          "branches": 5,
-          "params": 0,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 4,
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "name": "useMoveablePartsScheduling",
-          "startLine": 110,
-          "endLine": 268,
-          "length": 159,
-          "maxNesting": 17,
-          "branches": 17,
-          "params": 1,
-          "returns": 11,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 17,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "branches",
-              "value": 17,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 159,
-              "threshold": 50,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 11,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 15,
       "priority": "P0"
     },
     {
@@ -1484,35 +1423,35 @@
       "functions": [
         {
           "name": "useAvailabilitySettings",
-          "startLine": 63,
-          "endLine": 345,
-          "length": 283,
-          "maxNesting": 43,
-          "branches": 62,
+          "startLine": 55,
+          "endLine": 171,
+          "length": 117,
+          "maxNesting": 13,
+          "branches": 15,
           "params": 1,
-          "returns": 7,
+          "returns": 5,
           "violations": [
             {
               "rule": "nesting",
-              "value": 43,
+              "value": 13,
               "threshold": 4,
               "tier": 1
             },
             {
               "rule": "branches",
-              "value": 62,
+              "value": 15,
               "threshold": 8,
               "tier": 1
             },
             {
               "rule": "length",
-              "value": 283,
+              "value": 117,
               "threshold": 50,
               "tier": 1
             },
             {
               "rule": "returns",
-              "value": 7,
+              "value": 5,
               "threshold": 4,
               "tier": 2
             }
@@ -3414,6 +3353,49 @@
               "value": 68,
               "threshold": 50,
               "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "functions": [
+        {
+          "name": "useMoveablePartsScheduling",
+          "startLine": 144,
+          "endLine": 246,
+          "length": 103,
+          "maxNesting": 10,
+          "branches": 9,
+          "params": 1,
+          "returns": 10,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 10,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 103,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 10,
+              "threshold": 4,
+              "tier": 2
             }
           ]
         }
@@ -5944,6 +5926,43 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/composables/admin/useEntityCardTitleKeydown.ts",
+      "functions": [
+        {
+          "name": "useEntityCardTitleKeydown",
+          "startLine": 7,
+          "endLine": 61,
+          "length": 55,
+          "maxNesting": 7,
+          "branches": 6,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 4,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 55,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
       "repoPath": "client/src/composables/admin/useEntityDisplay.ts",
       "functions": [
         {
@@ -7482,37 +7501,6 @@
               "value": 5,
               "threshold": 4,
               "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "functions": [
-        {
-          "name": "handleTitleKeydown",
-          "startLine": 71,
-          "endLine": 116,
-          "length": 46,
-          "maxNesting": 6,
-          "branches": 6,
-          "params": 1,
-          "returns": 6,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 6,
-              "threshold": 4,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 6,
-              "threshold": 4,
-              "tier": 2
             }
           ]
         }

@@ -355,6 +355,7 @@ declare global {
   const useCssVar: typeof import('@vueuse/core').useCssVar
   const useCssVars: typeof import('vue').useCssVars
   const useCurrentElement: typeof import('@vueuse/core').useCurrentElement
+  const useCustomizerOptions: typeof import('./src/@core/composable/useCustomizerOptions').useCustomizerOptions
   const useCycleList: typeof import('@vueuse/core').useCycleList
   const useDark: typeof import('@vueuse/core').useDark
   const useDateFormat: typeof import('@vueuse/core').useDateFormat
@@ -541,43 +542,62 @@ declare global {
   const watchWithFilter: typeof import('@vueuse/core').watchWithFilter
   const whenever: typeof import('@vueuse/core').whenever
 }
+// for type re-export
 declare global {
+  // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
+  // @ts-ignore
   export type { SelectionResult, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn } from './src/composables/useAddressAutocomplete'
   import('./src/composables/useAddressAutocomplete')
+  // @ts-ignore
   export type { WithId, UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
   import('./src/composables/useCollectionTypes')
+  // @ts-ignore
   export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from './src/composables/useComponentDistribution'
   import('./src/composables/useComponentDistribution')
+  // @ts-ignore
   export type { UseEntityFormOptions, UseEntityFormReturn } from './src/composables/useEntityForm'
   import('./src/composables/useEntityForm')
+  // @ts-ignore
   export type { UseFormFieldsOptionsBase, UseFormFieldsOptions, UseFormFieldsContextOptions, UseFormFieldsStandardLayoutReturn, UseFormFieldsReturn } from './src/composables/formFields/types'
   import('./src/composables/formFields/types')
+  // @ts-ignore
   export type { ValidationRule, ValidationResult } from './src/composables/useFormValidation'
   import('./src/composables/useFormValidation')
+  // @ts-ignore
   export type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from './src/composables/useLayoutLoading'
   import('./src/composables/useLayoutLoading')
+  // @ts-ignore
   export type { UseLoadingIndicatorReturn, LoadingIndicatorInstance } from './src/composables/useLoadingIndicator'
   import('./src/composables/useLoadingIndicator')
+  // @ts-ignore
   export type { UseLocalTimeReturn } from './src/composables/useLocalTime'
   import('./src/composables/useLocalTime')
+  // @ts-ignore
   export type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from './src/composables/usePartInstanceData'
   import('./src/composables/usePartInstanceData')
+  // @ts-ignore
   export type { SelectOptionBase, SelectOption, GroupedEntities, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
+  // @ts-ignore
   export type { UseTimeFormattingReturn, TimeRange, TimeSlot } from './src/composables/useTimeFormatting'
   import('./src/composables/useTimeFormatting')
+  // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
   import('./src/utils/autocomplete')
+  // @ts-ignore
   export type { LogLevel, AppLogger, Logger } from './src/utils/logger'
   import('./src/utils/logger')
+  // @ts-ignore
   export type { WizardInstance, WizardStateField, WizardFieldConfig } from './src/utils/wizardStateFieldConfig'
   import('./src/utils/wizardStateFieldConfig')
 }
 
+// for vue template auto import
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}
@@ -803,6 +823,7 @@ declare module 'vue' {
     readonly useCssVar: UnwrapRef<typeof import('@vueuse/core')['useCssVar']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useCurrentElement: UnwrapRef<typeof import('@vueuse/core')['useCurrentElement']>
+    readonly useCustomizerOptions: UnwrapRef<typeof import('./src/@core/composable/useCustomizerOptions')['useCustomizerOptions']>
     readonly useCycleList: UnwrapRef<typeof import('@vueuse/core')['useCycleList']>
     readonly useDark: UnwrapRef<typeof import('@vueuse/core')['useDark']>
     readonly useDateFormat: UnwrapRef<typeof import('@vueuse/core')['useDateFormat']>
