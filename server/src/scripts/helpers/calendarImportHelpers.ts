@@ -51,7 +51,6 @@ export async function findOrCreateAddress(addressData: {
 
   if (existingAddress) {
     if (addressData.unit != null && existingAddress.unit !== addressData.unit) {
-      // @audit-allow:hardcoding:fieldMapping - Sequelize update payload
       await existingAddress.update({ unit: addressData.unit });
     }
     return existingAddress;

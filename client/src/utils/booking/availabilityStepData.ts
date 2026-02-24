@@ -36,7 +36,6 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
   const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
   if (!majorEventShape) {
     logger.error('buildSelectedTimeSlots: no event shape with differentialRole=major', {
-      // @audit-allow:hardcoding:fieldMapping - Stable DTO shape for event shape entities
       availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
     })
   }

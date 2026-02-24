@@ -72,7 +72,6 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
   watch(
     () => formData.value.ruleType,
     (newType) => {
-      // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on rule type
       switch (newType) {
         case RULE_TYPE_VALUES.REQUIRED_FIELDS:
           formData.value.ruleConfig = { fields: [] }
@@ -131,7 +130,6 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
   }
 
   const formatRuleConfig = (rule: BusinessRule): string => {
-    // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on rule type
     switch (rule.ruleType) {
       case RULE_TYPE_VALUES.REQUIRED_FIELDS: {
         const reqFields = rule.ruleConfig as { fields: string[]; condition?: string }

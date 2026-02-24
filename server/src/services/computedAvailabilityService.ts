@@ -178,7 +178,6 @@ async function calculateDriveTimesForPlaceIds(
           }
         }
         if (result.status !== 'OK') {
-          // @audit-allow:hardcoding:fieldMapping - Logger context object
           logger.warn(
             `Route not found for driveFromCandidate: placeId ${uncachedFromPlaceIds[result.destinationIndex]}`,
             { status: result.status, condition: result.condition }

@@ -10,7 +10,6 @@ interface BusinessSettingRecord {
 
 /**
  * WHY: Transform setting to response format
- * LEARNING: Transforms BusinessSettings model to API response; includes auto_confirm_enabled when present (Task 6.3.2.3).
  */
 export function transformSettingToResponse(setting: BusinessSettingRecord): { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } {
   const out: { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } = {

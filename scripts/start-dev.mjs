@@ -2,15 +2,41 @@
  * Start dev server (and optionally test watcher) based on root .env.
  * Loads TEST_ENABLED from project root .env; when 'true', runs
  * server + client + test:watch. Otherwise server + client only.
+ *
+ * If the server is already listening on 3001, skips kill:ports and startup
+ * to avoid EADDRINUSE and unnecessary restart.
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
+import net from 'node:net'
 import { fileURLToPath } from 'node:url'
 import { execSync } from 'node:child_process'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
+const SERVER_PORT = 3001
+
+/** Returns true if something is accepting TCP connections on port at 127.0.0.1. */
+function isPortInUse(port) {
+  return new Promise((resolve) => {
+    const socket = new net.Socket()
+    const timeout = setTimeout(() => {
+      socket.destroy()
+      resolve(false)
+    }, 2000)
+    socket.once('connect', () => {
+      clearTimeout(timeout)
+      socket.destroy()
+      resolve(true)
+    })
+    socket.once('error', () => {
+      clearTimeout(timeout)
+      resolve(false)
+    })
+    socket.connect(port, '127.0.0.1')
+  })
+}
 
 /** Load root .env and set process.env for KEY=value lines (strip quotes). */
 function loadRootEnv() {
@@ -35,6 +61,15 @@ loadRootEnv()
 process.env.NODE_ENV = 'development'
 
 const testsEnabled = process.env.TEST_ENABLED === 'true'
+
+// Check-first: avoid killing/restarting when app is already running (prevents EADDRINUSE).
+const serverAlreadyUp = await isPortInUse(SERVER_PORT)
+if (serverAlreadyUp) {
+  console.log('\n✅ App already running on port', SERVER_PORT)
+  console.log('   Skipping kill:ports and server startup to avoid EADDRINUSE.')
+  console.log('   To restart, run: npm run restart:dev\n')
+  process.exit(0)
+}
 
 console.log('\n🔌 Killing open dev ports before starting...')
 try {

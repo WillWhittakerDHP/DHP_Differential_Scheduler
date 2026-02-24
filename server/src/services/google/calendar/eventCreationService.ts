@@ -141,7 +141,6 @@ export async function createEvent(params: CreateEventParams): Promise<CreatedEve
       
       logger.debug('Invalidating caches after event creation', { calendarId })
       invalidateEventsCache(calendarId)
-      // @audit-allow:hardcoding:fieldMapping - Logger context object
       logger.debug('Successfully created event', { eventId: createdEvent.id })
       
       const result: CreatedEventResponse = {

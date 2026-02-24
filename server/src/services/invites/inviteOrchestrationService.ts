@@ -417,7 +417,6 @@ async function updateAttendeeRecords(
     try {
       await AppointmentAttendee.update(
         { googleEventId, invitationStatus: 'sent' },
-        // @audit-allow:hardcoding:fieldMapping - Sequelize update/where shape
         { where: { id: attendee.id } }
       )
       updated++
@@ -460,7 +459,6 @@ async function markAttendeesAsFailed(
     try {
       await AppointmentAttendee.update(
         { invitationStatus: 'failed' },
-        // @audit-allow:hardcoding:fieldMapping - Sequelize where shape
         { where: { id: attendee.id } }
       )
       updated++

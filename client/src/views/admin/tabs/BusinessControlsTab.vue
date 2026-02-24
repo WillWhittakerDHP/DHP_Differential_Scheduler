@@ -137,6 +137,33 @@ const holdDurationMinutes = computed({
     }
   }
 })
+const holdDurationMin = computed({
+  get: () => formData.value?.calendarConfig?.holdDurationMin ?? DEFAULT_CALENDAR_CONFIG.holdDurationMin ?? 1,
+  set: (value: number) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      formData.value.calendarConfig.holdDurationMin = value
+    }
+  }
+})
+const holdDurationMax = computed({
+  get: () => formData.value?.calendarConfig?.holdDurationMax ?? DEFAULT_CALENDAR_CONFIG.holdDurationMax ?? 60,
+  set: (value: number) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      formData.value.calendarConfig.holdDurationMax = value
+    }
+  }
+})
+const holdDurationFallback = computed({
+  get: () => formData.value?.calendarConfig?.holdDurationFallback ?? DEFAULT_CALENDAR_CONFIG.holdDurationFallback ?? 15,
+  set: (value: number) => {
+    if (formData.value) {
+      if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+      formData.value.calendarConfig.holdDurationFallback = value
+    }
+  }
+})
 
 const {
   entries: calendarEntries,
@@ -386,9 +413,15 @@ function setAutoConfirmEnabled(v: boolean): void {
             <VWindowItem key="confirmation" value="confirmation">
               <AppointmentConfirmationPanel
                 :hold-duration-minutes="holdDurationMinutes"
+                :hold-duration-min="holdDurationMin"
+                :hold-duration-max="holdDurationMax"
+                :hold-duration-fallback="holdDurationFallback"
                 :auto-confirm-enabled="autoConfirmEnabled"
                 :save-button-props="saveButtonProps"
                 @update:hold-duration-minutes="(v: number) => { holdDurationMinutes = v }"
+                @update:hold-duration-min="(v: number) => { holdDurationMin = v }"
+                @update:hold-duration-max="(v: number) => { holdDurationMax = v }"
+                @update:hold-duration-fallback="(v: number) => { holdDurationFallback = v }"
                 @update:auto-confirm-enabled="setAutoConfirmEnabled"
               />
             </VWindowItem>

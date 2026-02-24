@@ -13,7 +13,6 @@ export function resolveByIds<CollectionItem extends { id: string }>(
   return ids.reduce<ResolveByIdsResult<CollectionItem>>(
     (acc, id) => {
       const resolved = findById(items, id)
-      // @audit-allow:hardcoding:fieldMapping - Reducer accumulator shape
       return resolved
         ? { resolved: [...acc.resolved, resolved], missingIds: acc.missingIds }
         : // @audit-allow:hardcoding:fieldMapping - Reducer accumulator shape

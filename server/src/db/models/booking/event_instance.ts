@@ -158,7 +158,6 @@ export function EventInstanceFactory(sequelize: Sequelize) {
         allowNull: true,
         defaultValue: null,
         field: 'reminder_overrides',
-        // @audit-allow:hardcoding:inlineLabelMap - Sequelize column comment
         comment: 'JSON array of reminder overrides, e.g. [{"method":"popup","minutes":10}]',
       },
       orderIndex: {

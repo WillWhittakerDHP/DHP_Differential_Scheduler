@@ -52,7 +52,6 @@ function findMatchingTimeSlot(
 
 /**
  * Loaded time slot from API/DB (RFC3339 strings at boundary).
- * WHY: Structurally aligned with shared SlotTimeBounds; endTime optional for loaded payloads.
  */
 export interface LoadedTimeSlot {
   startTime: string  // RFC3339 datetime string

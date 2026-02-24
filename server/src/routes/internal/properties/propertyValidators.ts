@@ -171,7 +171,6 @@ export function validatePropertyDetailsPatchBody(body: unknown): PatchPropertyDe
     const value = raw[key]
     if (value === undefined) continue
 
-    // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on patch field key
     switch (key) {
       case PATCH_PROPERTY_FIELD_KEY.MLS_NUMBER:
         data.mlsNumber = value === null ? null : typeof value === 'string' ? value : String(value)

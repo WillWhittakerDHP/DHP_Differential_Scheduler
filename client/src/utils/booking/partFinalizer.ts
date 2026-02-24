@@ -17,7 +17,6 @@ const logger = createLogger('partFinalizer')
 function partShapeKey(part: BookingPartInstance): string {
   const raw = part.partShape
   if (raw === undefined || raw === null || raw === '') {
-    // @audit-allow:hardcoding:fieldMapping - Logger context object
     logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
     return ''
   }
@@ -168,7 +167,6 @@ export function calculateSlotShape(
   const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
   if (!majorEventShape) {
     logger.error('calculateSlotShape: no event shape with differentialRole=major', {
-      // @audit-allow:hardcoding:fieldMapping - Stable DTO shape for event shape entities
       availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
     })
   }

@@ -96,15 +96,10 @@ async function createAttendeeFromSpec(
 
 export function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
   return [
-    // @audit-allow:hardcoding:fieldMapping - Attendee spec DTO
     { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
-    // @audit-allow:hardcoding:fieldMapping - Attendee spec DTO
     { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
-    // @audit-allow:hardcoding:fieldMapping - Attendee spec DTO
     { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
-    // @audit-allow:hardcoding:fieldMapping - Attendee spec DTO
     { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
-    // @audit-allow:hardcoding:fieldMapping - Attendee spec DTO
     { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },
   ]
 }

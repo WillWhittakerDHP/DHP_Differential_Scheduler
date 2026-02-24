@@ -122,7 +122,6 @@ function getCallsiteFrame(): string {
       }
     }
   } catch {
-    // ignore
   }
   return ''
 }

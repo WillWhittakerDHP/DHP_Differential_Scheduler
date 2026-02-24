@@ -92,7 +92,6 @@ export async function createCalendarEventForAppointment(
               googleEventId: createdEvent.id,
               invitationStatus: 'sent',
             },
-            // @audit-allow:hardcoding:fieldMapping - Sequelize where shape
             { where: { id: attendee.id } }
           );
           attendeesUpdated++;

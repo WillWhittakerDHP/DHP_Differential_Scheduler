@@ -17,7 +17,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { key } = req.query
 
-    // @audit-allow:hardcoding:fieldEqualsString - Type guard for query key
     if (key && typeof key === 'string') {
       const setting = await BusinessSettings.findOne({
         where: { settingKey: key },
@@ -195,7 +194,6 @@ router.patch(
       setting.settingValue = mergedValue as AvailabilitySettingsData
     }
 
-    // Task 6.3.2.3: persist auto_confirm_enabled when provided (availability_settings row only)
     if (typeof auto_confirm_enabled === 'boolean') {
       setting.autoConfirmEnabled = auto_confirm_enabled
     }

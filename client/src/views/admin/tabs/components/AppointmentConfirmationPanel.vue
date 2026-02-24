@@ -7,30 +7,39 @@ import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStri
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-const HOLD_DURATION_MIN = 1
-const HOLD_DURATION_MAX = 60
+const props = withDefaults(
+  defineProps<{
+    holdDurationMinutes: number
+    autoConfirmEnabled: boolean
+    /** Min allowed (from admin settings). */
+    holdDurationMin?: number
+    /** Max allowed (from admin settings). */
+    holdDurationMax?: number
+    /** Default when value missing/invalid (from admin settings). */
+    holdDurationFallback?: number
+    saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
+  }>(),
+  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15 }
+)
 
 function clampHoldDuration(value: number): number {
-  const n = Number.isNaN(value) ? 15 : Math.floor(value)
-  return Math.min(HOLD_DURATION_MAX, Math.max(HOLD_DURATION_MIN, n))
+  const n = Number.isNaN(value) ? props.holdDurationFallback : Math.floor(value)
+  return Math.min(props.holdDurationMax, Math.max(props.holdDurationMin, n))
 }
 
 function holdDurationRule(value: unknown): true | string {
   const n = Number(value)
-  if (Number.isNaN(n)) return UI_STRINGS.calendar.holdDurationMin
-  if (n < HOLD_DURATION_MIN) return UI_STRINGS.calendar.holdDurationMin
-  if (n > HOLD_DURATION_MAX) return UI_STRINGS.calendar.holdDurationMax
+  if (Number.isNaN(n)) return `Hold duration must be at least ${props.holdDurationMin} minute(s).`
+  if (n < props.holdDurationMin) return `Hold duration must be at least ${props.holdDurationMin} minute(s).`
+  if (n > props.holdDurationMax) return `Hold duration cannot exceed ${props.holdDurationMax} minutes.`
   return true
 }
 
-defineProps<{
-  holdDurationMinutes: number
-  autoConfirmEnabled: boolean
-  saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
-}>()
-
 const emit = defineEmits<{
   'update:holdDurationMinutes': [value: number]
+  'update:holdDurationMin': [value: number]
+  'update:holdDurationMax': [value: number]
+  'update:holdDurationFallback': [value: number]
   'update:autoConfirmEnabled': [value: boolean]
 }>()
 </script>
@@ -58,18 +67,50 @@ const emit = defineEmits<{
       :model-value="holdDurationMinutes"
       @update:model-value="(v: string | number) => emit('update:holdDurationMinutes', clampHoldDuration(Number(v)))"
       type="number"
-      :min="1"
-      :max="60"
+      :min="holdDurationMin"
+      :max="holdDurationMax"
       :label="UI_STRINGS.calendar.holdDurationLabel"
-      :hint="UI_STRINGS.calendar.holdDurationHint"
+      :hint="`How long a slot is held before it expires. Allowed range: ${holdDurationMin}–${holdDurationMax} minutes.`"
       persistent-hint
       class="mb-4"
       :rules="[holdDurationRule]"
       validate-on="blur"
     />
+    <VTextField
+      :model-value="holdDurationMin"
+      @update:model-value="(v: string | number) => emit('update:holdDurationMin', Math.max(1, Math.floor(Number(v)) || 1))"
+      type="number"
+      min="1"
+      label="Hold duration min (minutes)"
+      hint="Minimum allowed hold duration. Used for validation and clamping."
+      persistent-hint
+      class="mb-4"
+    />
+    <VTextField
+      :model-value="holdDurationMax"
+      @update:model-value="(v: string | number) => emit('update:holdDurationMax', Math.min(1440, Math.floor(Number(v)) || 60))"
+      type="number"
+      min="1"
+      max="1440"
+      label="Hold duration max (minutes)"
+      hint="Maximum allowed hold duration. Used for validation and clamping."
+      persistent-hint
+      class="mb-4"
+    />
+    <VTextField
+      :model-value="holdDurationFallback"
+      @update:model-value="(v: string | number) => emit('update:holdDurationFallback', clampHoldDuration(Number(v)))"
+      type="number"
+      :min="holdDurationMin"
+      :max="holdDurationMax"
+      label="Default hold duration when missing (minutes)"
+      hint="Used when no value is provided or value is invalid."
+      persistent-hint
+      class="mb-4"
+    />
 
     <div class="text-caption mt-2">
-      {{ UI_STRINGS.calendar.holdDurationHint }}
+      How long a slot is held before it expires. Allowed range: {{ holdDurationMin }}–{{ holdDurationMax }} minutes.
     </div>
   </div>
 

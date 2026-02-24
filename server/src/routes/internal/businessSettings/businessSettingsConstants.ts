@@ -56,7 +56,10 @@ export const defaultAvailabilitySettings: AvailabilitySettingsData = {
     enabled: false,
     provider: 'none',
     calendars: [],
-    holdDurationMinutes: 15
+    holdDurationMinutes: 15,
+    holdDurationMin: 1,
+    holdDurationMax: 60,
+    holdDurationFallback: 15
   } as CalendarConfig
 }
 

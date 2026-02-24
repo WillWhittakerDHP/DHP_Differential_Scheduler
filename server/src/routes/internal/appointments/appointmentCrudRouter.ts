@@ -20,8 +20,9 @@ import {
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
   getCalendarIdForAppointment,
-  getHoldDurationDefaultFromSettings,
+  getHoldDurationFromSettings,
   getAutoConfirmEnabledFromSettings,
+  type HoldDurationBounds,
   type AttendeeRequest,
 } from './appointmentHelpers.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
@@ -98,7 +99,9 @@ const router = createCrudRouter({
     }
 
     if (body?.status === 'held') {
-      body._holdDurationDefaultFromSettings = await getHoldDurationDefaultFromSettings()
+      const { bounds, defaultMinutes } = await getHoldDurationFromSettings()
+      body._holdDurationDefaultFromSettings = defaultMinutes
+      body._holdDurationBoundsFromSettings = bounds
     }
   },
   sanitizeInput: (data: unknown): unknown => {
@@ -108,6 +111,7 @@ const router = createCrudRouter({
       holdDurationMinutes?: unknown
       overrideConstraints?: unknown
       _holdDurationDefaultFromSettings?: number
+      _holdDurationBoundsFromSettings?: HoldDurationBounds
       _currentStatus?: AppointmentStatus
       status?: string
       [key: string]: unknown
@@ -118,6 +122,7 @@ const router = createCrudRouter({
       holdDurationMinutes: rawDuration,
       overrideConstraints: rawOverrides,
       _holdDurationDefaultFromSettings: defaultFromSettings,
+      _holdDurationBoundsFromSettings: boundsFromSettings,
       _currentStatus: _currentStatusStripped,
       ...appointmentFields
     } = appointmentData
@@ -130,17 +135,16 @@ const router = createCrudRouter({
 
     if (newStatus === 'confirmed') {
       appointmentFields.confirmedAt = new Date()
-      // ENACTMENT(Feature 7): set confirmedBy from req.user.id when auth exists
       appointmentFields.confirmedBy = null
     }
 
     if (appointmentFields.status === 'held') {
-      const HOLD_DURATION_MAX = 60
+      const bounds = boundsFromSettings ?? { min: 1, max: 60, fallback: 15 }
       const parsed = Number(rawDuration)
-      const fromRequest = (!Number.isNaN(parsed) && parsed >= 1 && parsed <= HOLD_DURATION_MAX)
+      const fromRequest = (!Number.isNaN(parsed) && parsed >= bounds.min && parsed <= bounds.max)
         ? Math.floor(parsed)
         : undefined
-      const durationMinutes = fromRequest ?? (typeof defaultFromSettings === 'number' ? defaultFromSettings : 15)
+      const durationMinutes = fromRequest ?? (typeof defaultFromSettings === 'number' ? defaultFromSettings : bounds.fallback)
 
       appointmentFields.heldUntil = new Date(Date.now() + durationMinutes * 60_000)
       appointmentFields.heldBy = null
@@ -218,7 +222,6 @@ const router = createCrudRouter({
 
     await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)
 
-    // Task 6.3.2.4: Auto-confirm when setting is enabled and appointment was created as submitted
     if (record.status === 'submitted') {
       const autoConfirmEnabled = await getAutoConfirmEnabledFromSettings()
       if (autoConfirmEnabled) {

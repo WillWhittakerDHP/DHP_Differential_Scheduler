@@ -19,9 +19,9 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-23T21:42:04.414Z**
-- Files scanned: **821**
-- Type definitions found: **662**
+- Generated at: **2026-02-24T14:10:58.766Z**
+- Files scanned: **823**
+- Type definitions found: **664**
 - Similarity groups: **18**
 - UNIFY candidates: **0**
 - BRAND candidates: **1**
@@ -122,7 +122,7 @@ Overlap: **86%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `LoadedTimeSlot` | interface | `client/src/utils/booking/timeSlotMatching.ts` | 57 | yes |
+| `LoadedTimeSlot` | interface | `client/src/utils/booking/timeSlotMatching.ts` | 56 | yes |
 | `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 402 | yes |
 
 Overlap: **67%** shared properties
@@ -161,7 +161,7 @@ Overlap: **50%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/common/AddressAutocomplete.vue` | 32 | no |
+| `Props` | interface | `client/src/components/common/AddressAutocomplete.vue` | 14 | no |
 | `DefaultLocation` | interface | `shared/types/availabilityTypes.ts` | 303 | yes |
 
 Overlap: **18%** shared properties

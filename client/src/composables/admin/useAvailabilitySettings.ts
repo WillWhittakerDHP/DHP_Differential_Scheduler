@@ -118,8 +118,11 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
         method: 'roundUp' as const
       }
       
-      // PATTERN: Provide default values for optional calendarConfig
-      const calendarConfig: CalendarConfig = rawSettings.calendarConfig || DEFAULT_CALENDAR_CONFIG
+      // PATTERN: Merge with defaults so holdDurationMin/Max/Fallback exist when server omits them (legacy)
+      const calendarConfig: CalendarConfig = {
+        ...DEFAULT_CALENDAR_CONFIG,
+        ...rawSettings.calendarConfig,
+      }
       
       formData.value = {
         businessHours: businessHours,

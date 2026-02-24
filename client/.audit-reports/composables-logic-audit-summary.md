@@ -42,7 +42,6 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 | `client/src/composables/admin/useSelectInputsAsync.ts` | P2 | 10 | 1 | 0 | 0 | 1 | 0 | 4 | 3 | 0 | 0 |
 | `client/src/composables/beta/useBetaFeedback.ts` | P2 | 11 | 1 | 0 | 0 | 0 | 0 | 6 | 5 | 0 | 0 |
 
-*...and 149 more. See full report.*
 
 ## Notes
 

@@ -22,23 +22,68 @@ import type { AvailabilitySettingsData } from '../../../db/models/admin/business
 
 const logger = createLogger('AppointmentRouter')
 
-const HOLD_DURATION_MIN = 1
-const HOLD_DURATION_MAX = 60
-const HOLD_DURATION_FALLBACK = 15
+/** Code fallbacks when admin settings omit hold duration bounds (e.g. legacy data). */
+const HOLD_DURATION_MIN_FALLBACK = 1
+const HOLD_DURATION_MAX_FALLBACK = 60
+const HOLD_DURATION_VALUE_FALLBACK = 15
+
+export interface HoldDurationBounds {
+  min: number
+  max: number
+  fallback: number
+}
+
+/** Derive bounds from availability settings data (sync; no DB). */
+function holdDurationBoundsFromData(data: AvailabilitySettingsData): HoldDurationBounds {
+  const cc = data.calendarConfig
+  const minRaw = cc?.holdDurationMin
+  const maxRaw = cc?.holdDurationMax
+  const fallbackRaw = cc?.holdDurationFallback
+  const min = typeof minRaw === 'number' && !Number.isNaN(minRaw) ? Math.floor(minRaw) : HOLD_DURATION_MIN_FALLBACK
+  const max = typeof maxRaw === 'number' && !Number.isNaN(maxRaw) ? Math.floor(maxRaw) : HOLD_DURATION_MAX_FALLBACK
+  const fallback = typeof fallbackRaw === 'number' && !Number.isNaN(fallbackRaw) ? Math.floor(fallbackRaw) : HOLD_DURATION_VALUE_FALLBACK
+  const clampedFallback = Math.min(max, Math.max(min, fallback))
+  return { min, max, fallback: clampedFallback }
+}
 
 /**
- * Default hold duration (minutes) from admin availability settings.
+ * Hold duration bounds and fallback from admin availability settings.
+ * Uses code fallbacks when settings omit values (e.g. legacy calendarConfig).
  */
-export async function getHoldDurationDefaultFromSettings(): Promise<number> {
+export async function getHoldDurationBoundsFromSettings(): Promise<HoldDurationBounds> {
   const setting = await BusinessSettings.findOne({
     where: { settingKey: AVAILABILITY_SETTINGS_KEY },
   })
   const data: AvailabilitySettingsData = (setting?.settingValue != null)
     ? (setting.settingValue as AvailabilitySettingsData)
     : defaultAvailabilitySettings
+  return holdDurationBoundsFromData(data)
+}
+
+/**
+ * Hold duration bounds and default in one read. Use when both are needed (e.g. router beforeCreate + sanitize).
+ */
+export async function getHoldDurationFromSettings(): Promise<{ bounds: HoldDurationBounds; defaultMinutes: number }> {
+  const setting = await BusinessSettings.findOne({
+    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
+  })
+  const data: AvailabilitySettingsData = (setting?.settingValue != null)
+    ? (setting.settingValue as AvailabilitySettingsData)
+    : defaultAvailabilitySettings
+  const bounds = holdDurationBoundsFromData(data)
   const raw = data.calendarConfig?.holdDurationMinutes
-  const parsed = typeof raw === 'number' && !Number.isNaN(raw) ? Math.floor(raw) : HOLD_DURATION_FALLBACK
-  return Math.min(HOLD_DURATION_MAX, Math.max(HOLD_DURATION_MIN, parsed))
+  const parsed = typeof raw === 'number' && !Number.isNaN(raw) ? Math.floor(raw) : bounds.fallback
+  const defaultMinutes = Math.min(bounds.max, Math.max(bounds.min, parsed))
+  return { bounds, defaultMinutes }
+}
+
+/**
+ * Default hold duration (minutes) from admin availability settings.
+ * Clamped by min/max from settings; uses fallback when value missing or invalid.
+ */
+export async function getHoldDurationDefaultFromSettings(): Promise<number> {
+  const { defaultMinutes } = await getHoldDurationFromSettings()
+  return defaultMinutes
 }
 
 /**

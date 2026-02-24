@@ -90,7 +90,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const majorShape = getEventShapeByRole(eventShapeEntities, 'major')
     if (!majorShape) {
       logger.error('majorDuration: no event shape with differentialRole=major', {
-        // @audit-allow:hardcoding:fieldMapping - Stable DTO shape for event shape entities
         availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
       })
       return 0
@@ -107,7 +106,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const minorShape = getEventShapeByRole(eventShapeEntities, 'minor')
     if (!minorShape) {
       logger.error('minorDuration: no event shape with differentialRole=minor', {
-        // @audit-allow:hardcoding:fieldMapping - Stable DTO shape for event shape entities
         availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
       })
       return 0

@@ -12,7 +12,6 @@ const emit = defineEmits<Emits>()
 const isDevMode = isDevModeEnabled()
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  // @audit-allow:hardcoding:fieldEqualsString - Dev panel shortcut key; single use
   if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
     event.preventDefault()
     emit('toggle')

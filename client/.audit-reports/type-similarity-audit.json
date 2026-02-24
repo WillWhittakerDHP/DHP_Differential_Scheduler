@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T21:42:04.414Z",
+  "generatedAt": "2026-02-24T14:10:58.766Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 821,
-  "totalDefinitions": 662,
+  "fileCount": 823,
+  "totalDefinitions": 664,
   "groups": [
     {
       "groupId": "sim-subset-481e0eb925e6",
@@ -245,7 +245,7 @@
           "name": "LoadedTimeSlot",
           "kind": "interface",
           "file": "client/src/utils/booking/timeSlotMatching.ts",
-          "line": 57,
+          "line": 56,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ endTime?: string, startTime: string }"
@@ -360,7 +360,7 @@
           "name": "Props",
           "kind": "interface",
           "file": "client/src/components/common/AddressAutocomplete.vue",
-          "line": 32,
+          "line": 14,
           "exported": false,
           "propertyCount": 11,
           "signature": "{ clearable?: boolean, coordinates?: Coordinates, debounceMs?: number, disabled?: boolean, hint?: string, label?: string, minInputLength?: number, modelValue: string, placeholder?: string, placeId?: string, prependIcon?: string }"
@@ -1516,7 +1516,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/common/AddressAutocomplete.vue",
-      "line": 32,
+      "line": 14,
       "exported": false,
       "fingerprint": "d550e1bfd86d",
       "propertyCount": 11,
@@ -1598,8 +1598,8 @@
       "file": "client/src/composables/admin/useAvailabilitySettings.ts",
       "line": 45,
       "exported": true,
-      "fingerprint": "8ba1d707e24a",
-      "propertyCount": 8,
+      "fingerprint": "13c5c39ce121",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
@@ -4383,6 +4383,26 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseAddressAutocompleteOptions",
+      "kind": "interface",
+      "file": "client/src/composables/useAddressAutocomplete.ts",
+      "line": 27,
+      "exported": true,
+      "fingerprint": "638ebb043c65",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAddressAutocompleteReturn",
+      "kind": "interface",
+      "file": "client/src/composables/useAddressAutocomplete.ts",
+      "line": 34,
+      "exported": true,
+      "fingerprint": "841b722b1e25",
+      "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
       "name": "UpdateByIdPayload",
       "kind": "type-alias-object",
       "file": "client/src/composables/useAppointment.ts",
@@ -5038,8 +5058,8 @@
       "file": "client/src/types/appointmentApi.ts",
       "line": 70,
       "exported": true,
-      "fingerprint": "a2b20395702e",
-      "propertyCount": 34,
+      "fingerprint": "0ff5ae1bcdd9",
+      "propertyCount": 37,
       "primitiveAlias": null
     },
     {
@@ -5636,7 +5656,7 @@
       "name": "AvailabilityPayload",
       "kind": "interface",
       "file": "client/src/utils/booking/appointmentDataBuilders.ts",
-      "line": 120,
+      "line": 115,
       "exported": true,
       "fingerprint": "ae38dc74df48",
       "propertyCount": 3,
@@ -5646,7 +5666,7 @@
       "name": "BlockQuantities",
       "kind": "interface",
       "file": "client/src/utils/booking/appointmentDataBuilders.ts",
-      "line": 141,
+      "line": 136,
       "exported": true,
       "fingerprint": "9de9aefade51",
       "propertyCount": 3,
@@ -5836,7 +5856,7 @@
       "name": "LoadedTimeSlot",
       "kind": "interface",
       "file": "client/src/utils/booking/timeSlotMatching.ts",
-      "line": 57,
+      "line": 56,
       "exported": true,
       "fingerprint": "ea67114112f1",
       "propertyCount": 2,
@@ -6126,7 +6146,7 @@
       "name": "PropertyFieldMappingRow",
       "kind": "interface",
       "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
-      "line": 13,
+      "line": 23,
       "exported": false,
       "fingerprint": "66adaa9438de",
       "propertyCount": 10,
@@ -6136,7 +6156,7 @@
       "name": "PropertyFeatureMappingRow",
       "kind": "interface",
       "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
-      "line": 26,
+      "line": 36,
       "exported": false,
       "fingerprint": "566c1411ad62",
       "propertyCount": 13,
@@ -6298,8 +6318,8 @@
       "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
       "line": 5,
       "exported": false,
-      "fingerprint": "323b833282c5",
-      "propertyCount": 2,
+      "fingerprint": "d4bf383c61cb",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -6346,7 +6366,7 @@
       "name": "ImportStats",
       "kind": "interface",
       "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
-      "line": 125,
+      "line": 124,
       "exported": true,
       "fingerprint": "d1a9d1af43e6",
       "propertyCount": 4,
@@ -6386,7 +6406,7 @@
       "name": "AddressWithVersions",
       "kind": "interface",
       "file": "server/src/scripts/importCalendarData.ts",
-      "line": 35,
+      "line": 34,
       "exported": false,
       "fingerprint": "7be27331580c",
       "propertyCount": 1,
@@ -6746,7 +6766,7 @@
       "name": "DayConfig",
       "kind": "interface",
       "file": "server/src/services/slotComputationService.ts",
-      "line": 322,
+      "line": 321,
       "exported": false,
       "fingerprint": "538a89a485e8",
       "propertyCount": 3,
@@ -7236,7 +7256,7 @@
       "name": "CalendarEntry",
       "kind": "interface",
       "file": "shared/types/calendarTypes.ts",
-      "line": 23,
+      "line": 15,
       "exported": true,
       "fingerprint": "0a7b68788da6",
       "propertyCount": 4,
@@ -7246,7 +7266,7 @@
       "name": "CalendarConfig",
       "kind": "interface",
       "file": "shared/types/calendarTypes.ts",
-      "line": 36,
+      "line": 25,
       "exported": true,
       "fingerprint": "d8e6fddfb3e1",
       "propertyCount": 4,
@@ -7256,7 +7276,7 @@
       "name": "CalendarProvider",
       "kind": "type-alias-union",
       "file": "shared/types/calendarTypes.ts",
-      "line": 15,
+      "line": 10,
       "exported": true,
       "fingerprint": "f3accce2cf89",
       "propertyCount": 0,

@@ -43,7 +43,6 @@ function matches(
   const arr = raw as string[];
   const lower = arr.map((s) => s.toLowerCase());
 
-  // @audit-allow:hardcoding:switchTypeLike - Exhaustive dispatch on match type
   switch (matchType) {
     case PROPERTY_MATCH_TYPE.EXISTS:
       return arr.length > 0;

@@ -126,7 +126,6 @@ function getOverlapViolationsForEvent(
   event: EventWithDrive
 ): Array<{ violation: string; hard: boolean }> {
   const out: Array<{ violation: string; hard: boolean }> = []
-  // @audit-allow:hardcoding:fieldMapping - Time range DTO shape
   if (timeRangesOverlap(slotRange, { start: event.start, end: event.end })) {
     const source = event.source === 'outOfOffice' ? 'outOfOffice' : 'event'
     const eventEnforcement = event.enforcement ?? 'hard'

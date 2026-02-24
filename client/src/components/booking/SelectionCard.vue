@@ -141,7 +141,6 @@ const handleNumberUpdate = (value: string | number | null) => {
   const numValue = typeof value === 'string' ? (value === '' ? null : parseInt(value, 10)) : value
   const finalValue = numValue === null || isNaN(numValue as number) ? null : numValue
 
-  // @audit-allow:hardcoding:fieldMapping - Emit payload shape
   emit('update:number', { itemId: props.item.id, number: finalValue })
 }
 </script>

@@ -51,7 +51,6 @@ Tier 1 (nesting, branches, length-when-branchy) drives score and file count; Tie
 | `client/src/composables/admin/useBusinessRules.ts` | P1 | 10 | 1 | 7 | 171 |
 | `client/src/composables/admin/useCalendarEntries.ts` | P1 | 10 | 1 | 30 | 173 |
 
-*...and 214 more files.*
 
 ## Per-file details
 

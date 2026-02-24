@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-23T21:42:06.539Z",
-  "totalScanned": 5,
+  "generatedAt": "2026-02-24T14:11:01.192Z",
+  "totalScanned": 6,
   "byBehind": {
     "major-behind": 2,
     "minor-behind": 0,
-    "patch-behind": 3,
+    "patch-behind": 4,
     "current": 0
   },
   "packages": [
@@ -23,6 +23,15 @@
       "current": "8.56.0",
       "wanted": "8.56.1",
       "latest": "8.56.1",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
+    {
+      "package": "vue",
+      "dependent": "client",
+      "current": "3.5.28",
+      "wanted": "3.5.29",
+      "latest": "3.5.29",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -109,11 +118,22 @@
       "wanted": "8.56.1",
       "latest": "8.56.1",
       "behind": "patch-behind"
+    },
+    {
+      "repoPath": "client:vue",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "vue",
+      "dependent": "client",
+      "current": "3.5.28",
+      "wanted": "3.5.29",
+      "latest": "3.5.29",
+      "behind": "patch-behind"
     }
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 5,
+    "totalRequiresReview": 6,
     "bySource": {
       "inline": 0,
       "pattern": 0,
