@@ -162,6 +162,7 @@ const {
   handleDelete,
   handleCancelDelete,
   handleCancel,
+  unifiedSaveState,
 } = useEntityCardSaveAndActions({
   entityKey: props.entityKey,
   entity: props.entity,

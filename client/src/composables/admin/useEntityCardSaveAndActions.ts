@@ -9,6 +9,7 @@ import type { GlobalEntity } from '@/types/entities'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardSaveHandlers } from '@/composables/admin/useEntityCardSaveHandlers'
+import type { UseEntityCardSaveStateReturn } from '@/composables/admin/useEntityCardSaveState'
 import type { AppLogger } from '@/utils/logger'
 
 export interface UseEntityCardSaveAndActionsParams {
@@ -33,6 +34,7 @@ export interface UseEntityCardSaveAndActionsReturn {
   handleDelete: () => Promise<void>
   handleCancelDelete: () => void
   handleCancel: () => void
+  unifiedSaveState: UseEntityCardSaveStateReturn
 }
 
 export function useEntityCardSaveAndActions(
@@ -97,5 +99,6 @@ export function useEntityCardSaveAndActions(
     handleDelete,
     handleCancelDelete,
     handleCancel,
+    unifiedSaveState,
   }
 }
