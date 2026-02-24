@@ -1,0 +1,190 @@
+# Phase 6.3 Guide: Confirmation Routine
+
+**Purpose:** Phase-level guide for planning and tracking the appointment confirmation workflow
+
+**Tier:** Phase (Tier 1 - High-Level)
+
+---
+
+## Phase Overview
+
+**Phase Number:** 6.3
+**Phase Name:** Confirmation Routine
+**Description:** Implement the appointment confirmation workflow: transition from `submitted` to `confirmed` with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs. Establishes the confirmation data model (timestamps, who confirmed) and a dedicated admin action rather than raw dropdown editing.
+
+**Duration:** 2–3 sessions
+**Status:** In Progress
+
+---
+
+## Context: What Already Exists
+
+**Appointment Status ENUM (Phase 6.1):** 8-value enum (`started`, `held`, `rescheduling`, `quoted`, `submitted`, `confirmed`, `cancelled`, `deleted`). Both `submitted` and `confirmed` count toward capacity limits and trigger calendar invite creation.
+
+**No Transition Validation:** Currently any status can be set to any other status via PATCH. `sanitizeInput` in the CRUD router only has special handling for `held` (computing `heldUntil`); all other status changes pass through with no guards.
+
+**Missing Confirmation Fields:** No `submitted_at`, `confirmed_at`, or `confirmed_by` columns. Only `createdAt` and `updatedAt` exist on the appointment model.
+
+**Calendar Invites:** Already sent on `submitted` and `confirmed` via `inviteOrchestrationService.ts` and `afterCreate`/`afterUpdate` hooks in the CRUD router. The constant `STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed']` drives this.
+
+**Admin Status Editing:** Admin appointments table has an inline dropdown for status. No dedicated "Confirm" action button.
+
+**Client Submission:** `useWizardSubmission.ts` creates appointments with status `submitted` (or `quoted` in quote mode) via `appointmentDataBuilders.ts`.
+
+**Business Settings:** Existing business settings infrastructure in `server/src/db/models/admin/business_settings.ts` with admin UI for configuration.
+
+**No Email Infrastructure:** No email service exists. Notifications for Phase 6.3 are limited to in-app (toast/snackbar) and calendar invites (already working). Email notifications depend on Feature 7 (Authentication).
+
+---
+
+## Phase Objectives
+
+- Add confirmation data model fields (`submitted_at`, `confirmed_at`, `confirmed_by`) to track when and who confirmed
+- Implement status transition validation so only valid transitions are allowed (e.g., `submitted` → `confirmed`)
+- Create a dedicated admin "Confirm Appointment" action with confirmation dialog
+- Add optional auto-confirm business setting for appointments that don't need manual review
+- Create notification stubs (in-app notifications now, email notification hooks for Feature 7)
+- Document the confirmation flow end-to-end
+
+---
+
+## Sessions Breakdown
+
+- [x] ### Session 6.3.1: Confirmation Data Model & Transition Guards
+**Description:** Add confirmation timestamp and actor columns to the appointments table, update the Sequelize model and client types, and implement status transition validation in `sanitizeInput`. After this session, status changes are guarded (only valid transitions allowed) and confirmation metadata is automatically populated.
+**Tasks:**
+- Add migration: `submitted_at` (TIMESTAMPTZ, nullable), `confirmed_at` (TIMESTAMPTZ, nullable), `confirmed_by` (UUID FK → users, nullable) columns to appointments
+- Update Appointment Sequelize model with new fields and associations (`confirmedBy` → User)
+- Define `VALID_STATUS_TRANSITIONS` map in `appointmentConstants.ts` (which statuses can transition to which)
+- Add transition validation in `sanitizeInput`: reject invalid transitions with descriptive error
+- Auto-populate `submitted_at` when status transitions to `submitted`, `confirmed_at` when transitioning to `confirmed`
+- Update client-side appointment types (`client/src/types/appointment.ts`) with new fields
+- Update admin appointment table to display `confirmed_at` and `confirmed_by` columns
+
+**Learning Goals:**
+- Understand state machine patterns for status transitions
+- Learn how `sanitizeInput` works as a server-side data transformation hook
+- Practice migration design with foreign key constraints
+
+- [ ] ### Session 6.3.2: Admin Confirmation Action & Auto-Confirm
+**Description:** Create a dedicated "Confirm" action button in the admin appointments table for `submitted` appointments, with a confirmation dialog showing appointment details. Add an optional auto-confirm business setting so appointments can be automatically confirmed on submission when enabled.
+**Tasks:**
+- Add "Confirm" action button to admin appointments table (visible only for `submitted` appointments)
+- Create confirmation dialog component showing appointment summary before confirming
+- Wire confirm action to PATCH appointment with `{ status: 'confirmed' }` (transition guards from 6.3.1 validate it)
+- Add `autoConfirmEnabled` business setting (boolean, default: false) to business settings
+- Server: when auto-confirm is enabled, automatically transition `submitted` → `confirmed` in `afterCreate` hook
+- Client: show auto-confirm toggle in admin business settings UI
+- Update admin status dropdown to respect transition guards (only show valid next-statuses)
+
+**Learning Goals:**
+- Understand business rule configuration patterns (admin-configurable behavior)
+- Learn confirmation dialog UX patterns
+- Practice conditional UI rendering based on entity state
+
+- [ ] ### Session 6.3.3: Confirmation Notifications & Documentation
+**Description:** Add in-app notification toasts for confirmation events in the admin panel, create notification service stubs that Feature 7 can extend for email notifications, and document the complete confirmation flow.
+**Tasks:**
+- Add in-app notification (toast/snackbar) in admin panel when appointment is confirmed (success feedback)
+- Create server-side `notificationService` stub with `onStatusChange(appointmentId, oldStatus, newStatus)` hook
+- Document notification expansion points for Feature 7 (email to customer on confirmation)
+- Add confirmation flow documentation to phase guide notes
+- Update feature handoff with confirmation routine completion context
+
+**Learning Goals:**
+- Understand the observer/hook pattern for decoupled event handling
+- Learn how to design extensible notification infrastructure
+- Practice writing documentation that enables future feature work
+
+---
+
+## Dependencies
+
+**Prerequisites:**
+- Phase 6.1 (Status Workflow & UI Enhancements) — Complete ✅
+- Phase 6.2 (Held & Override Stubs) — Complete ✅
+- Appointment status ENUM already includes `submitted` and `confirmed`
+- Calendar invite infrastructure already handles both statuses
+
+**Downstream Impact:**
+- Feature 7 (Authentication) enactment will set `confirmed_by` from `req.user` (until then, field is `null`)
+- Phase 6.4 (Rescheduling Flow) depends on transition guards established here
+- Phase 6.7 (Admin Force-Create) will integrate with the transition validation system
+- Notification stubs from Session 6.3.3 become the hook points for email notifications in Feature 7
+
+---
+
+## Success Criteria
+
+- [ ] All sessions completed
+- [ ] Status transition validation prevents invalid transitions (e.g., `cancelled` → `confirmed`)
+- [ ] `confirmed_at` and `submitted_at` timestamps are automatically populated on transitions
+- [ ] Admin "Confirm" button works for submitted appointments
+- [ ] Auto-confirm business setting toggles automatic confirmation behavior
+- [ ] Admin status dropdown only shows valid next-statuses
+- [ ] In-app notification shown on confirmation
+- [ ] Code quality checks passing
+- [ ] Documentation updated
+- [ ] Ready for next phase
+
+---
+
+## End of Phase Workflow
+
+**CRITICAL: Prompt before completing phase**
+
+After completing all sessions in a phase, **prompt the user** before running `/phase-end`:
+
+```
+## Ready to Complete Phase?
+
+All sessions complete. Ready to run phase-completion workflow?
+
+**This will:**
+- Mark phase complete (update checkboxes and status)
+- Update phase log with completion summary
+- Update main handoff document
+- Git commit/push
+
+**Proceed with /phase-end?** (yes/no)
+```
+
+---
+
+## Notes
+
+- **Transition guard design:** The `VALID_STATUS_TRANSITIONS` map is the single source of truth for allowed transitions. This is a state machine pattern — each status has a set of valid next-statuses. The `sanitizeInput` function checks the current status against this map before allowing the PATCH.
+- **Auto-confirm is a business setting, not a code flag.** This means the admin can toggle it without a code change. When enabled, `afterCreate` checks the setting and auto-transitions `submitted` → `confirmed`. When disabled, appointments stay `submitted` until manually confirmed.
+- **`confirmed_by` will be `null` until Feature 7 auth is in place.** The column exists and the FK constraint is ready, but the actual user ID population requires `req.user` from authenticated sessions. This follows the same stub pattern as Phase 6.2 (`held_by` is also `null` until auth).
+- **No email notifications in this phase.** The `notificationService` stub establishes the hook pattern (observer on status change) but only produces in-app toasts for now. Feature 7 enactment adds email transport.
+- **Calendar invites are already handled.** Both `submitted` and `confirmed` already trigger calendar invite creation in the CRUD router hooks. No changes needed to calendar invite logic in this phase.
+
+---
+
+## Valid Status Transitions (Reference)
+
+| From Status | Valid Next Statuses |
+|---|---|
+| `started` | `quoted`, `submitted`, `cancelled`, `deleted` |
+| `held` | `started`, `submitted`, `cancelled` |
+| `rescheduling` | `submitted`, `cancelled` |
+| `quoted` | `submitted`, `cancelled`, `deleted` |
+| `submitted` | `confirmed`, `rescheduling`, `cancelled` |
+| `confirmed` | `rescheduling`, `cancelled` |
+| `cancelled` | `deleted` |
+| `deleted` | _(terminal — no transitions)_ |
+
+> This table is a design reference. The actual implementation in `VALID_STATUS_TRANSITIONS` should match. Adjustments may be made during implementation based on product needs.
+
+---
+
+## Related Documents
+
+- Feature Guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
+- Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
+- PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6, Phase 6.3)
+- Phase 6.2 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.2-guide.md`
+- Security Stubs: `server/docs/SECURITY_STUBS.md`
+- Appointment CRUD Router: `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
+- Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`
+- Appointment Model: `server/src/db/models/booking/appointment.ts`

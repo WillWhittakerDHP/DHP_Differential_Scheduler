@@ -1,8 +1,7 @@
 <!--
   LEARNING: Address Autocomplete Component
   WHY: Provides address suggestions with coordinate extraction for drive time calculations
-  PATTERN: Vuetify VAutocomplete wrapper with Google Places API integration
-  
+  PATTERN: Vuetify VAutocomplete wrapper; orchestration in useAddressAutocomplete composable
   Session 2.2.1: Created for Google Maps API Integration
 -->
 <template>
@@ -29,7 +28,6 @@
     @update:model-value="handleSelectionChange"
     @blur="handleBlur"
   >
-    <!-- Custom item template for better formatting -->
     <template #item="{ props: itemProps, item }">
       <VListItem v-bind="itemProps">
         <template #prepend>
@@ -39,8 +37,6 @@
         <VListItemSubtitle>{{ item.raw.secondaryText }}</VListItemSubtitle>
       </VListItem>
     </template>
-    
-    <!-- Loading indicator -->
     <template #append-inner>
       <VProgressCircular
         v-if="isLoading"
@@ -50,8 +46,6 @@
         color="primary"
       />
     </template>
-    
-    <!-- Prepend icon slot -->
     <template v-if="prependIcon" #prepend-inner>
       <VIcon>{{ prependIcon }}</VIcon>
     </template>
@@ -59,40 +53,22 @@
 </template>
 
 <script setup lang="ts">
-/**
- * 
- *      Essential for drive time calculations in Phase 2.2.
- * 
- * PATTERN: Uses VAutocomplete as base, integrates with mapsApiService
- * 
- *             with Vuetify styling and our API proxy for security.
- */
-
-import { ref, watch } from 'vue'
-import { useDebounceFn } from '@vueuse/core'
-import { 
-  fetchAutocompleteSuggestions, 
-  fetchPlaceDetails,
-  type AutocompletePrediction,
-  type PlaceDetails,
-  type Coordinates,
-  MapsApiError
-} from '@/services/mapsApiService'
+import { useAddressAutocomplete } from '@/composables/useAddressAutocomplete'
 import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
 import { createLogger } from '@/utils/logger'
+import {
+  MapsApiError,
+  type AutocompletePrediction,
+  type Coordinates,
+  type PlaceDetails,
+} from '@/services/mapsApiService'
 
 const logger = createLogger('AddressAutocomplete')
+const { getToken } = useMapsSessionToken()
 
-// LEARNING: Use shared session token composable
-const { token: sessionToken, getToken, resetToken } = useMapsSessionToken()
-
-/**
-LEARNING: Standard v-model pattern plus additional confi...
- */
 interface Props {
   modelValue: string
   coordinates?: Coordinates
-  /** Google Place ID for accurate routing (Session 2.2.2) */
   placeId?: string
   label?: string
   placeholder?: string
@@ -100,9 +76,7 @@ interface Props {
   disabled?: boolean
   clearable?: boolean
   prependIcon?: string
-  /** Minimum characters before triggering autocomplete */
   minInputLength?: number
-  /** Debounce delay in ms */
   debounceMs?: number
 }
 
@@ -117,91 +91,38 @@ const props = withDefaults(defineProps<Props>(), {
   clearable: true,
   prependIcon: 'mdi-map-marker-outline',
   minInputLength: 3,
-  debounceMs: 300
+  debounceMs: 300,
 })
 
-/**
-LEARNING: Standard v-model pattern with additional events
-Session ...
- */
 const emit = defineEmits<{
   'update:modelValue': [value: string]
   'update:coordinates': [value: Coordinates | undefined]
-  /** Google Place ID for accurate routing (Session 2.2.2) */
   'update:placeId': [value: string | undefined]
   'place-selected': [details: PlaceDetails]
   'error': [error: MapsApiError]
 }>()
 
-const searchInput = ref('')
-const selectedAddress = ref<AutocompletePrediction | null>(null)
-const suggestions = ref<AutocompletePrediction[]>([])
-const isLoading = ref(false)
-const errorMessage = ref('')
+const {
+  searchInput,
+  selectedAddress,
+  suggestions,
+  isLoading,
+  errorMessage,
+  fetchSuggestions,
+  selectPlace,
+  clearSuggestions,
+  clearError,
+  clearInitialFromProps,
+} = useAddressAutocomplete({
+  modelValue: () => props.modelValue,
+  placeId: () => props.placeId,
+  minInputLength: () => props.minInputLength,
+  debounceMs: () => props.debounceMs,
+})
 
-const hasInitialAddressFromProps = ref(false)
-
-watch(
-  () => props.modelValue,
-  (newValue, oldValue) => {
-    if (newValue && !selectedAddress.value) {
-      const syntheticPrediction: AutocompletePrediction = {
-        placeId: props.placeId || `synthetic-${Date.now()}`,
-        description: newValue,
-        mainText: newValue,
-        secondaryText: ''
-      }
-      
-      suggestions.value = [syntheticPrediction]
-      
-      selectedAddress.value = syntheticPrediction
-      searchInput.value = newValue
-      
-      hasInitialAddressFromProps.value = true
-      logger.debug('[watch:modelValue] Created synthetic item for initial address:', newValue)
-    }
-    if (!newValue && oldValue) {
-      hasInitialAddressFromProps.value = false
-      selectedAddress.value = null
-      suggestions.value = []
-    }
-  },
-  { immediate: true }
-)
-
-const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {
-  if (input.length < props.minInputLength) {
-    suggestions.value = []
-    return
-  }
-  
-  isLoading.value = true
-  errorMessage.value = ''
-  
-  try {
-    const results = await fetchAutocompleteSuggestions(input, sessionToken.value)
-    suggestions.value = results
-    logger.debug('[fetchSuggestions] Got', results.length, 'suggestions')
-  } catch (error) {
-    logger.error('[fetchSuggestions] Error:', error)
-    
-    if (error instanceof MapsApiError) {
-      errorMessage.value = error.message
-      emit('error', error)
-    } else {
-      errorMessage.value = 'Failed to fetch suggestions'
-    }
-    
-    suggestions.value = []
-  } finally {
-    isLoading.value = false
-  }
-}, props.debounceMs)
-
-const handleSearchUpdate = async (value: string | null) => {
+const handleSearchUpdate = async (value: string | null): Promise<void> => {
   const input = value !== undefined && value !== null && value !== '' ? value : ''
-
-  if (!sessionToken.value && input.length >= props.minInputLength) {
+  if (input.length >= props.minInputLength) {
     try {
       await getToken()
       logger.debug('[handleSearchUpdate] Got session token (lazy-loaded)')
@@ -209,96 +130,45 @@ const handleSearchUpdate = async (value: string | null) => {
       logger.warn('[handleSearchUpdate] Failed to get token:', error)
     }
   }
-  
   if (!selectedAddress.value || selectedAddress.value.description !== input) {
     const isUserTyping = input !== props.modelValue
-    
     if (isUserTyping) {
-      hasInitialAddressFromProps.value = false
+      clearInitialFromProps()
       emit('update:modelValue', input)
       emit('update:coordinates', undefined)
       emit('update:placeId', undefined)
     }
   }
-  
   if (input.length >= props.minInputLength) {
-    fetchSuggestionsDebounced(input)
+    fetchSuggestions(input)
   } else {
     suggestions.value = []
   }
 }
 
-/** Handle null selection: keep initial-from-props or clear and emit. Returns true if caller should return. */
-function handleNullSelection(
-  selection: AutocompletePrediction | null,
-  emit: (e: string, ...args: unknown[]) => void,
-  hasInitialAddressFromProps: { value: boolean },
-  modelValue: string | null,
-  selectedAddress: { value: AutocompletePrediction | null }
-): boolean {
-  if (selection !== null) return false
-  if (hasInitialAddressFromProps.value && modelValue) {
-    logger.debug('[handleSelectionChange] Ignoring null selection - have initial address from props')
-    return true
-  }
-  selectedAddress.value = null
-  hasInitialAddressFromProps.value = false
-  emit('update:modelValue', '')
-  emit('update:coordinates', undefined)
-  emit('update:placeId', undefined)
-  return true
-}
-
-/** Handle synthetic item (existing address from props). Returns true if caller should return. */
-function handleSyntheticSelection(
-  selection: AutocompletePrediction,
-  hasInitialAddressFromProps: { value: boolean }
-): boolean {
-  if (!selection.placeId?.startsWith('synthetic-')) return false
-  logger.debug('[handleSelectionChange] Synthetic item selected, skipping API fetch')
-  hasInitialAddressFromProps.value = true
-  return true
-}
-
-const handleSelectionChange = async (selection: AutocompletePrediction | null) => {
-  if (handleNullSelection(selection, emit as (e: string, ...args: unknown[]) => void, hasInitialAddressFromProps, props.modelValue, selectedAddress)) return
-  const sel = selection as AutocompletePrediction
-  logger.debug('[handleSelectionChange] Selected:', sel.description)
-  if (handleSyntheticSelection(sel, hasInitialAddressFromProps)) return
-
-  hasInitialAddressFromProps.value = false
-  emit('update:modelValue', sel.description)
-  emit('update:placeId', sel.placeId)
-  isLoading.value = true
-  errorMessage.value = ''
-
-  try {
-    const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)
-    logger.debug('[handleSelectionChange] Got coordinates:', details.coordinates)
-    emit('update:coordinates', details.coordinates)
-    emit('place-selected', details)
-    resetToken()
-    await getToken()
-  } catch (error) {
-    logger.error('[handleSelectionChange] Error fetching details:', error)
-    if (error instanceof MapsApiError) {
-      errorMessage.value = error.message
-      emit('error', error)
-    } else {
-      errorMessage.value = 'Failed to fetch address details'
-    }
+const handleSelectionChange = async (selection: AutocompletePrediction | null): Promise<void> => {
+  const result = await selectPlace(selection)
+  if (result.kind === 'cleared') {
+    emit('update:modelValue', '')
     emit('update:coordinates', undefined)
-  } finally {
-    isLoading.value = false
+    emit('update:placeId', undefined)
+    return
   }
+  if (result.kind === 'synthetic') return
+  if (result.kind === 'place') {
+    emit('update:modelValue', result.description)
+    emit('update:placeId', result.placeId)
+    emit('update:coordinates', result.coordinates)
+    emit('place-selected', result.details)
+    return
+  }
+  emit('error', result.error)
+  emit('update:coordinates', undefined)
 }
 
-const handleBlur = () => {
-  suggestions.value = []
-  
-  if (!searchInput.value) {
-    errorMessage.value = ''
-  }
+const handleBlur = (): void => {
+  clearSuggestions()
+  if (!searchInput.value) clearError()
 }
 </script>
 

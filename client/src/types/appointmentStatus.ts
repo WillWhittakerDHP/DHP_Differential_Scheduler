@@ -24,3 +24,22 @@ export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
   'cancelled',
   'deleted',
 ]
+
+/**
+ * State machine: allowed status transitions (mirrors server-side VALID_STATUS_TRANSITIONS).
+ * Used client-side for filtering status dropdowns to only show valid next-statuses.
+ */
+export const VALID_STATUS_TRANSITIONS: Record<AppointmentStatus, readonly AppointmentStatus[]> = {
+  started:      ['quoted', 'submitted', 'cancelled', 'deleted'],
+  held:         ['started', 'submitted', 'cancelled'],
+  rescheduling: ['submitted', 'cancelled'],
+  quoted:       ['submitted', 'cancelled', 'deleted'],
+  submitted:    ['confirmed', 'rescheduling', 'cancelled'],
+  confirmed:    ['rescheduling', 'cancelled'],
+  cancelled:    ['deleted'],
+  deleted:      [],
+} as const
+
+export function getValidNextStatuses(currentStatus: AppointmentStatus): AppointmentStatus[] {
+  return [...VALID_STATUS_TRANSITIONS[currentStatus]]
+}

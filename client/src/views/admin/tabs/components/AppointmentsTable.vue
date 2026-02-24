@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
-import { APPOINTMENT_STATUSES } from '@/types/appointment'
+import { getValidNextStatuses } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import {
   attendeesFromClientAndAgent,
@@ -53,6 +53,18 @@ const formClientId = ref<string | null>(null)
 const formAgentId = ref<string | null>(null)
 const editingClientId = ref<string | null>(null)
 const editingAgentId = ref<string | null>(null)
+const confirmingAppointment = ref<AppointmentResponse | null>(null)
+const showConfirmDialog = ref(false)
+
+const handleOpenConfirmDialog = (item: AppointmentResponse): void => {
+  confirmingAppointment.value = item
+  showConfirmDialog.value = true
+}
+
+const handleCancelConfirm = (): void => {
+  confirmingAppointment.value = null
+  showConfirmDialog.value = false
+}
 
 const handleSaveCreate = async (): Promise<void> => {
   const attendees = attendeesFromClientAndAgent(formClientId.value, formAgentId.value)
@@ -111,6 +123,16 @@ function setFormClientId(v: string | null): void {
 }
 function setFormAgentId(v: string | null): void {
   formAgentId.value = v
+}
+
+function formatTimestamp(isoString: string | null | undefined): string {
+  if (!isoString) return '—'
+  return new Date(isoString).toLocaleString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
 }
 </script>
 
@@ -409,7 +431,25 @@ function setFormAgentId(v: string | null): void {
           <VChip v-if="editingId !== item.id" :color="getStatusColor(item.status)" size="small" variant="tonal">
             {{ item.status }}
           </VChip>
-          <VSelect v-else v-model="editedData.status" :items="APPOINTMENT_STATUSES" density="compact" hide-details />
+          <VSelect
+            v-else
+            v-model="editedData.status"
+            :items="getValidNextStatuses(item.status)"
+            density="compact"
+            hide-details
+          />
+        </template>
+      </template>
+
+      <template #item.submittedAt="{ item }">
+        <template v-if="item">
+          <span class="text-caption">{{ formatTimestamp(item.submittedAt) }}</span>
+        </template>
+      </template>
+
+      <template #item.confirmedAt="{ item }">
+        <template v-if="item">
+          <span class="text-caption">{{ formatTimestamp(item.confirmedAt) }}</span>
         </template>
       </template>
 
@@ -424,6 +464,21 @@ function setFormAgentId(v: string | null): void {
             </VBtn>
           </div>
           <div v-else class="d-flex gap-2">
+            <VTooltip v-if="item.status === 'submitted'" location="top">
+              <template #activator="{ props: confirmTooltipProps }">
+                <VBtn
+                  v-bind="confirmTooltipProps"
+                  prepend-icon="tabler-check-circle"
+                  size="small"
+                  variant="text"
+                  color="success"
+                  @click="handleOpenConfirmDialog(item)"
+                >
+                  {{ APPOINTMENTS_TABLE_UI.CONFIRM }}
+                </VBtn>
+              </template>
+              {{ APPOINTMENTS_TABLE_UI.CONFIRM_TOOLTIP }}
+            </VTooltip>
             <VBtn prepend-icon="tabler-pencil" size="small" variant="text" @click="handleStartEdit(item)">
               {{ APPOINTMENTS_TABLE_UI.EDIT }}
             </VBtn>
@@ -460,6 +515,20 @@ function setFormAgentId(v: string | null): void {
           <VSpacer />
           <VBtn variant="text" @click="cancelDelete">{{ APPOINTMENTS_TABLE_UI.DELETE_DIALOG_CANCEL }}</VBtn>
           <VBtn color="error" variant="flat" @click="confirmDelete">{{ APPOINTMENTS_TABLE_UI.DELETE_DIALOG_CONFIRM }}</VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
+
+    <VDialog v-model="showConfirmDialog" max-width="500" persistent>
+      <VCard>
+        <VCardTitle class="text-h6">{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VCardTitle>
+        <VCardText>
+          {{ confirmingAppointment ? confirmingAppointment.selectedDate ?? '—' : '' }}
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn variant="text" @click="handleCancelConfirm">{{ APPOINTMENTS_TABLE_UI.CANCEL }}</VBtn>
+          <VBtn color="success" variant="flat" disabled>{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VBtn>
         </VCardActions>
       </VCard>
     </VDialog>

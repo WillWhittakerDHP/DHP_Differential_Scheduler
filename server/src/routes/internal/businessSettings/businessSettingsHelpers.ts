@@ -1,32 +1,38 @@
 
 import { AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js'
 
-/** Minimal shape for BusinessSettings-like records (settingKey, settingValue). */
+/** Minimal shape for BusinessSettings-like records (settingKey, settingValue, optional autoConfirmEnabled). */
 interface BusinessSettingRecord {
   settingKey: string
   settingValue: unknown
+  autoConfirmEnabled?: boolean
 }
 
 /**
  * WHY: Transform setting to response format
-LEARNING: Transforms BusinessSettin...
+ * LEARNING: Transforms BusinessSettings model to API response; includes auto_confirm_enabled when present (Task 6.3.2.3).
  */
-export function transformSettingToResponse(setting: BusinessSettingRecord): { setting_key: string; setting_value: unknown } {
-  return {
+export function transformSettingToResponse(setting: BusinessSettingRecord): { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } {
+  const out: { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } = {
     setting_key: setting.settingKey,
     setting_value: setting.settingValue,
   }
+  if (typeof setting.autoConfirmEnabled === 'boolean') {
+    out.auto_confirm_enabled = setting.autoConfirmEnabled
+  }
+  return out
 }
 
 export function getSettingWithDefault(
   setting: BusinessSettingRecord | null,
   key: string
-): { setting_key: string; setting_value: unknown } | null {
+): { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } | null {
   if (!setting) {
     if (key === AVAILABILITY_SETTINGS_KEY) {
       return {
         setting_key: AVAILABILITY_SETTINGS_KEY,
         setting_value: defaultAvailabilitySettings,
+        auto_confirm_enabled: false,
       }
     }
     return null

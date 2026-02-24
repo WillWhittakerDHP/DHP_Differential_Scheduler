@@ -13,7 +13,6 @@ const InstancesTab = defineAsyncComponent(() => import('./tabs/InstancesTab.vue'
 const ShapesTab = defineAsyncComponent(() => import('./tabs/ShapesTab.vue'))
 const DataManagementTab = defineAsyncComponent(() => import('./tabs/DataManagementTab.vue'))
 const BusinessControlsTab = defineAsyncComponent(() => import('./tabs/BusinessControlsTab.vue'))
-const PropertyMappingsTab = defineAsyncComponent(() => import('./tabs/PropertyMappingsTab.vue'))
 
 /**
  * PATTERN: Initialize route-specific composables in view component setup
@@ -41,7 +40,6 @@ provide('adminCurrentTab', currentTab)
       <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
       <VTab value="business">CONTROLS</VTab>
-      <VTab value="property-mappings">MLS Mappings</VTab>
     </VTabs>
     
     <!--
@@ -66,9 +64,6 @@ provide('adminCurrentTab', currentTab)
       </VWindowItem>
       <VWindowItem key="business" value="business">
         <BusinessControlsTab />
-      </VWindowItem>
-      <VWindowItem key="property-mappings" value="property-mappings">
-        <PropertyMappingsTab />
       </VWindowItem>
     </VWindow>
   </div>

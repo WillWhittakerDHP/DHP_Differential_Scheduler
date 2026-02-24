@@ -87,6 +87,8 @@ export class BusinessSettings extends Model<
   declare id: CreationOptional<string>;
   declare settingKey: string;
   declare settingValue: AvailabilitySettingsData;
+  /** When true, appointments created with status 'submitted' are auto-transitioned to 'confirmed'. Task 6.3.2.3 */
+  declare autoConfirmEnabled: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -110,6 +112,12 @@ export function BusinessSettingsFactory(sequelize: Sequelize) {
         type: DataTypes.JSONB,
         allowNull: false,
         field: 'setting_value',
+      },
+      autoConfirmEnabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'auto_confirm_enabled',
       },
       createdAt: {
         type: DataTypes.DATE,

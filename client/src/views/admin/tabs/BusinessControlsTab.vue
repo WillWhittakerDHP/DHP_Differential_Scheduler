@@ -27,10 +27,12 @@ import RangeConstraintsPanel from './components/RangeConstraintsPanel.vue'
 import CapacityConstraintsPanel from './components/CapacityConstraintsPanel.vue'
 import OverlapConstraintsPanel from './components/OverlapConstraintsPanel.vue'
 import CalendarIntegrationPanel from './components/CalendarIntegrationPanel.vue'
+import AppointmentConfirmationPanel from './components/AppointmentConfirmationPanel.vue'
 import DurationRoundingPanel from './components/DurationRoundingPanel.vue'
 import PlacesTimezonePanel from './components/PlacesTimezonePanel.vue'
 import GridConfigPanel from './components/GridConfigPanel.vue'
 import BusinessRulesTab from './BusinessRulesTab.vue'
+import PropertyMappingsTab from './PropertyMappingsTab.vue'
 import { asEmptyString } from '@/utils/safeDefaults'
 
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
@@ -38,6 +40,7 @@ const isTabActive = computed(() => adminCurrentTab?.value === 'business')
 
 const {
   formData,
+  autoConfirmEnabled,
   loading,
   saving,
   error,
@@ -87,6 +90,7 @@ const updateBusinessHours = (day: number, field: 'start' | 'end', value: string)
 const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
 const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'integration' })
+const { currentTab: currentRulesSubTab } = useTabNavigation({ initialTab: 'rules' })
 
 const maxBusinessHours = computed(() => {
   if (!formData.value) return 0
@@ -207,6 +211,10 @@ function setTimezone(v: string): void {
 function setMinuteIncrement(v: number): void {
   minuteIncrement.value = v
 }
+/** Task 6.3.2.3: update ref from template (refs are unwrapped in template so inline handler must call script function). */
+function setAutoConfirmEnabled(v: boolean): void {
+  autoConfirmEnabled.value = v
+}
 </script>
 
 <template>
@@ -242,6 +250,7 @@ function setMinuteIncrement(v: number): void {
             <VTab value="range">{{ UI_STRINGS.tabs.range }}</VTab>
             <VTab value="capacity">{{ UI_STRINGS.tabs.capacity }}</VTab>
             <VTab value="overlap">{{ UI_STRINGS.tabs.overlap }}</VTab>
+            <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
           </VTabs>
 
           <VWindow v-model="currentSubTab">
@@ -316,42 +325,6 @@ function setMinuteIncrement(v: number): void {
                 @update:overlap-sources-out-of-office-enforcement="(v) => { buffers.overlapSourcesOutOfOfficeEnforcement.value = v }"
               />
             </VWindowItem>
-          </VWindow>
-        </VWindowItem>
-
-        <VWindowItem key="rules" value="rules">
-          <BusinessRulesTab />
-        </VWindowItem>
-
-        <VWindowItem key="calendar" value="calendar">
-          <VTabs v-model="currentCalendarTab" class="mb-4">
-            <VTab value="integration">{{ UI_STRINGS.tabs.integration }}</VTab>
-            <VTab value="rounding">{{ UI_STRINGS.tabs.rounding }}</VTab>
-            <VTab value="places">{{ UI_STRINGS.tabs.places }}</VTab>
-            <VTab value="grid">{{ UI_STRINGS.tabs.grid }}</VTab>
-          </VTabs>
-
-          <VWindow v-model="currentCalendarTab">
-            <VWindowItem key="integration" value="integration">
-              <CalendarIntegrationPanel
-                :calendar-enabled="calendarEnabled"
-                :calendar-provider="calendarProvider"
-                :hold-duration-minutes="holdDurationMinutes"
-                :calendar-entries="calendarEntries"
-                :write-to-index="writeToIndex"
-                :calendar-validation-error="calendarValidationError"
-                :email-validation-rule="emailValidationRule"
-                :save-button-props="saveButtonProps"
-                @update:calendar-enabled="(v: boolean) => { calendarEnabled = v }"
-                @update:calendar-provider="setCalendarProvider"
-                @update:hold-duration-minutes="(v: number) => { holdDurationMinutes = v }"
-                @add-calendar-entry="addCalendarEntry"
-                @remove-calendar-entry="removeCalendarEntry"
-                @update-calendar-entry="updateCalendarEntry"
-                @set-read-from="setReadFrom"
-                @set-write-to="setWriteTo"
-              />
-            </VWindowItem>
 
             <VWindowItem key="rounding" value="rounding">
               <DurationRoundingPanel
@@ -362,6 +335,61 @@ function setMinuteIncrement(v: number): void {
                 @update:duration-rounding-enabled="(v: boolean) => { durationRoundingEnabled = v }"
                 @update:duration-rounding-increment="(v: number) => { durationRoundingIncrement = v }"
                 @update:duration-rounding-method="(v: string) => { durationRoundingMethod = v as 'roundUp' | 'roundDown' | 'roundNearest' }"
+              />
+            </VWindowItem>
+          </VWindow>
+        </VWindowItem>
+
+        <VWindowItem key="rules" value="rules">
+          <VTabs v-model="currentRulesSubTab" class="mb-4">
+            <VTab value="rules">{{ UI_STRINGS.tabs.rules }}</VTab>
+            <VTab value="mls">{{ UI_STRINGS.tabs.mlsMapping }}</VTab>
+          </VTabs>
+          <VWindow v-model="currentRulesSubTab">
+            <VWindowItem key="rules" value="rules">
+              <BusinessRulesTab />
+            </VWindowItem>
+            <VWindowItem key="mls" value="mls">
+              <PropertyMappingsTab :enabled-override="currentRulesSubTab === 'mls'" />
+            </VWindowItem>
+          </VWindow>
+        </VWindowItem>
+
+        <VWindowItem key="calendar" value="calendar">
+          <VTabs v-model="currentCalendarTab" class="mb-4">
+            <VTab value="integration">{{ UI_STRINGS.tabs.integration }}</VTab>
+            <VTab value="confirmation">{{ UI_STRINGS.tabs.confirmationAndHolds }}</VTab>
+            <VTab value="places">{{ UI_STRINGS.tabs.places }}</VTab>
+            <VTab value="grid">{{ UI_STRINGS.tabs.grid }}</VTab>
+          </VTabs>
+
+          <VWindow v-model="currentCalendarTab">
+            <VWindowItem key="integration" value="integration">
+              <CalendarIntegrationPanel
+                :calendar-enabled="calendarEnabled"
+                :calendar-provider="calendarProvider"
+                :calendar-entries="calendarEntries"
+                :write-to-index="writeToIndex"
+                :calendar-validation-error="calendarValidationError"
+                :email-validation-rule="emailValidationRule"
+                :save-button-props="saveButtonProps"
+                @update:calendar-enabled="(v: boolean) => { calendarEnabled = v }"
+                @update:calendar-provider="setCalendarProvider"
+                @add-calendar-entry="addCalendarEntry"
+                @remove-calendar-entry="removeCalendarEntry"
+                @update-calendar-entry="updateCalendarEntry"
+                @set-read-from="setReadFrom"
+                @set-write-to="setWriteTo"
+              />
+            </VWindowItem>
+
+            <VWindowItem key="confirmation" value="confirmation">
+              <AppointmentConfirmationPanel
+                :hold-duration-minutes="holdDurationMinutes"
+                :auto-confirm-enabled="autoConfirmEnabled"
+                :save-button-props="saveButtonProps"
+                @update:hold-duration-minutes="(v: number) => { holdDurationMinutes = v }"
+                @update:auto-confirm-enabled="setAutoConfirmEnabled"
               />
             </VWindowItem>
 

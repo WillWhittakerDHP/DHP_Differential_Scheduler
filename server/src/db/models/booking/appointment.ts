@@ -55,6 +55,12 @@ export class Appointment extends Model<
   declare heldUntil: Date | null;
   /** JSONB — which slot-computation constraints are bypassed by admin override (populated via PATCH) */
   declare overrideConstraints: Record<string, boolean> | null;
+  /** When the appointment transitioned to 'submitted' status */
+  declare submittedAt: Date | null;
+  /** When the appointment transitioned to 'confirmed' status */
+  declare confirmedAt: Date | null;
+  /** FK → users.id — who confirmed the appointment (populated by Feature 7 auth) */
+  declare confirmedBy: ForeignKey<string> | null;
   declare propertyDetails: Record<string, unknown> | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -203,6 +209,27 @@ export function AppointmentFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'override_constraints',
         comment: 'Admin constraint overrides — keys match slot computation constraints (capacity, buffer, blackout, businessHours)',
+      },
+      submittedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'submitted_at',
+      },
+      confirmedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'confirmed_at',
+      },
+      confirmedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'confirmed_by',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       propertyDetails: {
         type: DataTypes.JSONB,

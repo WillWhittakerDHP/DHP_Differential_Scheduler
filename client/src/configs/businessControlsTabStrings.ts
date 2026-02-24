@@ -37,7 +37,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     applyTo: 'Apply To',
     timeSlotIncrement: 'Slot Increment',
     timezone: 'Timezone',
-    enableDurationRounding: 'Enable Duration Rounding',
+    enableDurationRounding: 'Enable Rounding',
     roundingIncrement: 'Rounding Increment (minutes)',
     roundingMethod: 'Rounding Method',
     defaultLocationAddress: 'Home/Office Address',
@@ -105,12 +105,14 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     constraints: 'Constraints',
     calendar: 'Calendar',
     rules: 'Rules',
+    mlsMapping: 'MLS Mapping',
     range: 'Range',
     capacity: 'Capacity',
     overlap: 'Overlap',
     integration: 'Integration',
+    confirmationAndHolds: 'Confirmation & Holds',
     increment: 'Slot Increment',
-    rounding: 'Duration Rounding',
+    rounding: 'Rounding',
     timezone: 'Timezone',
     places: 'Places',
     grid: 'Grid'
@@ -145,7 +147,9 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     holdDurationLabel: 'Default Hold Duration (minutes)',
     holdDurationHint: 'How long a slot is held before it expires when a user holds a time slot. Between 1 and 60 minutes.',
     holdDurationMin: 'Hold duration must be at least 1 minute',
-    holdDurationMax: 'Hold duration cannot exceed 60 minutes'
+    holdDurationMax: 'Hold duration cannot exceed 60 minutes',
+    autoConfirmLabel: 'Auto-confirm appointments',
+    autoConfirmHint: 'When enabled, new appointments created with status "Submitted" are automatically transitioned to "Confirmed".'
   },
   driveTime: {
     calculatedTitle: 'Calculated Drive Times',
@@ -196,7 +200,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     differentialGraphDefaultLabel: 'Select a Time Slot'
   },
   sections: {
-    durationRoundingTitle: 'Duration Rounding',
+    durationRoundingTitle: 'Rounding',
     defaultLocationTitle: 'Default Location',
     timezoneSettingsTitle: 'Timezone Settings',
     gridConfigTitle: 'Grid Configuration',

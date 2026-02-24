@@ -11,8 +11,18 @@ import {
   getPropertyFieldMappingsEndpoint,
   getPropertyFeatureMappingsEndpoint
 } from '@/utils/api'
-const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
-const isTabActive = computed(() => adminCurrentTab?.value === 'property-mappings')
+
+const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))
+
+/** When provided (e.g. when embedded under Controls > Rules), overrides tab-active check so queries run when this section is visible. */
+const props = withDefaults(
+  defineProps<{ enabledOverride?: boolean }>(),
+  { enabledOverride: undefined }
+)
+
+const isTabActive = computed(() =>
+  props.enabledOverride !== undefined ? props.enabledOverride : adminCurrentTab?.value === 'property-mappings'
+)
 
 const currentSubTab = ref<'field' | 'block'>('field')
 

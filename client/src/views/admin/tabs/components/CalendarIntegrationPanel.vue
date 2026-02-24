@@ -1,33 +1,17 @@
 <!--
-  Calendar integration: enable, provider, calendar entries list
+  Calendar integration: enable, provider, calendar entries list (expansion panels)
   WHY: Extracted from BusinessControlsTab to reduce file size and cohesion
 -->
 <script setup lang="ts">
+import { ref } from 'vue'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { CALENDAR_PROVIDER_OPTIONS } from '@/constants/businessControlsOptions'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-const HOLD_DURATION_MIN = 1
-const HOLD_DURATION_MAX = 60
-
-function clampHoldDuration(value: number): number {
-  const n = Number.isNaN(value) ? 15 : Math.floor(value)
-  return Math.min(HOLD_DURATION_MAX, Math.max(HOLD_DURATION_MIN, n))
-}
-
-function holdDurationRule(value: unknown): true | string {
-  const n = Number(value)
-  if (Number.isNaN(n)) return UI_STRINGS.calendar.holdDurationMin
-  if (n < HOLD_DURATION_MIN) return UI_STRINGS.calendar.holdDurationMin
-  if (n > HOLD_DURATION_MAX) return UI_STRINGS.calendar.holdDurationMax
-  return true
-}
-
 defineProps<{
   calendarEnabled: boolean
   calendarProvider: string
-  holdDurationMinutes: number
   calendarEntries: Array<{ email: string; label?: string; readFrom: boolean; writeTo: boolean }>
   writeToIndex: number
   calendarValidationError: string | null
@@ -38,7 +22,6 @@ defineProps<{
 const emit = defineEmits<{
   'update:calendarEnabled': [value: boolean]
   'update:calendarProvider': [value: string]
-  'update:holdDurationMinutes': [value: number]
   addCalendarEntry: []
   removeCalendarEntry: [index: number]
   updateCalendarEntry: [index: number, patch: { email?: string; label?: string }]
@@ -47,6 +30,15 @@ const emit = defineEmits<{
 }>()
 
 const calendarProviderOptions = CALENDAR_PROVIDER_OPTIONS
+
+/** Expansion state: none expanded by default (empty array). */
+const expandedPanels = ref<number[]>([])
+
+function panelTitle(entry: { email: string; label?: string }, index: number): string {
+  if (entry.label?.trim()) return entry.label
+  if (entry.email?.trim()) return entry.email
+  return `Calendar ${index + 1}`
+}
 </script>
 
 <template>
@@ -76,23 +68,6 @@ const calendarProviderOptions = CALENDAR_PROVIDER_OPTIONS
       class="mb-4"
     />
 
-    <VDivider class="my-4" />
-
-    <div class="text-subtitle-2 mb-2">{{ UI_STRINGS.calendar.appointmentHoldsTitle }}</div>
-    <VTextField
-      :model-value="holdDurationMinutes"
-      @update:model-value="(v: string | number) => emit('update:holdDurationMinutes', clampHoldDuration(Number(v)))"
-      type="number"
-      :min="1"
-      :max="60"
-      :label="UI_STRINGS.calendar.holdDurationLabel"
-      :hint="UI_STRINGS.calendar.holdDurationHint"
-      persistent-hint
-      class="mb-4"
-      :rules="[holdDurationRule]"
-      validate-on="blur"
-    />
-
     <div v-if="calendarEnabled && calendarProvider !== 'none'" class="mt-6">
       <div class="d-flex justify-space-between align-center mb-3">
         <div>
@@ -116,94 +91,104 @@ const calendarProviderOptions = CALENDAR_PROVIDER_OPTIONS
         {{ UI_STRINGS.calendar.noCalendars }}
       </div>
 
-      <VCard
-        v-for="(entry, index) in calendarEntries"
-        :key="index"
-        variant="outlined"
+      <VExpansionPanels
+        v-model="expandedPanels"
+        multiple
+        variant="accordion"
         class="mb-4"
       >
-        <VCardText>
-          <VRow>
-            <VCol cols="12" md="5">
-              <VTextField
-                :model-value="entry.email"
-                @update:model-value="(v: string) => emit('updateCalendarEntry', index, { email: v })"
-                :label="UI_STRINGS.calendar.emailLabel"
-                :hint="UI_STRINGS.calendar.emailHint"
-                persistent-hint
-                :placeholder="UI_STRINGS.placeholders.emailAddress"
-                :rules="[emailValidationRule]"
-                validate-on="blur"
-                required
-              >
-                <template #prepend-inner>
-                  <VIcon>mdi-email</VIcon>
-                </template>
-              </VTextField>
-            </VCol>
-            <VCol cols="12" md="4">
-              <VTextField
-                :model-value="entry.label ?? ''"
-                @update:model-value="(v: string) => emit('updateCalendarEntry', index, { label: v })"
-                :label="UI_STRINGS.calendar.labelOptional"
-                :hint="UI_STRINGS.calendar.labelHint"
-                persistent-hint
-                :placeholder="UI_STRINGS.placeholders.workCalendar"
-              >
-                <template #prepend-inner>
-                  <VIcon>mdi-label</VIcon>
-                </template>
-              </VTextField>
-            </VCol>
-            <VCol cols="12" md="3" class="d-flex align-center">
-              <VBtn
-                color="error"
-                variant="text"
-                size="small"
-                @click="emit('removeCalendarEntry', index)"
-              >
-                <VIcon start>mdi-delete</VIcon>
-                {{ UI_STRINGS.calendar.remove }}
-              </VBtn>
-            </VCol>
-          </VRow>
+        <VExpansionPanel
+          v-for="(entry, index) in calendarEntries"
+          :key="index"
+          :value="index"
+        >
+          <VExpansionPanelTitle>
+            <VIcon start>mdi-calendar</VIcon>
+            {{ panelTitle(entry, index) }}
+          </VExpansionPanelTitle>
+          <VExpansionPanelText>
+            <VRow>
+              <VCol cols="12" md="5">
+                <VTextField
+                  :model-value="entry.email"
+                  @update:model-value="(v: string) => emit('updateCalendarEntry', index, { email: v })"
+                  :label="UI_STRINGS.calendar.emailLabel"
+                  :hint="UI_STRINGS.calendar.emailHint"
+                  persistent-hint
+                  :placeholder="UI_STRINGS.placeholders.emailAddress"
+                  :rules="[emailValidationRule]"
+                  validate-on="blur"
+                  required
+                >
+                  <template #prepend-inner>
+                    <VIcon>mdi-email</VIcon>
+                  </template>
+                </VTextField>
+              </VCol>
+              <VCol cols="12" md="4">
+                <VTextField
+                  :model-value="entry.label ?? ''"
+                  @update:model-value="(v: string) => emit('updateCalendarEntry', index, { label: v })"
+                  :label="UI_STRINGS.calendar.labelOptional"
+                  :hint="UI_STRINGS.calendar.labelHint"
+                  persistent-hint
+                  :placeholder="UI_STRINGS.placeholders.workCalendar"
+                >
+                  <template #prepend-inner>
+                    <VIcon>mdi-label</VIcon>
+                  </template>
+                </VTextField>
+              </VCol>
+              <VCol cols="12" md="3" class="d-flex align-center">
+                <VBtn
+                  color="error"
+                  variant="text"
+                  size="small"
+                  @click="emit('removeCalendarEntry', index)"
+                >
+                  <VIcon start>mdi-delete</VIcon>
+                  {{ UI_STRINGS.calendar.remove }}
+                </VBtn>
+              </VCol>
+            </VRow>
 
-          <VRow class="mt-2">
-            <VCol cols="12" sm="6" md="4">
-              <VCheckbox
-                :model-value="entry.readFrom"
-                @update:model-value="(v: boolean | null) => emit('setReadFrom', index, v === true)"
-                :label="UI_STRINGS.calendar.readFrom"
-                :hint="UI_STRINGS.calendar.readFromHint"
-                persistent-hint
-                density="compact"
-              >
-                <template #prepend>
-                  <VIcon size="small">mdi-calendar-search</VIcon>
-                </template>
-              </VCheckbox>
-            </VCol>
-            <VCol cols="12" sm="6" md="8">
-              <VCheckbox
-                :model-value="entry.writeTo"
-                @update:model-value="(v: boolean | null) => emit('setWriteTo', index, v === true)"
-                :label="UI_STRINGS.calendar.writeTo"
-                :hint="UI_STRINGS.calendar.writeToHint"
-                persistent-hint
-                density="compact"
-                :disabled="!entry.writeTo && writeToIndex >= 0 && writeToIndex !== index"
-              >
-                <template #prepend>
-                  <VIcon size="small">mdi-calendar-plus</VIcon>
-                </template>
-              </VCheckbox>
-              <div class="text-caption text-medium-emphasis mt-1">
-                {{ UI_STRINGS.calendar.writeToOnlyOne }}
-              </div>
-            </VCol>
-          </VRow>
-        </VCardText>
-      </VCard>
+            <VRow class="mt-2">
+              <VCol cols="12" sm="6" md="4">
+                <VCheckbox
+                  :model-value="entry.readFrom"
+                  @update:model-value="(v: boolean | null) => emit('setReadFrom', index, v === true)"
+                  :label="UI_STRINGS.calendar.readFrom"
+                  :hint="UI_STRINGS.calendar.readFromHint"
+                  persistent-hint
+                  density="compact"
+                >
+                  <template #prepend>
+                    <VIcon size="small">mdi-calendar-search</VIcon>
+                  </template>
+                </VCheckbox>
+              </VCol>
+              <VCol cols="12" sm="6" md="8">
+                <VCheckbox
+                  :model-value="entry.writeTo"
+                  @update:model-value="(v: boolean | null) => emit('setWriteTo', index, v === true)"
+                  :label="UI_STRINGS.calendar.writeTo"
+                  :hint="UI_STRINGS.calendar.writeToHint"
+                  persistent-hint
+                  density="compact"
+                  :disabled="!entry.writeTo && writeToIndex >= 0 && writeToIndex !== index"
+                >
+                  <template #prepend>
+                    <VIcon size="small">mdi-calendar-plus</VIcon>
+                  </template>
+                </VCheckbox>
+                <div class="text-caption text-medium-emphasis mt-1">
+                  {{ UI_STRINGS.calendar.writeToOnlyOne }}
+                </div>
+              </VCol>
+            </VRow>
+          </VExpansionPanelText>
+        </VExpansionPanel>
+      </VExpansionPanels>
 
       <VAlert
         v-if="calendarValidationError"

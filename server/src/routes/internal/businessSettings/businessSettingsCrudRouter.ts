@@ -113,7 +113,7 @@ router.put(
   async (req: Request, res: Response): Promise<void> => {
   try {
     const key = paramString(req, 'key')
-    const { setting_value } = req.body
+    const { setting_value, auto_confirm_enabled } = req.body
 
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
@@ -136,12 +136,16 @@ router.put(
       const newSetting = await BusinessSettings.create({
         settingKey: key,
         settingValue: setting_value,
+        ...(typeof auto_confirm_enabled === 'boolean' && { autoConfirmEnabled: auto_confirm_enabled }),
       })
       sendCreated(res, transformSettingToResponse(newSetting))
       return
     }
 
     setting.settingValue = setting_value
+    if (typeof auto_confirm_enabled === 'boolean') {
+      setting.autoConfirmEnabled = auto_confirm_enabled
+    }
     await setting.save()
 
     sendSuccess(res, transformSettingToResponse(setting))
@@ -158,7 +162,7 @@ router.patch(
   async (req: Request, res: Response): Promise<void> => {
   try {
     const key = paramString(req, 'key')
-    const { setting_value } = req.body
+    const { setting_value, auto_confirm_enabled } = req.body
 
     const valueValidation = validateSettingValue(setting_value)
     if (!valueValidation.valid) {
@@ -190,6 +194,12 @@ router.patch(
     } else {
       setting.settingValue = mergedValue as AvailabilitySettingsData
     }
+
+    // Task 6.3.2.3: persist auto_confirm_enabled when provided (availability_settings row only)
+    if (typeof auto_confirm_enabled === 'boolean') {
+      setting.autoConfirmEnabled = auto_confirm_enabled
+    }
+
     await setting.save()
 
     sendSuccess(res, transformSettingToResponse(setting))

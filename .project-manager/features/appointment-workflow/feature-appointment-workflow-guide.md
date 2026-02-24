@@ -79,8 +79,28 @@
 ---
 
 
-- [ ] ### Phase 6.2: Phase 6.2 planning
-**Description:** Phase 6.2 planning
+- [x] ### Phase 6.2: Held & Override Stubs
+**Description:** Prepare held appointment status and admin constraint-override as stub implementations for Feature 7 enactment.
+**Sessions:** 2 (6.2.1: Held Status Stub, 6.2.2: Admin Override Stub)
+**Success Criteria:**
+- Hold via PATCH works with computed heldUntil
+- Override via PATCH works with stub auth
+- Client UI elements exist but are properly gated
+- Enactment requirements documented for Feature 7
+
+- [ ] ### Phase 6.3: Confirmation Routine
+**Description:** Implement submitted → confirmed transition with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs.
+**Sessions:** 3 (6.3.1: Data Model & Transition Guards, 6.3.2: Admin Confirmation & Auto-Confirm, 6.3.3: Notifications & Docs)
+**Success Criteria:**
+- Status transition validation prevents invalid transitions
+- Confirmation timestamps auto-populated
+- Admin Confirm button works for submitted appointments
+- Auto-confirm business setting toggleable
+- Notification stubs ready for Feature 7 email
+
+
+- [ ] ### Phase 6.3: Phase 6.3 planning
+**Description:** Phase 6.3 planning
 **Sessions:** [To be planned]
 **Success Criteria:**
 - [To be defined]

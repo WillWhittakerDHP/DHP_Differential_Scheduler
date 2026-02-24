@@ -4,7 +4,12 @@ import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
-import { ERROR_MESSAGES, ALLOWED_OVERRIDE_CONSTRAINTS } from './appointmentConstants.js'
+import {
+  ERROR_MESSAGES,
+  ALLOWED_OVERRIDE_CONSTRAINTS,
+  isValidTransition,
+  type AppointmentStatus,
+} from './appointmentConstants.js'
 import { handleRouteError } from './appointmentErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
@@ -67,8 +72,30 @@ const router = createCrudRouter({
       handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT, 'fetching appointment')
     }
   },
-  beforeUpdate: async (req): Promise<void> => {
-    const body = req.body as { status?: string; _holdDurationDefaultFromSettings?: number }
+  beforeUpdate: async (req, res): Promise<void> => {
+    const body = req.body as {
+      status?: string
+      _holdDurationDefaultFromSettings?: number
+      _currentStatus?: AppointmentStatus
+    }
+
+    if (body?.status !== undefined) {
+      const id = paramString(req, 'id')
+      const existing = await Appointment.findByPk(id, { attributes: ['status'] })
+      if (existing) {
+        body._currentStatus = existing.status
+
+        const newStatus = body.status as AppointmentStatus
+        if (!isValidTransition(existing.status, newStatus)) {
+          res.status(400).json({
+            error: ERROR_MESSAGES.INVALID_STATUS_TRANSITION,
+            details: `Cannot transition from '${existing.status}' to '${newStatus}'`,
+          })
+          return
+        }
+      }
+    }
+
     if (body?.status === 'held') {
       body._holdDurationDefaultFromSettings = await getHoldDurationDefaultFromSettings()
     }
@@ -80,6 +107,7 @@ const router = createCrudRouter({
       holdDurationMinutes?: unknown
       overrideConstraints?: unknown
       _holdDurationDefaultFromSettings?: number
+      _currentStatus?: AppointmentStatus
       status?: string
       [key: string]: unknown
     }
@@ -89,8 +117,21 @@ const router = createCrudRouter({
       holdDurationMinutes: rawDuration,
       overrideConstraints: rawOverrides,
       _holdDurationDefaultFromSettings: defaultFromSettings,
+      _currentStatus: _currentStatusStripped,
       ...appointmentFields
     } = appointmentData
+
+    const newStatus = appointmentFields.status as AppointmentStatus | undefined
+
+    if (newStatus === 'submitted') {
+      appointmentFields.submittedAt = new Date()
+    }
+
+    if (newStatus === 'confirmed') {
+      appointmentFields.confirmedAt = new Date()
+      // ENACTMENT(Feature 7): set confirmedBy from req.user.id when auth exists
+      appointmentFields.confirmedBy = null
+    }
 
     if (appointmentFields.status === 'held') {
       const HOLD_DURATION_MAX = 60

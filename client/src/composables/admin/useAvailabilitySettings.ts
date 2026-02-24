@@ -45,6 +45,8 @@ export interface UseAvailabilitySettingsOptions {
 
 export interface UseAvailabilitySettingsReturn {
   formData: Ref<AvailabilitySettings | null>
+  /** Task 6.3.2.3: when true, appointments created as submitted are auto-confirmed. */
+  autoConfirmEnabled: Ref<boolean>
   loading: Ref<boolean>
   saving: Ref<boolean>
   error: Ref<string | null>
@@ -60,6 +62,7 @@ WHY: Centralizes all avail...
  */
 export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions): UseAvailabilitySettingsReturn {
   const formData = ref<AvailabilitySettings | null>(null)
+  const autoConfirmEnabled = ref(false)
   const loading = ref(false)
   const saving = ref(false)
   const error = ref<string | null>(null)
@@ -83,6 +86,12 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       
       if (!response.data || !response.data.setting_value) {
         throw new Error('No settings found in API response')
+      }
+
+      if (typeof response.data.auto_confirm_enabled === 'boolean') {
+        autoConfirmEnabled.value = response.data.auto_confirm_enabled
+      } else {
+        autoConfirmEnabled.value = false
       }
       
       const rawSettings = response.data.setting_value as RawAvailabilitySettings
@@ -281,6 +290,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
       
       await apiClient.put('/business-settings/availability_settings', {
         setting_value: settingsToSave,
+        auto_confirm_enabled: autoConfirmEnabled.value,
       })
       
       invalidateAvailabilitySettingsCache()
@@ -320,6 +330,7 @@ export function useAvailabilitySettings(options?: UseAvailabilitySettingsOptions
 
   return {
     formData,
+    autoConfirmEnabled,
     loading,
     saving,
     error,

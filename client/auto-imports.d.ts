@@ -299,6 +299,7 @@ declare global {
   const updateOrderAfterDragDrop: typeof import('./src/utils/orderIndexUtils').updateOrderAfterDragDrop
   const urlValidator: typeof import('./src/@core/utils/validators').urlValidator
   const useActiveElement: typeof import('@vueuse/core').useActiveElement
+  const useAddressAutocomplete: typeof import('./src/composables/useAddressAutocomplete').useAddressAutocomplete
   const useAdmin: typeof import('./src/composables/useAdmin').useAdmin
   const useAdminConfig: typeof import('./src/composables/useAdminConfig').useAdminConfig
   const useAnimate: typeof import('@vueuse/core').useAnimate
@@ -549,6 +550,9 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
+  export type { SelectionResult, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn } from './src/composables/useAddressAutocomplete'
+  import('./src/composables/useAddressAutocomplete')
+  // @ts-ignore
   export type { WithId, UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
   import('./src/composables/useCollectionTypes')
   // @ts-ignore
@@ -773,6 +777,7 @@ declare module 'vue' {
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly urlValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['urlValidator']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
+    readonly useAddressAutocomplete: UnwrapRef<typeof import('./src/composables/useAddressAutocomplete')['useAddressAutocomplete']>
     readonly useAdminConfig: UnwrapRef<typeof import('./src/composables/useAdminConfig')['useAdminConfig']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useAppointment: UnwrapRef<typeof import('./src/composables/useAppointment')['useAppointment']>

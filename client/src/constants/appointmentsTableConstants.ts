@@ -7,6 +7,8 @@ export const APPOINTMENTS_TABLE_HEADERS = [
   { title: 'Scheduled By', key: 'scheduledById', sortable: true },
   { title: 'Date', key: 'selectedDate', sortable: true },
   { title: 'Status', key: 'status', sortable: true },
+  { title: 'Submitted', key: 'submittedAt', sortable: true },
+  { title: 'Confirmed', key: 'confirmedAt', sortable: true },
   { title: 'Actions', key: 'actions', sortable: false },
 ] as const
 
@@ -55,4 +57,6 @@ export const APPOINTMENTS_TABLE_UI = {
   ROLE: 'Role',
   OVERRIDE_CONSTRAINTS: 'Override',
   OVERRIDE_TOOLTIP: 'Override requires admin authentication (Feature 7)',
+  CONFIRM: 'Confirm',
+  CONFIRM_TOOLTIP: 'Confirm this submitted appointment',
 } as const

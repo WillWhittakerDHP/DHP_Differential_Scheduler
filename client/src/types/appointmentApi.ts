@@ -106,5 +106,11 @@ export interface AppointmentResponse {
   heldByUser?: UserResponse
   /** Admin constraint overrides applied to this appointment */
   overrideConstraints?: Record<string, boolean> | null
+  /** ISO timestamp — when status transitioned to 'submitted' */
+  submittedAt?: string | null
+  /** ISO timestamp — when status transitioned to 'confirmed' */
+  confirmedAt?: string | null
+  /** FK → users.id — who confirmed (populated by Feature 7 auth) */
+  confirmedBy?: string | null
   attendees?: AttendeeResponse[]
 }

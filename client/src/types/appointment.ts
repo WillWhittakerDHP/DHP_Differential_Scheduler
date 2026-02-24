@@ -5,7 +5,7 @@ import type { BlockFinal } from '@/utils/booking/bookingFinalTypes'
 import type { EventInstance, EventShape } from './events'
 
 export type { AppointmentStatus } from './appointmentStatus'
-export { APPOINTMENT_STATUSES } from './appointmentStatus'
+export { APPOINTMENT_STATUSES, VALID_STATUS_TRANSITIONS, getValidNextStatuses } from './appointmentStatus'
 
 /** Extends shared SlotTimeBounds for single source of truth. */
 export type TimeRange = SlotTimeBounds
