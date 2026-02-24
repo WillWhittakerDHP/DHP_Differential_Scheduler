@@ -14,285 +14,114 @@ import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityTabState } from '@/composables/admin/useEntityTabState'
+import { useShapesTabModals } from '@/composables/admin/useShapesTabModals'
+import { useShapesTabCreation } from '@/composables/admin/useShapesTabCreation'
+import { useShapesTabDeletion } from '@/composables/admin/useShapesTabDeletion'
 import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, ANNOTATION_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
-import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('ShapesTab')
 
-
-/**
- * WHY: Use entity filtering composable for PartShape and BlockShape
-WHY: Extrac...
- */
 const { filteredEntities: filteredPartShapes } = useEntityFiltering('partShape')
 const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape')
-
-/**
- * WHY: Use shape display names composable
-WHY: Extracts display names map logic...
- */
 const { partShapeDisplayNames: _partShapeDisplayNames, blockShapeDisplayNames: _blockShapeDisplayNames } = useShapeDisplayNames()
-
-/**
- * WHY: Entity CRUD composable for PartShape and BlockShape
-PATTERN: useEntityCr...
- */
 const { patchOrderIndex: patchPartShapeOrderIndex } = useEntityCrud('partShape')
 const { patchOrderIndex: patchBlockShapeOrderIndex } = useEntityCrud('blockShape')
-
-/**
- * WHY: Entity CRUD composable for AnnotationShape
-PATTERN: useEntityCrud compos...
- */
 const annotationShapesComposable = useEntityCrud('annotationShape')
 const annotationShapes = annotationShapesComposable.entities
 const isLoadingAnnotationShapes = annotationShapesComposable.isLoading
 const createAnnotationShapeMutation = annotationShapesComposable.create
-
-/**
- * WHY: Entity CRUD composable for EventShape
-PATTERN: useEntityCrud composable ...
- */
 const eventShapesComposable = useEntityCrud('eventShape')
 const eventShapes = eventShapesComposable.entities
 const isLoadingEventShapes = eventShapesComposable.isLoading
 const createEventShapeMutation = eventShapesComposable.create
-
-/**
- * LEARNING: Reactive tab state management
- */
 const activeTab = ref('blockShapes')
-
-
-/**
- * WHY: Use expansion state composable for expansion state management
-WHY: Moves...
- */
 const expansionStateComposable = useExpansionState()
 const { expandedEntities: expandedShapes, isPanelExpanded } = expansionStateComposable
-
-/**
- * LEARNING: Notification composable for success/error messages
- */
 const { success } = useNotification()
 
-/**
- * PATTERN: Simple boolean ref for single modal state
- */
-const blockShapeMetadataModalOpen = ref(false)
+const modals = useShapesTabModals()
+const {
+  blockShapeMetadataModalOpen,
+  partShapeMetadataModalOpen,
+  partInstanceMetadataModalOpen,
+  annotationShapeMetadataModalOpen,
+  eventShapeMetadataModalOpen,
+  toggleBlockShapeMetadataModal,
+  togglePartShapeMetadataModal,
+  togglePartInstanceMetadataModal,
+  handlePartInstanceMetadataSaved,
+  toggleAnnotationShapeMetadataModal,
+  toggleEventShapeMetadataModal,
+} = modals
 
-const toggleBlockShapeMetadataModal = (): void => {
-  blockShapeMetadataModalOpen.value = !blockShapeMetadataModalOpen.value
-}
+const creation = useShapesTabCreation({
+  expandedShapes,
+  success,
+  createAnnotationShapeMutation,
+  createEventShapeMutation,
+  logger,
+})
+const {
+  isCreatingPartShape,
+  isCreatingAnnotationShape,
+  isCreatingEventShape,
+  newPartShapeInitialValues,
+  newAnnotationShapeName,
+  newEventShapeName,
+  isCreatingAnnotationShapeLoading,
+  isCreatingEventShapeLoading,
+  createPartShape,
+  startCreatingAnnotationShape,
+  handlePartShapeCreated,
+  handlePartShapeCancelled,
+  handleAnnotationShapeCreate,
+  handleAnnotationShapeCancelled,
+  startCreatingEventShape,
+  handleEventShapeCreate,
+  handleEventShapeCancelled,
+} = creation
 
-/**
- * PATTERN: Simple boolean ref for single modal state
- */
-const partShapeMetadataModalOpen = ref(false)
+const deletion = useShapesTabDeletion({ expandedShapes })
+const {
+  handleDeletePartShape,
+  handleDeleteBlockShape,
+  handleDeleteAnnotationShape,
+  handleDeleteEventShape,
+  handleExistingShapeSaved,
+} = deletion
 
-const togglePartShapeMetadataModal = (): void => {
-  partShapeMetadataModalOpen.value = !partShapeMetadataModalOpen.value
-}
-
-/**
- * PATTERN: Simple boolean ref for single modal state
- */
-const partInstanceMetadataModalOpen = ref(false)
-
-const togglePartInstanceMetadataModal = (): void => {
-  partInstanceMetadataModalOpen.value = !partInstanceMetadataModalOpen.value
-}
-
-const handlePartInstanceMetadataSaved = () => {
-  // PATTERN: Handler matches emit signature (no parameters)
-  partInstanceMetadataModalOpen.value = false
-}
-
-/**
- * PATTERN: Simple boolean ref for single modal state
- */
-const annotationShapeMetadataModalOpen = ref(false)
-
-const toggleAnnotationShapeMetadataModal = (): void => {
-  annotationShapeMetadataModalOpen.value = !annotationShapeMetadataModalOpen.value
-}
-
-/**
- * PATTERN: Simple boolean ref for single modal state
- */
-const eventShapeMetadataModalOpen = ref(false)
-
-const toggleEventShapeMetadataModal = (): void => {
-  eventShapeMetadataModalOpen.value = !eventShapeMetadataModalOpen.value
-}
-
-/**
- * LEARNING: Inline creation state for shape types
- */
-const isCreatingPartShape = ref(false)
-const isCreatingAnnotationShape = ref(false)
-const isCreatingEventShape = ref(false)
-const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
-const newAnnotationShapeName = ref('')
-const newEventShapeName = ref('')
-
-// LEARNING: Events and annotations are now core entities, use entity CRUD composable
-const isCreatingAnnotationShapeLoading = ref(false)
-const isCreatingEventShapeLoading = ref(false)
-
-
-const createPartShape = () => {
-  const defaults = getDefaultEntityValues('partShape')
-  newPartShapeInitialValues.value = {
-    ...defaults,
-    id: `new-${Date.now()}` as string,
-  } as GlobalEntity<'partShape'>
-  isCreatingPartShape.value = true
-  expandedShapes.value = ['new-partShape', ...expandedShapes.value]
-}
-
-const startCreatingAnnotationShape = () => {
-  newAnnotationShapeName.value = ''
-  isCreatingAnnotationShape.value = true
-  expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
-}
-
-const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>) => {
-  isCreatingPartShape.value = false
-  newPartShapeInitialValues.value = null
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-}
-
-const handlePartShapeCancelled = () => {
-  isCreatingPartShape.value = false
-  newPartShapeInitialValues.value = null
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-}
-
-const handleAnnotationShapeCreate = async () => {
-  if (!newAnnotationShapeName.value.trim()) return
-  
-  isCreatingAnnotationShapeLoading.value = true
-  try {
-    await createAnnotationShapeMutation({
-      name: newAnnotationShapeName.value.trim(),
-      orderIndex: 0,
-      active: true,
-      entityKey: 'annotationShape' as const
-    })
-    success('Annotation shape created successfully')
-    isCreatingAnnotationShape.value = false
-    newAnnotationShapeName.value = ''
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-  } catch (_error) {
-    logger.error('Failed to create annotation shape', { error: _error })
-  } finally {
-    isCreatingAnnotationShapeLoading.value = false
-  }
-}
-
-const handleAnnotationShapeCancelled = () => {
-  isCreatingAnnotationShape.value = false
-  newAnnotationShapeName.value = ''
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-}
-
-const startCreatingEventShape = () => {
-  newEventShapeName.value = ''
-  isCreatingEventShape.value = true
-  expandedShapes.value = ['new-eventShape', ...expandedShapes.value]
-}
-
-const handleEventShapeCreate = async () => {
-  if (!newEventShapeName.value.trim()) return
-  
-  isCreatingEventShapeLoading.value = true
-  try {
-    await createEventShapeMutation({
-      name: newEventShapeName.value.trim(),
-      orderIndex: 0,
-      active: true,
-      entityKey: 'eventShape' as const
-    })
-    success('Event shape created successfully')
-    isCreatingEventShape.value = false
-    newEventShapeName.value = ''
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
-  } catch (error) {
-    logger.error('Failed to create event shape', { error, name: newEventShapeName.value })
-  } finally {
-    isCreatingEventShapeLoading.value = false
-  }
-}
-
-const handleEventShapeCancelled = () => {
-  isCreatingEventShape.value = false
-  newEventShapeName.value = ''
-  expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
-}
-
-
-
-/**
- * WHY: Unified component pattern - all create/edit happens in EntityCard
- */
 const partShapesContainer = ref<HTMLElement | null>(null)
 const blockShapesContainer = ref<HTMLElement | null>(null)
 const annotationShapesContainer = ref<HTMLElement | null>(null)
-void annotationShapesContainer.value // ref used by template
-
+void annotationShapesContainer.value
 const partShapesPanelsContainer = ref<HTMLElement | null>(null)
 const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
 const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
-void annotationShapesPanelsContainer.value // ref used by template
-
-/**
- * WHY: Extracted to composable for better organization
- */
+void annotationShapesPanelsContainer.value
 const partShapesList = ref<GlobalEntity<'partShape'>[]>([])
 const blockShapesList = ref<GlobalEntity<'blockShape'>[]>([])
-
 const partShapeIds = ref<string[]>([])
 const blockShapeIds = ref<string[]>([])
 
-/**
- * WHY: Extracted to composables for better organization
- * PATTERN: Generic composable provides drag end handlers and array syncing
- */
 const partShapesDragHandlers = useEntityDragHandlers({
   entityIds: partShapeIds,
   entityList: partShapesList,
   filteredEntities: filteredPartShapes,
   patchOrderIndex: patchPartShapeOrderIndex
 })
-
 const blockShapesDragHandlers = useEntityDragHandlers({
   entityIds: blockShapeIds,
   entityList: blockShapesList,
   filteredEntities: filteredBlockShapes,
   patchOrderIndex: patchBlockShapeOrderIndex
 })
-
-// LEARNING: Use entity tab state composable for array syncing watchers
-// PATTERN: Generic composable handles array syncing watchers
-useEntityTabState({
-  filteredEntities: filteredPartShapes,
-  dragHandlers: partShapesDragHandlers
-})
-
-useEntityTabState({
-  filteredEntities: filteredBlockShapes,
-  dragHandlers: blockShapesDragHandlers
-})
-
-// LEARNING: Use drag-and-drop composables
-// PATTERN: Composable handles all drag-and-drop setup, watchers, and cleanup
+useEntityTabState({ filteredEntities: filteredPartShapes, dragHandlers: partShapesDragHandlers })
+useEntityTabState({ filteredEntities: filteredBlockShapes, dragHandlers: blockShapesDragHandlers })
 const { isMounted: _partShapesMounted } = useDragAndDrop({
   containerRef: partShapesContainer,
   panelsContainerRef: partShapesPanelsContainer,
@@ -303,7 +132,6 @@ const { isMounted: _partShapesMounted } = useDragAndDrop({
   group: 'partShapes',
   draggableClass: 'draggable-part-shape'
 })
-
 const { isMounted: _blockShapesMounted } = useDragAndDrop({
   containerRef: blockShapesContainer,
   panelsContainerRef: blockShapesPanelsContainer,
@@ -315,48 +143,16 @@ const { isMounted: _blockShapesMounted } = useDragAndDrop({
   draggableClass: 'draggable-block-shape'
 })
 
-function handleDeletePartShape(_id: string) {
-}
-
-function handleDeleteBlockShape(_id: string) {
-}
-
-const filteredAnnotationShapes = computed(() => {
-  // PATTERN: Check that annotationShapes is an array before spreading
-  if (!Array.isArray(annotationShapes.value)) {
-    return []
-  }
-  
-  return [...annotationShapes.value]
-})
-
-const safeEventShapes = computed(() => {
-  // PATTERN: Check that eventShapes is an array before accessing
-  if (!Array.isArray(eventShapes.value)) {
-    return []
-  }
-  
-  return eventShapes.value
-})
-
+const filteredAnnotationShapes = computed(() =>
+  Array.isArray(annotationShapes.value) ? [...annotationShapes.value] : []
+)
+const safeEventShapes = computed(() =>
+  Array.isArray(eventShapes.value) ? eventShapes.value : []
+)
 const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
 const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
 const annotationShapesTabLabel = computed(() => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`)
 const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
-
-/**
- * WHY: isPanelExpanded is now provided by useExpansionState composable
- */
-function handleDeleteAnnotationShape(_id: string) {
-}
-
-function handleDeleteEventShape(_id: string) {
-}
-
-
-function handleExistingShapeSaved(entity: GlobalEntity<GlobalEntityKey>) {
-  expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
-}
 </script>
 
 <template>

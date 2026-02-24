@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T21:42:41.482Z",
+  "generatedAt": "2026-02-24T15:07:47.274Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 621,
+  "fileCount": 638,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -129,7 +129,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 119
+        "patternCount": 120
       },
       {
         "prefix": "use",
@@ -365,6 +365,24 @@
     ],
     "repeatedStringFiles": [
       {
+        "value": "started",
+        "files": [
+          "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+          "client/src/composables/useAppointment.ts",
+          "server/src/db/models/booking/appointment.ts"
+        ],
+        "occurrences": 3
+      },
+      {
+        "value": "held",
+        "files": [
+          "client/src/composables/useAppointment.ts",
+          "client/src/types/appointmentApi.ts",
+          "server/src/db/models/booking/appointment.ts"
+        ],
+        "occurrences": 7
+      },
+      {
         "value": "confirmed",
         "files": [
           "client/src/types/entities.ts",
@@ -394,8 +412,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 201,
-          "endLine": 210,
+          "startLine": 123,
+          "endLine": 132,
           "windowText": "selectedAppointmentId: Ref<string | null>\nappointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -460,8 +478,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 202,
-          "endLine": 211,
+          "startLine": 124,
+          "endLine": 133,
           "windowText": "appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>\nloadedAppointmentId: Ref<string | null>\nisLoadingAppointment: Ref<boolean>\nfetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }\nhandleLoadAppointment: (id: string | null) => Promise<void>\nhandleUpdateAppointment: () => Promise<void>\nhandleResetWizard: () => void\nhandleResetMocks: () => void\nupdateAppointment: { isPending: Ref<boolean> }\nwizard: ReturnType<typeof useBookingWizard> | null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -500,8 +518,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 15,
-          "endLine": 46,
+          "startLine": 17,
+          "endLine": 48,
           "windowText": "normalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())",
           "target": "server/src/utils/logger.ts"
         }
@@ -630,8 +648,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 13,
-          "endLine": 44,
+          "startLine": 15,
+          "endLine": 46,
           "windowText": "normalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())",
           "target": "server/src/utils/logger.ts"
         }
@@ -675,15 +693,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 136,
-          "endLine": 149,
+          "startLine": 135,
+          "endLine": 148,
           "windowText": "const infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 131,
-          "endLine": 144,
+          "startLine": 134,
+          "endLine": 147,
           "windowText": "const infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return",
           "target": "server/src/utils/logger.ts"
         }
@@ -770,6 +788,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-0cd5727b10ad",
+      "hash": "0cd5727b10ad",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 127,
+          "endLine": 137,
+          "windowText": "isCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 73,
+          "endLine": 83,
+          "windowText": "isCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-0ce0fcfa2b32",
       "hash": "0ce0fcfa2b32",
       "uniqueFiles": 2,
@@ -838,8 +882,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 38,
-          "endLine": 51,
+          "startLine": 40,
+          "endLine": 53,
           "windowText": "let cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {\nif (cachedDebugScopes === undefined) {",
           "target": "server/src/utils/logger.ts"
         }
@@ -961,8 +1005,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 111,
-          "endLine": 131,
+          "startLine": 57,
+          "endLine": 77,
           "windowText": "partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0\nconst finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -1039,15 +1083,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 153,
-          "endLine": 165,
+          "startLine": 152,
+          "endLine": 164,
           "windowText": "if (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 148,
-          "endLine": 160,
+          "startLine": 151,
+          "endLine": 163,
           "windowText": "if (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return",
           "target": "server/src/utils/logger.ts"
         }
@@ -1325,15 +1369,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 154,
-          "endLine": 166,
+          "startLine": 153,
+          "endLine": 165,
           "windowText": "console.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupEnd()",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 149,
-          "endLine": 161,
+          "startLine": 152,
+          "endLine": 164,
           "windowText": "console.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupEnd()",
           "target": "server/src/utils/logger.ts"
         }
@@ -1544,6 +1588,32 @@
           "endLine": 19,
           "windowText": "InferCreationAttributes,\n} from 'sequelize';\nexport class PartAssignment extends Model<\nInferAttributes<PartAssignment>,\nInferCreationAttributes<PartAssignment>\ndeclare id: CreationOptional<string>;\ndeclare kind: CreationOptional<string>;\ndeclare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-39164113c7d0",
+      "hash": "39164113c7d0",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+          "startLine": 40,
+          "endLine": 49,
+          "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTabModals.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 51,
+          "endLine": 60,
+          "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
         }
       ],
       "score": 22,
@@ -1774,8 +1844,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 8,
-          "endLine": 38,
+          "startLine": 10,
+          "endLine": 40,
           "windowText": "if (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined",
           "target": "server/src/utils/logger.ts"
         }
@@ -1852,8 +1922,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 98,
-          "endLine": 108,
+          "startLine": 100,
+          "endLine": 110,
           "windowText": "const stack = new Error().stack\nif (!stack) return ''\nconst lines = stack.split('\\n')\nfor (let i = 1; i < lines.length; i++) {\nconst line = lines[i]\nconst isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()",
           "target": "server/src/utils/logger.ts"
         }
@@ -1949,8 +2019,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 141,
-          "endLine": 157,
+          "startLine": 87,
+          "endLine": 103,
           "windowText": "const selectedTime = appointmentData.value.selectedTime\nif (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -1982,8 +2052,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 12,
-          "endLine": 42,
+          "startLine": 14,
+          "endLine": 44,
           "windowText": "normalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw",
           "target": "server/src/utils/logger.ts"
         }
@@ -2027,15 +2097,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 146,
-          "endLine": 158,
+          "startLine": 145,
+          "endLine": 157,
           "windowText": "console.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 141,
-          "endLine": 153,
+          "startLine": 144,
+          "endLine": 156,
           "windowText": "console.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))",
           "target": "server/src/utils/logger.ts"
         }
@@ -2183,8 +2253,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 116,
-          "endLine": 136,
+          "startLine": 62,
+          "endLine": 82,
           "windowText": "const shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,\nroundedDifferentialOffset: 0\nreturn shape.slotShape",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -2304,6 +2374,58 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-593e42bee1ad",
+      "hash": "593e42bee1ad",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "newAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 129,
+          "endLine": 139,
+          "windowText": "newAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 75,
+          "endLine": 85,
+          "windowText": "newAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-5c17e19d1f85",
+      "hash": "5c17e19d1f85",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "holdDurationMinutes,\nholdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,\nsetCalendarProvider,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useBusinessControlsFormState.ts",
+          "startLine": 229,
+          "endLine": 249,
+          "windowText": "holdDurationMinutes,\nholdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,\nsetCalendarProvider,",
+          "target": "client/src/composables/admin/useBusinessControlsFormState.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+          "startLine": 61,
+          "endLine": 81,
+          "windowText": "holdDurationMinutes,\nholdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,\nsetCalendarProvider,",
+          "target": "client/src/views/admin/tabs/BusinessControlsTab.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-5c65aaec0c76",
       "hash": "5c65aaec0c76",
       "uniqueFiles": 2,
@@ -2312,11 +2434,11 @@
       "windowText": "{ name: 'streetAddress', description: 'Property street address', example: '123 Main St' },\n{ name: 'city', description: 'Property city', example: 'Austin' },\n{ name: 'state', description: 'Property state abbreviation', example: 'TX' },\n{ name: 'zipCode', description: 'Property ZIP code', example: '78701' },\n{ name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },\n{ name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },\n{ name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },\n{ name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },\n{ name: 'status', description: 'Current appointment status', example: 'confirmed' },\n{ name: 'service', description: 'Primary service name', example: \"Buyer's Inspection\" },",
       "locations": [
         {
-          "repoPath": "client/src/views/admin/tabs/InstancesTab.vue",
-          "startLine": 230,
-          "endLine": 239,
+          "repoPath": "client/src/composables/admin/useInstancesTabEventInstance.ts",
+          "startLine": 11,
+          "endLine": 20,
           "windowText": "{ name: 'streetAddress', description: 'Property street address', example: '123 Main St' },\n{ name: 'city', description: 'Property city', example: 'Austin' },\n{ name: 'state', description: 'Property state abbreviation', example: 'TX' },\n{ name: 'zipCode', description: 'Property ZIP code', example: '78701' },\n{ name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },\n{ name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },\n{ name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },\n{ name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },\n{ name: 'status', description: 'Current appointment status', example: 'confirmed' },\n{ name: 'service', description: 'Primary service name', example: \"Buyer's Inspection\" },",
-          "target": "client/src/views/admin/tabs/InstancesTab.vue::<script>"
+          "target": "client/src/composables/admin/useInstancesTabEventInstance.ts"
         },
         {
           "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
@@ -2521,15 +2643,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 137,
-          "endLine": 150,
+          "startLine": 136,
+          "endLine": 149,
           "windowText": "const warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 132,
-          "endLine": 145,
+          "startLine": 135,
+          "endLine": 148,
           "windowText": "const warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))",
           "target": "server/src/utils/logger.ts"
         }
@@ -2590,6 +2712,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-6d904a607168",
+      "hash": "6d904a607168",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+          "startLine": 39,
+          "endLine": 48,
+          "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTabModals.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 50,
+          "endLine": 59,
+          "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-6dfd558d0cb9",
       "hash": "6dfd558d0cb9",
       "uniqueFiles": 2,
@@ -2632,8 +2780,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 100,
-          "endLine": 111,
+          "startLine": 102,
+          "endLine": 113,
           "windowText": "const lines = stack.split('\\n')\nfor (let i = 1; i < lines.length; i++) {\nconst line = lines[i]\nconst isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)",
           "target": "server/src/utils/logger.ts"
         }
@@ -2688,6 +2836,32 @@
           "endLine": 23,
           "windowText": "InferCreationAttributes<PartAssignment>\ndeclare id: CreationOptional<string>;\ndeclare kind: CreationOptional<string>;\ndeclare parentKind: CreationOptional<string>;\ndeclare childKind: CreationOptional<string>;\ndeclare parentId: ForeignKey<string>;\ndeclare childId: ForeignKey<string>;\ndeclare disabled: boolean;\ndeclare createdAt: CreationOptional<Date>;\ndeclare updatedAt: CreationOptional<Date>;",
           "target": "server/src/db/models/booking/part_assignment.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-702d91fa95aa",
+      "hash": "702d91fa95aa",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "newPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 128,
+          "endLine": 138,
+          "windowText": "newPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 74,
+          "endLine": 84,
+          "windowText": "newPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
         }
       ],
       "score": 22,
@@ -2911,15 +3085,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 145,
-          "endLine": 157,
+          "startLine": 144,
+          "endLine": 156,
           "windowText": "if (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 140,
-          "endLine": 152,
+          "startLine": 143,
+          "endLine": 155,
           "windowText": "if (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return",
           "target": "server/src/utils/logger.ts"
         }
@@ -3145,15 +3319,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 149,
-          "endLine": 161,
+          "startLine": 148,
+          "endLine": 160,
           "windowText": "if (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 144,
-          "endLine": 156,
+          "startLine": 147,
+          "endLine": 159,
           "windowText": "if (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return",
           "target": "server/src/utils/logger.ts"
         }
@@ -3198,14 +3372,14 @@
         {
           "repoPath": "client/src/utils/logger.ts",
           "startLine": 110,
-          "endLine": 131,
+          "endLine": 130,
           "windowText": "if (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 104,
-          "endLine": 124,
+          "startLine": 106,
+          "endLine": 127,
           "windowText": "if (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()",
           "target": "server/src/utils/logger.ts"
         }
@@ -3230,10 +3404,36 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 102,
-          "endLine": 114,
+          "startLine": 104,
+          "endLine": 116,
           "windowText": "const line = lines[i]\nconst isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-8664cd70ff8d",
+      "hash": "8664cd70ff8d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 130,
+          "endLine": 140,
+          "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 76,
+          "endLine": 86,
+          "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
         }
       ],
       "score": 22,
@@ -3474,6 +3674,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-8e7ee649ed0a",
+      "hash": "8e7ee649ed0a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>): void => {\nisCreatingPartShape.value = false\nnewPartShapeInitialValues.value = null\nexpandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')\nconst handlePartShapeCancelled = (): void => {\nisCreatingPartShape.value = false\nnewPartShapeInitialValues.value = null\nexpandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')\nconst handleAnnotationShapeCreate = async (): Promise<void> => {\nif (!newAnnotationShapeName.value.trim()) return",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapeSaveHandlers.ts",
+          "startLine": 62,
+          "endLine": 75,
+          "windowText": "const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>): void => {\nisCreatingPartShape.value = false\nnewPartShapeInitialValues.value = null\nexpandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')\nconst handlePartShapeCancelled = (): void => {\nisCreatingPartShape.value = false\nnewPartShapeInitialValues.value = null\nexpandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')\nconst handleAnnotationShapeCreate = async (): Promise<void> => {\nif (!newAnnotationShapeName.value.trim()) return",
+          "target": "client/src/composables/admin/useShapeSaveHandlers.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 52,
+          "endLine": 65,
+          "windowText": "const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>): void => {\nisCreatingPartShape.value = false\nnewPartShapeInitialValues.value = null\nexpandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')\nconst handlePartShapeCancelled = (): void => {\nisCreatingPartShape.value = false\nnewPartShapeInitialValues.value = null\nexpandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')\nconst handleAnnotationShapeCreate = async (): Promise<void> => {\nif (!newAnnotationShapeName.value.trim()) return",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-8fb3895862cc",
       "hash": "8fb3895862cc",
       "uniqueFiles": 2,
@@ -3620,8 +3846,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 11,
-          "endLine": 41,
+          "startLine": 13,
+          "endLine": 43,
           "windowText": "normalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null",
           "target": "server/src/utils/logger.ts"
         }
@@ -3728,6 +3954,32 @@
           "endLine": 87,
           "windowText": "comment: 'Field data type',\ntype: DataTypes.STRING,\ncomment: 'Human-readable label',\ntype: DataTypes.BOOLEAN,\ndefaultValue: false,\nfield: 'is_required',\ncomment: 'Whether field is required',\ntype: DataTypes.ENUM('titleRow', 'staticAsTitle', 'expandedDirect', 'expandedPanel', 'hidden', 'notConfigured'),\ndefaultValue: 'notConfigured',\ncomment: 'Field visibility setting',",
           "target": "server/src/db/models/admin/adminPrimitiveMetadata.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-9b4f257f5a9a",
+      "hash": "9b4f257f5a9a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,\nhandleEventShapeCancelled,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 131,
+          "endLine": 141,
+          "windowText": "isCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,\nhandleEventShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 77,
+          "endLine": 87,
+          "windowText": "isCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,\nhandleEventShapeCancelled,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
         }
       ],
       "score": 22,
@@ -3890,6 +4142,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-a0231133eddd",
+      "hash": "a0231133eddd",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "holdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,\nsetCalendarProvider,\nsetMinuteIncrement,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useBusinessControlsFormState.ts",
+          "startLine": 232,
+          "endLine": 251,
+          "windowText": "holdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,\nsetCalendarProvider,\nsetMinuteIncrement,",
+          "target": "client/src/composables/admin/useBusinessControlsFormState.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+          "startLine": 64,
+          "endLine": 83,
+          "windowText": "holdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,\nsetCalendarProvider,\nsetMinuteIncrement,",
+          "target": "client/src/views/admin/tabs/BusinessControlsTab.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-a03af2ad543e",
       "hash": "a03af2ad543e",
       "uniqueFiles": 2,
@@ -3900,14 +4178,14 @@
         {
           "repoPath": "client/src/utils/logger.ts",
           "startLine": 112,
-          "endLine": 132,
+          "endLine": 131,
           "windowText": "const parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 105,
-          "endLine": 125,
+          "startLine": 107,
+          "endLine": 128,
           "windowText": "const parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`\nexport function createLogger(scope: string): AppLogger {\nconst configuredLevel = getConfiguredLogLevel()\nconst prefix = `[${scope}]`",
           "target": "server/src/utils/logger.ts"
         }
@@ -4020,6 +4298,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-a3072b74e292",
+      "hash": "a3072b74e292",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 126,
+          "endLine": 136,
+          "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 72,
+          "endLine": 82,
+          "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-ac464e938825",
       "hash": "ac464e938825",
       "uniqueFiles": 2,
@@ -4082,14 +4386,14 @@
         {
           "repoPath": "client/src/utils/logger.ts",
           "startLine": 109,
-          "endLine": 130,
+          "endLine": 129,
           "windowText": "const isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`\nexport function createLogger(scope: string): AppLogger {",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 103,
-          "endLine": 123,
+          "startLine": 105,
+          "endLine": 126,
           "windowText": "const isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')\nreturn ` @ ${file}:${bareMatch[2]}`\nexport function createLogger(scope: string): AppLogger {",
           "target": "server/src/utils/logger.ts"
         }
@@ -4114,8 +4418,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 96,
-          "endLine": 107,
+          "startLine": 98,
+          "endLine": 109,
           "windowText": "if (!raw || String(raw).trim() === '') return ''\nconst stack = new Error().stack\nif (!stack) return ''\nconst lines = stack.split('\\n')\nfor (let i = 1; i < lines.length; i++) {\nconst line = lines[i]\nconst isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]",
           "target": "server/src/utils/logger.ts"
         }
@@ -4211,8 +4515,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 143,
-          "endLine": 159,
+          "startLine": 89,
+          "endLine": 105,
           "windowText": "if (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]\nconst minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null\nconst appointmentEnd = slot.totalTimeRange?.endTime || null",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -4289,17 +4593,43 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 150,
-          "endLine": 162,
+          "startLine": 149,
+          "endLine": 161,
           "windowText": "console.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 145,
-          "endLine": 157,
+          "startLine": 148,
+          "endLine": 160,
           "windowText": "console.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c1f632479d25",
+      "hash": "c1f632479d25",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingPartShape,\nisCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 125,
+          "endLine": 135,
+          "windowText": "isCreatingPartShape,\nisCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+          "startLine": 71,
+          "endLine": 81,
+          "windowText": "isCreatingPartShape,\nisCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,",
+          "target": "client/src/views/admin/tabs/ShapesTab.vue::<script>"
         }
       ],
       "score": 22,
@@ -4341,8 +4671,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 115,
-          "endLine": 132,
+          "startLine": 61,
+          "endLine": 78,
           "windowText": "const finalizedParts = computed<PartFinal[]>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.finalizedParts) {\nreturn shape.finalizedParts\nconst slotShapeTotals = computed<SlotShape>(() => {\nconst shape = appointmentData.value.appointmentShape\nif (!shape || !shape.slotShape) {\nroundedDuration: 0,\nrawDifferentialOffset: 0,\nroundedDifferentialOffset: 0",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -4400,8 +4730,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 9,
-          "endLine": 40,
+          "startLine": 11,
+          "endLine": 42,
           "windowText": "const normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {",
           "target": "server/src/utils/logger.ts"
         }
@@ -4497,15 +4827,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 144,
-          "endLine": 156,
+          "startLine": 143,
+          "endLine": 155,
           "windowText": "debug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 139,
-          "endLine": 151,
+          "startLine": 142,
+          "endLine": 154,
           "windowText": "debug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {",
           "target": "server/src/utils/logger.ts"
         }
@@ -4523,15 +4853,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 141,
-          "endLine": 154,
+          "startLine": 140,
+          "endLine": 153,
           "windowText": "callsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 136,
-          "endLine": 149,
+          "startLine": 139,
+          "endLine": 152,
           "windowText": "callsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))",
           "target": "server/src/utils/logger.ts"
         }
@@ -4634,8 +4964,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 7,
-          "endLine": 37,
+          "startLine": 9,
+          "endLine": 39,
           "windowText": "function parseLogLevel(raw: string | undefined): LogLevel | null {\nif (!raw) return null\nconst normalized = raw.trim().toLowerCase()\nnormalized === 'debug' ||\nnormalized === 'info' ||\nnormalized === 'warn' ||\nnormalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null",
           "target": "server/src/utils/logger.ts"
         }
@@ -4679,15 +5009,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 148,
-          "endLine": 160,
+          "startLine": 147,
+          "endLine": 159,
           "windowText": "info: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 143,
-          "endLine": 155,
+          "startLine": 146,
+          "endLine": 158,
           "windowText": "info: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {",
           "target": "server/src/utils/logger.ts"
         }
@@ -4757,15 +5087,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 135,
-          "endLine": 148,
+          "startLine": 134,
+          "endLine": 147,
           "windowText": "const debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 130,
-          "endLine": 143,
+          "startLine": 133,
+          "endLine": 146,
           "windowText": "const debugEnabled = shouldLog(configuredLevel, 'debug') && isDebugScopeEnabled(scope)\nconst infoEnabled = shouldLog(configuredLevel, 'info')\nconst warnEnabled = shouldLog(configuredLevel, 'warn')\nconst errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {",
           "target": "server/src/utils/logger.ts"
         }
@@ -4790,8 +5120,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 99,
-          "endLine": 109,
+          "startLine": 101,
+          "endLine": 111,
           "windowText": "if (!stack) return ''\nconst lines = stack.split('\\n')\nfor (let i = 1; i < lines.length; i++) {\nconst line = lines[i]\nconst isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''",
           "target": "server/src/utils/logger.ts"
         }
@@ -4842,8 +5172,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 37,
-          "endLine": 50,
+          "startLine": 39,
+          "endLine": 52,
           "windowText": "let cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)\nfunction getDebugScopes(): Set<string> | null {",
           "target": "server/src/utils/logger.ts"
         }
@@ -4861,15 +5191,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 140,
-          "endLine": 153,
+          "startLine": 139,
+          "endLine": 152,
           "windowText": "const appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 135,
-          "endLine": 148,
+          "startLine": 138,
+          "endLine": 151,
           "windowText": "const appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {\nif (!warnEnabled) return",
           "target": "server/src/utils/logger.ts"
         }
@@ -4894,8 +5224,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 101,
-          "endLine": 113,
+          "startLine": 103,
+          "endLine": 115,
           "windowText": "for (let i = 1; i < lines.length; i++) {\nconst line = lines[i]\nconst isInternal = CALLSITE_SKIP_PATTERNS.some((p) => line.includes(p))\nif (isInternal) continue\nconst parenMatch = line.match(/\\(([^)]+)\\)/)\nconst pathLineCol = parenMatch[1]\nconst short = pathLineCol.replace(/^.*\\/(src\\/)/, '$1').trim()\nreturn short ? ` @ ${short}` : ''\nconst bareMatch = line.match(/(\\S+):(\\d+)(?::(\\d+))?\\s*$/)\nconst file = bareMatch[1].replace(/^.*\\/(src\\/)/, '$1')",
           "target": "server/src/utils/logger.ts"
         }
@@ -4972,8 +5302,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 22,
-          "endLine": 47,
+          "startLine": 24,
+          "endLine": 49,
           "windowText": "function levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)\n.map((s) => s.toLowerCase())\nreturn new Set(scopes)",
           "target": "server/src/utils/logger.ts"
         }
@@ -5121,15 +5451,15 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 138,
-          "endLine": 152,
+          "startLine": 137,
+          "endLine": 151,
           "windowText": "const errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 133,
-          "endLine": 147,
+          "startLine": 136,
+          "endLine": 150,
           "windowText": "const errorEnabled = shouldLog(configuredLevel, 'error')\nconst appendCallsite = (args: unknown[]): unknown[] =>\ncallsiteEnabled ? [...args, getCallsiteFrame()] : args\ndebug: (...args: unknown[]): void => {\nif (!debugEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\ninfo: (...args: unknown[]): void => {\nif (!infoEnabled) return\nconsole.log(prefix, ...appendCallsite(args))\nwarn: (...args: unknown[]): void => {",
           "target": "server/src/utils/logger.ts"
         }
@@ -5173,17 +5503,43 @@
       "locations": [
         {
           "repoPath": "client/src/utils/logger.ts",
-          "startLine": 152,
-          "endLine": 164,
+          "startLine": 151,
+          "endLine": 163,
           "windowText": "warn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {",
           "target": "client/src/utils/logger.ts"
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 147,
-          "endLine": 159,
+          "startLine": 150,
+          "endLine": 162,
           "windowText": "warn: (...args: unknown[]): void => {\nif (!warnEnabled) return\nconsole.warn(prefix, ...appendCallsite(args))\nerror: (...args: unknown[]): void => {\nif (!errorEnabled) return\nconsole.error(prefix, ...appendCallsite(args))\ngroupCollapsed: (title: string, ...args: unknown[]): void => {\nif (!debugEnabled && !infoEnabled) return\nconsole.groupCollapsed(`${prefix} ${title}`, ...args)\ngroupEnd: (): void => {",
           "target": "server/src/utils/logger.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-ef025288e41f",
+      "hash": "ef025288e41f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "updateBusinessHours,\nholdDurationMinutes,\nholdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useBusinessControlsFormState.ts",
+          "startLine": 226,
+          "endLine": 246,
+          "windowText": "updateBusinessHours,\nholdDurationMinutes,\nholdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,",
+          "target": "client/src/composables/admin/useBusinessControlsFormState.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+          "startLine": 58,
+          "endLine": 78,
+          "windowText": "updateBusinessHours,\nholdDurationMinutes,\nholdDurationFallback,\nremoveCalendarEntry,\nupdateCalendarEntry,\ncalendarValidationError,\nemailValidationRule,\ndurationRoundingEnabled,\ndurationRoundingIncrement,\ndurationRoundingMethod,",
+          "target": "client/src/views/admin/tabs/BusinessControlsTab.vue::<script>"
         }
       ],
       "score": 22,
@@ -5355,8 +5711,8 @@
       "locations": [
         {
           "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-          "startLine": 140,
-          "endLine": 156,
+          "startLine": 86,
+          "endLine": 102,
           "windowText": "const slots = appointmentData.value.appointmentSlots\nconst selectedTime = appointmentData.value.selectedTime\nif (slots.length === 0 || !selectedTime) {\nmajorArrival: null,\nminorArrival: null,\nappointmentEnd: null\nconst slot = slots[0]\nconst majorArrival = slot.totalTimeRange?.startTime || null\nconst minorEventName = 'Minor'\nconst minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]",
           "target": "client/src/components/booking/dev/DevPanelsContainer.vue::<script>"
         },
@@ -5414,8 +5770,8 @@
         },
         {
           "repoPath": "server/src/utils/logger.ts",
-          "startLine": 14,
-          "endLine": 45,
+          "startLine": 16,
+          "endLine": 47,
           "windowText": "normalized === 'error' ||\nnormalized === 'silent'\nfunction levelToNumber(level: LogLevel): number {\nlet cachedLogLevel: LogLevel | null = null\nlet cachedDebugScopes: Set<string> | null | undefined = undefined\nfunction parseDebugScopesList(raw: string | undefined): Set<string> | null {\nif (!raw) return null\nconst scopes = raw\n.map((s) => s.trim())\n.filter((s) => s.length > 0)",
           "target": "server/src/utils/logger.ts"
         }

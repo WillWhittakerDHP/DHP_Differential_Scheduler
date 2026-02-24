@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-02-23T21:42:38.182Z",
-  "totalScanned": 104,
+  "generatedAt": "2026-02-24T15:07:45.788Z",
+  "totalScanned": 105,
   "exceptionSummary": {
-    "totalRequiresReview": 44
+    "totalRequiresReview": 41
   },
   "files": [
     {
@@ -272,287 +272,6 @@
       "priority": "P1"
     },
     {
-      "id": "client__src__components__common__AddressAutocomplete.vue",
-      "repoPath": "client/src/components/common/AddressAutocomplete.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/common/AddressAutocomplete.vue",
-      "counts": {
-        "watch": 1,
-        "watchEffect": 0,
-        "async": 3,
-        "await": 4,
-        "map": 0,
-        "reduce": 0,
-        "dom": 0,
-        "inlineConfig": 0,
-        "console": 0,
-        "alert": 0
-      },
-      "matches": [
-        {
-          "ruleId": "ref",
-          "lineNumber": 136,
-          "line": "const searchInput = ref('')"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 139,
-          "line": "const isLoading = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 140,
-          "line": "const errorMessage = ref('')"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 142,
-          "line": "const hasInitialAddressFromProps = ref(false)"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 144,
-          "line": "watch("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 172,
-          "line": "const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 182,
-          "line": "const results = await fetchAutocompleteSuggestions(input, sessionToken.value)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 201,
-          "line": "const handleSearchUpdate = async (value: string | null) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 206,
-          "line": "await getToken()"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 263,
-          "line": "const handleSelectionChange = async (selection: AutocompletePrediction | null) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 276,
-          "line": "const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 281,
-          "line": "await getToken()"
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "watch",
-          "lineNumber": 144,
-          "line": "watch("
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 172,
-          "line": "const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 182,
-          "line": "const results = await fetchAutocompleteSuggestions(input, sessionToken.value)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 201,
-          "line": "const handleSearchUpdate = async (value: string | null) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 206,
-          "line": "await getToken()"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 263,
-          "line": "const handleSelectionChange = async (selection: AutocompletePrediction | null) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 276,
-          "line": "const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 281,
-          "line": "await getToken()"
-        }
-      ],
-      "score": 8,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__views__admin__tabs__InstancesTab.vue",
-      "repoPath": "client/src/views/admin/tabs/InstancesTab.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/InstancesTab.vue",
-      "counts": {
-        "watch": 1,
-        "watchEffect": 0,
-        "async": 2,
-        "await": 2,
-        "map": 2,
-        "reduce": 0,
-        "dom": 0,
-        "inlineConfig": 0,
-        "console": 0,
-        "alert": 1
-      },
-      "matches": [
-        {
-          "ruleId": "ref",
-          "lineNumber": 177,
-          "line": "const createModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 209,
-          "line": "const isCreatingEventInstance = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 210,
-          "line": "const eventInstanceMetadataModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 241,
-          "line": "const knownVariableNames = new Set(templateVariables.map(v => v.name))"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 255,
-          "line": "const templateWarnings = computed(() => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 262,
-          "line": "? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 276,
-          "line": "const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 277,
-          "line": "const isCreatingEventInstanceLoading = ref(false)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 285,
-          "line": "const filteredEventInstances = computed(() => {"
-        },
-        {
-          "ruleId": "sort",
-          "lineNumber": 286,
-          "line": "return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 298,
-          "line": "patchOrderIndex: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 299,
-          "line": "await patchEventInstanceOrderIndex(updates)"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 303,
-          "line": "watch(filteredEventInstances, () => {"
-        },
-        {
-          "ruleId": "alert",
-          "lineNumber": 345,
-          "line": "alert('Please create an event shape first')"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 368,
-          "line": "const handleEventInstanceCreate = async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 373,
-          "line": "await createEventInstance({"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 396,
-          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 407,
-          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 553,
-          "line": "groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))"
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "map",
-          "lineNumber": 241,
-          "line": "const knownVariableNames = new Set(templateVariables.map(v => v.name))"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 262,
-          "line": "? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 298,
-          "line": "patchOrderIndex: async (updates) => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 299,
-          "line": "await patchEventInstanceOrderIndex(updates)"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 303,
-          "line": "watch(filteredEventInstances, () => {"
-        },
-        {
-          "ruleId": "alert",
-          "lineNumber": 345,
-          "line": "alert('Please create an event shape first')"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 368,
-          "line": "const handleEventInstanceCreate = async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 373,
-          "line": "await createEventInstance({"
-        }
-      ],
-      "score": 8,
-      "priority": "P1"
-    },
-    {
       "id": "client__src__components__admin__generic__EntityCard.vue",
       "repoPath": "client/src/components/admin/generic/EntityCard.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/admin/generic/EntityCard.vue",
@@ -792,54 +511,54 @@
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 202,
+          "lineNumber": 199,
           "line": "const queryClient = useQueryClient()"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 213,
+          "lineNumber": 210,
           "line": "const entityTypeLabel = computed(() => {"
         },
         {
           "ruleId": "async",
-          "lineNumber": 269,
+          "lineNumber": 266,
           "line": "async function handleSave() {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 306,
+          "lineNumber": 303,
           "line": "await saveFieldMetadata({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 317,
+          "lineNumber": 314,
           "line": "// PATTERN: Mutations already invalidate cache, just refetch and await completion before clearing pending state"
         },
         {
           "ruleId": "await",
-          "lineNumber": 319,
+          "lineNumber": 316,
           "line": "await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "async",
-          "lineNumber": 269,
+          "lineNumber": 266,
           "line": "async function handleSave() {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 306,
+          "lineNumber": 303,
           "line": "await saveFieldMetadata({"
         },
         {
           "ruleId": "await",
-          "lineNumber": 317,
+          "lineNumber": 314,
           "line": "// PATTERN: Mutations already invalidate cache, just refetch and await completion before clearing pending state"
         },
         {
           "ruleId": "await",
-          "lineNumber": 319,
+          "lineNumber": 316,
           "line": "await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })"
         }
       ],
@@ -864,91 +583,149 @@
       },
       "matches": [
         {
-          "ruleId": "provideInject",
-          "lineNumber": 40,
-          "line": "// PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access"
-        },
-        {
           "ruleId": "computed",
-          "lineNumber": 100,
+          "lineNumber": 46,
           "line": "const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)"
         },
         {
           "ruleId": "map",
-          "lineNumber": 105,
+          "lineNumber": 51,
           "line": "return instances.map((block: BookingBlockInstance) => ({"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 138,
+          "lineNumber": 84,
           "line": "const timeSlotResults = computed(() => {"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 193,
+          "lineNumber": 115,
           "line": "// PATTERN: VueUse onClickOutside keeps DOM (document, contains) in composable; ref must be element"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 199,
+          "lineNumber": 121,
           "line": "const devPanelButtonsRef = inject<Ref<{"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 211,
+          "lineNumber": 133,
           "line": "} | null>>('devPanelButtons', ref(null))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 213,
+          "lineNumber": 135,
           "line": "const devPanelButtons = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 220,
+          "lineNumber": 142,
           "line": "const wizard = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 230,
+          "lineNumber": 152,
           "line": "const selectedServiceTypeId = computed(() => {"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 254,
+          "lineNumber": 176,
           "line": "const isSelectedServiceDifferential = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 275,
+          "lineNumber": 197,
           "line": "const eventShapeById = new Map(allEventShapes.map(es => [es.id, es]))"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 654,
+          "lineNumber": 576,
           "line": ":deep(.v-window-item) {"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "map",
-          "lineNumber": 105,
+          "lineNumber": 51,
           "line": "return instances.map((block: BookingBlockInstance) => ({"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 193,
+          "lineNumber": 115,
           "line": "// PATTERN: VueUse onClickOutside keeps DOM (document, contains) in composable; ref must be element"
         },
         {
           "ruleId": "map",
-          "lineNumber": 275,
+          "lineNumber": 197,
           "line": "const eventShapeById = new Map(allEventShapes.map(es => [es.id, es]))"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 654,
+          "lineNumber": 576,
           "line": ":deep(.v-window-item) {"
+        }
+      ],
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__common__AddressAutocomplete.vue",
+      "repoPath": "client/src/components/common/AddressAutocomplete.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/common/AddressAutocomplete.vue",
+      "counts": {
+        "watch": 0,
+        "watchEffect": 0,
+        "async": 2,
+        "await": 2,
+        "map": 0,
+        "reduce": 0,
+        "dom": 0,
+        "inlineConfig": 0,
+        "console": 0,
+        "alert": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 123,
+          "line": "const handleSearchUpdate = async (value: string | null): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 127,
+          "line": "await getToken()"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 149,
+          "line": "const handleSelectionChange = async (selection: AutocompletePrediction | null): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 150,
+          "line": "const result = await selectPlace(selection)"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "async",
+          "lineNumber": 123,
+          "line": "const handleSearchUpdate = async (value: string | null): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 127,
+          "line": "await getToken()"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 149,
+          "line": "const handleSelectionChange = async (selection: AutocompletePrediction | null): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 150,
+          "line": "const result = await selectPlace(selection)"
         }
       ],
       "score": 4,
@@ -1121,79 +898,6 @@
       "priority": "P2"
     },
     {
-      "id": "client__src__views__admin__tabs__components__AppointmentsTable.vue",
-      "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "counts": {
-        "watch": 0,
-        "watchEffect": 0,
-        "async": 2,
-        "await": 2,
-        "map": 0,
-        "reduce": 0,
-        "dom": 0,
-        "inlineConfig": 0,
-        "console": 0,
-        "alert": 0
-      },
-      "matches": [
-        {
-          "ruleId": "async",
-          "lineNumber": 57,
-          "line": "const handleSaveCreate = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 62,
-          "line": "await saveCreate()"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 65,
-          "line": "const handleSaveEdit = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 70,
-          "line": "await saveEdit()"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 276,
-          "line": ":items=\"users.filter((u) => u.userRole === 'client')\""
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 325,
-          "line": ":items=\"users.filter((u) => u.userRole === 'agent')\""
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "async",
-          "lineNumber": 57,
-          "line": "const handleSaveCreate = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 62,
-          "line": "await saveCreate()"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 65,
-          "line": "const handleSaveEdit = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 70,
-          "line": "await saveEdit()"
-        }
-      ],
-      "score": 4,
-      "priority": "P2"
-    },
-    {
       "id": "client__src__views__admin__tabs__PropertyMappingsTab.vue",
       "repoPath": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/PropertyMappingsTab.vue",
@@ -1216,269 +920,81 @@
           "line": "import { useQuery } from '@tanstack/vue-query'"
         },
         {
+          "ruleId": "ref",
+          "lineNumber": 15,
+          "line": "const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))"
+        },
+        {
           "ruleId": "provideInject",
-          "lineNumber": 14,
-          "line": "const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')"
+          "lineNumber": 15,
+          "line": "const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 15,
-          "line": "const isTabActive = computed(() => adminCurrentTab?.value === 'property-mappings')"
+          "lineNumber": 23,
+          "line": "const isTabActive = computed(() =>"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 50,
+          "lineNumber": 60,
           "line": "} = useQuery({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 52,
+          "lineNumber": 62,
           "line": "queryFn: async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 53,
+          "lineNumber": 63,
           "line": "const res = await apiClient.get<PropertyFieldMappingRow[]>(getPropertyFieldMappingsEndpoint())"
         },
         {
           "ruleId": "vueQuery",
-          "lineNumber": 62,
+          "lineNumber": 72,
           "line": "} = useQuery({"
         },
         {
           "ruleId": "async",
-          "lineNumber": 64,
+          "lineNumber": 74,
           "line": "queryFn: async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 65,
+          "lineNumber": 75,
           "line": "const res = await apiClient.get<PropertyFeatureMappingRow[]>(getPropertyFeatureMappingsEndpoint())"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 71,
+          "lineNumber": 81,
           "line": "const showFieldDialog = ref(false)"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 72,
+          "lineNumber": 82,
           "line": "const showBlockDialog = ref(false)"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "async",
-          "lineNumber": 52,
+          "lineNumber": 62,
           "line": "queryFn: async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 53,
+          "lineNumber": 63,
           "line": "const res = await apiClient.get<PropertyFieldMappingRow[]>(getPropertyFieldMappingsEndpoint())"
         },
         {
           "ruleId": "async",
-          "lineNumber": 64,
+          "lineNumber": 74,
           "line": "queryFn: async () => {"
         },
         {
           "ruleId": "await",
-          "lineNumber": 65,
+          "lineNumber": 75,
           "line": "const res = await apiClient.get<PropertyFeatureMappingRow[]>(getPropertyFeatureMappingsEndpoint())"
-        }
-      ],
-      "score": 4,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__views__admin__tabs__ShapesTab.vue",
-      "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/ShapesTab.vue",
-      "counts": {
-        "watch": 0,
-        "watchEffect": 0,
-        "async": 2,
-        "await": 2,
-        "map": 0,
-        "reduce": 0,
-        "dom": 0,
-        "inlineConfig": 0,
-        "console": 0,
-        "alert": 0
-      },
-      "matches": [
-        {
-          "ruleId": "ref",
-          "lineNumber": 70,
-          "line": "const activeTab = ref('blockShapes')"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 88,
-          "line": "const blockShapeMetadataModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 97,
-          "line": "const partShapeMetadataModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 106,
-          "line": "const partInstanceMetadataModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 120,
-          "line": "const annotationShapeMetadataModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 129,
-          "line": "const eventShapeMetadataModalOpen = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 138,
-          "line": "const isCreatingPartShape = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 139,
-          "line": "const isCreatingAnnotationShape = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 140,
-          "line": "const isCreatingEventShape = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 142,
-          "line": "const newAnnotationShapeName = ref('')"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 143,
-          "line": "const newEventShapeName = ref('')"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 146,
-          "line": "const isCreatingAnnotationShapeLoading = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 147,
-          "line": "const isCreatingEventShapeLoading = ref(false)"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 169,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 175,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 178,
-          "line": "const handleAnnotationShapeCreate = async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 183,
-          "line": "await createAnnotationShapeMutation({"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 192,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 203,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 212,
-          "line": "const handleEventShapeCreate = async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 217,
-          "line": "await createEventShapeMutation({"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 226,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 237,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 324,
-          "line": "const filteredAnnotationShapes = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 333,
-          "line": "const safeEventShapes = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 342,
-          "line": "const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 343,
-          "line": "const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 344,
-          "line": "const annotationShapesTabLabel = computed(() => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 345,
-          "line": "const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 358,
-          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))"
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "async",
-          "lineNumber": 178,
-          "line": "const handleAnnotationShapeCreate = async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 183,
-          "line": "await createAnnotationShapeMutation({"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 212,
-          "line": "const handleEventShapeCreate = async () => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 217,
-          "line": "await createEventShapeMutation({"
         }
       ],
       "score": 4,
@@ -1878,7 +1394,7 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 46,
+          "lineNumber": 45,
           "line": "const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))"
         }
       ],
@@ -1895,7 +1411,7 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 46,
+          "lineNumber": 45,
           "line": "const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))"
         }
       ],
@@ -2183,24 +1699,24 @@
       "matches": [
         {
           "ruleId": "dom",
-          "lineNumber": 23,
+          "lineNumber": 22,
           "line": "window.addEventListener('keydown', handleKeyDown)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 27,
+          "lineNumber": 26,
           "line": "window.removeEventListener('keydown', handleKeyDown)"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "dom",
-          "lineNumber": 23,
+          "lineNumber": 22,
           "line": "window.addEventListener('keydown', handleKeyDown)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 27,
+          "lineNumber": 26,
           "line": "window.removeEventListener('keydown', handleKeyDown)"
         }
       ],
@@ -2754,49 +2270,44 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 226,
-          "line": "const enumOptions = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 239,
+          "lineNumber": 227,
           "line": "const fieldKey = computed(() => String(fieldContext.fieldKey))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 260,
+          "lineNumber": 248,
           "line": "const options = computed(() => {"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 301,
+          "lineNumber": 269,
           "line": "const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 303,
+          "lineNumber": 271,
           "line": "const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 329,
+          "lineNumber": 297,
           "line": "const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 330,
+          "lineNumber": 298,
           "line": "const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({"
         },
         {
           "ruleId": "map",
-          "lineNumber": 330,
+          "lineNumber": 298,
           "line": "const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "map",
-          "lineNumber": 330,
+          "lineNumber": 298,
           "line": "const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({"
         }
       ],

@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@sequelize/core": "^7.0.0-alpha.48",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
@@ -50,8 +51,13 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7"
   },
+  "overrides": {
+    "minimatch": "^10.2.1",
+    "glob": "^10.4.5"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",

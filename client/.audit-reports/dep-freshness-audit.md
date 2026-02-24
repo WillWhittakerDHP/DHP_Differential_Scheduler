@@ -1,11 +1,11 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-24T14:11:01.192Z
+Generated at: 2026-02-24T15:07:08.424Z
 
 ## Summary
 
-- Total outdated: **6**
-- Major behind: **2** | Minor: **0** | Patch: **4**
+- Total outdated: **5**
+- Major behind: **3** | Minor: **0** | Patch: **2**
 
 ## Major behind (top 20)
 
@@ -13,6 +13,7 @@ Generated at: 2026-02-24T14:11:01.192Z
 | --- | --- | --- | --- |
 | ts-morph | client | 24.0.0 | 27.0.2 |
 | vuetify | client | 3.12.0 | 4.0.0 |
+| @types/bcrypt | server | 5.0.2 | 6.0.0 |
 
 ## Minor behind (top 20)
 

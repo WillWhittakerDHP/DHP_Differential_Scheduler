@@ -1,6 +1,6 @@
-# Feature appointment-workflow Guide
+# Feature 6 Guide: Appointment Workflow & Booking Calculations
 
-**Purpose:** Feature-level guide for planning and tracking major initiatives
+**Purpose:** Feature-level guide for planning and tracking the appointment status workflow and booking calculation logic
 
 **Tier:** Feature (Tier 0 - Highest Level)
 
@@ -8,76 +8,36 @@
 
 ## Feature Overview
 
-**Feature Name:** appointment-workflow
-**Description:** Feature: 6
-**Status:** [Not Started / Research / Planning / In Progress / Complete]
+**Feature Name:** Appointment Workflow & Booking Calculations
+**Feature Number:** 6
+**Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard.
+**Status:** In Progress
 
-**Duration:** [To be determined]
-**Started:** [StartDate]
-**Completed:** [CompletedDate]
-
----
-
-## Research Phase
-
-**Status:** [Not Started / In Progress / Complete]
-
-### Research Findings
-
-[Summary of research findings - see research question template for details]
-
-**Key Decisions:**
-- [Decision 1]
-- [Decision 2]
-- [Decision 3]
-
-**Technology Choices:**
-- [Technology 1] - [Rationale]
-- [Technology 2] - [Rationale]
-
-**Architecture:**
-[High-level architecture description]
-
-**Risks Identified:**
-- [Risk 1] - [Mitigation]
-- [Risk 2] - [Mitigation]
-
-**Research Documentation:**
-- Research Questions: `.project-manager/features/[name]/research-questions.md`
-- External Research: [Links to research sources]
+**Started:** January 2026 (Phase 6.1)
+**Branch:** `feature/google-apis-integration`
 
 ---
 
 ## Feature Objectives
 
-- [Objective 1]
-- [Objective 2]
-- [Objective 3]
+- Implement full appointment lifecycle: started → held → submitted → confirmed → rescheduling → cancelled → deleted
+- Build status transition validation (state machine pattern) to prevent invalid transitions
+- Create admin actions for confirmation, hold, force-create, and rescheduling
+- Consolidate fee and time calculation logic into reusable composables
+- Establish notification infrastructure (in-app now, email hooks for Feature 7)
+- Prepare auth-dependent stubs for Feature 7 enactment
 
 ---
 
 ## Phases Breakdown
 
-- [ ] ### Phase [N]: [Phase Name]
-**Description:** [What this phase accomplishes]
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
+- [x] ### Phase 6.1: Status Workflow & UI Enhancements
+**Description:** Updated status ENUM from 5 to 8 values, added `scheduled_by_id` column, interactive tooltips, cross-tab navigation, and color-coded status chips.
+**Sessions:** Completed January 2026
 **Success Criteria:**
-- [Criterion 1]
-- [Criterion 2]
-
-- [ ] ### Phase [N+1]: [Phase Name]
-**Description:** [What this phase accomplishes]
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
-- [Criterion 1]
-- [Criterion 2]
-
----
-
+- 8-value status ENUM in place
+- Admin UI displays status chips with tooltips
+- Cross-tab navigation working
 
 - [x] ### Phase 6.2: Held & Override Stubs
 **Description:** Prepare held appointment status and admin constraint-override as stub implementations for Feature 7 enactment.
@@ -91,6 +51,7 @@
 - [ ] ### Phase 6.3: Confirmation Routine
 **Description:** Implement submitted → confirmed transition with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs.
 **Sessions:** 3 (6.3.1: Data Model & Transition Guards, 6.3.2: Admin Confirmation & Auto-Confirm, 6.3.3: Notifications & Docs)
+**Status:** In Progress (Session 6.3.1 complete)
 **Success Criteria:**
 - Status transition validation prevents invalid transitions
 - Confirmation timestamps auto-populated
@@ -98,25 +59,67 @@
 - Auto-confirm business setting toggleable
 - Notification stubs ready for Feature 7 email
 
-
-- [ ] ### Phase 6.3: Phase 6.3 planning
-**Description:** Phase 6.3 planning
-**Sessions:** [To be planned]
+- [ ] ### Phase 6.4: Rescheduling Flow
+**Description:** Reschedule confirmed appointments; reuse wizard; transition to rescheduling then back to submitted.
+**Sessions:** To be planned
+**Dependencies:** Phase 6.3 (transition guards)
 **Success Criteria:**
-- [To be defined]
+- Reschedule action available for confirmed appointments
+- Wizard reused for new slot selection
+- Status transitions: confirmed → rescheduling → submitted
+
+- [ ] ### Phase 6.5: Soft Delete vs Hard Delete
+**Description:** Policy and UI for cancelled vs deleted; retention rules; audit trail.
+**Sessions:** To be planned
+**Success Criteria:**
+- Clear policy for cancelled vs deleted appointments
+- Admin UI for soft delete and hard delete actions
+- Retention and audit behavior documented
+
+- [ ] ### Phase 6.6: Scheduled By Auto-Population
+**Description:** Set `scheduled_by_id` from logged-in user on appointment creation.
+**Sessions:** To be planned
+**Dependencies:** Feature 7 (Authentication) — requires `req.user`
+**Success Criteria:**
+- `scheduled_by_id` populated from authenticated user on create
+- Displayed in admin appointment details
+
+- [ ] ### Phase 6.7: Admin Force-Create & Constraint Overrides
+**Description:** Force-create appointments bypassing blockers; `constraint_overrides` table; reschedule with exceptions.
+**Sessions:** 4 (6.7.1–6.7.4)
+**Dependencies:** Feature 7 (Authentication) — requires `req.user` for `authorized_by_id`
+**Success Criteria:**
+- Force-create route creates appointment + override record
+- Admin UI shows blocked slots with force-create option
+- Reschedule flow respects override exceptions
+- Full architecture, data model, and implementation details in phase guide
+
+---
+
+## Booking Calculations (Core Complete)
+
+**Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`.
+
+**Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`.
+
+**Remaining:**
+- **useFeeCalculations composable:** Consolidate fee logic parallel to `useTimeSlotCalculations()`
+- **Admin-configurable fee settings:** Move hardcoded coupon discount, delivery charges, and delivery-free behavior to business settings
+
+---
 
 ## Dependencies
 
 **Prerequisites:**
-- [Dependency 1]
-- [Dependency 2]
+- Feature 1 (Data Flow Alignment) — Complete
+- Feature 3 (Calendar & Appointment Availability) — slot computation and calendar infrastructure
 
 **Downstream Impact:**
-- [How this feature affects other features/work]
+- Feature 7 (Authentication) enactment activates auth-dependent phases (6.6, 6.7) and populates user fields (`confirmed_by`, `held_by`, `authorized_by_id`, `scheduled_by_id`)
+- Phase 6.4 (Rescheduling) integrates with Phase 6.7 constraint relaxation
 
 **External Dependencies:**
-- [External dependency 1]
-- [External dependency 2]
+- Feature 7 (Authentication) — Phases 6.6 and 6.7 blocked until auth is in place
 
 ---
 
@@ -135,14 +138,8 @@
 
 ## Git Branch Strategy
 
-**Branch Name:** `feature/[name]`
-**Branch From:** `develop`
-**Merge To:** `develop`
-
-**Branch Management:**
-- Created: 2026-02-23 (at feature start)
-- Merged: 2026-02-23 (at feature end)
-- Deleted: 2026-02-23 (after merge)
+**Branch Name:** `feature/google-apis-integration` (shared feature branch)
+**Current Working Branch:** `appointment-workflow-phase-6.3-session-6.3.2`
 
 ---
 
@@ -213,14 +210,18 @@ After completing all phases in a feature:
 
 ## Notes
 
-[Feature-specific notes, decisions, blockers]
+- **Phase 6.1 was the only phase completed before the project management system was formalized.** Its session logs don't exist in the current structure.
+- **Booking calculation logic is feature-complete but not consolidated.** The `useFeeCalculations` composable and admin-configurable fee settings are the remaining calculation work.
+- **Phases 6.2–6.3 follow the full session guide structure.** Phase 6.7 has a detailed guide ready for when Feature 7 unblocks it.
 
 ---
 
 ## Related Documents
 
-- Feature Log: `.project-manager/features/[name]/feature-[name]-log.md`
-- Feature Handoff: `.project-manager/features/[name]/feature-[name]-handoff.md`
-- Phase Guides: `.project-manager/features/[name]/phases/phase-[N]-guide.md`
-- Research Questions: `.project-manager/features/[name]/research-questions.md`
+- Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
+- Feature Handoff: `.project-manager/features/appointment-workflow/feature-appointment-workflow-handoff.md`
+- Booking Calculations Guide: `.project-manager/features/appointment-workflow/feature-booking-calculations-guide.md`
+- Booking Calculations Handoff: `.project-manager/features/appointment-workflow/feature-booking-calculations-handoff.md`
+- Phase Guides: `.project-manager/features/appointment-workflow/phases/`
+- PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6)
 

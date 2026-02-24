@@ -1,7 +1,7 @@
 /**
  * Start dev server (and optionally test watcher) based on root .env.
- * Loads TEST_ENABLED from project root .env; when 'true', runs
- * server + client + test:watch. Otherwise server + client only.
+ * Loads APP_STAGE and TEST_ENABLED from project root .env. When TEST_ENABLED=true
+ * or APP_STAGE=staging, runs server + client + test:watch. Otherwise server + client only.
  *
  * If the server is already listening on 3001, skips kill:ports and startup
  * to avoid EADDRINUSE and unnecessary restart.
@@ -60,7 +60,7 @@ function loadRootEnv() {
 loadRootEnv()
 process.env.NODE_ENV = 'development'
 
-const testsEnabled = process.env.TEST_ENABLED === 'true'
+const testsEnabled = process.env.TEST_ENABLED === 'true' || process.env.APP_STAGE === 'staging'
 
 // Check-first: avoid killing/restarting when app is already running (prevents EADDRINUSE).
 const serverAlreadyUp = await isPortInUse(SERVER_PORT)

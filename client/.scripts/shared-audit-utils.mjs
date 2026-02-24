@@ -689,18 +689,19 @@ export function shouldPruneDirectory(dirName) {
 /**
  * Whether testing is enabled for audits and workflow commands.
  *
- * Single source of truth: TEST_ENABLED in project root .env.
- *   TEST_ENABLED=true  → returns true (tests on)
- *   TEST_ENABLED=false or unset → returns false (tests off)
+ * Controlled by APP_STAGE or legacy TEST_ENABLED in project root .env.
+ *   APP_STAGE=staging  → returns true (tests on)
+ *   TEST_ENABLED=true → returns true (legacy)
+ *   Otherwise → returns false (tests off)
  *
- * Same env var controls workflow command prompts (TEST_CONFIG.enabled in
+ * Same logic is used by workflow command prompts (TEST_CONFIG.enabled in
  * .cursor/commands/testing/utils/test-config.ts) and audit scripts.
  * See BETA_LAUNCH_CHECKLIST Phase 3.0 / 3.0a.
  *
  * @returns {boolean}
  */
 export function isTestingEnabled() {
-  return process.env.TEST_ENABLED === 'true'
+  return process.env.TEST_ENABLED === 'true' || process.env.APP_STAGE === 'staging'
 }
 
 /**

@@ -7,10 +7,8 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentResponse, AppointmentShape, SlotShape } from '@/types/appointment'
-import { useLocalTime } from '@/composables/useLocalTime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { AppointmentSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { EventShape } from '@/types/events'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
@@ -18,7 +16,7 @@ import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId } from '@/types/entities'
 import { useDevPanelsComputed, type DevPanelsComputedData, type ServiceSummary } from '@/composables/booking/useDevPanelsComputed'
-
+import { useDevPanelsAppointmentData } from '@/composables/booking/useDevPanelsAppointmentData'
 import type { DevPanelVisibleProps } from '@/components/admin/dev/devPanelTypes'
 
 type Props = DevPanelVisibleProps
@@ -36,60 +34,8 @@ const activeTab = ref<'slotShape' | 'instances' | 'constraints'>('slotShape')
 const activeInstancesSubTab = ref<'parts' | 'blocks'>('parts')
 const panelRef = ref<HTMLElement | null>(null)
 
-// WHY: AvailabilityStep updates shared state, DevPanelsContainer reads it
-// PATTERN: Use shared ref pattern instead of provide/inject for cross-tree access
 const devPanelData = useDevPanelData()
-
-// WHY: Access ComputedRef.value inside computed to ensure reactivity tracking
-const appointmentData = computed<DevPanelsComputedData>(() => {
-  // LEARNING: Access shared ref first to establish dependency
-  const data = devPanelData.value
-  
-  // LEARNING: Access ComputedRef values inside computed to ensure reactivity
-  // PATTERN: Unwrap all ComputedRefs inside the computed function, accessing each one explicitly
-  // WHY: Access each ComputedRef separately to ensure Vue tracks each dependency
-  const appointmentSlotsRef = data.appointmentSlots
-  const appointmentShapeRef = data.appointmentShape
-  const selectedBlockInstancesRef = data.selectedBlockInstances
-  const selectedDateRef = data.selectedDate
-  const selectedTimeRef = data.selectedTime
-  
-  // LEARNING: Unwrap ComputedRefs - accessing .value establishes reactivity tracking
-  // WHY: Each .value access tells Vue to track that ComputedRef as a dependency
-  // PATTERN: Check if it's a ComputedRef by checking for .value property, otherwise use directly
-  const slots: AppointmentSlot[] = (appointmentSlotsRef && typeof appointmentSlotsRef === 'object' && 'value' in appointmentSlotsRef)
-    ? (appointmentSlotsRef.value as AppointmentSlot[])
-    : (Array.isArray(appointmentSlotsRef) ? (appointmentSlotsRef as AppointmentSlot[]) : [])
-  
-  const appointmentShape: AppointmentShape | null = (appointmentShapeRef && typeof appointmentShapeRef === 'object' && 'value' in appointmentShapeRef)
-    ? (appointmentShapeRef.value as AppointmentShape | null)
-    : (appointmentShapeRef as AppointmentShape | null | undefined) ?? null
-  
-  const selectedBlockInstances: BookingBlockInstance[] = (selectedBlockInstancesRef && typeof selectedBlockInstancesRef === 'object' && 'value' in selectedBlockInstancesRef)
-    ? (selectedBlockInstancesRef.value as BookingBlockInstance[])
-    : (Array.isArray(selectedBlockInstancesRef) ? (selectedBlockInstancesRef as BookingBlockInstance[]) : [])
-  
-  // PATTERN: Check if ComputedRef exists before accessing .value
-  let selectedDate: string | undefined = undefined
-  if (selectedDateRef && typeof selectedDateRef === 'object' && 'value' in selectedDateRef) {
-    const computedRef = selectedDateRef as ComputedRef<string | undefined>
-    selectedDate = computedRef.value
-  }
-  
-  let selectedTime: string | undefined = undefined
-  if (selectedTimeRef && typeof selectedTimeRef === 'object' && 'value' in selectedTimeRef) {
-    const computedRef = selectedTimeRef as ComputedRef<string | undefined>
-    selectedTime = computedRef.value
-  }
-  
-  return {
-    selectedBlockInstances,
-    appointmentSlots: slots,
-    appointmentShape,
-    selectedDate,
-    selectedTime
-  }
-})
+const appointmentData = useDevPanelsAppointmentData(devPanelData as Ref<Record<string, unknown>>)
 
 // LEARNING: Use useLocalTime composable for UI-boundary formatting
 // WHY: All local time conversions must go through useLocalTime composable
@@ -164,31 +110,7 @@ const timeSlotResults = computed(() => {
   }
 })
 
-// WHY: Converts ISO strings to readable format
-const formatTime = (isoString: string | null): string => {
-  if (!isoString) return 'N/A'
-  return formatDateTimeForDisplay(isoString as RFC3339DateTime, {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  })
-}
-
-// WHY: Converts minutes to readable format
-const formatDuration = (minutes: number): string => {
-  if (minutes === 0) return '0 min'
-  const hours = Math.floor(minutes / 60)
-  const mins = minutes % 60
-  if (hours > 0 && mins > 0) {
-    return `${hours}h ${mins}m`
-  } else if (hours > 0) {
-    return `${hours}h`
-  } else {
-    return `${mins}m`
-  }
-}
+const { formatTime, formatDuration } = useDevPanelsFormatters()
 
 // PATTERN: VueUse onClickOutside keeps DOM (document, contains) in composable; ref must be element
 onClickOutside(panelRef, () => {

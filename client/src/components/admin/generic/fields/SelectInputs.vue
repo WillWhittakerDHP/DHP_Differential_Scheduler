@@ -138,7 +138,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntity } from '@/types/entities'
-import { useSelectOptions, type SelectOption } from '@/composables/useSelectOptions'
+import { useSelectOptions } from '@/composables/useSelectOptions'
 import { useSelectConfig } from '@/composables/admin/useSelectConfig'
 import { useSelectFiltering } from '@/composables/admin/useSelectFiltering'
 import { useSelectHandlers } from '@/composables/admin/useSelectHandlers'
@@ -146,8 +146,8 @@ import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
 import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
 import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
-import { isDevModeEnabled } from '@/utils/env/devMode'
-import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { useSelectEnumOptions } from '@/composables/admin/useSelectEnumOptions'
+import { useSelectChipRender } from '@/composables/admin/useSelectChipRender'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { useSelectInputsAsync } from '@/composables/admin/useSelectInputsAsync'
 import type { FieldInputProps } from './fieldTypes'
@@ -219,20 +219,8 @@ const selectFilteringComposable = useSelectFiltering({
   isAnnotationAssignmentSelect,
   isAttendeeSelect // Already computed from selectConfigComposable above
 })
-const {
-  filteredEntities,
-} = selectFilteringComposable
-
-const enumOptions = computed(() => {
-  if (!isEnumSelect.value) return []
-  
-  return [
-    { title: 'User', value: BLOCK_SHAPE_TYPES.USER },
-    { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-    { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
-    { title: 'Option', value: BLOCK_SHAPE_TYPES.OPTION }
-  ]
-})
+const { filteredEntities } = selectFilteringComposable
+const { enumOptions } = useSelectEnumOptions(isEnumSelect)
 
 // LEARNING: Use select options composable for all option transformations
 // PATTERN: Composable handles option mapping, grouping, and value normalization
@@ -276,27 +264,7 @@ const selectFieldValueComposable = useSelectFieldValue({
   fieldContext
 })
 const { fieldValue } = selectFieldValueComposable
-
-
-const logChipRender = (item: { title: string; value: string | number }): string => {
-  if (isDevModeEnabled()) {
-    let matchingOption: SelectOption | undefined = undefined
-    const optionsArray = options.value as SelectOption[]
-    for (const opt of optionsArray) {
-      if (opt.children) {
-        matchingOption = opt.children.find((c: SelectOption) => String(c.value) === String(item.value))
-      } else if (String(opt.value) === String(item.value)) {
-        matchingOption = opt
-      }
-      if (matchingOption) break
-    }
-    
-    if (item.title === String(item.value) && matchingOption) {
-      return matchingOption.title
-    }
-  }
-  return item.title // Return title for display
-}
+const { logChipRender } = useSelectChipRender(options)
 
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 

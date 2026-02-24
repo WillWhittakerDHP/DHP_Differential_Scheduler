@@ -56,6 +56,22 @@ This document serves as the master project plan for the DHP Differential Schedul
 
 ---
 
+## Environment Configuration
+
+Deployment lifecycle is controlled by **APP_STAGE** (who the deployment is for) alongside **NODE_ENV** (runtime behavior) and **VITE_INCLUDE_DEV_FLAGS** (client dev tools visibility). Set these in root `.env` (local), Render dashboard (deployed), or build env.
+
+| Stage | NODE_ENV | APP_STAGE | VITE_APP_STAGE | VITE_INCLUDE_DEV_FLAGS | Test tooling active |
+|-------|---------|-----------|----------------|------------------------|----------------------|
+| local | development | local | (optional) | true | When `APP_STAGE=staging` or `TEST_ENABLED=true`; use `npm run start:dev:testing` |
+| staging | production | staging | staging | true | Yes |
+| alpha | production | alpha | alpha | false | No — clean UI for MLS/external testers |
+| beta | production | beta | beta | false | No |
+| production | production | production | production | false | No |
+
+**When to set env vars:** Local dev — set `APP_STAGE=local` in root `.env` (or omit; defaults to local). Alpha deployment (e.g. MLS testing) — set `APP_STAGE=alpha`, `VITE_APP_STAGE=alpha`, and `VITE_INCLUDE_DEV_FLAGS=false` in Render so external testers see no dev panels. Staging — set `APP_STAGE=staging` and `VITE_INCLUDE_DEV_FLAGS=true` for internal QA with dev tools.
+
+---
+
 ## Feature 0: Vue.js Migration
 
 **Status:** ✅ Core Complete
@@ -273,8 +289,8 @@ Admin calendar view is tracked in **Feature 16 (Admin UI Overhaul)**. Real-time 
 | Phase | Name | Status | What |
 |-------|------|--------|------|
 | 6.1 | Status Workflow & UI Enhancements | ✅ Complete (Jan 2026) | — |
-| 6.2 | Held & Override Stubs | Not Started | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
-| 6.3 | Confirmation Routine | Not Started | submitted to confirmed; admin or auto confirm; notifications. |
+| 6.2 | Held & Override Stubs | ✅ Complete | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
+| 6.3 | Confirmation Routine | ⏳ In Progress | submitted to confirmed; admin or auto confirm; notifications. |
 | 6.4 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard; rescheduling to submitted. |
 | 6.5 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
 | 6.6 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
@@ -291,48 +307,15 @@ Admin calendar view is tracked in **Feature 16 (Admin UI Overhaul)**. Real-time 
 
 **Remaining (calculations):** **useFeeCalculations composable:** Add a composable parallel to `useTimeSlotCalculations()`, reusing existing fee and finalization utils (`calculateBlockInstanceFee`, `buildConfirmationPriceData`, pricing cascade resolution, `createBlockFinal` / `createPartFinals`). Wire it into the confirmation step so fee logic is exposed in one place. **Admin-configurable fee-related settings:** Coupon discount, delivery charges, and delivery-free behavior are currently hardcoded in the fee flow. Move to admin-configurable business settings and have the fee flow (e.g. useFeeCalculations or shared utils) read from those settings.
 
-### Phase 6.7: Admin Force-Create & Constraint Overrides (Detail)
-
-**Goal:** Allow admins to force-create an appointment on any date/time — bypassing all availability blockers — and persist which constraints were overridden so the system can honor those exceptions during a future reschedule. **Dependency:** Feature 7 (Authentication) must be complete — force-create requires `req.user` to record who authorized the override.
-
-**Architecture (summary):**
-- **Force-create flow:** Admin picks a blocked slot → client calls `POST /api/v1/internal/appointments/force-create` → server runs slot computation for that time, collects ALL violations (no short-circuit), creates appointment and a `constraint_override` record (appointment_id, overridden_violations, authorized_by_id, reason, slot_start, slot_end).
-- **Reschedule flow:** When rescheduling an appointment that has an override, client passes `allowedExceptions` to availability; server relaxes matching constraints for that request so the rescheduled slot is not blocked by the same constraints the original override allowed; new override record created for the rescheduled appointment.
-
-**Data model:** `constraint_overrides` — id (UUID PK), appointment_id (FK → appointments, ON DELETE CASCADE), overridden_violations (TEXT[]), authorized_by_id (FK → users), reason (TEXT nullable), slot_start, slot_end (TIMESTAMPTZ), created_at, updated_at. Index on appointment_id.
-
-**Integration with existing system:** `slotComputationService.ts` already produces violation keys (e.g. `range.leadTime`, `overlap.event.direct`, `capacity.daily`). New `computeViolationsForSlot()` runs all constraint checks without short-circuiting and returns `ForceCreateViolationReport`. New `relaxConstraintsForExceptions(constraints, allowedExceptions)` clones matching constraints with `enforcement: 'off'` for reschedule; extend `computeAvailabilityData()` to accept optional `allowedExceptions` and verify against stored override.
-
-**Implementation checklist (Phase 6.7):**
-
-| Step | What |
-|------|------|
-| 6.7.1 | Create `constraint_overrides` migration (columns as above, index on appointment_id) |
-| 6.7.2 | Create `ConstraintOverride` Sequelize model; associations to Appointment and User (as authorizedBy) |
-| 6.7.3 | Create `computeViolationsForSlot()` in slotComputationService — re-use checkRange/Overlap/Capacity, collect all violations, return ForceCreateViolationReport |
-| 6.7.4 | Create `POST /api/v1/internal/appointments/force-create` route (requireAuth, requireRole('admin')); call computeViolationsForSlot, create appointment + ConstraintOverride |
-| 6.7.5 | Create force-create validator (forceSlot times, reason max 500 chars, normal appointment fields) |
-| 6.7.6 | Mount force-create router in appointmentRouter |
-| 6.7.7 | Create `relaxConstraintsForExceptions()` utility (pure function, clone constraints with enforcement 'off') |
-| 6.7.8 | Extend computeAvailabilityData() and availabilityRouter to accept optional `allowedExceptions` when appointmentId provided |
-| 6.7.9 | Server-side auth: verify appointmentId exists, has ConstraintOverride, requested allowedExceptions ⊆ overridden_violations |
-| 6.7.10 | Create useForceCreateAppointment composable (violation preview, confirmation, reason) |
-| 6.7.11 | Create force-create confirmation dialog (violations by category, human-readable labels, explicit confirm, optional reason) |
-| 6.7.12 | Add "Force Schedule" button to admin appointments UI (admin-only; blocked slots selectable in distinct color) |
-| 6.7.13 | Reschedule flow: fetch override for appointment, pass allowedExceptions to availability; show override-allowed slots with distinct indicator |
-| 6.7.14 | On reschedule complete, create new ConstraintOverride record for the new slot |
-
-**Violation key reference:** Range: `range.leadTime`, `range.dateRange`. Overlap: `overlap.event.direct`, `overlap.outOfOffice.direct`, `overlap.driveToCandidate.buffer:N`, `overlap.driveFromCandidate.buffer:N`. Capacity: `capacity.daily`, `capacity.calendarWeek`, `capacity.rollingWeek`.
-
-**Decision log:** Override storage = separate table; violation recording = exact violation key strings; reschedule exceptions = server-side verification; constraint relaxation = clone with enforcement 'off'; admin UI = show all slots (blocked = distinct color); reason = optional.
-
 ### Key Files
 - **Workflow:** Feature 6 appointment-workflow planning (see Related Documents)
 - **Calculations:** confirmationStepData, partsTotals, pricingCascadeResolver, appointmentTimeCalculations, useTimeSlotCalculations, BlockFinal/PartFinals (booking utils)
 - **Archived planning:** booking-calculations planning (archived)
 
 ### Related Documents
-- BETA_LAUNCH_CHECKLIST.md Phase 8A (force-create detail); Feature 6 workflow and booking-calculations planning
+- Phase 6.7 Guide: `features/appointment-workflow/phases/phase-6.7-guide.md` (architecture, data model, implementation checklist, decision log)
+- BETA_LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
+- Feature 6 workflow and booking-calculations planning: `features/appointment-workflow/`
 
 ---
 
@@ -462,25 +445,25 @@ Implement the following so that authenticated users and roles are used where oth
 | Client test setup | `client/src/utils/__tests__/setup.ts` | Stubs for `matchMedia`, `IntersectionObserver`, `ResizeObserver`; filters jsdom noise. |
 | Test factories | `client/src/utils/__tests__/factories/` | 4 factories: entity, appointment, relationship, globalData. |
 | Test helpers & mocks | `client/src/utils/__tests__/testHelpers.ts`, `mocks/mockApiResponses.ts`, `mocks/apiHandlers.ts` | Shared test utilities and API mocks. |
-| `TEST_ENABLED` master switch | Root `.env` (`TEST_ENABLED=false`), `scripts/start-dev.mjs`, `.cursor/commands/testing/utils/test-config.ts` | Master toggle defaults to `false`. When `true`: dev script adds test watcher, Cursor command test prompts activate, audit scripts respect the toggle. |
-| `start:dev:testing` script | Root `package.json` | `cross-env TEST_ENABLED=true node scripts/start-dev.mjs` — runs server + client + test watcher. |
+| `APP_STAGE` / `TEST_ENABLED` | Root `.env` (`APP_STAGE=local`), `scripts/start-dev.mjs`, `.cursor/commands/testing/utils/test-config.ts` | Test tooling active when `APP_STAGE=staging` or legacy `TEST_ENABLED=true`. Dev script adds test watcher, Cursor prompts and audit scripts respect the same check. |
+| `start:dev:testing` script | Root `package.json` | `cross-env APP_STAGE=staging node scripts/start-dev.mjs` — runs server + client + test watcher. |
 | CI pipeline | `.github/workflows/ci.yml` | 7 jobs: lint-client, lint-server, typecheck-client, typecheck-server, test-client (Vitest), test-server (Jest + PostgreSQL service), build-client. |
 | Test files excluded from tsc | `client/tsconfig.json`, `server/tsconfig.json` | Both exclude `__tests__/**` and `*.test.ts` from compilation (intentional until Phase 3.0). |
 | Testing rules (disabled) | `.cursor/rules/testing-headers.mdc` | `alwaysApply: false` — disabled until Phase 3.0. Requires descriptive headers on test files. |
 | Test audit system | `client/.scripts/test-audit.mjs`, `.audit-reports/test-audit*.{json,md}` | Identifies untested source files, priorities, coverage gaps. Reports **787 untested source files**, 0 orphaned tests. |
 | Coverage-risk crossref audit | `client/.scripts/coverage-risk-crossref-audit.mjs` | Cross-references fan-in with test coverage to surface high-risk untested files. |
 | Test generation scripts | `client/package.json` scripts: `audit:test:generate`, `audit:test:generate:api`, `audit:test:ai` | Scripts to generate test stubs and AI-assisted test creation. |
-| Cursor test config | `.cursor/commands/testing/utils/test-config.ts` | Fine-grained toggles for watch mode, smart detection, prompt-driven resolution, auto-fix. All gated behind `TEST_ENABLED`. |
+| Cursor test config | `.cursor/commands/testing/utils/test-config.ts` | Fine-grained toggles for watch mode, smart detection, prompt-driven resolution, auto-fix. Gated by `APP_STAGE=staging` or legacy `TEST_ENABLED=true`. |
 
-**What does NOT exist yet:** `TEST_ENABLED` is `false` (all test automation dormant), no Playwright (no E2E tests), no Stryker (no mutation testing), no fast-check (no property-based tests), no behavioral alignment audit script, no coverage thresholds enforced in vitest/jest configs, no E2E CI job, no pre-commit hooks (husky/lint-staged).
+**What does NOT exist yet:** Test tooling is off by default (`APP_STAGE=local` without `staging`). No Playwright (no E2E tests), no Stryker (no mutation testing), no fast-check (no property-based tests), no behavioral alignment audit script, no coverage thresholds enforced in vitest/jest configs, no E2E CI job, no pre-commit hooks (husky/lint-staged).
 
-**Key architectural note:** The `TEST_ENABLED` master switch in root `.env` is the single gate. Flipping it to `true` activates the test watcher in `start:dev`, all Cursor command test prompts, and audit script integration — no code changes needed, just an env var flip.
+**Key architectural note:** Test tooling is gated by `APP_STAGE=staging` (or legacy `TEST_ENABLED=true`) in root `.env`. Use `npm run start:dev:testing` to run dev with test watcher, or set `APP_STAGE=staging` in `.env` so `start:dev` includes tests — no other code changes needed.
 
 ### Implementation Order
 
 | Step | What | Depends On |
 |------|------|------------|
-| **0** | **Activate testing** — (a) Set `TEST_ENABLED=true` in root `.env`. (b) Re-enable `.cursor/rules/testing-headers.mdc` (`alwaysApply: true`). (c) Remove `__tests__/**` and `*.test.ts` exclusions from client and server `tsconfig.json` so test files are type-checked. | — |
+| **0** | **Activate testing** — (a) Set `APP_STAGE=staging` in root `.env` (or use `npm run start:dev:testing`). (b) Re-enable `.cursor/rules/testing-headers.mdc` (`alwaysApply: true`). (c) Remove `__tests__/**` and `*.test.ts` exclusions from client and server `tsconfig.json` so test files are type-checked. | — |
 | 1 | **Coverage audit (Phase 9.1)** — Run `npx vitest --coverage` (client) and `npx jest --coverage` (server). Review against the 787-file gap list. Define and enforce coverage targets. | Step 0 |
 | 2 | **Fix & expand existing tests (Phase 9.4)** — Fill coverage gaps for the test audit's high-priority files (transformers, booking composables). Add server integration tests for newer routes (appointments, beta-feedback, admin-metadata, property-mappings, availability). | Step 1 |
 | 3 | **Playwright setup (Phase 9.2)** — Install Playwright, create `e2e/` directory, base fixtures, smoke tests (health check, pages load). | Step 0 |
@@ -490,11 +473,11 @@ Implement the following so that authenticated users and roles are used where oth
 | 7 | **Behavioral alignment audit (Phase 9.6)** — Create `test-alignment-audit.mjs`, grade existing tests A–D, strengthen low-grade tests. | Step 2 |
 | 8 | **CI enhancements (Phase 9.7)** — Expand `.github/workflows/ci.yml` branch triggers to all branches (currently only main/master). Add Playwright E2E job, coverage reporting on PRs, artifact uploads on failure. Optional: pre-commit hooks (husky + lint-staged). | Steps 3–4 |
 
-> **Step 0 is the prerequisite for everything** — TEST_ENABLED flip, testing-headers rule, and tsconfig re-inclusion so test files are type-checked. Everything else builds from there.
+> **Step 0 is the prerequisite for everything** — APP_STAGE=staging (or start:dev:testing), testing-headers rule, and tsconfig re-inclusion so test files are type-checked. Everything else builds from there.
 
 ### Security Note
 
-⚠️ The root `.env` file currently contains a `GIT_MCP_SERVER` GitHub PAT token alongside `TEST_ENABLED`. While `.env` is gitignored, this token should be moved to a more appropriate location (e.g., a dedicated `.env.local` or an OS keychain) and flagged in the Feature 8 secrets audit (Step 4). PAT tokens in any `.env` file — even gitignored ones — risk accidental exposure in backups, screenshots, or shared dev environments.
+⚠️ The root `.env` file currently contains a `GIT_MCP_SERVER` GitHub PAT token alongside `APP_STAGE` (and other vars). While `.env` is gitignored, this token should be moved to a more appropriate location (e.g., a dedicated `.env.local` or an OS keychain) and flagged in the Feature 8 secrets audit (Step 4). PAT tokens in any `.env` file — even gitignored ones — risk accidental exposure in backups, screenshots, or shared dev environments.
 
 ### Related Documents
 - **Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` (Phase 3, 3A, items 3.1–3.10)
@@ -514,8 +497,9 @@ Implement the following so that authenticated users and roles are used where oth
 | Scoped logger (server) | `server/src/utils/logger.ts` | Fully implemented. Level gating via `LOG_LEVEL` env var. **Defaults to `warn` in production**, `debug` in dev. Scope-based debug filtering via `DEBUG_SCOPES`. Used across entire server. |
 | Scoped logger (client) | `client/src/utils/logger.ts` | Parallel implementation using Vite env vars (`VITE_LOG_LEVEL`). Shared types from `shared/types/loggerTypes.ts`. |
 | Global error handler | `server/src/middlewares/errorHandler.ts` | Catches all unhandled Express errors. Hides stack in production (`"🥞"`). Logs via `createLogger`. **Natural Sentry integration point.** |
-| `isProduction()` helper | `server/src/utils/envHelpers.ts` | Centralized `NODE_ENV === 'production'` check. Used by logger and error handler. |
-| Env config with Joi validation | `server/src/config/envConfig.ts` | Validates 6 core env vars at startup (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`, `PORT`). Crashes if invalid. **Does not validate** Google, JWT, Bright MLS, or future auth/security vars (~15+ other `process.env` refs across 21 files). |
+| `isProduction()` helper | `server/src/utils/envHelpers.ts` | Centralized `NODE_ENV === 'production'` check. Used by logger and error handler. Companion: `APP_STAGE` for deployment audience. |
+| `getAppStage()` / `isPreRelease()` | `server/src/utils/envHelpers.ts` | `getAppStage()` returns `APP_STAGE` env (local, staging, alpha, beta, production). `isPreRelease()` true when stage is not production. Use for stage-specific behavior (e.g. MLS sandbox vs prod). |
+| Env config with Joi validation | `server/src/config/envConfig.ts` | Validates 7 core env vars at startup (`APP_STAGE`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`, `PORT`). Crashes if invalid. **Does not validate** Google, JWT, Bright MLS, or future auth/security vars (~15+ other `process.env` refs across 21 files). |
 | Migration infrastructure | `server/src/scripts/run-migrations.mjs`, `server/src/db/migrations/` (9 files) | Custom ESM-compatible runner, full `up`/`down` support. Scripts: `migrate`, `migrate:status`, `migrate:undo`, `migrate:undo:all`, `db:migrate:generate`. |
 | Migration documentation | `server/src/db/migrations/README.md` | Comprehensive docs: commands, best practices, workflow, troubleshooting, rollback procedures (application, DB, seed data). |
 | `.env.production` template | `server/.env.production` | Exists with values for DB, Google API, JWT. **Contains real credentials — should be placeholder-only** (see security note). |
@@ -563,7 +547,7 @@ Implement the following so that authenticated users and roles are used where oth
 
 ### Scope (from BETA_LAUNCH_CHECKLIST Phase 6)
 
-- **Vue error boundary** — Graceful fallback UI when a component crashes.
+- **Vue error boundary** — Graceful fallback UI when a component crashes. (NOTE FROM USER: I want to make sure that we get a note in the betafeedback chain for any fallback behavior that IDs where the fallback happened and any other data we can generate with-out AI to help us see problems, kind of like how the logger always logs on errors, fallbacks, and defaults in dev mode. as far as i remember, we have a database table that is supposed to accept feedback in a way you can read it. i want something like that. ASK ME FORE MORE DETAIL IF YOU DON"T UNDERSTAND WHAT I MEAN. infact, this may be helpful for lots of things, and not just the vue error boundary)
 - **Loading/error state review** — Audit all views for spinners, error messages, retry buttons.
 - **Cross-browser/device testing** — Desktop (Chrome/Firefox/Safari) and mobile (iOS/Android).
 - **README update** — Deployment instructions and architecture overview.
@@ -609,6 +593,8 @@ Implement the following so that authenticated users and roles are used where oth
 
 **Vite `base` option:** Not set in `vite.config.ts`. Fine for root-domain/subdomain deployment (Render default URLs). Only needs changing if deploying to a subdirectory.
 
+**Environment variables for alpha (MLS testers):** For the alpha deployment (e.g. MLS integration testing), set in the Render dashboard: `APP_STAGE=alpha`, `VITE_APP_STAGE=alpha`, and `VITE_INCLUDE_DEV_FLAGS=false` (client build-time vars). That yields a production build with no dev panels or debug UI — external testers see a clean app. See **Environment Configuration** (above) for the full stage matrix.
+
 ### Implementation Order
 
 | Step | What | Depends On |
@@ -618,8 +604,8 @@ Implement the following so that authenticated users and roles are used where oth
 | 3 | **Merge & sanity check (Feature 12)** — Verify CI passes, production build works, SPA serves correctly. Verify PORT handling. Checklist Phase 0. | — |
 | 4 | **Create `render.yaml` Blueprint (Feature 12)** — Codify infrastructure: PostgreSQL, API web service, static site, env vars. Checklist Phase 1. | — |
 | 5 | **Render account & DB setup (Feature 12)** — Create Render account, connect GitHub, create PostgreSQL instance. Checklist Phase 1. | — |
-| 6 | **Deploy API service (Feature 12)** — Configure web service, set env vars, lock CORS, run migrations. | Feature 8 Step 1 (CORS), Feature 10 Step 1 (health check) |
-| 7 | **Deploy static site (Feature 12)** — Configure static site, set `VITE_API_BASE_URL`, add SPA rewrite rule. | Step 6 |
+| 6 | **Deploy API service (Feature 12)** — Configure web service, set env vars (including `APP_STAGE` e.g. `alpha` for MLS testers), lock CORS, run migrations. | Feature 8 Step 1 (CORS), Feature 10 Step 1 (health check) |
+| 7 | **Deploy static site (Feature 12)** — Configure static site, set `VITE_API_BASE_URL`, `VITE_APP_STAGE` (e.g. `alpha` for MLS testers), and `VITE_INCLUDE_DEV_FLAGS=false` for alpha, add SPA rewrite rule. | Step 6 |
 | 8 | **Google OAuth production config (Feature 12)** — Update redirect URI in Google Cloud Console. Consider DB-backed token storage. | Step 6 |
 | 9 | **Bright MLS credentials (Feature 12)** — Procure credentials, configure env vars, test enrichment pipeline. | Step 6 |
 | 10 | **End-to-end verification (Feature 12)** — Static site loads, API responds, DB connected, calendar works. | Steps 6–9 |

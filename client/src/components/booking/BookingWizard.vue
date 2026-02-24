@@ -7,8 +7,7 @@ import { useProperty } from '@/composables/useProperty'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import { useWizardNavigation } from '@/composables/booking/useWizardNavigation'
-import { useWizardValidation } from '@/composables/booking/useWizardValidation'
-import { useBookingWizardStepValidators } from '@/composables/booking/useBookingWizardStepValidators'
+import { useWizardStepValidation } from '@/composables/booking/useWizardStepValidation'
 import { useAppointmentDataCollection } from '@/composables/booking/useAppointmentDataCollection'
 import { useWizardDisplay } from '@/composables/booking/useWizardDisplay'
 import { useWizardStepContent } from '@/composables/booking/useWizardStepContent'
@@ -23,36 +22,15 @@ import { useWizardAppointmentManagement } from '@/composables/booking/useWizardA
 import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDropdown'
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import { useDateRangeDecider, type DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
-import { useComputedAvailability } from '@/composables/booking/useComputedAvailability'
+import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
 
 const wizard = useBookingWizard()
 provide('wizard', wizard)
 
 const steps = WIZARD_STEPS
 
-// WHY: Encapsulates step data and validation state refs creation and provide/inject setup
-// PATTERN: Single refs object to avoid duplicating the list when passing to composables
 const stepDataRefs = useWizardStepDataRefs()
-
-// LEARNING: Use wizard validation composable
-// PATTERN: Composable provides validation function
-const { stepValidators } = useBookingWizardStepValidators({
-  selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-  selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
-  propertyDetailsStepValid: stepDataRefs.propertyDetailsStepValid,
-  propertyDetailsStepValidate: stepDataRefs.propertyDetailsStepValidate,
-  availabilityStepValid: stepDataRefs.availabilityStepValid,
-  availabilityStepValidate: stepDataRefs.availabilityStepValidate,
-  contactsStepValid: stepDataRefs.contactsStepValid,
-  contactsStepValidate: stepDataRefs.contactsStepValidate,
-  confirmationStepValid: stepDataRefs.confirmationStepValid,
-  confirmationStepValidate: stepDataRefs.confirmationStepValidate,
-})
-
-const { validateStep } = useWizardValidation({
-  stepValidators: stepValidators, // Pass computed ref directly so validation uses current values
-})
+const { stepValidators, validateStep } = useWizardStepValidation({ stepDataRefs, wizard })
 
 const notificationComposable = useNotification()
 const showError = notificationComposable.error
@@ -190,37 +168,8 @@ const { handleSubmit } = useWizardSubmission({
 
 provide('loadedWizardState', loadedWizardState)
 
-const now = new Date()
-const displayedMonth = ref<DisplayedMonth>({
-  year: now.getUTCFullYear(),
-  month: now.getUTCMonth()
-})
-
-provide('displayedMonth', displayedMonth)
-provide('updateDisplayedMonth', (month: DisplayedMonth) => {
-  displayedMonth.value = month
-})
-
-// WHY: Single source of truth for date range used by all API composables
-const dateRange = useDateRangeDecider(displayedMonth)
-
-const appointmentDurationRef = ref<number | null>(null)
-provide('appointmentDuration', appointmentDurationRef)
-
-const selectedDateForSlots = computed(() => {
-  const start = stepDataRefs.availabilityStepData.value?.candidateDate?.start
-  return start ? (start.includes('T') ? start.split('T')[0] : start) : null
-})
-
-const computedAvailability = useComputedAvailability({
-  propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
-  dateRange,
-  activeStep,
-  duration: appointmentDurationRef,
-  selectedDate: selectedDateForSlots,
-})
-
-provide('computedAvailability', computedAvailability)
+const { displayedMonth, dateRange, appointmentDurationRef, selectedDateForSlots, computedAvailability } =
+  useWizardDateAvailability({ stepDataRefs, activeStep })
 
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
 const isDevMode = isDevModeEnabled()

@@ -16,7 +16,7 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **107**
+- Total files scanned: **108**
 - **Requiring review: 37**
 - Allowed (with justification): 59 (inline: 0, pattern: 9, specific: 50)
 
@@ -77,11 +77,11 @@ unscoped-style@47: <style lang="scss">
 - requiring review: 5, allowed: 0
 
 ```
-deep-selector@363: .select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {
-deep-selector@367: .select-field--multiple.v-select--chips :deep(.v-field__input) {
-deep-selector@375: .select-field--multiple.v-select--chips :deep(.v-chip) {
-deep-selector@386: .select-field--multiple.v-select--chips :deep(.v-chip__close) {
-deep-selector@392: .select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {
+deep-selector@331: .select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {
+deep-selector@335: .select-field--multiple.v-select--chips :deep(.v-field__input) {
+deep-selector@343: .select-field--multiple.v-select--chips :deep(.v-chip) {
+deep-selector@354: .select-field--multiple.v-select--chips :deep(.v-chip__close) {
+deep-selector@360: .select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {
 ```
 
 ### `client/src/components/booking/dev/DevPanelsContainer.vue`
@@ -89,10 +89,10 @@ deep-selector@392: .select-field--multiple.v-select--chips :deep(.v-chip__close:
 - requiring review: 4, allowed: 0
 
 ```
-deep-selector@649: :deep(*) {
-deep-selector@653: :deep(.v-card-text),
-deep-selector@654: :deep(.v-window-item) {
-deep-selector@666: :deep(.flexible-tabs) {
+deep-selector@571: :deep(*) {
+deep-selector@575: :deep(.v-card-text),
+deep-selector@576: :deep(.v-window-item) {
+deep-selector@588: :deep(.flexible-tabs) {
 ```
 
 ### `client/src/components/admin/generic/EntityCardFeePreview.vue`
@@ -120,9 +120,9 @@ deep-selector@193: .icon-input-field :deep(input::placeholder) {
 - requiring review: 3, allowed: 0
 
 ```
-deep-selector@1067: .instances-tabs-container :deep(.v-tab) {
-deep-selector@1071: .instances-tabs-container :deep(.v-tabs) {
-deep-selector@1075: .instances-tabs-container :deep(.v-slide-group__content) {
+deep-selector@861: .instances-tabs-container :deep(.v-tab) {
+deep-selector@865: .instances-tabs-container :deep(.v-tabs) {
+deep-selector@869: .instances-tabs-container :deep(.v-slide-group__content) {
 ```
 
 ### `client/src/components/admin/generic/fields/BaseInput.vue`
@@ -156,7 +156,7 @@ empty-style-block@53: <style> block is empty; remove or add styles
 - requiring review: 1, allowed: 0
 
 ```
-empty-style-block@305: <style> block is empty; remove or add styles
+empty-style-block@175: <style> block is empty; remove or add styles
 ```
 
 ### `client/src/views/admin/tabs/ShapesTab.vue`
@@ -164,8 +164,8 @@ empty-style-block@305: <style> block is empty; remove or add styles
 - requiring review: 2, allowed: 0
 
 ```
-deep-selector@903: .title-field-input :deep(.v-field__input) {
-deep-selector@908: .title-field-input :deep(.v-field) {
+deep-selector@699: .title-field-input :deep(.v-field__input) {
+deep-selector@704: .title-field-input :deep(.v-field) {
 ```
 
 ### `client/src/App.vue`
@@ -221,7 +221,7 @@ deep-selector@86: :deep(.v-checkbox) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@60: :deep(.v-btn__content) {
+deep-selector@59: :deep(.v-btn__content) {
 ```
 
 ### `client/src/components/booking/IndependentSelectCard.vue`

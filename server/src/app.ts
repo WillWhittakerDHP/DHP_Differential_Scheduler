@@ -17,6 +17,8 @@ import {
 const logger = createLogger('app')
 const app = express()
 
+// Security: HTTPS enforced in production (e.g. reverse proxy). Session cookies when used: secure: true, httpOnly: true. See SECURITY_GUIDELINES.md.
+
 const startServer = async (): Promise<void> => {
   try {
     await initializeDatabase()

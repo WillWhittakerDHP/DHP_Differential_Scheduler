@@ -1,0 +1,164 @@
+/**
+ * PATTERN: Event instance form state, template validation, and create/cancel/delete handlers.
+ * WHY: Keeps InstancesTab.vue under vue-architecture limits (script size, function count).
+ */
+import { ref, computed, type Ref } from 'vue'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { useNotification } from '@/composables/useNotification'
+import type { AppLogger } from '@/utils/logger'
+
+export const EVENT_INSTANCE_TEMPLATE_VARIABLES = [
+  { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
+  { name: 'city', description: 'Property city', example: 'Austin' },
+  { name: 'state', description: 'Property state abbreviation', example: 'TX' },
+  { name: 'zipCode', description: 'Property ZIP code', example: '78701' },
+  { name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },
+  { name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },
+  { name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },
+  { name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },
+  { name: 'status', description: 'Current appointment status', example: 'confirmed' },
+  { name: 'service', description: 'Primary service name', example: "Buyer's Inspection" },
+] as const
+
+const knownVariableNames = new Set(EVENT_INSTANCE_TEMPLATE_VARIABLES.map(v => v.name))
+
+function findUnknownVariables(template: string): string[] {
+  const varPattern = /\{(\w+)\}/g
+  const unknown: string[] = []
+  let match: RegExpExecArray | null
+  while ((match = varPattern.exec(template)) !== null) {
+    if (!knownVariableNames.has(match[1]) && !unknown.includes(match[1])) {
+      unknown.push(match[1])
+    }
+  }
+  return unknown
+}
+
+export interface UseInstancesTabEventInstanceParams {
+  expandedInstances: Ref<string[]>
+  eventShapes: Ref<GlobalEntity<'eventShape'>[]>
+  createEventInstance: (payload: Record<string, unknown>) => Promise<unknown>
+  logger: AppLogger
+}
+
+export type NewEventInstanceData = {
+  eventShapeRef: string
+  name: string
+  titleTemplate: string
+  descriptionTemplate: string
+  locationTemplate: string
+  visibility: 'default' | 'public' | 'private' | 'confidential'
+  transparency: 'opaque' | 'transparent'
+  guestsCanModify: boolean
+  guestsCanInviteOthers: boolean
+  guestsCanSeeOtherGuests: boolean
+  addConferenceLink: boolean
+  sendUpdates: 'all' | 'externalOnly' | 'none'
+  colorId: string | null
+  status: 'confirmed' | 'tentative'
+}
+
+export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanceParams) {
+  const { expandedInstances, eventShapes, createEventInstance, logger } = params
+  const { success } = useNotification()
+
+  const isCreatingEventInstance = ref(false)
+  const newEventInstanceData = ref<NewEventInstanceData | null>(null)
+  const isCreatingEventInstanceLoading = ref(false)
+
+  const templateWarnings = computed(() => {
+    const data = newEventInstanceData.value
+    if (!data) return { titleTemplate: [], descriptionTemplate: [], locationTemplate: [] }
+    const warn = (field: string): string[] => {
+      const unknown = findUnknownVariables(field)
+      return unknown.length > 0 ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`] : []
+    }
+    return {
+      titleTemplate: warn(data.titleTemplate),
+      descriptionTemplate: warn(data.descriptionTemplate),
+      locationTemplate: warn(data.locationTemplate),
+    }
+  })
+
+  const openCreateEventInstanceForm = (): void => {
+    if (eventShapes.value.length === 0) {
+      alert('Please create an event shape first')
+      return
+    }
+    newEventInstanceData.value = {
+      eventShapeRef: eventShapes.value[0].id,
+      name: '',
+      titleTemplate: '',
+      descriptionTemplate: '',
+      locationTemplate: '',
+      visibility: 'default',
+      transparency: 'opaque',
+      guestsCanModify: false,
+      guestsCanInviteOthers: true,
+      guestsCanSeeOtherGuests: true,
+      addConferenceLink: false,
+      sendUpdates: 'all',
+      colorId: null,
+      status: 'confirmed',
+    }
+    isCreatingEventInstance.value = true
+    expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
+  }
+
+  const handleEventInstanceCreate = async (): Promise<void> => {
+    if (!newEventInstanceData.value || !newEventInstanceData.value.name.trim()) return
+    isCreatingEventInstanceLoading.value = true
+    try {
+      await createEventInstance({
+        eventShapeRef: newEventInstanceData.value.eventShapeRef,
+        name: newEventInstanceData.value.name.trim(),
+        titleTemplate: newEventInstanceData.value.titleTemplate.trim() || null,
+        descriptionTemplate: newEventInstanceData.value.descriptionTemplate.trim() || null,
+        locationTemplate: newEventInstanceData.value.locationTemplate.trim() || null,
+        visibility: newEventInstanceData.value.visibility,
+        transparency: newEventInstanceData.value.transparency,
+        guestsCanModify: newEventInstanceData.value.guestsCanModify,
+        guestsCanInviteOthers: newEventInstanceData.value.guestsCanInviteOthers,
+        guestsCanSeeOtherGuests: newEventInstanceData.value.guestsCanSeeOtherGuests,
+        addConferenceLink: newEventInstanceData.value.addConferenceLink,
+        sendUpdates: newEventInstanceData.value.sendUpdates,
+        colorId: newEventInstanceData.value.colorId,
+        status: newEventInstanceData.value.status,
+        reminderOverrides: null,
+        orderIndex: 0,
+        active: true,
+        entityKey: 'eventInstance' as const,
+      })
+      success('Event instance created successfully')
+      isCreatingEventInstance.value = false
+      newEventInstanceData.value = null
+      expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+    } catch (error) {
+      logger.error('Failed to create event instance', { error, data: newEventInstanceData.value })
+    } finally {
+      isCreatingEventInstanceLoading.value = false
+    }
+  }
+
+  const handleEventInstanceCancelled = (): void => {
+    isCreatingEventInstance.value = false
+    newEventInstanceData.value = null
+    expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+  }
+
+  const handleDeleteEventInstance = (_id: string): void => {
+    // No-op: deletion handled by EntityCard/entity CRUD
+  }
+
+  return {
+    templateVariables: EVENT_INSTANCE_TEMPLATE_VARIABLES,
+    newEventInstanceData,
+    isCreatingEventInstance,
+    isCreatingEventInstanceLoading,
+    templateWarnings,
+    openCreateEventInstanceForm,
+    handleEventInstanceCreate,
+    handleEventInstanceCancelled,
+    handleDeleteEventInstance,
+  }
+}

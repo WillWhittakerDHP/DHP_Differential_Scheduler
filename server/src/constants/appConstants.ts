@@ -30,4 +30,14 @@ export const NODE_ENV = {
   PRODUCTION: 'production',
 } as const
 
+export const APP_STAGE = {
+  LOCAL: 'local',
+  STAGING: 'staging',
+  ALPHA: 'alpha',
+  BETA: 'beta',
+  PRODUCTION: 'production',
+} as const
+
+export type AppStageValue = (typeof APP_STAGE)[keyof typeof APP_STAGE]
+
 export const AVAILABILITY_SETTINGS_KEY = 'availability_settings' as const

@@ -23,7 +23,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
 | `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+27 more) | 42 |
-| `get*` | `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+66 more) | 119 |
+| `get*` | `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+66 more) | 120 |
 | `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+213 more) | 220 |
 | `update*` | `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts`, `server/src/scripts/helpers/calendarImportHelpers.ts` | 3 |
 
@@ -31,14 +31,16 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
+| `started` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/useAppointment.ts`, `server/src/db/models/booking/appointment.ts` | 3 |
+| `held` | `client/src/composables/useAppointment.ts`, `client/src/types/appointmentApi.ts`, `server/src/db/models/booking/appointment.ts` | 7 |
 | `confirmed` | `client/src/types/entities.ts`, `client/src/views/admin/tabs/InstancesTab.vue` | 3 |
 
 ## Summary
 
-- Files scanned: **621**
-- Groups (window=10 lines, minOccurrences=2): **195**
+- Files scanned: **638**
+- Groups (window=10 lines, minOccurrences=2): **208**
 - Duplicate composable export names: **1**
-- Candidate findings from pattern-detection: **5**
+- Candidate findings from pattern-detection: **7**
 
 ## Duplicate composable export names
 
@@ -52,31 +54,31 @@ Same `use*` export name in multiple composable files — consolidation or rename
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@201`, `client/src/components/dev/DevPanelButtons.vue@9`, `client/src/composables/booking/useWizardDevMode.ts@62` |
+| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@123`, `client/src/components/dev/DevPanelButtons.vue@9`, `client/src/composables/booking/useWizardDevMode.ts@62` |
 | `dup-62f6fece13d9` | 3 | 3 | 10 | `server/src/db/models/booking/active_part.ts@62`, `server/src/db/models/booking/part_assignment.ts@62`, `server/src/db/models/booking/pricing_cascade.ts@71` |
-| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@202`, `client/src/components/dev/DevPanelButtons.vue@10`, `client/src/composables/booking/useWizardDevMode.ts@63` |
-| `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@15`, `server/src/utils/logger.ts@15` |
+| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@124`, `client/src/components/dev/DevPanelButtons.vue@10`, `client/src/composables/booking/useWizardDevMode.ts@63` |
+| `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@15`, `server/src/utils/logger.ts@17` |
 | `dup-01c6dc6fecc6` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@3`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@3` |
 | `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@40`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@19` |
 | `dup-0399e7cb7a09` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@36`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@15` |
 | `dup-081b9aedff50` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@12`, `server/src/db/models/booking/part_assignment.ts@12` |
-| `dup-0865f1a90261` | 2 | 2 | 10 | `client/src/utils/logger.ts@13`, `server/src/utils/logger.ts@13` |
+| `dup-0865f1a90261` | 2 | 2 | 10 | `client/src/utils/logger.ts@13`, `server/src/utils/logger.ts@15` |
 | `dup-08e13972093b` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@23`, `server/src/db/models/booking/part_assignment.ts@23` |
-| `dup-091d8b199bee` | 2 | 2 | 10 | `client/src/utils/logger.ts@136`, `server/src/utils/logger.ts@131` |
+| `dup-091d8b199bee` | 2 | 2 | 10 | `client/src/utils/logger.ts@135`, `server/src/utils/logger.ts@134` |
 | `dup-09542cc2230d` | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@143`, `server/src/db/models/admin/adminRelationshipMetadata.ts@143` |
 | `dup-0b9d7afa76c5` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@95`, `server/src/db/models/booking/annotation_assignment.ts@95` |
 | `dup-0bf0a50177b3` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@58`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@58` |
+| `dup-0cd5727b10ad` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabCreation.ts@127`, `client/src/views/admin/tabs/ShapesTab.vue@73` |
 | `dup-0ce0fcfa2b32` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@70`, `server/src/db/models/booking/part_assignment.ts@70` |
 | `dup-0f82ce62b6a4` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@48`, `server/src/db/models/booking/part_assignment.ts@48` |
-| `dup-1153c9a07551` | 2 | 2 | 10 | `client/src/utils/logger.ts@38`, `server/src/utils/logger.ts@38` |
+| `dup-1153c9a07551` | 2 | 2 | 10 | `client/src/utils/logger.ts@38`, `server/src/utils/logger.ts@40` |
 | `dup-11c7ce0e1eb3` | 2 | 2 | 10 | `server/src/db/models/admin/adminMetadata.ts@94`, `server/src/db/models/admin/adminPrimitiveMetadata.ts@84` |
 | `dup-11ee84441edb` | 2 | 2 | 10 | `server/src/db/models/booking/booking_cascade.ts@57`, `server/src/db/models/booking/dependent_instance.ts@71` |
 | `dup-1367027fb70b` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@40`, `server/src/db/models/booking/annotation_assignment.ts@40` |
 | `dup-1378fa017b30` | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@20`, `server/src/db/models/admin/adminRelationshipMetadata.ts@20` |
-| `dup-13bd9de36f5c` | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@111`, `client/src/composables/booking/useDevPanelsComputed.ts@64` |
+| `dup-13bd9de36f5c` | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@57`, `client/src/composables/booking/useDevPanelsComputed.ts@64` |
 | `dup-1623de395200` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@18`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@18` |
 | `dup-167a50aae37b` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@92`, `server/src/db/models/booking/annotation_assignment.ts@92` |
-| `dup-18bbe9ae71ef` | 2 | 2 | 10 | `client/src/utils/logger.ts@153`, `server/src/utils/logger.ts@148` |
 
 ## Per-group details (top)
 
@@ -87,7 +89,7 @@ LEARNING: When a group spans multiple files in the same domain, it’s often a g
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 201-210
+- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 123-132
 - `client/src/components/dev/DevPanelButtons.vue` @ lines 9-18
 - `client/src/composables/booking/useWizardDevMode.ts` @ lines 62-71
 
@@ -131,7 +133,7 @@ underscored: true,
 - unique files: **3**, occurrences: **3**, lineCount: **10**
 
 Locations:
-- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 202-211
+- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 124-133
 - `client/src/components/dev/DevPanelButtons.vue` @ lines 10-19
 - `client/src/composables/booking/useWizardDevMode.ts` @ lines 63-72
 
@@ -154,7 +156,7 @@ wizard: ReturnType<typeof useBookingWizard> | null
 
 Locations:
 - `client/src/utils/logger.ts` @ lines 15-46
-- `server/src/utils/logger.ts` @ lines 15-46
+- `server/src/utils/logger.ts` @ lines 17-48
 
 ```
 normalized === 'silent'
@@ -259,7 +261,7 @@ declare createdAt: CreationOptional<Date>;
 
 Locations:
 - `client/src/utils/logger.ts` @ lines 13-44
-- `server/src/utils/logger.ts` @ lines 13-44
+- `server/src/utils/logger.ts` @ lines 15-46
 
 ```
 normalized === 'warn' ||
@@ -300,8 +302,8 @@ type: DataTypes.VIRTUAL,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/logger.ts` @ lines 136-149
-- `server/src/utils/logger.ts` @ lines 131-144
+- `client/src/utils/logger.ts` @ lines 135-148
+- `server/src/utils/logger.ts` @ lines 134-147
 
 ```
 const infoEnabled = shouldLog(configuredLevel, 'info')
@@ -379,6 +381,27 @@ message: `inputConfig is required when renderAs is "${renderAs}". Expected FormF
 return { valid: true }
 ```
 
+### Group `dup-0cd5727b10ad`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 127-137
+- `client/src/views/admin/tabs/ShapesTab.vue` @ lines 73-83
+
+```
+isCreatingEventShape,
+newPartShapeInitialValues,
+newAnnotationShapeName,
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+handleAnnotationShapeCreate,
+```
+
 ### Group `dup-0ce0fcfa2b32`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
@@ -427,7 +450,7 @@ defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 
 Locations:
 - `client/src/utils/logger.ts` @ lines 38-51
-- `server/src/utils/logger.ts` @ lines 38-51
+- `server/src/utils/logger.ts` @ lines 40-53
 
 ```
 let cachedDebugScopes: Set<string> | null | undefined = undefined
@@ -482,25 +505,4 @@ defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 type: DataTypes.DATE,
 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 timestamps: false,
-```
-
-### Group `dup-1367027fb70b`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/active_annotation.ts` @ lines 40-57
-- `server/src/db/models/booking/annotation_assignment.ts` @ lines 40-57
-
-```
-declare createdAt: CreationOptional<Date>;
-declare updatedAt: CreationOptional<Date>;
-declare blockInstance?: BlockInstance;
-declare annotation?: AnnotationInstance;
-declare userTypeBlockInstance?: BlockInstance;
-export function AnnotationAssignmentFactory(sequelize: Sequelize) {
-AnnotationAssignment.init(
-type: DataTypes.UUID,
-defaultValue: DataTypes.UUIDV4,
-blockInstanceId: {
 ```

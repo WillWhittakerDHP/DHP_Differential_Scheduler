@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T21:42:43.045Z",
+  "generatedAt": "2026-02-24T15:07:47.825Z",
   "scope": {
     "included": [
       "client/src/**/*.vue",
@@ -14,7 +14,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 107,
+  "totalScanned": 108,
   "exceptionSummary": {
     "totalAllowed": 59,
     "totalRequiresReview": 37,
@@ -125,27 +125,27 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 363,
+          "lineNumber": 331,
           "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 367,
+          "lineNumber": 335,
           "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 375,
+          "lineNumber": 343,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 386,
+          "lineNumber": 354,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 392,
+          "lineNumber": 360,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {"
         }
       ],
@@ -153,31 +153,31 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 363,
+          "lineNumber": 331,
           "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 367,
+          "lineNumber": 335,
           "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 375,
+          "lineNumber": 343,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 386,
+          "lineNumber": 354,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 392,
+          "lineNumber": 360,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -203,22 +203,22 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 649,
+          "lineNumber": 571,
           "line": ":deep(*) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 653,
+          "lineNumber": 575,
           "line": ":deep(.v-card-text),"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 654,
+          "lineNumber": 576,
           "line": ":deep(.v-window-item) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 666,
+          "lineNumber": 588,
           "line": ":deep(.flexible-tabs) {"
         }
       ],
@@ -226,25 +226,25 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 649,
+          "lineNumber": 571,
           "line": ":deep(*) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 653,
+          "lineNumber": 575,
           "line": ":deep(.v-card-text),",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 654,
+          "lineNumber": 576,
           "line": ":deep(.v-window-item) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 666,
+          "lineNumber": 588,
           "line": ":deep(.flexible-tabs) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -382,17 +382,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1067,
+          "lineNumber": 861,
           "line": ".instances-tabs-container :deep(.v-tab) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1071,
+          "lineNumber": 865,
           "line": ".instances-tabs-container :deep(.v-tabs) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1075,
+          "lineNumber": 869,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
         }
       ],
@@ -400,19 +400,19 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1067,
+          "lineNumber": 861,
           "line": ".instances-tabs-container :deep(.v-tab) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1071,
+          "lineNumber": 865,
           "line": ".instances-tabs-container :deep(.v-tabs) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1075,
+          "lineNumber": 869,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -562,7 +562,7 @@
       "matches": [
         {
           "ruleId": "empty-style-block",
-          "lineNumber": 305,
+          "lineNumber": 175,
           "line": "<style> block is empty; remove or add styles"
         }
       ],
@@ -570,7 +570,7 @@
       "requiresReview": [
         {
           "ruleId": "empty-style-block",
-          "lineNumber": 305,
+          "lineNumber": 175,
           "line": "<style> block is empty; remove or add styles",
           "suppressionStatus": "unsuppressed"
         }
@@ -596,12 +596,12 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 903,
+          "lineNumber": 699,
           "line": ".title-field-input :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 908,
+          "lineNumber": 704,
           "line": ".title-field-input :deep(.v-field) {"
         }
       ],
@@ -609,13 +609,13 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 903,
+          "lineNumber": 699,
           "line": ".title-field-input :deep(.v-field__input) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 908,
+          "lineNumber": 704,
           "line": ".title-field-input :deep(.v-field) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -885,7 +885,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 60,
+          "lineNumber": 59,
           "line": ":deep(.v-btn__content) {"
         }
       ],
@@ -893,7 +893,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 60,
+          "lineNumber": 59,
           "line": ":deep(.v-btn__content) {",
           "suppressionStatus": "unsuppressed"
         }

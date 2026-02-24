@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-24T14:10:58.766Z",
+  "generatedAt": "2026-02-24T15:07:04.122Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 823,
-  "totalDefinitions": 664,
+  "fileCount": 837,
+  "totalDefinitions": 673,
   "groups": [
     {
       "groupId": "sim-subset-481e0eb925e6",
@@ -398,6 +398,35 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-exact-bd13b840d137",
+      "relationship": "EXACT",
+      "action": "BRAND",
+      "members": [
+        {
+          "name": "UseShapeCreationOptions",
+          "kind": "interface",
+          "file": "client/src/composables/admin/useShapeCreation.ts",
+          "line": 20,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "UseShapesTabDeletionParams",
+          "kind": "interface",
+          "file": "client/src/composables/admin/useShapesTabDeletion.ts",
+          "line": 7,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ expandedShapes: Ref<string[]> }",
+      "propertyCount": 1,
+      "score": 12,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-subset-b2d0f4be007d",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -472,6 +501,50 @@
       "propertyCount": 13,
       "score": 12,
       "priority": "P0"
+    },
+    {
+      "groupId": "sim-subset-7f254dbfa49b",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "UseAvailabilitySettingsReturn",
+          "kind": "interface",
+          "file": "client/src/composables/admin/useAvailabilitySettings.ts",
+          "line": 45,
+          "exported": true,
+          "propertyCount": 9,
+          "signature": "{ autoConfirmEnabled: Ref<boolean>, error: Ref<string | null>, formData: Ref<AvailabilitySettings | null>, loading: Ref<boolean>, loadSettings: () => Promise<void>, saveSettings: () => Promise<void>, saving: Ref<boolean>, success: Ref<string | null>, validateBusinessHours: () => boolean }"
+        },
+        {
+          "name": "UseBusinessControlsFormStateParams",
+          "kind": "interface",
+          "file": "client/src/composables/admin/useBusinessControlsFormState.ts",
+          "line": 20,
+          "exported": true,
+          "propertyCount": 4,
+          "signature": "{ autoConfirmEnabled: Ref<boolean>, error: Ref<string | null>, formData: Ref<AvailabilitySettings | null>, saving: Ref<boolean> }"
+        }
+      ],
+      "signature": "{ autoConfirmEnabled: Ref<boolean>, error: Ref<string | null>, formData: Ref<AvailabilitySettings | null>, loading: Ref<boolean>, loadSettings: () => Promise<void>, saveSettings: () => Promise<void>, saving: Ref<boolean>, success: Ref<string | null>, validateBusinessHours: () => boolean }",
+      "propertyCount": 9,
+      "overlapPercent": 44,
+      "sharedProperties": [
+        "autoConfirmEnabled",
+        "error",
+        "formData",
+        "saving"
+      ],
+      "uniqueToFirst": [
+        "loading",
+        "loadSettings",
+        "saveSettings",
+        "success",
+        "validateBusinessHours"
+      ],
+      "uniqueToSecond": [],
+      "score": 10,
+      "priority": "P1"
     },
     {
       "groupId": "sim-subset-b988c17b5b76",
@@ -1216,7 +1289,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue",
-      "line": 25,
+      "line": 22,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1376,7 +1449,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "line": 25,
+      "line": 23,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1533,6 +1606,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseAppointmentsTableHandlersParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/tables/useAppointmentsTableHandlers.ts",
+      "line": 9,
+      "exported": true,
+      "fingerprint": "d26aa801c43f",
+      "propertyCount": 9,
+      "primitiveAlias": null
+    },
+    {
       "name": "AppointmentsTableModel",
       "kind": "interface",
       "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
@@ -1620,6 +1703,16 @@
       "exported": true,
       "fingerprint": "3daf989e6c44",
       "propertyCount": 12,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseBusinessControlsFormStateParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useBusinessControlsFormState.ts",
+      "line": 20,
+      "exported": true,
+      "fingerprint": "de428b594e7f",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -2253,6 +2346,36 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseInstancesTabEventInstanceParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
+      "line": 36,
+      "exported": true,
+      "fingerprint": "0fdc49c7c0f5",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "NewEventInstanceData",
+      "kind": "type-alias-object",
+      "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
+      "line": 43,
+      "exported": true,
+      "fingerprint": "2fa7ad69e21e",
+      "propertyCount": 14,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseInstancesTabEventInstanceDragParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "980e74b87ee1",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "MetadataCache",
       "kind": "interface",
       "file": "client/src/composables/admin/useMetadataCache.ts",
@@ -2260,6 +2383,16 @@
       "exported": true,
       "fingerprint": "15899ab202d2",
       "propertyCount": 10,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseMetadataFieldDragParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useMetadataFieldDrag.ts",
+      "line": 10,
+      "exported": true,
+      "fingerprint": "d360140aedb2",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -2680,6 +2813,26 @@
       "exported": true,
       "fingerprint": "f8ef65a49884",
       "propertyCount": 7,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseShapesTabCreationParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useShapesTabCreation.ts",
+      "line": 9,
+      "exported": true,
+      "fingerprint": "74d00b5587a3",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseShapesTabDeletionParams",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useShapesTabDeletion.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "bd13b840d137",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
@@ -4766,7 +4919,7 @@
       "name": "AvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 58,
+      "line": 61,
       "exported": true,
       "fingerprint": "26514555b4bd",
       "propertyCount": 45,
@@ -4776,7 +4929,7 @@
       "name": "RawAvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 174,
+      "line": 177,
       "exported": true,
       "fingerprint": "5c8ab0b15f45",
       "propertyCount": 34,
@@ -4786,7 +4939,7 @@
       "name": "CacheEntry",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings.ts",
-      "line": 221,
+      "line": 224,
       "exported": false,
       "fingerprint": "43644754b3f5",
       "propertyCount": 2,
@@ -6168,15 +6321,15 @@
       "file": "client/src/vite-env.d.ts",
       "line": 1,
       "exported": false,
-      "fingerprint": "2cfed6027b70",
-      "propertyCount": 8,
+      "fingerprint": "859126b6e252",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
       "name": "ImportMeta",
       "kind": "interface",
       "file": "client/src/vite-env.d.ts",
-      "line": 13,
+      "line": 14,
       "exported": false,
       "fingerprint": "13686f2e8913",
       "propertyCount": 2,
@@ -6198,8 +6351,8 @@
       "file": "server/src/config/envConfig.ts",
       "line": 9,
       "exported": true,
-      "fingerprint": "e02d7f4cf294",
-      "propertyCount": 7,
+      "fingerprint": "165127931fac",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
@@ -6289,6 +6442,16 @@
       "line": 16,
       "exported": false,
       "fingerprint": "bc8385219aee",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "HoldDurationBounds",
+      "kind": "interface",
+      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "line": 29,
+      "exported": true,
+      "fingerprint": "0f844e5c544b",
       "propertyCount": 3,
       "primitiveAlias": null
     },
@@ -7268,8 +7431,8 @@
       "file": "shared/types/calendarTypes.ts",
       "line": 25,
       "exported": true,
-      "fingerprint": "d8e6fddfb3e1",
-      "propertyCount": 4,
+      "fingerprint": "29f0552ff019",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {

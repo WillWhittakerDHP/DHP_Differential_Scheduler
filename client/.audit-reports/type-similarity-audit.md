@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-24T14:10:58.766Z**
-- Files scanned: **823**
-- Type definitions found: **664**
-- Similarity groups: **18**
+- Generated at: **2026-02-24T15:07:04.122Z**
+- Files scanned: **837**
+- Type definitions found: **673**
+- Similarity groups: **20**
 - UNIFY candidates: **0**
-- BRAND candidates: **1**
-- EXTEND candidates: **15**
+- BRAND candidates: **2**
+- EXTEND candidates: **16**
 - REVIEW candidates: **2**
 
-- P0 (high): **10**, P1 (medium): **7**, P2 (low): **1**
+- P0 (high): **11**, P1 (medium): **8**, P2 (low): **1**
 
 ## Groups (ranked by score)
 
@@ -42,8 +42,10 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `CapacityConstraint`, `IncomeCapacityFilter`, `WorkCapacityFilter` | 1 | 14 | `{ category: 'capacity', direction?: RollingWeekDirection,...` |
 | P0 | EXTEND | SUBSET | `SlotDisplayData`, `ComputedSlot` | 2 | 13 | `{ buttonIndex: number, displayTime: TimeRange | null, isA...` |
 | P0 | EXTEND | SUBSET | `Props`, `DefaultLocation` | 2 | 13 | `{ clearable?: boolean, coordinates?: Coordinates, debounc...` |
+| P0 | BRAND | EXACT | `UseShapeCreationOptions`, `UseShapesTabDeletionParams` | 2 | 12 | `{ expandedShapes: Ref<string[]> }` |
 | P0 | EXTEND | SUBSET | `PropertyFormData`, `WizardStateData`, `PropertyDetailsStepData` | 3 | 12 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
 | P0 | EXTEND | SUBSET | `DevPanelButtons`, `UseAppointmentDropdownReturn`, `UseWizardDevModeOptions` | 3 | 12 | `{ appointmentDropdownItems: ComputedRef<Array<{ text: str...` |
+| P1 | EXTEND | SUBSET | `UseAvailabilitySettingsReturn`, `UseBusinessControlsFormStateParams` | 2 | 10 | `{ autoConfirmEnabled: Ref<boolean>, error: Ref<string | n...` |
 | P1 | EXTEND | SUBSET | `BetaFeedback`, `BetaFeedbackFiltersBase` | 1 | 10 | `{ actualBehavior: string | null, browserInfo: string | nu...` |
 | P1 | EXTEND | SUBSET | `PropertyRequest`, `PropertyResponse` | 1 | 10 | `{ addressId: string, createdAt: string, id: string, latit...` |
 | P1 | REVIEW | HIGH_OVERLAP | `UseBlockInstanceFormReturn`, `UsePartInstanceFormReturn` | 2 | 9 | `{ blockTypeOptions: Ref<Array<{ id: string, entityId: Ref...` |
@@ -53,7 +55,7 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `RelationshipFieldType`, `DependencyImpact` | 2 | 8 | `{ affectedEntities: string, affectedEntityKey: GlobalEnti...` |
 | P2 | EXTEND | SUBSET | `NormalizedAppointmentForInvites`, `AppointmentWithRelations` | 1 | 6 | `{ attendees: AppointmentAttendeeWithUser[], id: string, p...` |
 
-## BRAND Candidates (1)
+## BRAND Candidates (2)
 
 These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
 
@@ -68,7 +70,17 @@ These types are structurally identical but may represent different concepts. Add
 | `ISO8601Date` | type-alias-primitive | `shared/types/primitiveBrands.ts` | 8 | yes |
 | `GlobalEntityId` | type-alias-primitive | `shared/types/primitiveBrands.ts` | 11 | yes |
 
-## EXTEND Candidates (15)
+### sim-exact-bd13b840d137
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **12**
+- Structure: `{ expandedShapes: Ref<string[]> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseShapeCreationOptions` | interface | `client/src/composables/admin/useShapeCreation.ts` | 20 | yes |
+| `UseShapesTabDeletionParams` | interface | `client/src/composables/admin/useShapesTabDeletion.ts` | 7 | yes |
+
+## EXTEND Candidates (16)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -190,6 +202,20 @@ Overlap: **18%** shared properties
 | `UseAppointmentDropdownReturn` | interface | `client/src/composables/booking/useAppointmentDropdown.ts` | 11 | yes |
 | `UseWizardDevModeOptions` | interface | `client/src/composables/booking/useWizardDevMode.ts` | 13 | yes |
 
+### sim-subset-7f254dbfa49b
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ autoConfirmEnabled: Ref<boolean>, error: Ref<string | null>, formData: Ref<AvailabilitySettings | null>, loading: Ref<boolean>, loadSettings: () => Promise<void>, saveSettings: () => Promise<void>, saving: Ref<boolean>, success: Ref<string | null>, validateBusinessHours: () => boolean }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseAvailabilitySettingsReturn` | interface | `client/src/composables/admin/useAvailabilitySettings.ts` | 45 | yes |
+| `UseBusinessControlsFormStateParams` | interface | `client/src/composables/admin/useBusinessControlsFormState.ts` | 20 | yes |
+
+Overlap: **44%** shared properties
+- Shared: `autoConfirmEnabled`, `error`, `formData`, `saving`
+- Only in `UseAvailabilitySettingsReturn`: `loading`, `loadSettings`, `saveSettings`, `success`, `validateBusinessHours`
+
 ### sim-subset-b988c17b5b76
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
@@ -260,19 +286,7 @@ Overlap: **13%** shared properties
 - Shared: `affectedEntityKey`, `affectedField`, `linkingField`
 - Only in `RelationshipFieldType`: `affectedEntities`, `candidateChildKey`, `candidateChildPath`, `candidateParentKey`, `candidateParentPath`, `controlField`, `dependencyImpact`, `displayNames`, `enabled`, `globalField`, `groupByKey`, `modeToggle`, `placeholder`, `removedItems`, `selectedChildKey`, `selectedChildPath`, `selectedParentKey`, `selectMode`, `selectType`, `targetKey`, `targetMode`
 
-### sim-subset-18631ccb7f7c
-
-- Relationship: **SUBSET**, Priority: **P2**, Score: **6**
-- Structure: `{ attendees: AppointmentAttendeeWithUser[], id: string, propertyVersion?: InviteAppointmentData['propertyVersion'], selectedDate: Date | null, selectedOptionIds: string[], selectedPropertyIds: string[], selectedServiceIds: string[], selectedTimeSlots: Array<Record<string, unknown>> | null, status: AppointmentType['status'] }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `NormalizedAppointmentForInvites` | interface | `server/src/services/invites/inviteOrchestrationService.ts` | 47 | no |
-| `AppointmentWithRelations` | interface | `server/src/services/invites/inviteOrchestrationService.ts` | 383 | no |
-
-Overlap: **22%** shared properties
-- Shared: `attendees`, `propertyVersion`
-- Only in `NormalizedAppointmentForInvites`: `id`, `selectedDate`, `selectedOptionIds`, `selectedPropertyIds`, `selectedServiceIds`, `selectedTimeSlots`, `status`
+_(1 more EXTEND groups omitted — see JSON for full data)_
 
 ## REVIEW Candidates (2)
 

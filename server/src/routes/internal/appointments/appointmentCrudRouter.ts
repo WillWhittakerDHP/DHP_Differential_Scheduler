@@ -78,6 +78,7 @@ const router = createCrudRouter({
     const body = req.body as {
       status?: string
       _holdDurationDefaultFromSettings?: number
+      _holdDurationBoundsFromSettings?: HoldDurationBounds
       _currentStatus?: AppointmentStatus
     }
 

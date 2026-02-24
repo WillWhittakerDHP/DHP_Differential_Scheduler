@@ -8,7 +8,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production npm run build:prod && cross-env NODE_ENV=production npm run client:build && cross-env NODE_ENV=production npm run server",
     "start:dev": "node scripts/start-dev.mjs",
-    "start:dev:testing": "cross-env TEST_ENABLED=true node scripts/start-dev.mjs",
+    "start:dev:testing": "cross-env APP_STAGE=staging node scripts/start-dev.mjs",
     "typecheck:audit": "npm --prefix client run typecheck:audit",
     "typecheck:summary": "npm --prefix client run typecheck:summary",
     "typecheck:run": "npm --prefix client run typecheck:run",

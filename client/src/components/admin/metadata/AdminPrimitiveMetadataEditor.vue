@@ -143,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
+import { computed, ref, reactive, type ComponentPublicInstance } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
@@ -153,9 +153,6 @@ import { useMetadataFieldUpdates } from '@/composables/admin/useMetadataFieldUpd
 import { useInputConfigEditor } from '@/composables/admin/useInputConfigEditor'
 import { useMetadataFieldOrdering } from '@/composables/admin/useMetadataFieldOrdering'
 import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
-import { dragAndDrop } from '@formkit/drag-and-drop/vue'
-import { animations } from '@formkit/drag-and-drop'
-import { getPanelsElement } from '@/composables/admin/useDragAndDropHelpers'
 import type { EntityMetadataType } from '@/constants/fieldMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
@@ -331,77 +328,17 @@ async function handleSave() {
   }
 }
 
-const visibilityOptions = [
-  { title: 'Not Configured', value: 'notConfigured' },
-  { title: 'Title Row', value: 'titleRow' },
-  { title: 'Static As Title', value: 'staticAsTitle' },
-  { title: 'Expanded Direct', value: 'expandedDirect' },
-  { title: 'Expanded Panel', value: 'expandedPanel' },
-  { title: 'Hidden', value: 'hidden' },
-] as const
-
-const layoutOptions = [
-  { title: 'Inline', value: FIELD_LAYOUT.INLINE },
-  { title: 'Stacked', value: FIELD_LAYOUT.STACKED },
-] as const
-
-
-const colorOptions = [
-  { title: 'Red', value: 'error' },
-  { title: 'Orange', value: 'secondary' },
-  { title: 'Yellow', value: 'yellow' },
-  { title: 'Green', value: 'success' },
-  { title: 'Blue', value: 'info' },
-  { title: 'Indigo', value: 'primary' },
-  { title: 'Violet', value: 'purple' },
-  { title: 'Grey', value: 'grey' },
-  { title: 'Brown', value: 'brown' },
-] as const
-
-const selectModeOptions = [
-  { title: 'Single', value: 'Single' },
-  { title: 'Multiple', value: 'Multiple' },
-  { title: 'Required', value: 'Required' },
-  { title: 'Nested', value: 'Nested' },
-] as const
-
-// LEARNING: Input config editing functions are provided by useInputConfigEditor composable
+const visibilityOptions = ADMIN_METADATA_VISIBILITY_OPTIONS
+const layoutOptions = ADMIN_METADATA_LAYOUT_OPTIONS
+const colorOptions = ADMIN_METADATA_COLOR_OPTIONS
+const selectModeOptions = ADMIN_METADATA_SELECT_MODE_OPTIONS
 
 const expansionPanelsRef = ref<ComponentPublicInstance | HTMLElement | null>(null)
-
-// LEARNING: Drag end handler is provided by useMetadataFieldOrdering composable
-
-let dragInstance: ReturnType<typeof dragAndDrop> | null = null
-
-onMounted(() => {
-  nextTick(() => {
-    if (!expansionPanelsRef.value) return
-    
-    const panelsElement = getPanelsElement(expansionPanelsRef.value, null)
-    if (!panelsElement) return
-    
-    try {
-      dragInstance = dragAndDrop({
-        parent: panelsElement,
-        values: draggableFieldKeys,
-        draggable: (el) => {
-          return el instanceof HTMLElement && el.classList?.contains('draggable-field-panel')
-        },
-        plugins: [animations()],
-        handleEnd: () => {
-          handleDragEnd()
-        },
-      })
-    } catch (error) {
-      logger.error('Error setting up drag-and-drop:', error)
-    }
-  })
-})
-
-onBeforeUnmount(() => {
-  if (dragInstance) {
-    dragInstance = null
-  }
+useMetadataFieldDrag({
+  expansionPanelsRef,
+  draggableFieldKeys,
+  handleDragEnd,
+  logger,
 })
 
 defineExpose({

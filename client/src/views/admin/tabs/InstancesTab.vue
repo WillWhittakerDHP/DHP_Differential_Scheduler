@@ -6,9 +6,9 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
+import { ref, computed, type ComponentPublicInstance } from 'vue'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId, type BlockInstanceEntity, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
@@ -23,33 +23,18 @@ import { useInstanceDeletion } from '@/composables/admin/useInstanceDeletion'
 import BlockInstanceCreateModal from '@/components/admin/BlockInstanceCreateModal.vue'
 import { useInstanceSaveHandlers } from '@/composables/admin/useInstanceSaveHandlers'
 import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandlers'
+import { useInstancesTabCreateModal } from '@/composables/admin/useInstancesTabCreateModal'
+import { useInstancesTabEventInstance } from '@/composables/admin/useInstancesTabEventInstance'
+import { useInstancesTabEventInstanceDrag } from '@/composables/admin/useInstancesTabEventInstanceDrag'
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
-import { BLOCK_INSTANCE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
+import { createBlockInstanceConfigSentinel } from '@/utils/entities/entityTypeMapping'
 import { useNotification } from '@/composables/useNotification'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
-import { animations } from '@formkit/drag-and-drop'
-import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { createLogger } from '@/utils/logger'
 import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 
 const logger = createLogger('InstancesTab')
-
-function createBlockInstanceConfigSentinel(blockShapeId: string): BlockInstanceEntity {
-  return {
-    id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),
-    entityKey: 'blockInstance',
-    name: 'Global Config',
-    orderIndex: 0,
-    active: true,
-    blockShapeRef: blockShapeId,
-    baseSqFt: 0,
-    icon: '',
-    allowMultiple: false,
-    isMultiFamily: false,
-    requiresAgent: false
-  }
-}
 
 /**
  * LEARNING: Reactive active tab state
@@ -170,246 +155,55 @@ const { handleDeleteBlockInstance } = useInstanceDeletion()
  */
 const { handleExistingBlockInstanceSaved } = useInstanceSaveHandlers()
 
-/**
- * WHY: Modal state for create/duplicate operations
-WHY: Unified modal approach ...
- */
-const createModalOpen = ref(false)
-const createModalBlockShapeId = ref<GlobalEntityId>(toGlobalEntityId(''))
-const createModalSourceEntity = ref<GlobalEntity<'blockInstance'> | undefined>(undefined)
+const createModal = useInstancesTabCreateModal()
+const {
+  createModalOpen,
+  createModalBlockShapeId,
+  createModalSourceEntity,
+  handleCreateClick,
+  handleDuplicateClick,
+  handleInstanceCreated,
+} = createModal
 
-const handleCreateClick = (blockShapeId: string): void => {
-  createModalBlockShapeId.value = toGlobalEntityId(blockShapeId)
-  createModalSourceEntity.value = undefined
-  createModalOpen.value = true
-}
-
-const handleDuplicateClick = (sourceEntity: GlobalEntity<GlobalEntityKey>): void => {
-  // PATTERN: Type assertion since InstancesTab only uses EntityCard with entity-key="blockInstance"
-  const blockInstanceEntity = sourceEntity as GlobalEntity<'blockInstance'>
-  createModalBlockShapeId.value = toGlobalEntityId(blockInstanceEntity.blockShapeRef)
-  createModalSourceEntity.value = blockInstanceEntity
-  createModalOpen.value = true
-}
-
-const handleInstanceCreated = (_entity: GlobalEntity<'blockInstance'>): void => {
-  createModalOpen.value = false
-}
-
-/**
- * WHY: Use instance tab handlers composable
-WHY: Tab click handler moved to com...
- */
 const { handleTabClick } = useInstanceTabHandlers({ activeTab })
 
-/**
- * LEARNING: Event Instances state and handlers
- */
-const { success } = useNotification()
-const isCreatingEventInstance = ref(false)
 const eventInstanceMetadataModalOpen = ref(false)
-const newEventInstanceData = ref<{
-  eventShapeRef: string
-  name: string
-  titleTemplate: string
-  descriptionTemplate: string
-  locationTemplate: string
-  visibility: 'default' | 'public' | 'private' | 'confidential'
-  transparency: 'opaque' | 'transparent'
-  guestsCanModify: boolean
-  guestsCanInviteOthers: boolean
-  guestsCanSeeOtherGuests: boolean
-  addConferenceLink: boolean
-  sendUpdates: 'all' | 'externalOnly' | 'none'
-  colorId: string | null
-  status: 'confirmed' | 'tentative'
-} | null>(null)
-
-const templateVariables = [
-  { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
-  { name: 'city', description: 'Property city', example: 'Austin' },
-  { name: 'state', description: 'Property state abbreviation', example: 'TX' },
-  { name: 'zipCode', description: 'Property ZIP code', example: '78701' },
-  { name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },
-  { name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },
-  { name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },
-  { name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },
-  { name: 'status', description: 'Current appointment status', example: 'confirmed' },
-  { name: 'service', description: 'Primary service name', example: "Buyer's Inspection" },
-]
-
-const knownVariableNames = new Set(templateVariables.map(v => v.name))
-
-function findUnknownVariables(template: string): string[] {
-  const varPattern = /\{(\w+)\}/g
-  const unknown: string[] = []
-  let match: RegExpExecArray | null
-  while ((match = varPattern.exec(template)) !== null) {
-    if (!knownVariableNames.has(match[1]) && !unknown.includes(match[1])) {
-      unknown.push(match[1])
-    }
-  }
-  return unknown
-}
-
-const templateWarnings = computed(() => {
-  const data = newEventInstanceData.value
-  if (!data) return { titleTemplate: [], descriptionTemplate: [], locationTemplate: [] }
-
-  const warn = (field: string): string[] => {
-    const unknown = findUnknownVariables(field)
-    return unknown.length > 0
-      ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`]
-      : []
-  }
-
-  return {
-    titleTemplate: warn(data.titleTemplate),
-    descriptionTemplate: warn(data.descriptionTemplate),
-    locationTemplate: warn(data.locationTemplate),
-  }
-})
-
-// LEARNING: Events are now core entities, use entity CRUD composable
-const { entities: eventInstances, create: createEventInstance } = useEntityCrud('eventInstance')
+const eventInstanceCrud = useEntityCrud('eventInstance')
+const { entities: eventInstances, create: createEventInstance, patchOrderIndex: patchEventInstanceOrderIndex } = eventInstanceCrud
 const { entities: eventShapes } = useEntityCrud('eventShape')
-const isLoadingEventInstances = computed(() => false) // Events are loaded with globalData, no separate loading state
-const isCreatingEventInstanceLoading = ref(false)
-
-const eventInstancesList = ref<GlobalEntity<'eventInstance'>[]>([])
-const eventInstanceIds = ref<string[]>([])
-const eventInstancesContainer = ref<HTMLElement | null>(null)
-void eventInstancesContainer.value // ref used by template
-const eventInstancesPanelsContainer = ref<ComponentPublicInstance | HTMLElement | null>(null)
-
-const filteredEventInstances = computed(() => {
-  return [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+const isLoadingEventInstances = computed(() => false)
+const eventInstanceForm = useInstancesTabEventInstance({
+  expandedInstances,
+  eventShapes,
+  createEventInstance,
+  logger,
 })
+const {
+  templateVariables,
+  newEventInstanceData,
+  isCreatingEventInstance,
+  isCreatingEventInstanceLoading,
+  templateWarnings,
+  openCreateEventInstanceForm,
+  handleEventInstanceCreate,
+  handleEventInstanceCancelled,
+  handleDeleteEventInstance,
+} = eventInstanceForm
 
-// WHY: Events are now core entities, use generic entity CRUD pattern
-// PATTERN: Use useEntityCrud directly, matching block/part shapes pattern
-const { patchOrderIndex: patchEventInstanceOrderIndex } = useEntityCrud('eventInstance')
-
-// LEARNING: Drag handlers for event instances (now using entity drag handlers since events are core entities)
-const eventInstancesDragHandlers = useEntityDragHandlers({
-  entityIds: eventInstanceIds,
-  entityList: eventInstancesList,
-  filteredEntities: filteredEventInstances,
-  patchOrderIndex: async (updates) => {
-    await patchEventInstanceOrderIndex(updates)
-  }
+const eventInstanceDrag = useInstancesTabEventInstanceDrag({
+  eventInstances,
+  patchEventInstanceOrderIndex,
+  logger,
 })
-
-watch(filteredEventInstances, () => {
-  eventInstancesDragHandlers.syncArrays()
-}, { immediate: true })
-
-let eventInstancesDragInstance: ReturnType<typeof dragAndDrop> | null = null
-
-onMounted(() => {
-  nextTick(() => {
-    if (!eventInstancesPanelsContainer.value) return
-    
-    const panelsElement = eventInstancesPanelsContainer.value instanceof HTMLElement
-      ? eventInstancesPanelsContainer.value
-      : (eventInstancesPanelsContainer.value.$el?.querySelector('.v-expansion-panels') as HTMLElement)
-    
-    if (!panelsElement) return
-    
-    try {
-      eventInstancesDragInstance = dragAndDrop({
-        parent: panelsElement,
-        values: eventInstanceIds,
-        draggable: (el: HTMLElement) => {
-          return el instanceof HTMLElement && el.classList?.contains('draggable-event-instance')
-        },
-        plugins: [animations()],
-        handleEnd: () => {
-          eventInstancesDragHandlers.handleDragEnd()
-        },
-      })
-    } catch (error) {
-      logger.error('Error setting up event instances drag-and-drop', { error })
-    }
-  })
-})
-
-onBeforeUnmount(() => {
-  if (eventInstancesDragInstance) {
-    eventInstancesDragInstance = null
-  }
-})
-
-const openCreateEventInstanceForm = () => {
-  if (eventShapes.value.length === 0) {
-    alert('Please create an event shape first')
-    return
-  }
-  newEventInstanceData.value = {
-    eventShapeRef: eventShapes.value[0].id,
-    name: '',
-    titleTemplate: '',
-    descriptionTemplate: '',
-    locationTemplate: '',
-    visibility: 'default',
-    transparency: 'opaque',
-    guestsCanModify: false,
-    guestsCanInviteOthers: true,
-    guestsCanSeeOtherGuests: true,
-    addConferenceLink: false,
-    sendUpdates: 'all',
-    colorId: null,
-    status: 'confirmed',
-  }
-  isCreatingEventInstance.value = true
-  expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
-}
-
-const handleEventInstanceCreate = async () => {
-  if (!newEventInstanceData.value || !newEventInstanceData.value.name.trim()) return
-  
-  isCreatingEventInstanceLoading.value = true
-  try {
-    await createEventInstance({
-      eventShapeRef: newEventInstanceData.value.eventShapeRef,
-      name: newEventInstanceData.value.name.trim(),
-      titleTemplate: newEventInstanceData.value.titleTemplate.trim() || null,
-      descriptionTemplate: newEventInstanceData.value.descriptionTemplate.trim() || null,
-      locationTemplate: newEventInstanceData.value.locationTemplate.trim() || null,
-      visibility: newEventInstanceData.value.visibility,
-      transparency: newEventInstanceData.value.transparency,
-      guestsCanModify: newEventInstanceData.value.guestsCanModify,
-      guestsCanInviteOthers: newEventInstanceData.value.guestsCanInviteOthers,
-      guestsCanSeeOtherGuests: newEventInstanceData.value.guestsCanSeeOtherGuests,
-      addConferenceLink: newEventInstanceData.value.addConferenceLink,
-      sendUpdates: newEventInstanceData.value.sendUpdates,
-      colorId: newEventInstanceData.value.colorId,
-      status: newEventInstanceData.value.status,
-      reminderOverrides: null,
-      orderIndex: 0,
-      active: true,
-      entityKey: 'eventInstance' as const
-    })
-    success('Event instance created successfully')
-    isCreatingEventInstance.value = false
-    newEventInstanceData.value = null
-    expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-  } catch (error) {
-    logger.error('Failed to create event instance', { error, data: newEventInstanceData.value })
-  } finally {
-    isCreatingEventInstanceLoading.value = false
-  }
-}
-
-const handleEventInstanceCancelled = () => {
-  isCreatingEventInstance.value = false
-  newEventInstanceData.value = null
-  expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-}
-
-function handleDeleteEventInstance(_id: string) {
-}
-
+const {
+  eventInstancesList,
+  eventInstanceIds,
+  eventInstancesContainer,
+  eventInstancesPanelsContainer,
+  filteredEventInstances,
+  eventInstancesDragHandlers,
+} = eventInstanceDrag
+void eventInstancesContainer.value
 </script>
 
 <template>

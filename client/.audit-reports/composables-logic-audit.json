@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T21:42:38.395Z",
+  "generatedAt": "2026-02-24T15:07:46.380Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,7 +10,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 245,
+  "totalScanned": 259,
   "exceptionSummary": {
     "totalRequiresReview": 8
   },
@@ -1275,6 +1275,141 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__admin__useShapesTabCreation.ts",
+      "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapesTabCreation.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 7,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 6,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 27,
+          "line": "const isCreatingPartShape = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 28,
+          "line": "const isCreatingAnnotationShape = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 29,
+          "line": "const isCreatingEventShape = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 31,
+          "line": "const newAnnotationShapeName = ref('')"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 32,
+          "line": "const newEventShapeName = ref('')"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 33,
+          "line": "const isCreatingAnnotationShapeLoading = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 34,
+          "line": "const isCreatingEventShapeLoading = ref(false)"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 55,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 61,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 64,
+          "line": "const handleAnnotationShapeCreate = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 68,
+          "line": "await createAnnotationShapeMutation({"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 77,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 88,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 97,
+          "line": "const handleEventShapeCreate = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 101,
+          "line": "await createEventShapeMutation({"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 110,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 121,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')"
+        }
+      ],
+      "exportUseFunctions": [
+        "useShapesTabCreation"
+      ],
+      "returnKeys": [
+        "createPartShape",
+        "handleAnnotationShapeCancelled",
+        "handleAnnotationShapeCreate",
+        "handleEventShapeCancelled",
+        "handleEventShapeCreate",
+        "handlePartShapeCancelled",
+        "handlePartShapeCreated",
+        "isCreatingAnnotationShape",
+        "isCreatingAnnotationShapeLoading",
+        "isCreatingEventShape",
+        "isCreatingEventShapeLoading",
+        "isCreatingPartShape",
+        "newAnnotationShapeName",
+        "newEventShapeName",
+        "newPartShapeInitialValues",
+        "startCreatingAnnotationShape",
+        "startCreatingEventShape"
+      ],
+      "complexityScore": 17,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__booking__useContactsValidation.ts",
       "repoPath": "client/src/composables/booking/useContactsValidation.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useContactsValidation.ts",
@@ -1963,6 +2098,117 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__admin__useAvailabilitySettings.ts",
+      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAvailabilitySettings.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 3,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 5,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 1,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "map",
+          "lineNumber": 29,
+          "line": "...Object.values(businessHours).map(day => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 32,
+          "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 33,
+          "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 65,
+          "line": "const autoConfirmEnabled = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 66,
+          "line": "const loading = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 67,
+          "line": "const saving = ref(false)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 80,
+          "line": "const loadSettings = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 85,
+          "line": "const response = await apiClient.get('/business-settings/availability_settings')"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 165,
+          "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 166,
+          "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 179,
+          "line": "const saveSettings = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 294,
+          "line": "await apiClient.put('/business-settings/availability_settings', {"
+        },
+        {
+          "ruleId": "timers",
+          "lineNumber": 303,
+          "line": "setTimeout(() => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 320,
+          "line": "watch("
+        }
+      ],
+      "exportUseFunctions": [
+        "useAvailabilitySettings"
+      ],
+      "returnKeys": [
+        "autoConfirmEnabled",
+        "error",
+        "formData",
+        "loadSettings",
+        "loading",
+        "saving",
+        "success",
+        "validateBusinessHours"
+      ],
+      "complexityScore": 14,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__admin__useSelectFiltering.ts",
       "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useSelectFiltering.ts",
@@ -2520,111 +2766,6 @@
       "suggestions": []
     },
     {
-      "id": "client__src__composables__admin__useAvailabilitySettings.ts",
-      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useAvailabilitySettings.ts",
-      "counts": {
-        "computed": 0,
-        "ref": 2,
-        "reactive": 0,
-        "watch": 1,
-        "watchEffect": 0,
-        "lifecycle": 0,
-        "async": 2,
-        "await": 2,
-        "vueQuery": 0,
-        "map": 5,
-        "reduce": 0,
-        "filter": 0,
-        "sort": 0,
-        "dom": 0,
-        "timers": 1,
-        "console": 0
-      },
-      "matches": [
-        {
-          "ruleId": "map",
-          "lineNumber": 29,
-          "line": "...Object.values(businessHours).map(day => {"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 32,
-          "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 33,
-          "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 63,
-          "line": "const loading = ref(false)"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 64,
-          "line": "const saving = ref(false)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 77,
-          "line": "const loadSettings = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 82,
-          "line": "const response = await apiClient.get('/business-settings/availability_settings')"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 153,
-          "line": "const [startHour, startMin] = startTimeStr.split(':').map(Number)"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 154,
-          "line": "const [endHour, endMin] = endTimeStr.split(':').map(Number)"
-        },
-        {
-          "ruleId": "async",
-          "lineNumber": 167,
-          "line": "const saveSettings = async (): Promise<void> => {"
-        },
-        {
-          "ruleId": "await",
-          "lineNumber": 282,
-          "line": "await apiClient.put('/business-settings/availability_settings', {"
-        },
-        {
-          "ruleId": "timers",
-          "lineNumber": 290,
-          "line": "setTimeout(() => {"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 307,
-          "line": "watch("
-        }
-      ],
-      "exportUseFunctions": [
-        "useAvailabilitySettings"
-      ],
-      "returnKeys": [
-        "error",
-        "formData",
-        "loadSettings",
-        "loading",
-        "saving",
-        "success",
-        "validateBusinessHours"
-      ],
-      "complexityScore": 13,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
       "id": "client__src__composables__admin__useBlockInstanceForm.ts",
       "repoPath": "client/src/composables/admin/useBlockInstanceForm.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useBlockInstanceForm.ts",
@@ -2726,6 +2867,103 @@
         "isSubmitting",
         "loadEntity"
       ],
+      "complexityScore": 13,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__admin__useBusinessControlsFormState.ts",
+      "repoPath": "client/src/composables/admin/useBusinessControlsFormState.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useBusinessControlsFormState.ts",
+      "counts": {
+        "computed": 13,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 33,
+          "line": "const businessHoursForUI = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 64,
+          "line": "const calendarEnabled = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 76,
+          "line": "const calendarProvider = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 89,
+          "line": "const holdDurationMinutes = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 104,
+          "line": "const holdDurationMin = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 117,
+          "line": "const holdDurationMax = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 130,
+          "line": "const holdDurationFallback = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 159,
+          "line": "const saveButtonProps = computed(() => ({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 170,
+          "line": "const durationRoundingEnabled = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 177,
+          "line": "const durationRoundingIncrement = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 184,
+          "line": "const durationRoundingMethod = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 193,
+          "line": "const timezone = computed({"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 200,
+          "line": "const minuteIncrement = computed({"
+        }
+      ],
+      "exportUseFunctions": [
+        "useBusinessControlsFormState"
+      ],
+      "returnKeys": [],
       "complexityScore": 13,
       "priority": "P2",
       "suggestions": []
@@ -4195,6 +4433,90 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__useAddressAutocomplete.ts",
+      "repoPath": "client/src/composables/useAddressAutocomplete.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/useAddressAutocomplete.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 4,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 3,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 54,
+          "line": "const searchInput = ref('')"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 57,
+          "line": "const isLoading = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 58,
+          "line": "const errorMessage = ref('')"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 59,
+          "line": "const hasInitialAddressFromProps = ref(false)"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 61,
+          "line": "watch("
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 86,
+          "line": "const fetchSuggestionsDebounced = useDebounceFn(async (input: string) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 94,
+          "line": "const results = await fetchAutocompleteSuggestions(input, sessionToken.value)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 132,
+          "line": "async function selectPlace(selection: AutocompletePrediction | null): Promise<SelectionResult> {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 145,
+          "line": "const details = await fetchPlaceDetails(sel.placeId, sessionToken.value)"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 148,
+          "line": "await getToken()"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAddressAutocomplete"
+      ],
+      "returnKeys": [
+        "kind"
+      ],
+      "complexityScore": 10,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__usePartInstanceData.ts",
       "repoPath": "client/src/composables/usePartInstanceData.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/usePartInstanceData.ts",
@@ -4682,6 +5004,85 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__admin__useInstancesTabEventInstance.ts",
+      "repoPath": "client/src/composables/admin/useInstancesTabEventInstance.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstancesTabEventInstance.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 2,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 0,
+        "map": 2,
+        "reduce": 0,
+        "filter": 2,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "map",
+          "lineNumber": 23,
+          "line": "const knownVariableNames = new Set(EVENT_INSTANCE_TEMPLATE_VARIABLES.map(v => v.name))"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 65,
+          "line": "const isCreatingEventInstance = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 67,
+          "line": "const isCreatingEventInstanceLoading = ref(false)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 69,
+          "line": "const templateWarnings = computed(() => {"
+        },
+        {
+          "ruleId": "map",
+          "lineNumber": 74,
+          "line": "return unknown.length > 0 ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`] : []"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 108,
+          "line": "const handleEventInstanceCreate = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 112,
+          "line": "await createEventInstance({"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 135,
+          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 146,
+          "line": "expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')"
+        }
+      ],
+      "exportUseFunctions": [
+        "useInstancesTabEventInstance"
+      ],
+      "returnKeys": [
+        "titleTemplate"
+      ],
+      "complexityScore": 9,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__admin__useShapeSaveHandlers.ts",
       "repoPath": "client/src/composables/admin/useShapeSaveHandlers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapeSaveHandlers.ts",
@@ -4810,27 +5211,27 @@
         },
         {
           "ruleId": "map",
-          "lineNumber": 94,
+          "lineNumber": 93,
           "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 102,
+          "lineNumber": 101,
           "line": "const minorDuration = computed(() => {"
         },
         {
           "ruleId": "map",
-          "lineNumber": 106,
+          "lineNumber": 105,
           "line": "const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]"
         },
         {
           "ruleId": "map",
-          "lineNumber": 111,
+          "lineNumber": 109,
           "line": "availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 119,
+          "lineNumber": 117,
           "line": "const differentialTimeBlocks = computed(() => {"
         }
       ],
@@ -5277,6 +5678,85 @@
         "handleBlur",
         "handleEnterKey",
         "handleFocus"
+      ],
+      "complexityScore": 8,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__admin__useInstancesTabEventInstanceDrag.ts",
+      "repoPath": "client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 1,
+        "watchEffect": 0,
+        "lifecycle": 3,
+        "async": 1,
+        "await": 1,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 1,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 5,
+          "line": "import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 27,
+          "line": "const filteredEventInstances = computed(() =>"
+        },
+        {
+          "ruleId": "sort",
+          "lineNumber": 28,
+          "line": "[...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 35,
+          "line": "patchOrderIndex: async (updates) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 36,
+          "line": "await patchEventInstanceOrderIndex(updates)"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 40,
+          "line": "watch("
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 50,
+          "line": "onMounted(() => {"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 75,
+          "line": "onBeforeUnmount(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useInstancesTabEventInstanceDrag"
+      ],
+      "returnKeys": [
+        "eventInstanceIds",
+        "eventInstancesContainer",
+        "eventInstancesDragHandlers",
+        "eventInstancesList",
+        "eventInstancesPanelsContainer",
+        "filteredEventInstances"
       ],
       "complexityScore": 8,
       "priority": "P2",
@@ -7232,6 +7712,84 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__admin__tables__useAppointmentsTableHandlers.ts",
+      "repoPath": "client/src/composables/admin/tables/useAppointmentsTableHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/useAppointmentsTableHandlers.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 1,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 40,
+          "line": "const showConfirmDialog = ref(false)"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 52,
+          "line": "const handleSaveCreate = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 57,
+          "line": "await saveCreate()"
+        },
+        {
+          "ruleId": "async",
+          "lineNumber": 60,
+          "line": "const handleSaveEdit = async (): Promise<void> => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 65,
+          "line": "await saveEdit()"
+        }
+      ],
+      "exportUseFunctions": [
+        "useAppointmentsTableHandlers"
+      ],
+      "returnKeys": [
+        "applyCreatePatch",
+        "confirmingAppointment",
+        "editingAgentId",
+        "editingClientId",
+        "formAgentId",
+        "formClientId",
+        "formatTimestamp",
+        "handleCancelConfirm",
+        "handleCancelCreate",
+        "handleCancelEdit",
+        "handleOpenConfirmDialog",
+        "handleSaveCreate",
+        "handleSaveEdit",
+        "handleStartCreate",
+        "handleStartEdit",
+        "navigateToProperties",
+        "navigateToUsers",
+        "setFormAgentId",
+        "setFormClientId",
+        "showConfirmDialog"
+      ],
+      "complexityScore": 5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__admin__tables__usePropertiesTableModel.ts",
       "repoPath": "client/src/composables/admin/tables/usePropertiesTableModel.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/tables/usePropertiesTableModel.ts",
@@ -7757,6 +8315,75 @@
         "useSelectFormAssociation"
       ],
       "returnKeys": [],
+      "complexityScore": 5,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__admin__useShapesTabModals.ts",
+      "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapesTabModals.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 5,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 8,
+          "line": "const blockShapeMetadataModalOpen = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 9,
+          "line": "const partShapeMetadataModalOpen = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 10,
+          "line": "const partInstanceMetadataModalOpen = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 11,
+          "line": "const annotationShapeMetadataModalOpen = ref(false)"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 12,
+          "line": "const eventShapeMetadataModalOpen = ref(false)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useShapesTabModals"
+      ],
+      "returnKeys": [
+        "annotationShapeMetadataModalOpen",
+        "blockShapeMetadataModalOpen",
+        "eventShapeMetadataModalOpen",
+        "handlePartInstanceMetadataSaved",
+        "partInstanceMetadataModalOpen",
+        "partShapeMetadataModalOpen",
+        "toggleAnnotationShapeMetadataModal",
+        "toggleBlockShapeMetadataModal",
+        "toggleEventShapeMetadataModal",
+        "togglePartInstanceMetadataModal",
+        "togglePartShapeMetadataModal"
+      ],
       "complexityScore": 5,
       "priority": "P2",
       "suggestions": []
@@ -9446,6 +10073,53 @@
         "searchTerm",
         "selectedIcon"
       ],
+      "complexityScore": 3,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__admin__useMetadataFieldDrag.ts",
+      "repoPath": "client/src/composables/admin/useMetadataFieldDrag.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataFieldDrag.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 3,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 5,
+          "line": "import { onMounted, onBeforeUnmount, nextTick, type Ref } from 'vue'"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 22,
+          "line": "onMounted(() => {"
+        },
+        {
+          "ruleId": "lifecycle",
+          "lineNumber": 42,
+          "line": "onBeforeUnmount(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useMetadataFieldDrag"
+      ],
+      "returnKeys": [],
       "complexityScore": 3,
       "priority": "P2",
       "suggestions": []
@@ -11318,6 +11992,50 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__admin__useInstancesTabCreateModal.ts",
+      "repoPath": "client/src/composables/admin/useInstancesTabCreateModal.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstancesTabCreateModal.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 1,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "ref",
+          "lineNumber": 11,
+          "line": "const createModalOpen = ref(false)"
+        }
+      ],
+      "exportUseFunctions": [
+        "useInstancesTabCreateModal"
+      ],
+      "returnKeys": [
+        "createModalBlockShapeId",
+        "createModalOpen",
+        "createModalSourceEntity",
+        "handleCreateClick",
+        "handleDuplicateClick",
+        "handleInstanceCreated"
+      ],
+      "complexityScore": 1,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__admin__useMetadataEditorEntity.ts",
       "repoPath": "client/src/composables/admin/useMetadataEditorEntity.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useMetadataEditorEntity.ts",
@@ -11489,6 +12207,43 @@
       "suggestions": []
     },
     {
+      "id": "client__src__composables__admin__useSelectEnumOptions.ts",
+      "repoPath": "client/src/composables/admin/useSelectEnumOptions.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useSelectEnumOptions.ts",
+      "counts": {
+        "computed": 1,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "computed",
+          "lineNumber": 9,
+          "line": "const enumOptions = computed(() => {"
+        }
+      ],
+      "exportUseFunctions": [
+        "useSelectEnumOptions"
+      ],
+      "returnKeys": [],
+      "complexityScore": 1,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
       "id": "client__src__composables__admin__useSelectLabelResolution.ts",
       "repoPath": "client/src/composables/admin/useSelectLabelResolution.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useSelectLabelResolution.ts",
@@ -11560,6 +12315,49 @@
       "returnKeys": [
         "shapeEditModalOpen",
         "toggleShapeEditModal"
+      ],
+      "complexityScore": 1,
+      "priority": "P2",
+      "suggestions": []
+    },
+    {
+      "id": "client__src__composables__admin__useShapesTabDeletion.ts",
+      "repoPath": "client/src/composables/admin/useShapesTabDeletion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapesTabDeletion.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 1,
+        "sort": 0,
+        "dom": 0,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "filter",
+          "lineNumber": 32,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))"
+        }
+      ],
+      "exportUseFunctions": [
+        "useShapesTabDeletion"
+      ],
+      "returnKeys": [
+        "handleDeleteAnnotationShape",
+        "handleDeleteBlockShape",
+        "handleDeleteEventShape",
+        "handleDeletePartShape",
+        "handleExistingShapeSaved"
       ],
       "complexityScore": 1,
       "priority": "P2",

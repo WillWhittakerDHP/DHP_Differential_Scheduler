@@ -7,7 +7,7 @@
 
 ## Summary
 
-- Files scanned: **797**
+- Files scanned: **815**
 - value-import-from-type-only-file: **7**
 - type-used-as-value: **0**
 

@@ -4,17 +4,10 @@
   PATTERN: VDataTable with custom cell slots; create/edit convert client/agent IDs to attendees via composable.
 -->
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { AppointmentResponse } from '@/types/appointment'
 import { getValidNextStatuses } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
-import {
-  attendeesFromClientAndAgent,
-  getClientIdFromAttendees,
-  getAgentIdFromAttendees,
-  getClientAttendee,
-  getAgentAttendee,
-} from '@/composables/admin/tables/useAppointmentAttendees'
+import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
+import { getClientAttendee, getAgentAttendee } from '@/composables/admin/tables/useAppointmentAttendees'
 import { getStatusColor, getRoleColor } from '@/composables/admin/tables/useAppointmentHelpers'
 import { APPOINTMENTS_TABLE_HEADERS, APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
 import AppointmentsCreateForm from './AppointmentsCreateForm.vue'
@@ -49,91 +42,39 @@ const {
   getPropertyTypeNames,
 } = useAppointmentsTableModel()
 
-const formClientId = ref<string | null>(null)
-const formAgentId = ref<string | null>(null)
-const editingClientId = ref<string | null>(null)
-const editingAgentId = ref<string | null>(null)
-const confirmingAppointment = ref<AppointmentResponse | null>(null)
-const showConfirmDialog = ref(false)
-
-const handleOpenConfirmDialog = (item: AppointmentResponse): void => {
-  confirmingAppointment.value = item
-  showConfirmDialog.value = true
-}
-
-const handleCancelConfirm = (): void => {
-  confirmingAppointment.value = null
-  showConfirmDialog.value = false
-}
-
-const handleSaveCreate = async (): Promise<void> => {
-  const attendees = attendeesFromClientAndAgent(formClientId.value, formAgentId.value)
-  newAppointment.value = { ...newAppointment.value, attendees }
-  formClientId.value = null
-  formAgentId.value = null
-  await saveCreate()
-}
-
-const handleSaveEdit = async (): Promise<void> => {
-  const attendees = attendeesFromClientAndAgent(editingClientId.value, editingAgentId.value)
-  editedData.value = { ...editedData.value, attendees }
-  editingClientId.value = null
-  editingAgentId.value = null
-  await saveEdit()
-}
-
-const handleStartEdit = (item: AppointmentResponse): void => {
-  startEdit(item)
-  editingClientId.value = getClientIdFromAttendees(item) ?? null
-  editingAgentId.value = getAgentIdFromAttendees(item) ?? null
-}
-
-const handleCancelEdit = (): void => {
-  cancelEdit()
-  editingClientId.value = null
-  editingAgentId.value = null
-}
-
-const handleStartCreate = (): void => {
-  startCreate()
-  formClientId.value = null
-  formAgentId.value = null
-}
-
-const handleCancelCreate = (): void => {
-  cancelCreate()
-  formClientId.value = null
-  formAgentId.value = null
-}
-
-const applyCreatePatch = (patch: Partial<typeof newAppointment.value>): void => {
-  Object.assign(newAppointment.value, patch)
-}
-
-const navigateToProperties = (): void => {
-  emit('navigate-to-tab', 'properties')
-}
-
-const navigateToUsers = (): void => {
-  emit('navigate-to-tab', 'users')
-}
-
-function setFormClientId(v: string | null): void {
-  formClientId.value = v
-}
-function setFormAgentId(v: string | null): void {
-  formAgentId.value = v
-}
-
-function formatTimestamp(isoString: string | null | undefined): string {
-  if (!isoString) return '—'
-  return new Date(isoString).toLocaleString(undefined, {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  })
-}
+const handlers = useAppointmentsTableHandlers({
+  newAppointment,
+  editedData,
+  saveCreate,
+  saveEdit,
+  startEdit,
+  cancelEdit,
+  startCreate,
+  cancelCreate,
+  emit,
+})
+const {
+  formClientId,
+  formAgentId,
+  editingClientId,
+  editingAgentId,
+  confirmingAppointment,
+  showConfirmDialog,
+  handleOpenConfirmDialog,
+  handleCancelConfirm,
+  handleSaveCreate,
+  handleSaveEdit,
+  handleStartEdit,
+  handleCancelEdit,
+  handleStartCreate,
+  handleCancelCreate,
+  applyCreatePatch,
+  navigateToProperties,
+  navigateToUsers,
+  setFormClientId,
+  setFormAgentId,
+  formatTimestamp,
+} = handlers
 </script>
 
 <template>

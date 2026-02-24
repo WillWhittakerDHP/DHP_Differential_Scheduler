@@ -24,3 +24,13 @@ export function getRoleColor(role: string | undefined): string {
   }
   return colorMap[role] || 'default'
 }
+
+export function formatAppointmentTimestamp(isoString: string | null | undefined): string {
+  if (!isoString) return '—'
+  return new Date(isoString).toLocaleString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+}

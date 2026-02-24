@@ -1,6 +1,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string
+  readonly VITE_APP_STAGE?: string
   readonly VITE_INCLUDE_DEV_FLAGS?: string
   readonly VITE_VERBOSE_LOGGING?: string
   readonly VITE_DEBUG_SCOPES?: string

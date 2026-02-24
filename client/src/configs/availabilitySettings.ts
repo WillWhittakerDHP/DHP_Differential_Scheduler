@@ -402,3 +402,70 @@ export function getReadFromCalendars(config: CalendarConfig | undefined): string
  */
 
 
+// ─── Pure helpers for admin save/validate (load/save symmetry with getAvailabilitySettings) ─────
+
+import { DAY_NAMES } from '@/constants/availabilitySettings'
+
+/**
+ * Validate that every day's business hours has end > start.
+ * Pure function: no side effects, returns result object.
+ */
+export function validateBusinessHoursRange(
+  businessHours: AvailabilitySettings['businessHours'],
+  rfc3339ToHHmm: (rfc3339: string) => string
+): { valid: boolean; errorMessage?: string } {
+  for (let day = 0; day <= 6; day++) {
+    const dayHours = businessHours[day as 0 | 1 | 2 | 3 | 4 | 5 | 6]
+    const [startHour, startMin] = rfc3339ToHHmm(dayHours.start).split(':').map(Number)
+    const [endHour, endMin] = rfc3339ToHHmm(dayHours.end).split(':').map(Number)
+    if (endHour * 60 + endMin <= startHour * 60 + startMin) {
+      return { valid: false, errorMessage: `${DAY_NAMES[day]}: End time must be after start time` }
+    }
+  }
+  return { valid: true }
+}
+
+/**
+ * Build the PUT payload for saving availability settings.
+ * Pure function: takes form state, returns the request body.
+ */
+export function buildAvailabilityPayload(
+  formData: AvailabilitySettings,
+  autoConfirmEnabled: boolean
+): { setting_value: Record<string, unknown>; auto_confirm_enabled: boolean } {
+  const settingsToSave: Record<string, unknown> = {
+    businessHours: formData.businessHours,
+    minuteIncrement: formData.minuteIncrement,
+  }
+
+  if (formData.rangeConstraints) {
+    const rc = { ...formData.rangeConstraints }
+    const bhConstraint = rc.businessHours
+    if (bhConstraint && bhConstraint.config && 'hours' in bhConstraint.config) {
+      (bhConstraint.config as BusinessHoursConfig).hours = formData.businessHours
+    }
+    settingsToSave.rangeConstraints = rc
+  } else {
+    settingsToSave.rangeConstraints = {
+      businessHours: {
+        category: 'range' as const,
+        type: 'businessHours' as const,
+        enforcement: 'hard' as const,
+        config: { hours: formData.businessHours },
+      },
+    }
+  }
+
+  if (formData.buffers) settingsToSave.buffers = formData.buffers
+  if (formData.overlapSources) settingsToSave.overlapSources = formData.overlapSources
+  if (formData.maxWorkHours) settingsToSave.maxWorkHours = formData.maxWorkHours
+  if (formData.timezone) settingsToSave.timezone = formData.timezone
+  if (formData.durationRounding) settingsToSave.durationRounding = formData.durationRounding
+  if (formData.differentialPerspectives) settingsToSave.differentialPerspectives = formData.differentialPerspectives
+  if (formData.calendarConfig) settingsToSave.calendarConfig = formData.calendarConfig
+  if (formData.defaultLocation) settingsToSave.defaultLocation = formData.defaultLocation
+
+  return { setting_value: settingsToSave, auto_confirm_enabled: autoConfirmEnabled }
+}
+
+

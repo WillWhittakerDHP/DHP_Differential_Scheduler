@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-02-24T14:11:01.192Z",
-  "totalScanned": 6,
+  "generatedAt": "2026-02-24T15:07:08.424Z",
+  "totalScanned": 5,
   "byBehind": {
-    "major-behind": 2,
+    "major-behind": 3,
     "minor-behind": 0,
-    "patch-behind": 4,
+    "patch-behind": 2,
     "current": 0
   },
   "packages": [
@@ -45,25 +45,27 @@
       "score": 5
     },
     {
-      "package": "@typescript-eslint/eslint-plugin",
+      "package": "@types/bcrypt",
       "dependent": "server",
-      "current": "8.56.0",
-      "wanted": "8.56.1",
-      "latest": "8.56.1",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "@typescript-eslint/parser",
-      "dependent": "server",
-      "current": "8.56.0",
-      "wanted": "8.56.1",
-      "latest": "8.56.1",
-      "behind": "patch-behind",
-      "score": 0.5
+      "current": "5.0.2",
+      "wanted": "5.0.2",
+      "latest": "6.0.0",
+      "behind": "major-behind",
+      "score": 5
     }
   ],
   "files": [
+    {
+      "repoPath": "server:@types/bcrypt",
+      "score": 5,
+      "priority": "P0",
+      "package": "@types/bcrypt",
+      "dependent": "server",
+      "current": "5.0.2",
+      "wanted": "5.0.2",
+      "latest": "6.0.0",
+      "behind": "major-behind"
+    },
     {
       "repoPath": "client:ts-morph",
       "score": 5,
@@ -85,28 +87,6 @@
       "wanted": "3.12.1",
       "latest": "4.0.0",
       "behind": "major-behind"
-    },
-    {
-      "repoPath": "server:@typescript-eslint/eslint-plugin",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@typescript-eslint/eslint-plugin",
-      "dependent": "server",
-      "current": "8.56.0",
-      "wanted": "8.56.1",
-      "latest": "8.56.1",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:@typescript-eslint/parser",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@typescript-eslint/parser",
-      "dependent": "server",
-      "current": "8.56.0",
-      "wanted": "8.56.1",
-      "latest": "8.56.1",
-      "behind": "patch-behind"
     },
     {
       "repoPath": "client:typescript-eslint",
@@ -133,7 +113,7 @@
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 6,
+    "totalRequiresReview": 5,
     "bySource": {
       "inline": 0,
       "pattern": 0,

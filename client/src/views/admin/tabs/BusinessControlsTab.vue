@@ -7,7 +7,7 @@
 import { computed, inject, type Ref } from 'vue'
 import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAvailabilitySettings'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
-import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'
+import { useBusinessControlsFormState } from '@/composables/admin/useBusinessControlsFormState'
 import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
 import { useBufferSettings } from '@/composables/admin/useBufferSettings'
 import { useDefaultLocation } from '@/composables/admin/useDefaultLocation'
@@ -18,11 +18,8 @@ import type {
   UseDifferentialPerspectivesParams
 } from '@/types/availabilitySettingsParams'
 import { DAY_NAMES, TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
-import { useLocalTime } from '@/composables/useLocalTime'
-import type { BusinessHoursConfig } from '@/configs/availabilitySettings'
-import { isValidCalendarEmail, DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
-import type { CalendarProvider, DriveTimeApplyTo } from '@/configs/availabilitySettings'
+import type { DriveTimeApplyTo } from '@/configs/availabilitySettings'
 import RangeConstraintsPanel from './components/RangeConstraintsPanel.vue'
 import CapacityConstraintsPanel from './components/CapacityConstraintsPanel.vue'
 import OverlapConstraintsPanel from './components/OverlapConstraintsPanel.vue'
@@ -33,7 +30,6 @@ import PlacesTimezonePanel from './components/PlacesTimezonePanel.vue'
 import GridConfigPanel from './components/GridConfigPanel.vue'
 import BusinessRulesTab from './BusinessRulesTab.vue'
 import PropertyMappingsTab from './PropertyMappingsTab.vue'
-import { asEmptyString } from '@/utils/safeDefaults'
 
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
 const isTabActive = computed(() => adminCurrentTab?.value === 'business')
@@ -50,42 +46,42 @@ const {
   enabled: isTabActive
 })
 
-const { rfc3339ToBusinessHoursHHmm, businessHoursHHmmToRfc3339 } = useLocalTime()
-const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
-
-/** Valid business hours day indices (0=Sunday .. 6=Saturday). */
-type BusinessHoursDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
-
-const businessHoursForUI = computed(() => {
-  if (!formData.value) return {} as Record<number, { start: string; end: string }>
-  const currentFormData = formData.value
-  return Object.fromEntries(
-    Array.from({ length: 7 }, (_, day) => {
-      const dayHours = currentFormData.businessHours[day as BusinessHoursDay]
-      return [
-        day,
-        {
-          start: rfc3339ToBusinessHoursHHmm(dayHours.start),
-          end: rfc3339ToBusinessHoursHHmm(dayHours.end)
-        }
-      ]
-    })
-  ) as Record<number, { start: string; end: string }>
+const formState = useBusinessControlsFormState({
+  formData,
+  saving,
+  error,
+  autoConfirmEnabled
 })
-
-const isBusinessHoursConfig = (
-  config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }
-): config is BusinessHoursConfig => 'hours' in config
-
-const updateBusinessHours = (day: number, field: 'start' | 'end', value: string): void => {
-  if (!formData.value) return
-  const rfc3339Value = businessHoursHHmmToRfc3339(value)
-  formData.value.businessHours[day as BusinessHoursDay][field] = rfc3339Value
-  const businessHoursConstraint = formData.value.rangeConstraints?.businessHours
-  if (businessHoursConstraint && isBusinessHoursConfig(businessHoursConstraint.config)) {
-    businessHoursConstraint.config.hours[day as BusinessHoursDay][field] = rfc3339Value
-  }
-}
+const {
+  businessHoursForUI,
+  updateBusinessHours,
+  calendarEnabled,
+  calendarProvider,
+  holdDurationMinutes,
+  holdDurationMin,
+  holdDurationMax,
+  holdDurationFallback,
+  calendarEntries,
+  addCalendarEntry,
+  removeCalendarEntry,
+  updateCalendarEntry,
+  setReadFrom,
+  setWriteTo,
+  writeToIndex,
+  calendarValidationError,
+  emailValidationRule,
+  saveButtonProps,
+  clearError,
+  durationRoundingEnabled,
+  durationRoundingIncrement,
+  durationRoundingMethod,
+  timezone,
+  minuteIncrement,
+  setCalendarProvider,
+  setTimezone,
+  setMinuteIncrement,
+  setAutoConfirmEnabled
+} = formState
 
 const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
@@ -102,146 +98,9 @@ const buffers = useBufferSettings({ formData } as UseBufferSettingsParams)
 const location = useDefaultLocation({ formData } as UseDefaultLocationParams)
 const differential = useDifferentialPerspectives({ formData } as UseDifferentialPerspectivesParams)
 
-const calendarEnabled = computed({
-  get: () => formData.value?.calendarConfig?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
-  set: (value: boolean) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) {
-        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      }
-      formData.value.calendarConfig.enabled = value
-    }
-  }
-})
-
-const calendarProvider = computed({
-  get: () => (formData.value?.calendarConfig?.provider ?? DEFAULT_CALENDAR_CONFIG.provider) as CalendarProvider,
-  set: (value: CalendarProvider) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) {
-        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      }
-      formData.value.calendarConfig.provider = value
-    }
-  }
-})
-
-const holdDurationMinutes = computed({
-  get: () => formData.value?.calendarConfig?.holdDurationMinutes ?? DEFAULT_CALENDAR_CONFIG.holdDurationMinutes ?? 15,
-  set: (value: number) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) {
-        formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      }
-      formData.value.calendarConfig.holdDurationMinutes = value
-    }
-  }
-})
-const holdDurationMin = computed({
-  get: () => formData.value?.calendarConfig?.holdDurationMin ?? DEFAULT_CALENDAR_CONFIG.holdDurationMin ?? 1,
-  set: (value: number) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      formData.value.calendarConfig.holdDurationMin = value
-    }
-  }
-})
-const holdDurationMax = computed({
-  get: () => formData.value?.calendarConfig?.holdDurationMax ?? DEFAULT_CALENDAR_CONFIG.holdDurationMax ?? 60,
-  set: (value: number) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      formData.value.calendarConfig.holdDurationMax = value
-    }
-  }
-})
-const holdDurationFallback = computed({
-  get: () => formData.value?.calendarConfig?.holdDurationFallback ?? DEFAULT_CALENDAR_CONFIG.holdDurationFallback ?? 15,
-  set: (value: number) => {
-    if (formData.value) {
-      if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-      formData.value.calendarConfig.holdDurationFallback = value
-    }
-  }
-})
-
-const {
-  entries: calendarEntries,
-  addEntry: addCalendarEntry,
-  removeEntry: removeCalendarEntry,
-  updateEntry: updateCalendarEntry,
-  setReadFrom,
-  setWriteTo,
-  writeToIndex,
-  validationError: calendarValidationError,
-  isValid: _calendarIsValid
-} = useCalendarEntries(formData, calendarEnabled, calendarProvider)
-
-const emailValidationRule = (value: string): true | string => {
-  if (!value || value.trim() === '') return true
-  return isValidCalendarEmail(value) ? true : UI_STRINGS.validation.emailInvalid
-}
-
-const saveButtonProps = computed(() => ({
-  type: 'submit' as const,
-  color: 'primary' as const,
-  loading: saving.value,
-  disabled: saving.value
-}))
-
-const clearError = (): void => {
-  error.value = null
-}
-
+const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 const dayNames = DAY_NAMES
 const timezoneOptions = TIMEZONE_OPTIONS
-
-const durationRoundingEnabled = computed({
-  get: () => formData.value?.durationRounding?.enabled ?? false,
-  set: (v: boolean) => {
-    if (formData.value?.durationRounding) formData.value.durationRounding.enabled = v
-  }
-})
-const durationRoundingIncrement = computed({
-  get: () => formData.value?.durationRounding?.increment ?? 15,
-  set: (v: number) => {
-    if (formData.value?.durationRounding) formData.value.durationRounding.increment = v
-  }
-})
-const durationRoundingMethod = computed({
-  get: () => formData.value?.durationRounding?.method ?? 'roundNearest',
-  set: (v: string) => {
-    if (formData.value?.durationRounding) formData.value.durationRounding.method = v as 'roundUp' | 'roundDown' | 'roundNearest'
-  }
-})
-
-const timezone = computed({
-  get: () => asEmptyString(formData.value?.timezone),
-  set: (v: string) => {
-    if (formData.value) formData.value.timezone = v
-  }
-})
-
-const minuteIncrement = computed({
-  get: () => formData.value?.minuteIncrement ?? 15,
-  set: (v: number) => {
-    if (formData.value) formData.value.minuteIncrement = v
-  }
-})
-
-function setCalendarProvider(v: string): void {
-  calendarProvider.value = v as CalendarProvider
-}
-function setTimezone(v: string): void {
-  timezone.value = v
-}
-function setMinuteIncrement(v: number): void {
-  minuteIncrement.value = v
-}
-/** Task 6.3.2.3: update ref from template (refs are unwrapped in template so inline handler must call script function). */
-function setAutoConfirmEnabled(v: boolean): void {
-  autoConfirmEnabled.value = v
-}
 </script>
 
 <template>
@@ -361,7 +220,7 @@ function setAutoConfirmEnabled(v: boolean): void {
                 :save-button-props="saveButtonProps"
                 @update:duration-rounding-enabled="(v: boolean) => { durationRoundingEnabled = v }"
                 @update:duration-rounding-increment="(v: number) => { durationRoundingIncrement = v }"
-                @update:duration-rounding-method="(v: string) => { durationRoundingMethod = v as 'roundUp' | 'roundDown' | 'roundNearest' }"
+                @update:duration-rounding-method="(v: string) => { durationRoundingMethod = v }"
               />
             </VWindowItem>
           </VWindow>

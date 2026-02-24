@@ -1,4 +1,6 @@
-
+/**
+ * Logger: stack/callsite used only when NODE_ENV is not production.
+ */
 import { isProduction } from './envHelpers.js'
 import type { AppLogger, LogLevel, Logger } from '../../../shared/types/loggerTypes.js'
 
@@ -114,7 +116,9 @@ function getCallsiteFrame(): string {
         return ` @ ${file}:${bareMatch[2]}`
       }
     }
+    // Intentional: swallow any stack parse errors and fall back to no callsite
   } catch {
+    /* no-op */
   }
   return ''
 }

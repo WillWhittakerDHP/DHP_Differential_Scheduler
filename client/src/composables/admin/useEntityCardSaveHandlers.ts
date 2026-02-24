@@ -1,0 +1,66 @@
+/**
+ * PATTERN: Wrapped save/undo and reset-after-save for EntityCard.
+ * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
+ */
+import { nextTick } from 'vue'
+import type { FormContext } from 'vee-validate'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityCardSaveStateReturn } from '@/composables/admin/useEntityCardSaveState'
+import type { AppLogger } from '@/utils/logger'
+
+export interface UseEntityCardSaveHandlersParams {
+  form: FormContext
+  admin: { getEntity: (key: GlobalEntityKey, id: string) => Record<string, unknown> | undefined }
+  entityKey: GlobalEntityKey
+  entityId: string
+  isNew: boolean
+  logger: AppLogger
+  _handleSave: () => Promise<void>
+  _handleUndo: () => void
+  unifiedSaveState: UseEntityCardSaveStateReturn
+}
+
+export function useEntityCardSaveHandlers(params: UseEntityCardSaveHandlersParams) {
+  const {
+    form,
+    admin,
+    entityKey,
+    entityId,
+    isNew,
+    logger,
+    _handleSave,
+    _handleUndo,
+    unifiedSaveState,
+  } = params
+
+  const resetFormWithSavedEntity = (): void => {
+    const savedEntity = admin.getEntity(entityKey, entityId)
+    if (!savedEntity) {
+      logger.error('Saved entity not found after save', { entityKey, entityId })
+      throw new Error(`Saved entity not found after save: ${entityKey} ${entityId}`)
+    }
+    form.resetForm({ values: { ...savedEntity } })
+    form.setValues({ ...savedEntity })
+    logger.debug('Form reset after save', { entityId })
+  }
+
+  const handleSave = async (): Promise<void> => {
+    logger.debug('Save triggered', {
+      entityKey,
+      entityId,
+      isDirty: form.meta.value.dirty,
+      formValues: Object.keys(form.values ?? {}),
+    })
+    await _handleSave()
+    await nextTick()
+    if (!isNew) resetFormWithSavedEntity()
+    unifiedSaveState.resetSaveState()
+  }
+
+  const handleUndo = (): void => {
+    _handleUndo()
+    unifiedSaveState.resetSaveState()
+  }
+
+  return { resetFormWithSavedEntity, handleSave, handleUndo }
+}

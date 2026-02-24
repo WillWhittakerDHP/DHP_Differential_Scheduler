@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express'
 import Joi from 'joi'
 import { getTokens, setCredentials, saveTokensToFile } from '../../config/googleOAuth.js'
 import { createLogger } from '../../utils/logger.js'
+import { isProduction } from '../../utils/envHelpers.js' // NODE_ENV production: error message not sent to client
 import {
   OAUTH_ERROR_MESSAGES,
   OAUTH_SUCCESS_MESSAGES,
@@ -86,12 +87,13 @@ router.get(ROUTE_PATHS.OAUTH_CALLBACK, async (req: Request, res: Response) => {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR;
     const stack = error instanceof Error ? error.stack : undefined;
-    logger.error('Error in callback:', error)
-    logger.error('Error stack:', stack)
+    logger.error('Error in callback:', error);
+    if (!isProduction()) logger.error('Error stack:', stack);
+    const safeMessage = isProduction() ? OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR : (message || OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR);
     res.status(500).json({
       error: OAUTH_ERROR_MESSAGES.AUTHENTICATION_FAILED,
-      message: message || OAUTH_ERROR_MESSAGES.UNEXPECTED_ERROR,
-    })
+      message: safeMessage,
+    });
   }
 })
 
