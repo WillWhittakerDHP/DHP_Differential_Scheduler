@@ -4,5 +4,5 @@ phase.id=6.3
 phase.name=Guide: Confirmation Routine
 session.id=6.3.2
 session.name=Admin Confirmation Action & Auto-Confirm
-task.id=
-task.name=
+task.id=6.3.2.4
+task.name=Server auto-confirm logic

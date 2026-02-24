@@ -21,6 +21,7 @@ import {
   shouldCreateCalendarEvent,
   getCalendarIdForAppointment,
   getHoldDurationDefaultFromSettings,
+  getAutoConfirmEnabledFromSettings,
   type AttendeeRequest,
 } from './appointmentHelpers.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
@@ -216,6 +217,19 @@ const router = createCrudRouter({
     await createAttendeeRecords(record.id, attendeesData)
 
     await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)
+
+    // Task 6.3.2.4: Auto-confirm when setting is enabled and appointment was created as submitted
+    if (record.status === 'submitted') {
+      const autoConfirmEnabled = await getAutoConfirmEnabledFromSettings()
+      if (autoConfirmEnabled) {
+        await record.update({
+          status: 'confirmed',
+          confirmedAt: new Date(),
+          confirmedBy: null,
+        })
+        logger.info(`Auto-confirmed appointment ${record.id} (submitted → confirmed)`)
+      }
+    }
 
     if (shouldCreateCalendarEvent(record.status)) {
       try {

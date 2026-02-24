@@ -41,6 +41,18 @@ export async function getHoldDurationDefaultFromSettings(): Promise<number> {
   return Math.min(HOLD_DURATION_MAX, Math.max(HOLD_DURATION_MIN, parsed))
 }
 
+/**
+ * Task 6.3.2.3/6.3.2.4: Whether to auto-confirm appointments created with status 'submitted'.
+ * Reads the availability_settings row's auto_confirm_enabled column (default false).
+ */
+export async function getAutoConfirmEnabledFromSettings(): Promise<boolean> {
+  const setting = await BusinessSettings.findOne({
+    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
+    attributes: ['autoConfirmEnabled'],
+  })
+  return setting?.autoConfirmEnabled === true
+}
+
 export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
   try {
     const setting = await BusinessSettings.findOne({
