@@ -2,16 +2,10 @@
  * WHY: Entity Card Expansion State Management
 WHY: Encapsulates expansion state...
  */
-import { ref, computed, watch, isRef, type Ref, type ComputedRef } from 'vue'
+import { ref, computed, watch, isRef } from 'vue'
+import type { UseEntityCardExpansionOptions, UseEntityCardExpansionReturn } from '@/types/admin/entityCardExpansion'
 
-export interface UseEntityCardExpansionOptions {
-  expanded: Ref<boolean> | boolean
-}
-
-export interface UseEntityCardExpansionReturn {
-  isExpanded: ComputedRef<boolean>
-  handleExpansionChange: (event: { value: boolean }) => void
-}
+export type { UseEntityCardExpansionOptions, UseEntityCardExpansionReturn } from '@/types/admin/entityCardExpansion'
 
 export function useEntityCardExpansion(
   options: UseEntityCardExpansionOptions

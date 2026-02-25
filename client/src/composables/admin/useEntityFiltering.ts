@@ -3,14 +3,12 @@
 
 PATTERN: Generic composable that works fo...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityFilteringReturn } from '@/types/admin/entityFiltering'
 
-export interface UseEntityFilteringReturn<EntityKey extends GlobalEntityKey> {
-  filteredEntities: ComputedRef<GlobalEntity<EntityKey>[]>
-}
+export type { UseEntityFilteringReturn } from '@/types/admin/entityFiltering'
 
 /**
  * WHY: useEntityFiltering composable

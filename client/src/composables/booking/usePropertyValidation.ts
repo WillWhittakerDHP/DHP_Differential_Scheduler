@@ -2,41 +2,15 @@
  * usePropertyValidation Composable
  * 
  */
-
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
-import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
+import type { ValidationRule } from '@/types/formValidation'
+import { useStepValidation } from './useStepValidation'
 import { PROPERTY_VALIDATION_STRINGS } from '@/configs/propertyValidationStrings'
+import type { UsePropertyValidationParams, UsePropertyValidationReturn } from '@/types/booking/propertyValidation'
 
-export interface PropertyFormData {
-  address: string
-  city: string
-  state: string
-  zipCode: string
-  propertySize: number | null
-  numberOfUnits: number | null
-}
+export type { PropertyValidationData, UsePropertyValidationParams, UsePropertyValidationReturn } from '@/types/booking/propertyValidation'
 
-export interface UsePropertyValidationParams {
-  formData: {
-    address: Ref<string>
-    city: Ref<string>
-    state: Ref<string>
-    zipCode: Ref<string>
-    propertySize: Ref<number | null>
-    numberOfUnits: Ref<number | null>
-  }
-  isMultiFamily: ComputedRef<boolean>
-  hasPropertyTypeBlock: ComputedRef<boolean>
-}
-
-export type UsePropertyValidationReturn = UseStepValidationReturn
-
-/**
- * usePropertyValidation composable
- * 
- */
 export function usePropertyValidation(params: UsePropertyValidationParams): UsePropertyValidationReturn {
   const {
     formData,

@@ -146,6 +146,7 @@ import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
 import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
 import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
+import { useSelectGroupedByKey } from '@/composables/admin/useSelectGroupedByKey'
 import { useSelectEnumOptions } from '@/composables/admin/useSelectEnumOptions'
 import { useSelectChipRender } from '@/composables/admin/useSelectChipRender'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
@@ -293,12 +294,8 @@ const {
 
 // LEARNING: Use select DOM targets composable
 // PATTERN: Composable provides DOM targets for form association
-// LEARNING: Convert Ref to ComputedRef and GroupedEntities[] to SelectGroup[]
 const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
-const groupedByKeyComputed = computed(() => groupedByKey.value.map(group => ({
-  groupKey: group.groupKey,
-  groupLabel: group.groupLabel
-})))
+const { groupedByKeyComputed } = useSelectGroupedByKey(groupedByKey)
 const { selectDomTargets } = useSelectDomTargets({
   fieldContext,
   shouldUseMultipleSelects: shouldUseMultipleSelectsComputed,

@@ -4,25 +4,13 @@
 PATTERN: Composable that provides reacti...
  */
 import { computed, type ComputedRef } from 'vue'
-import type { AppointmentSlots, TimeSlot, TimeRange } from '@/types/appointment'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { transformToMajorPerspective, transformToMinorPerspective } from '@/utils/differentialScheduling'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { TimeSlot } from '@/types/appointment'
+import type { UseAppointmentTimesParams, UseAppointmentTimesReturn } from '@/types/booking/appointmentTimes'
 
-export interface UseAppointmentTimesParams {
-  blockInstances: ComputedRef<BookingBlockInstance[]> | BookingBlockInstance[]
-  baseStartTime?: ComputedRef<string | null> | string | null
-  isDifferentialService: ComputedRef<boolean> | boolean
-}
-
-export interface UseAppointmentTimesReturn {
-  appointmentSlots: ComputedRef<AppointmentSlots>
-  majorTimeSlots: ComputedRef<TimeSlot[]>  // Major time slots
-  minorTimeSlots: ComputedRef<TimeSlot[]>  // Minor time slots
-  getMajorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get major time slot
-  getMinorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get minor time slot
-}
+export type { UseAppointmentTimesParams, UseAppointmentTimesReturn } from '@/types/booking/appointmentTimes'
 
 /**
  * PATTERN: useAppointmentTimes composable

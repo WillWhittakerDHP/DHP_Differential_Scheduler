@@ -3,10 +3,9 @@
  * WHY: Replaces repeated "toAdd = new.filter(n => !oldSet.has(n)); toRemove = old.filter(o => !newSet.has(o))" patterns.
  */
 
-export interface ArrayDiffResult<T> {
-  toAdd: T[]
-  toRemove: T[]
-}
+import type { ArrayDiffResult } from '@/types/collections/arrayDiff'
+
+export type { ArrayDiffResult } from '@/types/collections/arrayDiff'
 
 export function calculateArrayDiff<T>(
   oldValues: T[],

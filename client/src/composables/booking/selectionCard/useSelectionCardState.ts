@@ -3,8 +3,8 @@
 
 LEARNING: Extracts selection state man...
  */
-import { computed, watch, ref, type ComputedRef } from 'vue'
-import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
+import { computed, watch, ref } from 'vue'
+import type { StatePlugin } from '@/components/booking/types/selectionCardTypes'
 import { createLocalStatePlugin } from '@/components/booking/plugins/localStatePlugin'
 import {
   getFirstStatePlugin,
@@ -12,19 +12,9 @@ import {
   isSelectionCardItemSelected,
   isSelectionCardItemSelectedByPlugin,
 } from '@/utils/booking/selectionCardState'
+import type { UseSelectionCardStateParams, UseSelectionCardStateReturn } from '@/types/booking/selectionCard/selectionCardState'
 
-export interface UseSelectionCardStateParams {
-  item: ComputedRef<SelectionCardItem>
-  modelValue: ComputedRef<string | null | string[]>
-  configWithDefaults: ComputedRef<{ stateSource?: string; statePlugins?: StatePlugin[] }>
-  emit: (event: 'update:modelValue', value: string | null | string[]) => void
-}
-
-export interface UseSelectionCardStateReturn {
-  activeStatePlugin: ComputedRef<StatePlugin | null>
-  isSelected: ComputedRef<boolean>
-  pluginWatchSource: ComputedRef<unknown>
-}
+export type { UseSelectionCardStateParams, UseSelectionCardStateReturn } from '@/types/booking/selectionCard/selectionCardState'
 
 /**
  * WHY: useSelectionCardState composable

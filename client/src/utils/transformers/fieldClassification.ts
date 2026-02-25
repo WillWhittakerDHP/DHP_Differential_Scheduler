@@ -3,13 +3,9 @@ import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { safeArray } from './transformerPrimitives'
+import type { DehydrateFieldSets } from '@/types/transformers/fieldClassification'
 
-export type DehydrateFieldSets = {
-  requiredFields: Set<string>
-  nullableBooleanFields: Set<string>
-  nonNullableBooleanFields: Set<string>
-  requiredNumberFields: Set<string>
-}
+export type { DehydrateFieldSets } from '@/types/transformers/fieldClassification'
 
 function isReferenceField(
   frontendKey: string,

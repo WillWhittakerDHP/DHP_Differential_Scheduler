@@ -3,33 +3,20 @@
 
 WHY: Moves appointment submission orches...
  */
-import { type Ref } from 'vue'
-import type { AppointmentRequest } from '@/types/appointment'
 import { ERROR_CREATE_APPOINTMENT } from '@/constants/errorMessages'
 import { createLogger } from '@/utils/logger'
+import type {
+  UseWizardSubmissionParams,
+  UseWizardSubmissionReturn,
+} from '@/types/booking/wizardSubmission'
+
+export type {
+  UseWizardSubmissionParams,
+  UseWizardSubmissionReturn,
+} from '@/types/booking/wizardSubmission'
 
 const logger = createLogger('useWizardSubmission')
 
-export interface UseWizardSubmissionParams {
-  collectAppointmentData: () => Promise<AppointmentRequest | null>
-  createAppointment: {
-    mutateAsync: (data: AppointmentRequest) => Promise<unknown>
-  }
-  activeStep: Ref<number>
-  completedSteps: Ref<Set<number>>
-  showError: (message: string) => void
-  success: (message: string) => void
-}
-
-export interface UseWizardSubmissionReturn {
-  handleSubmit: () => Promise<void>
-}
-
-/**
- * WHY: useWizardSubmission composable
-
-WHY: Extracts submission logic from comp...
- */
 export function useWizardSubmission(
   params: UseWizardSubmissionParams
 ): UseWizardSubmissionReturn {

@@ -1,8 +1,6 @@
-
-import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import type {
   Constraint,
@@ -12,6 +10,9 @@ import type {
 } from '@shared/types/availabilityTypes'
 import { fetchComputedAvailabilityData } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
+import type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
+
+export type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 
 const logger = createLogger('useComputedAvailability')
 
@@ -25,32 +26,6 @@ function getPrefetchDateRange(): { start: RFC3339DateTime; end: RFC3339DateTime 
     start: start.toISOString() as RFC3339DateTime,
     end: end.toISOString() as RFC3339DateTime,
   }
-}
-
-export interface UseComputedAvailabilityParams {
-  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-  dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
-  activeStep: Ref<number>
-  duration?: Ref<number | null>
-  /** When user picks a day; if not in cache, we fetch that day ±1 and merge */
-  selectedDate?: Ref<string | null>
-  /**
-   * Controls which external APIs the server calls:
-   * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity
-   * - 'mock': Settings + constraints only — no Google API calls (dev without credentials)
-   * - 'none': Minimal response — settings metadata only, empty slots/events (pure UI dev)
-   */
-  dataSource?: Ref<'real' | 'mock' | 'none'>
-}
-
-export interface UseComputedAvailabilityReturn {
-  calendarEvents: Ref<CalendarEvent[]>
-  /** Cached slots by date key (YYYY-MM-DD); merge from each fetch */
-  slotsByDay: Ref<Map<string, ComputedSlot[]>>
-  constraints: Ref<Constraint[]>
-  computedData: ComputedRef<ComputedSlotAvailabilityData | null>
-  isLoading: Ref<boolean>
-  error: Ref<Error | null>
 }
 
 export function useComputedAvailability(

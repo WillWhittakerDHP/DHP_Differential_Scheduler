@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-02-23T21:42:50.662Z",
-  "totalScanned": 797,
+  "generatedAt": "2026-02-25T01:18:55.775Z",
+  "totalScanned": 1057,
   "exceptionSummary": {
-    "totalAllowed": 76,
+    "totalAllowed": 71,
     "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
-      "pattern": 75,
+      "pattern": 70,
       "specific": 1,
       "linePattern": 0
     }
@@ -33,93 +33,11 @@
   ],
   "scanned": [
     {
-      "repoPath": "client/src/composables/admin/tables/useAppointmentAttendees.ts",
+      "repoPath": "client/src/composables/admin/useAdminAvailabilitySettings.ts",
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 18,
-          "line": "export function attendeesFromClientAndAgent(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 31,
-          "line": "export function getClientIdFromAttendees(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 36,
-          "line": "export function getAgentIdFromAttendees(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 41,
-          "line": "export function getClientAttendee(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 45,
-          "line": "export function getAgentAttendee(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/admin/tables/useAppointmentHelpers.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 1,
-          "line": "export function getStatusColor(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 15,
-          "line": "export function getRoleColor(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/admin/tables/useTableModelHelpers.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 11,
-          "line": "export function formatNullValue(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 25,
+          "lineNumber": 27,
           "line": "export function calculateMaxBusinessHours(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -175,11 +93,33 @@
       "requiresReview": []
     },
     {
+      "repoPath": "client/src/composables/admin/useFormElementPatching.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 25,
+          "line": "export function tryPatchFormImmediatelyBySelector(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 74,
+          "line": "export function setupFormMutationObserver(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
       "repoPath": "client/src/composables/admin/useMetadataCache.ts",
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 150,
+          "lineNumber": 139,
           "line": "export function resetMetadataCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -207,8 +147,24 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 34,
+          "lineNumber": 29,
           "line": "export function computeMoveableSlots(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 59,
+          "line": "export function computeOuterBoundary(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 85,
+          "line": "export function extractInnerBoundary(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
           "suppressionStatus": "suppressedByPattern"
@@ -221,8 +177,36 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 22,
+          "lineNumber": 18,
           "line": "export function collectErrors(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "client/src/composables/booking/useTimeSlotMatching.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 15,
+          "line": "export function matchLoadedTimeSlots(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "client/src/composables/booking/useWizardStepContent.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 9,
+          "line": "export function getBookingWizardStepContent(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
           "suppressionStatus": "suppressedByPattern"
@@ -249,7 +233,7 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 3,
+          "lineNumber": 5,
           "line": "export function createRefetchGlobalDataHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -257,7 +241,7 @@
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 36,
+          "lineNumber": 32,
           "line": "export function createRefetchQueriesHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -265,7 +249,7 @@
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 60,
+          "lineNumber": 56,
           "line": "export function createRestorePreviousDataHandler(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -337,36 +321,6 @@
           "ruleId": "composableExport",
           "lineNumber": 1,
           "line": "export function getApiErrorMessage(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/useLocalTime.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 21,
-          "line": "export function rfc3339ToLocalHHmm(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 158,
-          "line": "export function extractBusinessHoursMinutes(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        },
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 172,
-          "line": "export function rfc3339ToLocalMinutesFromMidnight(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
           "suppressionStatus": "suppressedByPattern"
@@ -485,7 +439,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 93,
+          "lineNumber": 95,
           "line": "export function BusinessSettingsFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
@@ -709,7 +663,7 @@
       "allowed": [
         {
           "ruleId": "functionExport",
-          "lineNumber": 62,
+          "lineNumber": 68,
           "line": "export function AppointmentFactory(",
           "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",

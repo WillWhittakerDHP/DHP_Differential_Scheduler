@@ -38,7 +38,7 @@
 <script setup lang="ts">
 /**
  */
-import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
+import { computed, toRef, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
 import RelationshipCollection from '../collections/RelationshipCollection.vue'
@@ -48,6 +48,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldComponent } from '@/composables/admin/useFieldComponent'
+import { useFieldRendererErrorWatch } from '@/composables/admin/useFieldRendererErrorWatch'
 import { useFieldRendererComponent } from '@/composables/admin/useFieldRendererComponent'
 import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -184,48 +185,16 @@ const {
   hasFieldContext: computed(() => !!effectiveFieldContext.value)
 })
 
-watch(
+useFieldRendererErrorWatch({
   shouldShowError,
-  (showError) => {
-    if (!showError || !effectiveFieldContext.value) {
-      return
-    }
-    
-    const componentType = fieldComponent.componentType.value
-    const componentMapEntry = componentMap[componentType?.type]
-    const hasComponent = componentMapEntry !== null && componentMapEntry !== undefined
-    const metadataEntry = fieldComponent.fieldMetadataEntry.value
-    const reason = 'reason' in componentType ? componentType.reason : 'unknown'
-    
-    // PATTERN: Structured error logging with all relevant context
-    logger.error('Unknown input type detected', {
-      componentType: componentType.type,
-      reason: reason,
-      fullComponentType: componentType,
-      fieldKey: fieldKey.value,
-      entityKey: entityKey.value,
-      entityId: fieldContext.value?.entityId,
-      fieldMetadataEntry: metadataEntry,
-      renderAs: metadataEntry?.renderAs,
-      dataType: metadataEntry?.dataType,
-      inputConfig: metadataEntry?.inputConfig,
-      fieldContext: {
-        entityKey: fieldContext.value?.entityKey,
-        entityId: fieldContext.value?.entityId,
-        fieldKey: fieldContext.value?.fieldKey
-      },
-      componentMapHasEntry: hasComponent,
-      componentMapEntry,
-      componentMapKeys: Object.keys(componentMap),
-      suggestedFix: reason === 'notConfigured' 
-        ? 'Add field metadata at /admin-input-metadata or /admin-relationship-metadata'
-        : reason === 'invalidRenderAs'
-        ? `Check renderAs value in metadata. Expected: text, number, statusButton, iconSelect, select, multiselect, reference. Found: ${metadataEntry?.renderAs !== undefined && metadataEntry?.renderAs !== null ? metadataEntry.renderAs : 'undefined'}`
-        : 'Unknown error - check field metadata configuration'
-    })
-  },
-  { immediate: true }
-)
+  effectiveFieldContext,
+  fieldComponent,
+  fieldKey,
+  entityKey,
+  fieldContext,
+  componentMap,
+  logger
+})
 </script>
 
 <style scoped>

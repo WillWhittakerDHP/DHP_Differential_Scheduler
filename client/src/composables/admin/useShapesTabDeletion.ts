@@ -2,14 +2,13 @@
  * PATTERN: Deletion and save handlers for Shapes tab (no-op deletes; collapse on save).
  * WHY: Keeps ShapesTab.vue under vue-architecture limits (script size, function count).
  */
-import type { Ref } from 'vue'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { ShapesTabBaseParams } from '@/types/admin/shapesTabDeletion'
 
-export interface UseShapesTabDeletionParams {
-  expandedShapes: Ref<string[]>
-}
+export type { ShapesTabBaseParams } from '@/types/admin/shapesTabDeletion'
 
-export function useShapesTabDeletion(params: UseShapesTabDeletionParams) {
+export function useShapesTabDeletion(params: ShapesTabBaseParams) {
   const { expandedShapes } = params
 
   const handleDeletePartShape = (_id: string): void => {

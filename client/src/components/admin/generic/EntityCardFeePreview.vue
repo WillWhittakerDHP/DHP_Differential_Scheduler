@@ -71,65 +71,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { usePartsTotals } from '@/composables/admin/usePartsTotals'
+import { useFeePreview } from '@/composables/admin/useFeePreview'
+import type { EntityCardSharedProps } from './entityCardConstants'
 
-const SQFT_RANGE = [0, 1000, 2000, 3000, 4000, 5000] as const
 const CHART_WIDTH = 280
 const CHART_HEIGHT = 90
 const PAD = { left: 32, right: 12, top: 8, bottom: 20 }
-const PLOT_WIDTH = CHART_WIDTH - PAD.left - PAD.right
-const PLOT_HEIGHT = CHART_HEIGHT - PAD.top - PAD.bottom
-const LINE_COLOR = 'rgb(var(--v-theme-primary))'
-
-import type { EntityCardSharedProps } from './entityCardConstants'
 
 type Props = EntityCardSharedProps
-
 const props = defineProps<Props>()
 
-const {
-  canHaveParts,
+const { canHaveParts, totalBaseFee, totalRateOverBaseFee } = usePartsTotals(props.entityKey, props.entityId)
+const showPreview = computed(() => props.entityKey === 'blockInstance' && canHaveParts.value)
+const { sqftInput, computedCost, svgLine } = useFeePreview({
   totalBaseFee,
   totalRateOverBaseFee,
-} = usePartsTotals(props.entityKey, props.entityId)
-
-const showPreview = computed(
-  () => props.entityKey === 'blockInstance' && canHaveParts.value
-)
-
-const sqftInput = ref(2000)
-
-watch(sqftInput, (val) => {
-  const n = typeof val === 'number' ? val : Number(val)
-  if (!Number.isNaN(n) && n < 0) {
-    sqftInput.value = 0
-  }
-})
-
-const computedCost = computed(() => {
-  const base = totalBaseFee.value
-  const rate = totalRateOverBaseFee.value
-  const sqft = Math.max(0, Number(sqftInput.value) || 0)
-  return base + rate * sqft
-})
-
-const svgLine = computed(() => {
-  if (!showPreview.value) {
-    return { points: '', color: LINE_COLOR }
-  }
-  const base = totalBaseFee.value
-  const rate = totalRateOverBaseFee.value
-  const values = SQFT_RANGE.map(sqft => base + rate * sqft)
-  const yMax = Math.max(1, ...values)
-  const yScale = (v: number) =>
-    PAD.top + PLOT_HEIGHT - (v / yMax) * PLOT_HEIGHT
-  const xScale = (i: number) =>
-    PAD.left + (i / Math.max(1, SQFT_RANGE.length - 1)) * PLOT_WIDTH
-  const points = values
-    .map((val, i) => `${xScale(i)},${yScale(val)}`)
-    .join(' ')
-  return { points, color: LINE_COLOR }
+  showPreview,
 })
 
 function formatCurrency(amount: number): string {

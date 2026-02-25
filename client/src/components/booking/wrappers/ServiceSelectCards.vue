@@ -9,6 +9,7 @@ import type { SelectionCardConfig } from '../types/selectionCardTypes'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
+import { useServiceSelectMapper } from '@/composables/booking/useServiceSelectMapper'
 
 interface Props {
   config?: Partial<SelectionCardConfig>
@@ -57,9 +58,10 @@ const mergedConfig = computed<SelectionCardConfig>(() => {
   return baseConfig
 })
 
+const selectedIdsFromMapper = useServiceSelectMapper(computed(() => wizard.selectedServiceTypeBlocks.value))
 // WHY: UI behaves as single-select but stored as array for consistency
 const selectedIds = computed<string[]>({
-  get: () => wizard.selectedServiceTypeBlocks.value.map(s => s.id),
+  get: () => selectedIdsFromMapper.value,
   set: (ids: string[]) => {
     if (ids.length === 0) {
       if (wizard.selectedServiceTypeBlocks.value.length > 0) {

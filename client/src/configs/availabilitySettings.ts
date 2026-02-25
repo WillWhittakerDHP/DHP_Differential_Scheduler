@@ -2,7 +2,7 @@
 WHY: Ce...
  */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 import type {
@@ -54,6 +54,9 @@ export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
   holdDurationMax: 60,
   holdDurationFallback: 15
 }
+
+/** Fallback minor perspective event name when differentialPerspectives.minorLabel is not set (e.g. "Minor"). */
+export const DEFAULT_MINOR_EVENT_NAME = 'Minor'
 
 /**
  * Availability settings interface

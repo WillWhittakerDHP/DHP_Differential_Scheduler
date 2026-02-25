@@ -1,13 +1,11 @@
-import { computed, type ComputedRef } from 'vue'
-import { toGlobalEntityId } from '@/types/entities'
+import { computed } from 'vue'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { InstanceComponent } from '@/types/component'
 import type { GlobalRelationship } from '@/types/relationships'
+import type { UseComponentEntityQueryReturn } from '@/types/componentEntity/componentEntityQuery'
 import { useGlobal } from '../useGlobal'
 
-export type UseComponentEntityQueryReturn = {
-  instanceComponents: ComputedRef<InstanceComponent[]>
-  getGlobalData: ReturnType<typeof useGlobal>['getGlobalData']
-}
+export type { UseComponentEntityQueryReturn } from '@/types/componentEntity/componentEntityQuery'
 
 function transformGlobalRelationshipsToInstanceComponents(relationships: GlobalRelationship[]): InstanceComponent[] {
   const instanceComponents: InstanceComponent[] = []

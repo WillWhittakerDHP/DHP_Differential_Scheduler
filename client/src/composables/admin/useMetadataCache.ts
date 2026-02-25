@@ -13,20 +13,9 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed, ref } from 'vue'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { MetadataCache, MetadataEntityType } from '@/types/admin/metadataCache'
 
-export interface MetadataCache {
-  global: {
-    blockShape: Record<string, FieldMetadataEntry>
-    partShape: Record<string, FieldMetadataEntry>
-    blockInstance: Record<string, FieldMetadataEntry>
-    partInstance: Record<string, FieldMetadataEntry>
-    eventShape: Record<string, FieldMetadataEntry>
-    eventInstance: Record<string, FieldMetadataEntry>
-    annotationShape: Record<string, FieldMetadataEntry>
-    annotationInstance: Record<string, FieldMetadataEntry>
-  }
-  blockShapeSpecific: Record<string, Record<string, FieldMetadataEntry>>
-}
+export type { MetadataCache, UseMetadataCacheReturn } from '@/types/admin/metadataCache'
 
 let metadataCacheInstance: ReturnType<typeof createMetadataCacheInstance> | null = null
 
@@ -75,7 +64,7 @@ PATTERN: Enable query synchronously, Vue Q...
    * @returns Record<fieldKey, FieldMetadataEntry>
    */
   function getMetadata(
-    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
+    entityType: MetadataEntityType,
     blockShapeRef?: string | null
   ): Record<string, FieldMetadataEntry> {
     const data = metadataQuery.data.value
@@ -96,7 +85,7 @@ PATTERN: Enable query synchronously, Vue Q...
   }
   
   function getFieldMetadata(
-    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
+    entityType: MetadataEntityType,
     fieldKey: string,
     blockShapeRef?: string | null
   ): FieldMetadataEntry | undefined {

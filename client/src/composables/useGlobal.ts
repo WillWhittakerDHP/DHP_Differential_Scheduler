@@ -1,7 +1,6 @@
 /**
- * PATTERN: Global Entity Composable
-
-PATTERN: Composable that reads from Vue Query ...
+ * PATTERN: Global Entity Composable — reads from Vue Query.
+ * WHY: attachDebugToWindow is dev-only debug tooling; SSR-safe via utility guard. Not a production side effect.
  */
 import { useQuery } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'

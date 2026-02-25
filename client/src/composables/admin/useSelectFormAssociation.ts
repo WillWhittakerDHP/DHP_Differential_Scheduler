@@ -1,10 +1,8 @@
-import { nextTick, onMounted, watch, type ComputedRef } from 'vue'
-import { patchSelectDomTargets, type SelectDomTarget } from '@/utils/forms/selectDomAssociation'
+import { nextTick, onMounted, watch } from 'vue'
+import { patchSelectDomTargets } from '@/utils/forms/selectDomAssociation'
+import type { UseSelectFormAssociationOptions } from '@/types/admin/selectFormAssociation'
 
-
-export interface UseSelectFormAssociationOptions {
-  targets: ComputedRef<SelectDomTarget[]>
-}
+export type { UseSelectFormAssociationOptions } from '@/types/admin/selectFormAssociation'
 
 export function useSelectFormAssociation(options: UseSelectFormAssociationOptions): void {
   const { targets } = options

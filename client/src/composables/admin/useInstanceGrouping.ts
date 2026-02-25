@@ -3,28 +3,13 @@
 
 WHY: Components should be thin UI wrappers...
  */
-import { computed, watch, type ComputedRef, type Ref } from 'vue'
+import { computed, watch } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
+import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
-export interface UseInstanceGroupingOptions {
-  activeTab?: Ref<string>
-}
-
-export interface UseInstanceGroupingReturn {
-  sortedBlockShapes: ComputedRef<GlobalEntity<'blockShape'>[]>
-  
-  blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  
-  blockInstancesCountByShape: ComputedRef<Map<string, number>>
-  
-  blockShapeComposable: ComputedRef<Map<string, boolean>>
-  
-  blockShapeStateControl: ComputedRef<Map<string, boolean>>
-  
-  blockShapeValidCascades: ComputedRef<Map<string, string[]>>
-}
+export type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
 /**
  * WHY: Instance Grouping Composable

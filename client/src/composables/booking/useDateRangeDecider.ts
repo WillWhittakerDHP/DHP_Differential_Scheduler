@@ -1,11 +1,8 @@
-
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
+import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 
-export interface DisplayedMonth {
-  year: number
-  month: number // 0-11 (0 = January)
-}
+export type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 
 export function useDateRangeDecider(
   displayedMonth?: Ref<DisplayedMonth> | ComputedRef<DisplayedMonth>

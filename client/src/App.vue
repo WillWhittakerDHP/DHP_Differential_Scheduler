@@ -46,7 +46,7 @@
 <script setup lang="ts">
 
 import { useTheme } from 'vuetify'
-import { ref, provide, computed, type Ref, type ComputedRef } from 'vue'
+import { ref, provide, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import AppNotification from '@/components/AppNotification.vue'
 import DevPanelToggle from '@/components/booking/dev/DevPanelToggle.vue'
@@ -56,8 +56,7 @@ import { isDevModeEnabled } from '@/utils/env/devMode'
 import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'
 import { hexToRgb } from '@core/utils/colorConverter'
-import type { AppointmentResponse } from '@/types/appointment'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
 
 const { global } = useTheme()
 const route = useRoute()
@@ -97,17 +96,7 @@ const handleApiPanelToggle = (): void => {
   apiDevPanelVisible.value = !apiDevPanelVisible.value
 }
 
-const devPanelButtons = ref<{
-  selectedAppointmentId: Ref<string | null>
-  appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-  loadedAppointmentId: Ref<string | null>
-  isLoadingAppointment: Ref<boolean>
-  fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
-  handleLoadAppointment: (id: string | null) => Promise<void>
-  handleResetWizard: () => void
-  handleResetMocks: () => void
-  wizard: ReturnType<typeof useBookingWizard> | null
-} | null>(null)
+const devPanelButtons = ref<DevPanelButtonsContext | null>(null)
 provide('devPanelButtons', devPanelButtons)
 </script>
 

@@ -4,47 +4,25 @@
  * PATTERN: useAddressAutocomplete(options) returns reactive state and methods; component binds to template and emits.
  */
 
-import { ref, watch, type Ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 import {
   fetchAutocompleteSuggestions,
   fetchPlaceDetails,
   type AutocompletePrediction,
-  type PlaceDetails,
-  type Coordinates,
   MapsApiError,
 } from '@/services/mapsApiService'
 import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
 import { createLogger } from '@/utils/logger'
+import type {
+  SelectionResult,
+  UseAddressAutocompleteOptions,
+  UseAddressAutocompleteReturn,
+} from '@/types/addressAutocomplete'
+
+export type { SelectionResult, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn } from '@/types/addressAutocomplete'
 
 const logger = createLogger('useAddressAutocomplete')
-
-export type SelectionResult =
-  | { kind: 'cleared' }
-  | { kind: 'synthetic' }
-  | { kind: 'place'; description: string; placeId: string; coordinates?: Coordinates; details: PlaceDetails }
-  | { kind: 'error'; error: MapsApiError }
-
-export interface UseAddressAutocompleteOptions {
-  modelValue: () => string
-  placeId: () => string | undefined
-  minInputLength: () => number
-  debounceMs: () => number
-}
-
-export interface UseAddressAutocompleteReturn {
-  searchInput: Ref<string>
-  selectedAddress: Ref<AutocompletePrediction | null>
-  suggestions: Ref<AutocompletePrediction[]>
-  isLoading: Ref<boolean>
-  errorMessage: Ref<string>
-  hasInitialAddressFromProps: Ref<boolean>
-  fetchSuggestions: (input: string) => void
-  selectPlace: (selection: AutocompletePrediction | null) => Promise<SelectionResult>
-  clearSuggestions: () => void
-  clearError: () => void
-  clearInitialFromProps: () => void
-}
 
 export function useAddressAutocomplete(
   options: UseAddressAutocompleteOptions
@@ -181,6 +159,54 @@ export function useAddressAutocomplete(
     hasInitialAddressFromProps.value = false
   }
 
+  async function handleSearchUpdate(value: string | null): Promise<void> {
+    const input = value !== undefined && value !== null && value !== '' ? value : ''
+    if (input.length >= options.minInputLength()) {
+      try {
+        await getToken()
+        logger.debug('[handleSearchUpdate] Got session token (lazy-loaded)')
+      } catch (error) {
+        logger.warn('[handleSearchUpdate] Failed to get token:', error)
+      }
+    }
+    if (!selectedAddress.value || selectedAddress.value.description !== input) {
+      const isUserTyping = input !== options.modelValue()
+      if (isUserTyping && options.emit) {
+        clearInitialFromProps()
+        options.emit['update:modelValue'](input)
+        options.emit['update:coordinates'](undefined)
+        options.emit['update:placeId'](undefined)
+      }
+    }
+    if (input.length >= options.minInputLength()) {
+      fetchSuggestions(input)
+    } else {
+      suggestions.value = []
+    }
+  }
+
+  async function handleSelectionChange(selection: AutocompletePrediction | null): Promise<void> {
+    const result = await selectPlace(selection)
+    const emit = options.emit
+    if (!emit) return
+    if (result.kind === 'cleared') {
+      emit['update:modelValue']('')
+      emit['update:coordinates'](undefined)
+      emit['update:placeId'](undefined)
+      return
+    }
+    if (result.kind === 'synthetic') return
+    if (result.kind === 'place') {
+      emit['update:modelValue'](result.description)
+      emit['update:placeId'](result.placeId)
+      emit['update:coordinates'](result.coordinates)
+      emit['place-selected'](result.details)
+      return
+    }
+    emit.error(result.error)
+    emit['update:coordinates'](undefined)
+  }
+
   return {
     searchInput,
     selectedAddress,
@@ -193,5 +219,7 @@ export function useAddressAutocomplete(
     clearSuggestions,
     clearError,
     clearInitialFromProps,
+    handleSearchUpdate,
+    handleSelectionChange,
   }
 }

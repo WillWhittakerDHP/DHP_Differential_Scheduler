@@ -66,7 +66,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { TernaryBoolean } from '@/types/ternary'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { createLogger } from '@/utils/logger'
@@ -144,6 +145,7 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
 })
 
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { buildBulkEditDataFromForm } from '@/utils/admin/instanceBulkEdit'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: blockInstanceMetadata } = useEntityMetadata('blockInstance', templateEntity)
 
@@ -171,22 +173,10 @@ function handleApply() {
   if (!entityCardRef.value?.form) {
     return
   }
-  
-  const formValues = entityCardRef.value.form.values
-  
-  // WHY: Use filteredMetadata as source of truth for which fields to extract
-  // PATTERN: Use reduce instead of forEach + property assignment - functional approach
-  const bulkEditData: Record<string, number | null | undefined> = Object.keys(filteredMetadata.value).reduce((acc, field) => {
-    const value = (formValues as Record<string, unknown>)[field]
-    if (value !== null && value !== undefined && value !== '') {
-      const numericValue = Number(value)
-      if (!isNaN(numericValue)) {
-        acc[field] = numericValue
-      }
-    }
-    return acc
-  }, {} as Record<string, number | null | undefined>)
-  
+  const bulkEditData = buildBulkEditDataFromForm(
+    Object.keys(filteredMetadata.value),
+    entityCardRef.value.form.values as Record<string, unknown>
+  )
   emit('confirm', bulkEditData)
   updateModelValue(false)
 }

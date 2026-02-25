@@ -68,9 +68,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import type { PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
+import {
+  usePartInstanceBulkEdit,
+  type PartInstanceBulkEditData,
+} from '@/composables/admin/usePartInstanceBulkEdit'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
@@ -105,23 +109,13 @@ const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const { globalData } = useGlobal()
 const { entities: partInstances } = useEntityCrud('partInstance')
 
-const firstPartInstanceForMetadata = computed(() => {
-  const raw = globalData.value?.relationships?.partAssignments
-  if (raw === undefined || raw === null) {
-    logger.debug('firstPartInstanceForMetadata: partAssignments missing, using []')
-  }
-  const relationships = raw !== undefined && raw !== null ? raw : []
-  const constituentIds = new Set(
-    relationships
-      .filter(rel => rel.parent.id === props.blockInstanceId)
-      .flatMap(rel => rel.children.map(child => child.id))
-  )
+const partAssignments = computed(() => globalData.value?.relationships?.partAssignments ?? null)
 
-  const instances = partInstances.value.filter(pi => constituentIds.has(pi.id))
-  
-  if (instances.length === 0) return null
-  
-  return instances[0]
+const { firstPartInstanceForMetadata, buildBulkEditDataFromForm } = usePartInstanceBulkEdit({
+  blockInstanceId: props.blockInstanceId,
+  partInstances,
+  partAssignments,
+  logger,
 })
 
 const partShapeRef = computed(() => {
@@ -200,22 +194,10 @@ function handleApply() {
   if (!entityCardRef.value?.form) {
     return
   }
-  
-  const formValues = entityCardRef.value.form.values
-  
-  // WHY: Functional approach - build object without mutations
-  // PATTERN: Reduce to transform filteredMetadata keys into bulkEditData object
-  const bulkEditData: PartInstanceBulkEditData = Object.keys(filteredMetadata.value).reduce((acc, field) => {
-    const value = (formValues as Record<string, unknown>)[field]
-    if (value !== null && value !== undefined && value !== '') {
-      const numericValue = Number(value)
-      if (!isNaN(numericValue)) {
-        (acc as Record<string, number>)[field] = numericValue
-      }
-    }
-    return acc
-  }, {} as PartInstanceBulkEditData)
-  
+  const bulkEditData = buildBulkEditDataFromForm(
+    Object.keys(filteredMetadata.value),
+    entityCardRef.value.form.values as Record<string, unknown>
+  )
   emit('confirm', bulkEditData)
   updateModelValue(false)
 }

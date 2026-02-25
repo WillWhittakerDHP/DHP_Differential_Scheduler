@@ -3,17 +3,12 @@
 
 PATTERN: Composable that reads from avai...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { roundDuration as roundDurationUtil, type DurationRoundingConfig } from '@/utils/booking/durationRounding'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { UseDurationRoundingReturn } from '@/types/booking/durationRounding'
 
-export interface UseDurationRoundingReturn {
-  roundDuration: (duration: number) => number
-  
-  isRoundingEnabled: ComputedRef<boolean>
-  
-  roundingConfig: ComputedRef<DurationRoundingConfig | null>
-}
+export type { UseDurationRoundingReturn } from '@/types/booking/durationRounding'
 
 /**
  * WHY: useDurationRounding composable

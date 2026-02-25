@@ -3,21 +3,10 @@
 
 LEARNING: Extracts icon picker state manag...
  */
-import { ref, watch, type Ref } from 'vue'
+import { ref, watch } from 'vue'
+import type { UseIconPickerStateOptions, UseIconPickerStateReturn } from '@/types/admin/iconPickerState'
 
-export interface UseIconPickerStateOptions {
-  dialogOpen: Ref<boolean>
-  
-  currentIcon?: Ref<string | null> | string | null
-}
-
-export interface UseIconPickerStateReturn {
-  selectedIcon: Ref<string | null>
-  
-  searchTerm: Ref<string>
-  
-  resetState: () => void
-}
+export type { UseIconPickerStateOptions, UseIconPickerStateReturn } from '@/types/admin/iconPickerState'
 
 /**
  * WHY: Icon Picker State Composable

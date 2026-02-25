@@ -3,6 +3,8 @@ import path from 'node:path'
 import {
   getAuditReportHeaderLines,
   listAuditFiles,
+  loadCentralAllowlist,
+  categorizeMatches,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath,
@@ -183,6 +185,16 @@ function assignPriority(complexityScore, config) {
   return 'P2'
 }
 
+function recalculateCounts(matches) {
+  const counts = Object.fromEntries(RULES.map((r) => [r.id, 0]))
+  for (const m of matches) {
+    if (counts[m.ruleId] !== undefined) {
+      counts[m.ruleId] += 1
+    }
+  }
+  return counts
+}
+
 function compareHotspots(a, b) {
   if (b.complexityScore !== a.complexityScore) return b.complexityScore - a.complexityScore
   const aQuery = a.counts.vueQuery || 0
@@ -286,6 +298,7 @@ function main() {
     // Config might not exist or be invalid, use defaults
   }
 
+  const configAllowlist = loadCentralAllowlist('composables-logic')
   const absFiles = listAuditFiles('composables-logic', [COMPOSABLES_DIR])
   const scanned = []
 
@@ -293,7 +306,15 @@ function main() {
     const repoPath = toRepoPathLocal(abs)
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
-    const { counts, matches } = scanLines(lines)
+    const { counts: _rawCounts, matches } = scanLines(lines)
+    const { allowed: _allowed, requiresReview } = categorizeMatches(
+      matches,
+      repoPath,
+      contents,
+      'composables-logic',
+      configAllowlist
+    )
+    const counts = recalculateCounts(requiresReview)
     const exportUseFunctions = extractExportedUseFunctions(contents)
     const returnKeys = extractReturnKeys(contents)
     const { complexityScore, suggestions } = classifyFile(repoPath, counts)
@@ -304,7 +325,7 @@ function main() {
       repoPath,
       absPath: abs,
       counts,
-      matches,
+      matches: requiresReview,
       exportUseFunctions,
       returnKeys,
       complexityScore,

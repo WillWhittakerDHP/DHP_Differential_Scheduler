@@ -9,29 +9,23 @@
 import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
-import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/types/moveableScheduling'
+import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/constants/moveableScheduling'
 import { generateSlotsInRange } from '@/utils/booking/minimalSlotGenerator'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import { toRFC3339DateTime } from '@/types/datetime'
+import { toRFC3339DateTime } from '@/utils/datetime'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { resolveEventShapes } from '@/utils/booking/perspectiveResolver'
 import type { EventShapeEntity } from '@/types/entities'
+import type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
+
+export type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
 
 const logger = createLogger('useMoveablePartsScheduling')
 
 // ─── Pure helpers (no Vue reactivity, no side effects) ─────────────────────
-
-export interface ComputeMoveableSlotsParams {
-  innerBoundary: RFC3339DateTime
-  outerBoundary: RFC3339DateTime
-  duration: number
-  minuteIncrement: number
-  formatDayLabel: (iso: RFC3339DateTime) => string
-  formatTimeLabel: (start: RFC3339DateTime, end: RFC3339DateTime) => string
-}
 
 export function computeMoveableSlots(params: ComputeMoveableSlotsParams): MoveableSlot[] {
   const {
@@ -143,7 +137,7 @@ interface UseMoveablePartsSchedulingParams {
 
 export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams) {
   const { appointmentShape, selectedSlot } = params
-  const { formatDateForDisplay, formatTimeForDisplay } = useLocalTime()
+  const { formatDateForDisplay, formatTimeForDisplay } = localTime()
 
   const showModal = ref(false)
   const contingencyPeriod = ref<ContingencyPeriod>({ ...DEFAULT_CONTINGENCY })

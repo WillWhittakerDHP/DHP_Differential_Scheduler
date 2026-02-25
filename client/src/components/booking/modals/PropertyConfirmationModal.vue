@@ -30,7 +30,7 @@
           <VListSubheader class="text-h6 mb-2">Property Type</VListSubheader>
           <VListItem v-if="selectedPropertyTypes.length > 0">
             <VListItemTitle>
-              {{ selectedPropertyTypes.map(pt => pt.name).join(', ') }}
+              {{ propertyTypesLabel }}
             </VListItemTitle>
           </VListItem>
           <VListItem v-else>
@@ -111,7 +111,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
+import { usePropertyTypesLabel } from '@/composables/booking/usePropertyTypesLabel'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
@@ -129,6 +130,8 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
+
+const { propertyTypesLabel } = usePropertyTypesLabel(toRef(props, 'selectedPropertyTypes'))
 
 /**
  * WHY: Combines address, unit, city, state, and zip code into readable format

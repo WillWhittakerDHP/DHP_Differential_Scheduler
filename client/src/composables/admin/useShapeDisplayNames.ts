@@ -3,14 +3,13 @@
 
 WHY: Moves display names map creation t...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
-import { useEntityDisplay } from './useEntityDisplay'
+import { useAdminConfig } from '@/composables/useAdminConfig'
+import { entityDisplay } from '@/utils/admin/entityDisplay'
+import type { UseShapeDisplayNamesReturn } from '@/types/admin/shapeDisplayNames'
 
-export interface UseShapeDisplayNamesReturn {
-  blockShapeDisplayNames: ComputedRef<Map<string, string>>
-  partShapeDisplayNames: ComputedRef<Map<string, string>>
-}
+export type { UseShapeDisplayNamesReturn } from '@/types/admin/shapeDisplayNames'
 
 /**
  * WHY: useShapeDisplayNames composable
@@ -19,7 +18,7 @@ WHY: Extracts display names map logic f...
  */
 export function useShapeDisplayNames(): UseShapeDisplayNamesReturn {
   const { getGlobalEntities } = useGlobal()
-  const { getEntityDisplayName } = useEntityDisplay()
+  const { getEntityDisplayName } = entityDisplay(useAdminConfig())
 
   const blockShapeDisplayNames = computed(() => {
     const blockShapes = getGlobalEntities('blockShape')

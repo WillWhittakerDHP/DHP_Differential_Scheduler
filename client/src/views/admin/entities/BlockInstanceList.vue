@@ -70,17 +70,24 @@
  * WHY: Use entity list composable
 WHY: Extracts list management logic from comp...
  */
+import { useRouter } from 'vue-router'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import { useEntityList } from '@/composables/admin/useEntityList'
+import { useNotification } from '@/composables/useNotification'
+import { entityList } from '@/utils/admin/entityList'
 
-const { entities, isLoading, error } = useEntityCrud('blockInstance')
+const { entities, isLoading, error, remove } = useEntityCrud('blockInstance')
+const router = useRouter()
+const { error: notifyError } = useNotification()
 
 const {
   goToCreate,
   goToEdit,
   handleDelete
-} = useEntityList({
+} = entityList({
   entityKey: 'blockInstance',
+  router,
+  remove,
+  notifyError,
   routes: {
     create: 'block-instance-create',
     edit: 'block-instance-edit'

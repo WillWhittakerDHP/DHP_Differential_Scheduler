@@ -11,15 +11,12 @@ import apiClient, {
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
+import type { BusinessData } from '@/types/transformers/businessData'
 import { createLogger } from '@/utils/logger'
 
-const logger = createLogger('fetchToBusinessTransformer')
+export type { BusinessData } from '@/types/transformers/businessData'
 
-export type BusinessData = {
-  appointments: AppointmentResponse[]
-  properties: PropertyResponse[]
-  users: UserResponse[]
-}
+const logger = createLogger('fetchToBusinessTransformer')
 
 /**
  * PATTERN: Business Transformer Class

@@ -2,32 +2,19 @@
  * PATTERN: Composable for instance drag-and-drop setup
 PATTERN: Composable that man...
  */
-import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComputedRef, type ComponentPublicInstance } from 'vue'
+import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef } from 'vue'
 import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
 import { useEntityTabState } from './useEntityTabState'
 import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
-import type { GlobalEntity } from '@/types/entities'
-import type { PatchOrderIndex } from './useEntityDragHandlers'
 import { createLogger } from '@/utils/logger'
+import type { GlobalEntity } from '@/types/entities'
+import type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 
 const logger = createLogger('useInstanceDragAndDrop')
 
-export interface UseInstanceDragAndDropOptions {
-  mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  patchBlockInstanceOrderIndex: PatchOrderIndex
-}
-
-export interface UseInstanceDragAndDropReturn {
-  blockInstancesLists: Ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>
-  blockInstanceIdsMap: Ref<Map<string, Ref<string[]>>>
-  groupContainers: Ref<Map<string, HTMLElement | null>>
-  groupPanelsContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
-  groupDragHandlers: Ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>
-  groupDragInstances: Ref<Map<string, ReturnType<typeof dragAndDrop>>>
-  isMounted: Ref<boolean>
-}
+export type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 
 /**
  * WHY: Composable for managing instance drag-and-drop

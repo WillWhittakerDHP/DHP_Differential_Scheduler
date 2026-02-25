@@ -3,20 +3,18 @@
 
 WHY: Moves step validation checking to c...
  */
-import { type Ref, type ComputedRef } from 'vue'
-import type { StepValidator, UseWizardValidationReturn } from '@/utils/booking/wizardValidation'
+import type {
+  StepValidator,
+  UseWizardValidationParams,
+  UseWizardValidationReturn,
+} from '@/types/booking/wizardValidation'
 
-export type { StepValidator, UseWizardValidationReturn } from '@/utils/booking/wizardValidation'
+export type {
+  StepValidator,
+  UseWizardValidationParams,
+  UseWizardValidationReturn,
+} from '@/types/booking/wizardValidation'
 
-export interface UseWizardValidationParams {
-  stepValidators: ComputedRef<Record<number, StepValidator | null>> | Ref<Record<number, StepValidator | null>> | Record<number, StepValidator | null>
-}
-
-/**
- * WHY: useWizardValidation composable
-
-WHY: Extracts validation from component ...
- */
 export function useWizardValidation(params: UseWizardValidationParams): UseWizardValidationReturn {
   const { stepValidators } = params
   

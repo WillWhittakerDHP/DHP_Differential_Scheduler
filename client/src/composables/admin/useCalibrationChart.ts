@@ -1,79 +1,26 @@
 /**
- * PATTERN: Fee Calibration Chart Composable
-PATTERN: Same relationship resolution a...
+ * PATTERN: Fee Calibration Chart Composable — reactive wiring only; pure transforms in utils/admin/calibrationChartTransforms.
  */
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useTheme } from 'vuetify'
-import { calculatePartsTotals } from '@/utils/booking/partsTotals'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
-import { resolveByIds } from '@/utils/collections/resolveByIds'
-import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import {
+  SERVICE_COLORS,
+  getServiceFeeTotals,
+  buildSvgChart,
+  type SvgChartShape,
+} from '@/utils/admin/calibrationChartTransforms'
 import { getLineChartConfig } from '@/@core/libs/chartjs/chartjsConfig'
 import type { ChartData, ChartOptions } from 'chart.js'
+import type { UseCalibrationChartReturn } from '@/types/admin/calibrationChart'
+
+export type { UseCalibrationChartReturn, SvgChartShape } from '@/types/admin/calibrationChart'
 
 const DEFAULT_SQFT_MIN = 0
 const DEFAULT_SQFT_MAX = 5000
 const DEFAULT_SQFT_STEP = 250
 
-/** Distinct colors for up to ~12 services; Chart.js-friendly */
-const SERVICE_COLORS = [
-  'rgb(102, 126, 234)',
-  'rgb(237, 100, 166)',
-  'rgb(255, 154, 158)',
-  'rgb(250, 208, 196)',
-  'rgb(161, 196, 141)',
-  'rgb(116, 169, 207)',
-  'rgb(254, 194, 133)',
-  'rgb(195, 155, 211)',
-  'rgb(162, 210, 223)',
-  'rgb(255, 175, 123)',
-  'rgb(144, 205, 151)',
-  'rgb(187, 222, 251)',
-]
-
-export interface UseCalibrationChartReturn {
-  chartData: ComputedRef<ChartData<'line'>>
-  chartOptions: ComputedRef<ChartOptions<'line'>>
-  sqftMin: Ref<number>
-  sqftMax: Ref<number>
-  sqftStep: Ref<number>
-  serviceCount: ComputedRef<number>
-  hasData: ComputedRef<boolean>
-}
-
-function getServiceFeeTotals(
-  blockInstances: GlobalEntity<'blockInstance'>[],
-  blockShapes: GlobalEntity<'blockShape'>[],
-  partAssignments: Array<{ parentId: string; childId: string; disabled?: boolean }>,
-  partInstances: GlobalEntity<'partInstance'>[]
-): Array<{ name: string; totalBaseFee: number; totalRateOverBaseFee: number }> {
-  const shapeById = new Map(blockShapes.map(s => [s.id, s]))
-  const serviceBlocks = blockInstances.filter(block => {
-    const shape = shapeById.get(toGlobalEntityId(block.blockShapeRef))
-    return shape?.type === BLOCK_SHAPE_TYPES.SERVICE
-  })
-
-  return serviceBlocks.map(block => {
-    const relationships = partAssignments.filter(
-      rel => rel.parentId === block.id && !rel.disabled
-    )
-    const childIds = [...new Set(relationships.map(rel => String(rel.childId)))]
-    const { resolved } = resolveByIds(partInstances, childIds)
-    const nonZeroed = resolved.filter(p => !p.zeroOutPart)
-    const totals = calculatePartsTotals(nonZeroed)
-    return {
-      name: block.name ?? block.id,
-      totalBaseFee: totals.totalBaseFee,
-      totalRateOverBaseFee: totals.totalRateOverBaseFee,
-    }
-  })
-}
-
-/**
-WHY: Single composable for the calibration panel; re...
- */
 export function useCalibrationChart(): UseCalibrationChartReturn {
   const { entities: blockInstances } = useEntityCrud('blockInstance')
   const { entities: blockShapes } = useEntityCrud('blockShape')
@@ -113,7 +60,7 @@ export function useCalibrationChart(): UseCalibrationChartReturn {
     const datasets = serviceFeeTotals.value.map((service, index) => ({
       label: service.name,
       data: sqftRange.value.map(
-        sqft => service.totalBaseFee + service.totalRateOverBaseFee * sqft
+        (sqft) => service.totalBaseFee + service.totalRateOverBaseFee * sqft
       ),
       borderColor: SERVICE_COLORS[index % SERVICE_COLORS.length],
       backgroundColor: 'transparent',
@@ -127,8 +74,13 @@ export function useCalibrationChart(): UseCalibrationChartReturn {
     const themeColors = theme.current.value
     const baseConfig = getLineChartConfig(themeColors)
     const rawDatasets = chartData.value.datasets
-    const datasets = rawDatasets !== undefined && rawDatasets !== null && Array.isArray(rawDatasets) ? rawDatasets : []
-    const allValues = datasets.flatMap(d =>
+    const datasets =
+      rawDatasets !== undefined &&
+      rawDatasets !== null &&
+      Array.isArray(rawDatasets)
+        ? rawDatasets
+        : []
+    const allValues = datasets.flatMap((d) =>
       Array.isArray(d.data) ? (d.data as number[]) : []
     )
     const maxFee = allValues.length > 0 ? Math.max(...allValues) : 400
@@ -154,6 +106,8 @@ export function useCalibrationChart(): UseCalibrationChartReturn {
   const serviceCount = computed(() => serviceFeeTotals.value.length)
   const hasData = computed(() => serviceCount.value > 0)
 
+  const svgChart = computed((): SvgChartShape => buildSvgChart(chartData.value))
+
   return {
     chartData,
     chartOptions,
@@ -162,5 +116,6 @@ export function useCalibrationChart(): UseCalibrationChartReturn {
     sqftStep,
     serviceCount,
     hasData,
+    svgChart,
   }
 }

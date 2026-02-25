@@ -3,26 +3,10 @@
 
 PATTERN: Composable that manages entity form sta...
  */
-import { computed, type Ref } from 'vue'
-import type { FormContext } from 'vee-validate'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
-import type { EntityCardSharedProps } from '@/components/admin/generic/entityCardConstants'
+import { computed } from 'vue'
+import type { UseEntityFormOptions, UseEntityFormReturn } from '@/types/entityForm'
 
-/** Extends EntityCardSharedProps for single source of truth (TYPE_SIMILARITY 1.10). */
-export interface UseEntityFormOptions extends EntityCardSharedProps {
-  form: FormContext
-  entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>
-}
-
-export interface UseEntityFormReturn {
-  canSave: Ref<boolean>
-  hasChanges: Ref<boolean>
-  
-  save: () => Promise<void>
-  reset: () => void
-  validate: () => Promise<boolean>
-}
+export type { UseEntityFormOptions, UseEntityFormReturn } from '@/types/entityForm'
 
 /**
  * PATTERN: Entity Form Composable

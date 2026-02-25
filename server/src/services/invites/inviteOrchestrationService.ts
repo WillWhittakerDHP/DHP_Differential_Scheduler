@@ -1,7 +1,7 @@
 
 import { Op } from 'sequelize'
 import { createEvent } from '../google/calendar/eventCreationService.js'
-import type { CreateEventParams, EventAttendee } from '../google/calendar/calendarTypes.js'
+import type { CreateEventParams } from '../google/calendar/calendarTypes.js'
 import {
   Appointment,
   AppointmentAttendee,
@@ -12,14 +12,19 @@ import {
   PartAssignment,
   EventAssignment,
   EventInstance,
-  EventShapeAttendee,
 } from '../../config/app.js'
 import type { Appointment as AppointmentType } from '../../db/models/booking/appointment.js'
 import type { EventInstance as EventInstanceType } from '../../db/models/booking/event_instance.js'
 import { resolveEventTemplates } from './templateResolver.js'
 import { buildInviteContext, type InviteAppointmentData } from './inviteContextBuilder.js'
+import {
+  buildAttendeesForEventShape,
+  markAttendeesAsFailed,
+  updateAttendeeRecords,
+} from './inviteAttendeeHelpers.js'
 import { createLogger } from '../../utils/logger.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
+import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
 
 const logger = createLogger('InviteOrchestrationService')
 
@@ -321,50 +326,6 @@ async function createEventForInstance(
 }
 
 
-async function buildAttendeesForEventShape(
-  eventShapeId: string,
-  appointment: NormalizedAppointmentForInvites
-): Promise<EventAttendee[]> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
-    attributes: ['userTypeBlockInstanceId'],
-  })
-
-  const allowedUserTypes = new Set(
-    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
-  )
-
-  if (allowedUserTypes.size === 0) {
-    logger.debug(`No EventShapeAttendees configured for shape ${eventShapeId} — inviting all appointment attendees`)
-    return buildAllAttendees(appointment)
-  }
-
-  const appointmentAttendees = appointment.attendees
-
-  return appointmentAttendees
-    .filter(att =>
-      att.shouldReceiveInvitation &&
-      att.userTypeBlockInstanceId &&
-      allowedUserTypes.has(att.userTypeBlockInstanceId) &&
-      att.user?.email
-    )
-    .map(att => ({
-      email: att.user!.email,
-      displayName: [att.user!.firstName, att.user!.lastName].filter(Boolean).join(' ') || undefined,
-    }))
-}
-
-function buildAllAttendees(appointment: NormalizedAppointmentForInvites): EventAttendee[] {
-  const attendees = appointment.attendees
-
-  return attendees
-    .filter(att => att.shouldReceiveInvitation && att.user?.email)
-    .map(att => ({
-      email: att.user!.email,
-      displayName: [att.user!.firstName, att.user!.lastName].filter(Boolean).join(' ') || undefined,
-    }))
-}
-
 interface AppointmentAttendeeWithUser {
   id: string
   userId: string
@@ -383,95 +344,6 @@ interface AppointmentAttendeeWithUser {
 interface AppointmentWithRelations extends AppointmentType {
   attendees?: AppointmentAttendeeWithUser[]
   propertyVersion?: InviteAppointmentData['propertyVersion']
-}
-
-
-async function updateAttendeeRecords(
-  appointment: NormalizedAppointmentForInvites,
-  eventShapeId: string,
-  googleEventId: string
-): Promise<number> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
-    attributes: ['userTypeBlockInstanceId'],
-  })
-
-  const allowedUserTypes = new Set(
-    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
-  )
-
-  const appointmentAttendees = appointment.attendees
-
-  const matchingAttendees = allowedUserTypes.size > 0
-    ? appointmentAttendees.filter(
-        att =>
-          att.shouldReceiveInvitation &&
-          att.userTypeBlockInstanceId &&
-          allowedUserTypes.has(att.userTypeBlockInstanceId)
-      )
-    : appointmentAttendees.filter(att => att.shouldReceiveInvitation)
-
-  let updated = 0
-
-  for (const attendee of matchingAttendees) {
-    try {
-      await AppointmentAttendee.update(
-        { googleEventId, invitationStatus: 'sent' },
-        { where: { id: attendee.id } }
-      )
-      updated++
-    } catch (error) {
-      logger.error(`Failed to update attendee ${attendee.id}:`, error)
-    }
-  }
-
-  return updated
-}
-
-async function markAttendeesAsFailed(
-  appointment: NormalizedAppointmentForInvites,
-  eventShapeId: string,
-  errorMessage: string
-): Promise<number> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
-    attributes: ['userTypeBlockInstanceId'],
-  })
-
-  const allowedUserTypes = new Set(
-    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
-  )
-
-  const appointmentAttendees = appointment.attendees
-
-  const matchingAttendees = allowedUserTypes.size > 0
-    ? appointmentAttendees.filter(
-        att =>
-          att.shouldReceiveInvitation &&
-          att.userTypeBlockInstanceId &&
-          allowedUserTypes.has(att.userTypeBlockInstanceId)
-      )
-    : appointmentAttendees.filter(att => att.shouldReceiveInvitation)
-
-  let updated = 0
-
-  for (const attendee of matchingAttendees) {
-    try {
-      await AppointmentAttendee.update(
-        { invitationStatus: 'failed' },
-        { where: { id: attendee.id } }
-      )
-      updated++
-    } catch (updateError) {
-      logger.error(`Failed to mark attendee ${attendee.id} as failed:`, updateError)
-    }
-  }
-
-  if (updated > 0) {
-    logger.warn(`Marked ${updated} attendee(s) as 'failed' due to: ${errorMessage}`)
-  }
-
-  return updated
 }
 
 
@@ -494,7 +366,7 @@ function extractEndTime(appointment: NormalizedAppointmentForInvites): string {
 
 function buildDefaultSummary(appointment: NormalizedAppointmentForInvites): string {
   const address = appointment.propertyVersion?.address
-  return address ? `Inspection: ${address.streetAddress}` : 'Inspection Appointment'
+  return address ? `Inspection: ${address.streetAddress}` : DEFAULT_EVENT_SUMMARY_FALLBACK
 }
 
 function buildDefaultDescription(appointment: NormalizedAppointmentForInvites): string {

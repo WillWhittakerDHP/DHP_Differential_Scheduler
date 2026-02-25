@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, provide, ref } from 'vue'
+import { computed, provide } from 'vue'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -30,7 +30,7 @@ provide('wizard', wizard)
 const steps = WIZARD_STEPS
 
 const stepDataRefs = useWizardStepDataRefs()
-const { stepValidators, validateStep } = useWizardStepValidation({ stepDataRefs, wizard })
+const { validateStep } = useWizardStepValidation({ stepDataRefs, wizard })
 
 const notificationComposable = useNotification()
 const showError = notificationComposable.error
@@ -168,8 +168,7 @@ const { handleSubmit } = useWizardSubmission({
 
 provide('loadedWizardState', loadedWizardState)
 
-const { displayedMonth, dateRange, appointmentDurationRef, selectedDateForSlots, computedAvailability } =
-  useWizardDateAvailability({ stepDataRefs, activeStep })
+void useWizardDateAvailability({ stepDataRefs, activeStep })
 
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
 const isDevMode = isDevModeEnabled()
@@ -237,7 +236,6 @@ useWizardDevMode({
             <!-- WHY: Allows users to toggle quote mode -->
             <!-- PATTERN: VBtn with toggle state -->
             <VRow class="mt-4 align-center justify-center" no-gutters>
-              <!-- Quote Mode Button -->
               <VCol cols="auto">
                 <VBtn
                   color="primary"
@@ -248,6 +246,18 @@ useWizardDevMode({
                   class="quote-mode-button"
                 >
                   {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
+                </VBtn>
+              </VCol>
+              <VCol v-if="isDevMode" cols="auto" class="ml-2">
+                <VBtn
+                  color="secondary"
+                  variant="outlined"
+                  size="small"
+                  prepend-icon="tabler-file-upload"
+                  :loading="fetchAll.isLoading.value || isLoadingAppointment"
+                  @click="handleLoadAppointment('random')"
+                >
+                  Load Random Appointment
                 </VBtn>
               </VCol>
             </VRow>

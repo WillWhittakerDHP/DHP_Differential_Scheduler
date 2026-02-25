@@ -3,8 +3,9 @@
 
 PATTERN: Composable that manage...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { computed, type ComputedRef } from 'vue'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
@@ -13,28 +14,16 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
+import type {
+  UseRelationshipCollectionDataOptions,
+  UseRelationshipCollectionDataReturn
+} from '@/types/admin/relationshipCollectionData'
 
-export interface UseRelationshipCollectionDataOptions {
-  parentEntityId: ComputedRef<string> | Ref<string> | string
-  parentEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
-  childEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
-  shapeEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey // e.g., 'partShape', 'annotationShape', 'eventShape'
-  relationshipKey: ComputedRef<string> | string // e.g., 'partAssignments', 'annotationAssignments', 'eventAssignments'
-  optionsFieldKey: ComputedRef<string> | string // e.g., 'validParts', 'validAnnotations', 'validEvents'
-  parentTypeEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey // e.g., 'blockShape', 'partShape'
-  parentTypeRef: ComputedRef<string | null> | Ref<string | null> | string | null // Reference to parent type entity
-  shapeRefProperty: string // Property name on child entity that references shape (e.g., 'partShapeRef', 'annotationShapeRef', 'eventShapeRef')
-}
-
-/** Base shared with RelationshipCollectionModel (P2 type-similarity). */
-export interface UseRelationshipCollectionDataReturnBase {
-  validShapes: Ref<GlobalEntity<GlobalEntityKey>[]>
-  existingChildren: Ref<GlobalEntity<GlobalEntityKey>[]>
-  getChildForShape: (shapeId: string) => GlobalEntity<GlobalEntityKey> | undefined
-  getShapeName: (shapeId: string) => string
-}
-
-export type UseRelationshipCollectionDataReturn = UseRelationshipCollectionDataReturnBase
+export type {
+  UseRelationshipCollectionDataOptions,
+  UseRelationshipCollectionDataReturnBase,
+  UseRelationshipCollectionDataReturn
+} from '@/types/admin/relationshipCollectionData'
 
 /**
  * PATTERN: Relationship Collection Data Composable

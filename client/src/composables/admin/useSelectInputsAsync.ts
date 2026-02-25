@@ -3,22 +3,11 @@
 
 LEARNING: Extracts async logic fro...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { SelectOption } from '@/composables/useSelectOptions'
+import { computed } from 'vue'
 import { useAttendeeQuickSelect } from '@/composables/admin/useAttendeeQuickSelect'
+import type { UseSelectInputsAsyncOptions, UseSelectInputsAsyncReturn } from '@/types/admin/selectInputsAsync'
 
-export interface UseSelectInputsAsyncOptions {
-  options: ComputedRef<SelectOption[]>
-  handleChange: (value: string | string[] | null) => Promise<void>
-}
-
-export interface UseSelectInputsAsyncReturn {
-  validOptionIds: ComputedRef<string[]>
-  handleQuickSelectMajor: () => Promise<void>
-  handleQuickSelectMinor: () => Promise<void>
-  handleQuickSelectAll: () => Promise<void>
-  quickSelect: ReturnType<typeof useAttendeeQuickSelect>
-}
+export type { UseSelectInputsAsyncOptions, UseSelectInputsAsyncReturn } from '@/types/admin/selectInputsAsync'
 
 export function useSelectInputsAsync(
   options: UseSelectInputsAsyncOptions

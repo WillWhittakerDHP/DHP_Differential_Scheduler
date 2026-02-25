@@ -114,7 +114,9 @@
         },
         { "file": "client/src/utils/booking/confirmationStepData.ts", "ruleIds": ["chaining-fallback", "unhelpful-default-nullish"], "reason": "Intentional optional chaining and empty-array default for optional wizard arrays" },
         { "file": "client/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" },
-        { "file": "server/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" }
+        { "file": "server/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" },
+        { "file": "client/src/composables/admin/useInstanceBulkEdit.ts", "ruleIds": ["unhelpful-default-nullish"], "reason": "Map.get() returns undefined when key absent; ?? {} and ?? [] are idiomatic safe defaults (hotspot triage allowlist)" },
+        { "file": "server/src/constants/appConstants.ts", "ruleId": "unhelpful-default-or", "reason": "Constants file; intentional default (hotspot triage allowlist)" }
       ]
     },
     "import-hygiene": {
@@ -180,7 +182,10 @@
         { "glob": "client/src/composables/**/nestedComputedFactory.ts", "ruleIds": ["composableFileName"], "reason": "Composable utility; factory name is intentional" }
       ],
       "specific": [
-        { "file": "server/src/types/express.d.ts", "ruleId": "typesFileName", "reason": "Express type augmentation; standard filename for declaration merging" }
+        { "file": "server/src/types/express.d.ts", "ruleId": "typesFileName", "reason": "Express type augmentation; standard filename for declaration merging" },
+        { "file": "client/src/layouts/blank.vue", "ruleIds": ["*"], "reason": "Layout files follow Vuetify/framework convention (hotspot triage allowlist)" },
+        { "file": "client/src/layouts/default.vue", "ruleIds": ["*"], "reason": "Layout files follow Vuetify/framework convention (hotspot triage allowlist)" },
+        { "file": "client/src/types/admin/AdminEntity.ts", "ruleIds": ["*"], "reason": "Legacy type name; rename deferred (hotspot triage allowlist)" }
       ]
     },
     "function-complexity": {
@@ -189,7 +194,10 @@
         { "glob": "**/configs/**/*.vue", "ruleIds": ["*"], "reason": "Config components excluded" },
         { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are data definitions" }
       ],
-      "specific": []
+      "specific": [
+        { "file": "client/src/composables/usePartInstanceData.ts", "ruleIds": ["*"], "reason": "Borderline; length from many small computed declarations, not deep nesting (hotspot triage allowlist)" },
+        { "file": "client/src/composables/booking/useSelectionCardState.ts", "ruleIds": ["*"], "reason": "Borderline; mostly watch/computed wiring, no single deep function (hotspot triage allowlist)" }
+      ]
     },
     "todo-aging": { "patterns": [], "specific": [] },
     "data-flow": {
@@ -198,7 +206,13 @@
       ],
       "specific": []
     },
-    "import-graph": { "patterns": [], "specific": [] },
+    "import-graph": {
+      "patterns": [],
+      "specific": [
+        { "file": "client/src/composables/usePartInstanceData.ts", "ruleIds": ["*"], "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)" },
+        { "file": "client/src/composables/useSelectOptions.ts", "ruleIds": ["*"], "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)" }
+      ]
+    },
     "file-cohesion": {
       "patterns": [],
       "specific": [
@@ -225,8 +239,13 @@
       "specific": [
         { "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts", "ruleIds": ["vueQuery", "async", "await", "computed"], "reason": "CRUD mutations - many async and Vue Query calls intentional" },
         { "file": "client/src/composables/admin/useRelationshipCollectionData.ts", "ruleIds": ["computed", "ref"], "reason": "Data-heavy admin collection - many computeds intentional" },
-        { "file": "client/src/composables/booking/dev/usePanelPosition.ts", "ruleIds": ["DOM"], "reason": "Dev panel positioning - DOM measurement intentional" },
-        { "file": "client/src/composables/dataCollections/useDataCollectionActions.ts", "ruleIds": ["vueQuery", "async", "await"], "reason": "Data collection actions - async and Vue Query intentional" }
+        { "file": "client/src/composables/booking/dev/usePanelPosition.ts", "ruleIds": ["dom"], "reason": "Dev panel positioning - uses useDisplay where possible; remaining DOM (refs, requestAnimationFrame) intentional" },
+        { "file": "client/src/composables/dataCollections/useDataCollectionActions.ts", "ruleIds": ["vueQuery", "async", "await"], "reason": "Data collection actions - async and Vue Query intentional" },
+        { "file": "client/src/composables/booking/useKeyboardToggle.ts", "ruleIds": ["dom"], "reason": "Global keyboard shortcuts require window-level event listeners; SSR-guarded" },
+        { "file": "client/src/composables/useGlobal.ts", "ruleIds": ["dom"], "reason": "Dev-only debug tooling attached to window via utility; SSR-guarded" },
+        { "file": "client/src/composables/admin/useFormElementPatching.ts", "ruleIds": ["dom"], "reason": "Form element autocomplete patching requires document.querySelector and MutationObserver; SSR-guarded" },
+        { "file": "client/src/composables/booking/useElementDimensions.ts", "ruleIds": ["dom"], "reason": "ResizeObserver and typeof window SSR guard only; getContentWidth in util" },
+        { "file": "client/src/composables/admin/useBusinessRules.ts", "ruleIds": ["async", "await"], "reason": "CRUD actions delegate to withAsyncOperation and businessRulesApi; async/await count is structural, not complexity" }
       ]
     },
     "unused-code": {
@@ -251,16 +270,27 @@
         { "glob": "**/express.d.ts", "ruleIds": ["*"], "reason": "Declaration file; leave as-is" }
       ],
       "specific": [
-        { "groupId": "sim-exact-primitive:string", "reason": "Intentional distinct string concepts; branding deferred." },
-        { "groupId": "sim-high_overlap-76c5e2a1d396", "reason": "UseBlockInstanceFormReturn vs UsePartInstanceFormReturn: parallel block/part form composable return types; unification would require generic form return abstraction — deferred." },
-        { "groupId": "sim-high_overlap-99828820f350", "reason": "WizardState vs WizardBlocksForBuilders: wizard state vs builder-focused slice; overlap from shared booking/line-item shape — intentional separation of concerns; deferred." },
-        { "groupId": "sim-subset-f928ba1a3d99", "reason": "RelationshipFieldType vs DependencyImpact: shared affectedEntities/affectedEntityKey shape; different domains (form config vs dependency impact) — document only; deferred." }
+        { "groupId": "sim-exact-primitive:string", "reason": "Resolved: all three types branded in shared/types/primitiveBrands.ts and availabilityTypes.ts" },
+        { "groupId": "sim-subset-f928ba1a3d99", "reason": "RelationshipFieldType vs DependencyImpact: shared affectedEntities/affectedEntityKey shape; different domains (form config vs dependency impact) — document only; deferred." },
+        { "groupId": "sim-subset-b78a9bb66e8d", "reason": "Resolved: ParsedProperty extends PropertyAddressBase, PropertyDetailsBase" },
+        { "groupId": "sim-subset-d2c1ba0c030a", "reason": "Resolved: PropertyRequest and PropertyResponse both extend PropertyAddressBase, PropertyDetailsBase" },
+        { "groupId": "sim-subset-b988c17b5b76", "reason": "Resolved: BetaFeedbackFiltersBase uses Partial Pick semantics; intentional separation" },
+        { "groupId": "sim-subset-1bd9faaba835", "reason": "Resolved: UserRequest and UserResponse extend ContactInfoBase" },
+        { "groupId": "sim-subset-7f254dbfa49b", "reason": "Resolved: UseBusinessControlsFormStateParams uses Pick of UseAdminAvailabilitySettingsReturn" },
+        { "groupId": "sim-subset-481e0eb925e6", "reason": "Skip: { id, name } mega-cluster; types serve different domains (UI items, API responses, server models); BlockInstanceLike covers meaningful subset" },
+        { "groupId": "sim-subset-b2d0f4be007d", "reason": "Skip: PropertyFormData uses Ref wrappers; WizardStateData is a 42-property transformer output; PropertyAddressBase already exists for the non-reactive case" },
+        { "groupId": "sim-subset-bbdc63598db4", "reason": "Skip: AddressAutocomplete Props vs DefaultLocation; 18% coincidental overlap (label, placeId); no semantic relationship" },
+        { "groupId": "sim-subset-d6ef704fb332", "reason": "Skip: LoadedTimeSlot vs SlotTimeBounds; 2-3 fields, different optionality, different contexts (client matching vs shared availability)" },
+        { "groupId": "sim-subset-99e5f061a37a", "reason": "Skip: FieldRenderer Props vs FieldInputProps; Vue component Props are self-contained by convention" },
+        { "groupId": "sim-subset-a7b7f79a0ee6", "reason": "Skip: UseMoveablePartsSchedulingParams is private, 2 fields; explicit listing clearer than Pick" },
+        { "groupId": "sim-subset-18631ccb7f7c", "reason": "Skip: NormalizedAppointmentForInvites vs AppointmentWithRelations; different optionality (attendees required vs optional); private same-file types with transformation semantics" }
       ]
     },
     "constants-consolidation": {
       "patterns": [],
       "specific": [
-        { "file": "server/src/db/config/database.mjs", "ruleId": "hoist", "lineRange": [1, 35], "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention" }
+        { "file": "server/src/db/config/database.mjs", "ruleId": "hoist", "lineRange": [1, 35], "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention" },
+        { "file": "client/src/composables/booking/useSelectionCardState.ts", "ruleIds": ["*"], "reason": "Inline 'local' is Vue selection card plugin type; different semantic domain from server constant (hotspot triage allowlist)" }
       ]
     },
     "lint": { "patterns": [], "specific": [] },
@@ -292,9 +322,25 @@
         { "glob": "**/configs/field/display/selectableDisplayConfig.ts", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
         { "glob": "**/configs/field/form/appliedForm/**", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
         { "glob": "**/configs/field/display/appliedDisplay/**", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
-        { "glob": "**/types/entity/formFields.ts", "ruleIds": ["*"], "reason": "Type definition files - duplication between types and configs is intentional" }
+        { "glob": "**/types/entity/formFields.ts", "ruleIds": ["*"], "reason": "Type definition files - duplication between types and configs is intentional" },
+        { "glob": "server/src/db/models/booking/active_*.ts", "ruleIds": ["*"], "reason": "Active/assignment model pairs share column schemas by design; Sequelize factory convention" },
+        { "glob": "server/src/db/models/booking/*_assignment.ts", "ruleIds": ["*"], "reason": "Active/assignment model pairs share column schemas by design; Sequelize factory convention" },
+        { "glob": "server/src/db/models/booking/booking_cascade.ts", "ruleIds": ["*"], "reason": "Cascade/dependent model pair shares column schemas by design" },
+        { "glob": "server/src/db/models/booking/dependent_instance.ts", "ruleIds": ["*"], "reason": "Cascade/dependent model pair shares column schemas by design" },
+        { "glob": "server/src/db/models/booking/pricing_cascade.ts", "ruleIds": ["*"], "reason": "Pricing cascade shares part-like columns by design" },
+        { "glob": "server/src/db/models/admin/valid_*.ts", "ruleIds": ["*"], "reason": "Valid-entity model pairs share column schemas by design" },
+        { "glob": "server/src/db/models/admin/adminMetadata.ts", "ruleIds": ["*"], "reason": "Metadata model tiers share column schemas by design; three variants for entity/primitive/relationship" },
+        { "glob": "server/src/db/models/admin/adminPrimitiveMetadata.ts", "ruleIds": ["*"], "reason": "Metadata model tiers share column schemas by design" },
+        { "glob": "server/src/db/models/admin/adminRelationshipMetadata.ts", "ruleIds": ["*"], "reason": "Metadata model tiers share column schemas by design" },
+        { "glob": "**/utils/logger.ts", "ruleIds": ["*"], "reason": "Client/server logger adapters are thin env-specific wrappers over shared/utils/loggerCore; overlap is structural" },
+        { "glob": "server/src/config/app.ts", "ruleIds": ["*"], "reason": "Barrel re-exports from models.ts; name list overlap is inherent" },
+        { "glob": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts", "ruleIds": ["*"], "reason": "Metadata tier validators share validation patterns by design; consolidation deferred" },
+        { "glob": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts", "ruleIds": ["*"], "reason": "Metadata tier validators share validation patterns by design; consolidation deferred" }
       ],
-      "specific": []
+      "specific": [
+        { "file": "client/src/views/admin/tabs/ShapesTab.vue", "ruleIds": ["*"], "reason": "Destructures useShapesTabCreation/useShapesTabModals return — proper composable usage, not duplication" },
+        { "file": "client/src/views/admin/tabs/BusinessControlsTab.vue", "ruleIds": ["*"], "reason": "Destructures useBusinessControlsFormState return — proper composable usage, not duplication" }
+      ]
     },
     "pattern-detection": { "patterns": [], "specific": [] },
     "css": {
@@ -353,7 +399,10 @@
         { "file": "client/src/components/booking/types/selectionCardTypes.ts", "ruleId": "magicLabel", "reason": "UI component type unions for selection config" },
         { "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue", "ruleId": "fieldMapping", "lineRange": [174, 176], "reason": "Chart legend style binding in template; Vue :style object shape" },
         { "file": "client/src/components/booking/IndependentSelectCard.vue", "ruleId": "fieldMapping", "lineRange": [119, 121], "reason": "Vue :style binding from config (minHeight); template shape" },
-        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "fieldMapping", "lineRange": [156, 158], "reason": "Vue :style binding from config (minHeight); template shape" }
+        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "fieldMapping", "lineRange": [156, 158], "reason": "Vue :style binding from config (minHeight); template shape" },
+        { "file": "client/src/composables/booking/useTimeSlotCalculations.ts", "ruleId": "fieldMapping", "reason": "Property projection/plucking (.map to { name, differentialRole }); not casing mapping (hotspot triage allowlist)" },
+        { "file": "server/src/services/invites/inviteOrchestrationService.ts", "ruleId": "fieldMapping", "reason": "Sequelize idiomatic { where: { id } }; not a casing conversion target (hotspot triage allowlist)" },
+        { "file": "server/src/services/slotComputationService.ts", "ruleId": "fieldMapping", "reason": "Object destructuring { start, end } from event; not casing mapping (hotspot triage allowlist)" }
       ],
       "linePatterns": [
         { "ruleId": "switchTypeLike", "pattern": "switch\\s*\\(\\s*\\w+\\.type\\s*\\)", "reason": "Exhaustive dispatch on discriminated union (.type); not config-driven branching" },

@@ -4,17 +4,19 @@
 WHY: Moves date range calculation, prop...
  */
 import { computed, watch, ref, type Ref, type ComputedRef } from 'vue'
-import { matchLoadedTimeSlots as matchLoadedTimeSlotsUtil } from '@/utils/booking/timeSlotMatching'
+import { matchLoadedTimeSlots as matchLoadedTimeSlotsUtil } from '@/composables/booking/useTimeSlotMatching'
+import type { LoadedTimeSlot } from '@/utils/booking/timeSlotMatching'
 import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { parseUTCDate } from '@/utils/booking/dateUtils'
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
-import { toRFC3339DateTime } from '@/types/datetime'
+import { toRFC3339DateTime } from '@/utils/datetime'
 import type { PropertyDetails } from '@/types/availability'
 import { equals } from '@/utils/ternary/ternaryUtils'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { SelectedTimeSlot } from '@/utils/booking/availabilityStepData'
 
 /**
 LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) fo...
@@ -24,11 +26,9 @@ interface DateRange {
   end: ISO8601Date | null
 }
 
-export interface TimeSlotsPerDay {
-  date: string
-  inspectorTimeSlots: TimeSlot[]
-  clientTimeSlots: TimeSlot[]
-}
+import type { TimeSlotsPerDay } from '@/types/booking/availabilityLogic'
+
+export type { TimeSlotsPerDay }
 
 interface UseAvailabilityLogicParams {
   selectedDate: Ref<DateRange>
@@ -41,11 +41,6 @@ interface UseAvailabilityLogicParams {
   }
   timeSlots: ComputedRef<TimeSlot[]>
   loadedWizardState: Ref<WizardStateData | null> | null
-}
-
-export interface SelectedTimeSlot {
-  time: string
-  duration: number
 }
 
 interface AppointmentSlotsPerDay {
@@ -64,7 +59,7 @@ interface UseAvailabilityLogicReturn {
   isDifferentialService: ComputedRef<boolean>
   isEffectivelyDifferential: ComputedRef<boolean>
   selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  matchLoadedTimeSlots: (loadedSlots: Array<{ startTime: string; endTime?: string }>, availableSlots: TimeSlot[], majorAppointmentSlot: Ref<TimeSlot | null>, minorAppointmentSlot: Ref<TimeSlot | null>) => void
+  matchLoadedTimeSlots: (loadedSlots: LoadedTimeSlot[], availableSlots: TimeSlot[], majorAppointmentSlot: Ref<TimeSlot | null>, minorAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
 /**

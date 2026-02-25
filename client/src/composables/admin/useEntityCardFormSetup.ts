@@ -2,39 +2,14 @@
  * PATTERN: EntityCard form + computed + field configuration in one composable.
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type { FormContext } from 'vee-validate'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import type { AdminConfig } from '@/configs/adminConfig'
 import { useEntityCardComputed } from '@/composables/admin/useEntityCardComputed'
 import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
 import { useFormFields } from '@/composables/useFormFields'
+import type { UseEntityCardFormSetupParams, UseEntityCardFormSetupReturn } from '@/types/admin/entityCardFormSetup'
 
-export interface UseEntityCardFormSetupParams<GE extends GlobalEntityKey> {
-  entityKey: GE
-  entity: GlobalEntity<GE>
-  composedFieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
-  isMetadataLoading: ComputedRef<boolean>
-  isExpanded: ComputedRef<boolean>
-  filteredMetadata?: Record<string, FieldMetadataEntry>
-  form: Ref<FormContext | undefined>
-  adminConfig: AdminConfig
-}
-
-export interface UseEntityCardFormSetupReturn {
-  formFields: ReturnType<typeof useFormFields>
-  fieldKeys: ComputedRef<import('@/constants/primitives').GlobalFieldKey<GlobalEntityKey>[]>
-  isMetadataReady: ComputedRef<boolean>
-  entityName: ComputedRef<string>
-  isComposable: ComputedRef<boolean>
-  finalFieldKeys: ComputedRef<import('@/constants/primitives').GlobalFieldKey<GlobalEntityKey>[]>
-  fieldLocation: ReturnType<typeof useEntityCardFieldConfiguration>['fieldLocation']
-  inlineFieldsConfig: ComputedRef<import('@/constants/primitives').GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFieldsConfig: ComputedRef<import('@/constants/primitives').GlobalFieldKey<GlobalEntityKey>[]>
-  isFormReady: ComputedRef<boolean>
-}
+export type { UseEntityCardFormSetupParams, UseEntityCardFormSetupReturn } from '@/types/admin/entityCardFormSetup'
 
 export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
   params: UseEntityCardFormSetupParams<GE>

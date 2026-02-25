@@ -2,25 +2,17 @@
  * PATTERN: Event instance form state, template validation, and create/cancel/delete handlers.
  * WHY: Keeps InstancesTab.vue under vue-architecture limits (script size, function count).
  */
-import { ref, computed, type Ref } from 'vue'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { ref, computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
-import type { AppLogger } from '@/utils/logger'
+import { EVENT_TEMPLATE_VARIABLES } from '@shared/constants/templateVariables'
+import type { UseInstancesTabEventInstanceParams, NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 
-export const EVENT_INSTANCE_TEMPLATE_VARIABLES = [
-  { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
-  { name: 'city', description: 'Property city', example: 'Austin' },
-  { name: 'state', description: 'Property state abbreviation', example: 'TX' },
-  { name: 'zipCode', description: 'Property ZIP code', example: '78701' },
-  { name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },
-  { name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },
-  { name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },
-  { name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },
-  { name: 'status', description: 'Current appointment status', example: 'confirmed' },
-  { name: 'service', description: 'Primary service name', example: "Buyer's Inspection" },
-] as const
+export type { UseInstancesTabEventInstanceParams, NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 
-const knownVariableNames = new Set(EVENT_INSTANCE_TEMPLATE_VARIABLES.map(v => v.name))
+/** Re-export for consumers that expect the legacy name. */
+export const EVENT_INSTANCE_TEMPLATE_VARIABLES = EVENT_TEMPLATE_VARIABLES
+
+const knownVariableNames = new Set(EVENT_TEMPLATE_VARIABLES.map(v => v.name))
 
 function findUnknownVariables(template: string): string[] {
   const varPattern = /\{(\w+)\}/g
@@ -32,30 +24,6 @@ function findUnknownVariables(template: string): string[] {
     }
   }
   return unknown
-}
-
-export interface UseInstancesTabEventInstanceParams {
-  expandedInstances: Ref<string[]>
-  eventShapes: Ref<GlobalEntity<'eventShape'>[]>
-  createEventInstance: (payload: Record<string, unknown>) => Promise<unknown>
-  logger: AppLogger
-}
-
-export type NewEventInstanceData = {
-  eventShapeRef: string
-  name: string
-  titleTemplate: string
-  descriptionTemplate: string
-  locationTemplate: string
-  visibility: 'default' | 'public' | 'private' | 'confidential'
-  transparency: 'opaque' | 'transparent'
-  guestsCanModify: boolean
-  guestsCanInviteOthers: boolean
-  guestsCanSeeOtherGuests: boolean
-  addConferenceLink: boolean
-  sendUpdates: 'all' | 'externalOnly' | 'none'
-  colorId: string | null
-  status: 'confirmed' | 'tentative'
 }
 
 export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanceParams) {

@@ -3,35 +3,14 @@
 
 WHY: Moves data aggregation and busi...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
-import type { AvailabilityStepData, PriceData, SummaryData } from '@/types/wizardStepData'
+import type { PriceData, SummaryData } from '@/types/wizardStepData'
+import type { UseConfirmationStepDataParams, UseConfirmationStepDataReturn } from '@/types/booking/confirmationStepData'
 
 export type { SummaryData, PriceData } from '@/types/wizardStepData'
-import type { PropertyDetailsStepData } from '@/types/wizard'
+export type { UseConfirmationStepDataParams, UseConfirmationStepDataReturn } from '@/types/booking/confirmationStepData'
 
-/**
- * Step data interfaces (matching BookingWizard.vue)
- * FIX: Use shared types from wizardStepData.ts and wizard.ts
- */
-
-export interface UseConfirmationStepDataParams {
-  wizard: {
-    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-    selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-    selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
-    selectedLineItemBlocks: Ref<BookingBlockInstance[]>
-    selectedUserTypeBlock: Ref<BookingBlockInstance | null>
-  }
-  propertyDetailsStepData?: Ref<PropertyDetailsStepData> | null
-  availabilityStepData?: Ref<AvailabilityStepData> | null
-}
-
-export interface UseConfirmationStepDataReturn {
-  summaryData: ComputedRef<SummaryData>
-  priceData: ComputedRef<PriceData>
-}
 
 /**
  * WHY: useConfirmationStepData composable

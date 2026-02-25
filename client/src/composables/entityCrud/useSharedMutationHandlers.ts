@@ -1,16 +1,12 @@
 import type { QueryClient } from '@tanstack/vue-query'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { InvalidateEntityQueriesOptions } from '@/types/entityCrud/sharedMutationHandlers'
+
+export type { InvalidateEntityQueriesOptions, MutationContextWithPreviousData } from '@/types/entityCrud/sharedMutationHandlers'
 
 export function createRefetchGlobalDataHandler(queryClient: QueryClient) {
   return async (): Promise<void> => {
     await queryClient.refetchQueries({ queryKey: ['globalData'] })
   }
-}
-
-export interface InvalidateEntityQueriesOptions {
-  entityKey: string
-  relationshipKey?: string
-  refetchGlobalData?: boolean
 }
 
 /**
@@ -75,9 +71,4 @@ export function createRestorePreviousDataHandler(
       }
     })
   }
-}
-
-export interface MutationContextWithPreviousData {
-  previousGlobalData?: GlobalData
-  [key: string]: unknown
 }

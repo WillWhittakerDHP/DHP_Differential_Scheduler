@@ -3,54 +3,35 @@
 
 LEARNING: Extracts computed logic ...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
-import type { AppointmentShape, SlotShape, AppointmentSlot } from '@/types/appointment'
-import type { PartFinal } from '@/utils/booking/PartFinal'
+import { computed } from 'vue'
+import type { BookingBlockInstance } from '@/types/transformers/bookingData'
+import type { SlotShape } from '@/types/appointment'
+import type { PartFinal } from '@/types/booking/partFinal'
 import { useBooking } from '@/composables/useBooking'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { DEFAULT_MINOR_EVENT_NAME } from '@/configs/availabilitySettings'
+import type {
+  ServiceSummary,
+  TimeSlotResults,
+  UseDevPanelsComputedOptions,
+  UseDevPanelsComputedReturn,
+} from '@/types/booking/devPanelsComputed'
 
-export interface DevPanelsComputedData {
-  selectedBlockInstances: BookingBlockInstance[]
-  appointmentSlots: AppointmentSlot[]
-  appointmentShape: AppointmentShape | null
-  selectedDate: string | undefined
-  selectedTime: string | undefined
-}
-
-export interface UseDevPanelsComputedOptions {
-  appointmentData: ComputedRef<DevPanelsComputedData>
-}
-
-export interface UseDevPanelsComputedReturn {
-  servicesSummary: ComputedRef<ServiceSummary[]>
-  finalizedParts: ComputedRef<PartFinal[]>
-  slotShapeTotals: ComputedRef<SlotShape>
-  timeSlotResults: ComputedRef<TimeSlotResults>
-  allActiveServiceTypes: ComputedRef<BookingBlockInstance[]>
-  serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>
-}
-
-export interface ServiceSummary {
-  name: string
-  differential: TernaryBoolean
-  bookingMode: string
-  baseSqFt: number
-  partCount: number
-}
-
-interface TimeSlotResults {
-  majorArrival: string | null
-  minorArrival: string | null
-  appointmentEnd: string | null
-}
+export type {
+  DevPanelsComputedData,
+  ServiceSummary,
+  TimeSlotResults,
+  UseDevPanelsComputedOptions,
+  UseDevPanelsComputedReturn,
+} from '@/types/booking/devPanelsComputed'
 
 export function useDevPanelsComputed(
   options: UseDevPanelsComputedOptions
 ): UseDevPanelsComputedReturn {
   const { appointmentData } = options
+  const { settings: availabilitySettings } = useAvailabilitySettings()
 
   // PATTERN: Map block instances to summary objects
   const servicesSummary = computed<ServiceSummary[]>(() => {
@@ -106,10 +87,11 @@ export function useDevPanelsComputed(
     }
     
     const slot = slots[0]
-    
+
     const majorArrival = slot.totalTimeRange?.startTime || null
-    
-    const minorEventName = 'Minor' // TODO: Get from availabilitySettings
+
+    const minorEventName =
+      availabilitySettings.value?.differentialPerspectives?.minorLabel ?? DEFAULT_MINOR_EVENT_NAME
     const minorEventTimeRange = slot.eventTimeRanges?.[minorEventName]
     const minorArrival = minorEventTimeRange?.startTime || slot.totalTimeRange?.startTime || null
     

@@ -4,15 +4,9 @@
 PATTERN: Shared state composable with persi...
  */
 import { ref } from 'vue'
+import type { ApiCallStatusState, UseApiCallStatusReturn } from '@/types/booking/apiCallStatus'
 
-export type ApiCallStatus = 'hit' | 'error' | 'not_called'
-
-export interface ApiCallStatusState {
-  events: ApiCallStatus
-  routes: ApiCallStatus
-  places: ApiCallStatus
-  computedData: ApiCallStatus
-}
+export type { ApiCallStatusState, UseApiCallStatusReturn } from '@/types/booking/apiCallStatus'
 
 const sharedApiStatus = ref<ApiCallStatusState>({
   events: 'not_called',
@@ -26,7 +20,7 @@ const sharedApiStatus = ref<ApiCallStatusState>({
 
 PATTERN: Composable with shared module-leve...
  */
-export function useApiCallStatus() {
+export function useApiCallStatus(): UseApiCallStatusReturn {
   const recordApiCall = (api: 'events' | 'routes' | 'places' | 'computedData', status: 'hit' | 'error'): void => {
     sharedApiStatus.value[api] = status
   }

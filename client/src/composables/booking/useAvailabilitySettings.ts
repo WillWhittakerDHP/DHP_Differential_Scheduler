@@ -3,19 +3,14 @@
 
 WHY: Multiple composables fetch...
  */
-import { ref, computed, watchEffect, type Ref, type ComputedRef } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
+import type { UseBookingAvailabilitySettingsReturn } from '@/types/booking/availabilitySettings'
+
+export type { UseBookingAvailabilitySettingsReturn } from '@/types/booking/availabilitySettings'
 
 const logger = createLogger('useAvailabilitySettings')
-
-export interface UseAvailabilitySettingsReturn {
-  settings: ComputedRef<AvailabilitySettings | null>
-  isLoading: Ref<boolean>
-  error: Ref<Error | null>
-  hasError: ComputedRef<boolean>
-  refresh: () => Promise<void>
-}
 
 /**
  * WHY: Shared availability settings composable
@@ -23,7 +18,7 @@ WHY: Allows multiple composables...
  */
 export function useAvailabilitySettings(
   initialSettings?: AvailabilitySettings | null
-): UseAvailabilitySettingsReturn {
+): UseBookingAvailabilitySettingsReturn {
   const settings = ref<AvailabilitySettings | null>(initialSettings || null)
   const isLoading = ref(false)
   const error = ref<Error | null>(null)

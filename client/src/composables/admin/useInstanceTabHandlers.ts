@@ -1,16 +1,9 @@
 /**
  * Composable for instance tab click handlers
  */
+import type { UseInstanceTabHandlersOptions, UseInstanceTabHandlersReturn } from '@/types/admin/instanceTabHandlers'
 
-import type { Ref } from 'vue'
-
-export interface UseInstanceTabHandlersOptions {
-  activeTab: Ref<string>
-}
-
-export interface UseInstanceTabHandlersReturn {
-  handleTabClick: (tabValue: string) => void
-}
+export type { UseInstanceTabHandlersOptions, UseInstanceTabHandlersReturn } from '@/types/admin/instanceTabHandlers'
 
 /**
  * PATTERN: Composable for handling tab clicks

@@ -1,23 +1,14 @@
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
 import {
   attendeesFromClientAndAgent,
   getClientIdFromAttendees,
   getAgentIdFromAttendees,
-} from '@/composables/admin/tables/useAppointmentAttendees'
-import { formatAppointmentTimestamp } from '@/composables/admin/tables/useAppointmentHelpers'
+} from '@/utils/admin/appointmentAttendees'
+import { formatAppointmentTimestamp } from '@/utils/admin/appointmentHelpers'
+import type { UseAppointmentsTableHandlersParams } from '@/types/admin/tables/appointmentsTableHandlers'
 
-export interface UseAppointmentsTableHandlersParams {
-  newAppointment: Ref<Record<string, unknown>>
-  editedData: Ref<Record<string, unknown>>
-  saveCreate: () => Promise<void>
-  saveEdit: () => Promise<void>
-  startEdit: (item: AppointmentResponse) => void
-  cancelEdit: () => void
-  startCreate: () => void
-  cancelCreate: () => void
-  emit: (e: 'navigate-to-tab', tab: 'properties' | 'users') => void
-}
+export type { UseAppointmentsTableHandlersParams } from '@/types/admin/tables/appointmentsTableHandlers'
 
 export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandlersParams) {
   const {

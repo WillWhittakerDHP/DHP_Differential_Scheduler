@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import Shepherd from 'shepherd.js'
-import { withQuery } from 'ufo'
 import type { RouteLocationRaw } from 'vue-router'
 import { useConfigStore } from '@core/stores/config'
-import api from '@/utils/api'
+import { useNavSearch } from '@/composables/layout/useNavSearch'
 
 /** Base shape for a single suggestion item (P3 type-similarity); SearchResults.children use same shape. */
 interface SuggestionItemBase {
@@ -34,8 +33,6 @@ interface SuggestionGroup {
 }
 
 const isAppSearchBarVisible = ref(false)
-const isLoading = ref(false)
-
 
 const suggestionGroups: SuggestionGroup[] = [
   {
@@ -94,25 +91,8 @@ const noDataSuggestions: Suggestion[] = [
   },
 ]
 
-const searchQuery = ref('')
-
 const router = useRouter()
-const searchResult = ref<SearchResults[]>([])
-
-const fetchResults = async () => {
-  isLoading.value = true
-
-  // @audit-allow:hardcoding:fieldMapping - Request query shape
-  const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
-
-  searchResult.value = response.data
-
-  setTimeout(() => {
-    isLoading.value = false
-  }, 500)
-}
-
-watch(searchQuery, fetchResults)
+const { searchQuery, searchResult, isLoading } = useNavSearch()
 
 const closeSearchBar = () => {
   isAppSearchBarVisible.value = false

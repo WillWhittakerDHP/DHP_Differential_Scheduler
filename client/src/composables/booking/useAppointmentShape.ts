@@ -3,8 +3,7 @@
 
 LEARNING: Single-responsibility composab...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import type { AppointmentShape } from '@/types/appointment'
 import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
@@ -15,16 +14,11 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { createLogger } from '@/utils/logger'
+import type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/types/booking/appointmentShape'
 
 const logger = createLogger('useAppointmentShape')
 
-export interface UseAppointmentShapeParams {
-  blockInstances: ComputedRef<BookingBlockInstance[]>
-}
-
-export interface UseAppointmentShapeReturn {
-  appointmentShape: ComputedRef<AppointmentShape | null>
-}
+export type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/types/booking/appointmentShape'
 
 /**
  * WHY: useAppointmentShape composable

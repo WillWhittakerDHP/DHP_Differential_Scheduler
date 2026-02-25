@@ -2,17 +2,19 @@
  * WHY: Global to Booking Transformer
 LEARNING: Transforms GlobalData into booki...
  */
-import type { BlockInstanceLike } from '@shared/types/blockInstanceTypes'
-import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
+import type { GlobalData } from '@/types/transformers/globalData'
+import type { GlobalRelationship } from '@/types/relationships'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
-import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
+import type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import { safeArray, safeString, convertToTernaryBoolean } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
+
+export type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
 
 /** Entity-like shape for active/disabled check without full Record<string, unknown>. */
 function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null | undefined): boolean {
@@ -20,57 +22,6 @@ function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null 
   const disabled = entity.disabled === true
   const active = entity.active !== false
   return !disabled && active
-}
-
-export type BookingPartInstance = {
-  id: string
-  entityKey: 'partInstance'
-  name: string
-  active: boolean
-  partShape: string // Denormalized: partShape name instead of ID
-  baseTime: number
-  rateOverBaseTime: number
-  baseFee: number
-  rateOverBaseFee: number
-  orderIndex: number
-  zeroOutPart: boolean
-  /** Child part instance IDs from pricing cascade (downstream parts that contribute to this part's pricing). */
-  activePartIds: string[]
-}
-
-export type BookingBlockShape = {
-  id: string
-  name: string
-  type: BlockShapeType // Semantic type identifier for stable filtering
-  canHaveParts: boolean
-  isStateControl: boolean
-  composable: boolean
-}
-
-/** Index signature allows assignment to SelectionCardItem[] where items are blocks. */
-export type BookingBlockInstance = BlockInstanceLike & {
-  entityKey: 'blockInstance'
-  baseSqFt: number
-  icon: string
-  bookingMode: BookingMode // Controls where instance appears in booking flows
-  differential: TernaryBoolean // Whether this service supports differential scheduling (inspector and client have different arrival times). 'override' means differential is disabled.
-  orderIndex: number
-  blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
-  blockShapeRef: string // Block shape ID reference for filtering
-  activeBlockIds: string[] // Child block IDs for cascading filters
-  partInstances: BookingPartInstance[] // Embedded part instances
-  allowMultiple: boolean // Whether this block instance can be multiplied by ADU count or number
-  requiresUnitNumber: boolean | null // If true, property requires a unit number (nullable by design)
-  number?: number | null // Optional quantity multiplier for allowMultiple instances
-  isMultiFamily: boolean // If true, property type is multi-family (requires numberOfUnits field)
-  requiresAgent: boolean // If true, service requires agent and client contact information
-  [key: string]: unknown
-}
-
-export type BookingData = {
-  blockInstances: BookingBlockInstance[] // Main booking blocks (standalone, both) - excludes addOn
-  lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn") - separate for line item selection
-  blockShapes: BookingBlockShape[] // Block shapes for property-based filtering
 }
 
 function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {

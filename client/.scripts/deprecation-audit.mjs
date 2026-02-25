@@ -3,7 +3,7 @@ import {
   getAuditReportHeaderLines,
   getNeverPermissibleReportSectionLines,
   getNeverPermissibleSummaryLine,
-  getNeverPermissibleNotesLines,
+  getNeverPermissibleNotesLines as _getNeverPermissibleNotesLines,
   getNeverPermissibleInstructionsForJson,
   calculateScoreWithNeverPermissible,
   loadCentralAllowlist,

@@ -4,23 +4,13 @@
 Used by:
 - Ad...
  */
-import { ref, computed, watch, type Ref } from 'vue'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { ref, computed, watch } from 'vue'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { asEmptyObject } from '@/utils/safeDefaults'
+import type { UseMetadataFieldOrderingOptions, UseMetadataFieldOrderingReturn } from '@/types/admin/metadataFieldOrdering'
 
-export interface UseMetadataFieldOrderingOptions {
-  fieldMetadata: Ref<Record<string, FieldMetadataEntry>>
-  getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
-  updateFieldRendering: (fieldKey: string, updates: Partial<FieldMetadataEntry>) => void
-}
-
-export interface UseMetadataFieldOrderingReturn {
-  availableFieldsSorted: Ref<string[]>
-  draggableFieldKeys: Ref<string[]>
-  handleDragEnd: () => void
-}
+export type { UseMetadataFieldOrderingOptions, UseMetadataFieldOrderingReturn } from '@/types/admin/metadataFieldOrdering'
 
 export function useMetadataFieldOrdering(
   options: UseMetadataFieldOrderingOptions

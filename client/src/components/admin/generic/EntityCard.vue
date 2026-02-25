@@ -10,7 +10,7 @@ import { computed, provide } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { useEntityCardForm } from '@/composables/admin/useEntityCardForm'
 import { useEntityCardSaveAndActions } from '@/composables/admin/useEntityCardSaveAndActions'
-import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
+import { entityDisplay } from '@/utils/admin/entityDisplay'
 import { useEntityStatus } from '@/composables/admin/useEntityStatus'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/admin/useAdmin'
@@ -26,7 +26,7 @@ import EntityCardFeePreview from './EntityCardFeePreview.vue'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
 import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useEntityCardFieldContextAndVisibility'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
-import { useEntityCardTitleKeydown } from '@/composables/admin/useEntityCardTitleKeydown'
+import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
@@ -71,13 +71,13 @@ const emit = defineEmits<Emits>()
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
-const { handleTitleKeydown } = useEntityCardTitleKeydown()
+const { handleTitleKeydown } = entityCardTitleKeydown()
 
 /**
  * WHY: Use entity display composable for display name and messages
 WHY: Moves d...
  */
-const entityDisplayComposable = useEntityDisplay()
+const entityDisplayComposable = entityDisplay(useAdminConfig())
 const {
   getEntityDeleteTitle
 } = entityDisplayComposable
@@ -162,6 +162,7 @@ const {
   handleDelete,
   handleCancelDelete,
   handleCancel,
+  handleDuplicate,
   unifiedSaveState,
 } = useEntityCardSaveAndActions({
   entityKey: props.entityKey,
@@ -172,19 +173,6 @@ const {
   emit,
   logger,
 })
-
-/**
- * PATTERN: Emit event instead of creating immediately - same pattern as create flow
- */
-const handleDuplicate = async (): Promise<void> => {
-  if (props.entityKey !== 'blockInstance') {
-    return
-  }
-
-  const currentEntity = props.entity as GlobalEntity<'blockInstance'>
-  
-  emit('duplicate', currentEntity)
-}
 
 provide(ENTITY_CARD_SAVE_KEY, {
   handleSave,

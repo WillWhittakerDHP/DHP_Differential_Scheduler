@@ -2,17 +2,11 @@
  * WHY: Shared table model helpers and base type for formatNullValue
 WHY: Table ...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
+import type { ComputedRef } from 'vue'
 
-/** Shared shape for table models that provide formatNullValue. */
-export interface TableModelFormatHelpers {
-  formatNullValue: (value: unknown) => string
-}
-
-export function formatNullValue(value: unknown): string {
-  if (value === null || value === undefined) return '—'
-  return String(value)
-}
+export type { TableModelFormatHelpers } from '@/types/admin/tables/tableModelHelpers'
+export { formatNullValue } from '@/utils/formatting/nullDisplay'
 
 export function createItemsSource<T>(
   data: ComputedRef<T[] | undefined>

@@ -1,21 +1,14 @@
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
 import type { EventShapeEntity } from '@/types/entities'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { createLogger } from '@/utils/logger'
 
+export type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
+
 const logger = createLogger('availabilityStepData')
-
-/** TYPE_SIMILARITY: Extend shared SlotTimeBounds; duration optional for selection step. */
-export type SelectedTimeSlot = Omit<SlotTimeBounds, 'duration'> & { duration?: number }
-
-export interface AvailabilityStepData {
-  candidateDate: { start: string | null; end: string | null }
-  candidateTimeSlots: SelectedTimeSlot[] | null
-  moveableScheduling?: MoveableSchedulingOptions | null
-}
 
 type BuildSelectedTimeSlotsParams = {
   selectedDateStart: string | null

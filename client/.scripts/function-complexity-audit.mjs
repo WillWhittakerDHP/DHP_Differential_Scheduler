@@ -56,7 +56,7 @@ const ROUTES_PATH_RE = /\/(?:routes|src\/routes)\//
 
 /** Return true to skip this function (excluded from report and score). */
 function isPermissibleComplexFunction(fn, context) {
-  const { repoPath, isVueSetup, firstLine } = context
+  const { repoPath, isVueSetup: _isVueSetup, firstLine } = context
   if (fn.name === '<script setup>') {
     const onlyScriptSetupLength =
       fn.violations.length === 1 && fn.violations[0].rule === 'script-setup-length'
@@ -71,7 +71,7 @@ function isPermissibleComplexFunction(fn, context) {
 }
 
 /** Tier 1 = drives score and file count. Tier 2 = report-only. */
-function assignTiers(violations, thresholds, maxNesting, branches) {
+function assignTiers(violations, _thresholds, _maxNesting, _branches) {
   const hasNestingOrBranches =
     violations.some((v) => v.rule === 'nesting' || v.rule === 'branches')
   return violations.map((v) => {

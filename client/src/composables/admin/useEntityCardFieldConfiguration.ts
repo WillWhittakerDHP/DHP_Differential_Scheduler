@@ -3,33 +3,13 @@
 
 WHY: Reduces component compl...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { UseEntityCardFieldConfigurationParams, UseEntityCardFieldConfigurationReturn } from '@/types/admin/entityCardFieldConfiguration'
 import { useFieldLocation } from './useFieldLocation'
 
-export interface UseEntityCardFieldConfigurationParams {
-  entityKey: GlobalEntityKey
-  
-  fieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  
-  composedFieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
-  
-  isExpanded: ComputedRef<boolean>
-  
-  filteredMetadata?: Record<string, FieldMetadataEntry>
-}
-
-export interface UseEntityCardFieldConfigurationReturn {
-  finalFieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  
-  fieldLocation: ReturnType<typeof useFieldLocation>
-  
-  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  
-  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-}
+export type { UseEntityCardFieldConfigurationParams, UseEntityCardFieldConfigurationReturn } from '@/types/admin/entityCardFieldConfiguration'
 
 export function useEntityCardFieldConfiguration(
   params: UseEntityCardFieldConfigurationParams

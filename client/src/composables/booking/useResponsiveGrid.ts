@@ -1,27 +1,9 @@
-import { computed, type Ref } from 'vue'
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useElementDimensions } from './useElementDimensions'
+import type { UseResponsiveGridOptions, UseResponsiveGridReturn } from '@/types/booking/responsiveGrid'
 
-export interface UseResponsiveGridOptions {
-  gridRef: Ref<HTMLElement | null>
-  
-  minColumns?: number
-  
-  maxColumns?: number
-  
-  buttonMinWidth?: number
-  
-  gap?: number
-  
-  padding?: number
-}
-
-export interface UseResponsiveGridReturn {
-  containerWidth: Ref<number>
-  
-  buttonGridColumns: Ref<number>
-  
-  isSingleColumn: Ref<boolean>
-}
+export type { UseResponsiveGridOptions, UseResponsiveGridReturn } from '@/types/booking/responsiveGrid'
 
 export function useResponsiveGrid(
   options: UseResponsiveGridOptions
@@ -63,11 +45,10 @@ export function useResponsiveGrid(
     return result
   })
   
+  const display = useDisplay()
   const isSingleColumn = computed(() => {
-    // LEARNING: Use element dimensions composable's viewport check helper
-    // WHY: Isolates viewport access for better testability
-    // PATTERN: Check viewport width via utility function
-    const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 600
+    // WHY: Vuetify useDisplay is SSR-safe and reactive; no direct viewport/browser API access
+    const isMobileViewport = display.mobile.value || display.width.value < 600
     return isMobileViewport && buttonGridColumns.value <= 2
   })
   

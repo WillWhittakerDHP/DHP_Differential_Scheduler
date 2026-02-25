@@ -2,7 +2,7 @@
  * WHY: Reusable status button toggle composable
 PATTERN: Pure configuration-bas...
  */
-import { ref, computed, type Ref, type ComputedRef } from 'vue'
+import { ref, computed } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
 import { useGlobal } from '../useGlobal'
@@ -11,22 +11,11 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import type { TernaryBoolean } from '@/types/ternary'
 import { createLogger } from '@/utils/logger'
+import type { UseStatusButtonToggleOptions, UseStatusButtonToggleReturn } from '@/types/admin/statusButtonToggle'
 
 const logger = createLogger('useStatusButtonToggle')
 
-export interface UseStatusButtonToggleOptions<GE extends GlobalEntityKey> {
-  entityKey: GE
-  entityId: string | Ref<string> | ComputedRef<string>
-  entity?: Ref<GlobalEntity<GE>> | ComputedRef<GlobalEntity<GE>> | GlobalEntity<GE>
-  /**
-   * WHY: Allows parent component to track status button changes for save state management
-   */
-  onToggle?: (fieldKey: string) => void
-}
-
-export interface UseStatusButtonToggleReturn<GE extends GlobalEntityKey> {
-  toggleStatusButton: (fieldKey: GlobalFieldKey<GE>, event?: Event) => Promise<void>
-}
+export type { UseStatusButtonToggleOptions, UseStatusButtonToggleReturn } from '@/types/admin/statusButtonToggle'
 
 /**
  * WHY: Reusable status button toggle composable

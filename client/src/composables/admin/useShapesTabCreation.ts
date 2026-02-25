@@ -2,18 +2,13 @@
  * PATTERN: Creation state and handlers for Shapes tab (PartShape, AnnotationShape, EventShape).
  * WHY: Keeps ShapesTab.vue under vue-architecture limits (script size, function count).
  */
-import { ref, type Ref } from 'vue'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
+import { ref } from 'vue'
+import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import type { AppLogger } from '@/utils/logger'
+import type { UseShapesTabCreationParams } from '@/types/admin/shapesTabCreation'
 
-export interface UseShapesTabCreationParams {
-  expandedShapes: Ref<string[]>
-  success: (message: string) => void
-  createAnnotationShapeMutation: (payload: Record<string, unknown>) => Promise<unknown>
-  createEventShapeMutation: (payload: Record<string, unknown>) => Promise<unknown>
-  logger: AppLogger
-}
+export type { UseShapesTabCreationParams } from '@/types/admin/shapesTabCreation'
 
 export function useShapesTabCreation(params: UseShapesTabCreationParams) {
   const {

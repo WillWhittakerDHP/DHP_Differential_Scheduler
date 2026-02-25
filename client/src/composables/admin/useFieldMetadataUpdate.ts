@@ -1,9 +1,8 @@
 import type { Ref } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { FieldMetadataConfig } from '@/types/admin/fieldMetadataUpdate'
 
-export interface FieldMetadataConfig {
-  fieldMetadata?: Record<string, FieldMetadataEntry>
-}
+export type { FieldMetadataConfig } from '@/types/admin/fieldMetadataUpdate'
 
 export function useFieldMetadataUpdate(
   fieldVisibilityConfig: Ref<FieldMetadataConfig>,

@@ -3,28 +3,14 @@
 
 WHY: Entities all have the same drag-a...
  */
-import { type Ref, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-
-import type { OrderIndexUpdate } from '@/composables/entityCrud/useEntityCrudTypes'
+import type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
 import { createLogger } from '@/utils/logger'
 
+export type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
+
 const logger = createLogger('useEntityDragHandlers')
-
-export type PatchOrderIndex = (updates: OrderIndexUpdate) => Promise<void>
-
-export interface UseEntityDragHandlersParams<EntityKey extends GlobalEntityKey> {
-  entityIds: Ref<string[]>
-  entityList: Ref<GlobalEntity<EntityKey>[]>
-  filteredEntities: ComputedRef<GlobalEntity<EntityKey>[]>
-  patchOrderIndex: PatchOrderIndex
-}
-
-export interface UseEntityDragHandlersReturn {
-  handleDragEnd: () => Promise<void>
-  syncArrays: () => void
-}
 
 /**
  * PATTERN: useEntityDragHandlers composable

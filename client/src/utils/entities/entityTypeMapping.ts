@@ -1,5 +1,6 @@
 
-import { toGlobalEntityId, type BlockInstanceEntity, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
 import type { EntityMetadataType, GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import { GLOBAL_CONFIG_IDS, NULL_UUID } from '@shared/constants/globalConfigIds'

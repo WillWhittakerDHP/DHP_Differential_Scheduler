@@ -3,13 +3,10 @@
 
 LEARNING: Extracts expansion state logic fro...
  */
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
+import type { UseExpansionStateReturn } from '@/types/admin/expansionState'
 
-export interface UseExpansionStateReturn {
-  expandedEntities: Ref<string[]>
-  
-  isPanelExpanded: (entityId: string) => boolean
-}
+export type { UseExpansionStateReturn } from '@/types/admin/expansionState'
 
 /**
  * WHY: Expansion State Composable

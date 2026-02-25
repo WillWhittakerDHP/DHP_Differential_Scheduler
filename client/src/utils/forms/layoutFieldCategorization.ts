@@ -1,10 +1,8 @@
-export type FieldsByLayout<FieldKey extends string = string> = {
-  inline: FieldKey[]
-  stacked: FieldKey[]
-  hidden: FieldKey[]
-}
+import type { FieldsByLayout } from '@/types/forms/layoutFieldCategorization'
 
-export function filterFieldsInConfigOrder<FieldKey extends string>(
+export type { FieldsByLayout } from '@/types/forms/layoutFieldCategorization'
+
+export function filterFieldsInConfigOrder<FieldKey extends string | number>(
   allFields: readonly FieldKey[],
   config: readonly FieldKey[]
 ): FieldKey[] {

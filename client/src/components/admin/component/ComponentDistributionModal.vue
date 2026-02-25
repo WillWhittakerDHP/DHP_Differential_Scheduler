@@ -107,6 +107,7 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import { DISTRIBUTION_STRATEGIES } from '@/constants/component'
 import { useComponentDistribution } from '@/composables/useComponentDistribution'
+import { useComponentDistributionConfirm } from '@/composables/admin/useComponentDistributionConfirm'
 
 interface Props {
   modelValue: boolean
@@ -126,7 +127,6 @@ const emit = defineEmits<Emits>()
 
 const selectedStrategy = ref<DistributionStrategy>('proportional')
 const manualValues = ref<Record<GlobalEntityId, number>>({})
-const isDistributing = ref(false)
 
 const strategyItems = [
   { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTIONAL },
@@ -161,32 +161,13 @@ function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-async function handleConfirm() {
-  isDistributing.value = true
-  
-  try {
-    if (selectedStrategy.value === 'manual') {
-      // WHY: Functional approach avoids mutations, aligns with workspace rules
-      // PATTERN: Reduce array to nested object structure
-      const distributionValues = preview.value.reduce<Record<GlobalEntityId, Record<string, unknown>>>(
-        (acc, item) => {
-          const existing = acc[item.componentId]
-          acc[item.componentId] = existing !== undefined && existing !== null ? existing : {}
-          acc[item.componentId][props.propertyKey] = item.newValue
-          return acc
-        },
-        {}
-      )
-
-      emit('confirm', selectedStrategy.value, distributionValues)
-    } else {
-      emit('confirm', selectedStrategy.value, undefined)
-    }
-    updateModelValue(false)
-  } finally {
-    isDistributing.value = false
-  }
-}
+const { handleConfirm, isDistributing } = useComponentDistributionConfirm({
+  preview,
+  selectedStrategy,
+  getPropertyKey: () => props.propertyKey,
+  onConfirm: (strategy, distributionValues) => emit('confirm', strategy, distributionValues),
+  onClose: () => updateModelValue(false),
+})
 
 // LEARNING: Watchers are now handled in useComponentDistribution composable
 // WHY: Strategy change and modal open watchers moved to composable

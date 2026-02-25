@@ -7,16 +7,20 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import { createLogger } from '@/utils/logger'
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
-import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturn, WizardStepDataAndValidationRefs } from '@/types/wizard'
-import type { AppointmentRequest } from '@/types/appointment'
+import type { UseBookingWizardReturn } from '@/types/wizard'
 import { APPOINTMENT_NOT_FOUND, ERROR_UPDATE_APPOINTMENT } from '@/constants/errorMessages'
+import type {
+  UseWizardAppointmentManagementOptions,
+  UseWizardAppointmentManagementReturn,
+} from '@/types/booking/wizardAppointmentManagement'
+
+export type {
+  UseWizardAppointmentManagementOptions,
+  UseWizardAppointmentManagementReturn,
+} from '@/types/booking/wizardAppointmentManagement'
 
 const logger = createLogger('useWizardAppointmentManagement')
 
-/**
- * WHY: Apply transformed wizard state to wizard refs and step data refs in one ...
- */
 function applyWizardState(
   wizard: UseBookingWizardReturn,
   wizardState: WizardStateData,
@@ -41,32 +45,6 @@ function applyWizardState(
     showTransactionManager: wizardState.contacts.additionalContacts.some(c => c.role === 'transactionManager'),
     showSeller: wizardState.contacts.additionalContacts.some(c => c.role === 'seller')
   }
-}
-
-export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {
-  wizard: UseBookingWizardReturn
-  bookingData: Ref<BookingData | null>
-  loadAppointmentById: (id: string) => Promise<AppointmentResponse | null>
-  fetchRandom: () => Promise<AppointmentResponse | null>
-  collectAppointmentData: () => Promise<AppointmentRequest | null>
-  updateAppointment: {
-    mutateAsync: (params: { id: string; data: AppointmentRequest }) => Promise<unknown>
-    isPending: Ref<boolean>
-  }
-  activeStep: Ref<number>
-  completedSteps: Ref<Set<number>>
-  showError: (message: string) => void
-  success: (message: string) => void
-}
-
-export interface UseWizardAppointmentManagementReturn {
-  loadedWizardState: Ref<WizardStateData | null>
-  loadedAppointmentId: Ref<string | null>
-  selectedAppointmentId: Ref<string | null>
-  isLoadingAppointment: Ref<boolean>
-  handleLoadAppointment: (appointmentIdOrRandom: string | null) => Promise<void>
-  handleUpdateAppointment: () => Promise<void>
-  handleResetWizard: () => void
 }
 
 export function useWizardAppointmentManagement(

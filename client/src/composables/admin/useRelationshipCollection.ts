@@ -2,69 +2,27 @@
  * WHY: useRelationshipCollection Composable
 LEARNING: Generic collection-level ...
  */
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useNotification } from '@/composables/useNotification'
-import {
-  useRelationshipCollectionData,
-  type UseRelationshipCollectionDataReturnBase,
-} from './useRelationshipCollectionData'
+import { useRelationshipCollectionData } from './useRelationshipCollectionData'
 import { useRelationshipCollectionField } from './useRelationshipCollectionField'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createLogger } from '@/utils/logger'
+import type { RelationshipCollectionModel, UseRelationshipCollectionOptions } from '@/types/admin/relationshipCollection'
 
 const logger = createLogger('useRelationshipCollection')
 
-/**
-WHY: Different collection types may have d...
- */
-export type NameGenerator = (
-  parentName: string,
-  shapeName: string,
-  parentId: string,
-  shapeId: string,
-  existingChildren: GlobalEntity<GlobalEntityKey>[]
-) => string
-
-/** Extends shared data return base (P2 type-similarity). */
-export interface RelationshipCollectionModel extends UseRelationshipCollectionDataReturnBase {
-  parentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
-  shouldShow: ComputedRef<boolean>
-  optionsFieldKey: ComputedRef<string>
-  expandedPlaceholders: Ref<string[]>
-  getNewChildEntity: (shapeId: string) => GlobalEntity<GlobalEntityKey>
-  handleNewChildSaved: (shapeId: string, createdEntity: GlobalEntity<GlobalEntityKey>) => Promise<void>
-  handleNewChildCancelled: (shapeId: string) => void
-  expandedChildren: Ref<string[]>
-  isPanelExpanded: (childId: string) => boolean
-  bulkEditMode?: Ref<boolean>
-  bulkEditData?: Ref<Record<string, unknown>>
-  toggleBulkEditMode?: () => void
-  applyBulkEdit?: () => Promise<void>
-  handleBulkEditModalUpdate?: (value: boolean) => void
-  handleBulkEditConfirm?: (data: Record<string, unknown>) => void
-}
-
-export interface UseRelationshipCollectionOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  nameGenerator?: NameGenerator
-  enableBulkEdit?: boolean
-  bulkEditComposable?: (collectionModel: RelationshipCollectionModel) => {
-    bulkEditMode: Ref<boolean>
-    bulkEditData: Ref<Record<string, unknown>>
-    toggleBulkEditMode: () => void
-    applyBulkEdit: () => Promise<void>
-    handleBulkEditModalUpdate: (value: boolean) => void
-    handleBulkEditConfirm: (data: Record<string, unknown>) => void
-  }
-}
+export type {
+  NameGenerator,
+  RelationshipCollectionModel,
+  UseRelationshipCollectionOptions
+} from '@/types/admin/relationshipCollection'
 
 /**
 LEARNING: Generic collection-level composable ...
@@ -271,7 +229,9 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     getNewChildEntity,
     handleNewChildSaved,
     handleNewChildCancelled,
-    
+    handleDeleteChildById,
+    handleDeleteChild,
+
     expandedChildren,
     isPanelExpanded,
   }

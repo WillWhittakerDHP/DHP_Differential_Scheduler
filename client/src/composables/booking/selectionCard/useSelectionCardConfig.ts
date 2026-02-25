@@ -3,18 +3,12 @@
 
 WHY: Moves config default merging log...
  */
-import { computed, unref, type ComputedRef } from 'vue'
+import { computed, unref } from 'vue'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'
-import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import type { UseSelectionCardConfigParams, UseSelectionCardConfigReturn } from '@/types/booking/selectionCard/selectionCardConfig'
 
-export interface UseSelectionCardConfigParams {
-  config: ReadonlyVueRef<SelectionCardConfig | undefined>
-}
-
-export interface UseSelectionCardConfigReturn {
-  configWithDefaults: ComputedRef<SelectionCardConfig>
-}
+export type { UseSelectionCardConfigParams, UseSelectionCardConfigReturn } from '@/types/booking/selectionCard/selectionCardConfig'
 
 /**
  * WHY: useSelectionCardConfig composable

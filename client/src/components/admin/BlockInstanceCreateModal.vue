@@ -64,13 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { generateIncrementedName } from '@/utils/blockInstanceUtils'
 import { useAdmin } from '@/composables/admin/useAdmin'
+import { useBlockInstanceCreate } from '@/composables/admin/useBlockInstanceCreate'
 
 interface Props {
   modelValue?: boolean
@@ -91,7 +92,10 @@ const emit = defineEmits<Emits>()
 const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const admin = useAdmin()
 
-const tempEntityId = ref<string>(`new-${Date.now()}`)
+const { tempEntityId, handleCreate } = useBlockInstanceCreate({
+  modelValue: () => props.modelValue,
+  entityCardRef: entityCardRef as import('vue').Ref<{ handleSave: () => Promise<void> } | null>,
+})
 
 const modalTitle = computed(() => {
   return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
@@ -125,12 +129,6 @@ const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   }
 })
 
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    tempEntityId.value = `new-${Date.now()}`
-  }
-})
-
 const canSave = computed(() => {
   if (!entityCardRef.value?.form) {
     return false
@@ -147,14 +145,6 @@ function updateModelValue(value: boolean) {
 function handleEntityCardSaved(entity: GlobalEntity<GlobalEntityKey>): void {
   emit('created', entity as GlobalEntity<'blockInstance'>)
   updateModelValue(false)
-}
-
-async function handleCreate(): Promise<void> {
-  if (!entityCardRef.value) {
-    return
-  }
-  
-  await entityCardRef.value.handleSave()
 }
 
 function handleCancel(): void {

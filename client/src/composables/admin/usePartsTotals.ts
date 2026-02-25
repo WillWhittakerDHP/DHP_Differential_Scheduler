@@ -2,7 +2,7 @@
  * PATTERN: Parts Totals Composable for Admin
 PATTERN: Composable that determines if...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
@@ -11,16 +11,11 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { createLogger } from '@/utils/logger'
+import type { UsePartsTotalsReturn } from '@/types/admin/partsTotals'
 
 const logger = createLogger('usePartsTotals')
 
-export interface UsePartsTotalsReturn {
-  canHaveParts: ComputedRef<boolean>
-  totalBaseFee: ComputedRef<number>
-  totalBaseTime: ComputedRef<number>
-  totalRateOverBaseFee: ComputedRef<number>
-  totalRateOverBaseTime: ComputedRef<number>
-}
+export type { UsePartsTotalsReturn } from '@/types/admin/partsTotals'
 
 export function usePartsTotals(
   entityKey: GlobalEntityKey,

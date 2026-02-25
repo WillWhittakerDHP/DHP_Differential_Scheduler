@@ -5,12 +5,7 @@
 -->
 <script setup lang="ts">
 import { ref, computed, inject, type Ref } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
-import apiClient from '@/utils/api'
-import {
-  getPropertyFieldMappingsEndpoint,
-  getPropertyFeatureMappingsEndpoint
-} from '@/utils/api'
+import { usePropertyMappingsTab } from '@/composables/admin/usePropertyMappingsTab'
 
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))
 
@@ -26,57 +21,12 @@ const isTabActive = computed(() =>
 
 const currentSubTab = ref<'field' | 'block'>('field')
 
-interface PropertyFieldMappingRow {
-  id: string
-  dataSource: string
-  sourceField: string
-  targetField: string
-  valueMapping: Record<string, unknown> | null
-  fallbackValue: string | null
-  active: boolean
-  notes: string | null
-  createdAt: string
-  updatedAt: string
-}
-
-interface PropertyFeatureMappingRow {
-  id: string
-  dataSource: string
-  sourceField: string
-  matchType: string
-  matchValue: string | null
-  blockInstanceId: string
-  blockInstance?: { id: string; name: string }
-  active: boolean
-  priority: number
-  notes: string | null
-  createdAt: string
-  updatedAt: string
-}
-
 const {
-  data: fieldMappings,
-  isLoading: fieldMappingsLoading
-} = useQuery({
-  queryKey: ['property-field-mappings'],
-  queryFn: async () => {
-    const res = await apiClient.get<PropertyFieldMappingRow[]>(getPropertyFieldMappingsEndpoint())
-    return res.data
-  },
-  enabled: isTabActive
-})
-
-const {
-  data: featureMappings,
-  isLoading: featureMappingsLoading
-} = useQuery({
-  queryKey: ['property-feature-mappings'],
-  queryFn: async () => {
-    const res = await apiClient.get<PropertyFeatureMappingRow[]>(getPropertyFeatureMappingsEndpoint())
-    return res.data
-  },
-  enabled: isTabActive
-})
+  fieldMappings,
+  fieldMappingsLoading,
+  featureMappings,
+  featureMappingsLoading,
+} = usePropertyMappingsTab(isTabActive)
 
 const showFieldDialog = ref(false)
 const showBlockDialog = ref(false)

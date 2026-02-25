@@ -6,18 +6,20 @@
   NOTE: All other fields rendered using unified layout mechanism - no type-specific logic
 -->
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import DynamicForm from './DynamicForm.vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
+import { useEntityIdReset } from '@/composables/admin/useEntityIdReset'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { useFormFieldConfigs } from '@/composables/admin/useFormFieldConfigs'
 import { useFormFields } from '@/composables/useFormFields'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/admin/useAdmin'
-import { getFieldKeys } from '@/utils/forms/getFieldKeys'
 import type { FormContext } from 'vee-validate'
 
 interface Props {
@@ -48,12 +50,7 @@ void dynamicFormRef.value // ref used by template
 WHY: Need stable reference for composable
  */
 const currentEntityId = ref<GlobalEntityId>(props.entityId ?? toGlobalEntityId('new-' + String(Date.now())))
-
-watch(() => props.entityId, (newId) => {
-  if (newId) {
-    currentEntityId.value = newId
-  }
-}, { immediate: true })
+useEntityIdReset(() => props.entityId ?? undefined, currentEntityId)
 
 const adminConfig = useAdminConfig()
 
@@ -69,28 +66,12 @@ const entity = computed(() => {
 
 const { fieldMetadata } = useEntityMetadata(props.entityKey, entity)
 
-const fieldKeys = computed(() => {
-  return getFieldKeys({
-    entity: entity.value as Record<string, unknown> | null,
-    fieldMetadata: fieldMetadata.value,
-    entityKey: props.entityKey
-  })
-})
-
-const instanceConfig = computed(() => {
-  const v = adminConfig.getInstanceConfig(props.entityKey).value
-  return v !== undefined && v !== null ? v : {}
-})
-const inlineFieldsConfig = computed(() => {
-  const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  const raw = config?.inlineFields
-  return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
-})
-const stackedFieldsConfig = computed(() => {
-  const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  const raw = config?.stackedFields
-  return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
-})
+const {
+  fieldKeys,
+  instanceConfig: _instanceConfig,
+  inlineFieldsConfig,
+  stackedFieldsConfig,
+} = useFormFieldConfigs(props.entityKey, entity, fieldMetadata)
 
 /**
  * WHY: Use form fields composable for unified layout-based rendering

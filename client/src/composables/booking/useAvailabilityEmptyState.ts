@@ -3,20 +3,11 @@
 
 WHY: Extracts empty state message ...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed } from 'vue'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
-export interface UseAvailabilityEmptyStateParams {
-  isEffectivelyDifferential: ComputedRef<boolean>
-  
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-  
-  appointmentSlotsCount: ComputedRef<number>
-}
-
-export interface UseAvailabilityEmptyStateReturn {
-  emptyStateMessage: ComputedRef<string | null>
-}
+export type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
 /**
  * WHY: useAvailabilityEmptyState composable

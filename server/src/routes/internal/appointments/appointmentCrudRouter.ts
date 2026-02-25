@@ -10,7 +10,7 @@ import {
   isValidTransition,
   type AppointmentStatus,
 } from './appointmentConstants.js'
-import { handleRouteError } from './appointmentErrorHandler.js'
+import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
   appointmentIncludes,

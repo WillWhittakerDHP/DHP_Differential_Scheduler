@@ -11,20 +11,13 @@ import {
   saveComponentEntityField,
   saveRelationshipField,
   saveRegularField
-} from './useFieldContextSaveHelpers'
+} from '@/utils/fieldContext/fieldContextSaveHelpers'
 import { createLogger } from '@/utils/logger'
+import type { UseFieldContextActionsReturn } from '@/types/fieldContext/fieldContextActions'
+
+export type { UseFieldContextActionsReturn } from '@/types/fieldContext/fieldContextActions'
 
 const logger = createLogger('useFieldContextActions')
-
-export type UseFieldContextActionsReturn = {
-  setFocus: (focused: boolean) => void
-  validate: () => Promise<boolean>
-  clearError: () => void
-  save: () => Promise<void>
-  reset: () => void
-  getValue: () => ValidAdminValue
-  setValue: (value: ValidAdminValue) => void
-}
 
 export function useFieldContextActions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   state: UseFieldContextStateReturn<GE, FieldKey>

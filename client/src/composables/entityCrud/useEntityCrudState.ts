@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
-import type { UseEntityCrudStateReturnBase } from './useEntityCrudTypes'
+import type { UseEntityCrudStateReturn } from '@/types/entityCrud/entityCrudState'
 
-export type UseEntityCrudStateReturn = UseEntityCrudStateReturnBase
+export type { UseEntityCrudStateReturn, UseEntityCrudStateReturnBase } from '@/types/entityCrud/entityCrudState'
 
 /**
  * WHY: State module: provides shared loading/error and refetch helpers

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
-import { ref, watch, inject } from 'vue'
+import { ref, inject } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
 import { useDevPanelTabs } from '@/composables/dev/useDevPanelTabs'
 import { useApiDevPanelData } from '@/composables/dev/useApiDevPanelData'
+import { useApiDevPanelVisibility } from '@/composables/admin/useApiDevPanelVisibility'
 import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import DevPanelButtons from '@/components/dev/DevPanelButtons.vue'
 import ApiDevPanelStatusTab from './ApiDevPanelStatusTab.vue'
@@ -35,7 +36,7 @@ const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBa
 
 const { apiStatus } = useApiCallStatus()
 
-const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
+const { formatDateTimeForDisplay, formatTimeForDisplay } = localTime()
 
 const { activeTab } = useDevPanelTabs()
 
@@ -52,13 +53,12 @@ const {
   fetchAll,
 } = useApiDevPanelData(API_BASE_URL)
 
-watch(() => props.visible, (isVisible) => {
-  if (isVisible && isDevMode) {
-    if (!oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps) {
-      fetchDevStatus()
-    }
-  }
-}, { immediate: false })
+useApiDevPanelVisibility({
+  visible: () => props.visible,
+  isDevMode,
+  shouldFetch: () => !oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps,
+  fetch: fetchDevStatus,
+})
 </script>
 
 <template>

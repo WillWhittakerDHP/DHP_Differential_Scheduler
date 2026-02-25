@@ -1,19 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, watch, nextTick } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import { SUB_PANEL_KEYS, type SubPanelRecord } from '@/constants/fieldMetadata'
-import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import type { EntityCardSharedProps } from './entityCardConstants'
-
-type SubPanelFields = SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
+import { useEntityCardSubPanels, type SubPanelFields } from '@/composables/admin/useEntityCardSubPanels'
 
 interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>
@@ -27,170 +22,16 @@ interface Props extends EntityCardSharedProps {
 
 const props = defineProps<Props>()
 
-const { entities: blockInstances } = useEntityCrud('blockInstance')
-const { entities: partInstances } = useEntityCrud('partInstance')
-const { entities: blockShapes } = useEntityCrud('blockShape')
-
-const blockShapeName = computed((): string => {
-  if (props.entityKey !== 'blockInstance') return ''
-  const entity = props.entity as GlobalEntity<'blockInstance'>
-  const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)
-  const name = blockShape?.name
-  return name !== undefined && name !== null && name !== '' ? name : 'Block'
-})
-
-const MAX_DISPLAY_ITEMS = 2
-
-/**
- * LEARNING: Helper to format truncated list with count
- */
-function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
-  if (items.length === 0) return ''
-  
-  const displayItems = items.slice(0, maxDisplay)
-  const remaining = items.length - maxDisplay
-  
-  if (remaining <= 0) {
-    return displayItems.join(', ')
-  }
-  
-  return `${displayItems.join(', ')} +${remaining} more`
-}
-
-function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInstance'): string[] {
-  if (!Array.isArray(ids)) return []
-  
-  const entities = entityType === 'blockInstance' ? blockInstances.value : partInstances.value
-  
-  return ids
-    .map(id => {
-      const entity = entities.find(e => e.id === id)
-      return entity?.name || null
-    })
-    .filter((name): name is string => name !== null)
-}
-
-const partsSummary = computed((): string => {
-  if (props.entityKey !== 'blockInstance') return ''
-  
-  const partAssignments = props.form.values.partAssignments
-  if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
-  
-  const names = getEntityNames(partAssignments, 'partInstance')
-  return formatTruncatedList(names)
-})
-
-  /**
-   * PATTERN: Use getFieldComponent() as single source of truth for component type determination
-   */
-function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
-  if (!props.fieldMetadata) return false
-  
-  const fieldMeta = props.fieldMetadata[String(fieldKey)]
-  if (!fieldMeta) return false
-  
-  // LEARNING: Use getFieldComponent() as single source of truth
-  // PATTERN: Check component type from dispatcher instead of duplicating logic
-  const componentType = getFieldComponent(props.entityKey, fieldKey, fieldMeta)
-  return componentType.type === 'relationshipCollection'
-}
-
-// PATTERN: Type as array to match Vue 3 behavior, access first element when needed
-const partsCollectionRef = ref<(InstanceType<typeof RelationshipCollection> | null)[] | InstanceType<typeof RelationshipCollection> | null>(null)
-
-const expandedPanels = ref<string[]>([])
-
-const getRelationshipCollectionInstance = (): InstanceType<typeof RelationshipCollection> | null => {
-  const refValue = partsCollectionRef.value
-  if (!refValue) return null
-  if (Array.isArray(refValue)) {
-    return refValue[0] ?? null
-  }
-  return refValue
-}
-
-// LEARNING: bulkEditMode is exposed as a Ref<boolean>
-const partsBulkEditMode = computed(() => {
-  const instance = getRelationshipCollectionInstance()
-  // PATTERN: Check if bulkEditMode exists and has a value property (is a Ref)
-  if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {
-    return (instance.bulkEditMode as { value: boolean }).value
-  }
-  return false
-})
-
-const togglePartsBulkEditMode = () => {
-  // FIX: Expand panel first if not expanded, then toggle bulk edit mode
-  // PATTERN: Ensure panel is expanded, wait for nextTick for component to mount, then toggle
-  if (!expandedPanels.value.includes('parts')) {
-    expandedPanels.value.push('parts')
-    nextTick(() => {
-      const instance = getRelationshipCollectionInstance()
-      if (instance && typeof instance.toggleBulkEditMode === 'function') {
-        instance.toggleBulkEditMode()
-      }
-    })
-  } else {
-    const instance = getRelationshipCollectionInstance()
-    if (instance && typeof instance.toggleBulkEditMode === 'function') {
-      instance.toggleBulkEditMode()
-    }
-  }
-}
-
-watch(partsBulkEditMode, (isEnabled) => {
-  if (isEnabled && !expandedPanels.value.includes('parts')) {
-    expandedPanels.value.push('parts')
-  }
-})
-
-const relationshipsSummary = computed((): string => {
-  const formValues = props.form.values
-  const relationshipTypes: string[] = []
-  
-  if (props.entityKey === 'blockInstance') {
-    const cascades = Array.isArray(formValues.bookingCascades) ? formValues.bookingCascades : []
-    const components = Array.isArray(formValues.instanceComponents) ? formValues.instanceComponents : []
-    const dependentInstances = Array.isArray(formValues.dependentInstances) ? formValues.dependentInstances : []
-    
-    if (cascades.length > 0) {
-      relationshipTypes.push('Booking Cascades')
-    }
-    if (components.length > 0) {
-      relationshipTypes.push(`${blockShapeName.value} Components`)
-    }
-    if (dependentInstances.length > 0) {
-      relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)
-    }
-  } else if (props.entityKey === 'blockShape') {
-    const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []
-    const parts = Array.isArray(formValues.validParts) ? formValues.validParts : []
-    
-    if (cascades.length > 0) {
-      relationshipTypes.push('Valid Cascades')
-    }
-    if (parts.length > 0) {
-      relationshipTypes.push('Valid Parts')
-    }
-  } else if (props.entityKey === 'partInstance') {
-    const pricingCascades = Array.isArray(formValues.pricingCascades) ? formValues.pricingCascades : []
-    if (pricingCascades.length > 0) {
-      relationshipTypes.push('Pricing Cascades')
-    }
-  } else if (props.entityKey === 'partShape') {
-    const validPricingCascades = Array.isArray(formValues.validPricingCascades) ? formValues.validPricingCascades : []
-    if (validPricingCascades.length > 0) {
-      relationshipTypes.push('Valid Pricing Cascades')
-    }
-  }
-  
-  return formatTruncatedList(relationshipTypes)
-})
-
-const hasAnySubPanelFields = computed(() =>
-  SUB_PANEL_KEYS.some(key => props.subPanelFields[key].length > 0)
-)
-
+const {
+  blockShapeName,
+  partsSummary,
+  isRelationshipCollectionField,
+  expandedPanels,
+  partsBulkEditMode,
+  togglePartsBulkEditMode,
+  relationshipsSummary,
+  hasAnySubPanelFields,
+} = useEntityCardSubPanels(props)
 </script>
 
 <template>

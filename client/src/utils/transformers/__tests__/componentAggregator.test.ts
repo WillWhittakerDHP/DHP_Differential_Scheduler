@@ -1,7 +1,8 @@
 
 import { describe, it, expect } from 'vitest'
 import { composePartInstances, getComponentsRecursive } from '@/utils/transformers/componentAggregator'
-import type { GlobalData, GlobalRelationship } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { GlobalRelationship } from '@/types/relationships'
 import type { InstanceComponent } from '@/types/component'
 import type { GlobalEntity } from '@/types/entities'
 

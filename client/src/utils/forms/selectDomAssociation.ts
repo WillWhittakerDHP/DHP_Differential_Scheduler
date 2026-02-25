@@ -1,12 +1,7 @@
-/**
-PATTERN: Keep DOM access here (utilitie...
- */
 import { patchFormElements } from '@/utils/patchFormElements'
+import type { SelectDomTarget } from '@/types/forms/selectDomAssociation'
 
-export interface SelectDomTarget {
-  appSelectId: string
-  expectedName: string
-}
+export type { SelectDomTarget } from '@/types/forms/selectDomAssociation'
 
 function findNearestForm(element: Element | null): HTMLFormElement | null {
   if (!element) return null

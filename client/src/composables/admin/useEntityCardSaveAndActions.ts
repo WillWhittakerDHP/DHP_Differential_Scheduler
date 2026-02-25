@@ -2,40 +2,15 @@
  * PATTERN: EntityCard actions + save state + save handlers in one composable.
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
-import { computed, type Ref } from 'vue'
-import type { FormContext } from 'vee-validate'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardSaveHandlers } from '@/composables/admin/useEntityCardSaveHandlers'
-import type { UseEntityCardSaveStateReturn } from '@/composables/admin/useEntityCardSaveState'
-import type { AppLogger } from '@/utils/logger'
+import type { UseEntityCardSaveAndActionsParams, UseEntityCardSaveAndActionsReturn } from '@/types/admin/entityCardSaveAndActions'
 
-export interface UseEntityCardSaveAndActionsParams {
-  entityKey: GlobalEntityKey
-  entity: GlobalEntity<GlobalEntityKey>
-  isNew: boolean
-  form: Ref<FormContext | undefined>
-  admin: { getEntity: (key: GlobalEntityKey, id: string) => Record<string, unknown> | undefined }
-  emit: {
-    (e: 'delete', id: string): void
-    (e: 'saved', entity: GlobalEntity<GlobalEntityKey>): void
-    (e: 'cancelled'): void
-  }
-  logger: AppLogger
-}
-
-export interface UseEntityCardSaveAndActionsReturn {
-  handleSave: () => Promise<void>
-  handleUndo: () => void
-  showDeleteDialog: Ref<boolean>
-  handleDeleteClick: () => void
-  handleDelete: () => Promise<void>
-  handleCancelDelete: () => void
-  handleCancel: () => void
-  unifiedSaveState: UseEntityCardSaveStateReturn
-}
+export type { UseEntityCardSaveAndActionsParams, UseEntityCardSaveAndActionsReturn } from '@/types/admin/entityCardSaveAndActions'
 
 export function useEntityCardSaveAndActions(
   params: UseEntityCardSaveAndActionsParams
@@ -91,6 +66,11 @@ export function useEntityCardSaveAndActions(
     unifiedSaveState,
   })
 
+  async function handleDuplicate(): Promise<void> {
+    if (entityKey !== 'blockInstance') return
+    emit('duplicate', entity as GlobalEntity<'blockInstance'>)
+  }
+
   return {
     handleSave: saveHandlers.handleSave,
     handleUndo: saveHandlers.handleUndo,
@@ -99,6 +79,7 @@ export function useEntityCardSaveAndActions(
     handleDelete,
     handleCancelDelete,
     handleCancel,
+    handleDuplicate,
     unifiedSaveState,
   }
 }

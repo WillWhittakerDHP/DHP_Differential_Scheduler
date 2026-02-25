@@ -6,15 +6,9 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import { RelationshipSelectModeEnum } from '@/types/entity/formDataEnums'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
+import type { SelectConfigLike, OptionsSelectConfigLike } from '@/types/admin/selectTypeResolver'
 
-export type SelectConfigLike =
-  | RelationshipFieldType<GlobalEntityKey>
-  | VirtualFieldType<GlobalEntityKey>
-
-export interface OptionsSelectConfigLike {
-  options: Array<{ value: string | null; label: string }>
-  selectMode?: RelationshipSelectModeEnum
-}
+export type { SelectConfigLike, OptionsSelectConfigLike } from '@/types/admin/selectTypeResolver'
 
 /**
  * Unwrap legacy inputConfig wrapped in relationshipSelect key; return as-is if already direct.

@@ -2,9 +2,10 @@
  * WHY: Encapsulates step data and validation state refs creation and provide/in...
  */
 import { ref, provide } from 'vue'
-import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, ConfirmationStepData, WizardStepDataAndValidationRefs } from '@/types/wizard'
+import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, ConfirmationStepData } from '@/types/wizard'
+import type { UseWizardStepDataRefsReturn } from '@/types/booking/wizardStepDataRefs'
 
-export type UseWizardStepDataRefsReturn = WizardStepDataAndValidationRefs
+export type { UseWizardStepDataRefsReturn } from '@/types/booking/wizardStepDataRefs'
 
 export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {
   const propertyDetailsStepData = ref<PropertyDetailsStepData | null>(null)

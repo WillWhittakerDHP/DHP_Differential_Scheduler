@@ -3,27 +3,11 @@
 
 WHY: Moves data transformation and s...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import {
-  buildAvailabilityStepData,
-  buildSelectedTimeSlots,
-  type AvailabilityStepData,
-  type SelectedTimeSlot,
-} from '@/utils/booking/availabilityStepData'
-import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
+import { computed } from 'vue'
+import { buildAvailabilityStepData, buildSelectedTimeSlots } from '@/utils/booking/availabilityStepData'
+import type { UseAvailabilityStepDataParams, UseAvailabilityStepDataReturn } from '@/types/booking/availabilityStepData'
 
-export type { SelectedTimeSlot, AvailabilityStepData }
-
-/** Extends shared base (P2 type-similarity). */
-export interface UseAvailabilityStepDataParams extends AvailabilityStepParamsBase {
-  moveableScheduling?: Ref<MoveableSchedulingOptions | null>
-}
-
-export interface UseAvailabilityStepDataReturn {
-  selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
-  stepData: ComputedRef<AvailabilityStepData>
-}
+export type { SelectedTimeSlot, AvailabilityStepData, UseAvailabilityStepDataParams, UseAvailabilityStepDataReturn } from '@/types/booking/availabilityStepData'
 
 /**
  * WHY: useAvailabilityStepData composable

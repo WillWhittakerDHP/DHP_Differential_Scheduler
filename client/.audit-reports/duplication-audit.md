@@ -22,9 +22,9 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+27 more) | 42 |
-| `get*` | `client/src/composables/admin/tables/useAppointmentAttendees.ts`, `client/src/composables/admin/tables/useAppointmentHelpers.ts`, `client/src/composables/admin/useDragAndDropHelpers.ts` (+66 more) | 120 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts`, `client/src/composables/admin/tables/usePropertiesTableModel.ts` (+213 more) | 220 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+28 more) | 43 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+217 more) | 225 |
+| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+68 more) | 124 |
 | `update*` | `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts`, `server/src/scripts/helpers/calendarImportHelpers.ts` | 3 |
 
 ### Repeated String Literals (across multiple files)
@@ -32,172 +32,45 @@ These candidates were identified by pattern-detection audit as high-probability 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
 | `started` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/useAppointment.ts`, `server/src/db/models/booking/appointment.ts` | 3 |
+| `confirmed` | `client/src/composables/admin/useInstancesTabEventInstance.ts`, `client/src/types/admin/instancesTabEventInstance.ts`, `client/src/types/entities.ts` (+1 more) | 4 |
 | `held` | `client/src/composables/useAppointment.ts`, `client/src/types/appointmentApi.ts`, `server/src/db/models/booking/appointment.ts` | 7 |
-| `confirmed` | `client/src/types/entities.ts`, `client/src/views/admin/tabs/InstancesTab.vue` | 3 |
 
 ## Summary
 
-- Files scanned: **638**
-- Groups (window=10 lines, minOccurrences=2): **208**
-- Duplicate composable export names: **1**
+- Files scanned: **673**
+- Groups (window=10 lines, minOccurrences=2): **15**
 - Candidate findings from pattern-detection: **7**
-
-## Duplicate composable export names
-
-Same `use*` export name in multiple composable files — consolidation or rename candidate.
-
-- **`useAvailabilitySettings`**
-  - `client/src/composables/admin/useAvailabilitySettings.ts`
-  - `client/src/composables/booking/useAvailabilitySettings.ts`
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-0d3194f54d5e` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@123`, `client/src/components/dev/DevPanelButtons.vue@9`, `client/src/composables/booking/useWizardDevMode.ts@62` |
-| `dup-62f6fece13d9` | 3 | 3 | 10 | `server/src/db/models/booking/active_part.ts@62`, `server/src/db/models/booking/part_assignment.ts@62`, `server/src/db/models/booking/pricing_cascade.ts@71` |
-| `dup-faf7bc22dbba` | 3 | 3 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@124`, `client/src/components/dev/DevPanelButtons.vue@10`, `client/src/composables/booking/useWizardDevMode.ts@63` |
-| `dup-012f8e607c7e` | 2 | 2 | 10 | `client/src/utils/logger.ts@15`, `server/src/utils/logger.ts@17` |
-| `dup-01c6dc6fecc6` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@3`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@3` |
-| `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@40`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@19` |
-| `dup-0399e7cb7a09` | 2 | 2 | 10 | `client/src/composables/admin/useMetadataFieldUpdates.ts@36`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@15` |
-| `dup-081b9aedff50` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@12`, `server/src/db/models/booking/part_assignment.ts@12` |
-| `dup-0865f1a90261` | 2 | 2 | 10 | `client/src/utils/logger.ts@13`, `server/src/utils/logger.ts@15` |
-| `dup-08e13972093b` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@23`, `server/src/db/models/booking/part_assignment.ts@23` |
-| `dup-091d8b199bee` | 2 | 2 | 10 | `client/src/utils/logger.ts@135`, `server/src/utils/logger.ts@134` |
-| `dup-09542cc2230d` | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@143`, `server/src/db/models/admin/adminRelationshipMetadata.ts@143` |
-| `dup-0b9d7afa76c5` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@95`, `server/src/db/models/booking/annotation_assignment.ts@95` |
-| `dup-0bf0a50177b3` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@58`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@58` |
-| `dup-0cd5727b10ad` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabCreation.ts@127`, `client/src/views/admin/tabs/ShapesTab.vue@73` |
-| `dup-0ce0fcfa2b32` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@70`, `server/src/db/models/booking/part_assignment.ts@70` |
-| `dup-0f82ce62b6a4` | 2 | 2 | 10 | `server/src/db/models/booking/active_part.ts@48`, `server/src/db/models/booking/part_assignment.ts@48` |
-| `dup-1153c9a07551` | 2 | 2 | 10 | `client/src/utils/logger.ts@38`, `server/src/utils/logger.ts@40` |
-| `dup-11c7ce0e1eb3` | 2 | 2 | 10 | `server/src/db/models/admin/adminMetadata.ts@94`, `server/src/db/models/admin/adminPrimitiveMetadata.ts@84` |
-| `dup-11ee84441edb` | 2 | 2 | 10 | `server/src/db/models/booking/booking_cascade.ts@57`, `server/src/db/models/booking/dependent_instance.ts@71` |
-| `dup-1367027fb70b` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@40`, `server/src/db/models/booking/annotation_assignment.ts@40` |
-| `dup-1378fa017b30` | 2 | 2 | 10 | `server/src/db/models/admin/adminPrimitiveMetadata.ts@20`, `server/src/db/models/admin/adminRelationshipMetadata.ts@20` |
-| `dup-13bd9de36f5c` | 2 | 2 | 10 | `client/src/components/booking/dev/DevPanelsContainer.vue@57`, `client/src/composables/booking/useDevPanelsComputed.ts@64` |
-| `dup-1623de395200` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@18`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@18` |
-| `dup-167a50aae37b` | 2 | 2 | 10 | `server/src/db/models/booking/active_annotation.ts@92`, `server/src/db/models/booking/annotation_assignment.ts@92` |
+| `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@40`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@19` |
+| `dup-0399e7cb7a09` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@36`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@15` |
+| `dup-216670b622fd` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@38`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@17` |
+| `dup-24e89764b1f9` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@162`, `client/src/components/admin/PartInstanceBulkEditModal.vue@183` |
+| `dup-2a12de2d7d9a` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@186`, `client/src/composables/admin/useRelationshipCollectionField.ts@188` |
+| `dup-345455ae5c05` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@155`, `client/src/components/admin/PartInstanceBulkEditModal.vue@176` |
+| `dup-434e272ef180` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@37`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@16` |
+| `dup-5cdea5a5f126` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@23`, `client/src/composables/admin/useRelationshipCollectionField.ts@23` |
+| `dup-911d1500cc08` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@182`, `client/src/composables/admin/useRelationshipCollectionField.ts@184` |
+| `dup-a08a21eabaf1` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@22`, `client/src/composables/admin/useRelationshipCollectionField.ts@22` |
+| `dup-ad8ee8be63f6` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@24`, `client/src/composables/admin/useRelationshipCollectionField.ts@24` |
+| `dup-b36fd2f2d669` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@29`, `client/src/composables/admin/useRelationshipCollectionField.ts@27` |
+| `dup-bbbe20e10e53` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@161`, `client/src/components/admin/PartInstanceBulkEditModal.vue@182` |
+| `dup-f3908ce6488c` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@166`, `client/src/components/admin/PartInstanceBulkEditModal.vue@187` |
+| `dup-f5dc7d13d6e7` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@25`, `client/src/composables/admin/useRelationshipCollectionField.ts@25` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
-
-### Group `dup-0d3194f54d5e`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 123-132
-- `client/src/components/dev/DevPanelButtons.vue` @ lines 9-18
-- `client/src/composables/booking/useWizardDevMode.ts` @ lines 62-71
-
-```
-selectedAppointmentId: Ref<string | null>
-appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-loadedAppointmentId: Ref<string | null>
-isLoadingAppointment: Ref<boolean>
-fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
-handleLoadAppointment: (id: string | null) => Promise<void>
-handleUpdateAppointment: () => Promise<void>
-handleResetWizard: () => void
-handleResetMocks: () => void
-updateAppointment: { isPending: Ref<boolean> }
-```
-
-### Group `dup-62f6fece13d9`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `server/src/db/models/booking/active_part.ts` @ lines 62-87
-- `server/src/db/models/booking/part_assignment.ts` @ lines 62-87
-- `server/src/db/models/booking/pricing_cascade.ts` @ lines 71-96
-
-```
-type: DataTypes.UUID,
-model: 'part_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-timestamps: false,
-underscored: true,
-```
-
-### Group `dup-faf7bc22dbba`
-
-- unique files: **3**, occurrences: **3**, lineCount: **10**
-
-Locations:
-- `client/src/components/booking/dev/DevPanelsContainer.vue` @ lines 124-133
-- `client/src/components/dev/DevPanelButtons.vue` @ lines 10-19
-- `client/src/composables/booking/useWizardDevMode.ts` @ lines 63-72
-
-```
-appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-loadedAppointmentId: Ref<string | null>
-isLoadingAppointment: Ref<boolean>
-fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
-handleLoadAppointment: (id: string | null) => Promise<void>
-handleUpdateAppointment: () => Promise<void>
-handleResetWizard: () => void
-handleResetMocks: () => void
-updateAppointment: { isPending: Ref<boolean> }
-wizard: ReturnType<typeof useBookingWizard> | null
-```
-
-### Group `dup-012f8e607c7e`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/utils/logger.ts` @ lines 15-46
-- `server/src/utils/logger.ts` @ lines 17-48
-
-```
-normalized === 'silent'
-function levelToNumber(level: LogLevel): number {
-let cachedLogLevel: LogLevel | null = null
-let cachedDebugScopes: Set<string> | null | undefined = undefined
-function parseDebugScopesList(raw: string | undefined): Set<string> | null {
-if (!raw) return null
-const scopes = raw
-.map((s) => s.trim())
-.filter((s) => s.length > 0)
-.map((s) => s.toLowerCase())
-```
-
-### Group `dup-01c6dc6fecc6`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 3-37
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 3-37
-
-```
-validateRequiredFields as validateRequiredFieldsShared,
-} from '../../helpers/routerValidators.js'
-export function validateEntityType(entityType: unknown): ValidationResult {
-if (typeof entityType !== 'string' || !(VALID_ENTITY_TYPES as readonly string[]).includes(entityType)) {
-error: ERROR_MESSAGES.INVALID_ENTITY_TYPE,
-validEntityTypes: VALID_ENTITY_TYPES,
-message: `entityType must be one of: ${VALID_ENTITY_TYPES.join(', ')}`,
-return { valid: true }
-export function validateRequiredFields(data: {
-fieldKey?: unknown
-```
 
 ### Group `dup-02e09562fbee`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useMetadataFieldUpdates.ts` @ lines 40-59
+- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 40-57
 - `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 19-38
 
 ```
@@ -218,7 +91,7 @@ return 'reference'
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useMetadataFieldUpdates.ts` @ lines 36-53
+- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 36-51
 - `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 15-32
 
 ```
@@ -234,275 +107,275 @@ if (dataType === 'boolean' || dataType === 'ternary') {
 return 'statusButton'
 ```
 
-### Group `dup-081b9aedff50`
+### Group `dup-216670b622fd`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/booking/active_part.ts` @ lines 12-22
-- `server/src/db/models/booking/part_assignment.ts` @ lines 12-22
+- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 38-56
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 17-37
 
 ```
-InferAttributes<PartAssignment>,
-InferCreationAttributes<PartAssignment>
-declare id: CreationOptional<string>;
-declare kind: CreationOptional<string>;
-declare parentKind: CreationOptional<string>;
-declare childKind: CreationOptional<string>;
-declare parentId: ForeignKey<string>;
-declare childId: ForeignKey<string>;
-declare disabled: boolean;
-declare createdAt: CreationOptional<Date>;
+return 'relationshipCollection'
+const selectMode = inputConfig.selectMode as string | undefined
+if (selectMode === 'multiple') {
+return 'multiselect'
+if (inputConfig.targetMode === 'relationship') {
+return 'reference'
+if (dataType === 'boolean' || dataType === 'ternary') {
+return 'statusButton'
+if (dataType === 'number') {
+if (dataType === 'array') {
 ```
 
-### Group `dup-0865f1a90261`
+### Group `dup-24e89764b1f9`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/logger.ts` @ lines 13-44
-- `server/src/utils/logger.ts` @ lines 15-46
+- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 162-181
+- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 183-202
 
 ```
-normalized === 'warn' ||
-normalized === 'error' ||
-normalized === 'silent'
-function levelToNumber(level: LogLevel): number {
-let cachedLogLevel: LogLevel | null = null
-let cachedDebugScopes: Set<string> | null | undefined = undefined
-function parseDebugScopesList(raw: string | undefined): Set<string> | null {
-if (!raw) return null
-const scopes = raw
-.map((s) => s.trim())
+Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+function updateModelValue(value: boolean) {
+emit('update:modelValue', value)
+function handleEntityCardSaved() {
+function handleApply() {
+if (!entityCardRef.value?.form) {
+const bulkEditData = buildBulkEditDataFromForm(
+Object.keys(filteredMetadata.value),
+entityCardRef.value.form.values as Record<string, unknown>
+emit('confirm', bulkEditData)
 ```
 
-### Group `dup-08e13972093b`
+### Group `dup-2a12de2d7d9a`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/booking/active_part.ts` @ lines 23-48
-- `server/src/db/models/booking/part_assignment.ts` @ lines 23-48
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 186-215
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 188-211
 
 ```
-declare updatedAt: CreationOptional<Date>;
-export function PartAssignmentFactory(sequelize: Sequelize) {
-PartAssignment.init(
-type: DataTypes.UUID,
-defaultValue: DataTypes.UUIDV4,
-type: DataTypes.VIRTUAL,
-return "partAssignments";
-type: DataTypes.VIRTUAL,
-return 'blockInstance';
-type: DataTypes.VIRTUAL,
+if (!parentTypeRef.value) {
+if (!parentTypeEntity.value) {
+const validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))
+const hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0
+return hasValidOptions
+const defaultExpanded = computed<boolean | undefined>(() => {
+const meta = fieldMetadataEntry.value
+return (meta as { defaultExpanded?: boolean })?.defaultExpanded
+const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
+if (!parentEntity.value) {
 ```
 
-### Group `dup-091d8b199bee`
+### Group `dup-345455ae5c05`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/logger.ts` @ lines 135-148
-- `server/src/utils/logger.ts` @ lines 134-147
+- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 155-178
+- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 176-199
 
 ```
-const infoEnabled = shouldLog(configuredLevel, 'info')
-const warnEnabled = shouldLog(configuredLevel, 'warn')
-const errorEnabled = shouldLog(configuredLevel, 'error')
-const appendCallsite = (args: unknown[]): unknown[] =>
-callsiteEnabled ? [...args, getCallsiteFrame()] : args
-debug: (...args: unknown[]): void => {
-if (!debugEnabled) return
-console.log(prefix, ...appendCallsite(args))
-info: (...args: unknown[]): void => {
-if (!infoEnabled) return
+if (!metadata || Object.keys(metadata).length === 0) {
+return Object.fromEntries(
+Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+function updateModelValue(value: boolean) {
+emit('update:modelValue', value)
+function handleEntityCardSaved() {
+function handleApply() {
+if (!entityCardRef.value?.form) {
+const bulkEditData = buildBulkEditDataFromForm(
+Object.keys(filteredMetadata.value),
 ```
 
-### Group `dup-09542cc2230d`
+### Group `dup-434e272ef180`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/admin/adminPrimitiveMetadata.ts` @ lines 143-160
-- `server/src/db/models/admin/adminRelationshipMetadata.ts` @ lines 143-160
+- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 37-53
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 16-34
 
 ```
-comment: 'For instances: parent entity type (blockShape or partShape)',
-inheritsFromEntityId: {
-type: DataTypes.UUID,
-field: 'inherits_from_entity_id',
-comment: 'For instances: parent entity ID (shape ID)',
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-field: 'created_at',
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+if (selectType === 'partsCollectionSelect') {
+return 'relationshipCollection'
+const selectMode = inputConfig.selectMode as string | undefined
+if (selectMode === 'multiple') {
+return 'multiselect'
+if (inputConfig.targetMode === 'relationship') {
+return 'reference'
+if (dataType === 'boolean' || dataType === 'ternary') {
+return 'statusButton'
+if (dataType === 'number') {
 ```
 
-### Group `dup-0b9d7afa76c5`
+### Group `dup-5cdea5a5f126`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/booking/active_annotation.ts` @ lines 95-116
-- `server/src/db/models/booking/annotation_assignment.ts` @ lines 95-116
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 23-49
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 23-45
 
 ```
-field: 'updated_at',
-timestamps: false,
-underscored: true,
-modelName: 'annotation_assignment',
-tableName: 'annotation_assignments',
-fields: ['block_instance_id', 'annotation_id', 'user_type_block_instance_id'],
-name: 'unique_block_instance_annotation_user_type',
-fields: ['block_instance_id'],
-name: 'idx_annotation_assignments_block_instance_id',
-fields: ['annotation_id'],
+GF extends GlobalFieldKey<GE>
+>(fieldContext: FieldContextType<GE, GF>) {
+const adminComp = useAdmin()
+const entity = computed<GlobalEntity<GE> | null>(() => {
+const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+return entityValue ?? null
+const { fieldMetadata } = useEntityMetadata(
+fieldContext.entityKey,
+const fieldMetadataEntry = computed(() => {
+if (!fieldMetadata.value) {
 ```
 
-### Group `dup-0bf0a50177b3`
+### Group `dup-911d1500cc08`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 58-91
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 58-91
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 182-213
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 184-209
 
 ```
-if (renderAs === 'toggle') {
-error: ERROR_MESSAGES.INVALID_RENDER_AS,
-message: 'renderAs "toggle" is not supported. Use "statusButton" for boolean toggle fields or "text" for regular boolean inputs.',
-return { valid: true }
-export function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {
-if (typeof renderAs === 'string' && (RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[]).includes(renderAs)) {
-if (!inputConfig || typeof inputConfig !== 'object') {
-error: ERROR_MESSAGES.MISSING_INPUT_CONFIG,
-message: `inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
-return { valid: true }
+if (!parentEntity.value || !parentTypeProperty.value) {
+if (!parentTypeRef.value) {
+if (!parentTypeEntity.value) {
+const validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))
+const hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0
+return hasValidOptions
+const defaultExpanded = computed<boolean | undefined>(() => {
+const meta = fieldMetadataEntry.value
+return (meta as { defaultExpanded?: boolean })?.defaultExpanded
+const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
 ```
 
-### Group `dup-0cd5727b10ad`
+### Group `dup-a08a21eabaf1`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 127-137
-- `client/src/views/admin/tabs/ShapesTab.vue` @ lines 73-83
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 22-48
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 22-44
 
 ```
-isCreatingEventShape,
-newPartShapeInitialValues,
-newAnnotationShapeName,
-newEventShapeName,
-isCreatingAnnotationShapeLoading,
-isCreatingEventShapeLoading,
-startCreatingAnnotationShape,
-handlePartShapeCreated,
-handlePartShapeCancelled,
-handleAnnotationShapeCreate,
+GE extends GlobalEntityKey,
+GF extends GlobalFieldKey<GE>
+>(fieldContext: FieldContextType<GE, GF>) {
+const adminComp = useAdmin()
+const entity = computed<GlobalEntity<GE> | null>(() => {
+const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+return entityValue ?? null
+const { fieldMetadata } = useEntityMetadata(
+fieldContext.entityKey,
+const fieldMetadataEntry = computed(() => {
 ```
 
-### Group `dup-0ce0fcfa2b32`
+### Group `dup-ad8ee8be63f6`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/booking/active_part.ts` @ lines 70-90
-- `server/src/db/models/booking/part_assignment.ts` @ lines 70-90
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 24-52
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 24-48
 
 ```
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-timestamps: false,
-underscored: true,
-modelName: 'part_assignment',
-tableName: 'part_assignments',
+>(fieldContext: FieldContextType<GE, GF>) {
+const adminComp = useAdmin()
+const entity = computed<GlobalEntity<GE> | null>(() => {
+const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+return entityValue ?? null
+const { fieldMetadata } = useEntityMetadata(
+fieldContext.entityKey,
+const fieldMetadataEntry = computed(() => {
+if (!fieldMetadata.value) {
+return fieldMetadata.value[String(fieldContext.fieldKey)]
 ```
 
-### Group `dup-0f82ce62b6a4`
+### Group `dup-b36fd2f2d669`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/booking/active_part.ts` @ lines 48-76
-- `server/src/db/models/booking/part_assignment.ts` @ lines 48-76
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 29-59
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 27-55
 
 ```
-type: DataTypes.VIRTUAL,
-return 'partInstance';
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'part_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+const entity = computed<GlobalEntity<GE> | null>(() => {
+const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+return entityValue ?? null
+const { fieldMetadata } = useEntityMetadata(
+fieldContext.entityKey,
+const fieldMetadataEntry = computed(() => {
+if (!fieldMetadata.value) {
+return fieldMetadata.value[String(fieldContext.fieldKey)]
+const selectConfig = computed<RelationshipFieldType<GE>>(() => {
+const meta = fieldMetadataEntry.value
 ```
 
-### Group `dup-1153c9a07551`
+### Group `dup-bbbe20e10e53`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/logger.ts` @ lines 38-51
-- `server/src/utils/logger.ts` @ lines 40-53
+- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 161-179
+- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 182-200
 
 ```
-let cachedDebugScopes: Set<string> | null | undefined = undefined
-function parseDebugScopesList(raw: string | undefined): Set<string> | null {
-if (!raw) return null
-const scopes = raw
-.map((s) => s.trim())
-.filter((s) => s.length > 0)
-.map((s) => s.toLowerCase())
-return new Set(scopes)
-function getDebugScopes(): Set<string> | null {
-if (cachedDebugScopes === undefined) {
+return Object.fromEntries(
+Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
+function updateModelValue(value: boolean) {
+emit('update:modelValue', value)
+function handleEntityCardSaved() {
+function handleApply() {
+if (!entityCardRef.value?.form) {
+const bulkEditData = buildBulkEditDataFromForm(
+Object.keys(filteredMetadata.value),
+entityCardRef.value.form.values as Record<string, unknown>
 ```
 
-### Group `dup-11c7ce0e1eb3`
+### Group `dup-f3908ce6488c`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/admin/adminMetadata.ts` @ lines 94-110
-- `server/src/db/models/admin/adminPrimitiveMetadata.ts` @ lines 84-100
+- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 166-182
+- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 187-203
 
 ```
-type: DataTypes.ENUM('titleRow', 'staticAsTitle', 'expandedDirect', 'expandedPanel', 'hidden', 'notConfigured'),
-defaultValue: 'notConfigured',
-comment: 'Field visibility setting',
-type: DataTypes.ENUM('inline', 'stacked'),
-defaultValue: 'stacked',
-comment: 'Layout within section',
-type: DataTypes.INTEGER,
-defaultValue: 999,
-field: 'display_order',
-comment: 'Display order (lower = first). 999 = not configured.',
+function updateModelValue(value: boolean) {
+emit('update:modelValue', value)
+function handleEntityCardSaved() {
+function handleApply() {
+if (!entityCardRef.value?.form) {
+const bulkEditData = buildBulkEditDataFromForm(
+Object.keys(filteredMetadata.value),
+entityCardRef.value.form.values as Record<string, unknown>
+emit('confirm', bulkEditData)
+updateModelValue(false)
 ```
 
-### Group `dup-11ee84441edb`
+### Group `dup-f5dc7d13d6e7`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/db/models/booking/booking_cascade.ts` @ lines 57-86
-- `server/src/db/models/booking/dependent_instance.ts` @ lines 71-100
+- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 25-58
+- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 25-54
 
 ```
-model: 'block_instances',
-type: DataTypes.UUID,
-model: 'block_instances',
-type: DataTypes.BOOLEAN,
-defaultValue: false,
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-type: DataTypes.DATE,
-defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-timestamps: false,
+const adminComp = useAdmin()
+const entity = computed<GlobalEntity<GE> | null>(() => {
+const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+return entityValue ?? null
+const { fieldMetadata } = useEntityMetadata(
+fieldContext.entityKey,
+const fieldMetadataEntry = computed(() => {
+if (!fieldMetadata.value) {
+return fieldMetadata.value[String(fieldContext.fieldKey)]
+const selectConfig = computed<RelationshipFieldType<GE>>(() => {
 ```

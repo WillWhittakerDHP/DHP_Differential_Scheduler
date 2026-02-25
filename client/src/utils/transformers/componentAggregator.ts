@@ -1,4 +1,5 @@
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities';
 import type { InstanceComponent } from '@/types/component'
 import type { GlobalData } from './fetchToGlobalTransformer'

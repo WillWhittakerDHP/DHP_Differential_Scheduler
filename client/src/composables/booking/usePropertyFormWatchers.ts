@@ -3,16 +3,10 @@
 
 WHY: Moves MLS data syncing and load...
  */
-import { watch, type Ref } from 'vue'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { PropertyFormStateCore } from './usePropertyDetailsLogic'
+import { watch } from 'vue'
+import type { UsePropertyFormWatchersParams, UsePropertyFormWatchersReturn } from '@/types/booking/propertyFormWatchers'
 
-/** Extends shared base (TYPE_SIMILARITY 1.15). */
-export interface UsePropertyFormWatchersParams extends PropertyFormStateCore {
-  loadedWizardState: Ref<WizardStateData | null> | null
-}
-
-export type UsePropertyFormWatchersReturn = Record<string, never>
+export type { UsePropertyFormWatchersParams, UsePropertyFormWatchersReturn } from '@/types/booking/propertyFormWatchers'
 
 /**
  * WHY: usePropertyFormWatchers composable

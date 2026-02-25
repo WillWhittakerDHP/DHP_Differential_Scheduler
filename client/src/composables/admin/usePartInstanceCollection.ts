@@ -1,43 +1,19 @@
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useNotification } from '@/composables/useNotification'
 import { usePartInstanceData } from '@/composables/usePartInstanceData'
-import { usePartInstanceBulkEdit, type PartInstanceBulkEditData } from '@/composables/admin/usePartInstanceBulkEdit'
+import { usePartInstanceBulkEdit } from '@/composables/admin/usePartInstanceBulkEdit'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import type { PartInstanceCollectionModel } from '@/types/admin/partInstanceCollection'
 
 const logger = createLogger('usePartInstanceCollection')
 
-export interface PartInstanceCollectionModel {
-  validPartShapes: Ref<GlobalEntity<'partShape'>[]>
-  existingPartInstances: Ref<GlobalEntity<'partInstance'>[]>
-  getPartInstanceForShape: (partShapeId: string) => GlobalEntity<'partInstance'> | undefined
-  getPartShapeName: (partShapeId: string) => string
-
-  blockInstance: ComputedRef<GlobalEntity<'blockInstance'> | undefined>
-  shouldShowPartInstances: ComputedRef<boolean>
-  
-  optionsFieldKey: ComputedRef<string>
-
-  expandedPlaceholders: Ref<string[]>
-  getNewPartInstanceEntity: (partShapeId: string) => GlobalEntity<'partInstance'>
-  handleNewPartInstanceSaved: (partShapeId: string, createdEntity: GlobalEntity<'partInstance'>) => Promise<void>
-  handleNewPartInstanceCancelled: (partShapeId: string) => void
-
-  bulkEditMode: Ref<boolean>
-  bulkEditData: Ref<PartInstanceBulkEditData>
-  toggleBulkEditMode: () => void
-  applyPartInstanceBulkEdit: () => Promise<void>
-  handleBulkEditModalUpdate: (value: boolean) => void
-  handleBulkEditConfirm: (data: PartInstanceBulkEditData) => void
-
-  expandedPartInstances: Ref<string[]>
-  isPanelExpanded: (partInstanceId: string) => boolean
-}
+export type { PartInstanceCollectionModel } from '@/types/admin/partInstanceCollection'
 
 /**
 LEARNING: Collection-level composable for Part...
@@ -199,7 +175,7 @@ PATTERN: Separ...
     handleNewPartInstanceSaved,
     handleNewPartInstanceCancelled,
     bulkEditMode: bulkEditModeRef,
-    bulkEditData: bulkEditDataRef as Ref<PartInstanceBulkEditData>,
+    bulkEditData: bulkEditDataRef,
     toggleBulkEditMode,
     applyPartInstanceBulkEdit,
     handleBulkEditModalUpdate,

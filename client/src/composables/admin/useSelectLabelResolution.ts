@@ -3,23 +3,13 @@
 
 WHY: Moves label placeholder replac...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { UseSelectLabelResolutionOptions, UseSelectLabelResolutionReturn } from '@/types/admin/selectLabelResolution'
 
-export interface UseSelectLabelResolutionOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  
-  currentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
-}
-
-export interface UseSelectLabelResolutionReturn {
-  resolvedLabel: ComputedRef<string>
-}
+export type { UseSelectLabelResolutionOptions, UseSelectLabelResolutionReturn } from '@/types/admin/selectLabelResolution'
 
 /**
  * WHY: Select label resolution composable

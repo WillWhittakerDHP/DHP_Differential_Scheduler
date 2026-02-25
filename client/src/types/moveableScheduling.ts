@@ -20,11 +20,3 @@ export interface MoveableSlot extends SlotTimeBounds {
   dayLabel: string          // "Today", "Tomorrow", "Jan 16"
   timeLabel: string         // "2:00 PM - 3:30 PM"
 }
-
-export const DEFAULT_CONTINGENCY: ContingencyPeriod = {
-  hasContingency: false,
-  endDate: null,
-  endTime: null
-}
-
-export const DEFAULT_OUTER_BOUNDARY_DAYS = 3

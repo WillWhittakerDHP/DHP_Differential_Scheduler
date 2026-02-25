@@ -2,7 +2,7 @@
 
 
 import { computed } from 'vue'
-import { useTimeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/composables/booking/useTimeBasisHandler'
+import { timeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/utils/booking/timeBasisHandler'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 
 const props = defineProps<TimeBasisHandlerProps>()
@@ -19,7 +19,7 @@ const minorLabel = computed(() => {
 })
 
 // FIX: Use shared time basis handler from composable
-const { handleTimeBasisClick } = useTimeBasisHandler(props, emit)
+const { handleTimeBasisClick } = timeBasisHandler(props, emit)
 </script>
 
 <template>

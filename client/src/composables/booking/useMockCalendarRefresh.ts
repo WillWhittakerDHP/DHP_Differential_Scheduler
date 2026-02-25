@@ -3,13 +3,10 @@
 
 PATTERN: Composable that manages refr...
  */
-import { ref, watch, inject, type Ref } from 'vue'
+import { ref, watch, inject } from 'vue'
+import type { UseMockCalendarRefreshReturn } from '@/types/booking/mockCalendarRefresh'
 
-export interface UseMockCalendarRefreshReturn {
-  mockRefreshKey: Ref<number>
-  
-  resetMocks: () => void
-}
+export type { UseMockCalendarRefreshReturn } from '@/types/booking/mockCalendarRefresh'
 
 /**
  * WHY: useMockCalendarRefresh composable

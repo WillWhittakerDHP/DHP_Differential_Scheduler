@@ -1,73 +1,23 @@
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref } from 'vue'
+import type {
+  CrudDataTableModel,
+  CrudDataTableModelOptions,
+} from '@/types/admin/tables/crudDataTableModel'
 
-export interface CrudDataTableModelOptions<
-  TableItem extends { id: string },
-  CreatePayload extends object,
-  UpdatePayload extends object
-> {
-  /** Human-friendly entity label for notifications (e.g., "Appointment") */
-  entityLabel: string
-
-  /** Source items (usually a Vue Query `fetchAll.data`) */
-  itemsSource: ComputedRef<TableItem[]>
-
-  /** Loading/error sources (usually Vue Query flags) */
-  isLoadingSource: ComputedRef<boolean>
-  errorSource: ComputedRef<unknown>
-
-  /** Create/update/delete operations */
-  createItem: (payload: CreatePayload) => Promise<unknown>
-  updateItem: (id: string, payload: UpdatePayload) => Promise<unknown>
-  deleteItem: (id: string) => Promise<unknown>
-
-  /** Notifications */
-  notifySuccess: (message: string) => void
-  notifyError: (message: string) => void
-
-  /** Create-mode defaults + validation */
-  getCreateDefaults: () => CreatePayload
-  validateCreate: (payload: CreatePayload) => string | null
-
-  /** Edit-mode mapping */
-  mapItemToEditPayload: (item: TableItem) => UpdatePayload
-}
-
-export interface CrudDataTableModel<
-  TableItem extends { id: string },
-  CreatePayload extends object,
-  UpdatePayload extends object
-> {
-  items: ComputedRef<TableItem[]>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown>
-
-  editingId: Ref<string | null>
-  editedData: Ref<Partial<UpdatePayload>>
-
-  isCreating: Ref<boolean>
-  newItem: Ref<CreatePayload>
-
-  showDeleteDialog: Ref<boolean>
-  deletingId: Ref<string | null>
-
-  startEdit: (item: TableItem) => void
-  cancelEdit: () => void
-  saveEdit: () => Promise<void>
-
-  startCreate: () => void
-  cancelCreate: () => void
-  saveCreate: () => Promise<void>
-
-  openDeleteDialog: (id: string) => void
-  cancelDelete: () => void
-  confirmDelete: () => Promise<void>
-}
+export type {
+  CrudDataTableModel,
+  CrudDataTableModelOptions,
+} from '@/types/admin/tables/crudDataTableModel'
 
 export function useCrudDataTableModel<
   TableItem extends { id: string },
   CreatePayload extends object,
   UpdatePayload extends object
->(options: CrudDataTableModelOptions<TableItem, CreatePayload, UpdatePayload>): CrudDataTableModel<TableItem, CreatePayload, UpdatePayload> {
+>(options: CrudDataTableModelOptions<TableItem, CreatePayload, UpdatePayload>): CrudDataTableModel<
+  TableItem,
+  CreatePayload,
+  UpdatePayload
+> {
   const {
     entityLabel,
     itemsSource,

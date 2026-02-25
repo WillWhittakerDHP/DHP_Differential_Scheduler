@@ -2,10 +2,11 @@
  * PATTERN: Create/duplicate modal state and handlers for Instances tab.
  * WHY: Keeps InstancesTab.vue under vue-architecture limits (script size, function count).
  */
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { GlobalEntity, GlobalEntityKey } from '@/types/entities'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalEntity } from '@/types/entities'
 
 export function useInstancesTabCreateModal() {
   const createModalOpen = ref(false)

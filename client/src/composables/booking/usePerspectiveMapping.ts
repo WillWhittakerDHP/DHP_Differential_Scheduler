@@ -3,16 +3,11 @@
 
 PATTERN: Composable that provides comp...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed } from 'vue'
 import type { PerspectiveKey } from '@/types/appointment'
+import type { UsePerspectiveMappingParams, UsePerspectiveMappingReturn } from '@/types/booking/perspectiveMapping'
 
-export interface UsePerspectiveMappingParams {
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-}
-
-export interface UsePerspectiveMappingReturn {
-  perspective: ComputedRef<PerspectiveKey>
-}
+export type { UsePerspectiveMappingParams, UsePerspectiveMappingReturn } from '@/types/booking/perspectiveMapping'
 
 /**
  * WHY: usePerspectiveMapping composable

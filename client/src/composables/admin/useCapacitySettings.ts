@@ -1,19 +1,17 @@
-import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
+import type { Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings, RollingWeekDirection } from '@/configs/availabilitySettings'
 import {
   createNestedComputed,
   createEnsureNested
 } from '@/composables/admin/utils/nestedComputedFactory'
 import { ROLLING_WEEK_DIRECTION_VALUES } from '@/constants/businessControlsOptions'
+import type { UseCapacitySettingsParams } from '@/types/admin/capacitySettings'
+
+export type { UseCapacitySettingsParams } from '@/types/admin/capacitySettings'
 
 type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
 type MaxIncome = NonNullable<AvailabilitySettings['maxIncome']>
 type CapacityFilterKey = 'day' | 'calendarWeek' | 'rollingWeek'
-
-export interface UseCapacitySettingsParams {
-  formData: Ref<AvailabilitySettings | null>
-  maxBusinessHours: ComputedRef<number>
-}
 
 function createMaxWorkHoursComputed<F extends CapacityFilterKey, P extends keyof NonNullable<MaxWorkHours[F]>>(
   formData: Ref<AvailabilitySettings | null>,

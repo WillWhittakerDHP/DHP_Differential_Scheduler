@@ -2,15 +2,9 @@
  * WHY: Composable for part instance expansion handlers
 WHY: Extracts expansion ...
  */
-import type { Ref } from 'vue'
+import type { UsePartInstanceExpansionOptions, UsePartInstanceExpansionReturn } from '@/types/admin/partInstanceExpansion'
 
-export interface UsePartInstanceExpansionOptions {
-  expandedPartInstances: Ref<string[]>
-}
-
-export interface UsePartInstanceExpansionReturn {
-  togglePartInstanceExpansion: (instanceId: string) => void
-}
+export type { UsePartInstanceExpansionOptions, UsePartInstanceExpansionReturn } from '@/types/admin/partInstanceExpansion'
 
 export function usePartInstanceExpansion(
   options: UsePartInstanceExpansionOptions

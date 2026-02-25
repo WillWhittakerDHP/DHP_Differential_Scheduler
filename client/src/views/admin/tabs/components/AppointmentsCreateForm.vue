@@ -8,7 +8,7 @@ import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
-import { toISO8601Date } from '@/types/datetime'
+import { toISO8601Date } from '@/utils/datetime'
 
 /** Parent passes ref value so form can update fields (object is shared). */
 defineProps<{

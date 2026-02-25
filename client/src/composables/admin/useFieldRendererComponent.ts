@@ -3,29 +3,11 @@
 
 WHY: Moves component type determin...
  */
-import { computed, type Component, type ComputedRef } from 'vue'
-import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
+import { computed } from 'vue'
+import type { UseFieldRendererComponentOptions, UseFieldRendererComponentReturn } from '@/types/admin/fieldRendererComponent'
 
-export interface UseFieldRendererComponentOptions {
-  componentType: { value: FieldComponent }
-  
-  componentMap: Record<FieldComponent['type'], Component | null>
-  
-  hasFieldContext: ComputedRef<boolean> | boolean
-}
+export type { UseFieldRendererComponentOptions, UseFieldRendererComponentReturn } from '@/types/admin/fieldRendererComponent'
 
-export interface UseFieldRendererComponentReturn {
-  componentToRender: ComputedRef<Component | null>
-  
-  hasValidComponent: ComputedRef<boolean>
-  
-  shouldShowError: ComputedRef<boolean>
-}
-
-/**
- * WHY: Field renderer component composable
-WHY: Extracts component rendering lo...
- */
 export function useFieldRendererComponent(
   options: UseFieldRendererComponentOptions
 ): UseFieldRendererComponentReturn {

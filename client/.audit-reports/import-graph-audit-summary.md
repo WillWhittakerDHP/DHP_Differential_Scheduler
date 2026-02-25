@@ -7,14 +7,18 @@
 
 Generated from `client/.audit-reports/import-graph-audit.json`.
 
-- Cycles: **0**
+- Cycles: **1**
 - Fan-out violations: **0**
-- Fan-in violations: **0**
+- Fan-in violations: **2**
 - Cross-boundary: **0**
 
-## Top 2 files by score
+## Top 6 files by score
 
 | File | Priority | Score |
 | --- | --- | ---: |
+| `undefined` | P1 | 10 |
+| `undefined` | P1 | 10 |
 | `undefined` | P2 | 5 |
 | `undefined` | P2 | 5 |
+| `undefined` | P2 | 2 |
+| `undefined` | P2 | 2 |

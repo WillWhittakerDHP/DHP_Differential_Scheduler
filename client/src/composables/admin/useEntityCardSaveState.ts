@@ -2,27 +2,10 @@
  * WHY: Unified Save State Management for EntityCard
 PATTERN: Composable that co...
  */
-import { ref, computed, type ComputedRef } from 'vue'
-import type { FormContext } from 'vee-validate'
-import type { EntityCardSharedProps } from '@/components/admin/generic/entityCardConstants'
+import { ref, computed } from 'vue'
+import type { UseEntityCardSaveStateOptions, UseEntityCardSaveStateReturn } from '@/types/admin/entityCardSaveState'
 
-/** Extends EntityCardSharedProps for single source of truth (TYPE_SIMILARITY 1.10). */
-export interface UseEntityCardSaveStateOptions extends EntityCardSharedProps {
-  form: FormContext
-  getEntityValues: () => Record<string, unknown>
-}
-
-export interface UseEntityCardSaveStateReturn {
-  canSave: ComputedRef<boolean>
-  
-  hasChanges: ComputedRef<boolean>
-  
-  markStatusButtonChanged: (fieldKey: string) => void
-  
-  resetSaveState: () => void
-  
-  isStatusButtonChanged: (fieldKey: string) => boolean
-}
+export type { UseEntityCardSaveStateOptions, UseEntityCardSaveStateReturn } from '@/types/admin/entityCardSaveState'
 
 /**
  * WHY: Unified save state management composable

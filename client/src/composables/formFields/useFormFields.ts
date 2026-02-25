@@ -6,7 +6,7 @@ import { useFormFieldsContext } from './useFormFieldsContext'
 import { useFormFieldsStandardLayout } from './useFormFieldsStandardLayout'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalFieldKey } from '@/constants/primitives'
 
 export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsReturn {

@@ -3,55 +3,27 @@
 
 WHY: Moves duration calculations and...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { TimeSlot, AppointmentShape } from '@/types/appointment'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
-import { useLocalTime } from '@/composables/useLocalTime'
-import { toRFC3339DateTime } from '@/types/datetime'
+import { formatDuration } from '@/utils/time/timeFormatting'
+import { localTime } from '@/utils/time/localTime'
+import { toRFC3339DateTime } from '@/utils/datetime'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
+import type {
+  UseTimeSlotCalculationsParams,
+  UseTimeSlotCalculationsReturn,
+} from '@/types/booking/timeSlotCalculations'
+
+export type {
+  DifferentialTimeBlocks,
+  UseTimeSlotCalculationsParams,
+  UseTimeSlotCalculationsReturn,
+} from '@/types/booking/timeSlotCalculations'
 
 const logger = createLogger('useTimeSlotCalculations')
 
-interface TimeBlock {
-  label: string
-  duration: string
-  timeBlock: string | null
-}
-
-/**
- * Time on site blocks structure
- * NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives
- */
-export interface DifferentialTimeBlocks {
-  major: TimeBlock  // Major perspective (inspector)
-  minor: TimeBlock | null  // Minor perspective (client)
-}
-
-interface UseTimeSlotCalculationsParams {
-  wizard: {
-    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  }
-  appointmentShape: ComputedRef<AppointmentShape | null>
-  majorTimeSlot: Ref<TimeSlot | null>
-  minorTimeSlot: Ref<TimeSlot | null>
-  isDifferentialService: ComputedRef<boolean>
-}
-
-interface UseTimeSlotCalculationsReturn {
-  majorDuration: ComputedRef<number>
-  minorDuration: ComputedRef<number>
-  differentialTimeBlocks: ComputedRef<DifferentialTimeBlocks>
-}
-
-/**
- * WHY: useTimeSlotCalculations composable
-
-WHY: Extracts calculation logic from...
- */
 export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {
   const {
     appointmentShape,
@@ -60,8 +32,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     isDifferentialService
   } = params
 
-  const { formatDuration } = useTimeFormatting()
-  const { formatTimeRangeForDisplay } = useLocalTime()
+  const { formatTimeRangeForDisplay } = localTime()
   
   const { settings: availabilitySettings } = useAvailabilitySettings()
   

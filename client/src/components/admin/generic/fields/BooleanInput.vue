@@ -32,9 +32,10 @@ import StatusButton from '../StatusButton.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { useFieldValue } from '@/composables/useFieldValue'
-import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'
+import { fieldKeyboardGuard } from '@/utils/admin/fieldKeyboardGuard'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
+import { useBooleanInputClick } from '@/composables/admin/useBooleanInputClick'
 import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle'
 import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { STATUS_BUTTON_LABELS } from '@/constants/statusButtonLabels'
@@ -117,76 +118,18 @@ const statusButtonToggle = useStatusButtonToggle({
 const isEditable = computed(
   () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
 )
-const { handleKeydown } = useFieldKeyboardGuard({
+const handleClick = useBooleanInputClick({
+  fieldContext,
+  entityCardSaveContext,
+  rawFieldValue,
+  statusButtonToggle,
+})
+
+const { handleKeydown } = fieldKeyboardGuard({
   fieldType: 'boolean',
   isEditable,
   onToggle: (event: KeyboardEvent) => {
     handleClick(event)
   }
 })
-
-// PATTERN: Use toggleStatusButton from composable instead of manual save
-const handleClick = async (event: Event) => {
-  // PATTERN: Stop propagation and prevent default before any async operations
-  event.stopPropagation()
-  event.preventDefault()
-  
-  // PATTERN: Early return if field cannot be edited
-  if (fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly) {
-    return
-  }
-  
-  // PATTERN: Match TextInput/NumberInput behavior - update form value, not store
-  if (entityCardSaveContext?.isNew) {
-    const currentRaw = rawFieldValue.value
-    
-    // WHY: Ternary fields need to cycle through states, boolean fields toggle
-    // PATTERN: Check if ternary, then cycle or toggle accordingly
-    const isTernary = currentRaw === 'true' || currentRaw === 'false' || currentRaw === 'override'
-    
-    if (isTernary) {
-      let newTernary: 'true' | 'false' | 'override'
-      if (currentRaw === 'false') {
-        newTernary = 'true'
-      } else if (currentRaw === 'true') {
-        newTernary = 'override'
-      } else {
-        newTernary = 'false'
-      }
-      fieldContext.setValue(newTernary)
-      return
-    }
-    
-    // WHY: useFieldContextState returns empty string '' for temp entities, but we need to treat it as false
-    // PATTERN: Normalize empty string to false for boolean fields
-    const normalizedRaw = currentRaw === '' ? false : currentRaw
-    const isBooleanish = normalizedRaw === true || normalizedRaw === false || 
-                        normalizedRaw === null || normalizedRaw === undefined
-    if (!isBooleanish) {
-      return
-    }
-    
-    const currentValue = normalizedRaw === true
-    const newValue = !currentValue
-    
-    fieldContext.setValue(newValue)
-    
-    if (fieldContext.entityKey === 'blockShape' && newValue === true) {
-      const formInstance = fieldContext.formInstance
-      if (formInstance) {
-        if (fieldContext.fieldKey === 'isStateControl') {
-          formInstance.setFieldValue('canHaveParts', false)
-        } else if (fieldContext.fieldKey === 'canHaveParts') {
-          formInstance.setFieldValue('isStateControl', false)
-        }
-      }
-    }
-    
-    return
-  }
-  
-  // LEARNING: Use composable's toggle method which handles store updates correctly
-  // PATTERN: Composable handles all toggle logic including store updates via usePrimitiveMutation
-  await statusButtonToggle.toggleStatusButton(fieldContext.fieldKey, event)
-}
 </script>

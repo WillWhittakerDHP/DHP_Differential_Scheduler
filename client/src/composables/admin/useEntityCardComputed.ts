@@ -3,37 +3,22 @@
 
 WHY: Reduces component compl...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import { useEntityDisplay } from './useEntityDisplay'
+import { useAdminConfig } from '@/composables/useAdminConfig'
+import { entityDisplay } from '@/utils/admin/entityDisplay'
 import { useInstanceShape } from './useInstanceShape'
+import type { UseEntityCardComputedParams, UseEntityCardComputedReturn } from '@/types/admin/entityCardComputed'
 
-export interface UseEntityCardComputedParams<GE extends GlobalEntityKey> {
-  entityKey: GE
-  entity: GlobalEntity<GE>
-  composedFieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
-  isMetadataLoading: ComputedRef<boolean>
-}
-
-export interface UseEntityCardComputedReturn {
-  fieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  
-  isMetadataReady: ComputedRef<boolean>
-  
-  entityName: ComputedRef<string>
-  
-  isComposable: ComputedRef<boolean>
-}
+export type { UseEntityCardComputedParams, UseEntityCardComputedReturn } from '@/types/admin/entityCardComputed'
 
 export function useEntityCardComputed<GE extends GlobalEntityKey>(
   params: UseEntityCardComputedParams<GE>
 ): UseEntityCardComputedReturn {
   const { entityKey, entity, composedFieldMetadata, isMetadataLoading } = params
   
-  const { getEntityName } = useEntityDisplay()
+  const { getEntityName } = entityDisplay(useAdminConfig())
   
   // WHY: Composition panel visibility depends on BlockShape.composable property
   // PATTERN: Use useInstanceShape composable to access BlockShape from BlockInstance

@@ -1,16 +1,7 @@
 import type { StepValidator } from '@/composables/booking/useWizardValidation'
+import type { BuildBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
-export type BuildBookingWizardStepValidatorsOptions = {
-  hasServiceSelection: boolean
-  propertyDetailsStepValidate: (() => boolean) | null
-  propertyDetailsStepValid: boolean | null
-  availabilityStepValidate: (() => boolean) | null
-  availabilityStepValid: boolean | null
-  contactsStepValidate: (() => boolean) | null
-  contactsStepValid: boolean | null
-  confirmationStepValidate?: (() => boolean) | null
-  confirmationStepValid?: boolean | null
-}
+export type { BuildBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
 /**
  * WHY: Build the step validator map for BookingWizard

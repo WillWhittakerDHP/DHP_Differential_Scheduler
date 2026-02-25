@@ -232,7 +232,7 @@ export async function createSourceFileFromContent(filePath, content, options = {
     skipAddingFilesFromTsConfig: true,
     compilerOptions: { allowJs: true },
   })
-  const ext = path.extname(filePath)
+  const _ext = path.extname(filePath)
   const normalizedPath = path.isAbsolute(filePath) ? filePath : path.join(process.cwd(), filePath)
   const sourceFile = project.createSourceFile(normalizedPath, content, { overwrite: true })
 

@@ -126,7 +126,7 @@ function main() {
   const scriptDir = __dirname
   const clientDir = path.resolve(scriptDir, '..')
   const projectRoot = path.resolve(clientDir, '..')
-  const paths = resolveAuditPaths('type-import') // any; we need projectRoot
+  const _paths = resolveAuditPaths('type-import') // any; we need projectRoot
   const outDir = path.join(clientDir, '.audit-reports')
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
 

@@ -3,29 +3,12 @@
 
 WHY: Components should be thin UI wrappers - s...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useComponentEntity } from '../useComponentEntity'
 import { useAdmin } from './useAdmin'
-import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityStatusOptions, UseEntityStatusReturn } from '@/types/admin/entityStatus'
 
-export interface UseEntityStatusOptions {
-  entityKey: GlobalEntityKey
-  
-  entity: ComputedRef<GlobalEntity<GlobalEntityKey>>
-}
-
-export interface UseEntityStatusReturn {
-  isComposer: ComputedRef<boolean>
-  
-  isComponent: ComputedRef<boolean>
-  
-  isComposable: ComputedRef<boolean>
-  
-  componentCount: ComputedRef<number>
-  
-  composerName: ComputedRef<string | null>
-}
+export type { UseEntityStatusOptions, UseEntityStatusReturn } from '@/types/admin/entityStatus'
 
 /**
  * WHY: Entity Status Composable

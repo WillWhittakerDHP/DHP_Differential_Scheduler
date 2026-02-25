@@ -3,30 +3,19 @@
 
 WHY: Moves step subtitle generation and loa...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import { computed } from 'vue'
 import type { WizardStepConfig } from '@/configs/wizardSteps'
+import type {
+  UseWizardDisplayParams,
+  UseWizardDisplayReturn,
+} from '@/types/booking/wizardDisplay'
 
 export type { WizardStepConfig }
+export type {
+  UseWizardDisplayParams,
+  UseWizardDisplayReturn,
+} from '@/types/booking/wizardDisplay'
 
-export interface UseWizardDisplayParams {
-  steps: WizardStepConfig[]
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  loadedWizardState: Ref<WizardStateData | null> | null
-}
-
-export interface UseWizardDisplayReturn {
-  stepSubtitles: ComputedRef<string[]>
-  loadedServiceName: ComputedRef<string | null>
-  loadedPropertyAddress: ComputedRef<string | null>
-}
-
-/**
- * WHY: useWizardDisplay composable
-
-WHY: Extracts display logic from component ...
- */
 export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDisplayReturn {
   const {
     steps,

@@ -3,53 +3,9 @@
 
 PATTERN: Composable that provide...
  */
-import { type Ref } from 'vue'
-import type { AppointmentSlot } from '@/types/appointment'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { UseAvailabilityStepHandlersParams, UseAvailabilityStepHandlersReturn } from '@/types/booking/availabilityStepHandlers'
 
-export interface UseAvailabilityStepHandlersParams {
-  appointmentSlotOrderIndex: Ref<number | null>
-  
-  hasMoveableParts: Ref<boolean>
-  
-  selectedSlot: Ref<AppointmentSlot | null>
-  
-  openMoveableModal: () => void
-  
-  closeMoveableModal: () => void
-  
-  moveableOptions: Ref<MoveableSchedulingOptions | null>
-  
-  selectedMoveableSlotIndex: Ref<number | null>
-  
-  confirmedMoveableScheduling: Ref<MoveableSchedulingOptions | null>
-  
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-}
-
-export interface UseAvailabilityStepHandlersReturn {
-  /**
-   * Handler for appointment slot click
-   */
-  handleAppointmentSlotClick: (buttonIndex: number) => void
-  
-  /**
-   * Handler for moveable modal confirm
-   */
-  handleMoveableConfirm: () => void
-  
-  /**
-Handler for moveable modal cancel
-WHY: Resets state when canceling
-   */
-  handleMoveableCancel: () => void
-  
-  /**
-Handler for Time Basis Graph time basis change event
-WHY: Maps UI la...
-   */
-  handleTimeBasisChange: (type: 'major' | 'minor') => void
-}
+export type { UseAvailabilityStepHandlersParams, UseAvailabilityStepHandlersReturn } from '@/types/booking/availabilityStepHandlers'
 
 /**
  * WHY: useAvailabilityStepHandlers composable

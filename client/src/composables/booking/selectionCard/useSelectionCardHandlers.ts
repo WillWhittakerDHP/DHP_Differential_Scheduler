@@ -3,31 +3,11 @@
 
 WHY: Moves selection handling, nest...
  */
-import { type ComputedRef } from 'vue'
-import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
+import { watch } from 'vue'
 import { isNestedComponentsClick, toggleSelectionModelValue, updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
+import type { UseSelectionCardHandlersParams, UseSelectionCardHandlersReturn } from '@/types/booking/selectionCard/selectionCardHandlers'
 
-export interface UseSelectionCardHandlersParams {
-  item: ComputedRef<SelectionCardItem>
-  modelValue: ComputedRef<string | null | string[]>
-  nestedChildSelections: ComputedRef<string[]>
-  activeStatePlugin: ComputedRef<StatePlugin | null>
-  isSelected: ComputedRef<boolean>
-  emit: {
-    (e: 'update:modelValue', value: string | null | string[]): void
-    (e: 'update:nestedChildSelections', childIds: string[]): void
-    (e: 'toggle-expansion'): void
-  }
-  isExpanded: ComputedRef<boolean | undefined>
-  localExpanded: { value: boolean }
-}
-
-export interface UseSelectionCardHandlersReturn {
-  handleSelection: () => void
-  handleNestedChildUpdate: (childId: string, selected: boolean) => void
-  handleParentClick: (e: Event) => void
-  toggleExpansion: () => void
-}
+export type { UseSelectionCardHandlersParams, UseSelectionCardHandlersReturn } from '@/types/booking/selectionCard/selectionCardHandlers'
 
 /**
  * WHY: useSelectionCardHandlers composable
@@ -43,8 +23,17 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
     isSelected,
     emit,
     isExpanded,
-    localExpanded
+    localExpanded,
+    hasChildren,
   } = params
+
+  if (hasChildren) {
+    watch(isSelected, (newValue) => {
+      if (newValue && hasChildren.value && isExpanded.value === undefined) {
+        localExpanded.value = true
+      }
+    }, { immediate: true })
+  }
 
   /**
    * PATTERN: Use state plugin to update selection state, fallback to emit

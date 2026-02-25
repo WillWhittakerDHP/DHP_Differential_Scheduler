@@ -12,19 +12,19 @@ Generated from `client/.audit-reports/pattern-detection-audit.json`.
 | Category | Count |
 | --- | ---: |
 | String literals (3+ occurrences) | 3 |
-| Type definitions | 570 |
-| Enum patterns | 10 |
+| Type definitions | 0 |
+| Enum patterns | 0 |
 | Config locations | 37 |
-| Function patterns | 385 |
-| Common patterns | 33 |
+| Function patterns | 430 |
+| Common patterns | 54 |
 
 ## Top String Literals (by occurrence count)
 
 | Value | Occurrences |
 | --- | ---: |
 | `held` | 7 |
+| `confirmed` | 4 |
 | `started` | 3 |
-| `confirmed` | 3 |
 
 ## Notes
 

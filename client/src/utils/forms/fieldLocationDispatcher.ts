@@ -13,6 +13,9 @@ import {
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
+import type { FieldLocation, FieldLocationContext } from '@/types/forms/fieldLocationDispatcher'
+
+export type { FieldLocation, FieldLocationContext } from '@/types/forms/fieldLocationDispatcher'
 
 const VALID_PANELS = new Set<SubPanelKey>(SUB_PANEL_KEYS)
 
@@ -35,20 +38,6 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
   }
 
   return 'none'
-}
-
-/**
- * Field location types with reasons
- */
-export type FieldLocation =
-  | { type: 'titleRow'; reason: 'titleRow' | 'staticAsTitle' } // Renders in title row area
-  | { type: 'directInline'; reason: 'expandedDirect' } // Renders in form body, inline layout
-  | { type: 'directStacked'; reason: 'expandedDirect' } // Renders in form body, stacked layout
-  | { type: 'subPanel'; panel: SubPanelKey; reason: 'expandedPanel' }
-  | { type: 'hidden'; reason: 'hidden' | 'notConfigured' | 'notExpanded' }
-
-export interface FieldLocationContext {
-  isExpanded: boolean
 }
 
 export function getFieldLocation<GE extends GlobalEntityKey>(

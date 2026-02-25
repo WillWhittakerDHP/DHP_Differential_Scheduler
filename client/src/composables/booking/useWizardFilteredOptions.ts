@@ -1,22 +1,19 @@
-import { computed, type Ref } from 'vue'
-import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import {
   filterByCascade,
   cascadeShapePipeline,
   getUserTypeBlocks
 } from '@/utils/booking/cascadeFilterPipeline'
-import type { WizardComputedProperties } from '@/types/wizard'
+import type {
+  UseWizardFilteredOptionsParams,
+  UseWizardFilteredOptionsReturn,
+} from '@/types/booking/wizardFilteredOptions'
 
-export type UseWizardFilteredOptionsParams = {
-  bookingData: Ref<BookingData | null>
-  selectedUserType: Ref<BookingBlockInstance | null>
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedAvailabilityOptions: Ref<BookingBlockInstance[]>
-  selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-}
-
-export type UseWizardFilteredOptionsReturn = WizardComputedProperties
+export type {
+  UseWizardFilteredOptionsParams,
+  UseWizardFilteredOptionsReturn,
+} from '@/types/booking/wizardFilteredOptions'
 
 export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams): UseWizardFilteredOptionsReturn {
   const {

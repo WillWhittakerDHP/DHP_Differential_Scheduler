@@ -1,10 +1,12 @@
-import type { ComputedRef } from 'vue'
 import type { QueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { Logger } from '@/utils/logger'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { UseEntityCrudStateReturnBase } from '@/types/entityCrud/entityCrudState'
+
+export type { UseEntityCrudStateReturnBase } from '@/types/entityCrud/entityCrudState'
 
 /** Context passed to entity CRUD mutation factories (create/update/remove/order). */
 export interface EntityCrudMutationContext<GlobalEntityTypeKey extends GlobalEntityKey> {
@@ -19,13 +21,6 @@ export type OrderIndexUpdate = Array<{ id: GlobalEntityId; orderIndex: number }>
 export type BulkUpdate<GlobalEntityTypeKey extends GlobalEntityKey> = Array<{
   id: GlobalEntityId
 } & Partial<GlobalEntity<GlobalEntityTypeKey>>>
-
-/** State subset shared by entity CRUD composables (P2 type-similarity). */
-export interface UseEntityCrudStateReturnBase {
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown | undefined>
-  refetch: () => Promise<void>
-}
 
 /** Mutations subset shared by entity CRUD composables (P2 type-similarity). */
 export interface UseEntityCrudMutationsReturnBase<GlobalEntityTypeKey extends GlobalEntityKey> {

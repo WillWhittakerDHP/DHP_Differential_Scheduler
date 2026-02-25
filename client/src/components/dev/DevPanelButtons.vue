@@ -1,31 +1,9 @@
 <script setup lang="ts">
 
-import { computed, inject, ref, type Ref, type ComputedRef } from 'vue'
-import type { AppointmentResponse } from '@/types/appointment'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { computed } from 'vue'
+import { useDevPanelButtonsInject } from '@/composables/booking/useDevPanelButtonsInject'
 
-interface DevPanelButtons {
-  selectedAppointmentId: Ref<string | null>
-  appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-  loadedAppointmentId: Ref<string | null>
-  isLoadingAppointment: Ref<boolean>
-  fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
-  handleLoadAppointment: (id: string | null) => Promise<void>
-  handleUpdateAppointment: () => Promise<void>
-  handleResetWizard: () => void
-  handleResetMocks: () => void
-  updateAppointment: { isPending: Ref<boolean> }
-  wizard: ReturnType<typeof useBookingWizard> | null
-}
-
-const devPanelButtonsRef = inject<Ref<DevPanelButtons | null>>('devPanelButtons', ref(null))
-
-const devPanelButtons = computed(() => {
-  if (!devPanelButtonsRef || !devPanelButtonsRef.value) {
-    return null
-  }
-  return devPanelButtonsRef.value
-})
+const { devPanelButtons } = useDevPanelButtonsInject()
 
 const hasDevPanelButtons = computed(() => {
   return devPanelButtons.value !== null
@@ -36,16 +14,6 @@ const hasDevPanelButtons = computed(() => {
   <VCardText v-if="hasDevPanelButtons" class="pa-2 pb-1">
     <VRow v-if="devPanelButtons" dense no-gutters>
       <VCol cols="12" class="d-flex gap-2 mb-2 align-center">
-        <VBtn
-          color="primary"
-          variant="outlined"
-          size="small"
-          prepend-icon="tabler-file-upload"
-          :loading="(devPanelButtons?.fetchAll?.isLoading?.value || devPanelButtons?.isLoadingAppointment?.value) ?? false"
-          @click="devPanelButtons?.handleLoadAppointment('random')"
-        >
-          LOAD RANDOM APPOINTMENT
-        </VBtn>
         <VBtn
           color="success"
           variant="outlined"

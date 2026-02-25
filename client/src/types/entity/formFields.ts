@@ -90,7 +90,7 @@ export type SelectableFieldTypeSuite = {
   [GE in GlobalEntityKey]: Partial<Record<GlobalFieldKey<GE>, SelectableFormFieldType<GE>>>;
 };
 
-export interface ValidationRule {
+export interface FieldValidationConfig {
   required?: boolean;
   min?: number;
   max?: number;
@@ -104,8 +104,8 @@ export type FormFieldConfig<GE extends GlobalEntityKey, _FieldKey extends Global
   primitiveInput?: PrimitiveFormField<GE>;
   typeSelect?: VirtualFieldType<GE>;
   relationshipSelect?: RelationshipFieldType<GE>;
-  validationRules?: ValidationRule[];
-  getOrderingValidationRules?(): ValidationRule[];
+  validationRules?: FieldValidationConfig[];
+  getOrderingValidationRules?(): FieldValidationConfig[];
 };
 
 export type FormFieldConfigMap = {

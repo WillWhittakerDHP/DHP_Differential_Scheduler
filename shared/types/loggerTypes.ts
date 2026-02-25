@@ -18,3 +18,13 @@ export type AppLogger = {
 }
 
 export type Logger = AppLogger
+
+/** Env-derived config passed to createLoggerFromConfig (client: VITE_*, server: process.env). */
+export interface LoggerEnvConfig {
+  scope: string
+  logLevel: string | undefined
+  debugScopes: string | undefined
+  logCallsite: string | undefined
+  isDev: boolean
+  callsiteSkipPatterns: string[]
+}

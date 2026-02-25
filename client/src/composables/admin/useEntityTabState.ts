@@ -3,19 +3,11 @@
 
 PATTERN: Generic composable that watches fi...
  */
-import { watch, type Ref } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
+import { watch } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityTabStateOptions, UseEntityTabStateReturn } from '@/types/admin/entityTabState'
 
-export interface UseEntityTabStateOptions<EntityKey extends GlobalEntityKey> {
-  filteredEntities: Ref<GlobalEntity<EntityKey>[]>
-  
-  dragHandlers: {
-    syncArrays: () => void
-  }
-}
-
-export type UseEntityTabStateReturn = Record<string, never>
+export type { UseEntityTabStateOptions, UseEntityTabStateReturn } from '@/types/admin/entityTabState'
 
 /**
  * WHY: Entity Tab State Composable

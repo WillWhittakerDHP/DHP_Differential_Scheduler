@@ -3,22 +3,9 @@
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
 import { nextTick } from 'vue'
-import type { FormContext } from 'vee-validate'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { UseEntityCardSaveStateReturn } from '@/composables/admin/useEntityCardSaveState'
-import type { AppLogger } from '@/utils/logger'
+import type { UseEntityCardSaveHandlersParams } from '@/types/admin/entityCardSaveHandlers'
 
-export interface UseEntityCardSaveHandlersParams {
-  form: FormContext
-  admin: { getEntity: (key: GlobalEntityKey, id: string) => Record<string, unknown> | undefined }
-  entityKey: GlobalEntityKey
-  entityId: string
-  isNew: boolean
-  logger: AppLogger
-  _handleSave: () => Promise<void>
-  _handleUndo: () => void
-  unifiedSaveState: UseEntityCardSaveStateReturn
-}
+export type { UseEntityCardSaveHandlersParams } from '@/types/admin/entityCardSaveHandlers'
 
 export function useEntityCardSaveHandlers(params: UseEntityCardSaveHandlersParams) {
   const {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T21:42:45.536Z",
+  "generatedAt": "2026-02-25T01:18:52.559Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,10 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 795,
+  "totalScanned": 1054,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 20,
+    "totalRequiresReview": 19,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -32,14 +32,14 @@
       "requiresReview": [
         {
           "ruleId": "empty-catch",
-          "lineNumber": 176,
+          "lineNumber": 134,
           "line": "} catch {",
           "detectionStage": "validator",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "empty-catch",
-          "lineNumber": 355,
+          "lineNumber": 313,
           "line": "} catch {",
           "detectionStage": "validator",
           "suppressionStatus": "unsuppressed"
@@ -55,7 +55,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 116,
+          "lineNumber": 66,
           "line": "} catch (_error) {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -63,7 +63,7 @@
         },
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 142,
+          "lineNumber": 92,
           "line": "} catch (_error) {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -71,7 +71,7 @@
         },
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 164,
+          "lineNumber": 114,
           "line": "} catch (_error) {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -107,30 +107,13 @@
       "priority": "P2"
     },
     {
-      "id": "client__src__components__admin__generic__collections__RelationshipCollection.vue",
-      "repoPath": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 256,
-          "line": "} catch (_error) {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
       "id": "client__src__components__admin__generic__DynamicForm.vue",
       "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 105,
+          "lineNumber": 101,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -147,7 +130,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 65,
+          "lineNumber": 62,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -164,7 +147,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 208,
+          "lineNumber": 209,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -182,23 +165,6 @@
         {
           "ruleId": "catch-without-logger",
           "lineNumber": 25,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useEntityDisplay.ts",
-      "repoPath": "client/src/composables/admin/useEntityDisplay.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 47,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -232,7 +198,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 32,
+          "lineNumber": 33,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -249,7 +215,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 149,
+          "lineNumber": 107,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -266,7 +232,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 30,
+          "lineNumber": 31,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -283,7 +249,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 79,
+          "lineNumber": 51,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -300,7 +266,24 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 149,
+          "lineNumber": 138,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__admin__entityDisplay.ts",
+      "repoPath": "client/src/utils/admin/entityDisplay.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 39,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",
@@ -317,7 +300,7 @@
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 35,
+          "lineNumber": 31,
           "line": "} catch {",
           "confidence": "high",
           "detectionStage": "validator",

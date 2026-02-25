@@ -1,21 +1,11 @@
 import { computed } from 'vue'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
-import type { FieldKeyboardGuardType } from '@/composables/admin/useFieldKeyboardGuard'
-import { useFieldKeyboardGuard } from '@/composables/admin/useFieldKeyboardGuard'
+import { fieldKeyboardGuard } from '@/utils/admin/fieldKeyboardGuard'
 import { createLogger } from '@/utils/logger'
+import type { UseFieldInputHandlersParams } from '@/types/admin/fieldInputHandlers'
+
+export type { UseFieldInputHandlersParams } from '@/types/admin/fieldInputHandlers'
 
 const logger = createLogger('useFieldInputHandlers')
-
-export interface UseFieldInputHandlersParams {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  disableAutoSave?: boolean
-  entityCardSaveContext?: EntityCardSaveContext | null
-  /** Keyboard guard field type; default 'text' */
-  fieldType?: FieldKeyboardGuardType
-}
 
 export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   const {
@@ -96,7 +86,7 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
     }
   }
 
-  const { handleKeydown } = useFieldKeyboardGuard({
+  const { handleKeydown } = fieldKeyboardGuard({
     fieldType,
     isEditable,
     onEnter: handleEnterKey

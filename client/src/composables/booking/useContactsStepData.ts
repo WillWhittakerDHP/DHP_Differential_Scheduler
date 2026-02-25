@@ -3,10 +3,11 @@
 
 LEARNING: Extracts contact form data mana...
  */
-import { ref, watch, computed, type Ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { ContactInfoBase } from '@shared/types/contactTypes'
+import type { ContactInfo, UseContactsStepDataOptions, UseContactsStepDataReturn } from '@/types/booking/contactsStepData'
+
+export type { ContactInfo, UseContactsStepDataOptions, UseContactsStepDataReturn } from '@/types/booking/contactsStepData'
 
 const logger = createLogger('useContactsStepData')
 
@@ -18,43 +19,6 @@ function contactField(value: string | null | undefined, context: string): string
   return value
 }
 
-/** Contact form shape; extends shared base for single source of truth. */
-export type ContactInfo = ContactInfoBase
-
-export interface UseContactsStepDataOptions {
-  loadedWizardState?: Ref<WizardStateData | null>
-}
-
-export interface UseContactsStepDataReturn {
-  clientInfo: Ref<ContactInfo>
-  agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  transactionManagerInfo: Ref<ContactInfo>
-  sellerInfo: Ref<ContactInfo>
-  
-  showAnotherClient: Ref<boolean>
-  showTransactionManager: Ref<boolean>
-  showSeller: Ref<boolean>
-  
-  stepData: Ref<{
-    clientInfo: ContactInfo
-    agentInfo: ContactInfo
-    anotherClientInfo: ContactInfo
-    transactionManagerInfo: ContactInfo
-    sellerInfo: ContactInfo
-    showAnotherClient: boolean
-    showTransactionManager: boolean
-    showSeller: boolean
-  }>
-  
-  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
-}
-
-/**
- * WHY: Contacts Step Data Composable
-
-WHY: Extracts contact form state manageme...
- */
 export function useContactsStepData(
   options: UseContactsStepDataOptions = {}
 ): UseContactsStepDataReturn {

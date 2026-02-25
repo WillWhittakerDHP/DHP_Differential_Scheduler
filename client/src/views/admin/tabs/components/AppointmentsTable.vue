@@ -7,8 +7,8 @@
 import { getValidNextStatuses } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
-import { getClientAttendee, getAgentAttendee } from '@/composables/admin/tables/useAppointmentAttendees'
-import { getStatusColor, getRoleColor } from '@/composables/admin/tables/useAppointmentHelpers'
+import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
+import { getStatusColor, getRoleColor } from '@/utils/admin/appointmentHelpers'
 import { APPOINTMENTS_TABLE_HEADERS, APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
 import AppointmentsCreateForm from './AppointmentsCreateForm.vue'
 

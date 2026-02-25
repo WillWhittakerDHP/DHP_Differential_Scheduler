@@ -3,27 +3,21 @@
 
 LEARNING: Generic composable for b...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
+import type {
+  UseBlockInstanceSelectionParams,
+  UseBlockInstanceSelectionReturnSingle,
+  UseBlockInstanceSelectionReturnMultiple,
+} from '@/types/booking/blockInstanceSelection'
 
-export type SelectionMode = 'single' | 'multiple'
-
-interface UseBlockInstanceSelectionParams {
-  selectedBlocks: Ref<BookingBlockInstance[]>
-  availableBlocks: ComputedRef<BookingBlockInstance[]>
-  toggleBlock?: (block: BookingBlockInstance) => void
-  selectionMode: SelectionMode
-}
-
-interface UseBlockInstanceSelectionReturnSingle {
-  selectedBlockId: ComputedRef<string | null>
-}
-
-interface UseBlockInstanceSelectionReturnMultiple {
-  selectedBlockIds: ComputedRef<string[]>
-}
+export type {
+  SelectionMode,
+  UseBlockInstanceSelectionParams,
+  UseBlockInstanceSelectionReturnSingle,
+  UseBlockInstanceSelectionReturnMultiple,
+} from '@/types/booking/blockInstanceSelection'
 
 export function useBlockInstanceSelection(
   params: UseBlockInstanceSelectionParams & { selectionMode: 'single' }

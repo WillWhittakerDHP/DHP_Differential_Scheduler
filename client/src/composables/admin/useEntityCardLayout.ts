@@ -3,44 +3,16 @@
 
 WHY: Moves field selection and layout log...
  */
-import { computed, type Ref } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldsByLayout } from '@/types/forms/layoutFieldCategorization'
+import type { UseEntityCardLayoutOptions, UseEntityCardLayoutReturn } from '@/types/admin/entityCardLayout'
 import { asEmptyArray } from '@/utils/safeDefaults'
 
-export interface FieldsByLayout {
-  inline: Array<GlobalFieldKey<GlobalEntityKey>>
-  stacked: Array<GlobalFieldKey<GlobalEntityKey>>
-}
+export type { UseEntityCardLayoutOptions, UseEntityCardLayoutReturn } from '@/types/admin/entityCardLayout'
 
-export interface UseEntityCardLayoutOptions {
-  entityKey: GlobalEntityKey
-  
-  formContentRef: Ref<{
-    readyInlineFields?: Ref<Array<GlobalFieldKey<GlobalEntityKey>>>
-    readyStackedFields?: Ref<Array<GlobalFieldKey<GlobalEntityKey>>>
-    getFieldContext?: (
-      fieldKey: GlobalFieldKey<GlobalEntityKey>
-    ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  } | null>
-}
-
-export interface UseEntityCardLayoutReturn {
-  fields: Ref<FieldsByLayout>
-  
-  getFieldContext: (
-    fieldKey: GlobalFieldKey<GlobalEntityKey>
-  ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  
-  shouldRenderFields: Ref<boolean>
-}
-
-/**
- * WHY: Entity Card Layout Composable
-
-WHY: Extracts field selection and layout ...
- */
 export function useEntityCardLayout(
   options: UseEntityCardLayoutOptions
 ): UseEntityCardLayoutReturn {
@@ -48,14 +20,14 @@ export function useEntityCardLayout(
     formContentRef
   } = options
   
-  const fields = computed<FieldsByLayout>(() => {
+  const fields = computed<FieldsByLayout<GlobalFieldKey<GlobalEntityKey>>>(() => {
     if (!formContentRef.value) {
-      return { inline: [], stacked: [] }
+      return { inline: [], stacked: [], hidden: [] }
     }
-    
     return {
       inline: asEmptyArray(formContentRef.value.readyInlineFields?.value),
-      stacked: asEmptyArray(formContentRef.value.readyStackedFields?.value)
+      stacked: asEmptyArray(formContentRef.value.readyStackedFields?.value),
+      hidden: []
     }
   })
   

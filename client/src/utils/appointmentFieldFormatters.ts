@@ -2,14 +2,15 @@
  * WHY: Appointment field formatters
 WHY: Field formatting logic is hardcoded in...
  */
-import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
+import { formatNullValue } from '@/utils/formatting/nullDisplay'
 
-const { formatDateOnlyForDisplay, formatDateForDisplay } = useLocalTime()
+const { formatDateOnlyForDisplay, formatDateForDisplay } = localTime()
 
 type FieldFormatter = (
   appointment: AppointmentResponse,
@@ -17,12 +18,6 @@ type FieldFormatter = (
   properties: PropertyResponse[],
   users: UserResponse[]
 ) => string
-
-function formatNullValue(value: unknown): string {
-  if (value === null || value === undefined) return '—'
-  if (typeof value === 'object') return JSON.stringify(value)
-  return String(value)
-}
 
 function formatPropertyField(
   appointment: AppointmentResponse,
@@ -75,9 +70,7 @@ function formatClientField(
   _properties: PropertyResponse[],
   users: UserResponse[]
 ): string {
-  const clientAttendee = appointment.attendees?.find(a => 
-    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT
-  )
+  const clientAttendee = getClientAttendee(appointment)
   if (clientAttendee?.user) {
     return `${clientAttendee.user.firstName} ${clientAttendee.user.lastName}`
   }
@@ -94,9 +87,7 @@ function formatAgentField(
   _properties: PropertyResponse[],
   users: UserResponse[]
 ): string {
-  const agentAttendee = appointment.attendees?.find(a => 
-    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?.userRole === USER_ROLE_AGENT
-  )
+  const agentAttendee = getAgentAttendee(appointment)
   if (agentAttendee?.user) {
     return `${agentAttendee.user.firstName} ${agentAttendee.user.lastName}`
   }

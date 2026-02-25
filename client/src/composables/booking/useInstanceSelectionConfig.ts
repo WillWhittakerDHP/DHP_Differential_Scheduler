@@ -3,30 +3,13 @@
 
 PATTERN: Composable that provides...
  */
-import { computed, type ComputedRef } from 'vue'
-import { createWizardStatePlugin, type WizardStateField } from '@/components/booking/plugins/wizardStatePlugin'
+import { computed } from 'vue'
+import { createWizardStatePlugin } from '@/components/booking/plugins/wizardStatePlugin'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import { buildServicesStackSelectionConfig, buildUserTypeBlockRowSelectionConfig } from '@/utils/booking/serviceSelectionConfigBuilders'
+import type { UseInstanceSelectionConfigOptions, UseInstanceSelectionConfigReturn } from '@/types/booking/instanceSelectionConfig'
 
-export interface UseInstanceSelectionConfigOptions {
-  selectionType?: 'row' | 'stack'
-  
-  /**
-   * Wizard state field for state plugin
-   */
-  stateField?: WizardStateField
-  
-  /**
-   * Selected value (for reactivity tracking)
-   */
-  selectedValue?: ComputedRef<unknown>
-}
-
-export interface UseInstanceSelectionConfigReturn {
-  selectionConfig: ComputedRef<SelectionCardConfig>
-  
-  statePlugin: ReturnType<typeof createWizardStatePlugin>
-}
+export type { UseInstanceSelectionConfigOptions, UseInstanceSelectionConfigReturn } from '@/types/booking/instanceSelectionConfig'
 
 /**
  * PATTERN: useInstanceSelectionConfig composable

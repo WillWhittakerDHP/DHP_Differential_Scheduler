@@ -3,67 +3,27 @@
 
 WHY: Components should be thin UI wrappe...
  */
-import { ref, computed, onMounted, type Ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useGlobal } from '../useGlobal'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
+import type {
+  BlockInstanceFormData,
+  UseBlockInstanceFormOptions,
+  UseBlockInstanceFormReturn,
+} from '@/types/admin/blockInstanceForm'
+
+export type {
+  BlockInstanceFormData,
+  UseBlockInstanceFormOptions,
+  UseBlockInstanceFormReturn,
+} from '@/types/admin/blockInstanceForm'
 
 const logger = createLogger('useBlockInstanceForm')
-
-export interface BlockInstanceFormData {
-  name: string
-  blockShapeRef: string
-  orderIndex: number
-  active: boolean
-}
-
-import type { UseEntityFormRedirectOptions } from './useEntityFormRedirectOptions'
-
-export type UseBlockInstanceFormOptions = UseEntityFormRedirectOptions
-
-export interface UseBlockInstanceFormReturn {
-  /**
-   */
-  isEdit: Ref<boolean>
-  
-  /**
-   */
-  entityId: Ref<string | undefined>
-  
-  /**
-   */
-  blockTypeOptions: Ref<Array<{ id: string; name: string }>>
-  
-  /**
-   */
-  formData: Ref<BlockInstanceFormData>
-  
-  /**
-LEARNING: Submission loading state
-WHY: Component needs to show load...
-   */
-  isSubmitting: Ref<boolean>
-  
-  /**
-   */
-  error: Ref<string | null>
-  
-  /**
-   * PATTERN: Function called in onMounted hook
-   */
-  loadEntity: () => Promise<void>
-  
-  /**
-   */
-  handleSubmit: () => Promise<void>
-  
-  /**
-   */
-  goBack: () => void
-}
 
 /**
  * WHY: Block Instance Form Composable

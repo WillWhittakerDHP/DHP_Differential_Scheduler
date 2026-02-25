@@ -38,7 +38,6 @@ declare global {
   const calculateMinorStartTimeFromMajor: typeof import('./src/utils/differentialScheduling').calculateMinorStartTimeFromMajor
   const calculateOnSiteTotal: typeof import('./src/utils/differentialScheduling').calculateOnSiteTotal
   const calculatePropertyAdjustments: typeof import('./src/utils/differentialScheduling').calculatePropertyAdjustments
-  const cleanupInvalidActiveRelationships: typeof import('./src/utils/dependencyCleanup').cleanupInvalidActiveRelationships
   const clearMetadataCache: typeof import('./src/composables/useFieldMetadata').clearMetadataCache
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
@@ -129,6 +128,7 @@ declare global {
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
+  const getDayOfWeek: typeof import('./src/utils/datetime').getDayOfWeek
   const getDefaultEntityValues: typeof import('./src/utils/entityDefaults').getDefaultEntityValues
   const getDescriptionByIdEndpoint: typeof import('./src/utils/api').getDescriptionByIdEndpoint
   const getDescriptionEndpoint: typeof import('./src/utils/api').getDescriptionEndpoint
@@ -190,6 +190,7 @@ declare global {
   const isNullOrUndefined: typeof import('./src/@core/utils/helpers').isNullOrUndefined
   const isObject: typeof import('./src/@core/utils/helpers').isObject
   const isProxy: typeof import('vue').isProxy
+  const isRFC3339DateTime: typeof import('./src/utils/datetime').isRFC3339DateTime
   const isReactive: typeof import('vue').isReactive
   const isReadonly: typeof import('vue').isReadonly
   const isRef: typeof import('vue').isRef
@@ -278,6 +279,11 @@ declare global {
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
   const timeOfDayToRfc3339: typeof import('./src/utils/datetime').timeOfDayToRfc3339
+  const toDayOfWeek: typeof import('./src/utils/datetime').toDayOfWeek
+  const toGlobalEntityId: typeof import('./src/utils/globalEntity').toGlobalEntityId
+  const toGlobalEntityIdOrNull: typeof import('./src/utils/globalEntity').toGlobalEntityIdOrNull
+  const toISO8601Date: typeof import('./src/utils/datetime').toISO8601Date
+  const toRFC3339DateTime: typeof import('./src/utils/datetime').toRFC3339DateTime
   const toRaw: typeof import('vue').toRaw
   const toReactive: typeof import('@vueuse/core').toReactive
   const toRef: typeof import('vue').toRef
@@ -525,6 +531,7 @@ declare global {
   const useWindowScroll: typeof import('@vueuse/core').useWindowScroll
   const useWindowSize: typeof import('@vueuse/core').useWindowSize
   const validateAnnotationMetadata: typeof import('./src/utils/annotationUtils').validateAnnotationMetadata
+  const validateRFC3339DateTime: typeof import('./src/utils/datetime').validateRFC3339DateTime
   const watch: typeof import('vue').watch
   const watchArray: typeof import('@vueuse/core').watchArray
   const watchAtMost: typeof import('@vueuse/core').watchAtMost
@@ -541,6 +548,7 @@ declare global {
   const watchTriggerable: typeof import('@vueuse/core').watchTriggerable
   const watchWithFilter: typeof import('@vueuse/core').watchWithFilter
   const whenever: typeof import('@vueuse/core').whenever
+  const withAsyncOperation: typeof import('./src/composables/useAsyncOperation').withAsyncOperation
 }
 // for type re-export
 declare global {
@@ -553,6 +561,12 @@ declare global {
   // @ts-ignore
   export type { SelectionResult, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn } from './src/composables/useAddressAutocomplete'
   import('./src/composables/useAddressAutocomplete')
+  // @ts-ignore
+  export type { WithAsyncOperationState, WithAsyncOperationOptions } from './src/composables/useAsyncOperation'
+  import('./src/composables/useAsyncOperation')
+  // @ts-ignore
+  export type { UseBusinessReturn } from './src/composables/useBusiness'
+  import('./src/composables/useBusiness')
   // @ts-ignore
   export type { WithId, UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
   import('./src/composables/useCollectionTypes')
@@ -572,20 +586,14 @@ declare global {
   export type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from './src/composables/useLayoutLoading'
   import('./src/composables/useLayoutLoading')
   // @ts-ignore
-  export type { UseLoadingIndicatorReturn, LoadingIndicatorInstance } from './src/composables/useLoadingIndicator'
+  export type { LoadingIndicatorInstance, UseLoadingIndicatorReturn } from './src/composables/useLoadingIndicator'
   import('./src/composables/useLoadingIndicator')
-  // @ts-ignore
-  export type { UseLocalTimeReturn } from './src/composables/useLocalTime'
-  import('./src/composables/useLocalTime')
   // @ts-ignore
   export type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from './src/composables/usePartInstanceData'
   import('./src/composables/usePartInstanceData')
   // @ts-ignore
-  export type { SelectOptionBase, SelectOption, GroupedEntities, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
+  export type { GroupedEntities, SelectOption, SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
-  // @ts-ignore
-  export type { UseTimeFormattingReturn, TimeRange, TimeSlot } from './src/composables/useTimeFormatting'
-  import('./src/composables/useTimeFormatting')
   // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
   import('./src/utils/autocomplete')
@@ -649,7 +657,6 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly emailValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['emailValidator']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly extractBusinessHoursMinutes: UnwrapRef<typeof import('./src/composables/useLocalTime')['extractBusinessHoursMinutes']>
     readonly extractInstanceComponents: UnwrapRef<typeof import('./src/utils/instanceComponentUtils')['extractInstanceComponents']>
     readonly formatDate: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDate']>
     readonly formatDateToMonthShort: UnwrapRef<typeof import('./src/@core/utils/formatters')['formatDateToMonthShort']>
@@ -662,6 +669,7 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
+    readonly getDayOfWeek: UnwrapRef<typeof import('./src/utils/datetime')['getDayOfWeek']>
     readonly getDefaultEntityValues: UnwrapRef<typeof import('./src/utils/entityDefaults')['getDefaultEntityValues']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
     readonly getEventShapeByRole: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getEventShapeByRole']>
@@ -681,6 +689,7 @@ declare module 'vue' {
     readonly isNullOrUndefined: UnwrapRef<typeof import('./src/@core/utils/helpers')['isNullOrUndefined']>
     readonly isObject: UnwrapRef<typeof import('./src/@core/utils/helpers')['isObject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
+    readonly isRFC3339DateTime: UnwrapRef<typeof import('./src/utils/datetime')['isRFC3339DateTime']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
@@ -745,8 +754,6 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveVuetifyTheme: UnwrapRef<typeof import('./src/@core/utils/vuetify')['resolveVuetifyTheme']>
-    readonly rfc3339ToLocalHHmm: UnwrapRef<typeof import('./src/composables/useLocalTime')['rfc3339ToLocalHHmm']>
-    readonly rfc3339ToLocalMinutesFromMidnight: UnwrapRef<typeof import('./src/composables/useLocalTime')['rfc3339ToLocalMinutesFromMidnight']>
     readonly rgbaToHex: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['rgbaToHex']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
     readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
@@ -760,6 +767,11 @@ declare module 'vue' {
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
+    readonly toDayOfWeek: UnwrapRef<typeof import('./src/utils/datetime')['toDayOfWeek']>
+    readonly toGlobalEntityId: UnwrapRef<typeof import('./src/utils/globalEntity')['toGlobalEntityId']>
+    readonly toGlobalEntityIdOrNull: UnwrapRef<typeof import('./src/utils/globalEntity')['toGlobalEntityIdOrNull']>
+    readonly toISO8601Date: UnwrapRef<typeof import('./src/utils/datetime')['toISO8601Date']>
+    readonly toRFC3339DateTime: UnwrapRef<typeof import('./src/utils/datetime')['toRFC3339DateTime']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
@@ -875,7 +887,6 @@ declare module 'vue' {
     readonly useLayoutLoading: UnwrapRef<typeof import('./src/composables/useLayoutLoading')['useLayoutLoading']>
     readonly useLoadingIndicator: UnwrapRef<typeof import('./src/composables/useLoadingIndicator')['useLoadingIndicator']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
-    readonly useLocalTime: UnwrapRef<typeof import('./src/composables/useLocalTime')['useLocalTime']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
     readonly useMapsSessionToken: UnwrapRef<typeof import('./src/composables/useMapsSessionToken')['useMapsSessionToken']>
@@ -950,7 +961,6 @@ declare module 'vue' {
     readonly useThrottledRefHistory: UnwrapRef<typeof import('@vueuse/core')['useThrottledRefHistory']>
     readonly useTimeAgo: UnwrapRef<typeof import('@vueuse/core')['useTimeAgo']>
     readonly useTimeAgoIntl: UnwrapRef<typeof import('@vueuse/core')['useTimeAgoIntl']>
-    readonly useTimeFormatting: UnwrapRef<typeof import('./src/composables/useTimeFormatting')['useTimeFormatting']>
     readonly useTimeout: UnwrapRef<typeof import('@vueuse/core')['useTimeout']>
     readonly useTimeoutFn: UnwrapRef<typeof import('@vueuse/core')['useTimeoutFn']>
     readonly useTimeoutPoll: UnwrapRef<typeof import('@vueuse/core')['useTimeoutPoll']>
@@ -976,6 +986,7 @@ declare module 'vue' {
     readonly useWindowFocus: UnwrapRef<typeof import('@vueuse/core')['useWindowFocus']>
     readonly useWindowScroll: UnwrapRef<typeof import('@vueuse/core')['useWindowScroll']>
     readonly useWindowSize: UnwrapRef<typeof import('@vueuse/core')['useWindowSize']>
+    readonly validateRFC3339DateTime: UnwrapRef<typeof import('./src/utils/datetime')['validateRFC3339DateTime']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchArray: UnwrapRef<typeof import('@vueuse/core')['watchArray']>
     readonly watchAtMost: UnwrapRef<typeof import('@vueuse/core')['watchAtMost']>
@@ -992,5 +1003,6 @@ declare module 'vue' {
     readonly watchTriggerable: UnwrapRef<typeof import('@vueuse/core')['watchTriggerable']>
     readonly watchWithFilter: UnwrapRef<typeof import('@vueuse/core')['watchWithFilter']>
     readonly whenever: UnwrapRef<typeof import('@vueuse/core')['whenever']>
+    readonly withAsyncOperation: UnwrapRef<typeof import('./src/composables/useAsyncOperation')['withAsyncOperation']>
   }
 }

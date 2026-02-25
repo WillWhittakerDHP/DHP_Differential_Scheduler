@@ -253,7 +253,7 @@ function main() {
 
     const contents = fs.readFileSync(abs, 'utf8')
     const lines = splitLines(contents)
-    const { counts, matches } = scanLines(lines)
+    const { counts: _counts, matches } = scanLines(lines)
     const requiresReview = matches.filter(m => TIER1_RULE_IDS.includes(m.ruleId))
     const reviewCounts = recalculateCounts(requiresReview)
     const score = calculateScoreFromTier1(reviewCounts)

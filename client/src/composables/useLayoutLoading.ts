@@ -3,16 +3,10 @@
 
 WHY: Moves loading indicator watcher logic ou...
  */
-import { ref, watch, type Ref } from 'vue'
-import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
+import { ref, watch } from 'vue'
+import type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from '@/types/layoutLoading'
 
-export interface UseLayoutLoadingOptions {
-  refLoadingIndicator: Ref<LoadingIndicatorInstance | null>
-}
-
-export interface UseLayoutLoadingReturn {
-  isFallbackStateActive: Ref<boolean>
-}
+export type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from '@/types/layoutLoading'
 
 /**
  * WHY: Layout Loading Composable

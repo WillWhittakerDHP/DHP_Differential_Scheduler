@@ -7,18 +7,14 @@
 
 Generated from `client/.audit-reports/todo-aging-audit.json`.
 
-- Total markers: **9**
-- Ancient: **8** | Stale: **0** | Aging: **0** | Fresh: **1** | Orphaned: **9**
+- Total markers: **4**
+- Ancient: **4** | Stale: **0** | Aging: **0** | Fresh: **0** | Orphaned: **4**
 
-## Top 8 files
+## Top 4 files
 
 | File | Priority | Score | Total | Ancient | Stale | Orphaned |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `server/src/middlewares/security.ts` | P1 | 14 | 2 | 2 | 0 | 2 |
-| `client/src/components/admin/generic/fields/BooleanInput.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/composables/booking/useDevPanelsComputed.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
 | `client/src/views/admin/tabs/components/RangeConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 1 | 0 | 0 | 1 |

@@ -3,27 +3,12 @@
 
 WHY: Reduces component complexity by mo...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useEntityMetadata } from './useEntityMetadata'
+import type { UseEntityCardMetadataParams, UseEntityCardMetadataReturn } from '@/types/admin/entityCardMetadata'
 
-export interface UseEntityCardMetadataParams<GE extends GlobalEntityKey> {
-  entityKey: GE
-  
-  entity: GlobalEntity<GE>
-  
-  filteredMetadata?: Record<string, FieldMetadataEntry>
-}
-
-export interface UseEntityCardMetadataReturn {
-  composedFieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
-  
-  isMetadataLoading: ComputedRef<boolean>
-  
-  fetchedMetadata: ReturnType<typeof useEntityMetadata<GlobalEntityKey>>
-}
+export type { UseEntityCardMetadataParams, UseEntityCardMetadataReturn } from '@/types/admin/entityCardMetadata'
 
 export function useEntityCardMetadata<GE extends GlobalEntityKey>(
   params: UseEntityCardMetadataParams<GE>

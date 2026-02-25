@@ -3,22 +3,10 @@
 
 WHY: Centralizes visual state logic...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type { ComputedSlot } from '@shared/types/availabilityTypes'
+import { computed } from 'vue'
+import type { UseAvailabilitySlotColorParams, UseAvailabilitySlotColorReturn } from '@/types/booking/availabilitySlotColor'
 
-export interface UseAvailabilitySlotColorParams {
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-  /** Server-computed slots grouped by day key (YYYY-MM-DD) */
-  slotsByDay: Ref<Map<string, ComputedSlot[]>>
-}
-
-export interface UseAvailabilitySlotColorReturn {
-  slotColor: ComputedRef<'primary' | 'secondary'>
-
-  allowedDates: ComputedRef<(date: unknown) => boolean>
-
-  firstAvailableDate: ComputedRef<string | null>
-}
+export type { UseAvailabilitySlotColorParams, UseAvailabilitySlotColorReturn } from '@/types/booking/availabilitySlotColor'
 
 /**
  * WHY: useAvailabilitySlotColor composable

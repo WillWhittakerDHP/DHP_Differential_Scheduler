@@ -1,13 +1,32 @@
 {
-  "generatedAt": "2026-02-24T15:07:09.770Z",
-  "totalFiles": 813,
+  "generatedAt": "2026-02-25T01:17:52.872Z",
+  "totalFiles": 1057,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135
   },
-  "cycles": [],
+  "cycles": [
+    {
+      "key": "client/src/types/booking/appointmentDataBuilders -> client/src/utils/booking/appointmentDataBuilders -> client/src/types/booking/appointmentDataBuilders",
+      "chain": [
+        "client/src/types/booking/appointmentDataBuilders",
+        "client/src/utils/booking/appointmentDataBuilders",
+        "client/src/types/booking/appointmentDataBuilders"
+      ],
+      "length": 2
+    }
+  ],
   "fanOutViolations": [],
-  "fanInViolations": [],
+  "fanInViolations": [
+    {
+      "file": "client/src/constants/entities",
+      "fanIn": 157
+    },
+    {
+      "file": "client/src/types/entities",
+      "fanIn": 136
+    }
+  ],
   "crossBoundary": [
     {
       "from": "client/src/composables/usePartInstanceData.ts",
@@ -22,6 +41,16 @@
   ],
   "files": [
     {
+      "file": "client/src/types/booking/appointmentDataBuilders",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/utils/booking/appointmentDataBuilders",
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "file": "client/src/composables/usePartInstanceData.ts",
       "score": 5,
       "priority": "P2"
@@ -29,6 +58,16 @@
     {
       "file": "client/src/composables/useSelectOptions.ts",
       "score": 5,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/constants/entities",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/entities",
+      "score": 2,
       "priority": "P2"
     }
   ]

@@ -1,19 +1,17 @@
 /**
-
-PATTERN: Pure functions that can be used b...
+ * PATTERN: Pure time-slot matching (no Vue). Used by useTimeSlotMatching for ref wiring.
  */
-import type { Ref } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import { rfc3339ToLocalHHmm } from '@/composables/useLocalTime'
+import { rfc3339ToLocalHHmm } from '@/utils/time/localTime'
+import type { LoadedTimeSlot, MatchLoadedTimeSlotsResult } from '@/types/booking/timeSlotMatching'
 
-function extractTimeString(value: string | Date): string | null {
+export type { LoadedTimeSlot, MatchLoadedTimeSlotsResult } from '@/types/booking/timeSlotMatching'
+
+export function extractTimeString(value: string | Date): string | null {
   try {
-    // LEARNING: Only accept RFC3339 format (ISO timestamp)
-    // WHY: HH:mm format should only exist at UI boundary, not in business logic
-    // PATTERN: Convert to RFC3339 string if needed, then use useLocalTime for extraction
     let rfc3339: RFC3339DateTime
-    
+
     if (value instanceof Date) {
       if (isNaN(value.getTime())) {
         return null
@@ -28,69 +26,44 @@ function extractTimeString(value: string | Date): string | null {
     } else {
       return null
     }
-    
-    // LEARNING: Use useLocalTime composable for local time extraction
-    // PATTERN: Use rfc3339ToLocalHHmm from useLocalTime
+
     return rfc3339ToLocalHHmm(rfc3339)
   } catch {
     return null
   }
 }
 
-function findMatchingTimeSlot(
+export function findMatchingTimeSlot(
   timeString: string,
   availableSlots: TimeSlot[]
 ): TimeSlot | undefined {
   const normalizedTime = extractTimeString(timeString)
   if (!normalizedTime) return undefined
-  
-  return availableSlots.find(slot => {
+
+  return availableSlots.find((slot) => {
     const slotTimeString = extractTimeString(slot.startTime)
     return slotTimeString === normalizedTime
   })
 }
 
 /**
- * Loaded time slot from API/DB (RFC3339 strings at boundary).
+ * Match loaded time slots to available slots and return results (pure, no Vue).
+ * Algorithm: first loaded slot → inspector, second → client.
  */
-export interface LoadedTimeSlot {
-  startTime: string  // RFC3339 datetime string
-  endTime?: string   // Optional RFC3339 datetime string (for future use)
-}
-
-/**
- * Match loaded time slots to available time slots and update refs
- * 
- * 
- * Algorithm:
- * 1. First loaded slot → major time slot (legacy: inspector)
- * 2. Second loaded slot (if exists) → minor time slot (legacy: client)
- * 
- * @param loadedSlots - Array of loaded time slots from saved appointment
- * @param availableSlots - Array of currently available TimeSlot objects
- * @param majorAppointmentSlotRef - Ref to update with matched major appointment slot
- * @param minorAppointmentSlotRef - Ref to update with matched minor appointment slot
- */
-export function matchLoadedTimeSlots(
+export function matchLoadedTimeSlotsImmutable(
   loadedSlots: LoadedTimeSlot[],
-  availableSlots: TimeSlot[],
-  majorAppointmentSlotRef: Ref<TimeSlot | null>,
-  minorAppointmentSlotRef: Ref<TimeSlot | null>
-): void {
-  if (loadedSlots.length === 0 || availableSlots.length === 0) return
-
-  if (loadedSlots.length > 0) {
-    const majorMatch = findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
-    if (majorMatch) {
-      majorAppointmentSlotRef.value = majorMatch
-    }
-  }
-
-  if (loadedSlots.length > 1) {
-    const minorMatch = findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
-    if (minorMatch) {
-      minorAppointmentSlotRef.value = minorMatch
-    }
+  availableSlots: TimeSlot[]
+): MatchLoadedTimeSlotsResult {
+  const inspectorSlot =
+    loadedSlots.length > 0
+      ? findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
+      : undefined
+  const clientSlot =
+    loadedSlots.length > 1
+      ? findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
+      : undefined
+  return {
+    inspectorSlot: inspectorSlot ?? null,
+    clientSlot: clientSlot ?? null,
   }
 }
-

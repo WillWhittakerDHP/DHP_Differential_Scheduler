@@ -3,19 +3,12 @@
 
 WHY: Moves grid configuration logic out...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
+import type { UseDynamicGridConfigOptions, UseDynamicGridConfigReturn } from '@/types/booking/dynamicGridConfig'
 
-export interface UseDynamicGridConfigOptions {
-  baseConfig: ComputedRef<SelectionCardConfig>
-  
-  itemCount: ComputedRef<number>
-}
-
-export interface UseDynamicGridConfigReturn {
-  dynamicConfig: ComputedRef<SelectionCardConfig>
-}
+export type { UseDynamicGridConfigOptions, UseDynamicGridConfigReturn } from '@/types/booking/dynamicGridConfig'
 
 /**
  * WHY: Dynamic grid config composable

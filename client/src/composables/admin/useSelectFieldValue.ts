@@ -3,32 +3,11 @@
 
 WHY: Components should be thin UI wrapper...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { SelectOption } from '@/composables/useSelectOptions'
+import { computed } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
-import type { UseSelectFilteringReturn } from './useSelectFiltering'
-import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import type { UseSelectFieldValueOptions, UseSelectFieldValueReturn } from '@/types/admin/selectFieldValue'
 
-export interface UseSelectFieldValueOptions {
-  rawFieldValue: ReadonlyVueRef<unknown>
-  
-  isMultiple: ComputedRef<boolean>
-  
-  options: ReadonlyVueRef<SelectOption[]>
-  
-  selectFiltering?: UseSelectFilteringReturn
-  
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  
-  isAnnotationAssignmentSelect?: ComputedRef<boolean>
-}
-
-export interface UseSelectFieldValueReturn {
-  fieldValue: ComputedRef<string | string[] | null>
-}
+export type { UseSelectFieldValueOptions, UseSelectFieldValueReturn } from '@/types/admin/selectFieldValue'
 
 /**
  * WHY: Select Field Value Composable
@@ -64,8 +43,9 @@ export function useSelectFieldValue(
         // PATTERN: Only include values that exist in the options array
         const validValues = normalized.filter(v => optionValues.has(v))
         
-        // PATTERN: Check if missing entities actually exist before warning
+        // PATTERN: Check if missing entities actually exist before warning (dev-only; no-op here)
         if (isDevModeEnabled() && normalized.length !== validValues.length) {
+          void 0
         }
         
         return validValues

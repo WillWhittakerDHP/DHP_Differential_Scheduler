@@ -170,9 +170,9 @@
 import { computed } from 'vue'
 import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
 
-const { formatDateTimeForDisplay } = useLocalTime()
+const { formatDateTimeForDisplay } = localTime()
 
 interface Props {
   showModal: boolean

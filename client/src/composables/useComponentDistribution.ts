@@ -3,32 +3,15 @@
 
 WHY: Encapsulates distribution calcul...
  */
-import { computed, isRef, ref, watch, type Ref } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { DistributionPreview, DistributionStrategy } from '@/types/component'
+import { computed, isRef, ref, watch } from 'vue'
+import type { GlobalEntityId } from '@/types/entities'
+import type { DistributionStrategy } from '@/types/component'
+import type { UseComponentDistributionOptions, UseComponentDistributionReturn } from '@/types/componentDistribution'
 import { useComponentEntity } from './useComponentEntity'
 import { useGlobal } from './useGlobal'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-export interface UseComponentDistributionOptions {
-  entityKey: GlobalEntityKey
-  composerId: Ref<GlobalEntityId> | GlobalEntityId
-  propertyKey: Ref<string> | string
-  newValue: Ref<number> | number
-  distributionStrategy: Ref<string> | string
-  manualValues?: Ref<Record<GlobalEntityId, number>> | Record<GlobalEntityId, number>
-  modalOpen?: Ref<boolean>
-}
-
-export interface UseComponentDistributionReturn {
-  /** P2 type-similarity: uses shared DistributionPreview shape. */
-  preview: Ref<DistributionPreview[]>
-  getCurrentValue: (componentId: GlobalEntityId) => number
-  getComponentName: (componentId: GlobalEntityId) => string
-  formatValue: (value: number) => string
-  updateManualPreview: () => void
-}
+export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from '@/types/componentDistribution'
 
 /**
  * PATTERN: Component Distribution Composable

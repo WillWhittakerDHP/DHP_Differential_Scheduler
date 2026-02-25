@@ -1,5 +1,5 @@
-import { computed, ref, toRaw, type Ref, type ComputedRef } from 'vue'
-import { useField, useForm, type FormContext, type FieldOptions } from 'vee-validate'
+import { computed, ref, toRaw, type Ref } from 'vue'
+import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
@@ -15,46 +15,9 @@ const logger = createLogger('useFieldContextState')
 import { useComponentEntity } from '@/composables/useComponentEntity'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'
+import type { UseFieldContextStateOptions, UseFieldContextStateReturn } from '@/types/fieldContext/fieldContextState'
 
-export type UseFieldContextStateOptions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
-  form?: FormContext
-  displayConfig?: Partial<FieldDisplayConfig<GE, FieldKey>>
-  validationRules?: FieldValidationRules
-  initialValue?: ValidAdminValue
-}
-
-export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
-  fieldKey: FieldKey
-  entityKey: GE
-  entityId: GlobalEntityId
-
-  isTempEntity: ComputedRef<boolean>
-  adminComp: ReturnType<typeof useAdmin>
-  entity: ComputedRef<unknown>
-  entityValue: ComputedRef<ValidAdminValue>
-  composedEntityComposable: ReturnType<typeof useComponentEntity> | null
-
-  // Vee-Validate field state
-  formInstance: FormContext
-  value: Ref<ValidAdminValue>
-  error: ComputedRef<string | undefined>
-  isValid: ComputedRef<boolean>
-  isDirty: ComputedRef<boolean>
-  validateField: () => Promise<unknown>
-  handleChange: (value: ValidAdminValue) => void
-  setValue: (value: ValidAdminValue) => void
-
-  isValidating: Ref<boolean>
-  isFocused: Ref<boolean>
-  isDisabled: Ref<boolean>
-  displayConfig: FieldDisplayConfig<GE, FieldKey>
-  validationRules: FieldValidationRules
-
-  queryClient: ReturnType<typeof useQueryClient>
-  patchFieldAsync: (payload: { admin: { key: string; value: ValidAdminValue }; dynamicId: string }) => Promise<unknown>
-
-  toPlainValue: (value: unknown) => unknown
-}
+export type { UseFieldContextStateOptions, UseFieldContextStateReturn } from '@/types/fieldContext/fieldContextState'
 
 /**
  * WHY: State module for `useFieldContext`

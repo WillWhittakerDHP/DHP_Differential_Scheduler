@@ -4,33 +4,10 @@
 LEARNING: Syncs local step data and valida...
  */
 import { watch, inject, type Ref } from 'vue'
+import type { UseWizardStepSyncParams } from '@/types/booking/wizardStepSync'
 
-export interface UseWizardStepSyncParams<TStepData> {
-  stepData: Ref<TStepData>
-  
-  isFormValid: Ref<boolean>
-  
-  validateForm: () => boolean
-  
-  stepDataKey: string
-  
-  stepValidKey: string
-  
-  /**
-   * Step validate key for injection (e.g., 'availabilityStepValidate', 'propertyDetailsStepValidate')
-   */
-  stepValidateKey: string
-  
-  fieldErrors?: Ref<Record<string, string>>
-  
-  fieldErrorsKey?: string
-}
+export type { UseWizardStepSyncParams } from '@/types/booking/wizardStepSync'
 
-/**
- * WHY: useWizardStepSync composable
-
-LEARNING: Syncs local step data and valida...
- */
 export function useWizardStepSync<TStepData>(
   params: UseWizardStepSyncParams<TStepData>
 ): void {

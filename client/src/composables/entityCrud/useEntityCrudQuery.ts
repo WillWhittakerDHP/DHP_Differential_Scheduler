@@ -1,11 +1,10 @@
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { useGlobal } from '@/composables/useGlobal'
+import type { UseEntityCrudQueryReturn } from '@/types/entityCrud/entityCrudQuery'
 
-export type UseEntityCrudQueryReturn<GlobalEntityTypeKey extends GlobalEntityKey> = {
-  entities: ComputedRef<GlobalEntity<GlobalEntityTypeKey>[]>
-}
+export type { UseEntityCrudQueryReturn } from '@/types/entityCrud/entityCrudQuery'
 
 /**
  * PATTERN: Query/state module for `useEntityCrud`

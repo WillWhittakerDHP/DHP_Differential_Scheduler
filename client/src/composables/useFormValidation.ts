@@ -1,18 +1,7 @@
-
 import { computed, type Ref } from 'vue'
+import type { ValidationRule, ValidationResult } from '@/types/formValidation'
 
-/**
-WHY: Matches Vuetify's validation rule pattern
- */
-export type ValidationRule = (value: unknown) => string | boolean
-
-/**
- * Validation Result Interface
- */
-export interface ValidationResult {
-  isValid: boolean
-  errors: Record<string, string>
-}
+export type { ValidationRule, ValidationResult } from '@/types/formValidation'
 
 export function useFormValidation() {
   /**

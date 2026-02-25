@@ -1,24 +1,30 @@
 /**
- * WHY: useWizardStepContent Composable
-
-WHY: Moves component mapping logic to c...
+ * WHY: useWizardStepContent Composable - step-to-component mapping for booking wizard.
  */
 import type { Component } from 'vue'
-import { getBookingWizardStepContent } from '@/utils/booking/wizardStepContent'
+import { defineAsyncComponent } from 'vue'
+import type { UseWizardStepContentReturn } from '@/types/booking/wizardStepContent'
 
-export interface UseWizardStepContentReturn {
-  getStepContent: (step: number) => Component | null
+export type { UseWizardStepContentReturn } from '@/types/booking/wizardStepContent'
+
+export function getBookingWizardStepContent(step: number): Component | null {
+  switch (step) {
+    case 0:
+      return defineAsyncComponent(() => import('@/components/booking/steps/ServiceSelectionStep.vue'))
+    case 1:
+      return defineAsyncComponent(() => import('@/components/booking/steps/PropertyDetailsStep.vue'))
+    case 2:
+      return defineAsyncComponent(() => import('@/components/booking/steps/AvailabilityStep.vue'))
+    case 3:
+      return defineAsyncComponent(() => import('@/components/booking/steps/ContactsStep.vue'))
+    case 4:
+      return defineAsyncComponent(() => import('@/components/booking/steps/ConfirmationStep.vue'))
+    default:
+      return null
+  }
 }
 
-/**
- * WHY: useWizardStepContent composable
-
-WHY: Extracts component mapping logic f...
- */
 export function useWizardStepContent(): UseWizardStepContentReturn {
-  /**
-   * PATTERN: Switch statement returning component for each step
-   */
   const getStepContent = (step: number): Component | null => {
     return getBookingWizardStepContent(step)
   }

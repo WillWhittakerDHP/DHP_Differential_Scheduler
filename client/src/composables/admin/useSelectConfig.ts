@@ -3,16 +3,12 @@
 
 WHY: Components should be thin UI wrappers - c...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
+import { computed } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
 import {
   type OptionsSelectConfigLike,
@@ -21,38 +17,13 @@ import {
   resolveSelectMultiple,
   resolveOptionEntityKey,
 } from '@/utils/admin/selectTypeResolver'
+import { resolveOptionLabelKey } from '@/utils/admin/selectConfigResolvers'
+import type { UseSelectConfigOptions, UseSelectConfigReturn } from '@/types/admin/selectConfig'
+import type { SelectOption } from '@/types/selectOptions'
 
 const logger = createLogger('useSelectConfig')
 
-export interface UseSelectConfigOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-}
-
-export interface UseSelectConfigReturn {
-  selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
-  
-  isEnumSelect: ComputedRef<boolean>
-
-  isOptionsSelect: ComputedRef<boolean>
-
-  optionsSelectOptions: ComputedRef<SelectOption[]>
-  
-  /**
-Whether this is an AnnotationAssignmentSelect field
-LEARNING: Annota...
-   */
-  isAnnotationAssignmentSelect: ComputedRef<boolean>
-  
-  isAttendeeSelect: ComputedRef<boolean>
-  
-  isMultiple: ComputedRef<boolean>
-  
-  chipsProps: ComputedRef<Record<string, unknown>>
-  
-  optionEntityKey: ComputedRef<GlobalEntityKey>
-  
-  optionLabelKey: ComputedRef<string>
-}
+export type { UseSelectConfigOptions, UseSelectConfigReturn } from '@/types/admin/selectConfig'
 
 /**
  * WHY: Select Config Composable
@@ -76,7 +47,12 @@ export function useSelectConfig(
     try {
       const entityValue = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
       return entityValue ?? null
-    } catch {
+    } catch (err) {
+      logger.warn('useSelectConfig: failed to get entity', {
+        entityKey: fieldContext.entityKey,
+        entityId: fieldContext.entityId,
+        err,
+      })
       return null
     }
   })
@@ -283,36 +259,7 @@ export function useSelectConfig(
     )
   )
 
-  /**
-WHY: Most entities use 'name' as their display field - safe default ...
-   */
-  const optionLabelKey = computed(() => {
-    // PATTERN: Return 'name' as default for enum selects (not actually used)
-    if (isEnumSelect.value) {
-      return 'name'
-    }
-
-    // PATTERN: Return 'name' as a harmless default (not used)
-    if (isOptionsSelect.value) {
-      return 'name'
-    }
-    
-    const config = selectConfig.value
-    
-    // PATTERN: Return 'name' as safe default when config is undefined
-    if (!config) {
-      return 'name'
-    }
-    
-    // PATTERN: Use 'name' field for annotation instances (transformer maps API 'text' to entity 'name')
-    if (isAnnotationAssignmentSelect.value) {
-      return 'name' // AnnotationInstance.name contains the text content
-    }
-    
-    // WHY: Most entities (blockShape, partShape, blockInstance, partInstance) use 'name' as their display field
-    // PATTERN: Provide sensible default that matches actual entity structure
-    return 'name'
-  })
+  const optionLabelKey = computed(() => resolveOptionLabelKey())
 
   return {
     selectConfig,

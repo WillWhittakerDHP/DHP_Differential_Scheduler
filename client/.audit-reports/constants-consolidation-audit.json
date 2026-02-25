@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T21:42:51.638Z",
+  "generatedAt": "2026-02-25T01:18:56.864Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,12 +11,12 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 692,
+  "totalScanned": 948,
   "totalConstantsFiles": 26,
-  "totalExportsScanned": 80,
+  "totalExportsScanned": 81,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 4,
+    "totalRequiresReview": 28,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -54,6 +54,76 @@
   ],
   "consolidationGroups": [
     {
+      "id": "inline-orphan-local",
+      "classification": "HOIST",
+      "description": "Value 'local' defined in constants but used inline in 9 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "APP_STAGE",
+          "line": 33,
+          "inline": false
+        },
+        {
+          "file": "client/src/components/booking/types/selectionCardTypes.ts",
+          "export": null,
+          "line": 65,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
+          "export": null,
+          "line": 42,
+          "inline": true
+        },
+        {
+          "file": "client/src/composables/booking/usePropertyTypeBlockConfig.ts",
+          "export": null,
+          "line": 76,
+          "inline": true
+        },
+        {
+          "file": "client/src/shims/vue-i18n.ts",
+          "export": null,
+          "line": 5,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/booking/selectionCardConfig.ts",
+          "export": null,
+          "line": 7,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/booking/serviceSelectionConfigBuilders.ts",
+          "export": null,
+          "line": 59,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/booking/serviceSelectionConfigBuilders.ts",
+          "export": null,
+          "line": 93,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/env/devMode.ts",
+          "export": null,
+          "line": 6,
+          "inline": true
+        },
+        {
+          "file": "server/src/config/envConfig.ts",
+          "export": null,
+          "line": 30,
+          "inline": true
+        }
+      ],
+      "score": 44,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
       "id": "inline-orphan-Override",
       "classification": "HOIST",
       "description": "Value 'Override' defined in constants but used inline in 3 locations",
@@ -61,7 +131,7 @@
         {
           "file": "client/src/constants/appointmentsTableConstants.ts",
           "export": "APPOINTMENTS_TABLE_UI",
-          "line": 13,
+          "line": 15,
           "inline": false
         },
         {
@@ -86,9 +156,237 @@
       "score": 20,
       "priority": "P0",
       "suggestion": "Replace inline usage with imported constant from client/src/constants/appointmentsTableConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Spacebar",
+      "classification": "HOIST",
+      "description": "Value 'Spacebar' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "client/src/components/admin/generic/entityCardConstants.ts",
+          "export": "KEY_SPACEBAR",
+          "line": 13,
+          "inline": false
+        },
+        {
+          "file": "client/src/utils/admin/entityCardTitleKeydown.ts",
+          "export": null,
+          "line": 18,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from client/src/components/admin/generic/entityCardConstants.ts"
+    },
+    {
+      "id": "inline-orphan-production",
+      "classification": "HOIST",
+      "description": "Value 'production' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "NODE_ENV",
+          "line": 27,
+          "inline": false
+        },
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "APP_STAGE",
+          "line": 33,
+          "inline": false
+        },
+        {
+          "file": "server/src/config/envConfig.ts",
+          "export": null,
+          "line": 30,
+          "inline": true
+        }
+      ],
+      "score": 20,
+      "priority": "P0",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-staging",
+      "classification": "HOIST",
+      "description": "Value 'staging' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "APP_STAGE",
+          "line": 33,
+          "inline": false
+        },
+        {
+          "file": "server/src/config/envConfig.ts",
+          "export": null,
+          "line": 30,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
+      "id": "inline-orphan-alpha",
+      "classification": "HOIST",
+      "description": "Value 'alpha' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "APP_STAGE",
+          "line": 33,
+          "inline": false
+        },
+        {
+          "file": "server/src/config/envConfig.ts",
+          "export": null,
+          "line": 30,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
+      "id": "inline-orphan-beta",
+      "classification": "HOIST",
+      "description": "Value 'beta' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "APP_STAGE",
+          "line": 33,
+          "inline": false
+        },
+        {
+          "file": "server/src/config/envConfig.ts",
+          "export": null,
+          "line": 30,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Internal-server-error",
+      "classification": "HOIST",
+      "description": "Value 'Internal server error' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/external/calendarRouteConstants.ts",
+          "export": "CALENDAR_ROUTE_MESSAGES",
+          "line": 2,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/external/mapsRouteConstants.ts",
+          "export": "MAPS_ROUTE_MESSAGES",
+          "line": 2,
+          "inline": false
+        },
+        {
+          "file": "server/src/middlewares/errorHandler.ts",
+          "export": null,
+          "line": 19,
+          "inline": true
+        }
+      ],
+      "score": 20,
+      "priority": "P0",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
     }
   ],
   "files": [
+    {
+      "id": "server__src__constants__appConstants.ts",
+      "repoPath": "server/src/constants/appConstants.ts",
+      "score": 35.733333333333334,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: APP_STAGE",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 27,
+          "line": "export: NODE_ENV",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: APP_STAGE",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: APP_STAGE",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: APP_STAGE",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 33,
+          "line": "export: APP_STAGE",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__config__envConfig.ts",
+      "repoPath": "server/src/config/envConfig.ts",
+      "score": 29.066666666666666,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 30,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 30,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 30,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 30,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 30,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
     {
       "id": "client__src__constants__statusButtonLabels.ts",
       "repoPath": "client/src/constants/statusButtonLabels.ts",
@@ -105,6 +403,102 @@
         {
           "ruleId": "hoist",
           "lineNumber": 24,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__booking__serviceSelectionConfigBuilders.ts",
+      "repoPath": "client/src/utils/booking/serviceSelectionConfigBuilders.ts",
+      "score": 8.8,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 59,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 93,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__middlewares__errorHandler.ts",
+      "repoPath": "server/src/middlewares/errorHandler.ts",
+      "score": 6.666666666666667,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 19,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__external__calendarRouteConstants.ts",
+      "repoPath": "server/src/routes/external/calendarRouteConstants.ts",
+      "score": 6.666666666666667,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 2,
+          "line": "export: CALENDAR_ROUTE_MESSAGES",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__external__mapsRouteConstants.ts",
+      "repoPath": "server/src/routes/external/mapsRouteConstants.ts",
+      "score": 6.666666666666667,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 2,
+          "line": "export: MAPS_ROUTE_MESSAGES",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__components__admin__generic__entityCardConstants.ts",
+      "repoPath": "client/src/components/admin/generic/entityCardConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 13,
+          "line": "export: KEY_SPACEBAR",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__admin__entityCardTitleKeydown.ts",
+      "repoPath": "client/src/utils/admin/entityCardTitleKeydown.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 18,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
@@ -134,8 +528,98 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 13,
+          "lineNumber": 15,
           "line": "export: APPOINTMENTS_TABLE_UI",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__components__booking__types__selectionCardTypes.ts",
+      "repoPath": "client/src/components/booking/types/selectionCardTypes.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 65,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__selectionCard__useSelectionCardState.ts",
+      "repoPath": "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 42,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__booking__usePropertyTypeBlockConfig.ts",
+      "repoPath": "client/src/composables/booking/usePropertyTypeBlockConfig.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 76,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__shims__vue-i18n.ts",
+      "repoPath": "client/src/shims/vue-i18n.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 5,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__booking__selectionCardConfig.ts",
+      "repoPath": "client/src/utils/booking/selectionCardConfig.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 7,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__env__devMode.ts",
+      "repoPath": "client/src/utils/env/devMode.ts",
+      "score": 4.4,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 6,
+          "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
       ]

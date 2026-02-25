@@ -13,7 +13,7 @@ import {
   getAgentIdFromAttendees,
   getClientAttendee,
   getAgentAttendee,
-} from '../useAppointmentAttendees'
+} from '@/utils/admin/appointmentAttendees'
 import type { AppointmentResponse, AttendeeResponse } from '@/types/appointment'
 
 function makeAttendee(overrides: Partial<AttendeeResponse> & { userId: string }): AttendeeResponse {

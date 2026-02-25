@@ -20,7 +20,7 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { getBookingWizardStepContent } from '../wizardStepContent'
+import { getBookingWizardStepContent } from '@/composables/booking/useWizardStepContent'
 
 function isComponentLike(value: unknown): value is object {
   return value !== null && typeof value === 'object'

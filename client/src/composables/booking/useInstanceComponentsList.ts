@@ -3,25 +3,30 @@
 
 PATTERN: Composable that maps serv...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useComponentEntity } from '../useComponentEntity'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { ComponentItem, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import { getInstanceComponentsForService, mapServicesWithComponents } from '@/utils/booking/instanceComponentsList'
+import type {
+  UseInstanceComponentsListOptions,
+  UseInstanceComponentsListReturn,
+} from '@/types/booking/instanceComponentsList'
 
-export interface UseInstanceComponentsListOptions {
-  services: ComputedRef<BookingBlockInstance[]>
-  
-  selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
-}
+export type {
+  UseInstanceComponentsListOptions,
+  UseInstanceComponentsListReturn,
+} from '@/types/booking/instanceComponentsList'
 
 /**
  * PATTERN: useInstanceComponentsList composable
 PATTERN: Composable that returns co...
  */
-export function useInstanceComponentsList(options: UseInstanceComponentsListOptions) {
+export function useInstanceComponentsList(
+  options: UseInstanceComponentsListOptions
+): UseInstanceComponentsListReturn {
   const { services } = options
 
   const { getGlobalEntityById } = useGlobal()

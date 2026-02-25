@@ -2,13 +2,10 @@
  * PATTERN: Composable for metadata modal handlers
 PATTERN: Composable that manages ...
  */
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
+import type { UseMetadataModalHandlersReturn } from '@/types/admin/metadataModalHandlers'
 
-export interface UseMetadataModalHandlersReturn {
-  partInstanceMetadataModalOpen: Ref<boolean>
-  togglePartInstanceMetadataModal: () => void
-  handlePartInstanceMetadataSaved: () => void
-}
+export type { UseMetadataModalHandlersReturn } from '@/types/admin/metadataModalHandlers'
 
 /**
  * WHY: Composable for managing metadata modal

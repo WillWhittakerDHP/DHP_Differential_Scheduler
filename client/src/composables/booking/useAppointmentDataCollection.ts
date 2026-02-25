@@ -2,11 +2,6 @@
  * WHY: useAppointmentDataCollection Composable
 WHY: Moves massive data collecti...
  */
-import type { Ref } from 'vue'
-import type { AppointmentRequest } from '@/types/appointment'
-import type { PropertyRequest } from '@/types/property'
-import type { UserRequest } from '@/types/user'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import {
   buildPropertyRequest,
   buildPropertyDetailsForRequest,
@@ -16,40 +11,15 @@ import {
   buildAppointmentRequest,
   type WizardBlocksForBuilders,
 } from '@/utils/booking/appointmentDataBuilders'
-import type { PropertyDetailsStepData } from '@/types/wizard'
-import type { ContactsStepData } from '@/types/wizard'
 import { createLogger } from '@/utils/logger'
-import type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
+import type { AppointmentRequest } from '@/types/appointment'
+import type { UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn } from '@/types/booking/appointmentDataCollection'
 
 const logger = createLogger('useAppointmentDataCollection')
 
-export type { ContactsStepData, PropertyDetailsStepData }
-export type { AvailabilityStepData }
-
-export interface UseAppointmentDataCollectionParams {
-  wizard: {
-    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-    selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-    selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
-    selectedLineItemBlocks: Ref<BookingBlockInstance[]>
-    selectedUserTypeBlock: Ref<{ id: string } | null>
-    isQuoteMode: Ref<boolean>
-  }
-  propertyDetailsStepData: Ref<PropertyDetailsStepData | null> | null
-  contactsStepData: Ref<ContactsStepData | null> | null
-  availabilityStepData: Ref<AvailabilityStepData | null> | null
-  createProperty: {
-    mutateAsync: (data: PropertyRequest) => Promise<{ propertyVersionId?: string; id: string }>
-  }
-  createUser: {
-    mutateAsync: (data: UserRequest) => Promise<{ id: string }>
-  }
-  showError: (message: string) => void
-}
-
-export interface UseAppointmentDataCollectionReturn {
-  collectAppointmentData: () => Promise<AppointmentRequest | null>
-}
+export type { UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn } from '@/types/booking/appointmentDataCollection'
+export type { ContactsStepData, PropertyDetailsStepData } from '@/types/wizard'
+export type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 
 /**
  * WHY: useAppointmentDataCollection composable

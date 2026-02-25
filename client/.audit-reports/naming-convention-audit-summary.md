@@ -8,7 +8,7 @@
 Generated from `client/.audit-reports/naming-convention-audit.json`.
 
 - Requiring review: **3**
-- Allowed: **76**
+- Allowed: **71**
 
 ## Top 3 files
 

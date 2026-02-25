@@ -3,19 +3,12 @@
 
 PATTERN: Composable that provides filt...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getFilteredServiceDescription, mapServicesWithFilteredDescriptions } from '@/utils/booking/serviceDescriptions'
-import type { UseInstanceDisplayOptions } from '@/composables/booking/useInstanceDisplay'
+import type { UseInstanceDescriptionsOptions, UseInstanceDescriptionsReturn } from '@/types/booking/instanceDescriptions'
 
-/** Same shape as UseInstanceDisplayOptions; use shared type for single source. */
-export type UseInstanceDescriptionsOptions = UseInstanceDisplayOptions
-
-export interface UseInstanceDescriptionsReturn {
-  getFilteredDescription: (instance: BookingBlockInstance, userTypeBlockName: string | null) => string
-  
-  instancesWithDescriptions: ComputedRef<BookingBlockInstance[]>
-}
+export type { UseInstanceDescriptionsOptions, UseInstanceDescriptionsReturn } from '@/types/booking/instanceDescriptions'
 
 /**
  * PATTERN: Instance Descriptions Composable

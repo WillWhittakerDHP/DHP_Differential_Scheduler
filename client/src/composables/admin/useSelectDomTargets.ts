@@ -3,27 +3,12 @@
 
 WHY: Moves DOM association target calcul...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
-import type { SelectGroup } from '@/types/entity/selectOptions'
+import { computed } from 'vue'
+import type { UseSelectDomTargetsOptions, UseSelectDomTargetsReturn } from '@/types/admin/selectDomTargets'
 
-export type { SelectDomTarget }
-export type { SelectGroup }
-
-export interface UseSelectDomTargetsOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  
-  shouldUseMultipleSelects: ComputedRef<boolean>
-  
-  groupedByKey: ComputedRef<SelectGroup[]>
-}
-
-export interface UseSelectDomTargetsReturn {
-  selectDomTargets: ComputedRef<SelectDomTarget[]>
-}
+export type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
+export type { SelectGroup } from '@/types/entity/selectOptions'
+export type { UseSelectDomTargetsOptions, UseSelectDomTargetsReturn } from '@/types/admin/selectDomTargets'
 
 /**
  * WHY: Select DOM targets composable

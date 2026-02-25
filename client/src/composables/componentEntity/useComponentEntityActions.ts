@@ -1,28 +1,13 @@
-import type { Ref } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getRelationshipEndpoint, getRelationshipByParentChildEndpoint } from '@/utils/api'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { UseComponentEntityActionsReturn } from '@/types/componentEntity/componentEntityActions'
 import { createRefetchGlobalDataHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { createMultipleRelationships, createRelationshipWithConflictHandling } from '@/utils/api'
 
-export type UseComponentEntityActionsReturn = {
-  createComponent: (args: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => Promise<void>
-  addToComponent: (args: { composerId: GlobalEntityId; componentId: GlobalEntityId; orderIndex?: number }) => Promise<void>
-  removeFromComponent: (args: { composerId: GlobalEntityId; componentId: GlobalEntityId }) => Promise<void>
-  updateComponentWithDistribution: (args: {
-    composerId: GlobalEntityId
-    changes: Record<string, unknown>
-    distributionStrategy: DistributionStrategy
-    distributionValues?: Record<GlobalEntityId, Record<string, unknown>>
-  }) => Promise<void>
-
-  isCreatingComponent: Ref<boolean>
-  isAddingToComponent: Ref<boolean>
-  isRemovingFromComponent: Ref<boolean>
-  isUpdatingComponent: Ref<boolean>
-}
+export type { UseComponentEntityActionsReturn } from '@/types/componentEntity/componentEntityActions'
 
 export function useComponentEntityActions(params: {
   entityKey: string

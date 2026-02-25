@@ -117,14 +117,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useRelationshipCollectionField } from '@/composables/admin/useRelationshipCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalEntity } from '@/types/entities'
-import { useRelationshipCrud } from '@/composables/useRelationship'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useNotification } from '@/composables/useNotification'
-import { createLogger } from '@/utils/logger'
-
-const logger = createLogger('RelationshipCollection')
 
 type CollectionType = 'parts' | 'annotations' | 'events'
 
@@ -148,7 +141,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const fieldConfig = useRelationshipCollectionField(props.fieldContext)
 
-const { parentEntity, childEntityKey, relationshipKey } = fieldConfig
+const { parentEntity, childEntityKey, relationshipKey: _relationshipKey } = fieldConfig
 
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType
@@ -174,16 +167,15 @@ const {
   getNewChildEntity,
   handleNewChildSaved,
   handleNewChildCancelled,
+  handleDeleteChildById,
   expandedChildren,
   isPanelExpanded,
   bulkEditMode,
   bulkEditData,
   toggleBulkEditMode,
   handleBulkEditModalUpdate,
-  handleBulkEditConfirm
+  handleBulkEditConfirm,
 } = collectionModel
-
-const effectiveParentEntity = parentEntity
 
 const collectionClass = computed(() => {
   return `${effectiveCollectionType.value}-collection-list`
@@ -219,44 +211,6 @@ const hasBulkEditData = computed(() => {
 const isBulkEditModalOpen = computed(() => {
   return bulkEditMode?.value ?? false
 })
-
-const queryClient = useQueryClient()
-const { error: notifyError } = useNotification()
-const relationshipCrud = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
-const { relationships, remove: removeRelationship } = relationshipCrud
-
-const handleDeleteChildById = async (id: string) => {
-  const entity = existingChildren.value.find(child => child.id === id)
-  if (!entity) {
-    logger.warn('Could not find entity with id', { id })
-    return
-  }
-  await handleDeleteChild(entity)
-}
-
-const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
-  if (!effectiveParentEntity.value) return
-  
-  try {
-    const relationship = relationships.value?.find(
-      rel => rel.parentId === effectiveParentEntity.value!.id &&
-             rel.childId === entity.id
-    )
-    
-    if (relationship) {
-      await removeRelationship(effectiveParentEntity.value.id, entity.id)
-      
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: [props.fieldContext.entityKey] }),
-        queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
-        queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
-        queryClient.invalidateQueries({ queryKey: ['globalData'] }),
-      ])
-    }
-  } catch (_error) {
-    notifyError(`Failed to remove ${childEntityKey.value}`)
-  }
-}
 
 /**
  * WHY: Expose bulk edit state and functions to parent (when applicable)

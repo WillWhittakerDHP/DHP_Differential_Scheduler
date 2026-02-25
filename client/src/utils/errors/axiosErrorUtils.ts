@@ -4,11 +4,9 @@
  */
 
 import type { AxiosError } from 'axios'
+import type { ExtractedErrorMessage } from '@/types/errors/axiosErrorUtils'
 
-export interface ExtractedErrorMessage {
-  message: string
-  details?: string
-}
+export type { ExtractedErrorMessage } from '@/types/errors/axiosErrorUtils'
 
 function messageFromData(d: { details?: string; error?: string; message?: string }): string | undefined {
   if (d.details != null) return String(d.details)

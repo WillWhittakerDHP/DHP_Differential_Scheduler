@@ -3,22 +3,13 @@
 
 WHY: Moves responsive layout and date hand...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import { toISO8601Date } from '@/types/datetime'
+import { toISO8601Date } from '@/utils/datetime'
+import type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
-export interface UseAvailabilityUIParams {
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  selectedButtonIndex: Ref<number | null>
-  fieldErrors: Ref<Record<string, string>>
-}
-
-export interface UseAvailabilityUIReturn {
-  shouldShowGridInline: ComputedRef<boolean>
-  handleDateChange: (value: string | Date | string[] | Date[] | null) => void
-}
+export type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
 /**
  * WHY: useAvailabilityUI composable

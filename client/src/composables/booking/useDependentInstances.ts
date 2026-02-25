@@ -3,30 +3,18 @@
 
 WHY: Generic composable for resolving ...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { GlobalRelationship } from '@/types/relationships'
 import { findRelationshipsByParent, extractChildIds } from '@/utils/transformers/relationshipTransformers'
 import { useGlobal } from '@/composables/useGlobal'
 import { asEmptyString } from '@/utils/safeDefaults'
+import type { UseDependentInstancesOptions, UseDependentInstancesReturn } from '@/types/booking/dependentInstances'
+
+export type { UseDependentInstancesOptions, UseDependentInstancesReturn } from '@/types/booking/dependentInstances'
 
 const logger = createLogger('useDependentInstances')
-
-export interface UseDependentInstancesOptions {
-  parentInstance: ComputedRef<BookingBlockInstance | null> | Ref<BookingBlockInstance | null>
-  
-  relationships?: ComputedRef<GlobalRelationship[]> | Ref<GlobalRelationship[]>
-}
-
-export interface UseDependentInstancesReturn {
-  dependentInstanceIds: ComputedRef<string[]>
-  
-  dependentInstances: ComputedRef<BookingBlockInstance[]>
-  
-  hasDependentInstances: ComputedRef<boolean>
-}
 
 export function useDependentInstances(
   options: UseDependentInstancesOptions

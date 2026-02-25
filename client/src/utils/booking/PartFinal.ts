@@ -1,23 +1,7 @@
-
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
+import type { PartFinal } from '@/types/booking/partFinal'
 
-export interface PartFinal {
-  partShape: string  // Part shape name (e.g., "Client Presentation")
-  
-  baseTime: number      // Raw duration (rounding happens at event level, not part level)
-  baseFee: number
-  rateOverBaseTime: number
-  rateOverBaseFee: number
-  
-  major: TernaryBoolean
-  minor: TernaryBoolean
-  moveable: boolean
-  
-  zeroOutPart: boolean  // If ANY part has zeroOutPart=true, this is true
-  
-  sourcePartInstances: BookingPartInstance[]
-}
+export type { PartFinal } from '@/types/booking/partFinal'
 
 
 

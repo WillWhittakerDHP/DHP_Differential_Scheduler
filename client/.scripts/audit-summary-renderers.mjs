@@ -659,6 +659,36 @@ export const SUMMARY_RENDERERS = {
     return lines.join('\n')
   },
 
+  'inventory'(data, ctx) {
+    const lines = []
+    const s = data.summary || {}
+    const byTier = s.byReuseTier || {}
+    const classIssues = s.classificationIssues || {}
+    lines.push('# Composable & Component Inventory Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Summary')
+    lines.push('')
+    lines.push(`- Composables: **${s.totalComposables ?? 0}** | Utilities: **${s.totalUtils ?? 0}** | Components: **${s.totalComponents ?? 0}**`)
+    lines.push(`- Annotated: **${s.annotated ?? 0}** | Unannotated: **${s.unannotated ?? 0}**`)
+    lines.push('')
+    lines.push('| Reuse tier | Count |')
+    lines.push('| --- | ---: |')
+    for (const [tier, count] of Object.entries(byTier).sort((a, b) => b[1] - a[1])) {
+      lines.push(`| ${tier} | ${count} |`)
+    }
+    lines.push('')
+    lines.push('| Classification issue | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Utils in disguise (composables with no Vue reactivity) | ${classIssues.utilsInDisguise ?? 0} |`)
+    lines.push(`| Composables in disguise (utils importing Vue) | ${classIssues.composablesInDisguise ?? 0} |`)
+    lines.push('')
+    lines.push('- Full report: `client/.audit-reports/inventory-audit.md`.')
+    lines.push('')
+    return lines.join('\n')
+  },
+
   'loop-mutation'(data, ctx) {
     const files = Array.isArray(data.files) ? data.files : []
     const lines = []
@@ -809,6 +839,40 @@ export const SUMMARY_RENDERERS = {
       const count = Array.isArray(f.requiresReview) ? f.requiresReview.length : 0
       lines.push(`| \`${f.repoPath}\` | ${count} | ${f.priority || 'P2'} |`)
     }
+    lines.push('')
+    return lines.join('\n')
+  },
+
+  'type-constant-inventory'(data, ctx) {
+    const summary = data.summary || {}
+    const issues = summary.classificationIssues || {}
+    const lines = []
+    lines.push('# Type and Constant Inventory Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Quick Index')
+    lines.push('')
+    lines.push('| Category | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Type files | ${summary.totalTypeFiles ?? 0} |`)
+    lines.push(`| Constant files | ${summary.totalConstantFiles ?? 0} |`)
+    lines.push(`| Config files | ${summary.totalConfigFiles ?? 0} |`)
+    lines.push(`| Files with inline type exports | ${summary.filesWithInlineTypes ?? 0} |`)
+    lines.push(`| Annotated | ${summary.annotated ?? 0} |`)
+    lines.push(`| Unannotated | ${summary.unannotated ?? 0} |`)
+    lines.push('')
+    lines.push('## Classification Issues')
+    lines.push('')
+    lines.push('| Issue | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Mixed type+constant files | ${issues.mixedTypeConstantFiles ?? 0} |`)
+    lines.push(`| Inline types in composables | ${issues.inlineTypesInComposables ?? 0} |`)
+    lines.push(`| Configs with factory functions | ${issues.configsWithLogic ?? 0} |`)
+    lines.push(`| Duplicate type names | ${issues.duplicateTypeNames ?? 0} |`)
+    lines.push(`| Cleanup candidates (misplaced + unused) | ${issues.cleanupCandidates ?? 0} |`)
+    lines.push('')
+    lines.push('- Full report: `client/.audit-reports/type-constant-inventory-audit.md`. Run `npm run audit:type-constant-inventory` to refresh.')
     lines.push('')
     return lines.join('\n')
   },

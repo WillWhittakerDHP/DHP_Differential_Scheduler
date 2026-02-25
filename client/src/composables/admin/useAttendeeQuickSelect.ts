@@ -3,36 +3,18 @@
 
 PATTERN: Composable that fetches busin...
  */
-import { ref, computed, type Ref } from 'vue'
+import { ref, computed } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '@/constants/errorMessages'
+import type { UseAttendeeQuickSelectReturn } from '@/types/admin/attendeeQuickSelect'
+
+export type { UseAttendeeQuickSelectReturn } from '@/types/admin/attendeeQuickSelect'
 
 const logger = createLogger('useAttendeeQuickSelect')
 
-export interface UseAttendeeQuickSelectReturn {
-  isLoading: Ref<boolean>
-  
-  error: Ref<string | null>
-  
-  hasMajorAttendees: Ref<boolean>
-  
-  hasMinorAttendees: Ref<boolean>
-  
-  selectMajor: (validOptionIds: string[]) => string[]
-  
-  selectMinor: (validOptionIds: string[]) => string[]
-  
-  selectAll: (validOptionIds: string[]) => string[]
-}
-
-/**
- * PATTERN: Attendee Quick Select Composable
-
-PATTERN: Composable with async setting...
- */
 export function useAttendeeQuickSelect(): UseAttendeeQuickSelectReturn {
   const isLoading = ref(false)
   const error = ref<string | null>(null)

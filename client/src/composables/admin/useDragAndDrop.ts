@@ -3,32 +3,16 @@
 
 WHY: Moves drag-and-drop initialization, hand...
  */
-import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick } from 'vue'
 import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
-import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
+import type { UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
+
+export type { DragEndHandler, UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
 
 const logger = createLogger('useDragAndDrop')
-
-export type DragEndHandler = () => Promise<void>
-
-export interface UseDragAndDropParams {
-  containerRef: Ref<HTMLElement | null>
-  panelsContainerRef: Ref<ComponentPublicInstance | HTMLElement | null>
-  entityIds: Ref<string[]>
-  entityList: Ref<GlobalEntity<'blockShape'>[] | GlobalEntity<'partShape'>[]>
-  filteredEntities: ComputedRef<GlobalEntity<'blockShape'>[] | GlobalEntity<'partShape'>[]>
-  dragEndHandler: DragEndHandler
-  group: string
-  draggableClass: string
-}
-
-export interface UseDragAndDropReturn {
-  isMounted: Ref<boolean>
-}
-
 
 /**
  * WHY: useDragAndDrop composable

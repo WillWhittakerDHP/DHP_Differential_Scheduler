@@ -1,10 +1,13 @@
 <script setup lang="ts">
 
-import { computed, ref } from 'vue'
-import type { TimeRange, AppointmentSlots } from '@/types/appointment'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
+import { ref, toRef } from 'vue'
+import type { AppointmentSlots } from '@/types/appointment'
+import { formatTimeRange } from '@/utils/time/timeFormatting'
 import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
-import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
+import {
+  useSlotGridDisplay,
+  type SlotDisplayItem,
+} from '@/composables/booking/useSlotGridDisplay'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { getColorForViolation, formatViolationTooltip } from '@/utils/booking/constraintColors'
 
@@ -53,51 +56,23 @@ const {
 // LEARNING: Use time formatting composable for time operations
 // WHY: Moves time formatting logic out of component to prevent recursion
 // PATTERN: Composable provides pure utility functions
-const { formatTimeRange } = useTimeFormatting()
 
 const isDevMode = isDevModeEnabled()
 
 // LEARNING: Constraint colors and formatting utilities imported from shared module
 
-interface SlotDisplayData {
-  buttonIndex: number
-  displayTime: TimeRange | null
-  isAvailable: boolean
-  violations?: string[]
-}
-
-/**
- * WHY: Derives perspective directly using timeBasis prop for reactivity
-NOTE: D...
- */
-const displaySlots = computed(() => {
-  const currentPerspective = props.timeBasis
-  
-  const slots = props.appointmentSlots.map(appointmentSlot => {
-    const displayTime = derivePerspective(appointmentSlot, currentPerspective)
-    
-    const violations = !appointmentSlot.isAvailable && appointmentSlot.flexibleViolations
-      ? appointmentSlot.flexibleViolations
-      : undefined
-    
-    return {
-      buttonIndex: appointmentSlot.buttonIndex,
-      displayTime,
-      isAvailable: appointmentSlot.isAvailable,
-      violations
-    }
-  })
-  
-  return slots
+const displaySlots = useSlotGridDisplay({
+  appointmentSlots: toRef(props, 'appointmentSlots'),
+  timeBasis: toRef(props, 'timeBasis'),
 })
 
-const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
+const handleAppointmentSlotClick = (slotData: { buttonIndex: number }): void => {
   emit('slot-click', slotData.buttonIndex)
 }
 
 // WHY: Centralizes formatting logic
 // PATTERN: Method that formats the conversion
-const formatSlotTime = (slotData: SlotDisplayData): string => {
+const formatSlotTime = (slotData: SlotDisplayItem): string => {
   if (!slotData.displayTime) {
     // PATTERN: Fallback to 'Unavailable' only if truly no time can be determined
     return 'Unavailable'

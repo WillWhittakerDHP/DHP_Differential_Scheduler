@@ -3,18 +3,10 @@
 
 PATTERN: Delegates to generic co...
  */
-import { type ComputedRef, type Ref } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useBlockInstanceSelection } from './useBlockInstanceSelection'
+import type { UseOptionTypeBlockSelectionParams, UseOptionTypeBlockSelectionReturn } from '@/types/booking/optionTypeBlockSelection'
 
-export interface UseOptionTypeBlockSelectionParams {
-  selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
-  availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
-}
-
-export interface UseOptionTypeBlockSelectionReturn {
-  selectedOptionTypeBlockId: ComputedRef<string | null>
-}
+export type { UseOptionTypeBlockSelectionParams, UseOptionTypeBlockSelectionReturn } from '@/types/booking/optionTypeBlockSelection'
 
 /**
  * PATTERN: useOptionTypeBlockSelection composable

@@ -3,18 +3,13 @@
  * WHY: Keeps InstancesTab.vue under vue-architecture script line limit.
  */
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
-import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { animations } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
-import type { AppLogger } from '@/utils/logger'
+import type { UseInstancesTabEventInstanceDragParams } from '@/types/admin/instancesTabEventInstanceDrag'
 
-export interface UseInstancesTabEventInstanceDragParams {
-  eventInstances: Ref<GlobalEntity<'eventInstance'>[]>
-  patchEventInstanceOrderIndex: (updates: Record<string, number>) => Promise<void>
-  logger: AppLogger
-}
+export type { UseInstancesTabEventInstanceDragParams } from '@/types/admin/instancesTabEventInstanceDrag'
 
 export function useInstancesTabEventInstanceDrag(params: UseInstancesTabEventInstanceDragParams) {
   const { eventInstances, patchEventInstanceOrderIndex, logger } = params

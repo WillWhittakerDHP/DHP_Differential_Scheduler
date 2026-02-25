@@ -3,19 +3,10 @@
 
 PATTERN: Delegates to generic ...
  */
-import { type ComputedRef, type Ref } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { useBlockInstanceSelection } from './useBlockInstanceSelection'
+import type { UsePropertyTypeBlockSelectionParams, UsePropertyTypeBlockSelectionReturn } from '@/types/booking/propertyTypeBlockSelection'
 
-export interface UsePropertyTypeBlockSelectionParams {
-  selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-  availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  togglePropertyTypeBlock: (block: BookingBlockInstance) => void
-}
-
-export interface UsePropertyTypeBlockSelectionReturn {
-  selectedPropertyTypeBlockId: ComputedRef<string | null>
-}
+export type { UsePropertyTypeBlockSelectionParams, UsePropertyTypeBlockSelectionReturn } from '@/types/booking/propertyTypeBlockSelection'
 
 /**
  * PATTERN: usePropertyTypeBlockSelection composable

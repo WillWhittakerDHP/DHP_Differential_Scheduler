@@ -1,8 +1,10 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+import type { GetFieldKeysOptions } from '@/types/forms/getFieldKeys'
+
+export type { GetFieldKeysOptions } from '@/types/forms/getFieldKeys'
 
 const SYSTEM_FIELDS = [
   FIELD_NAMES.ID,
@@ -12,12 +14,6 @@ const SYSTEM_FIELDS = [
   FIELD_NAMES.UPDATED_AT,
   FIELD_NAMES.ANNOTATIONS,
 ] as const
-
-export interface GetFieldKeysOptions<GE extends GlobalEntityKey> {
-  entity: Record<string, unknown> | null | undefined
-  fieldMetadata?: Record<string, FieldMetadataEntry> | null
-  entityKey: GE
-}
 
 export function getFieldKeys<GE extends GlobalEntityKey>(
   options: GetFieldKeysOptions<GE>

@@ -46,19 +46,20 @@
  * WHY: Replaces hardcoded fields with config-driven approach
      Ensures all f...
  */
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import { VForm } from 'vuetify/components'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { useFormFields } from '@/composables/useFormFields'
 import { useFormElementPatching } from '@/composables/admin/useFormElementPatching'
+import { useEntityIdReset } from '@/composables/admin/useEntityIdReset'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { getFieldKeys } from '@/utils/forms/getFieldKeys'
+import { useFormFieldConfigs } from '@/composables/admin/useFormFieldConfigs'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 
 import FieldRenderer from './fields/FieldRenderer.vue'
@@ -91,12 +92,7 @@ WHY: Need stable reference for composable
  */
 const tempEntityId = ref<GlobalEntityId>(toGlobalEntityId('new-' + String(Date.now())))
 const currentEntityId = ref<GlobalEntityId>(props.entityId || tempEntityId.value)
-
-watch(() => props.entityId, (newId) => {
-  if (newId) {
-    currentEntityId.value = newId
-  }
-}, { immediate: true })
+useEntityIdReset(() => props.entityId, currentEntityId)
 
 const entityForMetadata = computed(() => {
   if (!currentEntityId.value) return null
@@ -109,28 +105,12 @@ const entityForMetadata = computed(() => {
 
 const { fieldMetadata } = useEntityMetadata(props.entityKey, entityForMetadata)
 
-const fieldKeys = computed(() => {
-  return getFieldKeys({
-    entity: entityForMetadata.value as Record<string, unknown> | null,
-    fieldMetadata: fieldMetadata.value,
-    entityKey: props.entityKey
-  })
-})
-
-const instanceConfig = computed(() => {
-  const v = adminConfig.getInstanceConfig(props.entityKey).value
-  return v !== undefined && v !== null ? v : {}
-})
-const inlineFieldsConfig = computed(() => {
-  const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  const raw = config?.inlineFields
-  return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
-})
-const stackedFieldsConfig = computed(() => {
-  const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
-  const raw = config?.stackedFields
-  return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
-})
+const {
+  fieldKeys,
+  instanceConfig: _instanceConfig,
+  inlineFieldsConfig,
+  stackedFieldsConfig,
+} = useFormFieldConfigs(props.entityKey, entityForMetadata, fieldMetadata)
 
 /**
  * WHY: Use form fields composable for all field management logic

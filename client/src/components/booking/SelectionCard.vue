@@ -3,7 +3,7 @@
 
 WHY: Simplified architecture - dependent option...
  */
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import CardButton from '@/components/admin/generic/CardButton.vue'
 import { Icon } from '@iconify/vue'
 import DependentInstanceCheckboxList from './DependentInstanceCheckboxList.vue'
@@ -110,7 +110,7 @@ const {
 } = selectionCardComposable
 
 // LEARNING: Use selection card handlers composable
-// PATTERN: Composable provides handler functions
+// PATTERN: Composable provides handler functions (includes watch for auto-expand when selected)
 const {
   handleSelection,
   handleParentClick,
@@ -123,19 +123,9 @@ const {
   isSelected,
   emit,
   isExpanded: computed(() => props.isExpanded),
-  localExpanded
+  localExpanded,
+  hasChildren,
 })
-
-
-/**
- * PATTERN: Watch isSelected and trigger expansion (only for uncontrolled state)
-NOT...
- */
-watch(isSelected, (newValue) => {
-  if (newValue && hasChildren.value && props.isExpanded === undefined) {
-    localExpanded.value = true
-  }
-}, { immediate: true })
 
 const handleNumberUpdate = (value: string | number | null) => {
   const numValue = typeof value === 'string' ? (value === '' ? null : parseInt(value, 10)) : value

@@ -7,9 +7,10 @@ import { ENTITY_KEYS } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { toGlobalEntityId, toGlobalEntityIdOrNull, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, toGlobalEntityIdOrNull } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
-import type { FetchedRelationship } from '@/types/relationships'
+import type { FetchedRelationship, GlobalRelationship } from '@/types/relationships'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
@@ -20,6 +21,9 @@ import { asEmptyString } from '@/utils/safeDefaults'
 import { buildFieldClassificationSets, transformFieldForDehydrate } from './fieldClassification'
 import { safeArray, safeString, safeId } from './transformerPrimitives'
 import { groupByParentId, immutableSort } from './transformerCollections'
+import type { GlobalData } from '@/types/transformers/globalData'
+
+export type { GlobalData } from '@/types/transformers/globalData'
 
 const logger = createLogger('fetchToGlobalTransformer')
 
@@ -68,21 +72,6 @@ function transformBatchRelationships(
     return rawRelationships.map((raw) => transformApiRelationship(raw, relationshipKey))
   })
 }
-
-/**
-WHY: Matches format e...
- */
-export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
-  relationshipKind: GlobalRelationshipKey
-  parent: GlobalEntity<GE>
-  children: GlobalEntity<GE>[]
-}
-
-export type GlobalData = {
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
-  relationships: Record<GlobalRelationshipKey, GlobalRelationship[]>
-}
-
 
 function resolveRelationshipIds(
   raw: Record<string, unknown>,

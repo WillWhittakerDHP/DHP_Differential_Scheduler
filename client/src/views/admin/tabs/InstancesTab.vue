@@ -7,8 +7,8 @@
 -->
 <script setup lang="ts">
 import { ref, computed, type ComponentPublicInstance } from 'vue'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
@@ -19,9 +19,7 @@ import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useGlobal } from '@/composables/useGlobal'
 import { useInstanceFiltering } from '@/composables/admin/useInstanceFiltering'
-import { useInstanceDeletion } from '@/composables/admin/useInstanceDeletion'
 import BlockInstanceCreateModal from '@/components/admin/BlockInstanceCreateModal.vue'
-import { useInstanceSaveHandlers } from '@/composables/admin/useInstanceSaveHandlers'
 import { useInstanceTabHandlers } from '@/composables/admin/useInstanceTabHandlers'
 import { useInstancesTabCreateModal } from '@/composables/admin/useInstancesTabCreateModal'
 import { useInstancesTabEventInstance } from '@/composables/admin/useInstancesTabEventInstance'
@@ -29,8 +27,6 @@ import { useInstancesTabEventInstanceDrag } from '@/composables/admin/useInstanc
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { createBlockInstanceConfigSentinel } from '@/utils/entities/entityTypeMapping'
-import { useNotification } from '@/composables/useNotification'
-import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { createLogger } from '@/utils/logger'
 import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 
@@ -144,16 +140,9 @@ const {
 })
 
 
-/**
- * WHY: Use instance deletion composable
-WHY: Deletion handler moved to composable
- */
-const { handleDeleteBlockInstance } = useInstanceDeletion()
-
-/**
- * LEARNING: Use instance save handlers composable
- */
-const { handleExistingBlockInstanceSaved } = useInstanceSaveHandlers()
+/** No-op handlers (previously empty composable stubs). */
+const handleDeleteBlockInstance = (_id: string): void => {}
+const handleExistingBlockInstanceSaved = (_entity: GlobalEntity<GlobalEntityKey>): void => {}
 
 const createModal = useInstancesTabCreateModal()
 const {
@@ -197,11 +186,8 @@ const eventInstanceDrag = useInstancesTabEventInstanceDrag({
 })
 const {
   eventInstancesList,
-  eventInstanceIds,
   eventInstancesContainer,
-  eventInstancesPanelsContainer,
   filteredEventInstances,
-  eventInstancesDragHandlers,
 } = eventInstanceDrag
 void eventInstancesContainer.value
 </script>

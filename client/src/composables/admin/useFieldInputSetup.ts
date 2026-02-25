@@ -2,15 +2,12 @@ import { inject } from 'vue'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldKeyboardGuardType } from '@/composables/admin/useFieldKeyboardGuard'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
+import type { UseFieldInputSetupOptions } from '@/types/admin/fieldInputSetup'
 
-export interface UseFieldInputSetupOptions {
-  /** Keyboard guard field type for handleKeydown; default inferred from usage (date/textarea) */
-  fieldType?: FieldKeyboardGuardType
-}
+export type { UseFieldInputSetupOptions } from '@/types/admin/fieldInputSetup'
 
 export function useFieldInputSetup(
   fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>,

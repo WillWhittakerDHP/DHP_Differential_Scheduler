@@ -2,18 +2,10 @@
  * PATTERN: Composable for shape edit modal handlers
 PATTERN: Composable that manage...
  */
-import { ref, type Ref } from 'vue'
-import type { Ref as VueRef } from 'vue'
+import { ref } from 'vue'
+import type { UseShapeEditModalOptions, UseShapeEditModalReturn } from '@/types/admin/shapeEditModal'
 
-export interface UseShapeEditModalOptions {
-  expandedBlockShapes: VueRef<string[]>
-}
-
-export interface UseShapeEditModalReturn {
-  shapeEditModalOpen: Ref<Map<string, boolean>>
-  toggleShapeEditModal: (blockShapeId: string) => void
-  handleExistingBlockShapeSaved: (shapeId: string) => void
-}
+export type { UseShapeEditModalOptions, UseShapeEditModalReturn } from '@/types/admin/shapeEditModal'
 
 /**
  * WHY: Composable for managing shape edit modal

@@ -1,6 +1,7 @@
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { DurationRoundingConfig, RoundingMethod } from '@/types/booking/durationRounding'
 
-export type RoundingMethod = 'roundUp' | 'roundDown' | 'roundNearest'
+export type { DurationRoundingConfig, RoundingMethod } from '@/types/booking/durationRounding'
 
 /** Constants for duration rounding method (avoids hardcoded case strings). */
 export const DURATION_ROUNDING_MODE = {
@@ -8,12 +9,6 @@ export const DURATION_ROUNDING_MODE = {
   ROUND_DOWN: 'roundDown',
   ROUND_NEAREST: 'roundNearest',
 } as const satisfies Record<string, RoundingMethod>
-
-export interface DurationRoundingConfig {
-  enabled: boolean
-  increment: number  // Minutes (defaults to minuteIncrement from settings)
-  method: RoundingMethod
-}
 
 function roundUp(duration: number, increment: number): number {
   if (duration <= 0) return increment

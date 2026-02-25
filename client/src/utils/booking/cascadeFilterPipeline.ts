@@ -3,6 +3,9 @@ import type { BookingData, BookingBlockInstance } from '@/utils/transformers/glo
 import { getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { createLogger } from '@/utils/logger'
+import type { CascadeFilterParamsBase } from '@/types/booking/cascadeFilterPipeline'
+
+export type { CascadeFilterParamsBase } from '@/types/booking/cascadeFilterPipeline'
 
 const logger = createLogger('cascadeFilterPipeline')
 
@@ -10,14 +13,6 @@ const logger = createLogger('cascadeFilterPipeline')
 type CascadeStepResult =
   | { success: true; instances: BookingBlockInstance[] }
   | { success: false; error: string; instances: BookingBlockInstance[] }
-
-/** Base shared with PipelineParams (P2 type-similarity). */
-export interface CascadeFilterParamsBase {
-  bookingData: BookingData | null
-  parentInstances: BookingBlockInstance | BookingBlockInstance[] | null
-  currentSelection: BookingBlockInstance[]
-  relationshipName: string
-}
 
 type CascadeFilterParams = CascadeFilterParamsBase
 

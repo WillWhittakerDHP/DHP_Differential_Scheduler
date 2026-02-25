@@ -1,0 +1,19 @@
+import { computed, inject, ref, type ComputedRef } from 'vue'
+import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
+
+/**
+ * Shared inject + unwrap for dev panel buttons context.
+ * WHY: Deduplicates identical inject/computed pattern from DevPanelsContainer.vue and DevPanelButtons.vue.
+ */
+export function useDevPanelButtonsInject(): {
+  devPanelButtons: ComputedRef<DevPanelButtonsContext | null>
+} {
+  const devPanelButtonsRef = inject<Ref<DevPanelButtonsContext | null>>('devPanelButtons', ref(null))
+  const devPanelButtons = computed(() => {
+    if (!devPanelButtonsRef || !devPanelButtonsRef.value) {
+      return null
+    }
+    return devPanelButtonsRef.value
+  })
+  return { devPanelButtons }
+}

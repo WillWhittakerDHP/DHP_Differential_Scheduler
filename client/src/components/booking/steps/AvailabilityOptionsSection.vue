@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 
@@ -11,6 +10,22 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const availabilityOptionsConfig = {
+  selectionType: 'radio',
+  selectionComponent: 'VRadio',
+  selectionGroup: 'none',
+  stateSource: 'local',
+  layout: 'stack',
+  controlPosition: 'left',
+  appearance: {
+    showIcon: false,
+    showBorder: true,
+    cardPadding: 'pa-3',
+    minHeight: 'auto',
+  },
+  expansion: { enabled: false },
+}
 
 const emit = defineEmits<{
   'update:selectedOptionTypeBlockId': [value: string | null]
@@ -41,21 +56,7 @@ const emit = defineEmits<{
       v-else
       :model-value="selectedOptionTypeBlockId"
       :items="availableOptionTypeBlocks"
-      :config="{
-        selectionType: 'radio',
-        selectionComponent: 'VRadio',
-        selectionGroup: 'none',
-        stateSource: 'local',
-        layout: 'stack',
-        controlPosition: 'left',
-        appearance: {
-          showIcon: false,
-          showBorder: true,
-          cardPadding: 'pa-3',
-          minHeight: 'auto'
-        },
-        expansion: { enabled: false }
-      }"
+      :config="availabilityOptionsConfig"
       class="availability-cards"
       @update:model-value="emit('update:selectedOptionTypeBlockId', Array.isArray($event) ? ($event[0] ?? null) : $event)"
     />

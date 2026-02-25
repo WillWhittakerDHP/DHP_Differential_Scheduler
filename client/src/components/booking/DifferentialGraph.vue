@@ -3,9 +3,9 @@
 import { computed } from 'vue'
 import type { TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
+import { formatTimeRange } from '@/utils/time/timeFormatting'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import type { TimeBasisHandlerProps } from '@/composables/booking/useTimeBasisHandler'
+import type { TimeBasisHandlerProps } from '@/utils/booking/timeBasisHandler'
 
 interface Props extends TimeBasisHandlerProps {
   graphBars: {
@@ -65,7 +65,6 @@ const handleBarClick = (type: 'major' | 'minor'): void => {
 // LEARNING: Use time formatting composable for time range formatting
 // WHY: Moves time formatting logic out of component
 // PATTERN: Composable provides pure utility functions
-const { formatTimeRange } = useTimeFormatting()
 
 // LEARNING: Computed properties for Differential Graph bar states
 // PATTERN: Computed properties that return 'selected', 'active', or 'single' based on state

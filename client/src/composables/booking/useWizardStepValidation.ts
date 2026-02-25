@@ -2,19 +2,21 @@
  * PATTERN: Step validators and validateStep for booking wizard (combines step validators + validation).
  * WHY: Keeps BookingWizard.vue under vue-architecture script line limit.
  */
-import type { UseWizardStepDataRefsReturn } from '@/composables/booking/useWizardStepDataRefs'
 import { useBookingWizardStepValidators } from '@/composables/booking/useBookingWizardStepValidators'
-import { useWizardValidation, type UseWizardValidationReturn } from '@/composables/booking/useWizardValidation'
-import type { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { useWizardValidation } from '@/composables/booking/useWizardValidation'
+import type {
+  UseWizardStepValidationParams,
+  UseWizardStepValidationReturn,
+} from '@/types/booking/wizardStepValidation'
 
-export interface UseWizardStepValidationParams {
-  stepDataRefs: UseWizardStepDataRefsReturn
-  wizard: ReturnType<typeof useBookingWizard>
-}
+export type {
+  UseWizardStepValidationParams,
+  UseWizardStepValidationReturn,
+} from '@/types/booking/wizardStepValidation'
 
 export function useWizardStepValidation(
   params: UseWizardStepValidationParams
-): { stepValidators: ReturnType<typeof useBookingWizardStepValidators>['stepValidators']; validateStep: UseWizardValidationReturn['validateStep'] } {
+): UseWizardStepValidationReturn {
   const { stepDataRefs, wizard } = params
   const { stepValidators } = useBookingWizardStepValidators({
     selectedUserTypeBlock: wizard.selectedUserTypeBlock,

@@ -1,10 +1,10 @@
-import { computed, getCurrentInstance, ref, triggerRef, watchEffect, nextTick, type Ref, type ComputedRef } from 'vue'
+import { computed, getCurrentInstance, ref, triggerRef, watchEffect, nextTick, type Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useFieldContext } from '@/composables/fieldContext/useFieldContext'
 import type { FieldContextType } from '@/composables/fieldContext/types'
 import { useAdminConfig } from '@/composables/useAdminConfig'
@@ -12,20 +12,11 @@ import { useNotification } from '@/composables/useNotification'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { createLogger } from '@/utils/logger'
 import type { UseFormFieldsContextOptions } from './types'
+import type { UseFormFieldsContextReturn } from '@/types/formFields/formFieldsContext'
+
+export type { UseFormFieldsContextReturn } from '@/types/formFields/formFieldsContext'
 
 const logger = createLogger('useFormFieldsContext')
-
-export type UseFormFieldsContextReturn = {
-  adminConfig: ReturnType<typeof useAdminConfig>
-  formInstance: ComputedRef<FormContext | undefined>
-  currentEntityId: ComputedRef<GlobalEntityId>
-  isFormReady: ComputedRef<boolean>
-  fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
-  fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  getFieldContext: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    fieldKey: FieldKey
-  ) => FieldContextType<GE, FieldKey> | undefined
-}
 
 export function useFormFieldsContext(options: UseFormFieldsContextOptions): UseFormFieldsContextReturn {
   const { entityKey, entityId, fieldKeys, fieldMetadata: providedFieldMetadata, form: providedForm, adminConfig: providedAdminConfig } = options

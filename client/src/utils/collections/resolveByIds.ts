@@ -1,10 +1,7 @@
 import { findById } from './findById'
+import type { ResolveByIdsResult } from '@/types/collections/resolveByIds'
 
-/** Constraint is { id: string } so both IdentifiableById and BookingBlockInstance work. */
-export interface ResolveByIdsResult<CollectionItem extends { id: string }> {
-  resolved: CollectionItem[]
-  missingIds: string[]
-}
+export type { ResolveByIdsResult } from '@/types/collections/resolveByIds'
 
 export function resolveByIds<CollectionItem extends { id: string }>(
   items: readonly CollectionItem[],

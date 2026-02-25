@@ -3,19 +3,30 @@
 
 WHY: Moves property type block logic...
  */
-import { computed, ref, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { ComponentItem as SelectionCardComponentItem, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import { computed, ref } from 'vue'
+import type { BookingBlockInstance } from '@/types/transformers/bookingData'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntity } from '@/composables/useComponentEntity'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
-import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
+import type { PropertyDetailsData } from '@/types/propertyForm'
 import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
-import type { PlaceDetails } from '@/services/mapsApiService'
 import { fetchPropertyEnrichment } from '@/services/propertyEnrichmentApiService'
 import { createLogger } from '@/utils/logger'
 import { extractOptionalString, safeArray } from '@/utils/transformers/transformerPrimitives'
+import type {
+  ComponentItem,
+  UsePropertyDetailsLogicParams,
+  UsePropertyDetailsLogicReturn,
+} from '@/types/booking/propertyDetailsLogic'
+
+export type {
+  ComponentItem,
+  PropertyFormStateCore,
+  SelectionCardItemWithComponents,
+  UsePropertyDetailsLogicParams,
+  UsePropertyDetailsLogicReturn,
+} from '@/types/booking/propertyDetailsLogic'
 
 const logger = createLogger('usePropertyDetailsLogic')
 
@@ -27,56 +38,6 @@ function addressField(value: string | undefined | null, fieldName: string): stri
   return value
 }
 
-// FIX: Use shared PropertyDetailsData type from propertyForm.ts
-// TYPE_SIMILARITY: Extend canonical ComponentItem from selectionCardTypes instead of duplicating shape
-export interface ComponentItem extends SelectionCardComponentItem {
-  description?: string
-}
-
-/** Extends SelectionCardItem so items are assignable to SelectionCardGroup without cast */
-export interface SelectionCardItemWithComponents extends SelectionCardItem {
-  blockShapeName?: string
-  bookingMode?: string
-  partInstances?: BookingPartInstance[]
-}
-
-/** Shared base for property form state (TYPE_SIMILARITY 1.15). */
-export interface PropertyFormStateCore {
-  formData: PropertyFormData
-  isAddressExpanded: Ref<boolean>
-}
-
-export interface UsePropertyDetailsLogicParams extends PropertyFormStateCore {
-  wizard: {
-    selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-    availablePropertyTypeBlocks: Ref<BookingBlockInstance[]>
-    availableLineItemBlocks: Ref<BookingBlockInstance[]>
-    selectedUserTypeBlock: Ref<{ id: string } | null>
-    togglePropertyTypeBlock: (block: BookingBlockInstance) => void
-    toggleLineItemBlock: (block: BookingBlockInstance) => void
-    batchUpdate: (fn: () => void) => void
-  }
-  loadedWizardState: Ref<WizardStateData | null> | null
-}
-
-export interface UsePropertyDetailsLogicReturn {
-  requiresUnitNumber: ComputedRef<boolean>
-  isMultiFamily: ComputedRef<boolean>
-  propertyTypeBlocksWithComponents: ComputedRef<SelectionCardItemWithComponents[]>
-
-  stepData: ComputedRef<PropertyDetailsData>
-  syncMLSData: () => Promise<void>
-  isEnrichmentLoading: Ref<boolean>
-  handlePlaceSelected: (details: PlaceDetails) => void
-  handleAutocompleteError: (error: Error) => void
-  changeAddress: () => void
-}
-
-/**
- * WHY: usePropertyDetailsLogic composable
-
-WHY: Extracts business logic from co...
- */
 export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): UsePropertyDetailsLogicReturn {
   const {
     wizard,

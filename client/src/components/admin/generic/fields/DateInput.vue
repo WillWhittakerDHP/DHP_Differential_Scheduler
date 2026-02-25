@@ -17,7 +17,7 @@
         :readonly="fieldContext.displayConfig.readOnly"
         :error="!!fieldContext.error?.value"
         :error-messages="fieldContext.error?.value"
-        :config="{ dateFormat: 'Y-m-d' }"
+        :config="datePickerConfig"
         @update:model-value="handleChange"
         @on-open="handleFocus"
         @on-close="handleBlur"
@@ -35,6 +35,8 @@ import AppDateTimePicker from '@/@core/components/app-form-elements/AppDateTimeP
 import { useFieldInputSetup } from '@/composables/admin/useFieldInputSetup'
 
 import type { FieldInputProps } from './fieldTypes'
+
+const datePickerConfig = { dateFormat: 'Y-m-d' as const }
 
 const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true

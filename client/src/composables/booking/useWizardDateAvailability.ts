@@ -3,17 +3,19 @@
  * WHY: Keeps BookingWizard.vue under vue-architecture script line limit.
  */
 import { ref, computed, provide } from 'vue'
-import type { Ref } from 'vue'
 import { useDateRangeDecider, type DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
 import { useComputedAvailability } from '@/composables/booking/useComputedAvailability'
-import type { UseWizardStepDataRefsReturn } from '@/composables/booking/useWizardStepDataRefs'
+import type {
+  UseWizardDateAvailabilityParams,
+  UseWizardDateAvailabilityReturn,
+} from '@/types/booking/wizardDateAvailability'
 
-export interface UseWizardDateAvailabilityParams {
-  stepDataRefs: UseWizardStepDataRefsReturn
-  activeStep: Ref<number>
-}
+export type {
+  UseWizardDateAvailabilityParams,
+  UseWizardDateAvailabilityReturn,
+} from '@/types/booking/wizardDateAvailability'
 
-export function useWizardDateAvailability(params: UseWizardDateAvailabilityParams) {
+export function useWizardDateAvailability(params: UseWizardDateAvailabilityParams): UseWizardDateAvailabilityReturn {
   const { stepDataRefs, activeStep } = params
   const now = new Date()
   const displayedMonth = ref<DisplayedMonth>({

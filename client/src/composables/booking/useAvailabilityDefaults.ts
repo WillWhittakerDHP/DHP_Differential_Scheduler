@@ -3,33 +3,14 @@
 
 PATTERN: Composable that manages sel...
  */
-import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
-import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
+import { ref, computed, watch } from 'vue'
+import { getFirstAvailabilityDate, getTodayDate } from '@/utils/time/timeFormatting'
+import { matchLoadedTimeSlots } from '@/composables/booking/useTimeSlotMatching'
+import { toISO8601Date } from '@/utils/datetime'
 import type { TimeSlot } from '@/types/appointment'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import { toISO8601Date } from '@/types/datetime'
+import type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
 
-export interface UseAvailabilityDefaultsOptions {
-  loadedWizardState: Ref<WizardStateData | null>
-  
-  timeSlots: ComputedRef<TimeSlot[] | null>
-  
-  isDifferentialService: ComputedRef<boolean>
-}
-
-export interface UseAvailabilityDefaultsReturn {
-  /**
-Selected date state
-LEARNING: Uses ISO 8601 date format (YYYY-MM-DD)...
-   */
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-  
-  appointmentSlotOrderIndex: Ref<number | null>
-}
+export type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
 
 /**
  * WHY: useAvailabilityDefaults composable
@@ -37,7 +18,6 @@ WHY: Centralizes defaulting logic and...
  */
 export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions): UseAvailabilityDefaultsReturn {
   const { loadedWizardState, timeSlots, isDifferentialService } = options
-  const { getFirstAvailabilityDate, getTodayDate } = useTimeFormatting()
 
   /**
 Selected date state
@@ -98,22 +78,20 @@ LEARNING: Stores slot selections key...
   }, { immediate: true })
 
   /**
-   * Watch both loaded wizard state and time slots to populate order index selections
-   * NOTE: For now, we still use TimeSlot matching but will need to update to orderIndex-based matching
-   * TODO: Update to use orderIndex-based matching when AppointmentSlots are available
+   * Watch both loaded wizard state and time slots to populate order index selections.
+   * NOTE: TimeSlot matching is used; orderIndex-based matching is deferred until AppointmentSlots support it.
    */
   watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
-    if (newState?.availability?.candidateTimeSlots && 
+    if (newState?.availability?.candidateTimeSlots &&
         newState.availability.candidateTimeSlots.length > 0 &&
-        availableSlots && 
+        availableSlots &&
         availableSlots.length > 0) {
-      // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
       // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
       const tempMajorSlot = ref<TimeSlot | null>(null)
       const tempMinorSlot = ref<TimeSlot | null>(null)
       const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({
-        startTime: slot.time,
-        endTime: undefined // endTime is optional in LoadedTimeSlot
+        startTime: slot.time as import('@shared/types/primitiveBrands').RFC3339DateTime,
+        endTime: undefined
       }))
       matchLoadedTimeSlots(
         transformedSlots,

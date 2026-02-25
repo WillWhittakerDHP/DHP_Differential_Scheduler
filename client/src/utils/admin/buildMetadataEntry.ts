@@ -1,12 +1,7 @@
 
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { BuildMetadataEntryOptions } from '@/types/admin/buildMetadataEntry'
 
-export interface BuildMetadataEntryOptions {
-  key: string
-  renderingUpdates: Partial<FieldMetadataEntry>
-  existingMetadata: FieldMetadataEntry
-  isRelationship?: boolean
-}
+export type { BuildMetadataEntryOptions } from '@/types/admin/buildMetadataEntry'
 
 /**
 PATTERN: ...

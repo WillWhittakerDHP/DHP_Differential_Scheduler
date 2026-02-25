@@ -12,32 +12,9 @@ import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { Logger } from '@/utils/logger'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
+import type { AppointmentVersionsResponse, VersionBlockInstance } from '@/types/transformers/appointmentToWizardHelpers'
 
-interface VersionBlockInstance {
-  id: string // blockInstanceId
-  name: string
-  icon: string
-  baseSqFt: number
-  allowMultiple: boolean
-  // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-  partInstances: Array<{
-    id: string // partInstanceId
-    name: string
-    baseFee: number
-    baseTime: number
-    rateOverBaseFee: number
-    rateOverBaseTime: number
-    // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-    // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-  }>
-}
-
-export interface AppointmentVersionsResponse {
-  services: VersionBlockInstance[]
-  properties: VersionBlockInstance[]
-  options: VersionBlockInstance[]
-  lineItems?: VersionBlockInstance[]
-}
+export type { AppointmentVersionsResponse } from '@/types/transformers/appointmentToWizardHelpers'
 
 export function findBlockInstanceById(
   bookingData: BookingData,

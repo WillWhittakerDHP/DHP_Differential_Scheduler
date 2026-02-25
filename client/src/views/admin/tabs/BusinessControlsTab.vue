@@ -5,7 +5,7 @@
 -->
 <script setup lang="ts">
 import { computed, inject, type Ref } from 'vue'
-import { useAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAvailabilitySettings'
+import { useAdminAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAdminAvailabilitySettings'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { useBusinessControlsFormState } from '@/composables/admin/useBusinessControlsFormState'
 import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
@@ -42,7 +42,7 @@ const {
   error,
   success,
   saveSettings
-} = useAvailabilitySettings({
+} = useAdminAvailabilitySettings({
   enabled: isTabActive
 })
 

@@ -100,7 +100,7 @@ const handleClick = (event: Event) => {
     return
   }
   // WHY: Standard Vue pattern - parent handles the logic
-  // PATTERN: Emit event, parent handles async operations
+  // PATTERN: Emit event; parent performs the operation
   emit('click', event)
 }
 

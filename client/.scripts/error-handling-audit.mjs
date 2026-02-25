@@ -358,7 +358,7 @@ async function collectCatchFindingsFromAst(sourceFile, getLine, getLineText, sk)
 
     const blockText = block.getText?.() ?? ''
     const withoutComments = stripComments(blockText)
-    const onlyBracesOrEmpty = /^[\s\{\}]*$/.test(withoutComments)
+    const onlyBracesOrEmpty = /^[\s{}]*$/.test(withoutComments)
     if (onlyBracesOrEmpty) {
       findings.push({ ruleId: 'catch-comment-only', lineNumber: catchLineNum, line: catchLineText.trim().slice(0, 120) })
     }

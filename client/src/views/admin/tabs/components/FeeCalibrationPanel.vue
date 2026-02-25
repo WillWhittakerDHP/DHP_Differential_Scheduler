@@ -5,46 +5,20 @@
   WHY SVG chart: vue-chartjs caused emitsOptions null errors; native SVG is reliable and dependency-free
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
-import { asEmptyArray } from '@/utils/safeDefaults'
 import { useCalibrationChart } from '@/composables/admin/useCalibrationChart'
 
 const {
-  chartData,
   sqftMin,
   sqftMax,
   sqftStep,
   serviceCount,
   hasData,
+  svgChart,
 } = useCalibrationChart()
 
 const CHART_WIDTH = 700
 const CHART_HEIGHT = 320
 const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
-const PLOT_WIDTH = CHART_WIDTH - PAD.left - PAD.right
-const PLOT_HEIGHT = CHART_HEIGHT - PAD.top - PAD.bottom
-
-/** SVG path data and scale for drawing lines; legend labels with colors */
-const svgChart = computed(() => {
-  const data = chartData.value
-  const labels = asEmptyArray(data.labels)
-  const datasets = asEmptyArray(data.datasets) as Array<{ label: string; data: number[]; borderColor: string }>
-  if (labels.length === 0 || datasets.length === 0) {
-    return { polylines: [], legend: [], xScale: (_: number) => PAD.left, yScale: (_: number) => PAD.top, yMax: 0 }
-  }
-  const allValues = datasets.flatMap(d => d.data).filter((v): v is number => typeof v === 'number')
-  const yMax = Math.max(1, ...allValues)
-  const yScale = (v: number) => PAD.top + PLOT_HEIGHT - (v / yMax) * PLOT_HEIGHT
-  const xScale = (i: number) => PAD.left + (i / Math.max(1, labels.length - 1)) * PLOT_WIDTH
-  const polylines = datasets.map(d => {
-    const points = d.data
-      .map((val, i) => `${xScale(i)},${yScale(val)}`)
-      .join(' ')
-    return { points, color: d.borderColor ?? 'currentColor' }
-  })
-  const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
-  return { polylines, legend, xScale, yScale, yMax }
-})
 </script>
 
 <template>

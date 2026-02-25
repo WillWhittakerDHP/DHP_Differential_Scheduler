@@ -1,17 +1,7 @@
+import { ref, watch } from 'vue'
+import type { UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
-import { ref, watch, type Ref } from 'vue'
-
-export interface UseLoadingIndicatorReturn {
-  bufferValue: Ref<number>
-  progressValue: Ref<number>
-  isFallbackState: Ref<boolean>
-  showProgress: Ref<boolean>
-  fallbackHandle: () => void
-  resolveHandle: () => void
-}
-
-/** Subset of return type used by layout/blank for ref template; single source of truth. */
-export type LoadingIndicatorInstance = Pick<UseLoadingIndicatorReturn, 'fallbackHandle' | 'resolveHandle'>
+export type { LoadingIndicatorInstance, UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)

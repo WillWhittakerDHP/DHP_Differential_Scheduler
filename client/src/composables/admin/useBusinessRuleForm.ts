@@ -5,7 +5,7 @@ WHY: Extracts form state, rule-type config...
 import { ref, computed, watch, type Ref } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import { RULE_CONDITION_VALUES, RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 
 export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {

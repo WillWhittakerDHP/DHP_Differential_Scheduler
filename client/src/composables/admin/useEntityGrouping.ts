@@ -3,25 +3,13 @@
 
 PATTERN: Generic composable that groups en...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityGroupingParams, UseEntityGroupingReturn } from '@/types/admin/entityGrouping'
 
-export interface UseEntityGroupingParams<
-  EntityKey extends GlobalEntityKey,
-  GroupKey extends GlobalEntityKey
-> {
-  entityKey: EntityKey
-  
-  groupKey: GroupKey
-  
-  groupBy: (entity: GlobalEntity<EntityKey>) => string
-}
-
-export interface UseEntityGroupingReturn<EntityKey extends GlobalEntityKey> {
-  entitiesByGroup: ComputedRef<Map<string, GlobalEntity<EntityKey>[]>>
-}
+export type { UseEntityGroupingParams, UseEntityGroupingReturn } from '@/types/admin/entityGrouping'
 
 /**
  * WHY: useEntityGrouping composable

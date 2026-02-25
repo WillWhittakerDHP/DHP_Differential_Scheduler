@@ -54,17 +54,8 @@
 
 <script setup lang="ts">
 import { useAddressAutocomplete } from '@/composables/useAddressAutocomplete'
-import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
-import { createLogger } from '@/utils/logger'
-import {
-  MapsApiError,
-  type AutocompletePrediction,
-  type Coordinates,
-  type PlaceDetails,
-} from '@/services/mapsApiService'
-
-const logger = createLogger('AddressAutocomplete')
-const { getToken } = useMapsSessionToken()
+import { type Coordinates, type PlaceDetails } from '@/services/mapsApiService'
+import type { MapsApiError } from '@/services/mapsApiService'
 
 interface Props {
   modelValue: string
@@ -108,65 +99,25 @@ const {
   suggestions,
   isLoading,
   errorMessage,
-  fetchSuggestions,
-  selectPlace,
   clearSuggestions,
   clearError,
-  clearInitialFromProps,
+  handleSearchUpdate,
+  handleSelectionChange,
 } = useAddressAutocomplete({
   modelValue: () => props.modelValue,
   placeId: () => props.placeId,
   minInputLength: () => props.minInputLength,
   debounceMs: () => props.debounceMs,
+  emit: {
+    'update:modelValue': (v) => emit('update:modelValue', v),
+    'update:coordinates': (v) => emit('update:coordinates', v),
+    'update:placeId': (v) => emit('update:placeId', v),
+    'place-selected': (d) => emit('place-selected', d),
+    error: (e) => emit('error', e),
+  },
 })
 
-const handleSearchUpdate = async (value: string | null): Promise<void> => {
-  const input = value !== undefined && value !== null && value !== '' ? value : ''
-  if (input.length >= props.minInputLength) {
-    try {
-      await getToken()
-      logger.debug('[handleSearchUpdate] Got session token (lazy-loaded)')
-    } catch (error) {
-      logger.warn('[handleSearchUpdate] Failed to get token:', error)
-    }
-  }
-  if (!selectedAddress.value || selectedAddress.value.description !== input) {
-    const isUserTyping = input !== props.modelValue
-    if (isUserTyping) {
-      clearInitialFromProps()
-      emit('update:modelValue', input)
-      emit('update:coordinates', undefined)
-      emit('update:placeId', undefined)
-    }
-  }
-  if (input.length >= props.minInputLength) {
-    fetchSuggestions(input)
-  } else {
-    suggestions.value = []
-  }
-}
-
-const handleSelectionChange = async (selection: AutocompletePrediction | null): Promise<void> => {
-  const result = await selectPlace(selection)
-  if (result.kind === 'cleared') {
-    emit('update:modelValue', '')
-    emit('update:coordinates', undefined)
-    emit('update:placeId', undefined)
-    return
-  }
-  if (result.kind === 'synthetic') return
-  if (result.kind === 'place') {
-    emit('update:modelValue', result.description)
-    emit('update:placeId', result.placeId)
-    emit('update:coordinates', result.coordinates)
-    emit('place-selected', result.details)
-    return
-  }
-  emit('error', result.error)
-  emit('update:coordinates', undefined)
-}
-
-const handleBlur = (): void => {
+function handleBlur(): void {
   clearSuggestions()
   if (!searchInput.value) clearError()
 }

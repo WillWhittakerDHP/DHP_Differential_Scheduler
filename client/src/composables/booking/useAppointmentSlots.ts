@@ -1,41 +1,15 @@
-
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type {
-  AppointmentShape,
-  AppointmentSlot,
-  AppointmentSlots,
-  TimeRange,
-  PerspectiveKey,
-} from '@/types/appointment'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { applyShapeToTime, derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
 import { createLogger } from '@/utils/logger'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
-import type { ComputedSlot } from '@shared/types/availabilityTypes'
+import type { TimeRange } from '@/types/appointment'
+import type { UseAppointmentSlotsParams, UseAppointmentSlotsReturn } from '@/types/booking/appointmentSlots'
 
 const logger = createLogger('useAppointmentSlots')
 
-export interface UseAppointmentSlotsParams {
-  blockInstances: ComputedRef<BookingBlockInstance[]>
-  /** Server-computed slots for the selected day (replaces availableStartTimes + busyTimes + client constraint checks) */
-  serverSlotsForDay: ComputedRef<ComputedSlot[]>
-  selectedButtonIndex: Ref<number | null>
-  perspective: ComputedRef<PerspectiveKey>
-  isDifferentialService: ComputedRef<boolean>
-}
-
-export interface UseAppointmentSlotsReturn {
-  appointmentShape: ComputedRef<AppointmentShape | null>
-  appointmentSlots: ComputedRef<AppointmentSlots>
-  selectedSlot: ComputedRef<AppointmentSlot | null>
-  getDisplayTime: (buttonIndex: number) => TimeRange | null
-  graphBars: ComputedRef<{
-    major: TimeRange | null
-    minor: TimeRange | null
-  }>
-}
+export type { UseAppointmentSlotsParams, UseAppointmentSlotsReturn } from '@/types/booking/appointmentSlots'
 
 export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppointmentSlotsReturn {
   const {

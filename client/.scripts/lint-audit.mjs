@@ -150,7 +150,7 @@ function main() {
   const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
   const ruleWeights = { ...DEFAULT_RULE_WEIGHTS, ...(config.ruleWeights || {}) }
 
-  const { stdout, status } = runEslint(paths.clientRoot)
+  const { stdout, status: _status } = runEslint(paths.clientRoot)
 
   let rawResults = []
   try {

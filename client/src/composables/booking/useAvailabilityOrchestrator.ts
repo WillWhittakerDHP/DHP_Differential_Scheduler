@@ -1,12 +1,8 @@
-
-import { computed, ref, watch, type Ref, type ComputedRef } from 'vue'
+import { computed, ref, watch, type ComputedRef } from 'vue'
 import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
-import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
 import type { TimeSlot } from '@/types/appointment'
-import type { UseBookingWizardReturn } from '@/types/wizard'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import { toISO8601Date } from '@/types/datetime'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
+import { toISO8601Date } from '@/utils/datetime'
+import { getTodayDate } from '@/utils/time/timeFormatting'
 import { useAvailabilityLogic } from '@/composables/booking/useAvailabilityLogic'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
 import { useAvailabilityValidation } from '@/composables/booking/useAvailabilityValidation'
@@ -23,16 +19,9 @@ import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDe
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
 import { equals } from '@/utils/ternary/ternaryUtils'
+import type { UseAvailabilityOrchestratorParams } from '@/types/booking/availabilityOrchestrator'
 
-export interface UseAvailabilityOrchestratorParams {
-  wizard: UseBookingWizardReturn
-  loadedWizardState: Ref<WizardStateData | null>
-  computedAvailability: UseComputedAvailabilityReturn
-  propertyDetailsStepData: Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown } | null>
-  displayedMonth: Ref<DisplayedMonth>
-  updateDisplayedMonth: (month: DisplayedMonth) => void
-  appointmentDurationRef: Ref<number | null>
-}
+export type { UseAvailabilityOrchestratorParams } from '@/types/booking/availabilityOrchestrator'
 
 export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorParams) {
   const {
@@ -44,8 +33,6 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     updateDisplayedMonth,
     appointmentDurationRef
   } = params
-
-  const { getTodayDate } = useTimeFormatting()
 
   const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
   const timeSlotsForDefaults = computed(() => {

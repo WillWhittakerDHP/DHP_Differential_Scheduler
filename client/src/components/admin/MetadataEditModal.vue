@@ -61,6 +61,7 @@ import AdminPrimitiveMetadataEditor from './metadata/AdminPrimitiveMetadataEdito
 import { getEntityTypeLabel } from '@/utils/admin/entityDisplayText'
 import { useNotification } from '@/composables/useNotification'
 import { getApiErrorMessage } from '@/composables/useApiErrorMessage'
+import { useMetadataEditModal } from '@/composables/admin/useMetadataEditModal'
 import { createLogger } from '@/utils/logger'
 import type { MetadataEditorPropsBase } from '@/types/metadataEditorProps'
 
@@ -85,6 +86,13 @@ const { error: showError } = useNotification()
 
 const editorRef = ref<InstanceType<typeof AdminPrimitiveMetadataEditor> | null>(null)
 
+const { handleSave } = useMetadataEditModal({
+  editorRef,
+  showError,
+  getErrorMessage: (err) => getApiErrorMessage(err, 'Failed to save metadata configuration'),
+  logger,
+})
+
 const modalTitle = computed(() => {
   if (props.entityName) {
     return `Metadata Edit: ${props.entityName}`
@@ -100,23 +108,5 @@ function updateModelValue(value: boolean) {
 
 function handleSaved() {
   emit('saved')
-}
-
-async function handleSave(): Promise<void> {
-  if (!editorRef.value) {
-    showError('Editor not available')
-    return
-  }
-
-  try {
-    await editorRef.value.save()
-  } catch (err) {
-    logger.error('Error saving metadata', { err })
-    
-    // LEARNING: Use composable for error message extraction
-    // PATTERN: Composable handles AxiosError, Error, and unknown error types
-    const errorMessage = getApiErrorMessage(err, 'Failed to save metadata configuration')
-    showError(errorMessage)
-  }
 }
 </script>

@@ -1,33 +1,14 @@
 /**
  * PATTERN: Composable for managing field context access and tracking missing contex...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { UseFieldContextManagerOptions, UseFieldContextManagerReturn } from '@/types/admin/fieldContextManager'
 
-export interface UseFieldContextManagerOptions {
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  fieldsByLocation: ComputedRef<{
-    directInline: GlobalFieldKey<GlobalEntityKey>[]
-    directStacked: GlobalFieldKey<GlobalEntityKey>[]
-    subPanels: {
-      parts: GlobalFieldKey<GlobalEntityKey>[]
-      relationships: GlobalFieldKey<GlobalEntityKey>[]
-      annotations: GlobalFieldKey<GlobalEntityKey>[]
-      events: GlobalFieldKey<GlobalEntityKey>[]
-    }
-  }>
-  isMetadataLoading: ComputedRef<boolean>
-  isMetadataReady: ComputedRef<boolean>
-  fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-}
-
-export interface UseFieldContextManagerReturn {
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  fieldsMissingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-}
+export type { UseFieldContextManagerOptions, UseFieldContextManagerReturn } from '@/types/admin/fieldContextManager'
 
 export function useFieldContextManager(
   options: UseFieldContextManagerOptions
