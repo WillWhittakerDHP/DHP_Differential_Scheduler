@@ -375,7 +375,7 @@ const {
           <VSelect
             v-else
             v-model="editedData.status"
-            :items="getValidNextStatuses(item.status)"
+            :items="[item.status, ...getValidNextStatuses(item.status)]"
             density="compact"
             hide-details
           />
