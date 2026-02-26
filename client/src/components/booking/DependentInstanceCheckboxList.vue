@@ -62,7 +62,7 @@ function handleToggle(optionId: string, selected: boolean): void {
         >
           <template #label>
             <div class="dependent-option-content">
-              <span class="text-body-1 font-weight-medium">
+              <span class="text-body-large font-weight-medium">
                 {{ option.name }}
               </span>
             </div>

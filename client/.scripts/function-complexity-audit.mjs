@@ -6,6 +6,8 @@ import {
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
   parseChangedOnlyFlag,
+  loadCentralAllowlist,
+  checkConfigAllowlist,
 } from './shared-audit-utils.mjs'
 
 /**
@@ -83,6 +85,17 @@ function assignTiers(violations, _thresholds, _maxNesting, _branches) {
 }
 
 /**
+ * Matches real ternary expressions ( condition ? a : b ) while rejecting:
+ *   - optional chaining  obj?.prop
+ *   - nullish coalescing obj ?? fallback
+ *   - TypeScript optional property  field?: Type
+ *   - type annotations  key: Type
+ * Heuristic: require `?` followed (with possible whitespace/tokens) by `:` on the
+ * same line, but NOT preceded by `?` (optional chaining) or followed by `?` (nullish).
+ */
+const TERNARY_RE = /[^?]\s*\?\s*[^?:][^]*?(?<![{(,])\s*:/
+
+/**
  * Detect function boundaries and measure complexity metrics
  */
 function analyzeFile(content, isVueSetup, thresholds, repoPath = null) {
@@ -120,30 +133,28 @@ function analyzeFile(content, isVueSetup, thresholds, repoPath = null) {
       const funcLines = lines.slice(startLine, endLine + 1)
       const funcLength = funcLines.length
       
-      // Count metrics
+      // Count metrics — brace-only nesting to avoid double-counting
       let maxNesting = 0
-      let currentNesting = 0
+      let braceDepth = 0
       let branches = 0
       let returns = 0
-      
+
       for (const fl of funcLines) {
-        // Track nesting
-        if (/\b(if|for|while|switch|try)\b/.test(fl)) {
-          currentNesting++
-          if (currentNesting > maxNesting) maxNesting = currentNesting
-          branches++
-        }
-        if (/\belse\b/.test(fl)) branches++
-        if (/\bcase\b/.test(fl)) branches++
-        if (/[?]/.test(fl) && /[:]/.test(fl)) branches++ // ternary heuristic
-        if (/\breturn\b/.test(fl)) returns++
-        
-        // Track brace-based nesting reduction
         const opens = (fl.match(/\{/g) || []).length
         const closes = (fl.match(/\}/g) || []).length
-        currentNesting += opens - closes
-        if (currentNesting < 0) currentNesting = 0
+        braceDepth += opens - closes
+        if (braceDepth < 0) braceDepth = 0
+        if (braceDepth > maxNesting) maxNesting = braceDepth
+
+        if (/\b(if|else\s+if|for|while|switch|try)\b/.test(fl)) branches++
+        if (/\belse\b/.test(fl) && !/\belse\s+if\b/.test(fl)) branches++
+        if (/\bcase\b/.test(fl)) branches++
+        if (TERNARY_RE.test(fl)) branches++
+        if (/\breturn\b/.test(fl)) returns++
       }
+
+      // Subtract 1 for the function's own opening brace
+      if (maxNesting > 0) maxNesting -= 1
       
       // Count parameters
       const paramMatch = line.match(/\(([^)]*)\)/)
@@ -297,9 +308,15 @@ function renderMarkdownReport(filesWithFindings, totalScanned) {
   return lines.join('\n')
 }
 
+function isFileAllowlisted(repoPath, allowlist) {
+  const result = checkConfigAllowlist(repoPath, '*', 0, allowlist)
+  return result.allowed
+}
+
 function main() {
   const paths = resolveAuditPaths('function-complexity')
   const delta = parseChangedOnlyFlag(process.argv, paths.projectRoot)
+  const configAllowlist = loadCentralAllowlist('function-complexity')
   let config = {}
   try { config = JSON.parse(fs.readFileSync(paths.configPath, 'utf8')) } catch { /* defaults */ }
 
@@ -314,10 +331,16 @@ function main() {
 
   const allFiles = listAuditFiles('function-complexity', [paths.clientSrc, paths.serverSrc])
   const scanned = []
+  let allowedCount = 0
 
   for (const abs of allFiles) {
     const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
+
+    if (isFileAllowlisted(repoPath, configAllowlist)) {
+      allowedCount++
+      continue
+    }
 
     const rawContent = fs.readFileSync(abs, 'utf-8')
     let content = rawContent
@@ -350,6 +373,7 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     totalScanned: allFiles.length,
+    totalAllowed: allowedCount,
     tierModel: 'tier1',
     tier1Rules: ['nesting', 'branches', 'length-when-branchy'],
     thresholds,
@@ -360,7 +384,7 @@ function main() {
   const { outJson, outMd } = writeAuditReports('function-complexity', out, renderMarkdownReport(scanned, allFiles.length))
 
   console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
-  console.log(`Files with complex functions: ${scanned.length}`)
+  console.log(`Files with complex functions: ${scanned.length} (${allowedCount} allowlisted)`)
   process.exitCode = 0
 }
 

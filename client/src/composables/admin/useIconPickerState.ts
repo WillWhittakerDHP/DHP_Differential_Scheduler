@@ -6,7 +6,6 @@ LEARNING: Extracts icon picker state manag...
 import { ref, watch } from 'vue'
 import type { UseIconPickerStateOptions, UseIconPickerStateReturn } from '@/types/admin/iconPickerState'
 
-export type { UseIconPickerStateOptions, UseIconPickerStateReturn } from '@/types/admin/iconPickerState'
 
 /**
  * WHY: Icon Picker State Composable

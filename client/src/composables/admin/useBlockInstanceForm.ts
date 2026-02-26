@@ -17,12 +17,6 @@ import type {
   UseBlockInstanceFormReturn,
 } from '@/types/admin/blockInstanceForm'
 
-export type {
-  BlockInstanceFormData,
-  UseBlockInstanceFormOptions,
-  UseBlockInstanceFormReturn,
-} from '@/types/admin/blockInstanceForm'
-
 const logger = createLogger('useBlockInstanceForm')
 
 /**
@@ -140,4 +134,3 @@ WHY: Component needs to show load...
     goBack
   }
 }
-

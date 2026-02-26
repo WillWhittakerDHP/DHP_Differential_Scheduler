@@ -1,0 +1,126 @@
+{
+  "generatedAt": "2026-02-26T00:04:12.494Z",
+  "check": "allowlist-cleanup",
+  "configPath": "client/.audit-reports/audit-global-config.json",
+  "suppressionHits": {
+    "auditTypes": [
+      "error-handling",
+      "type-import"
+    ],
+    "processed": [
+      "error-handling",
+      "type-import"
+    ],
+    "missingJson": []
+  },
+  "pruneSuggestions": {
+    "count": 0,
+    "reportJson": "client/.audit-reports/allowlist-prune-suggestions.json",
+    "reportMd": "client/.audit-reports/allowlist-prune-suggestions.md"
+  },
+  "integrity": {
+    "hasFailures": true,
+    "parseError": null,
+    "missingSpecificFiles": [
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/useAppointment",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/useProperty",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/useUser",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/useBusinessRulesTab",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/useEntityCardSaveAndActions",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/usePartInstanceCollection",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/useRelationshipCollection",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/booking/useAvailabilityOrchestrator",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/booking/useDevPanelsAppointmentData",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/tables/useAppointmentsTableModel",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/tables/usePropertiesTableModel",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/tables/useUsersTableModel",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/booking/useAppointmentLoader",
+        "ruleIds": [
+          "*"
+        ]
+      },
+      {
+        "auditType": "import-graph",
+        "file": "client/src/composables/admin/useEntityCardFormSetup",
+        "ruleIds": [
+          "*"
+        ]
+      }
+    ],
+    "neverPermissibleViolations": []
+  }
+}

@@ -12,7 +12,12 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAppointmentLoader')
 
-export function useAppointmentLoader() {
+export interface UseAppointmentLoaderReturn {
+  loadAppointmentById: (appointmentId: string) => Promise<AppointmentResponse | null>
+  isLoading: Ref<boolean>
+}
+
+export function useAppointmentLoader(): UseAppointmentLoaderReturn {
   const { fetchById } = useAppointment()
   const queryClient = useQueryClient()
   const isLoading: Ref<boolean> = ref(false)

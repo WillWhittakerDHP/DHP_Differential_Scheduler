@@ -1,9 +1,17 @@
+import type { ComputedRef } from 'vue'
 import { computed, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { getFieldKeys } from '@/utils/forms/getFieldKeys'
+
+export interface UseFormFieldConfigsReturn {
+  fieldKeys: ComputedRef<string[]>
+  instanceConfig: ComputedRef<Record<string, unknown>>
+  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+}
 
 /**
  * Shared form field config computeds (fieldKeys, instanceConfig, inline/stacked).
@@ -13,7 +21,7 @@ export function useFormFieldConfigs(
   entityKey: GlobalEntityKey,
   entity: Ref<unknown>,
   fieldMetadata: Ref<Record<string, FieldMetadataEntry> | null | undefined>
-) {
+): UseFormFieldConfigsReturn {
   const adminConfig = useAdminConfig()
 
   const fieldKeys = computed(() =>

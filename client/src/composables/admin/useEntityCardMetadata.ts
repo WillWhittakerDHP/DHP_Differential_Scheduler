@@ -8,7 +8,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { useEntityMetadata } from './useEntityMetadata'
 import type { UseEntityCardMetadataParams, UseEntityCardMetadataReturn } from '@/types/admin/entityCardMetadata'
 
-export type { UseEntityCardMetadataParams, UseEntityCardMetadataReturn } from '@/types/admin/entityCardMetadata'
 
 export function useEntityCardMetadata<GE extends GlobalEntityKey>(
   params: UseEntityCardMetadataParams<GE>

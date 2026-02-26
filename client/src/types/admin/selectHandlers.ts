@@ -1,12 +1,12 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 import type { EntityCardSaveContext } from '@/components/admin/generic/entityCardConstants'
 
 export interface UseSelectHandlersOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   rawFieldValue: ReadonlyVueRef<unknown>
   fieldValue: ComputedRef<string | string[] | null>
   isMultiple: ComputedRef<boolean>

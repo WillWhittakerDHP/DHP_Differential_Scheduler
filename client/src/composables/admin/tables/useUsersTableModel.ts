@@ -3,9 +3,10 @@ import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
-import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { useCrudDataTableModel } from './useCrudDataTableModel'
 import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
 
+import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
 export interface UsersTableModel extends CrudDataTableModel<
   UserResponse,
   UserRequest,
@@ -16,7 +17,7 @@ export function useUsersTableModel(): UsersTableModel {
   const { success, error } = useNotification()
   const { fetchAll, create, update, remove } = useUser()
 
-  const model = useCrudDataTableModel<UserResponse, UserRequest, Partial<UserRequest>>({
+  const crud = useCrudDataTableModel<UserResponse, UserRequest, Partial<UserRequest>>({
     entityLabel: 'User',
     itemsSource: createItemsSource(fetchAll.data),
     isLoadingSource: computed(() => fetchAll.isLoading.value),
@@ -44,7 +45,10 @@ export function useUsersTableModel(): UsersTableModel {
   })
 
   return {
-    ...model,
+    ...crud.data,
+    ...crud.editState,
+    ...crud.dialogs,
+    ...crud.actions,
     formatNullValue,
   }
 }

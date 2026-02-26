@@ -3,17 +3,12 @@ import { getComposedEntityFromRelationships, getComponentsRecursive } from '@/ut
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { DistributionStrategy, DistributionPreview } from '@/types/component'
+import type { DistributionStrategy, DistributionPreview, InstanceComponent } from '@/types/component'
 import type {
   UseComponentEntityDomainParams,
   UseComponentEntityDomainReturn,
 } from '@/types/componentEntity/componentEntityDomain'
 import { asEmptyArray } from '@/utils/safeDefaults'
-
-export type {
-  UseComponentEntityDomainParams,
-  UseComponentEntityDomainReturn,
-} from '@/types/componentEntity/componentEntityDomain'
 
 export function useComponentEntityDomain<GE extends GlobalEntityKey>(
   params: UseComponentEntityDomainParams<GE>
@@ -180,5 +175,3 @@ export function useComponentEntityDomain<GE extends GlobalEntityKey>(
     calculateDistributionPreview,
   }
 }
-
-

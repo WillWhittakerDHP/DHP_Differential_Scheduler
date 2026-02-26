@@ -10,6 +10,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import { findRelationshipsByParent, extractChildIds } from '@/utils/transformers/relationshipTransformers'
 import { useGlobal } from '@/composables/useGlobal'
 import { asEmptyString } from '@/utils/safeDefaults'
+import type { GlobalRelationship } from '@/types/relationships'
 import type { UseDependentInstancesOptions, UseDependentInstancesReturn } from '@/types/booking/dependentInstances'
 
 export type { UseDependentInstancesOptions, UseDependentInstancesReturn } from '@/types/booking/dependentInstances'

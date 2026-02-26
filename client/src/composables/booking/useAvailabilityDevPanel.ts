@@ -10,7 +10,6 @@ import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { BusyTimeRange } from '@shared/types/availabilityTypes'
 import type { UseAvailabilityDevPanelParams } from '@/types/booking/availabilityDevPanel'
 
-export type { UseAvailabilityDevPanelParams } from '@/types/booking/availabilityDevPanel'
 
 /**
  * WHY: Shared dev panel data state
@@ -70,6 +69,8 @@ export function useAvailabilityDevPanel(
   }
 }
 
-export function useDevPanelData() {
+export type UseDevPanelDataReturn = typeof sharedDevPanelData
+
+export function useDevPanelData(): UseDevPanelDataReturn {
   return sharedDevPanelData
 }

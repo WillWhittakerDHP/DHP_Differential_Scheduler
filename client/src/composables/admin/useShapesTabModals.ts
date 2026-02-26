@@ -2,9 +2,24 @@
  * PATTERN: Modal state and toggles for Shapes tab metadata modals.
  * WHY: Keeps ShapesTab.vue under vue-architecture limits (script size, function count).
  */
+import type { Ref } from 'vue'
 import { ref } from 'vue'
 
-export function useShapesTabModals() {
+export interface UseShapesTabModalsReturn {
+  blockShapeMetadataModalOpen: Ref<boolean>
+  partShapeMetadataModalOpen: Ref<boolean>
+  partInstanceMetadataModalOpen: Ref<boolean>
+  annotationShapeMetadataModalOpen: Ref<boolean>
+  eventShapeMetadataModalOpen: Ref<boolean>
+  toggleBlockShapeMetadataModal: () => void
+  togglePartShapeMetadataModal: () => void
+  togglePartInstanceMetadataModal: () => void
+  handlePartInstanceMetadataSaved: () => void
+  toggleAnnotationShapeMetadataModal: () => void
+  toggleEventShapeMetadataModal: () => void
+}
+
+export function useShapesTabModals(): UseShapesTabModalsReturn {
   const blockShapeMetadataModalOpen = ref(false)
   const partShapeMetadataModalOpen = ref(false)
   const partInstanceMetadataModalOpen = ref(false)

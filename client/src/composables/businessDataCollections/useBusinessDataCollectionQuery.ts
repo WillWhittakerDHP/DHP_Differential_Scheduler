@@ -2,12 +2,12 @@
 import { computed, type ComputedRef } from 'vue'
 import { useBusiness } from '@/composables/useBusiness'
 import { findById } from '@/utils/collections/findById'
-import type { WithId } from '@/composables/useCollectionTypes'
+import type { WithId } from '@/types/collectionTypes'
 import type {
   BusinessDataCollectionByIdQueryResult,
   BusinessDataCollectionQueryResult,
   BusinessDataCollectionSelector,
-} from './types'
+} from '@/types/dataCollections/businessDataCollectionTypes'
 
 type BusinessDataCollectionQueryOptions<CollectionItem extends WithId> = {
   selectCollection: BusinessDataCollectionSelector<CollectionItem>

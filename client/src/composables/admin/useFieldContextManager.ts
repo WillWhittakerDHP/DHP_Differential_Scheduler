@@ -5,10 +5,9 @@ import { computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { UseFieldContextManagerOptions, UseFieldContextManagerReturn } from '@/types/admin/fieldContextManager'
 
-export type { UseFieldContextManagerOptions, UseFieldContextManagerReturn } from '@/types/admin/fieldContextManager'
 
 export function useFieldContextManager(
   options: UseFieldContextManagerOptions
@@ -23,7 +22,7 @@ export function useFieldContextManager(
 
   const { warning: showWarning } = useNotification()
 
-  function getFieldContext(fieldKey: GlobalFieldKey<GlobalEntityKey>): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined {
+  function getFieldContext(fieldKey: GlobalFieldKey<GlobalEntityKey>): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined {
     const context = originalGetFieldContext(fieldKey)
 
     const isPending =
@@ -32,7 +31,7 @@ export function useFieldContextManager(
 
     // PATTERN: Gate warnings on isMetadataReady and !isPending
     if (!context && !isPending && isMetadataReady.value) {
-      showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-input-metadata or /admin-relationship-metadata.`, 6000)
+      showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-metadata.`, 6000)
     }
 
     return context

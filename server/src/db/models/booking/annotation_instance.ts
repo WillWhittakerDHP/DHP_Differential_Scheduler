@@ -24,8 +24,7 @@ import {
  * 
  * PATTERN: Instance-level entity model matching block_instances/part_instances pattern
  * 
- * NOTE: The userType field on this model is kept for backward compatibility but is being
- * phased out in favor of user_type_block_instance_id in the annotation_assignments table.
+ * NOTE: The userType field is being phased out in favor of user_type_block_instance_id in the annotation_assignments table.
  */
 export class AnnotationInstance extends Model<
   InferAttributes<AnnotationInstance>,

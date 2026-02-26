@@ -1,12 +1,13 @@
 /**
+import type { LoadingIndicatorInstance } from '@/types/loadingIndicator'
  * WHY: Component-logic audit - move watch out of blank.vue.
  */
 import { ref, watch } from 'vue'
-import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
+import type { Ref } from 'vue'
 
 export function useSuspenseFallback(): {
-  isFallbackStateActive: ReturnType<typeof ref<boolean>>
-  refLoadingIndicator: ReturnType<typeof ref<LoadingIndicatorInstance | null>>
+  isFallbackStateActive: Ref<boolean>
+  refLoadingIndicator: Ref<LoadingIndicatorInstance | null>
 } {
   const isFallbackStateActive = ref(false)
   const refLoadingIndicator = ref<LoadingIndicatorInstance | null>(null)

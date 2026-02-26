@@ -7,7 +7,15 @@ import type { BusinessHoursConfig } from '@/configs/availabilitySettings'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { BusinessHoursDay } from '@/types/admin/businessControlsFormState'
 
-export function useBusinessHoursFormState(formData: Ref<AvailabilitySettings | null>) {
+export interface UseBusinessHoursFormStateReturn {
+  businessHoursForUI: ReturnType<typeof computed<Record<number, { start: string; end: string }>>>
+  isBusinessHoursConfig: (
+    config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }
+  ) => config is BusinessHoursConfig
+  updateBusinessHours: (day: number, field: 'start' | 'end', value: string) => void
+}
+
+export function useBusinessHoursFormState(formData: Ref<AvailabilitySettings | null>): UseBusinessHoursFormStateReturn {
   const { rfc3339ToBusinessHoursHHmm, businessHoursHHmmToRfc3339 } = localTime()
 
   const businessHoursForUI = computed(() => {

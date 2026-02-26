@@ -1,4 +1,4 @@
-import type { Ref, ComputedRef } from 'vue'
+import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 export interface UseOptionTypeBlockSelectionParams {
@@ -7,5 +7,6 @@ export interface UseOptionTypeBlockSelectionParams {
 }
 
 export interface UseOptionTypeBlockSelectionReturn {
-  selectedOptionTypeBlockId: ComputedRef<string | null>
+  /** Writable so callers can set selected option type block id (e.g. from dropdown). */
+  selectedOptionTypeBlockId: WritableComputedRef<string | null>
 }

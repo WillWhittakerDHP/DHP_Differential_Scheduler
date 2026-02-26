@@ -55,7 +55,7 @@ LEARNING: Only composable blocks can have option components (instanc...
     const blockInstance = service.value
     if (!isComposable.value || !blockInstance) return []
     
-    const instanceComponentsRelationships = componentEntity.getComponents(toGlobalEntityId(blockInstance.id))
+    const instanceComponentsRelationships = componentEntity.data.getComponents(toGlobalEntityId(blockInstance.id))
     if (!instanceComponentsRelationships || instanceComponentsRelationships.length === 0) {
       return []
     }

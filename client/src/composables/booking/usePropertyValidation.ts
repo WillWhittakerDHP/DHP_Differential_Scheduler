@@ -9,7 +9,6 @@ import { useStepValidation } from './useStepValidation'
 import { PROPERTY_VALIDATION_STRINGS } from '@/configs/propertyValidationStrings'
 import type { UsePropertyValidationParams, UsePropertyValidationReturn } from '@/types/booking/propertyValidation'
 
-export type { PropertyValidationData, UsePropertyValidationParams, UsePropertyValidationReturn } from '@/types/booking/propertyValidation'
 
 export function usePropertyValidation(params: UsePropertyValidationParams): UsePropertyValidationReturn {
   const {

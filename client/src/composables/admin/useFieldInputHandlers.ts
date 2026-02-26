@@ -3,11 +3,17 @@ import { fieldKeyboardGuard } from '@/utils/admin/fieldKeyboardGuard'
 import { createLogger } from '@/utils/logger'
 import type { UseFieldInputHandlersParams } from '@/types/admin/fieldInputHandlers'
 
-export type { UseFieldInputHandlersParams } from '@/types/admin/fieldInputHandlers'
+
+export interface UseFieldInputHandlersReturn {
+  handleFocus: () => void
+  handleBlur: () => Promise<void>
+  handleEnterKey: (event: KeyboardEvent) => Promise<void>
+  handleKeydown: (event: KeyboardEvent) => void
+}
 
 const logger = createLogger('useFieldInputHandlers')
 
-export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
+export function useFieldInputHandlers(params: UseFieldInputHandlersParams): UseFieldInputHandlersReturn {
   const {
     fieldContext,
     disableAutoSave = false,
@@ -16,15 +22,15 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   } = params
 
   const isEditable = computed(
-    () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
+    () => !fieldContext.state.displayConfig.disabled && !fieldContext.state.displayConfig.readOnly
   )
 
   const handleFocus = (): void => {
-    fieldContext.setFocus(true)
+    fieldContext.actions.setFocus(true)
   }
 
   const handleBlur = async (): Promise<void> => {
-    fieldContext.setFocus(false)
+    fieldContext.actions.setFocus(false)
     
     // PATTERN: Match handleEnterKey behavior - new entities use handleSave, not field-level save
     if (entityCardSaveContext?.isNew) {
@@ -36,15 +42,15 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
       return
     }
     
-    const isValid = await fieldContext.validate()
+    const isValid = await fieldContext.actions.validate()
     
     if (isValid) {
       try {
-        await fieldContext.save()
+        await fieldContext.actions.save()
       } catch (error) {
         logger.error('Field save failed', {
-          fieldKey: String(fieldContext.fieldKey),
-          entityId: String(fieldContext.entityId),
+          fieldKey: String(fieldContext.state.fieldKey),
+          entityId: String(fieldContext.state.entityId),
           error
         })
       }
@@ -54,7 +60,7 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
   const handleEnterKey = async (event: KeyboardEvent): Promise<void> => {
     event.preventDefault()
     
-    const isValid = await fieldContext.validate()
+    const isValid = await fieldContext.actions.validate()
     
     if (!isValid) {
       return
@@ -64,24 +70,24 @@ export function useFieldInputHandlers(params: UseFieldInputHandlersParams) {
     if (entityCardSaveContext?.isNew && entityCardSaveContext.handleSave) {
       try {
         await entityCardSaveContext.handleSave()
-        fieldContext.setFocus(false)
+        fieldContext.actions.setFocus(false)
         const target = event.target as HTMLElement
         if (target && 'blur' in target && typeof target.blur === 'function') {
           target.blur()
         }
       } catch (error) {
-        logger.warn('Failed to save new entity card on blur', { error, fieldKey: fieldContext.fieldKey })
+        logger.warn('Failed to save new entity card on blur', { error, fieldKey: fieldContext.state.fieldKey })
       }
     } else {
       try {
-        await fieldContext.save()
-        fieldContext.setFocus(false)
+        await fieldContext.actions.save()
+        fieldContext.actions.setFocus(false)
         const target = event.target as HTMLElement
         if (target && 'blur' in target && typeof target.blur === 'function') {
           target.blur()
         }
       } catch (error) {
-        logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.fieldKey })
+        logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.state.fieldKey })
       }
     }
   }

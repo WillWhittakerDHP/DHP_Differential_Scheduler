@@ -6,7 +6,6 @@ PATTERN: Composable that manages entity form sta...
 import { computed } from 'vue'
 import type { UseEntityFormOptions, UseEntityFormReturn } from '@/types/entityForm'
 
-export type { UseEntityFormOptions, UseEntityFormReturn } from '@/types/entityForm'
 
 /**
  * PATTERN: Entity Form Composable

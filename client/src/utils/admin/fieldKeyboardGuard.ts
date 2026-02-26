@@ -1,6 +1,7 @@
 /**
  * Keyboard guard for admin field types (space/enter/tab). Used by useFieldInputHandlers, useSelectHandlers, BooleanInput, IconInput.
  */
+import type { ComputedRef } from 'vue'
 import {
   KEY_ENTER,
   KEY_SPACE,
@@ -10,27 +11,18 @@ import {
   KEY_CODE_SPACE,
   KEY_CODE_TAB,
 } from '@/components/admin/generic/entityCardConstants'
-import type { FieldKeyboardGuardType } from '@/types/admin/fieldKeyboardGuard'
+import type {
+  UseFieldKeyboardGuardOptions,
+  UseFieldKeyboardGuardReturn,
+} from '@/types/admin/fieldKeyboardGuard'
 
-export type { FieldKeyboardGuardType } from '@/types/admin/fieldKeyboardGuard'
+export type { FieldKeyboardGuardType, UseFieldKeyboardGuardOptions, UseFieldKeyboardGuardReturn } from '@/types/admin/fieldKeyboardGuard'
 
-export interface FieldKeyboardGuardOptions {
-  fieldType: FieldKeyboardGuardType
-  /** boolean or ref-like { value: boolean } so callers can pass computed/ref */
-  isEditable: boolean | { value: boolean }
-  onToggle?: (event: KeyboardEvent) => void
-  onEnter?: (event: KeyboardEvent) => void
-}
-
-export interface FieldKeyboardGuardReturn {
-  handleKeydown: (event: KeyboardEvent) => void
-}
-
-function resolveEditable(isEditable: boolean | { value: boolean }): boolean {
+function resolveEditable(isEditable: ComputedRef<boolean> | boolean): boolean {
   return typeof isEditable === 'boolean' ? isEditable : isEditable.value
 }
 
-export function fieldKeyboardGuard(options: FieldKeyboardGuardOptions): FieldKeyboardGuardReturn {
+export function fieldKeyboardGuard(options: UseFieldKeyboardGuardOptions): UseFieldKeyboardGuardReturn {
   const { fieldType, isEditable, onToggle, onEnter } = options
 
   const handleKeydown = (event: KeyboardEvent): void => {

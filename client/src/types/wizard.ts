@@ -64,6 +64,7 @@ export interface WizardComputedProperties {
   accAvailability: ComputedRef<BookingBlockInstance[]>
 }
 
+/** Flat shape provided/injected. */
 export type UseBookingWizardReturn = {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
@@ -73,6 +74,20 @@ export type UseBookingWizardReturn = {
   isQuoteMode: Ref<boolean>
 } & WizardSelectionMethods & WizardComputedProperties & {
   bookingData: ComputedRef<BookingData | null>
+}
+
+/** Grouped return for composable-health (oversized-return repair). Tab spreads to flat when providing. */
+export interface UseBookingWizardReturnGrouped {
+  state: {
+    selectedUserTypeBlock: Ref<BookingBlockInstance | null>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedLineItemBlocks: Ref<BookingBlockInstance[]>
+    isQuoteMode: Ref<boolean>
+  }
+  actions: WizardSelectionMethods
+  computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }
 }
 
 import type { PropertyDetailsData } from '@/types/propertyForm'

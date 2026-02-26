@@ -406,14 +406,23 @@ export interface SlotTimeBounds {
 }
 
 /**
+ * Shared availability result shape (isAvailable + optional violations).
+ * WHY: ComputedSlot and SlotDisplayItem share this; single source of truth for availability display.
+ */
+export interface SlotAvailabilityResult {
+  isAvailable: boolean
+  violations?: string[]
+}
+
+/**
  * A single time slot with pre-computed availability from the server
  * LEARNING: Server computes slot boundaries and constraint violations; client applies shape for display
  * WHY: Eliminates client-side constraint logic; drive-time anchoring uses event-level context on server
  */
-export interface ComputedSlot extends SlotTimeBounds {
-  isAvailable: boolean
-  violations: string[]  // e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
+export interface ComputedSlot extends SlotTimeBounds, SlotAvailabilityResult {
+  violations: string[]  // required for server slot e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
 }
+
 
 /**
  * Server response: slots grouped by day (server-side slot computation)

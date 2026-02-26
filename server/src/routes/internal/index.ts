@@ -32,12 +32,7 @@ router.use('/business-rules', BusinessRulesRouter);
 
 // LEARNING: Single endpoint follows entity pattern - backend routes based on fieldKey type
 // WHY: Matches entity pattern where single endpoint handles all fields, backend routes based on type
-// NOTE: Keeping /admin-input-metadata and /admin-primitive-metadata paths for backward compatibility during transition
 router.use('/admin-metadata', adminMetadataRouter);
-// Backward compatibility routes (can be removed after frontend migration)
-router.use('/admin-input-metadata', adminMetadataRouter);
-router.use('/admin-primitive-metadata', adminMetadataRouter);
-router.use('/admin-relationship-metadata', adminMetadataRouter);
 
 router.use('/dev', DevStatusRouter);
 

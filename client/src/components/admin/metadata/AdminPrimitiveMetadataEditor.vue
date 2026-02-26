@@ -7,8 +7,8 @@
 <template>
   <div class="admin-primitive-metadata-editor">
     <div class="mb-4">
-      <h3 class="text-h6 mb-2">Field Rendering Configuration</h3>
-      <p class="text-body-2 text-medium-emphasis">
+      <h3 class="text-headline-small mb-2">Field Rendering Configuration</h3>
+      <p class="text-body-medium text-medium-emphasis">
         Configure field visibility, layout, and rendering for {{ entityTypeLabel }}.
         <span v-if="entityKey === 'blockShape' || entityKey === 'partShape'">
           Changes apply globally to all {{ entityTypeLabel }} entities.
@@ -20,11 +20,11 @@
 
     <div v-if="isLoading" class="text-center pa-4">
       <VProgressCircular indeterminate color="primary" />
-      <p class="mt-4 text-body-2">Loading field metadata...</p>
+      <p class="mt-4 text-body-medium">Loading field metadata...</p>
     </div>
 
     <div v-else-if="draggableFieldKeys.length === 0" class="text-center pa-4">
-      <p class="text-body-2 text-medium-emphasis">
+      <p class="text-body-medium text-medium-emphasis">
         No field metadata found. Fields must be configured in the database.
       </p>
     </div>
@@ -44,10 +44,10 @@
           <VExpansionPanelTitle v-if="fieldKey">
             <div class="d-flex align-center justify-space-between w-100 pr-4">
               <div class="d-flex flex-column">
-                <span class="text-body-1 font-weight-medium">
+                <span class="text-body-large font-weight-medium">
                   {{ getFieldMetadata(fieldKey)?.label || fieldKey }}
                 </span>
-                <span class="text-caption text-medium-emphasis">
+                <span class="text-body-small text-medium-emphasis">
                   {{ getFieldMetadata(fieldKey)?.dataType }} • 
                   {{ getFieldMetadata(fieldKey)?.isRequired ? 'Required' : 'Optional' }}
                 </span>
@@ -65,7 +65,7 @@
                 variant="outlined"
                 v-else
               >
-                {{ hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured' }}
+                {{ fieldVisibilityLabel(fieldKey) }}
               </VChip>
             </div>
           </VExpansionPanelTitle>
@@ -73,7 +73,7 @@
             <div class="d-flex flex-column gap-4 pt-2">
               <!-- Rendering fields (editable) -->
               <div class="d-flex flex-column gap-2">
-                <p class="text-caption font-weight-medium">Rendering Configuration</p>
+                <p class="text-body-small font-weight-medium">Rendering Configuration</p>
                 
                 <!-- Visibility -->
                 <VSelect
@@ -265,6 +265,10 @@ const { draggableFieldKeys, handleDragEnd } = useMetadataFieldOrdering({
 
 function hasMetadataEntry(fieldKey: string): boolean {
   return !!fieldMetadata.value[fieldKey]
+}
+
+function fieldVisibilityLabel(fieldKey: string): string {
+  return hasMetadataEntry(fieldKey) ? (getEffectiveFieldMetadata(fieldKey)?.visibility ?? 'Not Configured') : 'Not Configured'
 }
 
 const { handleSave } = usePrimitiveMetadataSave({

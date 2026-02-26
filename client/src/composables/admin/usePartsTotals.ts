@@ -15,7 +15,6 @@ import type { UsePartsTotalsReturn } from '@/types/admin/partsTotals'
 
 const logger = createLogger('usePartsTotals')
 
-export type { UsePartsTotalsReturn } from '@/types/admin/partsTotals'
 
 export function usePartsTotals(
   entityKey: GlobalEntityKey,

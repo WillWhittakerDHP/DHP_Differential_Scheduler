@@ -14,11 +14,6 @@ import type {
   UseWizardAppointmentManagementReturn,
 } from '@/types/booking/wizardAppointmentManagement'
 
-export type {
-  UseWizardAppointmentManagementOptions,
-  UseWizardAppointmentManagementReturn,
-} from '@/types/booking/wizardAppointmentManagement'
-
 const logger = createLogger('useWizardAppointmentManagement')
 
 function applyWizardState(

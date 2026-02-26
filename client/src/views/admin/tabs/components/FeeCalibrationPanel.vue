@@ -29,7 +29,7 @@ const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
         Fee Calibration
       </VCardTitle>
       <VCardText>
-        <p class="text-body-2 text-medium-emphasis mb-4">
+        <p class="text-body-medium text-medium-emphasis mb-4">
           Total fee vs square footage for each service. Use this to verify and calibrate pricing curves.
         </p>
 
@@ -37,7 +37,7 @@ const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
           <div class="mb-4">
             <div class="d-flex align-center flex-wrap gap-4">
               <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
-                <span class="text-caption">Min sqft</span>
+                <span class="text-body-small">Min sqft</span>
                 <VSlider
                   v-model="sqftMin"
                   :min="0"
@@ -47,10 +47,10 @@ const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
                   density="compact"
                   class="flex-grow-1 fee-cal-slider-input"
                 />
-                <span class="text-caption">{{ sqftMin }}</span>
+                <span class="text-body-small">{{ sqftMin }}</span>
               </div>
               <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
-                <span class="text-caption">Max sqft</span>
+                <span class="text-body-small">Max sqft</span>
                 <VSlider
                   v-model="sqftMax"
                   :min="sqftMin"
@@ -60,10 +60,10 @@ const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
                   density="compact"
                   class="flex-grow-1 fee-cal-slider-input"
                 />
-                <span class="text-caption">{{ sqftMax }}</span>
+                <span class="text-body-small">{{ sqftMax }}</span>
               </div>
               <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
-                <span class="text-caption">Step</span>
+                <span class="text-body-small">Step</span>
                 <VSlider
                   v-model="sqftStep"
                   :min="50"
@@ -73,7 +73,7 @@ const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
                   density="compact"
                   class="flex-grow-1 fee-cal-slider-input"
                 />
-                <span class="text-caption">{{ sqftStep }}</span>
+                <span class="text-body-small">{{ sqftStep }}</span>
               </div>
               <VChip size="small" variant="tonal" color="primary">
                 {{ serviceCount }} service{{ serviceCount !== 1 ? 's' : '' }}
@@ -148,7 +148,7 @@ const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
                   class="legend-swatch"
                   :style="{ backgroundColor: item.color }"
                 />
-                <span class="text-caption">{{ item.label }}</span>
+                <span class="text-body-small">{{ item.label }}</span>
               </div>
             </div>
           </div>

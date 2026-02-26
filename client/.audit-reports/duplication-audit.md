@@ -22,360 +22,228 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+28 more) | 43 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+217 more) | 225 |
-| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+68 more) | 124 |
-| `update*` | `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts`, `server/src/scripts/helpers/calendarImportHelpers.ts` | 3 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+30 more) | 48 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+237 more) | 245 |
+| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+72 more) | 127 |
+| `update*` | `client/src/utils/admin/businessRulesApi.ts`, `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts` (+2 more) | 5 |
 
 ### Repeated String Literals (across multiple files)
 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
 | `started` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/useAppointment.ts`, `server/src/db/models/booking/appointment.ts` | 3 |
-| `confirmed` | `client/src/composables/admin/useInstancesTabEventInstance.ts`, `client/src/types/admin/instancesTabEventInstance.ts`, `client/src/types/entities.ts` (+1 more) | 4 |
+| `confirmed` | `client/src/composables/admin/useInstancesTabEventInstance.ts`, `client/src/types/admin/instancesTabEventInstance.ts`, `client/src/types/entities.ts` (+2 more) | 5 |
 | `held` | `client/src/composables/useAppointment.ts`, `client/src/types/appointmentApi.ts`, `server/src/db/models/booking/appointment.ts` | 7 |
 
 ## Summary
 
-- Files scanned: **673**
-- Groups (window=10 lines, minOccurrences=2): **15**
+- Files scanned: **695**
+- Groups (window=10 lines, minOccurrences=2): **9**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-02e09562fbee` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@40`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@19` |
-| `dup-0399e7cb7a09` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@36`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@15` |
-| `dup-216670b622fd` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@38`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@17` |
-| `dup-24e89764b1f9` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@162`, `client/src/components/admin/PartInstanceBulkEditModal.vue@183` |
-| `dup-2a12de2d7d9a` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@186`, `client/src/composables/admin/useRelationshipCollectionField.ts@188` |
-| `dup-345455ae5c05` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@155`, `client/src/components/admin/PartInstanceBulkEditModal.vue@176` |
-| `dup-434e272ef180` | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@37`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@16` |
-| `dup-5cdea5a5f126` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@23`, `client/src/composables/admin/useRelationshipCollectionField.ts@23` |
-| `dup-911d1500cc08` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@182`, `client/src/composables/admin/useRelationshipCollectionField.ts@184` |
-| `dup-a08a21eabaf1` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@22`, `client/src/composables/admin/useRelationshipCollectionField.ts@22` |
-| `dup-ad8ee8be63f6` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@24`, `client/src/composables/admin/useRelationshipCollectionField.ts@24` |
-| `dup-b36fd2f2d669` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@29`, `client/src/composables/admin/useRelationshipCollectionField.ts@27` |
-| `dup-bbbe20e10e53` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@161`, `client/src/components/admin/PartInstanceBulkEditModal.vue@182` |
-| `dup-f3908ce6488c` | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@166`, `client/src/components/admin/PartInstanceBulkEditModal.vue@187` |
-| `dup-f5dc7d13d6e7` | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@25`, `client/src/composables/admin/useRelationshipCollectionField.ts@25` |
+| `dup-0b2888970ff8` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@4`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@4` |
+| `dup-1799efa6c855` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@5`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@5` |
+| `dup-2b5abdaabd1f` | 2 | 2 | 10 | `client/src/composables/useComponentEntity.ts@49`, `client/src/types/componentEntity/componentEntityDomain.ts@11` |
+| `dup-5234c03c620e` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@7`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@7` |
+| `dup-7b6a154e1df0` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@11`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@11` |
+| `dup-936c6271303e` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@3`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@3` |
+| `dup-c6a1b36e6807` | 2 | 2 | 10 | `client/src/composables/useComponentEntity.ts@51`, `client/src/types/componentEntity/componentEntityDomain.ts@16` |
+| `dup-d4ebc711aeec` | 2 | 2 | 10 | `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts@6`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts@6` |
+| `dup-dac3219ab4d8` | 2 | 2 | 10 | `client/src/composables/useComponentEntity.ts@50`, `client/src/types/componentEntity/componentEntityDomain.ts@15` |
 
 ## Per-group details (top)
 
 LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
 
-### Group `dup-02e09562fbee`
+### Group `dup-0b2888970ff8`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 40-57
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 19-38
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 4-16
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 4-16
 
 ```
-const selectMode = inputConfig.selectMode as string | undefined
-if (selectMode === 'multiple') {
-return 'multiselect'
-if (inputConfig.targetMode === 'relationship') {
-return 'reference'
-if (dataType === 'boolean' || dataType === 'ternary') {
-return 'statusButton'
-if (dataType === 'number') {
-if (dataType === 'array') {
-return 'reference'
+createValidateRequiredFields,
+createValidateRenderAs,
+createValidateInputConfig,
+} from '../shared/metadataValidatorFactory.js'
+validEntityTypes: VALID_ENTITY_TYPES as readonly string[],
+requiredFields: REQUIRED_FIELDS.CREATE_UPDATE,
+errorMessages: ERROR_MESSAGES,
+renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
+missingInputConfigMessage: (renderAs: string) =>
+`inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
 ```
 
-### Group `dup-0399e7cb7a09`
+### Group `dup-1799efa6c855`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 36-51
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 15-32
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 5-19
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 5-19
 
 ```
-const selectType = inputConfig.selectType as string | undefined
-if (selectType === 'partsCollectionSelect') {
-return 'relationshipCollection'
-const selectMode = inputConfig.selectMode as string | undefined
-if (selectMode === 'multiple') {
-return 'multiselect'
-if (inputConfig.targetMode === 'relationship') {
-return 'reference'
-if (dataType === 'boolean' || dataType === 'ternary') {
-return 'statusButton'
+createValidateRenderAs,
+createValidateInputConfig,
+} from '../shared/metadataValidatorFactory.js'
+validEntityTypes: VALID_ENTITY_TYPES as readonly string[],
+requiredFields: REQUIRED_FIELDS.CREATE_UPDATE,
+errorMessages: ERROR_MESSAGES,
+renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
+missingInputConfigMessage: (renderAs: string) =>
+`inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
+export const validateEntityType = createValidateEntityType(config)
 ```
 
-### Group `dup-216670b622fd`
+### Group `dup-2b5abdaabd1f`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 38-56
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 17-37
+- `client/src/composables/useComponentEntity.ts` @ lines 49-58
+- `client/src/types/componentEntity/componentEntityDomain.ts` @ lines 11-23
 
 ```
-return 'relationshipCollection'
-const selectMode = inputConfig.selectMode as string | undefined
-if (selectMode === 'multiple') {
-return 'multiselect'
-if (inputConfig.targetMode === 'relationship') {
-return 'reference'
-if (dataType === 'boolean' || dataType === 'ternary') {
-return 'statusButton'
-if (dataType === 'number') {
-if (dataType === 'array') {
+instanceComponents: ComputedRef<InstanceComponent[]>
+canBeComposed: (blockInstanceId: GlobalEntityId) => boolean
+getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]
+getComponents: (composerId: GlobalEntityId) => InstanceComponent[]
+isComponent: (entityId: GlobalEntityId) => boolean
+getComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null
+getComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null
+calculateDistributionPreview: (
+composerId: GlobalEntityId,
+propertyKey: string,
 ```
 
-### Group `dup-24e89764b1f9`
+### Group `dup-5234c03c620e`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 162-181
-- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 183-202
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 7-21
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 7-21
 
 ```
-Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
-function updateModelValue(value: boolean) {
-emit('update:modelValue', value)
-function handleEntityCardSaved() {
-function handleApply() {
-if (!entityCardRef.value?.form) {
-const bulkEditData = buildBulkEditDataFromForm(
-Object.keys(filteredMetadata.value),
-entityCardRef.value.form.values as Record<string, unknown>
-emit('confirm', bulkEditData)
+} from '../shared/metadataValidatorFactory.js'
+validEntityTypes: VALID_ENTITY_TYPES as readonly string[],
+requiredFields: REQUIRED_FIELDS.CREATE_UPDATE,
+errorMessages: ERROR_MESSAGES,
+renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
+missingInputConfigMessage: (renderAs: string) =>
+`inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
+export const validateEntityType = createValidateEntityType(config)
+export const validateRequiredFields = createValidateRequiredFields(config)
+export const validateRenderAs = createValidateRenderAs(config)!
 ```
 
-### Group `dup-2a12de2d7d9a`
+### Group `dup-7b6a154e1df0`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 186-215
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 188-211
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 11-22
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 11-22
 
 ```
-if (!parentTypeRef.value) {
-if (!parentTypeEntity.value) {
-const validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))
-const hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0
-return hasValidOptions
-const defaultExpanded = computed<boolean | undefined>(() => {
-const meta = fieldMetadataEntry.value
-return (meta as { defaultExpanded?: boolean })?.defaultExpanded
-const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
-if (!parentEntity.value) {
+validEntityTypes: VALID_ENTITY_TYPES as readonly string[],
+requiredFields: REQUIRED_FIELDS.CREATE_UPDATE,
+errorMessages: ERROR_MESSAGES,
+renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
+missingInputConfigMessage: (renderAs: string) =>
+`inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
+export const validateEntityType = createValidateEntityType(config)
+export const validateRequiredFields = createValidateRequiredFields(config)
+export const validateRenderAs = createValidateRenderAs(config)!
+export const validateInputConfig = createValidateInputConfig(config)
 ```
 
-### Group `dup-345455ae5c05`
+### Group `dup-936c6271303e`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 155-178
-- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 176-199
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 3-15
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 3-15
 
 ```
-if (!metadata || Object.keys(metadata).length === 0) {
-return Object.fromEntries(
-Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
-function updateModelValue(value: boolean) {
-emit('update:modelValue', value)
-function handleEntityCardSaved() {
-function handleApply() {
-if (!entityCardRef.value?.form) {
-const bulkEditData = buildBulkEditDataFromForm(
-Object.keys(filteredMetadata.value),
+createValidateEntityType,
+createValidateRequiredFields,
+createValidateRenderAs,
+createValidateInputConfig,
+} from '../shared/metadataValidatorFactory.js'
+validEntityTypes: VALID_ENTITY_TYPES as readonly string[],
+requiredFields: REQUIRED_FIELDS.CREATE_UPDATE,
+errorMessages: ERROR_MESSAGES,
+renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
+missingInputConfigMessage: (renderAs: string) =>
 ```
 
-### Group `dup-434e272ef180`
+### Group `dup-c6a1b36e6807`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/utils/admin/metadataFieldUpdates.ts` @ lines 37-53
-- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts` @ lines 16-34
+- `client/src/composables/useComponentEntity.ts` @ lines 51-61
+- `client/src/types/componentEntity/componentEntityDomain.ts` @ lines 16-26
 
 ```
-if (selectType === 'partsCollectionSelect') {
-return 'relationshipCollection'
-const selectMode = inputConfig.selectMode as string | undefined
-if (selectMode === 'multiple') {
-return 'multiselect'
-if (inputConfig.targetMode === 'relationship') {
-return 'reference'
-if (dataType === 'boolean' || dataType === 'ternary') {
-return 'statusButton'
-if (dataType === 'number') {
+getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]
+getComponents: (composerId: GlobalEntityId) => InstanceComponent[]
+isComponent: (entityId: GlobalEntityId) => boolean
+getComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null
+getComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null
+calculateDistributionPreview: (
+composerId: GlobalEntityId,
+propertyKey: string,
+strategy: DistributionStrategy
+) => DistributionPreview[]
 ```
 
-### Group `dup-5cdea5a5f126`
+### Group `dup-d4ebc711aeec`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 23-49
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 23-45
+- `server/src/routes/internal/admin-metadata/adminMetadataValidators.ts` @ lines 6-20
+- `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts` @ lines 6-20
 
 ```
-GF extends GlobalFieldKey<GE>
->(fieldContext: FieldContextType<GE, GF>) {
-const adminComp = useAdmin()
-const entity = computed<GlobalEntity<GE> | null>(() => {
-const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
-return entityValue ?? null
-const { fieldMetadata } = useEntityMetadata(
-fieldContext.entityKey,
-const fieldMetadataEntry = computed(() => {
-if (!fieldMetadata.value) {
+createValidateInputConfig,
+} from '../shared/metadataValidatorFactory.js'
+validEntityTypes: VALID_ENTITY_TYPES as readonly string[],
+requiredFields: REQUIRED_FIELDS.CREATE_UPDATE,
+errorMessages: ERROR_MESSAGES,
+renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
+missingInputConfigMessage: (renderAs: string) =>
+`inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,
+export const validateEntityType = createValidateEntityType(config)
+export const validateRequiredFields = createValidateRequiredFields(config)
 ```
 
-### Group `dup-911d1500cc08`
+### Group `dup-dac3219ab4d8`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 182-213
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 184-209
+- `client/src/composables/useComponentEntity.ts` @ lines 50-60
+- `client/src/types/componentEntity/componentEntityDomain.ts` @ lines 15-25
 
 ```
-if (!parentEntity.value || !parentTypeProperty.value) {
-if (!parentTypeRef.value) {
-if (!parentTypeEntity.value) {
-const validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))
-const hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0
-return hasValidOptions
-const defaultExpanded = computed<boolean | undefined>(() => {
-const meta = fieldMetadataEntry.value
-return (meta as { defaultExpanded?: boolean })?.defaultExpanded
-const getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {
-```
-
-### Group `dup-a08a21eabaf1`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 22-48
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 22-44
-
-```
-GE extends GlobalEntityKey,
-GF extends GlobalFieldKey<GE>
->(fieldContext: FieldContextType<GE, GF>) {
-const adminComp = useAdmin()
-const entity = computed<GlobalEntity<GE> | null>(() => {
-const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
-return entityValue ?? null
-const { fieldMetadata } = useEntityMetadata(
-fieldContext.entityKey,
-const fieldMetadataEntry = computed(() => {
-```
-
-### Group `dup-ad8ee8be63f6`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 24-52
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 24-48
-
-```
->(fieldContext: FieldContextType<GE, GF>) {
-const adminComp = useAdmin()
-const entity = computed<GlobalEntity<GE> | null>(() => {
-const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
-return entityValue ?? null
-const { fieldMetadata } = useEntityMetadata(
-fieldContext.entityKey,
-const fieldMetadataEntry = computed(() => {
-if (!fieldMetadata.value) {
-return fieldMetadata.value[String(fieldContext.fieldKey)]
-```
-
-### Group `dup-b36fd2f2d669`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 29-59
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 27-55
-
-```
-const entity = computed<GlobalEntity<GE> | null>(() => {
-const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
-return entityValue ?? null
-const { fieldMetadata } = useEntityMetadata(
-fieldContext.entityKey,
-const fieldMetadataEntry = computed(() => {
-if (!fieldMetadata.value) {
-return fieldMetadata.value[String(fieldContext.fieldKey)]
-const selectConfig = computed<RelationshipFieldType<GE>>(() => {
-const meta = fieldMetadataEntry.value
-```
-
-### Group `dup-bbbe20e10e53`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 161-179
-- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 182-200
-
-```
-return Object.fromEntries(
-Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
-function updateModelValue(value: boolean) {
-emit('update:modelValue', value)
-function handleEntityCardSaved() {
-function handleApply() {
-if (!entityCardRef.value?.form) {
-const bulkEditData = buildBulkEditDataFromForm(
-Object.keys(filteredMetadata.value),
-entityCardRef.value.form.values as Record<string, unknown>
-```
-
-### Group `dup-f3908ce6488c`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/components/admin/InstanceBulkEditModal.vue` @ lines 166-182
-- `client/src/components/admin/PartInstanceBulkEditModal.vue` @ lines 187-203
-
-```
-function updateModelValue(value: boolean) {
-emit('update:modelValue', value)
-function handleEntityCardSaved() {
-function handleApply() {
-if (!entityCardRef.value?.form) {
-const bulkEditData = buildBulkEditDataFromForm(
-Object.keys(filteredMetadata.value),
-entityCardRef.value.form.values as Record<string, unknown>
-emit('confirm', bulkEditData)
-updateModelValue(false)
-```
-
-### Group `dup-f5dc7d13d6e7`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/usePartsCollectionField.ts` @ lines 25-58
-- `client/src/composables/admin/useRelationshipCollectionField.ts` @ lines 25-54
-
-```
-const adminComp = useAdmin()
-const entity = computed<GlobalEntity<GE> | null>(() => {
-const entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
-return entityValue ?? null
-const { fieldMetadata } = useEntityMetadata(
-fieldContext.entityKey,
-const fieldMetadataEntry = computed(() => {
-if (!fieldMetadata.value) {
-return fieldMetadata.value[String(fieldContext.fieldKey)]
-const selectConfig = computed<RelationshipFieldType<GE>>(() => {
+canBeComposed: (blockInstanceId: GlobalEntityId) => boolean
+getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]
+getComponents: (composerId: GlobalEntityId) => InstanceComponent[]
+isComponent: (entityId: GlobalEntityId) => boolean
+getComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null
+getComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null
+calculateDistributionPreview: (
+composerId: GlobalEntityId,
+propertyKey: string,
+strategy: DistributionStrategy
 ```

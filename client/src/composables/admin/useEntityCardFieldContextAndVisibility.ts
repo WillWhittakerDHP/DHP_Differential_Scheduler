@@ -7,11 +7,16 @@ import { useFieldContextManager } from '@/composables/admin/useFieldContextManag
 import { useConditionalFieldVisibility } from '@/composables/admin/useConditionalFieldVisibility'
 import type { UseEntityCardFieldContextAndVisibilityParams } from '@/types/admin/entityCardFieldContextAndVisibility'
 
-export type { UseEntityCardFieldContextAndVisibilityParams } from '@/types/admin/entityCardFieldContextAndVisibility'
+
+export interface UseEntityCardFieldContextAndVisibilityReturn {
+  getFieldContext: ReturnType<typeof useFieldContextManager>['getFieldContext']
+  fieldsMissingContexts: ReturnType<typeof useFieldContextManager>['fieldsMissingContexts']
+  filteredFieldsByLocation: ReturnType<typeof useConditionalFieldVisibility>['filteredFieldsByLocation']
+}
 
 export function useEntityCardFieldContextAndVisibility(
   params: UseEntityCardFieldContextAndVisibilityParams
-) {
+): UseEntityCardFieldContextAndVisibilityReturn {
   const {
     formFields,
     fieldLocation,

@@ -1,8 +1,11 @@
-import { computed, ref, toRaw, type Ref } from 'vue'
+import type { AxiosError } from 'axios'
+import { computed, ref, toRaw } from 'vue'
 import { useField, useForm, type FieldOptions } from 'vee-validate'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
+import { NULL_UUID } from '@shared/constants/globalConfigIds'
+import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
@@ -10,24 +13,33 @@ import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutat
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { createLogger } from '@/utils/logger'
 import { asEmptyObject, asEmptyString } from '@/utils/safeDefaults'
-
-const logger = createLogger('useFieldContextState')
+import { getEntityByIdEndpoint } from '@/utils/api'
+import apiClient from '@/utils/api'
+import {
+  saveComponentEntityField,
+  saveRelationshipField,
+  saveRegularField
+} from '@/utils/fieldContext/fieldContextSaveHelpers'
 import { useComponentEntity } from '@/composables/useComponentEntity'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'
-import type { UseFieldContextStateOptions, UseFieldContextStateReturn } from '@/types/fieldContext/fieldContextState'
+import type {
+  UseFieldContextStateOptions,
+  UseFieldContextStateReturn,
+  UseFieldContextStateReturnGrouped,
+} from '@/types/fieldContext/fieldContextState'
 
-export type { UseFieldContextStateOptions, UseFieldContextStateReturn } from '@/types/fieldContext/fieldContextState'
+const logger = createLogger('useFieldContextState')
 
 /**
- * WHY: State module for `useFieldContext`
+ * WHY: State + actions module for `useFieldContext` (single field context core).
  */
 export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   fieldKey: FieldKey,
   entityKey: GE,
   entityId: GlobalEntityId,
   options?: UseFieldContextStateOptions<GE, FieldKey>
-): UseFieldContextStateReturn<GE, FieldKey> {
+): UseFieldContextStateReturnGrouped<GE, FieldKey> {
   const resolvedOptions = asEmptyObject(options as Record<string, unknown> | null | undefined) as UseFieldContextStateOptions<GE, FieldKey>
   const {
     form,
@@ -87,7 +99,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     }
 
     if (composedEntityComposable) {
-      const components = composedEntityComposable.getComponents(entityId)
+      const components = composedEntityComposable.data.getComponents(entityId)
       return components.map((ea) => ea.childId)
     }
 
@@ -100,7 +112,8 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     const propertyName = actualPropertyName.value
     if (Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
       const propValue = (currentEntity as Record<string, unknown>)[propertyName]
-      return asEmptyString(propValue as string | null | undefined) as ValidAdminValue
+      if (propValue == null) return '' as ValidAdminValue
+      return asEmptyString(propValue as string) as ValidAdminValue
     }
     return ''
   })
@@ -186,7 +199,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   if (!hasProvidedLabel || !hasProvidedFieldType) {
     const error = new Error(
       `[useFieldContextState] Missing required displayConfig for ${String(entityKey)}.${String(fieldKey)}. ` +
-      `Expected label and fieldType from metadata. Field must be configured in /admin-input-metadata.`
+      `Expected label and fieldType from metadata. Field must be configured in /admin-metadata.`
     )
     logger.error('Missing required displayConfig', { entityKey, fieldKey, error })
     throw error
@@ -216,10 +229,129 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
 
   const toPlainValue = (raw: unknown): unknown => toRaw(raw)
 
-  //      Form-level syncing in EntityCard handles all field updates using Vee-Validate's built-in API
-  // PATTERN: Let form manage all field syncing, fields just react to form state
+  // PATTERN: Actions (merged from useFieldContextActions) close over state
+  const setFocus = (focused: boolean): void => {
+    isFocused.value = focused
+  }
 
-  return {
+  const validate = async (): Promise<boolean> => {
+    isValidating.value = true
+    try {
+      await validateField()
+      return isValid.value
+    } finally {
+      isValidating.value = false
+    }
+  }
+
+  const clearError = (): void => {
+    handleChange(value.value)
+  }
+
+  const save = async (): Promise<void> => {
+    if (!isDirty.value) {
+      return
+    }
+
+    const entityIdString = String(entityId)
+    const isTempEntityId = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
+    const isPlaceholderEntity = entityIdString === NULL_UUID
+
+    if (isTempEntityId || isPlaceholderEntity) {
+      return
+    }
+
+    const currentEntity = entity.value as { id?: string; name?: string; entityKey?: string } | undefined
+
+    try {
+      const verifyEndpoint = getEntityByIdEndpoint(entityKey, entityIdString)
+      await apiClient.get(verifyEndpoint)
+    } catch (verifyError: unknown) {
+      logger.error('Entity verify failed', { error: verifyError })
+      const axiosError = verifyError as AxiosError<{ error?: string; id?: string }>
+
+      if (axiosError.response?.status === 404) {
+        queryClient.invalidateQueries({ queryKey: [entityKey] })
+        queryClient.invalidateQueries({ queryKey: ['globalData'] })
+        throw new Error(
+          `Entity ${entityKey} with ID ${entityId} does not exist on server. Cache will be refreshed.`
+        )
+      }
+      throw axiosError
+    }
+
+    if (!currentEntity) {
+      const errorMessage = `Cannot save field ${String(fieldKey)}: Entity ${entityKey} with ID ${entityId} not found in store`
+      throw new Error(errorMessage)
+    }
+
+    if (!entityIdString || entityIdString.trim() === '') {
+      const errorMessage = `Invalid entity ID: ${entityIdString}`
+      throw new Error(errorMessage)
+    }
+
+    try {
+      const isValidResult = await validate()
+      if (!isValidResult) {
+        throw new Error(`Validation failed for field ${String(fieldKey)}`)
+      }
+
+      const fieldKeyString = String(fieldKey)
+
+      if (composedEntityComposable) {
+        await saveComponentEntityField({
+          state: stateForSaveHelpers,
+          currentEntity
+        })
+        return
+      }
+
+      const isRelationshipField = fieldKeyString in RELATIONSHIP_KEYS
+
+      if (isRelationshipField) {
+        await saveRelationshipField({
+          state: stateForSaveHelpers,
+          currentEntity,
+          fieldKeyString,
+          queryClient
+        })
+      } else {
+        await saveRegularField({
+          state: stateForSaveHelpers,
+          queryClient
+        })
+      }
+    } catch (error) {
+      logger.error('Field context save failed', { error })
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      const is404Error = errorMessage.includes('404') || errorMessage.includes('not found')
+
+      if (is404Error) {
+        queryClient.invalidateQueries({ queryKey: [entityKey] })
+        queryClient.invalidateQueries({ queryKey: ['globalData'] })
+
+        const originalValue = entityValue.value
+        handleChange(originalValue)
+
+        throw new Error(`This ${entityKey} was deleted or no longer exists. The page will refresh automatically.`)
+      }
+      throw error
+    }
+  }
+
+  const reset = (): void => {
+    const currentEntityValue = entityValue.value
+    handleChange(currentEntityValue)
+  }
+
+  const getValue = (): ValidAdminValue => value.value
+
+  const setValueAction = (newValue: ValidAdminValue): void => {
+    setFieldValue(newValue)
+  }
+
+  // Snapshot for save helpers (they expect UseFieldContextStateReturn shape)
+  const stateForSaveHelpers: UseFieldContextStateReturn<GE, FieldKey> = {
     fieldKey,
     entityKey,
     entityId,
@@ -229,7 +361,7 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     entityValue,
     composedEntityComposable,
     formInstance,
-    value: value as Ref<ValidAdminValue>,
+    value,
     error,
     isValid,
     isDirty,
@@ -245,6 +377,17 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     patchFieldAsync,
     toPlainValue,
   }
+
+  return {
+    state: stateForSaveHelpers,
+    actions: {
+      setFocus,
+      validate,
+      clearError,
+      save,
+      reset,
+      getValue,
+      setValue: setValueAction,
+    },
+  }
 }
-
-

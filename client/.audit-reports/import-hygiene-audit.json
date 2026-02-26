@@ -1,94 +1,12 @@
 {
-  "generatedAt": "2026-02-25T01:17:52.584Z",
-  "totalScanned": 1031,
+  "generatedAt": "2026-02-25T14:24:11.456Z",
+  "totalScanned": 1040,
   "barrelCount": 13,
   "barrelBypass": [],
   "inconsistentPaths": [],
   "duplicateReexports": [],
   "typeValueReexport": [],
   "relativeWhenAlias": [],
-  "inlineTypeImport": [
-    {
-      "file": "client/src/components/admin/BlockInstanceCreateModal.vue",
-      "ruleId": "inline-type-import",
-      "lineNumber": 32,
-      "specifier": "vue",
-      "snippet": "entityCardRef: entityCardRef as import('vue').Ref<{ handleSave: () => Promise<vo…"
-    },
-    {
-      "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "ruleId": "inline-type-import",
-      "lineNumber": 95,
-      "specifier": "@shared/types/primitiveBrands",
-      "snippet": "startTime: slot.time as import('@shared/types/primitiveBrands').RFC3339DateTime,"
-    },
-    {
-      "file": "client/src/types/admin/entityCardMetadata.ts",
-      "ruleId": "inline-type-import",
-      "lineNumber": 15,
-      "specifier": "@/composables/admin/useEntityMetadata",
-      "snippet": "fetchedMetadata: ReturnType<typeof import('@/composables/admin/useEntityMetadata…"
-    },
-    {
-      "file": "client/src/types/componentEntity/componentEntityQuery.ts",
-      "ruleId": "inline-type-import",
-      "lineNumber": 6,
-      "specifier": "@/composables/useGlobal",
-      "snippet": "getGlobalData: ReturnType<typeof import('@/composables/useGlobal').useGlobal>['g…"
-    },
-    {
-      "file": "client/src/types/selectOptions.ts",
-      "ruleId": "inline-type-import",
-      "lineNumber": 27,
-      "specifier": "@/composables/admin/useAdmin",
-      "snippet": "adminComp?: ReturnType<typeof import('@/composables/admin/useAdmin').useAdmin>"
-    }
-  ],
-  "files": [
-    {
-      "file": "client/src/components/admin/BlockInstanceCreateModal.vue",
-      "priority": "P2",
-      "score": 1,
-      "barrelBypass": 0,
-      "relativeWhenAlias": 0,
-      "typeValueReexport": 0,
-      "inlineTypeImport": 1
-    },
-    {
-      "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "priority": "P2",
-      "score": 1,
-      "barrelBypass": 0,
-      "relativeWhenAlias": 0,
-      "typeValueReexport": 0,
-      "inlineTypeImport": 1
-    },
-    {
-      "file": "client/src/types/admin/entityCardMetadata.ts",
-      "priority": "P2",
-      "score": 1,
-      "barrelBypass": 0,
-      "relativeWhenAlias": 0,
-      "typeValueReexport": 0,
-      "inlineTypeImport": 1
-    },
-    {
-      "file": "client/src/types/componentEntity/componentEntityQuery.ts",
-      "priority": "P2",
-      "score": 1,
-      "barrelBypass": 0,
-      "relativeWhenAlias": 0,
-      "typeValueReexport": 0,
-      "inlineTypeImport": 1
-    },
-    {
-      "file": "client/src/types/selectOptions.ts",
-      "priority": "P2",
-      "score": 1,
-      "barrelBypass": 0,
-      "relativeWhenAlias": 0,
-      "typeValueReexport": 0,
-      "inlineTypeImport": 1
-    }
-  ]
+  "inlineTypeImport": [],
+  "files": []
 }

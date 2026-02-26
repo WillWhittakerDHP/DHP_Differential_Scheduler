@@ -5,7 +5,6 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { getContentWidth } from '@/utils/dom/elementMeasure'
 import type { UseElementDimensionsOptions, UseElementDimensionsReturn } from '@/types/booking/elementDimensions'
 
-export type { UseElementDimensionsOptions, UseElementDimensionsReturn } from '@/types/booking/elementDimensions'
 
 /**
  * WHY: Element Dimensions Composable

@@ -8,7 +8,6 @@ import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseEntityFilteringReturn } from '@/types/admin/entityFiltering'
 
-export type { UseEntityFilteringReturn } from '@/types/admin/entityFiltering'
 
 /**
  * WHY: useEntityFiltering composable

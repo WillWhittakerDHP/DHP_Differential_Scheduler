@@ -4,7 +4,7 @@
 WHY: Moves selection handling, nest...
  */
 import { watch } from 'vue'
-import { isNestedComponentsClick, toggleSelectionModelValue, updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
+import { isNestedComponentsClick, updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
 import type { UseSelectionCardHandlersParams, UseSelectionCardHandlersReturn } from '@/types/booking/selectionCard/selectionCardHandlers'
 
 export type { UseSelectionCardHandlersParams, UseSelectionCardHandlersReturn } from '@/types/booking/selectionCard/selectionCardHandlers'
@@ -17,7 +17,7 @@ WHY: Extracts handler logic from co...
 export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams): UseSelectionCardHandlersReturn {
   const {
     item,
-    modelValue,
+    modelValue: _modelValue,
     nestedChildSelections,
     activeStatePlugin,
     isSelected,
@@ -36,25 +36,13 @@ export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams)
   }
 
   /**
-   * PATTERN: Use state plugin to update selection state, fallback to emit
+   * PATTERN: Use state plugin to update selection state
    */
   const handleSelection = (): void => {
     const plugin = activeStatePlugin.value
-    if (plugin) {
-      const newValue = !isSelected.value
-      plugin.setValue(item.value, newValue)
-      return
-    }
-    
-    // Fallback to emit for backward compatibility
-    emit(
-      'update:modelValue',
-      toggleSelectionModelValue({
-        itemId: item.value.id,
-        modelValue: modelValue.value,
-        isSelected: isSelected.value,
-      })
-    )
+    if (!plugin) return
+    const newValue = !isSelected.value
+    plugin.setValue(item.value, newValue)
   }
 
   const handleNestedChildUpdate = (childId: string, selected: boolean): void => {

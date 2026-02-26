@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 
 defineProps<Props>()
 
-const availabilityOptionsConfig = {
+const availabilityOptionsConfig: SelectionCardConfig = {
   selectionType: 'radio',
   selectionComponent: 'VRadio',
   selectionGroup: 'none',
@@ -30,11 +31,15 @@ const availabilityOptionsConfig = {
 const emit = defineEmits<{
   'update:selectedOptionTypeBlockId': [value: string | null]
 }>()
+
+function handleSelectedOptionTypeUpdate(value: string | string[] | null): void {
+  emit('update:selectedOptionTypeBlockId', Array.isArray(value) ? (value[0] ?? null) : value)
+}
 </script>
 
 <template>
   <div v-if="hasSelectedServices" class="availability-options-section">
-    <h5 class="text-h5 mb-4 mb-sm-6">Availability Options</h5>
+    <h5 class="text-headline-medium mb-4 mb-sm-6">Availability Options</h5>
 
     <VAlert
       v-if="cascadeError"
@@ -47,7 +52,7 @@ const emit = defineEmits<{
 
     <div
       v-else-if="availableOptionTypeBlocks.length === 0"
-      class="text-body-1 text-medium-emphasis py-4"
+      class="text-body-large text-medium-emphasis py-4"
     >
       No availability options available for selected service.
     </div>
@@ -58,7 +63,7 @@ const emit = defineEmits<{
       :items="availableOptionTypeBlocks"
       :config="availabilityOptionsConfig"
       class="availability-cards"
-      @update:model-value="emit('update:selectedOptionTypeBlockId', Array.isArray($event) ? ($event[0] ?? null) : $event)"
+      @update:model-value="handleSelectedOptionTypeUpdate"
     />
   </div>
 </template>
@@ -76,5 +81,27 @@ const emit = defineEmits<{
 
 .availability-cards {
   margin-bottom: 1rem;
+
+  /* Card text smaller than section title (headline-medium) */
+  :deep(.selection-card-content h6),
+  :deep(.text-headline-small) {
+    font-size: 0.9375rem; /* 15px – reasonably less than headline-medium */
+    font-weight: 500;
+  }
+
+  /* Cards shrink to content height (no extra min-height or padding) */
+  :deep(.selection-card-wrapper) {
+    min-height: 0;
+  }
+  :deep(.selection-card),
+  :deep(.selection-card-bordered) {
+    min-height: 0 !important;
+    padding: 0.5rem 0.75rem !important; /* Tighter than pa-3 to match smaller text */
+    align-items: center;
+    justify-content: flex-start;
+  }
+  :deep(.content-container) {
+    padding: 0;
+  }
 }
 </style>

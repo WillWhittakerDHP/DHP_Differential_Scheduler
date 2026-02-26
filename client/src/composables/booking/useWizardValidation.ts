@@ -9,12 +9,6 @@ import type {
   UseWizardValidationReturn,
 } from '@/types/booking/wizardValidation'
 
-export type {
-  StepValidator,
-  UseWizardValidationParams,
-  UseWizardValidationReturn,
-} from '@/types/booking/wizardValidation'
-
 export function useWizardValidation(params: UseWizardValidationParams): UseWizardValidationReturn {
   const { stepValidators } = params
   
@@ -37,4 +31,3 @@ export function useWizardValidation(params: UseWizardValidationParams): UseWizar
 
   return { validateStep }
 }
-

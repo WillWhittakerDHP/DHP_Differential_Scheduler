@@ -9,11 +9,6 @@ import type {
   UseWizardStepValidationReturn,
 } from '@/types/booking/wizardStepValidation'
 
-export type {
-  UseWizardStepValidationParams,
-  UseWizardStepValidationReturn,
-} from '@/types/booking/wizardStepValidation'
-
 export function useWizardStepValidation(
   params: UseWizardStepValidationParams
 ): UseWizardStepValidationReturn {

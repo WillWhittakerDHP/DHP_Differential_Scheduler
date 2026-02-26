@@ -11,7 +11,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">Confirm Property Details</span>
+        <span class="text-headline-medium">Confirm Property Details</span>
         <VBtn
           icon
           variant="text"
@@ -27,7 +27,7 @@
         <!-- PATTERN: VList with property details -->
         <VList>
           <!-- Property Type -->
-          <VListSubheader class="text-h6 mb-2">Property Type</VListSubheader>
+          <VListSubheader class="text-headline-small mb-2">Property Type</VListSubheader>
           <VListItem v-if="selectedPropertyTypes.length > 0">
             <VListItemTitle>
               {{ propertyTypesLabel }}
@@ -40,7 +40,7 @@
           <VDivider class="my-4" />
 
           <!-- Location -->
-          <VListSubheader class="text-h6 mb-2">Location</VListSubheader>
+          <VListSubheader class="text-headline-small mb-2">Location</VListSubheader>
           <VListItem>
             <VListItemTitle>
               {{ fullAddress }}
@@ -50,7 +50,7 @@
           <VDivider class="my-4" />
 
           <!-- Property Details -->
-          <VListSubheader class="text-h6 mb-2">Details</VListSubheader>
+          <VListSubheader class="text-headline-small mb-2">Details</VListSubheader>
           <VListItem v-if="propertyDetails.propertySize">
             <VListItemTitle>
               Size: {{ propertyDetails.propertySize }} sq-ft

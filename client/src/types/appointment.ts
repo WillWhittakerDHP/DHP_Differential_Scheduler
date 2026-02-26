@@ -39,7 +39,7 @@ export interface SlotShape {
 
 export interface AppointmentShape {
   finalizedBlocks: BlockFinal[]  // New: source of truth - finalized blocks
-  finalizedParts: PartFinal[]    // Derived from finalizedBlocks for backward compatibility
+  finalizedParts: PartFinal[]    // Derived from finalizedBlocks
   
   slotShape: SlotShape
   

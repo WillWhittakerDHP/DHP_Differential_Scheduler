@@ -15,9 +15,8 @@ import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { MetadataCache, MetadataEntityType } from '@/types/admin/metadataCache'
 
-export type { MetadataCache, UseMetadataCacheReturn } from '@/types/admin/metadataCache'
 
-let metadataCacheInstance: ReturnType<typeof createMetadataCacheInstance> | null = null
+let metadataCacheInstance: UseMetadataCacheReturn | null = null
 
 async function fetchAllAdminMetadata(): Promise<MetadataCache> {
   const endpoint = getAdminMetadataBatchEndpoint()
@@ -25,7 +24,7 @@ async function fetchAllAdminMetadata(): Promise<MetadataCache> {
   return response.data
 }
 
-function createMetadataCacheInstance() {
+function createMetadataCacheInstance(): UseMetadataCacheReturn {
   const queryClient = useQueryClient()
   
   // PATTERN: Use ref for reactive flag, computed for enabled state
@@ -125,11 +124,11 @@ LEARNING: Computed property for reactive...
  * WHY: Metadata cache composable
 WHY: Centralizes metadata caching logic with s...
  */
-export function useMetadataCache() {
+export function useMetadataCache(): UseMetadataCacheReturn {
   if (!metadataCacheInstance) {
     metadataCacheInstance = createMetadataCacheInstance()
   }
-  
+
   return metadataCacheInstance
 }
 

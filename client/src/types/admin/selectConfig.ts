@@ -2,11 +2,11 @@ import type { ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { SelectOption } from '@/composables/useSelectOptions'
 
 export interface UseSelectConfigOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
 }
 
 export interface UseSelectConfigReturn {

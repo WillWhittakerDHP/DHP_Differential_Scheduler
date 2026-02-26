@@ -2,13 +2,14 @@
  * PATTERN: Composable for managing dev mode state and handlers; provides shared DevPanelButtonsContext (audit: duplication).
  */
 import { ref, provide, inject } from 'vue'
+import type { Ref } from 'vue'
 import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
 import type {
   UseWizardDevModeOptions,
   UseWizardDevModeReturn,
 } from '@/types/booking/wizardDevMode'
+import { resetMocksSignalKey } from '@/composables/booking/injectionKeys'
 
-export type { UseWizardDevModeOptions, UseWizardDevModeReturn } from '@/types/booking/wizardDevMode'
 
 export function useWizardDevMode(
   options: UseWizardDevModeOptions
@@ -29,7 +30,7 @@ export function useWizardDevMode(
 
   // PATTERN: Incrementing ref that AvailabilityStep watches
   const resetMocksSignal = ref(0)
-  provide('resetMocksSignal', resetMocksSignal)
+  provide(resetMocksSignalKey, resetMocksSignal)
 
   const handleResetMocks = (): void => {
     resetMocksSignal.value++

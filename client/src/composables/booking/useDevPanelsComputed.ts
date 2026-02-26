@@ -19,14 +19,6 @@ import type {
   UseDevPanelsComputedReturn,
 } from '@/types/booking/devPanelsComputed'
 
-export type {
-  DevPanelsComputedData,
-  ServiceSummary,
-  TimeSlotResults,
-  UseDevPanelsComputedOptions,
-  UseDevPanelsComputedReturn,
-} from '@/types/booking/devPanelsComputed'
-
 export function useDevPanelsComputed(
   options: UseDevPanelsComputedOptions
 ): UseDevPanelsComputedReturn {

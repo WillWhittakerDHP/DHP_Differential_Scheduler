@@ -1,9 +1,33 @@
 import { computed, type Ref } from 'vue'
 import type { ValidationRule, ValidationResult } from '@/types/formValidation'
+import { createLogger } from '@/utils/logger'
 
-export type { ValidationRule, ValidationResult } from '@/types/formValidation'
+const logger = createLogger('useFormValidation')
 
-export function useFormValidation() {
+
+export interface UseFormValidationReturn {
+  required: (message?: string) => ValidationRule
+  email: (message?: string) => ValidationRule
+  phone: (message?: string) => ValidationRule
+  minLength: (min: number, message?: string) => ValidationRule
+  maxLength: (max: number, message?: string) => ValidationRule
+  min: (minValue: number, message?: string) => ValidationRule
+  max: (maxValue: number, message?: string) => ValidationRule
+  zipCode: (message?: string) => ValidationRule
+  dateNotInPast: (message?: string) => ValidationRule
+  custom: (validator: (value: unknown) => boolean, message: string) => ValidationRule
+  combine: (...rules: ValidationRule[]) => ValidationRule[]
+  validateForm: (
+    data: Record<string, unknown>,
+    rules: Record<string, ValidationRule[]>
+  ) => ValidationResult
+  useFormValidity: (
+    formData: Ref<Record<string, unknown>>,
+    rules: Record<string, ValidationRule[]>
+  ) => ComputedRef<boolean>
+}
+
+export function useFormValidation(): UseFormValidationReturn {
   /**
    * Required field validation rule
    */
@@ -135,7 +159,8 @@ LEARNING: Validates US z...
             return message // Invalid date numbers
           }
           selectedDate = new Date(year, month - 1, day) // Local timezone, midnight
-        } catch {
+        } catch (err) {
+          logger.warn('dateNotInPast parse failed', { value, error: err })
           return message // Error parsing date
         }
       } else {

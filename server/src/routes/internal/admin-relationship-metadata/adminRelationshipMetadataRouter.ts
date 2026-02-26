@@ -2,7 +2,6 @@
  * Admin Relationship Metadata Router - Main Orchestrator
  * 
  * NOTE: Supports inheritance - instance entities inherit from shapes
- * NOTE: This is a legacy router maintained for backward compatibility
  */
 
 import { Router } from 'express'

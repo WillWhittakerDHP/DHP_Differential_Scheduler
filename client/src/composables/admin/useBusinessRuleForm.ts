@@ -1,14 +1,29 @@
 /**
+import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
  * WHY: Business Rule Form composable
 WHY: Extracts form state, rule-type config...
  */
 import { ref, computed, watch, type Ref } from 'vue'
-import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { RULE_CONDITION_VALUES, RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 
-export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {
+export interface UseBusinessRuleFormReturn {
+  formData: Ref<BusinessRuleFormData>
+  editingRule: Ref<BusinessRule | null>
+  showRuleDialog: Ref<boolean>
+  ruleTypeOptions: typeof RULE_TYPE_OPTIONS
+  requiredFieldsArray: import('vue').ComputedRef<string>
+  requiredFieldsCondition: import('vue').ComputedRef<string>
+  requiresAgent: import('vue').ComputedRef<boolean>
+  openCreateDialog: () => void
+  openEditDialog: (rule: BusinessRule) => void
+  closeDialog: () => void
+  formatRuleType: (ruleType: RuleType) => string
+  formatRuleConfig: (rule: BusinessRule) => string
+}
+
+export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>): UseBusinessRuleFormReturn {
   const showRuleDialog = ref(false)
   const editingRule: Ref<BusinessRule | null> = ref(null)
 

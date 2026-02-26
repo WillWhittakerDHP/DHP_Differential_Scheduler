@@ -43,8 +43,8 @@ function panelTitle(entry: { email: string; label?: string }, index: number): st
 
 <template>
   <div class="mb-6">
-    <div class="text-subtitle-1 mb-3">{{ UI_STRINGS.calendar.integrationTitle }}</div>
-    <div class="text-body-2 mb-4 text-medium-emphasis">
+    <div class="text-body-large mb-3">{{ UI_STRINGS.calendar.integrationTitle }}</div>
+    <div class="text-body-medium mb-4 text-medium-emphasis">
       {{ UI_STRINGS.calendar.integrationDescription }}
     </div>
 
@@ -71,8 +71,8 @@ function panelTitle(entry: { email: string; label?: string }, index: number): st
     <div v-if="calendarEnabled && calendarProvider !== 'none'" class="mt-6">
       <div class="d-flex justify-space-between align-center mb-3">
         <div>
-          <div class="text-subtitle-2">{{ UI_STRINGS.calendar.calendarsTitle }}</div>
-          <div class="text-body-2 text-medium-emphasis">
+          <div class="text-label-large">{{ UI_STRINGS.calendar.calendarsTitle }}</div>
+          <div class="text-body-medium text-medium-emphasis">
             {{ UI_STRINGS.calendar.calendarsDescription }}
           </div>
         </div>
@@ -87,7 +87,7 @@ function panelTitle(entry: { email: string; label?: string }, index: number): st
         </VBtn>
       </div>
 
-      <div v-if="calendarEntries.length === 0" class="text-body-2 text-medium-emphasis mb-4">
+      <div v-if="calendarEntries.length === 0" class="text-body-medium text-medium-emphasis mb-4">
         {{ UI_STRINGS.calendar.noCalendars }}
       </div>
 
@@ -181,7 +181,7 @@ function panelTitle(entry: { email: string; label?: string }, index: number): st
                     <VIcon size="small">mdi-calendar-plus</VIcon>
                   </template>
                 </VCheckbox>
-                <div class="text-caption text-medium-emphasis mt-1">
+                <div class="text-body-small text-medium-emphasis mt-1">
                   {{ UI_STRINGS.calendar.writeToOnlyOne }}
                 </div>
               </VCol>
@@ -207,13 +207,13 @@ function panelTitle(entry: { email: string; label?: string }, index: number): st
       variant="tonal"
       class="mt-4"
     >
-      <div class="text-body-2">
+      <div class="text-body-medium">
         <strong>{{ UI_STRINGS.calendar.authRequired }}</strong>
         {{ UI_STRINGS.calendar.authAfterSave }}
         {{ calendarProvider === 'google' ? 'Google' : 'Microsoft' }}
         {{ UI_STRINGS.calendar.authToAllow }}
       </div>
-      <div class="text-caption mt-1">
+      <div class="text-body-small mt-1">
         {{ UI_STRINGS.calendar.authPrivacy }}
       </div>
     </VAlert>
@@ -224,7 +224,7 @@ function panelTitle(entry: { email: string; label?: string }, index: number): st
       variant="tonal"
       class="mt-4"
     >
-      <div class="text-body-2">
+      <div class="text-body-medium">
         {{ UI_STRINGS.calendar.disabledHint }}
       </div>
     </VAlert>

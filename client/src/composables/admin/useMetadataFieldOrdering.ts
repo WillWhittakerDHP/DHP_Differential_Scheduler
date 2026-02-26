@@ -10,7 +10,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { asEmptyObject } from '@/utils/safeDefaults'
 import type { UseMetadataFieldOrderingOptions, UseMetadataFieldOrderingReturn } from '@/types/admin/metadataFieldOrdering'
 
-export type { UseMetadataFieldOrderingOptions, UseMetadataFieldOrderingReturn } from '@/types/admin/metadataFieldOrdering'
 
 export function useMetadataFieldOrdering(
   options: UseMetadataFieldOrderingOptions

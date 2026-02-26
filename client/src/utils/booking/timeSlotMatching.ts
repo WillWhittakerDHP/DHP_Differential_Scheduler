@@ -1,10 +1,13 @@
 /**
  * PATTERN: Pure time-slot matching (no Vue). Used by useTimeSlotMatching for ref wiring.
  */
-import type { TimeSlot } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import { rfc3339ToLocalHHmm } from '@/utils/time/localTime'
+import type { TimeSlot } from '@/types/appointment'
 import type { LoadedTimeSlot, MatchLoadedTimeSlotsResult } from '@/types/booking/timeSlotMatching'
+import { createLogger } from '@/utils/logger'
+import { rfc3339ToLocalHHmm } from '@/utils/time/localTime'
+
+const logger = createLogger('timeSlotMatching')
 
 export type { LoadedTimeSlot, MatchLoadedTimeSlotsResult } from '@/types/booking/timeSlotMatching'
 
@@ -28,7 +31,8 @@ export function extractTimeString(value: string | Date): string | null {
     }
 
     return rfc3339ToLocalHHmm(rfc3339)
-  } catch {
+  } catch (err) {
+    logger.warn('extractTimeString failed', { value, error: err })
     return null
   }
 }

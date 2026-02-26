@@ -1,10 +1,6 @@
+import type { PartPricingFields } from '@/types/admin/partPricing'
 
-interface PartWithTotals {
-  baseFee?: number | null
-  baseTime?: number | null
-  rateOverBaseFee?: number | null
-  rateOverBaseTime?: number | null
-}
+type PartWithTotals = PartPricingFields
 
 interface PartsTotalsResult {
   totalBaseFee: number

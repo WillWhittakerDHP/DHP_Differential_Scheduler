@@ -14,12 +14,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **1057**
+- Files scanned: **1086**
 - String literals found: **7** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
-- Config locations found: **37**
-- Function patterns found: **430**
-- Common patterns found: **54**
+- Config locations found: **42**
+- Function patterns found: **426**
+- Common patterns found: **55**
 
 ## String Literals (Potential Enum/Key Candidates)
 
@@ -28,8 +28,8 @@ Showing string literals that appear 3 or more times:
 | Value | Occurrences | Locations |
 | --- | ---: | --- |
 | `held` | 7 | `client/src/composables/useAppointment.ts:80`, `client/src/types/appointmentApi.ts:60`, `client/src/types/appointmentApi.ts:100` (+4 more) |
-| `confirmed` | 4 | `client/src/composables/admin/useInstancesTabEventInstance.ts:70`, `client/src/types/admin/instancesTabEventInstance.ts:26`, `client/src/types/entities.ts:83` (+1 more) |
-| `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:90`, `client/src/composables/useAppointment.ts:84`, `server/src/db/models/booking/appointment.ts:49` |
+| `confirmed` | 5 | `client/src/composables/admin/useInstancesTabEventInstance.ts:82`, `client/src/types/admin/instancesTabEventInstance.ts:26`, `client/src/types/entities.ts:83` (+2 more) |
+| `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:91`, `client/src/composables/useAppointment.ts:84`, `server/src/db/models/booking/appointment.ts:49` |
 
 ## Types and Constants
 
@@ -41,7 +41,12 @@ Run `npm run audit:type-constant-inventory` for the full inventory.
 | File | Type |
 | --- | --- |
 | `client/src/configs/adminConfig.ts` | config-file |
-| `client/src/configs/availabilitySettings.ts` | config-file |
+| `client/src/configs/availabilitySettings/api.ts` | config-file |
+| `client/src/configs/availabilitySettings/businessHours.ts` | config-file |
+| `client/src/configs/availabilitySettings/calendar.ts` | config-file |
+| `client/src/configs/availabilitySettings/constraints.ts` | config-file |
+| `client/src/configs/availabilitySettings/index.ts` | config-file |
+| `client/src/configs/availabilitySettings/types.ts` | config-file |
 | `client/src/configs/businessControlsTabStrings.ts` | config-file |
 | `client/src/configs/contactsValidationStrings.ts` | config-file |
 | `client/src/configs/eventPerspectiveLabels.ts` | config-file |
@@ -114,13 +119,13 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBusinessRulesTab` | `use*` | 1 |
 | `useCalendarEntries` | `use*` | 1 |
 | `useCalendarHoldFormState` | `use*` | 1 |
-| ... | ... | (+400 more) |
+| ... | ... | (+396 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 
 ### Status Workflow Patterns
 
-Found 54 occurrences of status workflow patterns:
+Found 55 occurrences of status workflow patterns:
 
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: 1 occurrence(s)
 - `client/src/composables/admin/useInstancesTabEventInstance.ts`: 1 occurrence(s)
@@ -132,6 +137,7 @@ Found 54 occurrences of status workflow patterns:
 - `client/src/types/entities.ts`: 1 occurrence(s)
 - `client/src/utils/appointmentFieldFormatters.ts`: 1 occurrence(s)
 - `client/src/utils/booking/appointmentDataBuilders.ts`: 1 occurrence(s)
+- `client/src/views/admin/tabs/InstancesTab.vue`: 1 occurrence(s)
 - `server/src/db/models/admin/business_settings.ts`: 1 occurrence(s)
 - `server/src/db/models/booking/appointment.ts`: 5 occurrence(s)
 - `server/src/db/models/booking/event_instance.ts`: 2 occurrence(s)

@@ -8,6 +8,7 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { GroupedEntities, SelectOption } from '@/types/selectOptions'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const PROPERTY_TO_ENTITY_KEY_MAP: Record<string, GlobalEntityKey> = {
   blockShapeRef: 'blockShape',
@@ -104,7 +105,7 @@ export function groupedMapToSelectOptions(
   }))
 
   if (isMultiple) {
-    return result.flatMap((group) => group.children ?? [])
+    return result.flatMap((group) => asEmptyArray(group.children))
   }
   return result
 }

@@ -1,16 +1,17 @@
-import type { ThemeInstance } from 'vuetify'
 import { hexToRgb } from '@core/utils/colorConverter'
 
-const colorVariables = (themeColors: ThemeInstance['themes']['value']['colors']) => {
-  const themeSecondaryTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${themeColors.variables['medium-emphasis-opacity']})`
-  const themeDisabledTextColor = `rgba(${hexToRgb(themeColors.colors['on-surface'])},${themeColors.variables['disabled-opacity']})`
-  const themeBorderColor = `rgba(${hexToRgb(String(themeColors.variables['border-color']))},${themeColors.variables['border-opacity']})`
+type ChartThemeColors = { colors: Record<string, unknown>; variables: Record<string, string | number> }
+
+const colorVariables = (themeColors: ChartThemeColors) => {
+  const themeSecondaryTextColor = `rgba(${hexToRgb(String(themeColors.colors['on-surface'] ?? ''))},${themeColors.variables['medium-emphasis-opacity']})`
+  const themeDisabledTextColor = `rgba(${hexToRgb(String(themeColors.colors['on-surface'] ?? ''))},${themeColors.variables['disabled-opacity']})`
+  const themeBorderColor = `rgba(${hexToRgb(String(themeColors.variables['border-color'] ?? ''))},${themeColors.variables['border-opacity']})`
 
   return { labelColor: themeDisabledTextColor, borderColor: themeBorderColor, legendColor: themeSecondaryTextColor }
 }
 
 
-export const getLatestBarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getLatestBarChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor } = colorVariables(themeColors)
 
   return {
@@ -46,7 +47,7 @@ export const getLatestBarChartConfig = (themeColors: ThemeInstance['themes']['va
   }
 }
 
-export const getHorizontalBarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getHorizontalBarChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
   return {
@@ -94,7 +95,7 @@ export const getHorizontalBarChartConfig = (themeColors: ThemeInstance['themes']
   }
 }
 
-export const getLineChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getLineChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
   return {
@@ -138,7 +139,7 @@ export const getLineChartConfig = (themeColors: ThemeInstance['themes']['value']
   }
 }
 
-export const getRadarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getRadarChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
   return {
@@ -172,7 +173,7 @@ export const getRadarChartConfig = (themeColors: ThemeInstance['themes']['value'
   }
 }
 
-export const getPolarChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getPolarChartConfig = (themeColors: ChartThemeColors) => {
   const { legendColor } = colorVariables(themeColors)
 
   return {
@@ -205,7 +206,7 @@ export const getPolarChartConfig = (themeColors: ThemeInstance['themes']['value'
   }
 }
 
-export const getBubbleChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getBubbleChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor } = colorVariables(themeColors)
 
   return {
@@ -259,7 +260,7 @@ export const getDoughnutChartConfig = () => {
   }
 }
 
-export const getScatterChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getScatterChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
   return {
@@ -314,7 +315,7 @@ export const getScatterChartConfig = (themeColors: ThemeInstance['themes']['valu
   }
 }
 
-export const getLineAreaChartConfig = (themeColors: ThemeInstance['themes']['value']['colors']) => {
+export const getLineAreaChartConfig = (themeColors: ChartThemeColors) => {
   const { borderColor, labelColor, legendColor } = colorVariables(themeColors)
 
   return {

@@ -17,7 +17,6 @@ import { BUSINESS_RULES_MESSAGES } from '@/constants/businessRulesConstants.js'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 
-export type { BusinessRule, BusinessRuleCore, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 
 export type {
   ConditionalValidationRuleConfig,
@@ -29,7 +28,21 @@ export type {
 
 const logger = createLogger('useBusinessRules')
 
-export function useBusinessRules() {
+export interface UseBusinessRulesReturn {
+  rules: Ref<BusinessRule[]>
+  loading: ReturnType<typeof ref<boolean>>
+  saving: ReturnType<typeof ref<boolean>>
+  error: Ref<string | null>
+  success: Ref<string | null>
+  fetchRules: (filters?: { blockInstanceId?: GlobalEntityId; ruleType?: RuleType; active?: boolean }) => Promise<void>
+  fetchRulesByBlock: (blockInstanceId: GlobalEntityId) => Promise<BusinessRule[]>
+  createRule: (formData: BusinessRuleFormData) => Promise<BusinessRule | null>
+  updateRule: (id: GlobalEntityId, formData: BusinessRuleFormData) => Promise<BusinessRule | null>
+  deleteRule: (id: GlobalEntityId) => Promise<boolean>
+  toggleRuleActive: (id: GlobalEntityId, active: boolean) => Promise<boolean>
+}
+
+export function useBusinessRules(): UseBusinessRulesReturn {
   const rules: Ref<BusinessRule[]> = ref([])
   const loading = ref(false)
   const saving = ref(false)

@@ -1,51 +1,23 @@
 {
-  "generatedAt": "2026-02-25T01:18:57.592Z",
-  "totalScanned": 1057,
+  "generatedAt": "2026-02-26T00:03:41.343Z",
+  "totalScanned": 1086,
+  "deltaMode": true,
+  "baseRef": "HEAD~1",
   "totals": {
-    "totalScanned": 1057,
-    "totalMarkers": 4,
+    "totalScanned": 1086,
+    "totalMarkers": 2,
     "fresh": 0,
     "aging": 0,
     "stale": 0,
-    "ancient": 4,
-    "orphaned": 4
+    "ancient": 2,
+    "orphaned": 2
   },
   "files": [
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
-      "markers": [
-        {
-          "lineNumber": 83,
-          "marker": "TODO",
-          "line": "* TODO: Update to use orderIndex-based matching when AppointmentSlots are available",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useDevPanelsComputed.ts",
-      "markers": [
-        {
-          "lineNumber": 91,
-          "marker": "TODO",
-          "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
     {
       "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
       "markers": [
         {
-          "lineNumber": 271,
+          "lineNumber": 273,
           "marker": "TODO",
           "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Lunch Buffer UI -->",
           "category": "ancient",
@@ -60,7 +32,7 @@
       "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
       "markers": [
         {
-          "lineNumber": 90,
+          "lineNumber": 94,
           "marker": "TODO",
           "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Date Range Constraint UI -->",
           "category": "ancient",

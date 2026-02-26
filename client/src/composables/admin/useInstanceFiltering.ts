@@ -10,7 +10,6 @@ function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChil
   return componentChildIds.has(instance.id)
 }
 
-export type { UseInstanceFilteringOptions, UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
 
 export function useInstanceFiltering(
   options: UseInstanceFilteringOptions

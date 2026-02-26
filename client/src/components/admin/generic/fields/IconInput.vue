@@ -1,16 +1,16 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
     <!-- LEARNING: When readonly, display as icon with text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - icon display is clearer -->
     <!-- PATTERN: Conditional rendering based on readOnly state -->
     <div
-      v-if="fieldContext.displayConfig.readOnly"
+      v-if="fieldContext.state.displayConfig.readOnly"
       class="readonly-icon-display"
       :class="{ 'readonly-icon-empty': !iconValue || iconValue === '' }"
     >
@@ -21,7 +21,7 @@
         height="24"
         class="mr-2"
       />
-      <span>{{ iconValue || fieldContext.displayConfig.placeholder || 'No icon selected' }}</span>
+      <span>{{ iconValue || fieldContext.state.displayConfig.placeholder || 'No icon selected' }}</span>
     </div>
     
     <!-- LEARNING: Editable icon input with preview and picker button -->
@@ -32,14 +32,14 @@
       class="icon-input-wrapper"
     >
       <VTextField
-        :id="`field-${String(fieldContext.fieldKey)}`"
-        :name="String(fieldContext.fieldKey)"
+        :id="`field-${String(fieldContext.state.fieldKey)}`"
+        :name="String(fieldContext.state.fieldKey)"
         :model-value="displayValue"
-        :label="fieldContext.displayConfig.label"
-        :placeholder="fieldContext.displayConfig.placeholder"
-        :disabled="fieldContext.displayConfig.disabled"
-        :error="!!fieldContext.error?.value"
-        :error-messages="fieldContext.error?.value"
+        :label="fieldContext.state.displayConfig.label"
+        :placeholder="fieldContext.state.displayConfig.placeholder"
+        :disabled="fieldContext.state.displayConfig.disabled"
+        :error="!!fieldContext.state.error?.value"
+        :error-messages="fieldContext.state.error?.value"
         :autocomplete="AUTCOMPLETE_OFF"
         class="icon-input-field"
         readonly
@@ -72,7 +72,7 @@
             icon
             variant="text"
             size="small"
-            :disabled="fieldContext.displayConfig.disabled"
+            :disabled="fieldContext.state.displayConfig.disabled"
             @click.stop="openPicker"
           >
             <Icon icon="tabler-color-picker" width="20" height="20" />
@@ -83,7 +83,7 @@
       <!-- Hidden input for actual form value -->
       <input
         type="hidden"
-        :name="String(fieldContext.fieldKey)"
+        :name="String(fieldContext.state.fieldKey)"
         :value="iconValue || ''"
       />
     </div>
@@ -139,13 +139,13 @@ const displayValue = computed(() => {
 const showPicker = ref(false)
 
 const openPicker = () => {
-  if (!fieldContext.displayConfig.disabled) {
+  if (!fieldContext.state.displayConfig.disabled) {
     showPicker.value = true
   }
 }
 
 const handleIconSelect = (icon: string) => {
-  fieldContext.setValue(icon)
+  fieldContext.actions.setValue(icon)
   showPicker.value = false
   
   // PATTERN: Match TextInput/NumberInput behavior - new entities use handleSave, not field-level save
@@ -153,9 +153,9 @@ const handleIconSelect = (icon: string) => {
     return
   }
   
-  fieldContext.validate().then((isValid) => {
+  fieldContext.actions.validate().then((isValid) => {
     if (isValid) {
-      fieldContext.save().catch(() => {
+      fieldContext.actions.save().catch(() => {
       })
     }
   })

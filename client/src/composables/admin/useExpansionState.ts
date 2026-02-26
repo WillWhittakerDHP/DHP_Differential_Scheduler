@@ -6,7 +6,6 @@ LEARNING: Extracts expansion state logic fro...
 import { ref } from 'vue'
 import type { UseExpansionStateReturn } from '@/types/admin/expansionState'
 
-export type { UseExpansionStateReturn } from '@/types/admin/expansionState'
 
 /**
  * WHY: Expansion State Composable

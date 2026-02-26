@@ -24,7 +24,12 @@ import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
 
-const wizard = useBookingWizard()
+const wizardGrouped = useBookingWizard()
+const wizard = {
+  ...wizardGrouped.state,
+  ...wizardGrouped.actions,
+  ...wizardGrouped.computed,
+}
 provide('wizard', wizard)
 
 const steps = WIZARD_STEPS
@@ -68,6 +73,14 @@ const { handleNext } = useWizardValidationErrors({
 
 // WHY: Navigation composable handles validation, just pass through
 const handleStepClick = baseHandleStepClick
+
+function stepItemClass(index: number): (string | Record<string, boolean>)[] {
+  return ['stepper-item', getStepState(index), { 'step-disabled': !isStepAccessible(index) }]
+}
+function stepItemStyle(index: number): { cursor: string; opacity: number } {
+  const accessible = isStepAccessible(index)
+  return { cursor: accessible ? 'pointer' : 'not-allowed', opacity: accessible ? 1 : 0.5 }
+}
 
 // PATTERN: useMutation from useAppointment composable
 const { create, update, fetchAll, fetchRandom } = useAppointment()
@@ -196,7 +209,7 @@ useWizardDevMode({
   <VCard class="booking-wizard" :class="{ 'quote-mode-active': isQuoteMode }">
     
     <VContainer fluid class="pa-0">
-      <VRow no-gutters class="wizard-layout">
+      <VRow density="compact" class="wizard-layout">
         <!-- Stepper Header (Top) -->
         <VCol cols="12" class="stepper-column">
           <VCardText class="stepper-header" :class="{ 'quote-mode-active': isQuoteMode }">
@@ -204,8 +217,8 @@ useWizardDevMode({
               <VListItem
                 v-for="(step, index) in steps"
                 :key="index"
-                :class="['stepper-item', getStepState(index), { 'step-disabled': !isStepAccessible(index) }]"
-                :style="{ cursor: isStepAccessible(index) ? 'pointer' : 'not-allowed', opacity: isStepAccessible(index) ? 1 : 0.5 }"
+                :class="stepItemClass(index)"
+                :style="stepItemStyle(index)"
                 @click="isStepAccessible(index) ? handleStepClick(index) : null"
               >
                 <template #prepend>
@@ -235,7 +248,7 @@ useWizardDevMode({
             <!-- LEARNING: Quote Mode Button -->
             <!-- WHY: Allows users to toggle quote mode -->
             <!-- PATTERN: VBtn with toggle state -->
-            <VRow class="mt-4 align-center justify-center" no-gutters>
+            <VRow class="mt-4 align-center justify-center" density="compact">
               <VCol cols="auto">
                 <VBtn
                   color="primary"
@@ -258,6 +271,18 @@ useWizardDevMode({
                   @click="handleLoadAppointment('random')"
                 >
                   Load Random Appointment
+                </VBtn>
+              </VCol>
+              <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="ml-2">
+                <VBtn
+                  color="success"
+                  variant="outlined"
+                  size="small"
+                  prepend-icon="tabler-device-floppy"
+                  :loading="update.isPending.value"
+                  @click="handleUpdateAppointment"
+                >
+                  Update Appointment
                 </VBtn>
               </VCol>
             </VRow>

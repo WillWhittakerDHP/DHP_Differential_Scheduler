@@ -8,9 +8,9 @@ import type { GlobalEntity } from '@/types/entities'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
 import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardSaveHandlers } from '@/composables/admin/useEntityCardSaveHandlers'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { UseEntityCardSaveAndActionsParams, UseEntityCardSaveAndActionsReturn } from '@/types/admin/entityCardSaveAndActions'
 
-export type { UseEntityCardSaveAndActionsParams, UseEntityCardSaveAndActionsReturn } from '@/types/admin/entityCardSaveAndActions'
 
 export function useEntityCardSaveAndActions(
   params: UseEntityCardSaveAndActionsParams
@@ -49,7 +49,7 @@ export function useEntityCardSaveAndActions(
     getEntityValues: () => {
       const savedEntity = isNew
         ? entity
-        : (admin.getEntity(entityKey, entity.id) || entity)
+        : (admin.getEntity(entityKey, toGlobalEntityId(String(entity.id))) || entity)
       return savedEntity as Record<string, unknown>
     },
   })

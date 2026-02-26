@@ -55,7 +55,9 @@ interface Emit {
 const configStore = useConfigStore()
 const attrs = useAttrs()
 
-const [rootAttrs, compAttrs] = filterInputAttrs(attrs)
+const filteredAttrs = filterInputAttrs(attrs)
+const rootAttrs = filteredAttrs[0] ?? {}
+const compAttrs = filteredAttrs[1] ?? {}
 const inputProps = ref(VInput.filterProps(props))
 const fieldProps = ref(VField.filterProps(props))
 
@@ -133,7 +135,7 @@ const elementId = computed (() => {
     <!-- v-input -->
     <VLabel
       v-if="fieldProps.label"
-      class="mb-1 text-body-2"
+      class="mb-1 text-body-medium"
       :for="elementId"
       :text="String(fieldProps.label || '')"
     />

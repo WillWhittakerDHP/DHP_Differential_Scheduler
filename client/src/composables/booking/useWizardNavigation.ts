@@ -11,7 +11,6 @@ import type {
 } from '@/types/booking/wizardNavigation'
 
 export type { WizardStepConfig }
-export type { UseWizardNavigationParams, UseWizardNavigationReturn } from '@/types/booking/wizardNavigation'
 
 /**
  * WHY: useWizardNavigation composable

@@ -142,14 +142,10 @@ const contentClasses = computed(() => {
     
     <!-- Content -->
     <div :class="contentClasses">
-      <!-- Title slot or default -->
-      <slot name="title" :item="item">
-        <span class="text-body-1 font-weight-medium">
-          {{ item.name }}
-        </span>
-      </slot>
-      
-      
+      <span class="text-body-large font-weight-medium">
+        {{ item.name }}
+      </span>
+
       <!-- Default slot for additional content -->
       <slot :item="item" />
     </div>

@@ -12,18 +12,11 @@ import type { GlobalEntity } from '@/types/entities'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
 import { fetchPropertyEnrichment } from '@/services/propertyEnrichmentApiService'
+import type { PlaceDetails } from '@/services/mapsApiService'
 import { createLogger } from '@/utils/logger'
 import { extractOptionalString, safeArray } from '@/utils/transformers/transformerPrimitives'
 import type {
   ComponentItem,
-  UsePropertyDetailsLogicParams,
-  UsePropertyDetailsLogicReturn,
-} from '@/types/booking/propertyDetailsLogic'
-
-export type {
-  ComponentItem,
-  PropertyFormStateCore,
-  SelectionCardItemWithComponents,
   UsePropertyDetailsLogicParams,
   UsePropertyDetailsLogicReturn,
 } from '@/types/booking/propertyDetailsLogic'
@@ -92,7 +85,7 @@ LEARNING: Helper function to check if a block instance is composable...
       let instanceComponents: ComponentItem[] = []
       
       if (isComposable) {
-        const instanceComponentsRelationships = componentEntity.getComponents(toGlobalEntityId(adjustment.id))
+        const instanceComponentsRelationships = componentEntity.data.getComponents(toGlobalEntityId(adjustment.id))
         if (instanceComponentsRelationships && instanceComponentsRelationships.length > 0) {
           // FIX: Use shared utility function instead of duplicated logic
           instanceComponents = extractInstanceComponents({
@@ -117,7 +110,6 @@ LEARNING: Helper function to check if a block instance is composable...
       }
     })
   })
-
 
   /**
    */
@@ -254,4 +246,3 @@ LEARNING: Helper function to check if a block instance is composable...
     changeAddress
   }
 }
-

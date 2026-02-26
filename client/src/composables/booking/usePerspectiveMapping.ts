@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import type { PerspectiveKey } from '@/types/appointment'
 import type { UsePerspectiveMappingParams, UsePerspectiveMappingReturn } from '@/types/booking/perspectiveMapping'
 
-export type { UsePerspectiveMappingParams, UsePerspectiveMappingReturn } from '@/types/booking/perspectiveMapping'
 
 /**
  * WHY: usePerspectiveMapping composable

@@ -7,6 +7,7 @@ import type { UserResponse } from './user'
 
 export type { PropertyResponse, UserResponse }
 
+import { INVITATION_STATUS_FAILED, INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
 export interface AttendeeResponse {
@@ -15,7 +16,7 @@ export interface AttendeeResponse {
   userId: string
   userTypeBlockInstanceId?: string | null
   shouldReceiveInvitation: boolean
-  invitationStatus: 'pending' | 'sent' | 'accepted' | 'declined' | 'failed'
+  invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED
   googleEventId?: string | null
   createdAt: string
   updatedAt: string

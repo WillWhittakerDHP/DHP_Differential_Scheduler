@@ -10,11 +10,6 @@ import type {
   UseWizardSubmissionReturn,
 } from '@/types/booking/wizardSubmission'
 
-export type {
-  UseWizardSubmissionParams,
-  UseWizardSubmissionReturn,
-} from '@/types/booking/wizardSubmission'
-
 const logger = createLogger('useWizardSubmission')
 
 export function useWizardSubmission(
@@ -57,4 +52,3 @@ export function useWizardSubmission(
     handleSubmit
   }
 }
-

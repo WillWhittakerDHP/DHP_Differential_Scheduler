@@ -2,7 +2,7 @@
  * WHY: Transformer Collections
 LEARNING: Generic entity lookup, grouping, and i...
  */
-import type { WithId } from '@/composables/useCollectionTypes'
+import type { WithId } from '@/types/collectionTypes'
 import { findById as findByIdBase } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 

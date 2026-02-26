@@ -1,84 +1,30 @@
 <template>
-  <VDialog
+  <BulkEditModal
     :model-value="modelValue"
-    @update:model-value="updateModelValue"
-    max-width="800"
+    entity-key="partInstance"
+    :entity="templateEntity"
+    :field-metadata="filteredMetadata"
+    title="Bulk Edit: Part Instances"
+    description="Apply the same values to all PartInstances for this BlockInstance. Leave fields empty to skip them."
+    :instance-count="instanceCount"
     :persistent="false"
-  >
-    <VCard>
-      <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">Bulk Edit: Part Instances</span>
-        <VBtn
-          icon
-          variant="text"
-          @click="updateModelValue(false)"
-        >
-          <VIcon icon="tabler-x" />
-        </VBtn>
-      </VCardTitle>
-
-      <VCardText class="pa-6">
-        <p class="mb-4 text-body-2">
-          Apply the same values to all PartInstances for this BlockInstance. Leave fields empty to skip them.
-        </p>
-
-        <div class="bulk-edit-entity-card">
-          <!--
-            LEARNING: EntityCard for bulk edit form
-            WHY: Uses EntityCard for consistency, but prevents actual saves
-            PATTERN: Set isNew=false and intercept saved event to prevent API calls
-            NOTE: Field blur auto-save is disabled by intercepting saved event
-            NOTE: Pass filtered metadata that only includes fields with bulkEdit: true
-          -->
-          <EntityCard
-            ref="entityCardRef"
-            entity-key="partInstance"
-            :entity="templateEntity"
-            :expanded="true"
-            :field-metadata="filteredMetadata"
-            :is-new="false"
-            :disable-auto-save="true"
-            :use-expansion-panel="false"
-            @saved="handleEntityCardSaved"
-          />
-        </div>
-      </VCardText>
-
-      <VCardActions class="pa-6">
-        <VSpacer />
-        <VBtn
-          color="secondary"
-          variant="tonal"
-          @click="updateModelValue(false)"
-        >
-          Cancel
-        </VBtn>
-        <VBtn
-          color="primary"
-          variant="elevated"
-          @click="handleApply"
-        >
-          Apply to All ({{ instanceCount }})
-        </VBtn>
-      </VCardActions>
-    </VCard>
-  </VDialog>
+    @update:model-value="updateModelValue"
+    @confirm="handleConfirm"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { createLogger } from '@/utils/logger'
+import { computed } from 'vue'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import {
-  usePartInstanceBulkEdit,
-  type PartInstanceBulkEditData,
-} from '@/composables/admin/usePartInstanceBulkEdit'
+import { createLogger } from '@/utils/logger'
+import { asEmptyString } from '@/utils/safeDefaults'
+import type { PartInstanceBulkEditData } from '@/types/admin/partInstanceBulkEdit'
+import { usePartInstanceBulkEdit } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import { asEmptyString } from '@/utils/safeDefaults'
+import BulkEditModal from '@/components/admin/BulkEditModal.vue'
 
 const logger = createLogger('PartInstanceBulkEditModal')
 
@@ -105,10 +51,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits<Emits>()
 
-const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const { globalData } = useGlobal()
 const { entities: partInstances } = useEntityCrud('partInstance')
-
 const partAssignments = computed(() => globalData.value?.relationships?.partAssignments ?? null)
 
 const { firstPartInstanceForMetadata, buildBulkEditDataFromForm } = usePartInstanceBulkEdit({
@@ -124,11 +68,6 @@ const partShapeRef = computed(() => {
   return raw !== undefined && raw !== null && raw !== '' ? raw : ''
 })
 
-/**
- * NOTE: Field blur will try to save, but since this ID doesn't exist, it will fail safely
- * NOTE: Defined early so it can be used by useEntityMetadata below
- * FIX: Create templateEntity FIRST with partShapeRef (like InstanceBulkEditModal does with blockShapeRef)
- */
 const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   try {
     const editData = props.bulkEditData !== undefined && props.bulkEditData !== null ? props.bulkEditData : {}
@@ -167,17 +106,11 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
   }
 })
 
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 const { fieldMetadata: partInstanceMetadata } = useEntityMetadata('partInstance', templateEntity)
 
-const filteredMetadata = computed<Record<string, FieldMetadataEntry>>(() => {
+const filteredMetadata = computed(() => {
   const metadata = partInstanceMetadata.value
-  if (!metadata || Object.keys(metadata).length === 0) {
-    return {}
-  }
-  
-  // WHY: Functional approach avoids mutations, aligns with workspace rules
-  // PATTERN: Filter entries and convert back to object
+  if (!metadata || Object.keys(metadata).length === 0) return {}
   return Object.fromEntries(
     Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
   )
@@ -187,24 +120,11 @@ function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-function handleEntityCardSaved() {
-}
-
-function handleApply() {
-  if (!entityCardRef.value?.form) {
-    return
-  }
+function handleConfirm(formValues: Record<string, unknown>) {
   const bulkEditData = buildBulkEditDataFromForm(
     Object.keys(filteredMetadata.value),
-    entityCardRef.value.form.values as Record<string, unknown>
+    formValues
   )
   emit('confirm', bulkEditData)
-  updateModelValue(false)
 }
 </script>
-
-<style scoped>
-.bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
-  display: none !important;
-}
-</style>

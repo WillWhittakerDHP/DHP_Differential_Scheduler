@@ -7,6 +7,7 @@ import type { FieldDisplayConfig, FieldValidationRules } from '@/composables/fie
 import type { useAdmin } from '@/composables/admin/useAdmin'
 import type { useComponentEntity } from '@/composables/useComponentEntity'
 import type { useQueryClient } from '@tanstack/vue-query'
+import type { UseFieldContextActionsReturn } from '@/types/fieldContext/fieldContextActions'
 
 export type UseFieldContextStateOptions<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
   form?: FormContext
@@ -40,4 +41,16 @@ export type UseFieldContextStateReturn<GE extends GlobalEntityKey, FieldKey exte
   queryClient: ReturnType<typeof useQueryClient>
   patchFieldAsync: (payload: { admin: { key: string; value: ValidAdminValue }; dynamicId: string }) => Promise<unknown>
   toPlainValue: (value: unknown) => unknown
+}
+
+/** Grouped return for composable-health (oversized-return repair). */
+export type UseFieldContextStateReturnGrouped<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
+  state: UseFieldContextStateReturn<GE, FieldKey>
+  actions: UseFieldContextActionsReturn
+}
+
+/** Grouped return for composable-health (oversized-return repair). */
+export type UseFieldContextStateReturnGrouped<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
+  state: UseFieldContextStateReturn<GE, FieldKey>
+  actions: UseFieldContextActionsReturn
 }

@@ -11,7 +11,6 @@ import { useComponentEntity } from './useComponentEntity'
 import { useGlobal } from './useGlobal'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from '@/types/componentDistribution'
 
 /**
  * PATTERN: Component Distribution Composable
@@ -89,7 +88,7 @@ LEARNING: Watch distribution strategy and initialize manual values w...
       if (!globalData) return
       
       const composerIdValue = composerId.value
-      const componentIds = componentEntity.getComponents(composerIdValue).map(ac => ac.childId)
+      const componentIds = componentEntity.data.getComponents(composerIdValue).map(ac => ac.childId)
       // WHY: Functional approach avoids mutations, aligns with workspace rules
       // PATTERN: Reduce componentIds to object with current values, then merge with existing manualValues
       const newManualValues = componentIds.reduce<Record<GlobalEntityId, number>>((acc, componentId) => {
@@ -127,7 +126,7 @@ PATTERN:...
       const globalData = getGlobalData()
       if (!globalData) return []
       
-      const componentIds = componentEntity.getComponents(composerId.value).map(ac => ac.childId)
+      const componentIds = componentEntity.data.getComponents(composerId.value).map(ac => ac.childId)
       return componentIds.map(componentId => {
         const currentValue = getCurrentValue(componentId)
         const manualValue = manualValues.value[componentId] ?? currentValue
@@ -140,7 +139,7 @@ PATTERN:...
       })
     }
     
-    return componentEntity.calculateDistributionPreview(
+    return componentEntity.data.calculateDistributionPreview(
       composerId.value,
       propertyKey.value,
       newValue.value,

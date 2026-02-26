@@ -1,6 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
-import type { ValidationRule } from '@/composables/useFormValidation'
 
+import type { ValidationRule } from '@/types/formValidation'
 export type CustomValidator = () => true | string
 
 export interface UseStepValidationParams {

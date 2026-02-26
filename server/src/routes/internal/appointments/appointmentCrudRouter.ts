@@ -28,6 +28,7 @@ import {
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
+import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('AppointmentRouter')
@@ -279,7 +280,7 @@ const router = createCrudRouter({
       const existingInvites = await AppointmentAttendee.count({
         where: {
           appointmentId: record.id,
-          invitationStatus: 'sent',
+          invitationStatus: INVITATION_STATUS_SENT,
         },
       })
 

@@ -1,12 +1,11 @@
 import { computed, type Ref } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation } from './useStepValidation'
 import { CONTACTS_VALIDATION_STRINGS } from '@/configs/contactsValidationStrings'
 import type { UseContactsValidationParams, UseContactsValidationReturn } from '@/types/booking/contactsValidation'
 
-export type { UseContactsValidationParams, UseContactsValidationReturn } from '@/types/booking/contactsValidation'
 
+import type { ValidationRule } from '@/types/formValidation'
 export function useContactsValidation(params: UseContactsValidationParams): UseContactsValidationReturn {
   const {
     clientInfo,

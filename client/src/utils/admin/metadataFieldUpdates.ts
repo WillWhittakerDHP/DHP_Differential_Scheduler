@@ -3,6 +3,7 @@
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatcher'
+import { computeRenderAs as computeRenderAsShared } from '@shared/utils/metadataRenderAsUtils'
 
 export interface MetadataFieldUpdatesOptions {
   getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
@@ -28,36 +29,7 @@ export function metadataFieldUpdates(
     inputConfig: Record<string, unknown> | null | undefined,
     fieldKey: string
   ): FieldMetadataEntry['renderAs'] {
-    if (fieldKey === 'icon') {
-      return 'iconSelect'
-    }
-
-    if (inputConfig) {
-      const selectType = inputConfig.selectType as string | undefined
-      if (selectType === 'partsCollectionSelect') {
-        return 'relationshipCollection'
-      }
-      const selectMode = inputConfig.selectMode as string | undefined
-      if (selectMode === 'multiple') {
-        return 'multiselect'
-      }
-      if (inputConfig.targetMode === 'relationship') {
-        return 'reference'
-      }
-      return 'select'
-    }
-
-    if (dataType === 'boolean' || dataType === 'ternary') {
-      return 'statusButton'
-    }
-    if (dataType === 'number') {
-      return 'number'
-    }
-    if (dataType === 'array') {
-      return 'reference'
-    }
-
-    return 'text'
+    return computeRenderAsShared(dataType, inputConfig, fieldKey)
   }
 
   function updateFieldRendering(fieldKey: string, updates: Partial<FieldMetadataEntry>): void {

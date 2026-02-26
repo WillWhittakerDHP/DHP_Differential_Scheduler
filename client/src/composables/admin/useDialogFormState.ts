@@ -3,7 +3,7 @@
 
 LEARNING: Extracts dialog form state manag...
  */
-import { ref, watch, type Ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { UseDialogFormStateOptions, UseDialogFormStateReturn } from '@/types/admin/dialogFormState'
 
 export type {
@@ -19,7 +19,7 @@ export function useDialogFormState<T extends Record<string, unknown> = Record<st
     initialValues = {} as T
   } = options
   
-  const formValues = ref<T>({ ...initialValues } as T) as Ref<T>
+  const formValues = ref<T>({ ...initialValues } as T)
   
   const resetForm = (): void => {
     formValues.value = { ...initialValues } as T

@@ -6,11 +6,13 @@ import {
   getAgentIdFromAttendees,
 } from '@/utils/admin/appointmentAttendees'
 import { formatAppointmentTimestamp } from '@/utils/admin/appointmentHelpers'
-import type { UseAppointmentsTableHandlersParams } from '@/types/admin/tables/appointmentsTableHandlers'
+import type {
+  UseAppointmentsTableHandlersParams,
+  UseAppointmentsTableHandlersReturn,
+} from '@/types/admin/tables/appointmentsTableHandlers'
 
-export type { UseAppointmentsTableHandlersParams } from '@/types/admin/tables/appointmentsTableHandlers'
 
-export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandlersParams) {
+export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandlersParams): UseAppointmentsTableHandlersReturn {
   const {
     newAppointment,
     editedData,
@@ -101,25 +103,29 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
   }
 
   return {
-    formClientId,
-    formAgentId,
-    editingClientId,
-    editingAgentId,
-    confirmingAppointment,
-    showConfirmDialog,
-    handleOpenConfirmDialog,
-    handleCancelConfirm,
-    handleSaveCreate,
-    handleSaveEdit,
-    handleStartEdit,
-    handleCancelEdit,
-    handleStartCreate,
-    handleCancelCreate,
-    applyCreatePatch,
-    navigateToProperties,
-    navigateToUsers,
-    setFormClientId,
-    setFormAgentId,
+    state: {
+      formClientId,
+      formAgentId,
+      editingClientId,
+      editingAgentId,
+      confirmingAppointment,
+      showConfirmDialog,
+    },
+    actions: {
+      handleOpenConfirmDialog,
+      handleCancelConfirm,
+      handleSaveCreate,
+      handleSaveEdit,
+      handleStartEdit,
+      handleCancelEdit,
+      handleStartCreate,
+      handleCancelCreate,
+      applyCreatePatch,
+      navigateToProperties,
+      navigateToUsers,
+      setFormClientId,
+      setFormAgentId,
+    },
     formatTimestamp: formatAppointmentTimestamp,
   }
 }

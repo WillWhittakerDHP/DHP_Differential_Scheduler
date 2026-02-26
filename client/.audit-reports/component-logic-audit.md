@@ -10,13 +10,23 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **0**
+- Total files: **1**
 
 ## Top hotspots (by heuristic score)
 
 | File | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/views/admin/entities/BlockInstanceList.vue` | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/views/admin/entities/BlockInstanceList.vue`
+
+- counts: computed=0, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+async@89: remove: async (id) => {
+await@90: await remove(id)
+```

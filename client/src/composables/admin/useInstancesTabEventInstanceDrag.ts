@@ -7,11 +7,21 @@ import type { GlobalEntity } from '@/types/entities'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { animations } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
+import type { Ref, ComputedRef } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { UseInstancesTabEventInstanceDragParams } from '@/types/admin/instancesTabEventInstanceDrag'
 
-export type { UseInstancesTabEventInstanceDragParams } from '@/types/admin/instancesTabEventInstanceDrag'
 
-export function useInstancesTabEventInstanceDrag(params: UseInstancesTabEventInstanceDragParams) {
+export interface UseInstancesTabEventInstanceDragReturn {
+  eventInstancesList: Ref<GlobalEntity<'eventInstance'>[]>
+  eventInstanceIds: Ref<string[]>
+  eventInstancesContainer: Ref<HTMLElement | null>
+  eventInstancesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | null>
+  filteredEventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
+  eventInstancesDragHandlers: ReturnType<typeof useEntityDragHandlers>
+}
+
+export function useInstancesTabEventInstanceDrag(params: UseInstancesTabEventInstanceDragParams): UseInstancesTabEventInstanceDragReturn {
   const { eventInstances, patchEventInstanceOrderIndex, logger } = params
 
   const eventInstancesList = ref<GlobalEntity<'eventInstance'>[]>([])

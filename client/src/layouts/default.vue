@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+import type { LoadingIndicatorInstance } from '@/types/loadingIndicator'
 import { useConfigStore } from '@core/stores/config'
 import { AppContentLayoutNav } from '@layouts/enums'
 import { switchToVerticalNavOnLtOverlayNavBreakpoint } from '@layouts/utils'
 import { useLayoutLoading } from '@/composables/useLayoutLoading'
-import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
 
 const DefaultLayoutWithHorizontalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithHorizontalNav.vue'))
 const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithVerticalNav.vue'))
@@ -23,12 +24,16 @@ const refLoadingIndicator = ref<LoadingIndicatorInstance | null>(null)
 const { isFallbackStateActive } = useLayoutLoading({
   refLoadingIndicator
 })
+
+const layoutComponent = computed(() =>
+  configStore.appContentLayoutNav === AppContentLayoutNav.Vertical ? DefaultLayoutWithVerticalNav : DefaultLayoutWithHorizontalNav
+)
 </script>
 
 <template>
   <Component
     v-bind="layoutAttrs"
-    :is="configStore.appContentLayoutNav === AppContentLayoutNav.Vertical ? DefaultLayoutWithVerticalNav : DefaultLayoutWithHorizontalNav"
+    :is="layoutComponent"
   >
     <AppLoadingIndicator ref="refLoadingIndicator" />
 

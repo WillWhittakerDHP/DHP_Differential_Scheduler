@@ -9,7 +9,6 @@ import { useAdminConfig } from '@/composables/useAdminConfig'
 import { entityDisplay } from '@/utils/admin/entityDisplay'
 import type { UseShapeDisplayNamesReturn } from '@/types/admin/shapeDisplayNames'
 
-export type { UseShapeDisplayNamesReturn } from '@/types/admin/shapeDisplayNames'
 
 /**
  * WHY: useShapeDisplayNames composable

@@ -6,7 +6,7 @@
 <template>
   <div v-if="showPreview" class="entity-card-fee-preview">
     <VCard variant="outlined" density="compact" class="fee-preview-card">
-      <VCardTitle class="text-caption d-flex align-center gap-1 py-2">
+      <VCardTitle class="text-body-small d-flex align-center gap-1 py-2">
         <VIcon icon="tabler-chart-line" size="small" />
         Fee at square footage
       </VCardTitle>
@@ -47,7 +47,7 @@
         </div>
         <div class="d-flex align-center flex-wrap gap-3 mt-2">
           <div class="d-flex align-center gap-2">
-            <label for="fee-preview-sqft" class="text-caption text-medium-emphasis">Sq ft</label>
+            <label for="fee-preview-sqft" class="text-body-small text-medium-emphasis">Sq ft</label>
             <VTextField
               id="fee-preview-sqft"
               v-model.number="sqftInput"
@@ -61,8 +61,8 @@
             />
           </div>
           <div class="d-flex align-center gap-1">
-            <span class="text-caption text-medium-emphasis">Cost:</span>
-            <span class="text-body-2 font-weight-medium">{{ formatCurrency(computedCost) }}</span>
+            <span class="text-body-small text-medium-emphasis">Cost:</span>
+            <span class="text-body-medium font-weight-medium">{{ formatCurrency(computedCost) }}</span>
           </div>
         </div>
       </VCardText>

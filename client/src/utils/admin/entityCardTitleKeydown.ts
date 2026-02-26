@@ -2,7 +2,7 @@
  * PATTERN: Title row keydown handler for EntityCard (space/enter in inputs).
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
-import { KEY_ENTER } from '@/components/admin/generic/entityCardConstants'
+import { KEY_ENTER, KEY_SPACEBAR } from '@/components/admin/generic/entityCardConstants'
 
 export interface EntityCardTitleKeydownReturn {
   handleTitleKeydown: (event: KeyboardEvent) => void
@@ -15,7 +15,7 @@ export function entityCardTitleKeydown(): EntityCardTitleKeydownReturn {
     const key = event.key
     if (
       key !== ' ' &&
-      key !== 'Spacebar' &&
+      key !== KEY_SPACEBAR &&
       key !== KEY_ENTER &&
       event.keyCode !== 32 &&
       event.keyCode !== 13

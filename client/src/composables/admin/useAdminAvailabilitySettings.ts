@@ -18,11 +18,6 @@ import {
 import { localTime } from '@/utils/time/localTime'
 import type { UseAdminAvailabilitySettingsReturn, UseAvailabilitySettingsOptions } from '@/types/admin/availabilitySettings'
 
-export type {
-  UseAdminAvailabilitySettingsReturn,
-  UseAvailabilitySettingsOptions,
-} from '@/types/admin/availabilitySettings'
-
 const logger = createLogger('useAdminAvailabilitySettings')
 
 export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['businessHours']): number {

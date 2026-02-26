@@ -5,6 +5,7 @@
 -->
 <script setup lang="ts">
 import { useUsersTableModel } from '@/composables/admin/tables/useUsersTableModel'
+import UserCreateForm from './UserCreateForm.vue'
 
 const {
   items: users,
@@ -41,7 +42,7 @@ const headers = [
 <template>
   <div class="users-table">
     <div class="d-flex justify-space-between align-center mb-4">
-      <h3 class="text-h6">Users</h3>
+      <h3 class="text-headline-small">Users</h3>
       <VBtn
         color="primary"
         prepend-icon="tabler-plus"
@@ -72,63 +73,13 @@ const headers = [
       Error loading users: {{ usersError }}
     </VAlert>
     
-    <!-- Create form -->
-    <VCard v-if="isCreating" class="mb-4">
-      <VCardTitle>Create New User</VCardTitle>
-      <VCardText>
-        <VRow>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newUser.firstName"
-              label="First Name *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newUser.lastName"
-              label="Last Name *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newUser.email"
-              type="email"
-              label="Email *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newUser.phone"
-              type="tel"
-              label="Phone"
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VSelect
-              v-model="newUser.userRole"
-              :items="['client', 'agent', 'transaction_manager', 'seller', 'inspector']"
-              label="Role"
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model.number="newUser.loginId"
-              type="number"
-              label="Login ID"
-            />
-          </VCol>
-        </VRow>
-      </VCardText>
-      <VCardActions>
-        <VSpacer />
-        <VBtn variant="text" @click="cancelCreate">Cancel</VBtn>
-        <VBtn color="primary" @click="saveCreate">Save</VBtn>
-      </VCardActions>
-    </VCard>
-    
+    <UserCreateForm
+      v-if="isCreating"
+      :new-user="newUser"
+      @cancel="cancelCreate"
+      @save="saveCreate"
+    />
+
     <!-- Empty state -->
     <VAlert
       v-if="!isLoading && !usersError && users.length === 0"
@@ -284,7 +235,7 @@ const headers = [
     <!-- Delete Confirmation Dialog -->
     <VDialog v-model="showDeleteDialog" max-width="500">
       <VCard>
-        <VCardTitle class="text-h6">Delete User</VCardTitle>
+        <VCardTitle class="text-headline-small">Delete User</VCardTitle>
         <VCardText>
           Are you sure you want to delete this user? This action cannot be undone.
         </VCardText>

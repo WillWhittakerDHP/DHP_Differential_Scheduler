@@ -18,7 +18,6 @@ import type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/typ
 
 const logger = createLogger('useAppointmentShape')
 
-export type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/types/booking/appointmentShape'
 
 /**
  * WHY: useAppointmentShape composable

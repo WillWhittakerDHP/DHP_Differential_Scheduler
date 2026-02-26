@@ -5,7 +5,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { EntityCardSharedProps } from './entityCardConstants'
 import { useEntityCardSubPanels, type SubPanelFields } from '@/composables/admin/useEntityCardSubPanels'
@@ -16,7 +16,7 @@ interface Props extends EntityCardSharedProps {
   subPanelFields: SubPanelFields
   getFieldContext: (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
-  ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  ) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
@@ -49,7 +49,7 @@ const {
         <div class="d-flex align-center justify-space-between flex-grow-1">
           <div>
             <span class="font-weight-medium">Parts</span>
-            <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-2">
+            <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-medium">
               {{ partsSummary }}
             </span>
           </div>
@@ -92,7 +92,7 @@ const {
     <VExpansionPanel v-if="subPanelFields.relationships.length" value="relationships">
       <template #title>
         <span class="font-weight-medium">Relationships</span>
-        <span v-if="relationshipsSummary" class="ml-2 text-medium-emphasis text-body-2">
+        <span v-if="relationshipsSummary" class="ml-2 text-medium-emphasis text-body-medium">
           {{ relationshipsSummary }}
         </span>
       </template>

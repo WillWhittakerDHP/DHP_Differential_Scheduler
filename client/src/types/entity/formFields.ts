@@ -19,12 +19,19 @@ export type PrimitiveFieldType<GE extends GlobalEntityKey> = Partial<Record<Glob
 
 type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
 
+/** Shared shape for dependency impact (form config and cleanup); document-only overlap resolved via this base type. */
+export type DependencyImpactBase = {
+  affectedEntityKey: GlobalEntityKey;
+  affectedField: string;
+  linkingField: string;
+};
+
 export type RelationshipFieldType<
   GE extends GlobalEntityKey = GlobalEntityKey,
   R extends GlobalRelationshipKey = GlobalRelationshipKey
 > = {
   targetMode: "relationship";
-  targetKey: R; 
+  targetKey: R;
   globalField: GlobalFieldKey<GE>;
 
   selectedParentKey: GE;
@@ -44,10 +51,7 @@ export type RelationshipFieldType<
     enabled: boolean;
     controlField: string;
   };
-  dependencyImpact?: {
-    affectedEntityKey: GlobalEntityKey;
-    affectedField: string;
-    linkingField: string;
+  dependencyImpact?: DependencyImpactBase & {
     displayNames: {
       removedItems: string;
       affectedEntities: string;

@@ -19,15 +19,14 @@
  *      Maintains backward compatibility while using generic collection pattern
  * 
  */
-
-import { computed, ref, type Ref } from 'vue'
+import type { UseSelectConfigOptions } from '@/types/admin/selectConfig'
+import { computed, ref } from 'vue'
 import RelationshipCollection from './RelationshipCollection.vue'
 import PartInstanceBulkEditModal from '../../PartInstanceBulkEditModal.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity, PartInstanceEntity } from '@/types/entities'
 import { usePartInstanceBulkEdit } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
-import type { UseSelectConfigOptions } from '@/composables/admin/useSelectConfig'
 
 const props = defineProps<UseSelectConfigOptions>()
 
@@ -80,8 +79,8 @@ return (raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []) as G
     })
     
     return {
-      bulkEditMode: bulkEdit.bulkEditMode as Ref<boolean>,
-      bulkEditData: bulkEdit.bulkEditData as Ref<Record<string, unknown>>,
+      bulkEditMode: bulkEdit.bulkEditMode,
+      bulkEditData: bulkEdit.bulkEditData,
       toggleBulkEditMode: bulkEdit.toggleBulkEditMode,
       applyBulkEdit: bulkEdit.applyPartInstanceBulkEdit,
       handleBulkEditModalUpdate: bulkEdit.handleBulkEditModalUpdate,

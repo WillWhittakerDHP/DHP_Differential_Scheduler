@@ -395,12 +395,17 @@ function computeAuditSummaries(auditResults) {
     .map(({ id, data }) => {
       const files = Array.isArray(data.files) ? data.files : []
       const findings = Array.isArray(data.findings) ? data.findings : []
-      const totalFindings = data.exceptionSummary?.totalRequiresReview ||
-                           data.totals?.totalMarkers ||
-                           findings.length ||
-                           files.length
 
-      return { auditId: id, filesWithFindings: files.length, totalFindings }
+      const review = data.exceptionSummary?.totalRequiresReview
+      const totalFindings = review != null
+        ? review
+        : (data.totals?.totalMarkers ?? (findings.length || files.length))
+
+      const filesWithFindings = files.filter(
+        f => (f.score ?? f.complexityScore ?? 0) > 0
+      ).length
+
+      return { auditId: id, filesWithFindings, totalFindings }
     })
 }
 

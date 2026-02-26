@@ -5,10 +5,20 @@
 import { ref } from 'vue'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 
-export function useInstancesTabCreateModal() {
+export interface UseInstancesTabCreateModalReturn {
+  createModalOpen: Ref<boolean>
+  createModalBlockShapeId: Ref<GlobalEntityId>
+  createModalSourceEntity: Ref<GlobalEntity<'blockInstance'> | undefined>
+  handleCreateClick: (blockShapeId: string) => void
+  handleDuplicateClick: (sourceEntity: GlobalEntity<GlobalEntityKey>) => void
+  handleInstanceCreated: (_entity: GlobalEntity<'blockInstance'>) => void
+}
+
+export function useInstancesTabCreateModal(): UseInstancesTabCreateModalReturn {
   const createModalOpen = ref(false)
   const createModalBlockShapeId = ref<GlobalEntityId>(toGlobalEntityId(''))
   const createModalSourceEntity = ref<GlobalEntity<'blockInstance'> | undefined>(undefined)

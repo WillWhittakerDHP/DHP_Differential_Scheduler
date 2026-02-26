@@ -341,8 +341,10 @@ function main() {
     f.suggestions.some(s => s.kind === 'split_candidate' || s.kind === 'side_effects')
   ).length
 
-  // Filter out zero-score files from JSON output to reduce report bloat
-  const filesWithFindings = scanned.filter(f => f.complexityScore > 0 || f.matches.length > 0)
+  const p1Min = Number(priorityConfig?.priorities?.p1MinSeverityScore ?? 20)
+  const filesWithFindings = scanned.filter(
+    f => f.suggestions.length > 0 || f.complexityScore >= p1Min
+  )
   const payload = {
     generatedAt: new Date().toISOString(),
     scope: {

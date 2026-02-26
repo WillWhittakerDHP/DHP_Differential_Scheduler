@@ -16,7 +16,13 @@ export interface UseFeePreviewOptions {
   showPreview: Ref<boolean>
 }
 
-export function useFeePreview(options: UseFeePreviewOptions) {
+export interface UseFeePreviewReturn {
+  sqftInput: import('vue').Ref<number>
+  computedCost: import('vue').ComputedRef<number>
+  svgLine: import('vue').ComputedRef<{ points: string; color: string }>
+}
+
+export function useFeePreview(options: UseFeePreviewOptions): UseFeePreviewReturn {
   const { totalBaseFee, totalRateOverBaseFee, showPreview } = options
   const sqftInput = ref(2000)
 

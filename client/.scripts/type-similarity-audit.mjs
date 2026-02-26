@@ -3,6 +3,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import {
   listAuditFiles,
+  loadCentralAllowlist,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
@@ -962,9 +963,12 @@ function main() {
   }
 
   // Build similarity groups
-  const groups = buildGroups(allDefinitions, config)
+  const allGroups = buildGroups(allDefinitions, config)
+  const allowlist = loadCentralAllowlist('type-similarity')
+  const allowlistedGroupIds = new Set((allowlist.specific || []).map((e) => e.groupId).filter(Boolean))
+  const groups = allGroups.filter((g) => !allowlistedGroupIds.has(g.groupId))
 
-  // Build output
+  // Build output (only non-allowlisted groups count as findings)
   const output = {
     generatedAt: new Date().toISOString(),
     scope: {

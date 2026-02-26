@@ -12,6 +12,9 @@
 /** Fallback message when error type cannot be determined */
 export const UNKNOWN_ERROR_MESSAGE = 'Unknown error' as const
 
+/** Generic message shown to clients when in production to avoid leaking details */
+export const INTERNAL_SERVER_ERROR = 'Internal server error' as const
+
 /** Appointment not found (client and server) */
 export const APPOINTMENT_NOT_FOUND = 'Appointment not found' as const
 

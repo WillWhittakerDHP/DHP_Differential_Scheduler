@@ -1,4 +1,5 @@
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes.js';
+import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js';
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
 import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
@@ -90,7 +91,7 @@ export async function createCalendarEventForAppointment(
           await AppointmentAttendee.update(
               {
               googleEventId: createdEvent.id,
-              invitationStatus: 'sent',
+              invitationStatus: INVITATION_STATUS_SENT,
             },
             { where: { id: attendee.id } }
           );

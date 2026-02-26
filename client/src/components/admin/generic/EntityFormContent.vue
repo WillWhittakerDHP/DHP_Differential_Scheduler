@@ -20,7 +20,10 @@ import { useFormFieldConfigs } from '@/composables/admin/useFormFieldConfigs'
 import { useFormFields } from '@/composables/useFormFields'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useAdmin } from '@/composables/admin/useAdmin'
+import { createLogger } from '@/utils/logger'
 import type { FormContext } from 'vee-validate'
+
+const logger = createLogger('EntityFormContent')
 
 interface Props {
   entityKey: GlobalEntityKey
@@ -59,7 +62,8 @@ const entity = computed(() => {
   if (!props.entityId) return null
   try {
     return adminComp.getEntity(props.entityKey, props.entityId) as GlobalEntity<typeof props.entityKey> | null
-  } catch {
+  } catch (err) {
+    logger.warn('getEntity failed', { entityKey: props.entityKey, entityId: props.entityId, error: err })
     return null
   }
 })
@@ -114,6 +118,9 @@ const getActiveFieldContext = () => {
   return getFieldContextFromFormFields('active')
 }
 
+const inlineFieldLgCols = computed(() =>
+  readyInlineFields.length > 3 ? 3 : readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12
+)
 
 /**
  */
@@ -161,7 +168,7 @@ defineExpose({
           cols="12"
           :sm="readyInlineFields.length > 1 ? 6 : 12"
           :md="readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12"
-          :lg="readyInlineFields.length > 3 ? 3 : readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12"
+          :lg="inlineFieldLgCols"
         >
           <FieldRenderer
             :field-context="getFieldContextFromFormFields(fieldKey)!"

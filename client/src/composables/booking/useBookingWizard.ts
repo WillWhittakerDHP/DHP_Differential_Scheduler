@@ -6,14 +6,14 @@ import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { useBooking } from '../useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturn } from '@/types/wizard'
+import type { UseBookingWizardReturnGrouped } from '@/types/wizard'
 import { useWizardFilteredOptions } from './useWizardFilteredOptions'
 
 /**
  * WHY: Booking Wizard Composable
 WHY: Single source of truth for wizard state w...
  */
-export function useBookingWizard(): UseBookingWizardReturn {
+export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const { bookingData } = useBooking()
 
   // LEARNING: Reactive state for wizard selections
@@ -130,29 +130,35 @@ LEARNING: Multi-select pattern usin...
   })
 
   return {
-    selectedUserTypeBlock,
-    selectedServiceTypeBlocks,
-    selectedOptionTypeBlocks,
-    selectedPropertyTypeBlocks,
-    selectedLineItemBlocks,
-    isQuoteMode,
-    selectUserTypeBlock,
-    toggleServiceTypeBlock,
-    toggleOptionTypeBlock,
-    togglePropertyTypeBlock,
-    toggleLineItemBlock,
-    batchUpdate,
-    availableUserTypeBlocks,
-    availableServices,
-    availableOptionTypeBlocks,
-    availablePropertyTypeBlocks,
-    availableLineItemBlocks,
-    servicesCascadeError,
-    availabilityOptionsCascadeError,
-    propertyTypesCascadeError,
-    accServices,
-    accProperty,
-    accAvailability,
-    bookingData,
+    state: {
+      selectedUserTypeBlock,
+      selectedServiceTypeBlocks,
+      selectedOptionTypeBlocks,
+      selectedPropertyTypeBlocks,
+      selectedLineItemBlocks,
+      isQuoteMode,
+    },
+    actions: {
+      selectUserTypeBlock,
+      toggleServiceTypeBlock,
+      toggleOptionTypeBlock,
+      togglePropertyTypeBlock,
+      toggleLineItemBlock,
+      batchUpdate,
+    },
+    computed: {
+      availableUserTypeBlocks,
+      availableServices,
+      availableOptionTypeBlocks,
+      availablePropertyTypeBlocks,
+      availableLineItemBlocks,
+      servicesCascadeError,
+      availabilityOptionsCascadeError,
+      propertyTypesCascadeError,
+      accServices,
+      accProperty,
+      accAvailability,
+      bookingData,
+    },
   }
 }

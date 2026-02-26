@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-02-25T01:18:52.866Z",
+  "generatedAt": "2026-02-26T00:44:47.815Z",
   "check": "Deprecation",
-  "totalScanned": 1057,
+  "totalScanned": 1088,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -25,72 +25,7 @@
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "id": "client__src__composables__admin__useInstanceBulkEdit.ts",
-      "repoPath": "client/src/composables/admin/useInstanceBulkEdit.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 37,
-          "line": "return bulkEditData.value.get(blockShapeId) ?? {}",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 47,
-          "line": "const instances = blockInstancesByShape.value.get(blockShapeId) ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 37,
-          "line": "return bulkEditData.value.get(blockShapeId) ?? {}",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 47,
-          "line": "const instances = blockInstancesByShape.value.get(blockShapeId) ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 4,
-      "priority": "P1"
-    },
-    {
-      "id": "client__src__composables__admin__useEntityCardSaveHandlers.ts",
-      "repoPath": "client/src/composables/admin/useEntityCardSaveHandlers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 39,
-          "line": "formValues: Object.keys(form.values ?? {}),",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 39,
-          "line": "formValues: Object.keys(form.values ?? {}),",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    }
-  ],
+  "files": [],
   "ruleset": [
     {
       "ruleId": "jsdoc-deprecated",

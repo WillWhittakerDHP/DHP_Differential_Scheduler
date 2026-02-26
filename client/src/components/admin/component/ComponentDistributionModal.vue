@@ -6,7 +6,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">Distribute Changes to Components</span>
+        <span class="text-headline-medium">Distribute Changes to Components</span>
         <VBtn
           icon
           variant="text"
@@ -40,33 +40,14 @@
               <th v-if="selectedStrategy === 'manual'">Manual Value</th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              v-for="item in preview"
-              :key="item.componentId"
-            >
-              <td>{{ getComponentName(item.componentId) }}</td>
-              <td>{{ formatValue(item.currentValue) }}</td>
-              <td>{{ formatValue(item.newValue) }}</td>
-              <td>
-                <VChip
-                  :color="item.change >= 0 ? 'success' : 'error'"
-                  size="small"
-                >
-                  {{ item.change >= 0 ? '+' : '' }}{{ formatValue(item.change) }}
-                </VChip>
-              </td>
-              <td v-if="selectedStrategy === 'manual'">
-                <VTextField
-                  v-model.number="manualValues[item.componentId]"
-                  type="number"
-                  density="compact"
-                  variant="outlined"
-                  @update:model-value="updateManualPreview"
-                />
-              </td>
-            </tr>
-          </tbody>
+          <ComponentDistributionTableBody
+            :preview="preview"
+            :selected-strategy="selectedStrategy"
+            :manual-values="manualValues"
+            :get-component-name="getComponentName"
+            :format-value="formatValue"
+            :set-manual-value="setManualValue"
+          />
         </VTable>
 
         <VAlert
@@ -106,6 +87,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import { DISTRIBUTION_STRATEGIES } from '@/constants/component'
+import ComponentDistributionTableBody from './ComponentDistributionTableBody.vue'
 import { useComponentDistribution } from '@/composables/useComponentDistribution'
 import { useComponentDistributionConfirm } from '@/composables/admin/useComponentDistributionConfirm'
 
@@ -156,6 +138,11 @@ const {
   formatValue,
   updateManualPreview
 } = componentDistributionComposable
+
+function setManualValue(componentId: GlobalEntityId, value: number) {
+  manualValues.value[componentId] = value
+  updateManualPreview()
+}
 
 function updateModelValue(value: boolean) {
   emit('update:modelValue', value)

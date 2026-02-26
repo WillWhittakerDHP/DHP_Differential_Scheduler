@@ -1,22 +1,22 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
     <AppTextField
-      :id="`field-${String(fieldContext.fieldKey)}`"
-      :name="String(fieldContext.fieldKey)"
+      :id="`field-${String(fieldContext.state.fieldKey)}`"
+      :name="String(fieldContext.state.fieldKey)"
       type="number"
       :model-value="fieldValue"
-      :label="fieldContext.displayConfig.label"
-      :placeholder="fieldContext.displayConfig.placeholder"
-      :disabled="fieldContext.displayConfig.disabled"
-      :readonly="fieldContext.displayConfig.readOnly"
-      :error="!!fieldContext.error?.value"
-      :error-messages="fieldContext.error?.value"
+      :label="fieldContext.state.displayConfig.label"
+      :placeholder="fieldContext.state.displayConfig.placeholder"
+      :disabled="fieldContext.state.displayConfig.disabled"
+      :readonly="fieldContext.state.displayConfig.readOnly"
+      :error="!!fieldContext.state.error?.value"
+      :error-messages="fieldContext.state.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
       class="number-input-field"
       @update:model-value="handleChange"
@@ -59,7 +59,7 @@ const fieldValue = useFieldValue(fieldContext)
 // PATTERN: Convert string to number before setting value
 const handleChange = (value: string | number) => {
   const numValue = typeof value === 'string' ? parseFloat(value) : value
-  fieldContext.setValue(isNaN(numValue) ? 0 : numValue)
+  fieldContext.actions.setValue(isNaN(numValue) ? 0 : numValue)
 }
 
 // FIX: Use shared field input handlers from composable (includes keyboard guard)

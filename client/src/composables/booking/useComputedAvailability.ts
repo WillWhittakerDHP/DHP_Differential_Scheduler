@@ -12,7 +12,6 @@ import { fetchComputedAvailabilityData } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
 import type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 
-export type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 
 const logger = createLogger('useComputedAvailability')
 

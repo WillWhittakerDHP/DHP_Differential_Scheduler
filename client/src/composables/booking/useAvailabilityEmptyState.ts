@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
-export type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
 /**
  * WHY: useAvailabilityEmptyState composable

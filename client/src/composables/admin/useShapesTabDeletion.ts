@@ -6,9 +6,16 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { ShapesTabBaseParams } from '@/types/admin/shapesTabDeletion'
 
-export type { ShapesTabBaseParams } from '@/types/admin/shapesTabDeletion'
 
-export function useShapesTabDeletion(params: ShapesTabBaseParams) {
+export interface UseShapesTabDeletionReturn {
+  handleDeletePartShape: (_id: string) => void
+  handleDeleteBlockShape: (_id: string) => void
+  handleDeleteAnnotationShape: (_id: string) => void
+  handleDeleteEventShape: (_id: string) => void
+  handleExistingShapeSaved: (entity: GlobalEntity<GlobalEntityKey>) => void
+}
+
+export function useShapesTabDeletion(params: ShapesTabBaseParams): UseShapesTabDeletionReturn {
   const { expandedShapes } = params
 
   const handleDeletePartShape = (_id: string): void => {

@@ -1,6 +1,6 @@
-import type { StepValidator } from '@/composables/booking/useWizardValidation'
 import type { BuildBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
+import type { StepValidator } from '@/types/booking/wizardValidation'
 export type { BuildBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
 /**

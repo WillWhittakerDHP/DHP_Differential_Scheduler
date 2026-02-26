@@ -50,11 +50,11 @@ const updateSelectedOption = (value: string | null) => {
                 :icon="item.icon"
                 class="text-high-emphasis"
               />
-              <h6 class="text-h6">
+              <h6 class="text-headline-small">
                 {{ item.title }}
               </h6>
 
-              <p class="text-body-2 mb-0">
+              <p class="text-body-medium mb-0">
                 {{ item.desc }}
               </p>
             </div>

@@ -170,37 +170,3 @@
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(var(--v-theme-surface), 0.9);
-  z-index: 10;
-  pointer-events: none; // Allow clicks to pass through to bars
-
-  .overlay-text {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: rgb(var(--v-theme-on-surface));
-    text-align: center;
-    padding: 1rem;
-
-    @media (max-width: 599px) {
-      font-size: 1.25rem;
-    }
-  }
-}
-
-.differential-graph.has-overlay {
-  filter: grayscale(0.5);
-  opacity: 0.6;
-
-  .time-bar {
-    pointer-events: auto; // Ensure bars are still clickable
-  }
-}

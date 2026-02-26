@@ -2,7 +2,6 @@ import { nextTick, onMounted, watch } from 'vue'
 import { patchSelectDomTargets } from '@/utils/forms/selectDomAssociation'
 import type { UseSelectFormAssociationOptions } from '@/types/admin/selectFormAssociation'
 
-export type { UseSelectFormAssociationOptions } from '@/types/admin/selectFormAssociation'
 
 export function useSelectFormAssociation(options: UseSelectFormAssociationOptions): void {
   const { targets } = options

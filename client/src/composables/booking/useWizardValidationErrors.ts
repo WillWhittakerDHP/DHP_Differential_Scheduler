@@ -9,11 +9,6 @@ import type {
   UseWizardValidationErrorsReturn,
 } from '@/types/booking/wizardValidationErrors'
 
-export type {
-  UseWizardValidationErrorsOptions,
-  UseWizardValidationErrorsReturn,
-} from '@/types/booking/wizardValidationErrors'
-
 export function useWizardValidationErrors(
   options: UseWizardValidationErrorsOptions
 ): UseWizardValidationErrorsReturn {

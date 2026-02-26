@@ -1,119 +1,59 @@
 {
-  "generatedAt": "2026-02-25T01:17:52.056Z",
-  "totalScanned": 5,
+  "generatedAt": "2026-02-26T00:04:10.589Z",
+  "totalScanned": 2,
   "byBehind": {
-    "major-behind": 3,
-    "minor-behind": 0,
-    "patch-behind": 2,
+    "major-behind": 1,
+    "minor-behind": 1,
+    "patch-behind": 0,
     "current": 0
   },
   "packages": [
     {
-      "package": "ts-morph",
-      "dependent": "client",
-      "current": "24.0.0",
-      "wanted": "24.0.0",
-      "latest": "27.0.2",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "typescript-eslint",
-      "dependent": "client",
-      "current": "8.56.0",
-      "wanted": "8.56.1",
-      "latest": "8.56.1",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "vue",
-      "dependent": "client",
-      "current": "3.5.28",
-      "wanted": "3.5.29",
-      "latest": "3.5.29",
-      "behind": "patch-behind",
-      "score": 0.5
-    },
-    {
-      "package": "vuetify",
-      "dependent": "client",
-      "current": "3.12.0",
-      "wanted": "3.12.1",
-      "latest": "4.0.0",
-      "behind": "major-behind",
-      "score": 5
-    },
-    {
-      "package": "@types/bcrypt",
+      "package": "@types/supertest",
       "dependent": "server",
-      "current": "5.0.2",
-      "wanted": "5.0.2",
-      "latest": "6.0.0",
+      "current": "6.0.3",
+      "wanted": "6.0.3",
+      "latest": "7.2.0",
       "behind": "major-behind",
       "score": 5
+    },
+    {
+      "package": "pg",
+      "dependent": "server",
+      "current": "8.18.0",
+      "wanted": "8.19.0",
+      "latest": "8.19.0",
+      "behind": "minor-behind",
+      "score": 2
     }
   ],
   "files": [
     {
-      "repoPath": "server:@types/bcrypt",
+      "repoPath": "server:@types/supertest",
       "score": 5,
       "priority": "P0",
-      "package": "@types/bcrypt",
+      "package": "@types/supertest",
       "dependent": "server",
-      "current": "5.0.2",
-      "wanted": "5.0.2",
-      "latest": "6.0.0",
+      "current": "6.0.3",
+      "wanted": "6.0.3",
+      "latest": "7.2.0",
       "behind": "major-behind"
     },
     {
-      "repoPath": "client:ts-morph",
-      "score": 5,
-      "priority": "P0",
-      "package": "ts-morph",
-      "dependent": "client",
-      "current": "24.0.0",
-      "wanted": "24.0.0",
-      "latest": "27.0.2",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:vuetify",
-      "score": 5,
-      "priority": "P0",
-      "package": "vuetify",
-      "dependent": "client",
-      "current": "3.12.0",
-      "wanted": "3.12.1",
-      "latest": "4.0.0",
-      "behind": "major-behind"
-    },
-    {
-      "repoPath": "client:typescript-eslint",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "typescript-eslint",
-      "dependent": "client",
-      "current": "8.56.0",
-      "wanted": "8.56.1",
-      "latest": "8.56.1",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "client:vue",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "vue",
-      "dependent": "client",
-      "current": "3.5.28",
-      "wanted": "3.5.29",
-      "latest": "3.5.29",
-      "behind": "patch-behind"
+      "repoPath": "server:pg",
+      "score": 2,
+      "priority": "P1",
+      "package": "pg",
+      "dependent": "server",
+      "current": "8.18.0",
+      "wanted": "8.19.0",
+      "latest": "8.19.0",
+      "behind": "minor-behind"
     }
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 5,
+    "totalRequiresReview": 2,
     "bySource": {
       "inline": 0,
       "pattern": 0,

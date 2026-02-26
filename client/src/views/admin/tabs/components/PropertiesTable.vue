@@ -5,6 +5,7 @@
 -->
 <script setup lang="ts">
 import { usePropertiesTableModel } from '@/composables/admin/tables/usePropertiesTableModel'
+import PropertyCreateForm from './PropertyCreateForm.vue'
 
 const {
   items: properties,
@@ -46,7 +47,7 @@ const headers = [
 <template>
   <div class="properties-table">
     <div class="d-flex justify-space-between align-center mb-4">
-      <h3 class="text-h6">Properties</h3>
+      <h3 class="text-headline-small">Properties</h3>
       <VBtn
         color="primary"
         prepend-icon="tabler-plus"
@@ -78,95 +79,13 @@ const headers = [
     </VAlert>
     
     <!-- Create form -->
-    <VCard v-if="isCreating" class="mb-4">
-      <VCardTitle>Create New Property</VCardTitle>
-      <VCardText>
-        <VRow>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newProperty.address"
-              label="Address *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newProperty.unit"
-              label="Unit"
-            />
-          </VCol>
-          <VCol cols="12" md="4">
-            <VTextField
-              v-model="newProperty.city"
-              label="City *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="4">
-            <VTextField
-              v-model="newProperty.state"
-              label="State *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="4">
-            <VTextField
-              v-model="newProperty.zipCode"
-              label="Zip Code *"
-              required
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model.number="newProperty.squareFootage"
-              type="number"
-              label="Square Footage"
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model="newProperty.mlsNumber"
-              label="MLS Number"
-            />
-          </VCol>
-          <VCol cols="12" md="4">
-            <VTextField
-              v-model.number="newProperty.bedrooms"
-              type="number"
-              label="Bedrooms"
-            />
-          </VCol>
-          <VCol cols="12" md="4">
-            <VTextField
-              v-model.number="newProperty.bathrooms"
-              type="number"
-              label="Bathrooms"
-            />
-          </VCol>
-          <VCol cols="12" md="4">
-            <VSelect
-              v-model="newProperty.foundationAccess"
-              :items="['basement', 'crawlspace', 'slab']"
-              label="Foundation Access"
-              clearable
-            />
-          </VCol>
-          <VCol cols="12" md="6">
-            <VTextField
-              v-model.number="newProperty.additionalUnits"
-              type="number"
-              label="Additional Units"
-            />
-          </VCol>
-        </VRow>
-      </VCardText>
-      <VCardActions>
-        <VSpacer />
-        <VBtn variant="text" @click="cancelCreate">Cancel</VBtn>
-        <VBtn color="primary" @click="saveCreate">Save</VBtn>
-      </VCardActions>
-    </VCard>
-    
+    <PropertyCreateForm
+      v-if="isCreating"
+      :new-property="newProperty"
+      @cancel="cancelCreate"
+      @save="saveCreate"
+    />
+
     <!-- Empty state -->
     <VAlert
       v-if="!isLoading && !propertiesError && properties.length === 0"
@@ -394,7 +313,7 @@ const headers = [
     <!-- Delete Confirmation Dialog -->
     <VDialog v-model="showDeleteDialog" max-width="500">
       <VCard>
-        <VCardTitle class="text-h6">Delete Property</VCardTitle>
+        <VCardTitle class="text-headline-small">Delete Property</VCardTitle>
         <VCardText>
           Are you sure you want to delete this property? This action cannot be undone.
         </VCardText>

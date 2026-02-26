@@ -1,11 +1,10 @@
 import { computed } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
 import { useStepValidation } from './useStepValidation'
 import type { UseAvailabilityValidationParams, UseAvailabilityValidationReturn } from '@/types/booking/availabilityValidation'
 
-export type { UseAvailabilityValidationParams, UseAvailabilityValidationReturn } from '@/types/booking/availabilityValidation'
 
+import type { ValidationRule } from '@/types/formValidation'
 export function useAvailabilityValidation(
   params: UseAvailabilityValidationParams
 ): UseAvailabilityValidationReturn {

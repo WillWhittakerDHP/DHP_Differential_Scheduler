@@ -6,6 +6,7 @@
  * perspectiveResolver.ts for major shape lookups instead of
  * inline getEventShapeByRole calls.
  */
+import type { Ref } from 'vue'
 import { computed, ref, watchEffect, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
@@ -21,7 +22,6 @@ import { resolveEventShapes } from '@/utils/booking/perspectiveResolver'
 import type { EventShapeEntity } from '@/types/entities'
 import type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
 
-export type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
 
 const logger = createLogger('useMoveablePartsScheduling')
 
@@ -135,7 +135,22 @@ interface UseMoveablePartsSchedulingParams {
   selectedSlot: ComputedRef<AppointmentSlot | null>
 }
 
-export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams) {
+export interface UseMoveablePartsSchedulingReturn {
+  showModal: Ref<boolean>
+  contingencyPeriod: Ref<ContingencyPeriod>
+  selectedSlotIndex: Ref<number | null>
+  isLoadingOptions: Ref<boolean>
+  hasMoveableParts: ComputedRef<boolean>
+  moveableDuration: ComputedRef<number>
+  moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
+  selectedMoveableSlot: ComputedRef<MoveableSlot | null>
+  openModal: () => void
+  closeModal: () => void
+  selectSlot: (index: number) => void
+  resetContingency: () => void
+}
+
+export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams): UseMoveablePartsSchedulingReturn {
   const { appointmentShape, selectedSlot } = params
   const { formatDateForDisplay, formatTimeForDisplay } = localTime()
 

@@ -6,6 +6,7 @@ import type { VForm } from 'vuetify/components'
 import { betaFeedback } from '@/utils/beta/betaFeedback'
 import { captureBrowserContext } from '@/utils/beta/captureBrowserContext'
 import { useNotification } from '@/composables/useNotification'
+import type { Ref } from 'vue'
 import type { FeedbackCategory, FeedbackSeverity } from '@/types/betaFeedback'
 import { createLogger } from '@/utils/logger'
 
@@ -16,7 +17,26 @@ export interface UseFeedbackSubmitOptions {
   onClose: () => void
 }
 
-export function useFeedbackSubmit(options: UseFeedbackSubmitOptions) {
+export interface UseFeedbackSubmitReturn {
+  formRef: Ref<InstanceType<typeof VForm> | null>
+  form: {
+    reporterName: string
+    reporterEmail: string
+    category: FeedbackCategory
+    severity: FeedbackSeverity
+    title: string
+    description: string
+    tags: string[]
+    stepsToReproduce: string
+    expectedBehavior: string
+    actualBehavior: string
+  }
+  sending: Ref<boolean>
+  submitError: Ref<string>
+  handleSubmit: () => Promise<void>
+}
+
+export function useFeedbackSubmit(options: UseFeedbackSubmitOptions): UseFeedbackSubmitReturn {
   const { submitFeedback } = betaFeedback()
   const { success, error: showError } = useNotification()
   const formRef = ref<InstanceType<typeof VForm> | null>(null)

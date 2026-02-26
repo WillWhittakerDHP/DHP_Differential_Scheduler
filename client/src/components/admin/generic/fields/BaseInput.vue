@@ -14,11 +14,6 @@
     <!-- Field Content -->
     <div class="field-content">
       <slot />
-      
-      <!-- Right Actions (e.g., mode toggle buttons) -->
-      <div v-if="$slots.rightActions" class="field-right-actions">
-        <slot name="rightActions" />
-      </div>
     </div>
     
     <!-- Error Message -->
@@ -50,7 +45,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showLabel: true,
+  showLabel: false,
   showError: true,
   showHelp: true,
   isDisabled: false

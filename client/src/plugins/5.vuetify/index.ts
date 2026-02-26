@@ -39,6 +39,9 @@ export default function (app: App) {
       IconBtn: VBtn,
     },
     defaults,
+    display: {
+      thresholds: { md: 960, lg: 1280, xl: 1920, xxl: 2560 },
+    },
     icons,
     theme: optionTheme,
   })

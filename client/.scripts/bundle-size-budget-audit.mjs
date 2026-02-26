@@ -185,12 +185,15 @@ function main() {
     }
   })()
 
-  const files = chunks.map(c => ({
-    repoPath: c.file,
-    score: c.gzipKb,
-    priority: c.gzipKb >= (budgets.largestChunkKb ?? 250) * 0.8 ? 'P1' : 'P2',
-    ...c,
-  }))
+  const budgetThreshold80 = (budgets.largestChunkKb ?? 250) * 0.8
+  const files = chunks
+    .filter(c => c.gzipKb >= budgetThreshold80)
+    .map(c => ({
+      repoPath: c.file,
+      score: c.gzipKb,
+      priority: c.gzipKb >= (budgets.largestChunkKb ?? 250) ? 'P0' : 'P1',
+      ...c,
+    }))
 
   const out = {
     generatedAt: new Date().toISOString(),

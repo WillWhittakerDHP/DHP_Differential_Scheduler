@@ -5,7 +5,6 @@ PATTERN: Composable that manage...
 import { ref } from 'vue'
 import type { UseShapeEditModalOptions, UseShapeEditModalReturn } from '@/types/admin/shapeEditModal'
 
-export type { UseShapeEditModalOptions, UseShapeEditModalReturn } from '@/types/admin/shapeEditModal'
 
 /**
  * WHY: Composable for managing shape edit modal
@@ -28,7 +27,6 @@ export function useShapeEditModal(
 
   const handleExistingBlockShapeSaved = (shapeId: string): void => {
     shapeEditModalOpen.value.set(shapeId, false)
-    // Also collapse the card if it was expanded (for backward compatibility)
     expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== shapeId)
   }
 

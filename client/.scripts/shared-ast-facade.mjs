@@ -280,4 +280,24 @@ export function clearParseCache() {
   parseCache.clear()
 }
 
+/**
+ * Extract <template> content from Vue SFC and the 1-based line in the file where the template content starts.
+ * Counterpart to extractVueScriptWithLineOffset for template-aware audits.
+ *
+ * @param {string} vueContent - Full Vue file content
+ * @returns {{ templateContent: string, startLineInFile: number } | null}
+ */
+export function extractVueTemplateSectionWithOffset(vueContent) {
+  const templateStart = vueContent.indexOf('<template')
+  if (templateStart === -1) return null
+  const afterTemplateTag = vueContent.indexOf('>', templateStart) + 1
+  const lastTemplateClose = vueContent.lastIndexOf('</template>')
+  if (lastTemplateClose === -1) return null
+  const startLineInFile = vueContent.slice(0, afterTemplateTag).split('\n').length
+  return {
+    templateContent: vueContent.slice(afterTemplateTag, lastTemplateClose),
+    startLineInFile,
+  }
+}
+
 export { loadTsMorph }

@@ -4,7 +4,6 @@ PATTERN: ...
 import { computed, type WritableComputedRef } from 'vue'
 import type { CreateNestedComputedOptions } from '@/types/admin/nestedComputedFactory'
 
-export type { CreateNestedComputedOptions } from '@/types/admin/nestedComputedFactory'
 
 export function createNestedComputed<TValue, TParent>(
   options: CreateNestedComputedOptions<TValue, TParent>

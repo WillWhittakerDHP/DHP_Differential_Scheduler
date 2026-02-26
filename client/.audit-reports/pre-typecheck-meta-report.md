@@ -7,16 +7,16 @@
 
 Use this report to build a **repair plan** before running `audit:all` or `typecheck:audit`.
 
-Generated at: 2026-02-23T19:38:07.414Z
+Generated at: 2026-02-25T14:28:27.271Z
 
 ## Pre-Typecheck Audit Summary
 
 | Audit | Files with findings | Total findings | Detail |
 | --- | ---: | ---: | --- |
-| type-similarity | 21 | 21 | Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 21 |
-| dep-freshness | 5 | 5 | Outdated: 5 (major: 1, minor: 0, patch: 4) |
+| type-similarity | 4 | 4 | Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 4 |
+| dep-freshness | 1 | 1 | Outdated: 1 (major: 1, minor: 0, patch: 0) |
 | import-hygiene | 0 | 0 | Barrel: 0, Deep relative: 0, Type re-export: 0, Inconsistent: 0, Duplicate re-exports: 0 |
-| import-graph | 0 | 0 | Cycles: 0, Fan-out violations: 0, Fan-in violations: 0 |
+| import-graph | 1 | 1 | Cycles: 0, Fan-out violations: 0, Fan-in violations: 1 |
 | api-contract | 0 | 0 | Client/server type mismatches: 0 |
 | type-escape | 0 | 0 | Type escape hatches (as any, ts-ignore, etc.): 0 |
 | type-import | 0 | 0 | Value-from-type-only: 0, Type-used-as-value: 0 |
@@ -25,7 +25,7 @@ Audits loaded: 7 / 7
 
 ## Repair plan readiness
 
-**Total pre-typecheck findings:** 26
+**Total pre-typecheck findings:** 6
 
 Address the findings above (see each audit's JSON/MD in `.audit-reports/`) before relying on typecheck or full audit.
 
@@ -35,22 +35,17 @@ Files appearing in multiple pre-typecheck audits — good repair candidates.
 
 | File | Score | Audits | Which audits |
 | --- | ---: | ---: | --- |
-| `client/src/composables/usePartInstanceData.ts` | 15.0 | 1 | import-graph |
-| `client/src/composables/useSelectOptions.ts` | 15.0 | 1 | import-graph |
-| `client:ts-morph` | 5.0 | 1 | dep-freshness |
-| `server:@typescript-eslint/eslint-plugin` | 0.5 | 1 | dep-freshness |
-| `server:@typescript-eslint/parser` | 0.5 | 1 | dep-freshness |
-| `client:typescript-eslint` | 0.5 | 1 | dep-freshness |
-| `client:vuetify` | 0.5 | 1 | dep-freshness |
+| `client/src/constants/entities` | 6.0 | 1 | import-graph |
+| `client:vuetify` | 5.0 | 1 | dep-freshness |
 
 ## Trend (vs previous run)
 
-- **type-similarity**: 21 → 21 (→ 0)
-- **dep-freshness**: 0 → 5 (↑ +5)
+- **type-similarity**: 20 → 4 (↓ -16)
+- **dep-freshness**: 1 → 1 (→ 0)
 - **import-hygiene**: 0 → 0 (→ 0)
-- **import-graph**: 0 → 0 (→ 0)
+- **import-graph**: 1 → 1 (→ 0)
 - **api-contract**: 0 → 0 (→ 0)
-- **type-escape**: 49 → 0 (↓ -49)
+- **type-escape**: 0 → 0 (→ 0)
 - **type-import**: 0 → 0 (→ 0)
 
 ## Next steps

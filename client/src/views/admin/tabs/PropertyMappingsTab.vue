@@ -41,7 +41,7 @@ const showBlockDialog = ref(false)
 
     <VWindow v-model="currentSubTab">
       <VWindowItem value="field">
-        <p class="text-body-2 text-medium-emphasis mb-4">
+        <p class="text-body-medium text-medium-emphasis mb-4">
           Map RESO source fields (e.g. FoundationDetails) to property_details target fields (foundationAccess, additionalUnits).
         </p>
         <VDataTable
@@ -69,7 +69,7 @@ const showBlockDialog = ref(false)
       </VWindowItem>
 
       <VWindowItem value="block">
-        <p class="text-body-2 text-medium-emphasis mb-4">
+        <p class="text-body-medium text-medium-emphasis mb-4">
           Map RESO features (e.g. PoolFeatures, PatioAndPorchFeatures) to block instances for suggested selections.
         </p>
         <VDataTable

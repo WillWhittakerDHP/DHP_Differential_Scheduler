@@ -5,7 +5,6 @@ PATTERN: Simple composabl...
 import { ref } from 'vue'
 import type { UseTabNavigationOptions, UseTabNavigationReturn } from '@/types/admin/tabNavigation'
 
-export type { UseTabNavigationOptions, UseTabNavigationReturn } from '@/types/admin/tabNavigation'
 
 /**
  * WHY: Composable for managing tab navigation state

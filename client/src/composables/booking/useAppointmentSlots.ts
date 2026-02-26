@@ -9,7 +9,6 @@ import type { UseAppointmentSlotsParams, UseAppointmentSlotsReturn } from '@/typ
 
 const logger = createLogger('useAppointmentSlots')
 
-export type { UseAppointmentSlotsParams, UseAppointmentSlotsReturn } from '@/types/booking/appointmentSlots'
 
 export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppointmentSlotsReturn {
   const {

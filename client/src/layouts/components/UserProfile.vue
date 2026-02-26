@@ -85,7 +85,7 @@ const userProfileList = [
               </VListItemAction>
 
               <div>
-                <h6 class="text-h6 font-weight-medium">
+                <h6 class="text-headline-small font-weight-medium">
                   {{ userData.fullName || userData.username }}
                 </h6>
                 <VListItemSubtitle class="text-capitalize text-disabled">

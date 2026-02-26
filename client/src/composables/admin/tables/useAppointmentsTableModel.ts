@@ -6,9 +6,10 @@ import { useNotification } from '@/composables/useNotification'
 import type { AppointmentRequest, AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
-import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { useCrudDataTableModel } from './useCrudDataTableModel'
 import { getAppointmentFieldFormatter } from '@/utils/appointmentFieldFormatters'
 
+import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
 export interface AppointmentsTableModel extends CrudDataTableModel<
   AppointmentResponse,
   AppointmentRequest,
@@ -72,7 +73,7 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     return names.length ? names.join(', ') : '—'
   }
 
-  const model = useCrudDataTableModel<AppointmentResponse, AppointmentRequest, Partial<AppointmentRequest>>({
+  const crud = useCrudDataTableModel<AppointmentResponse, AppointmentRequest, Partial<AppointmentRequest>>({
     entityLabel: 'Appointment',
     itemsSource: computed(() => {
       const data = fetchAll.data.value
@@ -122,7 +123,10 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
   })
 
   return {
-    ...model,
+    ...crud.data,
+    ...crud.editState,
+    ...crud.dialogs,
+    ...crud.actions,
     properties,
     users,
     getDisplayValue,

@@ -6,7 +6,6 @@ PATTERN: Delegates to generic ...
 import { useBlockInstanceSelection } from './useBlockInstanceSelection'
 import type { UsePropertyTypeBlockSelectionParams, UsePropertyTypeBlockSelectionReturn } from '@/types/booking/propertyTypeBlockSelection'
 
-export type { UsePropertyTypeBlockSelectionParams, UsePropertyTypeBlockSelectionReturn } from '@/types/booking/propertyTypeBlockSelection'
 
 /**
  * PATTERN: usePropertyTypeBlockSelection composable

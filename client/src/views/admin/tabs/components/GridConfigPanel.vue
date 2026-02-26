@@ -1,72 +1,80 @@
 <!--
   Grid config: slot increment, differential perspectives
   WHY: Extracted from BusinessControlsTab to reduce file size and cohesion
+  PATTERN: Injects businessControlsState from parent to avoid prop/emit drilling
 -->
 <script setup lang="ts">
+import { inject } from 'vue'
+import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
-defineProps<{
-  minuteIncrement: number
-  majorAttendees: GlobalEntityId[]
-  minorAttendees: GlobalEntityId[]
-  majorLabel: string
-  minorLabel: string
-  differentialGraphDefaultLabel: string
-  majorStateLabel: string
-  minorStateLabel: string
-  availableUserTypeBlocks: Array<{ id: GlobalEntityId; title: string; value: GlobalEntityId }>
-  saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
-}>()
-
-const emit = defineEmits<{
-  'update:minuteIncrement': [value: number]
-  'update:majorAttendees': [value: GlobalEntityId[]]
-  'update:minorAttendees': [value: GlobalEntityId[]]
-  'update:majorLabel': [value: string]
-  'update:minorLabel': [value: string]
-  'update:differentialGraphDefaultLabel': [value: string]
-  'update:majorStateLabel': [value: string]
-  'update:minorStateLabel': [value: string]
-}>()
+const state = inject(BUSINESS_CONTROLS_STATE_KEY)
+if (!state) throw new Error('GridConfigPanel must be used inside BusinessControlsTab')
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 const timeIncrementOptions = TIME_INCREMENT_OPTIONS
+const formState = state.formState
+const differential = state.differential
+
+function handleMinuteIncrement(v: number | string): void {
+  formState.setMinuteIncrement(Number(v))
+}
+function handleMajorAttendees(v: unknown): void {
+  differential.majorAttendees = v as typeof differential.majorAttendees
+}
+function handleMinorAttendees(v: unknown): void {
+  differential.minorAttendees = v as typeof differential.minorAttendees
+}
+function handleMajorLabel(v: string): void {
+  differential.majorLabel = v
+}
+function handleMinorLabel(v: string): void {
+  differential.minorLabel = v
+}
+function handleDifferentialGraphDefaultLabel(v: string): void {
+  differential.differentialGraphDefaultLabel = v
+}
+function handleMajorStateLabel(v: string): void {
+  differential.majorStateLabel = v
+}
+function handleMinorStateLabel(v: string): void {
+  differential.minorStateLabel = v
+}
 </script>
 
 <template>
   <div class="mb-6">
-    <div class="text-subtitle-1 mb-3">{{ UI_STRINGS.sections.gridConfigTitle }}</div>
+    <div class="text-body-large mb-3">{{ UI_STRINGS.sections.gridConfigTitle }}</div>
 
     <div class="mb-6">
-      <div class="text-subtitle-2 mb-3">{{ UI_STRINGS.sections.slotIncrementTitle }}</div>
+      <div class="text-label-large mb-3">{{ UI_STRINGS.sections.slotIncrementTitle }}</div>
       <VSelect
-        :model-value="minuteIncrement"
-        @update:model-value="(v: number | string) => emit('update:minuteIncrement', Number(v))"
+        :model-value="formState.minuteIncrement"
+        @update:model-value="handleMinuteIncrement"
         :items="timeIncrementOptions"
         :label="UI_STRINGS.labels.timeSlotIncrement"
         required
         :rules="[(v: number) => !!v || UI_STRINGS.validation.timeIncrementRequired]"
         class="mb-2"
       />
-      <div class="text-caption">
-        {{ UI_STRINGS.help.timeSlots }} {{ minuteIncrement }} minutes
+      <div class="text-body-small">
+        {{ UI_STRINGS.help.timeSlots }} {{ formState.minuteIncrement }} minutes
       </div>
     </div>
 
     <VDivider class="my-6" />
 
     <div class="mb-6">
-      <div class="text-subtitle-2 mb-3">{{ UI_STRINGS.differential.sectionTitle }}</div>
-      <div class="text-body-2 mb-4 text-medium-emphasis">
+      <div class="text-label-large mb-3">{{ UI_STRINGS.differential.sectionTitle }}</div>
+      <div class="text-body-medium mb-4 text-medium-emphasis">
         {{ UI_STRINGS.differential.sectionDescription }}
       </div>
 
       <VSelect
-        :model-value="majorAttendees"
-        @update:model-value="emit('update:majorAttendees', $event)"
-        :items="availableUserTypeBlocks"
+        :model-value="differential.majorAttendees"
+        @update:model-value="handleMajorAttendees"
+        :items="differential.availableUserTypeBlocks"
         :label="UI_STRINGS.differential.majorAttendeesLabel"
         :hint="UI_STRINGS.differential.majorAttendeesHint"
         persistent-hint
@@ -77,8 +85,8 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
       />
 
       <VTextField
-        :model-value="majorLabel"
-        @update:model-value="emit('update:majorLabel', $event)"
+        :model-value="differential.majorLabel"
+        @update:model-value="handleMajorLabel"
         :label="UI_STRINGS.differential.majorLabelLabel"
         :hint="UI_STRINGS.differential.majorLabelHint"
         persistent-hint
@@ -86,9 +94,9 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
       />
 
       <VSelect
-        :model-value="minorAttendees"
-        @update:model-value="emit('update:minorAttendees', $event)"
-        :items="availableUserTypeBlocks"
+        :model-value="differential.minorAttendees"
+        @update:model-value="handleMinorAttendees"
+        :items="differential.availableUserTypeBlocks"
         :label="UI_STRINGS.differential.minorAttendeesLabel"
         :hint="UI_STRINGS.differential.minorAttendeesHint"
         persistent-hint
@@ -99,8 +107,8 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
       />
 
       <VTextField
-        :model-value="minorLabel"
-        @update:model-value="emit('update:minorLabel', $event)"
+        :model-value="differential.minorLabel"
+        @update:model-value="handleMinorLabel"
         :label="UI_STRINGS.differential.minorLabelLabel"
         :hint="UI_STRINGS.differential.minorLabelHint"
         persistent-hint
@@ -108,8 +116,8 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
       />
 
       <VTextField
-        :model-value="differentialGraphDefaultLabel"
-        @update:model-value="emit('update:differentialGraphDefaultLabel', $event)"
+        :model-value="differential.differentialGraphDefaultLabel"
+        @update:model-value="handleDifferentialGraphDefaultLabel"
         :label="UI_STRINGS.differential.graphDefaultLabel"
         :hint="UI_STRINGS.differential.graphDefaultHint"
         persistent-hint
@@ -117,8 +125,8 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
       />
 
       <VTextField
-        :model-value="majorStateLabel"
-        @update:model-value="emit('update:majorStateLabel', $event)"
+        :model-value="differential.majorStateLabel"
+        @update:model-value="handleMajorStateLabel"
         :label="UI_STRINGS.differential.majorStateLabel"
         :hint="UI_STRINGS.differential.majorStateHint"
         persistent-hint
@@ -126,14 +134,14 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
       />
 
       <VTextField
-        :model-value="minorStateLabel"
-        @update:model-value="emit('update:minorStateLabel', $event)"
+        :model-value="differential.minorStateLabel"
+        @update:model-value="handleMinorStateLabel"
         :label="UI_STRINGS.differential.minorStateLabel"
         :hint="UI_STRINGS.differential.minorStateHint"
         persistent-hint
       />
 
-      <div class="text-caption mt-4 text-medium-emphasis">
+      <div class="text-body-small mt-4 text-medium-emphasis">
         <div class="mb-1">{{ UI_STRINGS.differential.helpMajor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpMinor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpLabels }}</div>
@@ -145,7 +153,7 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
   </div>
 
   <div class="d-flex gap-2 mt-4">
-    <VBtn v-bind="saveButtonProps">
+    <VBtn v-bind="state.saveButtonProps">
       {{ UI_STRINGS.buttons.saveSettings }}
     </VBtn>
   </div>

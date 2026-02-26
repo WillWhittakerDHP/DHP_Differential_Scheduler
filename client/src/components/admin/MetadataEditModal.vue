@@ -1,7 +1,7 @@
 <!--
   LEARNING: Metadata Edit Modal
   WHY: Unified modal for editing admin input metadata (rendering configuration only)
-  PATTERN: Single editor component wired to admin-input-metadata API
+  PATTERN: Single editor component wired to admin-metadata API
   NOTE: Replaces legacy two-tab modal with unified rendering-focused editor
 -->
 <template>
@@ -13,7 +13,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">{{ modalTitle }}</span>
+        <span class="text-headline-medium">{{ modalTitle }}</span>
         <VBtn
           icon
           variant="text"

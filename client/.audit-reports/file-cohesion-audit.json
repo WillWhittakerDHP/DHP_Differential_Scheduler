@@ -1,6 +1,9 @@
 {
-  "generatedAt": "2026-02-25T01:18:47.203Z",
-  "totalScanned": 1057,
+  "generatedAt": "2026-02-26T01:01:01.371Z",
+  "totalScanned": 1088,
+  "exceptionSummary": {
+    "totalRequiresReview": 13
+  },
   "tierModel": "tier1",
   "tier1Rules": [
     "oversized",
@@ -17,6 +20,51 @@
     "maxExports": 10
   },
   "files": [
+    {
+      "repoPath": "client/src/composables/booking/injectionKeys.ts",
+      "category": "composables",
+      "lineCount": 102,
+      "exportCount": 22,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 22,
+          "threshold": 10,
+          "detail": "22 exports (max: 10)",
+          "tier": 1
+        },
+        {
+          "rule": "pureHelperInComposables",
+          "value": 1,
+          "threshold": 0,
+          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`.",
+          "tier": 2
+        }
+      ],
+      "score": 24,
+      "priority": "P0"
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+      "category": "components",
+      "lineCount": 714,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 714,
+          "threshold": 500,
+          "detail": "714 lines (components max: 500)",
+          "tier": 1
+        }
+      ],
+      "score": 9,
+      "priority": "P1"
+    },
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
@@ -37,25 +85,6 @@
       "priority": "P1"
     },
     {
-      "repoPath": "client/src/configs/availabilitySettings.ts",
-      "category": "general",
-      "lineCount": 473,
-      "exportCount": 13,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 13,
-          "threshold": 10,
-          "detail": "13 exports (max: 10)",
-          "tier": 1
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
       "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
       "category": "general",
       "lineCount": 490,
@@ -68,44 +97,6 @@
           "value": 490,
           "threshold": 350,
           "detail": "490 lines (general max: 350)",
-          "tier": 1
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
-      "category": "services",
-      "lineCount": 528,
-      "exportCount": 2,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 528,
-          "threshold": 400,
-          "detail": "528 lines (services max: 400)",
-          "tier": 1
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/services/slotComputationService.ts",
-      "category": "services",
-      "lineCount": 505,
-      "exportCount": 1,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 505,
-          "threshold": 400,
-          "detail": "505 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -191,35 +182,16 @@
     {
       "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "category": "utils",
-      "lineCount": 354,
+      "lineCount": 356,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 354,
+          "value": 356,
           "threshold": 300,
-          "detail": "354 lines (utils max: 300)",
-          "tier": 1
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "repoPath": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "category": "components",
-      "lineCount": 550,
-      "exportCount": 0,
-      "mixedConcerns": false,
-      "hasExports": false,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 550,
-          "threshold": 500,
-          "detail": "550 lines (components max: 500)",
+          "detail": "356 lines (utils max: 300)",
           "tier": 1
         }
       ],

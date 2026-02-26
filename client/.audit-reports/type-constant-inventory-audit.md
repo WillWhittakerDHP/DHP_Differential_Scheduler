@@ -4,23 +4,40 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-02-25T01:18:48.875Z
+Generated: 2026-02-25T14:23:17.785Z
 
 ## Summary
 
-- Type files: **247**
+- Type files: **264**
 - Constant files: **23**
 - Config files: **29**
 - Files with inline type exports: **48**
-- Annotated: **65** | Unannotated: **234**
+- Annotated: **65** | Unannotated: **251**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 30 |
+| Inline types in composables | 31 |
 | Configs with factory functions | 5 |
-| Duplicate type names | 3 |
+| Duplicate type names | 4 |
 | Cleanup candidates (misplaced + unused) | 0 |
+| Monomorphic generics | 9 |
+
+## Monomorphic generics
+
+Generic types always instantiated with the same argument; consider removing the generic or merging with the argument type.
+
+| Type name | Defined in | Always used with | Usage count |
+| --- | --- | --- | ---: |
+| UpdateByIdPayload | `client/src/types/collectionTypes.ts` | `UpdatePayload` | 15 |
+| CollectionQueryResult | `client/src/types/collectionTypes.ts` | `CollectionItem` | 3 |
+| CollectionByIdQueryResult | `client/src/types/collectionTypes.ts` | `CollectionItem` | 3 |
+| BusinessDataCollectionQueryResult | `client/src/composables/businessDataCollections/types.ts` | `CollectionItem` | 4 |
+| BusinessDataCollectionByIdQueryResult | `client/src/composables/businessDataCollections/types.ts` | `CollectionItem` | 4 |
+| BusinessDataCollectionSelector | `client/src/composables/businessDataCollections/types.ts` | `CollectionItem` | 3 |
+| GlobalDataCollectionQueryResult | `client/src/composables/globalDataCollections/types.ts` | `CollectionItem` | 4 |
+| GlobalDataCollectionByIdQueryResult | `client/src/composables/globalDataCollections/types.ts` | `CollectionItem` | 4 |
+| GlobalDataCollectionSelector | `client/src/composables/globalDataCollections/types.ts` | `CollectionItem` | 3 |
 
 ## Type File Catalog (by domain)
 
@@ -53,7 +70,7 @@ Generated: 2026-02-25T01:18:48.875Z
 | `client/src/types/admin/metadataFieldDrag.ts` | dedicated | UseMetadataFieldDragParams | no | UseMetadataFieldDragParams. | feature |
 | `client/src/types/admin/metadataFieldOrdering.ts` | dedicated | UseMetadataFieldOrderingOptions, UseMetadataFieldOrderingReturn | no | UseMetadataFieldOrderingOptions, UseMetadataFieldOrderingReturn. | feature |
 | `client/src/types/admin/metadataModalHandlers.ts` | dedicated | UseMetadataModalHandlersReturn | no | UseMetadataModalHandlersReturn. | feature |
-| `client/src/types/admin/partInstanceBulkEdit.ts` | dedicated | PartInstanceBulkEditData, UsePartInstanceBulkEditOptions, UsePartInstanceBulkEditReturn | no | PartInstanceBulkEditData, UsePartInstanceBulkEditOptions, UsePartInstanceBulkEditReturn. | feature |
+| `client/src/types/admin/partInstanceBulkEdit.ts` | dedicated | UsePartInstanceBulkEditOptions, UsePartInstanceBulkEditReturn | no | PartInstanceBulkEditData, UsePartInstanceBulkEditOptions, UsePartInstanceBulkEditReturn. | feature |
 | `client/src/types/admin/partInstanceCollection.ts` | dedicated | PartInstanceCollectionModel | no | PartInstanceCollectionModel. | feature |
 | `client/src/types/admin/partInstanceExpansion.ts` | dedicated | UsePartInstanceExpansionOptions, UsePartInstanceExpansionReturn | no | UsePartInstanceExpansionOptions, UsePartInstanceExpansionReturn. | feature |
 | `client/src/types/admin/partInstanceForm.ts` | dedicated | UsePartInstanceFormOptions, PartInstanceFormData | no | PartInstanceFormData, UsePartInstanceFormOptions, UsePartInstanceFormReturn. | feature |
@@ -218,7 +235,7 @@ Generated: 2026-02-25T01:18:48.875Z
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/admin/entityCardMetadata.ts` | dedicated | UseEntityCardMetadataParams, UseEntityCardMetadataReturn | no | (none) | unknown |
+| `client/src/types/admin/entityCardMetadata.ts` | dedicated | UseEntityMetadataReturn, UseEntityCardMetadataParams, UseEntityCardMetadataReturn | no | (none) | unknown |
 
 ### Domain: admin/entityCardSaveAndActions.ts
 
@@ -328,6 +345,12 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/nestedComputedFactory.ts` | dedicated | CreateNestedComputedOptions | no | (none) | unknown |
 
+### Domain: admin/partPricing.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/partPricing.ts` | dedicated | PartPricingFields | no | (none) | unknown |
+
 ### Domain: admin/selectFiltering.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -366,11 +389,23 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/appointmentApi.ts` | dedicated | AttendeeResponse, AppointmentRequest, AppointmentResponse | no | (none) | unknown |
 
+### Domain: appointmentFeeTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/appointmentFeeTypes.ts` | dedicated | AppointmentFeeSummaryCreate, AppointmentFeeEntryCreate, AppointmentFeeSummary, FeeEntryBase, AppointmentFeeBreakdownPayload | no | (none) | unknown |
+
 ### Domain: appointmentStatus.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/appointmentStatus.ts` | dedicated | AppointmentStatus | no | (none) | unknown |
+
+### Domain: appointmentTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/appointmentTypes.ts` | dedicated | AttendeeRequest | no | (none) | unknown |
 
 ### Domain: autocomplete.ts
 
@@ -396,6 +431,12 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/availabilityStepParams.ts` | dedicated | AvailabilityStepParamsBase | no | (none) | unknown |
 
+### Domain: availabilityTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/availabilityTypes.ts` | dedicated | RFC3339DateTime, ConstraintEnforcement, RollingWeekDirection, ConstraintCategory, RangeConstraintType… | no | (none) | unknown |
+
 ### Domain: betaFeedback.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -416,7 +457,7 @@ Generated: 2026-02-25T01:18:48.875Z
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/booking/appointmentDataBuilders.ts` | dedicated | AttendeeSpecInput, CreateUserMutate, AvailabilityPayload, BlockQuantities | no | (none) | unknown |
+| `client/src/types/booking/appointmentDataBuilders.ts` | dedicated | AppointmentAttendeeRoleLiteral, AttendeeSpecInput, CreateUserMutate, AvailabilityPayload, BlockQuantities | no | (none) | unknown |
 
 ### Domain: booking/appointmentDropdown.ts
 
@@ -519,6 +560,12 @@ Generated: 2026-02-25T01:18:48.875Z
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/booking/blockInstanceSelection.ts` | dedicated | SelectionMode, UseBlockInstanceSelectionParams, UseBlockInstanceSelectionReturnSingle, UseBlockInstanceSelectionReturnMultiple | no | (none) | unknown |
+
+### Domain: booking/bookingFinalTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/utils/booking/bookingFinalTypes.ts` | colocated |  | no | (none) | unknown |
 
 ### Domain: booking/bookingWizardStepValidators.ts
 
@@ -862,6 +909,18 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/composables/businessDataCollections/types.ts` | colocated | BusinessDataCollectionQueryResult, BusinessDataCollectionByIdQueryResult, BusinessDataCollectionSelector, BusinessDataCollectionUpdater, BusinessDataCollectionEndpoints… | no | (none) | unknown |
 
+### Domain: businessRulesTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/businessRulesTypes.ts` | dedicated | RuleConfig, RequiredFieldsRuleConfig, RequiresAgentRuleConfig, ConditionalValidationRuleConfig, ValidationMessageRuleConfig | no | (none) | unknown |
+
+### Domain: calendarTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/calendarTypes.ts` | dedicated | CalendarProvider, CalendarEntry, CalendarConfig | no | (none) | unknown |
+
 ### Domain: collections/arrayDiff.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -903,6 +962,24 @@ Generated: 2026-02-25T01:18:48.875Z
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/componentEntity/componentEntityQuery.ts` | dedicated | UseComponentEntityQueryReturn | no | (none) | unknown |
+
+### Domain: componentTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/componentTypes.ts` | dedicated | ComponentStrategy, ComponentConfig | no | (none) | unknown |
+
+### Domain: contactTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/contactTypes.ts` | dedicated | ContactInfoBase | no | (none) | unknown |
+
+### Domain: coreEntityTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/coreEntityTypes.ts` | dedicated | CoreEntity | no | (none) | unknown |
 
 ### Domain: dataCollections/dataCollectionActions.ts
 
@@ -1059,6 +1136,12 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/googleCalendar.ts` | dedicated | GoogleCalendarBusyPeriod, GoogleFreeBusyResponse | no | (none) | unknown |
 
+### Domain: identifiable.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/identifiable.ts` | dedicated | IdentifiableById | no | (none) | unknown |
+
 ### Domain: layoutLoading.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -1071,11 +1154,29 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/loadingIndicator.ts` | dedicated | LoadingIndicatorInstance, UseLoadingIndicatorReturn | no | (none) | unknown |
 
+### Domain: loggerTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/loggerTypes.ts` | dedicated | LogLevel, AppLogger, Logger, LoggerEnvConfig | no | (none) | unknown |
+
+### Domain: mapsTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/mapsTypes.ts` | dedicated | MapsApiErrorType, RouteLocation, RouteMatrixStatus, AutocompletePrediction, AddressComponents… | no | (none) | unknown |
+
 ### Domain: metadataEditorProps.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/metadataEditorProps.ts` | dedicated | MetadataEditorPropsBase | no | (none) | unknown |
+
+### Domain: metadataEntryTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/metadataEntryTypes.ts` | dedicated | MetadataEntryBase | no | (none) | unknown |
 
 ### Domain: moveableScheduling.ts
 
@@ -1089,17 +1190,35 @@ Generated: 2026-02-25T01:18:48.875Z
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/partInstanceData.ts` | dedicated | UsePartInstanceDataOptions, UsePartInstanceDataReturn | no | (none) | unknown |
 
+### Domain: primitiveBrands.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/primitiveBrands.ts` | dedicated | ISO8601Date, GlobalEntityId | no | (none) | unknown |
+
 ### Domain: property.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/property.ts` | dedicated | PropertyVersionType, PropertyTypesRequest | no | (none) | unknown |
 
+### Domain: propertyEnrichmentTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/propertyEnrichmentTypes.ts` | dedicated |  | no | (none) | unknown |
+
 ### Domain: propertyForm.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/propertyForm.ts` | dedicated | PropertySource, PropertyFormData | yes | (none) | unknown |
+
+### Domain: propertyTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/propertyTypes.ts` | dedicated | PropertyAddressBase, PropertyDetailsBase | no | (none) | unknown |
 
 ### Domain: root
 
@@ -1239,7 +1358,7 @@ Generated: 2026-02-25T01:18:48.875Z
 | constants | `client/src/constants/scheduling.ts` | 3 | 0 | no |
 | constants | `client/src/constants/statusButtonLabels.ts` | 1 | 0 | no |
 | configs | `client/src/configs/adminConfig.ts` | 0 | 3 | yes |
-| configs | `client/src/configs/availabilitySettings.ts` | 1 | 3 | yes |
+| configs | `client/src/configs/availabilitySettings.ts` | 2 | 3 | yes |
 | configs | `client/src/configs/businessControlsTabStrings.ts` | 1 | 0 | no |
 | configs | `client/src/configs/contactsValidationStrings.ts` | 1 | 0 | no |
 | configs | `client/src/configs/eventPerspectiveLabels.ts` | 1 | 0 | no |
@@ -1282,10 +1401,9 @@ Generated: 2026-02-25T01:18:48.875Z
 - `client/src/composables/admin/useMetadataEditModal.ts`: MetadataEditorSaveRef, UseMetadataEditModalOptions (imported by 0 files)
 - `client/src/composables/admin/usePrimitiveMetadataSave.ts`: UsePrimitiveMetadataSaveOptions (imported by 0 files)
 - `client/src/composables/admin/usePropertyMappingsTab.ts`: PropertyFieldMappingRow, PropertyFeatureMappingRow (imported by 0 files)
-- `client/src/composables/admin/useSelectGroupedByKey.ts`: SelectGroup, GroupedByKeyItem (imported by 3 files)
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions (imported by 0 files)
-- `client/src/composables/booking/useSlotGridDisplay.ts`: SlotDisplayItem, UseSlotGridDisplayOptions (imported by 0 files)
+- `client/src/composables/booking/useSlotGridDisplay.ts`: UseSlotGridDisplayOptions (imported by 0 files)
 - `client/src/composables/layout/useNavSearch.ts`: SearchResultsGroup (imported by 0 files)
 - `client/src/composables/layout/useNotificationActions.ts`: NotificationItem (imported by 0 files)
 - `client/src/composables/useAsyncOperation.ts`: WithAsyncOperationState, WithAsyncOperationOptions (imported by 0 files)
@@ -1297,6 +1415,8 @@ Generated: 2026-02-25T01:18:48.875Z
 - `client/src/utils/admin/entityListDelete.ts`: EntityListDeleteOptions (imported by 0 files)
 - `client/src/utils/admin/inputConfigEditor.ts`: InputConfigFormData, InputConfigEditorOptions, InputConfigEditorReturn (imported by 0 files)
 - `client/src/utils/admin/metadataFieldUpdates.ts`: MetadataFieldUpdatesOptions, MetadataFieldUpdatesReturn (imported by 0 files)
+- `client/src/utils/admin/selectFilterStrategies.ts`: ValidChildrenKey (imported by 0 files)
+- `client/src/utils/admin/selectOptionTransforms.ts`: GroupWithParent (imported by 0 files)
 - `client/src/utils/beta/betaFeedback.ts`: BetaFeedbackReturn (imported by 0 files)
 - `client/src/utils/beta/captureBrowserContext.ts`: BrowserContext (imported by 0 files)
 - `client/src/utils/booking/devPanelsFormatters.ts`: DevPanelsFormattersReturn (imported by 0 files)
@@ -1313,6 +1433,7 @@ _None (or unused-code-audit.json not available)._
 
 ## Duplicate Type Names
 
-- **PartInstanceBulkEditData**: client/src/types/admin/partInstanceBulkEdit.ts, client/src/composables/admin/usePartInstanceBulkEdit.ts
 - **UsePartInstanceBulkEditOptions**: client/src/types/admin/partInstanceBulkEdit.ts, client/src/composables/admin/usePartInstanceBulkEdit.ts
-- **SelectGroup**: client/src/types/entity/selectOptions.ts, client/src/composables/admin/useSelectGroupedByKey.ts
+- **DurationRoundingConfig**: client/src/types/booking/durationRounding.ts, shared/types/availabilityTypes.ts
+- **ComponentStrategy**: client/src/types/component.ts, shared/types/componentTypes.ts
+- **ComponentConfig**: client/src/types/component.ts, shared/types/componentTypes.ts

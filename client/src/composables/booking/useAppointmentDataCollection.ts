@@ -17,9 +17,6 @@ import type { UseAppointmentDataCollectionParams, UseAppointmentDataCollectionRe
 
 const logger = createLogger('useAppointmentDataCollection')
 
-export type { UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn } from '@/types/booking/appointmentDataCollection'
-export type { ContactsStepData, PropertyDetailsStepData } from '@/types/wizard'
-export type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 
 /**
  * WHY: useAppointmentDataCollection composable

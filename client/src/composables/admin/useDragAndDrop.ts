@@ -10,7 +10,6 @@ import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecke
 import { createLogger } from '@/utils/logger'
 import type { UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
 
-export type { DragEndHandler, UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
 
 const logger = createLogger('useDragAndDrop')
 

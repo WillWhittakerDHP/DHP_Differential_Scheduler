@@ -6,7 +6,6 @@ import {
 import type { StepValidator } from '@/types/booking/wizardValidation'
 import type { BookingWizardStepValidators, UseBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
-export type { BookingWizardStepValidators, UseBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
 export function useBookingWizardStepValidators(
   options: UseBookingWizardStepValidatorsOptions

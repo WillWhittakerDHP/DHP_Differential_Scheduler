@@ -4,11 +4,15 @@
   PATTERN: Thin component; all logic in useBusinessRulesTab; RuleFormDialog, RulesList for UI.
 -->
 <script setup lang="ts">
+import { provide, reactive } from 'vue'
 import { useBusinessRulesTab } from '@/composables/admin/useBusinessRulesTab'
+import { ruleFormDialogContextKey } from '@/composables/admin/injectionKeys'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'
+import type { BusinessRuleFormData } from '@/types/admin/businessRules'
 import RulesList from './RulesList.vue'
 import RuleFormDialog from './RuleFormDialog.vue'
 
+const tab = useBusinessRulesTab()
 const {
   rules,
   loading,
@@ -20,6 +24,8 @@ const {
   availableValidationMessages,
   filteredRules,
   selectedBlockTitle,
+} = tab.data
+const {
   formData,
   editingRule,
   showRuleDialog,
@@ -27,6 +33,8 @@ const {
   requiredFieldsArray,
   requiredFieldsCondition,
   requiresAgent,
+} = tab.form
+const {
   openCreateDialog,
   openEditDialog,
   closeDialog,
@@ -38,7 +46,36 @@ const {
   setRequiredFieldsArray,
   setRequiredFieldsCondition,
   setRequiresAgent,
-} = useBusinessRulesTab()
+} = tab.actions
+
+function updateFormField<F extends keyof BusinessRuleFormData>(
+  field: F,
+  value: BusinessRuleFormData[F]
+): void {
+  formData.value = { ...formData.value, [field]: value }
+}
+
+provide(
+  ruleFormDialogContextKey,
+  reactive({
+    showRuleDialog,
+    formData,
+    editingRule,
+    ruleTypeOptions,
+    availableBlockInstances,
+    availableValidationMessages,
+    requiredFieldsArray,
+    requiredFieldsCondition,
+    requiresAgent,
+    saving,
+    updateFormField,
+    setRequiredFieldsArray,
+    setRequiredFieldsCondition,
+    setRequiresAgent,
+    saveRule,
+    closeDialog,
+  })
+)
 </script>
 
 <template>
@@ -70,8 +107,8 @@ const {
       </VAlert>
 
       <div class="mb-6">
-        <div class="text-h6 mb-3">{{ BUSINESS_RULES_UI.TITLE }}</div>
-        <div class="text-body-2 mb-4 text-medium-emphasis">
+        <div class="text-headline-small mb-3">{{ BUSINESS_RULES_UI.TITLE }}</div>
+        <div class="text-body-medium mb-4 text-medium-emphasis">
           {{ BUSINESS_RULES_UI.DESCRIPTION }}
         </div>
 
@@ -88,7 +125,7 @@ const {
 
       <div v-if="selectedBlockId">
         <div class="d-flex justify-space-between align-center mb-4">
-          <div class="text-subtitle-1">
+          <div class="text-body-large">
             Rules for {{ selectedBlockTitle }}
           </div>
           <VBtn
@@ -112,8 +149,8 @@ const {
         />
 
         <VCard v-if="filteredRules.length === 0" class="pa-8 text-center">
-          <div class="text-h6 mb-2">{{ BUSINESS_RULES_UI.NO_RULES_TITLE }}</div>
-          <div class="text-body-2 text-medium-emphasis mb-4">
+          <div class="text-headline-small mb-2">{{ BUSINESS_RULES_UI.NO_RULES_TITLE }}</div>
+          <div class="text-body-medium text-medium-emphasis mb-4">
             {{ BUSINESS_RULES_UI.NO_RULES_MESSAGE }}
           </div>
           <VBtn color="primary" @click="openCreateDialog">
@@ -123,30 +160,14 @@ const {
       </div>
 
       <VCard v-else class="pa-8 text-center">
-        <div class="text-h6 mb-2">{{ BUSINESS_RULES_UI.SELECT_BLOCK_TITLE }}</div>
-        <div class="text-body-2 text-medium-emphasis">
+        <div class="text-headline-small mb-2">{{ BUSINESS_RULES_UI.SELECT_BLOCK_TITLE }}</div>
+        <div class="text-body-medium text-medium-emphasis">
           {{ BUSINESS_RULES_UI.SELECT_BLOCK_MESSAGE }}
         </div>
       </VCard>
     </div>
 
-    <RuleFormDialog
-      v-model="showRuleDialog"
-      v-model:form-data="formData"
-      :editing-rule="editingRule"
-      :rule-type-options="ruleTypeOptions"
-      :available-block-instances="availableBlockInstances"
-      :available-validation-messages="availableValidationMessages"
-      :required-fields-array="requiredFieldsArray"
-      :required-fields-condition="requiredFieldsCondition"
-      :requires-agent="requiresAgent"
-      :saving="saving"
-      @update:required-fields-array="setRequiredFieldsArray"
-      @update:required-fields-condition="setRequiredFieldsCondition"
-      @update:requires-agent="setRequiresAgent"
-      @save="saveRule"
-      @close="closeDialog"
-    />
+    <RuleFormDialog />
   </div>
 </template>
 

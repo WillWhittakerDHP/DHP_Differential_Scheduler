@@ -382,7 +382,6 @@ defineExpose({
       :unified-save-state="unifiedSaveState"
     />
   </div>
-
   <!--
     LEARNING: Delete Confirmation Dialog
     WHY: Provides confirmation before deleting entity
@@ -390,7 +389,7 @@ defineExpose({
   -->
   <VDialog v-model="showDeleteDialog" max-width="400px">
     <VCard>
-      <VCardTitle class="text-h6">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
+      <VCardTitle class="text-headline-small">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
       <VCardText>
         Are you sure you want to delete "{{ entityName }}"? This action cannot be undone.
       </VCardText>
@@ -402,5 +401,4 @@ defineExpose({
     </VCard>
   </VDialog>
 </template>
-
 

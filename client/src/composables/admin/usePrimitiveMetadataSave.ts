@@ -13,9 +13,9 @@ export interface UsePrimitiveMetadataSaveOptions {
   getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
   computeRenderAs: (
     dataType: string | undefined,
-    inputConfig: unknown,
+    inputConfig: Record<string, unknown> | null | undefined,
     fieldKey: string
-  ) => string
+  ) => FieldMetadataEntry['renderAs'] | undefined
   clearPendingState: () => void
   saveFieldMetadata: (params: {
     entityType: EntityMetadataType

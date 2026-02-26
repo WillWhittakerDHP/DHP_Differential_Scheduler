@@ -1,8 +1,54 @@
 {
-  "generatedAt": "2026-02-25T01:18:43.913Z",
-  "totalScanned": 108,
+  "generatedAt": "2026-02-26T00:03:39.210Z",
+  "totalScanned": 76,
   "exceptionSummary": {
-    "totalRequiresReview": 0
+    "totalRequiresReview": 1
   },
-  "files": []
+  "files": [
+    {
+      "id": "client__src__views__admin__entities__BlockInstanceList.vue",
+      "repoPath": "client/src/views/admin/entities/BlockInstanceList.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/entities/BlockInstanceList.vue",
+      "counts": {
+        "watch": 0,
+        "watchEffect": 0,
+        "async": 1,
+        "await": 1,
+        "map": 0,
+        "reduce": 0,
+        "dom": 0,
+        "inlineConfig": 0,
+        "console": 0,
+        "alert": 0
+      },
+      "matches": [
+        {
+          "ruleId": "async",
+          "lineNumber": 89,
+          "line": "remove: async (id) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 90,
+          "line": "await remove(id)"
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "async",
+          "lineNumber": 89,
+          "line": "remove: async (id) => {"
+        },
+        {
+          "ruleId": "await",
+          "lineNumber": 90,
+          "line": "await remove(id)"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    }
+  ],
+  "deltaMode": true,
+  "baseRef": "HEAD~1"
 }

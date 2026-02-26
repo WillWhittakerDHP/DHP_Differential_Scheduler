@@ -5,7 +5,6 @@ PATTERN: Composable that provide...
  */
 import type { UseAvailabilityStepHandlersParams, UseAvailabilityStepHandlersReturn } from '@/types/booking/availabilityStepHandlers'
 
-export type { UseAvailabilityStepHandlersParams, UseAvailabilityStepHandlersReturn } from '@/types/booking/availabilityStepHandlers'
 
 /**
  * WHY: useAvailabilityStepHandlers composable

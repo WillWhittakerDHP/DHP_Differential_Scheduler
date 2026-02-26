@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-25T01:17:53.120Z",
+  "generatedAt": "2026-02-26T00:04:04.358Z",
   "clientEndpoints": 0,
   "serverEndpoints": 66,
   "endpointKeys": [
@@ -219,16 +219,16 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "SlotAvailabilityResult",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "ComputedSlot",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
       "name": "ComputedSlotAvailabilityData",
       "file": "shared/types/availabilityTypes.ts"
-    },
-    {
-      "name": "BlockInstanceLike",
-      "file": "shared/types/blockInstanceTypes.ts"
     },
     {
       "name": "RequiredFieldsRuleConfig",
@@ -273,6 +273,10 @@
     {
       "name": "ContactInfoBase",
       "file": "shared/types/contactTypes.ts"
+    },
+    {
+      "name": "CoreEntity",
+      "file": "shared/types/coreEntityTypes.ts"
     },
     {
       "name": "IdentifiableById",

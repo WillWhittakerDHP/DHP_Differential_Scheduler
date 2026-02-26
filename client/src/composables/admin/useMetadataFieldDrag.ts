@@ -3,12 +3,12 @@
  * WHY: Keeps AdminPrimitiveMetadataEditor.vue under vue-architecture script line limit.
  */
 import { onMounted, onBeforeUnmount, nextTick } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { animations } from '@formkit/drag-and-drop'
 import { getPanelsElement } from '@/composables/admin/useDragAndDropHelpers'
 import type { UseMetadataFieldDragParams } from '@/types/admin/metadataFieldDrag'
 
-export type { UseMetadataFieldDragParams } from '@/types/admin/metadataFieldDrag'
 
 export function useMetadataFieldDrag(params: UseMetadataFieldDragParams): void {
   const { expansionPanelsRef, draggableFieldKeys, handleDragEnd, logger } = params
@@ -17,7 +17,10 @@ export function useMetadataFieldDrag(params: UseMetadataFieldDragParams): void {
   onMounted(() => {
     nextTick(() => {
       if (!expansionPanelsRef.value) return
-      const panelsElement = getPanelsElement(expansionPanelsRef.value, null)
+      const panelsElement = getPanelsElement(
+        expansionPanelsRef.value as ComponentPublicInstance | HTMLElement | null,
+        null
+      )
       if (!panelsElement) return
       try {
         dragInstance = dragAndDrop({

@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { mapSelectionCardItemsWithIconAndDescription } from '@/utils/booking/selectionCardItemDisplay'
 import type { UseInstanceDisplayOptions, UseInstanceDisplayReturn } from '@/types/booking/instanceDisplay'
 
-export type { UseInstanceDisplayOptions, UseInstanceDisplayReturn } from '@/types/booking/instanceDisplay'
 
 export function useInstanceDisplay(
   options: UseInstanceDisplayOptions

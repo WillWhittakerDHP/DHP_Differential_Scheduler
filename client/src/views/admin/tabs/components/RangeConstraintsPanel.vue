@@ -18,6 +18,10 @@ defineProps<{
 const emit = defineEmits<{
   'update:rangeConstraintsLeadTimeMinutes': [value: number]
 }>()
+
+function handleRangeConstraintsLeadTimeMinutes(v: number | string): void {
+  emit('update:rangeConstraintsLeadTimeMinutes', Number(v))
+}
 </script>
 
 <template>
@@ -30,7 +34,7 @@ const emit = defineEmits<{
             :key="day - 1"
             class="mb-4"
           >
-            <div class="text-subtitle-2 mb-2">{{ dayNames[day - 1] }}</div>
+            <div class="text-label-large mb-2">{{ dayNames[day - 1] }}</div>
             <VRow>
               <VCol cols="12" sm="6" md="4">
                 <VTextField
@@ -67,7 +71,7 @@ const emit = defineEmits<{
         <VExpansionPanelText>
           <VTextField
             :model-value="rangeConstraintsLeadTimeMinutes"
-            @update:model-value="(v: number | string) => emit('update:rangeConstraintsLeadTimeMinutes', Number(v))"
+            @update:model-value="handleRangeConstraintsLeadTimeMinutes"
             :label="UI_STRINGS.labels.minimumLeadTime"
             type="number"
             min="0"
@@ -77,11 +81,11 @@ const emit = defineEmits<{
               (v: number) => v >= 0 || UI_STRINGS.validation.leadTimeMin,
             ]"
           />
-          <div class="text-caption mt-2">
+          <div class="text-body-small mt-2">
             {{ UI_STRINGS.help.leadTimeDescription }} {{ rangeConstraintsLeadTimeMinutes }} {{ UI_STRINGS.help.leadTimeMinutes }}
             ({{ Math.round(rangeConstraintsLeadTimeMinutes / 60 * 10) / 10 }} {{ UI_STRINGS.help.leadTimeHours }})
           </div>
-          <div class="text-caption mt-1 hint-text">
+          <div class="text-body-small mt-1 hint-text">
             {{ UI_STRINGS.help.leadTimeFilter }}
           </div>
         </VExpansionPanelText>
@@ -91,8 +95,8 @@ const emit = defineEmits<{
       <VExpansionPanel :title="UI_STRINGS.panels.dateRangeConstraint">
         <VExpansionPanelText>
           <VAlert type="info" variant="tonal">
-            <div class="text-body-2">{{ UI_STRINGS.help.dateRangeNotSetup }}</div>
-            <div class="text-caption mt-1">
+            <div class="text-body-medium">{{ UI_STRINGS.help.dateRangeNotSetup }}</div>
+            <div class="text-body-small mt-1">
               {{ UI_STRINGS.help.dateRangeDescription }}
             </div>
           </VAlert>
@@ -100,7 +104,7 @@ const emit = defineEmits<{
       </VExpansionPanel>
     </VExpansionPanels>
 
-    <div class="text-caption mt-2 pa-2 hint-box">
+    <div class="text-body-small mt-2 pa-2 hint-box">
       {{ UI_STRINGS.help.rangeConstraints }}
     </div>
 

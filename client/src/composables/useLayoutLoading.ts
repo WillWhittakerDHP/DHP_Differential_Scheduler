@@ -6,7 +6,6 @@ WHY: Moves loading indicator watcher logic ou...
 import { ref, watch } from 'vue'
 import type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from '@/types/layoutLoading'
 
-export type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from '@/types/layoutLoading'
 
 /**
  * WHY: Layout Loading Composable

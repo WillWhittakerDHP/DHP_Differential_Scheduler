@@ -86,7 +86,9 @@ const {
 } = entityList({
   entityKey: 'blockInstance',
   router,
-  remove,
+  remove: async (id) => {
+    await remove(id)
+  },
   notifyError,
   routes: {
     create: 'block-instance-create',

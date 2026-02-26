@@ -6,7 +6,6 @@ WHY: Centralizes visual state logic...
 import { computed } from 'vue'
 import type { UseAvailabilitySlotColorParams, UseAvailabilitySlotColorReturn } from '@/types/booking/availabilitySlotColor'
 
-export type { UseAvailabilitySlotColorParams, UseAvailabilitySlotColorReturn } from '@/types/booking/availabilitySlotColor'
 
 /**
  * WHY: useAvailabilitySlotColor composable

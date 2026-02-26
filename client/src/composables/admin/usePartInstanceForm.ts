@@ -19,12 +19,6 @@ import type {
 
 const logger = createLogger('usePartInstanceForm')
 
-export type {
-  PartInstanceFormData,
-  UsePartInstanceFormOptions,
-  UsePartInstanceFormReturn
-} from '@/types/admin/partInstanceForm'
-
 /**
  * WHY: Part Instance Form Composable
 
@@ -140,4 +134,3 @@ WHY: Component needs to show load...
     goBack
   }
 }
-

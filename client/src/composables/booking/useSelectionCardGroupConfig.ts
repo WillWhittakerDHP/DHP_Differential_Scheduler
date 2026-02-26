@@ -15,11 +15,6 @@ import type {
   UseSelectionCardGroupConfigReturn,
 } from '@/types/booking/selectionCardGroupConfig'
 
-export type {
-  UseSelectionCardGroupConfigParams,
-  UseSelectionCardGroupConfigReturn,
-} from '@/types/booking/selectionCardGroupConfig'
-
 export function useSelectionCardGroupConfig(params: UseSelectionCardGroupConfigParams): UseSelectionCardGroupConfigReturn {
   const { configWithDefaults } = useSelectionCardConfig(params)
 
@@ -42,4 +37,3 @@ export function useSelectionCardGroupConfig(params: UseSelectionCardGroupConfigP
     gridColumnProps
   }
 }
-

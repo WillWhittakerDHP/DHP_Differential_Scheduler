@@ -2,6 +2,7 @@
  * WHY: Component-logic audit - move watch and async handleSave out of BetaFeedbackDetailModal.
  */
 import { ref, watch } from 'vue'
+import type { Ref } from 'vue'
 import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback'
 import { betaFeedback } from '@/utils/beta/betaFeedback'
 import { useNotification } from '@/composables/useNotification'
@@ -14,10 +15,10 @@ export function useFeedbackDetail(
   getFeedback: () => BetaFeedback | null,
   emit: { (e: 'update:modelValue', value: boolean): void; (e: 'saved'): void }
 ): {
-  localStatus: ReturnType<typeof ref<FeedbackStatus>>
-  localResolutionNotes: ReturnType<typeof ref<string>>
-  saving: ReturnType<typeof ref<boolean>>
-  saveError: ReturnType<typeof ref<string>>
+  localStatus: Ref<FeedbackStatus>
+  localResolutionNotes: Ref<string>
+  saving: Ref<boolean>
+  saveError: Ref<string>
   handleSave: () => Promise<void>
 } {
   const { updateFeedback } = betaFeedback()

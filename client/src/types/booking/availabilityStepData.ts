@@ -1,12 +1,10 @@
 import type { ComputedRef, Ref } from 'vue'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 
-export interface SelectedTimeSlot {
-  startTime: string
-  endTime: string
-  duration: number
-}
+/** Selected slot time bounds; extends shared SlotTimeBounds (branded startTime/endTime). */
+export type SelectedTimeSlot = SlotTimeBounds
 
 export interface AvailabilityStepData {
   candidateDate: { start: string | null; end: string | null }

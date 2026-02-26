@@ -6,7 +6,11 @@ import type { Ref } from 'vue'
 import type { SelectOption } from '@/composables/useSelectOptions'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-export function useSelectChipRender(options: Ref<SelectOption[] | { title: string; value: string | number }[]>) {
+export interface UseSelectChipRenderReturn {
+  logChipRender: (item: { title: string; value: string | number }) => string
+}
+
+export function useSelectChipRender(options: Ref<SelectOption[] | { title: string; value: string | number }[]>): UseSelectChipRenderReturn {
   const logChipRender = (item: { title: string; value: string | number }): string => {
     if (isDevModeEnabled()) {
       const optionsArray = options.value as SelectOption[]

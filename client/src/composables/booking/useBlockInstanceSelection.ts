@@ -12,13 +12,6 @@ import type {
   UseBlockInstanceSelectionReturnMultiple,
 } from '@/types/booking/blockInstanceSelection'
 
-export type {
-  SelectionMode,
-  UseBlockInstanceSelectionParams,
-  UseBlockInstanceSelectionReturnSingle,
-  UseBlockInstanceSelectionReturnMultiple,
-} from '@/types/booking/blockInstanceSelection'
-
 export function useBlockInstanceSelection(
   params: UseBlockInstanceSelectionParams & { selectionMode: 'single' }
 ): UseBlockInstanceSelectionReturnSingle
@@ -71,4 +64,3 @@ export function useBlockInstanceSelection(
     return { selectedBlockIds }
   }
 }
-

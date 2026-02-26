@@ -1,10 +1,11 @@
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
 export const DEFAULT_SELECTION_CARD_CONFIG: SelectionCardConfig = {
   selectionType: 'radio',
   selectionComponent: 'VRadio',
   selectionGroup: 'VRadioGroup',
-  stateSource: 'local',
+  stateSource: APP_STAGE.LOCAL,
   statePlugins: [],
   layout: 'row',
   controlPosition: 'bottom',

@@ -31,10 +31,6 @@ const minorLabel = computed(() =>
   availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
 )
 
-const selectTimeSlotLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
-)
-
 // WHY: State labels are configurable in admin panel
 const majorStateLabel = computed(() => 
   availabilitySettings.value?.differentialPerspectives?.majorStateLabel || `Showing ${majorLabel.value} times`
@@ -112,13 +108,7 @@ const showStateLabel = computed(() => {
 
 <template>
   <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
-  <div v-if="isDifferentialService" class="differential-graph" :class="{ 'has-overlay': !hasSelectedSlot }">
-    <!-- LEARNING: Overlay when no slot is selected -->
-    <!-- WHY: Shows configurable "Select a Time Slot" message over entire graph with large text and greys it out -->
-    <div v-if="!hasSelectedSlot" class="overlay">
-      <span class="overlay-text">{{ selectTimeSlotLabel }}</span>
-    </div>
-    
+  <div v-if="isDifferentialService" class="differential-graph">
     <!-- LEARNING: State label when selected -->
     <!-- WHY: Explains what the time slot buttons represent -->
     <div v-if="showStateLabel" class="state-label">

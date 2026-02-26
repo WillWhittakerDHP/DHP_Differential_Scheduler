@@ -184,10 +184,10 @@ const resetCustomizer = async () => {
       <!-- 👉 Header -->
       <div class="customizer-heading d-flex align-center justify-space-between">
         <div>
-          <h6 class="text-h6">
+          <h6 class="text-headline-small">
             Theme Customizer
           </h6>
-          <p class="text-body-2 mb-0">
+          <p class="text-body-medium mb-0">
             Customize & Preview in Real Time
           </p>
         </div>
@@ -244,7 +244,7 @@ const resetCustomizer = async () => {
         >
           <!-- 👉 Primary Color -->
           <div class="d-flex flex-column gap-2">
-            <h6 class="text-h6">
+            <h6 class="text-headline-small">
               Primary Color
             </h6>
 
@@ -316,7 +316,7 @@ const resetCustomizer = async () => {
 
           <!-- 👉 Theme -->
           <div class="d-flex flex-column gap-2">
-            <h6 class="text-h6">
+            <h6 class="text-headline-small">
               Theme
             </h6>
 
@@ -348,7 +348,7 @@ const resetCustomizer = async () => {
 
           <!-- 👉 Skin -->
           <div class="d-flex flex-column gap-2">
-            <h6 class="text-h6">
+            <h6 class="text-headline-small">
               Skins
             </h6>
 
@@ -371,7 +371,7 @@ const resetCustomizer = async () => {
           >
             <VLabel
               for="customizer-semi-dark"
-              class="text-h6 text-high-emphasis"
+              class="text-headline-small text-high-emphasis"
             >
               Semi Dark Menu
             </VLabel>

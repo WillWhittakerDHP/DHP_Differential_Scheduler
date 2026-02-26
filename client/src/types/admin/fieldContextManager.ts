@@ -1,10 +1,10 @@
 import type { ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 
 export interface UseFieldContextManagerOptions {
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   fieldsByLocation: ComputedRef<{
     directInline: GlobalFieldKey<GlobalEntityKey>[]
     directStacked: GlobalFieldKey<GlobalEntityKey>[]
@@ -21,6 +21,6 @@ export interface UseFieldContextManagerOptions {
 }
 
 export interface UseFieldContextManagerReturn {
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   fieldsMissingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
 }

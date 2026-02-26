@@ -250,7 +250,7 @@ if (entityKind === 'service') {
 
 **Code Pattern:**
 ```typescript
-export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
+export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   // ... existing fields
   active: boolean; // NEW
   dependent: boolean; // NEW

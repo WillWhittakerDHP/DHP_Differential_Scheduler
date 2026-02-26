@@ -1,7 +1,7 @@
-<!-- WHY: Extracted from DevPanelsContainer to reduce file size (audit: file-cohesion). -->
+<!-- WHY: Extracted from DevPanelsContainer to reduce file size (audit: file-cohesion). Consumes context via provide/inject (allowlist repair). -->
 <template>
   <div class="pa-0">
-    <VTabs :model-value="activeInstancesSubTab" density="compact" color="info" class="px-3 pt-2" @update:model-value="emit('update:activeInstancesSubTab', $event)">
+    <VTabs :model-value="ctx.activeInstancesSubTab" density="compact" color="info" class="px-3 pt-2" @update:model-value="ctx.setActiveInstancesSubTab($event)">
       <VTab value="parts">
         <VIcon size="small" class="mr-2">tabler-package</VIcon>
         Parts
@@ -11,48 +11,48 @@
         Blocks
       </VTab>
     </VTabs>
-    <VWindow :model-value="activeInstancesSubTab" class="pa-3">
+    <VWindow :model-value="ctx.activeInstancesSubTab" class="pa-3">
       <VWindowItem value="parts">
-        <div v-if="finalizedParts.length > 0" class="mb-4">
-          <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">Finalized Parts</VCardTitle>
+        <div v-if="ctx.finalizedParts.length > 0" class="mb-4">
+          <VCardTitle class="text-body-large font-weight-bold pa-2">Finalized Parts</VCardTitle>
           <VRow dense class="ma-0">
             <VCol
-              v-for="(part, index) in finalizedParts"
+              v-for="(part, index) in ctx.finalizedParts"
               :key="index"
-              :cols="12 / finalizedParts.length"
+              :cols="12 / ctx.finalizedParts.length"
             >
               <VCard variant="outlined" density="compact" class="pa-2">
-                <div class="text-caption text-medium-emphasis font-weight-bold mb-1">
+                <div class="text-body-small text-medium-emphasis font-weight-bold mb-1">
                   {{ part.partShape }}
                 </div>
-                <div class="text-body-2 mb-1">
-                  <div>Time: {{ formatDuration(part.baseTime) }}</div>
+                <div class="text-body-medium mb-1">
+                  <div>Time: {{ ctx.formatDuration(part.baseTime) }}</div>
                   <div>Fee: ${{ part.baseFee.toFixed(2) }}</div>
                 </div>
                 <div class="d-flex flex-wrap gap-2 mt-2">
-                  <template v-if="appointmentShape">
+                  <template v-if="ctx.appointmentShape">
                     <div
-                      v-for="eventShape in eventShapes"
+                      v-for="eventShape in ctx.eventShapes"
                       :key="eventShape.id"
                       class="d-flex align-center gap-1"
                     >
                       <VIcon
                         size="x-small"
-                        :color="hasEventForPart(part.partShape, eventShape) ? 'success' : 'default'"
+                        :color="ctx.hasEventForPart(part.partShape, eventShape) ? 'success' : 'default'"
                       >
-                        {{ hasEventForPart(part.partShape, eventShape) ? 'tabler-check' : 'tabler-x' }}
+                        {{ ctx.hasEventForPart(part.partShape, eventShape) ? 'tabler-check' : 'tabler-x' }}
                       </VIcon>
-                      <span class="text-caption">{{ eventShape.name }}</span>
+                      <span class="text-body-small">{{ eventShape.name }}</span>
                     </div>
                   </template>
                   <div class="d-flex align-center gap-1">
                     <VIcon size="x-small" :color="part.zeroOutPart ? 'warning' : 'default'">
                       {{ part.zeroOutPart ? 'tabler-check' : 'tabler-x' }}
                     </VIcon>
-                    <span class="text-caption">Zeroed</span>
+                    <span class="text-body-small">Zeroed</span>
                   </div>
                 </div>
-                <div class="text-caption text-medium-emphasis mt-1">
+                <div class="text-body-small text-medium-emphasis mt-1">
                   Source Parts: {{ part.sourcePartInstances.length }}
                 </div>
               </VCard>
@@ -65,17 +65,17 @@
       </VWindowItem>
       <VWindowItem value="blocks">
         <div class="mb-4">
-          <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">Change Service Type</VCardTitle>
+          <VCardTitle class="text-body-large font-weight-bold pa-2">Change Service Type</VCardTitle>
           <VSelect
-            :model-value="selectedServiceTypeId"
-            :items="serviceTypeOptions"
+            :model-value="ctx.selectedServiceTypeId"
+            :items="ctx.serviceTypeOptions"
             item-title="title"
             item-value="value"
             label="Service Type"
             density="compact"
             variant="outlined"
-            :disabled="!hasWizard"
-            @update:model-value="(v: string | null) => handleServiceTypeChange(v)"
+            :disabled="!ctx.hasWizard"
+            @update:model-value="(v: string | null) => ctx.handleServiceTypeChange(v)"
           >
             <template #prepend-inner>
               <VIcon size="small">tabler-settings</VIcon>
@@ -84,21 +84,21 @@
         </div>
         <div class="mb-4">
           <VChip
-            :color="isSelectedServiceDifferential ? 'success' : 'default'"
+            :color="ctx.isSelectedServiceDifferential ? 'success' : 'default'"
             variant="outlined"
             size="default"
             prepend-icon="tabler-toggle-left"
             class="d-flex align-center"
           >
-            {{ isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
+            {{ ctx.isSelectedServiceDifferential ? 'Differential' : 'Non-Differential' }}
           </VChip>
         </div>
-        <div v-if="servicesSummary.length > 0" class="mb-4">
-          <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">Selected Blocks</VCardTitle>
+        <div v-if="ctx.servicesSummary.length > 0" class="mb-4">
+          <VCardTitle class="text-body-large font-weight-bold pa-2">Selected Blocks</VCardTitle>
           <VList density="compact">
-            <VListItem v-for="(service, index) in servicesSummary" :key="index">
-              <VListItemTitle class="text-body-2">{{ service.name }}</VListItemTitle>
-              <VListItemSubtitle class="text-caption">
+            <VListItem v-for="(service, index) in ctx.servicesSummary" :key="index">
+              <VListItemTitle class="text-body-medium">{{ service.name }}</VListItemTitle>
+              <VListItemSubtitle class="text-body-small">
                 Differential: {{ service.differential ? 'Yes' : 'No' }} |
                 Mode: {{ service.bookingMode }} |
                 Base SqFt: {{ service.baseSqFt }} |
@@ -107,25 +107,25 @@
             </VListItem>
           </VList>
         </div>
-        <div v-if="hasSelectedTime" class="mb-4">
-          <VCardTitle class="text-subtitle-1 font-weight-bold pa-2">Time Slot Results</VCardTitle>
+        <div v-if="ctx.hasSelectedTime" class="mb-4">
+          <VCardTitle class="text-body-large font-weight-bold pa-2">Time Slot Results</VCardTitle>
           <VList density="compact">
             <VListItem>
-              <VListItemTitle class="text-body-2">Major Arrival</VListItemTitle>
-              <VListItemSubtitle class="text-caption">
-                {{ formatTime(timeSlotResults.majorArrival) }}
+              <VListItemTitle class="text-body-medium">Major Arrival</VListItemTitle>
+              <VListItemSubtitle class="text-body-small">
+                {{ ctx.formatTime(ctx.timeSlotResults.majorArrival) }}
               </VListItemSubtitle>
             </VListItem>
             <VListItem>
-              <VListItemTitle class="text-body-2">Minor Arrival</VListItemTitle>
-              <VListItemSubtitle class="text-caption">
-                {{ formatTime(timeSlotResults.minorArrival) }}
+              <VListItemTitle class="text-body-medium">Minor Arrival</VListItemTitle>
+              <VListItemSubtitle class="text-body-small">
+                {{ ctx.formatTime(ctx.timeSlotResults.minorArrival) }}
               </VListItemSubtitle>
             </VListItem>
             <VListItem>
-              <VListItemTitle class="text-body-2">Appointment End</VListItemTitle>
-              <VListItemSubtitle class="text-caption">
-                {{ formatTime(timeSlotResults.appointmentEnd) }}
+              <VListItemTitle class="text-body-medium">Appointment End</VListItemTitle>
+              <VListItemSubtitle class="text-body-small">
+                {{ ctx.formatTime(ctx.timeSlotResults.appointmentEnd) }}
               </VListItemSubtitle>
             </VListItem>
           </VList>
@@ -136,29 +136,11 @@
 </template>
 
 <script setup lang="ts">
-import type { AppointmentShape } from '@/types/appointment'
-import type { PartFinal } from '@/utils/booking/PartFinal'
-import type { EventShape } from '@/types/events'
-import type { ServiceSummary } from '@/types/booking/devPanelsComputed'
-import type { TimeSlotResults } from '@/types/booking/devPanelsComputed'
+import { inject } from 'vue'
+import { instancesPanelContextKey } from '@/composables/booking/injectionKeys'
 
-defineProps<{
-  activeInstancesSubTab: 'parts' | 'blocks'
-  appointmentShape: AppointmentShape | null
-  finalizedParts: PartFinal[]
-  eventShapes: EventShape[]
-  hasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean
-  formatDuration: (ms: number) => string
-  formatTime: (value: string | null) => string
-  selectedServiceTypeId: string | null
-  serviceTypeOptions: Array<{ title: string; value: string }>
-  handleServiceTypeChange: (serviceId: string | null) => void
-  hasWizard: boolean
-  isSelectedServiceDifferential: boolean
-  servicesSummary: ServiceSummary[]
-  timeSlotResults: TimeSlotResults
-  hasSelectedTime: boolean
-}>()
-
-const emit = defineEmits<{ (e: 'update:activeInstancesSubTab', value: 'parts' | 'blocks'): void }>()
+const ctx = inject(instancesPanelContextKey)
+if (!ctx) {
+  throw new Error('InstancesPanel must be used within a provider that supplies instancesPanelContextKey')
+}
 </script>

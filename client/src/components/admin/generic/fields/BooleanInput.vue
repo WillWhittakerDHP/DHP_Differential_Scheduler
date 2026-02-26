@@ -1,10 +1,10 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
     <!-- LEARNING: BooleanInput renders status button chip (not toggle switch) -->
     <!-- WHY: All boolean fields should render as status buttons for consistency -->
@@ -14,7 +14,7 @@
         :label="displayLabel"
         :color="statusButtonColor"
         :is-active="normalizedValue"
-        :disabled="fieldContext.displayConfig.disabled || fieldContext.displayConfig.readOnly"
+        :disabled="fieldContext.state.displayConfig.disabled || fieldContext.state.displayConfig.readOnly"
         @click.stop="handleClick"
       />
     </div>
@@ -27,6 +27,7 @@
 ...
  */
 import { computed, inject } from 'vue'
+import type { ComputedRef } from 'vue'
 import BaseInput from './BaseInput.vue'
 import StatusButton from '../StatusButton.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -60,7 +61,7 @@ const normalizedValue = computed(() => {
   }
   
   if (value === undefined || value === null || value === '') {
-    const fieldKeyStr = String(fieldContext.fieldKey)
+    const fieldKeyStr = String(fieldContext.state.fieldKey)
     const isTernaryField = fieldKeyStr === 'major' || fieldKeyStr === 'minor' || fieldKeyStr === 'differential'
     
     if (isTernaryField) {
@@ -78,13 +79,13 @@ const normalizedValue = computed(() => {
 const entityForMetadata = useFieldContextMetadataEntity(fieldContext)
 
 const fetchedMetadata = useEntityMetadata(
-  fieldContext.entityKey,
+  fieldContext.state.entityKey,
   entityForMetadata
 )
 
 const statusButtonColor = computed(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
-  const fieldKeyStr = String(fieldContext.fieldKey)
+  const fieldKeyStr = String(fieldContext.state.fieldKey)
   const meta = metadata[fieldKeyStr]
   const color = meta?.statusButtonColor
   return color !== undefined && color !== null && color !== '' ? color : 'default'
@@ -92,10 +93,10 @@ const statusButtonColor = computed(() => {
 
 // WHY: Label reflects current state (e.g., Active/Inactive) instead of static field label
 const displayLabel = computed((): string => {
-  const fieldKeyStr = String(fieldContext.fieldKey)
+  const fieldKeyStr = String(fieldContext.state.fieldKey)
   const labelMap = STATUS_BUTTON_LABELS[fieldKeyStr]
   if (!labelMap) {
-    return fieldContext.displayConfig.label
+    return fieldContext.state.displayConfig.label
   }
   const value = normalizedValue.value
   if (value === 'override' && labelMap.override) {
@@ -110,13 +111,12 @@ const displayLabel = computed((): string => {
 // LEARNING: Use status button toggle composable for consistent store updates
 // PATTERN: Assert type since runtime behavior is correct
 const statusButtonToggle = useStatusButtonToggle({
-  entityKey: fieldContext.entityKey!,
-  entityId: fieldContext.entityId!,
-  entity: entityForMetadata as ReturnType<typeof computed<GlobalEntity<GlobalEntityKey>>>
+  entityKey: fieldContext.state.entityKey!,
+  entityId: fieldContext.state.entityId!,
 })
 
 const isEditable = computed(
-  () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
+  () => !fieldContext.state.displayConfig.disabled && !fieldContext.state.displayConfig.readOnly
 )
 const handleClick = useBooleanInputClick({
   fieldContext,

@@ -2,6 +2,7 @@
 
 WHY: Transforms global data into booking format with...
  */
+import type { ComputedRef } from 'vue'
 import { computed, watchEffect } from 'vue'
 import { useGlobal } from './useGlobal'
 import { bookingTransformer } from '@/utils/transformers/globalToBookingTransformer'
@@ -9,13 +10,19 @@ import type { BookingData } from '@/utils/transformers/globalToBookingTransforme
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 import { createLogger } from '@/utils/logger'
 
+export interface UseBookingReturn {
+  bookingData: ComputedRef<BookingData | null>
+  isLoading: boolean
+  error: unknown | null
+}
+
 const logger = createLogger('useBooking')
 
 let instanceCount = 0
 let callCount = 0
 const instanceCallSites: Array<{ count: number; stack: string }> = []
 
-let bookingInstance: ReturnType<typeof createBookingInstance> | null = null
+let bookingInstance: UseBookingReturn | null = null
 
 function getCallSiteInfo(): { caller: string; stack: string } {
   const rawStack = new Error().stack
@@ -28,7 +35,7 @@ function getCallSiteInfo(): { caller: string; stack: string } {
   }
 }
 
-function createBookingInstance() {
+function createBookingInstance(): UseBookingReturn {
   instanceCount++
   const callSite = getCallSiteInfo()
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
@@ -68,13 +75,13 @@ function createBookingInstance() {
 /**
 LEARNING: Transforms global data to booking-optimized...
  */
-export function useBooking() {
+export function useBooking(): UseBookingReturn {
   callCount++
-  
+
   if (!bookingInstance) {
     bookingInstance = createBookingInstance()
   }
-  
+
   return bookingInstance
 }
 

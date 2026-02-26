@@ -23,7 +23,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">Schedule Moveable Work</span>
+        <span class="text-headline-medium">Schedule Moveable Work</span>
         <VBtn
           icon
           variant="text"
@@ -42,8 +42,8 @@
         <div v-else>
           <!-- Section 1: Contingency Questions -->
           <div class="mb-6">
-            <h3 class="text-h6 mb-4">Contingency Deadline</h3>
-            <p class="mb-4 text-body-2">
+            <h3 class="text-headline-small mb-4">Contingency Deadline</h3>
+            <p class="mb-4 text-body-medium">
               Do you have a deadline for when this work needs to be completed?
             </p>
 
@@ -92,7 +92,7 @@
 
           <!-- Section 2: Available Completion Times -->
           <div v-if="moveableOptions">
-            <h3 class="text-h6 mb-4">Available Completion Times</h3>
+            <h3 class="text-headline-small mb-4">Available Completion Times</h3>
 
             <!-- Earliest Completion Alert -->
             <VAlert
@@ -108,7 +108,7 @@
 
             <!-- Available Slots -->
             <div v-if="moveableOptions.availableSlots.length > 0">
-              <p class="mb-4 text-body-2">
+              <p class="mb-4 text-body-medium">
                 Select when you'd like the moveable work to be completed:
               </p>
 

@@ -1,12 +1,6 @@
 import { computed } from 'vue'
 import type { UseConditionalFieldVisibilityOptions, UseConditionalFieldVisibilityReturn, FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 
-export type {
-  FieldsByLocation,
-  UseConditionalFieldVisibilityOptions,
-  UseConditionalFieldVisibilityReturn,
-} from '@/types/admin/conditionalFieldVisibility'
-
 export function useConditionalFieldVisibility(
   options: UseConditionalFieldVisibilityOptions
 ): UseConditionalFieldVisibilityReturn {

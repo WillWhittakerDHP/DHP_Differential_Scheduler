@@ -1,13 +1,10 @@
-import type { BlockInstanceLike } from '@shared/types/blockInstanceTypes'
+import type { CoreEntity } from '@shared/types/coreEntityTypes'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
 
-export type BookingPartInstance = {
-  id: string
+export type BookingPartInstance = CoreEntity & {
   entityKey: 'partInstance'
-  name: string
-  active: boolean
   partShape: string
   baseTime: number
   rateOverBaseTime: number
@@ -27,7 +24,7 @@ export type BookingBlockShape = {
   composable: boolean
 }
 
-export type BookingBlockInstance = BlockInstanceLike & {
+export type BookingBlockInstance = CoreEntity & {
   entityKey: 'blockInstance'
   baseSqFt: number
   icon: string

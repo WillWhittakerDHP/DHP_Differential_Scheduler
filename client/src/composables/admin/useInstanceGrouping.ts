@@ -9,7 +9,6 @@ import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
-export type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
 /**
  * WHY: Instance Grouping Composable

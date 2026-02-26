@@ -7,7 +7,6 @@ import { ref } from 'vue'
 import type { PropertyFormData, PropertySource } from '@/types/propertyForm'
 import type { UsePropertyFormStateReturn } from '@/types/booking/propertyFormState'
 
-export type { UsePropertyFormStateReturn } from '@/types/booking/propertyFormState'
 
 /**
  * WHY: usePropertyFormState composable

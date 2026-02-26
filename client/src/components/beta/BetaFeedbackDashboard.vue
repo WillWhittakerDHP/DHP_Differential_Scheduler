@@ -5,38 +5,38 @@
 -->
 <template>
   <div class="beta-feedback-dashboard">
-    <h2 class="text-h4 mb-4">Beta Feedback</h2>
+    <h2 class="text-headline-large mb-4">Beta Feedback</h2>
 
     <VRow class="mb-4">
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Total</div>
-            <div class="text-h5">{{ stats?.total ?? 0 }}</div>
+            <div class="text-body-small text-medium-emphasis">Total</div>
+            <div class="text-headline-medium">{{ stats?.total ?? 0 }}</div>
           </VCardText>
         </VCard>
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Open bugs</div>
-            <div class="text-h5">{{ openBugsCount }}</div>
+            <div class="text-body-small text-medium-emphasis">Open bugs</div>
+            <div class="text-headline-medium">{{ openBugsCount }}</div>
           </VCardText>
         </VCard>
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Feature requests</div>
-            <div class="text-h5">{{ featureRequestsCount }}</div>
+            <div class="text-body-small text-medium-emphasis">Feature requests</div>
+            <div class="text-headline-medium">{{ featureRequestsCount }}</div>
           </VCardText>
         </VCard>
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Critical</div>
-            <div class="text-h5">{{ criticalCount }}</div>
+            <div class="text-body-small text-medium-emphasis">Critical</div>
+            <div class="text-headline-medium">{{ criticalCount }}</div>
           </VCardText>
         </VCard>
       </VCol>
@@ -110,7 +110,7 @@
 
     <BetaFeedbackDetailModal
       v-model="detailOpen"
-      :feedback="selectedFeedback"
+      :feedback="selectedFeedback ?? null"
       @saved="load"
     />
   </div>
@@ -121,6 +121,10 @@ import { computed } from 'vue';
 import BetaFeedbackDetailModal from './BetaFeedbackDetailModal.vue';
 import { useFeedbackDashboard } from '@/composables/beta/useFeedbackDashboard';
 import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback';
+import { asEmptyArray } from '@/utils/safeDefaults';
+import { createLogger } from '@/utils/logger';
+
+const logger = createLogger('BetaFeedbackDashboard');
 
 const {
   loading,
@@ -165,7 +169,8 @@ const headers = [
 ];
 
 const openBugsCount = computed(() => {
-  return items.value.filter(
+  const list = asEmptyArray(items.value);
+  return list.filter(
     (i) => i.category === 'bug' && i.status !== 'resolved' && i.status !== 'wont_fix'
   ).length;
 });
@@ -206,7 +211,8 @@ function formatDate(iso: string): string {
       day: 'numeric',
       year: 'numeric',
     });
-  } catch {
+  } catch (err) {
+    logger.warn('formatDate failed', { iso, error: err });
     return iso;
   }
 }

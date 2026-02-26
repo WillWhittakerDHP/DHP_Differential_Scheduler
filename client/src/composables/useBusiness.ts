@@ -9,7 +9,6 @@ import { businessTransformer, type BusinessData } from '@/utils/transformers/fet
 import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseBusinessReturn } from '@/types/business'
 
-export type { UseBusinessReturn } from '@/types/business'
 
 export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
 

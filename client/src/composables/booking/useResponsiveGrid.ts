@@ -3,7 +3,6 @@ import { useDisplay } from 'vuetify'
 import { useElementDimensions } from './useElementDimensions'
 import type { UseResponsiveGridOptions, UseResponsiveGridReturn } from '@/types/booking/responsiveGrid'
 
-export type { UseResponsiveGridOptions, UseResponsiveGridReturn } from '@/types/booking/responsiveGrid'
 
 export function useResponsiveGrid(
   options: UseResponsiveGridOptions

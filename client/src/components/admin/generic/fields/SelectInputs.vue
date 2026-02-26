@@ -1,10 +1,10 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
     <!-- LEARNING: Quick-select buttons for AttendeeSelect fields -->
     <!-- WHY: Allows users to quickly select major/minor attendees from business settings -->
@@ -14,7 +14,7 @@
         <VBtn
           size="small"
           variant="outlined"
-          :disabled="quickSelect.isLoading.value || !quickSelect.hasMajorAttendees.value || fieldContext.isDisabled.value"
+          :disabled="isQuickSelectMajorDisabled"
           :loading="quickSelect.isLoading.value"
           @click="handleQuickSelectMajor"
         >
@@ -23,7 +23,7 @@
         <VBtn
           size="small"
           variant="outlined"
-          :disabled="quickSelect.isLoading.value || !quickSelect.hasMinorAttendees.value || fieldContext.isDisabled.value"
+          :disabled="isQuickSelectMinorDisabled"
           :loading="quickSelect.isLoading.value"
           @click="handleQuickSelectMinor"
         >
@@ -32,17 +32,17 @@
         <VBtn
           size="small"
           variant="outlined"
-          :disabled="quickSelect.isLoading.value || (!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value) || fieldContext.isDisabled.value"
+          :disabled="isQuickSelectAllDisabled"
           :loading="quickSelect.isLoading.value"
           @click="handleQuickSelectAll"
         >
           Select All
         </VBtn>
       </div>
-      <div v-if="quickSelect.error.value" class="text-caption text-error mt-1">
+      <div v-if="quickSelect.error.value" class="text-body-small text-error mt-1">
         {{ quickSelect.error.value }}
       </div>
-      <div v-else-if="!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value && !quickSelect.isLoading.value" class="text-caption text-medium-emphasis mt-1">
+      <div v-else-if="!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value && !quickSelect.isLoading.value" class="text-body-small text-medium-emphasis mt-1">
         Configure major/minor attendees in Business Controls to use quick-select
       </div>
     </div>
@@ -57,17 +57,17 @@
         class="select-field-group"
       >
         <AppSelect
-          :key="`select-${String(fieldContext.fieldKey)}-${group.groupKey}-${isMultiple}`"
-          :id="`field-${String(fieldContext.fieldKey)}-${group.groupKey}`"
-          :name="`${String(fieldContext.fieldKey)}-${group.groupKey}`"
+          :key="`select-${String(fieldContext.state.fieldKey)}-${group.groupKey}-${isMultiple}`"
+          :id="`field-${String(fieldContext.state.fieldKey)}-${group.groupKey}`"
+          :name="`${String(fieldContext.state.fieldKey)}-${group.groupKey}`"
           :model-value="getGroupValue(group)"
           :items="getGroupOptions(group)"
           :label="group.groupLabel"
-          :placeholder="fieldContext.displayConfig.placeholder"
-          :disabled="fieldContext.displayConfig.disabled"
-          :readonly="fieldContext.displayConfig.readOnly"
-          :error="!!fieldContext.error?.value"
-          :error-messages="fieldContext.error?.value"
+          :placeholder="fieldContext.state.displayConfig.placeholder"
+          :disabled="fieldContext.state.displayConfig.disabled"
+          :readonly="fieldContext.state.displayConfig.readOnly"
+          :error="!!fieldContext.state.error?.value"
+          :error-messages="fieldContext.state.error?.value"
           :multiple="isMultiple"
           v-bind="chipsProps"
           :autocomplete="AUTCOMPLETE_OFF"
@@ -95,17 +95,17 @@
     <!-- PATTERN: Render single AppSelect with all options -->
     <AppSelect
       v-else
-      :key="`select-${String(fieldContext.fieldKey)}-${isMultiple}`"
-      :id="`field-${String(fieldContext.fieldKey)}`"
-      :name="String(fieldContext.fieldKey)"
+      :key="`select-${String(fieldContext.state.fieldKey)}-${isMultiple}`"
+      :id="`field-${String(fieldContext.state.fieldKey)}`"
+      :name="String(fieldContext.state.fieldKey)"
       :model-value="fieldValue"
       :items="options"
       :label="resolvedLabel"
-      :placeholder="fieldContext.displayConfig.placeholder"
-      :disabled="fieldContext.displayConfig.disabled"
-      :readonly="fieldContext.displayConfig.readOnly"
-      :error="!!fieldContext.error?.value"
-      :error-messages="fieldContext.error?.value"
+      :placeholder="fieldContext.state.displayConfig.placeholder"
+      :disabled="fieldContext.state.displayConfig.disabled"
+      :readonly="fieldContext.state.displayConfig.readOnly"
+      :error="!!fieldContext.state.error?.value"
+      :error-messages="fieldContext.state.error?.value"
       :multiple="isMultiple"
       v-bind="chipsProps"
       :autocomplete="AUTCOMPLETE_OFF"
@@ -189,7 +189,7 @@ const allEntities = computed(() => {
 })
 
 const currentEntityRaw = computed(() => {
-  return adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)
+  return adminComp.getEntity(fieldContext.state.entityKey, fieldContext.state.entityId)
 })
 
 // LEARNING: Convert AdminObject to GlobalEntity for useSelectLabelResolution and useSelectFiltering
@@ -225,7 +225,7 @@ const { enumOptions } = useSelectEnumOptions(isEnumSelect)
 
 // LEARNING: Use select options composable for all option transformations
 // PATTERN: Composable handles option mapping, grouping, and value normalization
-const fieldKey = computed(() => String(fieldContext.fieldKey))
+const fieldKey = computed(() => String(fieldContext.state.fieldKey))
 const selectOptionsComposable = useSelectOptions({
   filteredEntities,
   selectConfig,
@@ -314,6 +314,16 @@ const {
   handleQuickSelectAll,
   quickSelect
 } = selectInputsAsync
+
+const isQuickSelectMajorDisabled = computed(() =>
+  quickSelect.isLoading.value || !quickSelect.hasMajorAttendees.value || fieldContext.state.isDisabled.value
+)
+const isQuickSelectMinorDisabled = computed(() =>
+  quickSelect.isLoading.value || !quickSelect.hasMinorAttendees.value || fieldContext.state.isDisabled.value
+)
+const isQuickSelectAllDisabled = computed(() =>
+  quickSelect.isLoading.value || (!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value) || fieldContext.state.isDisabled.value
+)
 </script>
 
 <style scoped>

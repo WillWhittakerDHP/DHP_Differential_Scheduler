@@ -1,12 +1,12 @@
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { findById } from '@/utils/collections/findById'
-import type { WithId } from '@/composables/useCollectionTypes'
+import type { WithId } from '@/types/collectionTypes'
 import type {
   GlobalDataCollectionByIdQueryResult,
   GlobalDataCollectionQueryResult,
   GlobalDataCollectionSelector,
-} from './types'
+} from '@/types/dataCollections/globalDataCollectionTypes'
 
 type GlobalDataCollectionQueryOptions<CollectionItem extends WithId> = {
   selectCollection: GlobalDataCollectionSelector<CollectionItem>

@@ -3,6 +3,7 @@
   WHY: Grouped under Calendar as settings related to appointment confirmation status and event holds
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
@@ -42,18 +43,37 @@ const emit = defineEmits<{
   'update:holdDurationFallback': [value: number]
   'update:autoConfirmEnabled': [value: boolean]
 }>()
+
+const holdDurationHintText = computed(() =>
+  `How long a slot is held before it expires. Allowed range: ${props.holdDurationMin}–${props.holdDurationMax} minutes.`
+)
+function handleAutoConfirmUpdate(v: boolean | null): void {
+  emit('update:autoConfirmEnabled', v === true)
+}
+function handleHoldDurationMinutes(v: string | number): void {
+  emit('update:holdDurationMinutes', clampHoldDuration(Number(v)))
+}
+function handleHoldDurationMin(v: string | number): void {
+  emit('update:holdDurationMin', Math.max(1, Math.floor(Number(v)) || 1))
+}
+function handleHoldDurationMax(v: string | number): void {
+  emit('update:holdDurationMax', Math.min(1440, Math.floor(Number(v)) || 60))
+}
+function handleHoldDurationFallback(v: string | number): void {
+  emit('update:holdDurationFallback', clampHoldDuration(Number(v)))
+}
 </script>
 
 <template>
   <div class="mb-6">
-    <div class="text-subtitle-1 mb-3">{{ UI_STRINGS.tabs.confirmationAndHolds }}</div>
-    <div class="text-body-2 mb-4 text-medium-emphasis">
+    <div class="text-body-large mb-3">{{ UI_STRINGS.tabs.confirmationAndHolds }}</div>
+    <div class="text-body-medium mb-4 text-medium-emphasis">
       Settings for appointment confirmation status and time-slot hold behavior.
     </div>
 
     <VSwitch
       :model-value="autoConfirmEnabled"
-      @update:model-value="(v: boolean | null) => emit('update:autoConfirmEnabled', v === true)"
+      @update:model-value="handleAutoConfirmUpdate"
       :label="UI_STRINGS.calendar.autoConfirmLabel"
       :hint="UI_STRINGS.calendar.autoConfirmHint"
       persistent-hint
@@ -62,15 +82,15 @@ const emit = defineEmits<{
 
     <VDivider class="my-4" />
 
-    <div class="text-subtitle-2 mb-2">{{ UI_STRINGS.calendar.appointmentHoldsTitle }}</div>
+    <div class="text-label-large mb-2">{{ UI_STRINGS.calendar.appointmentHoldsTitle }}</div>
     <VTextField
       :model-value="holdDurationMinutes"
-      @update:model-value="(v: string | number) => emit('update:holdDurationMinutes', clampHoldDuration(Number(v)))"
+      @update:model-value="handleHoldDurationMinutes"
       type="number"
       :min="holdDurationMin"
       :max="holdDurationMax"
       :label="UI_STRINGS.calendar.holdDurationLabel"
-      :hint="`How long a slot is held before it expires. Allowed range: ${holdDurationMin}–${holdDurationMax} minutes.`"
+      :hint="holdDurationHintText"
       persistent-hint
       class="mb-4"
       :rules="[holdDurationRule]"
@@ -78,7 +98,7 @@ const emit = defineEmits<{
     />
     <VTextField
       :model-value="holdDurationMin"
-      @update:model-value="(v: string | number) => emit('update:holdDurationMin', Math.max(1, Math.floor(Number(v)) || 1))"
+      @update:model-value="handleHoldDurationMin"
       type="number"
       min="1"
       label="Hold duration min (minutes)"
@@ -88,7 +108,7 @@ const emit = defineEmits<{
     />
     <VTextField
       :model-value="holdDurationMax"
-      @update:model-value="(v: string | number) => emit('update:holdDurationMax', Math.min(1440, Math.floor(Number(v)) || 60))"
+      @update:model-value="handleHoldDurationMax"
       type="number"
       min="1"
       max="1440"
@@ -99,7 +119,7 @@ const emit = defineEmits<{
     />
     <VTextField
       :model-value="holdDurationFallback"
-      @update:model-value="(v: string | number) => emit('update:holdDurationFallback', clampHoldDuration(Number(v)))"
+      @update:model-value="handleHoldDurationFallback"
       type="number"
       :min="holdDurationMin"
       :max="holdDurationMax"
@@ -109,7 +129,7 @@ const emit = defineEmits<{
       class="mb-4"
     />
 
-    <div class="text-caption mt-2">
+    <div class="text-body-small mt-2">
       How long a slot is held before it expires. Allowed range: {{ holdDurationMin }}–{{ holdDurationMax }} minutes.
     </div>
   </div>

@@ -23,7 +23,6 @@ import type { UseSelectFilteringOptions, UseSelectFilteringReturn } from '@/type
 
 const logger = createLogger('useSelectFiltering')
 
-export type { UseSelectFilteringOptions, UseSelectFilteringReturn } from '@/types/admin/selectFiltering'
 
 export function useSelectFiltering(
   options: UseSelectFilteringOptions
@@ -39,7 +38,7 @@ export function useSelectFiltering(
   } = options
 
   const adminComp = useAdmin()
-  const fieldKey = computed(() => String(fieldContext.fieldKey))
+  const fieldKey = computed(() => String(fieldContext.state.fieldKey))
 
   /**
 LEARNING: Detect active child select pattern from config
@@ -96,8 +95,8 @@ WHY: Config...
     }
     
     // Fallback to hardcoded logic if config doesn't have it (backward compatibility)
-    if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
-    if (fieldContext.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
+    if (fieldContext.state.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
+    if (fieldContext.state.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
     return null
   })
 
@@ -115,7 +114,7 @@ WHY: Config...
       typeRefKey = String(config.candidateParentPath[0])
     } else {
       // Fallback to hardcoded logic (backward compatibility)
-      typeRefKey = fieldContext.entityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
+      typeRefKey = fieldContext.state.entityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
     }
     
     if (currentEntity.value) {
@@ -125,7 +124,7 @@ WHY: Config...
       }
     }
     
-    const entityIdString = String(fieldContext.entityId)
+    const entityIdString = String(fieldContext.state.entityId)
     const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
     
     if (isTempEntity || !currentEntity.value) {
@@ -168,7 +167,7 @@ WHY: Config...
   /**
 WHY: Composables can only be called during setup, not inside compute...
    */
-  const composedEntityComposable = (String(fieldContext.fieldKey) === 'instanceComponents' && fieldContext.entityKey === 'blockInstance')
+  const composedEntityComposable = (String(fieldContext.state.fieldKey) === 'instanceComponents' && fieldContext.state.entityKey === 'blockInstance')
     ? useComponentEntity('blockInstance')
     : null
 
@@ -184,7 +183,7 @@ WHY: Composables can only be called during setup, not inside compute...
       return allEntities.value
     }
     
-    if (composedEntityComposable && fieldContext.entityId) {
+    if (composedEntityComposable && fieldContext.state.entityId) {
       // PATTERN: Read raw field value directly to avoid circular dependency (fieldValue depends on options)
       const currentFormValue = rawFieldValue.value
       const selectedComponentIdsFromForm = new Set(
@@ -195,14 +194,14 @@ WHY: Composables can only be called during setup, not inside compute...
             : []
       )
       
-      const availableComponents = composedEntityComposable.getAvailableComponents(fieldContext.entityId)
+      const availableComponents = composedEntityComposable.data.getAvailableComponents(fieldContext.state.entityId)
       
       // PATTERN: Filter available components to exclude those in form value
       const availableComponentsFiltered = availableComponents.filter(
         component => !selectedComponentIdsFromForm.has(component.id)
       )
       
-      const currentComponents = composedEntityComposable.getComponents(fieldContext.entityId)
+      const currentComponents = composedEntityComposable.data.getComponents(fieldContext.state.entityId)
       const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))
       
       // PATTERN: Combine query cache components with form-selected components, deduplicate
@@ -219,7 +218,7 @@ WHY: Composables can only be called during setup, not inside compute...
     }
     
     if (isActiveChildSelect.value) {
-      const entityIdString = String(fieldContext.entityId)
+      const entityIdString = String(fieldContext.state.entityId)
       const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
       
       // Skip warning for new entities; only warn when an existing entity is missing parent type.
@@ -275,7 +274,7 @@ WHY: Composables can only be called during setup, not inside compute...
       
       // PATTERN: Check form values similar to parentTypeRef logic
       if (!currentEntityValue) {
-        const entityIdString = String(fieldContext.entityId)
+        const entityIdString = String(fieldContext.state.entityId)
         const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
         
         if (isTempEntity || !currentEntity.value) {
@@ -299,7 +298,7 @@ WHY: Composables can only be called during setup, not inside compute...
         allEntities.value,
         currentEntityValue,
         String(childPathKey),
-        String(fieldContext.entityId)
+        String(fieldContext.state.entityId)
       )
     }
     

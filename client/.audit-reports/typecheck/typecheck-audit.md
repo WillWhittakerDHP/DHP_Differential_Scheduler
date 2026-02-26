@@ -12,43 +12,43 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-02-25T01:18:36.834Z**
+- Generated at: **2026-02-26T00:04:01.936Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 177**
+- **Errors requiring review: 271**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **118**
+- Pools: **131**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2304-ts2304-cannot-find-name-globalentityid` | 136 | 12 | 2 | 0 | 0 |
-| P0 | `TS18048-ts18048-vls-ctx-formdata-is-possibly-undefined` | 49 | 5 | 2 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-timeslot` | 46 | 4 | 1 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-iso8601date` | 37 | 3 | 2 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-timerange` | 37 | 3 | 2 | 0 | 0 |
-| P0 | `TS2307-ts2307-cannot-find-module-bookingfinaltypes-or-its-corresponding-type-declarations` | 37 | 3 | 2 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-globalentitykey` | 35 | 3 | 1 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-relationshipcollectionref` | 35 | 3 | 1 | 0 | 0 |
-| P0 | `TS2322-ts2322-assign-boolean-computedref` | 35 | 3 | 1 | 0 | 0 |
-| P0 | `TS2322-ts2322-assign-computedref-boolean` | 35 | 3 | 1 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-globalfieldkey` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2322-ts2322-assign` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2322-ts2322-assign-promise-promise` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-applypartinstancebulkedit` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-bulkeditdata` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-bulkeditmode` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-handlebulkeditconfirm` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-handlebulkeditmodalupdate` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2339-ts2339-prop-togglebulkeditmode` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2353-ts2353-object-literal-may-only-specify-known-properties-and-existingpartinstances-does-not-exist-in-type-usepartinstance` | 26 | 2 | 2 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-bookingmode` | 24 | 2 | 1 | 0 | 0 |
-| P0 | `TS2304-ts2304-cannot-find-name-ternaryboolean` | 24 | 2 | 1 | 0 | 0 |
-| P0 | `TS6133-ts6133-ref-is-declared-but-its-value-is-never-read` | 24 | 4 | 4 | 0 | 0 |
-| P0 | `TS2741-ts2741-property-writablecomputedrefsymbol-is-missing-in-type-computedref-boolean-but-required-in-type-writablecomputedre` | 22 | 2 | 1 | 0 | 0 |
-| P0 | `TS2741-ts2741-property-writablecomputedrefsymbol-is-missing-in-type-computedref-string-undefined-but-required-in-type-writablec` | 22 | 2 | 1 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-businessrule` | 182 | 16 | 3 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-selectedusertypeblock-usebookingwizardreturngrouped` | 144 | 12 | 6 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-selectedservicetypeblocks-usebookingwizardreturngrouped` | 120 | 10 | 5 | 0 | 0 |
+| P0 | `TS18048-ts18048-ctx-is-possibly-undefined` | 78 | 8 | 3 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-void-void` | 76 | 6 | 5 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-length-computedref` | 70 | 6 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-selectedpropertytypeblocks-usebookingwizardreturngrouped` | 70 | 6 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-void-any` | 61 | 5 | 3 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-validationrule` | 59 | 5 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-availableservices-usebookingwizardreturngrouped` | 59 | 5 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-availableusertypeblocks-usebookingwizardreturngrouped` | 59 | 5 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-availablepropertytypeblocks-usebookingwizardreturngrouped` | 57 | 5 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-email-ref` | 57 | 5 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-firstname-ref` | 57 | 5 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-lastname-ref` | 57 | 5 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-ruletype-ref` | 57 | 5 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-toggleservicetypeblock-usebookingwizardreturngrouped` | 50 | 4 | 3 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-computedref-computedref` | 48 | 4 | 2 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-ref-ref` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-batchupdate-usebookingwizardreturngrouped` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-selectusertypeblock-usebookingwizardreturngrouped` | 37 | 3 | 2 | 0 | 0 |
+| P0 | `TS2304-ts2304-cannot-find-name-usemetadatacachereturn` | 35 | 3 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-ref-boolean-undefined` | 35 | 3 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-length-computedref-ref` | 35 | 3 | 1 | 0 | 0 |
+| P0 | `TS2339-ts2339-prop-partshape-true-computedrefimpl-partfinal` | 35 | 3 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -60,512 +60,603 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/composables/componentEntity/useComponentEntityDomain.ts`
+### `src/components/booking/dev/InstancesPanel.vue`
 
-- errors: 11, unsafeCasts: 0, suppressions: 0
+- errors: 26, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2304@22:38 Cannot find name 'GlobalEntityId'.
-TS2304@22:55 Cannot find name 'InstanceComponent'.
-TS2304@28:43 Cannot find name 'GlobalEntityId'.
-TS2304@50:47 Cannot find name 'GlobalEntityId'.
-TS2304@93:34 Cannot find name 'GlobalEntityId'.
-TS2304@100:36 Cannot find name 'GlobalEntityId'.
-TS2304@100:53 Cannot find name 'GlobalEntityId'.
-TS2304@108:42 Cannot find name 'GlobalEntityId'.
-TS2304@122:17 Cannot find name 'GlobalEntityId'.
-TS2304@125:15 Cannot find name 'DistributionStrategy'.
-TS2304@126:6 Cannot find name 'DistributionPreview'.
+TS2345@4:152 Argument of type 'Ref<"parts" | "blocks", "parts" | "blocks">' is not assignable to parameter of type '"parts" | "blocks"'.
+TS2339@16:39 Property 'length' does not exist on type 'ComputedRef<PartFinal[]> | Ref<PartFinal[], PartFinal[]>'.
+TS2339@22:46 Property 'length' does not exist on type 'ComputedRef<PartFinal[]> | Ref<PartFinal[], PartFinal[]>'.
+TS2339@26:27 Property 'partShape' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2339@29:57 Property 'baseTime' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2339@30:38 Property 'baseFee' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2339@36:40 Property 'id' does not exist on type 'true | ComputedRefImpl<any> | EventShapeEntity[]'.
+TS2339@41:58 Property 'partShape' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2345@41:69 Argument of type 'true | ComputedRefImpl<any> | EventShapeEntity[]' is not assignable to parameter of type 'EventShapeEntity'.
+TS2339@43:53 Property 'partShape' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2345@43:64 Argument of type 'true | ComputedRefImpl<any> | EventShapeEntity[]' is not assignable to parameter of type 'EventShapeEntity'.
+TS2339@45:67 Property 'name' does not exist on type 'true | ComputedRefImpl<any> | EventShapeEntity[]'.
+TS2339@49:56 Property 'zeroOutPart' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2339@50:31 Property 'zeroOutPart' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2339@56:41 Property 'sourcePartInstances' does not exist on type 'true | ComputedRefImpl<any> | PartFinal[]'.
+TS2322@71:14 Type 'Ref<{ title: string; value: string; }[], { title: string; value: string; }[]> | ComputedRef<{ title: string; value: string; }[]>' is not assignable to type 'readonly any[] | undefined'.
+TS2322@78:14 Type '(v: string | null) => void' is not assignable to type '(value: ComputedRef<string | null> | Ref<string | null, string | null>) => void'.
+TS2339@96:40 Property 'length' does not exist on type 'ComputedRef<ServiceSummary[]> | Ref<ServiceSummary[], ServiceSummary[]>'.
+TS2339@100:67 Property 'name' does not exist on type 'true | ComputedRefImpl<any> | ServiceSummary[]'.
+TS2339@102:42 Property 'differential' does not exist on type 'true | ComputedRefImpl<any> | ServiceSummary[]'.
+TS2339@103:34 Property 'bookingMode' does not exist on type 'true | ComputedRefImpl<any> | ServiceSummary[]'.
+TS2339@104:39 Property 'baseSqFt' does not exist on type 'true | ComputedRefImpl<any> | ServiceSummary[]'.
+TS2339@105:35 Property 'partCount' does not exist on type 'true | ComputedRefImpl<any> | ServiceSummary[]'.
+TS2339@116:55 Property 'majorArrival' does not exist on type 'ComputedRef<TimeSlotResults> | Ref<TimeSlotResults, TimeSlotResults>'.
+TS2339@122:55 Property 'minorArrival' does not exist on type 'ComputedRef<TimeSlotResults> | Ref<TimeSlotResults, TimeSlotResults>'.
+TS2339@128:55 Property 'appointmentEnd' does not exist on type 'ComputedRef<TimeSlotResults> | Ref<TimeSlotResults, TimeSlotResults>'.
 ```
 
-### `src/utils/booking/partFinalizer.ts`
+### `src/components/booking/steps/PropertyDetailsStep.vue`
+
+- errors: 23, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@50:38 Property 'selectedPropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@51:39 Property 'availablePropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@52:35 Property 'togglePropertyTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@65:40 Property 'selectedPropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@66:41 Property 'availablePropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@67:37 Property 'availableLineItemBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@68:35 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@69:37 Property 'togglePropertyTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@70:33 Property 'toggleLineItemBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@71:25 Property 'batchUpdate' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@116:38 Property 'selectedPropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@118:39 Property 'availablePropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@166:47 Property 'selectedPropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@207:22 Property 'propertyTypesCascadeError' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@212:19 Property 'propertyTypesCascadeError' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@218:30 Property 'availablePropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@228:24 Property 'availablePropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2739@241:8 Type 'Record<string, ValidationRule[]>' is missing the following properties from type '{ address: ValidationRule[]; city: ValidationRule[]; state: ValidationRule[]; zipCode: ValidationRule[]; }': address, city, state, zipCode
+TS2322@245:8 Type '(details: PlaceDetails) => void' is not assignable to type '(details: unknown) => void'.
+TS2322@246:8 Type '(error: Error) => void' is not assignable to type '(error: unknown) => void'.
+TS4104@248:8 The type 'readonly SelectOptionBase[]' is 'readonly' and cannot be assigned to the mutable type '{ title: string; value: string; }[]'.
+TS2739@253:8 Type 'Record<string, ValidationRule[]>' is missing the following properties from type '{ propertySize: ValidationRule[]; numberOfUnits: ValidationRule[]; }': propertySize, numberOfUnits
+TS2339@267:40 Property 'selectedPropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+```
+
+### `src/components/booking/steps/ServiceSelectionStep.vue`
+
+- errors: 19, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@24:45 Property 'availableUserTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@25:44 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@25:82 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@26:35 Property 'selectUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@31:45 Property 'availableServices' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@32:44 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@33:34 Property 'toggleServiceTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@40:40 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@46:40 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@56:36 Property 'availableUserTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@68:36 Property 'availableServices' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@69:48 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@75:48 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@95:24 Property 'bookingData' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@103:58 Property 'availableUserTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@117:24 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@123:24 Property 'servicesCascadeError' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@128:21 Property 'servicesCascadeError' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@132:32 Property 'availableServices' does not exist on type 'UseBookingWizardReturnGrouped'.
+```
+
+### `src/composables/admin/useBusinessRulesTab.ts`
+
+- errors: 16, unsafeCasts: 0, suppressions: 0
+
+```
+TS2724@14:15 '"@/composables/admin/useBusinessRules"' has no exported member named 'BusinessRule'. Did you mean 'useBusinessRules'?
+TS2304@19:16 Cannot find name 'BusinessRule'.
+TS2304@27:32 Cannot find name 'BusinessRule'.
+TS2304@32:22 Cannot find name 'BusinessRule'.
+TS2304@41:28 Cannot find name 'BusinessRule'.
+TS2304@44:30 Cannot find name 'BusinessRule'.
+TS2304@46:30 Cannot find name 'BusinessRule'.
+TS2304@47:32 Cannot find name 'BusinessRule'.
+TS2304@131:41 Cannot find name 'BusinessRule'.
+TS2304@138:37 Cannot find name 'BusinessRule'.
+TS2540@147:25 Cannot assign to 'value' because it is a read-only property.
+TS2540@150:29 Cannot assign to 'value' because it is a read-only property.
+TS2540@153:19 Cannot assign to 'value' because it is a read-only property.
+TS2322@159:7 Type 'Ref<boolean | undefined, boolean | undefined>' is not assignable to type 'Ref<boolean, boolean>'.
+TS2322@160:7 Type 'Ref<boolean | undefined, boolean | undefined>' is not assignable to type 'Ref<boolean, boolean>'.
+TS4104@173:7 The type 'readonly [{ readonly title: "Required Fields"; readonly value: "required_fields"; readonly description: "Additional required fields based on block selection"; }, { readonly title: "Requires Agent"; readonly value: "requires_agent"; readonly description: "Service requires agent/client contact information"; }, { ...; ...' is 'readonly' and cannot be assigned to the mutable type '{ title: string; value: RuleType; }[]'.
+```
+
+### `src/views/admin/tabs/RuleFormDialog.vue`
+
+- errors: 16, unsafeCasts: 0, suppressions: 0
+
+```
+TS18048@17:3 'ctx' is possibly 'undefined'.
+TS2322@17:3 Type 'boolean' is not assignable to type 'Ref<boolean, boolean>'.
+TS18048@24:3 'ctx' is possibly 'undefined'.
+TS2322@37:6 Type 'Ref<boolean, boolean>' is not assignable to type 'boolean | undefined'.
+TS2339@50:40 Property 'ruleType' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2339@58:35 Property 'ruleType' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2339@77:35 Property 'ruleType' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2322@83:16 Type '(v: boolean | null) => void' is not assignable to type '(value: ComputedRef<boolean> | null) => void'.
+TS2339@87:38 Property 'ruleType' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2339@91:38 Property 'ruleType' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2339@96:40 Property 'validationMessageAnnotationId' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2740@97:14 Type 'ComputedRef<{ id: string; title: string; value: string; }[]>' is missing the following properties from type 'readonly any[]': length, concat, join, slice, and 20 more.
+TS2339@107:40 Property 'active' does not exist on type 'Ref<BusinessRuleCore, BusinessRuleCore>'.
+TS2322@120:12 Type 'Ref<boolean, boolean>' is not assignable to type 'boolean | undefined'.
+TS2322@127:12 Type 'Ref<boolean, boolean>' is not assignable to type 'string | boolean | undefined'.
+TS2322@128:12 Type 'Ref<boolean, boolean>' is not assignable to type 'boolean | undefined'.
+```
+
+### `src/components/booking/steps/ContactFormSection.vue`
+
+- errors: 15, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@13:35 Property 'firstName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@24:35 Property 'lastName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@35:35 Property 'email' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@53:34 Property 'firstName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@64:34 Property 'lastName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@75:34 Property 'email' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@105:42 Property 'firstName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@116:42 Property 'lastName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@127:42 Property 'email' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@157:47 Property 'firstName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@168:47 Property 'lastName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@179:47 Property 'email' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@209:35 Property 'firstName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@220:35 Property 'lastName' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+TS2339@231:35 Property 'email' does not exist on type 'Ref<ContactInfoBase, ContactInfoBase>'.
+```
+
+### `src/components/booking/steps/AvailabilityStep.vue`
+
+- errors: 13, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@55:3 Type 'UseBookingWizardReturnGrouped' is not assignable to type 'UseBookingWizardReturn'.
+TS2322@58:3 Type 'Ref<PropertyDetailsData | null, PropertyDetailsData | null>' is not assignable to type 'Ref<{ [key: string]: unknown; squareFootage?: number | null | undefined; bedrooms?: number | null | undefined; bathrooms?: number | null | undefined; foundationAccess?: "basement" | "crawlspace" | "slab" | null | undefined; additionalUnits?: number | ... 1 more ... | undefined; } | null, { ...; } | null>'.
+TS2322@72:3 Type '() => Promise<void>' is not assignable to type '() => boolean'.
+TS2540@79:31 Cannot assign to 'value' because it is a read-only property.
+TS2322@110:12 Type '{ start: string; end: string | null; } | null' is not assignable to type 'string | null'.
+TS2322@113:12 Type '(date: string) => boolean' is not assignable to type '(date: unknown) => boolean'.
+TS18046@116:24 '__VLS_ctx.o.graphBars' is of type 'unknown'.
+TS2322@118:12 Type 'unknown' is not assignable to type '"major" | "minor" | "nonDifferential"'.
+TS2322@133:16 Type 'unknown[]' is not assignable to type 'AppointmentSlots'.
+TS2322@135:16 Type 'unknown' is not assignable to type '"major" | "minor" | "nonDifferential" | undefined'.
+TS2322@136:16 Type 'string' is not assignable to type '"secondary" | "primary" | undefined'.
+TS2322@163:8 Type 'unknown' is not assignable to type 'MoveableSchedulingOptions | null'.
+TS2322@165:8 Type 'unknown' is not assignable to type 'ContingencyPeriod'.
+```
+
+### `src/components/booking/wrappers/ServiceSelectCards.vue`
+
+- errors: 13, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@34:36 Property 'availableServices' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@35:48 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@41:40 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@61:76 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@67:18 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@68:16 Property 'batchUpdate' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@69:18 Property 'toggleServiceTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@69:48 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@76:30 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@79:30 Property 'availableServices' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS7006@79:59 Parameter 's' implicitly has an 'any' type.
+TS2339@81:16 Property 'batchUpdate' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@81:41 Property 'toggleServiceTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+```
+
+### `src/composables/admin/useBusinessRuleForm.ts`
+
+- errors: 10, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@12:17 Cannot find name 'BusinessRuleFormData'.
+TS2304@13:20 Cannot find name 'BusinessRule'.
+TS2304@20:26 Cannot find name 'BusinessRule'.
+TS2304@22:30 Cannot find name 'RuleType'.
+TS2304@23:28 Cannot find name 'BusinessRule'.
+TS2304@28:26 Cannot find name 'BusinessRule'.
+TS2304@30:23 Cannot find name 'BusinessRuleFormData'.
+TS2304@119:33 Cannot find name 'BusinessRule'.
+TS2304@143:37 Cannot find name 'RuleType'.
+TS2304@147:35 Cannot find name 'BusinessRule'.
+```
+
+### `src/composables/booking/useAvailabilityOrchestrator.ts`
 
 - errors: 9, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2307@4:33 Cannot find module './bookingFinalTypes' or its corresponding type declarations.
-TS7006@76:10 Parameter 'partAcc' implicitly has an 'any' type.
-TS7006@76:19 Parameter 'part' implicitly has an 'any' type.
-TS2769@133:5 No overload matches this call.
-TS2345@133:49 Argument of type '([eventShapeId, rawDuration]: [any, any]) => [any, number]' is not assignable to parameter of type '(value: unknown, index: number, array: unknown[]) => [any, number]'.
-TS2345@143:10 Argument of type '([eventShapeId, rawDuration]: [any, any]) => { eventShape: EventShapeEntity; rawDuration: any; roundedDuration: {}; } | null' is not assignable to parameter of type '(value: unknown, index: number, array: unknown[]) => { eventShape: EventShapeEntity; rawDuration: any; roundedDuration: {}; } | null'.
-TS2362@181:35 The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-TS2363@181:58 The right-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-TS2322@184:7 Type '{}' is not assignable to type 'number'.
+TS2769@40:60 No overload matches this call.
+TS2769@45:50 No overload matches this call.
+TS2322@260:7 Type 'ComputedRef<string | null>' is not assignable to type 'ComputedRef<{ start: string; end: string | null; } | null>'.
+TS2739@263:7 Type 'Ref<Record<string, string>, Record<string, string>>' is missing the following properties from type 'ComputedRef<Record<string, string>>': effect, [ComputedRefSymbol]
+TS2739@267:7 Type 'Ref<{ start: ISO8601Date | null; end: ISO8601Date | null; }, { start: ISO8601Date | null; end: ISO8601Date | null; }>' is missing the following properties from type 'ComputedRef<{ start: string; end: string | null; }>': effect, [ComputedRefSymbol]
+TS2322@269:7 Type 'ComputedRef<string | null>' is not assignable to type 'ComputedRef<string>'.
+TS2322@270:7 Type 'ComputedRef<number | null>' is not assignable to type 'ComputedRef<number>'.
+TS2322@285:7 Type '(type: "major" | "minor") => void' is not assignable to type '(basis: string) => void'.
+TS2322@290:7 Type '() => boolean' is not assignable to type '() => Promise<void>'.
 ```
 
-### `src/components/admin/generic/collections/PartsCollection.vue`
+### `src/views/admin/tabs/components/BlockInstancesGroup.vue`
+
+- errors: 8, unsafeCasts: 0, suppressions: 0
+
+```
+TS18048@39:3 'ctx' is possibly 'undefined'.
+TS18048@44:8 'ctx' is possibly 'undefined'.
+TS18048@45:5 'ctx' is possibly 'undefined'.
+TS18048@47:23 'ctx' is possibly 'undefined'.
+TS2322@116:10 Type '(el: ComponentPublicInstance | HTMLElement | null) => void' is not assignable to type 'VNodeRef | undefined'.
+TS2322@128:12 Type '(entity: BlockInstanceEntity) => void' is not assignable to type '(entity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">) => any'.
+TS2322@130:12 Type '(id: string) => void' is not assignable to type '(entity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">) => any'.
+TS2322@154:16 Type '(entity: BlockInstanceEntity) => void' is not assignable to type '(entity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">) => any'.
+```
+
+### `src/components/booking/steps/ConfirmationStep.vue`
 
 - errors: 7, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2353@76:7 Object literal may only specify known properties, and 'existingPartInstances' does not exist in type 'UsePartInstanceBulkEditOptions'.
-TS2339@83:30 Property 'bulkEditMode' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@84:30 Property 'bulkEditData' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@85:36 Property 'toggleBulkEditMode' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@86:31 Property 'applyPartInstanceBulkEdit' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@87:43 Property 'handleBulkEditModalUpdate' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@88:39 Property 'handleBulkEditConfirm' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
+TS2339@48:39 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@49:40 Property 'selectedPropertyTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@50:38 Property 'selectedOptionTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@51:36 Property 'selectedLineItemBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@52:35 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2322@54:3 Type 'Ref<PropertyDetailsData | null, PropertyDetailsData | null> | null' is not assignable to type 'Ref<PropertyDetailsData, PropertyDetailsData> | null | undefined'.
+TS2322@55:3 Type 'Ref<AvailabilityStepData | null, AvailabilityStepData | null> | null' is not assignable to type 'Ref<AvailabilityStepData, AvailabilityStepData> | null | undefined'.
 ```
 
-### `src/composables/admin/usePartInstanceCollection.ts`
+### `src/components/booking/wrappers/UserTypeSelectCards.vue`
 
 - errors: 7, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2353@148:68 Object literal may only specify known properties, and 'existingPartInstances' does not exist in type 'UsePartInstanceBulkEditOptions'.
-TS2339@150:5 Property 'bulkEditMode' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@151:5 Property 'bulkEditData' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@152:5 Property 'toggleBulkEditMode' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@153:5 Property 'applyPartInstanceBulkEdit' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@154:5 Property 'handleBulkEditModalUpdate' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-TS2339@155:5 Property 'handleBulkEditConfirm' does not exist on type '{ firstPartInstanceForMetadata: Ref<PartInstanceEntity | null, PartInstanceEntity | null>; buildBulkEditDataFromForm: (filteredMetadataKeys: string[], formValues: Record<...>) => PartInstanceBulkEditData; }'.
-```
-
-### `src/views/admin/tabs/InstancesTab.vue`
-
-- errors: 7, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@10:1 'GlobalEntityId' is declared but its value is never read.
-TS6133@31:1 'useNotification' is declared but its value is never read.
-TS6133@32:1 'useEntityDragHandlers' is declared but its value is never read.
-TS2322@187:3 Type '(updates: OrderIndexUpdate) => Promise<void>' is not assignable to type '(updates: Record<string, number>) => Promise<void>'.
-TS6133@192:3 'eventInstanceIds' is declared but its value is never read.
-TS6133@194:3 'eventInstancesPanelsContainer' is declared but its value is never read.
-TS6133@196:3 'eventInstancesDragHandlers' is declared but its value is never read.
+TS2339@29:36 Property 'availableUserTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@35:40 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@63:21 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@66:36 Property 'availableUserTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS7006@66:71 Parameter 'ut' implicitly has an 'any' type.
+TS2339@68:16 Property 'selectUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@72:14 Property 'selectUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
 ```
 
 ### `src/composables/admin/useEntityCardSubPanels.ts`
 
-- errors: 6, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@14:1 'RelationshipCollection' is declared but its value is never read.
-TS2352@49:25 Conversion of type 'ComputedRef<GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">>' to type 'BlockInstanceEntity' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
-TS2304@82:35 Cannot find name 'RelationshipCollectionRef'.
-TS2304@82:66 Cannot find name 'RelationshipCollectionRef'.
-TS6133@85:12 'getRelationshipCollectionInstance' is declared but its value is never read.
-TS2304@85:49 Cannot find name 'RelationshipCollectionRef'.
-```
-
-### `src/composables/booking/useAppointmentTimes.ts`
-
-- errors: 6, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@85:31 Cannot find name 'TimeSlot'.
-TS2304@105:31 Cannot find name 'TimeSlot'.
-TS2304@108:50 Cannot find name 'TimeSlot'.
-TS2304@108:61 Cannot find name 'TimeRange'.
-TS2304@121:50 Cannot find name 'TimeSlot'.
-TS2304@121:61 Cannot find name 'TimeRange'.
-```
-
-### `src/components/admin/generic/EntityCard.vue`
-
 - errors: 5, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2739@142:3 Type '{ getConfig: () => AdminConfig; rebuildConfig: () => void; getFormFieldConfig: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(entityKey: GE, fieldKey: FieldKey) => ComputedRef<...>; getEntityFormFieldConfig: <GE extends GlobalEntityKey>(entityKey: GE) => ComputedRef<...>; getDisplayFieldConfig: <G...' is missing the following properties from type 'AdminConfig': displayFieldConfig, formFieldConfig, instanceConfig
-TS2322@149:5 Type 'ComputedRef<boolean>' is not assignable to type 'boolean'.
-TS2322@150:5 Type 'ComputedRef<boolean>' is not assignable to type 'boolean'.
-TS2322@152:5 Type 'ComputedRef<boolean>' is not assignable to type 'boolean'.
-TS2322@172:3 Type '{ getEntity: <GE extends GlobalEntityKey>(entityKey: GE, entityId: GlobalEntityId) => AdminObject<GE> | undefined; getEntities: <GE extends GlobalEntityKey>(entityKey: GE) => AdminObject<GE>[]; ... 5 more ...; adminData: globalThis.ComputedRef<...>; }' is not assignable to type '{ getEntity: (key: "blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance", id: string) => Record<...> | undefined; }'.
+TS2741@162:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string>' but required in type 'WritableComputedRef<string, string>'.
+TS2741@164:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string>' but required in type 'WritableComputedRef<string, string>'.
+TS2741@168:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<boolean>' but required in type 'WritableComputedRef<boolean, boolean>'.
+TS2741@170:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string>' but required in type 'WritableComputedRef<string, string>'.
+TS2741@171:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<boolean>' but required in type 'WritableComputedRef<boolean, boolean>'.
 ```
 
-### `src/views/admin/entities/BlockShapeForm.vue`
+### `src/composables/booking/useStepValidation.ts`
 
-- errors: 5, unsafeCasts: 0, suppressions: 0
+- errors: 4, unsafeCasts: 0, suppressions: 0
 
 ```
-TS18048@21:26 '__VLS_ctx.formData' is possibly 'undefined'.
-TS18048@28:33 '__VLS_ctx.formData' is possibly 'undefined'.
-TS18048@35:26 '__VLS_ctx.formData' is possibly 'undefined'.
-TS2339@35:35 Property 'active' does not exist on type 'BlockShapeFormData | PartShapeFormData'.
-TS6133@66:17 'entityId' is declared but its value is never read.
+TS2304@14:25 Cannot find name 'ValidationRule'.
+TS2304@49:53 Cannot find name 'ValidationRule'.
+TS2304@51:49 Cannot find name 'ValidationRule'.
+TS2304@53:41 Cannot find name 'ValidationRule'.
+```
+
+### `src/composables/formFields/useFormFields.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@39:9 '_adminConfig' is declared but its value is never read.
+TS2345@161:47 Argument of type 'FieldContextTypeGrouped<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance", GlobalFieldKey<"blockInstance" | "blockShape" | ... 5 more ... | "annotationInstance">>' is not assignable to parameter of type '{ state: { fieldKey: GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">; ... 11 more ...; validationRules: { ...; }; }; actions: { ...; }; }'.
+TS2352@202:49 Conversion of type '{ state: { fieldKey: GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">; ... 11 more ...; validationRules: { ...; }; }; actions: { ...; }; }' to type 'FieldContextTypeGrouped<GE, FieldKey>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+TS2322@258:5 Type 'Ref<Map<string, { state: { fieldKey: GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">; ... 11 more ...; validationRules: { ...; }; }; actions: { ...; }; }> & Omit<...>, Map<...> | (Map<...> & Omit<...>)>' is not assignable to type 'Ref<Map<string, FieldContextTypeGrouped<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance", GlobalFieldKey<"blockInstance" | ... 6 more ... | "annotationInstance">>>, Map<...>>'.
+```
+
+### `src/utils/fieldContext/fieldContextSaveHelpers.ts`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@33:11 Property 'addToComponent' does not exist on type 'UseComponentEntityReturn<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">'.
+TS2339@33:27 Property 'removeFromComponent' does not exist on type 'UseComponentEntityReturn<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">'.
+TS2339@33:48 Property 'getComponents' does not exist on type 'UseComponentEntityReturn<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">'.
+TS7006@36:58 Parameter 'ea' implicitly has an 'any' type.
+```
+
+### `src/views/admin/tabs/components/EventInstancesSection.vue`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS18048@34:3 'ctx' is possibly 'undefined'.
+TS18048@34:47 'ctx' is possibly 'undefined'.
+TS2339@281:69 Property 'trim' does not exist on type '{}'.
+TS2322@304:12 Type '(entity: BlockInstanceEntity) => void' is not assignable to type '(entity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">) => any'.
+```
+
+### `src/components/admin/generic/DynamicForm.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@137:21 Property 'length' does not exist on type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>'.
+TS2339@137:56 Property 'length' does not exist on type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>'.
+TS2339@137:91 Property 'length' does not exist on type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>'.
+```
+
+### `src/components/admin/generic/EntityFormContent.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@118:21 Property 'length' does not exist on type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>'.
+TS2339@118:56 Property 'length' does not exist on type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>'.
+TS2339@118:91 Property 'length' does not exist on type 'ComputedRef<GlobalFieldKey<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">[]>'.
+```
+
+### `src/components/booking/dev/DevPanelsContainer.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@72:35 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@83:20 Property 'toggleServiceTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS7006@112:38 Parameter 'ei' implicitly has an 'any' type.
+```
+
+### `src/composables/admin/useMetadataCache.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@19:28 Cannot find name 'UseMetadataCacheReturn'.
+TS2304@27:41 Cannot find name 'UseMetadataCacheReturn'.
+TS2304@127:37 Cannot find name 'UseMetadataCacheReturn'.
+```
+
+### `src/composables/booking/useWizardStepSync.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2731@35:75 Implicit conversion of a 'symbol' to a 'string' will fail at runtime. Consider wrapping this expression in 'String(...)'.
+TS2731@35:91 Implicit conversion of a 'symbol' to a 'string' will fail at runtime. Consider wrapping this expression in 'String(...)'.
+TS2731@35:112 Implicit conversion of a 'symbol' to a 'string' will fail at runtime. Consider wrapping this expression in 'String(...)'.
+```
+
+### `src/views/admin/tabs/InstancesTab.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@241:3 Type '(sourceEntity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">) => void' is not assignable to type '(id: string) => void'.
+TS2322@252:3 Type 'ComputedRef<{ titleTemplate: string[]; descriptionTemplate: string[]; locationTemplate: string[]; }>' is not assignable to type 'Record<string, string[]>'.
+TS2322@259:3 Type 'unknown' is not assignable to type 'Ref<unknown, unknown>'.
+```
+
+### `src/views/admin/tabs/ShapesTab.vue`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2739@249:14 Type 'string[]' is missing the following properties from type 'Ref<string[], string[]>': value, [RefSymbol]
+TS2322@321:16 Type '(_entity: GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance">) => void' is not assignable to type '() => any'.
+TS2739@327:16 Type 'string[]' is missing the following properties from type 'Ref<string[], string[]>': value, [RefSymbol]
 ```
 
 ### `src/components/booking/BookingWizard.vue`
 
-- errors: 4, unsafeCasts: 0, suppressions: 0
+- errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@3:29 'ref' is declared but its value is never read.
-TS6133@33:9 'stepValidators' is declared but its value is never read.
-TS6198@171:7 All destructured elements are unused.
-TS2345@179:18 Argument of type '{ wizard: UseBookingWizardReturn; isDevMode: boolean; selectedAppointmentId: globalThis.Ref<string | null, string | null>; appointmentDropdownItems: globalThis.ComputedRef<...>; ... 6 more ...; updateAppointment: { ...; }; }' is not assignable to parameter of type 'UseWizardDevModeOptions'.
+TS2739@38:66 Type '{ availableUserTypeBlocks: ComputedRef<BookingBlockInstance[]>; availableServices: ComputedRef<BookingBlockInstance[]>; ... 21 more ...; isQuoteMode: Ref<...>; }' is missing the following properties from type 'UseBookingWizardReturnGrouped': state, actions, computed
+TS2739@192:3 Type '{ availableUserTypeBlocks: ComputedRef<BookingBlockInstance[]>; availableServices: ComputedRef<BookingBlockInstance[]>; ... 21 more ...; isQuoteMode: Ref<...>; }' is missing the following properties from type 'UseBookingWizardReturnGrouped': state, actions, computed
+```
+
+### `src/components/booking/steps/ContactsStep.vue`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@88:3 Type 'ComputedRef<Record<string, ValidationRule[]>>' is not assignable to type 'Record<string, ValidationRule[]>'.
+TS2322@89:3 Type 'Ref<Record<string, string>, Record<string, string>>' is not assignable to type 'Record<string, string>'.
+```
+
+### `src/composables/admin/tables/useCrudDataTableModel.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@116:29 Type '(Ref<any, any> & Partial<UpdatePayload>) | Ref<Ref<any, any> & Partial<UpdatePayload>, Ref<any, any> & Partial<...>> | Ref<...>' is not assignable to type 'Ref<Partial<UpdatePayload>, Partial<UpdatePayload>>'.
+TS2322@116:53 Type 'Ref<CreatePayload, CreatePayload> | Ref<UnwrapRef<CreatePayload>, CreatePayload | UnwrapRef<CreatePayload>> | (Ref<...> & object)' is not assignable to type 'Ref<CreatePayload, CreatePayload>'.
+```
+
+### `src/composables/admin/useInstancesTabEventInstanceDrag.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2300@5:75 Duplicate identifier 'ComponentPublicInstance'.
+TS2300@11:15 Duplicate identifier 'ComponentPublicInstance'.
+```
+
+### `src/composables/admin/usePartsCollectionField.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@269:5 Type 'ComputedRef<GlobalEntity<GE> | undefined>' is not assignable to type 'ComputedRef<GlobalEntity<GE> | null>'.
+TS2322@276:5 Type 'ComputedRef<boolean | undefined>' is not assignable to type 'Ref<boolean, boolean>'.
 ```
 
 ### `src/composables/admin/useRelationshipCollection.ts`
 
-- errors: 4, unsafeCasts: 0, suppressions: 0
+- errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@95:47 'removeRelationship' is declared but its value is never read.
-TS6133@95:67 'relationships' is declared but its value is never read.
-TS18004@232:5 No value exists in scope for the shorthand property 'handleDeleteChildById'. Either declare one or provide an initializer.
-TS18004@233:5 No value exists in scope for the shorthand property 'handleDeleteChild'. Either declare one or provide an initializer.
+TS2322@72:5 Type 'ComputedRef<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance" | null>' is not assignable to type '"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance" | ComputedRef<"blockInstance" | "blockShape" | ... 5 more ... | "annotationInstance"> | Ref<...>'.
+TS2322@238:5 Type 'ComputedRef<BlockInstanceEntity | AnnotationInstanceEntity | BlockShapeEntity | PartInstanceEntity | ... 4 more ... | null>' is not assignable to type 'ComputedRef<GlobalEntity<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance"> | undefined>'.
 ```
 
-### `src/composables/admin/useShapeForm.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS2741@87:12 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<boolean>' but required in type 'WritableComputedRef<boolean, boolean>'.
-TS2741@87:20 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string | undefined>' but required in type 'WritableComputedRef<string | undefined, string | undefined>'.
-TS2741@149:12 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<boolean>' but required in type 'WritableComputedRef<boolean, boolean>'.
-TS2741@149:20 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string | undefined>' but required in type 'WritableComputedRef<string | undefined, string | undefined>'.
-```
-
-### `src/composables/useComponentDistribution.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@41:18 Cannot find name 'GlobalEntityId'.
-TS2304@48:41 Cannot find name 'GlobalEntityId'.
-TS2304@61:42 Cannot find name 'GlobalEntityId'.
-TS2304@94:58 Cannot find name 'GlobalEntityId'.
-```
-
-### `src/utils/transformers/globalToBookingTransformer.ts`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@125:17 Cannot find name 'BookingMode'.
-TS2304@126:18 Cannot find name 'TernaryBoolean'.
-TS2304@158:17 Cannot find name 'TernaryBoolean'.
-TS2304@167:72 Cannot find name 'BookingMode'.
-```
-
-### `src/components/beta/BetaFeedbackDashboard.vue`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@112:7 Type 'boolean | undefined' is not assignable to type 'boolean'.
-TS2322@113:8 Type 'BetaFeedback | null | undefined' is not assignable to type 'BetaFeedback | null'.
-TS18048@168:10 'items.value' is possibly 'undefined'.
-```
-
-### `src/composables/admin/useEntityCardFieldContextAndVisibility.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@41:5 Type 'boolean' is not assignable to type 'ComputedRef<boolean>'.
-TS2322@42:5 Type 'boolean' is not assignable to type 'ComputedRef<boolean>'.
-TS2322@49:5 Type 'boolean' is not assignable to type 'ComputedRef<boolean>'.
-```
-
-### `src/composables/admin/useFieldContextManager.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@25:53 Cannot find name 'GlobalEntityKey'.
-TS2304@25:89 Cannot find name 'GlobalEntityKey'.
-TS2304@25:121 Cannot find name 'GlobalEntityKey'.
-```
-
-### `src/composables/admin/useSelectConfig.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@7:1 'GlobalEntityKey' is declared but its value is never read.
-TS6133@8:1 'GlobalFieldKey' is declared but its value is never read.
-TS6133@14:1 'FieldContextType' is declared but its value is never read.
-```
-
-### `src/composables/booking/useDevPanelsComputed.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@8:15 'AppointmentShape' is declared but never used.
-TS6196@8:44 'AppointmentSlot' is declared but never used.
-TS6196@14:3 'DevPanelsComputedData' is declared but never used.
-```
-
-### `src/composables/booking/usePropertyDetailsLogic.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@19:3 'PropertyFormStateCore' is declared but never used.
-TS6196@20:3 'SelectionCardItemWithComponents' is declared but never used.
-TS2304@150:41 Cannot find name 'PlaceDetails'.
-```
-
-### `src/layouts/components/NavSearchBar.vue`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@135:6 Type 'SearchResultsGroup[] | undefined' is not assignable to type 'SearchResultsGroup[]'.
-TS2345@197:30 Argument of type '(_: { item: SearchResults; }) => any' is not assignable to parameter of type '(props: { item: SearchResultsGroup; }) => any'.
-TS2322@204:10 Type 'unknown' is not assignable to type 'string | RouteLocationAsPathGeneric | RouteLocationAsRelativeGeneric | undefined'.
-```
-
-### `src/views/admin/entities/PartShapeForm.vue`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS18048@21:26 '__VLS_ctx.formData' is possibly 'undefined'.
-TS18048@28:33 '__VLS_ctx.formData' is possibly 'undefined'.
-TS6133@60:17 'entityId' is declared but its value is never read.
-```
-
-### `src/components/admin/generic/collections/RelationshipCollection.vue`
+### `src/composables/admin/useRelationshipCollectionField.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@144:39 'relationshipKey' is declared but its value is never read.
-TS6133@180:7 'effectiveParentEntity' is declared but its value is never read.
+TS2322@262:5 Type 'ComputedRef<GlobalEntity<GE> | undefined>' is not assignable to type 'ComputedRef<GlobalEntity<GE> | null>'.
+TS2322@269:5 Type 'ComputedRef<boolean | undefined>' is not assignable to type 'Ref<boolean, boolean>'.
 ```
 
-### `src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue`
+### `src/composables/booking/useDevPanelsAppointmentData.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@159:27 'FIELD_LAYOUT' is declared but its value is never read.
-TS2322@276:3 Type '(dataType: string | undefined, inputConfig: Record<string, unknown> | null | undefined, fieldKey: string) => "number" | "text" | "select" | "reference" | "multiselect" | "statusButton" | "iconSelect" | "relationshipCollection"' is not assignable to type '(dataType: string | undefined, inputConfig: unknown, fieldKey: string) => string'.
+TS2304@18:16 Cannot find name 'DevPanelsComputedData'.
+TS2304@19:19 Cannot find name 'DevPanelsComputedData'.
 ```
 
-### `src/components/booking/AppointmentSlotGrid.vue`
+### `src/composables/booking/useWizardDateAvailability.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@81:26 Argument of type 'string' is not assignable to parameter of type 'SlotTimeBounds | TimeSlot'.
-TS2339@114:71 Property 'length' does not exist on type '{}'.
+TS2304@23:30 Cannot find name 'DisplayedMonth'.
+TS2304@28:44 Cannot find name 'DisplayedMonth'.
 ```
 
-### `src/composables/admin/useEntityStatus.ts`
+### `src/composables/booking/useWizardStepValidation.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@9:1 'GlobalEntity' is declared but its value is never read.
-TS6133@10:1 'GlobalEntityKey' is declared but its value is never read.
+TS2339@17:35 Property 'selectedUserTypeBlock' does not exist on type 'UseBookingWizardReturnGrouped'.
+TS2339@18:39 Property 'selectedServiceTypeBlocks' does not exist on type 'UseBookingWizardReturnGrouped'.
 ```
 
-### `src/composables/admin/useFieldComponent.ts`
+### `src/composables/fieldContext/types.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@8:1 'GlobalFieldKey' is declared but its value is never read.
-TS2304@63:39 Cannot find name 'FieldMetadataEntry'.
+TS2300@2:15 Duplicate identifier 'GlobalEntityId'.
+TS2300@6:15 Duplicate identifier 'GlobalEntityId'.
 ```
 
-### `src/composables/admin/useFieldLocation.ts`
+### `src/composables/layout/useSuspenseFallback.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@9:1 'FieldMetadataEntry' is declared but its value is never read.
-TS2304@33:68 Cannot find name 'FieldLocation'.
+TS2304@10:28 Cannot find name 'LoadingIndicatorInstance'.
+TS2304@13:35 Cannot find name 'LoadingIndicatorInstance'.
 ```
 
-### `src/composables/admin/useSelectDomTargets.ts`
+### `src/types/fieldContext/fieldContextState.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@7:1 'SelectDomTarget' is declared but its value is never read.
-TS6133@8:1 'SelectGroup' is declared but its value is never read.
+TS2300@47:13 Duplicate identifier 'UseFieldContextStateReturnGrouped'.
+TS2300@53:13 Duplicate identifier 'UseFieldContextStateReturnGrouped'.
 ```
 
-### `src/composables/booking/selectionCard/useSelectionCard.ts`
+### `src/utils/entityDefaults.ts`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@5:37 'Ref' is declared but its value is never read.
-TS6133@5:47 'ComputedRef' is declared but its value is never read.
+TS2339@61:15 Property 'dataType' does not exist on type 'unknown'.
+TS2339@61:25 Property 'isRequired' does not exist on type 'unknown'.
 ```
 
-### `src/composables/booking/selectionCard/useSelectionCardGroupState.ts`
+### `src/views/admin/tabs/BusinessRulesTab.vue`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@6:47 'ComputedRef' is declared but its value is never read.
-TS6133@7:1 'SelectionCardItem' is declared but its value is never read.
+TS2345@60:3 Argument of type '{ showRuleDialog: boolean; formData: BusinessRuleCore; editingRule: any; ruleTypeOptions: { title: string; value: RuleType; }[]; availableBlockInstances: { id: string; title: string; value: string; }[]; ... 10 more ...; closeDialog: () => void; }' is not assignable to parameter of type 'RuleFormDialogContext'.
+TS2322@142:12 Type '{ title: string; value: RuleType; }[]' is not assignable to type 'readonly { title: string; value: string; description: string; }[]'.
 ```
 
-### `src/composables/booking/selectionCard/useSelectionCardState.ts`
+### `src/views/admin/tabs/components/AppointmentStatusCell.vue`
 
 - errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@6:37 'ComputedRef' is declared but its value is never read.
-TS6196@7:15 'SelectionCardItem' is declared but never used.
+TS2322@35:8 Type 'string | undefined' is not assignable to type 'AppointmentStatus | null | undefined'.
+TS2345@39:56 Argument of type 'string | null' is not assignable to parameter of type 'string'.
 ```
 
-### `src/composables/booking/useAppointmentSlots.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@2:1 'AppointmentSlots' is declared but its value is never read.
-TS2304@60:49 Cannot find name 'TimeRange'.
-```
-
-### `src/composables/booking/useAvailabilityDefaults.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@27:37 Cannot find name 'ISO8601Date'.
-TS2304@27:62 Cannot find name 'ISO8601Date'.
-```
-
-### `src/composables/booking/useAvailabilityStepData.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@29:38 Cannot find name 'SelectedTimeSlot'.
-TS2304@38:29 Cannot find name 'AvailabilityStepData'.
-```
-
-### `src/composables/booking/useInstanceComponents.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@10:1 'BookingBlockInstance' is declared but its value is never read.
-TS6133@11:1 'ComponentItem' is declared but its value is never read.
-```
-
-### `src/utils/booking/BlockFinal.ts`
-
-- errors: 2, unsafeCasts: 0, suppressions: 0
-
-```
-TS2307@2:33 Cannot find module './bookingFinalTypes' or its corresponding type declarations.
-TS2307@5:33 Cannot find module './bookingFinalTypes' or its corresponding type declarations.
-```
-
-### `src/components/admin/generic/EntityCardSubPanels.vue`
+### `src/components/admin/component/ComponentDistributionTableBody.vue`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@29:3 'partsCollectionRef' is declared but its value is never read.
+TS2345@24:72 Argument of type 'string' is not assignable to parameter of type 'number'.
 ```
 
-### `src/components/admin/generic/fields/FieldRenderer.vue`
+### `src/components/admin/PartInstanceBulkEditModal.vue`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2739@194:3 Type 'Ref<FieldContextType<"blockInstance" | "blockShape" | "partInstance" | "partShape" | "eventShape" | "eventInstance" | "annotationShape" | "annotationInstance", GlobalFieldKey<"blockInstance" | "blockShape" | ... 5 more ... | "annotationInstance">> | undefined, FieldContextType<...> | undefined>' is missing the following properties from type 'ComputedRef<{ entityKey?: unknown; entityId?: string | undefined; fieldKey?: unknown; } | undefined>': effect, [ComputedRefSymbol]
+TS2724@76:8 '"@/composables/admin/usePartInstanceBulkEdit"' has no exported member named 'PartInstanceBulkEditData'. Did you mean 'usePartInstanceBulkEdit'?
 ```
 
-### `src/components/beta/BetaFeedbackModal.vue`
+### `src/composables/admin/injectionKeys.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@125:9 'formRef' is declared but its value is never read.
+TS2304@16:20 Cannot find name 'BusinessRule'.
 ```
 
-### `src/components/booking/DifferentialGraph.vue`
+### `src/composables/admin/useBusinessHoursFormState.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@6:27 'areSlotsEqual' is declared but its value is never read.
+TS2741@53:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<Record<number, { start: string; end: string; }>>' but required in type 'WritableComputedRef<Record<number, { start: string; end: string; }>, Record<number, { start: string; end: string; }>>'.
 ```
 
-### `src/components/booking/SelectionCard.vue`
+### `src/composables/admin/useDialogFormState.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2739@127:3 Type 'Ref<boolean, boolean>' is missing the following properties from type 'ComputedRef<boolean>': effect, [ComputedRefSymbol]
+TS2322@38:5 Type 'Ref<T, T> | Ref<UnwrapRef<T>, T | UnwrapRef<T>> | (Ref<any, any> & Record<string, unknown>)' is not assignable to type 'Ref<T, T>'.
 ```
 
-### `src/components/booking/steps/AvailabilityOptionsSection.vue`
+### `src/composables/admin/useEntityCardMetadata.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@59:8 Type '{ selectionType: string; selectionComponent: string; selectionGroup: string; stateSource: string; layout: string; controlPosition: string; appearance: { showIcon: boolean; showBorder: boolean; cardPadding: string; minHeight: string; }; expansion: { ...; }; }' is not assignable to type 'SelectionCardConfig'.
+TS2322@44:5 Type 'UseEntityMetadataReturn<GE>' is not assignable to type 'UseEntityMetadataReturn'.
 ```
 
-### `src/components/common/AddressAutocomplete.vue`
+### `src/composables/admin/useFormFieldConfigs.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@58:8 'AutocompletePrediction' is declared but its value is never read.
-```
-
-### `src/composables/admin/useEntityCardFieldConfiguration.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@9:1 'FieldMetadataEntry' is declared but its value is never read.
-```
-
-### `src/composables/admin/useEntityCardFormSetup.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2740@56:5 Type 'AdminConfig' is missing the following properties from type '{ getConfig: () => AdminConfig; rebuildConfig: () => void; getFormFieldConfig: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(entityKey: GE, fieldKey: FieldKey) => ComputedRef<...>; getEntityFormFieldConfig: <GE extends GlobalEntityKey>(entityKey: GE) => ComputedRef<...>; getDisplayFieldConfig: <G...': getConfig, rebuildConfig, getFormFieldConfig, getEntityFormFieldConfig, and 3 more.
-```
-
-### `src/composables/admin/useEntityDragHandlers.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@8:15 'PatchOrderIndex' is declared but never used.
-```
-
-### `src/composables/admin/useEntityTabState.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@7:1 'GlobalEntity' is declared but its value is never read.
-```
-
-### `src/composables/admin/useInstanceBulkEdit.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@5:30 'Ref' is declared but its value is never read.
-```
-
-### `src/composables/admin/useInstanceComposableOptions.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@1:1 'UseInstanceBlockInstancesByShapeOptions' is declared but its value is never read.
-```
-
-### `src/composables/admin/useInstancesTabCreateModal.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@5:20 'Ref' is declared but its value is never read.
+TS2322@53:5 Type 'ComputedRef<(string | number)[]>' is not assignable to type 'ComputedRef<string[]>'.
 ```
 
 ### `src/composables/admin/useInstancesTabEventInstance.ts`
@@ -573,199 +664,31 @@ TS6133@5:20 'Ref' is declared but its value is never read.
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@22:33 Argument of type 'string' is not assignable to parameter of type '"service" | "status" | "appointmentId" | "city" | "state" | "zipCode" | "fullAddress" | "streetAddress" | "appointmentDate" | "appointmentTime"'.
+TS2322@142:5 Type '(_id: string) => void' is not assignable to type '(id: string) => Promise<void>'.
 ```
 
-### `src/composables/admin/useInstancesTabEventInstanceDrag.ts`
+### `src/composables/booking/injectionKeys.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@31:42 Argument of type 'OrderIndexUpdate' is not assignable to parameter of type 'Record<string, number>'.
+TS2304@95:35 Cannot find name 'ValidationRule'.
 ```
 
-### `src/composables/admin/useMetadataFieldDrag.ts`
+### `src/composables/booking/useOptionTypeBlockSelection.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@20:46 Argument of type 'HTMLElement | { $el?: HTMLElement | undefined; }' is not assignable to parameter of type 'ComponentPublicInstance | HTMLElement | null'.
+TS2741@25:5 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string | null>' but required in type 'WritableComputedRef<string | null, string | null>'.
 ```
 
-### `src/composables/admin/usePrimitiveMetadataSave.ts`
+### `src/composables/entityCrud/usePrimitiveMutation.ts`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@80:11 Type 'string' is not assignable to type '"number" | "text" | "select" | "reference" | "multiselect" | "statusButton" | "iconSelect" | "relationshipCollection" | undefined'.
-```
-
-### `src/composables/admin/useRelationshipCollectionData.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@6:43 'Ref' is declared but its value is never read.
-```
-
-### `src/composables/admin/useSelectFiltering.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@10:1 'GlobalFieldKey' is declared but its value is never read.
-```
-
-### `src/composables/admin/useSelectGroupedByKey.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2741@25:12 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<{ groupKey: string; groupLabel: string; }[]>' but required in type 'WritableComputedRef<SelectGroup[], SelectGroup[]>'.
-```
-
-### `src/composables/admin/useSelectLabelResolution.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@10:1 'GlobalEntity' is declared but its value is never read.
-```
-
-### `src/composables/admin/useStatusButtonHandlers.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@46:64 Cannot find name 'GlobalFieldKey'.
-```
-
-### `src/composables/admin/useStatusButtonToggle.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@56:15 Cannot find name 'GlobalFieldKey'.
-```
-
-### `src/composables/booking/selectionCard/useSelectionCardHandlers.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6192@7:1 All imports in import declaration are unused.
-```
-
-### `src/composables/booking/useApiCallStatus.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@7:15 'ApiCallStatus' is declared but never used.
-```
-
-### `src/composables/booking/useAvailabilityUI.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@52:21 Cannot find name 'ISO8601Date'.
-```
-
-### `src/composables/booking/useComputedAvailability.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@4:1 'PropertyDetailsStepData' is declared but its value is never read.
-```
-
-### `src/composables/booking/useDependentInstances.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2304@25:55 Cannot find name 'GlobalRelationship'.
-```
-
-### `src/composables/booking/useInstanceDisplay.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@7:1 'BookingBlockInstance' is declared but its value is never read.
-```
-
-### `src/composables/booking/usePropertyTypesLabel.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2741@13:12 Property '[WritableComputedRefSymbol]' is missing in type 'ComputedRef<string>' but required in type 'WritableComputedRef<string, string>'.
-```
-
-### `src/composables/booking/useSlotGridDisplay.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2307@6:35 Cannot find module '@/utils/booking/slotPerspective' or its corresponding type declarations.
-```
-
-### `src/composables/booking/useWizardDevMode.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@46:9 Type '{ data: Ref<AppointmentResponse[], AppointmentResponse[]>; isLoading?: Ref<boolean, boolean> | undefined; }' is not assignable to type '{ isLoading: Ref<boolean, boolean>; data: Ref<AppointmentResponse[], AppointmentResponse[]>; }'.
-```
-
-### `src/composables/entityCrud/useSharedMutationHandlers.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6196@2:47 'MutationContextWithPreviousData' is declared but never used.
-```
-
-### `src/layouts/blank.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS6133@5:32 'refLoadingIndicator' is declared but its value is never read.
-```
-
-### `src/types/booking/wizardDevMode.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2320@6:18 Interface 'UseWizardDevModeOptions' cannot simultaneously extend types 'WizardDevOptionsBase' and 'Omit<DevPanelButtonsContext, "wizard">'.
-```
-
-### `src/utils/fieldContext/fieldContextSaveHelpers.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2307@124:66 Cannot find module '@/utils/dependencyCleanup' or its corresponding type declarations.
-```
-
-### `src/views/admin/entities/BlockInstanceList.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@89:3 Type '(id: GlobalEntityId) => Promise<{ deletedId: string; }>' is not assignable to type '(id: GlobalEntityId) => Promise<void>'.
-```
-
-### `src/views/admin/tabs/BusinessControlsTab.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@223:68 Type 'string' is not assignable to type '"roundUp" | "roundDown" | "roundNearest"'.
+TS2322@34:3 Type 'UseMutationReturnType<{ success: true; }, Error | AxiosError<{ error?: string | undefined; id?: string | undefined; }, any>, PrimitiveMutationVariables, { ...; }, MutationResult<...>>' is not assignable to type 'UseMutationReturnType<{ success: boolean; }, AxiosError<{ error?: string | undefined; id?: string | undefined; }, any>, PrimitiveMutationVariables, { previousData?: GlobalData | undefined; }>'.
 ```
 
 ### `src/views/admin/tabs/components/AppointmentsTable.vue`
@@ -773,5 +696,29 @@ TS2322@223:68 Type 'string' is not assignable to type '"roundUp" | "roundDown" |
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@46:3 Type 'Ref<AppointmentRequest, AppointmentRequest>' is not assignable to type 'Ref<Record<string, unknown>, Record<string, unknown>>'.
+TS2322@291:42 Type 'string' is not assignable to type 'AppointmentStatus | undefined'.
+```
+
+### `src/views/admin/tabs/components/PropertiesTable.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2739@84:8 Type 'PropertyRequest' is missing the following properties from type 'Ref<PropertyRequest | Partial<PropertyRequest>, PropertyRequest | Partial<PropertyRequest>>': value, [RefSymbol]
+```
+
+### `src/views/admin/tabs/components/PropertyCreateForm.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@54:33 Type 'string | undefined' is not assignable to type '"basement" | "crawlspace" | "slab" | null | undefined'.
+```
+
+### `src/views/admin/tabs/components/UsersTable.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2739@78:8 Type 'UserRequest' is missing the following properties from type 'Ref<Partial<UserRequest>, Partial<UserRequest>>': value, [RefSymbol]
 ```

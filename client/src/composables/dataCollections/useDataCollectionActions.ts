@@ -5,12 +5,11 @@ PATTERN: Extract shared mutat...
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 import { appendIfMissingById } from '@/utils/collections/appendIfMissingById'
-import type { UpdateByIdPayload } from '@/composables/businessDataCollections/types'
+import type { UpdateByIdPayload } from '@/types/collectionTypes'
 import { createRefetchQueriesHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import type { DataCollectionCrudConfig, UseDataCollectionActionsReturn } from '@/types/dataCollections/dataCollectionActions'
 
-export type { DataCollectionCrudConfig, UseDataCollectionActionsReturn } from '@/types/dataCollections/dataCollectionActions'
 
 /**
  * PATTERN: Accepts query key and data type as parameters for flexibility

@@ -9,7 +9,6 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { UseEntityCardFieldConfigurationParams, UseEntityCardFieldConfigurationReturn } from '@/types/admin/entityCardFieldConfiguration'
 import { useFieldLocation } from './useFieldLocation'
 
-export type { UseEntityCardFieldConfigurationParams, UseEntityCardFieldConfigurationReturn } from '@/types/admin/entityCardFieldConfiguration'
 
 export function useEntityCardFieldConfiguration(
   params: UseEntityCardFieldConfigurationParams

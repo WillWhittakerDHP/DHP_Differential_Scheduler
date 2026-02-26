@@ -5,9 +5,13 @@ WHY: Moves data transformation and s...
  */
 import { computed } from 'vue'
 import { buildAvailabilityStepData, buildSelectedTimeSlots } from '@/utils/booking/availabilityStepData'
-import type { UseAvailabilityStepDataParams, UseAvailabilityStepDataReturn } from '@/types/booking/availabilityStepData'
+import type {
+  SelectedTimeSlot,
+  AvailabilityStepData,
+  UseAvailabilityStepDataParams,
+  UseAvailabilityStepDataReturn,
+} from '@/types/booking/availabilityStepData'
 
-export type { SelectedTimeSlot, AvailabilityStepData, UseAvailabilityStepDataParams, UseAvailabilityStepDataReturn } from '@/types/booking/availabilityStepData'
 
 /**
  * WHY: useAvailabilityStepData composable

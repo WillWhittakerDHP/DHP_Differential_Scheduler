@@ -10,13 +10,13 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **15**
-- Requiring review: **19**
-- Allowed (with justification): 0
+- Files with findings: **0**
+- Requiring review: **0**
+- Allowed (with justification): 3
 
-- P0 (silent catches): **2**
+- P0 (silent catches): **0**
 - P1 (console-in-catch, alert-in-catch, type suppressions): **0**
-- P2 (general console, catch-without-logger): **17**
+- P2 (general console, catch-without-logger): **0**
 
 ## Rules
 
@@ -72,114 +72,5 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/src/composables/admin/useSelectFiltering.ts` | P0 | 20 | 2 | 0 | 0 |
-| `client/src/composables/admin/tables/useCrudDataTableModel.ts` | P2 | 3 | 0 | 0 | 3 |
-| `server/src/api/api.controller.ts` | P2 | 2 | 0 | 0 | 2 |
-| `client/src/components/admin/generic/DynamicForm.vue` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/components/admin/generic/EntityFormContent.vue` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/components/beta/BetaFeedbackDashboard.vue` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useDragAndDropHelpers.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useFieldContextMetadataEntity.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/usePartsCollectionField.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useRelationshipCollection.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useRelationshipCollectionField.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/admin/useSelectConfig.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/composables/useFormValidation.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/utils/admin/entityDisplay.ts` | P2 | 1 | 0 | 0 | 1 |
-| `client/src/utils/booking/timeSlotMatching.ts` | P2 | 1 | 0 | 0 | 1 |
 
 ## Per-file findings
-
-### `client/src/composables/admin/useSelectFiltering.ts` [P0] (score: 20)
-
-```
-empty-catch@134: } catch {
-empty-catch@313: } catch {
-```
-
-### `client/src/composables/admin/tables/useCrudDataTableModel.ts` [P2] (score: 3)
-
-```
-catch-without-logger@66: } catch (_error) {
-catch-without-logger@92: } catch (_error) {
-catch-without-logger@114: } catch (_error) {
-```
-
-### `server/src/api/api.controller.ts` [P2] (score: 2)
-
-```
-catch-without-logger@6: } catch {
-catch-without-logger@15: } catch {
-```
-
-### `client/src/components/admin/generic/DynamicForm.vue` [P2] (score: 1)
-
-```
-catch-without-logger@101: } catch {
-```
-
-### `client/src/components/admin/generic/EntityFormContent.vue` [P2] (score: 1)
-
-```
-catch-without-logger@62: } catch {
-```
-
-### `client/src/components/beta/BetaFeedbackDashboard.vue` [P2] (score: 1)
-
-```
-catch-without-logger@209: } catch {
-```
-
-### `client/src/composables/admin/useDragAndDropHelpers.ts` [P2] (score: 1)
-
-```
-catch-without-logger@25: } catch {
-```
-
-### `client/src/composables/admin/useFieldContextMetadataEntity.ts` [P2] (score: 1)
-
-```
-catch-without-logger@64: } catch {
-```
-
-### `client/src/composables/admin/usePartsCollectionField.ts` [P2] (score: 1)
-
-```
-catch-without-logger@33: } catch {
-```
-
-### `client/src/composables/admin/useRelationshipCollection.ts` [P2] (score: 1)
-
-```
-catch-without-logger@107: } catch {
-```
-
-### `client/src/composables/admin/useRelationshipCollectionField.ts` [P2] (score: 1)
-
-```
-catch-without-logger@31: } catch {
-```
-
-### `client/src/composables/admin/useSelectConfig.ts` [P2] (score: 1)
-
-```
-catch-without-logger@51: } catch {
-```
-
-### `client/src/composables/useFormValidation.ts` [P2] (score: 1)
-
-```
-catch-without-logger@138: } catch {
-```
-
-### `client/src/utils/admin/entityDisplay.ts` [P2] (score: 1)
-
-```
-catch-without-logger@39: } catch {
-```
-
-### `client/src/utils/booking/timeSlotMatching.ts` [P2] (score: 1)
-
-```
-catch-without-logger@31: } catch {
-```

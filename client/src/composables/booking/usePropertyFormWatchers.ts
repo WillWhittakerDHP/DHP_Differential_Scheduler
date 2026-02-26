@@ -6,7 +6,6 @@ WHY: Moves MLS data syncing and load...
 import { watch } from 'vue'
 import type { UsePropertyFormWatchersParams, UsePropertyFormWatchersReturn } from '@/types/booking/propertyFormWatchers'
 
-export type { UsePropertyFormWatchersParams, UsePropertyFormWatchersReturn } from '@/types/booking/propertyFormWatchers'
 
 /**
  * WHY: usePropertyFormWatchers composable

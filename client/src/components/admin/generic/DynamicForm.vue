@@ -19,7 +19,7 @@
         cols="12"
         :sm="readyInlineFields.length > 1 ? 6 : 12"
         :md="readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12"
-        :lg="readyInlineFields.length > 3 ? 3 : readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12"
+        :lg="inlineFieldLgCols"
       >
         <FieldRenderer
           :field-context="getFieldContext(fieldKey)!"
@@ -61,8 +61,11 @@ import { useEntityIdReset } from '@/composables/admin/useEntityIdReset'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFormFieldConfigs } from '@/composables/admin/useFormFieldConfigs'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
+import { createLogger } from '@/utils/logger'
 
 import FieldRenderer from './fields/FieldRenderer.vue'
+
+const logger = createLogger('DynamicForm')
 
 const autocompleteOff = AUTCOMPLETE_OFF
 
@@ -98,7 +101,8 @@ const entityForMetadata = computed(() => {
   if (!currentEntityId.value) return null
   try {
     return adminComp.getEntity(props.entityKey, currentEntityId.value) as GlobalEntity<typeof props.entityKey> | null
-  } catch {
+  } catch (err) {
+    logger.warn('getEntity failed for metadata', { entityKey: props.entityKey, entityId: currentEntityId.value, error: err })
     return null
   }
 })
@@ -132,6 +136,10 @@ const {
   readyInlineFields,
   readyStackedFields
 } = formFields
+
+const inlineFieldLgCols = computed(() =>
+  readyInlineFields.length > 3 ? 3 : readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12
+)
 
 /**
  * WHY: Use form element patching composable

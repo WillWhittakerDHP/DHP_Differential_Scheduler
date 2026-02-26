@@ -3,20 +3,26 @@
 
 PATTERN: Uses composable to aggregate wizard...
  */
-import { inject, ref, type Ref } from 'vue'
+import { inject, ref } from 'vue'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
-import type { AvailabilityStepData } from '@/types/wizardStepData'
-import type { PropertyDetailsStepData, ConfirmationStepData } from '@/types/wizard'
+import {
+  propertyDetailsStepDataKey,
+  availabilityStepDataKey,
+  confirmationStepDataKey,
+  confirmationStepValidKey,
+  confirmationStepValidateKey,
+} from '@/composables/booking/injectionKeys'
+import type { ConfirmationStepData } from '@/types/wizard'
 
 const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const propertyDetailsStepData = inject<Ref<PropertyDetailsStepData> | null>('propertyDetailsStepData', null)
-const availabilityStepData = inject<Ref<AvailabilityStepData> | null>('availabilityStepData', null)
+const propertyDetailsStepData = inject(propertyDetailsStepDataKey, null)
+const availabilityStepData = inject(availabilityStepDataKey, null)
 
 const stepData = ref<ConfirmationStepData>({})
 const isFormValid = ref(true)
@@ -27,9 +33,9 @@ useWizardStepSync({
   stepData,
   isFormValid,
   validateForm,
-  stepDataKey: 'confirmationStepData',
-  stepValidKey: 'confirmationStepValid',
-  stepValidateKey: 'confirmationStepValidate',
+  stepDataKey: confirmationStepDataKey,
+  stepValidKey: confirmationStepValidKey,
+  stepValidateKey: confirmationStepValidateKey,
 })
 
 // LEARNING: Use confirmation step data composable
@@ -54,11 +60,11 @@ const {
   <VRow>
     <!-- Left Column: Summary Table -->
     <VCol cols="12" md="6">
-      <h4 class="text-h4 mb-4">
+      <h4 class="text-headline-large mb-4">
         Almost done! 🚀
       </h4>
       
-      <p class="text-body-1 text-medium-emphasis mb-10">
+      <p class="text-body-large text-medium-emphasis mb-10">
         Confirm your deal details information and submit to create it.
       </p>
       
@@ -69,12 +75,12 @@ const {
         <tbody>
           <tr>
             <td>
-              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
                 Service Type
               </span>
             </td>
             <td>
-              <span class="text-body-2 text-medium-emphasis">
+              <span class="text-body-medium text-medium-emphasis">
                 {{ summaryData.serviceType }}
               </span>
             </td>
@@ -82,12 +88,12 @@ const {
           
           <tr>
             <td>
-              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
                 Property Type
               </span>
             </td>
             <td>
-              <span class="text-body-2 text-medium-emphasis">
+              <span class="text-body-medium text-medium-emphasis">
                 {{ summaryData.propertyType }}
               </span>
             </td>
@@ -95,12 +101,12 @@ const {
           
           <tr>
             <td>
-              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
                 Address
               </span>
             </td>
             <td>
-              <span class="text-body-2 text-medium-emphasis">
+              <span class="text-body-medium text-medium-emphasis">
                 {{ summaryData.address }}
               </span>
             </td>
@@ -108,12 +114,12 @@ const {
           
           <tr>
             <td>
-              <span class="text-body-2 font-weight-medium text-medium-emphasis">
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
                 Square Footage
               </span>
             </td>
             <td>
-              <span class="text-body-2 text-medium-emphasis">
+              <span class="text-body-medium text-medium-emphasis">
                 {{ summaryData.squareFootage }}
               </span>
             </td>
@@ -131,7 +137,7 @@ const {
         <!-- Total Fee Display -->
         <VCardText class="bg-surface">
           <div class="d-flex flex-column pa-5">
-            <h6 class="text-h6 mb-4">
+            <h6 class="text-headline-small mb-4">
               Your total fee is:
             </h6>
             
@@ -139,11 +145,11 @@ const {
             <!-- WHY: Prominently displays the final total fee (after all calculations including discounts and delivery) -->
             <!-- PATTERN: Flex layout with separate typography elements for currency, amount, and unit -->
             <div class="d-flex align-end justify-end">
-              <h6 class="text-h6 align-self-end">$&nbsp;</h6>
-              <h1 class="text-h1 font-weight-bold price-display">
+              <h6 class="text-headline-small align-self-end">$&nbsp;</h6>
+              <h1 class="text-display-large font-weight-bold price-display">
                 {{ priceData.finalTotal.toFixed(2) }}
               </h1>
-              <h6 class="text-h6">&nbsp;{{ priceData.currency }}</h6>
+              <h6 class="text-headline-small">&nbsp;{{ priceData.currency }}</h6>
             </div>
           </div>
         </VCardText>
@@ -152,7 +158,7 @@ const {
         
         <!-- Price Details -->
         <VCardText>
-          <h6 class="text-h6 mb-4">
+          <h6 class="text-headline-small mb-4">
             Price Details
           </h6>
           
@@ -161,16 +167,16 @@ const {
             <!-- WHY: Shows individual price components clearly -->
             <!-- PATTERN: Flex row with justify-space-between for label-value pairs -->
             <div class="d-flex justify-space-between align-center mb-2">
-              <span class="text-body-1">Bag Total</span>
-              <span class="text-body-1 text-medium-emphasis">
+              <span class="text-body-large">Bag Total</span>
+              <span class="text-body-large text-medium-emphasis">
                 ${{ priceData.bagTotal.toFixed(2) }}
               </span>
             </div>
             
             <div class="d-flex justify-space-between align-center mb-2">
-              <span class="text-body-1">Coupon Discount</span>
+              <span class="text-body-large">Coupon Discount</span>
               <div class="d-flex align-center">
-                <span v-if="priceData.couponDiscount > 0" class="text-body-1 text-medium-emphasis mr-2">
+                <span v-if="priceData.couponDiscount > 0" class="text-body-large text-medium-emphasis mr-2">
                   -${{ priceData.couponDiscount.toFixed(2) }}
                 </span>
                 <VBtn
@@ -178,7 +184,7 @@ const {
                   variant="text"
                   color="primary"
                   size="small"
-                  class="text-h6 summary-link"
+                  class="text-headline-small summary-link"
                   @click.prevent
                 >
                   Apply Coupon
@@ -187,8 +193,8 @@ const {
             </div>
             
             <div class="d-flex justify-space-between align-center mb-2">
-              <span class="text-body-1">Order Total</span>
-              <span class="text-body-1 text-medium-emphasis">
+              <span class="text-body-large">Order Total</span>
+              <span class="text-body-large text-medium-emphasis">
                 ${{ priceData.orderTotal.toFixed(2) }}
               </span>
             </div>
@@ -198,9 +204,9 @@ const {
             <!-- PATTERN: Loop through lineItems array, show amount or strikethrough + Free badge -->
             <template v-for="(lineItem, _index) in priceData.lineItems" :key="_index">
               <div class="d-flex justify-space-between align-center mb-2">
-                <span class="text-body-1">{{ lineItem.label }}</span>
+                <span class="text-body-large">{{ lineItem.label }}</span>
                 <div v-if="lineItem.isFree" class="d-flex align-center">
-                  <span class="text-body-2 text-decoration-line-through text-disabled mr-2">
+                  <span class="text-body-medium text-decoration-line-through text-disabled mr-2">
                     ${{ lineItem.amount.toFixed(2) }}
                   </span>
                   <VChip
@@ -212,7 +218,7 @@ const {
                     Free
                   </VChip>
                 </div>
-                <span v-else class="text-body-1 text-medium-emphasis">
+                <span v-else class="text-body-large text-medium-emphasis">
                   ${{ lineItem.amount.toFixed(2) }}
                 </span>
               </div>
@@ -225,10 +231,10 @@ const {
         <!-- Final Total -->
         <VCardText class="final-total-section">
           <div class="d-flex justify-space-between align-center">
-            <span class="text-body-1 font-weight-medium">
+            <span class="text-body-large font-weight-medium">
               Total
             </span>
-            <span class="text-body-1 font-weight-medium">
+            <span class="text-body-large font-weight-medium">
               ${{ priceData.finalTotal.toFixed(2) }}
             </span>
           </div>

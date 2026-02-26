@@ -11,7 +11,6 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '@/constants/errorMessages'
 import type { UseAttendeeQuickSelectReturn } from '@/types/admin/attendeeQuickSelect'
 
-export type { UseAttendeeQuickSelectReturn } from '@/types/admin/attendeeQuickSelect'
 
 const logger = createLogger('useAttendeeQuickSelect')
 

@@ -1,4 +1,5 @@
 
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
@@ -54,7 +55,7 @@ export const eventShapeFields = {
       { value: null, label: 'None (Fail Gracefully)' },
       { value: 'true', label: 'True' },
       { value: 'false', label: 'False' },
-      { value: 'override', label: 'Override' },
+      { value: 'override', label: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS },
     ],
   },
 

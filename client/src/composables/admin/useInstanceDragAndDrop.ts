@@ -14,7 +14,6 @@ import type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from
 
 const logger = createLogger('useInstanceDragAndDrop')
 
-export type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 
 /**
  * WHY: Composable for managing instance drag-and-drop

@@ -1,21 +1,13 @@
 /**
  * WHY: Component-logic audit - move .map() out of SelectInputs.
  */
-import { computed, type Ref } from 'vue'
+import { computed, type ComputedRef, type Ref } from 'vue'
+import type { SelectGroup } from '@/types/entity/selectOptions'
 
-export interface SelectGroup {
-  groupKey: string
-  groupLabel: string
-}
-
-export interface GroupedByKeyItem {
-  groupKey: string
-  groupLabel: string
-}
 
 export function useSelectGroupedByKey(
-  groupedByKey: Ref<GroupedByKeyItem[]>
-): { groupedByKeyComputed: ReturnType<typeof computed<SelectGroup[]>> } {
+  groupedByKey: Ref<SelectGroup[]>
+): { groupedByKeyComputed: ComputedRef<SelectGroup[]> } {
   const groupedByKeyComputed = computed(() =>
     groupedByKey.value.map((group) => ({
       groupKey: group.groupKey,

@@ -9,7 +9,6 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { BlockShapeEntity, GlobalEntity, PartShapeEntity } from '@/types/entities'
 import type { UseInstanceShapeOptions, UseInstanceShapeReturn } from '@/types/admin/instanceShape'
 
-export type { UseInstanceShapeOptions, UseInstanceShapeReturn } from '@/types/admin/instanceShape'
 
 export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceShapeReturn {
   const { entityKey, entityId } = options

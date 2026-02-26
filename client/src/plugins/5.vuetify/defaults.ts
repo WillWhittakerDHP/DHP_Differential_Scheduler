@@ -7,7 +7,7 @@ export default {
   VAlert: {
     density: 'comfortable',
     VBtn: {
-      color: undefined,
+      color: null,
     },
   },
   VAvatar: {
@@ -18,6 +18,7 @@ export default {
   },
   VBtn: {
     color: 'primary',
+    class: 'text-uppercase',
   },
   VChip: {
     label: true,

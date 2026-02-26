@@ -1,37 +1,109 @@
 /**
  * PATTERN: Composable for managing calendar entries
- * WHY: setWriteTo logic extracted to helper to reduce nesting (audit: function-complexity).
+ * WHY: setWriteTo logic and entry operations extracted to pure helpers for testability and reduced nesting.
  */
 import { computed, type Ref } from 'vue'
 import type { CalendarEntry, AvailabilitySettings } from '@/configs/availabilitySettings'
 import { DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
 import type { UseCalendarEntriesReturn } from '@/types/admin/calendarEntries'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
-export type { UseCalendarEntriesReturn } from '@/types/admin/calendarEntries'
+function clearAllWriteToExcept(calendars: CalendarEntry[], index: number): void {
+  calendars.forEach((entry, i) => {
+    entry.writeTo = i === index
+  })
+}
 
-/**
- * Apply writeTo at index: only one entry may have writeTo true; unsetting last writeTo moves it to another valid entry.
- */
+function reassignWriteTo(calendars: CalendarEntry[], excludeIndex: number): void {
+  const otherIndex = calendars.findIndex((e, i) => i !== excludeIndex && e.email.trim() !== '')
+  if (otherIndex >= 0) {
+    clearAllWriteToExcept(calendars, otherIndex)
+  }
+}
+
 function setWriteToAtIndex(calendars: CalendarEntry[], index: number, value: boolean): void {
   if (!Array.isArray(calendars) || index < 0 || index >= calendars.length) return
   if (value) {
-    calendars.forEach((entry, i) => {
-      entry.writeTo = i === index
-    })
+    clearAllWriteToExcept(calendars, index)
     return
   }
   const isCurrentlyWriteTo = calendars[index].writeTo
-  const currentWriteToCount = calendars.filter((e) => e.writeTo).length
-  if (isCurrentlyWriteTo && currentWriteToCount === 1) {
-    const otherIndex = calendars.findIndex((e, i) => i !== index && e.email.trim() !== '')
-    if (otherIndex >= 0) {
-      calendars.forEach((entry, i) => {
-        entry.writeTo = i === otherIndex
-      })
-    }
+  const writeToCount = calendars.filter((e) => e.writeTo).length
+  if (isCurrentlyWriteTo && writeToCount === 1) {
+    reassignWriteTo(calendars, index)
   } else {
     calendars[index].writeTo = false
   }
+}
+
+function ensureCalendarConfig(formData: Ref<AvailabilitySettings | null>): void {
+  if (!formData.value) return
+  if (!formData.value.calendarConfig) {
+    formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+  }
+  if (!Array.isArray(formData.value.calendarConfig.calendars)) {
+    formData.value.calendarConfig.calendars = []
+  }
+}
+
+function addEntryStandalone(formData: Ref<AvailabilitySettings | null>, entriesLength: number): void {
+  if (!formData.value) return
+  ensureCalendarConfig(formData)
+  const calendars = formData.value.calendarConfig!.calendars!
+  const newEntry: CalendarEntry = {
+    email: '',
+    label: '',
+    readFrom: true,
+    writeTo: entriesLength === 0,
+  }
+  calendars.push(newEntry)
+}
+
+function removeEntryStandalone(
+  formData: Ref<AvailabilitySettings | null>,
+  index: number,
+  entries: CalendarEntry[]
+): void {
+  const calendars = formData.value?.calendarConfig?.calendars
+  if (!calendars || !Array.isArray(calendars)) return
+  const wasWriteTo = entries[index]?.writeTo
+  calendars.splice(index, 1)
+  if (wasWriteTo && calendars.length > 0) {
+    calendars[0].writeTo = true
+  }
+}
+
+function updateEntryStandalone(
+  formData: Ref<AvailabilitySettings | null>,
+  index: number,
+  updates: Partial<CalendarEntry>,
+  entries: CalendarEntry[],
+  setWriteToAtIndexFn: (calendars: CalendarEntry[], i: number, value: boolean) => void
+): void {
+  const calendars = formData.value?.calendarConfig?.calendars
+  if (!calendars || index < 0 || index >= entries.length) return
+  const { writeTo: _w, ...otherUpdates } = updates
+  if (updates.writeTo !== undefined) {
+    setWriteToAtIndexFn(calendars, index, updates.writeTo)
+  }
+  calendars[index] = { ...entries[index], ...otherUpdates }
+}
+
+function computeValidationError(
+  entries: CalendarEntry[],
+  calendarEnabled: boolean,
+  calendarProvider: string
+): string | null {
+  if (!calendarEnabled || calendarProvider === 'none') return null
+  if (entries.length === 0) {
+    return 'At least one calendar must be configured when calendar integration is enabled'
+  }
+  const hasValidEmail = entries.some((e) => Boolean(e.email?.trim()))
+  if (!hasValidEmail) return 'At least one calendar must have a valid email address'
+  const writeToCount = entries.filter((e) => e.writeTo).length
+  if (writeToCount === 0) return 'At least one calendar must be selected for writing appointments'
+  if (writeToCount > 1) return 'Only one calendar can be selected for writing appointments'
+  return null
 }
 
 export function useCalendarEntries(
@@ -39,132 +111,42 @@ export function useCalendarEntries(
   calendarEnabled: Ref<boolean>,
   calendarProvider: Ref<'google' | 'outlook' | 'none'>
 ): UseCalendarEntriesReturn {
-  
   const entries = computed<CalendarEntry[]>({
-    get: () => {
-      if (!formData.value?.calendarConfig) {
-        return []
-      }
-      if (!Array.isArray(formData.value.calendarConfig.calendars)) {
-        return []
-      }
-      return formData.value.calendarConfig.calendars
-    },
+    get: () => asEmptyArray(formData.value?.calendarConfig?.calendars),
     set: (value: CalendarEntry[]) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) {
-          formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        }
-        formData.value.calendarConfig.calendars = value
-      }
-    }
+      if (!formData.value) return
+      ensureCalendarConfig(formData)
+      formData.value.calendarConfig!.calendars = value
+    },
   })
-  
-  const writeToIndex = computed(() => {
-    return entries.value.findIndex(entry => entry.writeTo)
-  })
-  
-  const ensureCalendarConfig = (): void => {
-    if (!formData.value) return
-    
-    if (!formData.value.calendarConfig) {
-      formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-    }
-    
-    if (!Array.isArray(formData.value.calendarConfig.calendars)) {
-      formData.value.calendarConfig.calendars = []
-    }
-  }
-  
-  const addEntry = (): void => {
-    if (!formData.value) return
-    
-    ensureCalendarConfig()
-    
-    const isFirstEntry = entries.value.length === 0
-    const newEntry: CalendarEntry = {
-      email: '',
-      label: '',
-      readFrom: true,
-      writeTo: isFirstEntry  // First calendar is writeTo by default
-    }
-    
-    entries.value.push(newEntry)
-  }
-  
-  const removeEntry = (index: number): void => {
-    if (!formData.value?.calendarConfig?.calendars || !Array.isArray(formData.value.calendarConfig.calendars)) {
-      return
-    }
-    
-    const wasWriteTo = entries.value[index]?.writeTo
-    
-    formData.value.calendarConfig.calendars.splice(index, 1)
-    
-    if (wasWriteTo && entries.value.length > 0) {
-      entries.value[0].writeTo = true
-    }
-  }
-  
-  const updateEntry = (index: number, updates: Partial<CalendarEntry>): void => {
-    if (!formData.value?.calendarConfig?.calendars || !Array.isArray(formData.value.calendarConfig.calendars)) {
-      return
-    }
-    
-    if (index >= 0 && index < entries.value.length) {
-      if (updates.writeTo !== undefined) {
-        setWriteTo(index, updates.writeTo)
-        const { writeTo: _writeTo, ...otherUpdates } = updates
-        formData.value.calendarConfig.calendars[index] = {
-          ...entries.value[index],
-          ...otherUpdates
-        }
-      } else {
-        formData.value.calendarConfig.calendars[index] = {
-          ...entries.value[index],
-          ...updates
-        }
-      }
-    }
-  }
-  
-  const setReadFrom = (index: number, value: boolean): void => {
-    updateEntry(index, { readFrom: value })
-  }
-  
+
+  const writeToIndex = computed(() => entries.value.findIndex((e) => e.writeTo))
+
+  const addEntry = (): void => addEntryStandalone(formData, entries.value.length)
+
+  const removeEntry = (index: number): void => removeEntryStandalone(formData, index, entries.value)
+
   const setWriteTo = (index: number, value: boolean): void => {
     const calendars = formData.value?.calendarConfig?.calendars
-    if (!calendars || !Array.isArray(calendars)) return
-    setWriteToAtIndex(calendars, index, value)
+    if (calendars && Array.isArray(calendars)) setWriteToAtIndex(calendars, index, value)
   }
-  
-  const validationError = computed<string | null>(() => {
-    if (!calendarEnabled.value || calendarProvider.value === 'none') {
-      return null  // No validation needed if disabled
-    }
-    
-    if (entries.value.length === 0) {
-      return 'At least one calendar must be configured when calendar integration is enabled'
-    }
-    
-    const hasValidEmail = entries.value.some(entry => entry.email && entry.email.trim() !== '')
-    if (!hasValidEmail) {
-      return 'At least one calendar must have a valid email address'
-    }
-    
-    const writeToCount = entries.value.filter(entry => entry.writeTo).length
-    if (writeToCount === 0) {
-      return 'At least one calendar must be selected for writing appointments'
-    }
-    if (writeToCount > 1) {
-      return 'Only one calendar can be selected for writing appointments'
-    }
-    
-    return null
-  })
-  
+
+  const updateEntry = (index: number, updates: Partial<CalendarEntry>): void => {
+    updateEntryStandalone(formData, index, updates, entries.value, setWriteToAtIndex)
+  }
+
+  const setReadFrom = (index: number, value: boolean): void => updateEntry(index, { readFrom: value })
+
+  const validationError = computed<string | null>(() =>
+    computeValidationError(
+      entries.value,
+      calendarEnabled.value,
+      calendarProvider.value
+    )
+  )
+
   const isValid = computed(() => validationError.value === null)
-  
+
   return {
     entries,
     addEntry,
@@ -174,6 +156,6 @@ export function useCalendarEntries(
     setWriteTo,
     writeToIndex,
     validationError,
-    isValid
+    isValid,
   }
 }

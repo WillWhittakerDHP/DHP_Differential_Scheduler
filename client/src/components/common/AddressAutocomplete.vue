@@ -12,6 +12,7 @@
     :loading="isLoading"
     :label="label"
     :placeholder="placeholder"
+    persistent-placeholder
     :hint="hint"
     :persistent-hint="!!hint"
     :error="!!errorMessage"
@@ -33,8 +34,8 @@
         <template #prepend>
           <VIcon size="small" class="me-2">mdi-map-marker</VIcon>
         </template>
-        <VListItemTitle>{{ item.raw.mainText }}</VListItemTitle>
-        <VListItemSubtitle>{{ item.raw.secondaryText }}</VListItemSubtitle>
+        <VListItemTitle>{{ item.mainText }}</VListItemTitle>
+        <VListItemSubtitle>{{ item.secondaryText }}</VListItemSubtitle>
       </VListItem>
     </template>
     <template #append-inner>
@@ -53,9 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAddressAutocomplete } from '@/composables/useAddressAutocomplete'
-import { type Coordinates, type PlaceDetails } from '@/services/mapsApiService'
-import type { MapsApiError } from '@/services/mapsApiService'
+import { useAddressAutocomplete, type Coordinates, type PlaceDetails, type MapsApiError } from '@/composables/useAddressAutocomplete'
 
 interface Props {
   modelValue: string

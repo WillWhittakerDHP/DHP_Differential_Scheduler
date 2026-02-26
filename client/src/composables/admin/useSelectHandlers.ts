@@ -10,7 +10,6 @@ import type { UseSelectHandlersOptions, UseSelectHandlersReturn } from '@/types/
 
 const logger = createLogger('useSelectHandlers')
 
-export type { UseSelectHandlersOptions, UseSelectHandlersReturn } from '@/types/admin/selectHandlers'
 
 /**
  * WHY: Select Handlers Composable
@@ -54,7 +53,7 @@ export function useSelectHandlers(
     const uniqueValues = Array.from(new Set(combinedValues))
     
     const finalValue = isMultiple.value ? uniqueValues : (uniqueValues[0] ?? undefined)
-    fieldContext.setValue(finalValue)
+    fieldContext.actions.setValue(finalValue)
   }
 
   const handleChange = async (value: string | string[] | null): Promise<void> => {
@@ -89,7 +88,7 @@ export function useSelectHandlers(
       } else {
         const stringValue = String(value)
         // PATTERN: Use sentinel value '__NULL__' in options, convert back to null when saving
-        if (stringValue === '__NULL__' && String(fieldContext.fieldKey) === 'ternaryDefault') {
+        if (stringValue === '__NULL__' && String(fieldContext.state.fieldKey) === 'ternaryDefault') {
           normalizedValue = undefined // Will be saved as null
         } else {
           normalizedValue = stringValue
@@ -108,7 +107,7 @@ export function useSelectHandlers(
       // PATTERN: Set flag, update, then clear flag in nextTick to allow future user updates
       isUpdatingProgrammatically.value = true
       try {
-        fieldContext.setValue(normalizedValue)
+        fieldContext.actions.setValue(normalizedValue)
         await nextTick()
       } finally {
         isUpdatingProgrammatically.value = false
@@ -120,11 +119,11 @@ export function useSelectHandlers(
    * WHY: Component needs to track focus state
    */
   const handleFocus = (): void => {
-    fieldContext.setFocus(true)
+    fieldContext.actions.setFocus(true)
   }
 
   const handleBlur = async (): Promise<void> => {
-    fieldContext.setFocus(false)
+    fieldContext.actions.setFocus(false)
     
     // PATTERN: Match useFieldInputHandlers behavior - new entities use handleSave, not field-level save
     if (entityCardSaveContext?.isNew) {
@@ -136,19 +135,19 @@ export function useSelectHandlers(
       return
     }
     
-    const isValid = await fieldContext.validate()
+    const isValid = await fieldContext.actions.validate()
     
     if (isValid) {
       try {
-        await fieldContext.save()
+        await fieldContext.actions.save()
       } catch (error) {
-        logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.fieldKey })
+        logger.warn('Failed to save field on blur', { error, fieldKey: fieldContext.state.fieldKey })
       }
     }
   }
 
   const isEditable = computed(
-    () => !fieldContext.displayConfig.disabled && !fieldContext.displayConfig.readOnly
+    () => !fieldContext.state.displayConfig.disabled && !fieldContext.state.displayConfig.readOnly
   )
   const { handleKeydown } = fieldKeyboardGuard({
     fieldType: 'select',

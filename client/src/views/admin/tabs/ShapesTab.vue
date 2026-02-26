@@ -21,6 +21,8 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
+import ShapeCardList from './components/ShapeCardList.vue'
+import ShapeCreationForm from './components/ShapeCreationForm.vue'
 import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, ANNOTATION_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
@@ -76,6 +78,8 @@ const {
   newEventShapeName,
   isCreatingAnnotationShapeLoading,
   isCreatingEventShapeLoading,
+} = creation.state
+const {
   createPartShape,
   startCreatingAnnotationShape,
   handlePartShapeCreated,
@@ -85,7 +89,7 @@ const {
   startCreatingEventShape,
   handleEventShapeCreate,
   handleEventShapeCancelled,
-} = creation
+} = creation.actions
 
 const deletion = useShapesTabDeletion({ expandedShapes })
 const {
@@ -154,6 +158,28 @@ const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.va
 const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
 const annotationShapesTabLabel = computed(() => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`)
 const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
+
+const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
+  id: PART_INSTANCE_GLOBAL_CONFIG_ID,
+  entityKey: 'partInstance'
+} as GlobalEntity<'partInstance'>))
+const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
+  id: toGlobalEntityId(ANNOTATION_SHAPE_GLOBAL_CONFIG_ID),
+  name: 'Annotation Shape Fields (Global)',
+  entityKey: 'annotationShape',
+  orderIndex: 0,
+  active: true
+}))
+const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
+  id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'),
+  name: 'Event Shape Fields (Global)',
+  entityKey: 'eventShape',
+  orderIndex: 0,
+  active: true,
+  isTernary: false,
+  ternaryDefault: null,
+  differentialRole: null
+}))
 </script>
 
 <template>
@@ -192,7 +218,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
       <!-- BlockShapes Tab Content -->
       <VWindowItem key="blockShapes" value="blockShapes">
         <div class="d-flex justify-space-between align-center mb-4">
-          <h3 class="text-h6">Block</h3>
+          <h3 class="text-headline-small">Block</h3>
           <div class="d-flex gap-2">
             <!-- LEARNING: Global button to configure all BlockShape fields -->
             <!-- WHY: Single config applies to all BlockShapes globally -->
@@ -216,31 +242,16 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
           LEARNING: Wrap in div for drag-and-drop parent container
         -->
         <div ref="blockShapesContainer" class="drag-drop-container">
-          <VExpansionPanels 
-            ref="blockShapesPanelsContainer"
-            v-model="expandedShapes" 
-            multiple 
+          <ShapeCardList
             v-if="blockShapesList.length > 0"
-          >
-            <!-- Existing BlockShapes -->
-            <EntityCard
-              v-for="blockShape in blockShapesList"
-              :key="String(blockShape.id)"
-              :class="`draggable-block-shape`"
-              :data-drag-id="String(blockShape.id)"
-              entity-key="blockShape"
-              :entity="blockShape"
-              :expanded="isPanelExpanded(String(blockShape.id))"
-              @saved="handleExistingShapeSaved"
-              @delete="handleDeleteBlockShape"
-            />
-          </VExpansionPanels>
-          
-          <!--
-            LEARNING: Empty state display
-            WHY: Provides feedback when no results match search or no data exists
-            PATTERN: Conditional rendering with v-else
-          -->
+            entity-key="blockShape"
+            :items="blockShapesList"
+            :expanded="expandedShapes"
+            :is-panel-expanded="isPanelExpanded"
+            drag-class="draggable-block-shape"
+            @saved="handleExistingShapeSaved"
+            @delete="handleDeleteBlockShape"
+          />
           <VAlert
             v-else
             type="info"
@@ -255,7 +266,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
       <!-- PartShapes Tab Content -->
       <VWindowItem key="partShapes" value="partShapes">
         <div class="d-flex justify-space-between align-center mb-4">
-          <h3 class="text-h6">Part</h3>
+          <h3 class="text-headline-small">Part</h3>
           <div class="d-flex gap-2">
             <!-- LEARNING: Global button to configure all PartShape fields -->
             <!-- WHY: Shape-level field configuration -->
@@ -297,37 +308,29 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
           LEARNING: Wrap in div for drag-and-drop parent container
         -->
         <div ref="partShapesContainer" class="drag-drop-container">
-          <VExpansionPanels 
-            ref="partShapesPanelsContainer"
-            v-model="expandedShapes" 
-            multiple 
+          <VExpansionPanels
             v-if="isCreatingPartShape || partShapesList.length > 0"
+            ref="partShapesPanelsContainer"
+            v-model="expandedShapes"
+            multiple
           >
-          <EntityCard
-            v-if="isCreatingPartShape"
-            key="new-partShape"
-            entity-key="partShape"
-            :entity="newPartShapeInitialValues!"
-            :is-new="true"
-            :expanded="true"
-            :use-expansion-panel="false"
-            class="new-shape-card"
-            @saved="handlePartShapeCreated"
-            @cancelled="handlePartShapeCancelled"
-          />
-          
-          <!-- Existing PartShapes -->
-          <EntityCard
-            v-for="partShape in partShapesList"
-            :key="String(partShape.id)"
-            :class="`draggable-part-shape`"
-            :data-drag-id="String(partShape.id)"
-            entity-key="partShape"
-            :entity="partShape"
-            :expanded="isPanelExpanded(String(partShape.id))"
-            @saved="handleExistingShapeSaved"
-            @delete="handleDeletePartShape"
-          />
+            <ShapeCreationForm
+              v-if="isCreatingPartShape"
+              entity-key="partShape"
+              :entity="newPartShapeInitialValues!"
+              @saved="handlePartShapeCreated"
+              @cancelled="handlePartShapeCancelled"
+            />
+            <ShapeCardList
+              entity-key="partShape"
+              :items="partShapesList"
+              :expanded="expandedShapes"
+              :is-panel-expanded="isPanelExpanded"
+              drag-class="draggable-part-shape"
+              :wrap-in-panels="false"
+              @saved="handleExistingShapeSaved"
+              @delete="handleDeletePartShape"
+            />
           </VExpansionPanels>
           
           <!--
@@ -363,7 +366,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
       <!-- AnnotationShapes Tab Content -->
       <VWindowItem key="annotationShapes" value="annotationShapes">
         <div class="d-flex justify-space-between align-center mb-4">
-          <h3 class="text-h6">Annotations</h3>
+          <h3 class="text-headline-small">Annotations</h3>
           <div class="d-flex gap-2">
             <!-- LEARNING: Global button to configure all AnnotationShape fields -->
             <!-- WHY: Single config applies to all AnnotationShapes globally -->
@@ -478,7 +481,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
       <!-- EventShapes Tab Content -->
       <VWindowItem key="eventShapes" value="eventShapes">
         <div class="d-flex justify-space-between align-center mb-4">
-          <h3 class="text-h6">Events</h3>
+          <h3 class="text-headline-small">Events</h3>
           <div class="d-flex gap-2">
             <!-- LEARNING: Global button to configure all EventShape fields -->
             <!-- WHY: Single config applies to all EventShapes globally -->
@@ -507,7 +510,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
           PATTERN: Similar to annotation shapes section
         -->
         <div class="mb-6">
-          <h4 class="text-subtitle-1 mb-3">Event Shapes</h4>
+          <h4 class="text-body-large mb-3">Event Shapes</h4>
           <div v-if="isLoadingEventShapes" class="text-center py-4">
             <VProgressCircular indeterminate />
           </div>
@@ -619,7 +622,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
     <MetadataEditModal
       v-model="partInstanceMetadataModalOpen"
       entity-key="partInstance"
-      :entity="{ id: PART_INSTANCE_GLOBAL_CONFIG_ID, entityKey: 'partInstance' } as GlobalEntity<'partInstance'>"
+      :entity="partInstanceConfigEntity"
       entity-name="Part Instance Fields (Global)"
       @saved="handlePartInstanceMetadataSaved"
     />
@@ -632,7 +635,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
     <MetadataEditModal
       v-model="annotationShapeMetadataModalOpen"
       entity-key="annotationShape"
-      :entity="{ id: toGlobalEntityId(ANNOTATION_SHAPE_GLOBAL_CONFIG_ID), name: 'Annotation Shape Fields (Global)', entityKey: 'annotationShape', orderIndex: 0, active: true }"
+      :entity="annotationShapeFieldsEntity"
       entity-name="Annotation Shape Fields (Global)"
       @saved="() => annotationShapeMetadataModalOpen = false"
     />
@@ -645,7 +648,7 @@ const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value
     <MetadataEditModal
       v-model="eventShapeMetadataModalOpen"
       entity-key="eventShape"
-      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'), name: 'Event Shape Fields (Global)', entityKey: 'eventShape', orderIndex: 0, active: true, isTernary: false, ternaryDefault: null, differentialRole: null }"
+      :entity="eventShapeFieldsEntity"
       entity-name="Event Shape Fields (Global)"
     />
   </div>

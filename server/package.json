@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile && npm run start\"",
-    "compile": "tsc",
-    "build": "tsc",
+    "compile": "tsc && tsc-alias -p tsconfig.json",
+    "build": "tsc && tsc-alias -p tsconfig.json",
     "lint": "eslint .",
     "start": "node dist/server/src/index.js",
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --coverage --detectOpenHandles --forceExit",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
@@ -76,6 +76,7 @@
     "sequelize-cli": "^6.6.5",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "tsc-alias": "^1.8.10"
   }
 }

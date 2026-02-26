@@ -1,5 +1,5 @@
 .booking-wizard {
-  height: 100%;
+  height: auto;
 
   // WHY: Defines quote mode color palette as CSS custom properties
   // PATTERN: CSS variables that override Vuetify theme variables when quote mode is active
@@ -51,7 +51,7 @@
   }
 
   .wizard-layout {
-    min-height: 600px;
+    min-height: 0;
   }
 
   .stepper-column {
@@ -103,7 +103,7 @@
 
   .step-content {
     padding: 24px !important;
-    min-height: 500px;
+    min-height: 0;
 
     @media (max-width: 959px) {
       padding: 16px !important;

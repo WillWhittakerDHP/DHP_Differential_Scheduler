@@ -1,16 +1,57 @@
 /**
+import type { BusinessRule } from '@/types/admin/businessRules'
  * WHY: Tab logic for Business Rules admin tab; keeps BusinessRulesTab.vue thin (audit: component-logic).
  * PATTERN: Composes useBusinessRules, useBusinessRuleForm, useGlobal; exposes selection, filtered rules, and handlers.
  */
+import type { ComputedRef, Ref } from 'vue'
 import { ref, computed, watch } from 'vue'
-import { useBusinessRules, type BusinessRule } from '@/composables/admin/useBusinessRules'
+import { useBusinessRules } from '@/composables/admin/useBusinessRules'
 import { useBusinessRuleForm } from '@/composables/admin/useBusinessRuleForm'
+import type { BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 export type { BusinessRule } from '@/composables/admin/useBusinessRules'
 
-export function useBusinessRulesTab() {
+/** Grouped return for composable-health (oversized-return repair). */
+export interface UseBusinessRulesTabReturn {
+  data: {
+    rules: Ref<BusinessRule[]>
+    loading: Ref<boolean>
+    saving: Ref<boolean>
+    error: Ref<string | null>
+    success: Ref<string | null>
+    selectedBlockId: Ref<GlobalEntityId | null>
+    availableBlockInstances: ComputedRef<{ id: string; title: string; value: string }[]>
+    availableValidationMessages: ComputedRef<{ id: string; title: string; value: string }[]>
+    filteredRules: ComputedRef<BusinessRule[]>
+    selectedBlockTitle: ComputedRef<string | undefined>
+  }
+  form: {
+    formData: Ref<BusinessRuleFormData>
+    editingRule: Ref<BusinessRule | null>
+    showRuleDialog: Ref<boolean>
+    ruleTypeOptions: { title: string; value: RuleType }[]
+    requiredFieldsArray: ComputedRef<string>
+    requiredFieldsCondition: ComputedRef<string>
+    requiresAgent: ComputedRef<boolean>
+  }
+  actions: {
+    openCreateDialog: () => void
+    openEditDialog: (rule: BusinessRule) => void
+    closeDialog: () => void
+    formatRuleType: (ruleType: RuleType) => string
+    formatRuleConfig: (rule: BusinessRule) => string
+    saveRule: () => Promise<void>
+    handleDeleteRule: (rule: BusinessRule) => Promise<void>
+    handleToggleActive: (rule: BusinessRule) => void
+    setRequiredFieldsArray: (v: string) => void
+    setRequiredFieldsCondition: (v: string) => void
+    setRequiresAgent: (v: boolean) => void
+  }
+}
+
+export function useBusinessRulesTab(): UseBusinessRulesTabReturn {
   const {
     rules,
     loading,
@@ -113,33 +154,39 @@ export function useBusinessRulesTab() {
   }
 
   return {
-    rules,
-    loading,
-    saving,
-    error,
-    success,
-    selectedBlockId,
-    availableBlockInstances,
-    availableValidationMessages,
-    filteredRules,
-    selectedBlockTitle,
-    formData,
-    editingRule,
-    showRuleDialog,
-    ruleTypeOptions,
-    requiredFieldsArray,
-    requiredFieldsCondition,
-    requiresAgent,
-    openCreateDialog,
-    openEditDialog,
-    closeDialog,
-    formatRuleType,
-    formatRuleConfig,
-    saveRule,
-    handleDeleteRule,
-    handleToggleActive,
-    setRequiredFieldsArray,
-    setRequiredFieldsCondition,
-    setRequiresAgent,
+    data: {
+      rules,
+      loading,
+      saving,
+      error,
+      success,
+      selectedBlockId,
+      availableBlockInstances,
+      availableValidationMessages,
+      filteredRules,
+      selectedBlockTitle,
+    },
+    form: {
+      formData,
+      editingRule,
+      showRuleDialog,
+      ruleTypeOptions,
+      requiredFieldsArray,
+      requiredFieldsCondition,
+      requiresAgent,
+    },
+    actions: {
+      openCreateDialog,
+      openEditDialog,
+      closeDialog,
+      formatRuleType,
+      formatRuleConfig,
+      saveRule,
+      handleDeleteRule,
+      handleToggleActive,
+      setRequiredFieldsArray,
+      setRequiredFieldsCondition,
+      setRequiresAgent,
+    },
   }
 }

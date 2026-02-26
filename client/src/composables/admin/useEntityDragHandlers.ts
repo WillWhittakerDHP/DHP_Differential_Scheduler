@@ -8,7 +8,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
 import { createLogger } from '@/utils/logger'
 
-export type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
 
 const logger = createLogger('useEntityDragHandlers')
 
@@ -60,12 +59,12 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
       const reordered = [...draggedEntities, ...nonDraggedEntities]
       
       // PATTERN: Map over all entities and assign sequential indices
-      const normalized = reordered.map((entity, index) => ({
+      const normalized: GlobalEntity<EntityKey>[] = reordered.map((entity, index) => ({
         ...entity,
         orderIndex: index
       }))
       
-      entityList.value = normalized as typeof entityList.value
+      entityList.value = normalized
       
       // PATTERN: Map all normalized entities to updates
       const updates = normalized.map((entity, index) => ({
@@ -81,7 +80,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
   }
 
   const syncArrays = (): void => {
-    entityList.value = [...filteredEntities.value] as typeof entityList.value
+    entityList.value = [...filteredEntities.value]
     entityIds.value = filteredEntities.value.map(entity => entity.id)
   }
 

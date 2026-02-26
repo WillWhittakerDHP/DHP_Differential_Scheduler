@@ -127,29 +127,8 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
             @update:number="handleNumberUpdate"
             @toggle-expansion="toggleCardExpansion(item.id)"
           >
-            <template #icon="{ item }">
-              <slot name="icon" :item="item" />
-            </template>
-            <template #title="{ item }">
-              <slot name="title" :item="item" />
-            </template>
-            <template #description="{ item }">
-              <slot name="description" :item="item" />
-            </template>
             <template #default="{ item }">
               <slot :item="item" />
-            </template>
-            <template #child-icon="{ item }">
-              <slot name="child-icon" :item="item" />
-            </template>
-            <template #child-title="{ item }">
-              <slot name="child-title" :item="item" />
-            </template>
-            <template #child-description="{ item }">
-              <slot name="child-description" :item="item" />
-            </template>
-            <template #child-content="{ item }">
-              <slot name="child-content" :item="item" />
             </template>
           </SelectionCard>
         </VCol>
@@ -173,29 +152,8 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
             @update:number="handleNumberUpdate"
             @toggle-expansion="toggleCardExpansion(item.id)"
           >
-            <template #icon="{ item }">
-              <slot name="icon" :item="item" />
-            </template>
-            <template #title="{ item }">
-              <slot name="title" :item="item" />
-            </template>
-            <template #description="{ item }">
-              <slot name="description" :item="item" />
-            </template>
             <template #default="{ item }">
               <slot :item="item" />
-            </template>
-            <template #child-icon="{ item }">
-              <slot name="child-icon" :item="item" />
-            </template>
-            <template #child-title="{ item }">
-              <slot name="child-title" :item="item" />
-            </template>
-            <template #child-description="{ item }">
-              <slot name="child-description" :item="item" />
-            </template>
-            <template #child-content="{ item }">
-              <slot name="child-content" :item="item" />
             </template>
           </SelectionCard>
         </VCol>
@@ -223,29 +181,8 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
           @update:nested-child-selections="handleNestedSelection(item.id, $event)"
           @toggle-expansion="toggleCardExpansion(item.id)"
         >
-          <template #icon="{ item }">
-            <slot name="icon" :item="item" />
-          </template>
-          <template #title="{ item }">
-            <slot name="title" :item="item" />
-          </template>
-          <template #description="{ item }">
-            <slot name="description" :item="item" />
-          </template>
           <template #default="{ item }">
             <slot :item="item" />
-          </template>
-          <template #child-icon="{ item }">
-            <slot name="child-icon" :item="item" />
-          </template>
-          <template #child-title="{ item }">
-            <slot name="child-title" :item="item" />
-          </template>
-          <template #child-description="{ item }">
-            <slot name="child-description" :item="item" />
-          </template>
-          <template #child-content="{ item }">
-            <slot name="child-content" :item="item" />
           </template>
         </SelectionCard>
       </component>
@@ -263,29 +200,8 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
           @update:nested-child-selections="handleNestedSelection(item.id, $event)"
           @toggle-expansion="toggleCardExpansion(item.id)"
         >
-          <template #icon="{ item }">
-            <slot name="icon" :item="item" />
-          </template>
-          <template #title="{ item }">
-            <slot name="title" :item="item" />
-          </template>
-          <template #description="{ item }">
-            <slot name="description" :item="item" />
-          </template>
           <template #default="{ item }">
             <slot :item="item" />
-          </template>
-          <template #child-icon="{ item }">
-            <slot name="child-icon" :item="item" />
-          </template>
-          <template #child-title="{ item }">
-            <slot name="child-title" :item="item" />
-          </template>
-          <template #child-description="{ item }">
-            <slot name="child-description" :item="item" />
-          </template>
-          <template #child-content="{ item }">
-            <slot name="child-content" :item="item" />
           </template>
         </SelectionCard>
       </template>

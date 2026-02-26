@@ -6,7 +6,6 @@ PATTERN: Shared state composable with persi...
 import { ref } from 'vue'
 import type { ApiCallStatusState, UseApiCallStatusReturn } from '@/types/booking/apiCallStatus'
 
-export type { ApiCallStatusState, UseApiCallStatusReturn } from '@/types/booking/apiCallStatus'
 
 const sharedApiStatus = ref<ApiCallStatusState>({
   events: 'not_called',

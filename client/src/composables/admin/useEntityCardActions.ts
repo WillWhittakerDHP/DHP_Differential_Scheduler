@@ -16,7 +16,6 @@ import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
 import type { UseEntityCardActionsOptions, UseEntityCardActionsReturn } from '@/types/admin/entityCardActions'
 
-export type { UseEntityCardActionsOptions, UseEntityCardActionsReturn } from '@/types/admin/entityCardActions'
 
 const logger = createLogger('useEntityCardActions')
 

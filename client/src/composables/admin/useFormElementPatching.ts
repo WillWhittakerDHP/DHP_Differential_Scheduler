@@ -9,18 +9,20 @@ import type {
   UseFormElementPatchingReturn
 } from '@/types/admin/formElementPatching'
 
-export type {
-  FormElementPatchingOptionsBase,
-  FormElementPatchingOptions,
-  UseFormElementPatchingOptions,
-  UseFormElementPatchingReturn
-} from '@/types/admin/formElementPatching'
-
 function getFormElementBySelector(formSelector: string): HTMLFormElement | null {
   if (typeof document === 'undefined') return null
   const el = document.querySelector(formSelector)
   if (!el) return null
   return el.tagName === 'FORM' ? (el as HTMLFormElement) : null
+}
+
+function resolveFormElement(formRef: FormElementPatchingOptionsBase['formRef']): HTMLFormElement | null {
+  if (!formRef?.value) return null
+  const maybeEl = '$el' in formRef.value ? formRef.value.$el : undefined
+  if (!maybeEl || typeof maybeEl !== 'object') return null
+  const el = maybeEl as HTMLElement
+  if (el.tagName === 'FORM') return el as HTMLFormElement
+  return el.querySelector?.('form') ?? null
 }
 
 export function tryPatchFormImmediatelyBySelector(formSelector: string): boolean {
@@ -35,41 +37,50 @@ export async function patchFormFromVFormRef(
   formRef: FormElementPatchingOptionsBase['formRef'],
   formSelector: string
 ): Promise<void> {
-  if (!formRef?.value) return
-
-  let formElement: HTMLFormElement | null = null
-
-  const maybeEl = '$el' in formRef.value ? formRef.value.$el : undefined
-  if (maybeEl && typeof maybeEl === 'object') {
-    const el = maybeEl as HTMLElement
-    if (el.tagName === 'FORM') {
-      formElement = el as HTMLFormElement
-    } else {
-      formElement = el.querySelector?.('form') ?? null
-    }
-  }
-
-  if (formElement && formElement.tagName === 'FORM') {
+  const formElement = resolveFormElement(formRef)
+  if (formElement) {
     patchFormElements(formElement)
     return
   }
-
   await nextTick()
   const elementBySelector = getFormElementBySelector(formSelector)
-  if (elementBySelector) {
-    patchFormElements(elementBySelector)
-  }
+  if (elementBySelector) patchFormElements(elementBySelector)
 }
 
 function patchAutocompleteOnElement(element: HTMLElement): void {
   if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
     element.setAttribute('autocomplete', AUTCOMPLETE_OFF)
   }
-
   const formControls = element.querySelectorAll?.('input, select, textarea')
   formControls?.forEach((el: Element) => {
     el.setAttribute('autocomplete', AUTCOMPLETE_OFF)
   })
+}
+
+function patchAddedFormElements(mutations: MutationRecord[]): void {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      if (node.nodeType !== Node.ELEMENT_NODE) continue
+      patchAutocompleteOnElement(node as HTMLElement)
+    }
+  }
+}
+
+function handleFormMutations(
+  mutations: MutationRecord[],
+  formSelector: string,
+  observer: MutationObserver
+): void {
+  const formElement = getFormElementBySelector(formSelector)
+  if (formElement) {
+    const descriptor = Object.getOwnPropertyDescriptor(formElement, 'elements')
+    if (!descriptor || descriptor.configurable) {
+      patchFormElements(formElement)
+      observer.disconnect()
+      return
+    }
+  }
+  patchAddedFormElements(mutations)
 }
 
 export function setupFormMutationObserver(options: FormElementPatchingOptions): () => void {
@@ -81,22 +92,7 @@ export function setupFormMutationObserver(options: FormElementPatchingOptions): 
   if (typeof document === 'undefined' || typeof window === 'undefined') return () => {}
 
   const observer = new MutationObserver((mutations) => {
-    const formElement = getFormElementBySelector(formSelector)
-    if (formElement) {
-      const descriptor = Object.getOwnPropertyDescriptor(formElement, 'elements')
-      if (!descriptor || descriptor.configurable) {
-        patchFormElements(formElement)
-        observer.disconnect()
-        return
-      }
-    }
-
-    for (const mutation of mutations) {
-      for (const node of mutation.addedNodes) {
-        if (node.nodeType !== Node.ELEMENT_NODE) continue
-        patchAutocompleteOnElement(node as HTMLElement)
-      }
-    }
+    handleFormMutations(mutations, formSelector, observer)
   })
 
   observer.observe(document.body, {
@@ -125,17 +121,11 @@ export function useFormElementPatching(
   } = options
   let cleanupObserver: (() => void) | null = null
 
-  const tryPatchFormImmediately = (): boolean => {
-    return tryPatchFormImmediatelyBySelector(formSelector)
-  }
-
-  const patchFormFromRef = (): void => {
-    void patchFormFromVFormRef(formRef, formSelector)
-  }
+  const tryPatchFormImmediately = (): boolean => tryPatchFormImmediatelyBySelector(formSelector)
+  const patchFormFromRef = (): void => { void patchFormFromVFormRef(formRef, formSelector) }
 
   onMounted(() => {
     patchFormFromRef()
-
     cleanupObserver = setupFormMutationObserver({
       formRef,
       formSelector,

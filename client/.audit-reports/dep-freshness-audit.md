@@ -1,21 +1,20 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-25T01:17:52.056Z
+Generated at: 2026-02-26T00:04:10.589Z
 
 ## Summary
 
-- Total outdated: **5**
-- Major behind: **3** | Minor: **0** | Patch: **2**
+- Total outdated: **2**
+- Major behind: **1** | Minor: **1** | Patch: **0**
 
 ## Major behind (top 20)
 
 | Package | Dependent | Current | Latest |
 | --- | --- | --- | --- |
-| ts-morph | client | 24.0.0 | 27.0.2 |
-| vuetify | client | 3.12.0 | 4.0.0 |
-| @types/bcrypt | server | 5.0.2 | 6.0.0 |
+| @types/supertest | server | 6.0.3 | 7.2.0 |
 
 ## Minor behind (top 20)
 
 | Package | Dependent | Current | Latest |
 | --- | --- | --- | --- |
+| pg | server | 8.18.0 | 8.19.0 |

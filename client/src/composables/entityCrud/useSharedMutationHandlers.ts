@@ -1,7 +1,6 @@
 import type { QueryClient } from '@tanstack/vue-query'
 import type { InvalidateEntityQueriesOptions } from '@/types/entityCrud/sharedMutationHandlers'
 
-export type { InvalidateEntityQueriesOptions, MutationContextWithPreviousData } from '@/types/entityCrud/sharedMutationHandlers'
 
 export function createRefetchGlobalDataHandler(queryClient: QueryClient) {
   return async (): Promise<void> => {

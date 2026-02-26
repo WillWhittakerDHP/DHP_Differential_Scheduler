@@ -6,7 +6,6 @@ PATTERN: Simple state management composable
 import { ref, watch } from 'vue'
 import type { DevPanelTab, UseDevPanelTabsReturn } from '@/types/dev/devPanelTabs'
 
-export type { DevPanelTab, UseDevPanelTabsReturn } from '@/types/dev/devPanelTabs'
 
 /**
  * Composable for managing dev panel tabs

@@ -1,12 +1,35 @@
 @use "@core/scss/base/utils";
 @use "@configured-variables" as variables;
 
+// 👉 Vuetify 4: restore minimal CSS reset (v4 removed global reset)
+@layer vuetify-core.reset {
+  ul,
+  ol,
+  figure,
+  details,
+  summary {
+    padding: 0;
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+}
+
 // 👉 Application
 // ℹ️ We need accurate vh in mobile devices as well
 .v-application__wrap {
   /* stylelint-disable-next-line liberty/use-logical-spec */
   min-height: 100dvh;
 }
+
+// PATTERN: rgba(var(--v-theme-*), opacity) — theme colors are opaque; migrate to color-mix() for full V4 compatibility when needed.
 
 // 👉 Typography
 h1,
@@ -15,27 +38,49 @@ h3,
 h4,
 h5,
 h6,
-.text-h1,
-.text-h2,
-.text-h3,
-.text-h4,
-.text-h5,
-.text-h6,
-.text-button,
-.text-overline,
+.text-display-large,
+.text-display-medium,
+.text-display-small,
+.text-headline-large,
+.text-headline-medium,
+.text-headline-small,
+.text-label-large,
+.text-label-small,
 .v-card-title {
   color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
 }
 
 body,
-.text-body-1,
-.text-body-2,
-.text-subtitle-1,
-.text-subtitle-2 {
+.text-body-large,
+.text-body-medium,
+.text-body-small,
+.text-label-large {
   color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
 }
 
-// 👉 Grid
+// 👉 Grid (V4 legacy mode: restore v3 negative-margin/padding layout)
+@layer vuetify-overrides {
+  .v-row {
+    gap: unset;
+    margin: calc(var(--v-col-gap-y, 12px) * -0.5) calc(var(--v-col-gap-x, 12px) * -0.5);
+  }
+
+  .v-row + .v-row {
+    margin-top: calc(var(--v-col-gap-y, 12px) * 0.5);
+  }
+
+  .v-col {
+    padding: calc(var(--v-col-gap-y, 12px) * 0.5) calc(var(--v-col-gap-x, 12px) * 0.5);
+    flex-basis: var(--v-col-is-size, calc(100% * var(--v-col-size, 1) / var(--v-col-size-columns, 12)))
+      var(--v-col-is-auto, auto)
+      var(--v-col-is-grow, 0);
+  }
+
+  .v-col:where([class*='v-col--offset-']) {
+    margin-inline-start: calc(100% * var(--v-col-offset, 0) / var(--v-col-size-columns, 12));
+  }
+}
+
 // Remove margin-bottom of v-input_details inside grid (validation error message)
 .v-row {
   .v-col,

@@ -1,19 +1,11 @@
 <script setup lang="ts">
 
-import type { TimeRange } from '@/types/appointment'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
-
 interface Props {
   modelValue: string | null
   displayDate: Date
   min: string
   allowedDates?: ((date: unknown) => boolean) | undefined
   selectedDateError?: string
-  isEffectivelyDifferential: boolean
-  graphBars: { major: TimeRange | null; minor: TimeRange | null }
-  selectedServices: BookingBlockInstance[]
-  perspective: 'major' | 'minor' | 'nonDifferential'
 }
 
 defineProps<Props>()
@@ -21,7 +13,6 @@ defineProps<Props>()
 const emit = defineEmits<{
   'update:modelValue': [value: string | null]
   'update:displayDate': [value: Date]
-  'time-basis-change': [type: 'major' | 'minor']
 }>()
 </script>
 
@@ -43,18 +34,9 @@ const emit = defineEmits<{
       @update:display-date="emit('update:displayDate', $event)"
     />
 
-    <div v-if="selectedDateError" class="text-error text-caption mt-2">
+    <div v-if="selectedDateError" class="text-error text-body-small mt-2">
       {{ selectedDateError }}
     </div>
-
-    <DifferentialGraph
-      :is-differential-service="isEffectivelyDifferential"
-      :graph-bars="graphBars"
-      :selected-services="selectedServices"
-      :start-time-type="perspective"
-      class="time-graph-wrapper"
-      @time-basis-change="emit('time-basis-change', $event)"
-    />
   </div>
 </template>
 

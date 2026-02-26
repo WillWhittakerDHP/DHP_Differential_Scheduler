@@ -8,8 +8,6 @@ import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/util
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
 import type { UseConfirmationStepDataParams, UseConfirmationStepDataReturn } from '@/types/booking/confirmationStepData'
 
-export type { SummaryData, PriceData } from '@/types/wizardStepData'
-export type { UseConfirmationStepDataParams, UseConfirmationStepDataReturn } from '@/types/booking/confirmationStepData'
 
 
 /**

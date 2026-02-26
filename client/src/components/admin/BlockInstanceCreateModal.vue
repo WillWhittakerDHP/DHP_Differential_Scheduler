@@ -12,7 +12,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">{{ modalTitle }}</span>
+        <span class="text-headline-medium">{{ modalTitle }}</span>
         <VBtn
           icon
           variant="text"
@@ -65,6 +65,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
@@ -94,7 +95,7 @@ const admin = useAdmin()
 
 const { tempEntityId, handleCreate } = useBlockInstanceCreate({
   modelValue: () => props.modelValue,
-  entityCardRef: entityCardRef as import('vue').Ref<{ handleSave: () => Promise<void> } | null>,
+  entityCardRef: entityCardRef as Ref<{ handleSave: () => Promise<void> } | null>,
 })
 
 const modalTitle = computed(() => {

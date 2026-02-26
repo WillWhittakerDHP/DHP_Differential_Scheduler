@@ -1,3 +1,5 @@
+import { APP_STAGE } from '@shared/constants/appStageConstants'
+
 /**
 WHY: Ens...
  */
@@ -62,7 +64,7 @@ export interface SelectionCardConfig {
 State source type
 LEARNING: Where selection state is stored (wizard,...
    */
-  stateSource?: 'wizard' | 'local' | 'custom'
+  stateSource?: 'wizard' | (typeof APP_STAGE)['LOCAL'] | 'custom'
   
   /**
 State plugins for reactive updates

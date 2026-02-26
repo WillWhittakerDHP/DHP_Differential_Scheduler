@@ -11,18 +11,13 @@ import { useNotification } from '@/composables/useNotification'
 import { useRelationshipCollectionData } from './useRelationshipCollectionData'
 import { useRelationshipCollectionField } from './useRelationshipCollectionField'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createLogger } from '@/utils/logger'
 import type { RelationshipCollectionModel, UseRelationshipCollectionOptions } from '@/types/admin/relationshipCollection'
 
 const logger = createLogger('useRelationshipCollection')
-
-export type {
-  NameGenerator,
-  RelationshipCollectionModel,
-  UseRelationshipCollectionOptions
-} from '@/types/admin/relationshipCollection'
 
 /**
 LEARNING: Generic collection-level composable ...
@@ -64,17 +59,17 @@ export function useRelationshipCollection(
     return `${firstLower}Ref`
   })
   
-  const parentEntityId = computed(() => fieldContext.entityId)
+  const parentEntityId = computed(() => fieldContext.state.entityId)
   
   // PATTERN: Add type assertion since we know it should be non-null at runtime
   const collectionData = useRelationshipCollectionData({
     parentEntityId,
-    parentEntityKey: computed(() => fieldContext.entityKey),
+    parentEntityKey: computed(() => fieldContext.state.entityKey),
     childEntityKey,
     shapeEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentTypeEntityKey: parentTypeEntityKey as ComputedRef<GlobalEntityKey>,
+    parentTypeEntityKey,
     parentTypeRef,
     shapeRefProperty: shapeRefProperty.value
   })
@@ -92,7 +87,7 @@ export function useRelationshipCollection(
     return validShapes.value.length > 0
   })
   
-  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
+  const { create: createRelationship, remove: removeRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
   
   const expandedPlaceholders = ref<string[]>([])
   
@@ -104,7 +99,8 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     let defaults: Record<string, unknown>
     try {
       defaults = getDefaultEntityValues(childEntityKey.value)
-    } catch {
+    } catch (err) {
+      logger.warn('getDefaultEntityValues failed, using fallback', { childEntityKey: childEntityKey.value, error: err })
       defaults = { orderIndex: 0 }
     }
     
@@ -186,7 +182,7 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
       })
       
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: [fieldContext.entityKey] }),
+        queryClient.invalidateQueries({ queryKey: [fieldContext.state.entityKey] }),
         queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
         queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
@@ -197,8 +193,8 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
         expandedPlaceholders.value.splice(index, 1)
       }
     } catch (error) {
-      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}:`, error)
-      notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}`)
+      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.state.entityKey}:`, error)
+      notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.state.entityKey}`)
     }
   }
   
@@ -209,6 +205,26 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     if (index !== -1) {
       expandedPlaceholders.value.splice(index, 1)
     }
+  }
+
+  const handleDeleteChildById = async (id: string): Promise<void> => {
+    if (!parentEntity.value) return
+    try {
+      await removeRelationship(toGlobalEntityId(parentEntity.value.id), toGlobalEntityId(id))
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [fieldContext.state.entityKey] }),
+        queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
+        queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
+        queryClient.invalidateQueries({ queryKey: ['globalData'] }),
+      ])
+    } catch (error) {
+      logger.error(`Failed to remove child ${id} from ${fieldContext.state.entityKey}:`, error)
+      notifyError(`Failed to remove child`)
+    }
+  }
+
+  const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>): Promise<void> => {
+    await handleDeleteChildById(String(entity.id))
   }
   
   const expandedChildren = ref<string[]>([])

@@ -7,25 +7,6 @@
 
 ## Summary
 
-- Files scanned: **1057**
-- value-import-from-type-only-file: **7**
+- Files scanned: **1066**
+- value-import-from-type-only-file: **0**
 - type-used-as-value: **0**
-
-## value-import-from-type-only-file
-
-| File | Line | Specifier | Symbol | Source |
-| --- | ---: | --- | --- | --- |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | 3 | `../../types/brightMls.js` | BrightMlsPropertyResponse | `server/src/types/brightMls.ts` |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | 3 | `../../types/brightMls.js` | BrightMlsODataResponse | `server/src/types/brightMls.ts` |
-| `server/src/services/google/maps/mapsHelpers.ts` | 7 | `./mapsTypes.js` | AddressComponents | `server/src/services/google/maps/mapsTypes.ts` |
-| `server/src/services/google/maps/mapsHelpers.ts` | 7 | `./mapsTypes.js` | AutocompletePrediction | `server/src/services/google/maps/mapsTypes.ts` |
-| `server/src/services/google/maps/mapsHelpers.ts` | 7 | `./mapsTypes.js` | Coordinates | `server/src/services/google/maps/mapsTypes.ts` |
-| `server/src/services/google/maps/mapsHelpers.ts` | 7 | `./mapsTypes.js` | PlaceDetails | `server/src/services/google/maps/mapsTypes.ts` |
-| `server/src/services/google/maps/mapsHelpers.ts` | 7 | `./mapsTypes.js` | RouteLocation | `server/src/services/google/maps/mapsTypes.ts` |
-
-## Files by finding count (score)
-
-| File | Score |
-| --- | ---: |
-| `server/src/services/google/maps/mapsHelpers.ts` | 10 |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | 4 |

@@ -6,7 +6,6 @@ WHY: Moves component type determin...
 import { computed } from 'vue'
 import type { UseFieldRendererComponentOptions, UseFieldRendererComponentReturn } from '@/types/admin/fieldRendererComponent'
 
-export type { UseFieldRendererComponentOptions, UseFieldRendererComponentReturn } from '@/types/admin/fieldRendererComponent'
 
 export function useFieldRendererComponent(
   options: UseFieldRendererComponentOptions

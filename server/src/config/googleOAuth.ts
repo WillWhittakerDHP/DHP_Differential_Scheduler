@@ -69,9 +69,6 @@ export function getCredentials() {
   return oauth2Client.credentials;
 }
 
-/**
- * Re-export for backward compatibility; persistence has no dependency on t...
- */
 export const saveTokensToFile = saveTokensToFileImpl
 
 export function loadTokensFromFile(): boolean {

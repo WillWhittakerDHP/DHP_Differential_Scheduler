@@ -7,9 +7,9 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
 import { toISO8601Date } from '@/utils/datetime'
+import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
-export type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
 /**
  * WHY: useAvailabilityUI composable

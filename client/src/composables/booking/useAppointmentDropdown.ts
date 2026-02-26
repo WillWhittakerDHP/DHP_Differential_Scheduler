@@ -6,7 +6,6 @@ import { computed } from 'vue'
 import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
 import type { UseAppointmentDropdownOptions, UseAppointmentDropdownReturn } from '@/types/booking/appointmentDropdown'
 
-export type { UseAppointmentDropdownOptions, UseAppointmentDropdownReturn } from '@/types/booking/appointmentDropdown'
 
 export function useAppointmentDropdown(
   options: UseAppointmentDropdownOptions

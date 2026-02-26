@@ -9,12 +9,19 @@ import { quoteModeColors } from '@/plugins/5.vuetify/theme'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
+export interface UseThemeModeReturn {
+  isQuoteMode: import('vue').ComputedRef<boolean>
+  currentPrimary: import('vue').ComputedRef<string>
+  currentSecondary: import('vue').ComputedRef<string>
+  currentWarning: import('vue').ComputedRef<string>
+}
+
 /**
  * WHY: Theme mode composable
 
 @param wizard - Wizard instance with isQuoteMode ...
  */
-export function useThemeMode(wizard?: UseBookingWizardReturn) {
+export function useThemeMode(wizard?: UseBookingWizardReturn): UseThemeModeReturn {
   const theme = useTheme()
   
   // LEARNING: Computed property for quote mode state
@@ -22,17 +29,15 @@ export function useThemeMode(wizard?: UseBookingWizardReturn) {
   const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)
   
   // PATTERN: Computed properties that switch based on isQuoteMode
-  const currentPrimary = computed(() => {
-    return isQuoteMode.value ? quoteModeColors.primary : theme.current.value.colors.primary
-  })
-  
-  const currentSecondary = computed(() => {
-    return isQuoteMode.value ? quoteModeColors.secondary : theme.current.value.colors.secondary
-  })
-  
-  const currentWarning = computed(() => {
-    return isQuoteMode.value ? quoteModeColors.warning : theme.current.value.colors.warning
-  })
+  const currentPrimary = computed(() =>
+    String(isQuoteMode.value ? quoteModeColors.primary : theme.current.value.colors.primary)
+  )
+  const currentSecondary = computed(() =>
+    String(isQuoteMode.value ? quoteModeColors.secondary : theme.current.value.colors.secondary)
+  )
+  const currentWarning = computed(() =>
+    String(isQuoteMode.value ? quoteModeColors.warning : theme.current.value.colors.warning)
+  )
   
   // PATTERN: Watch computed property and update CSS variables via utility
   watch(isQuoteMode, (isActive) => {

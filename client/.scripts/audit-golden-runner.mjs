@@ -28,7 +28,11 @@ const EXTENSIONS = ['.ts', '.tsx', '.vue']
 const AUDIT_SCRIPTS = {
   'type-import': 'type-import-audit.mjs',
   'type-escape': 'type-escape-audit.mjs',
+  'type-health': 'type-health-audit.mjs',
   'error-handling': 'error-handling-audit.mjs',
+  'component-health': 'component-health-audit.mjs',
+  'composable-health': 'composable-health-audit.mjs',
+  'data-flow-health': 'data-flow-health-audit.mjs',
 }
 
 /**

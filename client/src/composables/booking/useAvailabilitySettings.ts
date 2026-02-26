@@ -8,7 +8,6 @@ import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/av
 import { createLogger } from '@/utils/logger'
 import type { UseBookingAvailabilitySettingsReturn } from '@/types/booking/availabilitySettings'
 
-export type { UseBookingAvailabilitySettingsReturn } from '@/types/booking/availabilitySettings'
 
 const logger = createLogger('useAvailabilitySettings')
 

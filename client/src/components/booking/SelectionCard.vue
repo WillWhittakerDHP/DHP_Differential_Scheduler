@@ -168,23 +168,18 @@ const handleNumberUpdate = (value: string | number | null) => {
       
       <!-- Card content -->
       <div :class="[contentContainerClasses, 'selection-card-content']">
-        <slot name="icon" :item="item">
-          <Icon
-            v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
-            :icon="item.icon"
-            width="40"
-            height="40"
-            class="mb-2 selection-card-icon"
-          />
-        </slot>
-        
-        <slot name="title" :item="item">
-          <h6 class="text-h6 mb-2">
-            {{ item.name }}
-          </h6>
-        </slot>
-        
-        
+        <Icon
+          v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
+          :icon="item.icon"
+          width="40"
+          height="40"
+          class="mb-2 selection-card-icon"
+        />
+
+        <h6 class="text-headline-small mb-2">
+          {{ item.name }}
+        </h6>
+
         <slot :item="item" />
         
         <!-- LEARNING: Number input for allowMultiple items -->

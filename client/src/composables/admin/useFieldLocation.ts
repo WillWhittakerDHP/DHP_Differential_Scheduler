@@ -14,7 +14,6 @@ import {
 } from '@/utils/forms/fieldLocationDispatcher'
 import type { UseFieldLocationOptions, UseFieldLocationReturn } from '@/types/admin/fieldLocation'
 
-export type { UseFieldLocationOptions, UseFieldLocationReturn } from '@/types/admin/fieldLocation'
 
 /**
  * WHY: Field Location Composable

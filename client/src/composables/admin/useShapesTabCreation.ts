@@ -6,11 +6,36 @@ import { ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
+import type { Ref } from 'vue'
 import type { UseShapesTabCreationParams } from '@/types/admin/shapesTabCreation'
 
-export type { UseShapesTabCreationParams } from '@/types/admin/shapesTabCreation'
 
-export function useShapesTabCreation(params: UseShapesTabCreationParams) {
+/** Grouped return for composable-health (oversized-return repair). */
+export interface UseShapesTabCreationReturn {
+  state: {
+    isCreatingPartShape: Ref<boolean>
+    isCreatingAnnotationShape: Ref<boolean>
+    isCreatingEventShape: Ref<boolean>
+    newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
+    newAnnotationShapeName: Ref<string>
+    newEventShapeName: Ref<string>
+    isCreatingAnnotationShapeLoading: Ref<boolean>
+    isCreatingEventShapeLoading: Ref<boolean>
+  }
+  actions: {
+    createPartShape: () => void
+    startCreatingAnnotationShape: () => void
+    handlePartShapeCreated: (_entity: GlobalEntity<GlobalEntityKey>) => void
+    handlePartShapeCancelled: () => void
+    handleAnnotationShapeCreate: () => Promise<void>
+    handleAnnotationShapeCancelled: () => void
+    startCreatingEventShape: () => void
+    handleEventShapeCreate: () => Promise<void>
+    handleEventShapeCancelled: () => void
+  }
+}
+
+export function useShapesTabCreation(params: UseShapesTabCreationParams): UseShapesTabCreationReturn {
   const {
     expandedShapes,
     success,
@@ -117,22 +142,26 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams) {
   }
 
   return {
-    isCreatingPartShape,
-    isCreatingAnnotationShape,
-    isCreatingEventShape,
-    newPartShapeInitialValues,
-    newAnnotationShapeName,
-    newEventShapeName,
-    isCreatingAnnotationShapeLoading,
-    isCreatingEventShapeLoading,
-    createPartShape,
-    startCreatingAnnotationShape,
-    handlePartShapeCreated,
-    handlePartShapeCancelled,
-    handleAnnotationShapeCreate,
-    handleAnnotationShapeCancelled,
-    startCreatingEventShape,
-    handleEventShapeCreate,
-    handleEventShapeCancelled,
+    state: {
+      isCreatingPartShape,
+      isCreatingAnnotationShape,
+      isCreatingEventShape,
+      newPartShapeInitialValues,
+      newAnnotationShapeName,
+      newEventShapeName,
+      isCreatingAnnotationShapeLoading,
+      isCreatingEventShapeLoading,
+    },
+    actions: {
+      createPartShape,
+      startCreatingAnnotationShape,
+      handlePartShapeCreated,
+      handlePartShapeCancelled,
+      handleAnnotationShapeCreate,
+      handleAnnotationShapeCancelled,
+      startCreatingEventShape,
+      handleEventShapeCreate,
+      handleEventShapeCancelled,
+    },
   }
 }

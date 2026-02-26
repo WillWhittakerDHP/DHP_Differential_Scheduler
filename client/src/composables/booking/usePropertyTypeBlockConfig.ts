@@ -4,12 +4,12 @@
 WHY: Moves complex config constru...
  */
 import { computed } from 'vue'
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 import type { SelectionCardConfig, SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
 import type { ComponentItem } from '@/types/booking/propertyDetailsLogic'
 import type { UsePropertyTypeBlockConfigParams, UsePropertyTypeBlockConfigReturn } from '@/types/booking/propertyTypeBlockConfig'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
-export type { UsePropertyTypeBlockConfigParams, UsePropertyTypeBlockConfigReturn } from '@/types/booking/propertyTypeBlockConfig'
 
 export function usePropertyTypeBlockConfig(
   params: UsePropertyTypeBlockConfigParams
@@ -43,7 +43,7 @@ export function usePropertyTypeBlockConfig(
         showDescription: true,
         showBorder: true,
         cardPadding: 'pa-6',
-        minHeight: '200px'
+        minHeight: 'auto'
       },
       expansion: {
         enabled: true,
@@ -73,7 +73,7 @@ export function usePropertyTypeBlockConfig(
     
     return {
       ...baseConfig,
-      stateSource: 'local' as const
+      stateSource: APP_STAGE.LOCAL
     }
   })
 

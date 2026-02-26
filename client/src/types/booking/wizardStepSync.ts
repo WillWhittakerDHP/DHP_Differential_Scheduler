@@ -1,13 +1,12 @@
-import type { Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 
 export interface UseWizardStepSyncParams<TStepData> {
   stepData: Ref<TStepData>
   isFormValid: Ref<boolean>
   validateForm: () => boolean
-  stepDataKey: string
-  stepValidKey: string
-  /** Step validate key for injection (e.g., 'availabilityStepValidate', 'propertyDetailsStepValidate') */
-  stepValidateKey: string
+  stepDataKey: InjectionKey<Ref<TStepData | null>>
+  stepValidKey: InjectionKey<Ref<boolean>>
+  stepValidateKey: InjectionKey<Ref<(() => boolean) | null>>
   fieldErrors?: Ref<Record<string, string>>
-  fieldErrorsKey?: string
+  fieldErrorsKey?: InjectionKey<Ref<Record<string, string>>>
 }

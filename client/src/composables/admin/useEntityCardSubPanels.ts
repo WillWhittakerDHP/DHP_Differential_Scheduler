@@ -7,10 +7,14 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { SUB_PANEL_KEYS, type SubPanelRecord } from '@/constants/fieldMetadata'
 import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
+import type RelationshipCollection from '@/components/admin/generic/collections/RelationshipCollection.vue'
+
+type RelationshipCollectionRef = InstanceType<typeof RelationshipCollection>
+
 const MAX_DISPLAY_ITEMS = 2
 
 function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
@@ -28,11 +32,24 @@ export interface UseEntityCardSubPanelsOptions {
   entity: GlobalEntity<GlobalEntityKey>
   form: FormContext
   subPanelFields: SubPanelFields
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
-export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions) {
+export interface UseEntityCardSubPanelsReturn {
+  blockShapeName: ReturnType<typeof computed<string>>
+  getEntityNames: (ids: unknown[], entityType: 'blockInstance' | 'partInstance') => string[]
+  partsSummary: ReturnType<typeof computed<string>>
+  isRelationshipCollectionField: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => boolean
+  partsCollectionRef: import('vue').Ref<(RelationshipCollectionRef)[] | RelationshipCollectionRef | null>
+  expandedPanels: import('vue').Ref<string[]>
+  partsBulkEditMode: ReturnType<typeof computed<boolean>>
+  togglePartsBulkEditMode: () => void
+  relationshipsSummary: ReturnType<typeof computed<string>>
+  hasAnySubPanelFields: ReturnType<typeof computed<boolean>>
+}
+
+export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): UseEntityCardSubPanelsReturn {
   const entityKey = computed(() => props.entityKey)
   const entity = computed(() => props.entity)
   const form = computed(() => props.form)
@@ -44,7 +61,8 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions) {
 
   const blockShapeName = computed((): string => {
     if (entityKey.value !== 'blockInstance') return ''
-    const blockEntity = entity as GlobalEntity<'blockInstance'>
+    const entityVal = entity.value
+    const blockEntity = entityVal as GlobalEntity<'blockInstance'>
     const blockShape = blockShapes.value.find((bs) => bs.id === blockEntity.blockShapeRef)
     const name = blockShape?.name
     return name !== undefined && name !== null && name !== '' ? name : 'Block'
@@ -77,15 +95,8 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions) {
     return componentType.type === 'relationshipCollection'
   }
 
-  const partsCollectionRef = ref<(RelationshipCollectionRef)[] | RelationshipCollectionRef>(null)
+  const partsCollectionRef = ref<(RelationshipCollectionRef)[] | RelationshipCollectionRef | null>(null)
   const expandedPanels = ref<string[]>([])
-
-  function _getRelationshipCollectionInstance(): RelationshipCollectionRef {
-    const refValue = partsCollectionRef.value
-    if (!refValue) return null
-    if (Array.isArray(refValue)) return refValue[0] ?? null
-    return refValue
-  }
 
   const partsBulkEditMode = computed(() => {
     const refValue = partsCollectionRef.value

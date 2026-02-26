@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { UseSelectFieldValueOptions, UseSelectFieldValueReturn } from '@/types/admin/selectFieldValue'
 
-export type { UseSelectFieldValueOptions, UseSelectFieldValueReturn } from '@/types/admin/selectFieldValue'
 
 /**
  * WHY: Select Field Value Composable
@@ -65,13 +64,13 @@ export function useSelectFieldValue(
     if (value === null || value === undefined || value === '') {
       // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
       // PATTERN: Convert null to '__NULL__' when reading, convert back to null when saving
-      if (value === null && String(fieldContext.fieldKey) === 'ternaryDefault') {
+      if (value === null && String(fieldContext.state.fieldKey) === 'ternaryDefault') {
         return '__NULL__' // Convert null to sentinel for display
       }
       return null
     }
     const stringValue = String(value)
-    if (stringValue === '__NULL__' && String(fieldContext.fieldKey) === 'ternaryDefault') {
+    if (stringValue === '__NULL__' && String(fieldContext.state.fieldKey) === 'ternaryDefault') {
       return '__NULL__' // Keep sentinel for display
     }
     return optionValues.has(stringValue) ? stringValue : null

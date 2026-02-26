@@ -15,11 +15,6 @@ import type {
   UseInstanceComponentsListReturn,
 } from '@/types/booking/instanceComponentsList'
 
-export type {
-  UseInstanceComponentsListOptions,
-  UseInstanceComponentsListReturn,
-} from '@/types/booking/instanceComponentsList'
-
 /**
  * PATTERN: useInstanceComponentsList composable
 PATTERN: Composable that returns co...
@@ -43,7 +38,7 @@ WHY: Avoids code dup...
         const result = getGlobalEntityById(entityKey, id)
         return result || null
       },
-      getActiveComponentsRelationships: (serviceId: string) => componentEntity.getComponents(toGlobalEntityId(serviceId)),
+      getActiveComponentsRelationships: (serviceId: string) => componentEntity.data.getComponents(toGlobalEntityId(serviceId)),
     })
   }
 
@@ -63,4 +58,3 @@ LEARNING:...
     getInstanceComponents,
   }
 }
-

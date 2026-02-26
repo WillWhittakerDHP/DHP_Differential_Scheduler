@@ -3,11 +3,11 @@
 
 PATTERN: Composable that provides reacti...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed, unref } from 'vue'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { transformToMajorPerspective, transformToMinorPerspective } from '@/utils/differentialScheduling'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import type { TimeSlot } from '@/types/appointment'
+import type { TimeSlot, TimeRange } from '@/types/appointment'
 import type { UseAppointmentTimesParams, UseAppointmentTimesReturn } from '@/types/booking/appointmentTimes'
 
 export type { UseAppointmentTimesParams, UseAppointmentTimesReturn } from '@/types/booking/appointmentTimes'
@@ -31,22 +31,8 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     return 'value' in blockInstances ? blockInstances.value : blockInstances
   })
 
-  const baseStartTimeRef = computed(() => {
-    if (!baseStartTime) return null
-    // PATTERN: Check if it's an object before using 'in' operator
-    if (typeof baseStartTime === 'object' && baseStartTime !== null && 'value' in baseStartTime) {
-      return (baseStartTime as ComputedRef<string | null>).value
-    }
-    return baseStartTime as string | null
-  })
-
-  const isDifferentialServiceRef = computed(() => {
-    // PATTERN: Check if it's an object before using 'in' operator
-    if (typeof isDifferentialService === 'object' && isDifferentialService !== null && 'value' in isDifferentialService) {
-      return (isDifferentialService as ComputedRef<boolean>).value
-    }
-    return isDifferentialService as boolean
-  })
+  const baseStartTimeRef = computed(() => unref(baseStartTime ?? null))
+  const isDifferentialServiceRef = computed(() => unref(isDifferentialService))
 
   // PATTERN: Get settings for rounding configuration
   const { settings } = useAvailabilitySettings()

@@ -91,6 +91,75 @@ function renderDeltaFirstBlock(ctx, opts = {}) {
 }
 
 export const SUMMARY_RENDERERS = {
+  'allowlist-cleanup'(data, ctx) {
+    const lines = []
+    const suppressionHits = data.suppressionHits || {}
+    const pruneSuggestions = data.pruneSuggestions || {}
+    const integrity = data.integrity || {}
+    const auditTypes = Array.isArray(suppressionHits.auditTypes) ? suppressionHits.auditTypes : []
+    const processed = Array.isArray(suppressionHits.processed) ? suppressionHits.processed : []
+    const missingJson = Array.isArray(suppressionHits.missingJson) ? suppressionHits.missingJson : []
+    const missingSpecificFiles = Array.isArray(integrity.missingSpecificFiles) ? integrity.missingSpecificFiles : []
+    const neverPermissibleViolations = Array.isArray(integrity.neverPermissibleViolations) ? integrity.neverPermissibleViolations : []
+
+    lines.push('# Allowlist Cleanup Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Overview')
+    lines.push('')
+    lines.push('| Metric | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Audit types requested for suppression hits | ${auditTypes.length} |`)
+    lines.push(`| Suppression-hit sources processed | ${processed.length} |`)
+    lines.push(`| Missing audit JSON inputs | ${missingJson.length} |`)
+    lines.push(`| Prune suggestions | ${pruneSuggestions.count ?? 0} |`)
+    lines.push(`| Missing specific file references | ${missingSpecificFiles.length} |`)
+    lines.push(`| Never-permissible allowlist violations | ${neverPermissibleViolations.length} |`)
+    lines.push('')
+
+    lines.push('## Result')
+    lines.push('')
+    lines.push(`- Status: **${integrity.hasFailures ? 'FAIL' : 'PASS'}**`)
+    lines.push(`- Config path: \`${data.configPath ?? 'client/.audit-reports/audit-global-config.json'}\``)
+    lines.push(`- Prune report JSON: \`${pruneSuggestions.reportJson ?? 'client/.audit-reports/allowlist-prune-suggestions.json'}\``)
+    lines.push(`- Prune report Markdown: \`${pruneSuggestions.reportMd ?? 'client/.audit-reports/allowlist-prune-suggestions.md'}\``)
+    lines.push('')
+
+    if (missingJson.length > 0) {
+      lines.push('## Missing Audit JSON Inputs')
+      lines.push('')
+      missingJson.forEach((item) => lines.push(`- \`${item}\``))
+      lines.push('')
+    }
+
+    if (missingSpecificFiles.length > 0) {
+      lines.push('## Missing Specific File References')
+      lines.push('')
+      lines.push('| Audit | File | Rule IDs |')
+      lines.push('| --- | --- | --- |')
+      missingSpecificFiles.forEach((issue) => {
+        const ids = Array.isArray(issue.ruleIds) && issue.ruleIds.length > 0 ? issue.ruleIds.join(', ') : '(none)'
+        lines.push(`| ${issue.auditType} | \`${issue.file}\` | ${ids} |`)
+      })
+      lines.push('')
+    }
+
+    if (neverPermissibleViolations.length > 0) {
+      lines.push('## Never-Permissible Allowlist Violations')
+      lines.push('')
+      lines.push('| Audit | Location | Rule IDs | Scope |')
+      lines.push('| --- | --- | --- | --- |')
+      neverPermissibleViolations.forEach((issue) => {
+        const scope = issue.file ? `\`${issue.file}\`` : `\`${issue.scope ?? '*'}\``
+        lines.push(`| ${issue.auditType} | ${issue.location} | ${issue.ruleIds.join(', ')} | ${scope} |`)
+      })
+      lines.push('')
+    }
+
+    return lines.join('\n')
+  },
+
   'api-contract'(data, ctx) {
     const lines = []
     const findings = Array.isArray(data.findings) ? data.findings : []
@@ -237,6 +306,69 @@ export const SUMMARY_RENDERERS = {
     lines.push('## Notes')
     lines.push('')
     lines.push('- This is a *signal* index. Use the full report: `client/.audit-reports/component-logic-audit.md`.')
+    lines.push('')
+    return lines.join('\n')
+  },
+
+  'component-health'(data, ctx) {
+    const lines = []
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    const files = Array.isArray(data.files) ? data.files : []
+    const waves = data.repairWaves || { local: [], lowFanIn: [], highFanIn: [] }
+    lines.push('# Component Health Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Overview')
+    lines.push('')
+    lines.push('| Metric | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Components scanned | ${data.totalScanned ?? 0} |`)
+    lines.push(`| Findings | ${findings.length} |`)
+    lines.push(`| Files with findings | ${files.length} |`)
+    lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
+    const byRule = {}
+    for (const f of findings) {
+      byRule[f.ruleId] = (byRule[f.ruleId] || 0) + 1
+    }
+    const sortedRules = Object.entries(byRule).sort((a, b) => b[1] - a[1])
+    if (sortedRules.length > 0) {
+      lines.push('## By rule')
+      lines.push('')
+      lines.push('| Rule | Severity | Count |')
+      lines.push('| --- | --- | ---: |')
+      const ruleMeta = Array.isArray(data.ruleset) ? data.ruleset : []
+      for (const [ruleId, count] of sortedRules) {
+        const meta = ruleMeta.find(r => r.ruleId === ruleId)
+        lines.push(`| ${ruleId} | ${meta?.severity ?? '?'} | ${count} |`)
+      }
+      lines.push('')
+    }
+    lines.push('## Repair waves')
+    lines.push('')
+    lines.push(`- **Local** (parentCount = 0): ${(waves.local || []).length}`)
+    lines.push(`- **Low fan-in** (parentCount 1–3): ${(waves.lowFanIn || []).length}`)
+    lines.push(`- **High fan-in** (parentCount ≥ 4): ${(waves.highFanIn || []).length}`)
+    lines.push('')
+    const MAX_ROWS = 20
+    if (files.length > 0) {
+      lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files by score`)
+      lines.push('')
+      lines.push('| File | Priority | Score | Parents |')
+      lines.push('| --- | --- | ---: | ---: |')
+      for (const f of files.slice(0, MAX_ROWS)) {
+        lines.push(`| \`${f.file}\` | ${f.priority || 'P2'} | ${f.score || 0} | ${f.parentCount ?? 0} |`)
+      }
+      if (files.length > MAX_ROWS) {
+        lines.push('')
+        lines.push(`*...and ${files.length - MAX_ROWS} more. See full report.*`)
+      }
+      lines.push('')
+    }
+    lines.push('## Notes')
+    lines.push('')
+    lines.push('- Full report: `client/.audit-reports/component-health-audit.md`. Repair waves guide fix ordering by blast radius.')
     lines.push('')
     return lines.join('\n')
   },
@@ -592,6 +724,7 @@ export const SUMMARY_RENDERERS = {
     const cycles = Array.isArray(data.cycles) ? data.cycles : []
     const fanOut = Array.isArray(data.fanOutViolations) ? data.fanOutViolations : []
     const fanIn = Array.isArray(data.fanInViolations) ? data.fanInViolations : []
+    const chainDepth = Array.isArray(data.composableChainDepthViolations) ? data.composableChainDepthViolations : []
     const crossBoundary = data.crossBoundaryViolations ?? 0
     const files = Array.isArray(data.files) ? data.files : []
     lines.push('# Import Graph Audit Summary (Generated)')
@@ -601,8 +734,22 @@ export const SUMMARY_RENDERERS = {
     lines.push(`- Cycles: **${cycles.length}**`)
     lines.push(`- Fan-out violations: **${fanOut.length}**`)
     lines.push(`- Fan-in violations: **${fanIn.length}**`)
+    lines.push(`- Composable chain-depth violations: **${chainDepth.length}**`)
     lines.push(`- Cross-boundary: **${crossBoundary}**`)
     lines.push('')
+    if (chainDepth.length > 0) {
+      lines.push('### Top composable chains (by depth)')
+      lines.push('')
+      lines.push('| Composable | Depth |')
+      lines.push('| --- | ---: |')
+      for (const v of chainDepth.slice(0, 10)) {
+        lines.push(`| \`${v.file}\` | ${v.depth} |`)
+      }
+      if (chainDepth.length > 10) {
+        lines.push(`| *...and ${chainDepth.length - 10} more* | |`)
+      }
+      lines.push('')
+    }
     const MAX_ROWS = 30
     lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files by score`)
     lines.push('')
@@ -1104,6 +1251,63 @@ export const SUMMARY_RENDERERS = {
     return lines.join('\n')
   },
 
+  'type-health'(data, ctx) {
+    const lines = []
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    const files = Array.isArray(data.files) ? data.files : []
+    const waves = data.repairWaves || { local: [], lowFanIn: [], highFanIn: [] }
+    lines.push('# Type-Health Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Overview')
+    lines.push('')
+    lines.push('| Metric | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Total scanned | ${data.totalScanned ?? 0} |`)
+    lines.push(`| Findings | ${findings.length} |`)
+    lines.push(`| Files with findings | ${files.length} |`)
+    lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
+    const byRule = {}
+    for (const f of findings) {
+      byRule[f.ruleId] = (byRule[f.ruleId] || 0) + 1
+    }
+    const sortedRules = Object.entries(byRule).sort((a, b) => b[1] - a[1])
+    lines.push('## By rule')
+    lines.push('')
+    lines.push('| Rule | Count |')
+    lines.push('| --- | ---: |')
+    for (const [rule, count] of sortedRules) {
+      lines.push(`| ${rule} | ${count} |`)
+    }
+    lines.push('')
+    lines.push('## Repair waves')
+    lines.push('')
+    lines.push(`- **Local** (not exported or zero consumers): ${(waves.local || []).length}`)
+    lines.push(`- **Low fan-in** (exported, 1–3 consumers): ${(waves.lowFanIn || []).length}`)
+    lines.push(`- **High fan-in** (exported, 4+ consumers): ${(waves.highFanIn || []).length}`)
+    lines.push('')
+    const MAX_ROWS = 20
+    lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files by severity`)
+    lines.push('')
+    lines.push('| File | Priority | Score |')
+    lines.push('| --- | --- | ---: |')
+    for (const f of files.slice(0, MAX_ROWS)) {
+      lines.push(`| \`${f.file}\` | ${f.priority || 'P2'} | ${f.score || 0} |`)
+    }
+    if (files.length > MAX_ROWS) {
+      lines.push('')
+      lines.push(`*...and ${files.length - MAX_ROWS} more. See full report.*`)
+    }
+    lines.push('')
+    lines.push('## Notes')
+    lines.push('')
+    lines.push('- Full report: `client/.audit-reports/type-health-audit.md`. Rules: nested utility types, Record<string,any>, ReturnType<typeof ref/computed>, excessive unions, etc. Use repair waves for prioritized fixes.')
+    lines.push('')
+    return lines.join('\n')
+  },
+
   'type-import'(data, ctx) {
     const lines = []
     const files = Array.isArray(data.files) ? data.files : []
@@ -1250,6 +1454,165 @@ export const SUMMARY_RENDERERS = {
     lines.push('')
     lines.push('- This is a *signal* index. Use the full report: `client/.audit-reports/unused-code-audit.md`.')
     lines.push('- Heuristic-based detection may have false positives - manual review required.')
+    lines.push('')
+    return lines.join('\n')
+  },
+
+  'data-flow-health'(data, ctx) {
+    const lines = []
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    const files = Array.isArray(data.files) ? data.files : []
+    const waves = data.repairWaves || { contained: [], moderate: [], systemic: [] }
+    const inputAudits = data.inputAudits || {}
+    const skippedRules = Array.isArray(data.skippedRules) ? data.skippedRules : []
+    const flowMaps = data.flowMaps || {}
+    lines.push('# Data Flow Health Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Overview')
+    lines.push('')
+    lines.push('| Metric | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Total scanned | ${data.totalScanned ?? 0} |`)
+    lines.push(`| Findings | ${findings.length} |`)
+    lines.push(`| Phase A (per-file) | ${findings.filter(f => f.phase === 'A').length} |`)
+    lines.push(`| Phase B (cross-file) | ${findings.filter(f => f.phase === 'B').length} |`)
+    lines.push(`| Files with findings | ${files.length} |`)
+    lines.push('')
+    lines.push('## Input Audit Status')
+    lines.push('')
+    lines.push('| Input | Available |')
+    lines.push('| --- | --- |')
+    lines.push(`| import-graph | ${inputAudits.importGraph?.available ? 'Yes' : 'No'} |`)
+    lines.push(`| api-contract | ${inputAudits.apiContract?.available ? 'Yes' : 'No'} |`)
+    lines.push(`| type-inventory | ${inputAudits.typeInventory?.available ? 'Yes' : 'No'} |`)
+    lines.push('')
+    if (skippedRules.length > 0) {
+      lines.push(`Skipped rules: ${skippedRules.map(r => '`' + r + '`').join(', ')}`)
+      lines.push('')
+    }
+    lines.push(...renderDeltaFirstBlock(ctx))
+    const byRule = {}
+    for (const f of findings) {
+      byRule[f.ruleId] = (byRule[f.ruleId] || 0) + 1
+    }
+    const sortedRules = Object.entries(byRule).sort((a, b) => b[1] - a[1])
+    lines.push('## By rule')
+    lines.push('')
+    lines.push('| Rule | Phase | Severity | Count |')
+    lines.push('| --- | --- | --- | ---: |')
+    for (const [rule, count] of sortedRules) {
+      const ruleset = Array.isArray(data.ruleset) ? data.ruleset : []
+      const meta = ruleset.find(r => r.ruleId === rule)
+      lines.push(`| ${rule} | ${meta?.phase ?? '?'} | ${meta?.severity ?? 'info'} | ${count} |`)
+    }
+    lines.push('')
+    lines.push('## Flow Maps')
+    lines.push('')
+    lines.push(`- Provide sites: **${flowMaps.provideSites ?? 0}**`)
+    lines.push(`- Inject sites: **${flowMaps.injectSites ?? 0}**`)
+    lines.push(`- Matched pairs: **${flowMaps.matchedPairs ?? 0}**`)
+    lines.push(`- Unmatched provides: **${flowMaps.unmatchedProvides ?? 0}**`)
+    lines.push(`- Unmatched injects: **${flowMaps.unmatchedInjects ?? 0}**`)
+    lines.push('')
+    lines.push('## Repair waves')
+    lines.push('')
+    lines.push(`- **Contained** (affectedFiles ≤ 2 or per-file): ${(waves.contained || []).length}`)
+    lines.push(`- **Moderate** (affectedFiles 3–5): ${(waves.moderate || []).length}`)
+    lines.push(`- **Systemic** (affectedFiles ≥ 6): ${(waves.systemic || []).length}`)
+    lines.push('')
+    if (findings.length > 0) {
+      const topFlow = findings.filter(f => f.affectedFiles > 1).sort((a, b) => (b.affectedFiles ?? 0) - (a.affectedFiles ?? 0)).slice(0, 10)
+      if (topFlow.length > 0) {
+        lines.push('## Top flow paths by affected file count')
+        lines.push('')
+        lines.push('| File | Rule | Phase | Affected |')
+        lines.push('| --- | --- | --- | ---: |')
+        for (const f of topFlow) {
+          lines.push(`| \`${f.file}\` | ${f.ruleId} | ${f.phase} | ${f.affectedFiles ?? 0} |`)
+        }
+        lines.push('')
+      }
+    }
+    const MAX_ROWS = 20
+    if (files.length > 0) {
+      lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files by severity`)
+      lines.push('')
+      lines.push('| File | Priority | Score |')
+      lines.push('| --- | --- | ---: |')
+      for (const f of files.slice(0, MAX_ROWS)) {
+        lines.push(`| \`${f.file}\` | ${f.priority || 'P2'} | ${f.score || 0} |`)
+      }
+      if (files.length > MAX_ROWS) {
+        lines.push('')
+        lines.push(`*...and ${files.length - MAX_ROWS} more. See full report.*`)
+      }
+      lines.push('')
+    }
+    lines.push('## Notes')
+    lines.push('')
+    lines.push('- Full report: `client/.audit-reports/data-flow-health-audit.md`. Phase A = per-file rules, Phase B = cross-file correlation using import-graph, api-contract, and type-inventory audits.')
+    lines.push('- Repair waves prioritize fixes: contained (isolated) → moderate (flow path) → systemic (architectural refactor).')
+    lines.push('')
+    return lines.join('\n')
+  },
+
+  'composable-health'(data, ctx) {
+    const lines = []
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    const files = Array.isArray(data.files) ? data.files : []
+    const waves = data.repairWaves || { local: [], lowFanIn: [], highFanIn: [] }
+    lines.push('# Composable-Health Audit Summary (Generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push('## Overview')
+    lines.push('')
+    lines.push('| Metric | Count |')
+    lines.push('| --- | ---: |')
+    lines.push(`| Total scanned | ${data.totalScanned ?? 0} |`)
+    lines.push(`| Findings | ${findings.length} |`)
+    lines.push(`| Files with findings | ${files.length} |`)
+    lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
+    const byRule = {}
+    for (const f of findings) {
+      byRule[f.ruleId] = (byRule[f.ruleId] || 0) + 1
+    }
+    const sortedRules = Object.entries(byRule).sort((a, b) => b[1] - a[1])
+    lines.push('## By rule')
+    lines.push('')
+    lines.push('| Rule | Severity | Count |')
+    lines.push('| --- | --- | ---: |')
+    for (const [rule, count] of sortedRules) {
+      const ruleset = Array.isArray(data.ruleset) ? data.ruleset : []
+      const meta = ruleset.find(r => r.ruleId === rule)
+      lines.push(`| ${rule} | ${meta?.severity ?? 'info'} | ${count} |`)
+    }
+    lines.push('')
+    lines.push('## Repair waves')
+    lines.push('')
+    lines.push(`- **Local** (not exported or zero consumers): ${(waves.local || []).length}`)
+    lines.push(`- **Low fan-in** (exported, 1–3 consumers): ${(waves.lowFanIn || []).length}`)
+    lines.push(`- **High fan-in** (exported, 4+ consumers): ${(waves.highFanIn || []).length}`)
+    lines.push('')
+    const MAX_ROWS = 20
+    lines.push(`## Top ${Math.min(files.length, MAX_ROWS)} files by severity`)
+    lines.push('')
+    lines.push('| File | Priority | Score |')
+    lines.push('| --- | --- | ---: |')
+    for (const f of files.slice(0, MAX_ROWS)) {
+      lines.push(`| \`${f.file}\` | ${f.priority || 'P2'} | ${f.score || 0} |`)
+    }
+    if (files.length > MAX_ROWS) {
+      lines.push('')
+      lines.push(`*...and ${files.length - MAX_ROWS} more. See full report.*`)
+    }
+    lines.push('')
+    lines.push('## Notes')
+    lines.push('')
+    lines.push('- Full report: `client/.audit-reports/composable-health-audit.md`. Rules: missing return types, oversized return surfaces, module-level reactive state, etc. Use repair waves for prioritized fixes.')
     lines.push('')
     return lines.join('\n')
   },

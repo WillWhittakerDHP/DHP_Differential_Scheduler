@@ -4,12 +4,12 @@ import type { GlobalEntityKey } from '@/constants/entities'
 
 export interface UseRelationshipCollectionDataOptions {
   parentEntityId: ComputedRef<string> | Ref<string> | string
-  parentEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
-  childEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
-  shapeEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
-  relationshipKey: ComputedRef<string> | string
-  optionsFieldKey: ComputedRef<string> | string
-  parentTypeEntityKey: ComputedRef<GlobalEntityKey> | GlobalEntityKey
+  parentEntityKey: ComputedRef<GlobalEntityKey> | Ref<GlobalEntityKey> | GlobalEntityKey
+  childEntityKey: ComputedRef<GlobalEntityKey> | Ref<GlobalEntityKey> | GlobalEntityKey
+  shapeEntityKey: ComputedRef<GlobalEntityKey> | Ref<GlobalEntityKey> | GlobalEntityKey
+  relationshipKey: ComputedRef<string> | Ref<string> | string
+  optionsFieldKey: ComputedRef<string> | Ref<string> | string
+  parentTypeEntityKey: ComputedRef<GlobalEntityKey> | Ref<GlobalEntityKey> | GlobalEntityKey
   parentTypeRef: ComputedRef<string | null> | Ref<string | null> | string | null
   shapeRefProperty: string
 }

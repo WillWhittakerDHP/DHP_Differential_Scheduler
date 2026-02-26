@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { UseRelationshipCollectionDataReturnBase } from '@/types/admin/relationshipCollectionData'
 
@@ -34,7 +34,7 @@ export interface RelationshipCollectionModel extends UseRelationshipCollectionDa
 }
 
 export interface UseRelationshipCollectionOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   nameGenerator?: NameGenerator
   enableBulkEdit?: boolean
   bulkEditComposable?: (collectionModel: RelationshipCollectionModel) => {

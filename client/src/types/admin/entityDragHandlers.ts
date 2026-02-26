@@ -1,7 +1,7 @@
 import type { Ref, ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { OrderIndexUpdate } from '@/composables/entityCrud/useEntityCrudTypes'
+import type { OrderIndexUpdate } from '@/types/entityCrud/entityCrudTypes'
 
 export type PatchOrderIndex = (updates: OrderIndexUpdate) => Promise<void>
 

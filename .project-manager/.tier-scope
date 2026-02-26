@@ -4,5 +4,5 @@ phase.id=
 phase.name=
 session.id=
 session.name=
-task.id=6.3.2.5
-task.name=Update admin status dropdown to respect transition guards
+task.id=
+task.name=

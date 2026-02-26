@@ -20,7 +20,7 @@ import type {
   UseAddressAutocompleteReturn,
 } from '@/types/addressAutocomplete'
 
-export type { SelectionResult, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn } from '@/types/addressAutocomplete'
+export type { Coordinates, PlaceDetails, MapsApiError } from '@/services/mapsApiService'
 
 const logger = createLogger('useAddressAutocomplete')
 

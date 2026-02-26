@@ -65,7 +65,7 @@
             <div class="d-flex align-center gap-2 flex-grow-1">
               <VIcon icon="tabler-plus" size="small" class="text-primary" />
               <span>{{ getShapeName(shape.id) }}</span>
-              <span class="text-caption text-medium-emphasis ml-2">{{ placeholderText }}</span>
+              <span class="text-body-small text-medium-emphasis ml-2">{{ placeholderText }}</span>
             </div>
           </template>
           
@@ -114,7 +114,7 @@ import { computed, defineAsyncComponent } from 'vue'
 const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useRelationshipCollectionField } from '@/composables/admin/useRelationshipCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -122,7 +122,7 @@ import type { GlobalEntity } from '@/types/entities'
 type CollectionType = 'parts' | 'annotations' | 'events'
 
 interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   collectionType?: CollectionType
   bulkEditModalComponent?: unknown
   nameGenerator?: (
@@ -145,7 +145,7 @@ const { parentEntity, childEntityKey, relationshipKey: _relationshipKey } = fiel
 
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType
-  const fieldKey = String(props.fieldContext.fieldKey)
+  const fieldKey = String(props.fieldContext.state.fieldKey)
   if (fieldKey.includes('annotation')) return 'annotations'
   if (fieldKey.includes('event')) return 'events'
   return 'parts' // default

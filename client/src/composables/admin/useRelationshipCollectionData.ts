@@ -3,7 +3,7 @@
 
 PATTERN: Composable that manage...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed, unref } from 'vue'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -16,12 +16,6 @@ import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type {
   UseRelationshipCollectionDataOptions,
-  UseRelationshipCollectionDataReturn
-} from '@/types/admin/relationshipCollectionData'
-
-export type {
-  UseRelationshipCollectionDataOptions,
-  UseRelationshipCollectionDataReturnBase,
   UseRelationshipCollectionDataReturn
 } from '@/types/admin/relationshipCollectionData'
 
@@ -44,47 +38,13 @@ export function useRelationshipCollectionData(
     shapeRefProperty
   } = options
   
-  const parentEntityIdRef = typeof parentEntityId === 'string' 
-    ? computed(() => parentEntityId)
-    : typeof parentEntityId === 'object' && 'value' in parentEntityId
-    ? computed(() => parentEntityId.value)
-    : parentEntityId as ComputedRef<string>
-  
-  const childEntityKey = typeof childEntityKeyInput === 'string'
-    ? computed(() => childEntityKeyInput as GlobalEntityKey)
-    : typeof childEntityKeyInput === 'object' && 'value' in childEntityKeyInput
-    ? computed(() => childEntityKeyInput.value as GlobalEntityKey)
-    : childEntityKeyInput as ComputedRef<GlobalEntityKey>
-  
-  const shapeEntityKey = typeof shapeEntityKeyInput === 'string'
-    ? computed(() => shapeEntityKeyInput as GlobalEntityKey)
-    : typeof shapeEntityKeyInput === 'object' && 'value' in shapeEntityKeyInput
-    ? computed(() => shapeEntityKeyInput.value as GlobalEntityKey)
-    : shapeEntityKeyInput as ComputedRef<GlobalEntityKey>
-  
-  const relationshipKey = typeof relationshipKeyInput === 'string'
-    ? computed(() => relationshipKeyInput)
-    : typeof relationshipKeyInput === 'object' && 'value' in relationshipKeyInput
-    ? computed(() => relationshipKeyInput.value)
-    : relationshipKeyInput as ComputedRef<string>
-  
-  const optionsFieldKey = typeof optionsFieldKeyInput === 'string'
-    ? computed(() => optionsFieldKeyInput)
-    : typeof optionsFieldKeyInput === 'object' && 'value' in optionsFieldKeyInput
-    ? computed(() => optionsFieldKeyInput.value)
-    : optionsFieldKeyInput as ComputedRef<string>
-  
-  const parentTypeEntityKey = typeof parentTypeEntityKeyInput === 'string'
-    ? computed(() => parentTypeEntityKeyInput as GlobalEntityKey)
-    : typeof parentTypeEntityKeyInput === 'object' && 'value' in parentTypeEntityKeyInput
-    ? computed(() => parentTypeEntityKeyInput.value as GlobalEntityKey)
-    : parentTypeEntityKeyInput as ComputedRef<GlobalEntityKey>
-  
-  const parentTypeRef = typeof parentTypeRefInput === 'string' || parentTypeRefInput === null
-    ? computed(() => parentTypeRefInput)
-    : typeof parentTypeRefInput === 'object' && 'value' in parentTypeRefInput
-    ? computed(() => parentTypeRefInput.value)
-    : parentTypeRefInput as ComputedRef<string | null>
+  const parentEntityIdRef = computed(() => unref(parentEntityId))
+  const childEntityKey = computed(() => unref(childEntityKeyInput) as GlobalEntityKey)
+  const shapeEntityKey = computed(() => unref(shapeEntityKeyInput) as GlobalEntityKey)
+  const relationshipKey = computed(() => unref(relationshipKeyInput))
+  const optionsFieldKey = computed(() => unref(optionsFieldKeyInput))
+  const parentTypeEntityKey = computed(() => unref(parentTypeEntityKeyInput) as GlobalEntityKey)
+  const parentTypeRef = computed(() => unref(parentTypeRefInput))
   
   const { getGlobalEntityById } = useGlobal()
   const adminComp = useAdmin()

@@ -6,7 +6,7 @@ WHY: Moves field selection and layout log...
 import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldsByLayout } from '@/types/forms/layoutFieldCategorization'
 import type { UseEntityCardLayoutOptions, UseEntityCardLayoutReturn } from '@/types/admin/entityCardLayout'
 import { asEmptyArray } from '@/utils/safeDefaults'
@@ -33,7 +33,7 @@ export function useEntityCardLayout(
   
   const getFieldContext = (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
-  ): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined => {
+  ): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined => {
     if (!formContentRef.value) return undefined
     return formContentRef.value.getFieldContext?.(fieldKey)
   }

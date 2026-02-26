@@ -4,11 +4,12 @@
 WHY: Components should be thin UI wrappers - s...
  */
 import { computed } from 'vue'
-import { useComponentEntity } from '../useComponentEntity'
+import { useComponentEntity, type UseComponentEntityReturn } from '../useComponentEntity'
 import { useAdmin } from './useAdmin'
 import type { UseEntityStatusOptions, UseEntityStatusReturn } from '@/types/admin/entityStatus'
 
-export type { UseEntityStatusOptions, UseEntityStatusReturn } from '@/types/admin/entityStatus'
+type ComponentEntityData = UseComponentEntityReturn<'blockInstance'>['data']
+
 
 /**
  * WHY: Entity Status Composable
@@ -25,18 +26,18 @@ export function useEntityStatus(
   const componentEntityComposable = entityKey === 'blockInstance'
     ? useComponentEntity('blockInstance')
     : null
-  
-  const {
-    getComponents,
-    isComponent: isComponentMethod,
-    getComposerId,
-    canBeComposed
-  } = componentEntityComposable || {
-    getComponents: () => [],
-    isComponentMethod: () => false,
-    getComposerId: () => null,
-    canBeComposed: () => false
+
+  const fallbackData = {
+    getComponents: (): ReturnType<ComponentEntityData['getComponents']> => [],
+    isComponent: () => false,
+    getComposerId: () => null as ReturnType<ComponentEntityData['getComposerId']>,
+    canBeComposed: () => false,
   }
+  const data = componentEntityComposable?.data ?? fallbackData
+  const getComponents = data.getComponents
+  const isComponentMethod = data.isComponent
+  const getComposerId = data.getComposerId
+  const canBeComposed = data.canBeComposed
 
   const isComposer = computed(() => {
     if (entityKey !== 'blockInstance' || !componentEntityComposable) return false

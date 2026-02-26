@@ -9,7 +9,7 @@ export interface PropertyRequest extends PropertyAddressBase, PropertyDetailsBas
 }
 
 export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBase {
-  id: string // PropertyVersion ID (for backward compatibility)
+  id: string // PropertyVersion ID
   propertyVersionId: string
   addressId: string
   placeId?: string | null

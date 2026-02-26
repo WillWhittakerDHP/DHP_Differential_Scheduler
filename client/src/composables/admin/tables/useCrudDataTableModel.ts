@@ -1,19 +1,17 @@
 import { computed, ref } from 'vue'
 import type {
-  CrudDataTableModel,
+  CrudDataTableModelGrouped,
   CrudDataTableModelOptions,
 } from '@/types/admin/tables/crudDataTableModel'
+import { createLogger } from '@/utils/logger'
 
-export type {
-  CrudDataTableModel,
-  CrudDataTableModelOptions,
-} from '@/types/admin/tables/crudDataTableModel'
+const logger = createLogger('useCrudDataTableModel')
 
 export function useCrudDataTableModel<
   TableItem extends { id: string },
   CreatePayload extends object,
   UpdatePayload extends object
->(options: CrudDataTableModelOptions<TableItem, CreatePayload, UpdatePayload>): CrudDataTableModel<
+>(options: CrudDataTableModelOptions<TableItem, CreatePayload, UpdatePayload>): CrudDataTableModelGrouped<
   TableItem,
   CreatePayload,
   UpdatePayload
@@ -38,10 +36,10 @@ export function useCrudDataTableModel<
   const error = computed<unknown>(() => errorSource.value)
 
   const editingId = ref<string | null>(null)
-  const editedData = ref<Partial<UpdatePayload>>({}) as Ref<Partial<UpdatePayload>>
+  const editedData = ref<Partial<UpdatePayload>>({})
 
   const isCreating = ref<boolean>(false)
-  const newItem = ref<CreatePayload>(getCreateDefaults()) as Ref<CreatePayload>
+  const newItem = ref<CreatePayload>(getCreateDefaults())
 
   const showDeleteDialog = ref<boolean>(false)
   const deletingId = ref<string | null>(null)
@@ -63,7 +61,8 @@ export function useCrudDataTableModel<
       await updateItem(editingId.value, editedData.value as UpdatePayload)
       notifySuccess(`${entityLabel} updated successfully`)
       cancelEdit()
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to update', { error, entityLabel, editingId: editingId.value })
       notifyError(`Failed to update ${entityLabel.toLowerCase()}`)
     }
   }
@@ -89,7 +88,8 @@ export function useCrudDataTableModel<
       await createItem(newItem.value)
       notifySuccess(`${entityLabel} created successfully`)
       cancelCreate()
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to create', { error, entityLabel })
       notifyError(`Failed to create ${entityLabel.toLowerCase()}`)
     }
   }
@@ -111,31 +111,26 @@ export function useCrudDataTableModel<
       await deleteItem(deletingId.value)
       notifySuccess(`${entityLabel} deleted successfully`)
       cancelDelete()
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to delete', { error, entityLabel, deletingId: deletingId.value })
       notifyError(`Failed to delete ${entityLabel.toLowerCase()}`)
     }
   }
 
   return {
-    items,
-    isLoading,
-    error,
-    editingId,
-    editedData,
-    isCreating,
-    newItem,
-    showDeleteDialog,
-    deletingId,
-    startEdit,
-    cancelEdit,
-    saveEdit,
-    startCreate,
-    cancelCreate,
-    saveCreate,
-    openDeleteDialog,
-    cancelDelete,
-    confirmDelete,
+    data: { items, isLoading, error },
+    editState: { editingId, editedData, isCreating, newItem },
+    dialogs: { showDeleteDialog, deletingId },
+    actions: {
+      startEdit,
+      cancelEdit,
+      saveEdit,
+      startCreate,
+      cancelCreate,
+      saveCreate,
+      openDeleteDialog,
+      cancelDelete,
+      confirmDelete,
+    },
   }
 }
-
-

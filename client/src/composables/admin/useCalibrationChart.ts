@@ -15,7 +15,6 @@ import { getLineChartConfig } from '@/@core/libs/chartjs/chartjsConfig'
 import type { ChartData, ChartOptions } from 'chart.js'
 import type { UseCalibrationChartReturn } from '@/types/admin/calibrationChart'
 
-export type { UseCalibrationChartReturn, SvgChartShape } from '@/types/admin/calibrationChart'
 
 const DEFAULT_SQFT_MIN = 0
 const DEFAULT_SQFT_MAX = 5000

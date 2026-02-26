@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { useAttendeeQuickSelect } from '@/composables/admin/useAttendeeQuickSelect'
 import type { UseSelectInputsAsyncOptions, UseSelectInputsAsyncReturn } from '@/types/admin/selectInputsAsync'
 
-export type { UseSelectInputsAsyncOptions, UseSelectInputsAsyncReturn } from '@/types/admin/selectInputsAsync'
 
 export function useSelectInputsAsync(
   options: UseSelectInputsAsyncOptions

@@ -1,5 +1,6 @@
+import type { Ref } from 'vue'
 import { inject } from 'vue'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useFieldValue } from '@/composables/useFieldValue'
@@ -7,12 +8,19 @@ import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCard
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 import type { UseFieldInputSetupOptions } from '@/types/admin/fieldInputSetup'
 
-export type { UseFieldInputSetupOptions } from '@/types/admin/fieldInputSetup'
+
+export interface UseFieldInputSetupReturn {
+  fieldValue: Ref<unknown>
+  handleChange: (value: string) => void
+  handleFocus: () => void
+  handleBlur: () => Promise<void>
+  handleKeydown: (e: KeyboardEvent) => void
+}
 
 export function useFieldInputSetup(
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>,
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>,
   options: UseFieldInputSetupOptions = {}
-) {
+): UseFieldInputSetupReturn {
   const { fieldType } = options
   const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
@@ -24,7 +32,7 @@ export function useFieldInputSetup(
   const fieldValue = useFieldValue(fieldContext)
 
   const handleChange = (value: string) => {
-    fieldContext.setValue(value)
+    fieldContext.actions.setValue(value)
   }
 
   // FIX: Use shared field input handlers from composable

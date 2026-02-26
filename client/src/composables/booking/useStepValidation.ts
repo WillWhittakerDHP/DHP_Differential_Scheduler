@@ -1,16 +1,10 @@
 /**
+import type { ValidationRule } from '@/types/formValidation'
  * PATTERN: useStepValidation Composable
 PATTERN: Accepts dynamic validation rules a...
  */
 import { computed, ref, type ComputedRef } from 'vue'
-import type { ValidationRule } from '@/composables/useFormValidation'
 import type {
-  CustomValidator,
-  UseStepValidationParams,
-  UseStepValidationReturn,
-} from '@/types/booking/stepValidation'
-
-export type {
   CustomValidator,
   UseStepValidationParams,
   UseStepValidationReturn,

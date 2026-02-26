@@ -12,7 +12,6 @@ import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import { createLogger } from '@/utils/logger'
 import type { UseFieldComponentOptions, UseFieldComponentReturn } from '@/types/admin/fieldComponent'
 
-export type { UseFieldComponentOptions, UseFieldComponentReturn } from '@/types/admin/fieldComponent'
 
 const logger = createLogger('useFieldComponent')
 
@@ -70,12 +69,15 @@ export function useFieldComponent(
   const componentType = computed(() => {
     if (!fieldKeyRef.value) {
       const result = { type: 'unknown' as const, reason: 'notConfigured' as const }
-      logger.warn('Unknown component type - missing fieldKey', {
-        entityKey: entityKeyRef.value,
-        fieldKey: fieldKeyRef.value,
-        fieldMetadataEntry: fieldMetadataEntry.value,
-        reason: result.reason
-      })
+      // Only warn when context is partially set (suggests a bug). When both are undefined, skip to avoid console spam during mount/transient state.
+      if (entityKeyRef.value !== undefined && entityKeyRef.value !== null) {
+        logger.warn('Unknown component type - missing fieldKey', {
+          entityKey: entityKeyRef.value,
+          fieldKey: fieldKeyRef.value,
+          fieldMetadataEntry: fieldMetadataEntry.value,
+          reason: result.reason
+        })
+      }
       return result
     }
     if (!entityKeyRef.value) {

@@ -1,5 +1,5 @@
 import type { UseMutationReturnType } from '@tanstack/vue-query'
-import type { UpdateByIdPayload } from '@/composables/businessDataCollections/types'
+import type { UpdateByIdPayload } from '@/types/collectionTypes'
 
 export interface DataCollectionCrudConfig<
   CollectionItem extends { id: string },

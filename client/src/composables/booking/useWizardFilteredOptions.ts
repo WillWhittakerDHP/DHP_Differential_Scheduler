@@ -10,11 +10,6 @@ import type {
   UseWizardFilteredOptionsReturn,
 } from '@/types/booking/wizardFilteredOptions'
 
-export type {
-  UseWizardFilteredOptionsParams,
-  UseWizardFilteredOptionsReturn,
-} from '@/types/booking/wizardFilteredOptions'
-
 export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams): UseWizardFilteredOptionsReturn {
   const {
     bookingData,

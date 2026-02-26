@@ -5,7 +5,6 @@ WHY: Encapsulates expansion state...
 import { ref, computed, watch, isRef } from 'vue'
 import type { UseEntityCardExpansionOptions, UseEntityCardExpansionReturn } from '@/types/admin/entityCardExpansion'
 
-export type { UseEntityCardExpansionOptions, UseEntityCardExpansionReturn } from '@/types/admin/entityCardExpansion'
 
 export function useEntityCardExpansion(
   options: UseEntityCardExpansionOptions

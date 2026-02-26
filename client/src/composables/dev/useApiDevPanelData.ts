@@ -21,15 +21,6 @@ import type {
   UseApiDevPanelDataReturn,
 } from '@/types/dev/apiDevPanelData'
 
-export type {
-  OAuthStatusShape,
-  RateLimitShape,
-  DevPanelCacheEntry,
-  DevPanelCacheStats,
-  DevPanelCacheShape,
-  UseApiDevPanelDataReturn,
-} from '@/types/dev/apiDevPanelData'
-
 const logger = createLogger('ApiDevPanel')
 
 function handleRateLimitResponse(

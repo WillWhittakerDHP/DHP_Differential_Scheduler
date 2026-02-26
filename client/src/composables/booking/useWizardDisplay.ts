@@ -11,10 +11,6 @@ import type {
 } from '@/types/booking/wizardDisplay'
 
 export type { WizardStepConfig }
-export type {
-  UseWizardDisplayParams,
-  UseWizardDisplayReturn,
-} from '@/types/booking/wizardDisplay'
 
 export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDisplayReturn {
   const {
@@ -74,4 +70,3 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     loadedPropertyAddress
   }
 }
-

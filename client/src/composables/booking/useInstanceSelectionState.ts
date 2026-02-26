@@ -8,12 +8,6 @@ import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import type { UseInstanceSelectionStateParams, UseInstanceSelectionStateReturn } from '@/types/booking/instanceSelectionState'
 
-export type {
-  GenericWizardInstance,
-  UseInstanceSelectionStateParams,
-  UseInstanceSelectionStateReturn,
-} from '@/types/booking/instanceSelectionState'
-
 /**
  * PATTERN: useInstanceSelectionState composable
 
@@ -87,4 +81,3 @@ export function useInstanceSelectionState(
     selectedIds
   }
 }
-

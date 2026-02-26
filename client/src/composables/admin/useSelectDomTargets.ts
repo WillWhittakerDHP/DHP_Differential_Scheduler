@@ -7,8 +7,6 @@ import { computed } from 'vue'
 import type { UseSelectDomTargetsOptions, UseSelectDomTargetsReturn } from '@/types/admin/selectDomTargets'
 
 export type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
-export type { SelectGroup } from '@/types/entity/selectOptions'
-export type { UseSelectDomTargetsOptions, UseSelectDomTargetsReturn } from '@/types/admin/selectDomTargets'
 
 /**
  * WHY: Select DOM targets composable
@@ -20,7 +18,7 @@ export function useSelectDomTargets(
   const { fieldContext, shouldUseMultipleSelects, groupedByKey } = options
 
   const selectDomTargets = computed(() => {
-    const fieldKeyString = String(fieldContext.fieldKey)
+    const fieldKeyString = String(fieldContext.state.fieldKey)
 
     if (shouldUseMultipleSelects.value) {
       // WHY: Functional approach avoids mutations, aligns with workspace rules

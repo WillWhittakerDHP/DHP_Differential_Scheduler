@@ -2,18 +2,20 @@
  * WHY: Component-logic audit - move watch and async fetchResults out of NavSearchBar.
  */
 import { ref, watch } from 'vue'
+import type { Ref } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
 import { withQuery } from 'ufo'
 import api from '@/utils/api'
 
 export interface SearchResultsGroup {
   title: string
-  children: Array<{ icon: string; title: string; url: unknown }>
+  children: Array<{ icon: string; title: string; url: RouteLocationRaw }>
 }
 
 export function useNavSearch(): {
-  searchQuery: ReturnType<typeof ref<string>>
-  searchResult: ReturnType<typeof ref<SearchResultsGroup[]>>
-  isLoading: ReturnType<typeof ref<boolean>>
+  searchQuery: Ref<string>
+  searchResult: Ref<SearchResultsGroup[]>
+  isLoading: Ref<boolean>
   fetchResults: () => Promise<void>
 } {
   const searchQuery = ref('')

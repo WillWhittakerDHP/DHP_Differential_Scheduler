@@ -1,15 +1,19 @@
 /**
  * Entity display name and message formatters.
  */
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { InstanceConfig } from '@/configs/adminConfig'
+import type { GlobalEntity } from '@/types/entities'
+import { createLogger } from '@/utils/logger'
 import {
   getEntityDeleteTitle as getEntityDeleteTitleText,
   getEntitySuccessMessage as getEntitySuccessMessageText,
   getEntityCreateMessage as getEntityCreateMessageText,
 } from '@/utils/admin/entityDisplayText'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
+
+import type { InstanceConfig } from '@/configs/adminConfig'
+
+const logger = createLogger('entityDisplay')
 
 export interface EntityDisplayConfig {
   getInstanceConfig: (entityKey: GlobalEntityKey) => { value: InstanceConfig[GlobalEntityKey] }
@@ -36,7 +40,8 @@ export function entityDisplay(adminConfig: EntityDisplayConfig): EntityDisplayRe
         return value !== undefined && value !== null && value !== '' ? String(value) : ''
       }
       return entity.name || `${entityKey} ${entity.id}`
-    } catch {
+    } catch (err) {
+      logger.warn('getEntityDisplayName failed', { entityKey, entityId: entity.id, error: err })
       return entity.name || `${entityKey} ${entity.id}`
     }
   }

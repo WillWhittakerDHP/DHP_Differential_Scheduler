@@ -3,7 +3,7 @@ import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { useAdminConfig } from '@/composables/useAdminConfig'
 
 export interface UseFormFieldsContextReturn {
@@ -11,9 +11,9 @@ export interface UseFormFieldsContextReturn {
   formInstance: ComputedRef<FormContext | undefined>
   currentEntityId: ComputedRef<GlobalEntityId>
   isFormReady: ComputedRef<boolean>
-  fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
+  fieldContextCache: Ref<Map<string, FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
   fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   getFieldContext: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
     fieldKey: FieldKey
-  ) => FieldContextType<GE, FieldKey> | undefined
+  ) => FieldContextTypeGrouped<GE, FieldKey> | undefined
 }

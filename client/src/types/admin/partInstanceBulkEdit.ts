@@ -1,7 +1,8 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
+import type { PartPricingFields } from '@/types/admin/partPricing'
 
-export interface PartInstanceBulkEditData {
+export interface PartInstanceBulkEditData extends PartPricingFields {
   [fieldKey: string]: number | null | undefined
 }
 

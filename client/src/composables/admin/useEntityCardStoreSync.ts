@@ -7,7 +7,6 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseEntityCardStoreSyncOptions, UseEntityCardStoreSyncReturn } from '@/types/admin/entityCardStoreSync'
 
-export type { UseEntityCardStoreSyncOptions, UseEntityCardStoreSyncReturn } from '@/types/admin/entityCardStoreSync'
 
 export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   options: UseEntityCardStoreSyncOptions<GE>
@@ -84,6 +83,6 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   }
 
   return {
-    storeEntity: storeEntity as ComputedRef<GlobalEntity<GE> | undefined>
+    storeEntity
   }
 }

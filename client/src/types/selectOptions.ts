@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import type { useAdmin } from '@/composables/admin/useAdmin'
 import type { SelectGroup } from '@/types/entity/selectOptions'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -24,7 +25,7 @@ export interface UseSelectOptionsOptions {
   isMultiple: Ref<boolean>
   rawFieldValue: Ref<unknown>
   fieldKey?: Ref<string>
-  adminComp?: ReturnType<typeof import('@/composables/admin/useAdmin').useAdmin>
+  adminComp?: ReturnType<typeof useAdmin>
 }
 
 export interface UseSelectOptionsReturn {

@@ -10,8 +10,38 @@ import {
 } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import type { UseBusinessControlsFormStateParams } from '@/types/admin/businessControlsFormState'
+import type { CalendarEntry } from '@/configs/availabilitySettings'
+import type { Ref } from 'vue'
 
-export function useCalendarHoldFormState(params: UseBusinessControlsFormStateParams) {
+/** Grouped return for composable-health (oversized-return repair). */
+export interface UseCalendarHoldFormStateReturn {
+  fields: {
+    calendarEnabled: import('vue').ComputedRef<boolean>
+    calendarProvider: import('vue').ComputedRef<CalendarProvider>
+    holdDurationMinutes: import('vue').ComputedRef<number>
+    holdDurationMin: import('vue').ComputedRef<number>
+    holdDurationMax: import('vue').ComputedRef<number>
+    holdDurationFallback: import('vue').ComputedRef<number>
+    calendarEntries: Ref<CalendarEntry[]>
+    writeToIndex: Ref<number>
+    calendarValidationError: Ref<string | null>
+  }
+  actions: {
+    addCalendarEntry: () => void
+    removeCalendarEntry: (index: number) => void
+    updateCalendarEntry: (index: number, updates: Partial<CalendarEntry>) => void
+    setReadFrom: (index: number, value: boolean) => void
+    setWriteTo: (index: number, value: boolean) => void
+    clearError: () => void
+    setCalendarProvider: (v: string) => void
+  }
+  ui: {
+    emailValidationRule: (value: string) => true | string
+    saveButtonProps: import('vue').ComputedRef<{ type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }>
+  }
+}
+
+export function useCalendarHoldFormState(params: UseBusinessControlsFormStateParams): UseCalendarHoldFormStateReturn {
   const { formData, saving, error } = params
   const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
@@ -126,23 +156,29 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
   }
 
   return {
-    calendarEnabled,
-    calendarProvider,
-    holdDurationMinutes,
-    holdDurationMin,
-    holdDurationMax,
-    holdDurationFallback,
-    calendarEntries,
-    addCalendarEntry,
-    removeCalendarEntry,
-    updateCalendarEntry,
-    setReadFrom,
-    setWriteTo,
-    writeToIndex,
-    calendarValidationError,
-    emailValidationRule,
-    saveButtonProps,
-    clearError,
-    setCalendarProvider,
+    fields: {
+      calendarEnabled,
+      calendarProvider,
+      holdDurationMinutes,
+      holdDurationMin,
+      holdDurationMax,
+      holdDurationFallback,
+      calendarEntries,
+      writeToIndex,
+      calendarValidationError,
+    },
+    actions: {
+      addCalendarEntry,
+      removeCalendarEntry,
+      updateCalendarEntry,
+      setReadFrom,
+      setWriteTo,
+      clearError,
+      setCalendarProvider,
+    },
+    ui: {
+      emailValidationRule,
+      saveButtonProps,
+    },
   }
 }

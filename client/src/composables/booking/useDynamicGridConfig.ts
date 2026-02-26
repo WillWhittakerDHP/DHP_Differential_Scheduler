@@ -8,7 +8,6 @@ import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardG
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import type { UseDynamicGridConfigOptions, UseDynamicGridConfigReturn } from '@/types/booking/dynamicGridConfig'
 
-export type { UseDynamicGridConfigOptions, UseDynamicGridConfigReturn } from '@/types/booking/dynamicGridConfig'
 
 /**
  * WHY: Dynamic grid config composable

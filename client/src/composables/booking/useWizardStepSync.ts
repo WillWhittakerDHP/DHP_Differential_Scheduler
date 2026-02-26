@@ -6,7 +6,6 @@ LEARNING: Syncs local step data and valida...
 import { watch, inject, type Ref } from 'vue'
 import type { UseWizardStepSyncParams } from '@/types/booking/wizardStepSync'
 
-export type { UseWizardStepSyncParams } from '@/types/booking/wizardStepSync'
 
 export function useWizardStepSync<TStepData>(
   params: UseWizardStepSyncParams<TStepData>

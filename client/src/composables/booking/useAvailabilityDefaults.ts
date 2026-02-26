@@ -8,9 +8,9 @@ import { getFirstAvailabilityDate, getTodayDate } from '@/utils/time/timeFormatt
 import { matchLoadedTimeSlots } from '@/composables/booking/useTimeSlotMatching'
 import { toISO8601Date } from '@/utils/datetime'
 import type { TimeSlot } from '@/types/appointment'
+import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
 
-export type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
 
 /**
  * WHY: useAvailabilityDefaults composable
@@ -90,7 +90,7 @@ LEARNING: Stores slot selections key...
       const tempMajorSlot = ref<TimeSlot | null>(null)
       const tempMinorSlot = ref<TimeSlot | null>(null)
       const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({
-        startTime: slot.time as import('@shared/types/primitiveBrands').RFC3339DateTime,
+        startTime: slot.time as RFC3339DateTime,
         endTime: undefined
       }))
       matchLoadedTimeSlots(

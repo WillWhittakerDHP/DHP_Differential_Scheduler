@@ -2,15 +2,16 @@
  * WHY: Component-logic audit - move async load and onMounted out of BetaFeedbackDashboard.
  */
 import { ref, reactive, onMounted } from 'vue'
+import type { Ref } from 'vue'
 import { betaFeedback } from '@/utils/beta/betaFeedback'
 import type { BetaFeedback, BetaFeedbackFilters, BetaFeedbackStats } from '@/types/betaFeedback'
 
 export function useFeedbackDashboard(): {
-  loading: ReturnType<typeof ref<boolean>>
-  items: ReturnType<typeof ref<BetaFeedback[]>>
-  stats: ReturnType<typeof ref<BetaFeedbackStats | null>>
-  detailOpen: ReturnType<typeof ref<boolean>>
-  selectedFeedback: ReturnType<typeof ref<BetaFeedback | null>>
+  loading: Ref<boolean>
+  items: Ref<BetaFeedback[]>
+  stats: Ref<BetaFeedbackStats | null>
+  detailOpen: Ref<boolean>
+  selectedFeedback: Ref<BetaFeedback | null>
   filters: BetaFeedbackFilters
   load: () => Promise<void>
 } {

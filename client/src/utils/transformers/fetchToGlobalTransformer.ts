@@ -142,10 +142,8 @@ function transformApiRelationship(
   }
 }
 
-/**
- * Attach instanceComponents arrays to entities for backward compatibility.
- */
-function attachLegacyInstanceComponents(
+/** Attach instanceComponents arrays to entities. */
+function attachInstanceComponents(
   fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
   fetchedRelationships: FetchedRelationship[]
 ): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
@@ -222,7 +220,7 @@ export class GlobalTransformer {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
   }): GlobalData {
-    const entities = attachLegacyInstanceComponents(
+    const entities = attachInstanceComponents(
       staged.fetchedEntities,
       staged.fetchedRelationships
     )

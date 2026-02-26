@@ -24,7 +24,7 @@ export function getFieldKeys<GE extends GlobalEntityKey>(
   // PATTERN: Extract keys from entity, filter out non-field properties and system fields
   const entityKeys = entity ? Object.keys(entity).filter(key => {
     // PATTERN: Filter out known system/special fields to prevent "Unknown input type" warnings
-    return !SYSTEM_FIELDS.includes(key as typeof SYSTEM_FIELDS[number])
+    return !(SYSTEM_FIELDS as readonly string[]).includes(key)
   }) as GlobalFieldKey<GE>[] : []
 
   // LEARNING: If metadata is available, use it as source of truth for which fields to include

@@ -7,7 +7,7 @@ import { localTime } from '@/utils/time/localTime'
 import { useDevPanelTabs } from '@/composables/dev/useDevPanelTabs'
 import { useApiDevPanelData } from '@/composables/dev/useApiDevPanelData'
 import { useApiDevPanelVisibility } from '@/composables/admin/useApiDevPanelVisibility'
-import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
+import { computedAvailabilityKey } from '@/composables/booking/injectionKeys'
 import DevPanelButtons from '@/components/dev/DevPanelButtons.vue'
 import ApiDevPanelStatusTab from './ApiDevPanelStatusTab.vue'
 import ApiDevPanelDriveTimeTab from './ApiDevPanelDriveTimeTab.vue'
@@ -28,7 +28,7 @@ const isDevMode = isDevModeEnabled()
 const panelRef = ref<HTMLElement | null>(null)
 void panelRef.value // ref used by template
 
-const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
+const computedAvailability = inject(computedAvailabilityKey, null)
 
 // LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
 const rawApiBase = import.meta.env.VITE_API_BASE_URL
@@ -71,7 +71,7 @@ useApiDevPanelVisibility({
       color="info"
     >
       <VCardTitle class="d-flex justify-space-between align-center pa-3">
-        <span class="text-h6">API Dev Panel</span>
+        <span class="text-headline-small">API Dev Panel</span>
         <VBtn
           icon="mdi-close"
           variant="text"

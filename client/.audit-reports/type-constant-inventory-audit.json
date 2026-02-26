@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-02-25T01:18:48.875Z",
+  "generatedAt": "2026-02-25T14:23:17.785Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
       "client/src/composables/**/types.ts",
-      "client/src/configs/**/*.ts"
+      "client/src/configs/**/*.ts",
+      "shared/types/**/*.ts"
     ],
     "constantFilesIncluded": [
       "client/src/constants/**/*.ts"
@@ -35,18 +36,19 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 247,
+    "totalTypeFiles": 264,
     "totalConstantFiles": 23,
     "totalConfigFiles": 29,
     "filesWithInlineTypes": 48,
     "annotated": 65,
-    "unannotated": 234,
+    "unannotated": 251,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 30,
+      "inlineTypesInComposables": 31,
       "configsWithLogic": 5,
-      "duplicateTypeNames": 3,
-      "cleanupCandidates": 0
+      "duplicateTypeNames": 4,
+      "cleanupCandidates": 0,
+      "monomorphicGenerics": 9
     }
   },
   "typeFiles": [
@@ -535,7 +537,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 15,
+      "lineCount": 16,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -630,16 +632,17 @@
       "domainMatch": null,
       "location": "dedicated",
       "exports": [
+        "UseEntityMetadataReturn",
         "UseEntityCardMetadataParams",
         "UseEntityCardMetadataReturn"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 14,
+      "lineCount": 20,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -665,7 +668,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 31,
+      "lineCount": 32,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -690,7 +693,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 15,
+      "lineCount": 16,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -1471,7 +1474,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 8,
+      "lineCount": 9,
       "purpose": "UseInstancesTabEventInstanceDragParams.",
       "reuseTier": "feature",
       "tags": [
@@ -1627,17 +1630,16 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "PartInstanceBulkEditData",
         "UsePartInstanceBulkEditOptions",
         "UsePartInstanceBulkEditReturn"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 3,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 16,
+      "lineCount": 17,
       "purpose": "PartInstanceBulkEditData, UsePartInstanceBulkEditOptions, UsePartInstanceBulkEditReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -1729,6 +1731,31 @@
         "form",
         "crud"
       ],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__admin__partPricing.ts",
+      "repoPath": "client/src/types/admin/partPricing.ts",
+      "name": "partPricing",
+      "directoryDomain": "admin/partPricing.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "PartPricingFields"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 10,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
       "placement": null,
       "priority": null,
       "targetPath": null
@@ -2309,7 +2336,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 13,
+      "lineCount": 14,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -2680,18 +2707,19 @@
       "domainMatch": null,
       "location": "dedicated",
       "exports": [
+        "AppointmentAttendeeRoleLiteral",
         "AttendeeSpecInput",
         "CreateUserMutate",
         "AvailabilityPayload",
         "BlockQuantities"
       ],
       "exportKinds": {
-        "types": 0,
+        "types": 1,
         "interfaces": 4,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 28,
+      "lineCount": 29,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -3050,12 +3078,12 @@
         "UseAvailabilityStepDataReturn"
       ],
       "exportKinds": {
-        "types": 0,
-        "interfaces": 3,
+        "types": 1,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 20,
+      "lineCount": 18,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -3812,7 +3840,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 9,
+      "lineCount": 10,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -4226,7 +4254,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 25,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5008,7 +5036,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 6,
+      "lineCount": 7,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5963,7 +5991,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 32,
+      "lineCount": 33,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6095,7 +6123,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 49,
+      "lineCount": 46,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6611,6 +6639,454 @@
       },
       "alsoExportsRuntime": false,
       "lineCount": 82,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__utils__booking__bookingFinalTypes.ts",
+      "repoPath": "client/src/utils/booking/bookingFinalTypes.ts",
+      "name": "bookingFinalTypes",
+      "directoryDomain": "booking/bookingFinalTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "colocated",
+      "exports": [],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 1,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__appointmentFeeTypes.ts",
+      "repoPath": "shared/types/appointmentFeeTypes.ts",
+      "name": "appointmentFeeTypes",
+      "directoryDomain": "appointmentFeeTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "AppointmentFeeSummaryCreate",
+        "AppointmentFeeEntryCreate",
+        "AppointmentFeeSummary",
+        "FeeEntryBase",
+        "AppointmentFeeBreakdownPayload"
+      ],
+      "exportKinds": {
+        "types": 2,
+        "interfaces": 3,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 76,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__appointmentTypes.ts",
+      "repoPath": "shared/types/appointmentTypes.ts",
+      "name": "appointmentTypes",
+      "directoryDomain": "appointmentTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "AttendeeRequest"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 11,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__availabilityTypes.ts",
+      "repoPath": "shared/types/availabilityTypes.ts",
+      "name": "availabilityTypes",
+      "directoryDomain": "availabilityTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "RFC3339DateTime",
+        "ConstraintEnforcement",
+        "RollingWeekDirection",
+        "ConstraintCategory",
+        "RangeConstraintType",
+        "DriveTimeApplyTo",
+        "DayHours",
+        "DateRangeConfig",
+        "BufferType",
+        "BufferPlacement",
+        "Constraint",
+        "BusyPeriodSource",
+        "TimeRangeBounds",
+        "BusinessHoursConfig",
+        "LeadTimeConfig",
+        "RangeConstraint",
+        "BufferConfig",
+        "OverlapMinutesBase",
+        "CapacityConstraint",
+        "IncomeCapacityFilter",
+        "RollingWeekFilterBase",
+        "ConstraintCheckResult",
+        "WorkCapacityFilter",
+        "DurationRoundingConfig",
+        "ComputedAvailabilityRequest",
+        "ComputedAvailabilityData",
+        "SlotTimeBounds",
+        "SlotAvailabilityResult",
+        "ComputedSlotAvailabilityData"
+      ],
+      "exportKinds": {
+        "types": 12,
+        "interfaces": 17,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 402,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__businessRulesTypes.ts",
+      "repoPath": "shared/types/businessRulesTypes.ts",
+      "name": "businessRulesTypes",
+      "directoryDomain": "businessRulesTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "RuleConfig",
+        "RequiredFieldsRuleConfig",
+        "RequiresAgentRuleConfig",
+        "ConditionalValidationRuleConfig",
+        "ValidationMessageRuleConfig"
+      ],
+      "exportKinds": {
+        "types": 1,
+        "interfaces": 4,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 59,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__calendarTypes.ts",
+      "repoPath": "shared/types/calendarTypes.ts",
+      "name": "calendarTypes",
+      "directoryDomain": "calendarTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "CalendarProvider",
+        "CalendarEntry",
+        "CalendarConfig"
+      ],
+      "exportKinds": {
+        "types": 1,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 34,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__componentTypes.ts",
+      "repoPath": "shared/types/componentTypes.ts",
+      "name": "componentTypes",
+      "directoryDomain": "componentTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "ComponentStrategy",
+        "ComponentConfig"
+      ],
+      "exportKinds": {
+        "types": 1,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 12,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__contactTypes.ts",
+      "repoPath": "shared/types/contactTypes.ts",
+      "name": "contactTypes",
+      "directoryDomain": "contactTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "ContactInfoBase"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 17,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__coreEntityTypes.ts",
+      "repoPath": "shared/types/coreEntityTypes.ts",
+      "name": "coreEntityTypes",
+      "directoryDomain": "coreEntityTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "CoreEntity"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 17,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__identifiable.ts",
+      "repoPath": "shared/types/identifiable.ts",
+      "name": "identifiable",
+      "directoryDomain": "identifiable.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "IdentifiableById"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 7,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__loggerTypes.ts",
+      "repoPath": "shared/types/loggerTypes.ts",
+      "name": "loggerTypes",
+      "directoryDomain": "loggerTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "LogLevel",
+        "AppLogger",
+        "Logger",
+        "LoggerEnvConfig"
+      ],
+      "exportKinds": {
+        "types": 3,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 26,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__mapsTypes.ts",
+      "repoPath": "shared/types/mapsTypes.ts",
+      "name": "mapsTypes",
+      "directoryDomain": "mapsTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "MapsApiErrorType",
+        "RouteLocation",
+        "RouteMatrixStatus",
+        "AutocompletePrediction",
+        "AddressComponents",
+        "Coordinates",
+        "PlaceDetails",
+        "LocationBase",
+        "RouteMatrixResult"
+      ],
+      "exportKinds": {
+        "types": 3,
+        "interfaces": 6,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 80,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__metadataEntryTypes.ts",
+      "repoPath": "shared/types/metadataEntryTypes.ts",
+      "name": "metadataEntryTypes",
+      "directoryDomain": "metadataEntryTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "MetadataEntryBase"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 25,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__primitiveBrands.ts",
+      "repoPath": "shared/types/primitiveBrands.ts",
+      "name": "primitiveBrands",
+      "directoryDomain": "primitiveBrands.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "ISO8601Date",
+        "GlobalEntityId"
+      ],
+      "exportKinds": {
+        "types": 2,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 11,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__propertyEnrichmentTypes.ts",
+      "repoPath": "shared/types/propertyEnrichmentTypes.ts",
+      "name": "propertyEnrichmentTypes",
+      "directoryDomain": "propertyEnrichmentTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 17,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__propertyTypes.ts",
+      "repoPath": "shared/types/propertyTypes.ts",
+      "name": "propertyTypes",
+      "directoryDomain": "propertyTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "PropertyAddressBase",
+        "PropertyDetailsBase"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 30,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7273,9 +7749,10 @@
       "domainMatch": null,
       "category": "configs",
       "exports": [
-        "DEFAULT_CALENDAR_CONFIG"
+        "DEFAULT_CALENDAR_CONFIG",
+        "DEFAULT_MINOR_EVENT_NAME"
       ],
-      "constCount": 1,
+      "constCount": 2,
       "usesAsConst": true,
       "alsoExportsTypes": true,
       "exportedTypeNames": [
@@ -7284,7 +7761,7 @@
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": true,
-      "lineCount": 413,
+      "lineCount": 415,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8017,12 +8494,11 @@
     {
       "sourceFile": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
       "exportedTypes": [
-        "PartInstanceBulkEditData",
         "UsePartInstanceBulkEditOptions"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 1,
+      "importedByCount": 0,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -8044,17 +8520,6 @@
       "exportedConstants": [],
       "primaryPurpose": "composable",
       "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/admin/useSelectGroupedByKey.ts",
-      "exportedTypes": [
-        "SelectGroup",
-        "GroupedByKeyItem"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 3,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -8083,7 +8548,6 @@
     {
       "sourceFile": "client/src/composables/booking/useSlotGridDisplay.ts",
       "exportedTypes": [
-        "SlotDisplayItem",
         "UseSlotGridDisplayOptions"
       ],
       "exportedConstants": [],
@@ -8195,17 +8659,6 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/utils/admin/fieldKeyboardGuard.ts",
-      "exportedTypes": [
-        "FieldKeyboardGuardOptions",
-        "FieldKeyboardGuardReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/utils/admin/inputConfigEditor.ts",
       "exportedTypes": [
         "InputConfigFormData",
@@ -8222,6 +8675,26 @@
       "exportedTypes": [
         "MetadataFieldUpdatesOptions",
         "MetadataFieldUpdatesReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/utils/admin/selectFilterStrategies.ts",
+      "exportedTypes": [
+        "ValidChildrenKey"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/utils/admin/selectOptionTransforms.ts",
+      "exportedTypes": [
+        "GroupWithParent"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8585,17 +9058,6 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/composables/admin/useSelectGroupedByKey.ts",
-          "exportedTypes": [
-            "SelectGroup",
-            "GroupedByKeyItem"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 3,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
           "sourceFile": "client/src/composables/admin/useShapeForm.ts",
           "exportedTypes": [
             "ShapeFormEntityKey",
@@ -8621,7 +9083,6 @@
         {
           "sourceFile": "client/src/composables/booking/useSlotGridDisplay.ts",
           "exportedTypes": [
-            "SlotDisplayItem",
             "UseSlotGridDisplayOptions"
           ],
           "exportedConstants": [],
@@ -8739,6 +9200,26 @@
           "exportedTypes": [
             "MetadataFieldUpdatesOptions",
             "MetadataFieldUpdatesReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/utils/admin/selectFilterStrategies.ts",
+          "exportedTypes": [
+            "ValidChildrenKey"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/utils/admin/selectOptionTransforms.ts",
+          "exportedTypes": [
+            "GroupWithParent"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -8975,13 +9456,6 @@
     ],
     "duplicateTypeNames": [
       {
-        "typeName": "PartInstanceBulkEditData",
-        "files": [
-          "client/src/types/admin/partInstanceBulkEdit.ts",
-          "client/src/composables/admin/usePartInstanceBulkEdit.ts"
-        ]
-      },
-      {
         "typeName": "UsePartInstanceBulkEditOptions",
         "files": [
           "client/src/types/admin/partInstanceBulkEdit.ts",
@@ -8989,10 +9463,24 @@
         ]
       },
       {
-        "typeName": "SelectGroup",
+        "typeName": "DurationRoundingConfig",
         "files": [
-          "client/src/types/entity/selectOptions.ts",
-          "client/src/composables/admin/useSelectGroupedByKey.ts"
+          "client/src/types/booking/durationRounding.ts",
+          "shared/types/availabilityTypes.ts"
+        ]
+      },
+      {
+        "typeName": "ComponentStrategy",
+        "files": [
+          "client/src/types/component.ts",
+          "shared/types/componentTypes.ts"
+        ]
+      },
+      {
+        "typeName": "ComponentConfig",
+        "files": [
+          "client/src/types/component.ts",
+          "shared/types/componentTypes.ts"
         ]
       }
     ]
@@ -9654,9 +10142,10 @@
         "domainMatch": null,
         "category": "configs",
         "exports": [
-          "DEFAULT_CALENDAR_CONFIG"
+          "DEFAULT_CALENDAR_CONFIG",
+          "DEFAULT_MINOR_EVENT_NAME"
         ],
-        "constCount": 1,
+        "constCount": 2,
         "usesAsConst": true,
         "alsoExportsTypes": true,
         "exportedTypeNames": [
@@ -9665,7 +10154,7 @@
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": true,
-        "lineCount": 413,
+        "lineCount": 415,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
@@ -10450,5 +10939,70 @@
       "note": "3 entries share tag 'type-derivation'"
     }
   ],
-  "cleanupCandidates": []
+  "cleanupCandidates": [],
+  "monomorphicGenerics": [
+    {
+      "typeName": "UpdateByIdPayload",
+      "definedIn": "client/src/types/collectionTypes.ts",
+      "alwaysInstantiatedWith": "UpdatePayload",
+      "usageCount": 15,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "CollectionQueryResult",
+      "definedIn": "client/src/types/collectionTypes.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 3,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "CollectionByIdQueryResult",
+      "definedIn": "client/src/types/collectionTypes.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 3,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "BusinessDataCollectionQueryResult",
+      "definedIn": "client/src/composables/businessDataCollections/types.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 4,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "BusinessDataCollectionByIdQueryResult",
+      "definedIn": "client/src/composables/businessDataCollections/types.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 4,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "BusinessDataCollectionSelector",
+      "definedIn": "client/src/composables/businessDataCollections/types.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 3,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "GlobalDataCollectionQueryResult",
+      "definedIn": "client/src/composables/globalDataCollections/types.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 4,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "GlobalDataCollectionByIdQueryResult",
+      "definedIn": "client/src/composables/globalDataCollections/types.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 4,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    },
+    {
+      "typeName": "GlobalDataCollectionSelector",
+      "definedIn": "client/src/composables/globalDataCollections/types.ts",
+      "alwaysInstantiatedWith": "CollectionItem",
+      "usageCount": 3,
+      "recommendation": "Consider removing the generic parameter or merging with the argument type"
+    }
+  ]
 }

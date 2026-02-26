@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-25T01:18:47.566Z",
+  "generatedAt": "2026-02-26T00:13:05.601Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 673,
+  "fileCount": 695,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -28,12 +28,9 @@
           "client/src/composables/admin/tables/useTableModelHelpers.ts",
           "client/src/composables/admin/useDragAndDropHelpers.ts",
           "client/src/composables/admin/utils/nestedComputedFactory.ts",
-          "client/src/composables/entityCrud/useEntityCrudMutationsCreate.ts",
-          "client/src/composables/entityCrud/useEntityCrudMutationsOrder.ts",
-          "client/src/composables/entityCrud/useEntityCrudMutationsRemove.ts",
-          "client/src/composables/entityCrud/useEntityCrudMutationsUpdate.ts",
           "client/src/composables/entityCrud/useSharedMutationHandlers.ts",
           "client/src/constants/fieldMetadata.ts",
+          "client/src/utils/admin/businessRulesApi.ts",
           "client/src/utils/api/relationshipApiHelpers.ts",
           "client/src/utils/booking/BlockFinal.ts",
           "client/src/utils/booking/PartFinal.ts",
@@ -43,19 +40,24 @@
           "client/src/utils/booking/slotTimeUtils.ts",
           "client/src/utils/entities/entityFieldPatch.ts",
           "client/src/utils/entities/entityTypeMapping.ts",
+          "client/src/utils/entityCrud/createEntityCreateMutationOptions.ts",
+          "client/src/utils/entityCrud/createEntityOrderMutationOptions.ts",
+          "client/src/utils/entityCrud/createEntityRemoveMutationOptions.ts",
+          "client/src/utils/entityCrud/createEntityUpdateMutationOptions.ts",
           "client/src/utils/logger.ts",
           "server/src/routes/helpers/createCrudRouter.ts",
           "server/src/routes/helpers/crudRouteHandlers.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataConstants.ts",
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
+          "server/src/routes/internal/shared/metadataValidatorFactory.ts",
           "server/src/services/appointmentCalendarService.ts",
           "server/src/services/google/calendar/eventCreationService.ts",
           "server/src/services/instanceVersioning.ts",
           "server/src/services/invites/inviteOrchestrationService.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 43
+        "patternCount": 48
       },
       {
         "prefix": "use",
@@ -70,22 +72,28 @@
           "client/src/composables/admin/useAdminMetadataMutations.ts",
           "client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
           "client/src/composables/admin/useAdminRelationshipMetadataMutations.ts",
+          "client/src/composables/admin/useApiDevPanelVisibility.ts",
           "client/src/composables/admin/useAttendeeQuickSelect.ts",
+          "client/src/composables/admin/useBlockInstanceCreate.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
+          "client/src/composables/admin/useBooleanInputClick.ts",
           "client/src/composables/admin/useBufferSettings.ts",
           "client/src/composables/admin/useBusinessControlsFormState.ts",
+          "client/src/composables/admin/useBusinessHoursFormState.ts",
           "client/src/composables/admin/useBusinessRuleForm.ts",
           "client/src/composables/admin/useBusinessRules.ts",
+          "client/src/composables/admin/useBusinessRulesTab.ts",
           "client/src/composables/admin/useCalendarEntries.ts",
+          "client/src/composables/admin/useCalendarHoldFormState.ts",
           "client/src/composables/admin/useCalibrationChart.ts",
           "client/src/composables/admin/useCapacitySettings.ts",
+          "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
           "client/src/composables/admin/useDefaultLocation.ts",
           "client/src/composables/admin/useDialogFormState.ts",
           "client/src/composables/admin/useDifferentialPerspectives.ts",
           "client/src/composables/admin/useDragAndDrop.ts",
           "client/src/composables/admin/useEntityCardActions.ts",
-          "client/src/composables/admin/useEntityCardComputed.ts",
           "client/src/composables/admin/useEntityCardExpansion.ts",
           "client/src/composables/admin/useEntityCardFieldConfiguration.ts",
           "client/src/composables/admin/useEntityCardFieldContextAndVisibility.ts",
@@ -97,13 +105,16 @@
           "client/src/composables/admin/useEntityCardSaveHandlers.ts",
           "client/src/composables/admin/useEntityCardSaveState.ts",
           "client/src/composables/admin/useEntityCardStoreSync.ts",
+          "client/src/composables/admin/useEntityCardSubPanels.ts",
           "client/src/composables/admin/useEntityDragHandlers.ts",
           "client/src/composables/admin/useEntityFiltering.ts",
           "client/src/composables/admin/useEntityGrouping.ts",
+          "client/src/composables/admin/useEntityIdReset.ts",
           "client/src/composables/admin/useEntityMetadata.ts",
           "client/src/composables/admin/useEntityStatus.ts",
           "client/src/composables/admin/useEntityTabState.ts",
           "client/src/composables/admin/useExpansionState.ts",
+          "client/src/composables/admin/useFeePreview.ts",
           "client/src/composables/admin/useFieldComponent.ts",
           "client/src/composables/admin/useFieldContextManager.ts",
           "client/src/composables/admin/useFieldContextMetadataEntity.ts",
@@ -112,7 +123,9 @@
           "client/src/composables/admin/useFieldLocation.ts",
           "client/src/composables/admin/useFieldMetadataUpdate.ts",
           "client/src/composables/admin/useFieldRendererComponent.ts",
+          "client/src/composables/admin/useFieldRendererErrorWatch.ts",
           "client/src/composables/admin/useFormElementPatching.ts",
+          "client/src/composables/admin/useFormFieldConfigs.ts",
           "client/src/composables/admin/useIconPickerState.ts",
           "client/src/composables/admin/useInstanceBulkEdit.ts",
           "client/src/composables/admin/useInstanceDragAndDrop.ts",
@@ -124,6 +137,7 @@
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
           "client/src/composables/admin/useMetadataCache.ts",
+          "client/src/composables/admin/useMetadataEditModal.ts",
           "client/src/composables/admin/useMetadataEditorEntity.ts",
           "client/src/composables/admin/useMetadataFieldDrag.ts",
           "client/src/composables/admin/useMetadataFieldOrdering.ts",
@@ -134,6 +148,8 @@
           "client/src/composables/admin/usePartInstanceForm.ts",
           "client/src/composables/admin/usePartsCollectionField.ts",
           "client/src/composables/admin/usePartsTotals.ts",
+          "client/src/composables/admin/usePrimitiveMetadataSave.ts",
+          "client/src/composables/admin/usePropertyMappingsTab.ts",
           "client/src/composables/admin/useRelationshipCollection.ts",
           "client/src/composables/admin/useRelationshipCollectionData.ts",
           "client/src/composables/admin/useRelationshipCollectionField.ts",
@@ -144,11 +160,13 @@
           "client/src/composables/admin/useSelectFieldValue.ts",
           "client/src/composables/admin/useSelectFiltering.ts",
           "client/src/composables/admin/useSelectFormAssociation.ts",
+          "client/src/composables/admin/useSelectGroupedByKey.ts",
           "client/src/composables/admin/useSelectHandlers.ts",
           "client/src/composables/admin/useSelectInputsAsync.ts",
           "client/src/composables/admin/useSelectLabelResolution.ts",
           "client/src/composables/admin/useShapeDisplayNames.ts",
           "client/src/composables/admin/useShapeEditModal.ts",
+          "client/src/composables/admin/useShapeForm.ts",
           "client/src/composables/admin/useShapesTabCreation.ts",
           "client/src/composables/admin/useShapesTabDeletion.ts",
           "client/src/composables/admin/useShapesTabModals.ts",
@@ -156,6 +174,9 @@
           "client/src/composables/admin/useStatusButtonHandlers.ts",
           "client/src/composables/admin/useStatusButtonToggle.ts",
           "client/src/composables/admin/useTabNavigation.ts",
+          "client/src/composables/beta/useFeedbackDashboard.ts",
+          "client/src/composables/beta/useFeedbackDetail.ts",
+          "client/src/composables/beta/useFeedbackSubmit.ts",
           "client/src/composables/booking/dev/usePanelPosition.ts",
           "client/src/composables/booking/selectionCard/useSelectionCard.ts",
           "client/src/composables/booking/selectionCard/useSelectionCardComponent.ts",
@@ -193,17 +214,20 @@
           "client/src/composables/booking/useContactsValidation.ts",
           "client/src/composables/booking/useDateRangeDecider.ts",
           "client/src/composables/booking/useDependentInstances.ts",
+          "client/src/composables/booking/useDevPanelButtonsInject.ts",
           "client/src/composables/booking/useDevPanelsAppointmentData.ts",
           "client/src/composables/booking/useDevPanelsComputed.ts",
           "client/src/composables/booking/useDurationRounding.ts",
           "client/src/composables/booking/useDynamicGridConfig.ts",
           "client/src/composables/booking/useElementDimensions.ts",
+          "client/src/composables/booking/useEventShapeById.ts",
           "client/src/composables/booking/useInstanceComponents.ts",
           "client/src/composables/booking/useInstanceComponentsList.ts",
           "client/src/composables/booking/useInstanceDescriptions.ts",
           "client/src/composables/booking/useInstanceDisplay.ts",
           "client/src/composables/booking/useInstanceSelectionConfig.ts",
           "client/src/composables/booking/useInstanceSelectionState.ts",
+          "client/src/composables/booking/useKeyboardToggle.ts",
           "client/src/composables/booking/useMockCalendarRefresh.ts",
           "client/src/composables/booking/useMoveablePartsScheduling.ts",
           "client/src/composables/booking/useOptionTypeBlockSelection.ts",
@@ -214,9 +238,12 @@
           "client/src/composables/booking/usePropertyFormWatchers.ts",
           "client/src/composables/booking/usePropertyTypeBlockConfig.ts",
           "client/src/composables/booking/usePropertyTypeBlockSelection.ts",
+          "client/src/composables/booking/usePropertyTypesLabel.ts",
           "client/src/composables/booking/usePropertyValidation.ts",
           "client/src/composables/booking/useResponsiveGrid.ts",
           "client/src/composables/booking/useSelectionCardGroupConfig.ts",
+          "client/src/composables/booking/useServiceSelectMapper.ts",
+          "client/src/composables/booking/useSlotGridDisplay.ts",
           "client/src/composables/booking/useStepValidation.ts",
           "client/src/composables/booking/useTimeSlotCalculations.ts",
           "client/src/composables/booking/useWizardAppointmentManagement.ts",
@@ -233,30 +260,25 @@
           "client/src/composables/booking/useWizardSubmission.ts",
           "client/src/composables/booking/useWizardValidation.ts",
           "client/src/composables/booking/useWizardValidationErrors.ts",
-          "client/src/composables/businessDataCollections/useBusinessDataCollectionActions.ts",
           "client/src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts",
           "client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts",
-          "client/src/composables/componentEntity/useComponentEntityActions.ts",
           "client/src/composables/componentEntity/useComponentEntityDomain.ts",
-          "client/src/composables/componentEntity/useComponentEntityQuery.ts",
           "client/src/composables/dataCollections/useDataCollectionActions.ts",
           "client/src/composables/dev/useApiDevPanelData.ts",
           "client/src/composables/dev/useDevPanelTabs.ts",
           "client/src/composables/entityCrud/useEntityCrud.ts",
-          "client/src/composables/entityCrud/useEntityCrudActions.ts",
           "client/src/composables/entityCrud/useEntityCrudMutations.ts",
-          "client/src/composables/entityCrud/useEntityCrudQuery.ts",
-          "client/src/composables/entityCrud/useEntityCrudState.ts",
           "client/src/composables/entityCrud/usePrimitiveMutation.ts",
           "client/src/composables/fieldContext/useFieldContext.ts",
-          "client/src/composables/fieldContext/useFieldContextActions.ts",
           "client/src/composables/fieldContext/useFieldContextState.ts",
           "client/src/composables/formFields/useFormFields.ts",
-          "client/src/composables/formFields/useFormFieldsContext.ts",
           "client/src/composables/formFields/useFormFieldsStandardLayout.ts",
-          "client/src/composables/globalDataCollections/useGlobalDataCollectionActions.ts",
           "client/src/composables/globalDataCollections/useGlobalDataCollectionCrud.ts",
           "client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts",
+          "client/src/composables/layout/useLogout.ts",
+          "client/src/composables/layout/useNavSearch.ts",
+          "client/src/composables/layout/useNotificationActions.ts",
+          "client/src/composables/layout/useSuspenseFallback.ts",
           "client/src/composables/useAddressAutocomplete.ts",
           "client/src/composables/useAdminConfig.ts",
           "client/src/composables/useAppointment.ts",
@@ -281,7 +303,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 225
+        "patternCount": 245
       },
       {
         "prefix": "get",
@@ -290,13 +312,16 @@
           "client/src/composables/booking/useWizardStepContent.ts",
           "client/src/composables/useApiErrorMessage.ts",
           "client/src/configs/adminConfig.ts",
-          "client/src/configs/availabilitySettings.ts",
+          "client/src/configs/availabilitySettings/api.ts",
+          "client/src/configs/availabilitySettings/calendar.ts",
           "client/src/constants/appointmentStatus.ts",
           "client/src/plugins/3.vue-query.ts",
           "client/src/services/mapsApiService.ts",
           "client/src/utils/admin/appointmentAttendees.ts",
           "client/src/utils/admin/appointmentHelpers.ts",
+          "client/src/utils/admin/calibrationChartTransforms.ts",
           "client/src/utils/admin/entityDisplayText.ts",
+          "client/src/utils/admin/selectOptionTransforms.ts",
           "client/src/utils/admin/selectTypeResolver.ts",
           "client/src/utils/api/adminMetadataApi.ts",
           "client/src/utils/api/appointmentApi.ts",
@@ -321,6 +346,7 @@
           "client/src/utils/colors/complementaryColors.ts",
           "client/src/utils/datetime.ts",
           "client/src/utils/dev/formatDevPanelData.ts",
+          "client/src/utils/dom/elementMeasure.ts",
           "client/src/utils/entities/entityFieldAccess.ts",
           "client/src/utils/entities/entityTypeMapping.ts",
           "client/src/utils/entityDefaults.ts",
@@ -358,16 +384,18 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 124
+        "patternCount": 127
       },
       {
         "prefix": "update",
         "files": [
+          "client/src/utils/admin/businessRulesApi.ts",
           "client/src/utils/booking/selectionCardHandlers.ts",
           "server/src/routes/internal/relationships/relationshipHelpers.ts",
-          "server/src/scripts/helpers/calendarImportHelpers.ts"
+          "server/src/scripts/helpers/calendarImportHelpers.ts",
+          "server/src/services/invites/inviteAttendeeHelpers.ts"
         ],
-        "patternCount": 3
+        "patternCount": 5
       }
     ],
     "repeatedStringFiles": [
@@ -386,9 +414,10 @@
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/types/admin/instancesTabEventInstance.ts",
           "client/src/types/entities.ts",
+          "client/src/views/admin/tabs/InstancesTab.vue",
           "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
         ],
-        "occurrences": 4
+        "occurrences": 5
       },
       {
         "value": "held",
@@ -404,390 +433,234 @@
   "duplicateComposableExports": [],
   "groups": [
     {
-      "groupId": "dup-02e09562fbee",
-      "hash": "02e09562fbee",
+      "groupId": "dup-0b2888970ff8",
+      "hash": "0b2888970ff8",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "const selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {\nreturn 'reference'",
+      "windowText": "createValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
       "locations": [
         {
-          "repoPath": "client/src/utils/admin/metadataFieldUpdates.ts",
-          "startLine": 40,
-          "endLine": 57,
-          "windowText": "const selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {\nreturn 'reference'",
-          "target": "client/src/utils/admin/metadataFieldUpdates.ts"
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 4,
+          "endLine": 16,
+          "windowText": "createValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 19,
-          "endLine": 38,
-          "windowText": "const selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {\nreturn 'reference'",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 4,
+          "endLine": 16,
+          "windowText": "createValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
       "priority": "P0"
     },
     {
-      "groupId": "dup-0399e7cb7a09",
-      "hash": "0399e7cb7a09",
+      "groupId": "dup-1799efa6c855",
+      "hash": "1799efa6c855",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "const selectType = inputConfig.selectType as string | undefined\nif (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'",
+      "windowText": "createValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)",
       "locations": [
         {
-          "repoPath": "client/src/utils/admin/metadataFieldUpdates.ts",
-          "startLine": 36,
-          "endLine": 51,
-          "windowText": "const selectType = inputConfig.selectType as string | undefined\nif (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'",
-          "target": "client/src/utils/admin/metadataFieldUpdates.ts"
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 5,
+          "endLine": 19,
+          "windowText": "createValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
         },
         {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 15,
-          "endLine": 32,
-          "windowText": "const selectType = inputConfig.selectType as string | undefined\nif (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 5,
+          "endLine": 19,
+          "windowText": "createValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
         }
       ],
       "score": 22,
       "priority": "P0"
     },
     {
-      "groupId": "dup-216670b622fd",
-      "hash": "216670b622fd",
+      "groupId": "dup-2b5abdaabd1f",
+      "hash": "2b5abdaabd1f",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "return 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {",
+      "windowText": "instanceComponents: ComputedRef<InstanceComponent[]>\ncanBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,",
       "locations": [
         {
-          "repoPath": "client/src/utils/admin/metadataFieldUpdates.ts",
-          "startLine": 38,
-          "endLine": 56,
-          "windowText": "return 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {",
-          "target": "client/src/utils/admin/metadataFieldUpdates.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 17,
-          "endLine": 37,
-          "windowText": "return 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {\nif (dataType === 'array') {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-24e89764b1f9",
-      "hash": "24e89764b1f9",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>\nemit('confirm', bulkEditData)",
-      "locations": [
-        {
-          "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-          "startLine": 162,
-          "endLine": 181,
-          "windowText": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>\nemit('confirm', bulkEditData)",
-          "target": "client/src/components/admin/InstanceBulkEditModal.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
-          "startLine": 183,
-          "endLine": 202,
-          "windowText": "Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>\nemit('confirm', bulkEditData)",
-          "target": "client/src/components/admin/PartInstanceBulkEditModal.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-2a12de2d7d9a",
-      "hash": "2a12de2d7d9a",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (!parentTypeRef.value) {\nif (!parentTypeEntity.value) {\nconst validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))\nconst hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0\nreturn hasValidOptions\nconst defaultExpanded = computed<boolean | undefined>(() => {\nconst meta = fieldMetadataEntry.value\nreturn (meta as { defaultExpanded?: boolean })?.defaultExpanded\nconst getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {\nif (!parentEntity.value) {",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 186,
-          "endLine": 215,
-          "windowText": "if (!parentTypeRef.value) {\nif (!parentTypeEntity.value) {\nconst validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))\nconst hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0\nreturn hasValidOptions\nconst defaultExpanded = computed<boolean | undefined>(() => {\nconst meta = fieldMetadataEntry.value\nreturn (meta as { defaultExpanded?: boolean })?.defaultExpanded\nconst getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {\nif (!parentEntity.value) {",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
-        },
-        {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 188,
-          "endLine": 211,
-          "windowText": "if (!parentTypeRef.value) {\nif (!parentTypeEntity.value) {\nconst validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))\nconst hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0\nreturn hasValidOptions\nconst defaultExpanded = computed<boolean | undefined>(() => {\nconst meta = fieldMetadataEntry.value\nreturn (meta as { defaultExpanded?: boolean })?.defaultExpanded\nconst getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {\nif (!parentEntity.value) {",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-345455ae5c05",
-      "hash": "345455ae5c05",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (!metadata || Object.keys(metadata).length === 0) {\nreturn Object.fromEntries(\nObject.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),",
-      "locations": [
-        {
-          "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-          "startLine": 155,
-          "endLine": 178,
-          "windowText": "if (!metadata || Object.keys(metadata).length === 0) {\nreturn Object.fromEntries(\nObject.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),",
-          "target": "client/src/components/admin/InstanceBulkEditModal.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
-          "startLine": 176,
-          "endLine": 199,
-          "windowText": "if (!metadata || Object.keys(metadata).length === 0) {\nreturn Object.fromEntries(\nObject.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),",
-          "target": "client/src/components/admin/PartInstanceBulkEditModal.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-434e272ef180",
-      "hash": "434e272ef180",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {",
-      "locations": [
-        {
-          "repoPath": "client/src/utils/admin/metadataFieldUpdates.ts",
-          "startLine": 37,
-          "endLine": 53,
-          "windowText": "if (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {",
-          "target": "client/src/utils/admin/metadataFieldUpdates.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts",
-          "startLine": 16,
-          "endLine": 34,
-          "windowText": "if (selectType === 'partsCollectionSelect') {\nreturn 'relationshipCollection'\nconst selectMode = inputConfig.selectMode as string | undefined\nif (selectMode === 'multiple') {\nreturn 'multiselect'\nif (inputConfig.targetMode === 'relationship') {\nreturn 'reference'\nif (dataType === 'boolean' || dataType === 'ternary') {\nreturn 'statusButton'\nif (dataType === 'number') {",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-5cdea5a5f126",
-      "hash": "5cdea5a5f126",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "GF extends GlobalFieldKey<GE>\n>(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 23,
-          "endLine": 49,
-          "windowText": "GF extends GlobalFieldKey<GE>\n>(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
-        },
-        {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 23,
-          "endLine": 45,
-          "windowText": "GF extends GlobalFieldKey<GE>\n>(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-911d1500cc08",
-      "hash": "911d1500cc08",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "if (!parentEntity.value || !parentTypeProperty.value) {\nif (!parentTypeRef.value) {\nif (!parentTypeEntity.value) {\nconst validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))\nconst hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0\nreturn hasValidOptions\nconst defaultExpanded = computed<boolean | undefined>(() => {\nconst meta = fieldMetadataEntry.value\nreturn (meta as { defaultExpanded?: boolean })?.defaultExpanded\nconst getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 182,
-          "endLine": 213,
-          "windowText": "if (!parentEntity.value || !parentTypeProperty.value) {\nif (!parentTypeRef.value) {\nif (!parentTypeEntity.value) {\nconst validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))\nconst hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0\nreturn hasValidOptions\nconst defaultExpanded = computed<boolean | undefined>(() => {\nconst meta = fieldMetadataEntry.value\nreturn (meta as { defaultExpanded?: boolean })?.defaultExpanded\nconst getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
-        },
-        {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 184,
-          "endLine": 209,
-          "windowText": "if (!parentEntity.value || !parentTypeProperty.value) {\nif (!parentTypeRef.value) {\nif (!parentTypeEntity.value) {\nconst validOptions = getEntityFieldValue(parentTypeEntity.value, String(optionsFieldKey.value))\nconst hasValidOptions = Array.isArray(validOptions) && validOptions.length > 0\nreturn hasValidOptions\nconst defaultExpanded = computed<boolean | undefined>(() => {\nconst meta = fieldMetadataEntry.value\nreturn (meta as { defaultExpanded?: boolean })?.defaultExpanded\nconst getChildParentId = (child: GlobalEntity<GlobalEntityKey>): string => {",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-a08a21eabaf1",
-      "hash": "a08a21eabaf1",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "GE extends GlobalEntityKey,\nGF extends GlobalFieldKey<GE>\n>(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 22,
-          "endLine": 48,
-          "windowText": "GE extends GlobalEntityKey,\nGF extends GlobalFieldKey<GE>\n>(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
-        },
-        {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 22,
-          "endLine": 44,
-          "windowText": "GE extends GlobalEntityKey,\nGF extends GlobalFieldKey<GE>\n>(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-ad8ee8be63f6",
-      "hash": "ad8ee8be63f6",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": ">(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 24,
-          "endLine": 52,
-          "windowText": ">(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
-        },
-        {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 24,
-          "endLine": 48,
-          "windowText": ">(fieldContext: FieldContextType<GE, GF>) {\nconst adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-b36fd2f2d669",
-      "hash": "b36fd2f2d669",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "const entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]\nconst selectConfig = computed<RelationshipFieldType<GE>>(() => {\nconst meta = fieldMetadataEntry.value",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 29,
-          "endLine": 59,
-          "windowText": "const entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]\nconst selectConfig = computed<RelationshipFieldType<GE>>(() => {\nconst meta = fieldMetadataEntry.value",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
-        },
-        {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 27,
-          "endLine": 55,
-          "windowText": "const entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]\nconst selectConfig = computed<RelationshipFieldType<GE>>(() => {\nconst meta = fieldMetadataEntry.value",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-bbbe20e10e53",
-      "hash": "bbbe20e10e53",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "return Object.fromEntries(\nObject.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>",
-      "locations": [
-        {
-          "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-          "startLine": 161,
-          "endLine": 179,
-          "windowText": "return Object.fromEntries(\nObject.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>",
-          "target": "client/src/components/admin/InstanceBulkEditModal.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
-          "startLine": 182,
-          "endLine": 200,
-          "windowText": "return Object.fromEntries(\nObject.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)\nfunction updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>",
-          "target": "client/src/components/admin/PartInstanceBulkEditModal.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-f3908ce6488c",
-      "hash": "f3908ce6488c",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "function updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>\nemit('confirm', bulkEditData)\nupdateModelValue(false)",
-      "locations": [
-        {
-          "repoPath": "client/src/components/admin/InstanceBulkEditModal.vue",
-          "startLine": 166,
-          "endLine": 182,
-          "windowText": "function updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>\nemit('confirm', bulkEditData)\nupdateModelValue(false)",
-          "target": "client/src/components/admin/InstanceBulkEditModal.vue::<script>"
-        },
-        {
-          "repoPath": "client/src/components/admin/PartInstanceBulkEditModal.vue",
-          "startLine": 187,
-          "endLine": 203,
-          "windowText": "function updateModelValue(value: boolean) {\nemit('update:modelValue', value)\nfunction handleEntityCardSaved() {\nfunction handleApply() {\nif (!entityCardRef.value?.form) {\nconst bulkEditData = buildBulkEditDataFromForm(\nObject.keys(filteredMetadata.value),\nentityCardRef.value.form.values as Record<string, unknown>\nemit('confirm', bulkEditData)\nupdateModelValue(false)",
-          "target": "client/src/components/admin/PartInstanceBulkEditModal.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-f5dc7d13d6e7",
-      "hash": "f5dc7d13d6e7",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "const adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]\nconst selectConfig = computed<RelationshipFieldType<GE>>(() => {",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-          "startLine": 25,
+          "repoPath": "client/src/composables/useComponentEntity.ts",
+          "startLine": 49,
           "endLine": 58,
-          "windowText": "const adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]\nconst selectConfig = computed<RelationshipFieldType<GE>>(() => {",
-          "target": "client/src/composables/admin/usePartsCollectionField.ts"
+          "windowText": "instanceComponents: ComputedRef<InstanceComponent[]>\ncanBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,",
+          "target": "client/src/composables/useComponentEntity.ts"
         },
         {
-          "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-          "startLine": 25,
-          "endLine": 54,
-          "windowText": "const adminComp = useAdmin()\nconst entity = computed<GlobalEntity<GE> | null>(() => {\nconst entityValue = adminComp.getEntity(fieldContext.entityKey, fieldContext.entityId)\nreturn entityValue ?? null\nconst { fieldMetadata } = useEntityMetadata(\nfieldContext.entityKey,\nconst fieldMetadataEntry = computed(() => {\nif (!fieldMetadata.value) {\nreturn fieldMetadata.value[String(fieldContext.fieldKey)]\nconst selectConfig = computed<RelationshipFieldType<GE>>(() => {",
-          "target": "client/src/composables/admin/useRelationshipCollectionField.ts"
+          "repoPath": "client/src/types/componentEntity/componentEntityDomain.ts",
+          "startLine": 11,
+          "endLine": 23,
+          "windowText": "instanceComponents: ComputedRef<InstanceComponent[]>\ncanBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,",
+          "target": "client/src/types/componentEntity/componentEntityDomain.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-5234c03c620e",
+      "hash": "5234c03c620e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 7,
+          "endLine": 21,
+          "windowText": "} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 7,
+          "endLine": 21,
+          "windowText": "} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7b6a154e1df0",
+      "hash": "7b6a154e1df0",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "validEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!\nexport const validateInputConfig = createValidateInputConfig(config)",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 11,
+          "endLine": 22,
+          "windowText": "validEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!\nexport const validateInputConfig = createValidateInputConfig(config)",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 11,
+          "endLine": 22,
+          "windowText": "validEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!\nexport const validateInputConfig = createValidateInputConfig(config)",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-936c6271303e",
+      "hash": "936c6271303e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "createValidateEntityType,\ncreateValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 3,
+          "endLine": 15,
+          "windowText": "createValidateEntityType,\ncreateValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 3,
+          "endLine": 15,
+          "windowText": "createValidateEntityType,\ncreateValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c6a1b36e6807",
+      "hash": "c6a1b36e6807",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy\n) => DistributionPreview[]",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/useComponentEntity.ts",
+          "startLine": 51,
+          "endLine": 61,
+          "windowText": "getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy\n) => DistributionPreview[]",
+          "target": "client/src/composables/useComponentEntity.ts"
+        },
+        {
+          "repoPath": "client/src/types/componentEntity/componentEntityDomain.ts",
+          "startLine": 16,
+          "endLine": 26,
+          "windowText": "getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy\n) => DistributionPreview[]",
+          "target": "client/src/types/componentEntity/componentEntityDomain.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-d4ebc711aeec",
+      "hash": "d4ebc711aeec",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "createValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
+          "startLine": 6,
+          "endLine": 20,
+          "windowText": "createValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)",
+          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
+          "startLine": 6,
+          "endLine": 20,
+          "windowText": "createValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-dac3219ab4d8",
+      "hash": "dac3219ab4d8",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "canBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/useComponentEntity.ts",
+          "startLine": 50,
+          "endLine": 60,
+          "windowText": "canBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy",
+          "target": "client/src/composables/useComponentEntity.ts"
+        },
+        {
+          "repoPath": "client/src/types/componentEntity/componentEntityDomain.ts",
+          "startLine": 15,
+          "endLine": 25,
+          "windowText": "canBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy",
+          "target": "client/src/types/componentEntity/componentEntityDomain.ts"
         }
       ],
       "score": 22,

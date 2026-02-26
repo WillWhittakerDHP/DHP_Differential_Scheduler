@@ -1,12 +1,12 @@
 /**
+import type { DevPanelsComputedData } from '@/types/booking/devPanelsComputed'
  * PATTERN: Unwrap dev panel data refs into a single appointmentData computed.
  * WHY: Keeps DevPanelsContainer.vue under vue-architecture script line limit.
  */
 import { computed, type ComputedRef } from 'vue'
-import type { Ref } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
-import type { DevPanelsComputedData } from '@/composables/booking/useDevPanelsComputed'
+import type { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 
 function unwrapRef<T>(r: unknown): T {
   if (r && typeof r === 'object' && 'value' in r) return (r as { value: T }).value
@@ -14,7 +14,7 @@ function unwrapRef<T>(r: unknown): T {
 }
 
 export function useDevPanelsAppointmentData(
-  devPanelData: Ref<Record<string, unknown>>
+  devPanelData: ReturnType<typeof useDevPanelData>
 ): ComputedRef<DevPanelsComputedData> {
   return computed<DevPanelsComputedData>(() => {
     const data = devPanelData.value

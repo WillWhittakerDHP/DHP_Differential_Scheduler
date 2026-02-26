@@ -12,7 +12,6 @@ import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSy
 import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 import type { UseEntityCardFormOptions, UseEntityCardFormReturn } from '@/types/admin/entityCardForm'
 
-export type { UseEntityCardFormOptions, UseEntityCardFormReturn } from '@/types/admin/entityCardForm'
 
 const logger = createLogger('useEntityCardForm')
 
@@ -26,7 +25,7 @@ export function useEntityCardForm<GE extends GlobalEntityKey = GlobalEntityKey>(
 
   let form: Ref<FormContext | undefined>
   if (providedForm) {
-    form = computed(() => providedForm) as Ref<FormContext | undefined>
+    form = computed(() => providedForm)
   } else {
     const entity = entityRef.value
     const formInstance = useForm({
@@ -60,7 +59,7 @@ export function useEntityCardForm<GE extends GlobalEntityKey = GlobalEntityKey>(
         initialEntity,
       })
     }
-    form = computed(() => formInstance as FormContext) as Ref<FormContext | undefined>
+    form = computed(() => formInstance as FormContext)
   }
 
   return { form }

@@ -17,11 +17,15 @@ type WizardInstance = {
   selectedOptionTypeBlocks: { value: BookingBlockInstance[] }
 }
 
+export interface UseWizardNumberUpdateReturn {
+  updateNumber: (blockInstanceId: string, number: number | null) => void
+}
+
 /**
  * PATTERN: useWizardNumberUpdate composable
 PATTERN: Composable that injects wizard...
  */
-export function useWizardNumberUpdate() {
+export function useWizardNumberUpdate(): UseWizardNumberUpdateReturn {
   const wizard = inject<WizardInstance | undefined>('wizard')
   
   /**

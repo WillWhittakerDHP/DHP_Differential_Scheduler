@@ -10,20 +10,20 @@
     <!-- PATTERN: Plain text with labels and formatted values -->
     <div class="d-flex flex-wrap gap-4">
       <div>
-        <span class="text-body-2 text-medium-emphasis">Base Fee:</span>
-        <span class="text-body-1 ml-2">{{ formatCurrency(totalBaseFee) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Base Fee:</span>
+        <span class="text-body-large ml-2">{{ formatCurrency(totalBaseFee) }}</span>
       </div>
       <div>
-        <span class="text-body-2 text-medium-emphasis">Base Time:</span>
-        <span class="text-body-1 ml-2">{{ formatDuration(totalBaseTime) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Base Time:</span>
+        <span class="text-body-large ml-2">{{ formatDuration(totalBaseTime) }}</span>
       </div>
       <div>
-        <span class="text-body-2 text-medium-emphasis">Overage Rate ($/sq ft):</span>
-        <span class="text-body-1 ml-2">{{ formatCurrency(totalRateOverBaseFee) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Overage Rate ($/sq ft):</span>
+        <span class="text-body-large ml-2">{{ formatCurrency(totalRateOverBaseFee) }}</span>
       </div>
       <div>
-        <span class="text-body-2 text-medium-emphasis">Overage Rate (sq ft/hr):</span>
-        <span class="text-body-1 ml-2">{{ formatRate(totalRateOverBaseTime) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Overage Rate (sq ft/hr):</span>
+        <span class="text-body-large ml-2">{{ formatRate(totalRateOverBaseTime) }}</span>
       </div>
     </div>
   </div>

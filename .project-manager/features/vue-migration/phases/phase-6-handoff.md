@@ -738,7 +738,7 @@ Implement configurable composition system where entities can compose other entit
 - `client-vue/src/components/admin/composition/CompositionDistributionModal.vue` - Distribution modal component
 
 **Frontend - Modified:**
-- `client-vue/src/types/entities.ts` - Add `composedParticles?: GlobalEntityId[]` and `isComposer?: boolean` to `BaseGlobalEntity`
+- `client-vue/src/types/entities.ts` - Add `composedParticles?: GlobalEntityId[]` and `isComposer?: boolean` to `GlobalEntityBase`
 - `client-vue/src/utils/transformers/fetchToGlobalTransformer.ts` - Fetch and transform active compositions, attach to entities
 - `client-vue/src/composables/useEntity.ts` - Add composition management methods, detect computed property edits, trigger distribution modal
 - `client-vue/src/utils/transformers/globalToAdminTransformer.ts` - Handle composed entities (if needed)

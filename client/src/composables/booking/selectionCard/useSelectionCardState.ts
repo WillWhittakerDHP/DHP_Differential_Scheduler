@@ -6,6 +6,7 @@ LEARNING: Extracts selection state man...
 import { computed, watch, ref } from 'vue'
 import type { StatePlugin } from '@/components/booking/types/selectionCardTypes'
 import { createLocalStatePlugin } from '@/components/booking/plugins/localStatePlugin'
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 import {
   getFirstStatePlugin,
   getWatchSourceValue,
@@ -38,8 +39,7 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
     const firstPlugin = getFirstStatePlugin(config.statePlugins)
     if (firstPlugin) return firstPlugin
     
-    // Create local plugin for backward compatibility
-    if (config.stateSource === 'local' || !config.stateSource) {
+    if (config.stateSource === APP_STAGE.LOCAL || !config.stateSource) {
       const localModelValue = ref<string | null>(Array.isArray(modelValue.value) ? modelValue.value[0] ?? null : modelValue.value)
       watch(modelValue, (newVal) => {
         localModelValue.value = Array.isArray(newVal) ? newVal[0] ?? null : newVal
@@ -63,7 +63,6 @@ WHY: Replaces VRadioGr...
       return isSelectionCardItemSelectedByPlugin({ plugin, item: item.value })
     }
     
-    // Fallback to modelValue for backward compatibility
     return isSelectionCardItemSelected({
       itemId: item.value.id,
       modelValue: modelValue.value,

@@ -185,7 +185,7 @@
 **File:** `client-vue/src/types/entities.ts`
 
 **Steps:**
-1. Add optional `pooledMembers?: GlobalEntityId[]` to `BaseGlobalEntity`
+1. Add optional `pooledMembers?: GlobalEntityId[]` to `GlobalEntityBase`
 2. Add optional `isPoolMaster?: boolean` flag
 3. Ensure types are properly exported
 

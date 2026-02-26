@@ -4,7 +4,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import type { AdminConfig } from '@/configs/adminConfig'
+import type { useAdminConfig } from '@/composables/useAdminConfig'
 import type { UseFormFieldsReturn } from '@/composables/formFields/types'
 import type { UseEntityCardFieldConfigurationReturn } from '@/types/admin/entityCardFieldConfiguration'
 
@@ -16,7 +16,7 @@ export interface UseEntityCardFormSetupParams<GE extends GlobalEntityKey> {
   isExpanded: ComputedRef<boolean>
   filteredMetadata?: Record<string, FieldMetadataEntry>
   form: Ref<FormContext | undefined>
-  adminConfig: AdminConfig
+  adminConfig: ReturnType<typeof useAdminConfig>
 }
 
 export interface UseEntityCardFormSetupReturn {

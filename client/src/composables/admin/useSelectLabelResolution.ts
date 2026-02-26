@@ -9,7 +9,6 @@ import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { UseSelectLabelResolutionOptions, UseSelectLabelResolutionReturn } from '@/types/admin/selectLabelResolution'
 
-export type { UseSelectLabelResolutionOptions, UseSelectLabelResolutionReturn } from '@/types/admin/selectLabelResolution'
 
 /**
  * WHY: Select label resolution composable
@@ -22,7 +21,7 @@ export function useSelectLabelResolution(
   const adminComp = useAdmin()
 
   const resolvedLabel = computed(() => {
-    const labelVal = fieldContext.displayConfig.label
+    const labelVal = fieldContext.state.displayConfig.label
     const rawLabel = labelVal !== undefined && labelVal !== null && labelVal !== '' ? labelVal : ''
     
     if (!rawLabel.includes('{blockShapeName}')) {

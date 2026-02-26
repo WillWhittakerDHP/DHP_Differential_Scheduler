@@ -6,11 +6,10 @@
   RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref, computed, type ComponentPublicInstance } from 'vue'
+import { ref, computed, provide } from 'vue'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import { useInstanceGrouping } from '@/composables/admin/useInstanceGrouping'
@@ -29,6 +28,10 @@ import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { createBlockInstanceConfigSentinel } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
 import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
+import BlockInstancesGroup from './components/BlockInstancesGroup.vue'
+import EventInstancesSection from './components/EventInstancesSection.vue'
+import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('InstancesTab')
 
@@ -187,9 +190,75 @@ const eventInstanceDrag = useInstancesTabEventInstanceDrag({
 const {
   eventInstancesList,
   eventInstancesContainer,
+  eventInstancesPanelsContainer,
   filteredEventInstances,
 } = eventInstanceDrag
 void eventInstancesContainer.value
+
+function shapeCascadeColor(blockShape: { id: string }): 'info' | 'default' {
+  return asEmptyArray(blockShapeValidCascades.value.get(blockShape.id)).length > 0 ? 'info' : 'default'
+}
+
+const eventInstanceFieldsGlobalEntity = computed((): GlobalEntity<'eventInstance'> => ({
+  id: toGlobalEntityId('00000000-0000-0000-0000-000000000012'),
+  name: 'Event Instance Fields (Global)',
+  entityKey: 'eventInstance',
+  orderIndex: 0,
+  active: true,
+  eventShapeRef: toGlobalEntityId(''),
+  titleTemplate: null,
+  descriptionTemplate: null,
+  locationTemplate: null,
+  visibility: 'default',
+  transparency: 'opaque',
+  guestsCanModify: false,
+  guestsCanInviteOthers: false,
+  guestsCanSeeOtherGuests: true,
+  addConferenceLink: false,
+  sendUpdates: 'none',
+  colorId: null,
+  status: 'confirmed',
+  reminderOverrides: null
+}))
+
+provide(instancesTabContextKey, {
+  blockShapeComposable,
+  blockShapeStateControl,
+  blockShapeValidCascades,
+  bulkEditMode,
+  toggleBulkEditMode,
+  shapeEditModalOpen,
+  toggleShapeEditModal,
+  handleCreateClick,
+  groupContainers,
+  blockInstancesLists,
+  mainInstancesByShape,
+  expandedInstances,
+  isPanelExpanded,
+  groupPanelsContainers,
+  groupedInstancesByShape,
+  handleExistingBlockInstanceSaved,
+  handleDeleteBlockInstance,
+  handleDuplicateClick,
+  shapeCascadeColor,
+  eventInstanceMetadataModalOpen,
+  eventInstances,
+  eventInstancesList,
+  filteredEventInstances,
+  isLoadingEventInstances,
+  isCreatingEventInstance,
+  newEventInstanceData,
+  isCreatingEventInstanceLoading,
+  templateVariables,
+  templateWarnings,
+  eventShapes,
+  openCreateEventInstanceForm,
+  handleEventInstanceCreate,
+  handleEventInstanceCancelled,
+  handleDeleteEventInstance,
+  eventInstancesContainer,
+  eventInstancesPanelsContainer: eventInstancesPanelsContainer as unknown
+})
 </script>
 
 <template>
@@ -241,181 +310,7 @@ void eventInstancesContainer.value
         :key="blockShape.id"
         :value="blockShape.id"
       >
-        <div class="block-shape-tab-content">
-          <!--
-            LEARNING: Tab header with BlockShape indicators (left) and action buttons (right)
-            WHY: Shows BlockShape-level properties (Composable, State Control, Valid Cascades) and provides actions
-            PATTERN: Flex container with indicators on left, buttons on right
-          -->
-          <div class="d-flex justify-space-between align-center mb-4">
-            <!-- BlockShape-Level Indicators -->
-            <div class="d-flex align-center gap-2 flex-wrap">
-              <!-- Composable Badge -->
-              <VChip
-                v-if="blockShapeComposable.get(blockShape.id)"
-                color="success"
-                size="small"
-                prepend-icon="tabler-link"
-                variant="flat"
-              >
-                Composable
-              </VChip>
-              
-              <!-- State Control Badge -->
-              <VChip
-                v-if="blockShapeStateControl.get(blockShape.id)"
-                color="secondary"
-                size="small"
-                prepend-icon="tabler-toggle-left"
-                variant="flat"
-              >
-                State Control
-              </VChip>
-              
-              <!-- Valid Cascades Badge -->
-              <VChip
-                :color="(blockShapeValidCascades.get(blockShape.id) || []).length > 0 ? 'info' : 'default'"
-                size="small"
-                prepend-icon="tabler-hierarchy"
-                variant="tonal"
-              >
-                {{ (() => {
-                  const cascades = blockShapeValidCascades.get(blockShape.id) || []
-                  return cascades.length > 0 
-                    ? `Cascades: ${cascades.join(', ')}` 
-                    : 'No Cascades'
-                })() }}
-              </VChip>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div class="d-flex align-center gap-2">
-              <VBtn
-                color="primary"
-                prepend-icon="tabler-plus"
-                @click="handleCreateClick(blockShape.id)"
-              >
-                Create
-              </VBtn>
-              <VBtn
-                :color="bulkEditMode.get(blockShape.id) ? 'success' : 'default'"
-                :variant="bulkEditMode.get(blockShape.id) ? 'flat' : 'outlined'"
-                prepend-icon="tabler-edit"
-                @click="toggleBulkEditMode(blockShape.id)"
-              >
-                {{ bulkEditMode.get(blockShape.id) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-              </VBtn>
-              <VBtn
-                :color="shapeEditModalOpen.get(blockShape.id) ? 'primary' : 'default'"
-                :variant="shapeEditModalOpen.get(blockShape.id) ? 'flat' : 'outlined'"
-                prepend-icon="tabler-settings"
-                @click="toggleShapeEditModal(blockShape.id)"
-              >
-                Instance Fields
-              </VBtn>
-            </div>
-          </div>
-          
-          <!--
-            LEARNING: BlockInstance cards container with drag-and-drop and expansion panels
-            WHY: Displays BlockInstances for this BlockShape with reordering and expand/collapse capability
-            PATTERN: VExpansionPanels directly in tab (matches ShapesTab pattern)
-          -->
-          <div 
-            :ref="el => groupContainers.set(blockShape.id, el as HTMLElement)"
-            class="block-instances-container"
-          >
-            <VExpansionPanels
-              v-if="(blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length > 0"
-              :ref="el => {
-                const blockShapeId = blockShape.id
-                if (!groupPanelsContainers.has(blockShapeId)) {
-                  groupPanelsContainers.set(blockShapeId, ref(el as ComponentPublicInstance | HTMLElement | null))
-                } else {
-                  const panelsRef = groupPanelsContainers.get(blockShapeId)
-                  if (panelsRef) {
-                    panelsRef.value = el as ComponentPublicInstance | HTMLElement | null
-                  }
-                }
-              }"
-              v-model="expandedInstances"
-              multiple
-            >
-              <EntityCard
-                v-for="instance in (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || [])"
-                :key="instance.id"
-                :class="`draggable-instance-${blockShape.id} draggable-instance-item`"
-                :data-drag-id="instance.id"
-                entity-key="blockInstance"
-                :entity="instance"
-                :expanded="isPanelExpanded(instance.id)"
-                @saved="handleExistingBlockInstanceSaved"
-                @delete="handleDeleteBlockInstance"
-                @duplicate="handleDuplicateClick"
-              />
-            </VExpansionPanels>
-
-            <!-- Grouped: Add-On Only & Components (Hidden from Main Booking List) -->
-            <VCard
-              v-if="(groupedInstancesByShape.get(blockShape.id) || []).length > 0"
-              variant="outlined"
-              color="warning"
-              class="mt-4 grouped-instances-card"
-            >
-              <VCardTitle class="text-subtitle-1 d-flex align-center gap-2">
-                <VIcon icon="tabler-folders" size="small" />
-                Add-On Only & Components (Hidden from Main Booking List)
-                <VChip size="small" variant="tonal" class="ml-2">
-                  {{ (groupedInstancesByShape.get(blockShape.id) || []).length }}
-                </VChip>
-              </VCardTitle>
-              <VCardText>
-                <!-- LEARNING: EntityCard is now self-contained with its own VExpansionPanel -->
-                <!-- WHY: EntityCard wraps itself in VExpansionPanel and renders its own titleRow fields -->
-                <!-- PATTERN: Use VExpansionPanels wrapper, EntityCard handles its own expansion -->
-                <VExpansionPanels v-model="expandedInstances" multiple>
-                  <EntityCard
-                    v-for="instance in (groupedInstancesByShape.get(blockShape.id) || [])"
-                    :key="instance.id"
-                    entity-key="blockInstance"
-                    :entity="instance"
-                    :expanded="isPanelExpanded(instance.id)"
-                    @saved="handleExistingBlockInstanceSaved"
-                    @delete="handleDeleteBlockInstance"
-                  />
-                </VExpansionPanels>
-              </VCardText>
-            </VCard>
-            
-            <!-- Empty state -->
-            <VAlert
-              v-if="
-                (blockInstancesLists.get(blockShape.id)?.value || mainInstancesByShape.get(blockShape.id) || []).length === 0 &&
-                (groupedInstancesByShape.get(blockShape.id) || []).length === 0
-              "
-              type="info"
-              variant="tonal"
-              class="mt-4"
-            >
-              No BlockInstances found for {{ blockShape.name }}. Create one to get started.
-            </VAlert>
-            
-            <!--
-              LEARNING: BlockShape Fields Preview Card
-              WHY: Shows configured blockShape fields at bottom of tab for easy reference
-              PATTERN: EntityCard with actual blockShape entity to display that specific shape's field configurations
-            -->
-            <VDivider class="my-6" />
-            <VExpansionPanels v-model="expandedInstances" multiple>
-              <EntityCard
-                entity-key="blockShape"
-                :entity="blockShape"
-                :expanded="isPanelExpanded(blockShape.id)"
-              />
-            </VExpansionPanels>
-          </div>
-          
-        </div>
+        <BlockInstancesGroup :block-shape="blockShape" />
       </VWindowItem>
       
       <!-- Fee Calibration Tab Content -->
@@ -425,308 +320,7 @@ void eventInstancesContainer.value
 
       <!-- Event Instances Tab Content -->
       <VWindowItem value="eventInstances">
-        <div class="event-instances-tab-content">
-          <div class="d-flex justify-space-between align-center mb-4">
-            <h3 class="text-h6">Event Instances</h3>
-            <div class="d-flex gap-2">
-              <!-- LEARNING: Global button to configure all EventInstance fields -->
-              <!-- WHY: Single config applies to all EventInstances globally -->
-              <!-- PATTERN: Global config modal triggered from section header -->
-              <VBtn
-                :variant="eventInstanceMetadataModalOpen ? 'flat' : 'outlined'"
-                :color="eventInstanceMetadataModalOpen ? 'primary' : 'default'"
-                prepend-icon="tabler-settings"
-                @click="eventInstanceMetadataModalOpen = !eventInstanceMetadataModalOpen"
-              >
-                Instance Fields
-              </VBtn>
-              <VBtn
-                color="primary"
-                prepend-icon="tabler-plus"
-                @click="openCreateEventInstanceForm"
-              >
-                Create Event Instance
-              </VBtn>
-            </div>
-          </div>
-          
-          <div v-if="isLoadingEventInstances" class="text-center py-4">
-            <VProgressCircular indeterminate />
-          </div>
-          
-          <div 
-            v-else-if="isCreatingEventInstance || eventInstances.length > 0"
-            ref="eventInstancesContainer"
-          >
-            <VExpansionPanels 
-              ref="eventInstancesPanelsContainer"
-              v-model="expandedInstances" 
-              multiple 
-            >
-            <!-- Inline creation card for EventInstance -->
-            <VExpansionPanel
-              v-if="isCreatingEventInstance"
-              key="new-eventInstance"
-              value="new-eventInstance"
-              class="new-shape-card"
-            >
-              <template #title>
-                <div class="d-flex align-center gap-2 flex-grow-1">
-                  <VIcon icon="tabler-plus" size="small" color="primary" />
-                  <span class="text-primary font-weight-medium">New Event Instance</span>
-                </div>
-              </template>
-              
-              <template #text>
-                <div v-if="newEventInstanceData" class="d-flex flex-column gap-4">
-                  <!-- Identity -->
-                  <VSelect
-                    v-model="newEventInstanceData.eventShapeRef"
-                    :items="eventShapes"
-                    item-title="name"
-                    item-value="id"
-                    label="Event Shape"
-                    variant="outlined"
-                    density="compact"
-                  />
-                  <VTextField
-                    v-model="newEventInstanceData.name"
-                    label="Name"
-                    variant="outlined"
-                    density="compact"
-                    @keyup.enter="handleEventInstanceCreate"
-                  />
-
-                  <!-- Content Templates -->
-                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Content Templates</div>
-
-                  <VExpansionPanels variant="accordion" class="mb-2">
-                    <VExpansionPanel>
-                      <VExpansionPanelTitle class="text-caption py-1" style="min-height: 36px">
-                        Available Template Variables
-                      </VExpansionPanelTitle>
-                      <VExpansionPanelText>
-                        <div class="text-caption text-medium-emphasis mb-1">
-                          Use <code>{'{variableName}'}</code> in templates. Variables are replaced at invite time.
-                        </div>
-                        <VTable density="compact" class="text-caption">
-                          <thead>
-                            <tr>
-                              <th>Variable</th>
-                              <th>Description</th>
-                              <th>Example</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="v in templateVariables" :key="v.name">
-                              <td><code>{{'{'}}{{ v.name }}{{'}'}}</code></td>
-                              <td>{{ v.description }}</td>
-                              <td class="text-medium-emphasis">{{ v.example }}</td>
-                            </tr>
-                          </tbody>
-                        </VTable>
-                      </VExpansionPanelText>
-                    </VExpansionPanel>
-                  </VExpansionPanels>
-
-                  <VTextarea
-                    v-model="newEventInstanceData.titleTemplate"
-                    label="Title Template"
-                    variant="outlined"
-                    density="compact"
-                    rows="2"
-                    hint="e.g. '{service} at {streetAddress}'"
-                    :error-messages="templateWarnings.titleTemplate"
-                  />
-                  <VTextarea
-                    v-model="newEventInstanceData.descriptionTemplate"
-                    label="Description Template"
-                    variant="outlined"
-                    density="compact"
-                    rows="2"
-                    hint="e.g. 'Home inspection on {appointmentDate} at {appointmentTime}'"
-                    :error-messages="templateWarnings.descriptionTemplate"
-                  />
-                  <VTextarea
-                    v-model="newEventInstanceData.locationTemplate"
-                    label="Location Template"
-                    variant="outlined"
-                    density="compact"
-                    rows="2"
-                    hint="e.g. '{fullAddress}'"
-                    :error-messages="templateWarnings.locationTemplate"
-                  />
-
-                  <!-- Display & Status -->
-                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Display & Status</div>
-                  <VRow dense>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSelect
-                        v-model="newEventInstanceData.visibility"
-                        :items="[
-                          { title: 'Default', value: 'default' },
-                          { title: 'Public', value: 'public' },
-                          { title: 'Private', value: 'private' },
-                          { title: 'Confidential', value: 'confidential' },
-                        ]"
-                        label="Visibility"
-                        variant="outlined"
-                        density="compact"
-                      />
-                    </VCol>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSelect
-                        v-model="newEventInstanceData.transparency"
-                        :items="[
-                          { title: 'Busy', value: 'opaque' },
-                          { title: 'Free', value: 'transparent' },
-                        ]"
-                        label="Show As"
-                        variant="outlined"
-                        density="compact"
-                      />
-                    </VCol>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSelect
-                        v-model="newEventInstanceData.status"
-                        :items="[
-                          { title: 'Confirmed', value: 'confirmed' },
-                          { title: 'Tentative', value: 'tentative' },
-                        ]"
-                        label="Event Status"
-                        variant="outlined"
-                        density="compact"
-                      />
-                    </VCol>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSelect
-                        v-model="newEventInstanceData.colorId"
-                        :items="[
-                          { title: 'Default', value: null },
-                          { title: '1 - Lavender', value: '1' },
-                          { title: '2 - Sage', value: '2' },
-                          { title: '3 - Grape', value: '3' },
-                          { title: '4 - Flamingo', value: '4' },
-                          { title: '5 - Banana', value: '5' },
-                          { title: '6 - Tangerine', value: '6' },
-                          { title: '7 - Peacock', value: '7' },
-                          { title: '8 - Graphite', value: '8' },
-                          { title: '9 - Blueberry', value: '9' },
-                          { title: '10 - Basil', value: '10' },
-                          { title: '11 - Tomato', value: '11' },
-                        ]"
-                        label="Event Color"
-                        variant="outlined"
-                        density="compact"
-                        clearable
-                      />
-                    </VCol>
-                  </VRow>
-
-                  <!-- Guest Permissions -->
-                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Guest Permissions</div>
-                  <VRow dense>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSwitch
-                        v-model="newEventInstanceData.guestsCanModify"
-                        label="Guests can modify event"
-                        density="compact"
-                        color="primary"
-                        hide-details
-                      />
-                    </VCol>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSwitch
-                        v-model="newEventInstanceData.guestsCanInviteOthers"
-                        label="Guests can invite others"
-                        density="compact"
-                        color="primary"
-                        hide-details
-                      />
-                    </VCol>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSwitch
-                        v-model="newEventInstanceData.guestsCanSeeOtherGuests"
-                        label="Guests can see guest list"
-                        density="compact"
-                        color="primary"
-                        hide-details
-                      />
-                    </VCol>
-                  </VRow>
-
-                  <!-- Notifications & Conferencing -->
-                  <div class="text-subtitle-2 text-medium-emphasis mt-2">Notifications & Conferencing</div>
-                  <VRow dense>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSelect
-                        v-model="newEventInstanceData.sendUpdates"
-                        :items="[
-                          { title: 'All — send to everyone', value: 'all' },
-                          { title: 'External only', value: 'externalOnly' },
-                          { title: 'None — no emails', value: 'none' },
-                        ]"
-                        label="Send Invitations"
-                        variant="outlined"
-                        density="compact"
-                      />
-                    </VCol>
-                    <VCol cols="12" sm="6" md="4">
-                      <VSwitch
-                        v-model="newEventInstanceData.addConferenceLink"
-                        label="Add Google Meet link"
-                        density="compact"
-                        color="primary"
-                        hide-details
-                      />
-                    </VCol>
-                  </VRow>
-
-                  <!-- Actions -->
-                  <div class="d-flex gap-2 justify-end mt-2">
-                    <VBtn
-                      color="primary"
-                      :loading="isCreatingEventInstanceLoading"
-                      :disabled="!newEventInstanceData.name.trim()"
-                      @click="handleEventInstanceCreate"
-                    >
-                      Create
-                    </VBtn>
-                    <VBtn
-                      variant="outlined"
-                      @click="handleEventInstanceCancelled"
-                    >
-                      Cancel
-                    </VBtn>
-                  </div>
-                </div>
-              </template>
-            </VExpansionPanel>
-            
-            <!-- Existing EventInstances -->
-            <EntityCard
-              v-for="eventInstance in (eventInstancesList.length > 0 ? eventInstancesList : filteredEventInstances)"
-              :key="String(eventInstance.id)"
-              :class="`draggable-event-instance draggable-instance-item`"
-              :data-drag-id="String(eventInstance.id)"
-              entity-key="eventInstance"
-              :entity="eventInstance"
-              :expanded="isPanelExpanded(String(eventInstance.id))"
-              @saved="handleExistingBlockInstanceSaved"
-              @delete="handleDeleteEventInstance"
-            />
-          </VExpansionPanels>
-          </div>
-          
-          <VAlert
-            v-else
-            type="info"
-            variant="tonal"
-            class="mt-4"
-          >
-            No event instances found. Create one to get started.
-          </VAlert>
-        </div>
+        <EventInstancesSection />
       </VWindowItem>
     </VWindow>
     
@@ -799,7 +393,7 @@ void eventInstancesContainer.value
     <MetadataEditModal
       v-model="eventInstanceMetadataModalOpen"
       entity-key="eventInstance"
-      :entity="{ id: toGlobalEntityId('00000000-0000-0000-0000-000000000012'), name: 'Event Instance Fields (Global)', entityKey: 'eventInstance', orderIndex: 0, active: true, eventShapeRef: toGlobalEntityId(''), titleTemplate: null, descriptionTemplate: null, locationTemplate: null, visibility: 'default', transparency: 'opaque', guestsCanModify: false, guestsCanInviteOthers: false, guestsCanSeeOtherGuests: true, addConferenceLink: false, sendUpdates: 'none', colorId: null, status: 'confirmed', reminderOverrides: null }"
+      :entity="eventInstanceFieldsGlobalEntity"
       entity-name="Event Instance Fields (Global)"
     />
   </div>

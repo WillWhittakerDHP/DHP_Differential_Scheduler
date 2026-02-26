@@ -10,7 +10,7 @@ defineEmits<{
 
 <template>
   <div class="pa-6 d-flex align-center">
-    <h5 class="text-h5">
+    <h5 class="text-headline-medium">
       {{ props.title }}
     </h5>
     <VSpacer />

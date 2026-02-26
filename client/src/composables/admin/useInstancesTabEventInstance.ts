@@ -2,31 +2,43 @@
  * PATTERN: Event instance form state, template validation, and create/cancel/delete handlers.
  * WHY: Keeps InstancesTab.vue under vue-architecture limits (script size, function count).
  */
-import { ref, computed } from 'vue'
+import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import { EVENT_TEMPLATE_VARIABLES } from '@shared/constants/templateVariables'
 import type { UseInstancesTabEventInstanceParams, NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 
-export type { UseInstancesTabEventInstanceParams, NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 
 /** Re-export for consumers that expect the legacy name. */
 export const EVENT_INSTANCE_TEMPLATE_VARIABLES = EVENT_TEMPLATE_VARIABLES
 
-const knownVariableNames = new Set(EVENT_TEMPLATE_VARIABLES.map(v => v.name))
+export interface UseInstancesTabEventInstanceReturn {
+  templateVariables: typeof EVENT_TEMPLATE_VARIABLES
+  newEventInstanceData: Ref<NewEventInstanceData | null>
+  isCreatingEventInstance: Ref<boolean>
+  isCreatingEventInstanceLoading: Ref<boolean>
+  templateWarnings: ComputedRef<{ titleTemplate: string[]; descriptionTemplate: string[]; locationTemplate: string[] }>
+  openCreateEventInstanceForm: () => void
+  handleEventInstanceCreate: () => Promise<void>
+  handleEventInstanceCancelled: () => void
+  handleDeleteEventInstance: (id: string) => Promise<void>
+}
+
+const knownVariableNames = new Set<string>(EVENT_TEMPLATE_VARIABLES.map(v => v.name))
 
 function findUnknownVariables(template: string): string[] {
   const varPattern = /\{(\w+)\}/g
   const unknown: string[] = []
   let match: RegExpExecArray | null
   while ((match = varPattern.exec(template)) !== null) {
-    if (!knownVariableNames.has(match[1]) && !unknown.includes(match[1])) {
+    const name = match[1]
+    if (!knownVariableNames.has(name) && !unknown.includes(name)) {
       unknown.push(match[1])
     }
   }
   return unknown
 }
 
-export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanceParams) {
+export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanceParams): UseInstancesTabEventInstanceReturn {
   const { expandedInstances, eventShapes, createEventInstance, logger } = params
   const { success } = useNotification()
 

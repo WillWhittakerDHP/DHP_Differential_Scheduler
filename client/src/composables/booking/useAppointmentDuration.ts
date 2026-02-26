@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
 import type { UseAppointmentDurationParams, UseAppointmentDurationReturn } from '@/types/booking/appointmentDuration'
 
-export type { UseAppointmentDurationParams, UseAppointmentDurationReturn } from '@/types/booking/appointmentDuration'
 
 /**
  * WHY: useAppointmentDuration composable

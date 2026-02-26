@@ -9,7 +9,6 @@ import type { SelectionCardConfig } from '@/components/booking/types/selectionCa
 import { buildServicesStackSelectionConfig, buildUserTypeBlockRowSelectionConfig } from '@/utils/booking/serviceSelectionConfigBuilders'
 import type { UseInstanceSelectionConfigOptions, UseInstanceSelectionConfigReturn } from '@/types/booking/instanceSelectionConfig'
 
-export type { UseInstanceSelectionConfigOptions, UseInstanceSelectionConfigReturn } from '@/types/booking/instanceSelectionConfig'
 
 /**
  * PATTERN: useInstanceSelectionConfig composable

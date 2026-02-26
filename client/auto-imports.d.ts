@@ -38,6 +38,7 @@ declare global {
   const calculateMinorStartTimeFromMajor: typeof import('./src/utils/differentialScheduling').calculateMinorStartTimeFromMajor
   const calculateOnSiteTotal: typeof import('./src/utils/differentialScheduling').calculateOnSiteTotal
   const calculatePropertyAdjustments: typeof import('./src/utils/differentialScheduling').calculatePropertyAdjustments
+  const cleanupInvalidActiveRelationships: typeof import('./src/utils/dependencyCleanup').cleanupInvalidActiveRelationships
   const clearMetadataCache: typeof import('./src/composables/useFieldMetadata').clearMetadataCache
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
@@ -559,41 +560,50 @@ declare global {
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
   // @ts-ignore
-  export type { SelectionResult, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn } from './src/composables/useAddressAutocomplete'
+  export type { Coordinates, PlaceDetails, MapsApiError } from './src/composables/useAddressAutocomplete'
   import('./src/composables/useAddressAutocomplete')
+  // @ts-ignore
+  export type { UseAdminConfigReturn } from './src/composables/useAdminConfig'
+  import('./src/composables/useAdminConfig')
   // @ts-ignore
   export type { WithAsyncOperationState, WithAsyncOperationOptions } from './src/composables/useAsyncOperation'
   import('./src/composables/useAsyncOperation')
   // @ts-ignore
-  export type { UseBusinessReturn } from './src/composables/useBusiness'
-  import('./src/composables/useBusiness')
+  export type { UseAvailabilityReturn } from './src/composables/useAvailability'
+  import('./src/composables/useAvailability')
   // @ts-ignore
-  export type { WithId, UpdateByIdPayload, CollectionQueryResult, CollectionByIdQueryResult, CollectionEndpoints } from './src/composables/useCollectionTypes'
-  import('./src/composables/useCollectionTypes')
+  export type { UseBookingReturn } from './src/composables/useBooking'
+  import('./src/composables/useBooking')
   // @ts-ignore
-  export type { UseComponentDistributionOptions, UseComponentDistributionReturn } from './src/composables/useComponentDistribution'
-  import('./src/composables/useComponentDistribution')
-  // @ts-ignore
-  export type { UseEntityFormOptions, UseEntityFormReturn } from './src/composables/useEntityForm'
-  import('./src/composables/useEntityForm')
+  export type { UseComponentEntityReturn } from './src/composables/useComponentEntity'
+  import('./src/composables/useComponentEntity')
   // @ts-ignore
   export type { UseFormFieldsOptionsBase, UseFormFieldsOptions, UseFormFieldsContextOptions, UseFormFieldsStandardLayoutReturn, UseFormFieldsReturn } from './src/composables/formFields/types'
   import('./src/composables/formFields/types')
   // @ts-ignore
-  export type { ValidationRule, ValidationResult } from './src/composables/useFormValidation'
+  export type { UseFormValidationReturn } from './src/composables/useFormValidation'
   import('./src/composables/useFormValidation')
   // @ts-ignore
-  export type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from './src/composables/useLayoutLoading'
-  import('./src/composables/useLayoutLoading')
+  export type { UseGlobalReturn } from './src/composables/useGlobal'
+  import('./src/composables/useGlobal')
   // @ts-ignore
-  export type { LoadingIndicatorInstance, UseLoadingIndicatorReturn } from './src/composables/useLoadingIndicator'
-  import('./src/composables/useLoadingIndicator')
+  export type { UseMapsSessionTokenReturn } from './src/composables/useMapsSessionToken'
+  import('./src/composables/useMapsSessionToken')
+  // @ts-ignore
+  export type { UseNotificationReturn } from './src/composables/useNotification'
+  import('./src/composables/useNotification')
   // @ts-ignore
   export type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from './src/composables/usePartInstanceData'
   import('./src/composables/usePartInstanceData')
   // @ts-ignore
+  export type { UseRelationshipCrudReturn } from './src/composables/useRelationship'
+  import('./src/composables/useRelationship')
+  // @ts-ignore
   export type { GroupedEntities, SelectOption, SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
+  // @ts-ignore
+  export type { UseThemeModeReturn } from './src/composables/useThemeMode'
+  import('./src/composables/useThemeMode')
   // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
   import('./src/utils/autocomplete')

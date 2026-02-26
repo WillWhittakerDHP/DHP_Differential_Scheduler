@@ -99,7 +99,7 @@
 
 2. **Entity Types** ✅
    - Added pooledMembers and isPoolMaster fields
-   - Extended BaseGlobalEntity interface
+   - Extended GlobalEntityBase interface
    - Location: `client-vue/src/types/entities.ts`
 
 3. **Display Configs** ✅

@@ -7,7 +7,6 @@ import { watch } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseEntityTabStateOptions, UseEntityTabStateReturn } from '@/types/admin/entityTabState'
 
-export type { UseEntityTabStateOptions, UseEntityTabStateReturn } from '@/types/admin/entityTabState'
 
 /**
  * WHY: Entity Tab State Composable

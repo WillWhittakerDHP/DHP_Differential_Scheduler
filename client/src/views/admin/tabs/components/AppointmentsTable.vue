@@ -4,13 +4,17 @@
   PATTERN: VDataTable with custom cell slots; create/edit convert client/agent IDs to attendees via composable.
 -->
 <script setup lang="ts">
-import { getValidNextStatuses } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
 import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
 import { getStatusColor, getRoleColor } from '@/utils/admin/appointmentHelpers'
 import { APPOINTMENTS_TABLE_HEADERS, APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
 import AppointmentsCreateForm from './AppointmentsCreateForm.vue'
+import AppointmentUserTooltipContent from './AppointmentUserTooltipContent.vue'
+import AppointmentPropertyTooltipContent from './AppointmentPropertyTooltipContent.vue'
+import AppointmentTableDialogs from './AppointmentTableDialogs.vue'
+import AppointmentStatusCell from './AppointmentStatusCell.vue'
+import AppointmentActionsCell from './AppointmentActionsCell.vue'
 
 const emit = defineEmits<{
   (e: 'navigate-to-tab', tab: 'properties' | 'users'): void
@@ -53,13 +57,8 @@ const handlers = useAppointmentsTableHandlers({
   cancelCreate,
   emit,
 })
+const { formClientId, formAgentId, editingClientId, editingAgentId, confirmingAppointment, showConfirmDialog } = handlers.state
 const {
-  formClientId,
-  formAgentId,
-  editingClientId,
-  editingAgentId,
-  confirmingAppointment,
-  showConfirmDialog,
   handleOpenConfirmDialog,
   handleCancelConfirm,
   handleSaveCreate,
@@ -73,14 +72,14 @@ const {
   navigateToUsers,
   setFormClientId,
   setFormAgentId,
-  formatTimestamp,
-} = handlers
+} = handlers.actions
+const { formatTimestamp } = handlers
 </script>
 
 <template>
   <div class="appointments-table">
     <div class="d-flex justify-space-between align-center mb-4">
-      <h3 class="text-h6">{{ APPOINTMENTS_TABLE_UI.TITLE }}</h3>
+      <h3 class="text-headline-small">{{ APPOINTMENTS_TABLE_UI.TITLE }}</h3>
       <VBtn
         color="primary"
         prepend-icon="tabler-plus"
@@ -140,40 +139,7 @@ const {
                   {{ getDisplayValue(item, 'propertyVersionId') }}
                 </span>
               </template>
-              <div class="tooltip-content">
-                <template v-if="getPropertyById(item.propertyVersionId)">
-                  <div class="tooltip-title">{{ APPOINTMENTS_TABLE_UI.PROPERTY_TOOLTIP_TITLE }}</div>
-                  <div><strong>{{ APPOINTMENTS_TABLE_UI.ADDRESS }}:</strong> {{ getPropertyById(item.propertyVersionId)?.address }}</div>
-                  <div v-if="getPropertyById(item.propertyVersionId)?.unit">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.UNIT }}:</strong> {{ getPropertyById(item.propertyVersionId)?.unit }}
-                  </div>
-                  <div>
-                    <strong>{{ APPOINTMENTS_TABLE_UI.LOCATION }}:</strong>
-                    {{ getPropertyById(item.propertyVersionId)?.city }},
-                    {{ getPropertyById(item.propertyVersionId)?.state }}
-                    {{ getPropertyById(item.propertyVersionId)?.zipCode }}
-                  </div>
-                  <div v-if="getPropertyById(item.propertyVersionId)?.squareFootage">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.SQ_FT }}:</strong> {{ getPropertyById(item.propertyVersionId)?.squareFootage?.toLocaleString() }}
-                  </div>
-                  <div v-if="getPropertyById(item.propertyVersionId)?.bedrooms">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.BEDROOMS }}:</strong> {{ getPropertyById(item.propertyVersionId)?.bedrooms }}
-                  </div>
-                  <div v-if="getPropertyById(item.propertyVersionId)?.bathrooms">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.BATHROOMS }}:</strong> {{ getPropertyById(item.propertyVersionId)?.bathrooms }}
-                  </div>
-                  <div v-if="getPropertyById(item.propertyVersionId)?.foundationAccess">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.FOUNDATION }}:</strong> {{ getPropertyById(item.propertyVersionId)?.foundationAccess }}
-                  </div>
-                  <div v-if="getPropertyById(item.propertyVersionId)?.mlsNumber">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.MLS }}:</strong> {{ getPropertyById(item.propertyVersionId)?.mlsNumber }}
-                  </div>
-                  <div class="tooltip-hint">{{ APPOINTMENTS_TABLE_UI.CLICK_PROPERTIES_TAB }}</div>
-                </template>
-                <template v-else>
-                  <div>{{ APPOINTMENTS_TABLE_UI.PROPERTY_NOT_FOUND }}</div>
-                </template>
-              </div>
+              <AppointmentPropertyTooltipContent :property="getPropertyById(item.propertyVersionId)" />
             </VTooltip>
           </span>
           <VSelect
@@ -190,7 +156,7 @@ const {
             <template #item="{ props: itemProps, item: propItem }">
               <VListItem v-bind="itemProps">
                 <VListItemTitle>
-                  {{ propItem.raw.address }}, {{ propItem.raw.city }}, {{ propItem.raw.state }}
+                  {{ propItem.address }}, {{ propItem.city }}, {{ propItem.state }}
                 </VListItemTitle>
               </VListItem>
             </template>
@@ -213,24 +179,7 @@ const {
                   {{ getClientAttendee(item)?.user ? `${getClientAttendee(item)?.user?.firstName} ${getClientAttendee(item)?.user?.lastName}` : '—' }}
                 </span>
               </template>
-              <div class="tooltip-content">
-                <template v-if="getClientAttendee(item)?.user">
-                  <div class="tooltip-title">{{ APPOINTMENTS_TABLE_UI.CLIENT_TOOLTIP_TITLE }}</div>
-                  <div>
-                    <strong>{{ APPOINTMENTS_TABLE_UI.NAME }}:</strong>
-                    {{ getClientAttendee(item)?.user?.firstName }} {{ getClientAttendee(item)?.user?.lastName }}
-                  </div>
-                  <div><strong>{{ APPOINTMENTS_TABLE_UI.EMAIL }}:</strong> {{ getClientAttendee(item)?.user?.email }}</div>
-                  <div v-if="getClientAttendee(item)?.user?.phone">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.PHONE }}:</strong> {{ getClientAttendee(item)?.user?.phone }}
-                  </div>
-                  <div><strong>{{ APPOINTMENTS_TABLE_UI.ROLE }}:</strong> {{ getClientAttendee(item)?.user?.userRole }}</div>
-                  <div class="tooltip-hint">{{ APPOINTMENTS_TABLE_UI.CLICK_USERS_TAB }}</div>
-                </template>
-                <template v-else>
-                  <div>{{ APPOINTMENTS_TABLE_UI.NO_CLIENT }}</div>
-                </template>
-              </div>
+              <AppointmentUserTooltipContent :user="getClientAttendee(item)?.user ?? null" />
             </VTooltip>
           </span>
           <VSelect
@@ -246,7 +195,7 @@ const {
           >
             <template #item="{ props: itemProps, item: userItem }">
               <VListItem v-bind="itemProps">
-                <VListItemTitle>{{ userItem.raw.firstName }} {{ userItem.raw.lastName }}</VListItemTitle>
+                <VListItemTitle>{{ userItem.firstName }} {{ userItem.lastName }}</VListItemTitle>
               </VListItem>
             </template>
           </VSelect>
@@ -262,24 +211,7 @@ const {
                   {{ getDisplayValue(item, 'agent') }}
                 </span>
               </template>
-              <div class="tooltip-content">
-                <template v-if="getAgentAttendee(item)?.user">
-                  <div class="tooltip-title">{{ APPOINTMENTS_TABLE_UI.AGENT_TOOLTIP_TITLE }}</div>
-                  <div>
-                    <strong>{{ APPOINTMENTS_TABLE_UI.NAME }}:</strong>
-                    {{ getAgentAttendee(item)?.user?.firstName }} {{ getAgentAttendee(item)?.user?.lastName }}
-                  </div>
-                  <div><strong>{{ APPOINTMENTS_TABLE_UI.EMAIL }}:</strong> {{ getAgentAttendee(item)?.user?.email }}</div>
-                  <div v-if="getAgentAttendee(item)?.user?.phone">
-                    <strong>{{ APPOINTMENTS_TABLE_UI.PHONE }}:</strong> {{ getAgentAttendee(item)?.user?.phone }}
-                  </div>
-                  <div><strong>{{ APPOINTMENTS_TABLE_UI.ROLE }}:</strong> {{ getAgentAttendee(item)?.user?.userRole }}</div>
-                  <div class="tooltip-hint">{{ APPOINTMENTS_TABLE_UI.CLICK_USERS_TAB }}</div>
-                </template>
-                <template v-else>
-                  <div>{{ APPOINTMENTS_TABLE_UI.NO_AGENT }}</div>
-                </template>
-              </div>
+              <AppointmentUserTooltipContent :user="getAgentAttendee(item)?.user ?? null" />
             </VTooltip>
           </span>
           <VSelect
@@ -295,7 +227,7 @@ const {
           >
             <template #item="{ props: itemProps, item: userItem }">
               <VListItem v-bind="itemProps">
-                <VListItemTitle>{{ userItem.raw.firstName }} {{ userItem.raw.lastName }}</VListItemTitle>
+                <VListItemTitle>{{ userItem.firstName }} {{ userItem.lastName }}</VListItemTitle>
               </VListItem>
             </template>
           </VSelect>
@@ -320,24 +252,7 @@ const {
                 </VChip>
                 <span v-else v-bind="tooltipProps" class="text-disabled">—</span>
               </template>
-              <div class="tooltip-content">
-                <template v-if="getUserById(item.scheduledById)">
-                  <div class="tooltip-name">
-                    {{ getUserById(item.scheduledById)?.firstName }} {{ getUserById(item.scheduledById)?.lastName }}
-                  </div>
-                  <div class="tooltip-role">{{ getUserById(item.scheduledById)?.userRole }}</div>
-                  <div class="tooltip-details">
-                    <div><strong>{{ APPOINTMENTS_TABLE_UI.EMAIL }}:</strong> {{ getUserById(item.scheduledById)?.email }}</div>
-                    <div v-if="getUserById(item.scheduledById)?.phone">
-                      <strong>{{ APPOINTMENTS_TABLE_UI.PHONE }}:</strong> {{ getUserById(item.scheduledById)?.phone }}
-                    </div>
-                  </div>
-                  <div class="tooltip-hint">{{ APPOINTMENTS_TABLE_UI.CLICK_USERS_TAB }}</div>
-                </template>
-                <template v-else>
-                  <div>{{ APPOINTMENTS_TABLE_UI.NOT_SPECIFIED }}</div>
-                </template>
-              </div>
+              <AppointmentUserTooltipContent :user="getUserById(item.scheduledById)" />
             </VTooltip>
           </span>
           <VSelect
@@ -353,7 +268,7 @@ const {
           >
             <template #item="{ props: itemProps, item: userItem }">
               <VListItem v-bind="itemProps">
-                <VListItemTitle>{{ userItem.raw.firstName }} {{ userItem.raw.lastName }} ({{ userItem.raw.userRole }})</VListItemTitle>
+                <VListItemTitle>{{ userItem.firstName }} {{ userItem.lastName }} ({{ userItem.userRole }})</VListItemTitle>
               </VListItem>
             </template>
           </VSelect>
@@ -368,111 +283,48 @@ const {
       </template>
 
       <template #item.status="{ item }">
-        <template v-if="item">
-          <VChip v-if="editingId !== item.id" :color="getStatusColor(item.status)" size="small" variant="tonal">
-            {{ item.status }}
-          </VChip>
-          <VSelect
-            v-else
-            v-model="editedData.status"
-            :items="[item.status, ...getValidNextStatuses(item.status)]"
-            density="compact"
-            hide-details
-          />
-        </template>
+        <AppointmentStatusCell
+          :item="item"
+          :editing-id="editingId"
+          :edited-status="editedData.status"
+          :get-status-color="getStatusColor"
+          @update:edited-status="(v) => (editedData.status = v)"
+        />
       </template>
 
       <template #item.submittedAt="{ item }">
         <template v-if="item">
-          <span class="text-caption">{{ formatTimestamp(item.submittedAt) }}</span>
+          <span class="text-body-small">{{ formatTimestamp(item.submittedAt) }}</span>
         </template>
       </template>
 
       <template #item.confirmedAt="{ item }">
         <template v-if="item">
-          <span class="text-caption">{{ formatTimestamp(item.confirmedAt) }}</span>
+          <span class="text-body-small">{{ formatTimestamp(item.confirmedAt) }}</span>
         </template>
       </template>
 
       <template #item.actions="{ item }">
-        <template v-if="item">
-          <div v-if="editingId === item.id" class="d-flex gap-2">
-            <VBtn prepend-icon="tabler-check" size="small" color="success" variant="text" @click="handleSaveEdit">
-              {{ APPOINTMENTS_TABLE_UI.SAVE }}
-            </VBtn>
-            <VBtn prepend-icon="tabler-x" size="small" color="error" variant="text" @click="handleCancelEdit">
-              {{ APPOINTMENTS_TABLE_UI.CANCEL }}
-            </VBtn>
-          </div>
-          <div v-else class="d-flex gap-2">
-            <VTooltip v-if="item.status === 'submitted'" location="top">
-              <template #activator="{ props: confirmTooltipProps }">
-                <VBtn
-                  v-bind="confirmTooltipProps"
-                  prepend-icon="tabler-check-circle"
-                  size="small"
-                  variant="text"
-                  color="success"
-                  @click="handleOpenConfirmDialog(item)"
-                >
-                  {{ APPOINTMENTS_TABLE_UI.CONFIRM }}
-                </VBtn>
-              </template>
-              {{ APPOINTMENTS_TABLE_UI.CONFIRM_TOOLTIP }}
-            </VTooltip>
-            <VBtn prepend-icon="tabler-pencil" size="small" variant="text" @click="handleStartEdit(item)">
-              {{ APPOINTMENTS_TABLE_UI.EDIT }}
-            </VBtn>
-            <VTooltip location="top">
-              <template #activator="{ props: overrideTooltipProps }">
-                <VBtn
-                  v-bind="overrideTooltipProps"
-                  prepend-icon="tabler-shield-check"
-                  size="small"
-                  variant="text"
-                  color="warning"
-                  disabled
-                >
-                  {{ APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS }}
-                </VBtn>
-              </template>
-              {{ APPOINTMENTS_TABLE_UI.OVERRIDE_TOOLTIP }}
-            </VTooltip>
-            <VBtn prepend-icon="tabler-trash" size="small" color="error" variant="text" @click="openDeleteDialog(item.id)">
-              {{ APPOINTMENTS_TABLE_UI.DELETE }}
-            </VBtn>
-          </div>
-        </template>
+        <AppointmentActionsCell
+          :item="item"
+          :editing-id="editingId"
+          @save="handleSaveEdit"
+          @cancel="handleCancelEdit"
+          @open-confirm="handleOpenConfirmDialog"
+          @start-edit="handleStartEdit"
+          @delete="openDeleteDialog"
+        />
       </template>
     </VDataTable>
 
-    <VDialog v-model="showDeleteDialog" max-width="500">
-      <VCard>
-        <VCardTitle class="text-h6">{{ APPOINTMENTS_TABLE_UI.DELETE_DIALOG_TITLE }}</VCardTitle>
-        <VCardText>
-          {{ APPOINTMENTS_TABLE_UI.DELETE_DIALOG_MESSAGE }}
-        </VCardText>
-        <VCardActions>
-          <VSpacer />
-          <VBtn variant="text" @click="cancelDelete">{{ APPOINTMENTS_TABLE_UI.DELETE_DIALOG_CANCEL }}</VBtn>
-          <VBtn color="error" variant="flat" @click="confirmDelete">{{ APPOINTMENTS_TABLE_UI.DELETE_DIALOG_CONFIRM }}</VBtn>
-        </VCardActions>
-      </VCard>
-    </VDialog>
-
-    <VDialog v-model="showConfirmDialog" max-width="500" persistent>
-      <VCard>
-        <VCardTitle class="text-h6">{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VCardTitle>
-        <VCardText>
-          {{ confirmingAppointment ? confirmingAppointment.selectedDate ?? '—' : '' }}
-        </VCardText>
-        <VCardActions>
-          <VSpacer />
-          <VBtn variant="text" @click="handleCancelConfirm">{{ APPOINTMENTS_TABLE_UI.CANCEL }}</VBtn>
-          <VBtn color="success" variant="flat" disabled>{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VBtn>
-        </VCardActions>
-      </VCard>
-    </VDialog>
+    <AppointmentTableDialogs
+      :show-delete-dialog="showDeleteDialog"
+      :show-confirm-dialog="showConfirmDialog"
+      :confirming-appointment="confirmingAppointment"
+      @cancel-delete="cancelDelete"
+      @confirm-delete="confirmDelete"
+      @cancel-confirm="handleCancelConfirm"
+    />
   </div>
 </template>
 

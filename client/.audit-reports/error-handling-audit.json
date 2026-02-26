@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-25T01:18:52.559Z",
+  "generatedAt": "2026-02-26T01:17:10.906Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,304 +13,18 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1054,
+  "totalScanned": 1085,
   "exceptionSummary": {
-    "totalAllowed": 0,
-    "totalRequiresReview": 19,
+    "totalAllowed": 3,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
-      "specific": 0,
+      "specific": 3,
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "id": "client__src__composables__admin__useSelectFiltering.ts",
-      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "empty-catch",
-          "lineNumber": 134,
-          "line": "} catch {",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "empty-catch",
-          "lineNumber": 313,
-          "line": "} catch {",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 20,
-      "priority": "P0"
-    },
-    {
-      "id": "client__src__composables__admin__tables__useCrudDataTableModel.ts",
-      "repoPath": "client/src/composables/admin/tables/useCrudDataTableModel.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 66,
-          "line": "} catch (_error) {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 92,
-          "line": "} catch (_error) {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 114,
-          "line": "} catch (_error) {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__api__api.controller.ts",
-      "repoPath": "server/src/api/api.controller.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 6,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 15,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__admin__generic__DynamicForm.vue",
-      "repoPath": "client/src/components/admin/generic/DynamicForm.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 101,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__admin__generic__EntityFormContent.vue",
-      "repoPath": "client/src/components/admin/generic/EntityFormContent.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 62,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__beta__BetaFeedbackDashboard.vue",
-      "repoPath": "client/src/components/beta/BetaFeedbackDashboard.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 209,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useDragAndDropHelpers.ts",
-      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 25,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useFieldContextMetadataEntity.ts",
-      "repoPath": "client/src/composables/admin/useFieldContextMetadataEntity.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 64,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__usePartsCollectionField.ts",
-      "repoPath": "client/src/composables/admin/usePartsCollectionField.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 33,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useRelationshipCollection.ts",
-      "repoPath": "client/src/composables/admin/useRelationshipCollection.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 107,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useRelationshipCollectionField.ts",
-      "repoPath": "client/src/composables/admin/useRelationshipCollectionField.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 31,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__admin__useSelectConfig.ts",
-      "repoPath": "client/src/composables/admin/useSelectConfig.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 51,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__composables__useFormValidation.ts",
-      "repoPath": "client/src/composables/useFormValidation.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 138,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__admin__entityDisplay.ts",
-      "repoPath": "client/src/utils/admin/entityDisplay.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 39,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__utils__booking__timeSlotMatching.ts",
-      "repoPath": "client/src/utils/booking/timeSlotMatching.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 31,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    }
-  ],
+  "files": [],
   "ruleset": [
     {
       "ruleId": "empty-catch",
@@ -397,5 +111,9 @@
       "recommendedFix": "Import createLogger and replace console calls with logger methods."
     }
   ],
-  "suppressionHits": {}
+  "suppressionHits": {
+    "specific:1": 1,
+    "specific:2": 1,
+    "specific:3": 1
+  }
 }

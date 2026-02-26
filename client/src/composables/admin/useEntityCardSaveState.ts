@@ -5,7 +5,6 @@ PATTERN: Composable that co...
 import { ref, computed } from 'vue'
 import type { UseEntityCardSaveStateOptions, UseEntityCardSaveStateReturn } from '@/types/admin/entityCardSaveState'
 
-export type { UseEntityCardSaveStateOptions, UseEntityCardSaveStateReturn } from '@/types/admin/entityCardSaveState'
 
 /**
  * WHY: Unified save state management composable

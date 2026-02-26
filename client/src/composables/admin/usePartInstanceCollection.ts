@@ -145,42 +145,44 @@ PATTERN: Separ...
     }
   }
 
-  const partInstanceBulkEditComposable = usePartInstanceBulkEdit({ existingPartInstances: existingPartInstances as ComputedRef<GlobalEntity<'partInstance'>[]> })
+  const partInstanceBulkEditComposable = usePartInstanceBulkEdit({ existingPartInstances })
   const { 
-    bulkEditMode, 
+    bulkEditMode: bulkEditModeRef, 
     bulkEditData, 
     toggleBulkEditMode, 
     applyPartInstanceBulkEdit,
     handleBulkEditModalUpdate,
     handleBulkEditConfirm
   } = partInstanceBulkEditComposable
-  
-  const bulkEditModeRef = bulkEditMode as Ref<boolean>
-  // FIX: bulkEditData is already Ref<PartInstanceBulkEditData> from usePartInstanceBulkEdit
-  const bulkEditDataRef = bulkEditData
 
   const expandedPartInstances = ref<string[]>([])
   const isPanelExpanded = (partInstanceId: string): boolean => expandedPartInstances.value.includes(partInstanceId)
 
   return {
-    validPartShapes,
-    existingPartInstances,
-    getPartInstanceForShape,
-    getPartShapeName,
-    blockInstance,
-    shouldShowPartInstances,
-    optionsFieldKey,
-    expandedPlaceholders,
-    getNewPartInstanceEntity,
-    handleNewPartInstanceSaved,
-    handleNewPartInstanceCancelled,
-    bulkEditMode: bulkEditModeRef,
-    bulkEditData: bulkEditDataRef,
-    toggleBulkEditMode,
-    applyPartInstanceBulkEdit,
-    handleBulkEditModalUpdate,
-    handleBulkEditConfirm,
-    expandedPartInstances,
-    isPanelExpanded,
+    data: {
+      validPartShapes,
+      existingPartInstances,
+      getPartInstanceForShape,
+      getPartShapeName,
+      blockInstance,
+      shouldShowPartInstances,
+      optionsFieldKey,
+    },
+    state: {
+      expandedPlaceholders,
+      bulkEditMode: bulkEditModeRef,
+      bulkEditData,
+      expandedPartInstances,
+    },
+    actions: {
+      getNewPartInstanceEntity,
+      handleNewPartInstanceSaved,
+      handleNewPartInstanceCancelled,
+      toggleBulkEditMode,
+      applyPartInstanceBulkEdit,
+      handleBulkEditModalUpdate,
+      handleBulkEditConfirm,
+      isPanelExpanded,
+    },
   }
 }

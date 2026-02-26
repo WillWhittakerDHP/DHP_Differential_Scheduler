@@ -1,7 +1,6 @@
 import { ref, watch } from 'vue'
 import type { UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
-export type { LoadingIndicatorInstance, UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)

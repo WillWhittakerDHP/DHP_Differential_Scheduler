@@ -15,7 +15,6 @@ import type { UseStatusButtonToggleOptions, UseStatusButtonToggleReturn } from '
 
 const logger = createLogger('useStatusButtonToggle')
 
-export type { UseStatusButtonToggleOptions, UseStatusButtonToggleReturn } from '@/types/admin/statusButtonToggle'
 
 /**
  * WHY: Reusable status button toggle composable
@@ -24,27 +23,20 @@ PATTERN: Pure composable that h...
 export function useStatusButtonToggle<GE extends GlobalEntityKey>(
   options: UseStatusButtonToggleOptions<GE>
 ): UseStatusButtonToggleReturn<GE> {
-  const { entityKey, entityId, entity, onToggle } = options
-  
+  const { entityKey, entityId, onToggle } = options
+
   const { getGlobalEntityById } = useGlobal()
-  
+
   const entityIdRef = computed(() => {
     if (typeof entityId === 'string') {
       return entityId
     }
     return entityId.value
   })
-  
-  const entityRef = computed<GlobalEntity<GE> | undefined>(() => {
-    // If entity is provided, use it (for backward compatibility)
-    if (entity) {
-      if ('value' in entity) {
-        return entity.value as GlobalEntity<GE>
-      }
-      return entity as GlobalEntity<GE>
-    }
-    return getGlobalEntityById(entityKey, entityIdRef.value)
-  })
+
+  const entityRef = computed<GlobalEntity<GE> | undefined>(() =>
+    getGlobalEntityById(entityKey, entityIdRef.value)
+  )
   
   const { mutateAsync } = usePrimitiveMutation(entityKey)
   

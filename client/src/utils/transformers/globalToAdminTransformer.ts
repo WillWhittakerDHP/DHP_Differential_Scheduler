@@ -8,7 +8,6 @@ import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { AdminObject, AdminObjectMap } from '@/types/transformers/adminObject'
-import { AdminEntity } from '@/types/admin/AdminEntity'
 import { groupByParentId } from './transformerCollections'
 import { safeArray } from './transformerPrimitives'
 
@@ -80,17 +79,8 @@ function transformSingleEntity<GE extends GlobalEntityKey>(
     ...attachedRelationshipData,
   } as GlobalEntity<GE> & Record<string, unknown>
 
-  const emptyDisplayConfig = {
-    primitives: {},
-    relationships: {},
-    layout: {},
-  } as AdminEntity<GE>['displayConfig']
-  const adminEntity = new AdminEntity(entityWithRelationships, emptyDisplayConfig)
-  const plainObjectFromConfig = adminEntity.toPlainObject({})
-
   const plainObject = {
     ...entityWithRelationships,
-    ...plainObjectFromConfig,
   } as AdminObject<GE>
 
   const relationshipData = RELATIONSHIP_KEYS.reduce<Partial<AdminObject<GE>>>(

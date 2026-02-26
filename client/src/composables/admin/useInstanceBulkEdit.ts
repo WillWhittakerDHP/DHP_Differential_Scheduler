@@ -34,7 +34,11 @@ export function useInstanceBulkEdit(
   const { patchBulk } = useEntityCrud('blockInstance')
 
   function getBulkEditData(blockShapeId: string): { baseSqFt?: number } {
-    return bulkEditData.value.get(blockShapeId) ?? {}
+    const existingBulkEditData = bulkEditData.value.get(blockShapeId)
+    if (existingBulkEditData === undefined) {
+      return {}
+    }
+    return existingBulkEditData
   }
 
   function toggleBulkEditMode(blockShapeId: string): void {
@@ -44,9 +48,10 @@ export function useInstanceBulkEdit(
   }
 
   async function applyBulkEdit(blockShapeId: string): Promise<void> {
-    const instances = blockInstancesByShape.value.get(blockShapeId) ?? []
+    const instances = blockInstancesByShape.value.get(blockShapeId)
+    if (!instances || instances.length === 0) return
     const data = bulkEditData.value.get(blockShapeId)
-    if (!data || instances.length === 0) return
+    if (!data) return
     const updates = instances.map((inst) => ({ id: inst.id, ...data }))
     await patchBulk(updates)
   }

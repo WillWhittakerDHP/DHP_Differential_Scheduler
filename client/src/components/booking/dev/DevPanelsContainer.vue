@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, computed, type Ref } from 'vue'
+import { ref, computed, provide } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { createLogger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
@@ -15,6 +15,7 @@ import { useDevPanelButtonsInject } from '@/composables/booking/useDevPanelButto
 import { useEventShapeById } from '@/composables/booking/useEventShapeById'
 import { useDevPanelsAppointmentData } from '@/composables/booking/useDevPanelsAppointmentData'
 import { devPanelsFormatters } from '@/utils/booking/devPanelsFormatters'
+import { instancesPanelContextKey } from '@/composables/booking/injectionKeys'
 import type { DevPanelVisibleProps } from '@/components/admin/dev/devPanelTypes'
 import SlotShapePanel from '@/components/booking/dev/SlotShapePanel.vue'
 import InstancesPanel from '@/components/booking/dev/InstancesPanel.vue'
@@ -36,7 +37,7 @@ const activeInstancesSubTab = ref<'parts' | 'blocks'>('parts')
 const panelRef = ref<HTMLElement | null>(null)
 
 const devPanelData = useDevPanelData()
-const appointmentData = useDevPanelsAppointmentData(devPanelData as Ref<Record<string, unknown>>)
+const appointmentData = useDevPanelsAppointmentData(devPanelData)
 
 const { settings: availabilitySettings } = useAvailabilitySettings()
 
@@ -103,7 +104,7 @@ const isSelectedServiceDifferential = computed(() => {
 const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean => {
   const shape = appointmentData.value.appointmentShape
   if (!shape || !shape.eventAssignmentsByPartShape) return false
-  
+
   const rawEvents = shape.eventAssignmentsByPartShape[partShapeName]
   const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
   if (events.length === 0) return false
@@ -112,9 +113,9 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
     const es = eventShapeById.value.get(toGlobalEntityId(ei.eventShapeRef))
     return es?.id === eventShape.id
   })
-  
+
   if (!matchingEvent) return false
-  
+
   if (eventShape.isTernary) {
     const ternaryValue = eventShape.ternaryDefault
     if (ternaryValue === null) {
@@ -123,10 +124,31 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
     }
     return toBoolean(ternaryValue, 'strict')
   }
-  
+
   return true
 }
 
+const appointmentShapeForPanel = computed(() => appointmentData.value?.appointmentShape ?? null)
+const hasSelectedTimeForPanel = computed(() => !!appointmentData.value?.selectedTime)
+
+provide(instancesPanelContextKey, {
+  activeInstancesSubTab,
+  setActiveInstancesSubTab: (value: 'parts' | 'blocks') => { activeInstancesSubTab.value = value },
+  appointmentShape: appointmentShapeForPanel,
+  finalizedParts,
+  eventShapes,
+  hasEventForPart,
+  formatDuration,
+  formatTime,
+  selectedServiceTypeId,
+  serviceTypeOptions,
+  handleServiceTypeChange,
+  hasWizard: !!wizard.value,
+  isSelectedServiceDifferential,
+  servicesSummary,
+  timeSlotResults,
+  hasSelectedTime: hasSelectedTimeForPanel,
+})
 </script>
 
 <template>
@@ -162,24 +184,7 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
             />
           </VWindowItem>
           <VWindowItem value="instances">
-            <InstancesPanel
-              :active-instances-sub-tab="activeInstancesSubTab"
-              :appointment-shape="appointmentData.appointmentShape"
-              :finalized-parts="finalizedParts"
-              :event-shapes="eventShapes"
-              :has-event-for-part="hasEventForPart"
-              :format-duration="formatDuration"
-              :format-time="formatTime"
-              :selected-service-type-id="selectedServiceTypeId"
-              :service-type-options="serviceTypeOptions"
-              :handle-service-type-change="handleServiceTypeChange"
-              :has-wizard="!!wizard"
-              :is-selected-service-differential="isSelectedServiceDifferential"
-              :services-summary="servicesSummary"
-              :time-slot-results="timeSlotResults"
-              :has-selected-time="!!appointmentData.selectedTime"
-              @update:active-instances-sub-tab="activeInstancesSubTab = $event"
-            />
+            <InstancesPanel />
           </VWindowItem>
           <VWindowItem value="constraints">
             <ConstraintsPanel :availability-settings-value="availabilitySettingsValue" />

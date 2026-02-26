@@ -1,7 +1,7 @@
 /**
  * WHY: Component-logic audit - move onMounted async and async handleSubmit out of BlockShapeForm and PartShapeForm.
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, type ComputedRef, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useGlobal } from '@/composables/useGlobal'
@@ -25,11 +25,11 @@ export interface PartShapeFormData {
 export type ShapeFormData = BlockShapeFormData | PartShapeFormData
 
 function useShapeFormBlock(): {
-  isEdit: ReturnType<typeof computed<boolean>>
-  entityId: ReturnType<typeof computed<string | undefined>>
-  formData: ReturnType<typeof ref<BlockShapeFormData>>
-  isSubmitting: ReturnType<typeof ref<boolean>>
-  error: ReturnType<typeof ref<string | null>>
+  isEdit: ComputedRef<boolean>
+  entityId: ComputedRef<string | undefined>
+  formData: Ref<BlockShapeFormData>
+  isSubmitting: Ref<boolean>
+  error: Ref<string | null>
   handleSubmit: () => Promise<void>
   goBack: () => void
 } {
@@ -88,11 +88,11 @@ function useShapeFormBlock(): {
 }
 
 function useShapeFormPart(): {
-  isEdit: ReturnType<typeof computed<boolean>>
-  entityId: ReturnType<typeof computed<string | undefined>>
-  formData: ReturnType<typeof ref<PartShapeFormData>>
-  isSubmitting: ReturnType<typeof ref<boolean>>
-  error: ReturnType<typeof ref<string | null>>
+  isEdit: ComputedRef<boolean>
+  entityId: ComputedRef<string | undefined>
+  formData: Ref<PartShapeFormData>
+  isSubmitting: Ref<boolean>
+  error: Ref<string | null>
   handleSubmit: () => Promise<void>
   goBack: () => void
 } {

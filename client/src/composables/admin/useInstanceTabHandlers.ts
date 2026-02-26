@@ -3,7 +3,6 @@
  */
 import type { UseInstanceTabHandlersOptions, UseInstanceTabHandlersReturn } from '@/types/admin/instanceTabHandlers'
 
-export type { UseInstanceTabHandlersOptions, UseInstanceTabHandlersReturn } from '@/types/admin/instanceTabHandlers'
 
 /**
  * PATTERN: Composable for handling tab clicks

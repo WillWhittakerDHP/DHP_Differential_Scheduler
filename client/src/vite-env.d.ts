@@ -103,7 +103,7 @@ declare module 'vuetify/lib/components/VInput/VInput' {
 }
 
 declare module 'vuetify/lib/util/helpers' {
-  export function filterInputAttrs(attrs: Record<string, unknown>): [Record<string, unknown>, Record<string, unknown>]
+  export function filterInputAttrs(attrs: Record<string, unknown>): Partial<Record<string, unknown>>[]
 }
 
 

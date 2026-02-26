@@ -4,22 +4,22 @@
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
+import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { ComputedRef } from 'vue'
 import type { EntityCardSharedProps } from './entityCardConstants'
-import type { FieldsByLocation } from '@/composables/admin/useConditionalFieldVisibility'
 
 interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>
   form: FormContext
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   composedFieldMetadata: Record<string, FieldMetadataEntry>
   fieldsByLocation: FieldsByLocation
   fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[]
@@ -54,8 +54,8 @@ defineProps<Props>()
         {{ String(fieldKey) }}
       </li>
     </ul>
-    <div class="text-caption mt-2">
-      This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-input-metadata.
+    <div class="text-body-small mt-2">
+      This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-metadata.
     </div>
   </VAlert>
 

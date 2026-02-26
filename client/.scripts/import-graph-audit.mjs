@@ -7,6 +7,8 @@ import {
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
   parseChangedOnlyFlag,
+  loadCentralAllowlist,
+  checkConfigAllowlist,
 } from './shared-audit-utils.mjs'
 
 /**
@@ -33,7 +35,7 @@ import {
  *   - client/.audit-reports/import-graph-audit.md
  */
 
-const DEFAULTS = { maxFanOut: 15, maxFanIn: 20 }
+const DEFAULTS = { maxFanOut: 15, maxFanIn: 20, maxComposableChainDepth: 2 }
 
 function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 
@@ -90,6 +92,46 @@ function extractImports(content, absPath, projectRoot) {
 function normalizeImportPath(importPath) {
   // Remove file extensions for comparison
   return importPath.replace(/\.(ts|js|vue|mjs|tsx|jsx)$/, '')
+}
+
+/**
+ * Extract re-exported type names and their source module from file content.
+ * Returns array of { typeNames: string[], fromResolved: string } (fromResolved = repo-relative path without extension).
+ */
+function extractReExportedTypeNames(content, absPath, projectRoot) {
+  const dir = path.dirname(absPath)
+  const results = []
+  const re = /export\s+type\s*\{([^}]+)\}\s*from\s+['"]([^'"]+)['"]/g
+  for (const match of content.matchAll(re)) {
+    const namesStr = match[1]
+    const specifier = match[2]
+    const typeNames = namesStr.split(',').map((n) => n.trim()).filter(Boolean)
+    if (typeNames.length === 0) continue
+    let fromResolved = specifier
+    if (specifier.startsWith('.')) {
+      fromResolved = path.resolve(dir, specifier)
+      fromResolved = toRepoPath(fromResolved, projectRoot)
+    } else if (specifier.startsWith('@/')) {
+      fromResolved = 'client/src/' + specifier.substring(2)
+    } else {
+      continue
+    }
+    fromResolved = normalizeImportPath(fromResolved)
+    results.push({ typeNames, fromResolved })
+  }
+  return results
+}
+
+/**
+ * Get exported type/interface names from a file (regex).
+ */
+function getTypeExportsFromFile(content) {
+  const names = new Set()
+  const typeRe = /export\s+(?:type|interface)\s+([A-Za-z_][A-Za-z0-9_]*)\b/g
+  for (const match of content.matchAll(typeRe)) {
+    names.add(match[1])
+  }
+  return names
 }
 
 /**
@@ -175,6 +217,63 @@ function detectCrossBoundary(importerPath, importedPath) {
   return null
 }
 
+/**
+ * Compute max composable-to-composable chain depth per composable file.
+ * Depth 0 = no composable imports; depth 3+ hurts testability (flag as violation).
+ * Returns { depths: Map, violations: Array }.
+ */
+function computeComposableChainDepths(adjacencyList, maxDepth) {
+  const COMPOSABLE_RE = /composables\//
+  const composableNodes = new Set(
+    [...adjacencyList.keys()].filter((k) => COMPOSABLE_RE.test(k))
+  )
+
+  const subgraph = new Map()
+  for (const node of composableNodes) {
+    const neighbors = (adjacencyList.get(node) || []).filter((n) =>
+      composableNodes.has(n)
+    )
+    subgraph.set(node, neighbors)
+  }
+
+  const memo = new Map()
+  function getDepth(node, visiting) {
+    if (memo.has(node)) return memo.get(node)
+    if (visiting.has(node)) return { depth: 0, chain: [node] }
+    visiting.add(node)
+    const neighbors = subgraph.get(node) || []
+    if (neighbors.length === 0) {
+      memo.set(node, { depth: 0, chain: [node] })
+      visiting.delete(node)
+      return memo.get(node)
+    }
+    let maxChild = { depth: -1, chain: [] }
+    for (const n of neighbors) {
+      const child = getDepth(n, visiting)
+      if (child.depth > maxChild.depth) maxChild = child
+    }
+    const result = {
+      depth: maxChild.depth + 1,
+      chain: [node, ...maxChild.chain],
+    }
+    memo.set(node, result)
+    visiting.delete(node)
+    return result
+  }
+
+  const depths = new Map()
+  for (const node of composableNodes) {
+    depths.set(node, getDepth(node, new Set()))
+  }
+
+  const violations = [...depths.entries()]
+    .filter(([, v]) => v.depth > maxDepth)
+    .map(([file, v]) => ({ file, depth: v.depth, chain: v.chain }))
+    .sort((a, b) => b.depth - a.depth)
+
+  return { depths, violations }
+}
+
 function assignPriority(score, config) {
   const p0Min = Number(config?.priorities?.p0MinSeverityScore ?? 15)
   const p1Min = Number(config?.priorities?.p1MinSeverityScore ?? 6)
@@ -196,6 +295,8 @@ function renderMarkdownReport(result) {
   lines.push(`- Circular dependencies: **${result.cycles.length}**`)
   lines.push(`- Fan-out violations (> ${result.thresholds.maxFanOut}): **${result.fanOutViolations.length}**`)
   lines.push(`- Fan-in violations (> ${result.thresholds.maxFanIn}): **${result.fanInViolations.length}**`)
+  const chainDepthViolations = result.composableChainDepthViolations ?? []
+  lines.push(`- Composable chain-depth violations (> ${result.thresholds.maxComposableChainDepth}): **${chainDepthViolations.length}**`)
   lines.push(`- Cross-boundary imports: **${result.crossBoundary.length}**`)
   lines.push('')
 
@@ -229,6 +330,24 @@ function renderMarkdownReport(result) {
     lines.push('| --- | ---: |')
     for (const f of result.fanInViolations.slice(0, 20)) {
       lines.push(`| \`${f.file}\` | ${f.fanIn} |`)
+    }
+    lines.push('')
+  }
+
+  if (chainDepthViolations.length > 0) {
+    lines.push('## Composable Chain Depth')
+    lines.push('')
+    lines.push('Composables with composable-calls-composable chain depth exceeding threshold (hurts unit testability). Consider flattening: extract pure logic or thin orchestrators.')
+    lines.push('')
+    lines.push('| Composable | Depth | Longest Chain |')
+    lines.push('| --- | ---: | --- |')
+    for (const v of chainDepthViolations.slice(0, 20)) {
+      const chainLabel = v.chain.map((n) => path.basename(n, path.extname(n))).join(' → ')
+      lines.push(`| \`${v.file}\` | ${v.depth} | ${chainLabel} |`)
+    }
+    if (chainDepthViolations.length > 20) {
+      lines.push('')
+      lines.push(`*...and ${chainDepthViolations.length - 20} more. See full report.*`)
     }
     lines.push('')
   }
@@ -274,6 +393,7 @@ function main() {
   const thresholds = {
     maxFanOut: config.thresholds?.maxFanOut ?? DEFAULTS.maxFanOut,
     maxFanIn: config.thresholds?.maxFanIn ?? DEFAULTS.maxFanIn,
+    maxComposableChainDepth: config.thresholds?.maxComposableChainDepth ?? DEFAULTS.maxComposableChainDepth,
   }
 
   const allFiles = listAuditFiles('import-graph', [paths.clientSrc, paths.serverSrc])
@@ -319,6 +439,60 @@ function main() {
     .map(([file, count]) => ({ file, fanIn: count }))
     .sort((a, b) => b.fanIn - a.fanIn)
 
+  // Composable chain depth (composable-calls-composable; depth 3+ hurts testability)
+  const { violations: composableChainDepthViolationsRaw } = computeComposableChainDepths(
+    adjacencyList,
+    thresholds.maxComposableChainDepth
+  )
+  const importGraphAllowlist = loadCentralAllowlist('import-graph')
+  const composableChainDepthViolations = importGraphAllowlist
+    ? composableChainDepthViolationsRaw.filter((v) => {
+        const { allowed } = checkConfigAllowlist(v.file, 'composableChainDepth', 0, importGraphAllowlist)
+        return !allowed
+      })
+    : composableChainDepthViolationsRaw
+
+  // Type mirror detection: types/ file exports types that a composable re-exports; both have consumers
+  const typeMirrorPaths = []
+  const absToNormalized = new Map()
+  for (const abs of allFiles) {
+    const repoPath = toRepoPath(abs, paths.projectRoot)
+    absToNormalized.set(abs, normalizeImportPath(repoPath))
+  }
+  const typesFileExports = new Map()
+  for (const abs of allFiles) {
+    const repoPath = toRepoPath(abs, paths.projectRoot)
+    const norm = normalizeImportPath(repoPath)
+    if (!/\/types\//.test(repoPath) && !/^server\/src\/types\//.test(repoPath)) continue
+    const content = fs.readFileSync(abs, 'utf-8')
+    typesFileExports.set(norm, getTypeExportsFromFile(content))
+  }
+  for (const abs of allFiles) {
+    const repoPath = toRepoPath(abs, paths.projectRoot)
+    const norm = absToNormalized.get(abs)
+    if (!/\/composables\//.test(repoPath)) continue
+    const content = fs.readFileSync(abs, 'utf-8')
+    const reExports = extractReExportedTypeNames(content, abs, paths.projectRoot)
+    for (const { typeNames, fromResolved } of reExports) {
+      const typesExports = typesFileExports.get(fromResolved)
+      if (!typesExports || typesExports.size === 0) continue
+      const sharedExports = typeNames.filter((n) => typesExports.has(n))
+      if (sharedExports.length === 0) continue
+      const consumersFromTypes = fanIn.get(fromResolved) ?? 0
+      const consumersFromComposable = fanIn.get(norm) ?? 0
+      if (consumersFromTypes > 0 && consumersFromComposable > 0) {
+        typeMirrorPaths.push({
+          from: fromResolved,
+          mirror: norm,
+          sharedExports,
+          consumersFromTypes,
+          consumersFromComposable,
+          recommendation: 'Consolidate imports to one canonical path.',
+        })
+      }
+    }
+  }
+
   // Compute overall score per file for priority assignment
   const fileScores = new Map()
   for (const c of cycles) {
@@ -335,6 +509,10 @@ function main() {
   for (const cb of crossBoundary) {
     fileScores.set(cb.from, (fileScores.get(cb.from) || 0) + 5)
   }
+  for (const v of composableChainDepthViolations) {
+    const overBy = v.depth - thresholds.maxComposableChainDepth
+    fileScores.set(v.file, (fileScores.get(v.file) || 0) + (overBy >= 2 ? 8 : 4))
+  }
 
   const files = Array.from(fileScores.entries())
     .map(([file, score]) => ({ file, score, priority: assignPriority(score, config) }))
@@ -348,14 +526,16 @@ function main() {
     cycles,
     fanOutViolations,
     fanInViolations,
+    composableChainDepthViolations,
     crossBoundary,
+    typeMirrorPaths,
     files,
   }
 
   const { outJson, outMd } = writeAuditReports('import-graph', result, renderMarkdownReport(result))
 
   console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
-  console.log(`Cycles: ${cycles.length}, Fan-out violations: ${fanOutViolations.length}, Fan-in violations: ${fanInViolations.length}, Cross-boundary: ${crossBoundary.length}`)
+  console.log(`Cycles: ${cycles.length}, Fan-out: ${fanOutViolations.length}, Fan-in: ${fanInViolations.length}, Composable chain depth: ${composableChainDepthViolations.length}, Cross-boundary: ${crossBoundary.length}, Type mirrors: ${typeMirrorPaths.length}`)
   process.exitCode = 0
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-non-literal-regexp */
 import fs from 'node:fs'
 import path from 'node:path'
 import {
@@ -150,7 +151,7 @@ function detectDerivedPattern(contents) {
 /** Scan codebase for "import type { X }" or "import type X" to count consumers of a type name */
 function countTypeConsumers(typeName, allAbsPaths, _projectRoot) {
   // typeName is a type name from our codebase, not user input
-  // eslint-disable-next-line security/detect-non-literal-regexp -- typeName is from codebase type names
+   
   const needle = new RegExp(`import\\s+type\\s+\\{[^}]*\\b${typeName}\\b[^}]*\\}|import\\s+type\\s+\\b${typeName}\\b`)
   let count = 0
   for (const abs of allAbsPaths) {
@@ -198,7 +199,12 @@ function main() {
   const projectRoot = path.resolve(clientSrc, '..', '..')
 
   const annotations = loadAnnotations(paths)
-  const typeFileAbsList = collectTypeFilePaths(clientSrc, projectRoot)
+  const clientTypeFileAbsList = collectTypeFilePaths(clientSrc, projectRoot)
+  const sharedTypesDir = path.join(projectRoot, 'shared', 'types')
+  const sharedTypeAbsList = fs.existsSync(sharedTypesDir)
+    ? walkDir(sharedTypesDir, ['.ts'], [], projectRoot)
+    : []
+  const typeFileAbsList = [...clientTypeFileAbsList, ...sharedTypeAbsList]
   const constantsDir = path.join(clientSrc, 'constants')
   const configsDir = path.join(clientSrc, 'configs')
   const constantAbsList = walkDir(constantsDir, ['.ts'], [], projectRoot)
@@ -223,17 +229,19 @@ function main() {
     const typeExports = extractTypeExports(contents)
     const constExports = extractConstExports(contents)
     const functionExports = extractFunctionExports(contents)
-    const directoryDomain = repoPath.startsWith('client/src/types/')
-      ? deriveDomain(repoPath, 'client/src/types/')
-      : repoPath.includes('/composables/')
-        ? deriveDomain(repoPath, 'client/src/composables/')
-        : repoPath.includes('/components/')
-          ? deriveDomain(repoPath, 'client/src/components/')
-          : repoPath.includes('/utils/')
-            ? deriveDomain(repoPath, 'client/src/utils/')
-            : repoPath.includes('@core') ? '@core' : repoPath.includes('@layouts') ? '@layouts' : 'root'
+    const directoryDomain = repoPath.startsWith('shared/types/')
+      ? deriveDomain(repoPath, 'shared/types/')
+      : repoPath.startsWith('client/src/types/')
+        ? deriveDomain(repoPath, 'client/src/types/')
+        : repoPath.includes('/composables/')
+          ? deriveDomain(repoPath, 'client/src/composables/')
+          : repoPath.includes('/components/')
+            ? deriveDomain(repoPath, 'client/src/components/')
+            : repoPath.includes('/utils/')
+              ? deriveDomain(repoPath, 'client/src/utils/')
+              : repoPath.includes('@core') ? '@core' : repoPath.includes('@layouts') ? '@layouts' : 'root'
     let location = 'scattered'
-    if (repoPath.startsWith('client/src/types/')) location = 'dedicated'
+    if (repoPath.startsWith('shared/types/') || repoPath.startsWith('client/src/types/')) location = 'dedicated'
     else if (repoPath.includes('/composables/') || repoPath.includes('/components/') || repoPath.includes('/utils/')) location = 'colocated'
     const ann = annotations.entries[repoPath] || {}
     typeFiles.push({
@@ -389,6 +397,48 @@ function main() {
     }
   }
 
+  // Phase 7b: Generic monomorphic detection
+  const genericTypeDefs = new Map()
+  for (const abs of typeFileAbsList) {
+    const repoPath = toRepoPath(abs, projectRoot)
+    const contents = fs.readFileSync(abs, 'utf8')
+    const typeRe = /export\s+type\s+([A-Za-z_][A-Za-z0-9_]*)\s*</g
+    const ifaceRe = /export\s+interface\s+([A-Za-z_][A-Za-z0-9_]*)\s*</g
+    for (const m of contents.matchAll(typeRe)) genericTypeDefs.set(m[1], { definedIn: repoPath })
+    for (const m of contents.matchAll(ifaceRe)) genericTypeDefs.set(m[1], { definedIn: repoPath })
+  }
+  const allScanableAbs = walkDir(clientSrc, ['.ts', '.vue'], [], projectRoot)
+  const monomorphicGenerics = []
+  for (const [typeName, { definedIn }] of genericTypeDefs) {
+    const argSet = new Set()
+    const usageRe = new RegExp(`\\b${typeName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}<([^>]+)>`, 'g')
+    let usageCount = 0
+    for (const abs of allScanableAbs) {
+      try {
+        const content = fs.readFileSync(abs, 'utf8')
+        const scriptContent = abs.endsWith('.vue')
+          ? (content.match(/<script[^>]*>([\s\S]*?)<\/script>/i)?.[1] ?? '')
+          : content
+        for (const m of scriptContent.matchAll(usageRe)) {
+          usageCount += 1
+          argSet.add(m[1].trim())
+        }
+      } catch {
+        // skip
+      }
+    }
+    if (argSet.size === 1 && usageCount >= 3) {
+      const alwaysInstantiatedWith = [...argSet][0]
+      monomorphicGenerics.push({
+        typeName,
+        definedIn,
+        alwaysInstantiatedWith,
+        usageCount,
+        recommendation: 'Consider removing the generic parameter or merging with the argument type',
+      })
+    }
+  }
+
   const summary = {
     totalTypeFiles: typeFiles.length,
     totalConstantFiles: constantAbsList.length,
@@ -402,6 +452,7 @@ function main() {
       configsWithLogic: configsWithLogic.length,
       duplicateTypeNames: duplicateFindings.length,
       cleanupCandidates: cleanupCandidates.length,
+      monomorphicGenerics: monomorphicGenerics.length,
     },
   }
 
@@ -411,7 +462,7 @@ function main() {
   const payload = {
     generatedAt: new Date().toISOString(),
     scope: {
-      typeFilesIncluded: ['client/src/types/**/*.ts', 'client/src/composables/**/types.ts', 'client/src/configs/**/*.ts'],
+      typeFilesIncluded: ['client/src/types/**/*.ts', 'client/src/composables/**/types.ts', 'client/src/configs/**/*.ts', 'shared/types/**/*.ts'],
       constantFilesIncluded: ['client/src/constants/**/*.ts'],
       configFilesIncluded: ['client/src/configs/**/*.ts'],
       inlineSourcesScanned: ['client/src/composables/**/*.ts', 'client/src/utils/**/*.ts'],
@@ -431,6 +482,7 @@ function main() {
     constantsVsConfigsBoundary,
     overlapCandidates,
     cleanupCandidates,
+    monomorphicGenerics,
   }
 
   function renderMarkdownReport() {
@@ -455,7 +507,20 @@ function main() {
     lines.push(`| Configs with factory functions | ${summary.classificationIssues.configsWithLogic} |`)
     lines.push(`| Duplicate type names | ${summary.classificationIssues.duplicateTypeNames} |`)
     lines.push(`| Cleanup candidates (misplaced + unused) | ${summary.classificationIssues.cleanupCandidates} |`)
+    lines.push(`| Monomorphic generics | ${summary.classificationIssues.monomorphicGenerics} |`)
     lines.push('')
+    if (monomorphicGenerics.length > 0) {
+      lines.push('## Monomorphic generics')
+      lines.push('')
+      lines.push('Generic types always instantiated with the same argument; consider removing the generic or merging with the argument type.')
+      lines.push('')
+      lines.push('| Type name | Defined in | Always used with | Usage count |')
+      lines.push('| --- | --- | --- | ---: |')
+      for (const m of monomorphicGenerics) {
+        lines.push(`| ${m.typeName} | \`${m.definedIn}\` | \`${m.alwaysInstantiatedWith}\` | ${m.usageCount} |`)
+      }
+      lines.push('')
+    }
     lines.push('## Type File Catalog (by domain)')
     lines.push('')
     const byDomain = new Map()

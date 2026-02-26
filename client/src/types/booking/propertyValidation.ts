@@ -1,6 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
-import type { UseStepValidationReturn } from '@/composables/booking/useStepValidation'
 
+import type { UseStepValidationReturn } from '@/types/booking/stepValidation'
 export interface PropertyValidationData {
   address: string
   city: string

@@ -19,6 +19,7 @@ export interface CrudDataTableModelOptions<
   mapItemToEditPayload: (item: TableItem) => UpdatePayload
 }
 
+/** Flat shape (table model composables spread grouped into this). */
 export interface CrudDataTableModel<
   TableItem extends { id: string },
   CreatePayload extends object,
@@ -42,4 +43,38 @@ export interface CrudDataTableModel<
   openDeleteDialog: (id: string) => void
   cancelDelete: () => void
   confirmDelete: () => Promise<void>
+}
+
+/** Grouped return for composable-health (oversized-return repair). */
+export interface CrudDataTableModelGrouped<
+  TableItem extends { id: string },
+  CreatePayload extends object,
+  UpdatePayload extends object
+> {
+  data: {
+    items: ComputedRef<TableItem[]>
+    isLoading: ComputedRef<boolean>
+    error: ComputedRef<unknown>
+  }
+  editState: {
+    editingId: Ref<string | null>
+    editedData: Ref<Partial<UpdatePayload>>
+    isCreating: Ref<boolean>
+    newItem: Ref<CreatePayload>
+  }
+  dialogs: {
+    showDeleteDialog: Ref<boolean>
+    deletingId: Ref<string | null>
+  }
+  actions: {
+    startEdit: (item: TableItem) => void
+    cancelEdit: () => void
+    saveEdit: () => Promise<void>
+    startCreate: () => void
+    cancelCreate: () => void
+    saveCreate: () => Promise<void>
+    openDeleteDialog: (id: string) => void
+    cancelDelete: () => void
+    confirmDelete: () => Promise<void>
+  }
 }
