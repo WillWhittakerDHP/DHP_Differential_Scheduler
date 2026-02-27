@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-27T03:36:02.473Z",
-  "totalScanned": 2,
+  "generatedAt": "2026-02-27T04:02:20.069Z",
+  "totalScanned": 0,
   "ruleset": [
     {
       "ruleId": "excessive-prop-count",
@@ -84,80 +84,11 @@
       "recommendedFix": "Make the value a default or remove the prop entirely."
     }
   ],
-  "findings": [
-    {
-      "ruleId": "component-coupling",
-      "lineNumber": 6,
-      "snippet": "6 .vue imports",
-      "message": "Component imports 6 sibling components; high coupling surface.",
-      "fixHint": "Extract sub-compositions or use slots to reduce direct imports.",
-      "confidence": "high",
-      "isFileLevel": true,
-      "detail": {
-        "importCount": 6
-      },
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "isExported": true,
-      "parentCount": 1
-    },
-    {
-      "ruleId": "oversized-template",
-      "lineNumber": 83,
-      "snippet": "Template is 252 lines",
-      "message": "Template is 252 lines; extract sub-components to improve readability.",
-      "fixHint": "Extract logical sections into sub-components.",
-      "confidence": "high",
-      "isFileLevel": true,
-      "detail": {
-        "lineCount": 252
-      },
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "isExported": true,
-      "parentCount": 1
-    }
-  ],
-  "files": [
-    {
-      "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-      "score": 3,
-      "priority": "P1",
-      "parentCount": 1
-    }
-  ],
+  "findings": [],
+  "files": [],
   "repairWaves": {
     "local": [],
-    "lowFanIn": [
-      {
-        "ruleId": "component-coupling",
-        "lineNumber": 6,
-        "snippet": "6 .vue imports",
-        "message": "Component imports 6 sibling components; high coupling surface.",
-        "fixHint": "Extract sub-compositions or use slots to reduce direct imports.",
-        "confidence": "high",
-        "isFileLevel": true,
-        "detail": {
-          "importCount": 6
-        },
-        "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-        "isExported": true,
-        "parentCount": 1
-      },
-      {
-        "ruleId": "oversized-template",
-        "lineNumber": 83,
-        "snippet": "Template is 252 lines",
-        "message": "Template is 252 lines; extract sub-components to improve readability.",
-        "fixHint": "Extract logical sections into sub-components.",
-        "confidence": "high",
-        "isFileLevel": true,
-        "detail": {
-          "lineCount": 252
-        },
-        "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
-        "isExported": true,
-        "parentCount": 1
-      }
-    ],
+    "lowFanIn": [],
     "highFanIn": []
   }
 }
