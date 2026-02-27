@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T02:46:51.817Z",
+  "generatedAt": "2026-02-27T03:36:01.002Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -18,7 +18,7 @@
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 2,
+    "totalRequiresReview": 4,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -57,6 +57,28 @@
   ],
   "consolidationGroups": [
     {
+      "id": "inline-orphan-Failed-to-confirm-appointment",
+      "classification": "HOIST",
+      "description": "Value 'Failed to confirm appointment' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "client/src/constants/appointmentsTableConstants.ts",
+          "export": "APPOINTMENTS_TABLE_UI",
+          "line": 15,
+          "inline": false
+        },
+        {
+          "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+          "export": null,
+          "line": 88,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from client/src/constants/appointmentsTableConstants.ts"
+    },
+    {
       "id": "inline-orphan--business-rules",
       "classification": "HOIST",
       "description": "Value '/business-rules' defined in constants but used inline in 1 locations",
@@ -80,6 +102,36 @@
     }
   ],
   "files": [
+    {
+      "id": "client__src__composables__admin__tables__useAppointmentsTableModel.ts",
+      "repoPath": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 88,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__constants__appointmentsTableConstants.ts",
+      "repoPath": "client/src/constants/appointmentsTableConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 15,
+          "line": "export: APPOINTMENTS_TABLE_UI",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
     {
       "id": "client__src__constants__businessRulesConstants.ts",
       "repoPath": "client/src/constants/businessRulesConstants.ts",

@@ -35,6 +35,7 @@ Scope:
 | `client/src/composables/admin/useAdminAvailabilitySettings.ts` | 13 | 0 | 1 | 3 | 5 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardSubPanels.ts` | 13 | 0 | 1 | 10 | 0 | 0 | 0 |
 | `client/src/composables/useRelationship.ts` | 13 | 0 | 0 | 1 | 9 | 0 | 0 |
+| `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | 12 | 0 | 0 | 3 | 5 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useCalibrationChart.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/useInstanceDragAndDrop.ts` | 12 | 0 | 2 | 5 | 0 | 0 | 0 |
@@ -42,7 +43,6 @@ Scope:
 | `client/src/composables/booking/useAvailabilityLogic.ts` | 12 | 0 | 1 | 8 | 0 | 0 | 0 |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 12 | 0 | 1 | 6 | 2 | 0 | 0 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | 11 | 0 | 0 | 8 | 0 | 0 | 0 |
-| `client/src/composables/admin/useSelectInputsAsync.ts` | 11 | 0 | 0 | 1 | 7 | 0 | 0 |
 
 ## Per-file suggestions (actionable)
 
@@ -444,6 +444,25 @@ async@281: mutationFn: async ({ parentId, childId }) => {
 await@287: await apiClient.delete(deleteEndpoint)
 ```
 
+### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=4, await=1, dom=0, console=0
+
+```
+map@76: .map(pt => pt.blockInstance?.name)
+filter@77: .filter(Boolean)
+async@82: const confirmAppointment = async (id: string): Promise<boolean> => {
+await@84: await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })
+computed@96: itemsSource: computed(() => {
+computed@101: isLoadingSource: computed(() => fetchAll.isLoading.value),
+computed@102: errorSource: computed(() => fetchAll.error.value),
+async@103: createItem: async (payload) => create.mutateAsync(payload),
+async@104: updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),
+async@105: deleteItem: async (id) => remove.mutateAsync(id),
+map@123: selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({
+map@135: attendees: appointment.attendees?.map(attendee => ({
+```
+
 ### `client/src/composables/admin/useBlockInstanceForm.ts`
 
 - counts: vueQuery=0, watch=0, computed=3, ref=1, async=2, await=2, dom=0, console=0
@@ -628,23 +647,6 @@ watch@111: watch(modalOpen, (isOpen) => {
 computed@124: const preview = computed(() => {
 map@129: const componentIds = componentEntity.data.getComponents(composerId.value).map(ac => ac.childId)
 map@130: return componentIds.map(componentId => {
-```
-
-### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
-
-- counts: vueQuery=0, watch=0, computed=3, ref=0, async=3, await=0, dom=0, console=0
-
-```
-map@70: .map(pt => pt.blockInstance?.name)
-filter@71: .filter(Boolean)
-computed@78: itemsSource: computed(() => {
-computed@83: isLoadingSource: computed(() => fetchAll.isLoading.value),
-computed@84: errorSource: computed(() => fetchAll.error.value),
-async@85: createItem: async (payload) => create.mutateAsync(payload),
-async@86: updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),
-async@87: deleteItem: async (id) => remove.mutateAsync(id),
-map@105: selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({
-map@117: attendees: appointment.attendees?.map(attendee => ({
 ```
 
 ### `client/src/composables/admin/useInstanceBulkEdit.ts`
@@ -1137,6 +1139,20 @@ watch@26: watch([progressValue, isFallbackState], () => {
 timers@51: setTimeout(() => {
 ```
 
+### `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=1, async=3, await=3, dom=0, console=0
+
+```
+ref@34: const showConfirmDialog = ref(false)
+async@41: const handleConfirmAppointment = async (): Promise<void> => {
+await@43: await confirmAppointment(confirmingAppointment.value.id)
+async@53: const handleSaveCreate = async (): Promise<void> => {
+await@58: await saveCreate()
+async@61: const handleSaveEdit = async (): Promise<void> => {
+await@66: await saveEdit()
+```
+
 ### `client/src/composables/admin/useCalendarHoldFormState.ts`
 
 - counts: vueQuery=0, watch=0, computed=7, ref=0, async=0, await=0, dom=0, console=0
@@ -1443,18 +1459,6 @@ async@28: const prefetchToken = async (): Promise<void> => {
 await@35: sharedToken.value = await getSessionToken()
 async@44: const getToken = async (): Promise<string> => {
 await@50: await prefetchToken()
-```
-
-### `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=1, async=2, await=2, dom=0, console=0
-
-```
-ref@33: const showConfirmDialog = ref(false)
-async@45: const handleSaveCreate = async (): Promise<void> => {
-await@50: await saveCreate()
-async@53: const handleSaveEdit = async (): Promise<void> => {
-await@58: await saveEdit()
 ```
 
 ### `client/src/composables/admin/tables/usePropertiesTableModel.ts`

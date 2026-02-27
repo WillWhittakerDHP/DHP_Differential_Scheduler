@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T02:46:50.436Z",
+  "generatedAt": "2026-02-27T03:35:58.691Z",
   "totalScanned": 1023,
   "totalAllowed": 0,
   "tierModel": "tier1",
@@ -18,5 +18,43 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+      "functions": [
+        {
+          "name": "useAppointmentsTableModel",
+          "startLine": 35,
+          "endLine": 156,
+          "length": 122,
+          "maxNesting": 3,
+          "branches": 12,
+          "params": 0,
+          "returns": 16,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 122,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 16,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    }
+  ]
 }

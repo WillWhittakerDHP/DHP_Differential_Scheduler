@@ -29,6 +29,7 @@ import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.j
 import { paramString } from '../../helpers/requestHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js'
+import { onStatusChange } from '../../../services/notificationService.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('AppointmentRouter')
@@ -233,6 +234,9 @@ const router = createCrudRouter({
           confirmedBy: null,
         })
         logger.info(`Auto-confirmed appointment ${record.id} (submitted → confirmed)`)
+        onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {
+          logger.error('Notification hook failed on auto-confirm (non-blocking)', { error: err, appointmentId: record.id })
+        })
       }
     }
 
@@ -276,6 +280,14 @@ const router = createCrudRouter({
   },
   afterUpdate: async (record, req, res) => {
     const newStatus = req.body?.status as string | undefined
+    const oldStatus = req.body?._currentStatus as string | undefined
+
+    if (newStatus && oldStatus && newStatus !== oldStatus) {
+      onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {
+        logger.error('Notification hook failed (non-blocking)', { error: err, appointmentId: record.id })
+      })
+    }
+
     if (newStatus && shouldCreateCalendarEvent(newStatus)) {
       const existingInvites = await AppointmentAttendee.count({
         where: {

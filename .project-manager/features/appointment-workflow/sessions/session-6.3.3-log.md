@@ -23,8 +23,23 @@ _(Tasks will be logged as they are completed)_
 
 ## Completed Tasks
 
+### Task 6.3.3.2: Task 6.3.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.3.3.3
+
+
+
 ### Task 6.3.3.1: Task 6.3.3.1 ✅
 **Goal:** Task completed
 
 **Next Task:**
 - 6.3.3.2
+
+### Task 6.3.3.2: Task 6.3.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.3.3.3
+
