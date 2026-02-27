@@ -131,3 +131,15 @@ When logging a completed task:
 
 
 #### Task 6.4.4.1: Unified required confirmation modal shell
+
+**Goal:** Implement a unified required confirmation modal shell (moveable modal with preClosing property support per phase 6.4 scope).
+
+**Files:**
+- To be determined from implementation (Vue modal/dialog components and composables in client).
+
+**Approach:**
+- Implement or refactor modal shell for required confirmations; ensure moveable behavior and preClosing handling where applicable.
+- Align with existing patterns and component governance.
+
+**Checkpoint:**
+- Modal shell works for required confirmations; matches session scope and governance thresholds.

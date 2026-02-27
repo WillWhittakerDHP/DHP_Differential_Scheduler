@@ -6,22 +6,20 @@
 - **Related code:** See inventory in workflow output if present.
 
 ## Goal
-[To be refined during discussion]
+Implement a unified required confirmation modal shell (moveable modal with preClosing property support per phase 6.4 scope).
 
 ## Files
-[To be refined during discussion]
+To be determined from implementation (Vue modal/dialog components and composables in client).
 
 ## Approach
-[To be refined during discussion]
+- Implement or refactor modal shell for required confirmations; ensure moveable behavior and preClosing handling where applicable.
+- Align with existing patterns and component governance.
 
 ## Checkpoint
-[To be refined during discussion]
+Modal shell works for required confirmations; matches session scope and governance thresholds.
 
 ## Decisions Made
-[Populated as conversation progresses]
+- Proceeding with single task 6.4.4.1 as in session guide. Scope and governance deferred to implementation.
 
 ## Open Questions
-1. Does the task breakdown look right, or do you want to adjust tasks for this session? (Session guide already lists tasks.)
-2. Is the session scope clear, or does it need refinement before we start? (Session scope affects task ordering and deliverables.)
-3. Any design decisions already made (e.g. patterns, components to reuse)? (Helps align implementation with existing decisions.)
-4. Are governance findings relevant to this session scope? Address now or defer? (Governance output may include P0/P1 or inventory.)
+(Resolved — satisfied and ready to begin.)
