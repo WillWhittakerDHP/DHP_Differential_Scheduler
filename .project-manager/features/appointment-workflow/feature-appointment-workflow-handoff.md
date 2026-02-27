@@ -4,52 +4,64 @@
 
 **Tier:** Feature (Tier 0 - Highest Level)
 
-**Last Updated:** 2026-02-23
-**Feature Status:** [Complete / In Progress]
-**Next Feature:** appointment-workflow (if applicable)
+**Last Updated:** 2026-02-27
+**Feature Status:** In Progress
+**Next Phase:** Phase 6.4 (Rescheduling Flow)
 
 ---
 
 ## Current Status
 
-**Feature appointment-workflow:** [Complete / In Progress]
-**Last Completed Phase:** [Phase N]
-**Next Feature:** appointment-workflow (if applicable)
+**Feature appointment-workflow:** In Progress
+**Last Completed Phase:** Phase 6.3 (Confirmation Routine)
+**Next Phase:** Phase 6.4 (Rescheduling Flow)
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-Session 6.2.2 (Admin Override Stub) complete. All five tasks done: migration (override_constraints JSONB), sanitizeInput override logic with ALLOWED_OVERRIDE_CONSTRAINTS validation, requireRole stub exported, client Override button (disabled) in admin appointments table, and Feature 7 enactment docs updated in SECURITY_STUBS.md and handoff. Session 6.2.1 (Held Status Stub) also complete.
+Phase 6.3 (Confirmation Routine) complete across 3 sessions:
+- **Session 6.3.1:** Added confirmation data model (`submitted_at`, `confirmed_at`, `confirmed_by` columns), `VALID_STATUS_TRANSITIONS` state machine, transition validation in `beforeUpdate`, timestamp auto-population in `sanitizeInput`, and transition-aware admin status dropdown.
+- **Session 6.3.2:** Added admin "Confirm" action button with confirmation dialog, `autoConfirmEnabled` business setting with auto-confirm in `afterCreate`, and transition-aware status dropdown filtering via `getValidNextStatuses()`.
+- **Session 6.3.3:** Wired confirm button to actually execute the PATCH (was disabled stub), added success/error snackbar notifications via `useNotification`, created `notificationService.ts` stub with `onStatusChange` hook, documented notification expansion points for Feature 7, and documented the end-to-end confirmation flow.
 
-**What you need to start next feature:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about dependencies]
-- [Brief bullet point about any blockers or considerations]
+**What you need to start next phase:**
+- Transition guards are established — `VALID_STATUS_TRANSITIONS` in `appointmentConstants.ts` is the single source of truth
+- The notification service observer pattern (`notificationService.onStatusChange`) fires on all status transitions — extend for rescheduling notifications
+- `confirmed_by` is `null` until Feature 7 provides `req.user`
+- Auto-confirm is a runtime business setting, not a code flag
 
 **Plan Changes Affecting Downstream Features:**
-- [Only include if plan changed and affects later features]
-- [Brief description of change and impact]
+- Phase 6.4 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
+- Phase 6.7 (Admin Force-Create) will use the same transition validation system
+- Feature 7 notification expansion points are documented in `server/docs/NOTIFICATION_ARCHITECTURE.md`
 
 ---
 
 ## Feature Summary
 
-**Phases Completed:** [List phase numbers]
+**Phases Completed:** 6.1 (Status Workflow & UI), 6.2 (Held & Override Stubs), 6.3 (Confirmation Routine)
 **Key Accomplishments:**
-- [Major accomplishment 1]
-- [Major accomplishment 2]
+- 8-value appointment status ENUM with state machine transition guards
+- Confirmation data model with timestamps and actor tracking
+- Admin "Confirm" action with confirmation dialog and in-app notifications
+- Auto-confirm business setting for automatic confirmation on submission
+- Notification service stub with observer pattern for status change events
+- Calendar invite creation for submitted and confirmed appointments
 
 **Decisions Made:**
-- [Decision that affects downstream features]
+- State machine pattern for status transitions (explicit allowed transitions map)
+- Observer pattern for notifications (decoupled from CRUD operations)
+- `confirmed_by` deferred to Feature 7 (null until authentication exists)
 
 **Architecture:**
-[Brief architecture summary - 2-3 sentences]
+Appointments use a state machine (`VALID_STATUS_TRANSITIONS`) with server-side validation in `beforeUpdate` and automatic field population in `sanitizeInput`. The notification service uses an observer pattern — `onStatusChange` fires non-blockingly after any transition, currently logging. Calendar invites are created independently via `inviteOrchestrationService`.
 
 **Technology Stack:**
-- [Technology 1]
-- [Technology 2]
+- Vue 3 + Vuetify for admin UI (data tables, dialogs, snackbar notifications)
+- Express + Sequelize for server CRUD with hook-based side effects
+- Observer pattern for decoupled notification delivery
 
 ---
 
@@ -116,8 +128,10 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 
 ## Related Documents
 
-- Feature Guide: `.project-manager/features/[name]/feature-[name]-guide.md`
-- Feature Log: `.project-manager/features/[name]/feature-[name]-log.md`
-- Next Feature Guide: `.project-manager/features/[next-name]/feature-[next-name]-guide.md` (if applicable)
-- Security stubs: `server/docs/SECURITY_STUBS.md`
+- Feature Guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
+- Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
+- Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
+- Notification Architecture: `server/docs/NOTIFICATION_ARCHITECTURE.md`
+- Security Stubs: `server/docs/SECURITY_STUBS.md`
+- Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`
 
