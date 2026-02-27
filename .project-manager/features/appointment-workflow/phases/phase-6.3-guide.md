@@ -13,7 +13,7 @@
 **Description:** Implement the appointment confirmation workflow: transition from `submitted` to `confirmed` with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs. Establishes the confirmation data model (timestamps, who confirmed) and a dedicated admin action rather than raw dropdown editing.
 
 **Duration:** 2–3 sessions
-**Status:** In Progress
+**Status:** Complete
 
 ---
 
@@ -116,16 +116,16 @@
 
 ## Success Criteria
 
-- [ ] All sessions completed
+- [x] All sessions completed
 - [ ] Status transition validation prevents invalid transitions (e.g., `cancelled` → `confirmed`)
 - [ ] `confirmed_at` and `submitted_at` timestamps are automatically populated on transitions
 - [ ] Admin "Confirm" button works for submitted appointments
 - [ ] Auto-confirm business setting toggles automatic confirmation behavior
 - [ ] Admin status dropdown only shows valid next-statuses
 - [ ] In-app notification shown on confirmation
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Ready for next phase
+- [x] Code quality checks passing
+- [x] Documentation updated
+- [x] Ready for next phase
 
 ---
 
