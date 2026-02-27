@@ -1,4 +1,4 @@
-# Phase 6.7 Guide: Admin Force-Create & Constraint Overrides
+# Phase 6.8 Guide: Admin Force-Create & Constraint Overrides
 
 **Purpose:** Phase-level guide for planning and tracking the admin force-create and constraint override workflow
 
@@ -8,7 +8,7 @@
 
 ## Phase Overview
 
-**Phase Number:** 6.7
+**Phase Number:** 6.8
 **Phase Name:** Admin Force-Create & Constraint Overrides
 **Description:** Allow admins to force-create an appointment on any date/time — bypassing all availability blockers — and persist which constraints were overridden so the system can honor those exceptions during a future reschedule.
 
@@ -94,7 +94,7 @@ Index on `appointment_id`.
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.7.1: Database & Server Infrastructure
+- [ ] ### Session 6.8.1: Database & Server Infrastructure
 **Description:** Create the `constraint_overrides` migration and model, implement `computeViolationsForSlot()` in the slot computation service, and create the force-create route with validation.
 **Tasks:**
 - Create `constraint_overrides` migration (columns per data model above, index on appointment_id)
@@ -109,7 +109,7 @@ Index on `appointment_id`.
 - Practice migration design with array columns (TEXT[])
 - Learn route-level auth and role gating patterns
 
-- [ ] ### Session 6.7.2: Reschedule Constraint Relaxation
+- [ ] ### Session 6.8.2: Reschedule Constraint Relaxation
 **Description:** Create the constraint relaxation utility for reschedule flows and extend the availability pipeline to accept override exceptions.
 **Tasks:**
 - Create `relaxConstraintsForExceptions()` utility (pure function, clone constraints with enforcement 'off')
@@ -121,7 +121,7 @@ Index on `appointment_id`.
 - Practice server-side authorization verification (subset checking)
 - Learn how to extend existing service contracts without breaking callers
 
-- [ ] ### Session 6.7.3: Admin UI — Force-Create
+- [ ] ### Session 6.8.3: Admin UI — Force-Create
 **Description:** Build the client-side composable and dialog for the force-create flow, plus the admin UI integration.
 **Tasks:**
 - Create useForceCreateAppointment composable (violation preview, confirmation, reason)
@@ -133,7 +133,7 @@ Index on `appointment_id`.
 - Practice composable design for multi-step admin workflows
 - Learn how to present violation data in a user-friendly format
 
-- [ ] ### Session 6.7.4: Reschedule UI & Documentation
+- [ ] ### Session 6.8.4: Reschedule UI & Documentation
 **Description:** Wire the reschedule flow to use override records, showing override-allowed slots with distinct indicators, and create new override records for rescheduled appointments.
 **Tasks:**
 - Reschedule flow: fetch override for appointment, pass allowedExceptions to availability; show override-allowed slots with distinct indicator
@@ -169,7 +169,7 @@ Index on `appointment_id`.
 - Feature 7 (Authentication) — `req.user` needed for `authorized_by_id`
 
 **Downstream Impact:**
-- Reschedule flow (Phase 6.4) will integrate with constraint relaxation
+- Reschedule flow (Phase 6.5) will integrate with constraint relaxation
 - Override records provide audit trail for admin actions
 
 ---
@@ -225,7 +225,7 @@ All sessions complete. Ready to run phase-completion workflow?
 
 - Feature Guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
 - Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
-- PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6, Phase 6.7)
+- PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6, Phase 6.8)
 - Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
 - BETA_LAUNCH_CHECKLIST: Phase 8A (force-create detail)
 - Slot Computation Service: `server/src/services/slotComputationService.ts`

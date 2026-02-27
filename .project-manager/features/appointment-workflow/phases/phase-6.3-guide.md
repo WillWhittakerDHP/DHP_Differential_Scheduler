@@ -12,7 +12,7 @@
 **Phase Name:** Confirmation Routine
 **Description:** Implement the appointment confirmation workflow: transition from `submitted` to `confirmed` with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs. Establishes the confirmation data model (timestamps, who confirmed) and a dedicated admin action rather than raw dropdown editing.
 
-**Duration:** 2–3 sessions
+**Duration:** 3 sessions
 **Status:** Complete
 
 ---
@@ -108,8 +108,8 @@
 
 **Downstream Impact:**
 - Feature 7 (Authentication) enactment will set `confirmed_by` from `req.user` (until then, field is `null`)
-- Phase 6.4 (Rescheduling Flow) depends on transition guards established here
-- Phase 6.7 (Admin Force-Create) will integrate with the transition validation system
+- Phase 6.4 (Moveable Modal & preClosing) is the next phase; Phase 6.5 (Rescheduling Flow) depends on transition guards established here
+- Phase 6.8 (Admin Force-Create) will integrate with the transition validation system
 - Notification stubs from Session 6.3.3 become the hook points for email notifications in Feature 7
 
 ---
@@ -117,15 +117,15 @@
 ## Success Criteria
 
 - [x] All sessions completed
-- [ ] Status transition validation prevents invalid transitions (e.g., `cancelled` → `confirmed`)
-- [ ] `confirmed_at` and `submitted_at` timestamps are automatically populated on transitions
-- [ ] Admin "Confirm" button works for submitted appointments
-- [ ] Auto-confirm business setting toggles automatic confirmation behavior
-- [ ] Admin status dropdown only shows valid next-statuses
-- [ ] In-app notification shown on confirmation
+- [x] Status transition validation prevents invalid transitions (e.g., `cancelled` → `confirmed`)
+- [x] `confirmed_at` and `submitted_at` timestamps are automatically populated on transitions
+- [x] Admin "Confirm" button works for submitted appointments
+- [x] Auto-confirm business setting toggles automatic confirmation behavior
+- [x] Admin status dropdown only shows valid next-statuses
+- [x] In-app notification shown on confirmation
 - [x] Code quality checks passing
 - [x] Documentation updated
-- [x] Ready for next phase
+- [x] Ready for next phase (Phase 6.4)
 
 ---
 

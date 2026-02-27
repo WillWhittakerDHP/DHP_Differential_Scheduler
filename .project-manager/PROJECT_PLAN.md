@@ -290,17 +290,25 @@ Admin calendar view is tracked in **Feature 16 (Admin UI Overhaul)**. Real-time 
 |-------|------|--------|------|
 | 6.1 | Status Workflow & UI Enhancements | ✅ Complete (Jan 2026) | — |
 | 6.2 | Held & Override Stubs | ✅ Complete | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
-| 6.3 | Confirmation Routine | ⏳ In Progress | submitted to confirmed; admin or auto confirm; notifications. |
-| 6.4 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard; rescheduling to submitted. |
-| 6.5 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
-| 6.6 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
-| 6.7 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
+| 6.3 | Confirmation Routine | ✅ Complete | submitted to confirmed; admin or auto confirm; notifications. |
+| 6.4 | Moveable Modal & preClosing | ⏳ Not Started | preClosing property; differential consolidation; modal gate logic; UX softening; re-enable MoveablePartsModal. |
+| 6.5 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard; rescheduling to submitted. |
+| 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
+| 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
+| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
 
 ### Phase 6.1 Completed (Workflow)
 - Updated status ENUM from 5 to 8 values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
 - Added `scheduled_by_id` column with FK to users table
 - Interactive tooltips and cross-tab navigation in admin UI
 - Color-coded status chips
+
+### Phase 6.4: Moveable Modal Refinement & preClosing Property (Not Started)
+- Add `preClosing` boolean to block_instances (full stack: migration → model → types → transformer) to distinguish services with pre-closing work
+- Consolidate three parallel differential derivations into one canonical `isDifferentialBooking` computed (derive once, propagate everywhere)
+- Gate the moveable modal so it only opens for `preClosing` services; show the completion time grid only when a closing date is provided; allow passthrough without timeslot selection
+- Soften modal UX: smaller dialog, delayed appearance (~400ms), smooth enter/exit transitions
+- Re-enable the currently-disabled MoveablePartsModal and verify full integration
 
 ### Booking Calculations (Core Complete)
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`. **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`. Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
@@ -313,7 +321,8 @@ Admin calendar view is tracked in **Feature 16 (Admin UI Overhaul)**. Real-time 
 - **Archived planning:** booking-calculations planning (archived)
 
 ### Related Documents
-- Phase 6.7 Guide: `features/appointment-workflow/phases/phase-6.7-guide.md` (architecture, data model, implementation checklist, decision log)
+- Phase 6.4 Guide: `features/appointment-workflow/phases/phase-6.4-guide.md` (Moveable Modal & preClosing)
+- Phase 6.8 Guide: `features/appointment-workflow/phases/phase-6.8-guide.md` (architecture, data model, implementation checklist, decision log for Admin Force-Create)
 - BETA_LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow and booking-calculations planning: `features/appointment-workflow/`
 
@@ -523,7 +532,7 @@ Implement the following so that authenticated users and roles are used where oth
 | 3 | **Sentry setup** — Install `@sentry/node` (server) and `@sentry/vue` (client). Integrate into `errorHandler.ts`. Configure DSN via env var. | — |
 | 4 | **Request ID middleware** — Generate UUID per request, attach to `req`, include in logger prefix. Enables log tracing. | — |
 | 5 | **Production logging review** — Verify `LOG_LEVEL=warn` in production env. Audit noisy log calls. Consider structured JSON logging (optional). | — |
-| 6 | **Database backup strategy** — Document Render backup tier or create `pg_dump` script for free tier. | — |
+| 6 | **Database backu strategy** — Document Render backup tier or create `pg_dump` script for free tier. | — |
 | 7 | **Pre-deploy migration hook** — Wire `npm run migrate` into Render's pre-deploy command or build script. | Step 1 (health check for verification) |
 | 8 | **Uptime monitoring** — Set up UptimeRobot (free) or equivalent to monitor health check endpoint. Configure alerts. | Step 1 |
 | 9 | **Rollback verification** — Test `migrate:undo` for all recent migrations locally. Document verified rollback state. | Step 7 |

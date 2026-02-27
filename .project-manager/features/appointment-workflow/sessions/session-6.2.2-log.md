@@ -78,12 +78,12 @@
 
 ---
 
-### Task 6.2.2.5: Documentation — Enactment requirements + Phase 6.7 relationship ✅
-**Goal:** Document enactment requirements for Feature 7 and Phase 6.2 → Phase 6.7 relationship
+### Task 6.2.2.5: Documentation — Enactment requirements + Phase 6.8 relationship ✅
+**Goal:** Document enactment requirements for Feature 7 and Phase 6.2 → Phase 6.8 relationship
 
 **Files Modified:**
-- `server/docs/SECURITY_STUBS.md` — Added requireRole stub docs, override constraints in mapping table, Phase 6.2 → 6.7 relationship table
+- `server/docs/SECURITY_STUBS.md` — Added requireRole stub docs, override constraints in mapping table, Phase 6.2 → 6.8 relationship table
 - `.project-manager/features/appointment-workflow/feature-appointment-workflow-handoff.md` — Added override-specific enactment steps (6-10) and updated transition context
 **Architecture Notes:**
 - **SECURITY_STUBS.md as central reference**: All stubs, their planned behavior, and the stub→real mapping live here
-- **Phase relationship documented**: Clear mapping from Phase 6.2 stubs to Phase 6.7 full implementation
+- **Phase relationship documented**: Clear mapping from Phase 6.2 stubs to Phase 6.8 full implementation

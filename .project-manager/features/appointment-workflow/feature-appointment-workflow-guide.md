@@ -59,7 +59,17 @@
 - Auto-confirm business setting toggleable
 - Notification stubs ready for Feature 7 email
 
-- [ ] ### Phase 6.4: Rescheduling Flow
+- [ ] ### Phase 6.4: Moveable Modal & preClosing Property
+**Description:** Refine MoveablePartsModal; add `preClosing` to block_instances; consolidate differential derivation; gate modal on preClosing services; soften UX; re-enable modal.
+**Sessions:** 1+ (6.4.1+)
+**Dependencies:** Phase 6.3 (Confirmation Routine)
+**Success Criteria:**
+- `preClosing` flows through full stack
+- Differential derivation consolidated
+- Modal gated on preClosing, time grid on closing date, passthrough enabled
+- Modal re-enabled, smaller, delayed, animated
+
+- [ ] ### Phase 6.5: Rescheduling Flow
 **Description:** Reschedule confirmed appointments; reuse wizard; transition to rescheduling then back to submitted.
 **Sessions:** To be planned
 **Dependencies:** Phase 6.3 (transition guards)
@@ -68,7 +78,7 @@
 - Wizard reused for new slot selection
 - Status transitions: confirmed → rescheduling → submitted
 
-- [ ] ### Phase 6.5: Soft Delete vs Hard Delete
+- [ ] ### Phase 6.6: Soft Delete vs Hard Delete
 **Description:** Policy and UI for cancelled vs deleted; retention rules; audit trail.
 **Sessions:** To be planned
 **Success Criteria:**
@@ -76,7 +86,7 @@
 - Admin UI for soft delete and hard delete actions
 - Retention and audit behavior documented
 
-- [ ] ### Phase 6.6: Scheduled By Auto-Population
+- [ ] ### Phase 6.7: Scheduled By Auto-Population
 **Description:** Set `scheduled_by_id` from logged-in user on appointment creation.
 **Sessions:** To be planned
 **Dependencies:** Feature 7 (Authentication) — requires `req.user`
@@ -84,9 +94,9 @@
 - `scheduled_by_id` populated from authenticated user on create
 - Displayed in admin appointment details
 
-- [ ] ### Phase 6.7: Admin Force-Create & Constraint Overrides
+- [ ] ### Phase 6.8: Admin Force-Create & Constraint Overrides
 **Description:** Force-create appointments bypassing blockers; `constraint_overrides` table; reschedule with exceptions.
-**Sessions:** 4 (6.7.1–6.7.4)
+**Sessions:** 4 (6.8.1–6.8.4)
 **Dependencies:** Feature 7 (Authentication) — requires `req.user` for `authorized_by_id`
 **Success Criteria:**
 - Force-create route creates appointment + override record
@@ -115,11 +125,11 @@
 - Feature 3 (Calendar & Appointment Availability) — slot computation and calendar infrastructure
 
 **Downstream Impact:**
-- Feature 7 (Authentication) enactment activates auth-dependent phases (6.6, 6.7) and populates user fields (`confirmed_by`, `held_by`, `authorized_by_id`, `scheduled_by_id`)
-- Phase 6.4 (Rescheduling) integrates with Phase 6.7 constraint relaxation
+- Feature 7 (Authentication) enactment activates auth-dependent phases (6.7, 6.8) and populates user fields (`confirmed_by`, `held_by`, `authorized_by_id`, `scheduled_by_id`)
+- Phase 6.5 (Rescheduling) integrates with Phase 6.8 constraint relaxation
 
 **External Dependencies:**
-- Feature 7 (Authentication) — Phases 6.6 and 6.7 blocked until auth is in place
+- Feature 7 (Authentication) — Phases 6.7 and 6.8 blocked until auth is in place
 
 ---
 
@@ -212,7 +222,7 @@ After completing all phases in a feature:
 
 - **Phase 6.1 was the only phase completed before the project management system was formalized.** Its session logs don't exist in the current structure.
 - **Booking calculation logic is feature-complete but not consolidated.** The `useFeeCalculations` composable and admin-configurable fee settings are the remaining calculation work.
-- **Phases 6.2–6.3 follow the full session guide structure.** Phase 6.7 has a detailed guide ready for when Feature 7 unblocks it.
+- **Phases 6.2–6.4 follow the full session guide structure.** Phase 6.8 has a detailed guide ready for when Feature 7 unblocks it.
 
 ---
 

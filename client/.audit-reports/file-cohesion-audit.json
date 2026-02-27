@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-26T01:01:01.371Z",
-  "totalScanned": 1088,
+  "generatedAt": "2026-02-27T04:50:20.388Z",
+  "totalScanned": 1087,
   "exceptionSummary": {
     "totalRequiresReview": 13
   },
@@ -23,16 +23,16 @@
     {
       "repoPath": "client/src/composables/booking/injectionKeys.ts",
       "category": "composables",
-      "lineCount": 102,
-      "exportCount": 22,
+      "lineCount": 110,
+      "exportCount": 23,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 22,
+          "value": 23,
           "threshold": 10,
-          "detail": "22 exports (max: 10)",
+          "detail": "23 exports (max: 10)",
           "tier": 1
         },
         {
@@ -43,7 +43,7 @@
           "tier": 2
         }
       ],
-      "score": 24,
+      "score": 26,
       "priority": "P0"
     },
     {

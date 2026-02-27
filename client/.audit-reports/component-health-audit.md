@@ -4,13 +4,13 @@
 
 # Component Health Audit
 
-Generated: 2026-02-27T04:02:20.069Z
+Generated: 2026-02-27T04:51:30.847Z
 
 ## Overview
 
-- Components scanned: **0**
-- Findings: **0**
-- Files with findings: **0**
+- Components scanned: **1**
+- Findings: **2**
+- Files with findings: **1**
 
 ## Ruleset
 
@@ -27,11 +27,30 @@ Generated: 2026-02-27T04:02:20.069Z
 | unused-named-slot | P2 | 1 | Named slot defined but never filled by any parent. |
 | constant-prop-value | info | 0 | Prop always receives the same literal value across all parents. |
 
+## By rule
+
+| Rule | Severity | Count |
+| --- | --- | ---: |
+| complex-template-expression | P2 | 2 |
+
 ## Repair Waves
 
-- **Wave 1 — Local** (parentCount = 0): 0 finding(s)
+- **Wave 1 — Local** (parentCount = 0): 2 finding(s)
 - **Wave 2 — Low fan-in** (parentCount 1–3): 0 finding(s)
 - **Wave 3 — High fan-in** (parentCount ≥ 4): 0 finding(s)
+
+## Top 1 files by score
+
+| File | Priority | Score | Parents |
+| --- | --- | ---: | ---: |
+| `client/src/components/booking/steps/PropertyDetailsStep.vue` | P2 | 2 | 0 |
+
+## All findings (first 60)
+
+| File | Line | Rule | Message | Parents |
+| --- | ---: | --- | --- | ---: |
+| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 192 | complex-template-expression | Complex template expression (126 chars); extract to compu... | 0 |
+| `client/src/components/booking/steps/PropertyDetailsStep.vue` | 208 | complex-template-expression | Complex template expression (88 chars); extract to comput... | 0 |
 
 ## Notes
 

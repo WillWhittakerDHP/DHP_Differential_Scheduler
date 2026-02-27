@@ -367,7 +367,9 @@
         { "file": "client/src/composables/useGlobal.ts", "ruleIds": ["query-data-passthrough"], "reason": "Data IS transformed in queryFn via globalTransformer — direct ref exposure is standard Vue Query pattern" },
         { "file": "client/src/composables/admin/useMetadataCache.ts", "ruleIds": ["query-data-passthrough"], "reason": "Internal cache accessor — navigates into typed query data, not exposing raw API response" },
         { "file": "client/src/composables/admin/useSelectFiltering.ts", "ruleIds": ["query-data-passthrough"], "reason": "Composed entity composable.data getters — typed API surface, not raw query exposure" },
-        { "file": "client/src/composables/fieldContext/useFieldContextState.ts", "ruleIds": ["query-data-passthrough"], "reason": "Composed entity composable.data getters — typed API surface, not raw query exposure" }
+        { "file": "client/src/composables/fieldContext/useFieldContextState.ts", "ruleIds": ["query-data-passthrough"], "reason": "Composed entity composable.data getters — typed API surface, not raw query exposure" },
+        { "file": "client/src/composables/booking/useWizardNumberUpdate.ts", "ruleIds": ["bidirectional-data-channel"], "reason": "Composable requires runtime wizard context via inject; intentional use of wizardKey within BookingWizard scope" },
+        { "file": "client/src/components/booking/plugins/wizardStatePlugin.ts", "ruleIds": ["bidirectional-data-channel"], "reason": "Wizard state plugin requires runtime wizard context via inject; intentional use of wizardKey within BookingWizard scope" }
       ],
       "linePatterns": []
     },

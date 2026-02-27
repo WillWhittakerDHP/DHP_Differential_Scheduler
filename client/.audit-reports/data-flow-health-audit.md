@@ -4,15 +4,15 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-02-26T00:04:07.533Z
+Generated: 2026-02-27T04:50:23.871Z
 
 ## Overview
 
-- Files scanned: **413**
-- Findings: **1**
-- Files with findings: **1**
+- Files scanned: **412**
+- Findings: **0**
+- Files with findings: **0**
 - Phase A (per-file) findings: **0**
-- Phase B (cross-file) findings: **1**
+- Phase B (cross-file) findings: **0**
 
 ## Input Audit Status
 
@@ -37,37 +37,19 @@ Generated: 2026-02-26T00:04:07.533Z
 | orphaned-injection-key | B | P2 | 1 | Provide key with no matching inject or vice versa. |
 | bidirectional-data-channel | B | info | 0 | Same data accessible via both inject and direct composable import. |
 
-## By rule
-
-| Rule | Phase | Severity | Count |
-| --- | --- | --- | ---: |
-| orphaned-injection-key | B | P2 | 1 |
-
 ## Flow Maps Summary
 
-- Provide sites: **27**
+- Provide sites: **28**
 - Inject sites: **50**
-- Matched pairs: **14**
+- Matched pairs: **15**
 - Unmatched provides: **13**
-- Unmatched injects: **9**
+- Unmatched injects: **8**
 
 ## Repair Waves
 
-- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 1 finding(s)
+- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 0 finding(s)
 - **Wave 2 — Moderate** (affectedFiles 3–5): 0 finding(s)
 - **Wave 3 — Systemic** (affectedFiles ≥ 6): 0 finding(s)
-
-## Top 1 files by score
-
-| File | Priority | Score | Affected |
-| --- | --- | ---: | ---: |
-| `client/src/views/admin/tabs/RuleFormDialog.vue` | P2 | 1 | 1 |
-
-## All findings (first 60)
-
-| File | Line | Rule | Phase | Message | Affected |
-| --- | ---: | --- | --- | --- | ---: |
-| `client/src/views/admin/tabs/RuleFormDialog.vue` | 11 | orphaned-injection-key | B | Inject key 'ruleFormDialogContextKey' has no ma... | 1 |
 
 ## Notes
 

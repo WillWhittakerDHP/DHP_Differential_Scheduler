@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-26T00:04:03.648Z",
-  "totalFiles": 1083,
+  "generatedAt": "2026-02-27T04:50:20.163Z",
+  "totalFiles": 1084,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135,
@@ -11,14 +11,34 @@
   "fanInViolations": [
     {
       "file": "client/src/constants/entities",
-      "fanIn": 155
+      "fanIn": 157
     },
     {
       "file": "client/src/types/entities",
-      "fanIn": 137
+      "fanIn": 136
     }
   ],
   "composableChainDepthViolations": [
+    {
+      "file": "client/src/composables/admin/usePartsCollectionField",
+      "depth": 3,
+      "chain": [
+        "client/src/composables/admin/usePartsCollectionField",
+        "client/src/composables/admin/useBaseCollectionField",
+        "client/src/composables/admin/useAdmin",
+        "client/src/composables/useGlobal"
+      ]
+    },
+    {
+      "file": "client/src/composables/admin/useRelationshipCollectionField",
+      "depth": 3,
+      "chain": [
+        "client/src/composables/admin/useRelationshipCollectionField",
+        "client/src/composables/admin/useBaseCollectionField",
+        "client/src/composables/admin/useAdmin",
+        "client/src/composables/useGlobal"
+      ]
+    },
     {
       "file": "client/src/composables/fieldContext/useFieldContext",
       "depth": 3,
@@ -43,6 +63,16 @@
   "crossBoundary": [],
   "typeMirrorPaths": [],
   "files": [
+    {
+      "file": "client/src/composables/admin/usePartsCollectionField",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/admin/useRelationshipCollectionField",
+      "score": 4,
+      "priority": "P2"
+    },
     {
       "file": "client/src/composables/fieldContext/useFieldContext",
       "score": 4,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T04:02:13.669Z",
+  "generatedAt": "2026-02-27T04:51:29.007Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,7 +10,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 263,
+  "totalScanned": 262,
   "exceptionSummary": {
     "totalRequiresReview": 1
   },

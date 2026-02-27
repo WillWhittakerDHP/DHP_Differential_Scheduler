@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T00:13:05.601Z",
+  "generatedAt": "2026-02-27T04:50:19.501Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 695,
+  "fileCount": 696,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -74,6 +74,7 @@
           "client/src/composables/admin/useAdminRelationshipMetadataMutations.ts",
           "client/src/composables/admin/useApiDevPanelVisibility.ts",
           "client/src/composables/admin/useAttendeeQuickSelect.ts",
+          "client/src/composables/admin/useBaseCollectionField.ts",
           "client/src/composables/admin/useBlockInstanceCreate.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
           "client/src/composables/admin/useBooleanInputClick.ts",
@@ -303,7 +304,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 245
+        "patternCount": 246
       },
       {
         "prefix": "get",
@@ -400,6 +401,18 @@
     ],
     "repeatedStringFiles": [
       {
+        "value": "confirmed",
+        "files": [
+          "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+          "client/src/composables/admin/useInstancesTabEventInstance.ts",
+          "client/src/types/admin/instancesTabEventInstance.ts",
+          "client/src/types/entities.ts",
+          "client/src/views/admin/tabs/InstancesTab.vue",
+          "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
+        ],
+        "occurrences": 6
+      },
+      {
         "value": "started",
         "files": [
           "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
@@ -407,17 +420,6 @@
           "server/src/db/models/booking/appointment.ts"
         ],
         "occurrences": 3
-      },
-      {
-        "value": "confirmed",
-        "files": [
-          "client/src/composables/admin/useInstancesTabEventInstance.ts",
-          "client/src/types/admin/instancesTabEventInstance.ts",
-          "client/src/types/entities.ts",
-          "client/src/views/admin/tabs/InstancesTab.vue",
-          "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
-        ],
-        "occurrences": 5
       },
       {
         "value": "held",

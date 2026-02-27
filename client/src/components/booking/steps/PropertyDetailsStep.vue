@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { ref, inject, computed, onMounted, type Ref } from 'vue'
-import type { PlaceDetails } from '@/services/mapsApiService'
+import type { PlaceDetails } from '@shared/types/mapsTypes'
 import type { ValidationRule } from '@/types/formValidation'
 import type { PropertyTypeWithComponents } from './PropertyDetailsSection.vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'

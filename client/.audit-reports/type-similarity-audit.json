@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T02:47:27.027Z",
+  "generatedAt": "2026-02-27T04:50:19.154Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1118,
-  "totalDefinitions": 763,
+  "fileCount": 1116,
+  "totalDefinitions": 760,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -1138,46 +1138,6 @@
     {
       "name": "Props",
       "kind": "interface",
-      "file": "client/src/components/booking/wrappers/ServiceSelectCards.vue",
-      "line": 13,
-      "exported": false,
-      "fingerprint": "abc5b2cb8b72",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Emits",
-      "kind": "interface",
-      "file": "client/src/components/booking/wrappers/ServiceSelectCards.vue",
-      "line": 23,
-      "exported": false,
-      "fingerprint": "empty",
-      "propertyCount": 0,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Props",
-      "kind": "interface",
-      "file": "client/src/components/booking/wrappers/UserTypeSelectCards.vue",
-      "line": 13,
-      "exported": false,
-      "fingerprint": "3c4f6bde69e7",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Emits",
-      "kind": "interface",
-      "file": "client/src/components/booking/wrappers/UserTypeSelectCards.vue",
-      "line": 19,
-      "exported": false,
-      "fingerprint": "empty",
-      "propertyCount": 0,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Props",
-      "kind": "interface",
       "file": "client/src/components/common/AddressAutocomplete.vue",
       "line": 3,
       "exported": false,
@@ -1209,10 +1169,10 @@
       "name": "AppointmentsTableModel",
       "kind": "interface",
       "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-      "line": 13,
+      "line": 17,
       "exported": true,
-      "fingerprint": "2cec5705a201",
-      "propertyCount": 6,
+      "fingerprint": "88cc6101dd6e",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -3581,18 +3541,18 @@
       "file": "client/src/types/admin/tables/appointmentsTableHandlers.ts",
       "line": 6,
       "exported": true,
-      "fingerprint": "cb0acc3b9761",
-      "propertyCount": 22,
+      "fingerprint": "94ab504dcc2f",
+      "propertyCount": 23,
       "primitiveAlias": null
     },
     {
       "name": "UseAppointmentsTableHandlersParams",
       "kind": "interface",
       "file": "client/src/types/admin/tables/appointmentsTableHandlers.ts",
-      "line": 32,
+      "line": 33,
       "exported": true,
-      "fingerprint": "af3711523743",
-      "propertyCount": 9,
+      "fingerprint": "a3e960be4abf",
+      "propertyCount": 10,
       "primitiveAlias": null
     },
     {
@@ -7333,6 +7293,16 @@
       "exported": true,
       "fingerprint": "772eab593075",
       "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "StatusChangeEvent",
+      "kind": "interface",
+      "file": "server/src/services/notificationService.ts",
+      "line": 19,
+      "exported": true,
+      "fingerprint": "347997679e23",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {

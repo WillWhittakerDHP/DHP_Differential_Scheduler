@@ -23,7 +23,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
 | `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+30 more) | 48 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+237 more) | 245 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+238 more) | 246 |
 | `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+72 more) | 127 |
 | `update*` | `client/src/utils/admin/businessRulesApi.ts`, `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts` (+2 more) | 5 |
 
@@ -31,13 +31,13 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
+| `confirmed` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/useInstancesTabEventInstance.ts`, `client/src/types/admin/instancesTabEventInstance.ts` (+3 more) | 6 |
 | `started` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/useAppointment.ts`, `server/src/db/models/booking/appointment.ts` | 3 |
-| `confirmed` | `client/src/composables/admin/useInstancesTabEventInstance.ts`, `client/src/types/admin/instancesTabEventInstance.ts`, `client/src/types/entities.ts` (+2 more) | 5 |
 | `held` | `client/src/composables/useAppointment.ts`, `client/src/types/appointmentApi.ts`, `server/src/db/models/booking/appointment.ts` | 7 |
 
 ## Summary
 
-- Files scanned: **695**
+- Files scanned: **696**
 - Groups (window=10 lines, minOccurrences=2): **9**
 - Candidate findings from pattern-detection: **7**
 

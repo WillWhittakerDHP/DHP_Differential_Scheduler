@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-26T00:04:07.533Z",
-  "totalScanned": 413,
+  "generatedAt": "2026-02-27T04:50:23.871Z",
+  "totalScanned": 412,
   "inputAudits": {
     "importGraph": {
       "available": true,
@@ -112,58 +112,17 @@
       "recommendedFix": "Consolidate to single channel to avoid ambiguity."
     }
   ],
-  "findings": [
-    {
-      "file": "client/src/views/admin/tabs/RuleFormDialog.vue",
-      "lineNumber": 11,
-      "ruleId": "orphaned-injection-key",
-      "snippet": "inject('ruleFormDialogContextKey') with no matching provide",
-      "message": "Inject key 'ruleFormDialogContextKey' has no matching provide; broken dependency chain.",
-      "fixHint": "Add the missing provide or remove this inject.",
-      "confidence": "medium",
-      "phase": "B",
-      "detail": {
-        "key": "ruleFormDialogContextKey",
-        "direction": "inject-without-provide"
-      },
-      "affectedFiles": 1,
-      "isPublicBoundary": false
-    }
-  ],
+  "findings": [],
   "flowMaps": {
-    "provideSites": 27,
+    "provideSites": 28,
     "injectSites": 50,
-    "matchedPairs": 14,
+    "matchedPairs": 15,
     "unmatchedProvides": 13,
-    "unmatchedInjects": 9
+    "unmatchedInjects": 8
   },
-  "files": [
-    {
-      "file": "client/src/views/admin/tabs/RuleFormDialog.vue",
-      "score": 1,
-      "priority": "P2",
-      "affectedFiles": 1
-    }
-  ],
+  "files": [],
   "repairWaves": {
-    "contained": [
-      {
-        "file": "client/src/views/admin/tabs/RuleFormDialog.vue",
-        "lineNumber": 11,
-        "ruleId": "orphaned-injection-key",
-        "snippet": "inject('ruleFormDialogContextKey') with no matching provide",
-        "message": "Inject key 'ruleFormDialogContextKey' has no matching provide; broken dependency chain.",
-        "fixHint": "Add the missing provide or remove this inject.",
-        "confidence": "medium",
-        "phase": "B",
-        "detail": {
-          "key": "ruleFormDialogContextKey",
-          "direction": "inject-without-provide"
-        },
-        "affectedFiles": 1,
-        "isPublicBoundary": false
-      }
-    ],
+    "contained": [],
     "moderate": [],
     "systemic": []
   }

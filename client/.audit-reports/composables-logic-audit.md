@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **263**
+- Total composable files scanned: **262**
 
 ## Top hotspots (heuristic)
 
@@ -2089,16 +2089,6 @@ map@11: selectedPropertyTypes.value.map((pt) => pt.name).join(', ')
 computed@21: const useGroupWrapper = computed(() => {
 computed@25: const groupComponentName = computed(() => {
 computed@29: const gridColumnProps = computed(() => {
-```
-
-### `client/src/composables/booking/useServiceSelectMapper.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
-
-```
-map@2: * WHY: Component-logic audit - move .map() out of ServiceSelectCards.
-computed@9: return computed(() => selectedServiceTypeBlocks.value.map((s) => s.id))
-map@9: return computed(() => selectedServiceTypeBlocks.value.map((s) => s.id))
 ```
 
 ### `client/src/composables/booking/useSlotGridDisplay.ts`

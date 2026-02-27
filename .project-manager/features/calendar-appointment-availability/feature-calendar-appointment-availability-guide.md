@@ -126,7 +126,7 @@ The availability system follows a pipeline pattern: the server fetches calendar 
 - Feature 2: Google APIs Integration (✅ Complete)
 
 **Downstream Impact:**
-- Feature 6 Phase 6.7 (Force-Create) uses slot computation's violation keys
+- Feature 6 Phase 6.8 (Force-Create) uses slot computation's violation keys
 - Feature 16 (Admin UI Overhaul) includes admin calendar view
 - Feature 11 (Beta Launch) includes real-time availability sync
 

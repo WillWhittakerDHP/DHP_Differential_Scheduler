@@ -6,35 +6,38 @@
 
 **Last Updated:** 2026-02-27
 **Feature Status:** In Progress
-**Next Phase:** Phase 6.4 (Rescheduling Flow)
+**Current Session:** Session 6.4.1 (Moveable Modal Refinement & `preClosing` Property)
+**Next Phase:** Phase 6.5 (Rescheduling Flow) — after Phase 6.4 completes
 
 ---
 
 ## Current Status
 
 **Feature appointment-workflow:** In Progress
-**Last Completed Phase:** Phase 6.3 (Confirmation Routine)
-**Next Phase:** Phase 6.4 (Rescheduling Flow)
+**Current Phase:** Phase 6.4 (Moveable Modal & preClosing Property) — Session 6.4.1 not started
+**Current Session:** Session 6.4.1 (Moveable Modal Refinement & `preClosing` Property)
+**Next Phase:** Phase 6.5 (Rescheduling Flow)
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-Phase 6.3 (Confirmation Routine) complete across 3 sessions:
-- **Session 6.3.1:** Added confirmation data model (`submitted_at`, `confirmed_at`, `confirmed_by` columns), `VALID_STATUS_TRANSITIONS` state machine, transition validation in `beforeUpdate`, timestamp auto-population in `sanitizeInput`, and transition-aware admin status dropdown.
-- **Session 6.3.2:** Added admin "Confirm" action button with confirmation dialog, `autoConfirmEnabled` business setting with auto-confirm in `afterCreate`, and transition-aware status dropdown filtering via `getValidNextStatuses()`.
-- **Session 6.3.3:** Wired confirm button to actually execute the PATCH (was disabled stub), added success/error snackbar notifications via `useNotification`, created `notificationService.ts` stub with `onStatusChange` hook, documented notification expansion points for Feature 7, and documented the end-to-end confirmation flow.
+Phase 6.3 (Confirmation Routine) complete. Phase 6.4 (Moveable Modal & preClosing Property) is the next phase — Session 6.4.1 not started:
+- **Phase 6.3 complete:** Sessions 6.3.1–6.3.3 — confirmation data model, admin confirm action, auto-confirm, notifications.
+- **Phase 6.4 (Not Started):** Moveable Modal Refinement & `preClosing` Property — add `preClosing` boolean to block_instances, consolidate differential into one canonical derivation, gate modal on preClosing services, soften modal UX, re-enable the disabled MoveablePartsModal.
 
-**What you need to start next phase:**
+**What you need to start Phase 6.4 / Session 6.4.1:**
 - Transition guards are established — `VALID_STATUS_TRANSITIONS` in `appointmentConstants.ts` is the single source of truth
 - The notification service observer pattern (`notificationService.onStatusChange`) fires on all status transitions — extend for rescheduling notifications
 - `confirmed_by` is `null` until Feature 7 provides `req.user`
 - Auto-confirm is a runtime business setting, not a code flag
+- MoveablePartsModal exists but is disabled (see lines 9–16 of `MoveablePartsModal.vue`)
+- `differential` is a `TernaryBoolean` string on block instances — Session 6.4.1 consolidates into one canonical derivation
 
 **Plan Changes Affecting Downstream Features:**
-- Phase 6.4 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
-- Phase 6.7 (Admin Force-Create) will use the same transition validation system
+- Phase 6.5 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
+- Phase 6.8 (Admin Force-Create) will use the same transition validation system
 - Feature 7 notification expansion points are documented in `server/docs/NOTIFICATION_ARCHITECTURE.md`
 
 ---
@@ -42,6 +45,7 @@ Phase 6.3 (Confirmation Routine) complete across 3 sessions:
 ## Feature Summary
 
 **Phases Completed:** 6.1 (Status Workflow & UI), 6.2 (Held & Override Stubs), 6.3 (Confirmation Routine)
+**Phases In Progress:** 6.4 (Moveable Modal & preClosing Property — Session 6.4.1 not started)
 **Key Accomplishments:**
 - 8-value appointment status ENUM with state machine transition guards
 - Confirmation data model with timestamps and actor tracking
@@ -118,8 +122,8 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
    - Remove the `disabled` state and "Override requires admin authentication (Feature 7)" tooltip from the Override button in the admin appointments table.
    - Wire the button to call `applyOverrideConstraints(id, constraints)` when the user has admin role.
 
-9. **Phase 6.7 integration**
-   - Phase 6.7 (Admin Force-Create & Constraint Overrides) builds on this stub. The `override_constraints` JSONB column and `ALLOWED_OVERRIDE_CONSTRAINTS` constant provide the schema foundation. Phase 6.7 adds the constraint engine integration, per-constraint UI toggles, and reason tracking.
+9. **Phase 6.8 integration**
+   - Phase 6.8 (Admin Force-Create & Constraint Overrides) builds on this stub. The `override_constraints` JSONB column and `ALLOWED_OVERRIDE_CONSTRAINTS` constant provide the schema foundation. Phase 6.8 adds the constraint engine integration, per-constraint UI toggles, and reason tracking.
 
 10. **Documentation**
     - Update `server/docs/SECURITY_STUBS.md` when stubs are replaced (mark requireRole and override-constraints as enacted).
@@ -131,6 +135,8 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 - Feature Guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
 - Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
 - Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
+- Phase 6.4 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.4-guide.md`
+- Session 6.4.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.4.1-guide.md`
 - Notification Architecture: `server/docs/NOTIFICATION_ARCHITECTURE.md`
 - Security Stubs: `server/docs/SECURITY_STUBS.md`
 - Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`

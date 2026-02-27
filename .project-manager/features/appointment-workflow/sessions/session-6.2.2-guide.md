@@ -9,7 +9,7 @@
 
 ## Session Overview
 
-Admin constraint override logic via the existing appointment PATCH endpoint, plus client-side "Override" action in the admin panel. This session prepares the structure that Phase 6.7 will expand into the full force-create and constraint override system.
+Admin constraint override logic via the existing appointment PATCH endpoint, plus client-side "Override" action in the admin panel. This session prepares the structure that Phase 6.8 will expand into the full force-create and constraint override system.
 
 The override flow: admin selects an appointment → clicks "Override Constraints" → client PATCHes `{ overrideConstraints: { capacity: true, ... } }` → server validates constraint keys in `sanitizeInput` and stores in `override_constraints` JSONB column. This enables an admin to bypass specific slot computation constraints (capacity, buffer, blackout) when scheduling — once auth is enacted in Feature 7.
 
@@ -17,7 +17,7 @@ The override flow: admin selects an appointment → clicks "Override Constraints
 - Session 6.2.1 (Held Status Stub) established the PATCH-based stub pattern: `sanitizeInput` handles computed fields, non-column stripping, and status-driven metadata
 - Security stubs (`requireAuth`, `csrfProtection`, `checkOwnership`) exist in `server/src/middlewares/security.ts`
 - The `requireRole` stub follows the same pattern — functional middleware that calls `next()`, with ENACTMENT markers for Feature 7
-- Phase 6.7 (Admin Force-Create & Constraint Overrides) builds the complete implementation on top of this stub foundation
+- Phase 6.8 (Admin Force-Create & Constraint Overrides) builds the complete implementation on top of this stub foundation
 
 ---
 
@@ -97,11 +97,11 @@ The override flow: admin selects an appointment → clicks "Override Constraints
 
 ---
 
-### Task 6.2.2.5: Documentation — Enactment requirements and Phase 6.7 relationship
+### Task 6.2.2.5: Documentation — Enactment requirements and Phase 6.8 relationship
 
 **Status:** Not Started
 
-**Description:** Document enactment requirements for Feature 7 and the relationship between this stub and Phase 6.7's full implementation. Update SECURITY_STUBS.md with the `requireRole` stub documentation and the override constraint mapping.
+**Description:** Document enactment requirements for Feature 7 and the relationship between this stub and Phase 6.8's full implementation. Update SECURITY_STUBS.md with the `requireRole` stub documentation and the override constraint mapping.
 
 **Files to modify:**
 - `server/docs/SECURITY_STUBS.md` (modify — add requireRole stub and override constraint docs)
@@ -111,7 +111,7 @@ The override flow: admin selects an appointment → clicks "Override Constraints
 - SECURITY_STUBS.md documents `requireRole` stub and its planned behavior
 - SECURITY_STUBS.md includes override constraints in the stub → real mapping table
 - Handoff doc lists enactment steps for Feature 7 (override-specific)
-- Relationship between Phase 6.2 stub and Phase 6.7 full implementation is documented
+- Relationship between Phase 6.2 stub and Phase 6.8 full implementation is documented
 - Clear mapping: stub → real implementation for each auth/role check
 
 ---
@@ -121,7 +121,7 @@ The override flow: admin selects an appointment → clicks "Override Constraints
 - Understand how constraint overrides will integrate with the slot computation system
 - Learn the admin role-gating pattern (requireRole vs requireAuth)
 - Practice JSONB column migrations and validation
-- Understand the relationship between stub foundations and full implementations (Phase 6.2 → Phase 6.7)
+- Understand the relationship between stub foundations and full implementations (Phase 6.2 → Phase 6.8)
 
 ---
 
