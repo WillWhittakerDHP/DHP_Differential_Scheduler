@@ -56,7 +56,7 @@
 - Progressive disclosure UX and modal timing/transition patterns
 
 ---
-- [ ] ### Session 6.4.2: Session 6.4.2
+- [x] ### Session 6.4.2: Session 6.4.2
 **Description:** Session 6.4.2
 **Tasks:** [To be planned]
 **Learning Goals:**
