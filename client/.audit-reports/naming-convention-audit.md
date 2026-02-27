@@ -4,16 +4,20 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-02-26T00:03:36.878Z
+Generated at: 2026-02-26T23:55:33.649Z
 
 ## Summary
 
-- Total allowed: **16**
-- Requiring review: **0**
+- Total allowed: **23**
+- Requiring review: **3**
 
 ## Files with naming violations
 
-None.
+| File | Rule | Line | Snippet |
+| --- | --- | ---: | --- |
+| `client/src/composables/admin/injectionKeys.ts` | composableFileName | 1 | Composable file should be use[Name].ts: injectionK |
+| `client/src/composables/booking/injectionKeys.ts` | composableFileName | 1 | Composable file should be use[Name].ts: injectionK |
+| `client/src/composables/fieldContext/buildFieldContextReturn.ts` | composableFileName | 1 | Composable file should be use[Name].ts: buildField |
 
 ## Allowed Exceptions (for transparency)
 
@@ -23,9 +27,14 @@ Review periodically to ensure exceptions are still valid.
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
 | `client/src/composables/admin/useAdminAvailabilitySettings.ts` | composableExport | 22 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/admin/useFormElementPatching.ts` | composableExport | 18 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/admin/useFormElementPatching.ts` | composableExport | 67 | pattern | Composables may export camelCase helpers used by other co... |
-| `client/src/composables/admin/useMetadataCache.ts` | composableExport | 138 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 5 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 32 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 43 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 50 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useDragAndDropHelpers.ts` | composableExport | 57 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useFormElementPatching.ts` | composableExport | 27 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useFormElementPatching.ts` | composableExport | 85 | pattern | Composables may export camelCase helpers used by other co... |
+| `client/src/composables/admin/useMetadataCache.ts` | composableExport | 137 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/admin/utils/nestedComputedFactory.ts` | composableFileName | 1 | pattern | Composable utility; factory name is intentional |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | composableExport | 29 | pattern | Composables may export camelCase helpers used by other co... |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | composableExport | 59 | pattern | Composables may export camelCase helpers used by other co... |
@@ -38,3 +47,5 @@ Review periodically to ensure exceptions are still valid.
 | `client/src/composables/fieldContext/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
 | `client/src/composables/formFields/types.ts` | composableFileName | 1 | pattern | Barrel/composable package; types file is conventional |
 | `client/src/composables/useAdminConfig.ts` | composableExport | 50 | pattern | Composables may export camelCase helpers used by other co... |
+| `server/src/db/models/booking/annotation_instance.ts` | functionExport | 42 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/booking/appointment_attendee.ts` | functionExport | 51 | pattern | Sequelize model factory convention: ModelNameFactory |

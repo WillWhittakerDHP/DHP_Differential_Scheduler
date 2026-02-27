@@ -4,6 +4,8 @@
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
 <script setup lang="ts">
+import type { Ref } from 'vue'
+import type { UserRequest } from '@/types/user'
 import { useUsersTableModel } from '@/composables/admin/tables/useUsersTableModel'
 import UserCreateForm from './UserCreateForm.vue'
 
@@ -75,7 +77,7 @@ const headers = [
     
     <UserCreateForm
       v-if="isCreating"
-      :new-user="newUser"
+      :new-user="(newUser as unknown as Ref<Partial<UserRequest>>)"
       @cancel="cancelCreate"
       @save="saveCreate"
     />

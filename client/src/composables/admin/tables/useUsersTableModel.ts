@@ -27,7 +27,14 @@ export function useUsersTableModel(): UsersTableModel {
     deleteItem: async (id) => remove.mutateAsync(id),
     notifySuccess: (message) => success(message),
     notifyError: (message) => error(message),
-    getCreateDefaults: () => ({ userRole: USER_ROLE_CLIENT }) as UserRequest,
+    getCreateDefaults: () => ({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      userRole: USER_ROLE_CLIENT,
+      loginId: undefined,
+    }) as UserRequest,
     validateCreate: (payload) => {
       if (!payload.firstName || !payload.lastName || !payload.email) {
         return 'First name, last name, and email are required'
@@ -50,7 +57,7 @@ export function useUsersTableModel(): UsersTableModel {
     ...crud.dialogs,
     ...crud.actions,
     formatNullValue,
-  }
+  } as UsersTableModel
 }
 
 

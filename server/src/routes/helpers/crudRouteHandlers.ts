@@ -121,7 +121,8 @@ export function createPostHandler<T extends Model>(
         !(await executeOptionalHook(
           beforeCreate as (...args: unknown[]) => Promise<void>,
           res,
-          req
+          req,
+          res
         ))
       )
         return
@@ -181,7 +182,8 @@ export function createMutationHandler<T extends Model>(
         !(await executeOptionalHook(
           beforeUpdate as (...args: unknown[]) => Promise<void>,
           res,
-          req
+          req,
+          res
         ))
       )
         return

@@ -1,4 +1,4 @@
-import { ref, computed, getCurrentInstance, triggerRef, watchEffect } from 'vue'
+import { ref, computed, getCurrentInstance, triggerRef, watchEffect, type Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { categorizeFieldsByLayout as categorizeFieldsByLayoutPure } from '@/utils/forms/layoutFieldCategorization'
 import { asEmptyArray } from '@/utils/safeDefaults'
@@ -36,7 +36,9 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     adminConfig: providedAdminConfig,
   } = options
 
-  const _adminConfig = providedAdminConfig || useAdminConfig()
+  // Resolve admin config for callers that pass it; reserved for future use in field context.
+  const _resolvedAdminConfig = providedAdminConfig ?? useAdminConfig()
+  void _resolvedAdminConfig
   const { warning: showWarning } = useNotification()
   // WHY: Capture once during setup so context creation works when metadata loads later (e.g. in watchEffect).
   // When cards mount before metadata is ready (e.g. Instances tab), the effect runs with getCurrentInstance() null;
@@ -157,8 +159,11 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
           entityIdValue,
           { form: currentFormInstance as FormContext, displayConfig: getFieldDisplayConfig(String(fieldKey)) }
         )
-        const fieldContext = buildFieldContextReturn(stateAndActions)
-        fieldContextCache.value.set(cacheKey, fieldContext)
+        const fieldContext = buildFieldContextReturn(stateAndActions) as unknown as FieldContextTypeGrouped<
+          GlobalEntityKey,
+          GlobalFieldKey<GlobalEntityKey>
+        >
+        fieldContextCache.value.set(cacheKey, fieldContext as never)
         triggerRef(fieldContextCache)
       }
       // Run with captured instance when available (setup); without when effect runs after metadata load.
@@ -199,7 +204,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   ): FieldContextTypeGrouped<GE, FieldKey> | undefined => {
     const cacheKey = String(fieldKey)
     const context = fieldContextCache.value.get(cacheKey)
-    return context === undefined ? undefined : (context as FieldContextTypeGrouped<GE, FieldKey>)
+    return context === undefined ? undefined : (context as unknown as FieldContextTypeGrouped<GE, FieldKey>)
   }
 
   const context = {
@@ -255,7 +260,9 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   })
 
   return {
-    fieldContextCache: context.fieldContextCache,
+    fieldContextCache: context.fieldContextCache as unknown as Ref<
+      Map<string, FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>
+    >,
     isFormReady: context.isFormReady,
     fieldsNeedingContexts: context.fieldsNeedingContexts,
     getFieldContext: context.getFieldContext,
@@ -267,5 +274,5 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     stackedFields: standardLayout.stackedFields,
     readyInlineFields: standardLayout.readyInlineFields,
     readyStackedFields: standardLayout.readyStackedFields,
-  }
+  } as UseFormFieldsReturn
 }

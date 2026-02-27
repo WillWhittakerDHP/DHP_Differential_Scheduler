@@ -1,6 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
-import type { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import type { UseBookingWizardReturn } from '@/types/wizard'
 
 /**
  * Shared contract for dev panel buttons context (provide/inject).
@@ -17,5 +17,5 @@ export interface DevPanelButtonsContext {
   handleResetWizard: () => void
   handleResetMocks: () => void
   updateAppointment: { isPending: Ref<boolean> }
-  wizard: ReturnType<typeof useBookingWizard> | null
+  wizard: UseBookingWizardReturn | null
 }

@@ -48,9 +48,3 @@ export type UseFieldContextStateReturnGrouped<GE extends GlobalEntityKey, FieldK
   state: UseFieldContextStateReturn<GE, FieldKey>
   actions: UseFieldContextActionsReturn
 }
-
-/** Grouped return for composable-health (oversized-return repair). */
-export type UseFieldContextStateReturnGrouped<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = {
-  state: UseFieldContextStateReturn<GE, FieldKey>
-  actions: UseFieldContextActionsReturn
-}

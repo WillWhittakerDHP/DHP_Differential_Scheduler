@@ -6,7 +6,8 @@ import { inject } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
-import { WIZARD_FIELD_CONFIGS, type WizardInstance, type WizardStateField } from '@/utils/wizardStateFieldConfig'
+import { WIZARD_FIELD_CONFIGS, type WizardStateField } from '@/utils/wizardStateFieldConfig'
+import { wizardKey } from '@/composables/booking/injectionKeys'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('wizardStatePlugin')
@@ -18,7 +19,7 @@ function isBookingBlockInstance(item: SelectionCardItem): item is BookingBlockIn
 export type { WizardStateField }
 
 export function createWizardStatePlugin(field: WizardStateField): StatePlugin | null {
-  const wizard = inject<WizardInstance | undefined>('wizard')
+  const wizard = inject(wizardKey)
   
   if (!wizard) {
     return null

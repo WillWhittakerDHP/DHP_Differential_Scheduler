@@ -6,7 +6,7 @@ import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 export interface UseEntityMetadataReturn {
   fieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
   isLoading: ComputedRef<boolean>
-  error: ComputedRef<Error | null>
+  error: ComputedRef<Error | null | unknown>
   refetch: () => Promise<void>
 }
 

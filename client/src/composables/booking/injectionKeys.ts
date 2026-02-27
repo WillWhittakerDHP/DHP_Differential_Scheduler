@@ -1,12 +1,17 @@
-/**
 import type { ValidationRule } from '@/types/formValidation'
+/**
  * Typed InjectionKey constants for booking wizard and dev panels provide/inject.
  * PATTERN: Use these keys in provide() and inject() for type-safe dependency injection.
  */
 import type { InjectionKey } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
-import type { PropertyDetailsStepData, ContactsStepData, ConfirmationStepData } from '@/types/wizard'
-import type { AvailabilityStepData } from '@/types/wizard'
+import type {
+  PropertyDetailsStepData,
+  ContactsStepData,
+  ConfirmationStepData,
+  AvailabilityStepData,
+  UseBookingWizardReturn,
+} from '@/types/wizard'
 import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 import type { AppointmentShape } from '@/types/appointment'
@@ -59,24 +64,27 @@ export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn
 export const resetMocksSignalKey: InjectionKey<Ref<number>> =
   Symbol('resetMocksSignal')
 
+/** Typed key for booking wizard context (flat contract). Provider: BookingWizard.vue. */
+export const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')
+
 /** Context provided by DevPanelsContainer and consumed by InstancesPanel (replaces prop-drilling). */
 export interface InstancesPanelContext {
   activeInstancesSubTab: Ref<'parts' | 'blocks'>
   setActiveInstancesSubTab: (value: 'parts' | 'blocks') => void
-  appointmentShape: Ref<AppointmentShape | null> | ComputedRef<AppointmentShape | null>
-  finalizedParts: Ref<PartFinal[]> | ComputedRef<PartFinal[]>
-  eventShapes: Ref<EventShape[]> | ComputedRef<EventShape[]>
+  appointmentShape: ComputedRef<AppointmentShape | null>
+  finalizedParts: ComputedRef<PartFinal[]>
+  eventShapes: ComputedRef<EventShape[]>
   hasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean
   formatDuration: (ms: number) => string
   formatTime: (value: string | null) => string
-  selectedServiceTypeId: Ref<string | null> | ComputedRef<string | null>
-  serviceTypeOptions: Ref<Array<{ title: string; value: string }>> | ComputedRef<Array<{ title: string; value: string }>>
+  selectedServiceTypeId: ComputedRef<string | null>
+  serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>
   handleServiceTypeChange: (serviceId: string | null) => void
   hasWizard: boolean
-  isSelectedServiceDifferential: Ref<boolean> | ComputedRef<boolean>
-  servicesSummary: Ref<ServiceSummary[]> | ComputedRef<ServiceSummary[]>
-  timeSlotResults: Ref<TimeSlotResults> | ComputedRef<TimeSlotResults>
-  hasSelectedTime: Ref<boolean> | ComputedRef<boolean>
+  isSelectedServiceDifferential: ComputedRef<boolean>
+  servicesSummary: ComputedRef<ServiceSummary[]>
+  timeSlotResults: ComputedRef<TimeSlotResults>
+  hasSelectedTime: ComputedRef<boolean>
 }
 
 export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
@@ -92,8 +100,8 @@ export interface ContactsFormContext {
   showAnotherClient: Ref<boolean>
   showTransactionManager: Ref<boolean>
   showSeller: Ref<boolean>
-  validationRules: Record<string, ValidationRule[]>
-  fieldErrors: Record<string, string>
+  validationRules: ComputedRef<Record<string, ValidationRule[]>>
+  fieldErrors: Ref<Record<string, string>>
   toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
 }
 

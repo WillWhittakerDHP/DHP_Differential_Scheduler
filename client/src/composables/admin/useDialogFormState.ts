@@ -37,7 +37,7 @@ export function useDialogFormState<T extends Record<string, unknown> = Record<st
   return {
     formValues,
     resetForm
-  }
+  } as UseDialogFormStateReturn<T>
 }
 
 

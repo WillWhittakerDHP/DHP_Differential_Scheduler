@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T00:03:34.585Z",
+  "generatedAt": "2026-02-26T23:55:31.208Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,16 +13,16 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 341,
+  "totalScanned": 423,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 419,
+    "totalAllowed": 448,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 417,
-      "specific": 0,
+      "pattern": 443,
+      "specific": 3,
       "linePattern": 2
     }
   },

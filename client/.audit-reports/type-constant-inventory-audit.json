@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-25T14:23:17.785Z",
+  "generatedAt": "2026-02-26T23:57:46.441Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,17 +36,17 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 264,
+    "totalTypeFiles": 263,
     "totalConstantFiles": 23,
-    "totalConfigFiles": 29,
-    "filesWithInlineTypes": 48,
-    "annotated": 65,
-    "unannotated": 251,
+    "totalConfigFiles": 34,
+    "filesWithInlineTypes": 93,
+    "annotated": 64,
+    "unannotated": 256,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 31,
-      "configsWithLogic": 5,
-      "duplicateTypeNames": 4,
+      "inlineTypesInComposables": 62,
+      "configsWithLogic": 8,
+      "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
       "monomorphicGenerics": 9
     }
@@ -73,31 +73,6 @@
       },
       "alsoExportsRuntime": false,
       "lineCount": 39,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "client__src__types__admin__AdminEntity.ts",
-      "repoPath": "client/src/types/admin/AdminEntity.ts",
-      "name": "AdminEntity",
-      "directoryDomain": "admin/AdminEntity.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "AdminEntityMap"
-      ],
-      "exportKinds": {
-        "types": 1,
-        "interfaces": 0,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 133,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -1667,7 +1642,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 31,
       "purpose": "PartInstanceCollectionModel.",
       "reuseTier": "feature",
       "tags": [
@@ -1835,7 +1810,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 21,
+      "lineCount": 25,
       "purpose": "UseRelationshipCollectionDataOptions, UseRelationshipCollectionDataReturnBase, UseRelationshipCollectionDataReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -2279,7 +2254,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 13,
+      "lineCount": 11,
       "purpose": "UseStatusButtonToggleOptions, UseStatusButtonToggleReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -2328,15 +2303,16 @@
       "domainMatch": null,
       "location": "dedicated",
       "exports": [
+        "UseAppointmentsTableHandlersReturn",
         "UseAppointmentsTableHandlersParams"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 1,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 14,
+      "lineCount": 41,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -2354,15 +2330,16 @@
       "location": "dedicated",
       "exports": [
         "CrudDataTableModelOptions",
-        "CrudDataTableModel"
+        "CrudDataTableModel",
+        "CrudDataTableModelGrouped"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 43,
+      "lineCount": 77,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -2501,7 +2478,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 111,
+      "lineCount": 112,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -2997,15 +2974,16 @@
       "domainMatch": null,
       "location": "dedicated",
       "exports": [
+        "UseAvailabilityOrchestratorReturn",
         "UseAvailabilityOrchestratorParams"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 1,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 14,
+      "lineCount": 60,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5045,6 +5023,37 @@
       "targetPath": null
     },
     {
+      "id": "client__src__types__dataCollections__businessDataCollectionTypes.ts",
+      "repoPath": "client/src/types/dataCollections/businessDataCollectionTypes.ts",
+      "name": "businessDataCollectionTypes",
+      "directoryDomain": "dataCollections/businessDataCollectionTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "BusinessDataCollectionQueryResult",
+        "BusinessDataCollectionByIdQueryResult",
+        "BusinessDataCollectionSelector",
+        "BusinessDataCollectionUpdater",
+        "BusinessDataCollectionEndpoints",
+        "BusinessDataCollectionCrudConfig",
+        "BusinessDataCollectionCrudComposableReturn"
+      ],
+      "exportKinds": {
+        "types": 7,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 49,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
       "id": "client__src__types__dataCollections__dataCollectionActions.ts",
       "repoPath": "client/src/types/dataCollections/dataCollectionActions.ts",
       "name": "dataCollectionActions",
@@ -5063,6 +5072,37 @@
       },
       "alsoExportsRuntime": false,
       "lineCount": 24,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__dataCollections__globalDataCollectionTypes.ts",
+      "repoPath": "client/src/types/dataCollections/globalDataCollectionTypes.ts",
+      "name": "globalDataCollectionTypes",
+      "directoryDomain": "dataCollections/globalDataCollectionTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "GlobalDataCollectionQueryResult",
+        "GlobalDataCollectionByIdQueryResult",
+        "GlobalDataCollectionSelector",
+        "GlobalDataCollectionUpdater",
+        "GlobalDataCollectionEndpoints",
+        "GlobalDataCollectionCrudConfig",
+        "GlobalDataCollectionCrudComposableReturn"
+      ],
+      "exportKinds": {
+        "types": 7,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 42,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5219,6 +5259,7 @@
       "exports": [
         "PrimitiveFormField",
         "PrimitiveFieldType",
+        "DependencyImpactBase",
         "RelationshipFieldType",
         "VirtualFieldType",
         "SelectableFormFieldType",
@@ -5228,12 +5269,12 @@
         "FieldValidationConfig"
       ],
       "exportKinds": {
-        "types": 8,
+        "types": 9,
         "interfaces": 1,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 97,
+      "lineCount": 100,
       "purpose": "Form field config types for entity forms.",
       "reuseTier": "shared",
       "tags": [
@@ -5316,6 +5357,35 @@
       },
       "alsoExportsRuntime": false,
       "lineCount": 7,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__entityCrud__entityCrudTypes.ts",
+      "repoPath": "client/src/types/entityCrud/entityCrudTypes.ts",
+      "name": "entityCrudTypes",
+      "directoryDomain": "entityCrud/entityCrudTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "OrderIndexUpdate",
+        "BulkUpdate",
+        "UseEntityCrudActionsReturn",
+        "EntityCrudMutationContext",
+        "UseEntityCrudMutationsReturnBase"
+      ],
+      "exportKinds": {
+        "types": 3,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 32,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5487,15 +5557,16 @@
       "location": "dedicated",
       "exports": [
         "UseFieldContextStateOptions",
-        "UseFieldContextStateReturn"
+        "UseFieldContextStateReturn",
+        "UseFieldContextStateReturnGrouped"
       ],
       "exportKinds": {
-        "types": 2,
+        "types": 3,
         "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 41,
+      "lineCount": 47,
       "purpose": "UseFieldContextStateOptions and UseFieldContextStateReturn.",
       "reuseTier": "shared",
       "tags": [
@@ -6318,17 +6389,18 @@
         "WizardState",
         "WizardSelectionMethods",
         "WizardComputedProperties",
+        "UseBookingWizardReturnGrouped",
         "ContactsStepData",
         "ConfirmationStepData",
         "WizardStepDataAndValidationRefs"
       ],
       "exportKinds": {
         "types": 2,
-        "interfaces": 6,
+        "interfaces": 7,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 108,
+      "lineCount": 122,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6415,68 +6487,6 @@
       "targetPath": null
     },
     {
-      "id": "client__src__composables__businessDataCollections__types.ts",
-      "repoPath": "client/src/composables/businessDataCollections/types.ts",
-      "name": "types",
-      "directoryDomain": "businessDataCollections/types.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "colocated",
-      "exports": [
-        "BusinessDataCollectionQueryResult",
-        "BusinessDataCollectionByIdQueryResult",
-        "BusinessDataCollectionSelector",
-        "BusinessDataCollectionUpdater",
-        "BusinessDataCollectionEndpoints",
-        "BusinessDataCollectionCrudConfig",
-        "BusinessDataCollectionCrudComposableReturn"
-      ],
-      "exportKinds": {
-        "types": 7,
-        "interfaces": 0,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 49,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "client__src__composables__entityCrud__useEntityCrudTypes.ts",
-      "repoPath": "client/src/composables/entityCrud/useEntityCrudTypes.ts",
-      "name": "useEntityCrudTypes",
-      "directoryDomain": "entityCrud/useEntityCrudTypes.ts",
-      "annotatedDomain": "entityCrud",
-      "domainMatch": false,
-      "location": "colocated",
-      "exports": [
-        "OrderIndexUpdate",
-        "BulkUpdate",
-        "UseEntityCrudActionsReturn",
-        "EntityCrudMutationContext",
-        "UseEntityCrudMutationsReturnBase"
-      ],
-      "exportKinds": {
-        "types": 3,
-        "interfaces": 2,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 32,
-      "purpose": "Shared types for entity CRUD composables.",
-      "reuseTier": "shared",
-      "tags": [
-        "crud"
-      ],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
       "id": "client__src__composables__fieldContext__types.ts",
       "repoPath": "client/src/composables/fieldContext/types.ts",
       "name": "types",
@@ -6487,15 +6497,16 @@
       "exports": [
         "FieldDisplayConfig",
         "FieldValidationRules",
-        "FieldContextType"
+        "FieldContextType",
+        "FieldContextTypeGrouped"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 3,
+        "interfaces": 4,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 49,
+      "lineCount": 76,
       "purpose": "Field context types for entity form fields.",
       "reuseTier": "shared",
       "tags": [
@@ -6532,37 +6543,6 @@
         "form",
         "ui-state"
       ],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "client__src__composables__globalDataCollections__types.ts",
-      "repoPath": "client/src/composables/globalDataCollections/types.ts",
-      "name": "types",
-      "directoryDomain": "globalDataCollections/types.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "colocated",
-      "exports": [
-        "GlobalDataCollectionQueryResult",
-        "GlobalDataCollectionByIdQueryResult",
-        "GlobalDataCollectionSelector",
-        "GlobalDataCollectionUpdater",
-        "GlobalDataCollectionEndpoints",
-        "GlobalDataCollectionCrudConfig",
-        "GlobalDataCollectionCrudComposableReturn"
-      ],
-      "exportKinds": {
-        "types": 7,
-        "interfaces": 0,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 42,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
       "placement": null,
       "priority": null,
       "targetPath": null
@@ -6638,7 +6618,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 82,
+      "lineCount": 83,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7705,7 +7685,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 25,
+      "lineCount": 26,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7741,10 +7721,115 @@
       "derivedPattern": false
     },
     {
-      "id": "client__src__configs__availabilitySettings.ts",
-      "repoPath": "client/src/configs/availabilitySettings.ts",
-      "name": "availabilitySettings",
-      "directoryDomain": "availabilitySettings.ts",
+      "id": "client__src__configs__availabilitySettings__api.ts",
+      "repoPath": "client/src/configs/availabilitySettings/api.ts",
+      "name": "api",
+      "directoryDomain": "availabilitySettings/api.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": true,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 125,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__availabilitySettings__businessHours.ts",
+      "repoPath": "client/src/configs/availabilitySettings/businessHours.ts",
+      "name": "businessHours",
+      "directoryDomain": "availabilitySettings/businessHours.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 23,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__availabilitySettings__calendar.ts",
+      "repoPath": "client/src/configs/availabilitySettings/calendar.ts",
+      "name": "calendar",
+      "directoryDomain": "availabilitySettings/calendar.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 25,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__availabilitySettings__constraints.ts",
+      "repoPath": "client/src/configs/availabilitySettings/constraints.ts",
+      "name": "constraints",
+      "directoryDomain": "availabilitySettings/constraints.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": true,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 21,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__availabilitySettings__index.ts",
+      "repoPath": "client/src/configs/availabilitySettings/index.ts",
+      "name": "index",
+      "directoryDomain": "availabilitySettings/index.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": false,
+      "lineCount": 39,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__availabilitySettings__types.ts",
+      "repoPath": "client/src/configs/availabilitySettings/types.ts",
+      "name": "types",
+      "directoryDomain": "availabilitySettings/types.ts",
       "annotatedDomain": null,
       "domainMatch": null,
       "category": "configs",
@@ -7753,19 +7838,19 @@
         "DEFAULT_MINOR_EVENT_NAME"
       ],
       "constCount": 2,
-      "usesAsConst": true,
+      "usesAsConst": false,
       "alsoExportsTypes": true,
       "exportedTypeNames": [
         "RangeConstraint",
         "AvailabilitySettings",
         "RawAvailabilitySettings"
       ],
-      "hasFactoryFunctions": true,
-      "lineCount": 415,
+      "hasFactoryFunctions": false,
+      "lineCount": 162,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
-      "placement": "co-located",
+      "placement": null,
       "derivedPattern": false
     },
     {
@@ -8268,7 +8353,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 66,
+      "lineCount": 67,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8400,9 +8485,75 @@
   ],
   "inlineTypeExports": [
     {
+      "sourceFile": "client/src/composables/admin/injectionKeys.ts",
+      "exportedTypes": [
+        "RuleFormDialogContext",
+        "InstancesTabContext"
+      ],
+      "exportedConstants": [
+        "ruleFormDialogContextKey",
+        "instancesTabContextKey"
+      ],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useAdmin.ts",
+      "exportedTypes": [
+        "UseAdminReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useAdminMetadataMutations.ts",
+      "exportedTypes": [
+        "UseAdminMetadataMutationsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
+      "exportedTypes": [
+        "UseAdminPrimitiveMetadataMutationsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useAdminRelationshipMetadataMutations.ts",
+      "exportedTypes": [
+        "UseAdminRelationshipMetadataMutationsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useApiDevPanelVisibility.ts",
       "exportedTypes": [
         "UseApiDevPanelVisibilityOptions"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useBaseCollectionField.ts",
+      "exportedTypes": [
+        "UseBaseCollectionFieldReturn",
+        "CollectionFieldResolverContext",
+        "CollectionFieldConfig"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8430,6 +8581,76 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useBusinessControlsFormState.ts",
+      "exportedTypes": [
+        "UseBusinessControlsFormStateReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useBusinessHoursFormState.ts",
+      "exportedTypes": [
+        "UseBusinessHoursFormStateReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 1,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useBusinessRuleForm.ts",
+      "exportedTypes": [
+        "UseBusinessRuleFormReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useBusinessRules.ts",
+      "exportedTypes": [
+        "UseBusinessRulesReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useBusinessRulesTab.ts",
+      "exportedTypes": [
+        "UseBusinessRulesTabReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useCalendarHoldFormState.ts",
+      "exportedTypes": [
+        "UseCalendarHoldFormStateReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 1,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useCapacitySettings.ts",
+      "exportedTypes": [
+        "UseCapacitySettingsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useComponentDistributionConfirm.ts",
       "exportedTypes": [
         "UseComponentDistributionConfirmOptions"
@@ -8440,10 +8661,41 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useEntityCardFieldContextAndVisibility.ts",
+      "exportedTypes": [
+        "UseEntityCardFieldContextAndVisibilityReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useEntityCardSaveHandlers.ts",
+      "exportedTypes": [
+        "UseEntityCardSaveHandlersReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useEntityCardSubPanels.ts",
       "exportedTypes": [
         "SubPanelFields",
-        "UseEntityCardSubPanelsOptions"
+        "UseEntityCardSubPanelsOptions",
+        "UseEntityCardSubPanelsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useEntityMetadata.ts",
+      "exportedTypes": [
+        "UseEntityMetadataReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8453,7 +8705,38 @@
     {
       "sourceFile": "client/src/composables/admin/useFeePreview.ts",
       "exportedTypes": [
-        "UseFeePreviewOptions"
+        "UseFeePreviewOptions",
+        "UseFeePreviewReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useFieldInputHandlers.ts",
+      "exportedTypes": [
+        "UseFieldInputHandlersReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useFieldInputSetup.ts",
+      "exportedTypes": [
+        "UseFieldInputSetupReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useFieldMetadataUpdate.ts",
+      "exportedTypes": [
+        "UseFieldMetadataUpdateReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8471,14 +8754,46 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useFormFieldConfigs.ts",
+      "exportedTypes": [
+        "UseFormFieldConfigsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useInstancesTabCreateModal.ts",
+      "exportedTypes": [
+        "UseInstancesTabCreateModalReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useInstancesTabEventInstance.ts",
-      "exportedTypes": [],
+      "exportedTypes": [
+        "UseInstancesTabEventInstanceReturn"
+      ],
       "exportedConstants": [
         "EVENT_INSTANCE_TEMPLATE_VARIABLES"
       ],
       "primaryPurpose": "composable",
       "importedByCount": 0,
-      "recommendation": null
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
+      "exportedTypes": [
+        "UseInstancesTabEventInstanceDragReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
     },
     {
       "sourceFile": "client/src/composables/admin/useMetadataEditModal.ts",
@@ -8495,6 +8810,16 @@
       "sourceFile": "client/src/composables/admin/usePartInstanceBulkEdit.ts",
       "exportedTypes": [
         "UsePartInstanceBulkEditOptions"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/usePartsCollectionField.ts",
+      "exportedTypes": [
+        "UsePartsCollectionFieldReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8523,6 +8848,36 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useRelationshipCollectionField.ts",
+      "exportedTypes": [
+        "UseRelationshipCollectionFieldReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useSelectChipRender.ts",
+      "exportedTypes": [
+        "UseSelectChipRenderReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useSelectEnumOptions.ts",
+      "exportedTypes": [
+        "UseSelectEnumOptionsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useShapeForm.ts",
       "exportedTypes": [
         "ShapeFormEntityKey",
@@ -8536,9 +8891,103 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useShapesTabCreation.ts",
+      "exportedTypes": [
+        "UseShapesTabCreationReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useShapesTabDeletion.ts",
+      "exportedTypes": [
+        "UseShapesTabDeletionReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useShapesTabModals.ts",
+      "exportedTypes": [
+        "UseShapesTabModalsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/beta/useFeedbackSubmit.ts",
       "exportedTypes": [
-        "UseFeedbackSubmitOptions"
+        "UseFeedbackSubmitOptions",
+        "UseFeedbackSubmitReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/injectionKeys.ts",
+      "exportedTypes": [
+        "InstancesPanelContext",
+        "ContactsFormContext"
+      ],
+      "exportedConstants": [
+        "propertyDetailsStepDataKey",
+        "contactsStepDataKey",
+        "availabilityStepDataKey",
+        "confirmationStepDataKey",
+        "propertyDetailsStepValidKey",
+        "propertyDetailsStepValidateKey",
+        "propertyDetailsFieldErrorsKey",
+        "contactsStepValidKey",
+        "contactsStepValidateKey",
+        "availabilityStepValidKey",
+        "availabilityStepValidateKey",
+        "confirmationStepValidKey",
+        "confirmationStepValidateKey",
+        "displayedMonthKey",
+        "updateDisplayedMonthKey",
+        "appointmentDurationKey",
+        "computedAvailabilityKey",
+        "resetMocksSignalKey",
+        "wizardKey",
+        "instancesPanelContextKey",
+        "contactsFormContextKey"
+      ],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
+      "exportedTypes": [
+        "UseAppointmentLoaderReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilityDevPanel.ts",
+      "exportedTypes": [
+        "UseDevPanelDataReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "exportedTypes": [
+        "UseMoveablePartsSchedulingReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8549,6 +8998,26 @@
       "sourceFile": "client/src/composables/booking/useSlotGridDisplay.ts",
       "exportedTypes": [
         "UseSlotGridDisplayOptions"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useWizardNumberUpdate.ts",
+      "exportedTypes": [
+        "UseWizardNumberUpdateReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/entityCrud/useEntityCrud.ts",
+      "exportedTypes": [
+        "UseEntityCrudReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8576,10 +9045,40 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/useAdminConfig.ts",
+      "exportedTypes": [
+        "UseAdminConfigReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/useAsyncOperation.ts",
       "exportedTypes": [
         "WithAsyncOperationState",
         "WithAsyncOperationOptions"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useAvailability.ts",
+      "exportedTypes": [
+        "UseAvailabilityReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useBooking.ts",
+      "exportedTypes": [
+        "UseBookingReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8595,6 +9094,76 @@
       "primaryPurpose": "composable",
       "importedByCount": 0,
       "recommendation": null
+    },
+    {
+      "sourceFile": "client/src/composables/useComponentEntity.ts",
+      "exportedTypes": [
+        "UseComponentEntityReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useFormValidation.ts",
+      "exportedTypes": [
+        "UseFormValidationReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useGlobal.ts",
+      "exportedTypes": [
+        "UseGlobalReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useMapsSessionToken.ts",
+      "exportedTypes": [
+        "UseMapsSessionTokenReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useNotification.ts",
+      "exportedTypes": [
+        "UseNotificationReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useRelationship.ts",
+      "exportedTypes": [
+        "UseRelationshipCrudReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/useThemeMode.ts",
+      "exportedTypes": [
+        "UseThemeModeReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
     },
     {
       "sourceFile": "client/src/utils/admin/businessRulesApi.ts",
@@ -8932,7 +9501,7 @@
         "reason": "In constants/configs and exports type definitions"
       },
       {
-        "repoPath": "client/src/configs/availabilitySettings.ts",
+        "repoPath": "client/src/configs/availabilitySettings/types.ts",
         "reason": "In constants/configs and exports type definitions"
       },
       {
@@ -8955,9 +9524,75 @@
     "inlineTypes": {
       "unreviewed": [
         {
+          "sourceFile": "client/src/composables/admin/injectionKeys.ts",
+          "exportedTypes": [
+            "RuleFormDialogContext",
+            "InstancesTabContext"
+          ],
+          "exportedConstants": [
+            "ruleFormDialogContextKey",
+            "instancesTabContextKey"
+          ],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useAdmin.ts",
+          "exportedTypes": [
+            "UseAdminReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useAdminMetadataMutations.ts",
+          "exportedTypes": [
+            "UseAdminMetadataMutationsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts",
+          "exportedTypes": [
+            "UseAdminPrimitiveMetadataMutationsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useAdminRelationshipMetadataMutations.ts",
+          "exportedTypes": [
+            "UseAdminRelationshipMetadataMutationsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useApiDevPanelVisibility.ts",
           "exportedTypes": [
             "UseApiDevPanelVisibilityOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useBaseCollectionField.ts",
+          "exportedTypes": [
+            "UseBaseCollectionFieldReturn",
+            "CollectionFieldResolverContext",
+            "CollectionFieldConfig"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -8985,6 +9620,46 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useBusinessHoursFormState.ts",
+          "exportedTypes": [
+            "UseBusinessHoursFormStateReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useBusinessRuleForm.ts",
+          "exportedTypes": [
+            "UseBusinessRuleFormReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useBusinessRulesTab.ts",
+          "exportedTypes": [
+            "UseBusinessRulesTabReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useCalendarHoldFormState.ts",
+          "exportedTypes": [
+            "UseCalendarHoldFormStateReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "exportedTypes": [
             "UseComponentDistributionConfirmOptions"
@@ -8998,7 +9673,18 @@
           "sourceFile": "client/src/composables/admin/useEntityCardSubPanels.ts",
           "exportedTypes": [
             "SubPanelFields",
-            "UseEntityCardSubPanelsOptions"
+            "UseEntityCardSubPanelsOptions",
+            "UseEntityCardSubPanelsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useEntityMetadata.ts",
+          "exportedTypes": [
+            "UseEntityMetadataReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9008,7 +9694,8 @@
         {
           "sourceFile": "client/src/composables/admin/useFeePreview.ts",
           "exportedTypes": [
-            "UseFeePreviewOptions"
+            "UseFeePreviewOptions",
+            "UseFeePreviewReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9026,10 +9713,40 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useFormFieldConfigs.ts",
+          "exportedTypes": [
+            "UseFormFieldConfigsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useInstancesTabCreateModal.ts",
+          "exportedTypes": [
+            "UseInstancesTabCreateModalReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useMetadataEditModal.ts",
           "exportedTypes": [
             "MetadataEditorSaveRef",
             "UseMetadataEditModalOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/usePartsCollectionField.ts",
+          "exportedTypes": [
+            "UsePartsCollectionFieldReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9058,6 +9775,36 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useRelationshipCollectionField.ts",
+          "exportedTypes": [
+            "UseRelationshipCollectionFieldReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useSelectChipRender.ts",
+          "exportedTypes": [
+            "UseSelectChipRenderReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useSelectEnumOptions.ts",
+          "exportedTypes": [
+            "UseSelectEnumOptionsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useShapeForm.ts",
           "exportedTypes": [
             "ShapeFormEntityKey",
@@ -9071,9 +9818,63 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useShapesTabModals.ts",
+          "exportedTypes": [
+            "UseShapesTabModalsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/beta/useFeedbackSubmit.ts",
           "exportedTypes": [
-            "UseFeedbackSubmitOptions"
+            "UseFeedbackSubmitOptions",
+            "UseFeedbackSubmitReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/injectionKeys.ts",
+          "exportedTypes": [
+            "InstancesPanelContext",
+            "ContactsFormContext"
+          ],
+          "exportedConstants": [
+            "propertyDetailsStepDataKey",
+            "contactsStepDataKey",
+            "availabilityStepDataKey",
+            "confirmationStepDataKey",
+            "propertyDetailsStepValidKey",
+            "propertyDetailsStepValidateKey",
+            "propertyDetailsFieldErrorsKey",
+            "contactsStepValidKey",
+            "contactsStepValidateKey",
+            "availabilityStepValidKey",
+            "availabilityStepValidateKey",
+            "confirmationStepValidKey",
+            "confirmationStepValidateKey",
+            "displayedMonthKey",
+            "updateDisplayedMonthKey",
+            "appointmentDurationKey",
+            "computedAvailabilityKey",
+            "resetMocksSignalKey",
+            "wizardKey",
+            "instancesPanelContextKey",
+            "contactsFormContextKey"
+          ],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
+          "exportedTypes": [
+            "UseAppointmentLoaderReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9084,6 +9885,26 @@
           "sourceFile": "client/src/composables/booking/useSlotGridDisplay.ts",
           "exportedTypes": [
             "UseSlotGridDisplayOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useWizardNumberUpdate.ts",
+          "exportedTypes": [
+            "UseWizardNumberUpdateReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/entityCrud/useEntityCrud.ts",
+          "exportedTypes": [
+            "UseEntityCrudReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9111,10 +9932,100 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/useAdminConfig.ts",
+          "exportedTypes": [
+            "UseAdminConfigReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/useAsyncOperation.ts",
           "exportedTypes": [
             "WithAsyncOperationState",
             "WithAsyncOperationOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useAvailability.ts",
+          "exportedTypes": [
+            "UseAvailabilityReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useBooking.ts",
+          "exportedTypes": [
+            "UseBookingReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useComponentEntity.ts",
+          "exportedTypes": [
+            "UseComponentEntityReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useGlobal.ts",
+          "exportedTypes": [
+            "UseGlobalReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useMapsSessionToken.ts",
+          "exportedTypes": [
+            "UseMapsSessionTokenReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useNotification.ts",
+          "exportedTypes": [
+            "UseNotificationReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useRelationship.ts",
+          "exportedTypes": [
+            "UseRelationshipCrudReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/useThemeMode.ts",
+          "exportedTypes": [
+            "UseThemeModeReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9442,8 +10353,20 @@
         "name": "adminConfig"
       },
       {
-        "repoPath": "client/src/configs/availabilitySettings.ts",
-        "name": "availabilitySettings"
+        "repoPath": "client/src/configs/availabilitySettings/api.ts",
+        "name": "api"
+      },
+      {
+        "repoPath": "client/src/configs/availabilitySettings/businessHours.ts",
+        "name": "businessHours"
+      },
+      {
+        "repoPath": "client/src/configs/availabilitySettings/calendar.ts",
+        "name": "calendar"
+      },
+      {
+        "repoPath": "client/src/configs/availabilitySettings/constraints.ts",
+        "name": "constraints"
       },
       {
         "repoPath": "client/src/configs/field/display/fullFieldDisplayConfig.ts",
@@ -9455,6 +10378,13 @@
       }
     ],
     "duplicateTypeNames": [
+      {
+        "typeName": "UseEntityMetadataReturn",
+        "files": [
+          "client/src/types/admin/entityCardMetadata.ts",
+          "client/src/composables/admin/useEntityMetadata.ts"
+        ]
+      },
       {
         "typeName": "UsePartInstanceBulkEditOptions",
         "files": [
@@ -10096,7 +11026,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 25,
+        "lineCount": 26,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
@@ -10134,10 +11064,115 @@
         "derivedPattern": false
       },
       {
-        "id": "client__src__configs__availabilitySettings.ts",
-        "repoPath": "client/src/configs/availabilitySettings.ts",
-        "name": "availabilitySettings",
-        "directoryDomain": "availabilitySettings.ts",
+        "id": "client__src__configs__availabilitySettings__api.ts",
+        "repoPath": "client/src/configs/availabilitySettings/api.ts",
+        "name": "api",
+        "directoryDomain": "availabilitySettings/api.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": true,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 125,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__availabilitySettings__businessHours.ts",
+        "repoPath": "client/src/configs/availabilitySettings/businessHours.ts",
+        "name": "businessHours",
+        "directoryDomain": "availabilitySettings/businessHours.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 23,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__availabilitySettings__calendar.ts",
+        "repoPath": "client/src/configs/availabilitySettings/calendar.ts",
+        "name": "calendar",
+        "directoryDomain": "availabilitySettings/calendar.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 25,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__availabilitySettings__constraints.ts",
+        "repoPath": "client/src/configs/availabilitySettings/constraints.ts",
+        "name": "constraints",
+        "directoryDomain": "availabilitySettings/constraints.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": true,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 21,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__availabilitySettings__index.ts",
+        "repoPath": "client/src/configs/availabilitySettings/index.ts",
+        "name": "index",
+        "directoryDomain": "availabilitySettings/index.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": false,
+        "lineCount": 39,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__availabilitySettings__types.ts",
+        "repoPath": "client/src/configs/availabilitySettings/types.ts",
+        "name": "types",
+        "directoryDomain": "availabilitySettings/types.ts",
         "annotatedDomain": null,
         "domainMatch": null,
         "category": "configs",
@@ -10146,19 +11181,19 @@
           "DEFAULT_MINOR_EVENT_NAME"
         ],
         "constCount": 2,
-        "usesAsConst": true,
+        "usesAsConst": false,
         "alsoExportsTypes": true,
         "exportedTypeNames": [
           "RangeConstraint",
           "AvailabilitySettings",
           "RawAvailabilitySettings"
         ],
-        "hasFactoryFunctions": true,
-        "lineCount": 415,
+        "hasFactoryFunctions": false,
+        "lineCount": 162,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
-        "placement": "co-located",
+        "placement": null,
         "derivedPattern": false
       },
       {
@@ -10661,7 +11696,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 66,
+        "lineCount": 67,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
@@ -10835,11 +11870,10 @@
         "client/src/types/admin/shapesTabCreation.ts",
         "client/src/types/entities.ts",
         "client/src/types/relationships.ts",
-        "client/src/composables/entityCrud/useEntityCrudTypes.ts",
         "client/src/constants/entities.ts",
         "client/src/constants/relationships.ts"
       ],
-      "note": "13 entries share tag 'crud'"
+      "note": "12 entries share tag 'crud'"
     },
     {
       "tag": "navigation",
@@ -10945,7 +11979,7 @@
       "typeName": "UpdateByIdPayload",
       "definedIn": "client/src/types/collectionTypes.ts",
       "alwaysInstantiatedWith": "UpdatePayload",
-      "usageCount": 15,
+      "usageCount": 11,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"
     },
     {
@@ -10964,42 +11998,42 @@
     },
     {
       "typeName": "BusinessDataCollectionQueryResult",
-      "definedIn": "client/src/composables/businessDataCollections/types.ts",
+      "definedIn": "client/src/types/dataCollections/businessDataCollectionTypes.ts",
       "alwaysInstantiatedWith": "CollectionItem",
       "usageCount": 4,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"
     },
     {
       "typeName": "BusinessDataCollectionByIdQueryResult",
-      "definedIn": "client/src/composables/businessDataCollections/types.ts",
+      "definedIn": "client/src/types/dataCollections/businessDataCollectionTypes.ts",
       "alwaysInstantiatedWith": "CollectionItem",
       "usageCount": 4,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"
     },
     {
       "typeName": "BusinessDataCollectionSelector",
-      "definedIn": "client/src/composables/businessDataCollections/types.ts",
+      "definedIn": "client/src/types/dataCollections/businessDataCollectionTypes.ts",
       "alwaysInstantiatedWith": "CollectionItem",
       "usageCount": 3,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"
     },
     {
       "typeName": "GlobalDataCollectionQueryResult",
-      "definedIn": "client/src/composables/globalDataCollections/types.ts",
+      "definedIn": "client/src/types/dataCollections/globalDataCollectionTypes.ts",
       "alwaysInstantiatedWith": "CollectionItem",
       "usageCount": 4,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"
     },
     {
       "typeName": "GlobalDataCollectionByIdQueryResult",
-      "definedIn": "client/src/composables/globalDataCollections/types.ts",
+      "definedIn": "client/src/types/dataCollections/globalDataCollectionTypes.ts",
       "alwaysInstantiatedWith": "CollectionItem",
       "usageCount": 4,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"
     },
     {
       "typeName": "GlobalDataCollectionSelector",
-      "definedIn": "client/src/composables/globalDataCollections/types.ts",
+      "definedIn": "client/src/types/dataCollections/globalDataCollectionTypes.ts",
       "alwaysInstantiatedWith": "CollectionItem",
       "usageCount": 3,
       "recommendation": "Consider removing the generic parameter or merging with the argument type"

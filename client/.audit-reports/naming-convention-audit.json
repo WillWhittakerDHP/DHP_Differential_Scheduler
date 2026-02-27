@@ -1,20 +1,51 @@
 {
-  "generatedAt": "2026-02-26T00:03:36.876Z",
-  "totalScanned": 1084,
+  "generatedAt": "2026-02-26T23:55:33.648Z",
+  "totalScanned": 1087,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 16,
-    "totalRequiresReview": 0,
+    "totalAllowed": 23,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
-      "pattern": 16,
+      "pattern": 23,
       "specific": 0,
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "repoPath": "client/src/composables/admin/injectionKeys.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/booking/injectionKeys.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/buildFieldContextReturn.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    }
+  ],
   "scanned": [
+    {
+      "repoPath": "client/src/composables/admin/injectionKeys.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: injectionKeys.ts",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
     {
       "repoPath": "client/src/composables/admin/useAdminAvailabilitySettings.ts",
       "allowed": [
@@ -30,11 +61,57 @@
       "requiresReview": []
     },
     {
+      "repoPath": "client/src/composables/admin/useDragAndDropHelpers.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 5,
+          "line": "export function getPanelsElement(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 32,
+          "line": "export function countDraggableNodes(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 43,
+          "line": "export function createSingleClassDraggableChecker(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 50,
+          "line": "export function createMultiClassDraggableChecker(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 57,
+          "line": "export function createExpansionPanelDraggableChecker(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
       "repoPath": "client/src/composables/admin/useFormElementPatching.ts",
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 18,
+          "lineNumber": 27,
           "line": "export function tryPatchFormImmediatelyBySelector(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -42,7 +119,7 @@
         },
         {
           "ruleId": "composableExport",
-          "lineNumber": 67,
+          "lineNumber": 85,
           "line": "export function setupFormMutationObserver(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -56,7 +133,7 @@
       "allowed": [
         {
           "ruleId": "composableExport",
-          "lineNumber": 138,
+          "lineNumber": 137,
           "line": "export function resetMetadataCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
@@ -78,6 +155,18 @@
         }
       ],
       "requiresReview": []
+    },
+    {
+      "repoPath": "client/src/composables/booking/injectionKeys.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: injectionKeys.ts",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
     },
     {
       "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
@@ -168,6 +257,18 @@
       "requiresReview": []
     },
     {
+      "repoPath": "client/src/composables/fieldContext/buildFieldContextReturn.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: buildFieldContextReturn.ts",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
       "repoPath": "client/src/composables/fieldContext/types.ts",
       "allowed": [
         {
@@ -203,6 +304,34 @@
           "lineNumber": 50,
           "line": "export function _clearCache(",
           "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 42,
+          "line": "export function AnnotationInstanceFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/booking/appointment_attendee.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 51,
+          "line": "export function AppointmentAttendeeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
           "suppressionStatus": "suppressedByPattern"
         }

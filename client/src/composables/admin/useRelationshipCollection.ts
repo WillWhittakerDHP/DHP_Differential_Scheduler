@@ -61,7 +61,7 @@ export function useRelationshipCollection(
   
   const parentEntityId = computed(() => fieldContext.state.entityId)
   
-  // PATTERN: Add type assertion since we know it should be non-null at runtime
+  // PATTERN: Options accept childEntityKey | null; implementation casts to GlobalEntityKey
   const collectionData = useRelationshipCollectionData({
     parentEntityId,
     parentEntityKey: computed(() => fieldContext.state.entityKey),
@@ -72,7 +72,7 @@ export function useRelationshipCollection(
     parentTypeEntityKey,
     parentTypeRef,
     shapeRefProperty: shapeRefProperty.value
-  })
+  } as import('@/types/admin/relationshipCollectionData').UseRelationshipCollectionDataOptions)
   
   const {
     validShapes,
@@ -122,12 +122,15 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     if (nameGenerator) {
       const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
       const shapeName = getShapeName(shapeId)
+      const children = existingChildren.value.filter(
+        (c): c is GlobalEntity<GlobalEntityKey> => c != null
+      )
       const name = nameGenerator(
         parentName,
         shapeName,
         parentEntity.value.id,
         shapeId,
-        existingChildren.value
+        children
       )
       return {
         ...baseEntity,
@@ -235,8 +238,10 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     existingChildren,
     getChildForShape,
     getShapeName,
-    
-    parentEntity,
+
+    parentEntity: parentEntity as import('vue').ComputedRef<
+      GlobalEntity<GlobalEntityKey> | undefined
+    >,
     shouldShow,
     
     optionsFieldKey,

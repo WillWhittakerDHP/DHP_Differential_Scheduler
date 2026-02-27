@@ -4,22 +4,22 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-02-25T14:23:17.785Z
+Generated: 2026-02-26T23:57:46.441Z
 
 ## Summary
 
-- Type files: **264**
+- Type files: **263**
 - Constant files: **23**
-- Config files: **29**
-- Files with inline type exports: **48**
-- Annotated: **65** | Unannotated: **251**
+- Config files: **34**
+- Files with inline type exports: **93**
+- Annotated: **64** | Unannotated: **256**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 31 |
-| Configs with factory functions | 5 |
-| Duplicate type names | 4 |
+| Inline types in composables | 62 |
+| Configs with factory functions | 8 |
+| Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
 | Monomorphic generics | 9 |
 
@@ -29,15 +29,15 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | Type name | Defined in | Always used with | Usage count |
 | --- | --- | --- | ---: |
-| UpdateByIdPayload | `client/src/types/collectionTypes.ts` | `UpdatePayload` | 15 |
+| UpdateByIdPayload | `client/src/types/collectionTypes.ts` | `UpdatePayload` | 11 |
 | CollectionQueryResult | `client/src/types/collectionTypes.ts` | `CollectionItem` | 3 |
 | CollectionByIdQueryResult | `client/src/types/collectionTypes.ts` | `CollectionItem` | 3 |
-| BusinessDataCollectionQueryResult | `client/src/composables/businessDataCollections/types.ts` | `CollectionItem` | 4 |
-| BusinessDataCollectionByIdQueryResult | `client/src/composables/businessDataCollections/types.ts` | `CollectionItem` | 4 |
-| BusinessDataCollectionSelector | `client/src/composables/businessDataCollections/types.ts` | `CollectionItem` | 3 |
-| GlobalDataCollectionQueryResult | `client/src/composables/globalDataCollections/types.ts` | `CollectionItem` | 4 |
-| GlobalDataCollectionByIdQueryResult | `client/src/composables/globalDataCollections/types.ts` | `CollectionItem` | 4 |
-| GlobalDataCollectionSelector | `client/src/composables/globalDataCollections/types.ts` | `CollectionItem` | 3 |
+| BusinessDataCollectionQueryResult | `client/src/types/dataCollections/businessDataCollectionTypes.ts` | `CollectionItem` | 4 |
+| BusinessDataCollectionByIdQueryResult | `client/src/types/dataCollections/businessDataCollectionTypes.ts` | `CollectionItem` | 4 |
+| BusinessDataCollectionSelector | `client/src/types/dataCollections/businessDataCollectionTypes.ts` | `CollectionItem` | 3 |
+| GlobalDataCollectionQueryResult | `client/src/types/dataCollections/globalDataCollectionTypes.ts` | `CollectionItem` | 4 |
+| GlobalDataCollectionByIdQueryResult | `client/src/types/dataCollections/globalDataCollectionTypes.ts` | `CollectionItem` | 4 |
+| GlobalDataCollectionSelector | `client/src/types/dataCollections/globalDataCollectionTypes.ts` | `CollectionItem` | 3 |
 
 ## Type File Catalog (by domain)
 
@@ -98,12 +98,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin.ts` | dedicated | DisplayFieldType | no | (none) | unknown |
-
-### Domain: admin/AdminEntity.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `client/src/types/admin/AdminEntity.ts` | dedicated | AdminEntityMap | no | (none) | unknown |
 
 ### Domain: admin/attendeeQuickSelect.ts
 
@@ -367,8 +361,8 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/admin/tables/appointmentsTableHandlers.ts` | dedicated | UseAppointmentsTableHandlersParams | no | (none) | unknown |
-| `client/src/types/admin/tables/crudDataTableModel.ts` | dedicated | CrudDataTableModelOptions, CrudDataTableModel | no | (none) | unknown |
+| `client/src/types/admin/tables/appointmentsTableHandlers.ts` | dedicated | UseAppointmentsTableHandlersReturn, UseAppointmentsTableHandlersParams | no | (none) | unknown |
+| `client/src/types/admin/tables/crudDataTableModel.ts` | dedicated | CrudDataTableModelOptions, CrudDataTableModel, CrudDataTableModelGrouped | no | (none) | unknown |
 | `client/src/types/admin/tables/tableModelHelpers.ts` | dedicated | TableModelFormatHelpers | no | (none) | unknown |
 
 ### Domain: annotations.ts
@@ -517,7 +511,7 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/booking/availabilityOrchestrator.ts` | dedicated | UseAvailabilityOrchestratorParams | no | (none) | unknown |
+| `client/src/types/booking/availabilityOrchestrator.ts` | dedicated | UseAvailabilityOrchestratorReturn, UseAvailabilityOrchestratorParams | no | (none) | unknown |
 
 ### Domain: booking/availabilitySettings.ts
 
@@ -903,12 +897,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/business.ts` | dedicated | UseBusinessReturn | no | (none) | unknown |
 
-### Domain: businessDataCollections/types.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `client/src/composables/businessDataCollections/types.ts` | colocated | BusinessDataCollectionQueryResult, BusinessDataCollectionByIdQueryResult, BusinessDataCollectionSelector, BusinessDataCollectionUpdater, BusinessDataCollectionEndpoints… | no | (none) | unknown |
-
 ### Domain: businessRulesTypes.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -981,11 +969,23 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `shared/types/coreEntityTypes.ts` | dedicated | CoreEntity | no | (none) | unknown |
 
+### Domain: dataCollections/businessDataCollectionTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/dataCollections/businessDataCollectionTypes.ts` | dedicated | BusinessDataCollectionQueryResult, BusinessDataCollectionByIdQueryResult, BusinessDataCollectionSelector, BusinessDataCollectionUpdater, BusinessDataCollectionEndpoints… | no | (none) | unknown |
+
 ### Domain: dataCollections/dataCollectionActions.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/dataCollections/dataCollectionActions.ts` | dedicated | DataCollectionCrudConfig, UseDataCollectionActionsReturn | no | (none) | unknown |
+
+### Domain: dataCollections/globalDataCollectionTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/dataCollections/globalDataCollectionTypes.ts` | dedicated | GlobalDataCollectionQueryResult, GlobalDataCollectionByIdQueryResult, GlobalDataCollectionSelector, GlobalDataCollectionUpdater, GlobalDataCollectionEndpoints… | no | (none) | unknown |
 
 ### Domain: datetime.ts
 
@@ -1011,15 +1011,9 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/entities.ts` | dedicated | AnnotationShapeEntity, GlobalEntity | no | Core entity type definitions (runtime helpers moved to utils/globalEntity.ts). | shared |
 | `client/src/types/entity/formDataEnums.ts` | dedicated |  | no | Form data enums: field type, mode, primitive type, etc. | shared |
-| `client/src/types/entity/formFields.ts` | dedicated | PrimitiveFormField, PrimitiveFieldType, RelationshipFieldType, VirtualFieldType, SelectableFormFieldType… | no | Form field config types for entity forms. | shared |
+| `client/src/types/entity/formFields.ts` | dedicated | PrimitiveFormField, PrimitiveFieldType, DependencyImpactBase, RelationshipFieldType, VirtualFieldType… | no | Form field config types for entity forms. | shared |
 | `client/src/types/entity/selectOptions.ts` | dedicated | SelectGroup | no | Select options types for entity fields. | shared |
 | `client/src/types/relationships.ts` | dedicated | GlobalRelationship, CreateRelationshipPayload, FetchedRelationship, CreateRelationshipPayloadBase | no | Relationship type definitions for parent-child entity connections. | shared |
-
-### Domain: entityCrud
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `client/src/composables/entityCrud/useEntityCrudTypes.ts` | colocated | OrderIndexUpdate, BulkUpdate, UseEntityCrudActionsReturn, EntityCrudMutationContext, UseEntityCrudMutationsReturnBase | no | Shared types for entity CRUD composables. | shared |
 
 ### Domain: entityCrud/entityCrudQuery.ts
 
@@ -1032,6 +1026,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/entityCrud/entityCrudState.ts` | dedicated | UseEntityCrudStateReturn, UseEntityCrudStateReturnBase | no | (none) | unknown |
+
+### Domain: entityCrud/entityCrudTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/entityCrud/entityCrudTypes.ts` | dedicated | OrderIndexUpdate, BulkUpdate, UseEntityCrudActionsReturn, EntityCrudMutationContext, UseEntityCrudMutationsReturnBase | no | (none) | unknown |
 
 ### Domain: entityCrud/sharedMutationHandlers.ts
 
@@ -1061,8 +1061,8 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/fieldContext/fieldContextState.ts` | dedicated | UseFieldContextStateOptions, UseFieldContextStateReturn | no | UseFieldContextStateOptions and UseFieldContextStateReturn. | shared |
-| `client/src/composables/fieldContext/types.ts` | colocated | FieldDisplayConfig, FieldValidationRules, FieldContextType | no | Field context types for entity form fields. | shared |
+| `client/src/types/fieldContext/fieldContextState.ts` | dedicated | UseFieldContextStateOptions, UseFieldContextStateReturn, UseFieldContextStateReturnGrouped | no | UseFieldContextStateOptions and UseFieldContextStateReturn. | shared |
+| `client/src/composables/fieldContext/types.ts` | colocated | FieldDisplayConfig, FieldValidationRules, FieldContextType, FieldContextTypeGrouped | no | Field context types for entity form fields. | shared |
 
 ### Domain: fieldContext/fieldContextActions.ts
 
@@ -1123,12 +1123,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/forms/selectDomAssociation.ts` | dedicated | SelectDomTarget | no | (none) | unknown |
-
-### Domain: globalDataCollections/types.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `client/src/composables/globalDataCollections/types.ts` | colocated | GlobalDataCollectionQueryResult, GlobalDataCollectionByIdQueryResult, GlobalDataCollectionSelector, GlobalDataCollectionUpdater, GlobalDataCollectionEndpoints… | no | (none) | unknown |
 
 ### Domain: googleCalendar.ts
 
@@ -1358,7 +1352,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/scheduling.ts` | 3 | 0 | no |
 | constants | `client/src/constants/statusButtonLabels.ts` | 1 | 0 | no |
 | configs | `client/src/configs/adminConfig.ts` | 0 | 3 | yes |
-| configs | `client/src/configs/availabilitySettings.ts` | 2 | 3 | yes |
+| configs | `client/src/configs/availabilitySettings/api.ts` | 0 | 0 | yes |
+| configs | `client/src/configs/availabilitySettings/businessHours.ts` | 0 | 0 | yes |
+| configs | `client/src/configs/availabilitySettings/calendar.ts` | 0 | 0 | yes |
+| configs | `client/src/configs/availabilitySettings/constraints.ts` | 0 | 0 | yes |
+| configs | `client/src/configs/availabilitySettings/index.ts` | 0 | 0 | no |
+| configs | `client/src/configs/availabilitySettings/types.ts` | 2 | 3 | no |
 | configs | `client/src/configs/businessControlsTabStrings.ts` | 1 | 0 | no |
 | configs | `client/src/configs/contactsValidationStrings.ts` | 1 | 0 | no |
 | configs | `client/src/configs/eventPerspectiveLabels.ts` | 1 | 0 | no |
@@ -1391,22 +1390,53 @@ Generic types always instantiated with the same argument; consider removing the 
 
 ### Unreviewed
 
+- `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 0 files)
+- `client/src/composables/admin/useAdmin.ts`: UseAdminReturn (imported by 0 files)
+- `client/src/composables/admin/useAdminMetadataMutations.ts`: UseAdminMetadataMutationsReturn (imported by 0 files)
+- `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts`: UseAdminPrimitiveMetadataMutationsReturn (imported by 0 files)
+- `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts`: UseAdminRelationshipMetadataMutationsReturn (imported by 0 files)
 - `client/src/composables/admin/useApiDevPanelVisibility.ts`: UseApiDevPanelVisibilityOptions (imported by 0 files)
+- `client/src/composables/admin/useBaseCollectionField.ts`: UseBaseCollectionFieldReturn, CollectionFieldResolverContext, CollectionFieldConfig (imported by 0 files)
 - `client/src/composables/admin/useBlockInstanceCreate.ts`: UseBlockInstanceCreateOptions (imported by 0 files)
 - `client/src/composables/admin/useBooleanInputClick.ts`: UseBooleanInputClickParams (imported by 0 files)
+- `client/src/composables/admin/useBusinessHoursFormState.ts`: UseBusinessHoursFormStateReturn (imported by 1 files)
+- `client/src/composables/admin/useBusinessRuleForm.ts`: UseBusinessRuleFormReturn (imported by 0 files)
+- `client/src/composables/admin/useBusinessRulesTab.ts`: UseBusinessRulesTabReturn (imported by 0 files)
+- `client/src/composables/admin/useCalendarHoldFormState.ts`: UseCalendarHoldFormStateReturn (imported by 1 files)
 - `client/src/composables/admin/useComponentDistributionConfirm.ts`: UseComponentDistributionConfirmOptions (imported by 0 files)
-- `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions (imported by 0 files)
-- `client/src/composables/admin/useFeePreview.ts`: UseFeePreviewOptions (imported by 0 files)
+- `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions, UseEntityCardSubPanelsReturn (imported by 0 files)
+- `client/src/composables/admin/useEntityMetadata.ts`: UseEntityMetadataReturn (imported by 0 files)
+- `client/src/composables/admin/useFeePreview.ts`: UseFeePreviewOptions, UseFeePreviewReturn (imported by 0 files)
 - `client/src/composables/admin/useFieldRendererErrorWatch.ts`: UseFieldRendererErrorWatchParams (imported by 0 files)
+- `client/src/composables/admin/useFormFieldConfigs.ts`: UseFormFieldConfigsReturn (imported by 0 files)
+- `client/src/composables/admin/useInstancesTabCreateModal.ts`: UseInstancesTabCreateModalReturn (imported by 0 files)
 - `client/src/composables/admin/useMetadataEditModal.ts`: MetadataEditorSaveRef, UseMetadataEditModalOptions (imported by 0 files)
+- `client/src/composables/admin/usePartsCollectionField.ts`: UsePartsCollectionFieldReturn (imported by 0 files)
 - `client/src/composables/admin/usePrimitiveMetadataSave.ts`: UsePrimitiveMetadataSaveOptions (imported by 0 files)
 - `client/src/composables/admin/usePropertyMappingsTab.ts`: PropertyFieldMappingRow, PropertyFeatureMappingRow (imported by 0 files)
+- `client/src/composables/admin/useRelationshipCollectionField.ts`: UseRelationshipCollectionFieldReturn (imported by 0 files)
+- `client/src/composables/admin/useSelectChipRender.ts`: UseSelectChipRenderReturn (imported by 0 files)
+- `client/src/composables/admin/useSelectEnumOptions.ts`: UseSelectEnumOptionsReturn (imported by 0 files)
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
-- `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions (imported by 0 files)
+- `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 0 files)
+- `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
+- `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
+- `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
 - `client/src/composables/booking/useSlotGridDisplay.ts`: UseSlotGridDisplayOptions (imported by 0 files)
+- `client/src/composables/booking/useWizardNumberUpdate.ts`: UseWizardNumberUpdateReturn (imported by 0 files)
+- `client/src/composables/entityCrud/useEntityCrud.ts`: UseEntityCrudReturn (imported by 0 files)
 - `client/src/composables/layout/useNavSearch.ts`: SearchResultsGroup (imported by 0 files)
 - `client/src/composables/layout/useNotificationActions.ts`: NotificationItem (imported by 0 files)
+- `client/src/composables/useAdminConfig.ts`: UseAdminConfigReturn (imported by 0 files)
 - `client/src/composables/useAsyncOperation.ts`: WithAsyncOperationState, WithAsyncOperationOptions (imported by 0 files)
+- `client/src/composables/useAvailability.ts`: UseAvailabilityReturn (imported by 0 files)
+- `client/src/composables/useBooking.ts`: UseBookingReturn (imported by 0 files)
+- `client/src/composables/useComponentEntity.ts`: UseComponentEntityReturn (imported by 0 files)
+- `client/src/composables/useGlobal.ts`: UseGlobalReturn (imported by 0 files)
+- `client/src/composables/useMapsSessionToken.ts`: UseMapsSessionTokenReturn (imported by 0 files)
+- `client/src/composables/useNotification.ts`: UseNotificationReturn (imported by 0 files)
+- `client/src/composables/useRelationship.ts`: UseRelationshipCrudReturn (imported by 0 files)
+- `client/src/composables/useThemeMode.ts`: UseThemeModeReturn (imported by 0 files)
 - `client/src/utils/admin/businessRulesApi.ts`: BusinessRulesQueryFilters (imported by 0 files)
 - `client/src/utils/admin/calibrationChartTransforms.ts`:  (imported by 0 files)
 - `client/src/utils/admin/entityCardTitleKeydown.ts`: EntityCardTitleKeydownReturn (imported by 0 files)
@@ -1433,6 +1463,7 @@ _None (or unused-code-audit.json not available)._
 
 ## Duplicate Type Names
 
+- **UseEntityMetadataReturn**: client/src/types/admin/entityCardMetadata.ts, client/src/composables/admin/useEntityMetadata.ts
 - **UsePartInstanceBulkEditOptions**: client/src/types/admin/partInstanceBulkEdit.ts, client/src/composables/admin/usePartInstanceBulkEdit.ts
 - **DurationRoundingConfig**: client/src/types/booking/durationRounding.ts, shared/types/availabilityTypes.ts
 - **ComponentStrategy**: client/src/types/component.ts, shared/types/componentTypes.ts

@@ -1,14 +1,14 @@
 /**
  * WHY: Business hours UI mapping and updater for Business Controls; split from useBusinessControlsFormState (audit: function-complexity).
  */
-import { computed, type Ref } from 'vue'
+import { computed, type ComputedRef, type Ref } from 'vue'
 import { localTime } from '@/utils/time/localTime'
 import type { BusinessHoursConfig } from '@/configs/availabilitySettings'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { BusinessHoursDay } from '@/types/admin/businessControlsFormState'
 
 export interface UseBusinessHoursFormStateReturn {
-  businessHoursForUI: ReturnType<typeof computed<Record<number, { start: string; end: string }>>>
+  businessHoursForUI: ComputedRef<Record<number, { start: string; end: string }>>
   isBusinessHoursConfig: (
     config: BusinessHoursConfig | { minutes: number } | { start: string; end: string }
   ) => config is BusinessHoursConfig

@@ -137,9 +137,10 @@ const {
   readyStackedFields
 } = formFields
 
-const inlineFieldLgCols = computed(() =>
-  readyInlineFields.length > 3 ? 3 : readyInlineFields.length > 2 ? 4 : readyInlineFields.length > 1 ? 6 : 12
-)
+const inlineFieldLgCols = computed(() => {
+  const len = readyInlineFields.value.length
+  return len > 3 ? 3 : len > 2 ? 4 : len > 1 ? 6 : 12
+})
 
 /**
  * WHY: Use form element patching composable

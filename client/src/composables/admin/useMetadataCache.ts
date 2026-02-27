@@ -13,8 +13,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed, ref } from 'vue'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import type { MetadataCache, MetadataEntityType } from '@/types/admin/metadataCache'
-
+import type { MetadataCache, MetadataEntityType, UseMetadataCacheReturn } from '@/types/admin/metadataCache'
 
 let metadataCacheInstance: UseMetadataCacheReturn | null = null
 

@@ -1,4 +1,4 @@
-import type { Ref, ComputedRef } from 'vue'
+import type { Ref, ComputedRef, WritableComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 export type SelectionMode = 'single' | 'multiple'
@@ -11,7 +11,7 @@ export interface UseBlockInstanceSelectionParams {
 }
 
 export interface UseBlockInstanceSelectionReturnSingle {
-  selectedBlockId: ComputedRef<string | null>
+  selectedBlockId: WritableComputedRef<string | null>
 }
 
 export interface UseBlockInstanceSelectionReturnMultiple {

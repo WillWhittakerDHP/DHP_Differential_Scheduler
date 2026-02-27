@@ -10,34 +10,34 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.clientInfo.firstName"
+          v-model="clientInfo.firstName"
           label="First Name"
           placeholder="Joe"
-          :rules="ctx.validationRules.clientFirstName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.clientFirstName"
+          :field-errors="fieldErrors"
           error-key="clientFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.clientInfo.lastName"
+          v-model="clientInfo.lastName"
           label="Last Name"
           placeholder="Smith"
-          :rules="ctx.validationRules.clientLastName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.clientLastName"
+          :field-errors="fieldErrors"
           error-key="clientLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.clientInfo.email"
+          v-model="clientInfo.email"
           type="email"
           label="Email"
           placeholder="joe.smith@xyz.com"
-          :rules="ctx.validationRules.clientEmail"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.clientEmail"
+          :field-errors="fieldErrors"
           error-key="clientEmail"
           required
         />
@@ -50,41 +50,41 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.agentInfo.firstName"
+          v-model="agentInfo.firstName"
           label="First Name"
           placeholder="Jane"
-          :rules="ctx.validationRules.agentFirstName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.agentFirstName"
+          :field-errors="fieldErrors"
           error-key="agentFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.agentInfo.lastName"
+          v-model="agentInfo.lastName"
           label="Last Name"
           placeholder="Doe"
-          :rules="ctx.validationRules.agentLastName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.agentLastName"
+          :field-errors="fieldErrors"
           error-key="agentLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.agentInfo.email"
+          v-model="agentInfo.email"
           type="email"
           label="Email"
           placeholder="jane.doe@realty.com"
-          :rules="ctx.validationRules.agentEmail"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.agentEmail"
+          :field-errors="fieldErrors"
           error-key="agentEmail"
           required
         />
       </VCol>
     </VRow>
 
-    <VRow v-if="ctx.showAnotherClient.value" class="mt-5">
+    <VRow v-if="showAnotherClient" class="mt-5">
       <VCol cols="12">
         <div class="d-flex align-center mb-4">
           <h6 class="text-headline-small mb-0">Another Client Information</h6>
@@ -94,7 +94,7 @@
             size="small"
             variant="text"
             class="ml-2"
-            @click="ctx.toggleSection('anotherClient', false)"
+            @click="toggleSection('anotherClient', false)"
           >
             <VIcon icon="tabler-trash" />
           </VBtn>
@@ -102,41 +102,41 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.anotherClientInfo.firstName"
+          v-model="anotherClientInfo.firstName"
           label="First Name"
           placeholder="Joe"
-          :rules="ctx.validationRules.anotherClientFirstName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.anotherClientFirstName"
+          :field-errors="fieldErrors"
           error-key="anotherClientFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.anotherClientInfo.lastName"
+          v-model="anotherClientInfo.lastName"
           label="Last Name"
           placeholder="Smith"
-          :rules="ctx.validationRules.anotherClientLastName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.anotherClientLastName"
+          :field-errors="fieldErrors"
           error-key="anotherClientLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.anotherClientInfo.email"
+          v-model="anotherClientInfo.email"
           type="email"
           label="Email"
           placeholder="joe.smith@xyz.com"
-          :rules="ctx.validationRules.anotherClientEmail"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.anotherClientEmail"
+          :field-errors="fieldErrors"
           error-key="anotherClientEmail"
           required
         />
       </VCol>
     </VRow>
 
-    <VRow v-if="ctx.showTransactionManager.value" class="mt-5">
+    <VRow v-if="showTransactionManager" class="mt-5">
       <VCol cols="12">
         <div class="d-flex align-center mb-4">
           <h6 class="text-headline-small mb-0">Transaction Manager Information</h6>
@@ -146,7 +146,7 @@
             size="small"
             variant="text"
             class="ml-2"
-            @click="ctx.toggleSection('transactionManager', false)"
+            @click="toggleSection('transactionManager', false)"
           >
             <VIcon icon="tabler-trash" />
           </VBtn>
@@ -154,41 +154,41 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.transactionManagerInfo.firstName"
+          v-model="transactionManagerInfo.firstName"
           label="First Name"
           placeholder="Bob"
-          :rules="ctx.validationRules.transactionManagerFirstName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.transactionManagerFirstName"
+          :field-errors="fieldErrors"
           error-key="transactionManagerFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.transactionManagerInfo.lastName"
+          v-model="transactionManagerInfo.lastName"
           label="Last Name"
           placeholder="Johnson"
-          :rules="ctx.validationRules.transactionManagerLastName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.transactionManagerLastName"
+          :field-errors="fieldErrors"
           error-key="transactionManagerLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.transactionManagerInfo.email"
+          v-model="transactionManagerInfo.email"
           type="email"
           label="Email"
           placeholder="bob.johnson@title.com"
-          :rules="ctx.validationRules.transactionManagerEmail"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.transactionManagerEmail"
+          :field-errors="fieldErrors"
           error-key="transactionManagerEmail"
           required
         />
       </VCol>
     </VRow>
 
-    <VRow v-if="ctx.showSeller.value" class="mt-5">
+    <VRow v-if="showSeller" class="mt-5">
       <VCol cols="12">
         <div class="d-flex align-center mb-4">
           <h6 class="text-headline-small mb-0">Seller Information</h6>
@@ -198,7 +198,7 @@
             size="small"
             variant="text"
             class="ml-2"
-            @click="ctx.toggleSection('seller', false)"
+            @click="toggleSection('seller', false)"
           >
             <VIcon icon="tabler-trash" />
           </VBtn>
@@ -206,34 +206,34 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.sellerInfo.firstName"
+          v-model="sellerInfo.firstName"
           label="First Name"
           placeholder="Alice"
-          :rules="ctx.validationRules.sellerFirstName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.sellerFirstName"
+          :field-errors="fieldErrors"
           error-key="sellerFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.sellerInfo.lastName"
+          v-model="sellerInfo.lastName"
           label="Last Name"
           placeholder="Williams"
-          :rules="ctx.validationRules.sellerLastName"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.sellerLastName"
+          :field-errors="fieldErrors"
           error-key="sellerLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="ctx.sellerInfo.email"
+          v-model="sellerInfo.email"
           type="email"
           label="Email"
           placeholder="alice.williams@example.com"
-          :rules="ctx.validationRules.sellerEmail"
-          :field-errors="ctx.fieldErrors"
+          :rules="validationRules.sellerEmail"
+          :field-errors="fieldErrors"
           error-key="sellerEmail"
           required
         />
@@ -247,7 +247,7 @@
           size="small"
           class="mr-2"
           :disabled="ctx.showAnotherClient.value"
-          @click="ctx.toggleSection('anotherClient', true)"
+          @click="toggleSection('anotherClient', true)"
         >
           Add Another Client
         </VBtn>
@@ -255,16 +255,16 @@
           variant="outlined"
           size="small"
           class="mr-2"
-          :disabled="ctx.showTransactionManager.value"
-          @click="ctx.toggleSection('transactionManager', true)"
+          :disabled="showTransactionManager"
+          @click="toggleSection('transactionManager', true)"
         >
           Add Transaction Manager
         </VBtn>
         <VBtn
           variant="outlined"
           size="small"
-          :disabled="ctx.showSeller.value"
-          @click="ctx.toggleSection('seller', true)"
+          :disabled="showSeller"
+          @click="toggleSection('seller', true)"
         >
           Add Seller
         </VBtn>
@@ -274,7 +274,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import WizardTextField from '@/components/booking/fields/WizardTextField.vue'
 import { contactsFormContextKey } from '@/composables/booking/injectionKeys'
 
@@ -282,4 +282,16 @@ const ctx = inject(contactsFormContextKey)
 if (!ctx) {
   throw new Error('ContactFormSection must be used within ContactsStep (contactsFormContextKey provided).')
 }
+// WHY: Re-expose refs at top level so template auto-unwraps (ctx.clientInfo is Ref; template needs ContactInfo).
+const clientInfo = ctx.clientInfo
+const agentInfo = ctx.agentInfo
+const anotherClientInfo = ctx.anotherClientInfo
+const transactionManagerInfo = ctx.transactionManagerInfo
+const sellerInfo = ctx.sellerInfo
+const showAnotherClient = ctx.showAnotherClient
+const showTransactionManager = ctx.showTransactionManager
+const showSeller = ctx.showSeller
+const validationRules = computed(() => ctx.validationRules.value)
+const fieldErrors = computed(() => ctx.fieldErrors.value)
+const toggleSection = ctx.toggleSection
 </script>

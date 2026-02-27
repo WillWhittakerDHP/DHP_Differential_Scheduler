@@ -1,5 +1,5 @@
-/**
 import type { LoadingIndicatorInstance } from '@/types/loadingIndicator'
+/**
  * WHY: Component-logic audit - move watch out of blank.vue.
  */
 import { ref, watch } from 'vue'

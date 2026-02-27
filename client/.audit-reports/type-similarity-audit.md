@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-26T00:04:02.598Z**
-- Files scanned: **1112**
-- Type definitions found: **759**
-- Similarity groups: **8**
+- Generated at: **2026-02-26T23:57:29.759Z**
+- Files scanned: **1118**
+- Type definitions found: **763**
+- Similarity groups: **9**
 - UNIFY candidates: **0**
 - BRAND candidates: **0**
-- EXTEND candidates: **8**
+- EXTEND candidates: **9**
 - REVIEW candidates: **0**
 
-- P0 (high): **3**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **3**, P1 (medium): **6**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -41,23 +41,24 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
 | P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
+| P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
 | P1 | EXTEND | SUBSET | `UseMoveablePartsSchedulingParams`, `UseAppointmentSlotsReturn` | 2 | 8 | `{ appointmentShape: ComputedRef<AppointmentShape | null>,...` |
 
-## EXTEND Candidates (8)
+## EXTEND Candidates (9)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
 ### sim-subset-71fff301522c
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **59**
-- Structure: `{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | 'sent' | 'accepted' | 'declined' | 'failed', name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }`
+- Structure: `{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED, name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 4 | yes |
+| `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 6 | yes |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 21 | yes |
-| `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 10 | yes |
-| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 11 | yes |
+| `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 12 | yes |
+| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 12 | yes |
 | `PropertyVersionType` | interface | `client/src/types/property.ts` | 23 | yes |
 | `VersionBlockInstance` | interface | `client/src/types/transformers/appointmentToWizardHelpers.ts` | 1 | yes |
 | `BookingBlockShape` | type-alias-object | `client/src/types/transformers/bookingData.ts` | 17 | yes |
@@ -149,6 +150,20 @@ Overlap: **27%** shared properties
 Overlap: **67%** shared properties
 - Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`
 - Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
+
+### sim-subset-47728a2eb291
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
+- Structure: `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 94 | yes |
+| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 20 | no |
+
+Overlap: **73%** shared properties
+- Shared: `agentInfo`, `anotherClientInfo`, `clientInfo`, `sellerInfo`, `showAnotherClient`, `showSeller`, `showTransactionManager`, `transactionManagerInfo`
+- Only in `ContactsFormContext`: `fieldErrors`, `toggleSection`, `validationRules`
 
 ### sim-subset-7668d841ec84
 

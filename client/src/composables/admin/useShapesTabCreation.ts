@@ -25,7 +25,7 @@ export interface UseShapesTabCreationReturn {
   actions: {
     createPartShape: () => void
     startCreatingAnnotationShape: () => void
-    handlePartShapeCreated: (_entity: GlobalEntity<GlobalEntityKey>) => void
+    handlePartShapeCreated: (_entity?: GlobalEntity<GlobalEntityKey>) => void
     handlePartShapeCancelled: () => void
     handleAnnotationShapeCreate: () => Promise<void>
     handleAnnotationShapeCancelled: () => void
@@ -69,7 +69,7 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
     expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
   }
 
-  const handlePartShapeCreated = (_entity: GlobalEntity<GlobalEntityKey>): void => {
+  const handlePartShapeCreated = (_entity?: GlobalEntity<GlobalEntityKey>): void => {
     isCreatingPartShape.value = false
     newPartShapeInitialValues.value = null
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')

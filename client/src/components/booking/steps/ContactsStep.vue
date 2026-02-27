@@ -7,16 +7,15 @@ import {
   contactsStepValidKey,
   contactsStepValidateKey,
   contactsFormContextKey,
+  wizardKey,
 } from '@/composables/booking/injectionKeys'
 import { useContactsStepData } from '@/composables/booking/useContactsStepData'
 import { useContactsValidation } from '@/composables/booking/useContactsValidation'
 import ContactFormSection from './ContactFormSection.vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { UseBookingWizardReturn } from '@/types/wizard'
-
 const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
 
-const wizard = inject<UseBookingWizardReturn>('wizard')
+const wizard = inject(wizardKey)
 
 if (!wizard) {
   throw new Error('Wizard instance not found. Make sure BookingWizard provides wizard.')

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T00:44:47.521Z",
+  "generatedAt": "2026-02-26T23:57:35.124Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,12 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 955,
+  "totalScanned": 956,
   "totalConstantsFiles": 27,
   "totalExportsScanned": 81,
+  "deltaMode": true,
+  "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 2,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -53,6 +55,60 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "consolidationGroups": [],
-  "files": []
+  "consolidationGroups": [
+    {
+      "id": "inline-orphan--business-rules",
+      "classification": "HOIST",
+      "description": "Value '/business-rules' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "client/src/constants/businessRulesConstants.ts",
+          "export": "BUSINESS_RULES_API_BASE",
+          "line": 5,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/index.ts",
+          "export": null,
+          "line": 31,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from client/src/constants/businessRulesConstants.ts"
+    }
+  ],
+  "files": [
+    {
+      "id": "client__src__constants__businessRulesConstants.ts",
+      "repoPath": "client/src/constants/businessRulesConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 5,
+          "line": "export: BUSINESS_RULES_API_BASE",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__index.ts",
+      "repoPath": "server/src/routes/internal/index.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 31,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-26T00:03:41.707Z",
-  "totalScanned": 76,
+  "generatedAt": "2026-02-26T23:57:36.865Z",
+  "totalScanned": 102,
   "ruleset": [
     {
       "ruleId": "excessive-prop-count",
@@ -86,6 +86,21 @@
   ],
   "findings": [
     {
+      "ruleId": "excessive-prop-count",
+      "lineNumber": 75,
+      "snippet": "defineProps (8 properties)",
+      "message": "Component accepts 8 props; consider decomposition or a config/options object.",
+      "fixHint": "Group related props into a config object or extract sub-components.",
+      "confidence": "medium",
+      "isFileLevel": true,
+      "detail": {
+        "propCount": 8
+      },
+      "file": "client/src/components/admin/BulkEditModal.vue",
+      "isExported": true,
+      "parentCount": 4
+    },
+    {
       "ruleId": "complex-template-expression",
       "lineNumber": 17,
       "snippet": ":disabled=\"fieldContext.state.displayConfig.disabled || fieldContext.state.displ...",
@@ -99,6 +114,96 @@
       "file": "client/src/components/admin/generic/fields/BooleanInput.vue",
       "isExported": true,
       "parentCount": 1
+    },
+    {
+      "ruleId": "component-coupling",
+      "lineNumber": 1,
+      "snippet": "5 .vue imports",
+      "message": "Component imports 5 sibling components; high coupling surface.",
+      "fixHint": "Extract sub-compositions or use slots to reduce direct imports.",
+      "confidence": "high",
+      "isFileLevel": true,
+      "detail": {
+        "importCount": 5
+      },
+      "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "isExported": true,
+      "parentCount": 0
+    },
+    {
+      "ruleId": "oversized-template",
+      "lineNumber": 5,
+      "snippet": "Template is 270 lines",
+      "message": "Template is 270 lines; extract sub-components to improve readability.",
+      "fixHint": "Extract logical sections into sub-components.",
+      "confidence": "high",
+      "isFileLevel": true,
+      "detail": {
+        "lineCount": 270
+      },
+      "file": "client/src/components/booking/steps/ContactFormSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "excessive-prop-count",
+      "lineNumber": 108,
+      "snippet": "defineProps (9 properties)",
+      "message": "Component accepts 9 props; consider decomposition or a config/options object.",
+      "fixHint": "Group related props into a config object or extract sub-components.",
+      "confidence": "medium",
+      "isFileLevel": true,
+      "detail": {
+        "propCount": 9
+      },
+      "file": "client/src/components/booking/steps/PropertyAddressSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "excessive-prop-count",
+      "lineNumber": 168,
+      "snippet": "defineProps (10 properties)",
+      "message": "Component accepts 10 props; consider decomposition or a config/options object.",
+      "fixHint": "Group related props into a config object or extract sub-components.",
+      "confidence": "medium",
+      "isFileLevel": true,
+      "detail": {
+        "propCount": 10
+      },
+      "file": "client/src/components/booking/steps/PropertyDetailsSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 192,
+      "snippet": ":validation-rules=\"(validationRules as { address: ValidationRule[]; city: Valida...",
+      "message": "Complex template expression (126 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 126
+      },
+      "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
+      "isExported": true,
+      "parentCount": 0
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 208,
+      "snippet": ":validation-rules=\"(validationRules as { propertySize: ValidationRule[]; numberO...",
+      "message": "Complex template expression (88 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 88
+      },
+      "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
+      "isExported": true,
+      "parentCount": 0
     },
     {
       "ruleId": "oversized-template",
@@ -132,7 +237,7 @@
     },
     {
       "ruleId": "oversized-template",
-      "lineNumber": 79,
+      "lineNumber": 80,
       "snippet": "Template is 251 lines",
       "message": "Template is 251 lines; extract sub-components to improve readability.",
       "fixHint": "Extract logical sections into sub-components.",
@@ -142,6 +247,66 @@
         "lineCount": 251
       },
       "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "oversized-template",
+      "lineNumber": 33,
+      "snippet": "Template is 281 lines",
+      "message": "Template is 281 lines; extract sub-components to improve readability.",
+      "fixHint": "Extract logical sections into sub-components.",
+      "confidence": "high",
+      "isFileLevel": true,
+      "detail": {
+        "lineCount": 281
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 60,
+      "snippet": ":ref=\"(el) => { if (ctx.eventInstancesContainer) ctx.eventInstancesContainer.val...",
+      "message": "Complex template expression (105 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 105
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 63,
+      "snippet": ":ref=\"(el) => { if (ctx.eventInstancesPanelsContainer && el != null) (ctx.eventI...",
+      "message": "Complex template expression (133 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 133
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 276,
+      "snippet": ":disabled=\"!(typeof ctx.newEventInstanceData.value?.name === 'string' && ctx.new...",
+      "message": "Complex template expression (105 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 105
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
       "isExported": true,
       "parentCount": 1
     },
@@ -162,7 +327,7 @@
     },
     {
       "ruleId": "oversized-template",
-      "lineNumber": 47,
+      "lineNumber": 49,
       "snippet": "Template is 282 lines",
       "message": "Template is 282 lines; extract sub-components to improve readability.",
       "fixHint": "Extract logical sections into sub-components.",
@@ -176,8 +341,38 @@
       "parentCount": 1
     },
     {
+      "ruleId": "emit-relay",
+      "lineNumber": 27,
+      "snippet": "@saved=\"$emit('saved')\"",
+      "message": "Event relay detected for 'saved'; consider provide/inject or direct composable access.",
+      "fixHint": "Replace event relay with provide/inject or composable.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "emitName": "saved"
+      },
+      "file": "client/src/views/admin/tabs/components/ShapeCreationForm.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "emit-relay",
+      "lineNumber": 28,
+      "snippet": "@cancelled=\"$emit('cancelled')\"",
+      "message": "Event relay detected for 'cancelled'; consider provide/inject or direct composable access.",
+      "fixHint": "Replace event relay with provide/inject or composable.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "emitName": "cancelled"
+      },
+      "file": "client/src/views/admin/tabs/components/ShapeCreationForm.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
       "ruleId": "oversized-template",
-      "lineNumber": 42,
+      "lineNumber": 44,
       "snippet": "Template is 209 lines",
       "message": "Template is 209 lines; extract sub-components to improve readability.",
       "fixHint": "Extract logical sections into sub-components.",
@@ -193,13 +388,55 @@
   ],
   "files": [
     {
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "score": 4,
+      "priority": "P1",
+      "parentCount": 1
+    },
+    {
       "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
       "score": 3,
       "priority": "P1",
       "parentCount": 1
     },
     {
+      "file": "client/src/components/admin/BulkEditModal.vue",
+      "score": 2,
+      "priority": "P2",
+      "parentCount": 4
+    },
+    {
+      "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "score": 2,
+      "priority": "P2",
+      "parentCount": 0
+    },
+    {
+      "file": "client/src/components/booking/steps/PropertyAddressSection.vue",
+      "score": 2,
+      "priority": "P2",
+      "parentCount": 1
+    },
+    {
+      "file": "client/src/components/booking/steps/PropertyDetailsSection.vue",
+      "score": 2,
+      "priority": "P2",
+      "parentCount": 1
+    },
+    {
+      "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
+      "score": 2,
+      "priority": "P2",
+      "parentCount": 0
+    },
+    {
       "file": "client/src/components/admin/generic/fields/BooleanInput.vue",
+      "score": 1,
+      "priority": "P2",
+      "parentCount": 1
+    },
+    {
+      "file": "client/src/components/booking/steps/ContactFormSection.vue",
       "score": 1,
       "priority": "P2",
       "parentCount": 1
@@ -227,10 +464,62 @@
       "score": 1,
       "priority": "P2",
       "parentCount": 1
+    },
+    {
+      "file": "client/src/views/admin/tabs/components/ShapeCreationForm.vue",
+      "score": 0,
+      "priority": "P2",
+      "parentCount": 1
     }
   ],
   "repairWaves": {
-    "local": [],
+    "local": [
+      {
+        "ruleId": "component-coupling",
+        "lineNumber": 1,
+        "snippet": "5 .vue imports",
+        "message": "Component imports 5 sibling components; high coupling surface.",
+        "fixHint": "Extract sub-compositions or use slots to reduce direct imports.",
+        "confidence": "high",
+        "isFileLevel": true,
+        "detail": {
+          "importCount": 5
+        },
+        "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+        "isExported": true,
+        "parentCount": 0
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 192,
+        "snippet": ":validation-rules=\"(validationRules as { address: ValidationRule[]; city: Valida...",
+        "message": "Complex template expression (126 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 126
+        },
+        "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
+        "isExported": true,
+        "parentCount": 0
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 208,
+        "snippet": ":validation-rules=\"(validationRules as { propertySize: ValidationRule[]; numberO...",
+        "message": "Complex template expression (88 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 88
+        },
+        "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
+        "isExported": true,
+        "parentCount": 0
+      }
+    ],
     "lowFanIn": [
       {
         "ruleId": "complex-template-expression",
@@ -244,6 +533,51 @@
           "expressionLength": 86
         },
         "file": "client/src/components/admin/generic/fields/BooleanInput.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "oversized-template",
+        "lineNumber": 5,
+        "snippet": "Template is 270 lines",
+        "message": "Template is 270 lines; extract sub-components to improve readability.",
+        "fixHint": "Extract logical sections into sub-components.",
+        "confidence": "high",
+        "isFileLevel": true,
+        "detail": {
+          "lineCount": 270
+        },
+        "file": "client/src/components/booking/steps/ContactFormSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "excessive-prop-count",
+        "lineNumber": 108,
+        "snippet": "defineProps (9 properties)",
+        "message": "Component accepts 9 props; consider decomposition or a config/options object.",
+        "fixHint": "Group related props into a config object or extract sub-components.",
+        "confidence": "medium",
+        "isFileLevel": true,
+        "detail": {
+          "propCount": 9
+        },
+        "file": "client/src/components/booking/steps/PropertyAddressSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "excessive-prop-count",
+        "lineNumber": 168,
+        "snippet": "defineProps (10 properties)",
+        "message": "Component accepts 10 props; consider decomposition or a config/options object.",
+        "fixHint": "Group related props into a config object or extract sub-components.",
+        "confidence": "medium",
+        "isFileLevel": true,
+        "detail": {
+          "propCount": 10
+        },
+        "file": "client/src/components/booking/steps/PropertyDetailsSection.vue",
         "isExported": true,
         "parentCount": 1
       },
@@ -279,7 +613,7 @@
       },
       {
         "ruleId": "oversized-template",
-        "lineNumber": 79,
+        "lineNumber": 80,
         "snippet": "Template is 251 lines",
         "message": "Template is 251 lines; extract sub-components to improve readability.",
         "fixHint": "Extract logical sections into sub-components.",
@@ -289,6 +623,66 @@
           "lineCount": 251
         },
         "file": "client/src/views/admin/tabs/components/AppointmentsTable.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "oversized-template",
+        "lineNumber": 33,
+        "snippet": "Template is 281 lines",
+        "message": "Template is 281 lines; extract sub-components to improve readability.",
+        "fixHint": "Extract logical sections into sub-components.",
+        "confidence": "high",
+        "isFileLevel": true,
+        "detail": {
+          "lineCount": 281
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 60,
+        "snippet": ":ref=\"(el) => { if (ctx.eventInstancesContainer) ctx.eventInstancesContainer.val...",
+        "message": "Complex template expression (105 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 105
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 63,
+        "snippet": ":ref=\"(el) => { if (ctx.eventInstancesPanelsContainer && el != null) (ctx.eventI...",
+        "message": "Complex template expression (133 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 133
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 276,
+        "snippet": ":disabled=\"!(typeof ctx.newEventInstanceData.value?.name === 'string' && ctx.new...",
+        "message": "Complex template expression (105 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 105
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
         "isExported": true,
         "parentCount": 1
       },
@@ -309,7 +703,7 @@
       },
       {
         "ruleId": "oversized-template",
-        "lineNumber": 47,
+        "lineNumber": 49,
         "snippet": "Template is 282 lines",
         "message": "Template is 282 lines; extract sub-components to improve readability.",
         "fixHint": "Extract logical sections into sub-components.",
@@ -323,8 +717,38 @@
         "parentCount": 1
       },
       {
+        "ruleId": "emit-relay",
+        "lineNumber": 27,
+        "snippet": "@saved=\"$emit('saved')\"",
+        "message": "Event relay detected for 'saved'; consider provide/inject or direct composable access.",
+        "fixHint": "Replace event relay with provide/inject or composable.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "emitName": "saved"
+        },
+        "file": "client/src/views/admin/tabs/components/ShapeCreationForm.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "emit-relay",
+        "lineNumber": 28,
+        "snippet": "@cancelled=\"$emit('cancelled')\"",
+        "message": "Event relay detected for 'cancelled'; consider provide/inject or direct composable access.",
+        "fixHint": "Replace event relay with provide/inject or composable.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "emitName": "cancelled"
+        },
+        "file": "client/src/views/admin/tabs/components/ShapeCreationForm.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
         "ruleId": "oversized-template",
-        "lineNumber": 42,
+        "lineNumber": 44,
         "snippet": "Template is 209 lines",
         "message": "Template is 209 lines; extract sub-components to improve readability.",
         "fixHint": "Extract logical sections into sub-components.",
@@ -338,6 +762,22 @@
         "parentCount": 1
       }
     ],
-    "highFanIn": []
+    "highFanIn": [
+      {
+        "ruleId": "excessive-prop-count",
+        "lineNumber": 75,
+        "snippet": "defineProps (8 properties)",
+        "message": "Component accepts 8 props; consider decomposition or a config/options object.",
+        "fixHint": "Group related props into a config object or extract sub-components.",
+        "confidence": "medium",
+        "isFileLevel": true,
+        "detail": {
+          "propCount": 8
+        },
+        "file": "client/src/components/admin/BulkEditModal.vue",
+        "isExported": true,
+        "parentCount": 4
+      }
+    ]
   }
 }

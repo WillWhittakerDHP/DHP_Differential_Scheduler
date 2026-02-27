@@ -2,7 +2,7 @@
  * PATTERN: Base composable for collection field logic shared by usePartsCollectionField and useRelationshipCollectionField.
  * WHY: ~85% of both composables was identical; config object injects only the divergent parts (optionsFieldKey, parent type resolution, shouldDisplay).
  */
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -24,13 +24,13 @@ export interface UseBaseCollectionFieldReturn<
   childEntityKey: ComputedRef<GlobalEntityKey>
   relationshipKey: ComputedRef<string>
   optionsFieldKey: ComputedRef<string>
-  parentEntity: ComputedRef<GlobalEntity<GE> | null>
+  parentEntity: ComputedRef<GlobalEntity<GE> | null | undefined>
   parentTypeProperty: ComputedRef<string | null>
   parentTypeEntityKey: ComputedRef<GlobalEntityKey | null>
   parentTypeRef: ComputedRef<string | null>
   parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
   shouldDisplay: ComputedRef<boolean>
-  defaultExpanded: Ref<boolean>
+  defaultExpanded: ComputedRef<boolean | undefined>
   getChildParentId: (child: GlobalEntity<GlobalEntityKey>) => string
   getParentId: (parent: GlobalEntity<GlobalEntityKey>) => string
 }
@@ -169,14 +169,14 @@ export function useBaseCollectionField<
   const shouldDisplay = computed<boolean>(() =>
     config.resolveShouldDisplay({
       entityKey: fieldContext.state.entityKey,
-      entityId: fieldContext.state.entityId,
-      fieldKey: fieldContext.state.fieldKey,
+      entityId: String(fieldContext.state.entityId),
+      fieldKey: String(fieldContext.state.fieldKey),
       parentEntity: parentEntity.value,
       parentTypeProperty: parentTypeProperty.value,
       parentTypeEntityKey: parentTypeEntityKey.value,
       parentTypeRef: parentTypeRef.value,
       parentTypeEntity: parentTypeEntity.value,
-      optionsFieldKey: optionsFieldKey.value,
+      optionsFieldKey: String(optionsFieldKey.value),
     })
   )
 

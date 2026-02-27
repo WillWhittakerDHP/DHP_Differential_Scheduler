@@ -1,5 +1,5 @@
-/**
 import type { BusinessRule } from '@/types/admin/businessRules'
+/**
  * Typed InjectionKey constants for admin provide/inject.
  * PATTERN: Use these keys in provide() and inject() for type-safe dependency injection.
  */
@@ -8,10 +8,11 @@ import type { Ref, ComputedRef } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import type { BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 import type { GlobalEntity } from '@/types/entities'
+import type { GlobalEntityKey } from '@/constants/entities'
 
 /** Context provided by BusinessRulesTab and consumed by RuleFormDialog (replaces prop-drilling). */
 export interface RuleFormDialogContext {
-  showRuleDialog: Ref<boolean>
+  showRuleDialog: Ref<boolean | undefined>
   formData: Ref<BusinessRuleFormData>
   editingRule: Ref<BusinessRule | null>
   ruleTypeOptions: readonly { title: string; value: RuleType }[]
@@ -19,7 +20,7 @@ export interface RuleFormDialogContext {
   availableValidationMessages: ComputedRef<{ id: string; title: string; value: string }[]>
   requiredFieldsArray: ComputedRef<string>
   requiredFieldsCondition: ComputedRef<string>
-  requiresAgent: ComputedRef<boolean>
+  requiresAgent: ComputedRef<boolean | undefined>
   saving: Ref<boolean>
   updateFormField: <F extends keyof BusinessRuleFormData>(field: F, value: BusinessRuleFormData[F]) => void
   setRequiredFieldsArray: (v: string) => void
@@ -49,28 +50,28 @@ export interface InstancesTabContext {
   isPanelExpanded: (id: string) => boolean
   groupPanelsContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
   groupedInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  handleExistingBlockInstanceSaved: (entity: GlobalEntity<'blockInstance'>) => void
+  handleExistingBlockInstanceSaved: (entity: GlobalEntity<GlobalEntityKey>) => void
   handleDeleteBlockInstance: (id: string) => void
-  handleDuplicateClick: (id: string) => void
+  handleDuplicateClick: (entity: GlobalEntity<GlobalEntityKey>) => void
   shapeCascadeColor: (blockShape: { id: string }) => 'info' | 'default'
   // Event instances section
   eventInstanceMetadataModalOpen: Ref<boolean>
-  eventInstances: Ref<GlobalEntity<'eventInstance'>[]> | ComputedRef<GlobalEntity<'eventInstance'>[]>
+  eventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
   eventInstancesList: Ref<GlobalEntity<'eventInstance'>[]>
   filteredEventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
-  isLoadingEventInstances: ComputedRef<boolean> | Ref<boolean>
+  isLoadingEventInstances: ComputedRef<boolean>
   isCreatingEventInstance: Ref<boolean>
   newEventInstanceData: Ref<Record<string, unknown> | null>
   isCreatingEventInstanceLoading: Ref<boolean>
   templateVariables: readonly { name: string; description: string; example: string }[]
-  templateWarnings: Record<string, string[]>
-  eventShapes: Ref<GlobalEntity<'eventShape'>[]> | ComputedRef<GlobalEntity<'eventShape'>[]>
+  templateWarnings: ComputedRef<{ titleTemplate: string[]; descriptionTemplate: string[]; locationTemplate: string[] }>
+  eventShapes: ComputedRef<GlobalEntity<'eventShape'>[]>
   openCreateEventInstanceForm: () => void
   handleEventInstanceCreate: () => void
   handleEventInstanceCancelled: () => void
   handleDeleteEventInstance: (id: string) => void
   eventInstancesContainer: Ref<HTMLElement | null>
-  eventInstancesPanelsContainer: Ref<unknown>
+  eventInstancesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | null>
 }
 
 export const instancesTabContextKey: InjectionKey<InstancesTabContext> =

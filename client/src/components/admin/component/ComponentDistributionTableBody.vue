@@ -21,7 +21,7 @@
           type="number"
           density="compact"
           variant="outlined"
-          @update:model-value="(v) => setManualValue(item.componentId, v)"
+          @update:model-value="(v) => setManualValue(item.componentId, Number(v))"
         />
       </td>
     </tr>

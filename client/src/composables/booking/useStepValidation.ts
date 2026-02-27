@@ -1,5 +1,5 @@
-/**
 import type { ValidationRule } from '@/types/formValidation'
+/**
  * PATTERN: useStepValidation Composable
 PATTERN: Accepts dynamic validation rules a...
  */

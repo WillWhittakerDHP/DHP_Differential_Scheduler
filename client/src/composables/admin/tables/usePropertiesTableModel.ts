@@ -26,7 +26,19 @@ export function usePropertiesTableModel(): PropertiesTableModel {
     deleteItem: async (id) => remove.mutateAsync(id),
     notifySuccess: (message) => success(message),
     notifyError: (message) => error(message),
-    getCreateDefaults: () => ({}) as PropertyRequest,
+    getCreateDefaults: () => ({
+      address: '',
+      unit: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      mlsNumber: '',
+      squareFootage: null,
+      bedrooms: null,
+      bathrooms: null,
+      foundationAccess: null,
+      additionalUnits: null,
+    }) as PropertyRequest,
     validateCreate: (payload) => {
       if (!payload.address || !payload.city || !payload.state || !payload.zipCode) {
         return 'Address, city, state, and zip code are required'
@@ -54,7 +66,7 @@ export function usePropertiesTableModel(): PropertiesTableModel {
     ...crud.dialogs,
     ...crud.actions,
     formatNullValue,
-  }
+  } as PropertiesTableModel
 }
 
 

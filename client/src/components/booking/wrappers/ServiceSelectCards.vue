@@ -3,10 +3,10 @@
 
 PATTERN: Wrapper component that connects w...
  */
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import SelectionCardGroup from '../SelectionCardGroup.vue'
 import type { SelectionCardConfig } from '../types/selectionCardTypes'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { useServiceSelectMapper } from '@/composables/booking/useServiceSelectMapper'
@@ -28,7 +28,10 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-const wizard = useBookingWizard()
+const wizard = inject(wizardKey)
+if (!wizard) {
+  throw new Error('Wizard instance not provided. Use ServiceSelectCards inside BookingWizard.')
+}
 
 const { instancesWithDisplay } = useInstanceDisplay({
   instances: computed(() => wizard.availableServices.value),

@@ -27,11 +27,8 @@
 ...
  */
 import { computed, inject } from 'vue'
-import type { ComputedRef } from 'vue'
 import BaseInput from './BaseInput.vue'
 import StatusButton from '../StatusButton.vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { fieldKeyboardGuard } from '@/utils/admin/fieldKeyboardGuard'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'

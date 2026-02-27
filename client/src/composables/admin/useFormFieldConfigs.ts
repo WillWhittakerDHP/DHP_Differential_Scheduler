@@ -9,8 +9,8 @@ import { getFieldKeys } from '@/utils/forms/getFieldKeys'
 export interface UseFormFieldConfigsReturn {
   fieldKeys: ComputedRef<string[]>
   instanceConfig: ComputedRef<Record<string, unknown>>
-  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  inlineFieldsConfig: ComputedRef<string[]>
+  stackedFieldsConfig: ComputedRef<string[]>
 }
 
 /**
@@ -37,16 +37,18 @@ export function useFormFieldConfigs(
     return v !== undefined && v !== null ? v : {}
   })
 
-  const inlineFieldsConfig = computed(() => {
+  const inlineFieldsConfig = computed<string[]>(() => {
     const config = instanceConfig.value as { inlineFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
     const raw = config?.inlineFields
-    return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
+    const arr = raw !== undefined && raw !== null ? raw : []
+    return arr.map((k) => String(k))
   })
 
-  const stackedFieldsConfig = computed(() => {
+  const stackedFieldsConfig = computed<string[]>(() => {
     const config = instanceConfig.value as { stackedFields?: GlobalFieldKey<GlobalEntityKey>[] } | undefined
     const raw = config?.stackedFields
-    return (raw !== undefined && raw !== null ? raw : []) as GlobalFieldKey<GlobalEntityKey>[]
+    const arr = raw !== undefined && raw !== null ? raw : []
+    return arr.map((k) => String(k))
   })
 
   return {
@@ -54,5 +56,5 @@ export function useFormFieldConfigs(
     instanceConfig,
     inlineFieldsConfig,
     stackedFieldsConfig,
-  }
+  } as UseFormFieldConfigsReturn
 }

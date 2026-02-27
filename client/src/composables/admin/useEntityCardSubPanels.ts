@@ -37,16 +37,16 @@ export interface UseEntityCardSubPanelsOptions {
 }
 
 export interface UseEntityCardSubPanelsReturn {
-  blockShapeName: ReturnType<typeof computed<string>>
+  blockShapeName: import('vue').ComputedRef<string>
   getEntityNames: (ids: unknown[], entityType: 'blockInstance' | 'partInstance') => string[]
-  partsSummary: ReturnType<typeof computed<string>>
+  partsSummary: import('vue').ComputedRef<string>
   isRelationshipCollectionField: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => boolean
   partsCollectionRef: import('vue').Ref<(RelationshipCollectionRef)[] | RelationshipCollectionRef | null>
   expandedPanels: import('vue').Ref<string[]>
-  partsBulkEditMode: ReturnType<typeof computed<boolean>>
+  partsBulkEditMode: import('vue').ComputedRef<boolean>
   togglePartsBulkEditMode: () => void
-  relationshipsSummary: ReturnType<typeof computed<string>>
-  hasAnySubPanelFields: ReturnType<typeof computed<boolean>>
+  relationshipsSummary: import('vue').ComputedRef<string>
+  hasAnySubPanelFields: import('vue').ComputedRef<boolean>
 }
 
 export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): UseEntityCardSubPanelsReturn {

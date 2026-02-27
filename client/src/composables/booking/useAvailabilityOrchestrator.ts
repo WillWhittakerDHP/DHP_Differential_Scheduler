@@ -40,12 +40,12 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   const timeSlotsForDefaults = computed<TimeSlot[] | null>(() => {
     const wrapper = timeSlotsWrapper.value
     if (!wrapper || !('value' in wrapper)) return null
-    return wrapper.value
+    return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
   })
   const timeSlotsForLogic = computed<TimeSlot[]>(() => {
     const wrapper = timeSlotsWrapper.value
     if (!wrapper || !('value' in wrapper)) return []
-    return wrapper.value
+    return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
   })
 
   const isEffectivelyDifferentialForDefaults = computed(() => {

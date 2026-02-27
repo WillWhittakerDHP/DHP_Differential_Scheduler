@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { computed, inject, type Ref } from 'vue'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { wizardKey } from '@/composables/booking/injectionKeys'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
@@ -11,7 +11,7 @@ import { useDynamicGridConfig } from '@/composables/booking/useDynamicGridConfig
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+const wizard = inject(wizardKey)
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }

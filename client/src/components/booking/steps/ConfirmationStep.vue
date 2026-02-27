@@ -4,7 +4,7 @@
 PATTERN: Uses composable to aggregate wizard...
  */
 import { inject, ref } from 'vue'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import {
@@ -16,7 +16,7 @@ import {
 } from '@/composables/booking/injectionKeys'
 import type { ConfirmationStepData } from '@/types/wizard'
 
-const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+const wizard = inject(wizardKey)
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }

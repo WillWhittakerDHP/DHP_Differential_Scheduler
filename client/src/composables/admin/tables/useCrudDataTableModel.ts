@@ -132,5 +132,5 @@ export function useCrudDataTableModel<
       cancelDelete,
       confirmDelete,
     },
-  }
+  } as CrudDataTableModelGrouped<TableItem, CreatePayload, UpdatePayload>
 }

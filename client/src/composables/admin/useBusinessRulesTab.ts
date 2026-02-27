@@ -1,17 +1,15 @@
-/**
 import type { BusinessRule } from '@/types/admin/businessRules'
+/**
  * WHY: Tab logic for Business Rules admin tab; keeps BusinessRulesTab.vue thin (audit: component-logic).
  * PATTERN: Composes useBusinessRules, useBusinessRuleForm, useGlobal; exposes selection, filtered rules, and handlers.
  */
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import { ref, computed, watch } from 'vue'
 import { useBusinessRules } from '@/composables/admin/useBusinessRules'
 import { useBusinessRuleForm } from '@/composables/admin/useBusinessRuleForm'
 import type { BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-
-export type { BusinessRule } from '@/composables/admin/useBusinessRules'
 
 /** Grouped return for composable-health (oversized-return repair). */
 export interface UseBusinessRulesTabReturn {
@@ -30,11 +28,11 @@ export interface UseBusinessRulesTabReturn {
   form: {
     formData: Ref<BusinessRuleFormData>
     editingRule: Ref<BusinessRule | null>
-    showRuleDialog: Ref<boolean>
-    ruleTypeOptions: { title: string; value: RuleType }[]
-    requiredFieldsArray: ComputedRef<string>
-    requiredFieldsCondition: ComputedRef<string>
-    requiresAgent: ComputedRef<boolean>
+    showRuleDialog: Ref<boolean | undefined>
+    ruleTypeOptions: ReadonlyArray<{ title: string; value: RuleType; description?: string }>
+    requiredFieldsArray: WritableComputedRef<string>
+    requiredFieldsCondition: WritableComputedRef<string>
+    requiresAgent: WritableComputedRef<boolean | undefined>
   }
   actions: {
     openCreateDialog: () => void
@@ -188,5 +186,5 @@ export function useBusinessRulesTab(): UseBusinessRulesTabReturn {
       setRequiredFieldsCondition,
       setRequiresAgent,
     },
-  }
+  } as UseBusinessRulesTabReturn
 }

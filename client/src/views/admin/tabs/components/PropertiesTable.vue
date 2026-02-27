@@ -4,6 +4,8 @@
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
 <script setup lang="ts">
+import type { Ref } from 'vue'
+import type { PropertyRequest } from '@/types/property'
 import { usePropertiesTableModel } from '@/composables/admin/tables/usePropertiesTableModel'
 import PropertyCreateForm from './PropertyCreateForm.vue'
 
@@ -81,7 +83,7 @@ const headers = [
     <!-- Create form -->
     <PropertyCreateForm
       v-if="isCreating"
-      :new-property="newProperty"
+      :new-property="(newProperty as unknown as Ref<PropertyRequest | Partial<PropertyRequest>>)"
       @cancel="cancelCreate"
       @save="saveCreate"
     />

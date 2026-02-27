@@ -4,18 +4,7 @@
 WHY: Wizard state stores arrays of Boo...
  */
 import { inject } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-
-/**
- * WHY: Wizard composable return type
-WHY: Type-safe access to wizard state
-NOTE...
- */
-type WizardInstance = {
-  selectedServiceTypeBlocks: { value: BookingBlockInstance[] }
-  selectedPropertyTypeBlocks: { value: BookingBlockInstance[] }
-  selectedOptionTypeBlocks: { value: BookingBlockInstance[] }
-}
+import { wizardKey } from '@/composables/booking/injectionKeys'
 
 export interface UseWizardNumberUpdateReturn {
   updateNumber: (blockInstanceId: string, number: number | null) => void
@@ -26,7 +15,7 @@ export interface UseWizardNumberUpdateReturn {
 PATTERN: Composable that injects wizard...
  */
 export function useWizardNumberUpdate(): UseWizardNumberUpdateReturn {
-  const wizard = inject<WizardInstance | undefined>('wizard')
+  const wizard = inject(wizardKey)
   
   /**
 Update number field for a block instance

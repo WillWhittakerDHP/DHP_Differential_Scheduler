@@ -23,14 +23,16 @@ import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDrop
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
+import { wizardKey } from '@/composables/booking/injectionKeys'
+import type { UseBookingWizardReturn } from '@/types/wizard'
 
 const wizardGrouped = useBookingWizard()
-const wizard = {
+const wizard: UseBookingWizardReturn = {
   ...wizardGrouped.state,
   ...wizardGrouped.actions,
   ...wizardGrouped.computed,
 }
-provide('wizard', wizard)
+provide(wizardKey, wizard)
 
 const steps = WIZARD_STEPS
 

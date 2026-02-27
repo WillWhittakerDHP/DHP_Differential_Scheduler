@@ -126,7 +126,7 @@ export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanc
     expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
   }
 
-  const handleDeleteEventInstance = (_id: string): void => {
+  const handleDeleteEventInstance = async (_id: string): Promise<void> => {
     // No-op: deletion handled by EntityCard/entity CRUD
   }
 

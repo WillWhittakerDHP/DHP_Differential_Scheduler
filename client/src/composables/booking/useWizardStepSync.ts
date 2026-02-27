@@ -25,14 +25,14 @@ export function useWizardStepSync<TStepData>(
   // PATTERN: Inject refs from parent, sync local state to them
   const parentStepData = inject<Ref<TStepData | null>>(stepDataKey)
   const parentStepValid = inject<Ref<boolean>>(stepValidKey)
-  const parentStepValidate = inject<Ref<(() => boolean) | null>>(stepValidateKey)
+  const parentStepValidate = inject<Ref<((() => boolean) | (() => Promise<void>)) | null>>(stepValidateKey)
   const parentFieldErrors = fieldErrorsKey && fieldErrors
     ? inject<Ref<Record<string, string>>>(fieldErrorsKey)
     : null
 
   if (!parentStepData || !parentStepValid || !parentStepValidate) {
     throw new Error(
-      `Parent-provided refs not found. Make sure BookingWizard provides ${stepDataKey}, ${stepValidKey}, and ${stepValidateKey}.`
+      `Parent-provided refs not found. Make sure BookingWizard provides ${String(stepDataKey)}, ${String(stepValidKey)}, and ${String(stepValidateKey)}.`
     )
   }
 

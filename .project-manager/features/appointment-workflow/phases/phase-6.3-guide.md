@@ -66,7 +66,7 @@
 - Learn how `sanitizeInput` works as a server-side data transformation hook
 - Practice migration design with foreign key constraints
 
-- [ ] ### Session 6.3.2: Admin Confirmation Action & Auto-Confirm
+- [x] ### Session 6.3.2: Admin Confirmation Action & Auto-Confirm
 **Description:** Create a dedicated "Confirm" action button in the admin appointments table for `submitted` appointments, with a confirmation dialog showing appointment details. Add an optional auto-confirm business setting so appointments can be automatically confirmed on submission when enabled.
 **Tasks:**
 - Add "Confirm" action button to admin appointments table (visible only for `submitted` appointments)

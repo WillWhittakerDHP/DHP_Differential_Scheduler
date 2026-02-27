@@ -4,6 +4,7 @@
   PATTERN: VDataTable with custom cell slots; create/edit convert client/agent IDs to attendees via composable.
 -->
 <script setup lang="ts">
+import type { AppointmentStatus } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
 import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
@@ -288,7 +289,7 @@ const { formatTimestamp } = handlers
           :editing-id="editingId"
           :edited-status="editedData.status"
           :get-status-color="getStatusColor"
-          @update:edited-status="(v) => (editedData.status = v)"
+          @update:edited-status="(v: string) => (editedData.status = v as AppointmentStatus)"
         />
       </template>
 

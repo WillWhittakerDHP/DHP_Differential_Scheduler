@@ -1,5 +1,5 @@
-/**
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
+/**
  * WHY: Business Rule Form composable
 WHY: Extracts form state, rule-type config...
  */
@@ -13,9 +13,9 @@ export interface UseBusinessRuleFormReturn {
   editingRule: Ref<BusinessRule | null>
   showRuleDialog: Ref<boolean>
   ruleTypeOptions: typeof RULE_TYPE_OPTIONS
-  requiredFieldsArray: import('vue').ComputedRef<string>
-  requiredFieldsCondition: import('vue').ComputedRef<string>
-  requiresAgent: import('vue').ComputedRef<boolean>
+  requiredFieldsArray: import('vue').WritableComputedRef<string>
+  requiredFieldsCondition: import('vue').WritableComputedRef<string>
+  requiresAgent: import('vue').WritableComputedRef<boolean>
   openCreateDialog: () => void
   openEditDialog: (rule: BusinessRule) => void
   closeDialog: () => void
@@ -24,7 +24,7 @@ export interface UseBusinessRuleFormReturn {
 }
 
 export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>): UseBusinessRuleFormReturn {
-  const showRuleDialog = ref(false)
+  const showRuleDialog = ref<boolean>(false)
   const editingRule: Ref<BusinessRule | null> = ref(null)
 
   const formData: Ref<BusinessRuleFormData> = ref({

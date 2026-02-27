@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { inject, computed, type Ref } from 'vue'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
@@ -22,7 +22,7 @@ import AvailabilityCalendarSection from '@/components/booking/steps/Availability
 import AvailabilityOptionsSection from '@/components/booking/steps/AvailabilityOptionsSection.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 
-const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+const wizard = inject(wizardKey)
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
@@ -126,7 +126,7 @@ const showSlotsOverlay = computed(
           :model-value="o.selectedDateSingle.value"
           :display-date="o.vDatePickerDisplayDate.value"
           :min="o.getTodayDate()"
-          :allowed-dates="o.allowedDates.value"
+          :allowed-dates="(date: unknown) => o.allowedDates.value(date as string)"
           :selected-date-error="o.fieldErrors.value?.selectedDate"
           @update:model-value="o.handleDateChange($event)"
           @update:display-date="o.setVDatePickerDisplayDate($event)"

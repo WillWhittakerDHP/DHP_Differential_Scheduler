@@ -37,8 +37,8 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
 ): UseMutationReturnType<{ success: boolean }, AxiosError<{ error?: string; id?: string }>, PrimitiveMutationVariables, { previousData?: GlobalData }> {
   const queryClient = useQueryClient()
 
-  return useMutation<
-    { success: true },
+  const mutation = useMutation<
+    { success: boolean },
     AxiosError<{ error?: string; id?: string }> | Error,
     PrimitiveMutationVariables,
     { previousData?: GlobalData }
@@ -206,6 +206,12 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
       }
     },
   })
+  return mutation as UseMutationReturnType<
+    { success: boolean },
+    AxiosError<{ error?: string; id?: string }>,
+    PrimitiveMutationVariables,
+    { previousData?: GlobalData }
+  >
 }
 
 

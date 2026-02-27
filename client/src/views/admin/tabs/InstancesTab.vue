@@ -257,7 +257,7 @@ provide(instancesTabContextKey, {
   handleEventInstanceCancelled,
   handleDeleteEventInstance,
   eventInstancesContainer,
-  eventInstancesPanelsContainer: eventInstancesPanelsContainer as unknown
+  eventInstancesPanelsContainer,
 })
 </script>
 

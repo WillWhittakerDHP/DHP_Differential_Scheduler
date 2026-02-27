@@ -84,7 +84,8 @@ export function useRelationshipCollectionData(
     const children = adminComp.getEntitiesByKey(childEntityKey.value) as GlobalEntity<GlobalEntityKey>[]
     const childIds = relationships.map((rel) => String(rel.childId))
     const { resolved } = resolveByIds(children, childIds)
-    return resolved.sort((a, b) => {
+    const filtered = resolved.filter((c): c is GlobalEntity<GlobalEntityKey> => c != null)
+    return filtered.sort((a, b) => {
       const aOrder = getEntityFieldValue(a, FIELD_NAMES.ORDER_INDEX) as number ?? 0
       const bOrder = getEntityFieldValue(b, FIELD_NAMES.ORDER_INDEX) as number ?? 0
       return aOrder - bOrder

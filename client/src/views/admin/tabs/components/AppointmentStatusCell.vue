@@ -2,11 +2,12 @@
 import { computed } from 'vue'
 import { getValidNextStatuses } from '@/types/appointment'
 import type { AppointmentResponse } from '@/types/appointment'
+import type { AppointmentStatus } from '@/types/appointmentStatus'
 
 const props = defineProps<{
   item: AppointmentResponse | null
   editingId: string | null
-  editedStatus?: string
+  editedStatus?: string | null
   getStatusColor: (status: string) => string
 }>()
 
@@ -18,13 +19,18 @@ const statusItems = computed(() => {
   if (!props.item) return []
   return [props.item.status, ...getValidNextStatuses(props.item.status)]
 })
+
+const modelValue = computed<AppointmentStatus | null>({
+  get: () => (props.editedStatus ?? null) as AppointmentStatus | null,
+  set: (v: AppointmentStatus | null) => emit('update:editedStatus', (v ?? '') as string),
+})
 </script>
 
 <template>
   <template v-if="item">
     <VChip
       v-if="editingId !== item.id"
-      :color="getStatusColor(item.status)"
+      :color="getStatusColor(item.status ?? '')"
       size="small"
       variant="tonal"
     >
@@ -32,11 +38,10 @@ const statusItems = computed(() => {
     </VChip>
     <VSelect
       v-else
-      :model-value="editedStatus"
+      v-model="modelValue"
       :items="statusItems"
       density="compact"
       hide-details
-      @update:model-value="emit('update:editedStatus', $event)"
     />
   </template>
 </template>

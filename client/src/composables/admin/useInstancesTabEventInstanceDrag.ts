@@ -8,7 +8,6 @@ import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers
 import { animations } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import type { Ref, ComputedRef } from 'vue'
-import type { ComponentPublicInstance } from 'vue'
 import type { UseInstancesTabEventInstanceDragParams } from '@/types/admin/instancesTabEventInstanceDrag'
 
 

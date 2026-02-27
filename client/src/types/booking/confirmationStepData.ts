@@ -11,8 +11,8 @@ export interface UseConfirmationStepDataParams {
     selectedLineItemBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   }
-  propertyDetailsStepData?: Ref<PropertyDetailsStepData> | null
-  availabilityStepData?: Ref<AvailabilityStepData> | null
+  propertyDetailsStepData?: Ref<PropertyDetailsStepData | null> | null
+  availabilityStepData?: Ref<AvailabilityStepData | null> | null
 }
 
 export interface UseConfirmationStepDataReturn {

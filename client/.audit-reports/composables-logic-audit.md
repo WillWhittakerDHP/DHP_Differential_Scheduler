@@ -26,6 +26,7 @@ Scope:
 | `client/src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRulesTab.ts` | 15 | 0 | 1 | 4 | 7 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
+| `client/src/composables/admin/useRelationshipCollection.ts` | 14 | 0 | 0 | 3 | 9 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 14 | 0 | 5 | 8 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 14 | 0 | 0 | 14 | 0 | 0 | 0 |
 | `client/src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
@@ -33,7 +34,6 @@ Scope:
 | `client/src/composables/useComponentEntity.ts` | 14 | 0 | 0 | 1 | 9 | 0 | 0 |
 | `client/src/composables/admin/useAdminAvailabilitySettings.ts` | 13 | 0 | 1 | 3 | 5 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardSubPanels.ts` | 13 | 0 | 1 | 10 | 0 | 0 | 0 |
-| `client/src/composables/admin/useRelationshipCollection.ts` | 13 | 0 | 0 | 3 | 9 | 0 | 0 |
 | `client/src/composables/useRelationship.ts` | 13 | 0 | 0 | 1 | 9 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useCalibrationChart.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
@@ -219,21 +219,21 @@ computed@61: const reactiveRules = computed(() => {
 - counts: vueQuery=0, watch=1, computed=4, ref=0, async=3, await=4, dom=0, console=0
 
 ```
-computed@86: const availableBlockInstances = computed(() => {
-map@88: return blockInstances.map((bi) => ({
-computed@95: const availableValidationMessages = computed(() => {
-map@97: return annotationInstances.map((ai) => ({
-watch@104: watch(
-async@106: async (newBlockId) => {
-await@108: await fetchRules({ blockInstanceId: newBlockId })
-computed@116: const filteredRules = computed(() => {
-filter@118: return rules.value.filter((rule) => rule.blockInstanceId === selectedBlockId.value)
-async@121: const saveRule = async (): Promise<void> => {
-await@123: const result = await updateRule(editingRule.value.id, formData.value)
-await@126: const result = await createRule(formData.value)
-async@131: const handleDeleteRule = async (rule: BusinessRule): Promise<void> => {
-await@134: await deleteRule(rule.id)
-computed@142: const selectedBlockTitle = computed(() =>
+computed@84: const availableBlockInstances = computed(() => {
+map@86: return blockInstances.map((bi) => ({
+computed@93: const availableValidationMessages = computed(() => {
+map@95: return annotationInstances.map((ai) => ({
+watch@102: watch(
+async@104: async (newBlockId) => {
+await@106: await fetchRules({ blockInstanceId: newBlockId })
+computed@114: const filteredRules = computed(() => {
+filter@116: return rules.value.filter((rule) => rule.blockInstanceId === selectedBlockId.value)
+async@119: const saveRule = async (): Promise<void> => {
+await@121: const result = await updateRule(editingRule.value.id, formData.value)
+await@124: const result = await createRule(formData.value)
+async@129: const handleDeleteRule = async (rule: BusinessRule): Promise<void> => {
+await@132: await deleteRule(rule.id)
+computed@140: const selectedBlockTitle = computed(() =>
 ```
 
 ### `client/src/composables/admin/useSelectConfig.ts`
@@ -256,6 +256,27 @@ computed@227: const isMultiple = computed(() =>
 computed@239: const chipsProps = computed(() => {
 computed@251: const optionEntityKey = computed(() =>
 computed@261: const optionLabelKey = computed(() => resolveOptionLabelKey())
+```
+
+### `client/src/composables/admin/useRelationshipCollection.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=3, await=6, dom=0, console=0
+
+```
+computed@62: const parentEntityId = computed(() => fieldContext.state.entityId)
+computed@67: parentEntityKey: computed(() => fieldContext.state.entityKey),
+computed@86: const shouldShow = computed(() => {
+filter@125: const children = existingChildren.value.filter(
+async@152: const handleNewChildSaved = async (
+await@180: await new Promise(resolve => setTimeout(resolve, 0))
+timers@180: await new Promise(resolve => setTimeout(resolve, 0))
+await@182: await createRelationship({
+await@187: await Promise.all([
+async@213: const handleDeleteChildById = async (id: string): Promise<void> => {
+await@216: await removeRelationship(toGlobalEntityId(parentEntity.value.id), toGlobalEntityId(id))
+await@217: await Promise.all([
+async@229: const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>): Promise<void> => {
+await@230: await handleDeleteChildById(String(entity.id))
 ```
 
 ### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
@@ -401,26 +422,6 @@ computed@101: const partsBulkEditMode = computed(() => {
 watch@126: watch(partsBulkEditMode, (isEnabled) => {
 computed@132: const relationshipsSummary = computed((): string => {
 computed@157: const hasAnySubPanelFields = computed(() =>
-```
-
-### `client/src/composables/admin/useRelationshipCollection.ts`
-
-- counts: vueQuery=0, watch=0, computed=3, ref=0, async=3, await=6, dom=0, console=0
-
-```
-computed@62: const parentEntityId = computed(() => fieldContext.state.entityId)
-computed@67: parentEntityKey: computed(() => fieldContext.state.entityKey),
-computed@86: const shouldShow = computed(() => {
-async@148: const handleNewChildSaved = async (
-await@176: await new Promise(resolve => setTimeout(resolve, 0))
-timers@176: await new Promise(resolve => setTimeout(resolve, 0))
-await@178: await createRelationship({
-await@183: await Promise.all([
-async@209: const handleDeleteChildById = async (id: string): Promise<void> => {
-await@212: await removeRelationship(toGlobalEntityId(parentEntity.value.id), toGlobalEntityId(id))
-await@213: await Promise.all([
-async@225: const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>): Promise<void> => {
-await@226: await handleDeleteChildById(String(entity.id))
 ```
 
 ### `client/src/composables/useRelationship.ts`
@@ -663,6 +664,23 @@ await@56: await patchBulk(updates)
 computed@60: return computed(() => undefined)
 ```
 
+### `client/src/composables/admin/useInstancesTabEventInstance.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=2, async=2, await=1, dom=0, console=0
+
+```
+map@26: const knownVariableNames = new Set<string>(EVENT_TEMPLATE_VARIABLES.map(v => v.name))
+ref@45: const isCreatingEventInstance = ref(false)
+ref@47: const isCreatingEventInstanceLoading = ref(false)
+computed@49: const templateWarnings = computed(() => {
+map@54: return unknown.length > 0 ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`] : []
+async@88: const handleEventInstanceCreate = async (): Promise<void> => {
+await@92: await createEventInstance({
+filter@115: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+filter@126: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
+async@129: const handleDeleteEventInstance = async (_id: string): Promise<void> => {
+```
+
 ### `client/src/composables/admin/usePartsTotals.ts`
 
 - counts: vueQuery=0, watch=0, computed=7, ref=0, async=0, await=0, dom=0, console=0
@@ -753,16 +771,16 @@ map@48: queryKeys.map(queryKey => queryClient.cancelQueries({ queryKey: [...quer
 - counts: vueQuery=0, watch=1, computed=4, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@52: const currentEntityId = computed(() => entityId?.value || tempEntityId.value)
-computed@54: const isFormReady = computed(() => {
-computed@63: const isMetadataReady = computed(() => {
-filter@87: return combinedKeys.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))
-watchEffect@193: watchEffect(() => {
-filter@216: return fields.filter((fieldKey) => {
-map@226: fields.map(String),
-map@227: asEmptyArray(inlineFieldsConfig.value).map(String),
-map@228: asEmptyArray(stackedFieldsConfig.value).map(String)
-computed@252: const shouldShowPartInstances = computed(() => {
+computed@54: const currentEntityId = computed(() => entityId?.value || tempEntityId.value)
+computed@56: const isFormReady = computed(() => {
+computed@65: const isMetadataReady = computed(() => {
+filter@89: return combinedKeys.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))
+watchEffect@198: watchEffect(() => {
+filter@221: return fields.filter((fieldKey) => {
+map@231: fields.map(String),
+map@232: asEmptyArray(inlineFieldsConfig.value).map(String),
+map@233: asEmptyArray(stackedFieldsConfig.value).map(String)
+computed@257: const shouldShowPartInstances = computed(() => {
 ```
 
 ### `client/src/composables/useAppointment.ts`
@@ -797,38 +815,6 @@ filter@61: const relationships = partAssignments.value.filter(
 map@66: const childIds = relationships.map((rel) => String(rel.childId))
 sort@68: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
 filter@88: const matchingPartInstances = allPartInstances.filter((pp) => {
-```
-
-### `client/src/composables/admin/useBusinessRuleForm.ts`
-
-- counts: vueQuery=0, watch=1, computed=3, ref=3, async=0, await=0, dom=0, console=0
-
-```
-ref@27: const showRuleDialog = ref(false)
-ref@28: const editingRule: Ref<BusinessRule | null> = ref(null)
-ref@30: const formData: Ref<BusinessRuleFormData> = ref({
-computed@38: const requiredFieldsArray = computed({
-map@49: fields: value.split(',').map((f) => f.trim()).filter((f) => f.length > 0),
-filter@49: fields: value.split(',').map((f) => f.trim()).filter((f) => f.length > 0),
-computed@56: const requiredFieldsCondition = computed({
-computed@73: const requiresAgent = computed({
-watch@87: watch(
-```
-
-### `client/src/composables/admin/useInstancesTabEventInstance.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=2, async=1, await=1, dom=0, console=0
-
-```
-map@26: const knownVariableNames = new Set<string>(EVENT_TEMPLATE_VARIABLES.map(v => v.name))
-ref@45: const isCreatingEventInstance = ref(false)
-ref@47: const isCreatingEventInstanceLoading = ref(false)
-computed@49: const templateWarnings = computed(() => {
-map@54: return unknown.length > 0 ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`] : []
-async@88: const handleEventInstanceCreate = async (): Promise<void> => {
-await@92: await createEventInstance({
-filter@115: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
-filter@126: expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
 ```
 
 ### `client/src/composables/admin/usePartInstanceBulkEdit.ts`
@@ -926,6 +912,21 @@ map@61: .map(id => String(id))
 filter@62: .filter(id => validSet.has(id))
 ```
 
+### `client/src/composables/admin/useBusinessRuleForm.ts`
+
+- counts: vueQuery=0, watch=1, computed=3, ref=2, async=0, await=0, dom=0, console=0
+
+```
+ref@28: const editingRule: Ref<BusinessRule | null> = ref(null)
+ref@30: const formData: Ref<BusinessRuleFormData> = ref({
+computed@38: const requiredFieldsArray = computed({
+map@49: fields: value.split(',').map((f) => f.trim()).filter((f) => f.length > 0),
+filter@49: fields: value.split(',').map((f) => f.trim()).filter((f) => f.length > 0),
+computed@56: const requiredFieldsCondition = computed({
+computed@73: const requiresAgent = computed({
+watch@87: watch(
+```
+
 ### `client/src/composables/admin/useEntityDragHandlers.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=1, dom=0, console=0
@@ -962,13 +963,13 @@ await@83: await fieldContext.actions.save()
 
 ```
 lifecycle@5: import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type ComponentPublicInstance } from 'vue'
-computed@32: const filteredEventInstances = computed(() =>
-sort@33: [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-async@40: patchOrderIndex: async (updates) => {
-await@41: await patchEventInstanceOrderIndex(updates)
-watch@45: watch(
-lifecycle@55: onMounted(() => {
-lifecycle@80: onBeforeUnmount(() => {
+computed@31: const filteredEventInstances = computed(() =>
+sort@32: [...eventInstances.value].sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+async@39: patchOrderIndex: async (updates) => {
+await@40: await patchEventInstanceOrderIndex(updates)
+watch@44: watch(
+lifecycle@54: onMounted(() => {
+lifecycle@79: onBeforeUnmount(() => {
 ```
 
 ### `client/src/composables/beta/useFeedbackDashboard.ts`
@@ -1066,14 +1067,14 @@ await@160: await updateAppointment.mutateAsync({
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=2, dom=0, console=0
 
 ```
-async@40: mutationFn: async ({
-await@53: await apiClient.patch(endpoint, admin)
-filter@66: const filteredEntities = currentEntities.filter(
-filter@75: partAssignments: old.relationships.partAssignments.filter(
-async@102: onMutate: async (variables) => {
-await@107: await queryClient.cancelQueries({ queryKey: ['globalData'] })
-filter@155: const missingKeys = beforeKeys.filter(key => !afterKeys.includes(key))
-filter@165: addedKeys: afterKeys.filter(key => !beforeKeys.includes(key))
+async@46: mutationFn: async ({
+await@59: await apiClient.patch(endpoint, admin)
+filter@72: const filteredEntities = currentEntities.filter(
+filter@81: partAssignments: old.relationships.partAssignments.filter(
+async@108: onMutate: async (variables) => {
+await@113: await queryClient.cancelQueries({ queryKey: ['globalData'] })
+filter@161: const missingKeys = beforeKeys.filter(key => !afterKeys.includes(key))
+filter@171: addedKeys: afterKeys.filter(key => !beforeKeys.includes(key))
 ```
 
 ### `client/src/composables/formFields/useFormFieldsStandardLayout.ts`
@@ -1267,12 +1268,12 @@ await@37: const isValid = await validate()
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=3, await=3, dom=0, console=0
 
 ```
-async@54: const saveEdit = async (): Promise<void> => {
-await@58: await updateItem(editingId.value, editedData.value as UpdatePayload)
-async@76: const saveCreate = async (): Promise<void> => {
-await@84: await createItem(newItem.value)
-async@102: const confirmDelete = async (): Promise<void> => {
-await@106: await deleteItem(deletingId.value)
+async@57: const saveEdit = async (): Promise<void> => {
+await@61: await updateItem(editingId.value, editedData.value as UpdatePayload)
+async@80: const saveCreate = async (): Promise<void> => {
+await@88: await createItem(newItem.value)
+async@107: const confirmDelete = async (): Promise<void> => {
+await@111: await deleteItem(deletingId.value)
 ```
 
 ### `client/src/composables/admin/useFormElementPatching.ts`
@@ -1319,12 +1320,12 @@ computed@58: const shape = computed(() => {
 - counts: vueQuery=0, watch=0, computed=3, ref=1, async=1, await=1, dom=0, console=0
 
 ```
-async@21: async function fetchAllAdminMetadata(): Promise<MetadataCache> {
-await@23: const response = await apiClient.get<MetadataCache>(endpoint)
-ref@31: const metadataLoadRequested = ref(false)
-computed@43: enabled: computed(() => metadataLoadRequested.value), // LAZY: Only fetches when enabled
-computed@99: const isLoaded = computed(() => !!metadataQuery.data.value)
-computed@119: metadataData: computed(() => metadataQuery.data.value),
+async@20: async function fetchAllAdminMetadata(): Promise<MetadataCache> {
+await@22: const response = await apiClient.get<MetadataCache>(endpoint)
+ref@30: const metadataLoadRequested = ref(false)
+computed@42: enabled: computed(() => metadataLoadRequested.value), // LAZY: Only fetches when enabled
+computed@98: const isLoaded = computed(() => !!metadataQuery.data.value)
+computed@118: metadataData: computed(() => metadataQuery.data.value),
 ```
 
 ### `client/src/composables/admin/usePartInstanceCollection.ts`
@@ -1540,6 +1541,18 @@ async@65: queryFn: async () => {
 await@66: const res = await apiClient.get<PropertyFeatureMappingRow[]>(
 ```
 
+### `client/src/composables/admin/useRelationshipCollectionData.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+```
+sort@70: return resolved.sort((a, b) => {
+filter@80: const relationships = relationshipsRef.value.filter(
+map@85: const childIds = relationships.map((rel) => String(rel.childId))
+filter@87: const filtered = resolved.filter((c): c is GlobalEntity<GlobalEntityKey> => c != null)
+sort@88: return filtered.sort((a, b) => {
+```
+
 ### `client/src/composables/admin/useSelectFieldValue.ts`
 
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
@@ -1728,13 +1741,13 @@ computed@34: const shouldShowError = computed(() => {
 
 ### `client/src/composables/admin/useFormFieldConfigs.ts`
 
-- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
+- counts: vueQuery=0, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
 
 ```
 computed@27: const fieldKeys = computed(() =>
 computed@35: const instanceConfig = computed(() => {
-computed@40: const inlineFieldsConfig = computed(() => {
-computed@46: const stackedFieldsConfig = computed(() => {
+map@44: return arr.map((k) => String(k))
+map@51: return arr.map((k) => String(k))
 ```
 
 ### `client/src/composables/admin/useMetadataFieldOrdering.ts`
@@ -1757,17 +1770,6 @@ async@2: * WHY: Component-logic audit - move async handleSave and queryClient re
 async@51: async function handleSave(): Promise<void> {
 await@90: await saveFieldMetadata({
 await@101: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
-```
-
-### `client/src/composables/admin/useRelationshipCollectionData.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-```
-sort@70: return resolved.sort((a, b) => {
-filter@80: const relationships = relationshipsRef.value.filter(
-map@85: const childIds = relationships.map((rel) => String(rel.childId))
-sort@87: return resolved.sort((a, b) => {
 ```
 
 ### `client/src/composables/booking/selectionCard/useSelectionCardState.ts`
@@ -2389,8 +2391,8 @@ watch@15: watch(
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-map@154: const [year, month, day] = dateParts.map(Number)
-computed@234: return computed(() => {
+map@157: const [year, month, day] = dateParts.map(Number)
+computed@238: return computed(() => {
 ```
 
 ### `client/src/composables/useGlobal.ts`
@@ -2451,7 +2453,7 @@ computed@14: return computed(() => {
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@86: const fieldMetadataEntry = computed(() => {
+computed@90: const fieldMetadataEntry = computed(() => {
 ```
 
 ### `client/src/composables/admin/useBusinessHoursFormState.ts`
@@ -2475,7 +2477,7 @@ watch@31: watch(dialogOpen, (isOpen) => {
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-filter@36: return Array.from(allPanels).filter(node => {
+filter@38: return Array.from(allPanels).filter(node => {
 ```
 
 ### `client/src/composables/admin/useEntityCardLayout.ts`
@@ -2507,7 +2509,7 @@ watch@24: watch(filteredEntities, () => {
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@27: return computed(() => {
+computed@30: return computed(() => {
 ```
 
 ### `client/src/composables/admin/useInstancesTabCreateModal.ts`

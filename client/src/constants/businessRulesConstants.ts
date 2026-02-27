@@ -2,7 +2,7 @@
 import { RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES } from '@shared/constants/businessRulesConstants'
 
 /** Base path for business rules API (relative to apiClient baseURL) */
-export const BUSINESS_RULES_API_BASE = '/internal/business-rules'
+export const BUSINESS_RULES_API_BASE = '/business-rules'
 
 export const BUSINESS_RULES_MESSAGES = {
   FAILED_TO_LOAD: 'Failed to load business rules',

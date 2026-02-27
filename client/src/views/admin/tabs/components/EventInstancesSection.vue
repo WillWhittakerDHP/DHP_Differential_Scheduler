@@ -4,8 +4,9 @@ import { computed, inject } from 'vue'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
 
-const ctx = inject(instancesTabContextKey)
-if (!ctx) throw new Error('EventInstancesSection must be used inside InstancesTab')
+const injected = inject(instancesTabContextKey)
+if (!injected) throw new Error('EventInstancesSection must be used inside InstancesTab')
+const ctx = injected as NonNullable<typeof injected>
 
 // WHY: v-model requires a top-level Ref for Vue's template auto-unwrapping.
 // inject() returns a plain object so ctx.expandedInstances is a raw Ref —
@@ -17,19 +18,13 @@ const eventInstancesDisplay = computed(() => {
   const filtered = ctx.filteredEventInstances.value
   return list.length > 0 ? list : filtered
 })
-const eventShapesList = computed(() => {
-  const s = ctx.eventShapes
-  return 'value' in s ? (s as { value: unknown[] }).value : (s as unknown[])
-})
+const eventShapesList = computed(() => ctx.eventShapes.value)
 const hasEventInstances = computed(() => {
-  const ev = ctx.eventInstances
-  const arr = 'value' in ev ? (ev as { value: unknown[] }).value : (ev as unknown[])
+  const arr = ctx.eventInstances.value
   return Array.isArray(arr) && arr.length > 0
 })
-const isLoading = computed(() => {
-  const v = ctx.isLoadingEventInstances
-  return 'value' in v ? (v as { value: boolean }).value : (v as boolean)
-})
+const isLoading = computed(() => ctx.isLoadingEventInstances.value)
+const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
 function toggleEventInstanceMetadata(): void {
   ctx.eventInstanceMetadataModalOpen.value = !ctx.eventInstanceMetadataModalOpen.value
 }
@@ -135,7 +130,7 @@ function toggleEventInstanceMetadata(): void {
                 density="compact"
                 rows="2"
                 hint="e.g. '{service} at {streetAddress}'"
-                :error-messages="ctx.templateWarnings.titleTemplate"
+                :error-messages="templateWarningsUnwrapped.titleTemplate"
               />
               <VTextarea
                 v-model="ctx.newEventInstanceData.value.descriptionTemplate"
@@ -144,7 +139,7 @@ function toggleEventInstanceMetadata(): void {
                 density="compact"
                 rows="2"
                 hint="e.g. 'Home inspection on {appointmentDate} at {appointmentTime}'"
-                :error-messages="ctx.templateWarnings.descriptionTemplate"
+                :error-messages="templateWarningsUnwrapped.descriptionTemplate"
               />
               <VTextarea
                 v-model="ctx.newEventInstanceData.value.locationTemplate"
@@ -153,7 +148,7 @@ function toggleEventInstanceMetadata(): void {
                 density="compact"
                 rows="2"
                 hint="e.g. '{fullAddress}'"
-                :error-messages="ctx.templateWarnings.locationTemplate"
+                :error-messages="templateWarningsUnwrapped.locationTemplate"
               />
               <div class="text-label-large text-medium-emphasis mt-2">Display & Status</div>
               <VRow dense>
@@ -278,7 +273,7 @@ function toggleEventInstanceMetadata(): void {
                 <VBtn
                   color="primary"
                   :loading="ctx.isCreatingEventInstanceLoading.value"
-                  :disabled="!ctx.newEventInstanceData.value?.name?.trim()"
+                  :disabled="!(typeof ctx.newEventInstanceData.value?.name === 'string' && ctx.newEventInstanceData.value.name.trim())"
                   @click="ctx.handleEventInstanceCreate()"
                 >
                   Create

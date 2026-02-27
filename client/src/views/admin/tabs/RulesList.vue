@@ -9,7 +9,7 @@ import RuleListItem from './RuleListItem.vue'
 
 const props = defineProps<{
   filteredRules: BusinessRule[]
-  ruleTypeOptions: readonly { title: string; value: string; description: string }[]
+  ruleTypeOptions: readonly { title: string; value: string; description?: string }[]
   formatRuleType: (ruleType: RuleType) => string
   formatRuleConfig: (rule: BusinessRule) => string
   availableValidationMessages: { id: string; title: string; value: string }[]

@@ -52,7 +52,10 @@ function setBathrooms(v: number | string | null): void {
   if (props.newProperty?.value) props.newProperty.value.bathrooms = v != null ? Number(v) : undefined
 }
 function setFoundationAccess(v: string | null): void {
-  if (props.newProperty?.value) props.newProperty.value.foundationAccess = v ?? undefined
+  if (props.newProperty?.value) {
+    props.newProperty.value.foundationAccess =
+      v === 'basement' || v === 'crawlspace' || v === 'slab' ? v : undefined
+  }
 }
 function setAdditionalUnits(v: number | string | null): void {
   if (props.newProperty?.value) props.newProperty.value.additionalUnits = v != null ? Number(v) : undefined

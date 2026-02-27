@@ -11,8 +11,9 @@ const props = defineProps<{
   blockShape: GlobalEntity<'blockShape'>
 }>()
 
-const ctx = inject(instancesTabContextKey)
-if (!ctx) throw new Error('BlockInstancesGroup must be used inside InstancesTab')
+const injected = inject(instancesTabContextKey)
+if (!injected) throw new Error('BlockInstancesGroup must be used inside InstancesTab')
+const ctx = injected as NonNullable<typeof injected>
 
 // WHY: v-model requires a top-level Ref for Vue's template auto-unwrapping.
 // inject() returns a plain object so ctx.expandedInstances is a raw Ref —
@@ -40,13 +41,14 @@ function setGroupContainer(_id: string, el: HTMLElement | null): void {
   ctx.groupContainers.value.set(props.blockShape.id, el)
 }
 
-function setGroupPanelsRef(el: ComponentPublicInstance | HTMLElement | null): void {
+function setGroupPanelsRef(el: Element | ComponentPublicInstance | null): void {
+  const elTyped = el as ComponentPublicInstance | HTMLElement | null
   const blockShapeId = props.blockShape.id
   if (!ctx.groupPanelsContainers.value.has(blockShapeId)) {
-    ctx.groupPanelsContainers.value.set(blockShapeId, ref(el))
+    ctx.groupPanelsContainers.value.set(blockShapeId, ref(elTyped))
   } else {
     const panelsRef = ctx.groupPanelsContainers.value.get(blockShapeId)
-    if (panelsRef) panelsRef.value = el
+    if (panelsRef) panelsRef.value = elTyped
   }
 }
 </script>
@@ -127,7 +129,7 @@ function setGroupPanelsRef(el: ComponentPublicInstance | HTMLElement | null): vo
           :entity="instance"
           :expanded="ctx.isPanelExpanded(instance.id)"
           @saved="ctx.handleExistingBlockInstanceSaved"
-          @delete="ctx.handleDeleteBlockInstance"
+          @delete="(id: string) => ctx.handleDeleteBlockInstance(id)"
           @duplicate="ctx.handleDuplicateClick"
         />
       </VExpansionPanels>
@@ -153,7 +155,7 @@ function setGroupPanelsRef(el: ComponentPublicInstance | HTMLElement | null): vo
               :entity="instance"
               :expanded="ctx.isPanelExpanded(instance.id)"
               @saved="ctx.handleExistingBlockInstanceSaved"
-              @delete="ctx.handleDeleteBlockInstance"
+              @delete="(id: string) => ctx.handleDeleteBlockInstance(id)"
             />
           </VExpansionPanels>
         </VCardText>

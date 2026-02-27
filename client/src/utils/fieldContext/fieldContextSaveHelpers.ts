@@ -30,10 +30,12 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
     throw new Error('Component entity composable not available')
   }
 
-  const { addToComponent, removeFromComponent, getComponents } = state.composedEntityComposable
+  const { data, actions } = state.composedEntityComposable
+  const { addToComponent, removeFromComponent } = actions
+  const { getComponents } = data
 
   const currentComponents = getComponents(toGlobalEntityId(String(state.entityId)))
-  const oldComponentIds = new Set(currentComponents.map((ea) => ea.childId))
+  const oldComponentIds = new Set(currentComponents.map((ea: { childId: string }) => ea.childId))
 
   const rawValue = state.value.value
   const plainValue = toRaw(rawValue)

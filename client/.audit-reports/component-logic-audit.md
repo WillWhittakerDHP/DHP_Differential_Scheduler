@@ -10,17 +10,33 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **1**
+- Total files: **2**
 
 ## Top hotspots (by heuristic score)
 
 | File | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/components/booking/steps/PropertyDetailsSection.vue` | 0 | 1 | 0 | 1 | 0 | 0 | 0 |
 | `client/src/views/admin/entities/BlockInstanceList.vue` | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/components/booking/steps/PropertyDetailsSection.vue`
+
+- counts: computed=0, ref=0, watch=1, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+computed@187: const selectedPropertyType = computed((): PropertyTypeWithComponents | undefined => {
+computed@192: const showComponents = computed(
+computed@197: const activeInstanceComponents = computed((): ComponentItem[] => {
+filter@200: return comps.filter((c: ComponentItem) => c.active === true)
+ref@203: const propertyTypeSelectWidthPx = ref(MIN_PROPERTY_TYPE_WIDTH_PX)
+watch@204: watch(
+map@207: const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
+filter@207: const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
+```
 
 ### `client/src/views/admin/entities/BlockInstanceList.vue`
 

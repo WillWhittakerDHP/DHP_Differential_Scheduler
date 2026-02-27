@@ -1,14 +1,17 @@
 <script setup lang="ts">
 
 import { ref, inject, computed, onMounted, type Ref } from 'vue'
+import type { PlaceDetails } from '@/services/mapsApiService'
+import type { ValidationRule } from '@/types/formValidation'
+import type { PropertyTypeWithComponents } from './PropertyDetailsSection.vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import {
   propertyDetailsStepDataKey,
   propertyDetailsStepValidKey,
   propertyDetailsStepValidateKey,
   propertyDetailsFieldErrorsKey,
+  wizardKey,
 } from '@/composables/booking/injectionKeys'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
 import { usePropertyTypeBlockSelection } from '@/composables/booking/usePropertyTypeBlockSelection'
@@ -32,7 +35,7 @@ onMounted(() => {
   })
 })
 
-const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+const wizard = inject(wizardKey)
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
@@ -186,23 +189,23 @@ function handlePropertyEdit(): void {
   <VForm ref="formRef" class="property-details-step">
     <PropertyAddressSection
       :form-data="formData"
-      :validation-rules="validationRules"
+      :validation-rules="(validationRules as { address: ValidationRule[]; city: ValidationRule[]; state: ValidationRule[]; zipCode: ValidationRule[] })"
       :field-errors="fieldErrors"
       :is-address-expanded="isAddressExpanded"
       :requires-unit-number="requiresUnitNumber"
-      :handle-place-selected="handlePlaceSelected"
-      :handle-autocomplete-error="handleAutocompleteError"
+      :handle-place-selected="(d: unknown) => handlePlaceSelected(d as PlaceDetails)"
+      :handle-autocomplete-error="(e: unknown) => handleAutocompleteError(e as Error)"
       :change-address="changeAddress"
-      :states="states"
+      :states="[...states]"
     />
 
     <PropertyDetailsSection
       v-if="isAddressExpanded"
       v-model:selected-property-type-id="selectedPropertyTypeBlockId"
-      :available-property-types="propertyTypeBlocksWithComponents"
+      :available-property-types="(propertyTypeBlocksWithComponents as PropertyTypeWithComponents[])"
       :property-types-cascade-error="wizard.propertyTypesCascadeError?.value ?? null"
       :form-data="formData"
-      :validation-rules="validationRules"
+      :validation-rules="(validationRules as { propertySize: ValidationRule[]; numberOfUnits: ValidationRule[] })"
       :field-errors="fieldErrors"
       :is-multi-family="isMultiFamily"
       :is-enrichment-loading="isEnrichmentLoading"

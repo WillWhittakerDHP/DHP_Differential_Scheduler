@@ -4,7 +4,7 @@
   PATTERN: Thin component; all logic in useBusinessRulesTab; RuleFormDialog, RulesList for UI.
 -->
 <script setup lang="ts">
-import { provide, reactive } from 'vue'
+import { provide } from 'vue'
 import { useBusinessRulesTab } from '@/composables/admin/useBusinessRulesTab'
 import { ruleFormDialogContextKey } from '@/composables/admin/injectionKeys'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'
@@ -55,27 +55,24 @@ function updateFormField<F extends keyof BusinessRuleFormData>(
   formData.value = { ...formData.value, [field]: value }
 }
 
-provide(
-  ruleFormDialogContextKey,
-  reactive({
-    showRuleDialog,
-    formData,
-    editingRule,
-    ruleTypeOptions,
-    availableBlockInstances,
-    availableValidationMessages,
-    requiredFieldsArray,
-    requiredFieldsCondition,
-    requiresAgent,
-    saving,
-    updateFormField,
-    setRequiredFieldsArray,
-    setRequiredFieldsCondition,
-    setRequiresAgent,
-    saveRule,
-    closeDialog,
-  })
-)
+provide(ruleFormDialogContextKey, {
+  showRuleDialog,
+  formData,
+  editingRule,
+  ruleTypeOptions,
+  availableBlockInstances,
+  availableValidationMessages,
+  requiredFieldsArray,
+  requiredFieldsCondition,
+  requiresAgent,
+  saving,
+  updateFormField,
+  setRequiredFieldsArray,
+  setRequiredFieldsCondition,
+  setRequiresAgent,
+  saveRule,
+  closeDialog,
+})
 </script>
 
 <template>
