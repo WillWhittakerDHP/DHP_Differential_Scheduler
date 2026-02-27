@@ -101,30 +101,19 @@
               </div>
             </VAlert>
 
-            <!-- Available Slots -->
-            <div v-if="moveableOptions.availableSlots.length > 0">
+            <!-- Available Slots: shared AppointmentSlotGrid (Session 6.4.3) -->
+            <div v-if="moveableOptions.availableSlots.length > 0" class="moveable-slot-grid-wrapper">
               <p class="mb-4 text-body-medium">
                 Select when you'd like the moveable work to be completed:
               </p>
-
-              <VList class="mb-4">
-                <VListItem
-                  v-for="(slot, index) in moveableOptions.availableSlots"
-                  :key="index"
-                  :active="selectedSlotIndex === index"
-                  @click="selectSlot(index)"
-                  class="cursor-pointer"
-                >
-                  <template #prepend>
-                    <VRadio
-                      :model-value="selectedSlotIndex === index"
-                      @update:model-value="() => selectSlot(index)"
-                    />
-                  </template>
-                  <VListItemTitle>{{ slot.dayLabel }}</VListItemTitle>
-                  <VListItemSubtitle>{{ slot.timeLabel }}</VListItemSubtitle>
-                </VListItem>
-              </VList>
+              <AppointmentSlotGrid
+                :appointment-slots="moveableSlotsAsAppointmentSlots"
+                :selected-button-index="selectedSlotIndex"
+                time-basis="nonDifferential"
+                color="primary"
+                class="appointment-slot-grid-abut mb-4"
+                @slot-click="selectSlot"
+              />
             </div>
 
             <VAlert
@@ -169,8 +158,17 @@ import { computed, ref, watch } from 'vue'
 import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { localTime } from '@/utils/time/localTime'
+import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
+import { moveableSlotsToAppointmentSlots } from '@/utils/booking/moveableSlotToAppointmentSlotAdapter'
 
 const { formatDateTimeForDisplay } = localTime()
+
+/** Session 6.4.3: MoveableSlot[] → AppointmentSlot[] for shared grid; only when options + slots exist. */
+const moveableSlotsAsAppointmentSlots = computed(() => {
+  const options = props.moveableOptions
+  if (!options?.availableSlots?.length) return []
+  return moveableSlotsToAppointmentSlots(options.availableSlots)
+})
 
 /** Phase 6.4: ~400ms delay before opening modal so it feels less intrusive. */
 const OPEN_DELAY_MS = 400

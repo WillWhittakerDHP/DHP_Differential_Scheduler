@@ -10,6 +10,7 @@ Each session should start with:
 *[Note: Section extracted from template - consider adding to session guide]*
 
 
+
 ## Learning Checkpoints
 
 ### Purpose
@@ -54,6 +55,7 @@ Included in full checkpoint format:
 
 
 *[Note: Section extracted from template - consider adding to session guide]*
+
 
 
 ## Task Template
@@ -130,4 +132,18 @@ When logging a completed task:
 
 
 
-#### Task 6.4.3.1: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
+- [x] #### Task 6.4.3.1: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
+
+**Goal:** Use the shared AppointmentSlotGrid in MoveablePartsModal for completion-time selection by adapting MoveableSlot[] to AppointmentSlot[] and replacing the VList slot list.
+
+**Files:**
+- Source: `client/src/components/booking/MoveablePartsModal.vue` (existing VList), `client/src/components/booking/AppointmentSlotGrid.vue`, `client/src/types/appointment.ts`, `client/src/types/moveableScheduling.ts`
+- Target: `client/src/utils/booking/moveableSlotToAppointmentSlotAdapter.ts` (new), `MoveablePartsModal.vue` (updated)
+
+**Approach:**
+- Add adapter utility that maps MoveableSlot[] → AppointmentSlot[] with minimal display-only shape (totalTimeRange from slot bounds, empty eventFinals for nonDifferential).
+- In MoveablePartsModal, replace the VList/VListItem slot list with AppointmentSlotGrid; pass adapted slots, selectedButtonIndex = selectedSlotIndex, time-basis="nonDifferential", and @slot-click → selectSlot.
+- Preserve same ref/width behavior (e.g. class appointment-slot-grid-abut).
+
+**Checkpoint:**
+- Moveable modal shows completion times in the same grid UX as appointment slots; selection and confirm behavior unchanged; lint passes.
