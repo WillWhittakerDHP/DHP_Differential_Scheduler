@@ -1,6 +1,7 @@
 import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
+import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 import type {
   AppointmentFeeSummaryCreate,
   AppointmentFeeEntryCreate,
@@ -35,6 +36,26 @@ type PropertyDetailsStepData = {
   zipCode: string
   propertySize: number | null
   squareFootage: number | null
+}
+
+function formatDateTime(iso: string): string {
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return 'Invalid date'
+  return date.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
+function formatTimeRange(startIso: string, endIso: string): string {
+  const start = new Date(startIso)
+  const end = new Date(endIso)
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 'Invalid time range'
+  const to12h = (d: Date) => d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+  return `${to12h(start)} - ${to12h(end)}`
 }
 
 /** Extends shared FeeEntryBase for single source of truth. */
@@ -92,7 +113,8 @@ function calculateBlockInstanceFee(
 
 export function buildConfirmationSummaryData(
   wizard: WizardSelectionState,
-  propertyDetailsStepData?: PropertyDetailsStepData | null
+  propertyDetailsStepData?: PropertyDetailsStepData | null,
+  availabilityStepData?: AvailabilityStepData | null
 ): SummaryData {
   const serviceNames = wizard.selectedServices.map((s) => s.name)
   const serviceType =
@@ -120,11 +142,46 @@ export function buildConfirmationSummaryData(
       ? `${propertyDetailsStepData.propertySize}sqft`
       : APPOINTMENTS_TABLE_UI.NOT_SPECIFIED
 
+  const appointmentDate = availabilityStepData?.candidateDate?.start
+    ? new Date(availabilityStepData.candidateDate.start).toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      })
+    : undefined
+
+  const appointmentTimes = availabilityStepData?.candidateTimeSlots?.length
+    ? availabilityStepData.candidateTimeSlots
+        .map((slot) => formatTimeRange(slot.startTime, slot.endTime))
+        .join(' | ')
+    : undefined
+
+  const selectedMoveableIndex = availabilityStepData?.moveableScheduling?.selectedSlotIndex
+  const moveableSlots = availabilityStepData?.moveableScheduling?.availableSlots ?? []
+  const moveableSlot =
+    typeof selectedMoveableIndex === 'number' && selectedMoveableIndex >= 0
+      ? moveableSlots[selectedMoveableIndex] ?? null
+      : null
+  const moveableCompletion = moveableSlot
+    ? formatDateTime(moveableSlot.startTime)
+    : undefined
+
+  const moveablePartShapeName = availabilityStepData?.moveableScheduling?.partShapeName
+
+  const moveableDeadline = availabilityStepData?.moveableScheduling?.outerBoundary
+    ? formatDateTime(availabilityStepData.moveableScheduling.outerBoundary)
+    : undefined
+
   return {
     serviceType,
     propertyType,
     address,
     squareFootage,
+    appointmentDate,
+    appointmentTimes,
+    moveablePartShapeName,
+    moveableCompletion,
+    moveableDeadline,
   }
 }
 

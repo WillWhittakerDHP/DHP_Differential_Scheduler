@@ -124,6 +124,58 @@ const {
               </span>
             </td>
           </tr>
+
+          <tr v-if="summaryData.appointmentDate">
+            <td>
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
+                Appointment Date
+              </span>
+            </td>
+            <td>
+              <span class="text-body-medium text-medium-emphasis">
+                {{ summaryData.appointmentDate }}
+              </span>
+            </td>
+          </tr>
+
+          <tr v-if="summaryData.appointmentTimes">
+            <td>
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
+                Appointment Time(s)
+              </span>
+            </td>
+            <td>
+              <span class="text-body-medium text-medium-emphasis">
+                {{ summaryData.appointmentTimes }}
+              </span>
+            </td>
+          </tr>
+
+          <tr v-if="summaryData.moveableCompletion">
+            <td>
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
+                {{ summaryData.moveablePartShapeName || 'Moveable Work' }} Completion
+              </span>
+            </td>
+            <td>
+              <span class="text-body-medium text-medium-emphasis">
+                {{ summaryData.moveableCompletion }}
+              </span>
+            </td>
+          </tr>
+
+          <tr v-if="summaryData.moveableDeadline">
+            <td>
+              <span class="text-body-medium font-weight-medium text-medium-emphasis">
+                {{ summaryData.moveablePartShapeName || 'Moveable Work' }} Deadline
+              </span>
+            </td>
+            <td>
+              <span class="text-body-medium text-medium-emphasis">
+                {{ summaryData.moveableDeadline }}
+              </span>
+            </td>
+          </tr>
         </tbody>
       </VTable>
     </VCol>

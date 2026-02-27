@@ -35,6 +35,9 @@ function handleMinorLabel(v: string): void {
 function handleDifferentialGraphDefaultLabel(v: string): void {
   differential.differentialGraphDefaultLabel = v
 }
+function handleMoveableFallbackLabel(v: string): void {
+  differential.moveableFallbackLabel = v
+}
 function handleMajorStateLabel(v: string): void {
   differential.majorStateLabel = v
 }
@@ -125,6 +128,15 @@ function handleMinorStateLabel(v: string): void {
       />
 
       <VTextField
+        :model-value="differential.moveableFallbackLabel"
+        @update:model-value="handleMoveableFallbackLabel"
+        :label="UI_STRINGS.differential.moveableFallbackLabel"
+        :hint="UI_STRINGS.differential.moveableFallbackHint"
+        persistent-hint
+        class="mb-4"
+      />
+
+      <VTextField
         :model-value="differential.majorStateLabel"
         @update:model-value="handleMajorStateLabel"
         :label="UI_STRINGS.differential.majorStateLabel"
@@ -145,6 +157,7 @@ function handleMinorStateLabel(v: string): void {
         <div class="mb-1">{{ UI_STRINGS.differential.helpMajor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpMinor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpLabels }}</div>
+        <div class="mb-1">{{ UI_STRINGS.differential.helpMoveableFallback }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpGraphDefault }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpStateLabels }}</div>
         <div>{{ UI_STRINGS.differential.helpFallback }}</div>

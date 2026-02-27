@@ -116,6 +116,7 @@ export interface AvailabilitySettings {
     minorAttendees?: GlobalEntityId[]
     majorLabel?: string
     minorLabel?: string
+    moveableFallbackLabel?: string
     differentialGraphDefaultLabel?: string
     majorStateLabel?: string
     minorStateLabel?: string
@@ -154,6 +155,7 @@ export interface RawAvailabilitySettings {
     minorAttendees?: string[]
     majorLabel?: string
     minorLabel?: string
+    moveableFallbackLabel?: string
     differentialGraphDefaultLabel?: string
     majorStateLabel?: string
     minorStateLabel?: string

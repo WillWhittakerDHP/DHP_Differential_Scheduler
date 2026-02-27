@@ -20,6 +20,7 @@ export function useAvailabilityStepHandlers(
     openMoveableModal,
     closeMoveableModal,
     moveableOptions,
+    moveableSlotsForConfirm,
     selectedMoveableSlotIndex,
     confirmedMoveableScheduling,
     startTimeType
@@ -43,6 +44,7 @@ export function useAvailabilityStepHandlers(
     
     confirmedMoveableScheduling.value = {
       ...moveableOptions.value,
+      availableSlots: moveableSlotsForConfirm.value,
       selectedSlotIndex: selectedMoveableSlotIndex.value
     }
     closeMoveableModal()

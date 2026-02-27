@@ -14,8 +14,8 @@ import type { MoveableSlot } from '@/types/moveableScheduling'
 
 /**
  * Maps moveable completion slots to the AppointmentSlot shape expected by AppointmentSlotGrid.
- * Each slot gets buttonIndex = array index, isAvailable = true, and totalTimeRange from
- * the moveable slot's start/end/duration.
+ * Each slot gets buttonIndex = array index, totalTimeRange from the moveable slot's bounds,
+ * and isAvailable/flexibleViolations from the moveable slot when set (from server/computed slots).
  */
 export function moveableSlotsToAppointmentSlots(moveableSlots: MoveableSlot[]): AppointmentSlot[] {
   return moveableSlots.map((slot, index) => moveableSlotToAppointmentSlot(slot, index))
@@ -42,7 +42,8 @@ function moveableSlotToAppointmentSlot(moveableSlot: MoveableSlot, buttonIndex: 
   } as AppointmentShape
   return {
     buttonIndex,
-    isAvailable: true,
+    isAvailable: moveableSlot.isAvailable ?? true,
+    flexibleViolations: moveableSlot.violations?.length ? moveableSlot.violations : undefined,
     shape,
     startTime: moveableSlot.startTime,
     totalTimeRange,

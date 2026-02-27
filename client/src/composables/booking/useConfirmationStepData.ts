@@ -21,6 +21,7 @@ export function useConfirmationStepData(
   const {
     wizard,
     propertyDetailsStepData,
+    availabilityStepData,
   } = params
 
   /**
@@ -34,7 +35,8 @@ export function useConfirmationStepData(
         selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
         selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,
       },
-      propertyDetailsStepData?.value ?? null
+      propertyDetailsStepData?.value ?? null,
+      availabilityStepData?.value ?? null
     )
   })
 

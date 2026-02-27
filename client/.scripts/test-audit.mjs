@@ -23,8 +23,8 @@ import {
  * - Test files: *.test.{ts,tsx}, *.spec.{ts,tsx}, __tests__ directories
  *
  * Output:
- * - client/.audit/test-audit.json
- * - client/.audit/test-audit.md
+ * - client/.audit-reports/test-audit.json
+ * - client/.audit-reports/test-audit.md
  *
  * Notes:
  * - This is a fast AST-like scan using regex patterns (not full parsing)

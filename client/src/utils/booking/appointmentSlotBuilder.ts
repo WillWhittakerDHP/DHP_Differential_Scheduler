@@ -27,6 +27,25 @@ export { createTimeRange } from './slotTimeUtils'
 export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShapeLookups'
 export { derivePerspective } from './perspectiveResolver'
 
+/**
+ * Build a minimal AppointmentShape for a single duration (e.g. moveable completion grid).
+ * WHY: Moveable modal uses same useAppointmentSlots pipeline with duration = moveable part only.
+ */
+export function createMinimalAppointmentShapeForDuration(durationMinutes: number): AppointmentShape {
+  return {
+    finalizedBlocks: [],
+    finalizedParts: [],
+    slotShape: {
+      rawDuration: durationMinutes,
+      roundedDuration: durationMinutes,
+      eventFinals: [],
+      rawDifferentialOffset: 0,
+      roundedDifferentialOffset: 0,
+    },
+    eventAssignmentsByPartShape: {},
+  }
+}
+
 function lookupEventsForPartShape(
   partShapeName: string,
   partShapeById: Map<string, GlobalEntity<'partShape'>>,

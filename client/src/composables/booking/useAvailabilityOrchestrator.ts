@@ -177,17 +177,28 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     isDifferentialService: isEffectivelyDifferential
   })
 
-  const moveablePartsScheduling = useMoveablePartsScheduling({ appointmentShape, selectedSlot })
+  const moveablePartsScheduling = useMoveablePartsScheduling({
+    appointmentShape,
+    selectedSlot,
+    propertyDetailsStepData,
+    slotsByDay: computedAvailability.slotsByDay,
+  })
   const {
     hasMoveableParts,
     showModal: showMoveableModal,
     moveableOptions,
+    moveableAppointmentSlots,
+    moveablePartShapeName,
+    selectedMoveableDay,
+    setSelectedMoveableDay,
+    allowedMoveableDates,
+    isLoadingMoveableDaySlots,
     selectedSlotIndex: selectedMoveableSlotIndex,
     contingencyPeriod,
     openModal: openMoveableModal,
     closeModal: closeMoveableModal,
     selectSlot: selectMoveableSlot,
-    isLoadingOptions
+    isLoadingOptions,
   } = moveablePartsScheduling
 
   // Gate modal on preClosing: only open for services that have preClosing true (Phase 6.4)
@@ -236,6 +247,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     openMoveableModal,
     closeMoveableModal,
     moveableOptions,
+    moveableSlotsForConfirm: moveablePartsScheduling.moveableSlotsForConfirm,
     selectedMoveableSlotIndex,
     confirmedMoveableScheduling,
     startTimeType
@@ -284,6 +296,12 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       selectedOptionTypeBlockId,
       showMoveableModal,
       moveableOptions,
+      moveableAppointmentSlots,
+      moveablePartShapeName,
+      selectedMoveableDay,
+      setSelectedMoveableDay,
+      allowedMoveableDates,
+      isLoadingMoveableDaySlots,
       selectedMoveableSlotIndex,
       contingencyPeriod,
       isLoadingOptions,

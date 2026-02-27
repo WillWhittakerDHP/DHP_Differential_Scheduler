@@ -4,5 +4,5 @@ phase.id=6.4
 phase.name=Guide: Moveable Modal & preClosing Property
 session.id=6.4.3
 session.name=Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
-task.id=6.4.3.1
-task.name=Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
+task.id=6.4.3.2
+task.name=Wire AppointmentSlotGrid into MoveablePartsModal

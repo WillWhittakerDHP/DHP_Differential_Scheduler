@@ -1,6 +1,6 @@
-import type { Ref } from 'vue'
+import type { Ref, ComputedRef } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 
 export interface UseAvailabilityStepHandlersParams {
   appointmentSlotOrderIndex: Ref<number | null>
@@ -9,6 +9,8 @@ export interface UseAvailabilityStepHandlersParams {
   openMoveableModal: () => void
   closeMoveableModal: () => void
   moveableOptions: Ref<MoveableSchedulingOptions | null>
+  /** Current day's slots for saving to step data on confirm (virtual slots from moveable grid). */
+  moveableSlotsForConfirm: ComputedRef<MoveableSlot[]>
   selectedMoveableSlotIndex: Ref<number | null>
   confirmedMoveableScheduling: Ref<MoveableSchedulingOptions | null>
   startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>

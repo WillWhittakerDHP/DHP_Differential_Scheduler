@@ -18,7 +18,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-headline-medium">Schedule Moveable Work</span>
+        <span class="text-headline-medium">Schedule {{ moveablePartShapeName }}</span>
         <VBtn
           icon
           variant="text"
@@ -60,7 +60,7 @@
             <VExpandTransition>
               <div v-if="contingencyPeriodModel.hasContingency" class="mt-4">
                 <VRow>
-                  <VCol cols="12" md="6">
+                  <VCol cols="6">
                     <VTextField
                       v-model="contingencyPeriodModel.endDate"
                       label="Deadline Date"
@@ -69,7 +69,7 @@
                       density="comfortable"
                     />
                   </VCol>
-                  <VCol cols="12" md="6">
+                  <VCol cols="6">
                     <VTextField
                       v-model="contingencyPeriodModel.endTime"
                       label="Deadline Time"
@@ -86,28 +86,48 @@
           <VDivider class="my-6" />
 
           <!-- Section 2: Available Completion Times (only when user provided closing date; Phase 6.4) -->
-          <div v-if="moveableOptions && hasClosingDate">
+          <div v-if="moveableOptions && hasClosingDate" class="moveable-completion-section">
             <h3 class="text-headline-small mb-4">Available Completion Times</h3>
 
-            <!-- Earliest Completion Alert -->
-            <VAlert
-              type="info"
-              variant="tonal"
-              class="mb-4"
-            >
-              <VAlertTitle>Earliest Completion</VAlertTitle>
-              <div>
-                {{ formatEarliestCompletion(moveableOptions.earliestCompletion) }}
+            <!-- Compact day stepper for modal space. -->
+            <div class="mb-4">
+              <p class="text-body-medium mb-2">Choose a day</p>
+              <div class="moveable-day-stepper">
+                <VBtn
+                  variant="text"
+                  density="comfortable"
+                  :disabled="!canStepPrev"
+                  aria-label="Previous day"
+                  @click="stepDay(-1)"
+                >
+                  Prev
+                </VBtn>
+                <span class="moveable-day-stepper__label">{{ selectedMoveableDayLabel }}</span>
+                <VBtn
+                  variant="text"
+                  density="comfortable"
+                  :disabled="!canStepNext"
+                  aria-label="Next day"
+                  @click="stepDay(1)"
+                >
+                  Next
+                </VBtn>
               </div>
-            </VAlert>
+            </div>
 
-            <!-- Available Slots: shared AppointmentSlotGrid (Session 6.4.3) -->
-            <div v-if="moveableOptions.availableSlots.length > 0" class="moveable-slot-grid-wrapper">
-              <p class="mb-4 text-body-medium">
-                Select when you'd like the moveable work to be completed:
-              </p>
+            <p class="text-body-medium mb-4">
+              Select when you'd like the moveable work to be completed (first option is earliest).
+            </p>
+
+            <div v-if="isLoadingMoveableDaySlots" class="text-center py-4">
+              <VProgressCircular indeterminate color="primary" size="24" />
+              <span class="ml-2 text-body-small">Loading times for this day...</span>
+            </div>
+
+            <!-- Same AppointmentSlotGrid; dev constraint dots are rendered by AppointmentSlotGrid in dev mode. -->
+            <div v-else-if="moveableAppointmentSlots.length > 0" class="moveable-slot-grid-wrapper position-relative">
               <AppointmentSlotGrid
-                :appointment-slots="moveableSlotsAsAppointmentSlots"
+                :appointment-slots="moveableAppointmentSlots"
                 :selected-button-index="selectedSlotIndex"
                 time-basis="nonDifferential"
                 color="primary"
@@ -121,8 +141,8 @@
               type="warning"
               variant="tonal"
             >
-              No available time slots found within the specified boundaries.
-              Please adjust your contingency deadline or contact support.
+              No available time slots found for this day.
+              Pick another day or adjust your contingency deadline.
             </VAlert>
           </div>
           <div v-else-if="moveableOptions && !hasClosingDate" class="text-body-medium text-medium-emphasis">
@@ -156,19 +176,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import { localTime } from '@/utils/time/localTime'
+import type { AppointmentSlot } from '@/types/appointment'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
-import { moveableSlotsToAppointmentSlots } from '@/utils/booking/moveableSlotToAppointmentSlotAdapter'
-
-const { formatDateTimeForDisplay } = localTime()
-
-/** Session 6.4.3: MoveableSlot[] → AppointmentSlot[] for shared grid; only when options + slots exist. */
-const moveableSlotsAsAppointmentSlots = computed(() => {
-  const options = props.moveableOptions
-  if (!options?.availableSlots?.length) return []
-  return moveableSlotsToAppointmentSlots(options.availableSlots)
-})
 
 /** Phase 6.4: ~400ms delay before opening modal so it feels less intrusive. */
 const OPEN_DELAY_MS = 400
@@ -176,6 +185,13 @@ const OPEN_DELAY_MS = 400
 interface Props {
   showModal: boolean
   moveableOptions: MoveableSchedulingOptions | null
+  /** Moveable part shape name for title (e.g. "Report Writing"). */
+  moveablePartShapeName: string
+  /** Virtual appointment slots for selected day (same pipeline as main grid). */
+  moveableAppointmentSlots: AppointmentSlot[]
+  selectedMoveableDay: string | null
+  allowedMoveableDates: (date: unknown) => boolean
+  isLoadingMoveableDaySlots: boolean
   selectedSlotIndex: number | null
   contingencyPeriod: ContingencyPeriod
   isLoadingOptions: boolean
@@ -183,6 +199,7 @@ interface Props {
 
 interface Emits {
   (e: 'update:showModal', value: boolean): void
+  (e: 'update:selectedMoveableDay', value: string | null): void
   (e: 'selectSlot', index: number): void
   (e: 'update:contingencyPeriod', value: ContingencyPeriod): void
   (e: 'confirm'): void
@@ -228,6 +245,55 @@ const hasClosingDate = computed(
   () => props.contingencyPeriod.hasContingency && Boolean(props.contingencyPeriod.endDate)
 )
 
+const innerDayKey = computed(() => props.moveableOptions?.innerBoundary?.slice(0, 10) ?? null)
+const outerDayKey = computed(() => props.moveableOptions?.outerBoundary?.slice(0, 10) ?? null)
+
+const parseDayKey = (day: string): Date => new Date(`${day}T00:00:00Z`)
+
+const addDays = (day: string, delta: number): string => {
+  const date = parseDayKey(day)
+  date.setUTCDate(date.getUTCDate() + delta)
+  return date.toISOString().slice(0, 10)
+}
+
+const canStepPrev = computed(() => {
+  const day = props.selectedMoveableDay
+  const inner = innerDayKey.value
+  if (!day || !inner) return false
+  const prev = addDays(day, -1)
+  return prev >= inner && props.allowedMoveableDates(prev)
+})
+
+const canStepNext = computed(() => {
+  const day = props.selectedMoveableDay
+  const outer = outerDayKey.value
+  if (!day || !outer) return false
+  const next = addDays(day, 1)
+  return next <= outer && props.allowedMoveableDates(next)
+})
+
+const selectedMoveableDayLabel = computed(() => {
+  const day = props.selectedMoveableDay
+  if (!day) return 'No day selected'
+  const d = parseDayKey(day)
+  const today = new Date()
+  const todayKey = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
+  const tomorrowKey = new Date(todayKey)
+  tomorrowKey.setUTCDate(todayKey.getUTCDate() + 1)
+  if (d.getTime() === todayKey.getTime()) return 'Today'
+  if (d.getTime() === tomorrowKey.getTime()) return 'Tomorrow'
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+})
+
+const stepDay = (delta: -1 | 1): void => {
+  const day = props.selectedMoveableDay
+  if (!day) return
+  const next = addDays(day, delta)
+  if (props.allowedMoveableDates(next)) {
+    emit('update:selectedMoveableDay', next)
+  }
+}
+
 const contingencyPeriodModel = computed({
   get: () => props.contingencyPeriod,
   set: (value: Props['contingencyPeriod']) => {
@@ -237,9 +303,8 @@ const contingencyPeriodModel = computed({
 
 const canConfirm = computed(() => {
   if (!props.moveableOptions) return false
-  // Phase 6.4: Passthrough — allow confirm without timeslot when no closing date set.
   if (!hasClosingDate.value) return true
-  if (props.moveableOptions.availableSlots.length === 0) return true
+  if (props.moveableAppointmentSlots.length === 0) return true
   return props.selectedSlotIndex !== null
 })
 
@@ -254,21 +319,27 @@ function handleConfirm() {
 function handleCancel() {
   emit('cancel')
 }
-
-function formatEarliestCompletion(isoDate: string): string {
-  return formatDateTimeForDisplay(isoDate as RFC3339DateTime, {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  })
-}
 </script>
 
 <style scoped>
 .cursor-pointer {
   cursor: pointer;
+}
+
+.moveable-slot-grid-wrapper {
+  position: relative;
+}
+
+.moveable-day-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+}
+
+.moveable-day-stepper__label {
+  font-weight: 600;
 }
 </style>

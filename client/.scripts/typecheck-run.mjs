@@ -5,13 +5,13 @@ import { fileURLToPath } from 'node:url'
 /**
  * Typecheck Audit Runner
  *
- * WHY: Streamlines the report-driven workflow to a single command, mirroring `.audit`:
+ * WHY: Streamlines the report-driven workflow to a single command, mirroring `.audit-reports`:
  * - Generates JSON + full Markdown (`typecheck-audit.mjs`)
  * - Generates index summary Markdown (`typecheck-audit-summary.mjs`)
  *
  * USAGE:
- * - From repo root: `node client/scripts/typecheck-run.mjs`
- * - From anywhere:  `node /abs/path/to/client/scripts/typecheck-run.mjs`
+ * - From repo root: `node client/.scripts/typecheck-run.mjs`
+ * - From anywhere:  `node /abs/path/to/client/.scripts/typecheck-run.mjs`
  */
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))

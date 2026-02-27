@@ -100,15 +100,27 @@ const stateLabel = computed(() => {
 
 // LEARNING: Check if state is selected and time slot exists
 const showStateLabel = computed(() => {
-  return props.isDifferentialService && 
+  return props.isDifferentialService &&
          (props.graphBars.major || props.graphBars.minor) &&
          stateLabel.value !== null
+})
+
+// WHY: Bottom bar width as % of top so it is always shorter than or equal to the top bar (responsive + proportional).
+const minorBarWidthPercent = computed(() => {
+  const major = props.graphBars.major?.duration ?? 0
+  const minor = props.graphBars.minor?.duration ?? 0
+  if (major <= 0) return 50
+  if (minor <= 0) return 0
+  return Math.min(100, (minor / major) * 100)
 })
 </script>
 
 <template>
   <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
-  <div v-if="isDifferentialService" class="differential-graph">
+  <div
+    v-if="isDifferentialService"
+    class="differential-graph"
+  >
     <!-- LEARNING: State label when selected -->
     <!-- WHY: Explains what the time slot buttons represent -->
     <div v-if="showStateLabel" class="state-label">
@@ -129,9 +141,10 @@ const showStateLabel = computed(() => {
       <span v-if="majorTimeDisplay" class="bar-text" :class="{ 'selected-text': startTimeType === 'major' }">{{ majorTimeDisplay }}</span>
     </div>
     
-    <!-- WHY: Shows minor time block with filled background, right-justified, half width -->
+    <!-- WHY: Minor bar width from duration ratio so bottom bar is always shorter than or equal to top -->
     <div 
-      class="time-bar minor-bar clickable-bar" 
+      class="time-bar minor-bar clickable-bar"
+      :style="{ '--minor-bar-width': `${minorBarWidthPercent}%` }"
       :class="[minorBarState, { filled: hasSelectedSlot && !!graphBars.minor }]"
       role="button"
       tabindex="0"

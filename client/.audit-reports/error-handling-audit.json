@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T19:49:52.595Z",
+  "generatedAt": "2026-02-27T20:00:23.337Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1084,
+  "totalScanned": 1085,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {

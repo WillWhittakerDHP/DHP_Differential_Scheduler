@@ -30,6 +30,12 @@ export interface UseAvailabilityOrchestratorReturn {
     selectedOptionTypeBlockId: WritableComputedRef<string | null>
     showMoveableModal: Ref<boolean>
     moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
+    moveableAppointmentSlots: ComputedRef<AppointmentSlots>
+    moveablePartShapeName: ComputedRef<string>
+    selectedMoveableDay: Ref<string | null>
+    setSelectedMoveableDay: (date: string | null) => void
+    allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
+    isLoadingMoveableDaySlots: Ref<boolean>
     selectedMoveableSlotIndex: Ref<number | null>
     contingencyPeriod: Ref<ContingencyPeriod>
     isLoadingOptions: Ref<boolean>
