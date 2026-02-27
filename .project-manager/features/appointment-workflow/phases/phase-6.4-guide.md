@@ -63,7 +63,7 @@
 - [To be identified during planning]
 
 ---
-- [ ] ### Session 6.4.3: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
+- [x] ### Session 6.4.3: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
 **Description:** Replace the modal's VList/VListItem slot list with the same custom time-slot component used on the availability step. Slots remain constrained by the moveable window (start = end of major appointment, end = contingency deadline). Use the non-differential version of the slot button and the same reactivity to screen width (literally reuse AppointmentSlotGrid).
 **Tasks:**
 - Add an adapter that maps `MoveableSlot[]` → minimal `AppointmentSlot[]` (buttonIndex, isAvailable: true, startTime, totalTimeRange from slot start/end/duration, shape with empty eventFinals so derivePerspective returns totalTimeRange, eventTimeRanges: {})
