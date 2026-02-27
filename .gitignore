@@ -20,3 +20,6 @@ backups/property-configs/property-config-*.json
 
 # Ignore .cursor nested git repository (synced separately)
 .cursor/.git
+
+# MCP config with machine-specific paths (copy from .cursor/mcp.json.example)
+.cursor/mcp.json
