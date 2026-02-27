@@ -161,6 +161,53 @@ All sessions complete. Ready to run phase-completion workflow?
 
 ---
 
+## Confirmation Flow (End-to-End)
+
+### Manual Confirmation (Admin)
+
+```
+1. Admin views AppointmentsTable → sees "Confirm" button on submitted appointments
+2. Admin clicks "Confirm" → confirmation dialog shows appointment summary (date, status)
+3. Admin clicks "Confirm" in dialog
+4. Client: PATCH /appointments/:id { status: 'confirmed' }
+5. Server beforeUpdate: fetches current status, validates transition (isValidTransition)
+6. Server sanitizeInput: sets confirmedAt = new Date(), confirmedBy = null (until Feature 7)
+7. Sequelize update: persists status + timestamps to database
+8. Server afterUpdate:
+   a. notificationService.onStatusChange() → logs transition (email in Feature 7)
+   b. Calendar invite creation if no existing invites with 'sent' status
+9. Server response: returns updated appointment with relations
+10. Client: useNotification().success("Appointment confirmed successfully") → VSnackbar toast
+```
+
+### Auto-Confirm Flow
+
+```
+1. Client submits appointment via booking wizard → POST /appointments { status: 'submitted' }
+2. Server afterCreate:
+   a. Creates snapshots, attendees, fee records
+   b. Checks autoConfirmEnabled business setting
+   c. If enabled: updates record to { status: 'confirmed', confirmedAt: now }
+   d. notificationService.onStatusChange('submitted' → 'confirmed') → logs transition
+   e. Calendar invite creation (both submitted and confirmed trigger this)
+3. Server response: returns confirmed appointment
+```
+
+### Key Files by Step
+
+| Step | File |
+|------|------|
+| Confirm button + dialog | `client/src/views/admin/tabs/components/AppointmentActionsCell.vue`, `AppointmentTableDialogs.vue` |
+| PATCH request | `client/src/composables/admin/tables/useAppointmentsTableModel.ts` (`confirmAppointment`) |
+| Transition validation | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (`beforeUpdate`) |
+| Timestamp population | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (`sanitizeInput`) |
+| Notification hook | `server/src/services/notificationService.ts` (`onStatusChange`) |
+| Auto-confirm setting | `server/src/db/models/admin/business_settings.ts` (`autoConfirmEnabled`) |
+| In-app toast | `client/src/composables/useNotification.ts`, `client/src/components/AppNotification.vue` |
+| Transition map | `server/src/routes/internal/appointments/appointmentConstants.ts` (`VALID_STATUS_TRANSITIONS`) |
+
+---
+
 ## Valid Status Transitions (Reference)
 
 | From Status | Valid Next Statuses |
