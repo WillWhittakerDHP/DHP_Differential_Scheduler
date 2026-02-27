@@ -101,6 +101,12 @@ Thresholds are enforced by the function-complexity audit; align design with thes
 
 ---
 
+## Baseline score formula (session tier)
+
+The `composable-governance` baseline score (0–100) is derived in `.cursor/commands/audit/utils.ts` (`getComposableGovernanceScore`). Formula: start at 100; subtract composable-health findings (missing-return-type 5, oversized-return 2, excessive-composable-imports 2, untyped-provide 2 per finding) and function-complexity P0 file count × 3; cap at 0. Same category is stored at session-start and compared at session-end.
+
+---
+
 ## Audit rule cross-reference mapping
 
 | Playbook rule                    | Audit script           | ruleId / signal                          |
