@@ -1,6 +1,8 @@
-# DHP Differential Scheduler — Beta Launch Checklist
+# DHP Differential Scheduler — Launch Checklist
 
-**Purpose:** Master checklist and ordered todo list for preparing the Differential Scheduler for alpha/beta launch. This document is designed to be revisited across multiple Cursor sessions and serves as the single tracking artifact for launch readiness.
+**Purpose:** Master checklist and ordered todo list for preparing the Differential Scheduler for alpha and beta launch. This document is designed to be revisited across multiple Cursor sessions and serves as the single tracking artifact for launch readiness.
+
+**Alpha vs Beta:** Phases 0–1 (Merge, Hosting) get you **Alpha Ready** — app deployed, you can use it end-to-end. Phases 2–6 add auth, testing, polish, and guided testers for **Beta Ready**. Later phases (Production Ready, Native App) follow. Use the **Milestones** table below to see which phases map to Alpha vs Beta.
 
 **Created:** 2026-02-18
 **Last Updated:** 2026-02-18 (Added Phase 7: Native App Shell — Capacitor + Ionic strategy)
@@ -19,10 +21,10 @@ Each todo and checklist item uses standard Markdown checkboxes:
 - `[x]` = Complete
 
 When working in a Cursor session, tell the agent:
-> "Open BETA_LAUNCH_CHECKLIST.md and mark item X.Y as complete"
+> "Open LAUNCH_CHECKLIST.md and mark item X.Y as complete"
 
 or:
-> "Update BETA_LAUNCH_CHECKLIST.md — I've finished items 2.1 through 2.4"
+> "Update LAUNCH_CHECKLIST.md — I've finished items 2.1 through 2.4"
 
 The agent will use `StrReplace` to change `[ ]` to `[x]` for the specified items.
 
@@ -30,7 +32,7 @@ The agent will use `StrReplace` to change `[ ]` to `[x]` for the specified items
 
 This document is self-contained. At the start of any new session, reference it like this:
 
-> "@BETA_LAUNCH_CHECKLIST.md — Continue with the next incomplete item in the ordered todo list"
+> "@LAUNCH_CHECKLIST.md — Continue with the next incomplete item in the ordered todo list"
 
 The agent will read the file, find the first unchecked item, and pick up where you left off.
 
@@ -40,7 +42,7 @@ This checklist covers **infrastructure, deployment, testing, and security** — 
 
 Think of it this way:
 - **PROJECT_PLAN.md** = "What does the app do?" (features)
-- **BETA_LAUNCH_CHECKLIST.md** = "Can we ship it safely?" (infrastructure)
+- **LAUNCH_CHECKLIST.md** = "Can we ship it safely?" (infrastructure)
 
 Some items here will become features documented in `.project-manager/features/` — particularly the test suite setup, which should get its own feature plan.
 
@@ -56,7 +58,7 @@ Cursor supports subagents — specialized agents that can be launched from the p
 - You stay in one conversation thread — the primary agent manages the subagents
 
 **Recommended workflow:**
-1. Start a session referencing this file: `@BETA_LAUNCH_CHECKLIST.md`
+1. Start a session referencing this file: `@LAUNCH_CHECKLIST.md`
 2. The agent reads the checklist and identifies the next work item
 3. For complex items, the agent may launch subagents to gather context before implementing
 4. You review and approve changes
@@ -3770,7 +3772,7 @@ services:
 
 ## Appendix B: Feature Development vs Launch Infrastructure
 
-This checklist (BETA_LAUNCH_CHECKLIST.md) tracks **launch infrastructure**. The following feature work is tracked separately in `.project-manager/PROJECT_PLAN.md` and may or may not be required for alpha launch:
+This checklist (LAUNCH_CHECKLIST.md) tracks **launch infrastructure**. The following feature work is tracked separately in `.project-manager/PROJECT_PLAN.md` and may or may not be required for alpha launch:
 
 | Feature | Actual Status (2026-02-18) | Required for Alpha? | Notes |
 |---------|---------------------------|---------------------|-------|

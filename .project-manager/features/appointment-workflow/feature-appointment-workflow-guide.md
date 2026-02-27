@@ -29,6 +29,20 @@
 
 ---
 
+## Wizard mode and user context
+
+**Wizard mode** — A single state (`initial` | `quote` | `reschedule`) that drives theme, submit button label, submit action (create vs update), and reschedule-specific behavior (e.g. `reschedulingAppointmentId`, original-slot UI). Replaces or extends the current single `isQuoteMode` boolean so that “Send quote,” “Update appointment,” and “Submit” (new booking) are driven from one place. Reschedule flow sets mode to `reschedule` when loading an appointment for reschedule; submit shows “Update appointment” and calls the update path.
+
+**User role** — From Feature 7 (Authentication). Controls visibility of admin-only UI in the wizard and admin appointments: Hold Slot, Override constraints, Force schedule. Implementation of role checks lives in Feature 7; this feature describes *usage* of role in the wizard (e.g. show Override constraints only when user is admin; wizard may be in `reschedule` or other modes when those actions are shown).
+
+**Block-level `agentPermissions`** — Add to block_instances a column `agent_permissions` (TernaryBoolean: `'true' | 'false' | 'override'`), same pattern as `differential`. `true` = feature/block is for agents; `false` = for clients; `override` = admins can use regardless. Full stack: migration → model → versioning (if used) → client types → transformer. **Effective permission** is derived from (user role, block.agentPermissions): e.g. admin always allowed; agent allowed when `agentPermissions === 'true' || 'override'`; client when `'false' || 'override'`. Tooltips and permissions (Override constraints, future agent-only features) are driven by this state so they remain variable and consistent.
+
+**Admin entry: step 0 or pre-wizard** — For admins only, before or as step 0 of the wizard: choose **Start new inspection** | **Edit quote** | **Reschedule**. When “Edit quote” or “Reschedule” is selected, show a **dropdown of non-completed inspections** (exclude statuses `cancelled`, `deleted`; optionally filter by status for quote vs reschedule). List is also filtered by an admin-configurable **time-out** (e.g. only appointments where scheduling began within the last X days/weeks, or the quote has been in quote status for the last X; X set in admin panel). Appointment picker dropdown shows columns: **Address**, **Client name**, **Agent name**. Selection sets wizard mode and `loadedAppointmentId`; then the wizard proceeds (e.g. load appointment and go to step 3 for edit/reschedule). Requires an API that returns appointments filtered by status, by time-out window, and (by permission once Feature 7 is in place).
+
+**State** — Tooltips and permissions are driven by state: **(wizard mode, user role, block.agentPermissions)**. Admins get override behavior for `agentPermissions`; wizard mode drives submit label and action; user role gates Hold Slot, Override constraints, Force schedule.
+
+---
+
 ## Phases Breakdown
 
 - [x] ### Phase 6.1: Status Workflow & UI Enhancements
@@ -70,13 +84,17 @@
 - Modal re-enabled, smaller, delayed, animated
 
 - [ ] ### Phase 6.5: Rescheduling Flow
-**Description:** Reschedule confirmed appointments; reuse wizard; transition to rescheduling then back to submitted.
-**Sessions:** To be planned
-**Dependencies:** Phase 6.3 (transition guards)
+**Description:** Reschedule confirmed appointments using the same flow as quote and dev-mode load: appointment loads at step 3 (Availability); user adjusts and reschedules. The current appointment stays on the calendar but is temporarily excluded from availability constraints so its time and drive buffers do not block slots; the original inspection slot has a distinct UI indicator (e.g. different color or overlay).
+**Sessions:** 2–3 (see phase guide: 6.5.1 entry/transitions, 6.5.2 availability bypass, 6.5.3 original-inspection UI)
+**Dependencies:** Phase 6.3 (transition guards: confirmed → rescheduling → submitted)
 **Success Criteria:**
-- Reschedule action available for confirmed appointments
-- Wizard reused for new slot selection
+- Reschedule action available for confirmed appointments; wizard reuses load-at-step-3 and update path (same as quote/dev load)
+- `reschedulingAppointmentId` in computed-availability request; server excludes that appointment’s calendar event from overlap while keeping it in calendarEvents
+- Original-inspection slot visually distinct (e.g. `appointment-slot-btn--original-inspection`) but still selectable
+- Wizard mode set to `reschedule` when loading for reschedule; submit shows “Update appointment” and calls update path
+- Admin entry: step 0 or pre-wizard (admin-only) — Start new | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule; selection sets wizard mode and loadedAppointmentId
 - Status transitions: confirmed → rescheduling → submitted
+**See:** `phases/phase-6.5-guide.md` for implementation details, session breakdown, and relation to Phase 6.8 (allowedExceptions)
 
 - [ ] ### Phase 6.6: Soft Delete vs Hard Delete
 **Description:** Policy and UI for cancelled vs deleted; retention rules; audit trail.
@@ -102,7 +120,29 @@
 - Force-create route creates appointment + override record
 - Admin UI shows blocked slots with force-create option
 - Reschedule flow respects override exceptions
+- Override constraints and Force schedule visibility gated by **user role** (admin); wizard may be in `reschedule` or other modes when those actions are shown; block-level `agentPermissions` (when added) respected for tooltips and permissions
 - Full architecture, data model, and implementation details in phase guide
+
+- [ ] ### Phase 6.9: Availability Step Mini-Wizard
+**Description:** Reframe the Appointment Availability (3rd) wizard step as a mini-wizard: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time. Wide screens: expanded panels with step labels; narrow screens: each sub-step as an expandable card, current step expanded and completed steps showing a done indicator when collapsed.
+**Sessions:** To be planned (1–2)
+**Dependencies:** Phase 6.4 (differential consolidation and option blocks in place). No new backend; UX and layout only.
+**Success Criteria:**
+- Sub-steps ordered and labeled (day → options [if any] → perspective [if differential] → time)
+- Block instance options appear as a dedicated sub-step when available
+- Perspective sub-step only visible when date selected and booking is differential
+- Wide: all panels expanded; narrow: expandable cards per sub-step with smart expand/collapse and done state
+- Existing validation and differential/slot behavior unchanged
+
+- [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
+**Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
+**Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
+**Dependencies:** None (reuses `buildConfirmationPriceData`, existing Confirmation step fee UI, and availability settings payload).
+**Success Criteria:**
+- Admin: "Show apply coupon in wizard" switch in Confirmation & Holds; setting persisted and read by wizard
+- Availability step: compact "Fee preview: $X.XX" bar at top; hover shows popover with Bag Total, optional Coupon row (+ Apply Coupon when enabled), Order Total, line items, Total (no submit)
+- Confirmation step: Coupon Discount row and Apply Coupon button only visible when `showApplyCouponInWizard` is true
+**See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`
 
 ---
 
@@ -126,6 +166,7 @@
 
 **Downstream Impact:**
 - Feature 7 (Authentication) enactment activates auth-dependent phases (6.7, 6.8) and populates user fields (`confirmed_by`, `held_by`, `authorized_by_id`, `scheduled_by_id`)
+- Feature 7 must expose **user role** (e.g. admin) to the client so the wizard and admin UI can gate Hold Slot, Override constraints, and Force schedule; state (wizard mode, user role, block.agentPermissions) drives tooltips and permissions
 - Phase 6.5 (Rescheduling) integrates with Phase 6.8 constraint relaxation
 
 **External Dependencies:**
@@ -233,5 +274,6 @@ After completing all phases in a feature:
 - Booking Calculations Guide: `.project-manager/features/appointment-workflow/feature-booking-calculations-guide.md`
 - Booking Calculations Handoff: `.project-manager/features/appointment-workflow/feature-booking-calculations-handoff.md`
 - Phase Guides: `.project-manager/features/appointment-workflow/phases/`
+- Phase 6.5 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
 - PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6)
 

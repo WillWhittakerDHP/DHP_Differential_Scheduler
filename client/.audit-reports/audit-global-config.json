@@ -1,10 +1,10 @@
 {
   "$comment": "Central audit configuration — global exclusions and all audit allowlists. Single source of truth for allowlists (allowlists.<auditType>). Per-audit configs hold only non-allowlist options (e.g. priorities). loadGlobalExclusions() and loadCentralAllowlist(auditType) in shared-audit-utils.mjs.",
-  "$docs": "To enable testing: set TEST_ENABLED=true in project root .env. See BETA_LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
+  "$docs": "To enable testing: set TEST_ENABLED=true in project root .env. See LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
   "globalExclusions": [
-    { "pattern": "**/__tests__/**", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
-    { "pattern": "**/*.test.*", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
-    { "pattern": "**/*.spec.*", "reason": "Spec files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
+    { "pattern": "**/__tests__/**", "reason": "Test files excluded until Phase 3.0 (LAUNCH_CHECKLIST.md)", "testFile": true },
+    { "pattern": "**/*.test.*", "reason": "Test files excluded until Phase 3.0 (LAUNCH_CHECKLIST.md)", "testFile": true },
+    { "pattern": "**/*.spec.*", "reason": "Spec files excluded until Phase 3.0 (LAUNCH_CHECKLIST.md)", "testFile": true },
     { "pattern": "**/*.mjs", "reason": "ESM scripts — not application TypeScript source" },
     { "pattern": "**/@core/**", "reason": "Core library files — third-party/framework code" },
     { "pattern": "**/@layouts/**", "reason": "Layout library files — third-party/framework code" },

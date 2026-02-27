@@ -36,7 +36,21 @@
 
 **Force-create flow:** Admin picks a blocked slot → client calls `POST /api/v1/internal/appointments/force-create` → server runs slot computation for that time, collects ALL violations (no short-circuit), creates appointment and a `constraint_override` record (appointment_id, overridden_violations, authorized_by_id, reason, slot_start, slot_end).
 
-**Reschedule flow:** When rescheduling an appointment that has an override, client passes `allowedExceptions` to availability; server relaxes matching constraints for that request so the rescheduled slot is not blocked by the same constraints the original override allowed; new override record created for the rescheduled appointment.
+**Reschedule flow:** When rescheduling an appointment that has an override, client passes `allowedExceptions` to availability; server relaxes matching constraints for that request so the rescheduled slot is not blocked by the same constraints the original override allowed; new override record created for the rescheduled appointment. **Phase 6.5** adds `reschedulingAppointmentId` so the current appointment’s calendar event (and its drive buffers) are excluded from overlap during reschedule; Phase 6.8’s `allowedExceptions` then relaxes **constraint types** (e.g. capacity, business hours) for appointments that were force-created. Both are used together when rescheduling an appointment that has overrides.
+
+---
+
+## Relation to Phase 6.5 (Rescheduling Flow)
+
+Phase 6.5 defines the **rescheduling availability behavior** that every reschedule uses:
+
+- **`reschedulingAppointmentId`:** Client passes it in the computed-availability request; server excludes that appointment’s calendar event from the **overlap** list used in slot computation (so its time and drive buffers do not block slots), while still returning the event in `calendarEvents` so it stays visible on the calendar.
+
+Phase 6.8 adds **override-aware** behavior on top:
+
+- **`allowedExceptions`:** When the rescheduled appointment has a `constraint_override` record, the client passes the override’s violation keys; the server relaxes those **constraint types** (e.g. `capacity.daily`, `range.leadTime`) for that request so the new slot is not blocked by the same constraints the original force-create allowed.
+
+**Implementation order:** Implement Phase 6.5 first (event exclusion via `reschedulingAppointmentId` and original-inspection slot UI). Then Phase 6.8 extends the availability pipeline with `allowedExceptions` and override verification; reschedule UI can show override-allowed slots with a distinct indicator (Session 6.8.4).
 
 ---
 
@@ -227,7 +241,8 @@ All sessions complete. Ready to run phase-completion workflow?
 - Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
 - PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6, Phase 6.8)
 - Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
-- BETA_LAUNCH_CHECKLIST: Phase 8A (force-create detail)
+- Phase 6.5 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, `reschedulingAppointmentId`, original-inspection UI)
+- LAUNCH_CHECKLIST: Phase 8A (force-create detail)
 - Slot Computation Service: `server/src/services/slotComputationService.ts`
 - Computed Availability Service: `server/src/services/computedAvailabilityService.ts`
 - Appointment CRUD Router: `server/src/routes/internal/appointments/appointmentCrudRouter.ts`

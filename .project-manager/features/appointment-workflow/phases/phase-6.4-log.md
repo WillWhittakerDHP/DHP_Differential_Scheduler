@@ -39,6 +39,12 @@
 - [Accomplishment 1]
 - [Accomplishment 2]
 
+### Session 6.4.3: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid) ✅
+**Completed:** [Date]
+**Tasks Completed:** 6.4.3.1, 6.4.3.2, 6.4.3.3
+**Key Accomplishments:**
+- MoveableSlot → AppointmentSlot adapter added; MoveablePartsModal uses AppointmentSlotGrid (non-differential) with same responsiveness as availability step
+
 ---
 
 ## In Progress Sessions
@@ -80,7 +86,7 @@
 
 ## Next Steps
 
-- [Next session to start]
+- Start Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid) per sessions/session-6.4.3-guide.md when ready
 - [Actions needed]
 - [Dependencies to resolve]
 

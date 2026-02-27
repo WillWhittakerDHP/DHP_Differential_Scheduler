@@ -39,7 +39,7 @@
 
 ### Project Level
 - **Master Plan:** `PROJECT_PLAN.md` ⭐ **SINGLE SOURCE OF TRUTH** — All features, phases, and statuses
-- **Launch Infrastructure:** `../../BETA_LAUNCH_CHECKLIST.md` ⭐ — Hosting, security, deployment, testing (root-level)
+- **Launch Infrastructure:** `../../LAUNCH_CHECKLIST.md` ⭐ — Hosting, security, deployment, testing (root-level)
 
 ### Feature Level (Tier 1)
 Each feature directory contains:
@@ -93,7 +93,7 @@ Each feature directory contains:
 - **README.md** — This document
 
 ### In Project Root
-- **BETA_LAUNCH_CHECKLIST.md** ⭐ **CURRENT** — Master checklist for launch infrastructure (hosting, auth, security, CI/CD, testing). This is a separate tracking artifact from feature development — think of it as "Can we ship it safely?" vs PROJECT_PLAN's "What does the app do?"
+- **LAUNCH_CHECKLIST.md** ⭐ **CURRENT** — Master checklist for launch infrastructure (hosting, auth, security, CI/CD, testing). This is a separate tracking artifact from feature development — think of it as "Can we ship it safely?" vs PROJECT_PLAN's "What does the app do?"
 
 ### Archive
 - **archive/** — Historical/archived documents (`project-plan.md.old`, etc.)
@@ -124,7 +124,7 @@ Each feature directory contains:
 
 ### For Current Planning
 1. **Start with:** `PROJECT_PLAN.md` ⭐ — Single source of truth for feature development
-2. **Launch readiness:** `../../BETA_LAUNCH_CHECKLIST.md` — Infrastructure and deployment
+2. **Launch readiness:** `../../LAUNCH_CHECKLIST.md` — Infrastructure and deployment
 3. **Feature details:** `features/[feature-name]/feature-{feature-name}-guide.md` — Detailed feature plans
 4. **Feature overviews:** `features/[feature-name]/README.md` — Quick feature summaries
 5. **Validation:** See `FEATURE_VALIDATION_CHECKLIST.md` for pre-phase planning requirements
@@ -155,6 +155,6 @@ Each feature directory contains:
 
 If you're unsure which document to use:
 1. **Feature development:** Start with `PROJECT_PLAN.md`
-2. **Launch infrastructure:** Start with `../../BETA_LAUNCH_CHECKLIST.md`
+2. **Launch infrastructure:** Start with `../../LAUNCH_CHECKLIST.md`
 3. **Specific feature:** Check `features/[feature-name]/README.md`
 4. **Current progress on active feature:** Check `features/[feature-name]/feature-[N]-handoff.md`

@@ -4,22 +4,17 @@
   LEARNING: Modal for scheduling moveable parts (like report writing)
   WHY: Allows users to specify when moveable work should be completed, bounded by contingency deadlines
   PATTERN: VDialog with form for contingency questions and time slot selection
-  Session 1.4.15: Moveable Parts Scheduling Modal
   
-  TEMPORARY DISABLE: Currently disabled - modal does not open when moveable parts detected
-  FUTURE: Will be integrated into wizard-wide confirmation modal system
-  
-  Future Confirmation Modal Architecture:
-  - Each wizard step may require confirmation under certain circumstances
-  - Confirmation modals will be triggered after step completion, before proceeding to next step
-  - MoveablePartsModal will be re-enabled as part of AvailabilityStep confirmation flow
-  - Confirmation system will be centralized in a composable (e.g., useWizardConfirmations)
+  Phase 6.4: Re-enabled. Modal opens only when (1) slot has moveable parts and (2) selected service
+  has preClosing: true (gated in useAvailabilityOrchestrator via hasMoveablePartsGated).
+  UX: max-width 520px, ~400ms open delay, enter/exit transitions; time grid only when closing date set.
 -->
 <template>
   <VDialog
-    v-model="showModalModel"
-    max-width="800"
+    v-model="showModalDelayed"
+    max-width="520"
     scrollable
+    transition="scale-transition"
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
@@ -90,8 +85,8 @@
 
           <VDivider class="my-6" />
 
-          <!-- Section 2: Available Completion Times -->
-          <div v-if="moveableOptions">
+          <!-- Section 2: Available Completion Times (only when user provided closing date; Phase 6.4) -->
+          <div v-if="moveableOptions && hasClosingDate">
             <h3 class="text-headline-small mb-4">Available Completion Times</h3>
 
             <!-- Earliest Completion Alert -->
@@ -141,6 +136,9 @@
               Please adjust your contingency deadline or contact support.
             </VAlert>
           </div>
+          <div v-else-if="moveableOptions && !hasClosingDate" class="text-body-medium text-medium-emphasis">
+            Provide a deadline date above to see available completion times.
+          </div>
         </div>
       </VCardText>
 
@@ -167,12 +165,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { localTime } from '@/utils/time/localTime'
 
 const { formatDateTimeForDisplay } = localTime()
+
+/** Phase 6.4: ~400ms delay before opening modal so it feels less intrusive. */
+const OPEN_DELAY_MS = 400
 
 interface Props {
   showModal: boolean
@@ -198,6 +199,37 @@ const showModalModel = computed({
   set: (value: boolean) => emit('update:showModal', value)
 })
 
+/** Delayed open so modal doesn't pop immediately (Phase 6.4). */
+const showModalDelayedInner = ref(false)
+let openTimeoutId: number | null = null
+watch(showModalModel, (val) => {
+  if (openTimeoutId) {
+    window.clearTimeout(openTimeoutId)
+    openTimeoutId = null
+  }
+  if (val) {
+    openTimeoutId = window.setTimeout(() => {
+      showModalDelayedInner.value = true
+      openTimeoutId = null
+    }, OPEN_DELAY_MS)
+  } else {
+    showModalDelayedInner.value = false
+  }
+}, { immediate: true })
+
+const showModalDelayed = computed({
+  get: () => showModalDelayedInner.value,
+  set: (value: boolean) => {
+    showModalDelayedInner.value = value
+    if (!value) emit('update:showModal', false)
+  }
+})
+
+/** Time grid only when user has set a closing date (Phase 6.4). */
+const hasClosingDate = computed(
+  () => props.contingencyPeriod.hasContingency && Boolean(props.contingencyPeriod.endDate)
+)
+
 const contingencyPeriodModel = computed({
   get: () => props.contingencyPeriod,
   set: (value: Props['contingencyPeriod']) => {
@@ -206,21 +238,10 @@ const contingencyPeriodModel = computed({
 })
 
 const canConfirm = computed(() => {
-  // Cannot confirm if options are still loading or not available
   if (!props.moveableOptions) return false
-  
-  // PATTERN: Check hasContingency flag and require endDate if true
-  if (props.contingencyPeriod.hasContingency) {
-    if (!props.contingencyPeriod.endDate) {
-      return false
-    }
-  }
-  
-  if (props.moveableOptions.availableSlots.length === 0) {
-    return true
-  }
-  
-  // PATTERN: Return true only if selectedSlotIndex is not null
+  // Phase 6.4: Passthrough — allow confirm without timeslot when no closing date set.
+  if (!hasClosingDate.value) return true
+  if (props.moveableOptions.availableSlots.length === 0) return true
   return props.selectedSlotIndex !== null
 })
 

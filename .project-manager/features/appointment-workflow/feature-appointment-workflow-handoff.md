@@ -6,8 +6,10 @@
 
 **Last Updated:** 2026-02-27
 **Feature Status:** In Progress
-**Current Session:** Session 6.4.1 (Moveable Modal Refinement & `preClosing` Property)
+**Current Session:** Session 6.4.2 or 6.4.3 (see Next Action)
+**Next Session:** Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid) — after 6.4.2
 **Next Phase:** Phase 6.5 (Rescheduling Flow) — after Phase 6.4 completes
+**Other planned phases (can run in parallel):** Phase 6.10 (Fee Preview & Coupon Visibility) — Sessions 6.10.1 (admin toggle and settings), 6.10.2 (Availability-step fee bar and popover). See [phases/phase-6.10-guide.md](phases/phase-6.10-guide.md).
 
 ---
 
@@ -15,7 +17,8 @@
 
 **Feature appointment-workflow:** In Progress
 **Current Phase:** Phase 6.4 (Moveable Modal & preClosing Property) — Session 6.4.1 not started
-**Current Session:** Session 6.4.1 (Moveable Modal Refinement & `preClosing` Property)
+**Current Session:** Session 6.4.2 / next: 6.4.3
+**Next Action:** Start Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid). See `sessions/session-6.4.3-guide.md`.
 **Next Phase:** Phase 6.5 (Rescheduling Flow)
 
 ---
@@ -37,7 +40,10 @@ Phase 6.3 (Confirmation Routine) complete. Phase 6.4 (Moveable Modal & preClosin
 
 **Plan Changes Affecting Downstream Features:**
 - Phase 6.5 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
-- Phase 6.8 (Admin Force-Create) will use the same transition validation system
+- **Rescheduling flow (Phase 6.5):** Same as quote and dev load — appointment loads at step 3; user adjusts and reschedules. Implement: (1) `reschedulingAppointmentId` in computed-availability request so the server excludes that appointment’s calendar event from overlap (keeps it on calendar but unblocks its time and drive buffers); (2) original-inspection slot UI indicator (e.g. class `appointment-slot-btn--original-inspection` or overlay) so the current time is visually distinct but selectable. See `phases/phase-6.5-guide.md`.
+- **Block-level `agentPermissions`:** Add `agent_permissions` (TernaryBoolean) to block_instances — full stack (migration, model, client types, transformer). State for tooltips and permissions is (wizard mode, user role, block.agentPermissions); admins get override.
+- **Admin entry (Phase 6.5):** Step 0 or pre-wizard for admins: choose Start new inspection | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule (filtered by status and by admin-configured time-out: scheduling/quote within last X days/weeks); dropdown shows Address, Client name, Agent name per row; sets wizard mode and loadedAppointmentId.
+- Phase 6.8 (Admin Force-Create) will use the same transition validation system; reschedule with overrides adds `allowedExceptions` on top of Phase 6.5’s event exclusion
 - Feature 7 notification expansion points are documented in `server/docs/NOTIFICATION_ARCHITECTURE.md`
 
 ---
@@ -136,7 +142,13 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 - Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
 - Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
 - Phase 6.4 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.4-guide.md`
+- Phase 6.5 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
 - Session 6.4.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.4.1-guide.md`
+- Session 6.4.3 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.4.3-guide.md`
+- Session 6.4.3 Handoff: `.project-manager/features/appointment-workflow/sessions/session-6.4.3-handoff.md`
+- Phase 6.10 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.10-guide.md`
+- Session 6.10.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.10.1-guide.md`
+- Session 6.10.2 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.10.2-guide.md`
 - Notification Architecture: `server/docs/NOTIFICATION_ARCHITECTURE.md`
 - Security Stubs: `server/docs/SECURITY_STUBS.md`
 - Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`

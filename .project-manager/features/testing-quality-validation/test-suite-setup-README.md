@@ -3,7 +3,7 @@
 **Status:** Planning
 **Feature Number:** 9
 **Branch:** TBD
-**Related:** `BETA_LAUNCH_CHECKLIST.md` Phase 3
+**Related:** `LAUNCH_CHECKLIST.md` Phase 3
 
 ---
 
@@ -55,7 +55,7 @@ Establish a comprehensive, layered testing strategy covering unit tests, integra
 ## Related Documents
 
 - **Feature Guide:** `feature-test-suite-setup-guide.md`
-- **Beta Launch Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` (Phase 3 — detailed checklist items 3.1–3.10)
+- **Launch Checklist:** `../../LAUNCH_CHECKLIST.md` (Phase 3 — detailed checklist items 3.1–3.10)
 - **CI Configuration:** `../../.github/workflows/ci.yml`
 
 ---

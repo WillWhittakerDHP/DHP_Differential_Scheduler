@@ -126,6 +126,7 @@ type BlockInstanceOptionalProps = {
   icon?: string
   bookingMode?: BookingMode
   differential?: TernaryBoolean | boolean
+  preClosing?: boolean
   number?: number | null
   allowMultiple?: boolean
   requiresUnitNumber?: boolean | null
@@ -142,6 +143,7 @@ function extractBlockInstanceProps(
     icon: b.icon,
     bookingMode: b.bookingMode,
     differential: b.differential,
+    preClosing: b.preClosing,
     number: b.number,
     allowMultiple: b.allowMultiple,
     requiresUnitNumber: b.requiresUnitNumber,
@@ -168,6 +170,7 @@ function buildBookingBlockInstance(
     icon: safeString(props.icon, 'blockInstance.icon'),
     bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as BookingMode,
     differential,
+    preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,
     blockShape,
     blockShapeRef,

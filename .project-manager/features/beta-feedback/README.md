@@ -62,7 +62,7 @@ BetaFeedbackWidget.vue              BetaFeedbackDashboard.vue
 ## Related Documents
 
 - **Feature Guide:** `feature-beta-feedback-guide.md`
-- **Beta Launch Checklist:** `../../BETA_LAUNCH_CHECKLIST.md` (Phase 6.1 verifies this in production)
+- **Launch Checklist:** `../../LAUNCH_CHECKLIST.md` (Phase 6.1 verifies this in production)
 
 ---
 

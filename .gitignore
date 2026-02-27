@@ -23,3 +23,5 @@ backups/property-configs/property-config-*.json
 
 # MCP config with machine-specific paths (copy from .cursor/mcp.json.example)
 .cursor/mcp.json
+# Cloned Gmail MCP server (third-party)
+.cursor/gmail-mcp-server

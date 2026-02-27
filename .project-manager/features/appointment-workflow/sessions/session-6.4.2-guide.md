@@ -160,4 +160,26 @@ When logging a completed task:
 - MoveablePartsModal and differential logic: Present in client (`MoveablePartsModal.vue`, `useAvailabilityStepHandlers.ts`, `useAvailabilityLogic.ts`, `useMoveablePartsScheduling.ts`); modal may still be disabled; differential consolidation per phase objectives to be verified.
 - Session 6.4.1 completed the planning and task 6.4.1.1; implementation of preClosing full-stack and modal re-enable may extend into this session or be tracked as follow-up tasks.
 
-**Next:** Refine Session 6.4.2 tasks (e.g. 6.4.2.2) for any remaining Phase 6.4 implementation or verification work, or close session if scope is complete.
+**Next:** Task 6.4.2.2 implements the Phase 6.4 objectives below.
+
+---
+
+- [ ] #### Task 6.4.2.2: Implement Phase 6.4 — preClosing full-stack and MoveablePartsModal
+
+**Goal:** Implement Phase 6.4 objectives: add `pre_closing`/`preClosing` full-stack (migration, model, types, transformer), consolidate differential to one canonical `isDifferentialBooking`, gate MoveablePartsModal on `preClosing`, re-enable the modal and optionally soften UX.
+
+**Files:**
+- Server: migration for `block_instances`/`block_instance_versions`, BlockInstance model, any block-instance APIs
+- Client: types (e.g. BlockInstanceEntity, booking API types), transformers (block/booking)
+- Client: `useAvailabilityLogic.ts`, `useAvailabilityStepHandlers.ts`, `useMoveablePartsScheduling.ts`, `MoveablePartsModal.vue`
+
+**Approach:**
+1. DB + server: Add `pre_closing` column (migration), add to BlockInstance (and block_instance_versions if present), expose on model/APIs
+2. Client: Add `preClosing` to types and transformer pipeline (BlockInstanceEntity, booking transformers)
+3. Differential: Consolidate to one canonical `isDifferentialBooking` in useAvailabilityLogic; use it in orchestrator and consumers; gate modal on `preClosing`
+4. Modal: Gate MoveablePartsModal on `preClosing`; show time grid only when closing date set; allow passthrough; re-enable modal and remove disable comments; optionally soften UX (size, delay, transitions)
+
+**Checkpoint:**
+- `pre_closing` column exists and `preClosing` flows server → client
+- One canonical `isDifferentialBooking` used everywhere
+- Modal opens only for `preClosing: true`; re-enabled; lint and app start pass

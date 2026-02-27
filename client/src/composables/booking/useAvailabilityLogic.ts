@@ -19,6 +19,15 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import type { SelectedTimeSlot } from '@/utils/booking/availabilityStepData'
 
 /**
+ * Canonical "is differential booking" from selected block instances (Phase 6.4).
+ * Single source of truth for "service is differential"; used by useAvailabilityLogic
+ * and useAvailabilityOrchestrator so we don't duplicate derivation.
+ */
+export function isDifferentialFromSelectedBlocks(blocks: BookingBlockInstance[]): boolean {
+  return blocks.some((s) => equals(s.differential, 'true'))
+}
+
+/**
 LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) fo...
  */
 interface DateRange {
@@ -241,12 +250,10 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     })
   })
 
-  /**
-   */
-  const isDifferentialService = computed(() => {
-    const selectedServices = wizard.selectedServiceTypeBlocks.value
-    return selectedServices.some(s => equals(s.differential, 'true'))
-  })
+  /** Canonical differential-from-blocks; derive once, use for isEffectivelyDifferential. */
+  const isDifferentialService = computed(() =>
+    isDifferentialFromSelectedBlocks(wizard.selectedServiceTypeBlocks.value)
+  )
 
   /**
    */

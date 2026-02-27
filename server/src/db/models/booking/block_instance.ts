@@ -24,6 +24,7 @@ export class BlockInstance extends Model<
   declare bookingMode: typeof DEFAULT_VALUES.BOOKING_MODE | 'addOn' | 'both';
   declare composite: boolean;
   declare differential: 'true' | 'false' | 'override';
+  declare preClosing: boolean;
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
@@ -82,6 +83,12 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
         defaultValue: 'false',
+      },
+      preClosing: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'pre_closing',
       },
       icon: {
         type: DataTypes.STRING,

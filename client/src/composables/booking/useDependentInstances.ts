@@ -73,6 +73,7 @@ export function useDependentInstances(
           active: entity.active ?? true,
           bookingMode: entity.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE,
           differential: entity.differential === 'true' ? 'true' as const : 'false' as const,
+          preClosing: entity.preClosing ?? false,
           orderIndex: entity.orderIndex ?? 0,
           blockShape: asEmptyString(blockShape || blockShapeEntity?.name),
           blockShapeRef,

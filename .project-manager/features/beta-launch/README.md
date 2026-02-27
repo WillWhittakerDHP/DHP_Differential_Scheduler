@@ -4,13 +4,13 @@
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD
-**Depends On:** Features 10–14 (Authentication, Security Hardening, Test Quality Validation, Guided Beta Testing, Production Readiness), BETA_LAUNCH_CHECKLIST.md
+**Depends On:** Features 10–14 (Authentication, Security Hardening, Test Quality Validation, Guided Beta Testing, Production Readiness), LAUNCH_CHECKLIST.md
 
 ---
 
 ## Overview
 
-Final preparation and execution of the beta launch. This feature covers deploying the application to a hosted environment, setting up production infrastructure, and onboarding the first alpha/beta testers. Detailed planning will be added as work begins — this feature draws heavily from the comprehensive `BETA_LAUNCH_CHECKLIST.md` at the project root.
+Final preparation and execution of the beta launch. This feature covers deploying the application to a hosted environment, setting up production infrastructure, and onboarding the first alpha/beta testers. Detailed planning will be added as work begins — this feature draws heavily from the comprehensive `LAUNCH_CHECKLIST.md` at the project root.
 
 ## Scope (to be detailed)
 
@@ -24,7 +24,7 @@ Final preparation and execution of the beta launch. This feature covers deployin
 
 ## Related Documents
 
-- **Beta Launch Checklist:** `../../../BETA_LAUNCH_CHECKLIST.md` — The comprehensive checklist this feature will execute against
+- **Launch Checklist:** `../../../LAUNCH_CHECKLIST.md` — The comprehensive checklist this feature will execute against
 - **Feature Plan:** TBD (will be created when work begins)
 
 ---

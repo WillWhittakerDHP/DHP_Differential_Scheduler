@@ -6,7 +6,7 @@
 export const ENTITY_SCHEMA_DEFAULTS = {
   REQUIRED_BOOLEANS: {
     partInstance: ['active', 'zeroOutPart'],
-    blockInstance: ['active', 'composite', 'differential', 'allowMultiple', 'requiresUnitNumber'],
+    blockInstance: ['active', 'composite', 'differential', 'preClosing', 'allowMultiple', 'requiresUnitNumber'],
     blockShape: ['composable', 'canHaveParts', 'isStateControl'],
     partShape: [],
   },

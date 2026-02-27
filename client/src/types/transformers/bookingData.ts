@@ -30,6 +30,7 @@ export type BookingBlockInstance = CoreEntity & {
   icon: string
   bookingMode: BookingMode
   differential: TernaryBoolean
+  preClosing: boolean
   orderIndex: number
   blockShape: string
   blockShapeRef: string

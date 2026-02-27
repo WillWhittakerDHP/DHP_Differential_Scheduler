@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T05:29:12.368Z",
+  "generatedAt": "2026-02-27T05:38:02.452Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
