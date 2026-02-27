@@ -1,94 +1,133 @@
-# Session 6.4.4: Unified required confirmation modal shell
+# Session Guide - Key Sections
 
-## Session: 6.4 — Unified required confirmation modal shell
+## Session Structure
 
-Extract a single modal shell used by all "required confirmation" wizard modals (must complete before next step). Content stays step-specific; transitions and window chrome live in one component.
+### Session Labeling Format
 
-**Prerequisites:** Session 6.4.1 (and 6.4.2 as needed) so the moveable modal has UX softening (size, delay, transitions) in place.
+Each session should start with:
+```
 
----
+*[Note: Section extracted from template - consider adding to session guide]*
 
-## Scope
 
-- **Shell:** One component (e.g. `RequiredConfirmationModal.vue`) providing VDialog + VCard, title, close button, default slot (body), and actions (secondary + primary; optional slot). Props: `modelValue` (open), `title`, `confirmLabel` / `cancelLabel`, `canConfirm`; emits: `update:modelValue`, `confirm`, `cancel`.
-- **Consumers:** MoveablePartsModal and PropertyConfirmationModal refactored to render inside the shell's default slot; no duplicate transition or sizing logic.
-- **Optional:** Document or add step-level `confirmModal: true` (or equivalent) for steps that require this modal before advancing; submit-step confirmation can be a later task.
+## Learning Checkpoints
 
----
+### Purpose
 
-## Tasks
+Learning checkpoints ensure understanding before moving forward. They're integrated into the unified checkpoint system.
 
-- [ ] #### Task 6.4.4.1: Create RequiredConfirmationModal shell
+### When to Use Learning Checkpoints
 
-**Goal:** Add the shared modal shell with Phase 6.4 UX (max-width, open delay, enter/exit transitions) and a single place for accessibility (focus trap, escape).
+- **Complex tasks:** New concepts, architectural changes, framework transitions
+- **Simple tasks:** Quick checkpoint (quality only) - learning optional
 
-**Files:**
-- New: `client/src/components/booking/modals/RequiredConfirmationModal.vue` (or under `components/booking/` if preferred)
+### Learning Checkpoint Process
 
-**Approach:**
-1. Implement shell: VDialog (v-model), VCard, VCardTitle (title prop or slot + close), VCardText (default slot), VCardActions (primary/secondary buttons or slot).
-2. Apply sizing (e.g. max-width), ~400ms open delay, and enter/exit transitions in the shell.
-3. Props: `modelValue`, `title`, `confirmLabel`, `cancelLabel`, `canConfirm` (optional, default true); emits: `update:modelValue`, `confirm`, `cancel`.
+After completing a task (especially complex ones), pause to:
 
-**Checkpoint:**
-- Shell renders and opens/closes; confirm/cancel emit; transitions and delay behave as in Phase 6.4.
+1. **Review What Was Learned**
+   - What patterns were used?
+   - How does this differ from previous approaches?
+   - What concepts need clarification?
 
----
+2. **Verify Understanding**
+   - Can you explain what was accomplished?
+   - Do you understand the implementation?
+   - Are there questions before continuing?
 
-- [ ] #### Task 6.4.4.2: Refactor MoveablePartsModal to use shell
+3. **Document Decisions**
+   - Why was this approach chosen?
+   - What alternatives were considered?
+   - What might change later?
 
-**Goal:** MoveablePartsModal uses RequiredConfirmationModal; moveable content (contingency, time slots) is body content only.
+### Learning Checkpoint Format
 
-**Files:**
-- `client/src/components/booking/MoveablePartsModal.vue`
-- `client/src/components/booking/modals/RequiredConfirmationModal.vue`
-
-**Approach:**
-1. Replace local VDialog/VCard with RequiredConfirmationModal; pass title "Schedule Moveable Work", wire v-model, confirm/cancel, canConfirm.
-2. Put current body (contingency questions, available slots) in the default slot.
-3. Remove duplicate transition/sizing from MoveablePartsModal.
-
-**Checkpoint:**
-- Moveable flow unchanged; modal appearance and behavior match current 6.4 design; lint and app start pass.
-
----
-
-- [ ] #### Task 6.4.4.3: Refactor PropertyConfirmationModal to use shell
-
-**Goal:** PropertyConfirmationModal uses RequiredConfirmationModal; property summary is body content only.
-
-**Files:**
-- `client/src/components/booking/modals/PropertyConfirmationModal.vue`
-- `client/src/components/booking/modals/RequiredConfirmationModal.vue`
-
-**Approach:**
-1. Replace local VDialog/VCard with RequiredConfirmationModal; title "Confirm Property Details", secondary "Edit" / primary "Confirm", wire v-model, confirm, cancel (edit).
-2. Put property summary (VList, etc.) in the default slot.
-3. Remove duplicate dialog/card structure from PropertyConfirmationModal.
-
-**Checkpoint:**
-- Property confirmation flow unchanged; same shell UX as moveable modal; lint and app start pass.
+Included in full checkpoint format:
+```
+**Learning:** (Optional - for complex tasks)
+- [Key concepts/patterns learned]
+- [Framework differences if applicable]
+- [Questions answered]
+```
 
 ---
 
-- [ ] #### Task 6.4.4.4 (Optional): Document confirmModal step contract
 
-**Goal:** Document that steps with a required confirmation modal share the same contract (modal must be completed before advancing); optionally add a step config or type for future use (e.g. submit step).
+*[Note: Section extracted from template - consider adding to session guide]*
 
-**Files:**
-- Feature or phase handoff; optionally wizard step types or config.
 
-**Approach:**
-1. Add a short "Required confirmation modals" section: shell component, usage in Property Details and Moveable, and that content is step-specific.
-2. If desired, add `confirmModal: true` (or similar) to step metadata and note that submit-step confirmation will use the same shell.
+## Task Template
 
-**Checkpoint:**
-- Docs describe the pattern; future steps (e.g. submit) can reuse the shell without redefining the window.
+### Task Planning Template
+
+When planning a new task, use this structure:
+
+```markdown
+- [ ] #### Task [SESSION_ID].N: [Task Name]
+
+**Goal:** [Clear, specific objective]
+
+**Files:** 
+- Source: `[source-path]` (if porting/migrating)
+- Target: `[target-path]` (if creating new)
+
+**Approach:** 
+- [Step 1]
+- [Step 2]
+- [Step 3]
+
+**Checkpoint:** 
+- [What needs to be verified]
+- [Quality criteria]
+- [Learning goals if complex task]
+
+**Learning Focus:** (Optional - for complex tasks)
+- [Concept 1 to understand]
+- [Concept 2 to understand]
+
+**Dependencies:**
+- [Prerequisite tasks or files]
+```
+
+### Task Entry Template (For Session Log)
+
+When logging a completed task:
+
+```markdown
+### Task [X.Y.Z]: [Name] ✅
+**Completed:** [Date]
+**Goal:** [What was accomplished]
+
+**Files Created:**
+- `[path]` - [Description]
+
+**Files Modified:**
+- `[path]` - [Description]
+
+**Concepts Learned:**
+- **[Concept]**: [Explanation]
+
+**Key Methods/Functions:**
+- `methodName()` - [Description]
+
+**Architecture Notes:**
+- **[Pattern]**: [Explanation]
+
+**Learning Checkpoint:**
+- [x] [Checkpoint] ✅
+
+**Questions Answered:**
+- **[Question]** - [Answer]
+
+**Next Task:**
+- [X.Y.Z+1]: [Next task]
+```
 
 ---
 
-## Session checkpoint
 
-- [ ] RequiredConfirmationModal exists and both MoveablePartsModal and PropertyConfirmationModal use it.
-- [ ] Transitions and sizing live only in the shell.
-- [ ] App starts, lint passes; property and moveable flows unchanged in behavior.
+*[Note: Section extracted from template - consider adding to session guide]*
+
+
+
+#### Task 6.4.4.1: Unified required confirmation modal shell
