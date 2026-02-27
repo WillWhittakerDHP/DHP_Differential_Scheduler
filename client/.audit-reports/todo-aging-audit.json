@@ -1,47 +1,16 @@
 {
-  "generatedAt": "2026-02-26T23:57:36.345Z",
+  "generatedAt": "2026-02-27T01:06:46.332Z",
   "totalScanned": 1089,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "totals": {
     "totalScanned": 1089,
-    "totalMarkers": 2,
+    "totalMarkers": 0,
     "fresh": 0,
     "aging": 0,
     "stale": 0,
-    "ancient": 2,
-    "orphaned": 2
+    "ancient": 0,
+    "orphaned": 0
   },
-  "files": [
-    {
-      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-      "markers": [
-        {
-          "lineNumber": 273,
-          "marker": "TODO",
-          "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Lunch Buffer UI -->",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
-      "markers": [
-        {
-          "lineNumber": 94,
-          "marker": "TODO",
-          "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Date Range Constraint UI -->",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    }
-  ]
+  "files": []
 }
