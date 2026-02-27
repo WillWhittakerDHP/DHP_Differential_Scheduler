@@ -144,6 +144,17 @@
 - Confirmation step: Coupon Discount row and Apply Coupon button only visible when `showApplyCouponInWizard` is true
 **See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`
 
+- [ ] ### Phase 6.11: Drive Time Fee Line Item
+**Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence:** Store drive time in the fee breakdown using a single system "Drive time" block instance (virtual block — one row in block_instances, not user-selectable; amount stored in the fee entry only) so the current schema (appointment_fee_entries require block_instance_id) is unchanged.
+**Sessions:** 1 (6.11.1: settings, calculation, line item, persistence via virtual block)
+**Dependencies:** Availability/slot pipeline exposes drive-to and drive-from minutes for the selected slot; fee pipeline (`buildConfirmationPriceData`) and Confirmation step (and Phase 6.10 fee popover) already show line items.
+**Success Criteria:**
+- Admin: complimentary drive (min), driving rate ($/hr), and drive-time rounding (min) configurable and persisted
+- Fee pipeline: accepts optional drive context (total drive to + from); computes drive time fee; adds "Drive time" line item and includes it in total
+- Confirmation step and availability-step fee popover show Drive time row when applicable
+- Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
+**See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
+
 ---
 
 ## Booking Calculations (Core Complete)

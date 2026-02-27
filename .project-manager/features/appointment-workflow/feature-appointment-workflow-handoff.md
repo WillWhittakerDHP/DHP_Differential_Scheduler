@@ -9,7 +9,7 @@
 **Current Session:** Session 6.4.2 or 6.4.3 (see Next Action)
 **Next Session:** Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid) — after 6.4.2
 **Next Phase:** Phase 6.5 (Rescheduling Flow) — after Phase 6.4 completes
-**Other planned phases (can run in parallel):** Phase 6.10 (Fee Preview & Coupon Visibility) — Sessions 6.10.1 (admin toggle and settings), 6.10.2 (Availability-step fee bar and popover). See [phases/phase-6.10-guide.md](phases/phase-6.10-guide.md).
+**Other planned phases (can run in parallel):** Phase 6.10 (Fee Preview & Coupon Visibility) — Sessions 6.10.1 (admin toggle and settings), 6.10.2 (Availability-step fee bar and popover). See [phases/phase-6.10-guide.md](phases/phase-6.10-guide.md). Phase 6.11 (Drive Time Fee Line Item) — Session 6.11.1 (settings, calculation, line item). See [phases/phase-6.11-guide.md](phases/phase-6.11-guide.md).
 
 ---
 
@@ -149,6 +149,8 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 - Phase 6.10 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.10-guide.md`
 - Session 6.10.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.10.1-guide.md`
 - Session 6.10.2 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.10.2-guide.md`
+- Phase 6.11 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- Session 6.11.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.11.1-guide.md`
 - Notification Architecture: `server/docs/NOTIFICATION_ARCHITECTURE.md`
 - Security Stubs: `server/docs/SECURITY_STUBS.md`
 - Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`

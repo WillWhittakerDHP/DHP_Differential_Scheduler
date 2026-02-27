@@ -40,7 +40,11 @@ For **admins only**, before (or as step 0 of) the wizard, present a choice:
 
 **Non-completed:** Appointments whose status is not in `['cancelled', 'deleted']` (i.e. `started`, `held`, `rescheduling`, `quoted`, `submitted`, `confirmed`). Filter the dropdown by intent (e.g. Edit quote → `quoted`/`started`/`held`; Reschedule → `confirmed` or also `submitted` per product rules).
 
-**Implementation:** Either a dedicated **step 0** in the wizard (admin-only, skipped for non-admin) or a **pre-wizard** screen/card; on submit of that step, set `wizardMode` and `loadedAppointmentId` (and call `handleLoadAppointment` when Edit quote or Reschedule), then advance. Requires an API that returns appointments filtered by status (and by permission when Feature 7 is in place).
+**Time-out:** Admin setting (e.g. Business Controls → Calendar or Confirmation & Holds): "Appointment picker window" in days or weeks. List only includes appointments where scheduling began within the last X, or (for quotes) the appointment has been in quote status for the last X. Reduces clutter and focuses on recent work.
+
+**Picker UI:** Dropdown shows for each appointment: **Address**, **Client name**, **Agent name** (address from property; client from contacts; agent from `scheduled_by` or user once Feature 7 is in place).
+
+**Implementation:** Either a dedicated **step 0** in the wizard (admin-only, skipped for non-admin) or a **pre-wizard** screen/card; on submit of that step, set `wizardMode` and `loadedAppointmentId` (and call `handleLoadAppointment` when Edit quote or Reschedule), then advance. List API accepts optional time-out params (e.g. `pickerWindowDays` or `schedulingWithinDays` / `quoteWithinDays`) from client; server filters by `created_at` / first scheduling timestamp and/or quote-age; value comes from admin settings (read by client from settings API). Requires an API that returns appointments filtered by status, by time-out window, and (by permission when Feature 7 is in place).
 
 ---
 
@@ -110,7 +114,7 @@ Implement Phase 6.5 first so that reschedule always unblocks the current appoint
 ## Phase Objectives
 
 - Reuse existing “load at step 3” and update path for reschedule; add “Reschedule” entry/action and status transitions (`confirmed` → `rescheduling` → `submitted`).
-- **Admin entry:** Add step 0 or pre-wizard for admins: choose Start new inspection | Edit quote | Reschedule; when Edit quote or Reschedule, show dropdown of non-completed inspections; set wizard mode and `loadedAppointmentId` from selection.
+- **Admin entry:** Add step 0 or pre-wizard for admins: choose Start new inspection | Edit quote | Reschedule; when Edit quote or Reschedule, show dropdown of non-completed inspections (filtered by status and by admin-configured time-out; dropdown columns: Address, Client name, Agent name); set wizard mode and `loadedAppointmentId` from selection.
 - Introduce wizard mode state (`initial` | `quote` | `reschedule`); set `reschedule` when loading for reschedule; drive submit button label and action (create vs update) and reschedule-specific availability/UI from mode.
 - Extend `ComputedAvailabilityRequest` with `reschedulingAppointmentId`; server excludes that appointment’s calendar event from overlap input to slot computation; client passes it when in reschedule mode.
 - Add original-inspection slot indicator: pass original time range into slot UI, mark matching slots, style with distinct class (e.g. `appointment-slot-btn--original-inspection`).
@@ -122,7 +126,7 @@ Implement Phase 6.5 first so that reschedule always unblocks the current appoint
 
 - [ ] ### Session 6.5.1: Rescheduling entry and status transitions
 **Description:** Reschedule action for confirmed appointments; reuse wizard load at step 3; wire status transitions rescheduling → submitted (and cancelled) and any reschedule-specific API or validation. For admins, add step 0 or pre-wizard to choose Start new | Edit quote | Reschedule and (when Edit quote or Reschedule) select appointment from dropdown of non-completed inspections.
-**Tasks:** Define reschedule entry point (admin “Reschedule” button / post-auth customer “My appointment”); ensure transition guards allow confirmed → rescheduling → submitted; reuse handleLoadAppointment and update path; add reschedule-specific submit path if needed. **Admin entry:** Implement step 0 or pre-wizard (admin-only): choice of Start new inspection | Edit quote | Reschedule; dropdown of non-completed inspections (API filtered by status; exclude cancelled, deleted); on selection set wizard mode and loadedAppointmentId and load appointment when Edit quote or Reschedule. Introduce wizard mode state and drive submit label/action from mode.
+**Tasks:** Define reschedule entry point (admin “Reschedule” button / post-auth customer “My appointment”); ensure transition guards allow confirmed → rescheduling → submitted; reuse handleLoadAppointment and update path; add reschedule-specific submit path if needed. **Admin entry:** Implement step 0 or pre-wizard (admin-only): choice of Start new inspection | Edit quote | Reschedule; dropdown of non-completed inspections (API filtered by status and by admin time-out setting—scheduling/quote within last X days/weeks; exclude cancelled, deleted); dropdown columns Address, Client name, Agent name; on selection set wizard mode and loadedAppointmentId and load appointment when Edit quote or Reschedule. Introduce wizard mode state and drive submit label/action from mode.
 **Success criteria:** User can open a confirmed appointment, land at step 3, change slot, and complete reschedule with valid status transition. Admins see entry choice and appointment dropdown; selection sets mode and loads appointment correctly.
 
 - [ ] ### Session 6.5.2: Availability bypass (reschedulingAppointmentId)
@@ -145,7 +149,7 @@ Implement Phase 6.5 first so that reschedule always unblocks the current appoint
 | Bypass mechanism | Exclude event from overlap list on server | Keeps calendar response unchanged; only overlap input is filtered; drive buffers automatically excluded with the event. |
 | Request parameter | `reschedulingAppointmentId` | Clear intent; server can load appointment and resolve calendar event (by id or time window). |
 | Original slot indicator | Client-side comparison with original time range | Server already returns all slots; no need for server to mark “original” slot; client has loaded state. |
-| Admin entry | Step 0 or pre-wizard with dropdown of non-completed inspections | Single place for admins to choose Start new | Edit quote | Reschedule; dropdown sets wizard mode and loadedAppointmentId; non-completed = exclude cancelled, deleted. |
+| Admin entry | Step 0 or pre-wizard with dropdown of non-completed inspections | Single place for admins to choose Start new | Edit quote | Reschedule; dropdown filtered by status and by admin time-out (scheduling/quote within last X days/weeks); dropdown columns Address, Client name, Agent name; sets wizard mode and loadedAppointmentId; non-completed = exclude cancelled, deleted. |
 
 ---
 

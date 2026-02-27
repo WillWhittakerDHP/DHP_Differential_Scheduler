@@ -42,6 +42,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 16 | UI Polish | 🔮 Not Started | `features/feature-7-ui-polish/` | — |
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
+| 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
 
 ---
 
@@ -50,9 +51,10 @@ This document serves as the master project plan for the DHP Differential Schedul
 | Milestone | Definition of Done |
 |-----------|--------------------|
 | **Alpha Ready** | Features 7–10 and Feature 13 (Alpha Launch) substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
-| **Beta Ready** | Feature 9 (Guided Alpha Testing) complete — wizard flow diagram, alpha task database, guided assignment and 2–3 blank runs. Feature 10 (Testing) E2E derived from alpha task list. Features 7–10 and 13–15 complete. E2E tests cover critical paths, error tracking live. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. |
+| **Post-Alpha Ready (Between Alpha and Beta)** | Feature 17 (Admin UI Overhaul) complete — wizard and admin UI redesigned. Booking wizard and admin surfaces migrated to Ionic for Vue where planned. Native app path established: Ionic app wrapped in Capacitor, iOS/Android builds produced. Apple Store (and optionally Play Store) submission package ready. See LAUNCH_CHECKLIST.md "Between Alpha and Beta" and Phase 7 for conversion and launch steps. |
+| **Beta Ready** | Feature 9 (Guided Alpha Testing) complete — wizard flow diagram, alpha task database, guided assignment and 2–3 blank runs. Feature 10 (Testing) E2E derived from alpha task list. Features 7–10 and 13–15 complete. Feature 19 (CRM / Inspection Platform Integration) research and API set-up complete so inspection-creation path (Spectora/ISN or own CRM) is decided and PoC proven. E2E tests cover critical paths, error tracking live. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. Beta testers can use the web app and/or the native (Ionic) app. |
 | **Production Ready** | Features 7–15 plus password auth transition. Full test coverage, polished UI, rollback procedures documented and tested. Ready for public access. |
-| **Native App Ready** | Capacitor shell wrapping the deployed SPA (iOS/Android). Not a PROJECT_PLAN feature — detailed plan in LAUNCH_CHECKLIST.md Phase 7. |
+| **Native App Ready** | Capacitor shell wrapping the app (Ionic-based after post-alpha work). iOS/Android builds run in simulator/emulator and connect to production API. App Store / Play Store submission ready. Not a PROJECT_PLAN feature — detailed plan in LAUNCH_CHECKLIST.md Phase 7 and "Converting to and launching the app version." |
 
 ---
 
@@ -298,6 +300,7 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 | 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
 | 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
+| 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 
 ### Phase 6.1 Completed (Workflow)
 - Updated status ENUM from 5 to 8 values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
@@ -338,6 +341,13 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - **Session 6.10.2:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
 - **See:** `features/appointment-workflow/phases/phase-6.10-guide.md` and sessions `session-6.10.1-guide.md`, `session-6.10.2-guide.md`.
 
+### Phase 6.11: Drive Time Fee Line Item (Not Started)
+- **Admin-configurable settings (Business Controls / business rules area):** **Complimentary drive time (minutes)** — drive below this is not charged. **Driving rate per hour ($)** — (rounded billable minutes / 60) × rate. **Rounding (minutes)** — round billable drive to nearest N minutes (configurable in admin). If driving logic or fee-related config lives in Business Controls (e.g. Calendar → Confirmation & Holds or a Driving / Business Rules tab), add these three settings there; persist with business/availability settings API.
+- **Calculation:** Total drive to candidate + total drive from candidate (for the selected slot) in minutes. Billable = max(0, totalDrive − complimentary). Round billable to configured interval; drive time fee = (roundedBillable / 60) × drivingRatePerHour. Add **"Drive time"** line item to fee breakdown; include in order total. Selected-slot drive minutes must be available in wizard/confirmation context (from availability step data or slot payload); extend types if needed.
+- **Persistence (virtual block instance):** Preserve drive time in the stored fee breakdown by using a single **system "Drive time" block instance** (one real row in `block_instances` with lineItem block shape, not user-selectable). The block has minimal/zero parts so the normal block fee formula yields 0; the **actual amount is stored only in the fee entry**: when persisting, add one `appointment_fee_entries` row with that block’s id, `block_name` "Drive time", and computed fee in `total_fee`/`base_fee`. This keeps `block_instance_id` required and avoids schema changes; reporting and existing "every entry has a block" assumptions remain valid. Ensure the drive-time block exists (e.g. seed or create per calendar) and is excluded from wizard block selection.
+- **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
+- **See:** `features/appointment-workflow/phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`.
+
 ### Booking Calculations (Core Complete)
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`. **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`. Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
 
@@ -354,6 +364,7 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - Phase 6.8 Guide: `features/appointment-workflow/phases/phase-6.8-guide.md` (architecture, data model, implementation checklist, decision log for Admin Force-Create)
 - Phase 6.9 Guide: `features/appointment-workflow/phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
+- Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow and booking-calculations planning: `features/appointment-workflow/`
 
@@ -803,7 +814,8 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ## Feature 17: Admin UI Overhaul
 
 **Status:** 🔮 Future
-**Description:** Complete redesign of the admin interface. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure.
+**When:** Scheduled **between Alpha Ready and Beta Ready** (post-alpha, pre-beta). The UI overhaul (wizard + admin) is done before inviting beta testers, so the Ionic migration and native app build use the simplified component set.
+**Description:** Complete redesign of the admin interface and wizard UX. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure. Reduces metadata-driven generic components so that subsequent Ionic Vue migration (booking wizard and admin, as planned) targets a smaller, clearer component set.
 **Branch:** TBD
 
 ### Planned Phases
@@ -812,7 +824,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 3. **Integration with Admin Assistance Wizard** (Feature 18)
 
 ### Related Documents
-- LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); Feature 17 planning
+- LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); "Between Alpha and Beta" section; Feature 17 planning
 
 ---
 
@@ -831,6 +843,115 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Related Documents
 - Feature 18 planning (wizard; to be renamed from prior automation concept)
+
+---
+
+## Feature 19: CRM / Inspection Platform Integration (Part of Beta-Launch Work)
+
+**Status:** 📋 Planning
+**Description:** Research and integrate with a CRM or inspection-software platform so that when a booking is created in the Differential Scheduler, the inspection can be created or updated in the inspector’s chosen system (e.g. Spectora or Inspector Support Network). Goal: loop the scheduler into the inspection-creation system so inspectors have a single flow from booking to report. This feature is **part of beta-launch work** — research and API set-up should be completed in time for beta so testers can validate the end-to-end flow (schedule → inspection created in platform).
+**Branch:** TBD
+**Directory:** `features/crm-inspection-integration/` (to create when work starts)
+
+### Why This Belongs in Beta-Launch
+
+- **USER_STORY.md** specifies that on submit, "the Google Calendar and Spectora APIs trigger to schedule" and lists **CRM** under APIs. Delivering that requires knowing whether Spectora (or an alternative) exposes an API for creating inspections from an external scheduler.
+- Beta testers (inspectors) need to see bookings flow into their existing tools; otherwise the scheduler is disconnected from their workflow. Research and API set-up must be done before or during beta so we can either integrate with Spectora/ISN or document the "own CRM" path and still ship a coherent beta.
+
+### Candidate Platforms
+
+| Platform | Role | What We Need From Them |
+|----------|------|------------------------|
+| **Spectora** | Home inspection software many inspectors use; USER_STORY calls out "Spectora APIs" for scheduling. | An API or webhook to **create an inspection** (or equivalent) from our scheduler (date, time, address, client, service type). If none exists, a documented recommendation (e.g. integrate via ISN). |
+| **Inspector Support Network (ISN)** | Platform that Spectora integrates with for pre-filling inspection reports. Has published developer APIs. | Confirmation of endpoints for **creating or updating an order/inspection** from an external system; auth (access key + secret or username/password); rate limits and field mapping. |
+| **Own CRM** | Fallback if neither Spectora nor ISN can receive inspection creation from us. | Design and build (or select) a minimal CRM that holds appointments and, later, optional sync to Spectora/ISN when they expose or document the right API. |
+
+### Phase 19.1: Research (Vendor and API Discovery)
+
+**Goal:** Decide the primary integration target (Spectora vs ISN vs own CRM) and document exactly what is possible with each.
+
+#### 19.1.1 Spectora
+
+- **Current public picture:** Spectora offers **System Integrations** (Settings → System Integrations): pre-built connections where *Spectora* pulls or receives data from other platforms (HomeBinder, QuickBooks, Google Drive, MailChimp, Blipp Reviews, call centers). Inspections are created **inside Spectora** by: (1) manual "New Inspection," (2) their **Online Scheduler** (client self-books), or (3) **Advanced Automations / Inspection Events** (event-based, in-app). There is **no documented public developer API** for "create an inspection from an external scheduling system."
+- **Tasks:**
+  - **Contact Spectora** (support or account): Ask explicitly: "Do you have an API or webhook for creating inspections from an external scheduling system? If not, is it on the roadmap? Do you recommend integrating via Inspector Support Network (ISN) for that use case?"
+  - **Document the answer** in the feature directory: available endpoints, auth, rate limits, or a clear "not available / use ISN" statement.
+  - If they point to ISN: treat ISN as the primary integration target and document the handoff (our scheduler → ISN → Spectora pre-fill or sync, if applicable).
+
+#### 19.1.2 Inspector Support Network (ISN)
+
+- **Current public picture:** ISN provides developer-facing APIs and documentation.
+  - **Documentation:** [Development for the Inspection Support Network (API)](https://help.inspectionsupport.com/en/articles/124485-development-for-the-inspection-support-network-api); **http://development.isnadmin.com/** (development site).
+  - **APIs:** (1) **Admin API** (e.g. `http://api.isnadmin.com`) — e.g. resolve your ISN endpoint or support multiple ISN users; (2) **ISN API** — main API for a specific ISN instance (e.g. **https://api.inspectionsupport.net/**, **https://json.inspectionsupport.net/**). Endpoints are built from **Service Domain** (e.g. inspectionsupport.net) + **Company Key** (per client).
+  - **Authentication:** Access Key + Secret Access Key (preferred; revocable without changing passwords) or username/password.
+  - **Support:** help@inspectionsupport.com, (800) 700-8112, chat.
+- **Tasks:**
+  - Read **development.isnadmin.com** and the linked API docs; identify endpoints for **creating or updating an order/inspection** (or equivalent) from an external system. Document request/response shape, required fields, and idempotency if any.
+  - Document auth: how to obtain and use Access Key + Secret; any scopes or permissions needed for "create inspection."
+  - Note rate limits, error codes, and whether webhooks exist for sync back into our system.
+  - Write a short **ISN research summary** in the feature directory (and/or in PROJECT_PLAN) so the API set-up phase has a clear target.
+
+#### 19.1.3 Decision and Fallback
+
+- **Tasks:**
+  - Produce a **decision document**: Primary integration target = Spectora (if API exists) | ISN | Own CRM. Rationale and "what we can do in beta" for each.
+  - If **own CRM**: Outline minimal schema (e.g. appointment id, external_id, platform type, synced_at) and a placeholder for "sync to Spectora/ISN when API is available." No need to build the full CRM in Phase 19.1; just document the path.
+
+**Deliverables (Phase 19.1):** Spectora contact outcome (written); ISN research summary (endpoints, auth, create-inspection flow); decision document (Spectora vs ISN vs own CRM); feature directory `features/crm-inspection-integration/` with `research/` or a single research doc containing the above.
+
+---
+
+### Phase 19.2: API Set-Up (Credentials and Proof-of-Concept)
+
+**Goal:** Obtain credentials for the chosen platform and prove we can create one inspection (or equivalent) from our app. No full UI wiring yet — server-side or script-only PoC is enough for beta-launch readiness.
+
+**Prerequisite:** Phase 19.1 complete; primary target chosen.
+
+#### 19.2.1 Credentials and Configuration
+
+- **Tasks:**
+  - Obtain credentials for the chosen platform. **Spectora:** if they provide API keys or OAuth, document where to get them and how to store them (env vars, not in code). **ISN:** obtain Company Key, Service Domain, and Access Key + Secret (or username/password for PoC); document where these are issued (e.g. ISN admin or support).
+  - Add **environment variables** (e.g. `CRM_API_BASE_URL`, `CRM_COMPANY_KEY`, `CRM_ACCESS_KEY`, `CRM_SECRET_KEY` or platform-specific names). Use a single prefix (e.g. `SPECTORA_` or `ISN_`) to avoid collisions. Document in a `.env.example` or server config doc.
+  - Add a **server-side config module** (e.g. `server/src/config/crmIntegrationConfig.ts`) that reads these env vars and exports a typed config object (base URL, auth, timeouts). No secrets in logs.
+
+#### 19.2.2 Proof-of-Concept: One Creation Call
+
+- **Tasks:**
+  - Implement a **single server-side path** (e.g. POST to an internal route like `/api/v1/internal/crm-inspection/poc-create` or a one-off script) that: (1) accepts minimal payload (e.g. address, date, time, client name, service type); (2) calls the external API to create an inspection/order; (3) returns success/failure and, if successful, the external id. Use the research from Phase 19.1 (exact endpoint, auth header format, body shape).
+  - Prefer **existing route structure**: e.g. under `server/src/routes/internal/` or a dedicated `server/src/routes/external/crm/` (or similar) so it fits the existing split (`internal` vs `external`). Document the chosen location.
+  - **No UI yet** — PoC can be triggered via curl, Postman, or a small script. Goal is to validate credentials and endpoint with one successful creation.
+  - Document **field mapping**: our appointment/booking fields → external API fields (e.g. our `candidatePlaceId` or address string → their address field; our `selectedTimeSlots` or start time → their inspection date/time). Note any gaps (e.g. "client email required by ISN but we only have name").
+
+**Deliverables (Phase 19.2):** Credentials in env (documented); config module; PoC route or script; one successful creation in the target system; short "API set-up summary" (endpoint, auth, field map, known gaps).
+
+---
+
+### Phase 19.3: Integration (Wire Into Appointment Creation) — Follow-On
+
+**Goal:** When an appointment is created or confirmed in the Differential Scheduler, automatically create or update the corresponding inspection in the chosen CRM/platform. This phase is **after** research and API set-up; it can extend into or beyond beta depending on priority.
+
+- **Tasks (outline):** (1) Decide trigger point: e.g. on appointment status transition to `submitted` or `confirmed`, or on a specific "Send to CRM" action. (2) Call the external create/update API from the server (job queue or inline in the appointment flow). (3) Store external id on the appointment (e.g. `crm_inspection_id` or `spectora_inspection_id`) for idempotency and support. (4) Handle failures: retry policy, logging, and optional user-facing message ("Inspection created in Spectora" or "Could not create inspection; please create manually"). (5) Admin setting to enable/disable or choose platform (Spectora vs ISN vs none). Detailed session breakdown when Phase 19.2 is complete.
+
+**Dependency:** Phase 19.1 and 19.2 complete; appointment workflow (Feature 6) provides the trigger (e.g. confirmation or submit).
+
+---
+
+### Implementation Order (Summary)
+
+| Step | What | Depends On |
+|------|------|------------|
+| 1 | **Phase 19.1: Research** — Contact Spectora; document ISN APIs and create-inspection flow; write decision doc (Spectora vs ISN vs own CRM). | — |
+| 2 | **Phase 19.2: API set-up** — Credentials, config module, PoC route/script, one successful creation; document field mapping and gaps. | Step 1 |
+| 3 | **Phase 19.3: Integration** — Wire creation into appointment flow; store external id; handle errors; admin toggle. | Step 2, Feature 6 (appointment creation/confirmation) |
+
+**Beta-launch relevance:** Steps 1–2 (research + API set-up) should be completed as part of beta-launch work so that by beta we know the integration path and have proven we can create an inspection from our app. Step 3 (full integration) can start in beta or shortly after, depending on capacity.
+
+### Related Documents
+
+- USER_STORY.md — "Google Calendar and Spectora APIs trigger to schedule"; CRM under APIs
+- Spectora support / System Integrations: https://support.spectora.com/en/articles/5973917-spectora-system-integrations
+- ISN development: https://help.inspectionsupport.com/en/articles/124485-development-for-the-inspection-support-network-api ; http://development.isnadmin.com/
+- Feature directory (to create): `features/crm-inspection-integration/` with research doc, decision doc, and API set-up summary
 
 ---
 
@@ -857,7 +978,11 @@ See future-features-catalog.md for comprehensive catalog of future features iden
 
 ## Native App Shell (Checklist-Only)
 
-Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIST.md Phase 7** holds the full plan: Capacitor Stage 1 (wrap SPA as iOS/Android app, zero component changes), optional Ionic Stage 2 (selective Ionic Vue conversion for booking wizard after Admin UI Overhaul). Stage 2 depends on **Feature 17 (Admin UI Overhaul)** and **Feature 16 Phase 16.3 (Responsive Design)** for mobile UX baseline.
+Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIST.md Phase 7** holds the full plan.
+
+**Sequence (between alpha and beta):** After **Alpha Ready**, do **Feature 17 (Admin UI Overhaul)** (wizard + admin redesign), then **Ionic Vue migration** for the wizard and admin surfaces. Ionic builds run as native iOS/Android apps (e.g. via Capacitor). The **Apple Store version** is the Ionic-based app wrapped in Capacitor and submitted to the App Store; no separate "web-only then native" step for the primary path. Capacitor Stage 1 (wrap existing SPA as-is) remains an optional early path for a quick native shell; the main path to a shippable iOS app is: overhaul → Ionic migration → Capacitor wrap of Ionic app → store submission.
+
+**Converting to and launching the app version (summary):** (1) Complete Admin UI Overhaul so component count and structure are ready for Ionic. (2) Install Ionic Vue, migrate booking wizard (and admin, if in scope) to Ionic components; keep composables and API usage unchanged. (3) Add Capacitor, point `webDir` at the built client (e.g. `dist/`). (4) Add iOS and Android platforms (`npx cap add ios`, `npx cap add android`). (5) Configure production API URL and app identity (icons, splash, bundle id). (6) Build and run in simulator/emulator; verify flows and API connectivity. (7) For Apple Store: create Apple Developer account, configure signing and entitlements, archive and upload via Xcode (or CI); prepare metadata and screenshots. See LAUNCH_CHECKLIST.md Phase 7 and "Converting to and launching the app version" for detailed checklist and commentary.
 
 ---
 
@@ -882,3 +1007,4 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIS
 - **Feature 6 (Appointment Workflow & Booking Calculations)** — workflow Phase 1 complete; booking calculation logic core complete, needs consolidation composable
 - **Launch infrastructure** is tracked in LAUNCH_CHECKLIST.md (hosting, auth, security, CI/CD)
 - **Feature 18 (Admin Assistance Wizard)** replaces the original "GPT Admin Automation" concept — deterministic guided workflows instead of AI dependency
+- **Feature 19 (CRM / Inspection Platform Integration)** is part of beta-launch work: research (Spectora + ISN) and API set-up must be done so we can loop the scheduler into inspection creation (Spectora, ISN, or own CRM). See Phase 19.1–19.2 for detail; Phase 19.3 (full wiring) can follow during or after beta.

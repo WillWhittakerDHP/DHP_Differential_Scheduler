@@ -2,10 +2,10 @@
 
 **Purpose:** Master checklist and ordered todo list for preparing the Differential Scheduler for alpha and beta launch. This document is designed to be revisited across multiple Cursor sessions and serves as the single tracking artifact for launch readiness.
 
-**Alpha vs Beta:** Phases 0–1 (Merge, Hosting) get you **Alpha Ready** — app deployed, you can use it end-to-end. Phases 2–6 add auth, testing, polish, and guided testers for **Beta Ready**. Later phases (Production Ready, Native App) follow. Use the **Milestones** table below to see which phases map to Alpha vs Beta.
+**Alpha vs Beta:** Phases 0–1 (Merge, Hosting) get you **Alpha Ready** — app deployed, you can use it end-to-end. **Between Alpha and Beta** we do the UI overhaul (Feature 17: wizard + admin), migration to Ionic for Vue for those surfaces, and the native app path (Ionic → Capacitor → iOS/Android → App Store / Play Store). See the "Between Alpha and Beta" section and Phase 7 for conversion and launch steps. After that, Phases 2–6 add auth, testing, polish, and guided testers for **Beta Ready**. Later phases (Production Ready, etc.) follow. Use the **Milestones** table below to see which phases map to Alpha vs Beta.
 
 **Created:** 2026-02-18
-**Last Updated:** 2026-02-18 (Added Phase 7: Native App Shell — Capacitor + Ionic strategy)
+**Last Updated:** 2026-02-27 (Between Alpha and Beta: UI overhaul, Ionic migration, native app path; Phase 7 conversion/launch steps and commentary)
 **Status:** Active — Pre-Launch Planning
 **Hosting Target:** Render (API + static site)
 **Related:** `.project-manager/PROJECT_PLAN.md` (feature development tracking)
@@ -164,9 +164,27 @@ Google Calendar API / Google Maps API
 | Milestone | Definition of Done | Corresponds To |
 |-----------|-------------------|----------------|
 | **Alpha Ready** | App deployed on Render, auth working, core booking + admin flows functional. You (Will) can use it end-to-end from a browser that isn't localhost. No external testers yet. | P0 + P1 complete (items #0–#23) |
-| **Beta Ready** | E2E tests cover critical paths, error tracking live, guided testing system seeded, testers can log in via magic link, submit feedback, and follow assigned test tasks. Ready to invite 5–10 trusted testers. | P0 + P1 + P2 + P3 + P4 complete (items #0–#69) |
+| **Post-Alpha Ready (Between Alpha and Beta)** | Feature 17 (Admin UI Overhaul) complete; wizard and admin migrated to Ionic for Vue as planned; Capacitor wrap of Ionic app; iOS/Android builds and store submission path ready. See "Between Alpha and Beta" and Phase 7. | Feature 17 + Phase 7 Stage 2 + conversion/launch steps |
+| **Beta Ready** | E2E tests cover critical paths, error tracking live, guided testing system seeded, testers can log in via magic link, submit feedback, and follow assigned test tasks. Ready to invite 5–10 trusted testers (web and/or native app). | P0 + P1 + P2 + P3 + P4 complete (items #0–#69) |
 | **Production Ready** | Password auth, full test coverage, custom domain, polished UI, rollback procedures documented and tested. Ready for public access. | All priorities complete (P0–P5) |
-| **Native App Ready** | SPA wrapped in Capacitor, running on iOS simulator + Android emulator, connected to production API. Ready for App Store / Play Store submission. | P6 complete (items #83–#92) |
+| **Native App Ready** | Ionic-based app wrapped in Capacitor, running on iOS simulator + Android emulator, connected to production API. Ready for App Store / Play Store submission. | Phase 7 complete (Capacitor + Ionic path; items #83–#92 and conversion steps) |
+
+---
+
+## Between Alpha and Beta: UI Overhaul, Ionic Migration & Native App Path
+
+**Goal:** After Alpha Ready, before inviting beta testers, complete the UI overhaul (wizard + admin), migrate those surfaces to Ionic for Vue, and establish the native app path so the Apple Store (and optionally Play Store) version is the Ionic-based app.
+
+**Why between alpha and beta:** Alpha validates that the app works end-to-end in a browser. The next step is to ship a single, coherent experience for beta: redesigned UI and a native app built from the same codebase (Ionic). Doing the overhaul and Ionic migration before beta avoids maintaining two UIs and lets testers use either web or the native app from day one of beta.
+
+**Sequence:**
+1. **Feature 17 (Admin UI Overhaul)** — Redesign admin interface and wizard UX; reduce and simplify components (see PROJECT_PLAN.md Feature 17).
+2. **Ionic Vue migration** — Migrate booking wizard (and admin, as scoped) to Ionic Vue components; composables and API usage unchanged. Admin can stay Vuetify if preferred; wizard is the priority for native-feel.
+3. **Capacitor wrap** — Add Capacitor, point at the built client; add iOS and Android platforms. The native app loads the same Ionic (or hybrid) build.
+4. **Build and validate** — Run in iOS simulator and Android emulator; verify booking flow and API connectivity.
+5. **Store path** — Prepare App Store / Play Store metadata, signing, and submission. See Phase 7 "Converting to and launching the app version" below for step-by-step commentary.
+
+**References:** PROJECT_PLAN.md (Feature 17, Native App Shell section); Phase 7 below (Stage 1 + Stage 2 + conversion/launch subsection).
 
 ---
 
@@ -3092,18 +3110,18 @@ Behaviors:
 
 ## Phase 7: Native App Shell (Capacitor → Ionic)
 
-**Goal:** Package the existing Vue SPA as a native iOS/Android app using Capacitor, with a path toward selective Ionic Vue conversion for the customer-facing booking flow after the Admin UI Overhaul simplifies the component architecture.
+**Goal:** Package the app as a native iOS/Android build. The primary path is: complete Admin UI Overhaul (Feature 17), migrate wizard (and admin as scoped) to Ionic Vue, then wrap the Ionic app in Capacitor and ship to the App Store / Play Store. This work is scheduled **between Alpha Ready and Beta Ready** (see "Between Alpha and Beta" above).
 
-**Why Two Stages:** Capacitor wraps the existing SPA as-is — zero component changes, immediate App Store / Play Store presence. Ionic Vue conversion (replacing Vuetify components with native-feeling Ionic components) is a larger effort that benefits from happening *after* the Admin UI Overhaul (Feature 17) dramatically reduces and simplifies the component count. Converting 15 standard components is a different proposition than converting 40+ metadata-driven generic components.
+**Why Two Stages:** Stage 1 (Capacitor only) wraps the current Vuetify SPA as-is — zero component changes, quick native shell. Stage 2 (Ionic Vue conversion) is the main path for a shippable native app: it happens after Feature 17 (Admin UI Overhaul) so we migrate fewer, clearer components. Ionic runs as a native iOS app directly (via Capacitor), so the Apple Store version is the Ionic-based build.
 
 **Strategy:**
-- **Stage 1 (Capacitor Shell):** Wrap the existing Vuetify SPA in Capacitor. Web version stays identical. Native app is the same UI in a native container. Access to native APIs (push notifications, biometrics, etc.) via Capacitor plugins.
-- **Stage 2 (Selective Ionic Conversion):** After the Admin UI Overhaul, optionally convert the customer-facing booking wizard to Ionic Vue components for native-feeling mobile UX. Admin panel stays Vuetify (better for complex desktop workflows). Informed by real user feedback from beta.
+- **Stage 1 (Capacitor Shell):** Optional early path. Wrap the existing Vuetify SPA in Capacitor. Web version stays identical. Native app is the same UI in a native container. Access to native APIs via Capacitor plugins.
+- **Stage 2 (Ionic Vue conversion):** Planned for the post-alpha, pre-beta window. After Feature 17, convert the booking wizard (and admin if in scope) to Ionic Vue. Then add Capacitor and produce iOS/Android builds. The Apple Store version is this Ionic app in a Capacitor shell.
 
 **Dependencies:**
 - Stage 1 depends on Phase 1 (Hosting & Deployment) — the app needs a deployed API for the native shell to talk to
-- Stage 2 depends on Feature 17 (Admin UI Overhaul) — simplification must happen first to reduce conversion scope
-- Stage 2 depends on Feature 16 Phase 16.3 (Responsive Design & Mobile Optimization) — mobile UX baseline established first
+- Stage 2 depends on Feature 17 (Admin UI Overhaul) — done between alpha and beta
+- Stage 2 depends on Feature 16 Phase 16.3 (Responsive Design & Mobile Optimization) for mobile UX baseline when applicable
 
 ### Stage 1: Capacitor Shell
 
@@ -3156,9 +3174,9 @@ Behaviors:
 
 ### Stage 2: Selective Ionic Vue Conversion (Post Admin UI Overhaul)
 
-**Goal:** After the Admin UI Overhaul simplifies the component architecture, selectively convert the customer-facing booking wizard to Ionic Vue components for a native-feeling mobile experience. Admin panel stays on Vuetify.
+**Goal:** After the Admin UI Overhaul simplifies the component architecture, convert the customer-facing booking wizard (and admin, as scoped) to Ionic Vue components for a native-feeling mobile experience. Admin panel can stay on Vuetify. This is planned **between Alpha Ready and Beta Ready** so the native app (Ionic → Capacitor → Apple Store) is ready before inviting beta testers.
 
-**Prerequisite:** Feature 17 (Admin UI Overhaul) must be complete — the overhaul will dump the metadata-driven generic components and replace them with simpler, more standard components. This dramatically reduces the scope of any framework conversion.
+**Prerequisite:** Feature 17 (Admin UI Overhaul) must be complete — the overhaul reduces the component set so the Ionic migration targets fewer, clearer components.
 
 #### Checklist
 
@@ -3190,6 +3208,49 @@ Behaviors:
   - Consider code-splitting: Ionic CSS only loaded on booking routes
   - Measure and document bundle size impact
 
+### Converting to and launching the app version (commentary and steps)
+
+**Overview:** After the Ionic migration (Stage 2), the same codebase serves web and native. Capacitor wraps the built web assets in a native container; iOS and Android each get a project (e.g. `ios/`, `android/`) that you build and run in Xcode / Android Studio. Launching "the app version" means producing a store-ready build and submitting it.
+
+**Step-by-step (with commentary):**
+
+1. **Prerequisites**
+   - Feature 17 (Admin UI Overhaul) complete; wizard (and admin if scoped) migrated to Ionic Vue.
+   - Production API deployed and reachable (e.g. Render). The native app will call this API; ensure CORS and auth work for the app’s origin/bundle id if required.
+
+2. **Capacitor setup**
+   - In `client/`: `npm install @capacitor/core @capacitor/cli`, `npx cap init`. Set `webDir` to your build output (e.g. `dist`). This is the folder that gets copied into the native projects.
+   - **Commentary:** Every time you change the web app, run `npm run build` (or your build command) then `npx cap sync` so the native projects get the latest assets. Add `cap:sync` and `cap:build` scripts to avoid forgetting.
+
+3. **Add platforms**
+   - `npx cap add ios` (requires macOS and Xcode), `npx cap add android` (requires Android Studio). This creates `ios/` and `android/` with native projects.
+   - **Commentary:** Commit these folders (or document how to regenerate them) so other devs and CI can build. Ignore build artifacts (e.g. `ios/App/build`) in `.gitignore` if desired, but keep the project structure.
+
+4. **Configure for production**
+   - Set the app’s API base URL via env (e.g. `VITE_API_BASE_URL`) so the built app talks to your hosted API, not localhost. In `capacitor.config.ts`, you can set `server.url` for live-reload during dev; for production builds the bundle uses the compile-time env.
+   - Set app identity: bundle id / package name, display name, icons, splash screen. iOS uses `Info.plist` and asset catalogs; Android uses `AndroidManifest.xml` and res folders.
+
+5. **Build and run locally**
+   - `npm run build` (or equivalent) in client, then `npx cap sync`. Open iOS: `npx cap open ios` → run in simulator. Open Android: `npx cap open android` → run in emulator. Verify: booking wizard (and admin) load, API calls succeed, navigation and deep links work.
+   - **Commentary:** Test on at least one physical device before store submission; simulator behavior can differ (keyboard, permissions, performance).
+
+6. **iOS: Apple Store path**
+   - **Apple Developer account:** Enroll at developer.apple.com ($99/year). Required for App Store and for signing.
+   - **Signing and capabilities:** In Xcode, select the app target → Signing & Capabilities. Choose your team and let Xcode manage signing, or use a distribution certificate and provisioning profile. Add capabilities (e.g. Push Notifications) only if the app uses them.
+   - **Archive and upload:** Product → Archive. In Organizer, validate then distribute to App Store Connect. Upload builds for the version you set in the project (e.g. CFBundleShortVersionString).
+   - **App Store Connect:** Create the app record if needed; attach the build; fill in metadata (description, screenshots, category, privacy policy URL, etc.). Submit for review.
+   - **Commentary:** Screenshots must match device sizes (e.g. 6.5" and 5.5" for iPhone). Use simulator or device to capture. First submission often takes 24–48 hours for review.
+
+7. **Android: Play Store path**
+   - **Play Developer account:** Create at play.google.com/console ($25 one-time). Create an app, set up store listing (description, graphics, category).
+   - **Build:** In Android Studio, Build → Generate Signed Bundle / APK. Use a release keystore (keep it safe; you need it for all future updates). Upload the AAB (or APK if required) to the Play Console.
+   - **Commentary:** Play often requires a privacy policy URL and may require target SDK and permissions to be up to date. Test on a few devices; fragmentation is higher than on iOS.
+
+8. **Ongoing releases**
+   - Bump version in both client (e.g. `package.json`, or env) and native projects (iOS: `Info.plist` / project settings; Android: `versionCode` / `versionName`). Build → sync → archive/package → upload. Consider CI (e.g. Fastlane, or GitHub Actions with signing) for repeatable builds.
+
+**Summary checklist (store launch):** [ ] Overhaul and Ionic migration done; [ ] Capacitor init and platforms added; [ ] Production API URL and app identity set; [ ] Local build and run in simulator/emulator passing; [ ] iOS: Apple Developer account, signing, archive, upload, App Store Connect metadata and submit; [ ] Android (optional): Play account, signed build, Play Console metadata and submit.
+
 ### Decision Log
 
 | Decision | Choice | Rationale |
@@ -3199,7 +3260,8 @@ Behaviors:
 | Stage 2 scope | Booking wizard only | Customer-facing flow benefits most from native mobile UX; admin panel is desktop-focused |
 | Admin panel framework | Stays Vuetify | Vuetify has superior data tables, form components, and desktop layout tools |
 | PWA | Added in Stage 1 | Low-effort fallback for users who don't install native app; complements Capacitor |
-| Stage 2 gate | User feedback driven | Only convert to Ionic if real beta feedback indicates mobile-native UX is needed |
+| Stage 2 timing (plan) | Between Alpha and Beta | UI overhaul and Ionic migration are scheduled after Alpha Ready and before Beta Ready so the native app is available for beta testers |
+| Stage 2 gate (optional) | User feedback | If desired, still evaluate after alpha whether Ionic is warranted; the default plan is to proceed so the Apple Store version is Ionic-based |
 
 ---
 
@@ -3670,7 +3732,7 @@ These are rough estimates for a solo developer learning as you go. Actual time m
 - Phase 2A items 2A.19–2A.22 (Password Strategy) are deferred to production transition.
 - Phase 6A items depend on Phase 2A (authentication) — cannot start until auth is deployed.
 - Phase 7 Stage 1 (Capacitor) can begin any time after the app is deployed (Phase 1 complete).
-- Phase 7 Stage 2 (Ionic) is a decision gate — only proceed if beta user feedback indicates mobile-native UX is needed. Depends on Feature 17 (Admin UI Overhaul) completing first.
+- Phase 7 Stage 2 (Ionic) is planned between Alpha Ready and Beta Ready (see "Between Alpha and Beta"). Depends on Feature 17 (Admin UI Overhaul) completing first. Optional: still evaluate after alpha whether Ionic is warranted; default plan is to proceed for the Apple Store version.
 - Phase 8A (Force-Create & Overrides) depends on Phase 2A (authentication) — needs `req.user` to record who authorized the override. Connects to Feature 8 Phase 8.4 (Rescheduling Flow).
 - Priority numbering (#0–82) is the implementation sequence. Phase numbering (0.1, 2A.7, etc.) maps to the detailed checklist sections above.
 
