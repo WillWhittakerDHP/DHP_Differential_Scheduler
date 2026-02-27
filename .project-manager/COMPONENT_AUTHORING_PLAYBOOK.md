@@ -7,7 +7,7 @@ This document governs how Vue components are designed and maintained: prop/emit/
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries.
 - **Composable Authoring Playbook** (`.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`) — composable shape and where extracted logic lives.
 - **Function Authoring Playbook** (`.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`) — complexity and return types in extracted utilities.
-- **Cursor rules** (`.cursor/rules/component-boundary-contracts.mdc`, `component-health-thresholds.mdc`) — short, always-applied guardrails.
+- **Cursor rules** (`.cursor/rules/component-governance.mdc`) — boundaries, thresholds, reusability; always-applied.
 - **Audit scripts** — `client/.scripts/component-logic-audit.mjs` and `client/.scripts/component-health-audit.mjs` (reports in `client/.audit-reports/`).
 
 The playbook is the source of truth for rationale and thresholds; cursor rules are condensed references; the audits provide automated enforcement.
@@ -112,6 +112,6 @@ The `component-governance` baseline score (0–100) is derived in `.cursor/comma
 
 ## Cross-references
 
-- **Cursor rules:** `component-boundary-contracts.mdc`, `component-health-thresholds.mdc`, `component-and-logic-reusability.mdc`.
+- **Cursor rules:** `component-governance.mdc` (boundaries, thresholds, reusability).
 - **Audit scripts:** `client/.scripts/component-logic-audit.mjs`, `client/.scripts/component-health-audit.mjs` (reports in `client/.audit-reports/`).
 - **Config:** `client/.audit-reports/audit-global-config.json` (allowlists.component-health, allowlists.component-logic).

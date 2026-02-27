@@ -13,6 +13,7 @@ defineEmits<{
   (e: 'cancel-delete'): void
   (e: 'confirm-delete'): void
   (e: 'cancel-confirm'): void
+  (e: 'confirm-appointment'): void
 }>()
 </script>
 
@@ -42,14 +43,34 @@ defineEmits<{
     @update:model-value="(v) => !v && $emit('cancel-confirm')"
   >
     <VCard>
-      <VCardTitle class="text-headline-small">{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VCardTitle>
+      <VCardTitle class="text-headline-small">{{ APPOINTMENTS_TABLE_UI.CONFIRM_DIALOG_TITLE }}</VCardTitle>
       <VCardText>
-        {{ confirmingAppointment ? confirmingAppointment.selectedDate ?? '—' : '' }}
+        <p class="mb-3">{{ APPOINTMENTS_TABLE_UI.CONFIRM_DIALOG_MESSAGE }}</p>
+        <VList v-if="confirmingAppointment" density="compact" class="bg-surface-variant rounded">
+          <VListItem>
+            <template #prepend>
+              <VIcon icon="tabler-calendar" size="small" class="me-2" />
+            </template>
+            <VListItemTitle class="text-body-2">
+              {{ confirmingAppointment.selectedDate ?? '—' }}
+            </VListItemTitle>
+            <VListItemSubtitle>Date</VListItemSubtitle>
+          </VListItem>
+          <VListItem>
+            <template #prepend>
+              <VIcon icon="tabler-tag" size="small" class="me-2" />
+            </template>
+            <VListItemTitle class="text-body-2">
+              {{ confirmingAppointment.status }}
+            </VListItemTitle>
+            <VListItemSubtitle>Current Status</VListItemSubtitle>
+          </VListItem>
+        </VList>
       </VCardText>
       <VCardActions>
         <VSpacer />
         <VBtn variant="text" @click="$emit('cancel-confirm')">{{ APPOINTMENTS_TABLE_UI.CANCEL }}</VBtn>
-        <VBtn color="success" variant="flat" disabled>{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VBtn>
+        <VBtn color="success" variant="flat" @click="$emit('confirm-appointment')">{{ APPOINTMENTS_TABLE_UI.CONFIRM }}</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>

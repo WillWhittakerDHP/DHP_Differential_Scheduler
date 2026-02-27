@@ -14,6 +14,7 @@ export interface UseAppointmentsTableHandlersReturn {
   }
   actions: {
     handleOpenConfirmDialog: (item: AppointmentResponse) => void
+    handleConfirmAppointment: () => Promise<void>
     handleCancelConfirm: () => void
     handleSaveCreate: () => Promise<void>
     handleSaveEdit: () => Promise<void>
@@ -39,5 +40,6 @@ export interface UseAppointmentsTableHandlersParams {
   cancelEdit: () => void
   startCreate: () => void
   cancelCreate: () => void
+  confirmAppointment: (id: string) => Promise<boolean>
   emit: (e: 'navigate-to-tab', tab: 'properties' | 'users') => void
 }

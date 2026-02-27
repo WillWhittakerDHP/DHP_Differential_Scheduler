@@ -6,7 +6,7 @@ This document governs how functions are designed and maintained: complexity boun
 
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries.
 - **Composable Authoring Playbook** (`.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`) — composable shape and function policy inside composables.
-- **Cursor rules** (`.cursor/rules/function-boundary-governance.mdc`, `function-complexity-thresholds.mdc`) — short, always-applied guardrails.
+- **Cursor rules** (`.cursor/rules/function-governance.mdc`) — thresholds, return types, no silent errors; always-applied.
 - **Audit script** — `client/.scripts/function-complexity-audit.mjs` (reports in `client/.audit-reports/function-complexity-audit.{md,json}`).
 
 The playbook is the source of truth for rationale and thresholds; cursor rules are condensed references; the audit provides automated enforcement.
@@ -100,6 +100,6 @@ The `function-governance` baseline score (0–100) is derived in `.cursor/comman
 
 ## Cross-references
 
-- **Cursor rules:** `function-boundary-governance.mdc`, `function-complexity-thresholds.mdc`, `explicit-return-types.mdc`, `explicit-error-handling.mdc`, `transform-over-drill.mdc`.
+- **Cursor rules:** `function-governance.mdc`, `coding-standards.mdc` (return types, error handling, transform-over-drill).
 - **Audit script:** `client/.scripts/function-complexity-audit.mjs` (reports in `client/.audit-reports/`).
 - **Config:** `client/.audit-reports/function-complexity-audit-config.json`, `client/.audit-reports/audit-global-config.json` (allowlists.function-complexity).

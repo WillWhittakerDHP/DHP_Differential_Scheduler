@@ -5,7 +5,7 @@
 This document governs how composables and function boundaries are designed, exposed, and tested. It complements:
 
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries follow that playbook; this one focuses on composable shape, mutation ownership, and complexity.
-- **Cursor rules** (`.cursor/rules/composable-contract-boundaries.mdc`, `function-boundary-governance.mdc`) — short, always-applied guardrails.
+- **Cursor rules** (`.cursor/rules/composable-governance.mdc`) — flat contracts, action-based mutation, Ref/ComputedRef boundaries; always-applied.
 - **Audit scripts** — composable-health, composables-logic, function-complexity — which enforce and report on composable and function hygiene.
 
 The playbook is the source of truth for rationale and examples; cursor rules are condensed references; audits provide automated enforcement.
@@ -123,5 +123,5 @@ The `composable-governance` baseline score (0–100) is derived in `.cursor/comm
 ## Cross-references
 
 - **Type playbook:** `.project-manager/TYPE_AUTHORING_PLAYBOOK.md` (boundary types, null/undefined, InjectionKey).
-- **Cursor rules:** `composable-contract-boundaries.mdc`, `function-boundary-governance.mdc`, `explicit-return-types.mdc`, `explicit-error-handling.mdc`, `component-and-logic-reusability.mdc`, `transform-over-drill.mdc`.
+- **Cursor rules:** `composable-governance.mdc`, `coding-standards.mdc` (return types, error handling, documentation), `component-governance.mdc` (reusability).
 - **Audit scripts:** `client/.scripts/composable-health-audit.mjs`, `composables-logic-audit.mjs`, `function-complexity-audit.mjs` (reports in `client/.audit-reports/`).

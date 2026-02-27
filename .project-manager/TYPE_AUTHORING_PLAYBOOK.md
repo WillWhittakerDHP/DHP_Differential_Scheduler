@@ -4,7 +4,7 @@
 
 This document governs how types are created, placed, and used in the codebase. It complements:
 
-- **Cursor rules** (`.cursor/rules/vue-reactivity-boundary-contracts.mdc`, `type-creation-placement.mdc`) — short, always-applied guardrails.
+- **Cursor rules** (`.cursor/rules/type-governance.mdc`) — inventory, boundaries, placement; always-applied.
 - **Audit scripts** — type-escape, type-health, type-similarity, type-import, type-constant-inventory — which enforce and report on type hygiene.
 
 The playbook is the source of truth for rationale and examples; cursor rules are condensed references; audits provide automated enforcement.
@@ -111,5 +111,5 @@ Is this type used by multiple features?
 
 ## Cross-references
 
-- **Cursor rules:** `vue-reactivity-boundary-contracts.mdc`, `type-creation-placement.mdc`, `type-assertion-guidance.mdc`, `generic-type-guidance.mdc`, `explicit-return-types.mdc`, `descriptive-typing.mdc`, `disallowed-additions.mdc`.
+- **Cursor rules:** `type-governance.mdc`, `coding-standards.mdc` (type assertions, generics, return types, descriptive typing, disallowed additions).
 - **Audit scripts:** `client/.scripts/type-escape-audit.mjs`, `type-health-audit.mjs`, `type-similarity-audit.mjs`, `type-import-audit.mjs`, `type-constant-inventory-audit.mjs` (reports in `client/.audit-reports/`).

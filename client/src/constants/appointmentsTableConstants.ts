@@ -59,4 +59,8 @@ export const APPOINTMENTS_TABLE_UI = {
   OVERRIDE_TOOLTIP: 'Override requires admin authentication (Feature 7)',
   CONFIRM: 'Confirm',
   CONFIRM_TOOLTIP: 'Confirm this submitted appointment',
+  CONFIRM_DIALOG_TITLE: 'Confirm Appointment',
+  CONFIRM_DIALOG_MESSAGE: 'Are you sure you want to confirm this appointment?',
+  CONFIRM_SUCCESS: 'Appointment confirmed successfully',
+  CONFIRM_ERROR: 'Failed to confirm appointment',
 } as const

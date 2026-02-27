@@ -22,6 +22,7 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
     cancelEdit,
     startCreate,
     cancelCreate,
+    confirmAppointment,
     emit,
   } = params
 
@@ -35,6 +36,13 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
   const handleOpenConfirmDialog = (item: AppointmentResponse): void => {
     confirmingAppointment.value = item
     showConfirmDialog.value = true
+  }
+
+  const handleConfirmAppointment = async (): Promise<void> => {
+    if (!confirmingAppointment.value) return
+    await confirmAppointment(confirmingAppointment.value.id)
+    confirmingAppointment.value = null
+    showConfirmDialog.value = false
   }
 
   const handleCancelConfirm = (): void => {
@@ -113,6 +121,7 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
     },
     actions: {
       handleOpenConfirmDialog,
+      handleConfirmAppointment,
       handleCancelConfirm,
       handleSaveCreate,
       handleSaveEdit,

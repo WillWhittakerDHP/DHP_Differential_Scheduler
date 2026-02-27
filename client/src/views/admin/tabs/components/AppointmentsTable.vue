@@ -45,6 +45,7 @@ const {
   getPropertyById,
   getUserById,
   getPropertyTypeNames,
+  confirmAppointment,
 } = useAppointmentsTableModel()
 
 const handlers = useAppointmentsTableHandlers({
@@ -56,11 +57,13 @@ const handlers = useAppointmentsTableHandlers({
   cancelEdit,
   startCreate,
   cancelCreate,
+  confirmAppointment,
   emit,
 })
 const { formClientId, formAgentId, editingClientId, editingAgentId, confirmingAppointment, showConfirmDialog } = handlers.state
 const {
   handleOpenConfirmDialog,
+  handleConfirmAppointment,
   handleCancelConfirm,
   handleSaveCreate,
   handleSaveEdit,
@@ -325,6 +328,7 @@ const { formatTimestamp } = handlers
       @cancel-delete="cancelDelete"
       @confirm-delete="confirmDelete"
       @cancel-confirm="handleCancelConfirm"
+      @confirm-appointment="handleConfirmAppointment"
     />
   </div>
 </template>
