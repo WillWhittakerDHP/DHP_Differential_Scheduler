@@ -164,7 +164,7 @@ When logging a completed task:
 
 ---
 
-- [ ] #### Task 6.4.2.2: Implement Phase 6.4 — preClosing full-stack and MoveablePartsModal
+- [x] #### Task 6.4.2.2: Implement Phase 6.4 — preClosing full-stack and MoveablePartsModal
 
 **Goal:** Implement Phase 6.4 objectives: add `pre_closing`/`preClosing` full-stack (migration, model, types, transformer), consolidate differential to one canonical `isDifferentialBooking`, gate MoveablePartsModal on `preClosing`, re-enable the modal and optionally soften UX.
 
