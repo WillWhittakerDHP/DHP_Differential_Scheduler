@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T19:48:03.468Z",
+  "generatedAt": "2026-02-27T21:28:35.755Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -2829,7 +2829,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 27,
+      "lineCount": 29,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -2983,7 +2983,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 60,
+      "lineCount": 66,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -3087,7 +3087,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 20,
+      "lineCount": 22,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5926,7 +5926,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 18,
+      "lineCount": 24,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6478,7 +6478,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 30,
+      "lineCount": 35,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7846,7 +7846,7 @@
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 162,
+      "lineCount": 164,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7869,7 +7869,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 211,
+      "lineCount": 215,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -11189,7 +11189,7 @@
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 162,
+        "lineCount": 164,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
@@ -11212,7 +11212,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 211,
+        "lineCount": 215,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
