@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T21:16:48.888Z",
+  "generatedAt": "2026-02-27T21:19:58.774Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -18,7 +18,7 @@
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 1,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,25 +26,7 @@
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "id": "client__src__composables__booking__useMoveablePartsScheduling.ts",
-      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "catch-without-logger",
-          "lineNumber": 316,
-          "line": "} catch {",
-          "confidence": "high",
-          "detectionStage": "validator",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 1,
-      "priority": "P2"
-    }
-  ],
+  "files": [],
   "ruleset": [
     {
       "ruleId": "empty-catch",

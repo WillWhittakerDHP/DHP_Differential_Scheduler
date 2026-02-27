@@ -163,7 +163,7 @@ When logging a completed task:
 **Checkpoint:**
 - Moveable modal slot list uses AppointmentSlotGrid; selection and confirm work; no regressions.
 
-- [x] #### Task 6.4.3.3: Session verification and Phase 6.4 criteria
+- [x] - [x] #### Task 6.4.3.3: Session verification and Phase 6.4 criteria
 
 **Goal:** Session and phase verification: moveable modal grid behavior, lint, and Phase 6.4 completion criteria.
 
