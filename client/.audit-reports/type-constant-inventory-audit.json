@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T05:16:46.946Z",
+  "generatedAt": "2026-02-27T19:34:23.710Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -5211,7 +5211,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 97,
+      "lineCount": 98,
       "purpose": "Core entity type definitions (runtime helpers moved to utils/globalEntity.ts).",
       "reuseTier": "shared",
       "tags": [
@@ -6194,7 +6194,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 46,
+      "lineCount": 47,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8284,7 +8284,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 83,
+      "lineCount": 90,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -11627,7 +11627,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 83,
+        "lineCount": 90,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],

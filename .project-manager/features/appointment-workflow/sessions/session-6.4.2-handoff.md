@@ -35,6 +35,13 @@ Completed Task
 - Begin Session 6.4.3
 
 
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 6.4.3
+
+
 **Where we left off:** Session 6.4.1 completed (Moveable Modal Refinement & preClosing Property).
 
 **What you need to start:** See session guide for Session 6.4.2 objectives and tasks.

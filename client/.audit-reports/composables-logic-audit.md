@@ -26,8 +26,8 @@ Scope:
 | `client/src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRulesTab.ts` | 15 | 0 | 1 | 4 | 7 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 15 | 0 | 5 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/useRelationshipCollection.ts` | 14 | 0 | 0 | 3 | 9 | 0 | 0 |
-| `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 14 | 0 | 5 | 8 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 14 | 0 | 0 | 14 | 0 | 0 | 0 |
 | `client/src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
 | `client/src/composables/useAddressAutocomplete.ts` | 14 | 0 | 1 | 4 | 9 | 0 | 0 |
@@ -258,6 +258,28 @@ computed@251: const optionEntityKey = computed(() =>
 computed@261: const optionLabelKey = computed(() => resolveOptionLabelKey())
 ```
 
+### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
+
+- counts: vueQuery=0, watch=5, computed=8, ref=1, async=0, await=0, dom=0, console=0
+
+```
+computed@52: const isEffectivelyDifferentialForDefaults = computed(() =>
+computed@87: const selectedDayKey = computed(() => {
+computed@91: const serverSlotsForDay = computed(() => {
+map@98: serverSlotsForDay.value.map(s => ({
+watch@119: watch(vDatePickerDisplayDate, newDate => {
+watch@129: watch(appointmentDuration, newDuration => {
+watch@133: watch(displayedMonth, newMonth => {
+watch@141: watch(selectedDate, newDate => {
+computed@151: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+watch@159: watch(firstAvailableDate, firstDate => {
+computed@194: const hasMoveablePartsGated = computed(
+computed@205: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
+computed@211: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
+ref@225: const userHasChosenTimeBasisFromGraph = ref(false)
+computed@256: busyPeriods: computed(() => []),
+```
+
 ### `client/src/composables/admin/useRelationshipCollection.ts`
 
 - counts: vueQuery=0, watch=0, computed=3, ref=0, async=3, await=6, dom=0, console=0
@@ -277,27 +299,6 @@ await@216: await removeRelationship(toGlobalEntityId(parentEntity.value.id), toG
 await@217: await Promise.all([
 async@229: const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>): Promise<void> => {
 await@230: await handleDeleteChildById(String(entity.id))
-```
-
-### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
-
-- counts: vueQuery=0, watch=5, computed=7, ref=1, async=0, await=0, dom=0, console=0
-
-```
-computed@51: const isEffectivelyDifferentialForDefaults = computed(() => {
-computed@89: const selectedDayKey = computed(() => {
-computed@93: const serverSlotsForDay = computed(() => {
-map@100: serverSlotsForDay.value.map(s => ({
-watch@121: watch(vDatePickerDisplayDate, newDate => {
-watch@131: watch(appointmentDuration, newDuration => {
-watch@135: watch(displayedMonth, newMonth => {
-watch@143: watch(selectedDate, newDate => {
-computed@153: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
-watch@161: watch(firstAvailableDate, firstDate => {
-computed@200: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
-computed@206: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
-ref@220: const userHasChosenTimeBasisFromGraph = ref(false)
-computed@251: busyPeriods: computed(() => []),
 ```
 
 ### `client/src/composables/booking/useWizardFilteredOptions.ts`
@@ -544,18 +545,18 @@ lifecycle@121: onMounted(() => {
 - counts: vueQuery=0, watch=1, computed=8, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@85: const dateRangeForApi = computed(() => {
-computed@156: const propertyDetails = computed(() => {
-computed@169: const accumulatedBlockInstances = computed(() => {
-map@213: return Array.from(slotsByDate.entries()).map(([date, slots]) => {
-map@228: const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
-computed@246: const isDifferentialService = computed(() => {
-computed@253: const hasDifferentialOverride = computed(() => {
-computed@271: const isEffectivelyDifferential = computed(() => {
-watch@285: watch([timeSlots, selectedDate], ([slots, date]) => {
-map@308: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
-computed@322: const selectedDateSingle = computed({
-computed@345: const currentAppointmentSlots = computed(() => {
+computed@94: const dateRangeForApi = computed(() => {
+computed@165: const propertyDetails = computed(() => {
+computed@178: const accumulatedBlockInstances = computed(() => {
+map@222: return Array.from(slotsByDate.entries()).map(([date, slots]) => {
+map@237: const normalized = normalizeAppointmentSlotsByOrderIndex(calculatedSlots.map(calculatedSlot => ({
+computed@254: const isDifferentialService = computed(() =>
+computed@260: const hasDifferentialOverride = computed(() => {
+computed@278: const isEffectivelyDifferential = computed(() => {
+watch@292: watch([timeSlots, selectedDate], ([slots, date]) => {
+map@315: timeSlotsPerDay.value = Array.from(slotsByDate.entries()).map(([date, slots]) => {
+computed@329: const selectedDateSingle = computed({
+computed@352: const currentAppointmentSlots = computed(() => {
 ```
 
 ### `client/src/composables/booking/useMoveablePartsScheduling.ts`
@@ -1044,9 +1045,9 @@ filter@28: return externalRelationships.value.filter(
 computed@39: const dependentInstanceIds = computed((): string[] => {
 computed@51: const dependentInstances = computed((): BookingBlockInstance[] => {
 map@66: const activeBlockIds = Array.isArray(entity.instanceComponents) ? entity.instanceComponents.map(String) : []
-filter@90: const eligibleInstances = instances.filter(instance => instance.bookingMode !== DEFAULT_VALUES.BOOKING_MODE)
-sort@92: return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
-computed@95: const hasDependentInstances = computed((): boolean => {
+filter@91: const eligibleInstances = instances.filter(instance => instance.bookingMode !== DEFAULT_VALUES.BOOKING_MODE)
+sort@93: return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+computed@96: const hasDependentInstances = computed((): boolean => {
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
