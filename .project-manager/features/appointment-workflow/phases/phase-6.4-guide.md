@@ -41,7 +41,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.4.1: Moveable Modal Refinement & preClosing Property
+- [x] ### Session 6.4.1: Moveable Modal Refinement & preClosing Property
 **Description:** Full implementation of the phase — preClosing migration, differential consolidation, modal gate logic, UX softening, re-enable.
 **Tasks:**
 - Add `preClosing` boolean to `block_instances` and `block_instance_versions` (migration, Sequelize models, client types, transformer)
