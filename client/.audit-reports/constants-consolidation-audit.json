@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T19:34:10.892Z",
+  "generatedAt": "2026-02-27T19:41:44.509Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
