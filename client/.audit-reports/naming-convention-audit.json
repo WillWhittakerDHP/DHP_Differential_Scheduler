@@ -1,18 +1,49 @@
 {
-  "generatedAt": "2026-02-27T20:00:23.757Z",
+  "generatedAt": "2026-02-27T21:16:49.968Z",
   "totalScanned": 1086,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
+    "totalAllowed": 3,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 0,
+      "pattern": 3,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": []
+  "scanned": [
+    {
+      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 54,
+          "line": "export function computeMoveableSlots(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 83,
+          "line": "export function computeOuterBoundary(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        },
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 109,
+          "line": "export function extractInnerBoundary(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    }
+  ]
 }
