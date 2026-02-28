@@ -110,16 +110,21 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
   function togglePartsBulkEditMode(): void {
     const refValue = partsCollectionRef.value
     const instance = Array.isArray(refValue) ? refValue[0] ?? null : refValue
+    type WithToggle = { toggleBulkEditMode?: () => void }
+    const callToggle = (target: RelationshipCollectionRef | null): void => {
+      const t = target as WithToggle | null
+      if (t && typeof t.toggleBulkEditMode === 'function') {
+        t.toggleBulkEditMode()
+      }
+    }
     if (!expandedPanels.value.includes('parts')) {
       expandedPanels.value.push('parts')
       nextTick(() => {
         const inst = Array.isArray(partsCollectionRef.value) ? partsCollectionRef.value[0] ?? null : partsCollectionRef.value
-        if (inst && typeof inst.toggleBulkEditMode === 'function') {
-          inst.toggleBulkEditMode()
-        }
+        callToggle(inst)
       })
-    } else if (instance && typeof instance.toggleBulkEditMode === 'function') {
-      instance.toggleBulkEditMode()
+    } else {
+      callToggle(instance)
     }
   }
 
