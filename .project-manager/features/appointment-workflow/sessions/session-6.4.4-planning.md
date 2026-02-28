@@ -6,20 +6,21 @@
 - **Related code:** See inventory in workflow output if present.
 
 ## Goal
-Implement a unified required confirmation modal shell (moveable modal with preClosing property support per phase 6.4 scope).
+[To be refined during discussion]
 
 ## Files
-To be determined from implementation (Vue modal/dialog components and composables in client).
+[To be refined during discussion]
 
 ## Approach
-- Implement or refactor modal shell for required confirmations; ensure moveable behavior and preClosing handling where applicable.
-- Align with existing patterns and component governance.
+[To be refined during discussion]
 
 ## Checkpoint
-Modal shell works for required confirmations; matches session scope and governance thresholds.
+[To be refined during discussion]
 
 ## Decisions Made
-- Proceeding with single task 6.4.4.1 as in session guide. Scope and governance deferred to implementation.
+[Populated as conversation progresses]
 
 ## Open Questions
-(Resolved — satisfied and ready to begin.)
+1. For this session (Unified required confirmation modal shell), what's the main outcome you want when we're done? (Session goal: what we're building.)
+2. For the first task (Unified required confirmation modal shell), what's the main behavior or change you want? (Concrete deliverable for task one.)
+3. Any specific UX or technical constraints for Unified required confirmation modal shell? (Helps implementation match your expectations.)
