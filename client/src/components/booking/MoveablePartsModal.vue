@@ -3,33 +3,24 @@
   
   LEARNING: Modal for scheduling moveable parts (like report writing)
   WHY: Allows users to specify when moveable work should be completed, bounded by contingency deadlines
-  PATTERN: VDialog with form for contingency questions and time slot selection
+  PATTERN: Uses RequiredConfirmationModal shell; moveable-specific content (contingency, time grid) in body slot.
   
   Phase 6.4: Re-enabled. Modal opens only when (1) slot has moveable parts and (2) selected service
   has preClosing: true (gated in useAvailabilityOrchestrator via hasMoveablePartsGated).
-  UX: max-width 520px, ~400ms open delay, enter/exit transitions; time grid only when closing date set.
+  Dynamic title and progressive (answer → different response) behavior preserved via shell.
 -->
 <template>
-  <VDialog
-    v-model="showModalDelayed"
-    max-width="520"
-    scrollable
-    transition="scale-transition"
+  <RequiredConfirmationModal
+    :model-value="showModal"
+    :title="moveableTitle"
+    :can-confirm="canConfirm"
+    primary-label="Confirm"
+    secondary-label="Cancel"
+    @update:model-value="emit('update:showModal', $event)"
+    @confirm="handleConfirm"
+    @cancel="handleCancel"
   >
-    <VCard>
-      <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-headline-medium">Schedule {{ moveablePartShapeName }}</span>
-        <VBtn
-          icon
-          variant="text"
-          @click="handleCancel"
-        >
-          <VIcon>mdi-close</VIcon>
-        </VBtn>
-      </VCardTitle>
-
-      <VCardText class="pa-6">
-        <div v-if="isLoadingOptions" class="text-center py-8">
+    <div v-if="isLoadingOptions" class="text-center py-8">
           <VProgressCircular indeterminate color="primary" />
           <div class="mt-4">Calculating available times...</div>
         </div>
@@ -149,38 +140,15 @@
             Provide a deadline date above to see available completion times.
           </div>
         </div>
-      </VCardText>
-
-      <VCardActions class="pa-6">
-        <VSpacer />
-        <VBtn
-          color="secondary"
-          variant="tonal"
-          @click="handleCancel"
-        >
-          Cancel
-        </VBtn>
-        <VBtn
-          color="primary"
-          variant="elevated"
-          :disabled="!canConfirm"
-          @click="handleConfirm"
-        >
-          Confirm
-        </VBtn>
-      </VCardActions>
-    </VCard>
-  </VDialog>
+  </RequiredConfirmationModal>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { AppointmentSlot } from '@/types/appointment'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
-
-/** Phase 6.4: ~400ms delay before opening modal so it feels less intrusive. */
-const OPEN_DELAY_MS = 400
+import RequiredConfirmationModal from '@/components/booking/modals/RequiredConfirmationModal.vue'
 
 interface Props {
   showModal: boolean
@@ -209,36 +177,8 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const showModalModel = computed({
-  get: () => props.showModal,
-  set: (value: boolean) => emit('update:showModal', value)
-})
-
-/** Delayed open so modal doesn't pop immediately (Phase 6.4). */
-const showModalDelayedInner = ref(false)
-let openTimeoutId: number | null = null
-watch(showModalModel, (val) => {
-  if (openTimeoutId) {
-    window.clearTimeout(openTimeoutId)
-    openTimeoutId = null
-  }
-  if (val) {
-    openTimeoutId = window.setTimeout(() => {
-      showModalDelayedInner.value = true
-      openTimeoutId = null
-    }, OPEN_DELAY_MS)
-  } else {
-    showModalDelayedInner.value = false
-  }
-}, { immediate: true })
-
-const showModalDelayed = computed({
-  get: () => showModalDelayedInner.value,
-  set: (value: boolean) => {
-    showModalDelayedInner.value = value
-    if (!value) emit('update:showModal', false)
-  }
-})
+/** Dynamic title for shell (e.g. "Schedule Report Writing"). */
+const moveableTitle = computed(() => `Schedule ${props.moveablePartShapeName}`)
 
 /** Time grid only when user has set a closing date (Phase 6.4). */
 const hasClosingDate = computed(

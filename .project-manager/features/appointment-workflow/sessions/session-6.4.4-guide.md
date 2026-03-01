@@ -13,17 +13,24 @@
 
 ---
 
-- [ ] #### Task 6.4.4.1: Unified required confirmation modal shell
+- [x] #### Task 6.4.4.1: Unified required confirmation modal shell
 
-**Goal:** Unified required confirmation modal shell
+**Goal:** Unify required-confirmation modals under a single reusable shell based on MoveablePartsModal, with two shell principles: (1) Dynamic title — shell supports dynamic title; property modal uses e.g. "Confirm {blockInstance.name} details". (2) Progressive / mini-wizard — "answer a question, get a different response" as shell principle; shell supports step-wise content in body slot. MoveablePartsModal and PropertyConfirmationModal become thin consumers.
 
 **Files:**
-(See session guide and phase context above.)
+- New: Shell component (e.g. `RequiredConfirmationModal.vue` or `WizardStepConfirmationModal.vue`) — extracted from MoveablePartsModal.
+- Refactor: `MoveablePartsModal` — use shell; move moveable-specific content into shell's default slot.
+- Refactor: `PropertyConfirmationModal` — use shell; property summary in body slot; dynamic title (e.g. "Confirm {blockInstance.name} details").
+- Reference: Phase 6.4 UX (max-width, delay, enter/exit transitions) in shell.
 
-**Approach:** See session scope above.
+**Approach:**
+1. Extract shell from MoveablePartsModal (VDialog + VCard, title bar, close, body slot, actions; Phase 6.4 styling/transitions). API: dynamic title (prop/slot), progressive body slot, optional actions (primary/secondary, canConfirm), emit confirm/cancel.
+2. Refactor MoveablePartsModal to use shell; keep dynamic title and progressive flow.
+3. Refactor PropertyConfirmationModal to use shell; dynamic title e.g. "Confirm {blockInstance.name} details".
+4. Governance: thin components, slot-based content, logic in composables; no new ad-hoc patterns.
 
-**Checkpoint:** Verify per session success criteria. [Fill in]
-**Files:**
-- [Files to work with]
-**Approach:** [Fill in]
-**Checkpoint:** [What needs to be verified]
+**Checkpoint:**
+- Shell exists with v-model open, title prop/slot, default body slot, optional actions; Phase 6.4 UX.
+- MoveablePartsModal uses shell; dynamic title and progressive behavior unchanged.
+- PropertyConfirmationModal uses shell; dynamic title and existing props/emits preserved.
+- Lint and session governance checks pass.
