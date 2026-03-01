@@ -56,7 +56,7 @@
 
 ---
 
-- [ ] #### Task 6.4.4.3: Optional — document step-level confirmModal / submit-step wiring
+- [x] #### Task 6.4.4.3: Optional — document step-level confirmModal / submit-step wiring
 
 **Goal:** Optionally document or introduce a step-level concept (e.g. `confirmModal: true`) for wizard steps that require completing the modal before advancing; leave submit-step confirmation wiring as follow-up if out of scope.
 
