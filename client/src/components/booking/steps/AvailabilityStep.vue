@@ -225,7 +225,6 @@ const showSlotsOverlay = computed(
     width: auto !important;
   }
 
-  /* Remove calendar bottom spacing so only .availability-options-below-calendar margin-top (1rem) creates the gap */
   :deep(.calendar-container) {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -252,7 +251,6 @@ const showSlotsOverlay = computed(
     overflow: hidden;
     visibility: hidden;
   }
-  /* Collapse the grid cell (wrapper) that contains adjacent-day placeholders */
   :deep(.v-date-picker-month__day:has(.v-date-picker-month__day--hide-adjacent)) {
     height: 0;
     min-height: 0;

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Theme/skin/layout/direction/contentWidth option arrays for Theme Customizer.
  * WHY: Keeps TheCustomizer.vue under vue-architecture script line limit.
  */
 import { computed } from 'vue'

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Managing inputConfig editing in metadata editor.
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
@@ -91,7 +90,6 @@ export function inputConfigEditor(
 
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
       if (renderAs === 'relationshipCollection') {
-        /* reserved for future relationshipCollection config */
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {

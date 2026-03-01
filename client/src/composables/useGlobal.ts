@@ -1,6 +1,5 @@
 /**
  * PATTERN: Global Entity Composable — reads from Vue Query.
- * WHY: attachDebugToWindow is dev-only debug tooling; SSR-safe via utility guard. Not a production side effect.
  */
 import type { Ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'

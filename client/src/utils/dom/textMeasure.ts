@@ -1,6 +1,5 @@
 /**
  * Measure the pixel width of the longest string in a list using canvas measureText.
- * WHY: Enables sizing selects/inputs to option text (e.g. Property Type) instead of fixed max-width.
  * SSR-safe: returns 0 when document/window or canvas is unavailable.
  *
  * @param labels - Text strings to measure (e.g. option labels)

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Enum options for block-shape-type select (User, Service, Property, Option).
  * WHY: Keeps SelectInputs.vue under vue-architecture script line limit.
  */
 import { computed, type Ref } from 'vue'

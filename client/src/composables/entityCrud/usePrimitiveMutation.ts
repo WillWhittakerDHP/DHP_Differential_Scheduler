@@ -142,7 +142,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           [variables.admin.key]: variables.admin.value,
         }
 
-        // WHY: blockShape has mutual exclusivity: canHaveParts and isStateControl cannot both be true. Server PATCH enforces this; keep optimistic cache in sync.
         if (entityKey === 'blockShape') {
           if (variables.admin.key === BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.canHaveParts && variables.admin.value === true) {
             nextEntity = { ...nextEntity, [BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.isStateControl]: false }

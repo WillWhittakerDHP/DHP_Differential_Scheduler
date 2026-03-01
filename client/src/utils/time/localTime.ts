@@ -1,5 +1,4 @@
 /**
- * WHY: Centralized local time conversions for UI boundaries.
  */
 import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
 import type { TimeRange, TimeSlot } from '@/types/appointment'

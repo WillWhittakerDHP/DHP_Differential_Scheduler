@@ -20,7 +20,6 @@ import type { EventShape } from '@/types/events'
 import type { ServiceSummary, TimeSlotResults } from '@/types/booking/devPanelsComputed'
 import type { ContactInfo } from '@/types/booking/contactsStepData'
 
-// Step data refs (useWizardStepDataRefs)
 export const propertyDetailsStepDataKey: InjectionKey<Ref<PropertyDetailsStepData | null>> =
   Symbol('propertyDetailsStepData')
 export const contactsStepDataKey: InjectionKey<Ref<ContactsStepData | null>> =
@@ -30,7 +29,6 @@ export const availabilityStepDataKey: InjectionKey<Ref<AvailabilityStepData | nu
 export const confirmationStepDataKey: InjectionKey<Ref<ConfirmationStepData | null>> =
   Symbol('confirmationStepData')
 
-// Step validation refs (useWizardStepDataRefs)
 export const propertyDetailsStepValidKey: InjectionKey<Ref<boolean>> =
   Symbol('propertyDetailsStepValid')
 export const propertyDetailsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =
@@ -60,7 +58,6 @@ export const appointmentDurationKey: InjectionKey<Ref<number | null>> =
 export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =
   Symbol('computedAvailability')
 
-// Dev mode (useWizardDevMode)
 export const resetMocksSignalKey: InjectionKey<Ref<number>> =
   Symbol('resetMocksSignal')
 

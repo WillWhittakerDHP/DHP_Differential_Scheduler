@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move .map()/.filter() out of NavBarNotifications.
  */
 import type { Ref } from 'vue'
 

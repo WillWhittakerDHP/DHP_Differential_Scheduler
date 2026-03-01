@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move async handleClick out of BooleanInput.
  */
 import type { Ref } from 'vue'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'

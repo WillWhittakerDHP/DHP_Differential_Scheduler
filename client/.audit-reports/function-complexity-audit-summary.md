@@ -44,4 +44,3 @@ Generated from `client/.audit-reports/function-complexity-audit.json`.
 | `client/src/composables/admin/useEntityCardStoreSync.ts` | P1 | 10 | 1 | 16 | 78 |
 | `client/src/composables/admin/useEntityCardSubPanels.ts` | P1 | 10 | 1 | 27 | 128 |
 
-*...and 217 more. See full report.*

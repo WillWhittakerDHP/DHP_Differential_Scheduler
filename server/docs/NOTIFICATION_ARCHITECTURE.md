@@ -67,7 +67,6 @@ Add an email sending function (e.g. nodemailer, SendGrid, AWS SES) that `onStatu
 **File:** `server/src/services/notificationService.ts`
 
 ```typescript
-// Feature 7: Add email transport
 import { sendEmail } from './emailTransport.js'
 
 if (newStatus === 'confirmed') {

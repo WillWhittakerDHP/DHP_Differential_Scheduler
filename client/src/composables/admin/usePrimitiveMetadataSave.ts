@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move async handleSave and queryClient refetch out of AdminPrimitiveMetadataEditor.
  */
 import { useQueryClient } from '@tanstack/vue-query'
 import type { EntityMetadataType } from '@/constants/fieldMetadata'

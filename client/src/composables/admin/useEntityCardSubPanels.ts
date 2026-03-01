@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch and getEntityNames (.map) out of EntityCardSubPanels.
  */
 import { computed, ref, watch, nextTick } from 'vue'
 import type { GlobalEntity } from '@/types/entities'

@@ -1,6 +1,5 @@
 import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 /**
- * PATTERN: Date range, displayed month, appointment duration, and computed availability for booking wizard.
  * WHY: Keeps BookingWizard.vue under vue-architecture script line limit.
  */
 import { ref, computed, provide } from 'vue'

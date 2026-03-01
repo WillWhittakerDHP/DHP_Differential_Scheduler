@@ -46,7 +46,6 @@ Generated from `lint-audit.json`.
 | `client/src/composables/admin/useEntityCardFieldConfiguration.ts` | P2 | 2 |
 | `client/src/composables/admin/useEntityDragHandlers.ts` | P2 | 2 |
 
-*...and 16 more. See full report.*
 
 ## Notes
 

@@ -1,6 +1,5 @@
 /**
  * WHY: usePanelPosition Composable
- * WHY: Moves DOM manipulation logic out of component; uses Vuetify useDisplay for viewport (no direct window access).
  */
 import { ref, watch, nextTick } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -110,7 +109,6 @@ WHY: Calculates transform before state change to prevent visual hop
       
       /**
        * WHY: Component controls isExpanded, composable only handles positioning
-       * PATTERN: Use nextTick then requestAnimationFrame for precise timing (SSR-safe guard).
        */
       nextTick(() => {
         if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {

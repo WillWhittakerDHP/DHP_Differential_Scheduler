@@ -1,5 +1,4 @@
 /**
- * PATTERN: Title row keydown handler for EntityCard (space/enter in inputs).
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
 import { KEY_ENTER, KEY_SPACEBAR } from '@/components/admin/generic/entityCardConstants'

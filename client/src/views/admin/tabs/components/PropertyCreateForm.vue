@@ -1,6 +1,5 @@
 <!-- Extracted from PropertiesTable for component-health (allowlist repair). -->
 <script setup lang="ts">
-/* eslint-disable vue/no-mutating-props */
 import { computed } from 'vue'
 import type { Ref } from 'vue'
 import type { PropertyRequest } from '@/types/property'

@@ -46,7 +46,6 @@ Generated from `lint-warnings-audit.json`. Warnings only.
 | `client/src/composables/admin/useEntityCardFieldConfiguration.ts` | P2 | 1 |
 | `client/src/composables/admin/useEntityDragHandlers.ts` | P2 | 1 |
 
-*...and 16 more. See full report.*
 
 ## Notes
 

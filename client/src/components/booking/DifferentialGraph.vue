@@ -105,7 +105,6 @@ const showStateLabel = computed(() => {
          stateLabel.value !== null
 })
 
-// WHY: Bottom bar width as % of top so it is always shorter than or equal to the top bar (responsive + proportional).
 const minorBarWidthPercent = computed(() => {
   const major = props.graphBars.major?.duration ?? 0
   const minor = props.graphBars.minor?.duration ?? 0

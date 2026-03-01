@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch(visible) out of ApiDevPanel.
  */
 import { watch } from 'vue'
 

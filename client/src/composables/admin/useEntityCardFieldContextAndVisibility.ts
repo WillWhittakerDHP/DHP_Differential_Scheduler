@@ -1,5 +1,4 @@
 /**
- * PATTERN: Field context manager + conditional visibility + debug watch for EntityCard.
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
 import { watch } from 'vue'

@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch(shouldShowError) out of FieldRenderer.
  */
 import { watch, type ComputedRef, type Ref } from 'vue'
 import type { FieldComponent } from '@/types/forms/fieldComponent'
@@ -37,7 +36,6 @@ export function useFieldRendererErrorWatch(params: UseFieldRendererErrorWatchPar
       if (!showError || !effectiveFieldContext.value) return
       const componentType = fieldComponent.componentType.value
       const reason = 'reason' in componentType ? componentType.reason : 'unknown'
-      // Skip error log when context has no keys yet (notConfigured, transient mount state). Avoids console spam and unhandled-error noise.
       if (reason === 'notConfigured' && fieldKey.value == null && entityKey.value == null) return
       const componentMapEntry = componentMap[componentType?.type]
       const hasComponent = componentMapEntry !== null && componentMapEntry !== undefined

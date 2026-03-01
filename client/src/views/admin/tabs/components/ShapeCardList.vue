@@ -1,6 +1,5 @@
 <!-- Extracted from ShapesTab for component-health (allowlist repair). -->
 <script setup lang="ts">
-/* eslint-disable vue/no-mutating-props */
 import { computed, isRef, unref } from 'vue'
 import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'

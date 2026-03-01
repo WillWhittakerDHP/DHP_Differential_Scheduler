@@ -1,5 +1,4 @@
 /**
- * WHY: Global keyboard shortcuts (Ctrl/Cmd+Shift+D) require window-level event listeners;
  * Vue's @keydown only works on focused elements. SSR-guarded (typeof window check).
  */
 import { onMounted, onUnmounted } from 'vue'

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Updating field metadata with automatic renderAs computation.
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatcher'

@@ -64,7 +64,6 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable vue/no-mutating-props */
 import { computed } from 'vue'
 import type { Ref } from 'vue'
 import type { UserRequest } from '@/types/user'

@@ -1,6 +1,5 @@
 /**
  * Pure filter strategies for select entity lists.
- * WHY: Extracted from useSelectFiltering to reduce function complexity and nesting;
  * each strategy is a focused, testable function.
  */
 

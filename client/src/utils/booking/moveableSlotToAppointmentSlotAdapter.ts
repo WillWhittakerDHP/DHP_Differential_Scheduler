@@ -1,11 +1,9 @@
 /**
  * Adapter: MoveableSlot[] → AppointmentSlot[] for use in AppointmentSlotGrid.
  *
- * WHY: MoveablePartsModal needs to show moveable completion times in the same grid UX as
  * appointment slots. MoveableSlot has dayLabel/timeLabel and SlotTimeBounds; AppointmentSlotGrid
  * expects AppointmentSlots with shape/totalTimeRange for derivePerspective (nonDifferential).
  *
- * PATTERN: Display-only slots. Output is valid only for time-basis="nonDifferential".
  * Do not use with major/minor perspective; shape has empty eventFinals so
  * derivePerspective returns totalTimeRange.
  */

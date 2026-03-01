@@ -225,14 +225,12 @@ watch(
   max-width: 32rem; /* Reasonably wide, not full line; leaves room for Components on same row */
 }
 
-/* Property Type select only as wide as needed for options, not full column */
 .property-type-col {
   width: fit-content;
   max-width: 100%;
 }
 
 .property-type-select-wrap {
-  /* Width set inline from measureMaxTextWidth(option names) + padding */
   min-width: 0;
 }
 </style>

@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch and async submit out of BetaFeedbackModal.
  */
 import { ref, reactive, watch } from 'vue'
 import type { VForm } from 'vuetify/components'

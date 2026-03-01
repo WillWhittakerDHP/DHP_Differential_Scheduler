@@ -182,7 +182,6 @@ router.patch(
         updateData = req.body
       }
 
-      // WHY: blockShape has DB constraint check_state_control_mutual_exclusivity - canHaveParts and isStateControl cannot both be true.
       // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
       const entityType = paramString(req, 'entityType')
       if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {

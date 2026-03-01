@@ -1,5 +1,4 @@
 /**
- * PATTERN: Wrapped save/undo and reset-after-save for EntityCard.
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
 import { nextTick } from 'vue'

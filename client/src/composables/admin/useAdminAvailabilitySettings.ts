@@ -50,14 +50,11 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
     error.value = null
 
     try {
-      // Admin-specific: read autoConfirmEnabled (not part of shared getAvailabilitySettings)
       const response = await apiClient.get('/business-settings/availability_settings')
       autoConfirmEnabled.value = response.data?.auto_confirm_enabled === true
 
-      // Delegate all parsing/validation to the shared config function
       const settings = await getAvailabilitySettings()
 
-      // Admin-specific defaults the booking flow doesn't need
       if (!settings.durationRounding) {
         settings.durationRounding = {
           enabled: false,

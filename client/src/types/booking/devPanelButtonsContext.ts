@@ -4,7 +4,6 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 
 /**
  * Shared contract for dev panel buttons context (provide/inject).
- * WHY: Single type for provider and consumers; removes duplication across DevPanelsContainer, DevPanelButtons, useWizardDevMode (audit: duplication).
  */
 export interface DevPanelButtonsContext {
   selectedAppointmentId: Ref<string | null>

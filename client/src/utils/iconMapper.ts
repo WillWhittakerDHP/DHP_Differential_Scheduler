@@ -31,7 +31,6 @@ PATTERN: Check mapp...
 export function getIcon(iconString: string | null | undefined): string {
   if (!iconString || iconString.trim() === '') {
     if (isDevModeEnabled()) {
-      /* dev-only placeholder for future logging */
     }
     return DEFAULT_ICON
   }

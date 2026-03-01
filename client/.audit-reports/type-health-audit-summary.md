@@ -105,7 +105,6 @@ Generated from `client/.audit-reports/type-health-audit.json`.
 | `server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts` | P2 | 4 |
 | `client/src/composables/admin/useRelationshipCollection.ts` | P2 | 3 |
 
-*...and 122 more. See full report.*
 
 ## Notes
 

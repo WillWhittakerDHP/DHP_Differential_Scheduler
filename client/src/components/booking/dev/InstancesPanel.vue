@@ -145,8 +145,6 @@ if (!injected) {
 }
 const ctx = injected as NonNullable<typeof injected>
 
-// WHY: Contract exposes ComputedRef; template needs unwrapped values for v-for/length/etc.
-// Unwrap once in script so template sees correct types and runtime stays single-unwrap.
 const finalizedParts = computed(() => ctx.finalizedParts.value)
 const eventShapes = computed(() => ctx.eventShapes.value)
 const serviceTypeOptions = computed(() => ctx.serviceTypeOptions.value)

@@ -42,7 +42,6 @@ Generated from `client/.audit-reports/composables-logic-audit.json`.
 | `client/src/composables/admin/useInstanceBulkEdit.ts` | P2 | 10 | 1 | 0 | 0 | 2 | 4 | 2 | 1 | 0 | 0 |
 | `client/src/composables/admin/usePartsTotals.ts` | P2 | 8 | 1 | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 |
 
-*...and 187 more. See full report.*
 
 ## Notes
 

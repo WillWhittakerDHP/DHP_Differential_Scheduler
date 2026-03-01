@@ -48,7 +48,6 @@ function defaultDeadlineTime(innerBoundary: string, bufferMinutes: number, movea
   return end.toISOString().slice(11, 16) // HH:mm
 }
 
-// ─── Pure helpers (no Vue reactivity, no side effects) ─────────────────────
 
 /** Exported for tests. Moveable grid now uses virtual appointment slots from useAppointmentSlots. */
 export function computeMoveableSlots(params: ComputeMoveableSlotsParams): MoveableSlot[] {
@@ -152,7 +151,6 @@ function formatTimeLabel(
   return `${startFormatted} - ${endFormatted}`
 }
 
-// ─── Composable ────────────────────────────────────────────────────────────
 
 interface UseMoveablePartsSchedulingParams {
   appointmentShape: ComputedRef<AppointmentShape | null>
@@ -266,7 +264,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     return fallbackLabel
   })
 
-  // Options: inner/outer boundaries and earliestCompletion (no client-side slot list; grid uses fetch + useAppointmentSlots).
   watchEffect(async () => {
     if (!hasMoveableParts.value || !selectedSlot.value) {
       moveableOptions.value = null
@@ -300,7 +297,6 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         earliestCompletion: innerBoundary,
         selectedSlotIndex: selectedSlotIndex.value,
       }
-      // Initial deadline: day of appointment, time = end of appointment + buffer + moveable duration (apply existing settings).
       if (!contingencyPeriod.value.endDate && !contingencyPeriod.value.endTime) {
         const settings = await getAvailabilitySettings()
         const bufferMinutes = settings.buffers?.appointment?.minutes ?? 0

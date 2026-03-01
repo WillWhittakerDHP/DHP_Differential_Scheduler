@@ -201,7 +201,6 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     isLoadingOptions,
   } = moveablePartsScheduling
 
-  // Gate modal on preClosing: only open for services that have preClosing true (Phase 6.4)
   const hasMoveablePartsGated = computed(
     () =>
       hasMoveableParts.value &&

@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move async load and onMounted out of BetaFeedbackDashboard.
  */
 import { ref, reactive, onMounted } from 'vue'
 import type { Ref } from 'vue'

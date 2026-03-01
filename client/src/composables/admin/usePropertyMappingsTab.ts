@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move useQuery (async queryFn) out of PropertyMappingsTab.
  */
 import { useQuery } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'

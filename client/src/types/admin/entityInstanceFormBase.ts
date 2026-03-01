@@ -2,7 +2,6 @@ import type { Ref } from 'vue'
 
 /**
  * Shared return shape for block/part instance form composables.
- * WHY: UseBlockInstanceFormReturn and UsePartInstanceFormReturn share 8 of 9 fields; single generic base eliminates duplication.
  */
 export interface UseEntityInstanceFormReturn<FormData> {
   isEdit: Ref<boolean>

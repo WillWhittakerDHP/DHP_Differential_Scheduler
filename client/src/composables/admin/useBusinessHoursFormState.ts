@@ -1,5 +1,4 @@
 /**
- * WHY: Business hours UI mapping and updater for Business Controls; split from useBusinessControlsFormState (audit: function-complexity).
  */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { localTime } from '@/utils/time/localTime'

@@ -1,6 +1,5 @@
 /**
  * Pure transforms for grouping entities and building select options.
- * WHY: Extracted from useSelectOptions to reduce function complexity and improve testability.
  */
 
 import type { GlobalEntityKey } from '@/constants/entities'

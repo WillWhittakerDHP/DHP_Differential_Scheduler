@@ -107,7 +107,6 @@ Generated from `client/.audit-reports/composable-health-audit.json`.
 | `client/src/composables/admin/usePartInstanceCollection.ts` | P2 | 4 |
 | `client/src/composables/admin/useAdmin.ts` | P2 | 3 |
 
-*...and 102 more. See full report.*
 
 ## Notes
 
