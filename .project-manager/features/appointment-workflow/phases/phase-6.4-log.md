@@ -17,6 +17,22 @@
 
 ## Completed Sessions
 
+### Session 6.4.4: Unified required confirmation modal shell ✅
+**Completed:** 2026-03-01
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Extract the modal "window" (VDialog + VCard + title + close + body slot + actions) with transitions/sizing from the moveable modal into a single reusable shell. Both MoveablePartsModal and PropertyConfirmationModal become consumers: step-specific content in a shared shell. Enables a consistent "required confirmation before next step" pattern for property details, moveable scheduling, and future steps (e.g. submit "is this the service package you want?").
+
+
+
+### Session 6.4.4: Unified required confirmation modal shell ✅
+**Completed:** 2026-03-01
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Extract the modal "window" (VDialog + VCard + title + close + body slot + actions) with transitions/sizing from the moveable modal into a single reusable shell. Both MoveablePartsModal and PropertyConfirmationModal become consumers: step-specific content in a shared shell. Enables a consistent "required confirmation before next step" pattern for property details, moveable scheduling, and future steps (e.g. submit "is this the service package you want?").
+
+
+
 ### Session 6.4.3: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid) ✅
 **Completed:** 2026-02-27
 **Tasks Completed:** All tasks completed

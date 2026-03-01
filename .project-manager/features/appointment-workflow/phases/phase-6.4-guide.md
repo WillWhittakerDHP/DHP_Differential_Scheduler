@@ -75,7 +75,7 @@
 - Single source of truth for slot button UI and responsive grid (one component, two contexts)
 
 ---
-- [ ] ### Session 6.4.4: Unified required confirmation modal shell
+- [x] ### Session 6.4.4: Unified required confirmation modal shell
 **Description:** Extract the modal "window" (VDialog + VCard + title + close + body slot + actions) with transitions/sizing from the moveable modal into a single reusable shell. Both MoveablePartsModal and PropertyConfirmationModal become consumers: step-specific content in a shared shell. Enables a consistent "required confirmation before next step" pattern for property details, moveable scheduling, and future steps (e.g. submit "is this the service package you want?").
 **Tasks:**
 - Create `RequiredConfirmationModal.vue` (or `WizardStepConfirmationModal.vue`) as shell: v-model open, title prop/slot, default slot for body, optional actions slot or props (primary/secondary label, canConfirm), emit confirm/cancel; apply Phase 6.4 UX (max-width, delay, enter/exit transitions)

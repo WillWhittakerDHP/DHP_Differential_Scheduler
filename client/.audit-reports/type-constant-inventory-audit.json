@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-01T18:12:35.440Z",
+  "generatedAt": "2026-03-01T18:48:37.065Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -8472,7 +8472,7 @@
         "WizardStepConfig"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 36,
+      "lineCount": 41,
       "purpose": "Wizard step configuration for booking flow.",
       "reuseTier": "feature",
       "tags": [
@@ -11815,7 +11815,7 @@
           "WizardStepConfig"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 36,
+        "lineCount": 41,
         "purpose": "Wizard step configuration for booking flow.",
         "reuseTier": "feature",
         "tags": [
