@@ -468,9 +468,9 @@ map@75: .map((id) => {
 filter@79: .filter((name): name is string => name !== null)
 computed@82: const partsSummary = computed((): string => {
 computed@101: const partsBulkEditMode = computed(() => {
-watch@126: watch(partsBulkEditMode, (isEnabled) => {
-computed@132: const relationshipsSummary = computed((): string => {
-computed@157: const hasAnySubPanelFields = computed(() =>
+watch@131: watch(partsBulkEditMode, (isEnabled) => {
+computed@137: const relationshipsSummary = computed((): string => {
+computed@162: const hasAnySubPanelFields = computed(() =>
 ```
 
 ### `client/src/composables/useRelationship.ts`
