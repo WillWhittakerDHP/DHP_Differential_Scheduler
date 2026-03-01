@@ -13,7 +13,7 @@
 **Description:** Refine the MoveablePartsModal so it only appears for pre-closing services, responds to closing-date context, allows passthrough without requiring a timeslot selection, and feels less intrusive. Introduces a `preClosing` boolean property on block instances (full-stack). Consolidates the scattered `differential` string-checking pattern so that differential state is derived in one canonical composable and propagated everywhere.
 
 **Duration:** 1+ sessions
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
