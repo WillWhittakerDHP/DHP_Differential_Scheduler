@@ -1,4 +1,5 @@
 <!-- Extracted from PropertiesTable for component-health (allowlist repair). -->
+<!-- eslint-disable vue/no-mutating-props -- newProperty is a Ref passed by parent for two-way binding -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Ref } from 'vue'
