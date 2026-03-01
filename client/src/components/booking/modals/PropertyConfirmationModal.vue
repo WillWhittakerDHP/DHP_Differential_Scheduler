@@ -114,8 +114,8 @@ const confirmationTitle = computed(() => {
 })
 
 /**
- * WHY: Combines address, unit, city, state, and zip code into readable format
-P...
+ * WHY: Combines address, unit, city, state, and zip code into readable format.
+ * Task 6.4.4.2: PropertyConfirmationModal uses RequiredConfirmationModal shell; dynamic title in confirmationTitle.
  */
 const fullAddress = computed(() => {
   const parts: string[] = []

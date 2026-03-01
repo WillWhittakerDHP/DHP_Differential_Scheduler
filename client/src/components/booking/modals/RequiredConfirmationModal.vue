@@ -98,9 +98,10 @@ const showModalModel = computed({
 })
 
 const showModalDelayedInner = ref(false)
-let openTimeoutId: ReturnType<typeof setTimeout> | null = null
+/** Browser timer id (number); use number so type matches window.setTimeout return in DOM. */
+let openTimeoutId: number | null = null
 watch(showModalModel, (val) => {
-  if (openTimeoutId) {
+  if (openTimeoutId !== null) {
     window.clearTimeout(openTimeoutId)
     openTimeoutId = null
   }

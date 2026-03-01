@@ -4,5 +4,5 @@ phase.id=6.4
 phase.name=Guide: Moveable Modal & preClosing Property
 session.id=6.4.4
 session.name=Unified required confirmation modal shell
-task.id=6.4.4.1
-task.name=Unified required confirmation modal shell
+task.id=6.4.4.2
+task.name=Refactor PropertyConfirmationModal to use shell

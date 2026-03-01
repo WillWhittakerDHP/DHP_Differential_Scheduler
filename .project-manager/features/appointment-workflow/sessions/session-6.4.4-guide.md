@@ -34,3 +34,38 @@
 - MoveablePartsModal uses shell; dynamic title and progressive behavior unchanged.
 - PropertyConfirmationModal uses shell; dynamic title and existing props/emits preserved.
 - Lint and session governance checks pass.
+
+---
+
+- [x] #### Task 6.4.4.2: Refactor PropertyConfirmationModal to use shell
+
+**Goal:** Use the shared required-confirmation shell for PropertyConfirmationModal: property summary in the shell's default slot; dynamic title (e.g. "Confirm {blockInstance.name} details"); keep existing props/emits.
+
+**Files:**
+- Refactor: `PropertyConfirmationModal` — use shell; move property summary into shell's default slot; adopt dynamic title from context.
+- Reference: Shell component (RequiredConfirmationModal / WizardStepConfirmationModal) and Phase 6.4 UX.
+
+**Approach:**
+1. Wire PropertyConfirmationModal to the shell (body slot = property summary content; title from context).
+2. Set dynamic title (e.g. "Confirm {blockInstance.name} details" or equivalent from blockInstance/context).
+3. Preserve existing props/emits for content logic; thin component, no new ad-hoc patterns.
+
+**Checkpoint:**
+- PropertyConfirmationModal uses shell; dynamic title and existing props/emits preserved.
+- Lint and session governance checks pass.
+
+---
+
+- [ ] #### Task 6.4.4.3: Optional — document step-level confirmModal / submit-step wiring
+
+**Goal:** Optionally document or introduce a step-level concept (e.g. `confirmModal: true`) for wizard steps that require completing the modal before advancing; leave submit-step confirmation wiring as follow-up if out of scope.
+
+**Files:**
+- Session/phase docs or shell usage notes; optional wiring in wizard/step config if in scope.
+
+**Approach:**
+1. Document which steps use the required-confirmation modal; add `confirmModal` or equivalent to step schema if desired.
+2. Defer submit-step confirmation wiring unless explicitly in scope for this session.
+
+**Checkpoint:**
+- Any new docs or config are consistent with governance; no required code change if deferred.
