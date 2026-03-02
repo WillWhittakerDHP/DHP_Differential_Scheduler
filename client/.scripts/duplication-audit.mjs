@@ -378,7 +378,7 @@ function renderMarkdownReport(data) {
   lines.push('')
   lines.push('## Per-group details (top)')
   lines.push('')
-  lines.push('LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).')
+  lines.push('When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).')
   lines.push('')
 
   const topDetail = data.groups.slice(0, 20)

@@ -47,11 +47,6 @@
 - Client: Add "Hold Slot" button to availability step UI (disabled with tooltip "Requires authentication")
 - Document enactment requirements for Feature 7
 
-**Learning Goals:**
-- Understand the stub pattern for auth-gated features
-- Learn how appointment status transitions work
-
-- [x] ### Session 6.2.2: Admin Override Stub
 **Description:** Admin constraint override logic via the existing appointment PATCH endpoint, plus client-side "Override" action in the admin panel. This prepares the structure that Phase 6.8 will expand into the full force-create and constraint override system.
 **Tasks:**
 - Add `override_constraints` (JSONB, nullable) column to appointments via migration and update model
@@ -60,10 +55,6 @@
 - Client: Add "Override Constraints" button to admin appointment view (disabled with tooltip "Requires admin authentication")
 - Document the relationship between this stub and Phase 6.8's full implementation
 - Document enactment requirements for Feature 7
-
-**Learning Goals:**
-- Understand how constraint overrides will integrate with the slot computation system
-- Learn the admin role-gating pattern
 
 ---
 

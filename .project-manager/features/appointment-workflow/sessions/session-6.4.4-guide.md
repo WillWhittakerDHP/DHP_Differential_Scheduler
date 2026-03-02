@@ -7,9 +7,6 @@
 - Refactor MoveablePartsModal to use the shell: move moveable-specific content (contingency, slots) into the shell's default slot; keep existing props/emits for content logic
 - Refactor PropertyConfirmationModal to use the shell: move property summary into the shell's default slot; keep existing props/emits
 - Optionally document or introduce a step-level concept (e.g. `confirmModal: true`) for wizard steps that require completing this modal before advancing; leave wiring for submit-step confirmation as follow-up if out of scope
-**Learning Goals:**
-- Reusable modal shell pattern (slot-based content, single place for transitions and accessibility)
-- Same UX contract for all "required confirmation" modals; step-unique content only in slots
 
 ---
 

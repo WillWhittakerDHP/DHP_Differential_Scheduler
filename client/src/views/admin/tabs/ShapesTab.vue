@@ -1,54 +1,31 @@
 <!--
-  LEARNING: Shapes Tab Component for BlockShape, PartShape, and AnnotationShape Management
-  WHY: Provides interface for managing BlockShapes, PartShapes, and AnnotationShapes with CRUD operations
   PATTERN: VTabs for tab navigation, VExpansionPanels for grouped display
-  COMPARISON: React uses Ant Design Tabs. Vue uses Vuetify VTabs with VWindow
-  RESOURCE: https://vuetifyjs.com/en/components/tabs/
 -->
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import { useEntityFiltering } from '@/composables/admin/useEntityFiltering'
-import { useShapeDisplayNames } from '@/composables/admin/useShapeDisplayNames'
-import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'
-import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
-import { useExpansionState } from '@/composables/admin/useExpansionState'
-import { useEntityTabState } from '@/composables/admin/useEntityTabState'
-import { useShapesTabModals } from '@/composables/admin/useShapesTabModals'
-import { useShapesTabCreation } from '@/composables/admin/useShapesTabCreation'
-import { useShapesTabDeletion } from '@/composables/admin/useShapesTabDeletion'
-import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import ShapeCardList from './components/ShapeCardList.vue'
 import ShapeCreationForm from './components/ShapeCreationForm.vue'
-import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID, PART_INSTANCE_GLOBAL_CONFIG_ID, ANNOTATION_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
-import { useNotification } from '@/composables/useNotification'
-import { createLogger } from '@/utils/logger'
+import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
+import { useShapesTab } from '@/composables/admin/useShapesTab'
 
-const logger = createLogger('ShapesTab')
-
-const { filteredEntities: filteredPartShapes } = useEntityFiltering('partShape')
-const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape')
-const { partShapeDisplayNames: _partShapeDisplayNames, blockShapeDisplayNames: _blockShapeDisplayNames } = useShapeDisplayNames()
-const { patchOrderIndex: patchPartShapeOrderIndex } = useEntityCrud('partShape')
-const { patchOrderIndex: patchBlockShapeOrderIndex } = useEntityCrud('blockShape')
-const annotationShapesComposable = useEntityCrud('annotationShape')
-const annotationShapes = annotationShapesComposable.entities
-const isLoadingAnnotationShapes = annotationShapesComposable.isLoading
-const createAnnotationShapeMutation = annotationShapesComposable.create
-const eventShapesComposable = useEntityCrud('eventShape')
-const eventShapes = eventShapesComposable.entities
-const isLoadingEventShapes = eventShapesComposable.isLoading
-const createEventShapeMutation = eventShapesComposable.create
-const activeTab = ref('blockShapes')
-const expansionStateComposable = useExpansionState()
-const { expandedEntities: expandedShapes, isPanelExpanded } = expansionStateComposable
-const { success } = useNotification()
-
-const modals = useShapesTabModals()
 const {
+  activeTab,
+  blockShapesContainer: _blockShapesContainer,
+  partShapesContainer: _partShapesContainer,
+  annotationShapesContainer: _annotationShapesContainer,
+  partShapesPanelsContainer: _partShapesPanelsContainer,
+  blockShapesPanelsContainer: _blockShapesPanelsContainer,
+  annotationShapesPanelsContainer: _annotationShapesPanelsContainer,
+  blockShapesList,
+  partShapesList,
+  expandedShapes,
+  isPanelExpanded,
+  blockShapesTabLabel,
+  partShapesTabLabel,
+  annotationShapesTabLabel,
+  eventShapesTabLabel,
   blockShapeMetadataModalOpen,
   partShapeMetadataModalOpen,
   partInstanceMetadataModalOpen,
@@ -60,16 +37,6 @@ const {
   handlePartInstanceMetadataSaved,
   toggleAnnotationShapeMetadataModal,
   toggleEventShapeMetadataModal,
-} = modals
-
-const creation = useShapesTabCreation({
-  expandedShapes,
-  success,
-  createAnnotationShapeMutation,
-  createEventShapeMutation,
-  logger,
-})
-const {
   isCreatingPartShape,
   isCreatingAnnotationShape,
   isCreatingEventShape,
@@ -78,8 +45,6 @@ const {
   newEventShapeName,
   isCreatingAnnotationShapeLoading,
   isCreatingEventShapeLoading,
-} = creation.state
-const {
   createPartShape,
   startCreatingAnnotationShape,
   handlePartShapeCreated,
@@ -89,103 +54,24 @@ const {
   startCreatingEventShape,
   handleEventShapeCreate,
   handleEventShapeCancelled,
-} = creation.actions
-
-const deletion = useShapesTabDeletion({ expandedShapes })
-const {
   handleDeletePartShape,
   handleDeleteBlockShape,
   handleDeleteAnnotationShape,
   handleDeleteEventShape,
   handleExistingShapeSaved,
-} = deletion
-
-const partShapesContainer = ref<HTMLElement | null>(null)
-const blockShapesContainer = ref<HTMLElement | null>(null)
-const annotationShapesContainer = ref<HTMLElement | null>(null)
-void annotationShapesContainer.value
-const partShapesPanelsContainer = ref<HTMLElement | null>(null)
-const blockShapesPanelsContainer = ref<HTMLElement | null>(null)
-const annotationShapesPanelsContainer = ref<HTMLElement | null>(null)
-void annotationShapesPanelsContainer.value
-const partShapesList = ref<GlobalEntity<'partShape'>[]>([])
-const blockShapesList = ref<GlobalEntity<'blockShape'>[]>([])
-const partShapeIds = ref<string[]>([])
-const blockShapeIds = ref<string[]>([])
-
-const partShapesDragHandlers = useEntityDragHandlers({
-  entityIds: partShapeIds,
-  entityList: partShapesList,
-  filteredEntities: filteredPartShapes,
-  patchOrderIndex: patchPartShapeOrderIndex
-})
-const blockShapesDragHandlers = useEntityDragHandlers({
-  entityIds: blockShapeIds,
-  entityList: blockShapesList,
-  filteredEntities: filteredBlockShapes,
-  patchOrderIndex: patchBlockShapeOrderIndex
-})
-useEntityTabState({ filteredEntities: filteredPartShapes, dragHandlers: partShapesDragHandlers })
-useEntityTabState({ filteredEntities: filteredBlockShapes, dragHandlers: blockShapesDragHandlers })
-const { isMounted: _partShapesMounted } = useDragAndDrop({
-  containerRef: partShapesContainer,
-  panelsContainerRef: partShapesPanelsContainer,
-  entityIds: partShapeIds,
-  entityList: partShapesList,
-  filteredEntities: filteredPartShapes,
-  dragEndHandler: partShapesDragHandlers.handleDragEnd,
-  group: 'partShapes',
-  draggableClass: 'draggable-part-shape'
-})
-const { isMounted: _blockShapesMounted } = useDragAndDrop({
-  containerRef: blockShapesContainer,
-  panelsContainerRef: blockShapesPanelsContainer,
-  entityIds: blockShapeIds,
-  entityList: blockShapesList,
-  filteredEntities: filteredBlockShapes,
-  dragEndHandler: blockShapesDragHandlers.handleDragEnd,
-  group: 'blockShapes',
-  draggableClass: 'draggable-block-shape'
-})
-
-const filteredAnnotationShapes = computed(() =>
-  Array.isArray(annotationShapes.value) ? [...annotationShapes.value] : []
-)
-const safeEventShapes = computed(() =>
-  Array.isArray(eventShapes.value) ? eventShapes.value : []
-)
-const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
-const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
-const annotationShapesTabLabel = computed(() => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`)
-const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
-
-const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
-  id: PART_INSTANCE_GLOBAL_CONFIG_ID,
-  entityKey: 'partInstance'
-} as GlobalEntity<'partInstance'>))
-const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
-  id: toGlobalEntityId(ANNOTATION_SHAPE_GLOBAL_CONFIG_ID),
-  name: 'Annotation Shape Fields (Global)',
-  entityKey: 'annotationShape',
-  orderIndex: 0,
-  active: true
-}))
-const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
-  id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'),
-  name: 'Event Shape Fields (Global)',
-  entityKey: 'eventShape',
-  orderIndex: 0,
-  active: true,
-  isTernary: false,
-  ternaryDefault: null,
-  differentialRole: null
-}))
+  filteredAnnotationShapes,
+  safeEventShapes,
+  isLoadingAnnotationShapes,
+  isLoadingEventShapes,
+  partInstanceConfigEntity,
+  annotationShapeFieldsEntity,
+  eventShapeFieldsEntity,
+} = useShapesTab()
 </script>
 
 <template>
   <div class="shapes-tab">
     <!--
-      LEARNING: VTabs component for tab navigation
       WHY: Provides tabbed interface to switch between PartShapes and AnnotationShapes
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
@@ -205,12 +91,10 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
     </VTabs>
     
     <!--
-      LEARNING: VWindow component for tab content container
       WHY: Manages which tab content is visible based on activeTab value
       PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
     -->
     <!--
-      LEARNING: Add explicit keys to VWindowItem components
       WHY: Helps Vue track components during transitions and prevents undefined VNode errors
       PATTERN: Use stable keys matching the value prop for proper component tracking
     -->
@@ -220,7 +104,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-headline-small">Block</h3>
           <div class="d-flex gap-2">
-            <!-- LEARNING: Global button to configure all BlockShape fields -->
             <!-- WHY: Single config applies to all BlockShapes globally -->
             <!-- PATTERN: Global config modal triggered from section header -->
             <VBtn
@@ -235,13 +118,10 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         </div>
         
         <!--
-          LEARNING: VExpansionPanels for grouped display with drag-and-drop
           WHY: Provides expandable/collapsible cards for BlockShapes that can be reordered
           PATTERN: v-model binds to expandedShapes array, multiple allows multiple expanded cards
-          LEARNING: Use blockShapesList for drag-and-drop (mutable array)
-          LEARNING: Wrap in div for drag-and-drop parent container
         -->
-        <div ref="blockShapesContainer" class="drag-drop-container">
+        <div ref="_blockShapesContainer" class="drag-drop-container">
           <ShapeCardList
             v-if="blockShapesList.length > 0"
             entity-key="blockShape"
@@ -268,7 +148,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-headline-small">Part</h3>
           <div class="d-flex gap-2">
-            <!-- LEARNING: Global button to configure all PartShape fields -->
             <!-- WHY: Shape-level field configuration -->
             <!-- PATTERN: Global config modal triggered from section header -->
             <VBtn
@@ -279,7 +158,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
             >
               Shape Fields
             </VBtn>
-            <!-- LEARNING: Global button to configure all PartInstance fields -->
             <!-- WHY: Instance-level field configuration (zeroOutPart, onSite, etc.) -->
             <!-- PATTERN: Global config modal triggered from section header -->
             <VBtn
@@ -301,16 +179,13 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         </div>
         
         <!--
-          LEARNING: VExpansionPanels for grouped display with drag-and-drop
           WHY: Provides expandable/collapsible cards for PartShapes that can be reordered
           PATTERN: v-model binds to expandedShapes array, multiple allows multiple expanded cards
-          LEARNING: Use partShapesList for drag-and-drop (mutable array)
-          LEARNING: Wrap in div for drag-and-drop parent container
         -->
-        <div ref="partShapesContainer" class="drag-drop-container">
+        <div ref="_partShapesContainer" class="drag-drop-container">
           <VExpansionPanels
             v-if="isCreatingPartShape || partShapesList.length > 0"
-            ref="partShapesPanelsContainer"
+            ref="_partShapesPanelsContainer"
             v-model="expandedShapes"
             multiple
           >
@@ -334,7 +209,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
           </VExpansionPanels>
           
           <!--
-            LEARNING: Empty state display
             WHY: Provides feedback when no results match search or no data exists
             PATTERN: Conditional rendering with v-else
           -->
@@ -348,7 +222,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
           </VAlert>
           
           <!--
-            LEARNING: PartShape Fields Preview Card
             WHY: Shows configured partShape fields at bottom of tab for easy reference
             PATTERN: EntityCard with global config ID to display all partShape field configurations
           -->
@@ -368,7 +241,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-headline-small">Annotations</h3>
           <div class="d-flex gap-2">
-            <!-- LEARNING: Global button to configure all AnnotationShape fields -->
             <!-- WHY: Single config applies to all AnnotationShapes globally -->
             <!-- PATTERN: Global config modal triggered from section header -->
             <VBtn
@@ -390,19 +262,17 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         </div>
         
         <!--
-          LEARNING: VExpansionPanels for grouped display (matching Part tab)
           WHY: Provides expandable/collapsible cards for AnnotationShapes with consistent UI
           PATTERN: v-model binds to expandedShapes array, multiple allows multiple expanded cards
-          LEARNING: Use same structure as Part Shapes for consistency
         -->
-        <div ref="annotationShapesContainer" class="drag-drop-container">
+        <div ref="_annotationShapesContainer" class="drag-drop-container">
           <div v-if="isLoadingAnnotationShapes" class="text-center py-4">
             <VProgressCircular indeterminate />
           </div>
           
           <VExpansionPanels 
             v-else-if="isCreatingAnnotationShape || filteredAnnotationShapes.length > 0"
-            ref="annotationShapesPanelsContainer"
+            ref="_annotationShapesPanelsContainer"
             v-model="expandedShapes" 
             multiple 
           >
@@ -463,7 +333,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
           </VExpansionPanels>
           
           <!--
-            LEARNING: Empty state display
             WHY: Provides feedback when no results match search or no data exists
             PATTERN: Conditional rendering with v-else - matches Part tab
           -->
@@ -483,7 +352,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         <div class="d-flex justify-space-between align-center mb-4">
           <h3 class="text-headline-small">Events</h3>
           <div class="d-flex gap-2">
-            <!-- LEARNING: Global button to configure all EventShape fields -->
             <!-- WHY: Single config applies to all EventShapes globally -->
             <!-- PATTERN: Global config modal triggered from section header -->
             <VBtn
@@ -505,7 +373,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
         </div>
         
         <!--
-          LEARNING: Event Shapes Section
           WHY: Shows event shape definitions (e.g., OnSite, Moveable, ClientPresent)
           PATTERN: Similar to annotation shapes section
         -->
@@ -589,7 +456,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
     </VWindow>
     
     <!--
-      LEARNING: Global BlockShape Metadata Configuration Modal
       WHY: Single modal for configuring all BlockShape field definitions globally
       PATTERN: Global config modal triggered from section header, field definitions only mode
     -->
@@ -602,7 +468,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
     />
     
     <!--
-      LEARNING: Global PartShape Metadata Configuration Modal
       WHY: Single modal for configuring all PartShape field definitions globally
       PATTERN: Global config modal triggered from section header, field definitions only mode
     -->
@@ -615,7 +480,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
     />
     
     <!--
-      LEARNING: Global PartInstance Metadata Configuration Modal
       WHY: Single modal for configuring all PartInstance field definitions globally
       PATTERN: Global config modal triggered from section header, field definitions only mode
     -->
@@ -628,7 +492,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
     />
     
     <!--
-      LEARNING: Global AnnotationShape Metadata Configuration Modal
       WHY: Single modal for configuring all AnnotationShape field definitions globally
       PATTERN: Global config modal triggered from section header, uses sentinel UUID
     -->
@@ -641,7 +504,6 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
     />
     
     <!--
-      LEARNING: Global EventShape Metadata Configuration Modal
       WHY: Single modal for configuring all EventShape field definitions globally
       PATTERN: Global config modal triggered from section header, uses sentinel UUID
     -->
@@ -710,4 +572,3 @@ const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
   box-shadow: none !important;
 }
 </style>
-

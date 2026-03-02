@@ -1,7 +1,6 @@
 /**
  * Shared Business Rules Constants
  *
- * LEARNING: Single source of truth for rule_type values used by client and server
  * WHY: Consolidates inline literals (required_fields, requires_agent, etc.) for audit and type safety
  * PATTERN: Exported const object; both client and server derive RuleType from it
  */

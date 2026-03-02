@@ -114,12 +114,6 @@ Wire **all** feedback and automatically detected errors/warnings into a single, 
 
 ---
 
-## Learning Goals
-
-- Understand the rename strategy (new migration vs editing old one) for existing tables.
-- See how one feedback pipeline serves manual (user/alpha) and automatic (error_boundary/console) sources.
-- Practice full-stack rename (DB → server → client) with minimal behavioral change.
-
 ---
 
 ## Dependencies

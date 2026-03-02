@@ -1,7 +1,6 @@
 /**
  * Shared Constraint Utilities
  * 
- * LEARNING: Centralized constraint filtering and grouping utilities
  * WHY: Eliminates duplication across client and server constraint handling
  * PATTERN: Pure utility functions for constraint manipulation
  */
@@ -15,7 +14,6 @@ import type {
 
 /**
  * Filter active constraints
- * LEARNING: Centralized filtering logic for all constraint types
  * WHY: Eliminates duplicate filter operations across codebase
  * PATTERN: Single function that handles all constraint filtering rules
  * 
@@ -32,7 +30,6 @@ export function filterActiveConstraints(constraints: Constraint[]): Constraint[]
 
 /**
  * Group constraints by category
- * LEARNING: Type-safe grouping of unified constraint array
  * WHY: Enables category-specific processing while maintaining type safety
  * PATTERN: Switch statement on category field for discriminated union narrowing
  * 
@@ -67,7 +64,6 @@ export function groupConstraintsByCategory(constraints: Constraint[]): {
 
 /**
  * Merge violations with existing flexible violations
- * LEARNING: Centralized violation merging ensures consistency
  * WHY: Single source of truth for violation handling
  * PATTERN: Pure function that merges and formats violations
  * 

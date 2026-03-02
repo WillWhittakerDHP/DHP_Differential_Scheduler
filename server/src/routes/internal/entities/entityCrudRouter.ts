@@ -82,7 +82,6 @@ router.post(
     }
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
       
@@ -109,7 +108,6 @@ router.put(
     const entityId = paramString(req, 'id')
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType'))
       

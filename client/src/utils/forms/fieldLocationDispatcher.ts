@@ -57,7 +57,6 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
 
   switch (visibility) {
     case FIELD_VISIBILITY.TITLE_ROW:
-      // LEARNING: Title row fields render in title row regardless of expansion state
       // PATTERN: Return titleRow location immediately
       return { type: 'titleRow', reason: 'titleRow' }
     

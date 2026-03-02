@@ -12,19 +12,19 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **262**
+- Total composable files scanned: **263**
 
 ## Top hotspots (heuristic)
 
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/composables/booking/useMoveablePartsScheduling.ts` | 33 | 0 | 2 | 16 | 4 | 0 | 1 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | 20 | 0 | 0 | 11 | 8 | 0 | 1 |
 | `client/src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
 | `client/src/composables/admin/useSelectHandlers.ts` | 18 | 0 | 0 | 2 | 6 | 0 | 0 |
 | `client/src/composables/admin/useShapeForm.ts` | 17 | 0 | 0 | 6 | 8 | 0 | 0 |
 | `client/src/composables/admin/useShapesTabCreation.ts` | 17 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `client/src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
+| `client/src/composables/booking/useMoveablePartsScheduling.ts` | 16 | 0 | 0 | 13 | 0 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRulesTab.ts` | 15 | 0 | 1 | 4 | 7 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 15 | 0 | 5 | 9 | 0 | 0 | 0 |
@@ -51,14 +51,6 @@ Legend:
 - **P1**: high leverage cleanup (split / side effects)
 - **P2**: polish / consistency
 
-### `client/src/composables/booking/useMoveablePartsScheduling.ts`
-
-- exports: `useMoveablePartsScheduling`
-- score: **33**
-- return keys (first return): `dayLabel`, `duration`, `endTime`, `startTime`, `timeLabel`
-
-- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
-
 ### `client/src/composables/fieldContext/useFieldContextState.ts`
 
 - exports: (none detected)
@@ -70,46 +62,6 @@ Legend:
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `client/src/composables/booking/useMoveablePartsScheduling.ts`
-
-- counts: vueQuery=0, watch=2, computed=13, ref=3, async=2, await=2, dom=0, console=0
-
-```
-map@69: return slots.map((slot) => ({
-map@87: const [year, month, day] = contingencyPeriod.endDate.split('-').map(Number)
-computed@197: const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
-ref@199: const showModal = ref(false)
-ref@205: const isLoadingOptions = ref(false)
-ref@207: const isLoadingMoveableDaySlots = ref(false)
-computed@210: const moveableEventFinal = computed(() => {
-map@213: const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-computed@219: const hasMoveableParts = computed(() => (moveableEventFinal.value?.roundedDuration ?? 0) > 0)
-computed@221: const moveableDuration = computed(() => {
-computed@229: const moveablePartShapeName = computed(() => {
-filter@236: .filter(([, eventInstances]) =>
-map@240: .map(([partShapeName]) => partShapeName)
-filter@241: .filter((name) => name.trim().length > 0)
-filter@242: .filter((name) => !isGenericMoveableLabel(name))
-map@249: .flatMap(([, eventInstances]) => eventInstances.map((eventInstance) => eventInstance.name))
-filter@250: .filter((name): name is string => typeof name === 'string' && name.trim().length > 0)
-filter@251: .filter((name) => !isGenericMoveableLabel(name))
-watchEffect@267: watchEffect(async () => {
-async@267: watchEffect(async () => {
-await@301: const settings = await getAvailabilitySettings()
-computed@320: const hasClosingDate = computed(
-watch@325: watch(
-async@327: async () => {
-await@341: const data = await fetchComputedAvailabilityData({
-computed@358: const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)
-computed@359: const moveableShapeOverride = computed(() =>
-computed@364: blockInstances: computed(() => []),
-computed@367: perspective: computed(() => 'nonDifferential' as const),
-computed@368: isDifferentialService: computed(() => false),
-computed@372: const allowedMoveableDates = computed(() => {
-map@389: moveableAppointmentSlots.value.map((s) => {
-computed@422: moveableOptions: computed(() => moveableOptions.value),
-```
 
 ### `client/src/composables/fieldContext/useFieldContextState.ts`
 
@@ -258,6 +210,29 @@ computed@56: sellerFirstName: computed(() => sellerInfo.value.firstName),
 computed@57: sellerLastName: computed(() => sellerInfo.value.lastName),
 computed@58: sellerEmail: computed(() => sellerInfo.value.email)
 computed@61: const reactiveRules = computed(() => {
+```
+
+### `client/src/composables/booking/useMoveablePartsScheduling.ts`
+
+- counts: vueQuery=0, watch=0, computed=12, ref=1, async=0, await=0, dom=0, console=0
+
+```
+map@51: return slots.map((slot) => ({
+computed@141: const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
+ref@143: const showModal = ref(false)
+computed@148: const moveableEventFinal = computed(() => {
+map@151: const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+computed@157: const hasMoveableParts = computed(() => (moveableEventFinal.value?.roundedDuration ?? 0) > 0)
+computed@159: const moveableDuration = computed(() => {
+computed@167: const moveablePartShapeName = computed(() =>
+computed@201: const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)
+computed@202: const moveableShapeOverride = computed(() =>
+computed@207: blockInstances: computed(() => []),
+computed@210: perspective: computed(() => 'nonDifferential' as const),
+computed@211: isDifferentialService: computed(() => false),
+computed@215: const allowedMoveableDates = computed(() => {
+map@227: moveableAppointmentSlots.value.map((s) => {
+computed@260: moveableOptions: computed(() => moveableOptions.value),
 ```
 
 ### `client/src/composables/admin/useBusinessRulesTab.ts`
@@ -761,6 +736,23 @@ filter@72: }).filter((slot): slot is TimeSlot => slot !== null)
 computed@75: const minorTimeSlots = computed(() => {
 map@86: return slots.map(appointmentSlot => {
 filter@92: }).filter((slot): slot is TimeSlot => slot !== null)
+```
+
+### `client/src/composables/booking/useMoveableAvailabilityData.ts`
+
+- counts: vueQuery=0, watch=2, computed=1, ref=2, async=3, await=2, dom=0, console=0
+
+```
+async@3: * Owns async options computation (watchEffect) and moveable-day slot fetch (watch).
+ref@69: const isLoadingOptions = ref(false)
+ref@71: const isLoadingMoveableDaySlots = ref(false)
+watchEffect@75: watchEffect(async () => {
+async@75: watchEffect(async () => {
+await@113: const settings = await getAvailabilitySettings()
+computed@132: const hasClosingDate = computed(
+watch@136: watch(
+async@138: async () => {
+await@152: const data = await fetchComputedAvailabilityData({
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`

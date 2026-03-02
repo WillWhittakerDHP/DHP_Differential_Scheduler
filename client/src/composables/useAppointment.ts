@@ -1,7 +1,6 @@
 /**
  * WHY: useAppointment Composable
 
-LEARNING: Vue composable for appointment CRUD...
  */
 import { computed, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -127,4 +126,3 @@ export function useAppointment(): UseAppointmentReturn {
     fetchRandom,
   }
 }
-

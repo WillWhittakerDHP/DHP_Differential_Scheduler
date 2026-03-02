@@ -1,7 +1,6 @@
 /**
  * WHY: useAppointmentLoader Composable
 
-LEARNING: Helper composable for loading...
  */
 import { ref, type Ref } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'

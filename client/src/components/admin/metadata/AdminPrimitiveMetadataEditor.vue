@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Admin Primitive Metadata Editor
   WHY: Single unified editor for rendering configuration in admin_primitive_metadata
         Renamed from AdminInputMetadataEditor to align with entity data pattern
   PATTERN: Rendering-only editor - only shows rendering configuration fields
@@ -177,7 +176,6 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
-
 
 // PATTERN: Composable handles sentinel UUIDs and blockShapeRef inclusion
 const metadataEditorEntity = useMetadataEditorEntity(

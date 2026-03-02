@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Entity Card Fee Preview Widget
   WHY: Shows fee vs sqft for this block instance so admins can see cost in context while editing
   PATTERN: usePartsTotals for data; compact SVG line + sqft input and cost output; same formula as confirmation step
 -->

@@ -1,6 +1,5 @@
 <!--
   RequiredConfirmationModal – reusable confirmation modal shell (Phase 6.4).
-  LEARNING: Single shell for "required confirmation before next step" modals.
   WHY: MoveablePartsModal and PropertyConfirmationModal share VDialog+VCard+title+close+body+actions;
        extract once so dynamic title and progressive/mini-wizard behavior live in one place.
   PATTERN: v-model open, title prop (dynamic), default slot for body, optional actions (props or slot).
@@ -60,10 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-
-/** Phase 6.4: ~400ms delay before opening so modal feels less intrusive. */
-const OPEN_DELAY_MS = 400
+import { computed } from 'vue'
+import { useDelayedModalVisibility } from '@/composables/booking/useDelayedModalVisibility'
 
 interface Props {
   modelValue: boolean
@@ -97,30 +94,9 @@ const showModalModel = computed({
   set: (value: boolean) => emit('update:modelValue', value),
 })
 
-const showModalDelayedInner = ref(false)
-/** Browser timer id (number); use number so type matches window.setTimeout return in DOM. */
-let openTimeoutId: number | null = null
-watch(showModalModel, (val) => {
-  if (openTimeoutId !== null) {
-    window.clearTimeout(openTimeoutId)
-    openTimeoutId = null
-  }
-  if (val) {
-    openTimeoutId = window.setTimeout(() => {
-      showModalDelayedInner.value = true
-      openTimeoutId = null
-    }, OPEN_DELAY_MS)
-  } else {
-    showModalDelayedInner.value = false
-  }
-}, { immediate: true })
-
-const showModalDelayed = computed({
-  get: () => showModalDelayedInner.value,
-  set: (value: boolean) => {
-    showModalDelayedInner.value = value
-    if (!value) emit('update:modelValue', false)
-  },
+const { showModalDelayed } = useDelayedModalVisibility({
+  source: showModalModel,
+  onClose: () => emit('update:modelValue', false),
 })
 
 function handleConfirm(): void {

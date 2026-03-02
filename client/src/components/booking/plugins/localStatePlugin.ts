@@ -1,6 +1,5 @@
 /**
 
-LEARNING: State plugin for local ref-based state man...
  */
 import { computed, type Ref } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
@@ -34,4 +33,3 @@ WHY: Enables SelectionCard to react to e...
     watchSource: () => computed(() => modelValue.value)
   }
 }
-

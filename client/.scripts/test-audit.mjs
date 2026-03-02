@@ -311,7 +311,7 @@ function calculateCognitiveLoadScore(contents, functions, classes, composables) 
   score += Math.min(Math.floor(nestedCount / 3), 2)
   
   // Documentation reduces cognitive load
-  const hasDocs = /(\/\*\*|\/\/\s*LEARNING|\/\/\s*WHY|\/\/\s*PATTERN)/.test(contents)
+  const hasDocs = /(\/\*\*|\/\/\s*WHY|\/\/\s*PATTERN)/.test(contents)
   if (hasDocs) score = Math.max(score - 2, 0)
   
   return Math.min(score, 10)

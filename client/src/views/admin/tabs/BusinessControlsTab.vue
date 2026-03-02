@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Business Controls Tab Component
   WHY: Allows admin to configure availability settings (business hours, time increments, lead time)
   PATTERN: Form with validation, API integration; delegates to panel components and composables
 -->

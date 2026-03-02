@@ -22,7 +22,6 @@ export const DEFAULT_SELECTION_CARD_CONFIG: SelectionCardConfig = {
 /**
  * Merge a user config with safe defaults.
  *
- * LEARNING: This is pure, so it belongs in utils (composables can wrap it with computed()).
  */
 export function mergeSelectionCardConfigWithDefaults(config: SelectionCardConfig | undefined): SelectionCardConfig {
   if (!config || config === null || typeof config !== 'object' || Array.isArray(config)) {
@@ -43,5 +42,3 @@ export function mergeSelectionCardConfigWithDefaults(config: SelectionCardConfig
     expansion: userConfig.expansion,
   }
 }
-
-

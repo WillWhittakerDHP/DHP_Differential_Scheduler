@@ -1,7 +1,6 @@
 import { ref, watch } from 'vue'
 import type { UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
-
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)
   const progressValue = ref(10)
@@ -19,10 +18,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
     }, 800)
   }
 
-  /**
-LEARNING: Watch progress and fallback state
-WHY: Adjusts progress wh...
-   */
   watch([progressValue, isFallbackState], () => {
     if (progressValue.value > 80 && isFallbackState.value)
       progressValue.value = 82
@@ -65,4 +60,3 @@ PATTERN: Set ...
     resolveHandle
   }
 }
-

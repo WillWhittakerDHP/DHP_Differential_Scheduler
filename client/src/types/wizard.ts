@@ -1,6 +1,5 @@
 /**
 
-LEARNING: TypeScript types for booking wizard state
 ...
  */
 import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
@@ -15,7 +14,6 @@ export type WizardMode = 'new' | 'quote' | 'reschedule'
 
 /**
  * WHY: Wizard State Interface
-LEARNING: Defines the structure of wizard state
 P...
  */
 export interface WizardState {

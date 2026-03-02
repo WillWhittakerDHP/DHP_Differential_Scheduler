@@ -67,35 +67,10 @@
 
 <script setup lang="ts">
 /**
- * WHY: Use entity list composable
-WHY: Extracts list management logic from comp...
+ * WHY: Thin component; list logic in useBlockInstanceList (component-logic Tier1 extraction).
  */
-import { useRouter } from 'vue-router'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import { useNotification } from '@/composables/useNotification'
-import { entityList } from '@/utils/admin/entityList'
+import { useBlockInstanceList } from '@/composables/admin/useBlockInstanceList'
 
-const { entities, isLoading, error, remove } = useEntityCrud('blockInstance')
-const router = useRouter()
-const { error: notifyError } = useNotification()
-
-const {
-  goToCreate,
-  goToEdit,
-  handleDelete
-} = entityList({
-  entityKey: 'blockInstance',
-  router,
-  remove: async (id) => {
-    await remove(id)
-  },
-  notifyError,
-  routes: {
-    create: 'block-instance-create',
-    edit: 'block-instance-edit'
-  },
-  deleteConfirmation: 'Are you sure you want to delete this block instance?',
-  deleteErrorMessage: 'Failed to delete block instance'
-})
+const { entities, isLoading, error, goToCreate, goToEdit, handleDelete } = useBlockInstanceList()
 </script>
 

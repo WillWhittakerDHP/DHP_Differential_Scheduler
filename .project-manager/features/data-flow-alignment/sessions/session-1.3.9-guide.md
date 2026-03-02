@@ -21,26 +21,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current single-select wizard state management (`selectedBaseService`, `selectedDwellingAdjustment`)
-- Understand database schema with FK columns (`base_service_id`, `dwelling_adjustment_id`)
-- Understand SelectionCard component architecture and `isParent` conditional logic
-- Review accumulation naming patterns for duration calculations
-
-**During Session:**
-- Learn how to migrate database FK columns to JSONB arrays
-- Learn how to refactor wizard state from single values to arrays
-- Learn how to separate SelectionCard into focused components
-- Learn how to update transformers for array-based data flow
-
-**After Session:**
-- Understand multi-select array patterns in Vue.js wizard state
-- Understand JSONB array storage and querying patterns
-- Understand component separation patterns for cleaner architecture
-- Understand accumulation naming for clarity in calculations
-
 ---
 
 ## Objectives
@@ -296,4 +276,3 @@ The sub-sessions must be completed in order due to dependencies:
 **Testing:** ⏸️ Deferred (Session 1.3.9.7) until Phase 1.4 ends
 
 All code changes for the multi-select services refactor have been completed. Testing and validation will be performed after Phase 1.4 ends to allow for comprehensive testing of all Phase 1.3 changes together.
-

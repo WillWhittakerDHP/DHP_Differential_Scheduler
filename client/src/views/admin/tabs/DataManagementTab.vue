@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Data Management Tab Component
   WHY: Provides tabbed interface for managing appointments, properties, and users
   PATTERN: Nested VTabs/VWindow pattern similar to AdminPanel
   
@@ -23,7 +22,6 @@ const { currentTab: currentSubTab, navigateToTab: handleNavigateToTab } = useTab
 <template>
   <div class="data-management-tab">
     <!--
-      LEARNING: Nested VTabs for sub-tabs within Data Management tab
       WHY: Provides tabbed interface for switching between appointments, properties, and users
       PATTERN: VTabs with v-model for two-way data binding
     -->
@@ -34,14 +32,12 @@ const { currentTab: currentSubTab, navigateToTab: handleNavigateToTab } = useTab
     </VTabs>
     
     <!--
-      LEARNING: VWindow component for sub-tab content container
       WHY: Manages which sub-tab content is visible based on currentSubTab value
       PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
     -->
     <VWindow v-model="currentSubTab">
       <VWindowItem key="appointments" value="appointments">
         <!--
-          LEARNING: AppointmentsTable with tab navigation event
           WHY: Allows clicking on property/user data to navigate to respective tabs
           PATTERN: @navigate-to-tab event binding for cross-component communication
         -->
@@ -62,4 +58,3 @@ const { currentTab: currentSubTab, navigateToTab: handleNavigateToTab } = useTab
   margin-top: 1rem;
 }
 </style>
-

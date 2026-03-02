@@ -1,6 +1,5 @@
 /**
  * WHY: Global to Booking Transformer
-LEARNING: Transforms GlobalData into booki...
  */
 import type { GlobalData } from '@/types/transformers/globalData'
 import type { GlobalRelationship } from '@/types/relationships'
@@ -355,4 +354,3 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
 export const bookingTransformer = {
   transformGlobalToBooking,
 }
-

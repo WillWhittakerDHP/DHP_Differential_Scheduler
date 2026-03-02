@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Property Mappings Admin Tab
   WHY: Admin UI for Bright MLS field and feature mappings
   PATTERN: Two sub-tabs (Field Mappings, Block Mappings) with CRUD tables
 -->

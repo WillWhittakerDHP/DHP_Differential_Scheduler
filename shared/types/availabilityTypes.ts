@@ -1,7 +1,6 @@
 /**
  * Shared Availability Types
  * 
- * LEARNING: Types shared between client and server for availability calculations
  * WHY: Single source of truth for constraint interfaces, prevents type drift
  * PATTERN: Shared types directory for cross-cutting concerns
  * 
@@ -13,7 +12,6 @@
 
 /**
  * RFC3339 DateTime string type
- * LEARNING: Branded string type for RFC3339 datetime strings (ISO 8601 with timezone)
  * WHY: Type safety for datetime strings, prevents mixing with other string types
  * PATTERN: Branded string type
  */
@@ -21,7 +19,6 @@ export type RFC3339DateTime = string & { readonly __brand: 'RFC3339DateTime' }
 
 /**
  * Constraint enforcement level
- * LEARNING: Controls how strictly constraints are enforced
  * WHY: Provides flexibility in how constraints are applied (off = not applied, flexible = warn/soft block, hard = hard block)
  * PATTERN: Enum-like string literal union type
  */
@@ -29,7 +26,6 @@ export type ConstraintEnforcement = 'off' | 'flexible' | 'hard'
 
 /**
  * Rolling week calculation direction
- * LEARNING: Determines how rolling 7-day window is calculated relative to appointment date
  * WHY: Different businesses may prefer different rolling week calculations
  * PATTERN: Enum-like string literal union type
  */
@@ -37,7 +33,6 @@ export type RollingWeekDirection = 'past' | 'centered' | 'future'
 
 /**
  * Constraint category type
- * LEARNING: Declarative category field for type-safe constraint discrimination
  * WHY: Enables type-safe narrowing without property checking, cleaner than 'config' in constraint
  * PATTERN: String literal union type for discriminated union
  */
@@ -45,7 +40,6 @@ export type ConstraintCategory = 'range' | 'overlap' | 'capacity'
 
 /**
  * Range constraint type
- * LEARNING: Identifies the type of time-based restriction
  * WHY: Allows different range constraint types (businessHours, leadTime, dateRange) to coexist
  * PATTERN: Enum-like string literal union type
  */
@@ -53,7 +47,6 @@ export type RangeConstraintType = 'businessHours' | 'leadTime' | 'dateRange'
 
 /**
  * Drive time application rules
- * LEARNING: Controls when drive time buffers are applied based on slot position
  * WHY: Slots at business hours boundaries may need different handling than middle slots
  * PATTERN: Enum-like string literal union type
  * 
@@ -75,13 +68,11 @@ export interface TimeRangeBounds {
 
 /**
  * Business hours for a single day (branded so not assignable to DateRangeConfig etc.).
- * LEARNING: Stored as RFC3339 internally, converted to/from HH:mm for UI
  */
 export type DayHours = TimeRangeBounds & { readonly __brand: 'DayHours' }
 
 /**
  * Range constraint configuration for business hours
- * LEARNING: Configuration for business hours constraint
  * WHY: Encapsulates business hours per day
  * PATTERN: Interface with business hours map
  * NOTE: All days are defined (may be empty/closed, but structure is consistent)
@@ -100,7 +91,6 @@ export interface BusinessHoursConfig {
 
 /**
  * Range constraint configuration for lead time
- * LEARNING: Configuration for lead time constraint
  * WHY: Encapsulates minimum lead time in minutes
  * PATTERN: Interface with minutes field
  */
@@ -110,13 +100,11 @@ export interface LeadTimeConfig {
 
 /**
  * Range constraint configuration for date range (branded so not assignable to DayHours etc.).
- * LEARNING: Absolute start and end boundaries
  */
 export type DateRangeConfig = TimeRangeBounds & { readonly __brand: 'DateRangeConfig' }
 
 /**
  * Range constraint
- * LEARNING: Time-based restrictions that filter slots by when they can occur
  * WHY: Consolidates business hours, leadTime, and date range boundaries into unified structure
  * PATTERN: Interface with type, enforcement, and config
  */
@@ -129,7 +117,6 @@ export interface RangeConstraint {
 
 /**
  * Buffer type for distinguishing buffer purposes (storage/API shape)
- * LEARNING: Identifies the purpose of a buffer configuration
  * PATTERN: Enum-like string literal union type
  */
 export type BufferType = 'appointment' | 'driveTime' | 'lunch'
@@ -142,7 +129,6 @@ export type BufferPlacement = 'off' | 'before' | 'after' | 'both'
 
 /**
  * Buffer configuration (storage/API shape for overlap buffers)
- * LEARNING: Configuration for a single buffer type (appointment, driveTime, or lunch)
  * PATTERN: Interface with required fields
  */
 export interface BufferConfig {
@@ -154,7 +140,6 @@ export interface BufferConfig {
 
 /**
  * Base shared by DriveTimeConfig and OverlapConstraint (P2 type-similarity).
- * LEARNING: Common minutes/enforcement/applyTo shape for buffer and overlap constraints
  */
 export interface OverlapMinutesBase {
   minutes: number
@@ -164,7 +149,6 @@ export interface OverlapMinutesBase {
 
 /**
  * Drive time buffer configuration (storage/API shape)
- * LEARNING: Semantic buffer for travel time with application rules
  * PATTERN: Interface with minutes, enforcement, and applyTo
  */
 export interface DriveTimeConfig extends OverlapMinutesBase {
@@ -173,7 +157,6 @@ export interface DriveTimeConfig extends OverlapMinutesBase {
 
 /**
  * Overlap constraint (buffer) interface
- * LEARNING: Unified structure for all buffer types (appointment, driveToCandidate, driveFromCandidate, lunch)
  * WHY: Consolidates buffer checking into single pathway
  * PATTERN: Interface with type, placement, enforcement, minutes, and optional applyTo
  *
@@ -197,7 +180,6 @@ export interface OverlapConstraint extends OverlapMinutesBase {
 
 /**
  * Capacity constraint interface
- * LEARNING: Unified structure for all capacity filters (daily, calendar week, rolling week)
  * WHY: Consolidates capacity checking into single pathway; income is capacity with different unit
  * PATTERN: Interface with type, enforcement, maxHours, optional maxIncome/scheduledIncome, and optional direction
  */
@@ -214,7 +196,6 @@ export interface CapacityConstraint {
 
 /**
  * Income capacity filter configuration
- * LEARNING: Same time basis as work capacity (day, calendarWeek, rollingWeek) but unit is income
  * WHY: Enables income-based caps alongside or instead of hours
  * PATTERN: Interface with maxIncome and enforcement
  */
@@ -230,13 +211,11 @@ export interface RollingWeekFilterBase {
 
 /**
  * Rolling week income capacity filter configuration
- * LEARNING: Extends IncomeCapacityFilter with direction for rolling window
  */
 export interface RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter, RollingWeekFilterBase {}
 
 /**
  * Unified constraint type
- * LEARNING: Discriminated union of all constraint types
  * WHY: Enables type-safe constraint handling with single array
  * PATTERN: Discriminated union with category field
  */
@@ -244,7 +223,6 @@ export type Constraint = RangeConstraint | OverlapConstraint | CapacityConstrain
 
 /**
  * Standardized constraint check result
- * LEARNING: Unifies "passes" and "available" into one concept
  * WHY: Eliminates naming inconsistency between constraint checkers
  * PATTERN: All constraint checkers return this shape
  */
@@ -255,7 +233,6 @@ export interface ConstraintCheckResult {
 
 /**
  * Busy period source type
- * LEARNING: Identifies the data origin of a busy period, NOT the constraint type
  * WHY: Constraint types (appointment buffer, drive time, etc.) describe RULES about spacing;
  *      busy period sources describe WHERE the blocking data came from (which API response)
  * PATTERN: Separate vocabulary from constraint types - sources are about data origin
@@ -274,7 +251,6 @@ export type BusyPeriodSource = 'event' | 'outOfOffice'
 
 /**
  * Work capacity filter configuration
- * LEARNING: Configuration for a single capacity filter (daily, calendar week, or rolling week)
  * WHY: Encapsulates max hours and filter mode together
  * PATTERN: Interface with required fields
  */
@@ -285,7 +261,6 @@ export interface WorkCapacityFilter {
 
 /**
  * Rolling week capacity filter configuration
- * LEARNING: Extends WorkCapacityFilter with RollingWeekFilterBase (direction)
  */
 export interface RollingWeekCapacityFilter extends WorkCapacityFilter, RollingWeekFilterBase {}
 
@@ -297,7 +272,6 @@ export type { Coordinates, LocationBase }
 
 /**
  * Default location for drive time calculations
- * LEARNING: Starting/ending point for first/last appointment drive times
  * PATTERN: Extends LocationBase (shared with RouteLocation) with required placeId and optional label
  */
 export interface DefaultLocation extends LocationBase {
@@ -307,7 +281,6 @@ export interface DefaultLocation extends LocationBase {
 
 /**
  * Duration rounding configuration
- * LEARNING: Controls how appointment durations are rounded
  * WHY: Allows admin to enable/disable rounding and configure rounding method and increment
  * PATTERN: Optional nested object with enabled flag, increment, and method
  */
@@ -319,7 +292,6 @@ export interface DurationRoundingConfig {
 
 /**
  * Busy time range
- * LEARNING: Represents a time period when the calendar is busy
  * WHY: Used to exclude time slots that conflict with existing appointments
  * PATTERN: Extends TimeRangeBounds; optional placeId for drive time calculations
  */
@@ -332,7 +304,6 @@ export interface BusyTimeRange extends TimeRangeBounds {
 
 /**
  * Calendar event with location
- * LEARNING: Represents a calendar event with optional location for drive time calculations
  * WHY: Used to calculate drive times between appointments
  * PATTERN: Extends TimeRangeBounds (start/end); event details and optional placeId
  */
@@ -371,7 +342,6 @@ export interface ComputedAvailabilityRequest {
 
 /**
  * Computed Availability Data
- * LEARNING: Single response object containing all pre-computed availability data
  * WHY: Eliminates multiple client-side API calls and constraint extraction
  * PATTERN: Comprehensive interface with constraints, busy periods, events, drive times, and capacity data
  */
@@ -420,17 +390,14 @@ export interface SlotAvailabilityResult {
 
 /**
  * A single time slot with pre-computed availability from the server
- * LEARNING: Server computes slot boundaries and constraint violations; client applies shape for display
  * WHY: Eliminates client-side constraint logic; drive-time anchoring uses event-level context on server
  */
 export interface ComputedSlot extends SlotTimeBounds, SlotAvailabilityResult {
   violations: string[]  // required for server slot e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
 }
 
-
 /**
  * Server response: slots grouped by day (server-side slot computation)
- * LEARNING: Replaces ComputedAvailabilityData when using server-computed slots
  * WHY: Client receives pre-computed slots; no busy-period flattening or client constraint checking
  */
 export interface ComputedSlotAvailabilityData {

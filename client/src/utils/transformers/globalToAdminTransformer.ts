@@ -1,6 +1,5 @@
 /**
  * WHY: Global to Admin Transformer
-LEARNING: Transforms GlobalData to AdminObje...
  */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalData } from '@/types/transformers/globalData'

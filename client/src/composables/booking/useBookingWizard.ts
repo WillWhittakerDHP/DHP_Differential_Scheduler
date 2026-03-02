@@ -1,6 +1,5 @@
 /**
  * WHY: Booking Wizard Composable
-LEARNING: Vue composable pattern for managing ...
  */
 import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
@@ -16,7 +15,6 @@ WHY: Single source of truth for wizard state w...
 export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const { bookingData } = useBooking()
 
-  // LEARNING: Reactive state for wizard selections
   // PATTERN: Use ref for single values, ref([]) for arrays
   const selectedUserTypeBlock = ref<BookingBlockInstance | null>(null)
   const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - renamed from selectedServices for consistency
@@ -63,7 +61,6 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
 
   /**
 Select user type and clear dependent selections
-LEARNING: Cascading ...
    */
   const selectUserTypeBlock = (block: BookingBlockInstance | null): void => {
     selectedUserTypeBlock.value = block
@@ -103,7 +100,6 @@ Toggle property type block selection (single-select UI, array storag...
 
   /**
 Toggle availability option selection
-LEARNING: Multi-select pattern ...
    */
   const toggleOptionTypeBlock = (block: BookingBlockInstance): void => {
     const index = selectedOptionTypeBlocks.value.findIndex(b => b.id === block.id)
@@ -116,7 +112,6 @@ LEARNING: Multi-select pattern ...
 
   /**
 Toggle line item block selection
-LEARNING: Multi-select pattern usin...
    */
   const toggleLineItemBlock = (block: BookingBlockInstance): void => {
     const index = selectedLineItemBlocks.value.findIndex(b => b.id === block.id)

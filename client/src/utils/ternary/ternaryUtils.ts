@@ -28,7 +28,6 @@ export function toBoolean(value: TernaryBoolean, mode?: 'strict' | 'inclusive'):
 
 /**
  * WHY: Compare ternary value to specific state
-LEARNING: Checks if value equals...
  */
 export function equals(value: TernaryBoolean, state: TernaryBoolean): boolean {
   return value === state

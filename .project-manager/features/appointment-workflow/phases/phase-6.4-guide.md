@@ -50,17 +50,10 @@
 - Soften modal UX: reduce size (`max-width: 520`), add ~400ms delay before open, add enter/exit transitions
 - Re-enable the currently-disabled MoveablePartsModal, remove temporary disable comments, verify full integration
 
-**Learning Goals:**
-- Full-stack property addition pattern (migration → model → type → transformer)
-- Reactive aggregates and the "derive once, propagate everywhere" pattern for computed state
-- Progressive disclosure UX and modal timing/transition patterns
-
 ---
 - [x] ### Session 6.4.2: Session 6.4.2
 **Description:** Session 6.4.2
 **Tasks:** [To be planned]
-**Learning Goals:**
-- [To be identified during planning]
 
 ---
 - [x] ### Session 6.4.3: Moveable Modal — Shared Time-Slot Grid (AppointmentSlotGrid)
@@ -70,9 +63,6 @@
 - In MoveablePartsModal, replace the "Available Completion Times" VList with AppointmentSlotGrid; pass the adapted slots and `time-basis="nonDifferential"`; bind selectedButtonIndex to selectedSlotIndex and @slot-click to selectSlot(buttonIndex)
 - Ensure the modal content area that wraps the grid has a ref so AppointmentSlotGrid's useResponsiveGrid gets the same width-driven column behavior (same component, same SCSS/layout)
 - Remove the old VList/VListItem slot UI and any redundant dayLabel/timeLabel display for slots
-**Learning Goals:**
-- Adapter pattern for "simple slot list" → "full AppointmentSlot shape" when reusing a component that expects the full shape
-- Single source of truth for slot button UI and responsive grid (one component, two contexts)
 
 ---
 - [x] ### Session 6.4.4: Unified required confirmation modal shell
@@ -82,9 +72,6 @@
 - Refactor MoveablePartsModal to use the shell: move moveable-specific content (contingency, slots) into the shell's default slot; keep existing props/emits for content logic
 - Refactor PropertyConfirmationModal to use the shell: move property summary into the shell's default slot; keep existing props/emits
 - Optionally document or introduce a step-level concept (e.g. `confirmModal: true`) for wizard steps that require completing this modal before advancing; leave wiring for submit-step confirmation as follow-up if out of scope
-**Learning Goals:**
-- Reusable modal shell pattern (slot-based content, single place for transitions and accessibility)
-- Same UX contract for all "required confirmation" modals; step-unique content only in slots
 
 ---
 

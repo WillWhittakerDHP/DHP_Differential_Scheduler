@@ -92,11 +92,6 @@
 - [x] Update `eventCreationService.createEvent()` to pass new fields to the Google API
 - [x] Verify migration runs cleanly and existing 10 event instances get correct defaults
 
-**Learning Goals:**
-- Understand how Sequelize migrations add columns to existing tables with data
-- Learn how the Google Calendar API `events.insert` resource fields map to your model
-- See how entity registry and field configs work together
-
 ---
 
 ### Session 3.5.2: Admin UI — EventInstance Configuration Form ✅
@@ -109,10 +104,6 @@
 - [x] Update `eventInstanceFields.ts` field configs for the new properties so they appear on EntityCard expanded view
 - [x] Ensure existing EventInstance EntityCards display the new properties correctly (seeded 10 admin_metadata records)
 - [x] Group related fields logically in the form (Content Templates, Display & Status, Guest Permissions, Notifications & Conferencing)
-
-**Learning Goals:**
-- Practice building multi-section admin forms with Vuetify components
-- Understand how field configs and admin_metadata drive EntityCard rendering
 
 ---
 
@@ -127,11 +118,6 @@
 - [x] Wire the orchestration to the appointment status workflow (replaced `appointmentCalendarService` call in afterCreate hook)
 - [x] Update `AppointmentAttendee.invitationStatus` and `googleEventId` after successful creation
 
-**Learning Goals:**
-- Understand template/interpolation patterns
-- Learn how appointment status workflows trigger side effects
-- See the full data flow from admin configuration to runtime execution
-
 ---
 
 ### Session 3.5.4: Polish, Edge Cases & Validation ✅
@@ -145,10 +131,6 @@
 - [x] Handle edge cases: missing attendee emails (filtered with warning), inactive event instances (filtered by active:true), status transition trigger (afterUpdate hook)
 - [x] Add calendar invite trigger on status transition (afterUpdate hook creates invites when PATCHing to submitted/confirmed, with duplicate prevention)
 - [x] Update feature documentation
-
-**Learning Goals:**
-- Practice defensive programming and error boundary patterns
-- Understand graceful degradation for external API integrations
 
 ---
 

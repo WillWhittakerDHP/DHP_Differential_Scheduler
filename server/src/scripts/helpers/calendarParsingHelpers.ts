@@ -196,7 +196,6 @@ export function extractClients(event: CalendarEvent, organizerEmail: string): Pa
 }
 
 export function extractProperty(event: CalendarEvent): ParsedProperty | null {
-  // LEARNING: Explicit fallback chain instead of `|| ''` pattern
   const addressSource = event.location 
     ? event.location 
     : event.description 

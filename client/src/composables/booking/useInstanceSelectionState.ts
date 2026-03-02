@@ -65,7 +65,6 @@ export function useInstanceSelectionState(
   })
 
   /**
-   * LEARNING: Watch loaded wizard state for initial population
    */
   if (loadedWizardState) {
     watch(loadedWizardState, (newState) => {

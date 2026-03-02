@@ -10,7 +10,6 @@ import { toISO8601Date } from '@/utils/datetime'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
-
 /**
  * WHY: useAvailabilityUI composable
 
@@ -24,7 +23,6 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
   const { dateNotInPast } = useFormValidation()
   
   /**
-   * LEARNING: Use Vuetify's display composable for responsive breakpoints
    */
   const { width, smAndUp } = useDisplay()
 
@@ -46,7 +44,6 @@ PATTERN: Function that validates and updates error state
 NOTE: VDate...
    */
   const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
-    // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
     // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
     // PATTERN: Convert Date to ISO 8601 string, handle array (take first), handle null
     let dateString: ISO8601Date | null = null

@@ -4,13 +4,13 @@
 
 # Component Health Audit
 
-Generated: 2026-03-02T20:03:01.325Z
+Generated: 2026-03-02T20:45:16.749Z
 
 ## Overview
 
-- Components scanned: **0**
-- Findings: **0**
-- Files with findings: **0**
+- Components scanned: **130**
+- Findings: **14**
+- Files with findings: **9**
 
 ## Ruleset
 
@@ -27,11 +27,54 @@ Generated: 2026-03-02T20:03:01.325Z
 | unused-named-slot | P2 | 1 | Named slot defined but never filled by any parent. |
 | constant-prop-value | info | 0 | Prop always receives the same literal value across all parents. |
 
+## By rule
+
+| Rule | Severity | Count |
+| --- | --- | ---: |
+| oversized-template | P2 | 6 |
+| complex-template-expression | P2 | 4 |
+| emit-relay | info | 2 |
+| excessive-prop-count | P1 | 1 |
+| component-coupling | P1 | 1 |
+
 ## Repair Waves
 
 - **Wave 1 — Local** (parentCount = 0): 0 finding(s)
-- **Wave 2 — Low fan-in** (parentCount 1–3): 0 finding(s)
-- **Wave 3 — High fan-in** (parentCount ≥ 4): 0 finding(s)
+- **Wave 2 — Low fan-in** (parentCount 1–3): 13 finding(s)
+- **Wave 3 — High fan-in** (parentCount ≥ 4): 1 finding(s)
+
+## Top 9 files by score
+
+| File | Priority | Score | Parents |
+| --- | --- | ---: | ---: |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | P1 | 4 | 1 |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | P1 | 3 | 1 |
+| `client/src/components/admin/BulkEditModal.vue` | P2 | 2 | 4 |
+| `client/src/components/admin/generic/fields/BooleanInput.vue` | P2 | 1 | 1 |
+| `client/src/views/admin/tabs/ShapesTab.vue` | P2 | 1 | 1 |
+| `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` | P2 | 1 | 1 |
+| `client/src/views/admin/tabs/components/PropertiesTable.vue` | P2 | 1 | 1 |
+| `client/src/views/admin/tabs/components/UsersTable.vue` | P2 | 1 | 1 |
+| `client/src/views/admin/tabs/components/ShapeCreationForm.vue` | P2 | 0 | 1 |
+
+## All findings (first 60)
+
+| File | Line | Rule | Message | Parents |
+| --- | ---: | --- | --- | ---: |
+| `client/src/components/admin/BulkEditModal.vue` | 74 | excessive-prop-count | Component accepts 8 props; consider decomposition or a co... | 4 |
+| `client/src/components/admin/generic/fields/BooleanInput.vue` | 16 | complex-template-expression | Complex template expression (86 chars); extract to comput... | 1 |
+| `client/src/views/admin/tabs/ShapesTab.vue` | 72 | oversized-template | Template is 446 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | 5 | component-coupling | Component imports 6 sibling components; high coupling sur... | 1 |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | 78 | oversized-template | Template is 252 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 18 | oversized-template | Template is 281 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 45 | complex-template-expression | Complex template expression (105 chars); extract to compu... | 1 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 48 | complex-template-expression | Complex template expression (133 chars); extract to compu... | 1 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 261 | complex-template-expression | Complex template expression (105 chars); extract to compu... | 1 |
+| `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` | 34 | oversized-template | Template is 229 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/PropertiesTable.vue` | 48 | oversized-template | Template is 282 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/ShapeCreationForm.vue` | 27 | emit-relay | Event relay detected for 'saved'; consider provide/inject... | 1 |
+| `client/src/views/admin/tabs/components/ShapeCreationForm.vue` | 28 | emit-relay | Event relay detected for 'cancelled'; consider provide/in... | 1 |
+| `client/src/views/admin/tabs/components/UsersTable.vue` | 43 | oversized-template | Template is 209 lines; extract sub-components to improve ... | 1 |
 
 ## Notes
 

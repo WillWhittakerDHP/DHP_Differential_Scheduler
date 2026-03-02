@@ -71,12 +71,6 @@
 - Integrates with useEntityCrud composable
 - Supports initialValues for pre-populating fields (e.g., partTypeRef from slot)
 
-**Learning Points:**
-- Generic component patterns in Vue
-- Config-driven form generation
-- Form validation with vee-validate
-- CRUD operations integration
-
 ---
 
 ### Task 4.6.2: Create Generic EntityCard Component
@@ -101,12 +95,6 @@
 - Auto-save functionality for field changes
 - Integrates with admin config for field configuration
 
-**Learning Points:**
-- Generic card component patterns
-- Inline editing with form fields
-- Field context creation and management
-- Auto-save patterns
-
 ---
 
 ### Task 4.6.3: Create GroupedEntityCard Component
@@ -128,12 +116,6 @@
 - Supports drag handle for reordering
 - Maintains expansion state
 - Delegates all operations to EntityCard
-
-**Learning Points:**
-- Component composition patterns
-- Expansion panel integration
-- Drag-and-drop preparation
-- State management in wrapper components
 
 ---
 
@@ -161,13 +143,6 @@
 - Supports conditional field visibility (modalMode)
 - Uses Vuetify responsive grid for inline fields
 
-**Learning Points:**
-- Config-driven component patterns
-- Dynamic field generation
-- Field context management
-- Responsive layout with Vuetify grid
-- Async context handling
-
 ---
 
 ### Task 4.6.5: Create useAdminConfig Composable
@@ -189,12 +164,6 @@
 - Methods for form field config, display field config, and instance config
 - Config caching to prevent excessive calls
 - Support for rebuilding config after PROPERTY_KEYS loaded
-
-**Learning Points:**
-- Composable patterns for config access
-- Computed caching strategies
-- Performance optimization
-- Config rebuilding patterns
 
 ---
 
@@ -223,12 +192,6 @@
 - Support for nested collections
 - Enhanced field context management
 
-**Learning Points:**
-- Field component patterns
-- Validation integration
-- Type safety in field components
-- Nested collection support
-
 ---
 
 ### Task 4.6.7: Create NestedCollectionField Component
@@ -248,11 +211,6 @@
 - Handles item CRUD operations
 - Supports relationship management
 - Validation and error handling
-
-**Learning Points:**
-- Nested collection patterns
-- Relationship field components
-- Collection CRUD operations
 
 ---
 
@@ -274,11 +232,6 @@
 - ProfilesTab uses EntityDialog for BlockProfile and PartProfile
 - All cards use EntityCard or GroupedEntityCard
 - Generic components handle all entity types
-
-**Learning Points:**
-- Refactoring to generic components
-- Component replacement patterns
-- Testing generic component integration
 
 ---
 
@@ -347,5 +300,3 @@
 - Phase Guide: `project-manager/features/vue-migration/phases/phase-4-guide.md`
 - Session 4.5 Guide: `project-manager/features/vue-migration/sessions/session-4.5-guide.md`
 - Project Plan: `project-manager/PROJECT_PLAN.md`
-
-

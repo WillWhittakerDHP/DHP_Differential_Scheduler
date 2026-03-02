@@ -93,7 +93,6 @@ PATTERN: Enable query synchronously, Vue Q...
   
   /**
 Check if metadata is loaded
-LEARNING: Computed property for reactive...
    */
   const isLoaded = computed(() => !!metadataQuery.data.value)
   
@@ -131,9 +130,6 @@ export function useMetadataCache(): UseMetadataCacheReturn {
   return metadataCacheInstance
 }
 
-/**
-LEARNING: Allows resetting singleton ...
- */
 export function resetMetadataCache(): void {
   metadataCacheInstance = null
 }

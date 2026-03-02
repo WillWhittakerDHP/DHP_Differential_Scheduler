@@ -17,10 +17,6 @@
 **Duration:** [Estimated]
 **Status:** Not Started
 
-### Learning Goals
-
-- [To be identified during planning]
-
 ### Tasks
 
 - [ ] #### Task 6.5.3.1: [Task name]

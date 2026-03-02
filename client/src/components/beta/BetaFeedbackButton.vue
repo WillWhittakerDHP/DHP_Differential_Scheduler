@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Floating action button to open beta feedback modal (wizard only)
   WHY: Low-friction way for testers to submit feedback from any wizard step
   PATTERN: Fixed position, bottom-right; icon + tooltip
 -->

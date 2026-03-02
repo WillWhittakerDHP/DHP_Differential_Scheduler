@@ -187,7 +187,6 @@ export function buildConfirmationSummaryData(
 
 /**
  * Build fee breakdown payload for appointment submission (summary + per-block entries).
- * LEARNING: Pure function that reuses calculateBlockInstanceFee per block; server persists in afterCreate hook
  *
  * @param wizard - Wizard selection state with selected block instances
  * @param squareFootage - Property square footage for overage fee calculation
@@ -308,5 +307,3 @@ export function buildConfirmationPriceData(
     lineItems,
   }
 }
-
-

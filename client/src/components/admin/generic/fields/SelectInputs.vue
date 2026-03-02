@@ -6,7 +6,6 @@
     :show-label="false"
     :is-disabled="fieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: Quick-select buttons for AttendeeSelect fields -->
     <!-- WHY: Allows users to quickly select major/minor attendees from business settings -->
     <!-- PATTERN: Conditionally render buttons above select field only for AttendeeSelect type -->
     <div v-if="isAttendeeSelect" class="attendee-quick-select mb-3">
@@ -47,7 +46,6 @@
       </div>
     </div>
     
-    <!-- LEARNING: Multiple select fields when groupByKey configured and multiple groups exist -->
     <!-- WHY: Provides clearer separation with one select per group (e.g., one per blockShapeRef) -->
     <!-- PATTERN: Render one AppSelect per group, each labeled with group name -->
     <template v-if="shouldUseMultipleSelects">
@@ -90,7 +88,6 @@
       </div>
     </template>
     
-    <!-- LEARNING: Single select field when no grouping or single group -->
     <!-- WHY: Fallback to single select for simpler cases -->
     <!-- PATTERN: Render single AppSelect with all options -->
     <AppSelect
@@ -159,14 +156,11 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
 
 const { fieldContext } = props
 
-// LEARNING: Use unified field value composable
 const rawFieldValue = useFieldValue(fieldContext)
 
-// LEARNING: Use admin composable to get entities with relationships attached
 // PATTERN: Use admin store/composable for admin interface operations
 const adminComp = useAdmin()
 
-// LEARNING: Use select config composable for all configuration logic
 // WHY: Moves config parsing out of component into reusable composable
 // PATTERN: Composable handles field config, select config, and derived properties
 const selectConfigComposable = useSelectConfig({ fieldContext })
@@ -192,7 +186,6 @@ const currentEntityRaw = computed(() => {
   return adminComp.getEntity(fieldContext.state.entityKey, fieldContext.state.entityId)
 })
 
-// LEARNING: Convert AdminObject to GlobalEntity for useSelectLabelResolution and useSelectFiltering
 const currentEntity = computed<GlobalEntity<GlobalEntityKey> | null>(() => {
   return currentEntityRaw.value ?? null
 })
@@ -200,14 +193,12 @@ const currentEntityForFiltering = computed<GlobalEntity<GlobalEntityKey> | undef
   return currentEntityRaw.value ?? undefined
 })
 
-// LEARNING: Use select label resolution composable
 // PATTERN: Composable provides resolved label with placeholders replaced
 const { resolvedLabel } = useSelectLabelResolution({
   fieldContext,
   currentEntity
 })
 
-// LEARNING: Use select filtering composable for all filtering logic
 // WHY: Moves complex filtering logic out of component into reusable composable
 // PATTERN: Composable handles active child selects, direct matching, component filtering, etc.
 const selectFilteringComposable = useSelectFiltering({
@@ -223,7 +214,6 @@ const selectFilteringComposable = useSelectFiltering({
 const { filteredEntities } = selectFilteringComposable
 const { enumOptions } = useSelectEnumOptions(isEnumSelect)
 
-// LEARNING: Use select options composable for all option transformations
 // PATTERN: Composable handles option mapping, grouping, and value normalization
 const fieldKey = computed(() => String(fieldContext.state.fieldKey))
 const selectOptionsComposable = useSelectOptions({
@@ -253,7 +243,6 @@ const options = computed(() => {
   return isEnumSelect.value ? enumOptions.value : entityOptions.value
 })
 
-// LEARNING: Use select field value composable for value normalization and validation
 // WHY: Moves value normalization logic out of component into reusable composable
 // PATTERN: Composable handles annotation values, value normalization, and option validation
 const selectFieldValueComposable = useSelectFieldValue({
@@ -271,7 +260,6 @@ const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_C
 
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
-// LEARNING: Use select handlers composable for all event handling logic
 // WHY: Moves event handling logic out of component into reusable composable
 // PATTERN: Composable handles change, group change, focus, and blur events
 const selectHandlersComposable = useSelectHandlers({
@@ -292,7 +280,6 @@ const {
   handleKeydown
 } = selectHandlersComposable
 
-// LEARNING: Use select DOM targets composable
 // PATTERN: Composable provides DOM targets for form association
 const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
 const { groupedByKeyComputed } = useSelectGroupedByKey(groupedByKey)
@@ -372,4 +359,3 @@ const isQuickSelectAllDisabled = computed(() =>
   margin-bottom: 12px;
 }
 </style>
-

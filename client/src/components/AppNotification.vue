@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Global Notification Component
   WHY: Provides app-wide snackbar notifications
   PATTERN: VSnackbar component that reads from useNotification composable
   COMPARISON: React uses Ant Design message. Vue uses VSnackbar
@@ -16,7 +15,6 @@ PATTERN: useNotification composable with singlet...
 const { notification, showNotification, close } = useNotification()
 
 /**
- * LEARNING: Computed message for proper reactivity tracking
  */
 const message = computed(() => asEmptyString(notification.value?.message))
 const color = computed(() => notification.value?.color || 'info')
@@ -25,7 +23,6 @@ const timeout = computed(() => notification.value?.timeout || 4000)
 
 <template>
   <!--
-    LEARNING: VSnackbar component for notifications
     WHY: Use text prop (not default slot) so content is rendered inside VSnackbar's render function.
     PATTERN: Avoids "Slot default invoked outside of the render function" when overlay/transition invokes slots.
   -->
@@ -51,4 +48,3 @@ const timeout = computed(() => notification.value?.timeout || 4000)
 
 <style scoped>
 </style>
-

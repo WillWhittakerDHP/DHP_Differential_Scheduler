@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Fee Calibration Panel for Admin Instances Tab
   WHY: Visualizes total fee vs square footage per service so pricing can be calibrated
   PATTERN: Composable for data; VCard + SVG line chart + range controls; empty state when no services
   WHY SVG chart: vue-chartjs caused emitsOptions null errors; native SVG is reliable and dependency-free

@@ -1,11 +1,9 @@
 /**
  * WHY: useWizardStepSync Composable
 
-LEARNING: Syncs local step data and valida...
  */
 import { watch, inject, type Ref } from 'vue'
 import type { UseWizardStepSyncParams } from '@/types/booking/wizardStepSync'
-
 
 export function useWizardStepSync<TStepData>(
   params: UseWizardStepSyncParams<TStepData>
@@ -21,7 +19,6 @@ export function useWizardStepSync<TStepData>(
     fieldErrorsKey
   } = params
 
-  // LEARNING: Inject parent-provided refs for step data and validation state
   // PATTERN: Inject refs from parent, sync local state to them
   const parentStepData = inject<Ref<TStepData | null>>(stepDataKey)
   const parentStepValid = inject<Ref<boolean>>(stepValidKey)
@@ -43,7 +40,6 @@ export function useWizardStepSync<TStepData>(
     }
   }, { immediate: true, deep: true })
 
-  // LEARNING: Sync local validation state to parent-provided refs
   // PATTERN: Watch local validation state and update parent refs
   watch(isFormValid, (newValid) => {
     if (parentStepValid) {

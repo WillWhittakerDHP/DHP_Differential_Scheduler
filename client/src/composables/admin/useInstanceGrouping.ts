@@ -9,7 +9,6 @@ import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
-
 /**
  * WHY: Instance Grouping Composable
 
@@ -30,7 +29,6 @@ export function useInstanceGrouping(
     const blockShapes = getEntities('blockShape')
     return [...blockShapes].sort((a, b) => a.orderIndex - b.orderIndex)
   })
-
 
   /**
    * NOTE: Uses getEntities() to ensure entities have relationships attached (e.g., instanceComponents)
@@ -61,10 +59,6 @@ export function useInstanceGrouping(
     }, new Map<string, number>())
   })
 
-  /**
-LEARNING: Computed property for BlockShape composable flags
-WHY: Cac...
-   */
   const blockShapeComposable = computed(() => {
     const blockShapes = getEntities('blockShape')
     
@@ -76,10 +70,6 @@ WHY: Cac...
     }, new Map<string, boolean>())
   })
 
-  /**
-LEARNING: Computed property for BlockShape state control flags
-WHY: ...
-   */
   const blockShapeStateControl = computed(() => {
     const blockShapes = getEntities('blockShape')
     
@@ -122,7 +112,6 @@ WHY: ...
   })
 
   /**
-   * LEARNING: Watcher for sortedBlockShapes (matches ShapesTab pattern of minimal watchers)
    */
   watch(sortedBlockShapes, (shapes) => {
     if (activeTab && shapes.length > 0) {
@@ -141,4 +130,3 @@ WHY: ...
     blockShapeValidCascades
   }
 }
-

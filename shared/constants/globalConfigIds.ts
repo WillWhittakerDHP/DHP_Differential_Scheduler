@@ -1,7 +1,6 @@
 /**
  * Shared Global Config IDs and Sentinel UUIDs
  *
- * LEARNING: Single source of truth for sentinel UUIDs used by admin metadata and entity type mapping
  * WHY: Consistent identification across frontend and backend; eliminates magic UUID strings
  * PATTERN: Const object and NULL_UUID for placeholder/temporary entity checks
  *
@@ -13,7 +12,6 @@ export const NULL_UUID = '00000000-0000-0000-0000-000000000000' as const
 
 /**
  * Sentinel UUIDs for global configuration metadata (entity-type-wide metadata)
- * LEARNING: Admin metadata uses these to identify global config per entity type
  * WHY: Same constants on frontend and backend for consistency
  */
 export const GLOBAL_CONFIG_IDS = {

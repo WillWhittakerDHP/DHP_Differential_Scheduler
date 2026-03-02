@@ -116,13 +116,6 @@ The override flow: admin selects an appointment → clicks "Override Constraints
 
 ---
 
-## Learning Goals
-
-- Understand how constraint overrides will integrate with the slot computation system
-- Learn the admin role-gating pattern (requireRole vs requireAuth)
-- Practice JSONB column migrations and validation
-- Understand the relationship between stub foundations and full implementations (Phase 6.2 → Phase 6.8)
-
 ---
 
 ## Dependencies

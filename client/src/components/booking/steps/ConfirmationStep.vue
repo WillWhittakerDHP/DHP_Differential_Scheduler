@@ -38,7 +38,6 @@ useWizardStepSync({
   stepValidateKey: confirmationStepValidateKey,
 })
 
-// LEARNING: Use confirmation step data composable
 // PATTERN: Composable aggregates wizard state and step data, calculates fees
 const {
   summaryData,
@@ -68,7 +67,6 @@ const {
         Confirm your deal details information and submit to create it.
       </p>
       
-      <!-- LEARNING: VTable for summary data display -->
       <!-- WHY: Provides structured table layout for key-value pairs -->
       <!-- PATTERN: Table with tbody containing rows of label-value pairs -->
       <VTable class="summary-table">
@@ -182,7 +180,6 @@ const {
 
     <!-- Right Column: Price Breakdown Card -->
     <VCol cols="12" md="6">
-      <!-- LEARNING: VCard with multiple sections for price breakdown -->
       <!-- WHY: Provides structured card layout with dividers between sections -->
       <!-- PATTERN: Card with VCardText sections separated by VDivider -->
       <VCard variant="outlined">
@@ -193,7 +190,6 @@ const {
               Your total fee is:
             </h6>
             
-            <!-- LEARNING: Large price display with currency -->
             <!-- WHY: Prominently displays the final total fee (after all calculations including discounts and delivery) -->
             <!-- PATTERN: Flex layout with separate typography elements for currency, amount, and unit -->
             <div class="d-flex align-end justify-end">
@@ -215,7 +211,6 @@ const {
           </h6>
           
           <div class="d-flex flex-column gap-2">
-            <!-- LEARNING: Price detail rows with space-between layout -->
             <!-- WHY: Shows individual price components clearly -->
             <!-- PATTERN: Flex row with justify-space-between for label-value pairs -->
             <div class="d-flex justify-space-between align-center mb-2">
@@ -251,7 +246,6 @@ const {
               </span>
             </div>
             
-            <!-- LEARNING: Dynamic line items from selected line item blocks -->
             <!-- WHY: Displays each selected line item block as a separate line item -->
             <!-- PATTERN: Loop through lineItems array, show amount or strikethrough + Free badge -->
             <template v-for="(lineItem, _index) in priceData.lineItems" :key="_index">
@@ -331,4 +325,3 @@ const {
   padding-bottom: 28px !important; // theme.spacing(3.5)
 }
 </style>
-

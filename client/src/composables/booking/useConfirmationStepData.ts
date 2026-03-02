@@ -8,12 +8,9 @@ import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/util
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
 import type { UseConfirmationStepDataParams, UseConfirmationStepDataReturn } from '@/types/booking/confirmationStepData'
 
-
-
 /**
  * WHY: useConfirmationStepData composable
 
-LEARNING: Aggregates wizard state an...
  */
 export function useConfirmationStepData(
   params: UseConfirmationStepDataParams
@@ -25,7 +22,6 @@ export function useConfirmationStepData(
   } = params
 
   /**
-   * LEARNING: Aggregate summary data from wizard state and step data
    */
   const summaryData = computed<SummaryData>(() => {
     return buildConfirmationSummaryData(
@@ -41,7 +37,6 @@ export function useConfirmationStepData(
   })
 
   /**
-
 
 FIX: Explicitly access value to ensure reactivity tracking
 WHY: Op...
@@ -69,4 +64,3 @@ WHY: Op...
     priceData
   }
 }
-

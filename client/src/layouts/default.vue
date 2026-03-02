@@ -17,7 +17,6 @@ const { layoutAttrs, injectSkinClasses } = useSkins()
 
 injectSkinClasses()
 
-// LEARNING: Use layout loading composable
 // PATTERN: Composable handles loading indicator state and watchers
 const refLoadingIndicator = ref<LoadingIndicatorInstance | null>(null)
 

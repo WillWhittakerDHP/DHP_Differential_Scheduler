@@ -27,7 +27,6 @@ const requiresAgent = computed(() => {
   )
 })
 
-// LEARNING: Use contacts step data composable for contact form state management
 // PATTERN: Composable handles all contact form data and optional section visibility
 const contactsStepData = useContactsStepData({
   loadedWizardState
@@ -92,7 +91,6 @@ provide(contactsFormContextKey, {
 
 <template>
   <div class="contacts-step">
-    <!-- LEARNING: Header Section -->
     <!-- WHY: Introduces the step purpose -->
     <!-- PATTERN: Heading with descriptive subtitle -->
     <VRow>
@@ -112,4 +110,3 @@ provide(contactsFormContextKey, {
 .contacts-step {
 }
 </style>
-

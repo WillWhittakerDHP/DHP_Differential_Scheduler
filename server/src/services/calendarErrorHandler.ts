@@ -176,9 +176,6 @@ export async function withFallback<T>(
   }
 }
 
-/**
-LEARNING: Consistent error logging format
- */
 export function logCalendarError(
   context: string,
   error: CalendarApiError,

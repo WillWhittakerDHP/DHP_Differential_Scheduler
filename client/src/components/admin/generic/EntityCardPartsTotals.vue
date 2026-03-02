@@ -1,11 +1,9 @@
 <!--
-  LEARNING: Entity Card Parts Totals Component
   WHY: Displays uneditable summary fields showing totals from all parts
   PATTERN: Simple text display at top of card when entity can have parts
 -->
 <template>
   <div v-if="canHaveParts" class="parts-totals-section">
-    <!-- LEARNING: Simple text display of parts totals -->
     <!-- WHY: Clean, minimal display without form fields -->
     <!-- PATTERN: Plain text with labels and formatted values -->
     <div class="d-flex flex-wrap gap-4">

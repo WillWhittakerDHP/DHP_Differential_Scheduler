@@ -24,7 +24,6 @@ export interface UseThemeModeReturn {
 export function useThemeMode(wizard?: UseBookingWizardReturn): UseThemeModeReturn {
   const theme = useTheme()
   
-  // LEARNING: Computed property for quote mode state
   // PATTERN: Computed property that reads from wizard state
   const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)
   

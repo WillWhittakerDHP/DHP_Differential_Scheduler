@@ -428,14 +428,6 @@ export const RELATIONSHIP_KEYS = {
 
 ---
 
-## Learning Checkpoints
-
-### What We'll Learn
-- Three-dimensional relationship model architecture (Cascade, Constituent, Composition)
-- Systematic model renaming patterns
-- Model association management
-- Type system updates for relationship changes
-
 ### Why These Patterns Matter
 - Clear naming prevents confusion between relationship types
 - Cascade vs Constituent vs Composition clarifies relationship purposes
@@ -445,4 +437,3 @@ export const RELATIONSHIP_KEYS = {
 ### How This Relates to Existing Code
 - Builds on Session 9.1 (Type → Shape), Session 9.2 (Profile → Instance), and Session 9.3 (Type → Kind)
 - Prepares for database migrations (Sessions 9.5-9.6) and model updates (Session 9.7)
-

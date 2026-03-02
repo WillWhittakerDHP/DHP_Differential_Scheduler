@@ -17,12 +17,6 @@
 **Duration:** 1 session (2–3 tasks)
 **Status:** In Progress
 
-### Learning Goals
-
-- How to pass rescheduling context (reschedulingAppointmentId) from wizard to availability/slot pipeline
-- How the server excludes one appointment from overlap checks while still returning it in calendarEvents
-- Where slot computation uses overlap vs calendarEvents so reschedule does not block the current slot
-
 ### Tasks
 
 - [x] #### Task 6.5.2.1: Wire reschedulingAppointmentId into availability request (client)
@@ -47,6 +41,12 @@
 - Same as 6.5.2.1 and 6.5.2.2; plus any integration tests or manual test steps
 **Approach:** Run reschedule flow from admin or Reschedule action; confirm slot grid does not treat current appointment as blocking; confirm calendar still shows it. Fix any remaining wiring or edge cases.
 **Checkpoint:** Reschedule flow works: user can select a different slot; current appointment does not block; calendar display unchanged.
+
+---
+
+## Session Workflow
+
+Follow the same workflow as other sessions: use `/session-start 6.5.2` to begin; work one task at a time with checkpoints; use `/session-end 6.5.2` when done. See session template or `session-6.5.1-guide.md` for full workflow (before/during/after session, checkpoints, end-of-session steps).
 
 ---
 

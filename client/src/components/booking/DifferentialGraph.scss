@@ -143,7 +143,6 @@
   }
 }
 
-// LEARNING: Bar states - Selected/Active border colors
 .major-bar.selected {
   border-color: rgb(var(--v-theme-primary));
 }
@@ -165,4 +164,3 @@
 .minor-bar.selected {
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
 }
-

@@ -29,7 +29,6 @@ export interface GridColumns {
 
 /**
  * WHY: State plugin interface
-LEARNING: Pluggable state management for Selectio...
  */
 export interface StatePlugin {
   name: string
@@ -62,13 +61,11 @@ export interface SelectionCardConfig {
   
   /**
 State source type
-LEARNING: Where selection state is stored (wizard,...
    */
   stateSource?: 'wizard' | (typeof APP_STAGE)['LOCAL'] | 'custom'
   
   /**
 State plugins for reactive updates
-LEARNING: Array of plugins that m...
    */
   statePlugins?: StatePlugin[]
   
@@ -95,4 +92,3 @@ LEARNING: Array of plugins that m...
     nestedConfig?: Partial<SelectionCardConfig>
   }
 }
-

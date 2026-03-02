@@ -11,7 +11,6 @@ import { useComponentEntity } from './useComponentEntity'
 import { useGlobal } from './useGlobal'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-
 /**
  * PATTERN: Component Distribution Composable
 
@@ -79,9 +78,6 @@ export function useComponentDistribution(options: UseComponentDistributionOption
   const updateManualPreview = (): void => {
   }
   
-  /**
-LEARNING: Watch distribution strategy and initialize manual values w...
-   */
   watch(distributionStrategy, (newStrategy) => {
     if (newStrategy === 'manual') {
       const globalData = getGlobalData()
@@ -103,10 +99,6 @@ LEARNING: Watch distribution strategy and initialize manual values w...
     }
   })
   
-  /**
-LEARNING: Watch modal open state and reset when modal opens
-PATTERN:...
-   */
   if (modalOpen) {
     watch(modalOpen, (isOpen) => {
       if (isOpen) {
@@ -155,4 +147,3 @@ PATTERN:...
     updateManualPreview
   }
 }
-

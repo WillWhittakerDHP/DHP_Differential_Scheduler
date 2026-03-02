@@ -83,7 +83,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       return acc
     }
     
-    // LEARNING: Strategy determined from actual value types, not configuration
     // PATTERN: Check value type to determine appropriate composition strategy
     const firstValue = composableValues[0]
     let strategy: ComponentStrategy
@@ -97,7 +96,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       strategy = 'first'
     }
     
-    // LEARNING: Filter out baseSqFt from state control blockInstances when summing
     // WHY: State control blockShapes (isStateControl: true) should not contribute to square footage accumulation
     // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with isStateControl: true blockShapes
     if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
@@ -115,7 +113,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
         const blockShapeTyped = blockShape as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
         const isStateControl = blockShapeTyped.isStateControl === true
         
-        // LEARNING: Exclude if isStateControl is true (state control mode)
         // WHY: State control blockShapes don't contribute to baseSqFt accumulation
         // PATTERN: Check isStateControl property
         return !isStateControl
@@ -137,5 +134,3 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   
   return composed as Partial<GlobalEntity<GE>>
 }
-
-

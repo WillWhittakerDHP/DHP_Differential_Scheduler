@@ -19,7 +19,6 @@ import { BlockInstance } from './block_instance';
  * Junction table linking appointments to actual Users with their roles.
  * Replaces hardcoded clientId/agentId with flexible attendee model.
  * 
- * LEARNING: Junction table pattern for flexible appointment attendees
  * WHY: Enables N attendees per appointment, proper calendar invitations, role tracking
  * 
  * Key relationships:

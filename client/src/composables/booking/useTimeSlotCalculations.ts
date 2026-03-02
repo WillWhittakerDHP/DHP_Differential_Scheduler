@@ -106,11 +106,9 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const majorStart = new Date(majorTimeSlot.value.startTime)
     const majorEnd = new Date(majorStart.getTime() + majorDuration.value * 60 * 1000)
     
-    // LEARNING: Format time block range
     // WHY: Displays time range in readable format
     // PATTERN: Format start and end times, combine with arrow
     const formatTimeBlock = (start: Date, end: Date): string => {
-      // LEARNING: Use composable for UI-boundary formatting
       // WHY: All local time conversions must go through useLocalTime composable
       const startTime = toRFC3339DateTime(start)
       const endTime = toRFC3339DateTime(end)
@@ -131,7 +129,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
       const minorEnd = new Date(minorStart.getTime() + minorDuration.value * 60 * 1000)
       minorTimeBlock = formatTimeBlock(minorStart, minorEnd)
     } else if (isDifferentialService.value) {
-      // LEARNING: Use major end time as minor start time
       // PATTERN: Calculate minor end from major end + presentation duration
       const minorStart = majorEnd
       const minorEnd = new Date(minorStart.getTime() + minorDuration.value * 60 * 1000)
@@ -158,4 +155,3 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     differentialTimeBlocks
   }
 }
-

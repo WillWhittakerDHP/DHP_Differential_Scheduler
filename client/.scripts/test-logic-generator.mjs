@@ -106,19 +106,9 @@ function parseParams(paramString) {
 function extractBehaviors(contents) {
   const behaviors = []
   
-  // Extract LEARNING comments
-  const learningRegex = /LEARNING:\s*(.+?)(?:\n|WHY|PATTERN|$)/g
-  let m
-  while ((m = learningRegex.exec(contents)) !== null) {
-    behaviors.push({
-      type: 'learning',
-      text: m[1].trim(),
-      priority: 'high'
-    })
-  }
-  
   // Extract WHY comments (help identify edge cases)
-  const whyRegex = /WHY:\s*(.+?)(?:\n|LEARNING|PATTERN|$)/g
+  let m
+  const whyRegex = /WHY:\s*(.+?)(?:\n|PATTERN|$)/g
   while ((m = whyRegex.exec(contents)) !== null) {
     behaviors.push({
       type: 'why',

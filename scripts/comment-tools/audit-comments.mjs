@@ -28,7 +28,6 @@ const excludePatterns = ['node_modules', 'dist', '.git', '.cursor', '.audit-repo
 // Comment type detection
 function detectCommentType(content) {
   const typePatterns = [
-    { type: 'LEARNING', pattern: /(?:\/\/|\/\*\*?|\*)\s*LEARNING:/i },
     { type: 'WHY', pattern: /(?:\/\/|\/\*\*?|\*)\s*WHY:/i },
     { type: 'COMPARISON', pattern: /(?:\/\/|\/\*\*?|\*)\s*COMPARISON:/i },
     { type: 'PATTERN', pattern: /(?:\/\/|\/\*\*?|\*)\s*PATTERN:/i },
@@ -298,7 +297,7 @@ async function analyzeFile(filePath) {
           result.willBeRemoved.push({ ...commentInfo, reason: 'Obvious/redundant' });
         }
       } else {
-        // Typed comment (WHY/PATTERN/LEARNING/etc.)
+        // Typed comment (WHY/PATTERN/etc.)
         if (isCommentValuable(comment, type)) {
           result.willBeKept.push({ ...commentInfo, reason: 'Valuable technical insight' });
         } else {

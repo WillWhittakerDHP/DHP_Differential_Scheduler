@@ -1,6 +1,5 @@
 /**
  * WHY: Fetch to Global Transformer
-LEARNING: Transforms API responses (snake_ca...
  */
 import apiClient, { getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
@@ -174,7 +173,6 @@ function attachInstanceComponents(
 
 /**
  * WHY: Global Transformer Class
-LEARNING: Transforms API responses to GlobalDat...
  */
 export class GlobalTransformer {
   async stageForHydration(): Promise<{
@@ -225,7 +223,6 @@ export class GlobalTransformer {
       staged.fetchedRelationships
     )
     
-    // LEARNING: Annotations follow the same pattern as entities and relationships
     // PATTERN: No special attachment - annotations accessed via relationships.annotationAssignments like other relationships
     
     // PATTERN: Provide entities for relationship resolution (includes events/annotations)
@@ -247,7 +244,6 @@ export class GlobalTransformer {
     entity: Partial<GlobalEntity<GE>> & { entityKey?: GE }
   ): Record<string, unknown> {
 
-    // LEARNING: Extract entityKey from entity to determine entity type
     // PATTERN: Extract entityKey from entity parameter (it's included in mutation calls)
     const entityKey = entity.entityKey
     if (!entityKey) {
@@ -285,4 +281,3 @@ export class GlobalTransformer {
 }
 
 export const globalTransformer = new GlobalTransformer()
-

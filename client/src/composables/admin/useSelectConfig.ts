@@ -23,7 +23,6 @@ import type { SelectOption } from '@/types/selectOptions'
 
 const logger = createLogger('useSelectConfig')
 
-
 /**
  * WHY: Select Config Composable
 
@@ -131,14 +130,12 @@ export function useSelectConfig(
     
     return config.options.map((option) => ({
       title: option.label,
-      // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
       // PATTERN: Use '__NULL__' as sentinel, convert back to null when saving
       value: option.value === null ? '__NULL__' : option.value
     }))
   })
 
   /**
-   * LEARNING: Extract select config from metadata.inputConfig (direct format)
    */
   const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.state.entityKey> | VirtualFieldType<typeof fieldContext.state.entityKey> | undefined => {
     // PATTERN: Gracefully handle loading state instead of throwing
@@ -273,4 +270,3 @@ export function useSelectConfig(
     optionLabelKey
   }
 }
-

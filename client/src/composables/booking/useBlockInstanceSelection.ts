@@ -1,7 +1,6 @@
 /**
  * WHY: useBlockInstanceSelection Composable
 
-LEARNING: Generic composable for b...
  */
 import { computed } from 'vue'
 import { findById } from '@/utils/collections/findById'

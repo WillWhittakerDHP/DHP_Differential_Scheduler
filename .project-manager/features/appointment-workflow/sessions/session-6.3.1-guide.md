@@ -170,13 +170,6 @@ Add confirmation timestamp and actor columns to the appointments table, update t
 
 ---
 
-## Learning Goals
-
-- **State machine pattern:** Understand how `VALID_STATUS_TRANSITIONS` implements a finite state machine where each status has defined valid next-states
-- **sanitizeInput as transformation hook:** Learn how the CRUD router uses `sanitizeInput` to intercept and transform data before it reaches the database — server-computed fields, validation, and business logic
-- **Migration design with FK constraints:** Practice creating migrations that add columns with foreign key relationships (similar to Phase 6.2)
-- **Client-server type alignment:** Understand the pattern of keeping client-side types in sync with server model changes
-
 ---
 
 ## Dependencies

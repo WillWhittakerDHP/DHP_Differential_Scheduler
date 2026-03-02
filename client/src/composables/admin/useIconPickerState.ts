@@ -1,11 +1,9 @@
 /**
  * WHY: Icon Picker State Composable
 
-LEARNING: Extracts icon picker state manag...
  */
 import { ref, watch } from 'vue'
 import type { UseIconPickerStateOptions, UseIconPickerStateReturn } from '@/types/admin/iconPickerState'
-
 
 /**
  * WHY: Icon Picker State Composable
@@ -41,10 +39,6 @@ export function useIconPickerState(
     }, { immediate: true })
   }
   
-  /**
-LEARNING: Reset state when dialog closes
-PATTERN: Function that rese...
-   */
   const resetState = (): void => {
     searchTerm.value = ''
     const currentIconValue = typeof currentIcon === 'string' || currentIcon === null
@@ -53,10 +47,6 @@ PATTERN: Function that rese...
     selectedIcon.value = currentIconValue || null
   }
   
-  /**
-LEARNING: Watch dialog open state and reset when dialog closes
-PATTE...
-   */
   watch(dialogOpen, (isOpen) => {
     if (!isOpen) {
       resetState()
@@ -69,7 +59,3 @@ PATTE...
     resetState
   }
 }
-
-
-
-

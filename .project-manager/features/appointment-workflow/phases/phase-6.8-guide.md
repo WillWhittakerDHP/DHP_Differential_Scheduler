@@ -118,46 +118,23 @@ Index on `appointment_id`.
 - Create force-create validator (forceSlot times, reason max 500 chars, normal appointment fields)
 - Mount force-create router in appointmentRouter
 
-**Learning Goals:**
-- Understand how to collect all violations without short-circuiting (contrast with normal slot filtering)
-- Practice migration design with array columns (TEXT[])
-- Learn route-level auth and role gating patterns
-
-- [ ] ### Session 6.8.2: Reschedule Constraint Relaxation
 **Description:** Create the constraint relaxation utility for reschedule flows and extend the availability pipeline to accept override exceptions.
 **Tasks:**
 - Create `relaxConstraintsForExceptions()` utility (pure function, clone constraints with enforcement 'off')
 - Extend computeAvailabilityData() and availabilityRouter to accept optional `allowedExceptions` when appointmentId provided
 - Server-side auth: verify appointmentId exists, has ConstraintOverride, requested allowedExceptions ⊆ overridden_violations
 
-**Learning Goals:**
-- Understand pure function constraint transformation (clone with modified enforcement)
-- Practice server-side authorization verification (subset checking)
-- Learn how to extend existing service contracts without breaking callers
-
-- [ ] ### Session 6.8.3: Admin UI — Force-Create
 **Description:** Build the client-side composable and dialog for the force-create flow, plus the admin UI integration.
 **Tasks:**
 - Create useForceCreateAppointment composable (violation preview, confirmation, reason)
 - Create force-create confirmation dialog (violations by category, human-readable labels, explicit confirm, optional reason)
 - Add "Force Schedule" button to admin appointments UI (admin-only; blocked slots selectable in distinct color)
 
-**Learning Goals:**
-- Understand confirmation dialog UX patterns for destructive/override actions
-- Practice composable design for multi-step admin workflows
-- Learn how to present violation data in a user-friendly format
-
-- [ ] ### Session 6.8.4: Reschedule UI & Documentation
 **Description:** Wire the reschedule flow to use override records, showing override-allowed slots with distinct indicators, and create new override records for rescheduled appointments.
 **Tasks:**
 - Reschedule flow: fetch override for appointment, pass allowedExceptions to availability; show override-allowed slots with distinct indicator
 - On reschedule complete, create new ConstraintOverride record for the new slot
 - Update phase documentation and feature handoff
-
-**Learning Goals:**
-- Understand how override context flows from stored data through availability to UI
-- Practice visual differentiation for special-case slots
-- Learn end-to-end data flow across stored records, API parameters, and UI rendering
 
 ---
 

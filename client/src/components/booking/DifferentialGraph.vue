@@ -58,11 +58,9 @@ const handleBarClick = (type: 'major' | 'minor'): void => {
   }
 }
 
-// LEARNING: Use time formatting composable for time range formatting
 // WHY: Moves time formatting logic out of component
 // PATTERN: Composable provides pure utility functions
 
-// LEARNING: Computed properties for Differential Graph bar states
 // PATTERN: Computed properties that return 'selected', 'active', or 'single' based on state
 const majorBarState = computed(() => {
   if (!props.isDifferentialService) return 'single'
@@ -89,7 +87,6 @@ const minorTimeDisplay = computed(() => {
   return null
 })
 
-// LEARNING: Computed label for selected state
 // PATTERN: Uses configurable state labels with fallback to default format
 const stateLabel = computed(() => {
   if (!props.isDifferentialService) return null
@@ -98,7 +95,6 @@ const stateLabel = computed(() => {
   return null
 })
 
-// LEARNING: Check if state is selected and time slot exists
 const showStateLabel = computed(() => {
   return props.isDifferentialService &&
          (props.graphBars.major || props.graphBars.minor) &&
@@ -120,7 +116,6 @@ const minorBarWidthPercent = computed(() => {
     v-if="isDifferentialService"
     class="differential-graph"
   >
-    <!-- LEARNING: State label when selected -->
     <!-- WHY: Explains what the time slot buttons represent -->
     <div v-if="showStateLabel" class="state-label">
       {{ stateLabel }}

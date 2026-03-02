@@ -1,19 +1,16 @@
 /**
  * WHY: Select Inputs Async Logic Composable
 
-LEARNING: Extracts async logic fro...
  */
 import { computed } from 'vue'
 import { useAttendeeQuickSelect } from '@/composables/admin/useAttendeeQuickSelect'
 import type { UseSelectInputsAsyncOptions, UseSelectInputsAsyncReturn } from '@/types/admin/selectInputsAsync'
-
 
 export function useSelectInputsAsync(
   options: UseSelectInputsAsyncOptions
 ): UseSelectInputsAsyncReturn {
   const { options: optionsRef, handleChange } = options
 
-  // LEARNING: Use attendee quick-select composable for AttendeeSelect fields
   // PATTERN: Initialize composable for quick-select operations
   const quickSelect = useAttendeeQuickSelect()
 

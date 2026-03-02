@@ -12,7 +12,6 @@ import type {
 export function useWizardValidation(params: UseWizardValidationParams): UseWizardValidationReturn {
   const { stepValidators } = params
   
-  // LEARNING: Access validators reactively
   // WHY: Ensures validation always uses current validator functions with current values
   // PATTERN: Check if it's a ref/computed and access .value, otherwise use directly
   const getValidators = (): Record<number, StepValidator | null> => {

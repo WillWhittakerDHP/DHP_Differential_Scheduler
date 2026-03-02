@@ -17,20 +17,15 @@
 **Architecture Notes:**
 - **Stub pattern: columns exist in schema layer ready for route layer to use**: [Explanation]
 - **belongsTo associations enable eager-loading the User who placed a hold**: [Explanation]
-**Learning Checkpoint:**
-- [x] Sequelize migration with FK constraints ✅
-- [x] Model field declarations with ForeignKey type ✅
-- [x] belongsTo associations in index.ts ✅
+
 **Next Task:**
 - Task 6.2.1.2: Server Routes — Hold and Release endpoints
-
 
 ---
 
 ## Gate Override: Vue Architecture
 **Reason:** Task 6.2.1.1 is server-only (migration + model). All Vue audit findings are pre-existing.
 **Follow-up Task:** 6.2.2.0
-
 
 ## Completed Tasks
 
@@ -46,7 +41,29 @@
 **Next Task:**
 - 6.2.2.1
 
+### Task 6.2.1.3: Client UI — Hold Slot Button (disabled) ✅
+**Goal:** Add "Hold Slot" button (disabled with tooltip) and PATCH-based hold/release helpers; admin-adjustable default hold duration under Calendar subtab; server reads default from settings.
 
+**Files Modified:**
+- `client/src/types/appointmentApi.ts` - [Description]
+- `client/src/composables/useAppointment.ts` - [Description]
+- `client/src/components/booking/BookingWizard.vue` - [Description]
+- `shared/types/calendarTypes.ts` - [Description]
+- `client/src/configs/availabilitySettings.ts` - [Description]
+- `client/src/configs/businessControlsTabStrings.ts` - [Description]
+- `client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue` - [Description]
+- `client/src/views/admin/tabs/BusinessControlsTab.vue` - [Description]
+- `server/src/routes/internal/businessSettings/businessSettingsConstants.ts` - [Description]
+- `server/src/routes/internal/appointments/appointmentHelpers.ts` - [Description]
+- `server/src/routes/internal/appointments/appointmentCrudRouter.ts` - [Description]
+**Key Methods/Functions Ported:**
+- `holdSlot()` - [Description]
+- `releaseSlot()` - [Description]
+**Architecture Notes:**
+- **Hold/release use existing PATCH endpoint; held is a status, not a separate resource**: [Explanation]
+- **Admin hold duration in calendarConfig; server beforeUpdate loads default from settings**: [Explanation]
+**Next Task:**
+- 6.2.1.4
 
 ### Task 6.2.1.3: Client UI — Hold Slot Button (disabled) ✅
 **Goal:** Add "Hold Slot" button (disabled with tooltip) and PATCH-based hold/release helpers; admin-adjustable default hold duration under Calendar subtab; server reads default from settings.
@@ -72,8 +89,6 @@
 **Next Task:**
 - 6.2.1.4
 
-
-
 ### Task 6.2.1.3: Client UI — Hold Slot Button (disabled) ✅
 **Goal:** Add "Hold Slot" button (disabled with tooltip) and PATCH-based hold/release helpers; admin-adjustable default hold duration under Calendar subtab; server reads default from settings.
 
@@ -97,34 +112,6 @@
 - **Admin hold duration in calendarConfig; server beforeUpdate loads default from settings**: [Explanation]
 **Next Task:**
 - 6.2.1.4
-
-
-
-### Task 6.2.1.3: Client UI — Hold Slot Button (disabled) ✅
-**Goal:** Add "Hold Slot" button (disabled with tooltip) and PATCH-based hold/release helpers; admin-adjustable default hold duration under Calendar subtab; server reads default from settings.
-
-**Files Modified:**
-- `client/src/types/appointmentApi.ts` - [Description]
-- `client/src/composables/useAppointment.ts` - [Description]
-- `client/src/components/booking/BookingWizard.vue` - [Description]
-- `shared/types/calendarTypes.ts` - [Description]
-- `client/src/configs/availabilitySettings.ts` - [Description]
-- `client/src/configs/businessControlsTabStrings.ts` - [Description]
-- `client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue` - [Description]
-- `client/src/views/admin/tabs/BusinessControlsTab.vue` - [Description]
-- `server/src/routes/internal/businessSettings/businessSettingsConstants.ts` - [Description]
-- `server/src/routes/internal/appointments/appointmentHelpers.ts` - [Description]
-- `server/src/routes/internal/appointments/appointmentCrudRouter.ts` - [Description]
-**Key Methods/Functions Ported:**
-- `holdSlot()` - [Description]
-- `releaseSlot()` - [Description]
-**Architecture Notes:**
-- **Hold/release use existing PATCH endpoint; held is a status, not a separate resource**: [Explanation]
-- **Admin hold duration in calendarConfig; server beforeUpdate loads default from settings**: [Explanation]
-**Next Task:**
-- 6.2.1.4
-
-
 
 ### Task 6.2.1.2: Server Hold Logic — PATCH-based status transitions ✅
 **Goal:** Add hold/release logic to existing CRUD router via sanitizeInput, export requireAuth stub
@@ -141,10 +128,7 @@
 - **sanitizeInput pattern for computed fields**: `holdDurationMinutes` is stripped from the DB payload and used to compute `heldUntil` server-side (default 15 min, max 60 min)
 - **Automatic metadata clearing**: When status transitions away from `held`, `heldBy` and `heldUntil` are nulled automatically
 - **requireAuth stub**: Exported from security.ts with ENACTMENT(Feature 7) documentation for future auth integration
-**Learning Checkpoint:**
-- [x] sanitizeInput as the place for computed fields and non-column stripping ✅
-- [x] Architecture decision: command endpoints vs CRUD status transitions ✅
-- [x] ENACTMENT documentation pattern for future auth integration ✅
+
 **Next Task:**
 - Task 6.2.1.3: Client UI — Hold Slot Button (disabled)
 
@@ -178,7 +162,6 @@
 **Next Task:**
 - 6.2.1.4
 
-
 ---
 
 ## Gate Override: Vue Architecture
@@ -209,7 +192,6 @@
 **Next Task:**
 - 6.2.1.4
 
-
 ---
 
 ## Gate Override: Vue Architecture
@@ -239,7 +221,6 @@
 - **Admin hold duration in calendarConfig; server beforeUpdate loads default from settings**: [Explanation]
 **Next Task:**
 - 6.2.1.4
-
 
 ---
 
@@ -258,7 +239,6 @@
 - **Handoff: five enactment steps for Feature 7 (requireAuth, protect PATCH, set heldBy, enable Hold button, update docs)**: [Explanation]
 **Next Task:**
 - 6.2.2.1
-
 
 ---
 

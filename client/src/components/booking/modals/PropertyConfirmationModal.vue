@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Property Confirmation Modal Component
   WHY: Allows users to review property details before proceeding to next step
   PATTERN: Uses RequiredConfirmationModal shell; property summary in body slot; dynamic title (e.g. "Confirm {name} details").
 -->
@@ -13,7 +12,6 @@
     @confirm="handleConfirm"
     @cancel="handleEdit"
   >
-    <!-- LEARNING: Property Details Summary -->
     <!-- WHY: Displays all property information for user review -->
     <!-- PATTERN: VList with property details -->
     <VList>

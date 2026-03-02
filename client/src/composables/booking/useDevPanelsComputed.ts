@@ -1,7 +1,6 @@
 /**
  * WHY: Dev Panels Computed Logic Composable
 
-LEARNING: Extracts computed logic ...
  */
 import { computed } from 'vue'
 import type { BookingBlockInstance } from '@/types/transformers/bookingData'
@@ -64,7 +63,6 @@ export function useDevPanelsComputed(
     return shape.slotShape
   })
 
-  // LEARNING: Format time slot results
   // PATTERN: Extract times from selected slot
   const timeSlotResults = computed<TimeSlotResults>(() => {
     const slots = appointmentData.value.appointmentSlots
@@ -115,7 +113,6 @@ export function useDevPanelsComputed(
       .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })
 
-  // LEARNING: Map service instances to dropdown options format
   // WHY: VSelect component needs options in { title: string, value: string } format
   // PATTERN: Map instances to select options
   const serviceTypeOptions = computed(() => {

@@ -19,13 +19,6 @@
 
 **Dependencies:** Session 6.5.1 (wizard mode, load-at-step-3, admin entry).
 
-### Learning Goals
-
-- How URL query params (mode, appointmentId) drive wizard entry and load-at-step-3
-- Where cancel flow lives (dedicated view vs wizard step) and how it uses existing PATCH/transitions
-- "Copy quote link" button: building the quote URL and copying to clipboard; shared URL utility for router and button
-- How invite template variables are resolved (Feature 3 Phase 3.5) and adding reschedule/cancel only (no quote in template)
-
 ### Tasks
 
 - [ ] #### Task 6.5.4.1: URL scheme and router

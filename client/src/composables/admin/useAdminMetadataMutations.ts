@@ -103,7 +103,6 @@ export function useAdminMetadataMutations(): UseAdminMetadataMutationsReturn {
       return response.data
     },
     onSuccess: () => {
-      // LEARNING: Invalidate cache to mark as stale
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
     },
@@ -127,7 +126,6 @@ export function useAdminMetadataMutations(): UseAdminMetadataMutationsReturn {
       await apiClient.delete(url)
     },
     onSuccess: () => {
-      // LEARNING: Invalidate cache to mark as stale
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
       // PATTERN: Invalidate both adminMetadata and globalData after metadata saves

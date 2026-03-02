@@ -103,14 +103,6 @@ Relationship:
 
 ---
 
-## Learning Checkpoint
-
-- **What:** Difference between code coverage and mutation score?
-- **Why:** Why can 100% coverage still miss bugs?
-- **How:** How does Stryker choose mutations? How does fast-check generate inputs?
-- **When:** When property-based vs example-based tests?
-- **Where:** Where in CI should mutation testing run?
-
 ---
 
 **Last Updated:** 2026-02-18

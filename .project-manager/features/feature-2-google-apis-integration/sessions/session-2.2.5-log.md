@@ -39,11 +39,6 @@ The codebase evolved significantly between session planning and execution. The o
 - `AvailabilityStep.vue` — Injects `displayedMonth`/`updateDisplayedMonth`; syncs with `vDatePickerDisplayDate`
 - `useAvailabilityOrchestrator.ts` — Watches `vDatePickerDisplayDate`, syncs with `displayedMonth`, updates on `selectedDate` change
 
-**Learning Checkpoint:**
-- [x] Server-side computed availability replaced client-side API orchestration
-- [x] Provide/inject pattern enables cross-component data sharing without prop drilling
-- [x] `displayedMonth` flows: BookingWizard → provide → AvailabilityStep → inject → orchestrator sync
-
 ### Task 2.2.5.7 (adapted): Implement dataSource Server-Side Handling ✅
 **Completed:** 2026-02-19  
 **Goal:** Make the `dataSource` field in `ComputedAvailabilityRequest` actually functional
@@ -58,11 +53,6 @@ The codebase evolved significantly between session planning and execution. The o
 
 **Key Decision:** `dataSource` controls external API usage, NOT settings/constraints extraction. Settings always come from the database regardless of mode. This makes `'mock'` mode useful for development without Google API credentials.
 
-**Learning Checkpoint:**
-- [x] `dataSource` is a server-side gate controlling which external APIs are called
-- [x] Settings/constraints always come from the database (they're your configuration, not an external API)
-- [x] `'mock'` mode allows full slot computation without Google credentials
-
 ### Task: Fix Month-Change Prefetch Gap ✅
 **Completed:** 2026-02-19  
 **Goal:** Ensure calendar months beyond the 14-day window have slot data for availability indicators
@@ -76,11 +66,6 @@ The codebase evolved significantly between session planning and execution. The o
 1. **14-day prefetch** — On mount and placeId/duration change
 2. **Month-wide prefetch** — When displayed month navigates beyond cached range
 3. **Per-day fallback** — When user selects a specific uncached date
-
-**Learning Checkpoint:**
-- [x] Cache-check strategy: checking the *end* of the month avoids redundant fetches for partially cached months
-- [x] Merge-based cache: all three strategies merge into the same `Map<string, ComputedSlot[]>`
-- [x] Non-blocking watchers: multiple concurrent fetches are safe because `mergeSlotsIntoMap` is additive
 
 ### Task 2.2.5.8 (adapted): Update dataSource Docs & Make Configurable ✅
 **Completed:** 2026-02-19  

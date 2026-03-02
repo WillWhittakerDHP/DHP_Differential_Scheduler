@@ -162,15 +162,6 @@ client-vue/src/views/admin/dialogs/
 
 ---
 
-## Learning Points
-
-1. **Dialog Pattern**: Using centralized dialogs in parent components provides better separation of concerns than inline editing
-2. **Event-Driven Architecture**: Cards emit events, parents handle dialog state - clean component communication
-3. **Relationship Management**: Complex relationship sync logic comparing existing vs selected relationships
-4. **Vue Query Cache**: Automatic UI updates through cache invalidation
-5. **Function Hoisting**: Arrow functions (const) are not hoisted - must be defined before use
-6. **Component Imports**: Vuexy App components need explicit imports, not auto-imported
-
 ---
 
 ## Next Steps
@@ -196,4 +187,3 @@ client-vue/src/views/admin/dialogs/
 - Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.4-guide.md`
 - Phase Guide: `.cursor/project-manager/features/vue-migration/phases/phase-4-guide.md`
 - Project Plan: `.cursor/project-manager/PROJECT_PLAN.md`
-

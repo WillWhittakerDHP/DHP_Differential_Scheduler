@@ -19,7 +19,6 @@
       <div v-else class="mt-2 text-body-small">
         No metadata found for this field. Check /admin-metadata. See console for details.
       </div>
-      <!-- LEARNING: Log error when error UI renders -->
       <!-- WHY: Ensures we log even if watchEffect doesn't catch it -->
       <!-- PATTERN: Use onMounted/onUpdated or computed to log when this div renders -->
     </div>
@@ -65,7 +64,6 @@ interface Props {
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /**
-LEARNING: Optional override for readOnly state
 WHY: Allows parent co...
    */
   readOnly?: boolean
@@ -85,7 +83,6 @@ const effectiveFieldContext = computed(() => {
     return undefined
   }
   
-  // LEARNING: Read readOnly prop value to establish dependency tracking
   // WHY: Accessing readOnlyProp.value in computed ensures Vue tracks the dependency
   // PATTERN: Read prop value in computed to establish reactivity dependency
   const readOnlyValue = readOnlyProp.value
@@ -113,7 +110,6 @@ const effectiveFieldContext = computed(() => {
 const fieldKey = computed(() => effectiveFieldContext.value?.state.fieldKey)
 const entityKey = computed(() => effectiveFieldContext.value?.state.entityKey)
 
-// LEARNING: Use unified field value composable
 // PATTERN: Only call composables if fieldContext exists
 if (fieldContext.value) {
   useFieldValue(fieldContext.value)
@@ -146,14 +142,12 @@ const fieldMetadataRef = computed(() => {
   return raw !== undefined && raw !== null ? raw : {}
 })
 
-
 const fieldComponent = useFieldComponent({
   entityKey,
   fieldKey,
   entity: entityForMetadata,
   fieldMetadata: fieldMetadataRef
 })
-
 
 const collectionType = computed(() => {
   const key = String(fieldKey.value)
@@ -180,7 +174,6 @@ const fieldCollectionType = computed(() =>
   fieldComponent.componentType.value.type === 'relationshipCollection' ? collectionType.value : undefined
 )
 
-// LEARNING: Use field renderer component composable
 // PATTERN: Composable provides component to render and validation computed properties
 const {
   componentToRender,

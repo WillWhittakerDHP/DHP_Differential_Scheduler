@@ -165,8 +165,6 @@ type ValidationRule = (value: any) => string | boolean
 
 ---
 
-## Learning Checkpoints
-
 ### What Did We Learn?
 
 1. **Vuetify Form Validation Pattern**
@@ -306,4 +304,3 @@ type ValidationRule = (value: any) => string | boolean
 ---
 
 **Last Updated:** 2025-12-28
-

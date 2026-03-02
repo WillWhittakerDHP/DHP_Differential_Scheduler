@@ -1,6 +1,3 @@
-/**
-LEARNING: Generic factory pattern for creating stand...
- */
 import { Router } from 'express'
 import { Model } from 'sequelize'
 import { csrfProtection, checkOwnership } from '../../middlewares/security.js'

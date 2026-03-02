@@ -1,7 +1,6 @@
 /**
  * Shared Core Entity Types
  *
- * LEARNING: Minimal shape for any entity (block/part/event/annotation, instance or shape) shared by client and server
  * WHY: Single source of truth for entity-like payloads in booking, transformer, and API contexts
  * PATTERN: Shared types directory for cross-cutting concerns
  */

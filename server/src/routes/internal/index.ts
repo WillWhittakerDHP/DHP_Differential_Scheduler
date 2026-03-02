@@ -30,7 +30,6 @@ router.use('/business-settings', BusinessSettingsRouter);
 
 router.use('/business-rules', BusinessRulesRouter);
 
-// LEARNING: Single endpoint follows entity pattern - backend routes based on fieldKey type
 // WHY: Matches entity pattern where single endpoint handles all fields, backend routes based on type
 router.use('/admin-metadata', adminMetadataRouter);
 

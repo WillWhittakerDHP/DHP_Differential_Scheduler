@@ -71,11 +71,6 @@
 - Disabled flag for soft deletion
 - Unique constraint prevents duplicate pool memberships
 
-**Learning Points:**
-- Sequelize model patterns
-- Through table relationships
-- Generic foreign key references
-
 ---
 
 ### Task 4.7.2: Add Pooling Config to Entity Registry
@@ -92,10 +87,6 @@
 - Config-driven pooling per entity type
 - Property-specific aggregation rules
 - Example: `baseFee: 'sum'`, `activeParts: 'merge'`, `onSite: 'every'`
-
-**Learning Points:**
-- Configuration patterns
-- Type-safe config interfaces
 
 ---
 
@@ -118,11 +109,6 @@
 - Validation prevents invalid pool configurations
 - Circular reference detection
 - Error handling and proper HTTP status codes
-
-**Learning Points:**
-- Express router patterns
-- Validation middleware
-- Circular reference detection algorithms
 
 ---
 
@@ -156,10 +142,6 @@
 - Type-safe pooling data structures
 - Matches backend API response format
 - Distribution strategy types for modal
-
-**Learning Points:**
-- TypeScript type definitions
-- API response type matching
 
 ---
 
@@ -212,11 +194,6 @@
 - Attaches pool membership data to entities
 - Integrates with existing transformer flow
 
-**Learning Points:**
-- Data transformation patterns
-- API integration
-- Type updates
-
 ---
 
 ### Task 4.7.9: Create Pooling Aggregator
@@ -235,11 +212,6 @@
 - Supports hierarchical pooling (members can be pools)
 - Property-specific aggregation strategies
 - Part profile aggregation across pooled blocks
-
-**Learning Points:**
-- Aggregation algorithms
-- Recursive data processing
-- Computed view patterns
 
 ---
 
@@ -262,11 +234,6 @@
 - CRUD operations for pool management
 - Automatic cache invalidation
 - Computed aggregation on demand
-
-**Learning Points:**
-- Vue composables
-- Vue Query integration
-- Cache invalidation strategies
 
 ---
 
@@ -306,12 +273,6 @@
 - Three distribution strategies
 - Preview before applying
 - Confirmation dialog
-
-**Learning Points:**
-- Vue component patterns
-- Modal dialogs
-- Distribution algorithms
-- User interaction patterns
 
 ---
 
@@ -413,4 +374,3 @@
 - Phase Handoff: `project-manager/features/vue-migration/phases/phase-4-handoff.md`
 - Entity Pooling Plan: `.cursor/plans/entity-pooling-system-1bc9f8e5.plan.md`
 - Project Plan: `project-manager/PROJECT_PLAN.md`
-

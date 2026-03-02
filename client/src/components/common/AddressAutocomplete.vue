@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Address Autocomplete Component
   WHY: Provides address suggestions with coordinate extraction for drive time calculations
   PATTERN: Vuetify VAutocomplete wrapper; orchestration in useAddressAutocomplete composable
   Session 2.2.1: Created for Google Maps API Integration

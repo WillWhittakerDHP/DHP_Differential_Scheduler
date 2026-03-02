@@ -20,7 +20,6 @@ export function useFieldValue<GE extends GlobalEntityKey, FieldKey extends Globa
   // PATTERN: Directly access fieldContext.state.value.value to establish reactivity dependency
   // NOTE: Grouped format - value is at context.state.value (Ref<ValidAdminValue>)
   return computed(() => {
-    // LEARNING: Handle Vue's Ref unwrapping when fieldContext is passed as prop
     // WHY: Vue may unwrap Refs when passed as props, so fieldContext.state.value might be:
     //      1. A Ref object with .value property (normal case from vee-validate)
     // PATTERN: Check if fieldContext.state.value is a Ref or already the value
@@ -44,6 +43,3 @@ export function useFieldValue<GE extends GlobalEntityKey, FieldKey extends Globa
     return (actualValue !== undefined && actualValue !== null ? actualValue : '') as ValidAdminValue
   })
 }
-
-
-

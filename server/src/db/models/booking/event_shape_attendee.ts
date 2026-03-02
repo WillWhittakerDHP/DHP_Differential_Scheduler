@@ -17,7 +17,6 @@ import { BlockInstance } from './block_instance';
  * Through-table for many-to-many relationship between EventShape and UserTypeBlock instances (BlockInstances).
  * Enables event shapes to specify which user types (inspector, client, agent) attend the event.
  * 
- * LEARNING: Event attendee relationship pattern enables:
  * - Many-to-many relationships (one event shape can have many attendees, one user type can attend many events)
  * - Dynamic attendee configuration (admins can configure which user types attend which events)
  * - Type-safe references to UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)

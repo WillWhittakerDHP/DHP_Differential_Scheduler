@@ -69,7 +69,6 @@ export function createExpansionPanelDraggableChecker(
     
     if (!panelElement) return false
     
-    // LEARNING: Use the same checker logic as node counting
     // PATTERN: Reuse the same checker function
     return isDraggableChecker(panelElement)
   }

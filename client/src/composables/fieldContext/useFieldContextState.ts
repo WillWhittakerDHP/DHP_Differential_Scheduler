@@ -66,7 +66,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   })
 
   // PATTERN: Use useEntityMetadata to get inputConfig.globalField if available
-  // LEARNING: Convert AdminObject to GlobalEntity for useEntityMetadata
   // PATTERN: Map undefined to null and cast AdminObject to GlobalEntity (they're compatible)
   const entityForMetadata = computed(() => {
     const entityValue = entity.value
@@ -121,7 +120,6 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
   const formInstance = form || useForm()
 
   const getInitialValue = (): ValidAdminValue => {
-    // LEARNING: Explicit initialValue takes precedence (per vee-validate pattern)
     if (explicitInitialValue !== undefined) {
       return explicitInitialValue
     }

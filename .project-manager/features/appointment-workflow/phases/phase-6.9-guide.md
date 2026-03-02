@@ -51,11 +51,6 @@
 - Ensure options sub-step is visible and ordered before perspective when options exist.
 - No changes to orchestrator validation or slot calculation; wire existing components into the new structure.
 
-**Learning Goals:**
-- Progressive disclosure and responsive pattern (expanded vs expandable)
-- Conditional sub-step visibility (options, perspective) and dependency order
-
-- [ ] ### Session 6.9.2: (Optional) Polish & Accessibility
 **Description:** Refine animations, focus management, and a11y for expandable cards; session may be merged into 6.9.1 if scope is small.
 **Tasks:** To be planned if needed (keyboard, aria-expanded, focus trap, reduced motion).
 

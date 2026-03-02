@@ -23,7 +23,6 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
 ): UseEntityMetadataReturn<GE> {
   const entityValue = computed(() => unref(entity))
   
-  // LEARNING: Access metadata cache directly for reactive tracking
   // PATTERN: Access metadataQuery.data directly in computed so Vue tracks the dependency
   const metadataCache = useMetadataCache()
   
@@ -68,7 +67,6 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
     
     /**
 Loading state from metadata cache
-LEARNING: Metadata is lazy-loaded,...
      */
     isLoading: computed(() => metadataCache.isLoading.value),
     

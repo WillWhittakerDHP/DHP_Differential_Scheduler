@@ -27,9 +27,6 @@ export function isDifferentialFromSelectedBlocks(blocks: BookingBlockInstance[])
   return blocks.some((s) => equals(s.differential, 'true'))
 }
 
-/**
-LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) fo...
- */
 interface DateRange {
   start: ISO8601Date | null
   end: ISO8601Date | null
@@ -94,7 +91,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   const dateRangeForApi = computed(() => {
     if (!selectedDate.value.start) return null
     
-    // LEARNING: Parse selected date in UTC using shared utility
     // WHY: All business logic should use UTC to avoid timezone issues
     // PATTERN: Use parseUTCDate utility with built-in validation
     const startValue = selectedDate.value.start
@@ -104,7 +100,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     if (!startDate) {
       return null
     }
-    // LEARNING: Use UTC methods for all date operations
     // WHY: All business logic should use UTC to avoid timezone issues
     // PATTERN: Use Date.UTC() and UTC getters for date construction and comparison
     const endDate = new Date(Date.UTC(
@@ -114,7 +109,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       0, 0, 0, 0
     ))
     
-    // LEARNING: Determine start datetime: always use start of day (midnight UTC) for consistency
     // PATTERN: Always use start of day UTC, let mock generator handle past time filtering
     const startDateTime = new Date(Date.UTC(
       startDate.getUTCFullYear(),
@@ -142,7 +136,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       return null // Past dates can't render in UI
     }
     
-    // LEARNING: End datetime: end of day (23:59:59) in UTC
     // PATTERN: Use Date.UTC() to create end of day in UTC, then convert to RFC3339
     const endDateTime = new Date(Date.UTC(
       endDate.getUTCFullYear(),
@@ -151,7 +144,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
       23, 59, 59, 999
     ))
     
-    // LEARNING: Convert to RFC3339 format (ISO 8601 with UTC timezone, matching Google Calendar API)
     // WHY: Consistent format throughout codebase, matches Google Calendar API
     // PATTERN: Use toISOString() to produce RFC3339 format
     return {
@@ -204,7 +196,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
-      // LEARNING: Extract date in UTC
       // WHY: All business logic should use UTC to avoid timezone issues
       // PATTERN: Use UTC date methods to extract date portion from RFC3339 datetime
       const slotDateObj = new Date(slot.startTime)
@@ -269,12 +260,6 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     return serviceHasOverride || optionHasOverride
   })
 
-  /**
-LEARNING: Effective differential state for UI rendering
-
-Logic:
-- If...
-   */
   const isEffectivelyDifferential = computed(() => {
     if (!isDifferentialService.value) {
       return false
@@ -298,7 +283,6 @@ P2-2: ...
     const slotsByDate = new Map<string, TimeSlot[]>()
     
     slots.forEach(slot => {
-      // LEARNING: Extract date in UTC
       // WHY: All business logic should use UTC to avoid timezone issues
       // PATTERN: Use UTC date methods to extract date portion from RFC3339 datetime
       const slotDateObj = new Date(slot.startTime)
@@ -329,7 +313,6 @@ P2-2: ...
   const selectedDateSingle = computed({
     get: () => selectedDate.value.start,
     set: (value: ISO8601Date | Date | null) => {
-      // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
       // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
       // PATTERN: Convert Date to ISO 8601 string, handle null
       let dateString: ISO8601Date | null = null

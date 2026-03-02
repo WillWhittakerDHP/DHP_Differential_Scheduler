@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-02T20:03:04.431Z",
-  "totalScanned": 262,
+  "generatedAt": "2026-03-02T20:15:14.965Z",
+  "totalScanned": 263,
   "ruleset": [
     {
       "ruleId": "module-level-ref",
@@ -76,28 +76,6 @@
   ],
   "findings": [
     {
-      "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-      "lineNumber": 143,
-      "ruleId": "oversized-return",
-      "snippet": "Return surface has 11 properties",
-      "message": "Return surface has 11 properties; decompose into focused composables",
-      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
-      "isExported": true,
-      "composableName": "useAppointmentsTableModel",
-      "consumerCount": 1
-    },
-    {
-      "file": "client/src/composables/admin/useBaseCollectionField.ts",
-      "lineNumber": 208,
-      "ruleId": "oversized-return",
-      "snippet": "Return surface has 12 properties",
-      "message": "Return surface has 12 properties; decompose into focused composables",
-      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
-      "isExported": true,
-      "composableName": "useBaseCollectionField",
-      "consumerCount": 2
-    },
-    {
       "file": "client/src/composables/formFields/useFormFields.ts",
       "lineNumber": 1,
       "ruleId": "excessive-composable-imports",
@@ -111,16 +89,6 @@
   ],
   "files": [
     {
-      "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/composables/admin/useBaseCollectionField.ts",
-      "score": 2,
-      "priority": "P2"
-    },
-    {
       "file": "client/src/composables/formFields/useFormFields.ts",
       "score": 2,
       "priority": "P2"
@@ -128,12 +96,9 @@
   ],
   "repairWaves": {
     "local": [],
-    "lowFanIn": [
-      0,
-      1
-    ],
+    "lowFanIn": [],
     "highFanIn": [
-      2
+      0
     ]
   }
 }

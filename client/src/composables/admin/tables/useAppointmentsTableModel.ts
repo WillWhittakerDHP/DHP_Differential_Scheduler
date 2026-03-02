@@ -15,17 +15,22 @@ import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel
 
 const logger = createLogger('useAppointmentsTableModel')
 
-export interface AppointmentsTableModel extends CrudDataTableModel<
-  AppointmentResponse,
-  AppointmentRequest,
-  Partial<AppointmentRequest>
-> {
+/** Grouped to keep return surface under 10 (composable-health). */
+export interface AppointmentsTableLookups {
   properties: ComputedRef<PropertyResponse[]>
   users: ComputedRef<UserResponse[]>
   getDisplayValue: (appointment: AppointmentResponse, field: string) => string
   getPropertyById: (propertyVersionId: string | null | undefined) => PropertyResponse | undefined
   getUserById: (userId: string | null | undefined) => UserResponse | undefined
   getPropertyTypeNames: (propertyVersionId: string | null | undefined) => string
+}
+
+export interface AppointmentsTableModel extends CrudDataTableModel<
+  AppointmentResponse,
+  AppointmentRequest,
+  Partial<AppointmentRequest>
+> {
+  lookups: AppointmentsTableLookups
   confirmAppointment: (id: string) => Promise<boolean>
 }
 
@@ -145,12 +150,14 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     ...crud.editState,
     ...crud.dialogs,
     ...crud.actions,
-    properties,
-    users,
-    getDisplayValue,
-    getPropertyById,
-    getUserById,
-    getPropertyTypeNames,
+    lookups: {
+      properties,
+      users,
+      getDisplayValue,
+      getPropertyById,
+      getUserById,
+      getPropertyTypeNames,
+    },
     confirmAppointment,
   }
 }

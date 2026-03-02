@@ -16,7 +16,6 @@ import type { EventInstance } from './event_instance.js';
  * Through-table for many-to-many relationship between PartInstance/BlockInstance and EventInstance.
  * Enables instances to have multiple event instances.
  * 
- * LEARNING: Assignment relationship pattern enables:
  * - Many-to-many relationships (one instance can have many event instances, one event instance can be used by many instances)
  * - Instance-level configuration (events are configured per instance, not per shape)
  * 

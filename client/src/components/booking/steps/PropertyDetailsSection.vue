@@ -147,18 +147,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import WizardTextField from '@/components/booking/fields/WizardTextField.vue'
 import WizardSelect from '@/components/booking/fields/WizardSelect.vue'
-import { measureMaxTextWidth } from '@/utils/dom/textMeasure'
+import { usePropertyTypeSelectWidth } from '@/composables/booking/usePropertyTypeSelectWidth'
 import type { PropertyFormData } from '@/types/propertyForm'
 import type { ValidationRule } from '@/types/formValidation'
 import type { BookingBlockInstance } from '@/types/transformers/bookingData'
 import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'
-
-/** Padding for VSelect: dropdown icon + field padding so width fits content, not full column */
-const SELECT_PADDING_PX = 56
-const MIN_PROPERTY_TYPE_WIDTH_PX = 160
 
 export type PropertyTypeWithComponents = BookingBlockInstance & {
   composite?: boolean
@@ -200,23 +196,9 @@ const activeInstanceComponents = computed((): ComponentItem[] => {
   return comps.filter((c: ComponentItem) => c.active === true)
 })
 
-const propertyTypeSelectWidthPx = ref(MIN_PROPERTY_TYPE_WIDTH_PX)
-watch(
-  () => props.availablePropertyTypes,
-  (list) => {
-    const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
-    if (labels.length === 0) {
-      propertyTypeSelectWidthPx.value = MIN_PROPERTY_TYPE_WIDTH_PX
-      return
-    }
-    const textWidth = measureMaxTextWidth(labels)
-    propertyTypeSelectWidthPx.value = Math.max(
-      MIN_PROPERTY_TYPE_WIDTH_PX,
-      textWidth + SELECT_PADDING_PX
-    )
-  },
-  { immediate: true }
-)
+const { propertyTypeSelectWidthPx } = usePropertyTypeSelectWidth({
+  availablePropertyTypes: computed(() => props.availablePropertyTypes),
+})
 </script>
 
 <style scoped lang="scss">

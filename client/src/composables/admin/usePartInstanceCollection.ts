@@ -15,9 +15,6 @@ const logger = createLogger('usePartInstanceCollection')
 
 export type { PartInstanceCollectionModel } from '@/types/admin/partInstanceCollection'
 
-/**
-LEARNING: Collection-level composable for Part...
- */
 export function usePartInstanceCollection(
   blockInstanceId: ComputedRef<string>,
   optionsFieldKey: ComputedRef<string>
@@ -52,10 +49,6 @@ export function usePartInstanceCollection(
     return validPartShapes.value.length > 0
   })
 
-  /**
-LEARNING: Inline creation state for placeholder cards
-PATTERN: Separ...
-   */
   const expandedPlaceholders = ref<string[]>([])
 
   /**

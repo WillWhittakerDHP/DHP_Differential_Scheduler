@@ -65,7 +65,6 @@ export function transformApiRelationships(
 
 /**
 
-LEARNING: Common pattern for ...
  */
 export function findRelationshipsByParent(
   parentId: string,
@@ -122,7 +121,6 @@ export function getComponentsRecursive(
   return recursiveComponents
 }
 
-
 function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
@@ -167,7 +165,6 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
     return null
   }
   
-  // LEARNING: Type assertion needed because entities array is union type
   // PATTERN: Assert to specific entity type when we know the entityKind
   const composer = composerEntity as GlobalEntity<GE>
   
@@ -219,4 +216,3 @@ export function composePartInstances(
   // PATTERN: Use Set constructor with array to build Set functionally, then convert back to array
   return Array.from(new Set(partInstanceIds))
 }
-

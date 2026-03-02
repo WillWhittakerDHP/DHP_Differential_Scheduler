@@ -17,14 +17,6 @@
 **Duration:** ~2-3 hours  
 **Status:** Completed (documentation alignment; Tasks 2.2.6.2–2.2.6.5 already implemented)
 
-### Learning Goals
-
-- **Violation Attribution Patterns:** Understand how to correctly attribute constraint violations
-- **Constraint Display:** Learn how to display buffer minutes in tooltips
-- **Conditional Loading:** Implement conditional data loading based on UI state
-- **Vue Provide/Inject:** Use provide/inject for tab state sharing
-- **Performance Optimization:** Prevent unnecessary API calls until needed
-
 ### Tasks
 
 - [x] #### Task 2.2.6.1: Fix Violation Attribution Logic ✅
@@ -216,45 +208,9 @@ Break each session into focused tasks. Each task should have:
 
 ---
 
-## Learning Checkpoints
-
 ### Purpose
 
 Learning checkpoints ensure understanding before moving forward. They're integrated into the unified checkpoint system.
-
-### When to Use Learning Checkpoints
-
-- **Complex tasks:** New concepts, architectural changes, framework transitions
-- **Simple tasks:** Quick checkpoint (quality only) - learning optional
-
-### Learning Checkpoint Process
-
-After completing a task (especially complex ones), pause to:
-
-1. **Review What Was Learned**
-   - What patterns were used?
-   - How does this differ from previous approaches?
-   - What concepts need clarification?
-
-2. **Verify Understanding**
-   - Can you explain what was accomplished?
-   - Do you understand the implementation?
-   - Are there questions before continuing?
-
-3. **Document Decisions**
-   - Why was this approach chosen?
-   - What alternatives were considered?
-   - What might change later?
-
-### Learning Checkpoint Format
-
-Included in full checkpoint format:
-```
-**Learning:** (Optional - for complex tasks)
-- [Key concepts/patterns learned]
-- [Framework differences if applicable]
-- [Questions answered]
-```
 
 ---
 
@@ -281,12 +237,6 @@ When planning a new task, use this structure:
 **Checkpoint:** 
 - [What needs to be verified]
 - [Quality criteria]
-- [Learning goals if complex task]
-
-**Learning Focus:** (Optional - for complex tasks)
-- [Concept 1 to understand]
-- [Concept 2 to understand]
-
 **Dependencies:**
 - [Prerequisite tasks or files]
 ```
@@ -306,17 +256,11 @@ When logging a completed task:
 **Files Modified:**
 - `[path]` - [Description]
 
-**Concepts Learned:**
-- **[Concept]**: [Explanation]
-
 **Key Methods/Functions:**
 - `methodName()` - [Description]
 
 **Architecture Notes:**
 - **[Pattern]**: [Explanation]
-
-**Learning Checkpoint:**
-- [x] [Checkpoint] ✅
 
 **Questions Answered:**
 - **[Question]** - [Answer]

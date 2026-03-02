@@ -7,7 +7,6 @@
     :show-label="false"
     :is-disabled="resolvedFieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: When readonly, display as plain text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - plain text is clearer -->
     <!-- PATTERN: Use computed to reactively track readOnly state for v-if -->
     <span
@@ -18,7 +17,6 @@
       {{ fieldValue || resolvedFieldContext?.state.displayConfig.placeholder || '' }}
     </span>
     
-    <!-- LEARNING: Conditionally render textarea for long content when editable -->
     <!-- WHY: Long text is better displayed in multi-line textarea -->
     <!-- PATTERN: Check content length and newlines to determine if textarea is needed -->
     <AppTextarea
@@ -85,7 +83,6 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 
-// LEARNING: Use toRef to maintain reactivity when accessing props
 // WHY: Vue 3 best practice - destructuring props breaks reactivity, use toRef instead
 const fieldContextRef = toRef(props, 'fieldContext')
 
@@ -106,7 +103,6 @@ const fieldValue = computed(() => {
     return '' as ValidAdminValue
   }
   
-  // LEARNING: Access value using useFieldValue composable which handles Ref unwrapping
   // WHY: useFieldValue is designed to handle Vue's Ref unwrapping when fieldContext is passed as prop
   // PATTERN: Use useFieldValue composable which properly handles both Ref and unwrapped cases
   // NOTE: This is the correct way to access field values - it handles all edge cases
@@ -114,7 +110,6 @@ const fieldValue = computed(() => {
   return val as ValidAdminValue
 })
 
-// LEARNING: Computed property to reactively track readOnly state
 const isReadOnly = computed(() => {
   // PATTERN: Access resolvedFieldContext.value, then nested properties, to establish reactivity dependency
   const context = resolvedFieldContext.value
@@ -124,7 +119,6 @@ const isReadOnly = computed(() => {
   return readOnly === true
 })
 
-// LEARNING: Use Vuetify's display composable for responsive behavior
 const { width } = useDisplay()
 
 const shouldUseTextarea = computed(() => {
@@ -169,7 +163,6 @@ const handlers = computed(() => {
   })
 })
 
-// LEARNING: Access handlers through computed to ensure reactivity (Enter is handled inside handleKeydown)
 const handleFocus = () => handlers.value.handleFocus()
 const handleBlur = () => handlers.value.handleBlur()
 const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)
@@ -222,4 +215,3 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   font-style: italic;
 }
 </style>
-

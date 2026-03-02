@@ -21,7 +21,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
   const { steps, validateStep, showError } = params
 
   /**
-   * LEARNING: Reactive state for tracking current step
    */
   const activeStep = ref(0)
 
@@ -30,7 +29,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
   const isLastStep = computed(() => activeStep.value === steps.length - 1)
 
   /**
-   * LEARNING: Mark step as completed
    */
   const markStepCompleted = (stepIndex: number): void => {
     completedSteps.value.add(stepIndex)
@@ -100,7 +98,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
   }
 
   /**
-   * LEARNING: Helper to determine step state classes
    */
   const getStepState = (index: number): string => {
     if (completedSteps.value.has(index)) {
@@ -137,6 +134,3 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     isStepAccessible
   }
 }
-
-
-

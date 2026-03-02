@@ -1,7 +1,6 @@
 <!--
   MoveablePartsModal Component
   
-  LEARNING: Modal for scheduling moveable parts (like report writing)
   WHY: Allows users to specify when moveable work should be completed, bounded by contingency deadlines
   PATTERN: Uses RequiredConfirmationModal shell; moveable-specific content (contingency, time grid) in body slot.
   

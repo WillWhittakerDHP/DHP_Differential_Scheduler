@@ -8,7 +8,6 @@ const logger = createLogger('dateUtils')
 
 /**
  * WHY: Parse date string or Date in UTC
-LEARNING: Parses dates in UTC timezone,...
  */
 export function parseUTCDate(dateInput: string | Date): Date | null {
   let dateString: string

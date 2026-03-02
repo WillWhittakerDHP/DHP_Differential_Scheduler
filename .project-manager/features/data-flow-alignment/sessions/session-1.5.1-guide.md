@@ -19,14 +19,6 @@
 **Duration:** 3-4 hours  
 **Status:** Not Started
 
-### Learning Goals
-
-- Database schema design for configurable business rules
-- Relationship modeling between business rules and block instances  
-- Leveraging existing annotation infrastructure for validation messages
-- Following established patterns (requiresUnitNumber flag, BusinessSettings JSONB)
-- Understanding rule_type enumeration and typed JSONB configs
-
 ---
 
 ## Current State Analysis

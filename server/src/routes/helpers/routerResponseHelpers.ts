@@ -1,6 +1,5 @@
 /**
 
-LEARNING: Standardized response formatting util...
  */
 import { Response } from 'express'
 import { HTTP_STATUS_CODES } from '../../constants/router.js'

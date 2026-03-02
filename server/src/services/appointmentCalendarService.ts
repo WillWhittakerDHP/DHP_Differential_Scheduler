@@ -192,7 +192,6 @@ function buildEventDescription(appointment: AppointmentWithDetails): string {
 
 /**
 
-LEARNING: Extracts RFC3339 times fr...
  */
 function calculateEventTimes(appointment: AppointmentWithDetails): { start: string; end: string } {
   const firstSlot = appointment.selectedTimeSlots?.[0];

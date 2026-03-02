@@ -22,7 +22,6 @@ const { handleTimeBasisClick } = timeBasisHandler(props, emit)
 </script>
 
 <template>
-  <!-- LEARNING: Time Basis Button Grid -->
   <!-- WHY: Styled like appointment slot grid for visual consistency -->
   <!-- PATTERN: CSS Grid with 2 columns, matching AppointmentSlotGrid styling -->
   <div v-if="isDifferentialService" class="time-basis-button-grid">

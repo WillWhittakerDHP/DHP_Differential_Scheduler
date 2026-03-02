@@ -101,15 +101,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We Learned
-- Frontend types were already correctly aligned with API changes
-- Backward compatibility code removal simplifies codebase
-- Display variable names (`entityTypeName`, `entityTypes`) are separate from API field names
-- Consistent field naming improves code maintainability
-- Removing backward compatibility reduces code complexity
-
 ### Why These Patterns Matter
 - Consistent naming improves code clarity and maintainability
 - Removing backward compatibility simplifies code
@@ -198,4 +189,3 @@
   - Easier to maintain and understand
   - Type safety ensures correctness
   - No backward compatibility confusion
-

@@ -143,13 +143,6 @@ Create a dedicated "Confirm" action button in the admin appointments table for `
 
 ---
 
-## Learning Goals
-
-- **Business rule configuration patterns:** Understand how admin-configurable behavior (auto-confirm toggle) works — settings in database, read at runtime, change behavior without code changes
-- **Confirmation dialog UX patterns:** Learn how to build a confirmation dialog that summarizes what the user is about to do before they commit
-- **Conditional UI rendering based on entity state:** Practice showing/hiding UI elements based on the status of a data object (e.g., confirm button only for `submitted`)
-- **afterCreate hooks for automated behavior:** Understand how to use model hooks to trigger automatic business logic
-
 ---
 
 ## Dependencies

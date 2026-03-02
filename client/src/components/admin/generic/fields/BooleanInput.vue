@@ -6,7 +6,6 @@
     :show-label="false"
     :is-disabled="fieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: BooleanInput renders status button chip (not toggle switch) -->
     <!-- WHY: All boolean fields should render as status buttons for consistency -->
     <!-- PATTERN: Use StatusButton component instead of VSwitch toggle -->
     <div @keydown="handleKeydown">
@@ -47,7 +46,6 @@ const { fieldContext } = props
 
 const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_CARD_SAVE_KEY, undefined)
 
-// LEARNING: Use unified field value composable
 const rawFieldValue = useFieldValue(fieldContext)
 
 const normalizedValue = computed(() => {
@@ -70,7 +68,6 @@ const normalizedValue = computed(() => {
   
   return value === true
 })
-
 
 // PATTERN: Composable handles both temporary and existing entities
 const entityForMetadata = useFieldContextMetadataEntity(fieldContext)
@@ -105,7 +102,6 @@ const displayLabel = computed((): string => {
   return labelMap.false
 })
 
-// LEARNING: Use status button toggle composable for consistent store updates
 // PATTERN: Assert type since runtime behavior is correct
 const statusButtonToggle = useStatusButtonToggle({
   entityKey: fieldContext.state.entityKey!,

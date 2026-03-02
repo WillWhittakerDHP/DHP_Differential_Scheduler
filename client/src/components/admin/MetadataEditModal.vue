@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Metadata Edit Modal
   WHY: Unified modal for editing admin input metadata (rendering configuration only)
   PATTERN: Single editor component wired to admin-metadata API
   NOTE: Replaces legacy two-tab modal with unified rendering-focused editor

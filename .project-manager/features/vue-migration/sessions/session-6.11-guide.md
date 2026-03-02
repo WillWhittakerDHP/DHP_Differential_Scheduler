@@ -129,7 +129,7 @@
 ## Learning Objectives
 
 - Understand relationship-based architecture patterns
-- Learn how to migrate from separate system to unified pattern
+
 - Understand component-specific validation in relationship router
 - Learn component aggregation strategies (sum, merge, first, every)
 

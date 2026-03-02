@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import type { UseSelectFieldValueOptions, UseSelectFieldValueReturn } from '@/types/admin/selectFieldValue'
 
-
 /**
  * WHY: Select Field Value Composable
 
@@ -62,7 +61,6 @@ export function useSelectFieldValue(
     
     // PATTERN: Check if value exists in options before returning it
     if (value === null || value === undefined || value === '') {
-      // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
       // PATTERN: Convert null to '__NULL__' when reading, convert back to null when saving
       if (value === null && String(fieldContext.state.fieldKey) === 'ternaryDefault') {
         return '__NULL__' // Convert null to sentinel for display
@@ -80,4 +78,3 @@ export function useSelectFieldValue(
     fieldValue
   }
 }
-

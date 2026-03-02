@@ -1,7 +1,6 @@
 /**
  * WHY: useAppointmentShape Composable
 
-LEARNING: Single-responsibility composab...
  */
 import { computed } from 'vue'
 import type { AppointmentShape } from '@/types/appointment'
@@ -18,11 +17,9 @@ import type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/typ
 
 const logger = createLogger('useAppointmentShape')
 
-
 /**
  * WHY: useAppointmentShape composable
 
-LEARNING: Builds AppointmentShape from b...
  */
 export function useAppointmentShape(
   params: UseAppointmentShapeParams
@@ -60,7 +57,6 @@ export function useAppointmentShape(
       const attendeeAssignmentsRelationships = (rawAttendeeAssignments !== undefined && rawAttendeeAssignments !== null ? rawAttendeeAssignments : []) as GlobalRelationship[]
       
       // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
-      // LEARNING: GlobalRelationship format uses parent/children objects, not parent_id/child_id
       // WHY: Relationships are transformed to nested format with parent and children arrays
       // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
       if (attendeeAssignmentsRelationships.length > 0) {

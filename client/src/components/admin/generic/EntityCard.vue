@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Generic Entity Card Component
   WHY: Reusable card component for all entity types (blockShape, partShape, blockInstance, partInstance)
   PATTERN: Generic component that accepts entityKey and entity, handles all CRUD operations
   COMPARISON: React uses GenericInstance. Vue uses EntityCard with DynamicFormFields.
@@ -64,9 +63,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-
 /**
- * LEARNING: Expansion state management
  */
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
@@ -91,7 +88,6 @@ void useEntityStatus({
   entity: computed(() => props.entity)
 })
 
-
 const adminConfig = useAdminConfig()
 const admin = useAdmin()
 
@@ -111,7 +107,6 @@ const { form } = useEntityCardForm({
 /** Form instance for template binding; children require FormContext, not Ref. */
 const formForTemplate = computed(() => form.value!)
 
-// LEARNING: Use metadata composable to extract metadata-related computed properties
 // WHY: Reduces component complexity by moving metadata logic to composable
 // PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
 const { composedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
@@ -184,7 +179,6 @@ provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = fieldLocation.titleRowFields
 
-
 /**
  * WHY: Expose methods and state for parent components (minimal API)
 PATTERN: Ex...
@@ -194,7 +188,6 @@ defineExpose({
   getNameFieldContext: () => getFieldContext('name'),
   form,
   handleSave,
-  // LEARNING: Expose readiness state for parent components (if needed for other purposes)
   // PATTERN: Expose computed properties for external access
   isMetadataReady,
   isFormReady: formFields.isFormReady
@@ -203,7 +196,6 @@ defineExpose({
 
 <template>
   <!--
-    LEARNING: Self-contained EntityCard with optional VExpansionPanel wrapper
     WHY: EntityCard owns its rendering - title row, expand/collapse, and content
     PATTERN: When useExpansionPanel=true, wraps in VExpansionPanel. When false (modals), renders content directly.
     NOTE: When used inside parent VExpansionPanels, EntityCard renders as VExpansionPanel. When standalone, renders content directly.
@@ -221,11 +213,9 @@ defineExpose({
         @keydown="handleTitleKeydown"
       >
         <div class="d-flex align-center gap-2 flex-wrap">
-          <!-- LEARNING: Render name field left-justified in panel title -->
           <!-- WHY: Name field should be on the left side of the title row -->
           <!-- PATTERN: Render name field first, then status buttons on the right -->
           <template v-if="titleRowFields.length > 0 && isFormReady">
-            <!-- LEARNING: staticAsTitle fields render first, left-justified -->
             <!-- WHY: Name field should be on the left side of the title row, always first -->
             <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
             <div class="flex-grow-1 d-flex align-center gap-2">
@@ -244,7 +234,6 @@ defineExpose({
               </template>
             </div>
             
-            <!-- LEARNING: Other titleRow fields render after, right-justified -->
             <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
             <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
             <div class="d-flex align-center gap-2 ms-auto">
@@ -265,7 +254,6 @@ defineExpose({
           <span v-else class="flex-grow-1">{{ entityName }}</span>
         </div>
         
-        <!-- LEARNING: Parts totals displayed in title row below name and status buttons -->
         <!-- WHY: Shows parts totals at top of card when entity can have parts -->
         <!-- PATTERN: Component renders conditionally based on canHaveParts flag -->
         <EntityCardPartsTotals
@@ -276,7 +264,6 @@ defineExpose({
     </template>
     
     <template #text>
-      <!-- LEARNING: VExpansionPanel already provides card styling, so use div instead of nested VCard -->
       <!-- WHY: VExpansionPanel has card-like appearance, adding VCard inside creates "card within card" visual issue -->
       <!-- PATTERN: Use div wrapper when useExpansionPanel=true, VCard wrapper when useExpansionPanel=false -->
       <div class="entity-card-content pa-4">
@@ -308,19 +295,16 @@ defineExpose({
   </VExpansionPanel>
 
   <!--
-    LEARNING: Render content directly when useExpansionPanel=false (modals)
     WHY: Modals don't need VExpansionPanel wrapper, just render content directly
     PATTERN: Conditional rendering based on useExpansionPanel prop
   -->
   <div v-else class="entity-card-content">
-    <!-- LEARNING: Title row fields render at top when not using expansion panel -->
     <!-- WHY: TitleRow fields should still be visible even without expansion panel -->
     <div
       v-if="titleRowFields.length > 0 && isFormReady"
       class="d-flex align-center gap-2 mb-4 flex-wrap"
       @keydown="handleTitleKeydown"
     >
-      <!-- LEARNING: staticAsTitle fields render first, left-justified -->
       <!-- WHY: Name field should be on the left side of the title row, always first -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
       <div class="flex-grow-1 d-flex align-center gap-2">
@@ -339,7 +323,6 @@ defineExpose({
         </template>
       </div>
       
-      <!-- LEARNING: Other titleRow fields render after, right-justified -->
       <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
       <div class="d-flex align-center gap-2 ms-auto">
@@ -383,7 +366,6 @@ defineExpose({
     />
   </div>
   <!--
-    LEARNING: Delete Confirmation Dialog
     WHY: Provides confirmation before deleting entity
     PATTERN: VDialog with confirmation message
   -->
@@ -401,4 +383,3 @@ defineExpose({
     </VCard>
   </VDialog>
 </template>
-

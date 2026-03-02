@@ -47,10 +47,8 @@ function createAdminInstance(): UseAdminReturn {
   const callSite = getCallSiteInfo()
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
 
-
   const { globalData } = useGlobal()
 
-  // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
   // PATTERN: Separate cache key ['adminMetadata'] from globalData
   const metadataCache = useMetadataCache()
 
@@ -140,7 +138,6 @@ function createAdminInstance(): UseAdminReturn {
       blockShapeRef = blockInstanceEntity.blockShapeRef || null
     }
 
-    // LEARNING: Delegate to metadata cache composable
     // PATTERN: Single source of truth for metadata access
     return metadataCache.getMetadata(entityType, blockShapeRef)
   }

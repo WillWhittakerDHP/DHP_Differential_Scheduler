@@ -71,7 +71,6 @@ export function useWizardAppointmentManagement(
     success,
   } = options
 
-  // LEARNING: State for loading appointment data
   // WHY: Tracks loaded wizard state for populating form fields
   // PATTERN: Reactive refs for appointment tracking. currentAppointmentId is the neutral entity identity (same ref as loadedAppointmentId).
   const loadedWizardState = ref<WizardStateData | null>(null)
@@ -97,7 +96,6 @@ export function useWizardAppointmentManagement(
         }
         selectedAppointmentId.value = appointment.id
       } else {
-        // LEARNING: Load appointment using composable with cache refresh
         // PATTERN: Composable handles cache refresh and returns appointment from cache
         try {
           appointment = await loadAppointmentById(appointmentIdOrRandom)

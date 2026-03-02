@@ -5,18 +5,15 @@
 
 - **Context source policy:** tierUp only. Phase guide (session entry) and phase handoff only. Session handoff, session guide, and session log are excluded.
 
-
 ### What We Are Planning (from context)
 
 Session 6.4.4 builds a **unified required-confirmation modal shell** based on **MoveablePartsModal**, with two shell principles: **dynamic title** (e.g. "Confirm {blockInstance.name} details" for the property modal) and **progressive / mini-wizard** (answer a question → different response). MoveablePartsModal and PropertyConfirmationModal become consumers of this shell.
-
 
 ### Proposed Implementation Plan
 
 - Extract shell from MoveablePartsModal (structure, styles, transitions); design API for dynamic title and progressive body content.
 - Refactor MoveablePartsModal and PropertyConfirmationModal to use the shell; property modal adopts dynamic title pattern.
 - Implement in small steps with governance checks after each change.
-
 
 ## Session: 6.4.4 - Unified required confirmation modal shell
 **Date:** 2026-03-01
@@ -38,14 +35,12 @@ Session 6.4.4 builds a **unified required-confirmation modal shell** based on **
 - Session 6.4.4 is active and focused on a reusable required confirmation modal shell.
 - Session docs exist but still contain placeholders; planning should resolve specific files/acceptance criteria before execute mode.
 
-
 ## Next Action
 
 - Continue Session 6.4.4 and finalize:
   - exact shell API (props/events/slots),
   - integration boundaries for MoveablePartsModal and PropertyConfirmationModal,
   - concrete files to touch and test checkpoints.
-
 
 ## Transition Context
 
@@ -71,16 +66,12 @@ Session 6.4.4 builds a **unified required-confirmation modal shell** based on **
 - Refactor MoveablePartsModal to use the shell: move moveable-specific content (contingency, slots) into the shell's default slot; keep existing props/emits for content logic
 - Refactor PropertyConfirmationModal to use the shell: move property summary into the shell's default slot; keep existing props/emits
 - Optionally document or introduce a step-level concept (e.g. `confirmModal: true`) for wizard steps that require completing this modal before advancing; leave wiring for submit-step confirmation as follow-up if out of scope
-**Learning Goals:**
-- Reusable modal shell pattern (slot-based content, single place for transitions and accessibility)
-- Same UX contract for all "required confirmation" modals; step-unique content only in slots
 
 ---
 
 ### Governance Context (audit digest)
 
 ## Governance Context (Session)
-
 
 ### Function Governance
 Clean — no violations detected.
@@ -146,9 +137,6 @@ Clean — no violations detected.
 - `client/src/composables/formFields/useFormFields.ts` — excessive-composable-imports: High composable fan-out (6 imports); consider decomposing or using a focused facade
 - `client/src/composables/booking/useMoveablePartsScheduling.ts` (score: 33)
 - `client/src/composables/fieldContext/useFieldContextState.ts` (score: 20)
-
-
-
 
 ## Goal
 

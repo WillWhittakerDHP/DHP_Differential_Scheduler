@@ -69,7 +69,6 @@ export function getComponentsRecursive(
   })
 }
 
-
 export function composePartInstances(
   composedBlockIds: string[],
   globalData: GlobalData
@@ -97,7 +96,6 @@ export function composePartInstances(
 
 /**
 
-LEARNING: Computed view pattern - al...
  */
 export function composeProperties<GE extends GlobalEntityKey>(
   composerId: string,
@@ -146,7 +144,6 @@ export function getComposedEntity<GE extends GlobalEntityKey>(
     return null
   }
   
-  // LEARNING: Type assertion needed because entities array is union type
   // PATTERN: Assert to specific entity type when we know the entityKind
   const composer = composerEntity as GlobalEntity<GE>
   
@@ -165,4 +162,3 @@ export function getComposedEntity<GE extends GlobalEntityKey>(
   
   return composedEntity
 }
-

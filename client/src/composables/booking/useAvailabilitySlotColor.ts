@@ -6,7 +6,6 @@ WHY: Centralizes visual state logic...
 import { computed } from 'vue'
 import type { UseAvailabilitySlotColorParams, UseAvailabilitySlotColorReturn } from '@/types/booking/availabilitySlotColor'
 
-
 /**
  * WHY: useAvailabilitySlotColor composable
 
@@ -64,10 +63,8 @@ export function useAvailabilitySlotColor(
   }
 }
 
-
 function normalizeDateToKey(date: unknown): string | null {
   if (date instanceof Date) {
-    // LEARNING: Use UTC methods to avoid timezone shift issues
     const year = date.getUTCFullYear()
     const month = String(date.getUTCMonth() + 1).padStart(2, '0')
     const day = String(date.getUTCDate()).padStart(2, '0')

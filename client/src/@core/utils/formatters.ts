@@ -13,7 +13,6 @@ export const kFormatter = (num: number) => {
 }
 
 /**
- * LEARNING: Prefer useLocalTime.formatDateForDisplay() at UI boundaries for UTC/RFC3339 consistency.
  */
 export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' }) => {
   if (!value)
@@ -23,7 +22,6 @@ export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions
 }
 
 /**
- * LEARNING: Prefer useLocalTime at UI boundaries for UTC/RFC3339 consistency.
  */
 export const formatDateToMonthShort = (value: string, toTimeForCurrentDay = true) => {
   const date = new Date(value)
