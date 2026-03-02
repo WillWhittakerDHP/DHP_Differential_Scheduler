@@ -15,7 +15,7 @@
 **Description:** `reschedulingAppointmentId` in computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents so its time and drive buffers do not block slots.
 
 **Duration:** 1 session (2–3 tasks)
-**Status:** Not Started
+**Status:** In Progress
 
 ### Learning Goals
 
@@ -41,7 +41,7 @@
 **Approach:** Read reschedulingAppointmentId from request; when building overlap list for slot computation, omit that appointment's event (and its drive buffers); when building calendarEvents, include it. Ensure one code path produces overlap (excluded) and calendarEvents (included).
 **Checkpoint:** Reschedule flow can pick a new slot without the current appointment blocking it; calendar still shows the current appointment.
 
-- [ ] #### Task 6.5.2.3: Availability bypass — server excludes rescheduling appointment from overlap
+- [x] #### Task 6.5.2.3: Availability bypass — server excludes rescheduling appointment from overlap
 **Goal:** Verify end-to-end: add reschedulingAppointmentId to computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents so its time and drive buffers do not block slots.
 **Files:**
 - Same as 6.5.2.1 and 6.5.2.2; plus any integration tests or manual test steps

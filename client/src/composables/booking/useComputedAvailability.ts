@@ -30,11 +30,20 @@ function getPrefetchDateRange(): { start: RFC3339DateTime; end: RFC3339DateTime 
 export function useComputedAvailability(
   params: UseComputedAvailabilityParams
 ): UseComputedAvailabilityReturn {
-  const { propertyDetailsStepData, dateRange, activeStep, duration, selectedDate, dataSource } = params
+  const {
+    propertyDetailsStepData,
+    dateRange,
+    activeStep,
+    duration,
+    selectedDate,
+    dataSource,
+    reschedulingAppointmentId,
+  } = params
 
   const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
 
   const canFetchAvailability = computed(() => !!dateRange.value?.start && !!dateRange.value?.end)
+  const reschedulingIdForRequest = computed(() => reschedulingAppointmentId?.value ?? null)
 
   const calendarEvents = ref<CalendarEvent[]>([])
   const slotsByDay = ref<Map<string, ComputedSlot[]>>(new Map())
@@ -64,6 +73,7 @@ export function useComputedAvailability(
     label: string
   ): Promise<void> => {
     const currentPlaceId = placeId.value
+    const currentReschedulingAppointmentId = reschedulingAppointmentId?.value
     const rawDuration = duration?.value
     const currentDuration = rawDuration !== undefined && rawDuration !== null ? rawDuration : 60
 
@@ -77,6 +87,7 @@ export function useComputedAvailability(
         // @audit-allow:hardcoding:fieldMapping - Request payload shape
         dateRange: { start: range.start, end: range.end },
         candidatePlaceId: currentPlaceId ?? undefined,
+        reschedulingAppointmentId: currentReschedulingAppointmentId ?? undefined,
         duration: currentDuration,
         dataSource: dataSource?.value ?? 'real',
       })
@@ -109,21 +120,28 @@ export function useComputedAvailability(
   }
 
   const lastPlaceId = ref<string | undefined>(undefined)
+  const lastReschedulingAppointmentId = ref<string | undefined>(undefined)
   const lastDuration = ref<number>(60)
 
   /** Prefetch: 14 days from today; clear cache when placeId or duration changes */
   watch(
-    [activeStep, placeId, duration],
+    [activeStep, placeId, duration, reschedulingIdForRequest],
     () => {
       if (!canFetchAvailability.value) return
 
       const pid = placeId.value
+      const rescheduleId = reschedulingIdForRequest.value ?? undefined
       const rawDur = duration?.value
       const dur = rawDur !== undefined && rawDur !== null ? rawDur : 60
-      if (lastPlaceId.value !== pid || lastDuration.value !== dur) {
+      if (
+        lastPlaceId.value !== pid
+        || lastDuration.value !== dur
+        || lastReschedulingAppointmentId.value !== rescheduleId
+      ) {
         clearSlotsCache()
         lastPlaceId.value = pid
         lastDuration.value = dur
+        lastReschedulingAppointmentId.value = rescheduleId
       }
 
       fetchWithRange(getPrefetchDateRange(), 'prefetch')

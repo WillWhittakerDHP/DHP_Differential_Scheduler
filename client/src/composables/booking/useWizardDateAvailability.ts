@@ -17,7 +17,7 @@ import type {
 } from '@/types/booking/wizardDateAvailability'
 
 export function useWizardDateAvailability(params: UseWizardDateAvailabilityParams): UseWizardDateAvailabilityReturn {
-  const { stepDataRefs, activeStep } = params
+  const { stepDataRefs, activeStep, loadedAppointmentId, wizardMode } = params
   const now = new Date()
   const displayedMonth = ref<DisplayedMonth>({
     year: now.getUTCFullYear(),
@@ -38,6 +38,9 @@ export function useWizardDateAvailability(params: UseWizardDateAvailabilityParam
     propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
     dateRange,
     activeStep,
+    reschedulingAppointmentId: computed(() =>
+      wizardMode.value === 'reschedule' ? loadedAppointmentId.value : null
+    ),
     duration: appointmentDurationRef,
     selectedDate: selectedDateForSlots,
   })

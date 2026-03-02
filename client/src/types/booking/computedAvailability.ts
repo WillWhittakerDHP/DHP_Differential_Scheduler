@@ -12,6 +12,7 @@ export interface UseComputedAvailabilityParams {
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
   activeStep: Ref<number>
+  reschedulingAppointmentId?: Ref<string | null>
   duration?: Ref<number | null>
   selectedDate?: Ref<string | null>
   dataSource?: Ref<'real' | 'mock' | 'none'>

@@ -184,7 +184,12 @@ const { handleSubmit } = useWizardSubmission({
 
 provide('loadedWizardState', loadedWizardState)
 
-void useWizardDateAvailability({ stepDataRefs, activeStep })
+void useWizardDateAvailability({
+  stepDataRefs,
+  activeStep,
+  loadedAppointmentId,
+  wizardMode: wizard.wizardMode,
+})
 
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
 const isDevMode = isDevModeEnabled()
