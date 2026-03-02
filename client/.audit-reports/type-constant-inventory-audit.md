@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-01T18:48:37.065Z
+Generated: 2026-03-02T20:03:13.105Z
 
 ## Summary
 
@@ -1304,7 +1304,7 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/wizard.ts` | dedicated | UseBookingWizardReturn, PropertyDetailsStepData, WizardState, WizardSelectionMethods, WizardComputedProperties… | no | (none) | unknown |
+| `client/src/types/wizard.ts` | dedicated | WizardMode, UseBookingWizardReturn, PropertyDetailsStepData, WizardState, WizardSelectionMethods… | no | (none) | unknown |
 
 ### Domain: wizardDevOptions.ts
 

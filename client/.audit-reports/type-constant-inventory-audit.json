@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-01T18:48:37.065Z",
+  "generatedAt": "2026-03-02T20:03:13.105Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -853,7 +853,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 15,
+      "lineCount": 14,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -1727,7 +1727,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 10,
+      "lineCount": 9,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -2722,7 +2722,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 31,
+      "lineCount": 32,
       "purpose": "UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -3296,7 +3296,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 25,
+      "lineCount": 27,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -3477,7 +3477,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 20,
+      "lineCount": 19,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -4442,7 +4442,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 30,
+      "lineCount": 33,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -4468,7 +4468,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 16,
+      "lineCount": 18,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -4723,7 +4723,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 15,
+      "lineCount": 22,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6384,6 +6384,7 @@
       "domainMatch": null,
       "location": "dedicated",
       "exports": [
+        "WizardMode",
         "UseBookingWizardReturn",
         "PropertyDetailsStepData",
         "WizardState",
@@ -6395,12 +6396,12 @@
         "WizardStepDataAndValidationRefs"
       ],
       "exportKinds": {
-        "types": 2,
+        "types": 3,
         "interfaces": 7,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 122,
+      "lineCount": 134,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6748,7 +6749,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 402,
+      "lineCount": 406,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7095,7 +7096,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 34,
+      "lineCount": 33,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -10436,7 +10437,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 34,
+        "lineCount": 33,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],

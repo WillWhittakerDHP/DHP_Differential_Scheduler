@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-01T18:48:26.631Z",
+  "generatedAt": "2026-03-02T20:02:59.057Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -40,199 +40,199 @@
       "matches": [
         {
           "ruleId": "map",
-          "lineNumber": 70,
+          "lineNumber": 69,
           "line": "return slots.map((slot) => ({",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "map",
-          "lineNumber": 88,
+          "lineNumber": 87,
           "line": "const [year, month, day] = contingencyPeriod.endDate.split('-').map(Number)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 199,
+          "lineNumber": 197,
           "line": "const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 201,
+          "lineNumber": 199,
           "line": "const showModal = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 207,
+          "lineNumber": 205,
           "line": "const isLoadingOptions = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 209,
+          "lineNumber": 207,
           "line": "const isLoadingMoveableDaySlots = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 212,
+          "lineNumber": 210,
           "line": "const moveableEventFinal = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "map",
-          "lineNumber": 215,
+          "lineNumber": 213,
           "line": "const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 221,
+          "lineNumber": 219,
           "line": "const hasMoveableParts = computed(() => (moveableEventFinal.value?.roundedDuration ?? 0) > 0)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 223,
+          "lineNumber": 221,
           "line": "const moveableDuration = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 231,
+          "lineNumber": 229,
           "line": "const moveablePartShapeName = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 238,
+          "lineNumber": 236,
           "line": ".filter(([, eventInstances]) =>",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "map",
-          "lineNumber": 242,
+          "lineNumber": 240,
           "line": ".map(([partShapeName]) => partShapeName)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 243,
+          "lineNumber": 241,
           "line": ".filter((name) => name.trim().length > 0)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 244,
+          "lineNumber": 242,
           "line": ".filter((name) => !isGenericMoveableLabel(name))",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "map",
-          "lineNumber": 251,
+          "lineNumber": 249,
           "line": ".flatMap(([, eventInstances]) => eventInstances.map((eventInstance) => eventInstance.name))",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 252,
+          "lineNumber": 250,
           "line": ".filter((name): name is string => typeof name === 'string' && name.trim().length > 0)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 253,
+          "lineNumber": 251,
           "line": ".filter((name) => !isGenericMoveableLabel(name))",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "watchEffect",
-          "lineNumber": 270,
+          "lineNumber": 267,
           "line": "watchEffect(async () => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "async",
-          "lineNumber": 270,
+          "lineNumber": 267,
           "line": "watchEffect(async () => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 305,
+          "lineNumber": 301,
           "line": "const settings = await getAvailabilitySettings()",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 324,
+          "lineNumber": 320,
           "line": "const hasClosingDate = computed(",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 329,
+          "lineNumber": 325,
           "line": "watch(",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "async",
-          "lineNumber": 331,
+          "lineNumber": 327,
           "line": "async () => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 345,
+          "lineNumber": 341,
           "line": "const data = await fetchComputedAvailabilityData({",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 362,
+          "lineNumber": 358,
           "line": "const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 363,
+          "lineNumber": 359,
           "line": "const moveableShapeOverride = computed(() =>",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 368,
+          "lineNumber": 364,
           "line": "blockInstances: computed(() => []),",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 371,
+          "lineNumber": 367,
           "line": "perspective: computed(() => 'nonDifferential' as const),",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 372,
+          "lineNumber": 368,
           "line": "isDifferentialService: computed(() => false),",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 376,
+          "lineNumber": 372,
           "line": "const allowedMoveableDates = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "map",
-          "lineNumber": 393,
+          "lineNumber": 389,
           "line": "moveableAppointmentSlots.value.map((s) => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 426,
+          "lineNumber": 422,
           "line": "moveableOptions: computed(() => moveableOptions.value),",
           "suppressionStatus": "unsuppressed"
         }

@@ -38,6 +38,13 @@ Completed Task
 
 
 **Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 6.5.3
+
+
+**Where we left off:**
 Session 6.5.2 — Availability Bypass. `reschedulingAppointmentId` in computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents.
 
 **What you need to start:**

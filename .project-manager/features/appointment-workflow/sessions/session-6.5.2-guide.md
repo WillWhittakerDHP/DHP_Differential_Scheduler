@@ -25,7 +25,7 @@
 
 ### Tasks
 
-- [ ] #### Task 6.5.2.1: Wire reschedulingAppointmentId into availability request (client)
+- [x] #### Task 6.5.2.1: Wire reschedulingAppointmentId into availability request (client)
 **Goal:** Add reschedulingAppointmentId to the computed-availability (or slot) request when the wizard is in reschedule mode so the server knows which appointment to exclude from overlap.
 **Files:**
 - Client: availability composable or wizard step that builds the request (e.g. client/src/composables or client/src/components/booking)
@@ -33,7 +33,7 @@
 **Approach:** When wizard mode is reschedule and loadedAppointmentId is set, include that id in the availability request payload. Server will consume it in the next task.
 **Checkpoint:** Request payload includes reschedulingAppointmentId when in reschedule mode; type/interface updated.
 
-- [ ] #### Task 6.5.2.2: Server — exclude rescheduling appointment from overlap, keep in calendarEvents
+- [x] #### Task 6.5.2.2: Server — exclude rescheduling appointment from overlap, keep in calendarEvents
 **Goal:** Server slot/computed-availability logic excludes the rescheduling appointment's calendar event (and its drive buffers) from the overlap list used for slot computation, while still including it in calendarEvents so it remains visible on the calendar.
 **Files:**
 - Server: availability/slot route or service that computes overlap (e.g. server/src/routes, server/src/services, server/src/utils/availabilities)
@@ -41,7 +41,7 @@
 **Approach:** Read reschedulingAppointmentId from request; when building overlap list for slot computation, omit that appointment's event (and its drive buffers); when building calendarEvents, include it. Ensure one code path produces overlap (excluded) and calendarEvents (included).
 **Checkpoint:** Reschedule flow can pick a new slot without the current appointment blocking it; calendar still shows the current appointment.
 
-- [x] - [x] #### Task 6.5.2.3: Availability bypass — server excludes rescheduling appointment from overlap
+- [x] #### Task 6.5.2.3: Availability bypass — server excludes rescheduling appointment from overlap
 **Goal:** Verify end-to-end: add reschedulingAppointmentId to computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents so its time and drive buffers do not block slots.
 **Files:**
 - Same as 6.5.2.1 and 6.5.2.2; plus any integration tests or manual test steps
