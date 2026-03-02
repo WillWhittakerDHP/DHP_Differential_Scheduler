@@ -84,7 +84,7 @@ Phase 6.5: Rescheduling Flow
 **Learning Goals:**
 - [To be identified during planning]
 
-- [ ] ### Session 6.5.2: Availability Bypass
+- [x] ### Session 6.5.2: Availability Bypass
 
 **Description:** `reschedulingAppointmentId` in computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents so its time and drive buffers do not block slots.
 

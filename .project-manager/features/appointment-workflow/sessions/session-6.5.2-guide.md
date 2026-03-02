@@ -54,3 +54,5 @@
 
 - Session 6.5.2 depends on Session 6.5.1 (wizard mode reschedule, load-at-step-3) being done so that loadedAppointmentId and reschedule mode are available.
 - Phase 6.5 success criteria: "reschedulingAppointmentId in computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents."
+
+<!-- end excerpt session -->
