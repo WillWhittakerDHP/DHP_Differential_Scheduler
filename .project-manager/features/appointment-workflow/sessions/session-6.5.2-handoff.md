@@ -48,6 +48,13 @@ Completed Task
 Completed Task 
 
 **What you need to start:**
+- Begin Session 
+
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
 - Begin Session 6.5.3
 
 
