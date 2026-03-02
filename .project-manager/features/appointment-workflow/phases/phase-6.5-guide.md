@@ -77,12 +77,28 @@ Phase 6.5: Rescheduling Flow
 
 - [ ] ### Session 6.5.1: Guide: Rescheduling Flow
 
-**Description:** 6.5
+**Description:** Entry/transitions: ensure status `rescheduling` and transitions confirmed → rescheduling → submitted; expose Reschedule action; wizard mode and load-at-step-3; admin entry (Start new | Edit quote | Reschedule).
 
 **Tasks:** [To be planned]
 
 **Learning Goals:**
-- - [To be identified during planning] [To be planned]
+- [To be identified during planning]
+
+- [ ] ### Session 6.5.2: Availability Bypass
+
+**Description:** `reschedulingAppointmentId` in computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents so its time and drive buffers do not block slots.
+
+**Tasks:** [To be planned]
+
+**Learning Goals:**
+- [To be identified during planning]
+
+- [ ] ### Session 6.5.3: Original-Inspection UI
+
+**Description:** Original inspection slot visually distinct (e.g. `appointment-slot-btn--original-inspection`) but still selectable.
+
+**Tasks:** [To be planned]
+
 **Learning Goals:**
 - [To be identified during planning]
 
