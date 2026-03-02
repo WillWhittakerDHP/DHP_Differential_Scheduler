@@ -23,7 +23,10 @@ export interface UseWizardAppointmentManagementOptions extends WizardStepDataAnd
 
 export interface UseWizardAppointmentManagementReturn {
   loadedWizardState: Ref<WizardStateData | null>
+  /** Identity of the appointment being edited (draft or existing). Used for availability overlap exclusion and create-vs-update. */
   loadedAppointmentId: Ref<string | null>
+  /** Same as loadedAppointmentId; neutral name for entity identity (any flow: new draft, quote, reschedule). */
+  currentAppointmentId: Ref<string | null>
   selectedAppointmentId: Ref<string | null>
   isLoadingAppointment: Ref<boolean>
   handleLoadAppointment: (appointmentIdOrRandom: string | null) => Promise<void>

@@ -2,14 +2,13 @@ import type { Ref, ComputedRef } from 'vue'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
-import type { WizardMode } from '@/types/wizard'
 
 import type { UseWizardStepDataRefsReturn } from '@/types/booking/wizardStepDataRefs'
 export interface UseWizardDateAvailabilityParams {
   stepDataRefs: UseWizardStepDataRefsReturn
   activeStep: Ref<number>
-  loadedAppointmentId: Ref<string | null>
-  wizardMode: ComputedRef<WizardMode>
+  /** Entity identity of the appointment being edited (draft or existing). When set, passed to availability for overlap exclusion. */
+  currentAppointmentId: Ref<string | null>
 }
 
 export interface UseWizardDateAvailabilityReturn {

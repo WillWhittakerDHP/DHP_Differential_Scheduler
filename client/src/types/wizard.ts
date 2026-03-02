@@ -9,6 +9,7 @@ import type { ComputedRef, Ref } from 'vue'
 /**
  * Wizard mode: 'new' (create), 'quote' (quote flow), 'reschedule' (load existing and land at step 3).
  * Used so submit step can show "Update appointment" and call update path when mode is reschedule.
+ * WHY: Mode controls UX (labels, theme, submit button). Entity identity is separate (currentAppointmentId).
  */
 export type WizardMode = 'new' | 'quote' | 'reschedule'
 

@@ -122,6 +122,7 @@ const { collectAppointmentData } = useAppointmentDataCollection({
 const {
   loadedWizardState,
   loadedAppointmentId,
+  currentAppointmentId,
   selectedAppointmentId,
   isLoadingAppointment,
   handleLoadAppointment,
@@ -172,10 +173,14 @@ const toggleQuoteMode = (): void => {
 }
 
 // LEARNING: Use wizard submission composable
-// PATTERN: Composable provides submission function
-const { handleSubmit } = useWizardSubmission({
+// PATTERN: Composable provides submission function; create vs update by currentAppointmentId
+const { handleSubmit, isUpdateSubmit } = useWizardSubmission({
   collectAppointmentData,
   createAppointment: create,
+  currentAppointmentId,
+  updateAppointment: {
+    mutateAsync: update.mutateAsync,
+  },
   activeStep,
   completedSteps,
   showError,
@@ -187,8 +192,7 @@ provide('loadedWizardState', loadedWizardState)
 void useWizardDateAvailability({
   stepDataRefs,
   activeStep,
-  loadedAppointmentId,
-  wizardMode: wizard.wizardMode,
+  currentAppointmentId,
 })
 
 // WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
@@ -336,11 +340,11 @@ useWizardDevMode({
                   :color="isLastStep ? 'success' : 'primary'"
                   :prepend-icon="isLastStep ? 'tabler-check' : undefined"
                   :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"
-                  :loading="isLastStep && create.isPending.value"
-                  :disabled="isLastStep && create.isPending.value"
+                  :loading="isLastStep && (create.isPending.value || update.isPending.value)"
+                  :disabled="isLastStep && (create.isPending.value || update.isPending.value)"
                   @click="isLastStep ? handleSubmit() : handleNext()"
                 >
-                  {{ isLastStep ? (create.isPending.value ? 'Creating...' : 'Submit') : 'Next' }}
+                  {{ isLastStep ? (create.isPending.value || update.isPending.value ? (isUpdateSubmit ? 'Updating...' : 'Creating...') : (isUpdateSubmit ? 'Update appointment' : 'Submit')) : 'Next' }}
                 </VBtn>
               </div>
             </div>

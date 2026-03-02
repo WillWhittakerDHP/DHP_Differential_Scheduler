@@ -318,18 +318,19 @@ async function resolveReschedulingGoogleEventIds(appointmentId: string): Promise
   )
 }
 
-async function excludeReschedulingAppointmentFromOverlap(
+/** Exclude the given appointment's calendar event(s) from overlap checks (e.g. when editing that appointment). */
+async function excludeAppointmentFromOverlap(
   regularEvents: CalendarEvent[],
-  reschedulingAppointmentId?: string
+  appointmentId?: string
 ): Promise<CalendarEvent[]> {
-  if (!reschedulingAppointmentId) {
+  if (!appointmentId) {
     return regularEvents
   }
 
-  const eventIdsToExclude = await resolveReschedulingGoogleEventIds(reschedulingAppointmentId)
+  const eventIdsToExclude = await resolveReschedulingGoogleEventIds(appointmentId)
   if (eventIdsToExclude.size === 0) {
-    logger.warn('No Google event ids found for rescheduling appointment; overlap exclusion skipped', {
-      reschedulingAppointmentId,
+    logger.warn('No Google event ids found for appointment; overlap exclusion skipped', {
+      appointmentId,
     })
     return regularEvents
   }
@@ -377,9 +378,14 @@ export async function computeAvailabilityData(
   const { regularEvents, outOfOfficeEvents } =
     partitionByEventType(allCalendarEvents)
 
-  const overlapRegularEvents = await excludeReschedulingAppointmentFromOverlap(
+  const effectiveAppointmentId =
+    request.appointmentId ?? request.reschedulingAppointmentId
+  if (request.reschedulingAppointmentId != null && request.appointmentId == null) {
+    logger.debug('reschedulingAppointmentId is deprecated; use appointmentId')
+  }
+  const overlapRegularEvents = await excludeAppointmentFromOverlap(
     regularEvents,
-    request.reschedulingAppointmentId
+    effectiveAppointmentId
   )
 
   const driveTimesByPlaceId = useRealApis

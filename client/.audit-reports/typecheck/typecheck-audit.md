@@ -12,18 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-02T19:34:25.161Z**
+- Generated at: **2026-03-02T19:37:29.232Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 1**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P1 | `TS2739-ts2739-type-ref-wizardmode-wizardmode-is-missing-the-following-properties-from-type-computedref-wizardmode-effect-comput` | 12 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +35,11 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/components/booking/BookingWizard.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2739@191:3 Type 'Ref<WizardMode, WizardMode>' is missing the following properties from type 'ComputedRef<WizardMode>': effect, [ComputedRefSymbol]
+```

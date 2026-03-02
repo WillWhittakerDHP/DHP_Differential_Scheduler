@@ -4,5 +4,5 @@ phase.id=6.5
 phase.name=Guide: Rescheduling Flow
 session.id=6.5.1
 session.name=** Guide: Rescheduling Flow
-task.id=6.5.2.3
-task.name=Availability bypass — server excludes rescheduling appointment from overlap
+task.id=
+task.name=

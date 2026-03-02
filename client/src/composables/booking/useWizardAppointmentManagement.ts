@@ -2,7 +2,7 @@
  * PATTERN: Composable for managing appointment operations and wizard state
 Used by:...
  */
-import { ref, type Ref } from 'vue'
+import { ref, onMounted, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { createLogger } from '@/utils/logger'
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
@@ -15,6 +15,9 @@ import type {
 } from '@/types/booking/wizardAppointmentManagement'
 
 const logger = createLogger('useWizardAppointmentManagement')
+
+/** Persistence key for draft-first: reload restores wizard when this id is set (quote/reschedule or future draft). */
+const PERSIST_KEY_APPOINTMENT_ID = 'booking-wizard-appointment-id'
 
 function applyWizardState(
   wizard: UseBookingWizardReturn,
@@ -70,9 +73,10 @@ export function useWizardAppointmentManagement(
 
   // LEARNING: State for loading appointment data
   // WHY: Tracks loaded wizard state for populating form fields
-  // PATTERN: Reactive refs for appointment tracking
+  // PATTERN: Reactive refs for appointment tracking. currentAppointmentId is the neutral entity identity (same ref as loadedAppointmentId).
   const loadedWizardState = ref<WizardStateData | null>(null)
   const loadedAppointmentId = ref<string | null>(null)
+  const currentAppointmentId = loadedAppointmentId
   const selectedAppointmentId = ref<string | null>(null)
   const isLoadingAppointment = ref(false)
 
@@ -126,6 +130,11 @@ export function useWizardAppointmentManagement(
 
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
+
+      // Draft-first: persist id so reload can restore (skip for dev "random" load)
+      if (appointmentIdOrRandom !== 'random' && typeof localStorage !== 'undefined') {
+        localStorage.setItem(PERSIST_KEY_APPOINTMENT_ID, appointment.id)
+      }
 
       // WHEN: Loading by id (not 'random') — entry point may have set reschedule; ensure we're in reschedule mode for submit step
       if (appointmentIdOrRandom !== 'random') {
@@ -186,6 +195,9 @@ PATTERN...
     wizard.selectedOptionTypeBlocks.value = []
     wizard.setWizardMode('new')
 
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(PERSIST_KEY_APPOINTMENT_ID)
+    }
     loadedWizardState.value = null
     loadedAppointmentId.value = null
     selectedAppointmentId.value = null
@@ -207,9 +219,19 @@ PATTERN...
     success('Wizard reset successfully')
   }
 
+  // Draft-first: on mount, restore wizard from persisted appointment id so reload keeps state
+  onMounted(() => {
+    if (typeof localStorage === 'undefined') return
+    const persistedId = localStorage.getItem(PERSIST_KEY_APPOINTMENT_ID)
+    if (persistedId && !loadedAppointmentId.value) {
+      void handleLoadAppointment(persistedId)
+    }
+  })
+
   return {
     loadedWizardState,
     loadedAppointmentId,
+    currentAppointmentId,
     selectedAppointmentId,
     isLoadingAppointment,
     handleLoadAppointment,
