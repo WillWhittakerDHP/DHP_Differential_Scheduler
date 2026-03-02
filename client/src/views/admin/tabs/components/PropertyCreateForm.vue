@@ -91,7 +91,7 @@ const form = usePropertyCreateForm(props.newProperty)
         </VCol>
         <VCol cols="12" md="4">
           <VSelect
-            :model-value="form.foundationAccess"
+            :model-value="String(form.foundationAccess)"
             :items="['basement', 'crawlspace', 'slab']"
             label="Foundation Access"
             clearable

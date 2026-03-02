@@ -1,6 +1,6 @@
 # Session 6.5.1 Guide: Guide: Rescheduling Flow
 
-**Purpose:** Session-level guide with task breakdown and learning goals
+**Purpose:** Session-level guide with task breakdown
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
@@ -69,7 +69,6 @@ These sections contain session-specific content:
 - Generate formatted session label with date/status
 - Display compact prompt format for reference
 - Trigger task planning (fill out task embeds in session guide)
-- Set learning goals based on session
 - Identify files to work with based on handoff "Next Action"
 
 **IMPORTANT: Agent Response Format**
@@ -93,8 +92,7 @@ See the template file for complete format, examples, and guidelines.
 **Manual Alternative:**
 1. **Label the session** with format below
 2. **Review previous session notes** (if any)
-3. **Set learning goals** for this session
-4. **Identify files to work with**
+3. **Identify files to work with**
 
 ### Session Labeling Format
 
@@ -119,7 +117,7 @@ Each session should start with:
 
 **Checkpoint Type:** Choose based on task complexity:
 - **Simple tasks** (trivial changes, single file): Quick checkpoint (quality only)
-- **Complex tasks** (new features, multiple files, architectural changes): Full checkpoint (quality + learning + optional feedback)
+- **Complex tasks** (new features, multiple files, architectural changes): Full checkpoint (quality + optional feedback)
 
 #### Quick Checkpoint Format (Simple Tasks)
 
@@ -138,10 +136,8 @@ Each session should start with:
 ```
 ## Checkpoint: Task [X.Y.Z]
 
-/**
- * WHY: *Learning:** (Optional - for complex tasks)
- */
-- [Key concepts/patterns learned]
+**Completed:** [What was accomplished]
+- [Key concepts/patterns used]
 - [React → Vue differences if applicable]
 - [Questions answered]
 
@@ -280,16 +276,10 @@ Break each session into focused tasks. Each task should have:
 
 ### Session Organization
 
-- **Quick Start:** Session overview, learning goals, tasks
+- **Quick Start:** Session overview, tasks
 - **Session Workflow:** Before/during/after session process
 - **Reference:** Templates, examples, related documents
 - **Notes:** Session-specific notes and decisions
-
----
-
-### Purpose
-
-Learning checkpoints ensure understanding before moving forward. They're integrated into the unified checkpoint system.
 
 ---
 
@@ -355,7 +345,7 @@ When logging a completed task:
 ### Document Responsibilities
 
 - **Session Guide** (this file): Instructions for how to work (workflow, checkpoints, end-of-session)
-- **Session Log**: Historical record of what happened (task entries, concepts learned, progress)
+- **Session Log**: Historical record of what happened (task entries, progress)
 - **Session Handoff**: Transition context for next session (where we left off, what's next)
 
 ### Documentation Templates
@@ -365,7 +355,6 @@ When logging a completed task:
 Templates include:
 - Task entry format for session log
 - Handoff document format
-- Learning-focused task template
 
 ### Task Structure Examples
 

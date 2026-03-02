@@ -1042,7 +1042,7 @@ If behavior cannot be represented by typed contracts (`WorkflowSpec`, `TierOutco
 
 ---
 
-## 22) Learning checkpoints (for iterative validation)
+## 22) Validation checkpoints (for iterative validation)
 
 ### Checkpoint A: Contract clarity
 

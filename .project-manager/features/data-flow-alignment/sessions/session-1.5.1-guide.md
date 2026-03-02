@@ -1,6 +1,6 @@
 # Session 1.5.1 Guide: Business Rules Database Infrastructure
 
-**Purpose:** Session-level guide with task breakdown and learning goals
+**Purpose:** Session-level guide with task breakdown
 
 **Tier:** Session (Tier 2 - Medium-Level)
 

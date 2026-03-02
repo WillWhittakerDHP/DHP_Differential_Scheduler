@@ -9,12 +9,6 @@ Each session should start with:
 
 *[Note: Section extracted from template - consider adding to session guide]*
 
-### Purpose
-
-Learning checkpoints ensure understanding before moving forward. They're integrated into the unified checkpoint system.
-
----
-
 *[Note: Section extracted from template - consider adding to session guide]*
 
 ## Task Template

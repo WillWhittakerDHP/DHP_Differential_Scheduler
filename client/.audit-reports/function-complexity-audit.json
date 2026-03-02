@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-02T20:55:18.578Z",
-  "totalScanned": 1034,
+  "generatedAt": "2026-03-02T21:25:20.350Z",
+  "totalScanned": 1043,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,123 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContextState.ts",
+      "functions": [
+        {
+          "name": "useFieldContextState",
+          "startLine": 36,
+          "endLine": 347,
+          "length": 312,
+          "maxNesting": 4,
+          "branches": 38,
+          "params": 0,
+          "returns": 13,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 38,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 312,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 13,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/formFields/useFormFields.ts",
+      "functions": [
+        {
+          "name": "useFormFields",
+          "startLine": 32,
+          "endLine": 280,
+          "length": 249,
+          "maxNesting": 4,
+          "branches": 41,
+          "params": 1,
+          "returns": 28,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 41,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 249,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 28,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePropertyCreateForm.ts",
+      "functions": [
+        {
+          "name": "usePropertyCreateForm",
+          "startLine": 11,
+          "endLine": 75,
+          "length": 65,
+          "maxNesting": 3,
+          "branches": 16,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 16,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 65,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-02T20:55:28.448Z",
+  "generatedAt": "2026-03-02T21:25:37.885Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,15 +36,15 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 263,
+    "totalTypeFiles": 268,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 101,
+    "filesWithInlineTypes": 102,
     "annotated": 64,
-    "unannotated": 256,
+    "unannotated": 261,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 70,
+      "inlineTypesInComposables": 71,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -279,6 +279,32 @@
       },
       "alsoExportsRuntime": false,
       "lineCount": 19,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__admin__capacityConstraintsHandlers.ts",
+      "repoPath": "client/src/types/admin/capacityConstraintsHandlers.ts",
+      "name": "capacityConstraintsHandlers",
+      "directoryDomain": "admin/capacityConstraintsHandlers.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "CapacityConstraintsState",
+        "UseCapacityConstraintsHandlersReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 43,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -1181,6 +1207,32 @@
       "targetPath": null
     },
     {
+      "id": "client__src__types__admin__gridConfigHandlers.ts",
+      "repoPath": "client/src/types/admin/gridConfigHandlers.ts",
+      "name": "gridConfigHandlers",
+      "directoryDomain": "admin/gridConfigHandlers.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "GridConfigState",
+        "UseGridConfigHandlersReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 32,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
       "id": "client__src__types__admin__iconPickerState.ts",
       "repoPath": "client/src/types/admin/iconPickerState.ts",
       "name": "iconPickerState",
@@ -1399,6 +1451,31 @@
       "tags": [
         "ui-state"
       ],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__admin__instancesTab.ts",
+      "repoPath": "client/src/types/admin/instancesTab.ts",
+      "name": "instancesTab",
+      "directoryDomain": "admin/instancesTab.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "UseInstancesTabReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 22,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
       "placement": null,
       "priority": null,
       "targetPath": null
@@ -1763,6 +1840,31 @@
       "targetPath": null
     },
     {
+      "id": "client__src__types__admin__propertyCreateForm.ts",
+      "repoPath": "client/src/types/admin/propertyCreateForm.ts",
+      "name": "propertyCreateForm",
+      "directoryDomain": "admin/propertyCreateForm.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "UsePropertyCreateFormReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 25,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
       "id": "client__src__types__admin__relationshipCollection.ts",
       "repoPath": "client/src/types/admin/relationshipCollection.ts",
       "name": "relationshipCollection",
@@ -2121,6 +2223,31 @@
         "modal",
         "ui-state"
       ],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__admin__shapesTab.ts",
+      "repoPath": "client/src/types/admin/shapesTab.ts",
+      "name": "shapesTab",
+      "directoryDomain": "admin/shapesTab.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "UseShapesTabReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 60,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
       "placement": null,
       "priority": null,
       "targetPath": null
@@ -9000,6 +9127,7 @@
         "computedAvailabilityKey",
         "resetMocksSignalKey",
         "wizardKey",
+        "loadedWizardStateKey",
         "instancesPanelContextKey",
         "contactsFormContextKey"
       ],
@@ -9105,6 +9233,17 @@
       "sourceFile": "client/src/composables/entityCrud/useEntityCrud.ts",
       "exportedTypes": [
         "UseEntityCrudReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "exportedTypes": [
+        "UseFieldContextEntityDerivedParams",
+        "UseFieldContextEntityDerivedReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -9992,6 +10131,7 @@
             "computedAvailabilityKey",
             "resetMocksSignalKey",
             "wizardKey",
+            "loadedWizardStateKey",
             "instancesPanelContextKey",
             "contactsFormContextKey"
           ],
@@ -10077,6 +10217,17 @@
           "sourceFile": "client/src/composables/entityCrud/useEntityCrud.ts",
           "exportedTypes": [
             "UseEntityCrudReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+          "exportedTypes": [
+            "UseFieldContextEntityDerivedParams",
+            "UseFieldContextEntityDerivedReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",

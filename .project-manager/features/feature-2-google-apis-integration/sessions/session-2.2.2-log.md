@@ -123,7 +123,7 @@ curl "http://localhost:3001/api/v1/external/maps/debug/drive-time-cache"
 
 ---
 
-## Learning Notes
+## Technical Notes
 
 ### Routes API vs Distance Matrix API
 - Distance Matrix is "Legacy" - avoid for new development

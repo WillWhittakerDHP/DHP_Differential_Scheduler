@@ -340,12 +340,18 @@
         { "file": "client/src/composables/booking/useWizardStepDataRefs.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 13 props; step refs cohesion" },
         { "file": "client/src/composables/dev/useApiDevPanelData.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 12 props" },
         { "file": "client/src/composables/entityCrud/useEntityCrud.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 13 props; CRUD cohesion" },
-        { "file": "client/src/composables/formFields/useFormFields.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 12 props" },
+        { "file": "client/src/composables/formFields/useFormFields.ts", "ruleIds": ["oversized-return", "excessive-composable-imports"], "reason": "Borderline 12 props; 6 composable imports; consumers/approach documented in composable" },
         { "file": "client/src/composables/useAddressAutocomplete.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 13 props" },
         { "file": "client/src/composables/useAppointment.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 10 props" },
         { "file": "client/src/composables/useFormValidation.ts", "ruleIds": ["oversized-return"], "reason": "Borderline 13 props" },
         { "file": "client/src/composables/fieldContext/useFieldContext.ts", "ruleIds": ["oversized-return"], "reason": "Field context 20 props; decompose deferred" },
-        { "file": "client/src/composables/fieldContext/useFieldContextState.ts", "ruleIds": ["oversized-return"], "reason": "Field context state 24 props; decompose deferred" }
+        { "file": "client/src/composables/fieldContext/useFieldContextState.ts", "ruleIds": ["oversized-return"], "reason": "Field context state 24 props; decompose deferred" },
+        { "file": "client/src/composables/admin/useInstancesTab.ts", "ruleIds": ["oversized-return", "excessive-composable-imports"], "reason": "Tab orchestrator 17 props, 13 composable imports; explicit return type added; decompose deferred" },
+        { "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts", "ruleIds": ["oversized-return"], "reason": "Panel form state 19 props; cohesion; decompose deferred" },
+        { "file": "client/src/composables/admin/useShapesTab.ts", "ruleIds": ["oversized-return", "excessive-composable-imports"], "reason": "Shapes tab 55 props, 11 composable imports; explicit return type added; decompose deferred" },
+        { "file": "client/src/composables/booking/useBookingWizardSetup.ts", "ruleIds": ["oversized-return", "excessive-composable-imports"], "reason": "Wizard setup orchestrator 24 props, 21 composable imports; decompose deferred" },
+        { "file": "client/src/composables/admin/useCapacityConstraintsHandlers.ts", "ruleIds": ["oversized-return"], "reason": "Handler bag 14 props; extracted from CapacityConstraintsPanel per vue-architecture" },
+        { "file": "client/src/composables/admin/usePropertyCreateForm.ts", "ruleIds": ["oversized-return"], "reason": "Form bindings 22 props; extracted from PropertyCreateForm per vue-architecture" }
       ],
       "linePatterns": []
     },

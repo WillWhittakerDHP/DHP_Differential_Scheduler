@@ -8,7 +8,7 @@ import readline from 'node:readline'
  * Analyzes source code and presents interactive multiple-choice interface
  * to guide test generation based on:
  * - Function signatures and types
- * - Code comments (LEARNING, WHY, PATTERN)
+ * - Code comments (WHY, PATTERN)
  * - Conditional logic and edge cases
  * - Existing test patterns
  *
@@ -118,7 +118,7 @@ function extractBehaviors(contents) {
   }
   
   // Extract PATTERN comments
-  const patternRegex = /PATTERN:\s*(.+?)(?:\n|LEARNING|WHY|$)/g
+  const patternRegex = /PATTERN:\s*(.+?)(?:\n|WHY|$)/g
   while ((m = patternRegex.exec(contents)) !== null) {
     behaviors.push({
       type: 'pattern',
@@ -238,8 +238,8 @@ function generateTestCode(functionName, functionDetails, behaviors, edgeCases, t
   }
   
   if (testType === 'behavioral' || testType === 'comprehensive') {
-    // Behavioral tests from comments
-    behaviors.filter(b => b.type === 'learning').forEach(behavior => {
+    // Behavioral tests from comments (WHY, PATTERN)
+    behaviors.filter(b => b.type === 'why' || b.type === 'pattern').forEach(behavior => {
       const behaviorDesc = behavior.text.toLowerCase().replace(/\.$/, '')
       tests.push(`  it('should ${behaviorDesc}', () => {
     // Arrange

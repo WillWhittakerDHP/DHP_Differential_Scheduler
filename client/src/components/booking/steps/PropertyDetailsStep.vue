@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, inject, computed, onMounted, type Ref } from 'vue'
+import { ref, inject, computed, onMounted } from 'vue'
 import type { PlaceDetails } from '@shared/types/mapsTypes'
 import type { PropertyTypeWithComponents } from './PropertyDetailsSection.vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -10,6 +10,7 @@ import {
   propertyDetailsStepValidateKey,
   propertyDetailsFieldErrorsKey,
   wizardKey,
+  loadedWizardStateKey,
 } from '@/composables/booking/injectionKeys'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
@@ -20,7 +21,6 @@ import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
 import PropertyConfirmationModal from '@/components/booking/modals/PropertyConfirmationModal.vue'
 import PropertyAddressSection from './PropertyAddressSection.vue'
 import PropertyDetailsSection from './PropertyDetailsSection.vue'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { US_STATE_OPTIONS } from '@/configs/usStates'
 import { createLogger } from '@/utils/logger'
 
@@ -39,7 +39,7 @@ if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+const loadedWizardState = inject(loadedWizardStateKey, ref(null))
 
 // PATTERN: Composable provides reactive computed property for selection
 const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({

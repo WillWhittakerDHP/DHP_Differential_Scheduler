@@ -1,6 +1,6 @@
 # Session 6.3.2 Log: Admin Confirmation Action & Auto-Confirm
 
-**Purpose:** Track task completion, concepts learned, and progress
+**Purpose:** Track task completion and progress
 
 ---
 

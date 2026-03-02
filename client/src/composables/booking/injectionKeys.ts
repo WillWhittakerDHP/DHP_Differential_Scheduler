@@ -19,6 +19,7 @@ import type { PartFinal } from '@/types/booking/partFinal'
 import type { EventShape } from '@/types/events'
 import type { ServiceSummary, TimeSlotResults } from '@/types/booking/devPanelsComputed'
 import type { ContactInfo } from '@/types/booking/contactsStepData'
+import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 
 export const propertyDetailsStepDataKey: InjectionKey<Ref<PropertyDetailsStepData | null>> =
   Symbol('propertyDetailsStepData')
@@ -63,6 +64,10 @@ export const resetMocksSignalKey: InjectionKey<Ref<number>> =
 
 /** Typed key for booking wizard context (flat contract). Provider: BookingWizard.vue. */
 export const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')
+
+/** Ref to loaded wizard state (from appointment load). Provider: useBookingWizardSetup. */
+export const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =
+  Symbol('loadedWizardState')
 
 /** Context provided by DevPanelsContainer and consumed by InstancesPanel (replaces prop-drilling). */
 export interface InstancesPanelContext {

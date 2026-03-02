@@ -126,15 +126,6 @@
 
 ---
 
-## Learning Objectives
-
-- Understand relationship-based architecture patterns
-
-- Understand component-specific validation in relationship router
-- Learn component aggregation strategies (sum, merge, first, every)
-
----
-
 ## Success Criteria
 
 - ✅ ActiveComposition model and router removed

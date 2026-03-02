@@ -20,10 +20,11 @@ import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { createLogger } from '@/utils/logger'
 import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import type { UseInstancesTabReturn } from '@/types/admin/instancesTab'
 
 const logger = createLogger('InstancesTab')
 
-export function useInstancesTab() {
+export function useInstancesTab(): UseInstancesTabReturn {
   const activeTab = ref<string>('')
 
   const instanceGroupingComposable = useInstanceGrouping({ activeTab })

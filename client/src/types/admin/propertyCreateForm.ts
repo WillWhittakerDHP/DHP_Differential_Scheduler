@@ -1,9 +1,4 @@
 import type { ComputedRef } from 'vue'
-import type { PropertyRequest } from '@/types/property'
-
-export interface UsePropertyCreateFormParams {
-  newProperty: { value: PropertyRequest | Partial<PropertyRequest> | undefined }
-}
 
 export interface UsePropertyCreateFormReturn {
   address: ComputedRef<string>
@@ -15,7 +10,7 @@ export interface UsePropertyCreateFormReturn {
   mlsNumber: ComputedRef<string>
   bedrooms: ComputedRef<number | undefined>
   bathrooms: ComputedRef<number | undefined>
-  foundationAccess: ComputedRef<string | undefined>
+  foundationAccess: ComputedRef<string>
   additionalUnits: ComputedRef<number | undefined>
   setAddress: (v: string) => void
   setUnit: (v: string) => void

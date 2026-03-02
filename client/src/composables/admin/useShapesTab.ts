@@ -20,9 +20,11 @@ import {
 } from '@/utils/entities/entityTypeMapping'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
+import type { UseShapesTabReturn } from '@/types/admin/shapesTab'
+
 const logger = createLogger('ShapesTab')
 
-export function useShapesTab() {
+export function useShapesTab(): UseShapesTabReturn {
   const { filteredEntities: filteredPartShapes } = useEntityFiltering('partShape')
   const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape')
   useShapeDisplayNames()
@@ -233,5 +235,5 @@ export function useShapesTab() {
     partInstanceConfigEntity,
     annotationShapeFieldsEntity,
     eventShapeFieldsEntity,
-  }
+  } as UseShapesTabReturn
 }

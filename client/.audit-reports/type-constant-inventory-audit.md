@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-02T20:55:28.448Z
+Generated: 2026-03-02T21:25:37.885Z
 
 ## Summary
 
-- Type files: **263**
+- Type files: **268**
 - Constant files: **23**
 - Config files: **34**
-- Files with inline type exports: **101**
-- Annotated: **64** | Unannotated: **256**
+- Files with inline type exports: **102**
+- Annotated: **64** | Unannotated: **261**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 70 |
+| Inline types in composables | 71 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -146,6 +146,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/calibrationChart.ts` | dedicated | SvgChartShape, UseCalibrationChartReturn | no | (none) | unknown |
+
+### Domain: admin/capacityConstraintsHandlers.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/capacityConstraintsHandlers.ts` | dedicated | CapacityConstraintsState, UseCapacityConstraintsHandlersReturn | no | (none) | unknown |
 
 ### Domain: admin/capacitySettings.ts
 
@@ -327,11 +333,23 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `client/src/components/admin/generic/fields/fieldTypes.ts` | colocated | FieldInputProps | no | (none) | unknown |
 
+### Domain: admin/gridConfigHandlers.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/gridConfigHandlers.ts` | dedicated | GridConfigState, UseGridConfigHandlersReturn | no | (none) | unknown |
+
 ### Domain: admin/instanceComposableOptions.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/instanceComposableOptions.ts` | dedicated | UseInstanceBlockInstancesByShapeOptions | no | (none) | unknown |
+
+### Domain: admin/instancesTab.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/instancesTab.ts` | dedicated | UseInstancesTabReturn | no | (none) | unknown |
 
 ### Domain: admin/nestedComputedFactory.ts
 
@@ -345,6 +363,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/partPricing.ts` | dedicated | PartPricingFields | no | (none) | unknown |
 
+### Domain: admin/propertyCreateForm.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/propertyCreateForm.ts` | dedicated | UsePropertyCreateFormReturn | no | (none) | unknown |
+
 ### Domain: admin/selectFiltering.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -356,6 +380,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/selectTypeResolver.ts` | dedicated | SelectConfigLike, OptionsSelectConfigLike | no | (none) | unknown |
+
+### Domain: admin/shapesTab.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/shapesTab.ts` | dedicated | UseShapesTabReturn | no | (none) | unknown |
 
 ### Domain: admin/tables
 
@@ -1433,6 +1463,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/booking/useSlotGridDisplay.ts`: UseSlotGridDisplayOptions (imported by 0 files)
 - `client/src/composables/booking/useWizardNumberUpdate.ts`: UseWizardNumberUpdateReturn (imported by 0 files)
 - `client/src/composables/entityCrud/useEntityCrud.ts`: UseEntityCrudReturn (imported by 0 files)
+- `client/src/composables/fieldContext/useFieldContextEntityDerived.ts`: UseFieldContextEntityDerivedParams, UseFieldContextEntityDerivedReturn (imported by 0 files)
 - `client/src/composables/layout/useNavSearch.ts`: SearchResultsGroup (imported by 0 files)
 - `client/src/composables/layout/useNotificationActions.ts`: NotificationItem (imported by 0 files)
 - `client/src/composables/useAdminConfig.ts`: UseAdminConfigReturn (imported by 0 files)

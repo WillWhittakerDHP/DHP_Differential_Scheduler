@@ -1,6 +1,6 @@
 # Session 6.4.1 Log: Moveable Modal Refinement & `preClosing` Property
 
-**Purpose:** Session-level log for tracking task completion and learning
+**Purpose:** Session-level log for tracking task completion and progress
 
 **Session:** 6.4.1 — Moveable Modal Refinement & `preClosing` Property
 **Phase:** 6.4 — Moveable Modal & preClosing Property

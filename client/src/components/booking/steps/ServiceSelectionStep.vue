@@ -1,14 +1,13 @@
 <script setup lang="ts">
 
-import { computed, inject, type Ref } from 'vue'
-import { wizardKey } from '@/composables/booking/injectionKeys'
+import { computed, inject } from 'vue'
+import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { useInstanceSelectionState } from '@/composables/booking/useInstanceSelectionState'
 import { useInstanceComponentsList } from '@/composables/booking/useInstanceComponentsList'
 import { useDynamicGridConfig } from '@/composables/booking/useDynamicGridConfig'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 const wizard = inject(wizardKey)
@@ -16,7 +15,7 @@ if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+const loadedWizardState = inject(loadedWizardStateKey)
 
 // PATTERN: Composable provides computed properties with getter/setter
 const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({

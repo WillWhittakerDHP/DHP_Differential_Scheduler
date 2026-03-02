@@ -23,17 +23,15 @@ const {
   create,
   update,
   isLoadingAppointment,
-  loadedAppointmentId,
   handleLoadAppointment,
-  handleUpdateAppointment,
   stepItemClass,
   stepItemStyle,
 } = useBookingWizardSetup()
 
 const submitButtonLabel = computed(() => {
-  if (!isLastStep) return 'Next'
-  if (create.isPending.value || update.isPending.value) return isUpdateSubmit ? 'Updating...' : 'Creating...'
-  return isUpdateSubmit ? 'Update appointment' : 'Submit'
+  if (!isLastStep.value) return 'Next'
+  if (create.isPending.value || update.isPending.value) return isUpdateSubmit.value ? 'Updating...' : 'Creating...'
+  return isUpdateSubmit.value ? 'Update appointment' : 'Submit'
 })
 </script>
 
@@ -101,18 +99,6 @@ const submitButtonLabel = computed(() => {
                   @click="handleLoadAppointment('random')"
                 >
                   Load Random Appointment
-                </VBtn>
-              </VCol>
-              <VCol v-if="isDevMode && loadedAppointmentId" cols="auto" class="ml-2">
-                <VBtn
-                  color="success"
-                  variant="outlined"
-                  size="small"
-                  prepend-icon="tabler-device-floppy"
-                  :loading="update.isPending.value"
-                  @click="handleUpdateAppointment"
-                >
-                  Update Appointment
                 </VBtn>
               </VCol>
             </VRow>

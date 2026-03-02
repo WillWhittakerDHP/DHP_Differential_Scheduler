@@ -21,7 +21,13 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('useFormFields')
 
 /**
- * Former useFormFieldsContext logic lives below to reduce composable chain depth.
+ * Orchestrates form field setup for entity forms: options, context, and layout (inline/stacked).
+ *
+ * CONSUMERS (composable-health wave 3): useEntityCardFormSetup (→ EntityCard), EntityFormContent.vue,
+ * DynamicForm.vue. Type UseFormFieldsReturn is consumed by entityCardFieldContextAndVisibility.ts.
+ *
+ * APPROACH: Oversized-return and excessive-composable-imports are allowlisted; decomposition into
+ * smaller composables is deferred to a coordinated multi-file pass (high fan-in).
  */
 export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsReturn {
   const {

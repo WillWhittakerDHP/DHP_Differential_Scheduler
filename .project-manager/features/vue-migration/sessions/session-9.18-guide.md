@@ -251,7 +251,7 @@
 5. **Document next steps:**
    - Link to Session 9.19 (Branch Alignment & Merge)
    - Document any follow-up work needed
-   - Document lessons learned
+   - Document insights and decisions
    - Note that Phase 9 continues with Session 9.19
 
 **Output:**

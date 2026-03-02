@@ -144,7 +144,7 @@ const handlers = useCapacityConstraintsHandlers(state as CapacityConstraintsStat
             <VCol cols="12" sm="6" md="3">
               <VTextField
                 :model-value="workHours.maxWorkHoursRollingWeekMaxHours"
-                @update:model-value="handleMaxWorkHoursRollingWeekMaxHours"
+                @update:model-value="handlers.handleMaxWorkHoursRollingWeekMaxHours"
                 :label="UI_STRINGS.labels.maximumHours7Days"
                 type="number"
                 min="0"

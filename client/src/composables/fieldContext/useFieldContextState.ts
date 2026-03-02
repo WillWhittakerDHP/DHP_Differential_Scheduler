@@ -8,11 +8,10 @@ import { NULL_UUID } from '@shared/constants/globalConfigIds'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { GlobalEntity } from '@/types/entities'
 import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { createLogger } from '@/utils/logger'
-import { asEmptyObject, asEmptyString } from '@/utils/safeDefaults'
+import { asEmptyObject } from '@/utils/safeDefaults'
 import { getEntityByIdEndpoint } from '@/utils/api'
 import apiClient from '@/utils/api'
 import {
@@ -21,7 +20,7 @@ import {
   saveRegularField
 } from '@/utils/fieldContext/fieldContextSaveHelpers'
 import { useComponentEntity } from '@/composables/useComponentEntity'
-import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { useFieldContextEntityDerived } from '@/composables/fieldContext/useFieldContextEntityDerived'
 import type { FieldDisplayConfig, FieldValidationRules } from './types'
 import type {
   UseFieldContextStateOptions,
@@ -65,56 +64,13 @@ export function useFieldContextState<GE extends GlobalEntityKey, FieldKey extend
     return adminComp.getEntity(entityKey, entityId)
   })
 
-  // PATTERN: Use useEntityMetadata to get inputConfig.globalField if available
-  // PATTERN: Map undefined to null and cast AdminObject to GlobalEntity (they're compatible)
-  const entityForMetadata = computed(() => {
-    const entityValue = entity.value
-    if (!entityValue) return null
-    return entityValue as GlobalEntity<GE>
-  })
-  const { fieldMetadata } = useEntityMetadata(entityKey, entityForMetadata)
-  const fieldMetadataEntry = computed(() => {
-    if (!fieldMetadata.value) {
-      return undefined
-    }
-    return fieldMetadata.value[String(fieldKey)]
-  })
-  
-  // PATTERN: Check inputConfig.globalField first, fallback to fieldKey
-  const actualPropertyName = computed(() => {
-    const metadata = fieldMetadataEntry.value
-    if (metadata?.inputConfig && typeof metadata.inputConfig === 'object') {
-      const inputConfig = metadata.inputConfig as Record<string, unknown>
-      if (inputConfig.globalField && typeof inputConfig.globalField === 'string') {
-        return inputConfig.globalField
-      }
-    }
-    return String(fieldKey)
-  })
-
-  const entityValue = computed<ValidAdminValue>(() => {
-    if (isTempEntity.value) {
-      return ''
-    }
-
-    if (composedEntityComposable) {
-      const components = composedEntityComposable.data.getComponents(entityId)
-      return components.map((ea) => ea.childId)
-    }
-
-    const currentEntity = entity.value as Record<string, unknown> | undefined
-    if (!currentEntity) {
-      return ''
-    }
-
-    // PATTERN: Read from actualPropertyName which checks inputConfig.globalField
-    const propertyName = actualPropertyName.value
-    if (Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
-      const propValue = (currentEntity as Record<string, unknown>)[propertyName]
-      if (propValue == null) return '' as ValidAdminValue
-      return asEmptyString(propValue as string) as ValidAdminValue
-    }
-    return ''
+  const { entityValue } = useFieldContextEntityDerived<GE, FieldKey>({
+    entityKey,
+    fieldKey,
+    entityId,
+    isTempEntity,
+    entity,
+    composedEntityComposable,
   })
 
   const formInstance = form || useForm()

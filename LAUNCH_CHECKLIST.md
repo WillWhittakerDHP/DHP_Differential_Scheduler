@@ -2612,7 +2612,7 @@ A deterministic checklist applied to each test file to verify it tests **behavio
 | Property test files | Separate `.property.test.ts` files | Keeps fast-running example-based tests separate from slower property-based tests |
 | Alignment audit | Custom script (matches existing audit pattern) | Consistent with existing `.scripts/` audit infrastructure |
 
-### Learning Checkpoint
+### Checkpoint
 
 After completing this phase, you should be able to answer:
 
@@ -3701,7 +3701,7 @@ E2E tests come first because they validate "does the product work for a user?" M
 | P8: Force-Create & Overrides | #99–110 | ~5–7 days | Admin override capability |
 | **Total to Beta Ready** | **#0–69** | **~30–37 days** | |
 
-These are rough estimates for a solo developer learning as you go. Actual time may vary — some items will go faster than expected, others will surface surprises. The estimates help with sprint planning, not with deadlines.
+These are rough estimates for a solo developer working iteratively. Actual time may vary — some items will go faster than expected, others will surface surprises. The estimates help with sprint planning, not with deadlines.
 
 ---
 

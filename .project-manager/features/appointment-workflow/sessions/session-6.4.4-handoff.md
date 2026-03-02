@@ -61,7 +61,6 @@ Completed Task
 - Architectural notes
 - Code-reuse suggestions
 - Detailed task notes
-- Learning checkpoints
 - Pattern explanations
 
 ### File Size Target:

@@ -177,7 +177,7 @@ client-vue/src/views/admin/dialogs/
 - All dialogs follow consistent patterns and structure
 - Relationship management in BlockProfileDialog is fully functional
 - All mutations properly integrate with Vue Query for automatic cache updates
-- Code includes comprehensive learning comments explaining patterns and decisions
+- Code includes explanatory WHY/PATTERN comments explaining patterns and decisions
 - Vuexy styling applied consistently across all dialogs
 
 ---

@@ -26,7 +26,7 @@ import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDrop
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
-import { wizardKey } from '@/composables/booking/injectionKeys'
+import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 
 export interface UseBookingWizardSetupReturn {
@@ -145,7 +145,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     success,
   })
 
-  provide('loadedWizardState', loadedWizardState)
+  provide(loadedWizardStateKey, loadedWizardState)
 
   const { stepSubtitles } = useWizardDisplay({
     steps,
