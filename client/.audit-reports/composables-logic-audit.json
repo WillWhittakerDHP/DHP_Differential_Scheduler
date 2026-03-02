@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-02T20:12:30.291Z",
+  "generatedAt": "2026-03-02T20:55:18.322Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,7 +10,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 263,
+  "totalScanned": 271,
   "exceptionSummary": {
     "totalRequiresReview": 1
   },
@@ -52,109 +52,109 @@
         },
         {
           "ruleId": "computed",
-          "lineNumber": 71,
+          "lineNumber": 70,
           "line": "const entityForMetadata = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 77,
+          "lineNumber": 76,
           "line": "const fieldMetadataEntry = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 85,
+          "lineNumber": 84,
           "line": "const actualPropertyName = computed(() => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "map",
-          "lineNumber": 103,
+          "lineNumber": 102,
           "line": "return components.map((ea) => ea.childId)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 189,
+          "lineNumber": 187,
           "line": "const error = computed(() => errorMessage.value)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 190,
+          "lineNumber": 188,
           "line": "const isValid = computed(() => meta.valid)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 191,
+          "lineNumber": 189,
           "line": "const isDirty = computed(() => meta.dirty)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 192,
+          "lineNumber": 190,
           "line": "const isValidating = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 193,
+          "lineNumber": 191,
           "line": "const isFocused = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "ref",
-          "lineNumber": 209,
+          "lineNumber": 207,
           "line": "const isDisabled = ref(providedDisplayConfig.disabled === true) // Explicit boolean, no default",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "async",
-          "lineNumber": 237,
+          "lineNumber": 235,
           "line": "const validate = async (): Promise<boolean> => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 240,
+          "lineNumber": 238,
           "line": "await validateField()",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "async",
-          "lineNumber": 251,
+          "lineNumber": 249,
           "line": "const save = async (): Promise<void> => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 268,
+          "lineNumber": 266,
           "line": "await apiClient.get(verifyEndpoint)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 294,
+          "lineNumber": 292,
           "line": "const isValidResult = await validate()",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 302,
+          "lineNumber": 300,
           "line": "await saveComponentEntityField({",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 312,
+          "lineNumber": 310,
           "line": "await saveRelationshipField({",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 319,
+          "lineNumber": 317,
           "line": "await saveRegularField({",
           "suppressionStatus": "unsuppressed"
         }

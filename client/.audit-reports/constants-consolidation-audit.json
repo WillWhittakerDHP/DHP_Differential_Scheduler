@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-02T20:03:00.700Z",
+  "generatedAt": "2026-03-02T20:55:19.842Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +11,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 957,
+  "totalScanned": 968,
   "totalConstantsFiles": 27,
   "totalExportsScanned": 81,
   "deltaMode": true,
@@ -70,7 +70,7 @@
         {
           "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
           "export": null,
-          "line": 88,
+          "line": 93,
           "inline": true
         }
       ],
@@ -111,7 +111,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 88,
+          "lineNumber": 93,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

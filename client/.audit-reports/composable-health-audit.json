@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-02T20:15:14.965Z",
-  "totalScanned": 263,
+  "generatedAt": "2026-03-02T20:55:23.200Z",
+  "totalScanned": 271,
   "ruleset": [
     {
       "ruleId": "module-level-ref",
@@ -76,6 +76,115 @@
   ],
   "findings": [
     {
+      "file": "client/src/composables/admin/useInstancesTab.ts",
+      "lineNumber": 1,
+      "ruleId": "excessive-composable-imports",
+      "snippet": "13 composable imports",
+      "message": "High composable fan-out (13 imports); consider decomposing or using a focused facade",
+      "fixHint": "Decompose into smaller focused composables or introduce a facade",
+      "isFileLevel": true,
+      "isExported": true,
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/admin/useInstancesTab.ts",
+      "lineNumber": 26,
+      "ruleId": "missing-return-type",
+      "snippet": "export function useInstancesTab() {",
+      "message": "Exported composable missing explicit return type",
+      "fixHint": "Add an explicit return type annotation to satisfy the workspace explicit-return-types rule",
+      "isExported": true,
+      "composableName": "useInstancesTab",
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/admin/useInstancesTab.ts",
+      "lineNumber": 205,
+      "ruleId": "oversized-return",
+      "snippet": "Return surface has 17 properties",
+      "message": "Return surface has 17 properties; decompose into focused composables",
+      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
+      "isExported": true,
+      "composableName": "useInstancesTab",
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+      "lineNumber": 90,
+      "ruleId": "oversized-return",
+      "snippet": "Return surface has 19 properties",
+      "message": "Return surface has 19 properties; decompose into focused composables",
+      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
+      "isExported": true,
+      "composableName": "useOverlapConstraintsPanel",
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/admin/useShapesTab.ts",
+      "lineNumber": 1,
+      "ruleId": "excessive-composable-imports",
+      "snippet": "11 composable imports",
+      "message": "High composable fan-out (11 imports); consider decomposing or using a focused facade",
+      "fixHint": "Decompose into smaller focused composables or introduce a facade",
+      "isFileLevel": true,
+      "isExported": true,
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/admin/useShapesTab.ts",
+      "lineNumber": 25,
+      "ruleId": "missing-return-type",
+      "snippet": "export function useShapesTab() {",
+      "message": "Exported composable missing explicit return type",
+      "fixHint": "Add an explicit return type annotation to satisfy the workspace explicit-return-types rule",
+      "isExported": true,
+      "composableName": "useShapesTab",
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/admin/useShapesTab.ts",
+      "lineNumber": 180,
+      "ruleId": "oversized-return",
+      "snippet": "Return surface has 55 properties",
+      "message": "Return surface has 55 properties; decompose into focused composables",
+      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
+      "isExported": true,
+      "composableName": "useShapesTab",
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/booking/useBookingWizardSetup.ts",
+      "lineNumber": 148,
+      "ruleId": "untyped-provide",
+      "snippet": "provide('loadedWizardState', loadedWizardState)",
+      "message": "String-keyed provide(); use a typed InjectionKey for type safety",
+      "fixHint": "Create const MyKey: InjectionKey<MyType> = Symbol(\"MyKey\") and use provide(MyKey, value)",
+      "isExported": false,
+      "consumerCount": 0
+    },
+    {
+      "file": "client/src/composables/booking/useBookingWizardSetup.ts",
+      "lineNumber": 1,
+      "ruleId": "excessive-composable-imports",
+      "snippet": "21 composable imports",
+      "message": "High composable fan-out (21 imports); consider decomposing or using a focused facade",
+      "fixHint": "Decompose into smaller focused composables or introduce a facade",
+      "isFileLevel": true,
+      "isExported": true,
+      "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/booking/useBookingWizardSetup.ts",
+      "lineNumber": 202,
+      "ruleId": "oversized-return",
+      "snippet": "Return surface has 24 properties",
+      "message": "Return surface has 24 properties; decompose into focused composables",
+      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
+      "isExported": true,
+      "composableName": "useBookingWizardSetup",
+      "consumerCount": 1
+    },
+    {
       "file": "client/src/composables/formFields/useFormFields.ts",
       "lineNumber": 1,
       "ruleId": "excessive-composable-imports",
@@ -89,16 +198,48 @@
   ],
   "files": [
     {
+      "file": "client/src/composables/admin/useInstancesTab.ts",
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useShapesTab.ts",
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/booking/useBookingWizardSetup.ts",
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "file": "client/src/composables/formFields/useFormFields.ts",
       "score": 2,
       "priority": "P2"
     }
   ],
   "repairWaves": {
-    "local": [],
-    "lowFanIn": [],
+    "local": [
+      7
+    ],
+    "lowFanIn": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      9
+    ],
     "highFanIn": [
-      0
+      10
     ]
   }
 }

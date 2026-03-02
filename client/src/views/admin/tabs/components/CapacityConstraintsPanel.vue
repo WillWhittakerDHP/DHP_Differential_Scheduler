@@ -1,7 +1,7 @@
 <!--
   Capacity constraints: per-day, calendar week, rolling week limits
   WHY: Extracted from BusinessControlsTab to reduce file size and cohesion
-  PATTERN: Injects businessControlsState from parent to avoid prop/emit drilling
+  PATTERN: Injects businessControlsState from parent; handlers from useCapacityConstraintsHandlers
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
@@ -11,6 +11,8 @@ import {
   ENFORCEMENT_OPTIONS,
   ROLLING_WEEK_DIRECTION_OPTIONS
 } from '@/constants/businessControlsOptions'
+import { useCapacityConstraintsHandlers } from '@/composables/admin/useCapacityConstraintsHandlers'
+import type { CapacityConstraintsState } from '@/types/admin/capacityConstraintsHandlers'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)
 if (!state) throw new Error('CapacityConstraintsPanel must be used inside BusinessControlsTab')
@@ -22,48 +24,7 @@ const rollingWeekDirectionOptions = ROLLING_WEEK_DIRECTION_OPTIONS
 const workHours = state.capacity.maxWorkHours
 const income = state.capacity.maxIncome
 
-function handleMaxWorkHoursDayMaxHours(v: number | string): void {
-  workHours.maxWorkHoursDayMaxHours = Number(v)
-}
-function handleMaxWorkHoursDayEnforcement(v: 'off' | 'flexible' | 'hard'): void {
-  workHours.maxWorkHoursDayEnforcement = v
-}
-function handleMaxIncomeDayMaxIncome(v: number | string): void {
-  income.maxIncomeDayMaxIncome = Number(v)
-}
-function handleMaxIncomeDayEnforcement(v: 'off' | 'flexible' | 'hard'): void {
-  income.maxIncomeDayEnforcement = v
-}
-function handleMaxWorkHoursCalendarWeekMaxHours(v: number | string): void {
-  workHours.maxWorkHoursCalendarWeekMaxHours = Number(v)
-}
-function handleMaxWorkHoursCalendarWeekEnforcement(v: 'off' | 'flexible' | 'hard'): void {
-  workHours.maxWorkHoursCalendarWeekEnforcement = v
-}
-function handleMaxIncomeCalendarWeekMaxIncome(v: number | string): void {
-  income.maxIncomeCalendarWeekMaxIncome = Number(v)
-}
-function handleMaxIncomeCalendarWeekEnforcement(v: 'off' | 'flexible' | 'hard'): void {
-  income.maxIncomeCalendarWeekEnforcement = v
-}
-function handleMaxWorkHoursRollingWeekMaxHours(v: number | string): void {
-  workHours.maxWorkHoursRollingWeekMaxHours = Number(v)
-}
-function handleMaxWorkHoursRollingWeekEnforcement(v: 'off' | 'flexible' | 'hard'): void {
-  workHours.maxWorkHoursRollingWeekEnforcement = v
-}
-function handleMaxWorkHoursRollingWeekDirection(v: 'past' | 'centered' | 'future'): void {
-  workHours.maxWorkHoursRollingWeekDirection = v
-}
-function handleMaxIncomeRollingWeekMaxIncome(v: number | string): void {
-  income.maxIncomeRollingWeekMaxIncome = Number(v)
-}
-function handleMaxIncomeRollingWeekEnforcement(v: 'off' | 'flexible' | 'hard'): void {
-  income.maxIncomeRollingWeekEnforcement = v
-}
-function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'): void {
-  income.maxIncomeRollingWeekDirection = v
-}
+const handlers = useCapacityConstraintsHandlers(state as CapacityConstraintsState)
 </script>
 
 <template>
@@ -75,7 +36,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VTextField
                 :model-value="workHours.maxWorkHoursDayMaxHours"
-                @update:model-value="handleMaxWorkHoursDayMaxHours"
+                @update:model-value="handlers.handleMaxWorkHoursDayMaxHours"
                 :label="UI_STRINGS.labels.maximumHoursPerDay"
                 type="number"
                 min="0"
@@ -90,7 +51,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VSelect
                 :model-value="workHours.maxWorkHoursDayEnforcement"
-                @update:model-value="handleMaxWorkHoursDayEnforcement"
+                @update:model-value="handlers.handleMaxWorkHoursDayEnforcement"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -102,7 +63,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VTextField
                 :model-value="income.maxIncomeDayMaxIncome"
-                @update:model-value="handleMaxIncomeDayMaxIncome"
+                @update:model-value="handlers.handleMaxIncomeDayMaxIncome"
                 :label="UI_STRINGS.labels.maximumIncomePerDay"
                 type="number"
                 min="0"
@@ -113,7 +74,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VSelect
                 :model-value="income.maxIncomeDayEnforcement"
-                @update:model-value="handleMaxIncomeDayEnforcement"
+                @update:model-value="handlers.handleMaxIncomeDayEnforcement"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -130,7 +91,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VTextField
                 :model-value="workHours.maxWorkHoursCalendarWeekMaxHours"
-                @update:model-value="handleMaxWorkHoursCalendarWeekMaxHours"
+                @update:model-value="handlers.handleMaxWorkHoursCalendarWeekMaxHours"
                 :label="UI_STRINGS.labels.maximumHoursPerWeek"
                 type="number"
                 min="0"
@@ -143,7 +104,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VSelect
                 :model-value="workHours.maxWorkHoursCalendarWeekEnforcement"
-                @update:model-value="handleMaxWorkHoursCalendarWeekEnforcement"
+                @update:model-value="handlers.handleMaxWorkHoursCalendarWeekEnforcement"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -155,7 +116,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VTextField
                 :model-value="income.maxIncomeCalendarWeekMaxIncome"
-                @update:model-value="handleMaxIncomeCalendarWeekMaxIncome"
+                @update:model-value="handlers.handleMaxIncomeCalendarWeekMaxIncome"
                 :label="UI_STRINGS.labels.maximumIncomePerWeek"
                 type="number"
                 min="0"
@@ -166,7 +127,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="4">
               <VSelect
                 :model-value="income.maxIncomeCalendarWeekEnforcement"
-                @update:model-value="handleMaxIncomeCalendarWeekEnforcement"
+                @update:model-value="handlers.handleMaxIncomeCalendarWeekEnforcement"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -196,7 +157,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="3">
               <VSelect
                 :model-value="workHours.maxWorkHoursRollingWeekEnforcement"
-                @update:model-value="handleMaxWorkHoursRollingWeekEnforcement"
+                @update:model-value="handlers.handleMaxWorkHoursRollingWeekEnforcement"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -206,7 +167,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="3">
               <VSelect
                 :model-value="workHours.maxWorkHoursRollingWeekDirection"
-                @update:model-value="handleMaxWorkHoursRollingWeekDirection"
+                @update:model-value="handlers.handleMaxWorkHoursRollingWeekDirection"
                 :items="rollingWeekDirectionOptions"
                 :label="UI_STRINGS.labels.direction"
                 :hint="UI_STRINGS.hints.direction"
@@ -218,7 +179,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="3">
               <VTextField
                 :model-value="income.maxIncomeRollingWeekMaxIncome"
-                @update:model-value="handleMaxIncomeRollingWeekMaxIncome"
+                @update:model-value="handlers.handleMaxIncomeRollingWeekMaxIncome"
                 :label="UI_STRINGS.labels.maximumIncome7Days"
                 type="number"
                 min="0"
@@ -229,7 +190,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="3">
               <VSelect
                 :model-value="income.maxIncomeRollingWeekEnforcement"
-                @update:model-value="handleMaxIncomeRollingWeekEnforcement"
+                @update:model-value="handlers.handleMaxIncomeRollingWeekEnforcement"
                 :items="enforcementOptions"
                 :label="UI_STRINGS.labels.enforcement"
                 :hint="UI_STRINGS.hints.enforcement"
@@ -239,7 +200,7 @@ function handleMaxIncomeRollingWeekDirection(v: 'past' | 'centered' | 'future'):
             <VCol cols="12" sm="6" md="3">
               <VSelect
                 :model-value="income.maxIncomeRollingWeekDirection"
-                @update:model-value="handleMaxIncomeRollingWeekDirection"
+                @update:model-value="handlers.handleMaxIncomeRollingWeekDirection"
                 :items="rollingWeekDirectionOptions"
                 :label="UI_STRINGS.labels.direction"
                 :hint="UI_STRINGS.hints.direction"

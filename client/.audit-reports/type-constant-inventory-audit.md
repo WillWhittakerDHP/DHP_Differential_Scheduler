@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-02T20:03:13.105Z
+Generated: 2026-03-02T20:55:28.448Z
 
 ## Summary
 
 - Type files: **263**
 - Constant files: **23**
 - Config files: **34**
-- Files with inline type exports: **93**
+- Files with inline type exports: **101**
 - Annotated: **64** | Unannotated: **256**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 62 |
+| Inline types in composables | 70 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -751,7 +751,7 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/booking/propertyValidation.ts` | dedicated | UsePropertyValidationReturn, PropertyValidationData, UsePropertyValidationParams | no | (none) | unknown |
+| `client/src/types/booking/propertyValidation.ts` | dedicated | PropertyAddressValidationRules, PropertySizeValidationRules, PropertyValidationData, UsePropertyValidationParams | no | (none) | unknown |
 
 ### Domain: booking/responsiveGrid.ts
 
@@ -1390,14 +1390,16 @@ Generic types always instantiated with the same argument; consider removing the 
 
 ### Unreviewed
 
-- `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 0 files)
+- `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 1 files)
+- `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: AppointmentsTableLookups (imported by 0 files)
 - `client/src/composables/admin/useAdmin.ts`: UseAdminReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminMetadataMutations.ts`: UseAdminMetadataMutationsReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts`: UseAdminPrimitiveMetadataMutationsReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts`: UseAdminRelationshipMetadataMutationsReturn (imported by 0 files)
 - `client/src/composables/admin/useApiDevPanelVisibility.ts`: UseApiDevPanelVisibilityOptions (imported by 0 files)
-- `client/src/composables/admin/useBaseCollectionField.ts`: UseBaseCollectionFieldReturn, CollectionFieldResolverContext, CollectionFieldConfig (imported by 0 files)
+- `client/src/composables/admin/useBaseCollectionField.ts`: BaseCollectionFieldParentContext, UseBaseCollectionFieldReturn, CollectionFieldResolverContext, CollectionFieldConfig (imported by 0 files)
 - `client/src/composables/admin/useBlockInstanceCreate.ts`: UseBlockInstanceCreateOptions (imported by 0 files)
+- `client/src/composables/admin/useBlockInstanceList.ts`: UseBlockInstanceListReturn (imported by 0 files)
 - `client/src/composables/admin/useBooleanInputClick.ts`: UseBooleanInputClickParams (imported by 0 files)
 - `client/src/composables/admin/useBusinessHoursFormState.ts`: UseBusinessHoursFormStateReturn (imported by 1 files)
 - `client/src/composables/admin/useBusinessRuleForm.ts`: UseBusinessRuleFormReturn (imported by 0 files)
@@ -1406,11 +1408,13 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useComponentDistributionConfirm.ts`: UseComponentDistributionConfirmOptions (imported by 0 files)
 - `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions, UseEntityCardSubPanelsReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityMetadata.ts`: UseEntityMetadataReturn (imported by 0 files)
+- `client/src/composables/admin/useEventInstancesSection.ts`: UseEventInstancesSectionReturn (imported by 0 files)
 - `client/src/composables/admin/useFeePreview.ts`: UseFeePreviewOptions, UseFeePreviewReturn (imported by 0 files)
 - `client/src/composables/admin/useFieldRendererErrorWatch.ts`: UseFieldRendererErrorWatchParams (imported by 0 files)
 - `client/src/composables/admin/useFormFieldConfigs.ts`: UseFormFieldConfigsReturn (imported by 0 files)
 - `client/src/composables/admin/useInstancesTabCreateModal.ts`: UseInstancesTabCreateModalReturn (imported by 0 files)
 - `client/src/composables/admin/useMetadataEditModal.ts`: MetadataEditorSaveRef, UseMetadataEditModalOptions (imported by 0 files)
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts`: UseOverlapConstraintsPanelReturn (imported by 0 files)
 - `client/src/composables/admin/usePartsCollectionField.ts`: UsePartsCollectionFieldReturn (imported by 0 files)
 - `client/src/composables/admin/usePrimitiveMetadataSave.ts`: UsePrimitiveMetadataSaveOptions (imported by 0 files)
 - `client/src/composables/admin/usePropertyMappingsTab.ts`: PropertyFieldMappingRow, PropertyFeatureMappingRow (imported by 0 files)
@@ -1422,6 +1426,10 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
 - `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
+- `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)
+- `client/src/composables/booking/useDelayedModalVisibility.ts`: UseDelayedModalVisibilityParams, UseDelayedModalVisibilityReturn (imported by 0 files)
+- `client/src/composables/booking/useMoveableAvailabilityData.ts`: UseMoveableAvailabilityDataParams, UseMoveableAvailabilityDataReturn (imported by 0 files)
+- `client/src/composables/booking/usePropertyTypeSelectWidth.ts`: PropertyTypeLike, UsePropertyTypeSelectWidthParams, UsePropertyTypeSelectWidthReturn (imported by 0 files)
 - `client/src/composables/booking/useSlotGridDisplay.ts`: UseSlotGridDisplayOptions (imported by 0 files)
 - `client/src/composables/booking/useWizardNumberUpdate.ts`: UseWizardNumberUpdateReturn (imported by 0 files)
 - `client/src/composables/entityCrud/useEntityCrud.ts`: UseEntityCrudReturn (imported by 0 files)
@@ -1441,7 +1449,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/utils/admin/calibrationChartTransforms.ts`:  (imported by 0 files)
 - `client/src/utils/admin/entityCardTitleKeydown.ts`: EntityCardTitleKeydownReturn (imported by 0 files)
 - `client/src/utils/admin/entityDisplay.ts`: EntityDisplayConfig, EntityDisplayReturn (imported by 0 files)
-- `client/src/utils/admin/entityList.ts`: EntityListOptions, EntityListReturn (imported by 0 files)
+- `client/src/utils/admin/entityList.ts`: EntityListOptions, EntityListReturn (imported by 1 files)
 - `client/src/utils/admin/entityListDelete.ts`: EntityListDeleteOptions (imported by 0 files)
 - `client/src/utils/admin/inputConfigEditor.ts`: InputConfigFormData, InputConfigEditorOptions, InputConfigEditorReturn (imported by 0 files)
 - `client/src/utils/admin/metadataFieldUpdates.ts`: MetadataFieldUpdatesOptions, MetadataFieldUpdatesReturn (imported by 0 files)

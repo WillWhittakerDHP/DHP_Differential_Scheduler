@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-02T20:03:13.105Z",
+  "generatedAt": "2026-03-02T20:55:28.448Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 263,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 93,
+    "filesWithInlineTypes": 101,
     "annotated": 64,
     "unannotated": 256,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 62,
+      "inlineTypesInComposables": 70,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -4065,17 +4065,18 @@
       "domainMatch": null,
       "location": "dedicated",
       "exports": [
-        "UsePropertyValidationReturn",
+        "PropertyAddressValidationRules",
+        "PropertySizeValidationRules",
         "PropertyValidationData",
         "UsePropertyValidationParams"
       ],
       "exportKinds": {
-        "types": 1,
-        "interfaces": 2,
+        "types": 0,
+        "interfaces": 4,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 23,
+      "lineCount": 41,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -5487,7 +5488,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 6,
+      "lineCount": 5,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6114,7 +6115,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 4,
+      "lineCount": 1,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6317,7 +6318,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 8,
+      "lineCount": 7,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6342,7 +6343,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 5,
+      "lineCount": 2,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6401,7 +6402,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 134,
+      "lineCount": 132,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6619,7 +6620,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 83,
+      "lineCount": 80,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6671,7 +6672,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 76,
+      "lineCount": 70,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6749,7 +6750,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 406,
+      "lineCount": 374,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6778,7 +6779,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 59,
+      "lineCount": 53,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6831,7 +6832,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 12,
+      "lineCount": 11,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6856,7 +6857,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 17,
+      "lineCount": 16,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6881,7 +6882,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 17,
+      "lineCount": 16,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6934,7 +6935,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 26,
+      "lineCount": 25,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6967,7 +6968,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 80,
+      "lineCount": 77,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -6992,7 +6993,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 25,
+      "lineCount": 24,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7041,7 +7042,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 17,
+      "lineCount": 15,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7067,7 +7068,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 30,
+      "lineCount": 29,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -7227,7 +7228,7 @@
         "TimezoneOption"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 29,
+      "lineCount": 28,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8448,7 +8449,7 @@
         "USStateOption"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 59,
+      "lineCount": 58,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8495,6 +8496,16 @@
         "ruleFormDialogContextKey",
         "instancesTabContextKey"
       ],
+      "primaryPurpose": "composable",
+      "importedByCount": 1,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+      "exportedTypes": [
+        "AppointmentsTableLookups"
+      ],
+      "exportedConstants": [],
       "primaryPurpose": "composable",
       "importedByCount": 0,
       "recommendation": "Consider extracting to a dedicated type file"
@@ -8552,6 +8563,7 @@
     {
       "sourceFile": "client/src/composables/admin/useBaseCollectionField.ts",
       "exportedTypes": [
+        "BaseCollectionFieldParentContext",
         "UseBaseCollectionFieldReturn",
         "CollectionFieldResolverContext",
         "CollectionFieldConfig"
@@ -8565,6 +8577,16 @@
       "sourceFile": "client/src/composables/admin/useBlockInstanceCreate.ts",
       "exportedTypes": [
         "UseBlockInstanceCreateOptions"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useBlockInstanceList.ts",
+      "exportedTypes": [
+        "UseBlockInstanceListReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8704,6 +8726,16 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useEventInstancesSection.ts",
+      "exportedTypes": [
+        "UseEventInstancesSectionReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useFeePreview.ts",
       "exportedTypes": [
         "UseFeePreviewOptions",
@@ -8801,6 +8833,16 @@
       "exportedTypes": [
         "MetadataEditorSaveRef",
         "UseMetadataEditModalOptions"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+      "exportedTypes": [
+        "UseOverlapConstraintsPanelReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -8986,9 +9028,53 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/booking/useBookingWizardSetup.ts",
+      "exportedTypes": [
+        "UseBookingWizardSetupReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
+      "exportedTypes": [
+        "UseDelayedModalVisibilityParams",
+        "UseDelayedModalVisibilityReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useMoveableAvailabilityData.ts",
+      "exportedTypes": [
+        "UseMoveableAvailabilityDataParams",
+        "UseMoveableAvailabilityDataReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/booking/useMoveablePartsScheduling.ts",
       "exportedTypes": [
         "UseMoveablePartsSchedulingReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/usePropertyTypeSelectWidth.ts",
+      "exportedTypes": [
+        "PropertyTypeLike",
+        "UsePropertyTypeSelectWidthParams",
+        "UsePropertyTypeSelectWidthReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -9215,7 +9301,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9535,6 +9621,16 @@
             "instancesTabContextKey"
           ],
           "primaryPurpose": "composable",
+          "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+          "exportedTypes": [
+            "AppointmentsTableLookups"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
           "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
@@ -9591,6 +9687,7 @@
         {
           "sourceFile": "client/src/composables/admin/useBaseCollectionField.ts",
           "exportedTypes": [
+            "BaseCollectionFieldParentContext",
             "UseBaseCollectionFieldReturn",
             "CollectionFieldResolverContext",
             "CollectionFieldConfig"
@@ -9604,6 +9701,16 @@
           "sourceFile": "client/src/composables/admin/useBlockInstanceCreate.ts",
           "exportedTypes": [
             "UseBlockInstanceCreateOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useBlockInstanceList.ts",
+          "exportedTypes": [
+            "UseBlockInstanceListReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9693,6 +9800,16 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useEventInstancesSection.ts",
+          "exportedTypes": [
+            "UseEventInstancesSectionReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useFeePreview.ts",
           "exportedTypes": [
             "UseFeePreviewOptions",
@@ -9738,6 +9855,16 @@
           "exportedTypes": [
             "MetadataEditorSaveRef",
             "UseMetadataEditModalOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "exportedTypes": [
+            "UseOverlapConstraintsPanelReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -9876,6 +10003,50 @@
           "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
           "exportedTypes": [
             "UseAppointmentLoaderReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useBookingWizardSetup.ts",
+          "exportedTypes": [
+            "UseBookingWizardSetupReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
+          "exportedTypes": [
+            "UseDelayedModalVisibilityParams",
+            "UseDelayedModalVisibilityReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useMoveableAvailabilityData.ts",
+          "exportedTypes": [
+            "UseMoveableAvailabilityDataParams",
+            "UseMoveableAvailabilityDataReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/usePropertyTypeSelectWidth.ts",
+          "exportedTypes": [
+            "PropertyTypeLike",
+            "UsePropertyTypeSelectWidthParams",
+            "UsePropertyTypeSelectWidthReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -10082,7 +10253,7 @@
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
-          "importedByCount": 0,
+          "importedByCount": 1,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -10568,7 +10739,7 @@
           "TimezoneOption"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 29,
+        "lineCount": 28,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
@@ -11791,7 +11962,7 @@
           "USStateOption"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 59,
+        "lineCount": 58,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
