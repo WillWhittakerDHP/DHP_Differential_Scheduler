@@ -1,165 +1,86 @@
-# Phase 6.5 Guide: Rescheduling Flow
+## Phase intent from feature guide
 
-**Purpose:** Phase-level guide for planning and tracking the rescheduling workflow and availability behavior
+Phase 6.5: Rescheduling Flow
+**Description:** Reschedule confirmed appointments using the same flow as quote and dev-mode load: appointment loads at step 3 (Availability); user adjusts and reschedules. The current appointment stays on the calendar but is temporarily excluded from availability constraints so its time and drive buffers do not block slots; the original inspection slot has a distinct UI indicator (e.g. different color or overlay).
+**Sessions:** 2–3 (see phase guide: 6.5.1 entry/transitions, 6.5.2 availability bypass, 6.5.3 original-inspection UI)
+**Dependencies:** Phase 6.3 (transition guards: confirmed → rescheduling → submitted)
+**Success Criteria:**
+- Reschedule action available for confirmed appointments; wizard reuses load-at-step-3 and update path (same as quote/dev load)
+- `reschedulingAppointmentId` in computed-availability request; server excludes that appointment’s calendar event from overlap while keeping it in calendarEvents
+- Original-inspection slot visually distinct (e.g. `appointment-slot-btn--original-inspection`) but still selectable
+- Wizard mode set to `reschedule` when loading for reschedule; submit shows “Update appointment” and calls update path
+- Admin entry: step 0 or pre-wizard (admin-only) — Start new | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule; selection sets wizard mode and loadedAppointmentId
+- Status transitions: confirmed → rescheduling → submitted
+**See:** `phases/phase-6.5-guide.md` for implementation details, session breakdown, and relation to Phase 6.8 (allowedExceptions)
 
-**Tier:** Phase (Tier 1 - High-Level)
+- [ ] ### Phase 6.6: Soft Delete vs Hard Delete
+**Description:** Policy and UI for cancelled vs deleted; retention rules; audit trail.
+**Sessions:** To be planned
+**Success Criteria:**
+- Clear policy for cancelled vs deleted appointments
+- Admin UI for soft delete and hard delete actions
+- Retention and audit behavior documented
 
----
+- [ ] ### Phase 6.7: Scheduled By Auto-Population
+**Description:** Set `scheduled_by_id` from logged-in user on appointment creation.
+**Sessions:** To be planned
+**Dependencies:** Feature 7 (Authentication) — requires `req.user`
+**Success Criteria:**
+- `scheduled_by_id` populated from authenticated user on create
+- Displayed in admin appointment details
 
-## Phase Overview
+- [ ] ### Phase 6.8: Admin Force-Create & Constraint Overrides
+**Description:** Force-create appointments bypassing blockers; `constraint_overrides` table; reschedule with exceptions.
+**Sessions:** 4 (6.8.1–6.8.4)
+**Dependencies:** Feature 7 (Authentication) — requires `req.user` for `authorized_by_id`
+**Success Criteria:**
+- Force-create route creates appointment + override record
+- Admin UI shows blocked slots with force-create option
+- Reschedule flow respects override exceptions
+- Override constraints and Force schedule visibility gated by **user role** (admin); wizard may be in `reschedule` or other modes when those actions are shown; block-level `agentPermissions` (when added) respected for tooltips and permissions
+- Full architecture, data model, and implementation details in phase guide
 
-**Phase Number:** 6.5
-**Phase Name:** Rescheduling Flow
-**Description:** Reschedule confirmed appointments by reusing the booking wizard; same UX as quote and dev-mode load (appointment loads at step 3); temporarily bypass the current appointment as an availability constraint so the wizard does not treat its time and drive buffers as blocked; show a UI indicator for the original inspection slot.
+- [ ] ### Phase 6.9: Availability Step Mini-Wizard
+**Description:** Reframe the Appointment Availability (3rd) wizard step as a mini-wizard: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time. Wide screens: expanded panels with step labels; narrow screens: each sub-step as an expandable card, current step expanded and completed steps showing a done indicator when collapsed.
+**Sessions:** To be planned (1–2)
+**Dependencies:** Phase 6.4 (differential consolidation and option blocks in place). No new backend; UX and layout only.
+**Success Criteria:**
+- Sub-steps ordered and labeled (day → options [if any] → perspective [if differential] → time)
+- Block instance options appear as a dedicated sub-step when available
+- Perspective sub-step only visible when date selected and booking is differential
+- Wide: all panels expanded; narrow: expandable cards per sub-step with smart expand/collapse and done state
+- Existing validation and differential/slot behavior unchanged
 
-**Duration:** 2–3 sessions (to be refined)
-**Status:** Not Started
-**Dependencies:** Phase 6.3 (transition guards: `confirmed` → `rescheduling` → `submitted`). Optional: Feature 7 (Authentication) for user-specific “my appointments” and reschedule entry from customer-facing flows.
+- [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
+**Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
+**Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
+**Dependencies:** None (reuses `buildConfirmationPriceData`, existing Confirmation step fee UI, and availability settings payload).
+**Success Criteria:**
+- Admin: "Show apply coupon in wizard" switch in Confirmation & Holds; setting persisted and read by wizard
+- Availability step: compact "Fee preview: $X.XX" bar at top; hover shows popover with Bag Total, optional Coupon row (+ Apply Coupon when enabled), Order Total, line items, Total (no submit)
+- Confirmation step: Coupon Discount row and Apply Coupon button only visible when `showApplyCouponInWizard` is true
+**See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`
 
----
-
-## Context: What Already Exists
-
-**Wizard load at step 3:** `useWizardAppointmentManagement` already loads an appointment via `handleLoadAppointment` → `transformAppointmentToWizard` → `applyWizardState`, then sets `completedSteps` and `activeStep = 2` so the wizard lands on **step 3 (Availability)**. The user can adjust and then call “Update appointment” or submit. This is the same flow used for quotes (“I want a quote” / “I want to book”) and for dev-mode “Load appointment.”
-
-**Slot computation:** Server computes slots in `computeSlotsForDateRange` (slotComputationService). Overlap (and thus “blocked” slots) comes from `eventsWithDrive`: calendar events from Google Calendar plus drive-to/from buffers. When an appointment is confirmed/submitted, a calendar event may be created via `createCalendarEventForAppointment`, so the existing appointment can appear on the calendar and currently **blocks** its own time and drive buffers.
-
-**ComputedAvailabilityRequest:** Currently has `dateRange`, `candidatePlaceId`, `duration`, `dataSource`. No parameter yet to exclude the current appointment’s event from overlap.
-
-**Slot UI:** `AppointmentSlotGrid.vue` uses `appointment-slot-btn--busy` when `!slotData.isAvailable`. No current “original inspection” slot indicator.
-
----
-
-## Admin entry: step 0 or pre-wizard
-
-For **admins only**, before (or as step 0 of) the wizard, present a choice:
-
-1. **Start new inspection** — Enter wizard in `initial` mode; no loaded appointment.
-2. **Edit quote** — Update an existing appointment that is a quote (e.g. status `quoted` or `started`/`held`). Show a **dropdown of non-completed inspections** (exclude `cancelled`, `deleted`; optionally filter to quote-related statuses). On selection, set wizard mode to `quote` (or a dedicated “edit quote” mode if different), load that appointment, then proceed (e.g. to step 3).
-3. **Reschedule** — Reschedule an existing appointment (e.g. status `confirmed`). Show the same **dropdown of non-completed inspections** (optionally filtered to `confirmed` for reschedule). On selection, set wizard mode to `reschedule`, load that appointment, then proceed to step 3.
-
-**Non-completed:** Appointments whose status is not in `['cancelled', 'deleted']` (i.e. `started`, `held`, `rescheduling`, `quoted`, `submitted`, `confirmed`). Filter the dropdown by intent (e.g. Edit quote → `quoted`/`started`/`held`; Reschedule → `confirmed` or also `submitted` per product rules).
-
-**Time-out:** Admin setting (e.g. Business Controls → Calendar or Confirmation & Holds): "Appointment picker window" in days or weeks. List only includes appointments where scheduling began within the last X, or (for quotes) the appointment has been in quote status for the last X. Reduces clutter and focuses on recent work.
-
-**Picker UI:** Dropdown shows for each appointment: **Address**, **Client name**, **Agent name** (address from property; client from contacts; agent from `scheduled_by` or user once Feature 7 is in place).
-
-**Implementation:** Either a dedicated **step 0** in the wizard (admin-only, skipped for non-admin) or a **pre-wizard** screen/card; on submit of that step, set `wizardMode` and `loadedAppointmentId` (and call `handleLoadAppointment` when Edit quote or Reschedule), then advance. List API accepts optional time-out params (e.g. `pickerWindowDays` or `schedulingWithinDays` / `quoteWithinDays`) from client; server filters by `created_at` / first scheduling timestamp and/or quote-age; value comes from admin settings (read by client from settings API). Requires an API that returns appointments filtered by status, by time-out window, and (by permission when Feature 7 is in place).
-
----
-
-## Rescheduling Flow (Same as Quote / Dev Load)
-
-1. **Entry:** After auth (Feature 7), user opens “their” appointment (e.g. from a list or link). For admin, entry can remain as today’s dev-style “Load appointment” or a dedicated “Reschedule” action on a confirmed appointment.
-2. **Load:** Appointment loads into the wizard at **step 3 (Availability)** using the existing `handleLoadAppointment` / `transformAppointmentToWizard` / `applyWizardState` path. No new load path required.
-3. **Adjust:** User can change property/contacts/availability as in quote or dev flow. For reschedule, they typically change the date/time slot.
-4. **Submit:** User chooses “Reschedule” (or “Update”) instead of “Book.” Client calls update (or a dedicated reschedule endpoint); server applies status transition: `rescheduling` → `submitted` (and optionally creates/updates calendar event for the new time).
-5. **Quote vs reschedule:** Same wizard; only the final action and status transition differ (hold quote vs book vs reschedule).
-
-No change to the step-by-step flow: rescheduling **reuses** the same “load at step 3 → adjust → save/update” behavior as quote and dev-mode load.
-
----
-
-## Rescheduling Availability: Bypass Current Appointment as Constraint
-
-**Goal:** Keep the existing appointment **on the calendar** (visible in responses and UI) but **temporarily** exclude it from overlap checks so its time and drive buffers do not block slots during reschedule.
-
-**Implementation:**
-
-1. **Request:** Extend `ComputedAvailabilityRequest` (shared/types/availabilityTypes) with:
-   - `reschedulingAppointmentId?: string`
-2. **Server behavior** (in `computeAvailabilityData` and the pipeline that feeds `computeSlotsForDateRange`):
-   - When `reschedulingAppointmentId` is set:
-     - Load that appointment (including stored calendar event id, e.g. `googleEventId`, if available).
-     - Build `calendarEvents` for the **response** unchanged (so the client still receives and can display the event).
-     - Build the **overlap** input to slot computation by excluding the event that corresponds to `reschedulingAppointmentId` (match by stored event id, or by appointment time window from `selectedTimeSlots` if event id is not stored). Pass this filtered list into the slot computation so that event (and its drive buffers) are not used as overlap constraints.
-   - If the appointment’s calendar event id is not stored, derive the appointment’s time window from its `selectedTimeSlots` and exclude from overlap any calendar event whose start/end matches (or falls inside) that window. Prefer storing and matching by `googleEventId` when the event is created.
-3. **Client:** When the wizard is in “reschedule” mode (e.g. `loadedAppointmentId` is set and the intent is reschedule), include `reschedulingAppointmentId: loadedAppointmentId.value` in the computed-availability request. No other client change is required for “bypass”; the rest is server-side filtering of the overlap list.
-
-**Result:** The existing appointment remains on the calendar and in `calendarEvents`; only the **overlap input** to slot computation excludes that appointment’s event, so its time and drive buffers do not block slots.
+- [ ] ### Phase 6.11: Drive Time Fee Line Item
+**Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence:** Store drive time in the fee breakdown using a single system "Drive time" block instance (virtual block — one row in block_instances, not user-selectable; amount stored in the fee entry only) so the current schema (appointment_fee_entries require block_instance_id) is unchanged.
+**Sessions:** 1 (6.11.1: settings, calculation, line item, persistence via virtual block)
+**Dependencies:** Availability/slot pipeline exposes drive-to and drive-from minutes for the selected slot; fee pipeline (`buildConfirmationPriceData`) and Confirmation step (and Phase 6.10 fee popover) already show line items.
+**Success Criteria:**
+- Admin: complimentary drive (min), driving rate ($/hr), and drive-time rounding (min) configurable and persisted
+- Fee pipeline: accepts optional drive context (total drive to + from); computes drive time fee; adds "Drive time" line item and includes it in total
+- Confirmation step and availability-step fee popover show Drive time row when applicable
+- Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
+**See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
 
 ---
 
-## UI Indicator: Original Inspection Slot
+- [ ] ### Session 6.5.1: Guide: Rescheduling Flow
 
-**Goal:** Slots that correspond to the **original** inspection time should have a distinct visual (e.g. different color or overlay) so the user sees “this is the current time” and can still select it or another slot.
+**Description:** 6.5
 
-**Data:** When an appointment is loaded, `loadedWizardState` (and availability step data) already contains the selected date and time (e.g. `availabilityStepData.candidateDate` and the selected slot/time range). The client has the **original** appointment time range.
+**Tasks:** [To be planned]
 
-**Implementation:**
-
-1. **Prop / context:** In the availability step (or wherever the slot grid is used for reschedule), compute the original time range from the loaded appointment, e.g. `originalAppointmentTimeRange: { start: RFC3339, end: RFC3339 } | null`, and pass it into the component that renders the slots (e.g. `AppointmentSlotGrid` or the parent that builds the slot list).
-2. **Mark “original” slots:** For each slot, compare `startTime`/`endTime` to `originalAppointmentTimeRange` (e.g. same start or overlap). Set a flag (e.g. `isOriginalInspectionSlot`) so the template can add a class or overlay.
-3. **Visual:** In `AppointmentSlotGrid.vue`, add a modifier class (e.g. `appointment-slot-btn--original-inspection`) when the slot is the original time. Style with a distinct color (e.g. secondary), border, or small overlay/label (“Current time”) so the existing appointment is clearly indicated while remaining selectable.
-
-**Where to compare:** Either (a) in the composable that builds the slot list (where server `ComputedSlot[]` is mapped to the shape used by the grid) and add `isOriginalInspectionSlot` there, or (b) in `AppointmentSlotGrid` by accepting `originalAppointmentTimeRange` as a prop and computing “is this slot the original?” in the component. Prefer (a) if the grid should stay presentational; (b) is acceptable if keeping “original” logic in one place.
-
----
-
-## Relation to Phase 6.8 (Admin Force-Create & Constraint Overrides)
-
-Phase 6.8 introduces **`allowedExceptions`**: when rescheduling an appointment that was **force-created** with overrides, the client passes the override’s violation keys so the server can **relax those constraint types** (e.g. capacity, business hours) for that request. That is **separate** from “don’t treat this appointment’s calendar event as overlap.”
-
-For rescheduling, **both** may be needed:
-
-- **Exclude current appointment’s event from overlap** (Phase 6.5): Add `reschedulingAppointmentId` to the availability request; server excludes that appointment’s calendar event (and thus its drive buffers) from the overlap list used in `computeSlotsForDateRange`, while still returning it in `calendarEvents`. This applies to **every** reschedule (with or without overrides).
-- **Relax override constraints** (Phase 6.8): When the rescheduled appointment has a `constraint_override` record, pass `allowedExceptions` so the server can relax those same constraints for the new slot. This applies only when the appointment was force-created with overrides.
-
-Implement Phase 6.5 first so that reschedule always unblocks the current appointment’s time; then Phase 6.8 adds override-aware relaxation on top.
-
-**Block-level `agentPermissions`:** Tooltips and permissions (e.g. Override constraints, future agent features) are driven by state: **(wizard mode, user role, block.agentPermissions)**. The `agent_permissions` column on block_instances (TernaryBoolean: `true` = agents, `false` = clients, `override` = admins) is added full-stack elsewhere (same phase or a dedicated schema/phase); Phase 6.5’s admin entry and wizard mode work with that state so the UI respects it.
-
----
-
-## Phase Objectives
-
-- Reuse existing “load at step 3” and update path for reschedule; add “Reschedule” entry/action and status transitions (`confirmed` → `rescheduling` → `submitted`).
-- **Admin entry:** Add step 0 or pre-wizard for admins: choose Start new inspection | Edit quote | Reschedule; when Edit quote or Reschedule, show dropdown of non-completed inspections (filtered by status and by admin-configured time-out; dropdown columns: Address, Client name, Agent name); set wizard mode and `loadedAppointmentId` from selection.
-- Introduce wizard mode state (`initial` | `quote` | `reschedule`); set `reschedule` when loading for reschedule; drive submit button label and action (create vs update) and reschedule-specific availability/UI from mode.
-- Extend `ComputedAvailabilityRequest` with `reschedulingAppointmentId`; server excludes that appointment’s calendar event from overlap input to slot computation; client passes it when in reschedule mode.
-- Add original-inspection slot indicator: pass original time range into slot UI, mark matching slots, style with distinct class (e.g. `appointment-slot-btn--original-inspection`).
-- Optional: Store `googleEventId` (or equivalent) on the appointment or related model when creating calendar events, so the server can reliably exclude by event id.
-
----
-
-## Sessions Breakdown (To Be Refined)
-
-- [ ] ### Session 6.5.1: Rescheduling entry and status transitions
-**Description:** Reschedule action for confirmed appointments; reuse wizard load at step 3; wire status transitions rescheduling → submitted (and cancelled) and any reschedule-specific API or validation. For admins, add step 0 or pre-wizard to choose Start new | Edit quote | Reschedule and (when Edit quote or Reschedule) select appointment from dropdown of non-completed inspections.
-**Tasks:** Define reschedule entry point (admin “Reschedule” button / post-auth customer “My appointment”); ensure transition guards allow confirmed → rescheduling → submitted; reuse handleLoadAppointment and update path; add reschedule-specific submit path if needed. **Admin entry:** Implement step 0 or pre-wizard (admin-only): choice of Start new inspection | Edit quote | Reschedule; dropdown of non-completed inspections (API filtered by status and by admin time-out setting—scheduling/quote within last X days/weeks; exclude cancelled, deleted); dropdown columns Address, Client name, Agent name; on selection set wizard mode and loadedAppointmentId and load appointment when Edit quote or Reschedule. Introduce wizard mode state and drive submit label/action from mode.
-**Success criteria:** User can open a confirmed appointment, land at step 3, change slot, and complete reschedule with valid status transition. Admins see entry choice and appointment dropdown; selection sets mode and loads appointment correctly.
-
-- [ ] ### Session 6.5.2: Availability bypass (reschedulingAppointmentId)
-**Description:** Server and client support for excluding the current appointment’s event from overlap during reschedule.
-**Tasks:** Add `reschedulingAppointmentId` to `ComputedAvailabilityRequest`; in computeAvailabilityData, when set, exclude that appointment’s calendar event from the overlap list passed to computeSlotsForDateRange while keeping it in calendarEvents; client passes reschedulingAppointmentId when loadedAppointmentId is set and intent is reschedule; optionally store googleEventId when creating calendar events for reliable exclusion.
-**Success criteria:** During reschedule, the current appointment’s time and drive buffers do not block slots; calendar still shows the appointment.
-
-- [ ] ### Session 6.5.3: Original-inspection slot UI
-**Description:** Visual indicator for the slot that matches the original inspection time.
-**Tasks:** Compute originalAppointmentTimeRange from loaded wizard state; pass into slot grid (or slot-building composable); mark slots that match/overlap original time; add CSS class and styles (e.g. appointment-slot-btn--original-inspection, “Current time” label or overlay).
-**Success criteria:** The original inspection slot is visually distinct but still selectable.
-
----
-
-## Decision Log
-
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Flow alignment | Same as quote and dev load (load at step 3) | Single mental model; no extra wizard steps; reuse existing code paths. |
-| Bypass mechanism | Exclude event from overlap list on server | Keeps calendar response unchanged; only overlap input is filtered; drive buffers automatically excluded with the event. |
-| Request parameter | `reschedulingAppointmentId` | Clear intent; server can load appointment and resolve calendar event (by id or time window). |
-| Original slot indicator | Client-side comparison with original time range | Server already returns all slots; no need for server to mark “original” slot; client has loaded state. |
-| Admin entry | Step 0 or pre-wizard with dropdown of non-completed inspections | Single place for admins to choose Start new | Edit quote | Reschedule; dropdown filtered by status and by admin time-out (scheduling/quote within last X days/weeks); dropdown columns Address, Client name, Agent name; sets wizard mode and loadedAppointmentId; non-completed = exclude cancelled, deleted. |
-
----
-
-## Related Documents
-
-- Feature Guide: `../feature-appointment-workflow-guide.md`
-- Feature Handoff: `../feature-appointment-workflow-handoff.md`
-- Phase 6.3 Guide: `phase-6.3-guide.md` (transition guards)
-- Phase 6.8 Guide: `phase-6.8-guide.md` (allowedExceptions for override-aware reschedule)
-- useWizardAppointmentManagement: `client/src/composables/booking/useWizardAppointmentManagement.ts`
-- ComputedAvailabilityRequest: `shared/types/availabilityTypes.ts`
-- Slot computation: `server/src/services/slotComputationService.ts`
-- AppointmentSlotGrid: `client/src/components/booking/AppointmentSlotGrid.vue`
+**Learning Goals:**
+- - [To be identified during planning] [To be planned]
+**Learning Goals:**
+- [To be identified during planning]
