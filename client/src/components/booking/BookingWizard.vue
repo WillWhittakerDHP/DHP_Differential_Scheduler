@@ -108,7 +108,8 @@ const { collectAppointmentData } = useAppointmentDataCollection({
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
     selectedLineItemBlocks: wizard.selectedLineItemBlocks,
     selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-    isQuoteMode: wizard.isQuoteMode
+    isQuoteMode: wizard.isQuoteMode,
+    wizardMode: wizard.wizardMode,
   },
   propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
   contactsStepData: stepDataRefs.contactsStepData,
@@ -167,7 +168,7 @@ useThemeMode(wizard)
 const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 
 const toggleQuoteMode = (): void => {
-  wizard.isQuoteMode.value = !wizard.isQuoteMode.value
+  wizard.setWizardMode(wizard.wizardMode.value === 'quote' ? 'new' : 'quote')
 }
 
 // LEARNING: Use wizard submission composable

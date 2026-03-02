@@ -75,6 +75,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         selectedLineItemBlocks,
         selectedUserTypeBlock: wizard.selectedUserTypeBlock.value,
         isQuoteMode: wizard.isQuoteMode.value,
+        wizardMode: wizard.wizardMode.value,
       }
       const quantities = buildBlockQuantities(wizardBlocks)
       const propertyDetails = buildPropertyDetailsForRequest(propertyStep)

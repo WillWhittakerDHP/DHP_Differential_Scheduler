@@ -85,7 +85,7 @@
 
 - [ ] ### Phase 6.5: Rescheduling Flow
 **Description:** Reschedule confirmed appointments using the same flow as quote and dev-mode load: appointment loads at step 3 (Availability); user adjusts and reschedules. The current appointment stays on the calendar but is temporarily excluded from availability constraints so its time and drive buffers do not block slots; the original inspection slot has a distinct UI indicator (e.g. different color or overlay).
-**Sessions:** 2–3 (see phase guide: 6.5.1 entry/transitions, 6.5.2 availability bypass, 6.5.3 original-inspection UI)
+**Sessions:** 3–4 (6.5.1 entry/transitions, 6.5.2 availability bypass, 6.5.3 original-inspection UI, 6.5.4 client-facing links)
 **Dependencies:** Phase 6.3 (transition guards: confirmed → rescheduling → submitted)
 **Success Criteria:**
 - Reschedule action available for confirmed appointments; wizard reuses load-at-step-3 and update path (same as quote/dev load)
@@ -93,6 +93,7 @@
 - Original-inspection slot visually distinct (e.g. `appointment-slot-btn--original-inspection`) but still selectable
 - Wizard mode set to `reschedule` when loading for reschedule; submit shows “Update appointment” and calls update path
 - Admin entry: step 0 or pre-wizard (admin-only) — Start new | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule; selection sets wizard mode and loadedAppointmentId
+- Client-facing entry (Session 6.5.4): URLs with mode and appointmentId for reschedule, quote, and cancel; "Copy quote link" button in app for staff to send quote URL manually; optional template variables only `{rescheduleLink}` and `{cancelLink}` for calendar invites and confirmation email (no quote link in invite template)
 - Status transitions: confirmed → rescheduling → submitted
 **See:** `phases/phase-6.5-guide.md` for implementation details, session breakdown, and relation to Phase 6.8 (allowedExceptions)
 

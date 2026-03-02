@@ -7,6 +7,12 @@ import type { BookingBlockInstance, BookingData } from '@/utils/transformers/glo
 import type { ComputedRef, Ref } from 'vue'
 
 /**
+ * Wizard mode: 'new' (create), 'quote' (quote flow), 'reschedule' (load existing and land at step 3).
+ * Used so submit step can show "Update appointment" and call update path when mode is reschedule.
+ */
+export type WizardMode = 'new' | 'quote' | 'reschedule'
+
+/**
  * WHY: Wizard State Interface
 LEARNING: Defines the structure of wizard state
 P...
@@ -24,6 +30,8 @@ export interface WizardState {
   selectedLineItemBlocks: BookingBlockInstance[]
   /** Whether user only wants a quote (not booking) */
   isQuoteMode: boolean
+  /** Mode for wizard flow: new, quote, or reschedule (load-at-step-3 + update path) */
+  wizardMode: WizardMode
 }
 
 export interface WizardSelectionMethods {
@@ -39,6 +47,8 @@ export interface WizardSelectionMethods {
   toggleLineItemBlock: (block: BookingBlockInstance) => void
   /** Run multiple wizard state updates without cascading clears (e.g. when loading an appointment) */
   batchUpdate: (fn: () => void) => void
+  /** Set wizard mode (new, quote, reschedule). Entry points set 'reschedule' then call handleLoadAppointment(id). */
+  setWizardMode: (mode: WizardMode) => void
 }
 
 export interface WizardComputedProperties {
@@ -64,7 +74,7 @@ export interface WizardComputedProperties {
   accAvailability: ComputedRef<BookingBlockInstance[]>
 }
 
-/** Flat shape provided/injected. */
+/** Flat shape provided/injected. isQuoteMode is derived from wizardMode (wizardMode === 'quote') for backward compatibility. */
 export type UseBookingWizardReturn = {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
@@ -72,6 +82,7 @@ export type UseBookingWizardReturn = {
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
   selectedLineItemBlocks: Ref<BookingBlockInstance[]>
   isQuoteMode: Ref<boolean>
+  wizardMode: Ref<WizardMode>
 } & WizardSelectionMethods & WizardComputedProperties & {
   bookingData: ComputedRef<BookingData | null>
 }
@@ -85,6 +96,7 @@ export interface UseBookingWizardReturnGrouped {
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedLineItemBlocks: Ref<BookingBlockInstance[]>
     isQuoteMode: Ref<boolean>
+    wizardMode: Ref<WizardMode>
   }
   actions: WizardSelectionMethods
   computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }

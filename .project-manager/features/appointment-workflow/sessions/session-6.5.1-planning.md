@@ -120,7 +120,7 @@ Clean — no violations detected.
 
 ## Goal
 
-Deliver **rescheduling entry and status transitions** for Phase 6.5: (1) ensure status `rescheduling` and transitions confirmed → rescheduling → submitted are valid and used; (2) expose a Reschedule action for confirmed appointments that sets wizard mode and loads the appointment at step 3; (3) when in reschedule mode, wizard submit shows "Update appointment" and calls the update path (reuse quote/dev load flow). Admin pre-wizard entry (Start new | Edit quote | Reschedule + dropdown) is in scope as the entry point for admins; client-facing reschedule entry (e.g. from confirmation or email) can be this session or a follow-up depending on product decisions.
+Deliver **rescheduling entry and status transitions** for Phase 6.5: (1) ensure status `rescheduling` and transitions confirmed → rescheduling → submitted are valid and used; (2) expose a Reschedule action for confirmed appointments that sets wizard mode and loads the appointment at step 3; (3) when in reschedule mode, wizard submit shows "Update appointment" and calls the update path (reuse quote/dev load flow). Admin pre-wizard entry (Start new | Edit quote | Reschedule + dropdown) is in scope as the entry point for admins. **Client-facing entry** (links in calendar invites or confirmation/quote emails) is deferred to **Session 6.5.4** — see `sessions/session-6.5.4-planning.md` and `phases/phase-6.5-guide.md`.
 
 ## Files
 
@@ -167,7 +167,7 @@ Itemized tasks to achieve the session goal. Complete in order unless dependencie
   In the confirmation/submit step, when wizard mode is `reschedule`, show primary button label "Update appointment" and call the appointment update (PATCH) path instead of create. Reuse existing update API and success/error handling; ensure no duplicate create and that status transition to `submitted` (or desired end state) is applied.
 
 - [ ] **Task 6.5.1.6 — Verification and docs**  
-  Run lint and typecheck; smoke-test: start reschedule from admin entry and from Reschedule action, change slot, submit; confirm update and that quote/dev load flow is unchanged. Update session guide or handoff with completed tasks and any open follow-ups (e.g. client-facing reschedule entry, 6.5.2 availability bypass).
+  Run lint and typecheck; smoke-test: start reschedule from admin entry and from Reschedule action, change slot, submit; confirm update and that quote/dev load flow is unchanged. Update session guide or handoff with completed tasks and any open follow-ups (e.g. Session 6.5.4 client-facing links, 6.5.2 availability bypass).
 
 ---
 

@@ -28,7 +28,7 @@ function applyWizardState(
   wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
   wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
   wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
-  wizard.isQuoteMode.value = wizardState.isQuoteMode
+  wizard.setWizardMode(wizardState.isQuoteMode ? 'quote' : 'new')
   stepDataRefs.propertyDetailsStepData.value = wizardState.propertyDetails
   stepDataRefs.contactsStepData.value = {
     clientInfo: wizardState.contacts.client,
@@ -127,11 +127,16 @@ export function useWizardAppointmentManagement(
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
 
+      // WHEN: Loading by id (not 'random') — entry point may have set reschedule; ensure we're in reschedule mode for submit step
+      if (appointmentIdOrRandom !== 'random') {
+        wizard.setWizardMode('reschedule')
+      }
+
       // WHY: Since appointment data is already loaded, skip step 2 and go directly to step 3 (Availability)
       // PATTERN: Mark intermediate steps as completed and navigate directly to target step
       completedSteps.value.add(1) // Property Details (step 2)
       activeStep.value = 2
-      
+
       success('Appointment loaded successfully')
       selectedAppointmentId.value = null
     } catch (error) {
@@ -179,8 +184,8 @@ PATTERN...
     wizard.selectedServiceTypeBlocks.value = []
     wizard.selectedPropertyTypeBlocks.value = []
     wizard.selectedOptionTypeBlocks.value = []
-    wizard.isQuoteMode.value = false
-    
+    wizard.setWizardMode('new')
+
     loadedWizardState.value = null
     loadedAppointmentId.value = null
     selectedAppointmentId.value = null

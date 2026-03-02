@@ -2,11 +2,11 @@
  * WHY: Booking Wizard Composable
 LEARNING: Vue composable pattern for managing ...
  */
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { useBooking } from '../useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturnGrouped } from '@/types/wizard'
+import type { UseBookingWizardReturnGrouped, WizardMode } from '@/types/wizard'
 import { useWizardFilteredOptions } from './useWizardFilteredOptions'
 
 /**
@@ -24,11 +24,29 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
 
-  // PATTERN: Use useStorage from VueUse for reactive localStorage binding
-  const isQuoteMode = useStorage<boolean>('booking-wizard-quote-mode', false)
+  // WHY: Single source of truth for wizard flow; only 'new' | 'quote' are persisted; 'reschedule' is session-only
+  const persistedWizardMode = useStorage<WizardMode>('booking-wizard-mode', 'new')
+  const _sessionMode = ref<WizardMode | null>(null)
+  const wizardMode = computed(() => _sessionMode.value ?? persistedWizardMode.value)
+  const isQuoteMode = computed(() => wizardMode.value === 'quote')
+
+  // Optional migration: if user had quote preference under old key, move to new key and remove old key
+  if (typeof localStorage !== 'undefined' && localStorage.getItem('booking-wizard-quote-mode') === 'true') {
+    persistedWizardMode.value = 'quote'
+    localStorage.removeItem('booking-wizard-quote-mode')
+  }
 
   /** When true, selection methods do not clear dependent selections (used by batchUpdate) */
   const _inBatch = ref(false)
+
+  const setWizardMode = (mode: WizardMode): void => {
+    if (mode === 'reschedule') {
+      _sessionMode.value = 'reschedule'
+    } else {
+      _sessionMode.value = null
+      persistedWizardMode.value = mode
+    }
+  }
 
   /**
    * Run multiple wizard state updates without cascading clears.
@@ -137,6 +155,7 @@ LEARNING: Multi-select pattern usin...
       selectedPropertyTypeBlocks,
       selectedLineItemBlocks,
       isQuoteMode,
+      wizardMode,
     },
     actions: {
       selectUserTypeBlock,
@@ -145,6 +164,7 @@ LEARNING: Multi-select pattern usin...
       togglePropertyTypeBlock,
       toggleLineItemBlock,
       batchUpdate,
+      setWizardMode,
     },
     computed: {
       availableUserTypeBlocks,
