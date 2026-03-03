@@ -81,13 +81,19 @@ Phase 6.5: Rescheduling Flow
 
 **Tasks:** [To be planned]
 
+- [x] ### Session 6.5.2: Availability Bypass
+
 **Description:** `reschedulingAppointmentId` in computed-availability request; server excludes that appointment's calendar event from overlap while keeping it in calendarEvents so its time and drive buffers do not block slots.
 
 **Tasks:** [To be planned]
 
+- [ ] ### Session 6.5.3: Original-Inspection UI
+
 **Description:** Original inspection slot visually distinct (e.g. `appointment-slot-btn--original-inspection`) but still selectable.
 
 **Tasks:** [To be planned]
+
+- [ ] ### Session 6.5.4: Client-facing entry — reschedule / cancel / quote links
 
 **Description:** Enable clients to open reschedule, view-quote, or cancel flows via links (URLs with mode and appointmentId). Reschedule and cancel links can be in calendar invites via optional template variables. Quote link is not in the invite template; a **"Copy quote link" button** in the app generates a copyable URL so staff can send it manually.
 **Dependencies:** Session 6.5.1 (wizard mode, load-at-step-3, admin entry).
