@@ -102,11 +102,11 @@ const overlap = useOverlapConstraintsPanel(props.businessControlsState)
               <VTextField
                 :model-value="overlap.state.buffers.buffersDriveToCandidateMinutes"
                 @update:model-value="overlap.handleBuffersDriveToCandidateMinutes"
-                :label="overlap.driveToMinutesLabel"
+                :label="overlap.driveToMinutesLabel.value"
                 type="number"
                 min="0"
                 step="5"
-                :hint="overlap.driveToMinutesHint"
+                :hint="overlap.driveToMinutesHint.value"
                 persistent-hint
                 :rules="[
                   (v: number) => v >= 0 || overlap.UI_STRINGS.validation.bufferTimeMin,
@@ -181,11 +181,11 @@ const overlap = useOverlapConstraintsPanel(props.businessControlsState)
               <VTextField
                 :model-value="overlap.state.buffers.buffersDriveFromCandidateMinutes"
                 @update:model-value="overlap.handleBuffersDriveFromCandidateMinutes"
-                :label="overlap.driveFromMinutesLabel"
+                :label="overlap.driveFromMinutesLabel.value"
                 type="number"
                 min="0"
                 step="5"
-                :hint="overlap.driveFromMinutesHint"
+                :hint="overlap.driveFromMinutesHint.value"
                 persistent-hint
                 :rules="[
                   (v: number) => v >= 0 || overlap.UI_STRINGS.validation.bufferTimeMin,
