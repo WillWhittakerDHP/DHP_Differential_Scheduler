@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T19:40:18.712Z",
+  "generatedAt": "2026-03-04T19:44:17.036Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -6706,7 +6706,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 132,
+      "lineCount": 131,
       "purpose": "Core booking wizard state and navigation types",
       "reuseTier": "feature",
       "tags": [],

@@ -791,10 +791,10 @@ async@87: const handleLoadAppointment = async (
 await@98: appointment = await fetchRandom()
 await@107: appointment = await loadAppointmentById(appointmentIdOrRandom)
 await@126: const wizardState = await transformAppointmentToWizard(appointment, bookingData.value)
-async@166: const handleUpdateAppointment = async (): Promise<void> => {
-await@173: const appointmentData = await collectAppointmentData()
-await@178: await updateAppointment.mutateAsync({
-lifecycle@227: onMounted(() => {
+async@165: const handleUpdateAppointment = async (): Promise<void> => {
+await@172: const appointmentData = await collectAppointmentData()
+await@177: await updateAppointment.mutateAsync({
+lifecycle@226: onMounted(() => {
 ```
 
 ### `client/src/composables/componentEntity/useComponentEntityDomain.ts`
@@ -1621,11 +1621,11 @@ computed@70: const composerName = computed(() => {
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@28: const eventInstancesDisplay = computed(() => {
-computed@33: const eventShapesList = computed(() => ctx.eventShapes.value)
-computed@34: const hasEventInstances = computed(() => {
-computed@38: const isLoading = computed(() => ctx.isLoadingEventInstances.value)
-computed@39: const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
+computed@27: const eventInstancesDisplay = computed(() => {
+computed@32: const eventShapesList = computed(() => ctx.eventShapes.value)
+computed@33: const hasEventInstances = computed(() => {
+computed@37: const isLoading = computed(() => ctx.isLoadingEventInstances.value)
+computed@38: const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
 ```
 
 ### `client/src/composables/admin/useOverlapConstraintsPanel.ts`
@@ -1633,11 +1633,11 @@ computed@39: const templateWarningsUnwrapped = computed(() => ctx.templateWarnin
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@48: const defaultLocationPlaceId = computed(() => state.location.defaultLocationPlaceId)
-computed@49: const driveToMinutesLabel = computed(() =>
-computed@52: const driveToMinutesHint = computed(() =>
-computed@55: const driveFromMinutesLabel = computed(() =>
-computed@58: const driveFromMinutesHint = computed(() =>
+computed@47: const defaultLocationPlaceId = computed(() => state.location.defaultLocationPlaceId)
+computed@48: const driveToMinutesLabel = computed(() =>
+computed@51: const driveToMinutesHint = computed(() =>
+computed@54: const driveFromMinutesLabel = computed(() =>
+computed@57: const driveFromMinutesHint = computed(() =>
 ```
 
 ### `client/src/composables/admin/useRelationshipCollectionData.ts`
@@ -1717,11 +1717,11 @@ map@83: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
 - counts: vueQuery=0, watch=1, computed=1, ref=1, async=0, await=0, dom=0, console=0
 
 ```
-ref@29: const showModalDelayedInner = ref(false)
-timers@30: let openTimeoutId: ReturnType<typeof setTimeout> | null = null
-watch@32: watch(
-timers@40: openTimeoutId = setTimeout(() => {
-computed@51: const showModalDelayed = computed({
+ref@28: const showModalDelayedInner = ref(false)
+timers@29: let openTimeoutId: ReturnType<typeof setTimeout> | null = null
+watch@31: watch(
+timers@39: openTimeoutId = setTimeout(() => {
+computed@50: const showModalDelayed = computed({
 ```
 
 ### `client/src/composables/booking/useWizardDisplay.ts`
@@ -1854,9 +1854,9 @@ watch@74: watch(() => {
 
 ```
 ref@18: // PATTERN: Use ref for single values, ref([]) for arrays
-computed@28: const wizardMode = computed(() => _sessionMode.value ?? persistedWizardMode.value)
-computed@29: const isQuoteMode = computed(() => wizardMode.value === 'quote')
-ref@38: const _inBatch = ref(false)
+computed@27: const wizardMode = computed(() => _sessionMode.value ?? persistedWizardMode.value)
+computed@28: const isQuoteMode = computed(() => wizardMode.value === 'quote')
+ref@37: const _inBatch = ref(false)
 ```
 
 ### `client/src/composables/booking/useInstanceSelectionState.ts`
@@ -1886,10 +1886,10 @@ watch@104: watch(restoreFrom, (data) => {
 - counts: vueQuery=0, watch=1, computed=0, ref=1, async=0, await=0, dom=0, console=0
 
 ```
-ref@33: const propertyTypeSelectWidthPx = ref(MIN_PROPERTY_TYPE_WIDTH_PX)
-watch@35: watch(
-map@38: const labels = list.map((i) => i.name).filter(Boolean) as string[]
-filter@38: const labels = list.map((i) => i.name).filter(Boolean) as string[]
+ref@32: const propertyTypeSelectWidthPx = ref(MIN_PROPERTY_TYPE_WIDTH_PX)
+watch@34: watch(
+map@37: const labels = list.map((i) => i.name).filter(Boolean) as string[]
+filter@37: const labels = list.map((i) => i.name).filter(Boolean) as string[]
 ```
 
 ### `client/src/composables/booking/useWizardStepSync.ts`
@@ -1954,16 +1954,6 @@ async@147: * FIX: Changed from async to sync to prevent race condition - enables
 watch@17: watch(
 async@26: async function handleCreate(): Promise<void> {
 await@29: await ref.handleSave()
-```
-
-### `client/src/composables/admin/useBlockInstanceList.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=2, await=1, dom=0, console=0
-
-```
-async@2: * WHY: Keeps BlockInstanceList.vue thin; moves entityList config and async remove out of SFC (component-logic Tier1).
-async@29: remove: async (id) => {
-await@30: await remove(id)
 ```
 
 ### `client/src/composables/admin/useConditionalFieldVisibility.ts`
@@ -2234,6 +2224,15 @@ computed@161: const computedRef = computed(() => {
 async@21: * Run an async operation with unified busy/error/success handling.
 async@24: export async function withAsyncOperation<T>(
 await@37: const result = await operation()
+```
+
+### `client/src/composables/admin/useBlockInstanceList.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=1, dom=0, console=0
+
+```
+async@28: remove: async (id) => {
+await@29: await remove(id)
 ```
 
 ### `client/src/composables/admin/useBooleanInputClick.ts`

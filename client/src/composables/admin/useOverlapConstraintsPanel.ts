@@ -1,10 +1,8 @@
 /**
+ * WHY: State passed as param (prop from parent) to reduce provide/inject depth (data-flow-health audit).
  */
-import { computed, inject } from 'vue'
-import {
-  BUSINESS_CONTROLS_STATE_KEY,
-  type BusinessControlsState,
-} from '@/views/admin/tabs/businessControlsStateKey'
+import { computed } from 'vue'
+import type { BusinessControlsState } from '@/views/admin/tabs/businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import {
   ENFORCEMENT_OPTIONS,
@@ -35,9 +33,8 @@ export interface UseOverlapConstraintsPanelReturn {
   handleBuffersDriveFromCandidateEnforcement: (v: 'off' | 'flexible' | 'hard') => void
 }
 
-export function useOverlapConstraintsPanel(): UseOverlapConstraintsPanelReturn {
-  const state = inject(BUSINESS_CONTROLS_STATE_KEY) as BusinessControlsState | undefined
-  if (!state) throw new Error('OverlapConstraintsPanel must be used inside BusinessControlsTab')
+/** Requires state param (prop from parent); no inject to satisfy provide-inject-depth. */
+export function useOverlapConstraintsPanel(state: BusinessControlsState): UseOverlapConstraintsPanelReturn {
 
   const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
   const enforcementOptions = ENFORCEMENT_OPTIONS

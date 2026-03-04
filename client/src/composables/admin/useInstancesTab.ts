@@ -164,7 +164,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     reminderOverrides: null,
   }))
 
-  provide(instancesTabContextKey, {
+  const instancesTabContext = {
     blockShapeComposable,
     blockShapeStateControl,
     blockShapeValidCascades,
@@ -201,9 +201,11 @@ export function useInstancesTab(): UseInstancesTabReturn {
     handleDeleteEventInstance,
     eventInstancesContainer,
     eventInstancesPanelsContainer,
-  })
+  }
+  provide(instancesTabContextKey, instancesTabContext)
 
   return {
+    instancesTabContext,
     activeTab,
     sortedBlockShapes: instanceGroupingComposable.sortedBlockShapes,
     blockInstancesCountByShape,

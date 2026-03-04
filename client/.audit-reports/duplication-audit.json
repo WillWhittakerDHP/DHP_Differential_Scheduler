@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T19:43:20.827Z",
+  "generatedAt": "2026-03-04T19:49:23.487Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 716,
+  "fileCount": 715,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -515,32 +515,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-03cc625a46aa",
-      "hash": "03cc625a46aa",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 94,
-          "endLine": 103,
-          "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 17,
-          "endLine": 26,
-          "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-03ecf443188e",
       "hash": "03ecf443188e",
       "uniqueFiles": 2,
@@ -593,58 +567,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-0eec51133848",
-      "hash": "0eec51133848",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 98,
-          "endLine": 107,
-          "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 21,
-          "endLine": 30,
-          "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-15b042726270",
-      "hash": "15b042726270",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 93,
-          "endLine": 102,
-          "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 16,
-          "endLine": 25,
-          "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-2f3ba6277c62",
       "hash": "2f3ba6277c62",
       "uniqueFiles": 2,
@@ -665,32 +587,6 @@
           "endLine": 41,
           "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
           "target": "client/src/types/admin/shapesTab.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-4613f08a0dd9",
-      "hash": "4613f08a0dd9",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 95,
-          "endLine": 104,
-          "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 18,
-          "endLine": 27,
-          "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
         }
       ],
       "score": 22,
@@ -749,58 +645,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-76dd3e40c0ef",
-      "hash": "76dd3e40c0ef",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 96,
-          "endLine": 105,
-          "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 19,
-          "endLine": 28,
-          "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-7bbc40d4cc56",
-      "hash": "7bbc40d4cc56",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 99,
-          "endLine": 108,
-          "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 22,
-          "endLine": 31,
-          "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-8664cd70ff8d",
       "hash": "8664cd70ff8d",
       "uniqueFiles": 2,
@@ -821,32 +665,6 @@
           "endLine": 163,
           "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
           "target": "client/src/composables/admin/useShapesTabCreation.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-87a347e1daf9",
-      "hash": "87a347e1daf9",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 97,
-          "endLine": 106,
-          "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 20,
-          "endLine": 29,
-          "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
         }
       ],
       "score": 22,
@@ -925,32 +743,6 @@
           "endLine": 159,
           "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
           "target": "client/src/composables/admin/useShapesTabCreation.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-bba3eec172a6",
-      "hash": "bba3eec172a6",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 92,
-          "endLine": 101,
-          "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
-          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        },
-        {
-          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-          "startLine": 15,
-          "endLine": 24,
-          "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
-          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
         }
       ],
       "score": 22,

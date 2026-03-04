@@ -1,7 +1,7 @@
 /**
+ * WHY: Prop-based ctx reduces provide/inject depth; inject removed to satisfy bidirectional-data-channel.
  */
-import { computed, inject } from 'vue'
-import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { computed } from 'vue'
 import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
 import type { ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
@@ -17,10 +17,8 @@ export interface UseEventInstancesSectionReturn {
   toggleEventInstanceMetadata: () => void
 }
 
-export function useEventInstancesSection(): UseEventInstancesSectionReturn {
-  const injected = inject(instancesTabContextKey)
-  if (!injected) throw new Error('EventInstancesSection must be used inside InstancesTab')
-  const ctx = injected as InstancesTabContext
+/** Requires ctx param (prop from parent); no inject to avoid provide-inject-depth and bidirectional-data-channel. */
+export function useEventInstancesSection(ctx: InstancesTabContext): UseEventInstancesSectionReturn {
 
   const expandedInstances = ctx.expandedInstances
 
