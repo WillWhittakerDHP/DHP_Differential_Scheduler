@@ -121,7 +121,13 @@
 - Reschedule theme: wizard in reschedule mode shows muted ocean blue/amber palette (stepper, buttons, slots all reflect theme). Switching modes restores correct palette. No regression for new/quote themes.
 - Original-inspection: load appointment for reschedule, go to Availability step, select same date as appointment; the slot matching the current appointment time shows distinct styling (e.g. `appointment-slot-btn--original-inspection`).
 - Slot is still clickable and selectable; selecting it keeps the same time.
-- No regression for new-booking or quote flows (no original-inspection styling).## Notes
+- No regression for new-booking or quote flows (no original-inspection styling).
+
+## Session Workflow
+
+Follow the same workflow as other sessions: use `/session-start 6.5.3` to begin; work one task at a time with checkpoints; use `/session-end 6.5.3` when done. See session template or `session-6.5.1-guide.md` for full workflow (before/during/after session, checkpoints, end-of-session steps).
+
+## Notes
 
 [Session-specific notes and decisions]
 
