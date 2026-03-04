@@ -91,7 +91,7 @@
 **Approach:** Add to EVENT_TEMPLATE_VARIABLES; buildInviteContext with base URL.
 **Checkpoint:** Event template resolves {rescheduleLink} and {cancelLink}.
 
-- [ ] #### Task 6.5.4.6: Verification and docs
+- [x] #### Task 6.5.4.6: Verification and docs
 **Goal:** Smoke-test all session deliverables; update docs.
 **Files:** Session log, handoff.
 **Approach:** Smoke-test links; update session log and handoff.

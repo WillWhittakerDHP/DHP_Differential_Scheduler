@@ -24,6 +24,26 @@
 
 ## Completed Tasks
 
+### Task 6.5.4.6: Task 6.5.4.6 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.5.4.7
+
+
+
+### Task 6.5.4.6: Verification and docs ✅
+**Goal:** Smoke-test session deliverables; update docs.
+
+**Verification checklist (manual smoke-test):**
+- [ ] **Reschedule link:** `/booking?mode=reschedule&appointmentId=<id>` loads wizard at step 3 (Availability)
+- [ ] **Quote link:** `/booking?mode=quote&appointmentId=<id>` loads wizard; Copy quote link replaces Submit on last step
+- [ ] **Cancel link:** `/cancel?appointmentId=<id>` shows confirm flow; PATCH completes
+- [ ] **Wizard persistence:** Go back from Availability → Contacts → Property Details; selections preserved
+- [ ] **Invite template variables (optional):** Event template with `{rescheduleLink}` / `{cancelLink}` resolves when APP_BASE_URL set
+
+**Session deliverables:** Reschedule/quote/cancel links, wizard load-at-step-3, copy quote link, wizard persistence, invite template variables. Manual verification recommended before session-end.
+
 ### Task 6.5.4.5: Task 6.5.4.5 ✅
 **Goal:** Task completed
 
@@ -104,4 +124,11 @@
 
 **Next Task:**
 - 6.5.4.6
+
+
+### Task 6.5.4.6: Task 6.5.4.6 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.5.4.7
 

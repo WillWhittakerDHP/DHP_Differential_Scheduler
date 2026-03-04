@@ -12,12 +12,12 @@
 
 ## Current Status
 
-**Last Completed:** Task 6.5.4.4
-**Next Task:** Task 6.5.4.5 (Invite template variables)
+**Last Completed:** Task 6.5.4.6
+**Next Task:** Session-end
 **Git Branch:** `session-6.5.4-client-facing-entry-reschedule-cancel-quote-links`
 
 ## Next Action
 
-Start Task 6.5.4.5: Invite template variables (optional)
+Run `/session-end 6.5.4` to complete session
 
 <!-- end excerpt session -->
