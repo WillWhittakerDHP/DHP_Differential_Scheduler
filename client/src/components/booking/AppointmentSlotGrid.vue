@@ -96,9 +96,11 @@ const formatSlotTime = (slotData: SlotDisplayItem): string => {
       size="small"
       :class="['appointment-slot-btn', { 
         'appointment-slot-btn--inactive': selectedButtonIndex !== null && selectedButtonIndex !== slotData.buttonIndex,
-        'appointment-slot-btn--busy': !slotData.isAvailable
+        'appointment-slot-btn--busy': !slotData.isAvailable,
+        'appointment-slot-btn--original-inspection': slotData.buttonIndex === originalInspectionButtonIndex
       }]"
       :disabled="loading || !slotData.isAvailable"
+      :title="slotData.buttonIndex === originalInspectionButtonIndex ? 'Current appointment time' : undefined"
       @click="handleAppointmentSlotClick(slotData)"
     >
       <span class="slot-button-content">
