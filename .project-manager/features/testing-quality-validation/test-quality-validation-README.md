@@ -4,7 +4,7 @@
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD
-**Depends On:** BETA_LAUNCH_CHECKLIST.md Phase 3A; Feature 9 (Test Suite Setup) for existing Vitest/Jest infrastructure
+**Depends On:** LAUNCH_CHECKLIST.md Phase 3A; Feature 9 (Test Suite Setup) for existing Vitest/Jest infrastructure
 
 ---
 
@@ -22,7 +22,7 @@ Ensure that tests verify **desired behavior**, not just that code runs without c
 ## Related Documents
 
 - **Feature Guide (full spec):** `feature-test-quality-validation-guide.md`
-- **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 3A
+- **Checklist (todo layer):** `../../../LAUNCH_CHECKLIST.md` — Phase 3A
 - **Test Suite Setup:** `../test-suite-setup/` — Feature 9
 
 ---

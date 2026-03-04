@@ -4,15 +4,15 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-02-26T00:04:07.533Z
+Generated: 2026-03-04T15:30:18.126Z
 
 ## Overview
 
-- Files scanned: **413**
-- Findings: **1**
-- Files with findings: **1**
+- Files scanned: **426**
+- Findings: **3**
+- Files with findings: **2**
 - Phase A (per-file) findings: **0**
-- Phase B (cross-file) findings: **1**
+- Phase B (cross-file) findings: **3**
 
 ## Input Audit Status
 
@@ -41,33 +41,37 @@ Generated: 2026-02-26T00:04:07.533Z
 
 | Rule | Phase | Severity | Count |
 | --- | --- | --- | ---: |
-| orphaned-injection-key | B | P2 | 1 |
+| provide-inject-depth | B | P1 | 2 |
+| bidirectional-data-channel | B | info | 1 |
 
 ## Flow Maps Summary
 
-- Provide sites: **27**
+- Provide sites: **28**
 - Inject sites: **50**
-- Matched pairs: **14**
+- Matched pairs: **15**
 - Unmatched provides: **13**
-- Unmatched injects: **9**
+- Unmatched injects: **8**
 
 ## Repair Waves
 
-- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 1 finding(s)
+- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 3 finding(s)
 - **Wave 2 — Moderate** (affectedFiles 3–5): 0 finding(s)
 - **Wave 3 — Systemic** (affectedFiles ≥ 6): 0 finding(s)
 
-## Top 1 files by score
+## Top 2 files by score
 
 | File | Priority | Score | Affected |
 | --- | --- | ---: | ---: |
-| `client/src/views/admin/tabs/RuleFormDialog.vue` | P2 | 1 | 1 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | P2 | 2 | 2 |
+| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | P2 | 2 | 2 |
 
 ## All findings (first 60)
 
 | File | Line | Rule | Phase | Message | Affected |
 | --- | ---: | --- | --- | --- | ---: |
-| `client/src/views/admin/tabs/RuleFormDialog.vue` | 11 | orphaned-injection-key | B | Inject key 'ruleFormDialogContextKey' has no ma... | 1 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 40 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
 
 ## Notes
 

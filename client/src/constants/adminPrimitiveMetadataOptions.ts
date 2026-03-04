@@ -1,5 +1,4 @@
 /**
- * PATTERN: Option arrays for Admin Primitive Metadata Editor (visibility, layout, color, select mode).
  * WHY: Keeps AdminPrimitiveMetadataEditor.vue under vue-architecture script line limit.
  */
 import { FIELD_LAYOUT } from '@/constants/fieldMetadata'

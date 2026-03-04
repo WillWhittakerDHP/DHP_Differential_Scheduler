@@ -63,8 +63,8 @@
   </VCard>
 </template>
 
+<!-- eslint-disable vue/no-mutating-props -- newUser is a Ref passed by parent for two-way binding -->
 <script setup lang="ts">
-/* eslint-disable vue/no-mutating-props */
 import { computed } from 'vue'
 import type { Ref } from 'vue'
 import type { UserRequest } from '@/types/user'

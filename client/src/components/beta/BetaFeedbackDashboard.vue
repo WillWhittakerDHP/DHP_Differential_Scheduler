@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Admin dashboard for beta feedback: stats, filters, table, detail modal
   WHY: Single place to review and triage wizard feedback
   PATTERN: Stats cards + filter bar + VDataTable + BetaFeedbackDetailModal
 -->

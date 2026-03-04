@@ -13,16 +13,15 @@ import apiClient, {
 } from '@/utils/api'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { InstanceComponent } from '@/types/component'
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { DistributionStrategy, DistributionPreview } from '@/types/component'
+import type { DistributionStrategy } from '@/types/component'
 import type { GlobalRelationship } from '@/types/relationships'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntityDomain } from '@/composables/componentEntity/useComponentEntityDomain'
 import { createRefetchGlobalDataHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import type { UseComponentEntityActionsReturn } from '@/types/componentEntity/componentEntityActions'
-
+import type { UseComponentEntityDomainReturn } from '@/types/componentEntity/componentEntityDomain'
 
 function transformGlobalRelationshipsToInstanceComponents(relationships: GlobalRelationship[]): InstanceComponent[] {
   const instanceComponents: InstanceComponent[] = []
@@ -43,23 +42,11 @@ function transformGlobalRelationshipsToInstanceComponents(relationships: GlobalR
   return instanceComponents
 }
 
-/** Grouped return for composable-health (oversized-return repair). */
+/** Grouped return for composable-health (oversized-return repair). Domain shape from componentEntityDomain. */
 export interface UseComponentEntityReturn<GE extends GlobalEntityKey> {
   data: {
     instanceComponents: ComputedRef<InstanceComponent[]>
-    canBeComposed: (blockInstanceId: GlobalEntityId) => boolean
-    getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]
-    getComponents: (composerId: GlobalEntityId) => InstanceComponent[]
-    isComponent: (entityId: GlobalEntityId) => boolean
-    getComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null
-    getComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null
-    calculateDistributionPreview: (
-      composerId: GlobalEntityId,
-      propertyKey: string,
-      newValue: number,
-      strategy: DistributionStrategy
-    ) => DistributionPreview[]
-  }
+  } & UseComponentEntityDomainReturn<GE>
   actions: {
     createComponent: UseComponentEntityActionsReturn['createComponent']
     addToComponent: UseComponentEntityActionsReturn['addToComponent']

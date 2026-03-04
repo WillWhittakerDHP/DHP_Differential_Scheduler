@@ -3,7 +3,7 @@ import type { AppointmentRequest } from '@/types/appointment'
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { PropertyDetailsStepData } from '@/types/wizard'
+import type { PropertyDetailsStepData, WizardMode } from '@/types/wizard'
 import type { ContactsStepData } from '@/types/wizard'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 
@@ -15,6 +15,7 @@ export interface UseAppointmentDataCollectionParams {
     selectedLineItemBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<{ id: string } | null>
     isQuoteMode: Ref<boolean>
+    wizardMode: Ref<WizardMode>
   }
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null> | null
   contactsStepData: Ref<ContactsStepData | null> | null

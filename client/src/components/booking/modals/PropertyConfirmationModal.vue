@@ -1,31 +1,20 @@
 <!--
-  LEARNING: Property Confirmation Modal Component
   WHY: Allows users to review property details before proceeding to next step
-  PATTERN: VDialog with property details summary, Confirm/Edit buttons
+  PATTERN: Uses RequiredConfirmationModal shell; property summary in body slot; dynamic title (e.g. "Confirm {name} details").
 -->
 <template>
-  <VDialog
+  <RequiredConfirmationModal
     :model-value="modelValue"
+    :title="confirmationTitle"
+    primary-label="Confirm"
+    secondary-label="Edit"
     @update:model-value="updateModelValue"
-    max-width="600"
+    @confirm="handleConfirm"
+    @cancel="handleEdit"
   >
-    <VCard>
-      <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-headline-medium">Confirm Property Details</span>
-        <VBtn
-          icon
-          variant="text"
-          @click="updateModelValue(false)"
-        >
-          <VIcon icon="tabler-x" />
-        </VBtn>
-      </VCardTitle>
-
-      <VCardText class="pa-6">
-        <!-- LEARNING: Property Details Summary -->
-        <!-- WHY: Displays all property information for user review -->
-        <!-- PATTERN: VList with property details -->
-        <VList>
+    <!-- WHY: Displays all property information for user review -->
+    <!-- PATTERN: VList with property details -->
+    <VList>
           <!-- Property Type -->
           <VListSubheader class="text-headline-small mb-2">Property Type</VListSubheader>
           <VListItem v-if="selectedPropertyTypes.length > 0">
@@ -87,27 +76,7 @@
             </VListItemTitle>
           </VListItem>
         </VList>
-      </VCardText>
-
-      <VCardActions class="pa-6">
-        <VSpacer />
-        <VBtn
-          color="secondary"
-          variant="tonal"
-          @click="handleEdit"
-        >
-          Edit
-        </VBtn>
-        <VBtn
-          color="primary"
-          variant="elevated"
-          @click="handleConfirm"
-        >
-          Confirm
-        </VBtn>
-      </VCardActions>
-    </VCard>
-  </VDialog>
+  </RequiredConfirmationModal>
 </template>
 
 <script setup lang="ts">
@@ -115,6 +84,7 @@ import { computed, toRef } from 'vue'
 import { usePropertyTypesLabel } from '@/composables/booking/usePropertyTypesLabel'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import RequiredConfirmationModal from '@/components/booking/modals/RequiredConfirmationModal.vue'
 
 interface Props {
   modelValue: boolean
@@ -133,9 +103,17 @@ const emit = defineEmits<Emits>()
 
 const { propertyTypesLabel } = usePropertyTypesLabel(toRef(props, 'selectedPropertyTypes'))
 
+/** Dynamic title (e.g. "Confirm Report Writing details" or "Confirm Property Details"). */
+const confirmationTitle = computed(() => {
+  const first = props.selectedPropertyTypes[0]
+  const name = first?.name
+  if (name) return `Confirm ${name} details`
+  return 'Confirm Property Details'
+})
+
 /**
- * WHY: Combines address, unit, city, state, and zip code into readable format
-P...
+ * WHY: Combines address, unit, city, state, and zip code into readable format.
+ * Task 6.4.4.2: PropertyConfirmationModal uses RequiredConfirmationModal shell; dynamic title in confirmationTitle.
  */
 const fullAddress = computed(() => {
   const parts: string[] = []

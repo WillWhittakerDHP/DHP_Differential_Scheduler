@@ -272,7 +272,7 @@ const isQuote = wizard.isQuoteMode.value
 
 ---
 
-## Key Learnings
+## Key Takeaways
 
 ### Architecture Insights
 1. **State was already correctly architected** - User type and quote mode were already at wizard level

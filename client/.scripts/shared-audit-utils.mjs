@@ -738,7 +738,7 @@ export function shouldPruneDirectory(dirName) {
  *
  * Same logic is used by workflow command prompts (TEST_CONFIG.enabled in
  * .cursor/commands/testing/utils/test-config.ts) and audit scripts.
- * See BETA_LAUNCH_CHECKLIST Phase 3.0 / 3.0a.
+ * See LAUNCH_CHECKLIST Phase 3.0 / 3.0a.
  *
  * @returns {boolean}
  */

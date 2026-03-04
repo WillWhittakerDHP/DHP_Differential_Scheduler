@@ -1,6 +1,5 @@
 import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 /**
- * PATTERN: Date range, displayed month, appointment duration, and computed availability for booking wizard.
  * WHY: Keeps BookingWizard.vue under vue-architecture script line limit.
  */
 import { ref, computed, provide } from 'vue'
@@ -18,7 +17,7 @@ import type {
 } from '@/types/booking/wizardDateAvailability'
 
 export function useWizardDateAvailability(params: UseWizardDateAvailabilityParams): UseWizardDateAvailabilityReturn {
-  const { stepDataRefs, activeStep } = params
+  const { stepDataRefs, activeStep, currentAppointmentId } = params
   const now = new Date()
   const displayedMonth = ref<DisplayedMonth>({
     year: now.getUTCFullYear(),
@@ -39,6 +38,7 @@ export function useWizardDateAvailability(params: UseWizardDateAvailabilityParam
     propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
     dateRange,
     activeStep,
+    appointmentId: computed(() => currentAppointmentId.value ?? null),
     duration: appointmentDurationRef,
     selectedDate: selectedDateForSlots,
   })

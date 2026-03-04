@@ -1,5 +1,4 @@
 /**
- * PATTERN: Create/duplicate modal state and handlers for Instances tab.
  * WHY: Keeps InstancesTab.vue under vue-architecture limits (script size, function count).
  */
 import { ref } from 'vue'

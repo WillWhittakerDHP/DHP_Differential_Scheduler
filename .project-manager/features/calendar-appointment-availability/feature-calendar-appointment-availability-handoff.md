@@ -55,7 +55,7 @@ Session 3.6.2 complete: Verified all differentialRole work is implemented — mi
 
 **Decisions Made:**
 - Server-side computation over client-side for security and consistency
-- Violation key system (e.g. `range.leadTime`, `overlap.event.direct`, `capacity.daily`) — reusable by Feature 6.7
+- Violation key system (e.g. `range.leadTime`, `overlap.event.direct`, `capacity.daily`) — reusable by Feature 6 Phase 6.8
 - 14-day prefetch strategy balances UX smoothness with API efficiency
 - Orchestrator pattern for complex composable coordination
 

@@ -1,7 +1,6 @@
 /**
  * WHY: Field Component Composable
 
-LEARNING: Vue composable wrapper around fiel...
  */
 import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -11,7 +10,6 @@ import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import { createLogger } from '@/utils/logger'
 import type { UseFieldComponentOptions, UseFieldComponentReturn } from '@/types/admin/fieldComponent'
-
 
 const logger = createLogger('useFieldComponent')
 

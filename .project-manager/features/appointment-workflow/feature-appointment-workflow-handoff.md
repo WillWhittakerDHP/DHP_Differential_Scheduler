@@ -4,37 +4,47 @@
 
 **Tier:** Feature (Tier 0 - Highest Level)
 
-**Last Updated:** 2026-02-27
+**Last Updated:** 2026-03-02
 **Feature Status:** In Progress
-**Next Phase:** Phase 6.4 (Rescheduling Flow)
+**Current Session:** Session 6.4.2 or 6.4.3 (see Next Action)
+**Next Session:** Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid) — after 6.4.2
+**Next Phase:** Phase 6.5 (Rescheduling Flow) — after Phase 6.4 completes
+**Other planned phases (can run in parallel):** Phase 6.10 (Fee Preview & Coupon Visibility) — Sessions 6.10.1 (admin toggle and settings), 6.10.2 (Availability-step fee bar and popover). See [phases/phase-6.10-guide.md](phases/phase-6.10-guide.md). Phase 6.11 (Drive Time Fee Line Item) — Session 6.11.1 (settings, calculation, line item). See [phases/phase-6.11-guide.md](phases/phase-6.11-guide.md).
 
 ---
 
 ## Current Status
 
 **Feature appointment-workflow:** In Progress
-**Last Completed Phase:** Phase 6.3 (Confirmation Routine)
-**Next Phase:** Phase 6.4 (Rescheduling Flow)
+**Current Phase:** Phase 6.4 (Moveable Modal & preClosing Property) — Session 6.4.1 not started
+**Current Session:** Session 6.4.2 / next: 6.4.3
+**Next Action:** Start Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid). See `sessions/session-6.4.3-guide.md`.
+**Next Phase:** Phase 6.5 (Rescheduling Flow)
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-Phase 6.3 (Confirmation Routine) complete across 3 sessions:
-- **Session 6.3.1:** Added confirmation data model (`submitted_at`, `confirmed_at`, `confirmed_by` columns), `VALID_STATUS_TRANSITIONS` state machine, transition validation in `beforeUpdate`, timestamp auto-population in `sanitizeInput`, and transition-aware admin status dropdown.
-- **Session 6.3.2:** Added admin "Confirm" action button with confirmation dialog, `autoConfirmEnabled` business setting with auto-confirm in `afterCreate`, and transition-aware status dropdown filtering via `getValidNextStatuses()`.
-- **Session 6.3.3:** Wired confirm button to actually execute the PATCH (was disabled stub), added success/error snackbar notifications via `useNotification`, created `notificationService.ts` stub with `onStatusChange` hook, documented notification expansion points for Feature 7, and documented the end-to-end confirmation flow.
+- **4 deferred admin panel components addressed (2026-03-02):** BlockInstanceList, ShapesTab, EventInstancesSection, OverlapConstraintsPanel — logic extracted to useBlockInstanceList, useShapesTab, useEventInstancesSection, useOverlapConstraintsPanel; component-logic Tier1 no longer flags these admin SFCs. See `sessions/admin-panel-four-components.md`.
+Phase 6.3 (Confirmation Routine) complete. Phase 6.4 (Moveable Modal & preClosing Property) is the next phase — Session 6.4.1 not started:
+- **Phase 6.3 complete:** Sessions 6.3.1–6.3.3 — confirmation data model, admin confirm action, auto-confirm, notifications.
+- **Phase 6.4 (Not Started):** Moveable Modal Refinement & `preClosing` Property — add `preClosing` boolean to block_instances, consolidate differential into one canonical derivation, gate modal on preClosing services, soften modal UX, re-enable the disabled MoveablePartsModal.
 
-**What you need to start next phase:**
+**What you need to start Phase 6.4 / Session 6.4.1:**
 - Transition guards are established — `VALID_STATUS_TRANSITIONS` in `appointmentConstants.ts` is the single source of truth
 - The notification service observer pattern (`notificationService.onStatusChange`) fires on all status transitions — extend for rescheduling notifications
 - `confirmed_by` is `null` until Feature 7 provides `req.user`
 - Auto-confirm is a runtime business setting, not a code flag
+- MoveablePartsModal exists but is disabled (see lines 9–16 of `MoveablePartsModal.vue`)
+- `differential` is a `TernaryBoolean` string on block instances — Session 6.4.1 consolidates into one canonical derivation
 
 **Plan Changes Affecting Downstream Features:**
-- Phase 6.4 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
-- Phase 6.7 (Admin Force-Create) will use the same transition validation system
+- Phase 6.5 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
+- **Rescheduling flow (Phase 6.5):** Same as quote and dev load — appointment loads at step 3; user adjusts and reschedules. Implement: (1) `reschedulingAppointmentId` in computed-availability request so the server excludes that appointment’s calendar event from overlap (keeps it on calendar but unblocks its time and drive buffers); (2) original-inspection slot UI indicator (e.g. class `appointment-slot-btn--original-inspection` or overlay) so the current time is visually distinct but selectable. See `phases/phase-6.5-guide.md`.
+- **Block-level `agentPermissions`:** Add `agent_permissions` (TernaryBoolean) to block_instances — full stack (migration, model, client types, transformer). State for tooltips and permissions is (wizard mode, user role, block.agentPermissions); admins get override.
+- **Admin entry (Phase 6.5):** Step 0 or pre-wizard for admins: choose Start new inspection | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule (filtered by status and by admin-configured time-out: scheduling/quote within last X days/weeks); dropdown shows Address, Client name, Agent name per row; sets wizard mode and loadedAppointmentId.
+- Phase 6.8 (Admin Force-Create) will use the same transition validation system; reschedule with overrides adds `allowedExceptions` on top of Phase 6.5’s event exclusion
 - Feature 7 notification expansion points are documented in `server/docs/NOTIFICATION_ARCHITECTURE.md`
 
 ---
@@ -42,6 +52,7 @@ Phase 6.3 (Confirmation Routine) complete across 3 sessions:
 ## Feature Summary
 
 **Phases Completed:** 6.1 (Status Workflow & UI), 6.2 (Held & Override Stubs), 6.3 (Confirmation Routine)
+**Phases In Progress:** 6.4 (Moveable Modal & preClosing Property — Session 6.4.1 not started)
 **Key Accomplishments:**
 - 8-value appointment status ENUM with state machine transition guards
 - Confirmation data model with timestamps and actor tracking
@@ -118,8 +129,8 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
    - Remove the `disabled` state and "Override requires admin authentication (Feature 7)" tooltip from the Override button in the admin appointments table.
    - Wire the button to call `applyOverrideConstraints(id, constraints)` when the user has admin role.
 
-9. **Phase 6.7 integration**
-   - Phase 6.7 (Admin Force-Create & Constraint Overrides) builds on this stub. The `override_constraints` JSONB column and `ALLOWED_OVERRIDE_CONSTRAINTS` constant provide the schema foundation. Phase 6.7 adds the constraint engine integration, per-constraint UI toggles, and reason tracking.
+9. **Phase 6.8 integration**
+   - Phase 6.8 (Admin Force-Create & Constraint Overrides) builds on this stub. The `override_constraints` JSONB column and `ALLOWED_OVERRIDE_CONSTRAINTS` constant provide the schema foundation. Phase 6.8 adds the constraint engine integration, per-constraint UI toggles, and reason tracking.
 
 10. **Documentation**
     - Update `server/docs/SECURITY_STUBS.md` when stubs are replaced (mark requireRole and override-constraints as enacted).
@@ -131,6 +142,16 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 - Feature Guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
 - Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
 - Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
+- Phase 6.4 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.4-guide.md`
+- Phase 6.5 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
+- Session 6.4.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.4.1-guide.md`
+- Session 6.4.3 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.4.3-guide.md`
+- Session 6.4.3 Handoff: `.project-manager/features/appointment-workflow/sessions/session-6.4.3-handoff.md`
+- Phase 6.10 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.10-guide.md`
+- Session 6.10.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.10.1-guide.md`
+- Session 6.10.2 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.10.2-guide.md`
+- Phase 6.11 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- Session 6.11.1 Guide: `.project-manager/features/appointment-workflow/sessions/session-6.11.1-guide.md`
 - Notification Architecture: `server/docs/NOTIFICATION_ARCHITECTURE.md`
 - Security Stubs: `server/docs/SECURITY_STUBS.md`
 - Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`

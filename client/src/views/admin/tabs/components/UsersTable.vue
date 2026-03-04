@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Users Data Table Component
   WHY: Provides data table interface for managing users with inline editing
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
@@ -256,4 +255,3 @@ const headers = [
   padding: 1rem 0;
 }
 </style>
-

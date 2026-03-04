@@ -1,12 +1,10 @@
 <!--
-  LEARNING: RelationshipCollection component - generic collection component for parts, annotations, events
   WHY: Unified component pattern for all relationship collections
   PATTERN: Generic rendering of EntityCard with collectionType prop for customization
 -->
 <template>
   <div v-if="shouldShow && parentEntity" :class="collectionClass">
     <!--
-      LEARNING: Bulk Edit Modal (optional, only for parts)
       WHY: Modal for bulk editing entities - only parts collection supports this currently
       PATTERN: Conditional rendering based on collectionType and bulkEditMode availability
     -->
@@ -22,7 +20,6 @@
     />
     
     <!--
-      LEARNING: Render existing children for each valid shape
       WHY: Shows all valid shapes with EntityCard for both existing and new children
       PATTERN: Loop through validShapes, use EntityCard with appropriate props
       FIX: VExpansionPanels must be OUTSIDE v-for to avoid group context issues
@@ -70,7 +67,6 @@
           </template>
           
           <template #text>
-            <!-- LEARNING: EntityCard with isNew=true for creation -->
             <!-- WHY: Same component handles both create and edit - config drives fields -->
             <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
             <EntityCard
@@ -88,7 +84,6 @@
     </VExpansionPanels>
     
     <!--
-      LEARNING: Empty state when no valid shapes exist
       WHY: Provides feedback when parent type has no valid options configured
       PATTERN: Conditional rendering with v-if
     -->
@@ -138,10 +133,10 @@ const props = withDefaults(defineProps<Props>(), {
   collectionType: 'parts'
 })
 
-
 const fieldConfig = useRelationshipCollectionField(props.fieldContext)
 
-const { parentEntity, childEntityKey, relationshipKey: _relationshipKey } = fieldConfig
+const { parentContext, childEntityKey, relationshipKey: _relationshipKey } = fieldConfig
+const parentEntity = parentContext.parentEntity
 
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType

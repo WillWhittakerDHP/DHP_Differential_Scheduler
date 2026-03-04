@@ -1,7 +1,6 @@
 /**
  * Shared Role Constants
  *
- * LEARNING: Single source of truth for user/attendee role strings used by client and server
  * WHY: Eliminates duplication between client/src/constants/attendeeRoles.ts and
  *      server/src/constants/userRoles.ts; enables type-safe role matching
  * PATTERN: Exported const values for attendee (display) and user (DB/API) role strings

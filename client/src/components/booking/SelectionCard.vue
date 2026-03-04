@@ -46,13 +46,11 @@ const isExpandedState = computed(() => {
   return props.isExpanded !== undefined ? props.isExpanded : localExpanded.value
 })
 
-// LEARNING: Use selection card config composable
 // PATTERN: Composable provides config with defaults
 const { configWithDefaults } = useSelectionCardConfig({
   config: computed(() => props.config)
 })
 
-// LEARNING: Use selection card state composable
 // PATTERN: Composable provides selection state management
 const {
   activeStatePlugin,
@@ -66,8 +64,6 @@ const {
   }
 })
 
-
-// LEARNING: Use selection card styles composable
 // PATTERN: Composable provides computed class strings
 const {
   cardClasses,
@@ -78,7 +74,6 @@ const {
   isSelected
 })
 
-// LEARNING: Use selection card component composable
 // PATTERN: Composable provides component name and props
 const {
   selectionComponentName,
@@ -109,7 +104,6 @@ const {
   hasChildren
 } = selectionCardComposable
 
-// LEARNING: Use selection card handlers composable
 // PATTERN: Composable provides handler functions (includes watch for auto-expand when selected)
 const {
   handleSelection,
@@ -138,7 +132,6 @@ const handleNumberUpdate = (value: string | number | null) => {
 <template>
   <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configurability -->
   <div class="selection-card-wrapper">
-    <!-- LEARNING: Parent Card with dynamic selection component -->
     <!-- WHY: Selection component is rendered dynamically based on config -->
     <!-- PATTERN: VLabel wraps card content, selection component rendered inside -->
       <VLabel
@@ -146,7 +139,6 @@ const handleNumberUpdate = (value: string | number | null) => {
         :style="{ minHeight: configWithDefaults.appearance.minHeight }"
         @click="handleParentClick"
       >
-      <!-- LEARNING: Dynamic selection component -->
       <!-- WHY: Allows VRadio, VCheckbox, or custom components based on config -->
       <!-- PATTERN: Use component :is with computed component name and props -->
       <component
@@ -182,7 +174,6 @@ const handleNumberUpdate = (value: string | number | null) => {
 
         <slot :item="item" />
         
-        <!-- LEARNING: Number input for allowMultiple items -->
         <!-- WHY: When allowMultiple is true, show number input to specify quantity -->
         <!-- PATTERN: Conditional rendering based on item.allowMultiple, only when selected -->
         <VTextField
@@ -198,7 +189,6 @@ const handleNumberUpdate = (value: string | number | null) => {
           @click.stop
         />
         
-        <!-- LEARNING: Dependent instance options rendered INSIDE card border -->
         <!-- WHY: Checkbox list appears within the card, not outside -->
         <!-- PATTERN: Render DependentInstanceCheckboxList when expanded and has children -->
         <DependentInstanceCheckboxList
@@ -213,4 +203,3 @@ const handleNumberUpdate = (value: string | number | null) => {
 </template>
 
 <style scoped lang="scss" src="./SelectionCard.scss"></style>
-

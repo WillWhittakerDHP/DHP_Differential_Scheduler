@@ -19,25 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current transformer patterns (appointmentToWizardTransformer)
-- Understand appointment data collection (collectAppointmentData)
-- Understand duration calculation from block instances
-- Review accumulation patterns for calculations
-
-**During Session:**
-- Learn how to transform array data in transformers
-- Learn how to extract IDs from arrays for API requests
-- Learn how to simplify accumulation with arrays
-- Learn how to update duration calculations for multiple selections
-
-**After Session:**
-- Understand array transformation patterns
-- Understand ID extraction patterns for API
-- Understand simplified accumulation patterns
-
 ---
 
 ## Objectives
@@ -234,4 +215,3 @@
 ---
 
 **Next Sub-Session:** Session 1.3.9.7 - Testing and Validation
-

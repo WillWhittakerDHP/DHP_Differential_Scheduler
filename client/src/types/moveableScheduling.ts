@@ -11,6 +11,8 @@ export interface MoveableSchedulingOptions {
   innerBoundary: string           // ISO datetime - end of onsite work
   outerBoundary: string           // ISO datetime - contingency deadline
   moveableDuration: number        // minutes
+  /** Name of the moveable event/part shape used for UI labels (e.g., "Report Writing"). */
+  partShapeName?: string
   availableSlots: MoveableSlot[]
   earliestCompletion: string      // ISO datetime
   selectedSlotIndex: number | null
@@ -19,4 +21,8 @@ export interface MoveableSchedulingOptions {
 export interface MoveableSlot extends SlotTimeBounds {
   dayLabel: string          // "Today", "Tomorrow", "Jan 16"
   timeLabel: string         // "2:00 PM - 3:30 PM"
+  /** When set from server/computed slots; omitted when no constraint data (defaults to available). */
+  isAvailable?: boolean
+  /** Constraint violation codes when isAvailable is false (e.g. from ComputedSlot.violations). */
+  violations?: string[]
 }

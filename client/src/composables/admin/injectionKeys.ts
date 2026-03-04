@@ -54,7 +54,6 @@ export interface InstancesTabContext {
   handleDeleteBlockInstance: (id: string) => void
   handleDuplicateClick: (entity: GlobalEntity<GlobalEntityKey>) => void
   shapeCascadeColor: (blockShape: { id: string }) => 'info' | 'default'
-  // Event instances section
   eventInstanceMetadataModalOpen: Ref<boolean>
   eventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
   eventInstancesList: Ref<GlobalEntity<'eventInstance'>[]>

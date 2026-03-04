@@ -1,5 +1,4 @@
 /**
- * PATTERN: Drag-and-drop setup for metadata field ordering panels.
  * WHY: Keeps AdminPrimitiveMetadataEditor.vue under vue-architecture script line limit.
  */
 import { onMounted, onBeforeUnmount, nextTick } from 'vue'

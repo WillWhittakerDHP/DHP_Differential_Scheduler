@@ -1,6 +1,5 @@
 /**
  * WHY: useRelationshipCollection Composable
-LEARNING: Generic collection-level ...
  */
 import { computed, ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -19,9 +18,6 @@ import type { RelationshipCollectionModel, UseRelationshipCollectionOptions } fr
 
 const logger = createLogger('useRelationshipCollection')
 
-/**
-LEARNING: Generic collection-level composable ...
- */
 export function useRelationshipCollection(
   options: UseRelationshipCollectionOptions
 ): RelationshipCollectionModel {
@@ -35,11 +31,9 @@ export function useRelationshipCollection(
     childEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentEntity: parentEntityFromField,
-    parentTypeEntityKey,
-    parentTypeRef
-    // LEARNING: shapeRefProperty removed - not used in this composable
+    parentContext,
   } = fieldConfig
+  const { parentEntity: parentEntityFromField, parentTypeEntityKey, parentTypeRef } = parentContext
   
   // WHY: Pattern: partInstance → partShape, annotationInstance → annotationShape, eventInstance → eventShape
   // PATTERN: Replace 'Instance' with 'Shape' in entity key

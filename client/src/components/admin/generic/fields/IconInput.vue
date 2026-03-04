@@ -6,7 +6,6 @@
     :show-label="false"
     :is-disabled="fieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: When readonly, display as icon with text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - icon display is clearer -->
     <!-- PATTERN: Conditional rendering based on readOnly state -->
     <div
@@ -24,7 +23,6 @@
       <span>{{ iconValue || fieldContext.state.displayConfig.placeholder || 'No icon selected' }}</span>
     </div>
     
-    <!-- LEARNING: Editable icon input with preview and picker button -->
     <!-- WHY: Users need to see selected icon and easily open picker -->
     <!-- PATTERN: Input field with icon preview and button to open dialog -->
     <div
@@ -121,7 +119,6 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
 
 const { fieldContext } = props
 
-// LEARNING: Use unified field value composable
 const fieldValue = useFieldValue(fieldContext)
 
 const iconValue = computed((): string => {
@@ -134,7 +131,6 @@ const displayValue = computed(() => {
   return iconValue.value.replace('tabler-', '')
 })
 
-// LEARNING: Dialog visibility state
 // PATTERN: ref for boolean dialog state
 const showPicker = ref(false)
 
@@ -218,4 +214,3 @@ const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
   font-style: italic;
 }
 </style>
-

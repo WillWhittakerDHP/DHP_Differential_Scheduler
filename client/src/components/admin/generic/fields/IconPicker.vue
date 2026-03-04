@@ -113,7 +113,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Use icon picker state composable for state management
 // PATTERN: Composable handles icon selection state and prop syncing
 const iconPickerState = useIconPickerState({
   dialogOpen: computed(() => props.modelValue),
@@ -203,4 +202,3 @@ const handleClose = () => {
   text-overflow: ellipsis;
 }
 </style>
-

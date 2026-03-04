@@ -3,7 +3,7 @@
 **Feature:** Test Quality Validation
 **Status:** 📋 Planning
 **Created:** 2026-02-18
-**Source:** BETA_LAUNCH_CHECKLIST.md Phase 3A
+**Source:** LAUNCH_CHECKLIST.md Phase 3A
 
 ---
 
@@ -45,9 +45,9 @@ Relationship:
 
 - [ ] **3A.1** Install Stryker Mutator with Vitest plugin (`client/`): `npm install --save-dev @stryker-mutator/core @stryker-mutator/vitest-runner @stryker-mutator/typescript-checker`
 
-- [ ] **3A.2** Create `client/stryker.config.mjs` — testRunner: 'vitest', checkers: ['typescript'], tsconfigFile: 'tsconfig.json', mutate: composables/booking, useBookingWizard, utils/transformers, utils/booking (exclude __tests__, *.test.ts, *.spec.ts, mocks, factories), reporters: html, clear-text, progress, htmlReporter fileName: '.mutation-reports/mutation-report.html', thresholds: high 80, low 60, break 50, concurrency: 2, timeoutMS: 30000, timeoutFactor: 1.5. (Full config: BETA_LAUNCH_CHECKLIST.md Phase 3A.2.)
+- [ ] **3A.2** Create `client/stryker.config.mjs` — testRunner: 'vitest', checkers: ['typescript'], tsconfigFile: 'tsconfig.json', mutate: composables/booking, useBookingWizard, utils/transformers, utils/booking (exclude __tests__, *.test.ts, *.spec.ts, mocks, factories), reporters: html, clear-text, progress, htmlReporter fileName: '.mutation-reports/mutation-report.html', thresholds: high 80, low 60, break 50, concurrency: 2, timeoutMS: 30000, timeoutFactor: 1.5. (Full config: LAUNCH_CHECKLIST.md Phase 3A.2.)
 
-- [ ] **3A.3** Add npm scripts to `client/package.json`: `test:mutate`, `test:mutate:booking`, `test:mutate:transformers`, `test:mutate:utils`. (Exact script block: BETA_LAUNCH_CHECKLIST.md Phase 3A.3.)
+- [ ] **3A.3** Add npm scripts to `client/package.json`: `test:mutate`, `test:mutate:booking`, `test:mutate:transformers`, `test:mutate:utils`. (Exact script block: LAUNCH_CHECKLIST.md Phase 3A.3.)
 
 - [ ] **3A.4** Run initial Stryker on transformer primitives: `npx stryker run --mutate 'src/utils/transformers/transformerPrimitives.ts'`. Use report to identify killed vs survived vs no-coverage; fix surviving mutants by strengthening assertions (not by changing source).
 
@@ -65,29 +65,29 @@ Relationship:
 
 - [ ] **3A.9** Install fast-check: `cd client && npm install --save-dev fast-check`. Use inside Vitest `it()` blocks.
 
-- [ ] **3A.10** Write property-based tests for transformer primitives. Create `client/src/utils/transformers/__tests__/transformerPrimitives.property.test.ts`. Properties: safeString always returns string, idempotent, preserves valid strings, returns '' for non-strings; safeNumber always finite number, preserves finite numbers, rejects Infinity/NaN; safeBoolean always boolean, preserves true/false; safeArray always array, new reference for array input, preserves length; safeId string or null, null for whitespace, trims valid IDs; normalizePrimitiveForSave never null, preserves booleans, trims strings. (Full test code: BETA_LAUNCH_CHECKLIST.md Phase 3A.10.)
+- [ ] **3A.10** Write property-based tests for transformer primitives. Create `client/src/utils/transformers/__tests__/transformerPrimitives.property.test.ts`. Properties: safeString always returns string, idempotent, preserves valid strings, returns '' for non-strings; safeNumber always finite number, preserves finite numbers, rejects Infinity/NaN; safeBoolean always boolean, preserves true/false; safeArray always array, new reference for array input, preserves length; safeId string or null, null for whitespace, trims valid IDs; normalizePrimitiveForSave never null, preserves booleans, trims strings. (Full test code: LAUNCH_CHECKLIST.md Phase 3A.10.)
 
-- [ ] **3A.11** Write property-based tests for booking utilities. Create `client/src/utils/booking/__tests__/bookingUtils.property.test.ts`. Properties: total fee never negative; fee with zero quantity is zero; rounded duration >= original; rounded duration is multiple of rounding interval. Adapt imports and function names to actual code. (Full template: BETA_LAUNCH_CHECKLIST.md Phase 3A.11.)
+- [ ] **3A.11** Write property-based tests for booking utilities. Create `client/src/utils/booking/__tests__/bookingUtils.property.test.ts`. Properties: total fee never negative; fee with zero quantity is zero; rounded duration >= original; rounded duration is multiple of rounding interval. Adapt imports and function names to actual code. (Full template: LAUNCH_CHECKLIST.md Phase 3A.11.)
 
 ---
 
 ## Phase 12.3: Behavioral Alignment Audit
 
-- [ ] **3A.12** Create `client/.scripts/test-alignment-audit.mjs`. Script: find all *.test.ts / *.spec.ts under src; for each file analyze: it-block names (behavioral vs structural), hasNegativeAssertions, hasSpecificValues, hasStructureOnlyChecks, hasDescriptiveHeader, hasPreconditions; compute alignmentScore (0–6), grade A/B/C/D; output `.audit-reports/test-alignment-audit.json` and `test-alignment-audit-summary.md`. (Full script: BETA_LAUNCH_CHECKLIST.md Phase 3A.12.)
+- [ ] **3A.12** Create `client/.scripts/test-alignment-audit.mjs`. Script: find all *.test.ts / *.spec.ts under src; for each file analyze: it-block names (behavioral vs structural), hasNegativeAssertions, hasSpecificValues, hasStructureOnlyChecks, hasDescriptiveHeader, hasPreconditions; compute alignmentScore (0–6), grade A/B/C/D; output `.audit-reports/test-alignment-audit.json` and `test-alignment-audit-summary.md`. (Full script: LAUNCH_CHECKLIST.md Phase 3A.12.)
 
 - [ ] **3A.13** Add scripts to `client/package.json`: `audit:test-alignment`, `audit:test-alignment:summary`. Register in `audit:all` pipeline.
 
 - [ ] **3A.14** Run audit: `npm run audit:test-alignment`. Review Grade D files first; strengthen assertions, add negative checks, rename tests to describe behavior; re-run to confirm grade improvement.
 
-- [ ] **3A.15** Strengthen Grade D and C test files. Apply fixes: (1) Structure-only → behavioral (precondition + action + postcondition, specific values and .not); (2) Add negative assertions to prove exclusion/filtering; (3) Add precondition assertions for starting state. (Before/after examples: BETA_LAUNCH_CHECKLIST.md Phase 3A.15.)
+- [ ] **3A.15** Strengthen Grade D and C test files. Apply fixes: (1) Structure-only → behavioral (precondition + action + postcondition, specific values and .not); (2) Add negative assertions to prove exclusion/filtering; (3) Add precondition assertions for starting state. (Before/after examples: LAUNCH_CHECKLIST.md Phase 3A.15.)
 
 ---
 
 ## Phase 12.4: CI Integration & Dashboard
 
-- [ ] **3A.16** Add mutation testing job to `.github/workflows/ci.yml`. Job name: mutation-test, needs: test-client, if: pull_request; steps: checkout, setup-node, npm ci (client), npx stryker run; upload artifact `.mutation-reports/` retention 14 days. Start as non-blocking; promote to required once scores stabilize. (Full YAML: BETA_LAUNCH_CHECKLIST.md Phase 3A.16.)
+- [ ] **3A.16** Add mutation testing job to `.github/workflows/ci.yml`. Job name: mutation-test, needs: test-client, if: pull_request; steps: checkout, setup-node, npm ci (client), npx stryker run; upload artifact `.mutation-reports/` retention 14 days. Start as non-blocking; promote to required once scores stabilize. (Full YAML: LAUNCH_CHECKLIST.md Phase 3A.16.)
 
-- [ ] **3A.17** Create `client/.scripts/test-quality-dashboard.mjs`. Run behavioral alignment audit; read alignment report and print summary; check for Stryker report; print recommendations (fix Grade D, target mutation >70%, add property tests). Add script `test:quality` to client/package.json. (Full script: BETA_LAUNCH_CHECKLIST.md Phase 3A.17.)
+- [ ] **3A.17** Create `client/.scripts/test-quality-dashboard.mjs`. Run behavioral alignment audit; read alignment report and print summary; check for Stryker report; print recommendations (fix Grade D, target mutation >70%, add property tests). Add script `test:quality` to client/package.json. (Full script: LAUNCH_CHECKLIST.md Phase 3A.17.)
 
 ---
 
@@ -102,14 +102,6 @@ Relationship:
 | Alignment audit | Custom script | Matches existing `.scripts/` audit pattern |
 
 ---
-
-## Learning Checkpoint
-
-- **What:** Difference between code coverage and mutation score?
-- **Why:** Why can 100% coverage still miss bugs?
-- **How:** How does Stryker choose mutations? How does fast-check generate inputs?
-- **When:** When property-based vs example-based tests?
-- **Where:** Where in CI should mutation testing run?
 
 ---
 

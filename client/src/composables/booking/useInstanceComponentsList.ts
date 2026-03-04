@@ -44,7 +44,6 @@ WHY: Avoids code dup...
 
   /**
 Enhance services with component data for composable blocks
-LEARNING:...
    */
   const servicesWithComponents = computed<SelectionCardItem[]>(() => {
     return mapServicesWithComponents({

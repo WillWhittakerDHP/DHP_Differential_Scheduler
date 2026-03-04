@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move .map() out of SelectInputs.
  */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { SelectGroup } from '@/types/entity/selectOptions'

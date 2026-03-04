@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move async handleSave out of MetadataEditModal.
  */
 import type { Ref } from 'vue'
 

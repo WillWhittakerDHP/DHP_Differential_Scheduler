@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Main Admin Panel with Tabbed Interface
   WHY: Provides unified admin interface with tab navigation for Instances and Types management
   PATTERN: VTabs + VWindow pattern for tab navigation in Vuexy
   COMPARISON: React uses Ant Design Tabs. Vue uses Vuetify VTabs with VWindow
@@ -21,7 +20,6 @@ PERFORMANC...
 useAdmin()
 
 /**
- * LEARNING: Reactive tab state management
  */
 const currentTab = ref('instances')
 
@@ -31,7 +29,6 @@ provide('adminCurrentTab', currentTab)
 <template>
   <div class="admin-panel">
     <!--
-      LEARNING: VTabs component for tab navigation
       WHY: Provides tabbed interface with Vuexy styling
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
@@ -43,12 +40,10 @@ provide('adminCurrentTab', currentTab)
     </VTabs>
     
     <!--
-      LEARNING: VWindow component for tab content container
       WHY: Manages which tab content is visible based on currentTab value
       PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
     -->
     <!--
-      LEARNING: Add explicit keys to VWindowItem components
       WHY: Helps Vue track components during transitions and prevents undefined VNode errors
       PATTERN: Use stable keys matching the value prop for proper component tracking
     -->
@@ -74,5 +69,3 @@ provide('adminCurrentTab', currentTab)
   padding: 1rem;
 }
 </style>
-
-

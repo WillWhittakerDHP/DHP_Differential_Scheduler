@@ -46,7 +46,6 @@ export function useResponsiveGrid(
   
   const display = useDisplay()
   const isSingleColumn = computed(() => {
-    // WHY: Vuetify useDisplay is SSR-safe and reactive; no direct viewport/browser API access
     const isMobileViewport = display.mobile.value || display.width.value < 600
     return isMobileViewport && buttonGridColumns.value <= 2
   })

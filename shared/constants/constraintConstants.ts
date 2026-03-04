@@ -1,7 +1,6 @@
 /**
  * Shared Constraint Type Constants
  * 
- * LEARNING: Single source of truth for constraint type constants shared between client and server
  * WHY: Prevents duplication and ensures consistency across codebase
  * PATTERN: Shared constants alongside shared types
  * 
@@ -15,7 +14,6 @@ import type { RangeConstraintType } from '../types/availabilityTypes.js'
 
 /**
  * Range constraint type values
- * LEARNING: Constants matching RangeConstraintType union type
  * WHY: Allows using constants in switch statements instead of string literals
  * PATTERN: Export constants that match the type definition
  */
@@ -27,7 +25,6 @@ export const RANGE_CONSTRAINT_TYPES = {
 
 /**
  * Time basis type values for capacity filters
- * LEARNING: Constants for capacity filter time basis types
  * WHY: Allows using constants in switch statements instead of string literals
  * PATTERN: Export constants matching the type definition
  */

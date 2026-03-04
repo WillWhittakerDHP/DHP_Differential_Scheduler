@@ -96,3 +96,39 @@ export function createValidateInputConfig(config: MetadataValidatorConfig): (ren
     return { valid: true }
   }
 }
+
+/** Constants shape passed by admin-metadata and admin-primitive-metadata validators. */
+export interface MetadataValidatorConstants {
+  VALID_ENTITY_TYPES: readonly string[]
+  REQUIRED_FIELDS: { CREATE_UPDATE: readonly string[] }
+  ERROR_MESSAGES: {
+    INVALID_ENTITY_TYPE: string
+    MISSING_REQUIRED_FIELDS: string
+    INVALID_RENDER_AS?: string
+    MISSING_INPUT_CONFIG: string
+  }
+  RENDER_AS_REQUIRING_INPUT_CONFIG: readonly string[]
+}
+
+const MISSING_INPUT_CONFIG_TEMPLATE = (renderAs: string) =>
+  `inputConfig is required when renderAs is "${renderAs}". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`
+
+/**
+ * Build config and create all four validators from tier constants. Single place for validator wiring
+ * so admin-metadata and admin-primitive-metadata do not duplicate config/export blocks.
+ */
+export function createMetadataValidators(constants: MetadataValidatorConstants) {
+  const config: MetadataValidatorConfig = {
+    validEntityTypes: constants.VALID_ENTITY_TYPES,
+    requiredFields: constants.REQUIRED_FIELDS.CREATE_UPDATE,
+    errorMessages: constants.ERROR_MESSAGES,
+    renderAsRequiringInputConfig: constants.RENDER_AS_REQUIRING_INPUT_CONFIG,
+    missingInputConfigMessage: MISSING_INPUT_CONFIG_TEMPLATE,
+  }
+  return {
+    validateEntityType: createValidateEntityType(config),
+    validateRequiredFields: createValidateRequiredFields(config),
+    validateRenderAs: createValidateRenderAs(config)!,
+    validateInputConfig: createValidateInputConfig(config),
+  }
+}

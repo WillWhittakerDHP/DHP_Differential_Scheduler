@@ -51,7 +51,6 @@ const props = withDefaults(defineProps<Props>(), {
   isDisabled: false
 })
 
-// LEARNING: Computed properties provide reactive derived state
 // PATTERN: Use computed for derived state
 const hasError = computed(() => !!props.error)
 const fieldId = computed(() => `field-${props.fieldKey}`)
@@ -117,4 +116,3 @@ const fieldId = computed(() => `field-${props.fieldKey}`)
   pointer-events: none;
 }
 </style>
-

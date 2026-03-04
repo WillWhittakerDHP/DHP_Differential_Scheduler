@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { inject, computed, type Ref } from 'vue'
+import { inject, computed } from 'vue'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -14,8 +14,8 @@ import {
   availabilityStepDataKey,
   availabilityStepValidKey,
   availabilityStepValidateKey,
+  loadedWizardStateKey,
 } from '@/composables/booking/injectionKeys'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
 import AvailabilityCalendarSection from '@/components/booking/steps/AvailabilityCalendarSection.vue'
@@ -27,7 +27,7 @@ if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+const loadedWizardState = inject(loadedWizardStateKey)
 if (!loadedWizardState) {
   throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
 }
@@ -185,10 +185,16 @@ const showSlotsOverlay = computed(
     <MoveablePartsModal
       :show-modal="o.showMoveableModal.value"
       :moveable-options="o.moveableOptions.value"
+      :moveable-part-shape-name="o.moveablePartShapeName.value"
+      :moveable-appointment-slots="o.moveableAppointmentSlots.value"
+      :selected-moveable-day="o.selectedMoveableDay.value"
+      :allowed-moveable-dates="o.allowedMoveableDates.value"
+      :is-loading-moveable-day-slots="o.isLoadingMoveableDaySlots.value"
       :selected-slot-index="o.selectedMoveableSlotIndex.value"
       :contingency-period="o.contingencyPeriod.value"
       :is-loading-options="o.isLoadingOptions.value"
       @update:show-modal="o.showMoveableModal.value = $event"
+      @update:selected-moveable-day="o.setSelectedMoveableDay"
       @update:contingency-period="o.contingencyPeriod.value = $event"
       @select-slot="o.selectMoveableSlot"
       @confirm="o.handleMoveableConfirm"
@@ -219,7 +225,6 @@ const showSlotsOverlay = computed(
     width: auto !important;
   }
 
-  /* Remove calendar bottom spacing so only .availability-options-below-calendar margin-top (1rem) creates the gap */
   :deep(.calendar-container) {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -246,7 +251,6 @@ const showSlotsOverlay = computed(
     overflow: hidden;
     visibility: hidden;
   }
-  /* Collapse the grid cell (wrapper) that contains adjacent-day placeholders */
   :deep(.v-date-picker-month__day:has(.v-date-picker-month__day--hide-adjacent)) {
     height: 0;
     min-height: 0;

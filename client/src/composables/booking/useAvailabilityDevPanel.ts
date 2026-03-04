@@ -10,10 +10,8 @@ import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { BusyTimeRange } from '@shared/types/availabilityTypes'
 import type { UseAvailabilityDevPanelParams } from '@/types/booking/availabilityDevPanel'
 
-
 /**
  * WHY: Shared dev panel data state
-LEARNING: Singleton pattern for shared state
  */
 const sharedDevPanelData = ref<{
   selectedBlockInstances?: ComputedRef<BookingBlockInstance[]>

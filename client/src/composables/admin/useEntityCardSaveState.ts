@@ -5,7 +5,6 @@ PATTERN: Composable that co...
 import { ref, computed } from 'vue'
 import type { UseEntityCardSaveStateOptions, UseEntityCardSaveStateReturn } from '@/types/admin/entityCardSaveState'
 
-
 /**
  * WHY: Unified save state management composable
 WHY: Combines form dirty state ...
@@ -32,7 +31,6 @@ export function useEntityCardSaveState(
   const hasChanges = computed(() => canSave.value)
   
   /**
-   * LEARNING: Mark a status button field as changed
    */
   const markStatusButtonChanged = (fieldKey: string): void => {
     statusButtonChanges.value.add(fieldKey)

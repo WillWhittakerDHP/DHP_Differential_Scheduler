@@ -15,7 +15,6 @@ import type { UseStatusButtonToggleOptions, UseStatusButtonToggleReturn } from '
 
 const logger = createLogger('useStatusButtonToggle')
 
-
 /**
  * WHY: Reusable status button toggle composable
 PATTERN: Pure composable that h...
@@ -76,7 +75,6 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
       const isTernary = currentRaw === 'true' || currentRaw === 'false' || currentRaw === 'override'
       
       if (isTernary) {
-        // LEARNING: Cycle through ternary states: 'false' → 'true' → 'override' → 'false'
         // WHY: Provides three-state toggle for ternary fields
         // PATTERN: Explicit state cycling
         const currentTernary = currentRaw as TernaryBoolean

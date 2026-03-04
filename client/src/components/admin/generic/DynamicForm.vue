@@ -1,11 +1,9 @@
 <!--
-  LEARNING: DynamicForm Component - Generates form inputs from admin configs
   WHY: Consolidated component that replaces DynamicFormInputs and DynamicFormFields
   PATTERN: Iterates over formFieldConfig to render all inputs dynamically
   COMPARISON: React uses FieldRenderer with config iteration. Vue uses same pattern.
 -->
 <template>
-  <!-- LEARNING: Disable password manager autofill for admin configuration forms -->
   <!-- WHY: These are NOT password/login forms - they're admin config forms that password managers should ignore -->
   <VForm 
     ref="formRef" 
@@ -29,7 +27,6 @@
     </VRow>
     
     <!-- Stacked Fields -->
-    <!-- LEARNING: Only render fields with ready contexts to avoid timing errors -->
     <div v-for="fieldKey in (readyStackedFields || [])" :key="String(fieldKey)" class="mb-4">
       <FieldRenderer
         :field-context="getFieldContext(fieldKey)!"
@@ -77,7 +74,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 
 const formRef = ref<InstanceType<typeof VForm> | null>(null)
 
@@ -169,4 +165,3 @@ defineExpose({
   width: 100%;
 }
 </style>
-

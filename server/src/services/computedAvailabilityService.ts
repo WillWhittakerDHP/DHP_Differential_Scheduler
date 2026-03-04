@@ -10,7 +10,7 @@ import type {
 } from '../../../shared/types/availabilityTypes.js'
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange } from './slotComputationService.js'
-import { BusinessSettings } from '../config/app.js'
+import { AppointmentAttendee, BusinessSettings } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
 import {
   extractConstraints,
@@ -305,6 +305,39 @@ function buildComputedAvailabilityResponse(
   }
 }
 
+async function resolveReschedulingGoogleEventIds(appointmentId: string): Promise<Set<string>> {
+  const attendees = await AppointmentAttendee.findAll({
+    where: { appointmentId },
+    attributes: ['googleEventId'],
+  })
+
+  return new Set(
+    attendees
+      .map((attendee) => attendee.googleEventId)
+      .filter((eventId): eventId is string => typeof eventId === 'string' && eventId.trim().length > 0)
+  )
+}
+
+/** Exclude the given appointment's calendar event(s) from overlap checks (e.g. when editing that appointment). */
+async function excludeAppointmentFromOverlap(
+  regularEvents: CalendarEvent[],
+  appointmentId?: string
+): Promise<CalendarEvent[]> {
+  if (!appointmentId) {
+    return regularEvents
+  }
+
+  const eventIdsToExclude = await resolveReschedulingGoogleEventIds(appointmentId)
+  if (eventIdsToExclude.size === 0) {
+    logger.warn('No Google event ids found for appointment; overlap exclusion skipped', {
+      appointmentId,
+    })
+    return regularEvents
+  }
+
+  return regularEvents.filter((event) => !eventIdsToExclude.has(event.id))
+}
+
 export async function computeAvailabilityData(
   request: ComputedAvailabilityRequest
 ): Promise<ComputedSlotAvailabilityData> {
@@ -345,8 +378,18 @@ export async function computeAvailabilityData(
   const { regularEvents, outOfOfficeEvents } =
     partitionByEventType(allCalendarEvents)
 
+  const effectiveAppointmentId =
+    request.appointmentId ?? request.reschedulingAppointmentId
+  if (request.reschedulingAppointmentId != null && request.appointmentId == null) {
+    logger.debug('reschedulingAppointmentId is deprecated; use appointmentId')
+  }
+  const overlapRegularEvents = await excludeAppointmentFromOverlap(
+    regularEvents,
+    effectiveAppointmentId
+  )
+
   const driveTimesByPlaceId = useRealApis
-    ? await calculateDriveTimesForPlaceIds(regularEvents, request.candidatePlaceId)
+    ? await calculateDriveTimesForPlaceIds(overlapRegularEvents, request.candidatePlaceId)
     : {}
 
   if (!useRealApis) {
@@ -385,7 +428,7 @@ export async function computeAvailabilityData(
         request.duration,
         settings.minuteIncrement,
         enrichedConstraints,
-        regularEvents,
+        overlapRegularEvents,
         effectiveOutOfOfficeEvents,
         driveTimesByPlaceId,
         businessHoursConfig,

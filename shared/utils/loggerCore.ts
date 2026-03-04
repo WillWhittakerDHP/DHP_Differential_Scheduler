@@ -89,7 +89,14 @@ export function createLoggerFromConfig(config: LoggerEnvConfig): AppLogger {
 
   const configuredLevel = parseLogLevel(logLevelRaw) ?? (isDev ? 'debug' : 'warn')
   const prefix = `[${scope}]`
-  const callsiteEnabled = Boolean(isDev && logCallsiteRaw != null && String(logCallsiteRaw).trim() !== '')
+  const callsiteRaw = String(logCallsiteRaw ?? '').trim().toLowerCase()
+  const callsiteExplicitlyDisabled =
+    callsiteRaw === '0' ||
+    callsiteRaw === 'false' ||
+    callsiteRaw === 'off' ||
+    callsiteRaw === 'no'
+  // Default to trace-on for all environments unless explicitly disabled.
+  const callsiteEnabled = !callsiteExplicitlyDisabled
 
   const scopesSet = parseDebugScopesList(debugScopesRaw ?? undefined)
   const isDebugScopeEnabled = (s: string): boolean => {

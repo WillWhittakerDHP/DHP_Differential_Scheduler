@@ -1,6 +1,5 @@
 /**
  * PATTERN: Composable for managing calendar entries
- * WHY: setWriteTo logic and entry operations extracted to pure helpers for testability and reduced nesting.
  */
 import { computed, type Ref } from 'vue'
 import type { CalendarEntry, AvailabilitySettings } from '@/configs/availabilitySettings'

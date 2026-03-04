@@ -15,6 +15,8 @@ export interface UseAppointmentSlotsParams {
   selectedButtonIndex: Ref<number | null>
   perspective: ComputedRef<PerspectiveKey>
   isDifferentialService: ComputedRef<boolean>
+  /** When set, used instead of shape from blockInstances (e.g. moveable single-duration grid). */
+  appointmentShapeOverride?: ComputedRef<AppointmentShape | null>
 }
 
 export interface UseAppointmentSlotsReturn {

@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Detail and triage modal for a single beta feedback item
   WHY: View full feedback + context; update status and resolution notes
   PATTERN: VDialog with read-only content and editable status/notes
 -->

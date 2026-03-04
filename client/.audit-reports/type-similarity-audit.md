@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-27T02:47:27.027Z**
-- Files scanned: **1118**
-- Type definitions found: **763**
+- Generated at: **2026-03-04T15:30:08.017Z**
+- Files scanned: **1138**
+- Type definitions found: **787**
 - Similarity groups: **9**
 - UNIFY candidates: **0**
 - BRAND candidates: **0**
 - EXTEND candidates: **9**
 - REVIEW candidates: **0**
 
-- P0 (high): **3**, P1 (medium): **6**, P2 (low): **0**
+- P0 (high): **5**, P1 (medium): **4**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -36,13 +36,13 @@ Each group has a recommended action:
 | --- | --- | --- | --- | ---: | ---: | --- |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
 | P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
+| P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
+| P0 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn`, `UseShapesTabReturn` | 3 | 14 | `{ activeTab: Ref<string>, annotationShapeFieldsEntity: Co...` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
-| P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
 | P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
-| P1 | EXTEND | SUBSET | `UseMoveablePartsSchedulingParams`, `UseAppointmentSlotsReturn` | 2 | 8 | `{ appointmentShape: ComputedRef<AppointmentShape | null>,...` |
 
 ## EXTEND Candidates (9)
 
@@ -63,9 +63,9 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `VersionBlockInstance` | interface | `client/src/types/transformers/appointmentToWizardHelpers.ts` | 1 | yes |
 | `BookingBlockShape` | type-alias-object | `client/src/types/transformers/bookingData.ts` | 17 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
-| `CoreEntity` | interface | `shared/types/coreEntityTypes.ts` | 13 | yes |
-| `PartShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 19 | yes |
-| `BlockShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 13 | yes |
+| `CoreEntity` | interface | `shared/types/coreEntityTypes.ts` | 12 | yes |
+| `PartShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 18 | yes |
+| `BlockShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 12 | yes |
 | `BlockInstanceFormData` | interface | `client/src/types/admin/blockInstanceForm.ts` | 4 | yes |
 | `PartInstanceFormData` | interface | `client/src/types/admin/partInstanceForm.ts` | 4 | yes |
 
@@ -78,11 +78,25 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | --- | --- | --- | ---: | --- |
 | `UseAdminMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminMetadataMutations.ts` | 14 | yes |
 | `SaveFieldMetadataVariables` | type-alias-object | `client/src/composables/admin/useAdminMetadataMutations.ts` | 37 | no |
-| `DeleteFieldMetadataVariables` | type-alias-object | `client/src/composables/admin/useAdminMetadataMutations.ts` | 111 | no |
+| `DeleteFieldMetadataVariables` | type-alias-object | `client/src/composables/admin/useAdminMetadataMutations.ts` | 110 | no |
 | `SavePrimitiveFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 33 | no |
 | `DeletePrimitiveFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 110 | no |
-| `UsePrimitiveMetadataSaveOptions` | interface | `client/src/composables/admin/usePrimitiveMetadataSave.ts` | 7 | yes |
+| `UsePrimitiveMetadataSaveOptions` | interface | `client/src/composables/admin/usePrimitiveMetadataSave.ts` | 6 | yes |
 | `UseAdminPrimitiveMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 13 | yes |
+
+### sim-subset-87ff2f40bfd6
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **15**
+- Structure: `{ dayLabel: string, isAvailable?: boolean, timeLabel: string, violations?: string[] }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 20 | yes |
+| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 386 | yes |
+
+Overlap: **50%** shared properties
+- Shared: `isAvailable`, `violations`
+- Only in `MoveableSlot`: `dayLabel`, `timeLabel`
 
 ### sim-subset-bb8c320874a1
 
@@ -92,11 +106,22 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `LoadedTimeSlot` | interface | `client/src/types/booking/timeSlotMatching.ts` | 3 | yes |
-| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 402 | yes |
+| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 376 | yes |
 
 Overlap: **67%** shared properties
 - Shared: `endTime`, `startTime`
 - Only in `SlotTimeBounds`: `duration`
+
+### sim-subset-de9e27ae4f14
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **14**
+- Structure: `{ activeTab: Ref<string>, annotationShapeFieldsEntity: ComputedRef<GlobalEntity<'annotationShape'>>, annotationShapeMetadataModalOpen: Ref<boolean>, annotationShapesContainer: Ref<HTMLElement | null>, annotationShapesPanelsContainer: Ref<HTMLElement | null>, annotationShapesTabLabel: ComputedRef<string>, blockShapeMetadataModalOpen: Ref<boolean>, blockShapesContainer: Ref<HTMLElement | null>, blockShapesList: Ref<GlobalEntity<'blockShape'>[]>, blockShapesPanelsContainer: Ref<HTMLElement | null>, blockShapesTabLabel: ComputedRef<string>, createPartShape: () => void, eventShapeFieldsEntity: ComputedRef<GlobalEntity<'eventShape'>>, eventShapeMetadataModalOpen: Ref<boolean>, eventShapesTabLabel: ComputedRef<string>, expandedShapes: Ref<string[]>, filteredAnnotationShapes: ComputedRef<GlobalEntity<'annotationShape'>[]>, handleAnnotationShapeCancelled: () => void, handleAnnotationShapeCreate: () => void, handleDeleteAnnotationShape: (id: string) => void, handleDeleteBlockShape: (id: string) => void, handleDeleteEventShape: (id: string) => void, handleDeletePartShape: (id: string) => void, handleEventShapeCancelled: () => void, handleEventShapeCreate: () => void, handleExistingShapeSaved: (entity: GlobalEntity<GlobalEntityKey>) => void, handlePartInstanceMetadataSaved: () => void, handlePartShapeCancelled: () => void, handlePartShapeCreated: (entity?: GlobalEntity<GlobalEntityKey>) => void, isCreatingAnnotationShape: Ref<boolean>, isCreatingAnnotationShapeLoading: Ref<boolean>, isCreatingEventShape: Ref<boolean>, isCreatingEventShapeLoading: Ref<boolean>, isCreatingPartShape: Ref<boolean>, isLoadingAnnotationShapes: Ref<boolean>, isLoadingEventShapes: Ref<boolean>, isPanelExpanded: (id: string) => boolean, newAnnotationShapeName: Ref<string>, newEventShapeName: Ref<string>, newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>, partInstanceConfigEntity: ComputedRef<GlobalEntity<'partInstance'>>, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, partShapesContainer: Ref<HTMLElement | null>, partShapesList: Ref<GlobalEntity<'partShape'>[]>, partShapesPanelsContainer: Ref<HTMLElement | null>, partShapesTabLabel: ComputedRef<string>, safeEventShapes: ComputedRef<GlobalEntity<'eventShape'>[]>, startCreatingAnnotationShape: () => void, startCreatingEventShape: () => void, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseShapesTabModalsReturn` | interface | `client/src/composables/admin/useShapesTabModals.ts` | 7 | yes |
+| `UseMetadataModalHandlersReturn` | interface | `client/src/types/admin/metadataModalHandlers.ts` | 2 | yes |
+| `UseShapesTabReturn` | interface | `client/src/types/admin/shapesTab.ts` | 4 | yes |
 
 ### sim-subset-1554fa06fa28
 
@@ -123,32 +148,18 @@ Overlap: **40%** shared properties
 - Shared: `loginId`, `userRole`
 - Only in `UserResponse`: `createdAt`, `id`, `updatedAt`
 
-### sim-subset-d93cb6a73824
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
-- Structure: `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockShapeMetadataModalOpen: Ref<boolean>, eventShapeMetadataModalOpen: Ref<boolean>, handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `UseShapesTabModalsReturn` | interface | `client/src/composables/admin/useShapesTabModals.ts` | 7 | yes |
-| `UseMetadataModalHandlersReturn` | interface | `client/src/types/admin/metadataModalHandlers.ts` | 2 | yes |
-
-Overlap: **27%** shared properties
-- Shared: `handlePartInstanceMetadataSaved`, `partInstanceMetadataModalOpen`, `togglePartInstanceMetadataModal`
-- Only in `UseShapesTabModalsReturn`: `annotationShapeMetadataModalOpen`, `blockShapeMetadataModalOpen`, `eventShapeMetadataModalOpen`, `partShapeMetadataModalOpen`, `toggleAnnotationShapeMetadataModal`, `toggleBlockShapeMetadataModal`, `toggleEventShapeMetadataModal`, `togglePartShapeMetadataModal`
-
 ### sim-subset-f43751655285
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
-- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: { }`
+- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 80 | yes |
-| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 68 | yes |
+| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 90 | yes |
+| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 77 | yes |
 
-Overlap: **67%** shared properties
-- Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`
+Overlap: **70%** shared properties
+- Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
 - Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
 
 ### sim-subset-47728a2eb291
@@ -158,26 +169,12 @@ Overlap: **67%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 94 | yes |
-| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 20 | no |
+| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 96 | yes |
+| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 19 | no |
 
 Overlap: **73%** shared properties
 - Shared: `agentInfo`, `anotherClientInfo`, `clientInfo`, `sellerInfo`, `showAnotherClient`, `showSeller`, `showTransactionManager`, `transactionManagerInfo`
 - Only in `ContactsFormContext`: `fieldErrors`, `toggleSection`, `validationRules`
-
-### sim-subset-7668d841ec84
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ appointmentShape: ComputedRef<AppointmentShape | null>, appointmentSlots: ComputedRef<AppointmentSlots>, getDisplayTime: (buttonIndex: number) => TimeRange | null, graphBars: ComputedRef<{, major: TimeRange | null, minor: TimeRange | null, selectedSlot: ComputedRef<AppointmentSlot | null> }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `UseMoveablePartsSchedulingParams` | interface | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 132 | no |
-| `UseAppointmentSlotsReturn` | interface | `client/src/types/booking/appointmentSlots.ts` | 19 | yes |
-
-Overlap: **29%** shared properties
-- Shared: `appointmentShape`, `selectedSlot`
-- Only in `UseAppointmentSlotsReturn`: `appointmentSlots`, `getDisplayTime`, `graphBars`, `major`, `minor`
 
 ## Notes
 

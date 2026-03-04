@@ -1,33 +1,18 @@
-<!-- Extracted from InstancesTab for component-health (allowlist repair). -->
+<!-- Thin component; display computeds and toggle in useEventInstancesSection. -->
 <script setup lang="ts">
-import { computed, inject } from 'vue'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { useEventInstancesSection } from '@/composables/admin/useEventInstancesSection'
 
-const injected = inject(instancesTabContextKey)
-if (!injected) throw new Error('EventInstancesSection must be used inside InstancesTab')
-const ctx = injected as NonNullable<typeof injected>
-
-// WHY: v-model requires a top-level Ref for Vue's template auto-unwrapping.
-// inject() returns a plain object so ctx.expandedInstances is a raw Ref —
-// VExpansionPanels would receive the Ref wrapper instead of the string[].
-const expandedInstances = ctx.expandedInstances
-
-const eventInstancesDisplay = computed(() => {
-  const list = ctx.eventInstancesList.value
-  const filtered = ctx.filteredEventInstances.value
-  return list.length > 0 ? list : filtered
-})
-const eventShapesList = computed(() => ctx.eventShapes.value)
-const hasEventInstances = computed(() => {
-  const arr = ctx.eventInstances.value
-  return Array.isArray(arr) && arr.length > 0
-})
-const isLoading = computed(() => ctx.isLoadingEventInstances.value)
-const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
-function toggleEventInstanceMetadata(): void {
-  ctx.eventInstanceMetadataModalOpen.value = !ctx.eventInstanceMetadataModalOpen.value
-}
+const {
+  ctx,
+  expandedInstances,
+  eventInstancesDisplay,
+  eventShapesList,
+  hasEventInstances,
+  isLoading,
+  templateWarningsUnwrapped,
+  toggleEventInstanceMetadata,
+} = useEventInstancesSection()
 </script>
 
 <template>

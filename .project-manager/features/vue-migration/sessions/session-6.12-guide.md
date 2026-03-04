@@ -144,15 +144,6 @@
 
 ---
 
-## Learning Objectives
-
-- Understand shape-instance pattern (Block/Part/Annotation)
-- Learn database migration strategies for renaming tables/columns
-- Understand user type migration to BlockInstance entities
-- Learn annotation context system (descriptions, frontPage, etc.)
-
----
-
 ## Success Criteria
 
 - ✅ Description models and router removed

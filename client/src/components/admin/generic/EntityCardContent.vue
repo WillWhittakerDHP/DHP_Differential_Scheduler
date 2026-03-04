@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Entity Card Content Component
   WHY: Extracts shared form content from EntityCard to eliminate template duplication
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
@@ -39,7 +38,6 @@ defineProps<Props>()
 </script>
 
 <template>
-  <!-- LEARNING: Warning for fields missing contexts -->
   <!-- WHY: Fail visibly - show which fields are missing contexts -->
   <!-- PATTERN: VAlert component for error display -->
   <VAlert
@@ -59,7 +57,6 @@ defineProps<Props>()
     </div>
   </VAlert>
 
-  <!-- LEARNING: Direct fields (panel: 'none') rendered in card content -->
   <!-- WHY: Fields without panel assignment render in main card area -->
   <!-- PATTERN: Organized by layout (inline vs stacked) from metadata -->
   <VRow v-if="fieldsByLocation.directInline.length > 0" class="mb-4">
@@ -115,7 +112,6 @@ defineProps<Props>()
   />
   
   <!--
-    LEARNING: Action buttons for form operations
     WHY: Provides Undo, Save, and Delete/Cancel actions
     PATTERN: Buttons at bottom of form fields with proper spacing
     NOTE: Shows Cancel instead of Delete when in new entity mode

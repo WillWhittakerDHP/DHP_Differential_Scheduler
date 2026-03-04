@@ -1,6 +1,5 @@
 /**
  * Shared utility for computing renderAs field metadata.
- * LEARNING: Single source of truth for renderAs computation logic shared between client and server.
  * WHY: Ensures consistent field rendering determination across frontend and backend.
  * PATTERN: Shared utilities alongside shared types.
  */
@@ -43,7 +42,6 @@ export function computeRenderAs(
     return 'select'
   }
 
-  // LEARNING: Ternary fields use 'boolean' dataType but render as statusButton
   // WHY: Ternary is a boolean variant with three states, still renders as status button
   if (dataType === 'boolean' || dataType === 'ternary') {
     return 'statusButton'

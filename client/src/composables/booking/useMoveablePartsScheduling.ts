@@ -1,32 +1,35 @@
 /**
  * PATTERN: useMoveablePartsScheduling Composable
  *
- * Detects moveable parts in an appointment shape and generates
- * scheduling options for them. Uses resolveEventShapes() from
- * perspectiveResolver.ts for major shape lookups instead of
- * inline getEventShapeByRole calls.
+ * Detects moveable parts and provides scheduling options. When user sets a contingency deadline,
+ * fetches computed availability for the selected day with moveable duration and builds virtual
+ * appointment slots via useAppointmentSlots (same pipeline as main grid) so the modal uses the
+ * same components and constraint semantics.
  */
 import type { Ref } from 'vue'
-import { computed, ref, watchEffect, type ComputedRef } from 'vue'
+import { computed, ref, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
-import { DEFAULT_CONTINGENCY, DEFAULT_OUTER_BOUNDARY_DAYS } from '@/constants/moveableScheduling'
-import { generateSlotsInRange } from '@/utils/booking/minimalSlotGenerator'
-import { getAvailabilitySettings } from '@/configs/availabilitySettings'
+import type { PropertyDetailsData } from '@/types/propertyForm'
+import { DEFAULT_CONTINGENCY } from '@/constants/moveableScheduling'
 import { createLogger } from '@/utils/logger'
 import { localTime } from '@/utils/time/localTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
-import { resolveEventShapes } from '@/utils/booking/perspectiveResolver'
 import type { EventShapeEntity } from '@/types/entities'
+import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
-
+import { generateSlotsInRange } from '@/utils/booking/minimalSlotGenerator'
+import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
+import { createMinimalAppointmentShapeForDuration } from '@/utils/booking/appointmentSlotBuilder'
+import { useMoveableAvailabilityData } from '@/composables/booking/useMoveableAvailabilityData'
+import { getMoveablePartShapeName } from '@/utils/booking/moveablePartShapeName'
 
 const logger = createLogger('useMoveablePartsScheduling')
+const DEFAULT_MOVEABLE_FALLBACK_LABEL = 'Post-Appointment Work'
 
-// ─── Pure helpers (no Vue reactivity, no side effects) ─────────────────────
-
+/** Exported for tests. Moveable grid now uses virtual appointment slots from useAppointmentSlots. */
 export function computeMoveableSlots(params: ComputeMoveableSlotsParams): MoveableSlot[] {
   const {
     innerBoundary,
@@ -52,46 +55,8 @@ export function computeMoveableSlots(params: ComputeMoveableSlotsParams): Moveab
   }))
 }
 
-/**
- * Compute the outer boundary for moveable scheduling based on contingency period.
- * Falls back to DEFAULT_OUTER_BOUNDARY_DAYS from the inner boundary when no contingency.
- */
-export function computeOuterBoundary(
-  contingencyPeriod: ContingencyPeriod,
-  innerBoundary: RFC3339DateTime
-): RFC3339DateTime {
-  if (contingencyPeriod.hasContingency && contingencyPeriod.endDate) {
-    const [year, month, day] = contingencyPeriod.endDate.split('-').map(Number)
-    const hours = contingencyPeriod.endTime
-      ? Number(contingencyPeriod.endTime.split(':')[0])
-      : 17
-    const minutes = contingencyPeriod.endTime
-      ? Number(contingencyPeriod.endTime.split(':')[1])
-      : 0
-    return toRFC3339DateTime(new Date(Date.UTC(year, month - 1, day, hours, minutes, 0, 0)))
-  }
-
-  const d = new Date(innerBoundary)
-  return toRFC3339DateTime(new Date(Date.UTC(
-    d.getUTCFullYear(), d.getUTCMonth(),
-    d.getUTCDate() + DEFAULT_OUTER_BOUNDARY_DAYS, 17, 0, 0, 0
-  )))
-}
-
-/**
- * Extract the inner boundary from a slot using the major event's end time.
- * Uses resolveEventShapes() for the major shape lookup.
- */
-export function extractInnerBoundary(slot: AppointmentSlot): RFC3339DateTime | null {
-  if (slot.shape.slotShape.eventFinals.length > 0) {
-    const { majorEventName } = resolveEventShapes(slot.shape.slotShape.eventFinals)
-    const majorTimeRange = majorEventName
-      ? (slot.eventTimeRanges?.[majorEventName] ?? null)
-      : null
-    if (majorTimeRange?.endTime) return majorTimeRange.endTime
-  }
-  return slot.totalTimeRange?.endTime ?? null
-}
+/** Re-export for tests and consumers that import from this module. */
+export { computeOuterBoundary, extractInnerBoundary } from '@/utils/booking/moveableSchedulingBounds'
 
 function formatDayLabel(
   isoDate: RFC3339DateTime,
@@ -128,11 +93,14 @@ function formatTimeLabel(
   return `${startFormatted} - ${endFormatted}`
 }
 
-// ─── Composable ────────────────────────────────────────────────────────────
 
 interface UseMoveablePartsSchedulingParams {
   appointmentShape: ComputedRef<AppointmentShape | null>
   selectedSlot: ComputedRef<AppointmentSlot | null>
+  /** For fetching moveable-day availability (same API as main grid, duration = moveable). */
+  propertyDetailsStepData: Ref<PropertyDetailsData | null>
+  /** Server-computed slots by day (legacy; moveable grid uses its own fetch with moveable duration). */
+  slotsByDay: Ref<Map<string, ComputedSlot[]>>
 }
 
 export interface UseMoveablePartsSchedulingReturn {
@@ -140,9 +108,23 @@ export interface UseMoveablePartsSchedulingReturn {
   contingencyPeriod: Ref<ContingencyPeriod>
   selectedSlotIndex: Ref<number | null>
   isLoadingOptions: Ref<boolean>
+  /** Loading state for the selected-day availability fetch (moveable grid). */
+  isLoadingMoveableDaySlots: Ref<boolean>
   hasMoveableParts: ComputedRef<boolean>
   moveableDuration: ComputedRef<number>
   moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
+  /** Virtual appointment slots for the selected day (same pipeline as main grid). */
+  moveableAppointmentSlots: ComputedRef<AppointmentSlot[]>
+  /** Selected calendar day for moveable grid (YYYY-MM-DD). */
+  selectedMoveableDay: Ref<string | null>
+  /** Set selected day (e.g. from calendar in modal). */
+  setSelectedMoveableDay: (date: string | null) => void
+  /** Predicate for calendar: date allowed when within inner/outer boundary. */
+  allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
+  /** Current day's slots as MoveableSlot[] for saving to step data on confirm. */
+  moveableSlotsForConfirm: ComputedRef<MoveableSlot[]>
+  /** Moveable part shape name for modal title (e.g. "Report Writing"). */
+  moveablePartShapeName: ComputedRef<string>
   selectedMoveableSlot: ComputedRef<MoveableSlot | null>
   openModal: () => void
   closeModal: () => void
@@ -151,17 +133,16 @@ export interface UseMoveablePartsSchedulingReturn {
 }
 
 export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams): UseMoveablePartsSchedulingReturn {
-  const { appointmentShape, selectedSlot } = params
+  const { appointmentShape, selectedSlot, propertyDetailsStepData } = params
   const { formatDateForDisplay, formatTimeForDisplay } = localTime()
+
+  const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
 
   const showModal = ref(false)
   const contingencyPeriod = ref<ContingencyPeriod>({ ...DEFAULT_CONTINGENCY })
   const selectedSlotIndex = ref<number | null>(null)
+  const configuredMoveableFallbackLabel = ref<string>(DEFAULT_MOVEABLE_FALLBACK_LABEL)
 
-  const moveableOptions = ref<MoveableSchedulingOptions | null>(null)
-  const isLoadingOptions = ref(false)
-
-  // Single computed for the moveable event shape — used by hasMoveableParts + moveableDuration
   const moveableEventFinal = computed(() => {
     const shape = appointmentShape.value
     if (!shape || shape.slotShape.eventFinals.length === 0) return null
@@ -181,54 +162,84 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     return moveableEventFinal.value.roundedDuration ?? 0
   })
 
-  watchEffect(async () => {
-    if (!hasMoveableParts.value || !selectedSlot.value) {
-      moveableOptions.value = null
-      return
-    }
+  const moveablePartShapeName = computed(() =>
+    getMoveablePartShapeName(
+      appointmentShape.value,
+      moveableEventFinal.value?.eventShape?.id,
+      configuredMoveableFallbackLabel.value,
+      (moveableEventFinal.value?.eventShape as EventShapeEntity | undefined)?.name?.trim()
+    )
+  )
 
-    const slot = selectedSlot.value
-    const duration = moveableDuration.value
-    const innerBoundary = extractInnerBoundary(slot)
-    if (!innerBoundary) {
-      moveableOptions.value = null
-      return
-    }
+  const moveableData = useMoveableAvailabilityData({
+    hasMoveableParts,
+    selectedSlot,
+    contingencyPeriod,
+    selectedSlotIndex,
+    moveableDuration,
+    moveablePartShapeName,
+    placeId,
+    configuredMoveableFallbackLabelRef: configuredMoveableFallbackLabel,
+  })
 
-    try {
-      isLoadingOptions.value = true
-      const outerBoundary = computeOuterBoundary(contingencyPeriod.value, innerBoundary)
+  const {
+    moveableOptions,
+    isLoadingOptions,
+    moveableDaySlots,
+    isLoadingMoveableDaySlots,
+    selectedMoveableDay,
+    setSelectedMoveableDay: setSelectedMoveableDayInner,
+  } = moveableData
 
-      const availabilitySettings = await getAvailabilitySettings()
-      const availableSlots = computeMoveableSlots({
-        innerBoundary,
-        outerBoundary,
-        duration,
-        minuteIncrement: availabilitySettings.minuteIncrement,
-        formatDayLabel: (iso) => formatDayLabel(iso, formatDateForDisplay),
-        formatTimeLabel: (start, end) => formatTimeLabel(start, end, formatTimeForDisplay),
-      })
+  const setSelectedMoveableDay = (date: string | null) => {
+    setSelectedMoveableDayInner(date)
+    selectedSlotIndex.value = null
+  }
 
-      const earliestCompletion = availableSlots.length > 0 ? availableSlots[0].startTime : outerBoundary
-      moveableOptions.value = {
-        innerBoundary,
-        outerBoundary,
-        moveableDuration: duration,
-        availableSlots,
-        earliestCompletion,
-        selectedSlotIndex: selectedSlotIndex.value,
-      }
-    } catch (error) {
-      logger.error('Error calculating moveable options:', error)
-      moveableOptions.value = null
-    } finally {
-      isLoadingOptions.value = false
+  const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)
+  const moveableShapeOverride = computed(() =>
+    createMinimalAppointmentShapeForDuration(moveableDuration.value)
+  )
+
+  const { appointmentSlots: moveableAppointmentSlots } = useAppointmentSlots({
+    blockInstances: computed(() => []),
+    serverSlotsForDay: moveableServerSlotsForDay,
+    selectedButtonIndex: selectedSlotIndex,
+    perspective: computed(() => 'nonDifferential' as const),
+    isDifferentialService: computed(() => false),
+    appointmentShapeOverride: moveableShapeOverride,
+  })
+
+  const allowedMoveableDates = computed(() => {
+    const opts = moveableOptions.value
+    if (!opts) return () => false
+    const inner = opts.innerBoundary.slice(0, 10)
+    const outer = opts.outerBoundary.slice(0, 10)
+    return (date: unknown) => {
+      if (typeof date !== 'string') return false
+      return date >= inner && date <= outer
     }
   })
 
+  const moveableSlotsForConfirm = computed<MoveableSlot[]>(() =>
+    moveableAppointmentSlots.value.map((s) => {
+      const startTime = toRFC3339DateTime(new Date(s.startTime))
+      const endTime = toRFC3339DateTime(new Date(s.totalTimeRange?.endTime ?? s.startTime))
+      return {
+        startTime,
+        endTime,
+        duration: s.shape.slotShape.roundedDuration,
+        dayLabel: formatDayLabel(startTime, formatDateForDisplay),
+        timeLabel: formatTimeLabel(startTime, endTime, formatTimeForDisplay),
+      }
+    })
+  )
+
   const selectedMoveableSlot = computed<MoveableSlot | null>(() => {
-    if (selectedSlotIndex.value === null || !moveableOptions.value) return null
-    return moveableOptions.value.availableSlots[selectedSlotIndex.value] ?? null
+    const idx = selectedSlotIndex.value
+    const slots = moveableSlotsForConfirm.value
+    if (idx === null || idx < 0 || idx >= slots.length) return null
+    return slots[idx] ?? null
   })
 
   const openModal = () => { showModal.value = true }
@@ -241,12 +252,17 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     contingencyPeriod,
     selectedSlotIndex,
     isLoadingOptions,
-
+    isLoadingMoveableDaySlots,
     hasMoveableParts,
     moveableDuration,
     moveableOptions: computed(() => moveableOptions.value),
+    moveableAppointmentSlots,
+    moveablePartShapeName,
+    selectedMoveableDay,
+    setSelectedMoveableDay,
+    allowedMoveableDates,
+    moveableSlotsForConfirm,
     selectedMoveableSlot,
-
     openModal,
     closeModal,
     selectSlot,

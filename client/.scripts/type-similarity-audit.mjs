@@ -50,7 +50,7 @@ import {
  */
 
 // ─── Tunables ───────────────────────────────────────────────────────────────
-// LEARNING: These thresholds control sensitivity. Lower = more findings, higher = fewer false positives.
+// These thresholds control sensitivity. Lower = more findings, higher = fewer false positives.
 const MIN_PROPERTIES_FOR_STRUCTURAL = 2   // Minimum properties to compare structure
 const OVERLAP_THRESHOLD_PERCENT = 75      // Percentage overlap for "high overlap" grouping
 const MIN_GROUP_SIZE = 2                  // Minimum types in a group to report
@@ -82,7 +82,7 @@ function extractVueScriptContent(vueContent) {
 // ─── Type Parsing ───────────────────────────────────────────────────────────
 
 /**
- * LEARNING: We use heuristic regex-based parsing rather than a full TypeScript AST.
+ * We use heuristic regex-based parsing rather than a full TypeScript AST.
  * WHY: No dependency on TypeScript compiler API, runs fast, good enough for structural comparison.
  * PATTERN: Parse declaration headers, then extract the body between balanced braces.
  *
@@ -505,7 +505,7 @@ function classifyRelationship(typeA, typeB) {
  * @returns {'UNIFY' | 'BRAND' | 'EXTEND' | 'REVIEW'}
  */
 function classifyAction(members, relationship) {
-  // LEARNING: The classification heuristic:
+  // The classification heuristic:
   // - Same name, different files → UNIFY (it's a duplicate)
   // - Different names, same shape, different files → BRAND (different concepts, same structure)
   // - Different names, same file → REVIEW (likely intentional)

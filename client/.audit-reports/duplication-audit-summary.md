@@ -11,21 +11,26 @@ Generated from `client/.audit-reports/duplication-audit.json`.
 
 | Group | Priority | unique files | occurrences | lineCount | sample locations |
 | --- | --- | ---: | ---: | ---: | --- |
-| `dup-02e09562fbee` | P0 | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@40`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@19` |
-| `dup-0399e7cb7a09` | P0 | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@36`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@15` |
-| `dup-216670b622fd` | P0 | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@38`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@17` |
-| `dup-24e89764b1f9` | P0 | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@162`, `client/src/components/admin/PartInstanceBulkEditModal.vue@183` |
-| `dup-2a12de2d7d9a` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@186`, `client/src/composables/admin/useRelationshipCollectionField.ts@188` |
-| `dup-345455ae5c05` | P0 | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@155`, `client/src/components/admin/PartInstanceBulkEditModal.vue@176` |
-| `dup-434e272ef180` | P0 | 2 | 2 | 10 | `client/src/utils/admin/metadataFieldUpdates.ts@37`, `server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataHelpers.ts@16` |
-| `dup-5cdea5a5f126` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@23`, `client/src/composables/admin/useRelationshipCollectionField.ts@23` |
-| `dup-911d1500cc08` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@182`, `client/src/composables/admin/useRelationshipCollectionField.ts@184` |
-| `dup-a08a21eabaf1` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@22`, `client/src/composables/admin/useRelationshipCollectionField.ts@22` |
-| `dup-ad8ee8be63f6` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@24`, `client/src/composables/admin/useRelationshipCollectionField.ts@24` |
-| `dup-b36fd2f2d669` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@29`, `client/src/composables/admin/useRelationshipCollectionField.ts@27` |
-| `dup-bbbe20e10e53` | P0 | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@161`, `client/src/components/admin/PartInstanceBulkEditModal.vue@182` |
-| `dup-f3908ce6488c` | P0 | 2 | 2 | 10 | `client/src/components/admin/InstanceBulkEditModal.vue@166`, `client/src/components/admin/PartInstanceBulkEditModal.vue@187` |
-| `dup-f5dc7d13d6e7` | P0 | 2 | 2 | 10 | `client/src/composables/admin/usePartsCollectionField.ts@25`, `client/src/composables/admin/useRelationshipCollectionField.ts@25` |
+| `dup-39164113c7d0` | P0 | 2 | 3 | 10 | `client/src/composables/admin/useShapesTab.ts@49`, `client/src/composables/admin/useShapesTab.ts@199`, `client/src/composables/admin/useShapesTabModals.ts@55` |
+| `dup-6d904a607168` | P0 | 2 | 3 | 10 | `client/src/composables/admin/useShapesTab.ts@48`, `client/src/composables/admin/useShapesTab.ts@198`, `client/src/composables/admin/useShapesTabModals.ts@54` |
+| `dup-03cc625a46aa` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@95`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@17` |
+| `dup-03ecf443188e` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@10`, `client/src/types/admin/shapesTab.ts@22` |
+| `dup-0cd5727b10ad` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@211`, `client/src/composables/admin/useShapesTabCreation.ts@148` |
+| `dup-0eec51133848` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@99`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@21` |
+| `dup-15b042726270` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@94`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@16` |
+| `dup-2f3ba6277c62` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabCreation.ts@16`, `client/src/types/admin/shapesTab.ts@32` |
+| `dup-4613f08a0dd9` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@96`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@18` |
+| `dup-593e42bee1ad` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@213`, `client/src/composables/admin/useShapesTabCreation.ts@150` |
+| `dup-702d91fa95aa` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@212`, `client/src/composables/admin/useShapesTabCreation.ts@149` |
+| `dup-76dd3e40c0ef` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@97`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@19` |
+| `dup-7bbc40d4cc56` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@100`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@22` |
+| `dup-8664cd70ff8d` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@214`, `client/src/composables/admin/useShapesTabCreation.ts@151` |
+| `dup-87a347e1daf9` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@98`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@20` |
+| `dup-8c3423862ea4` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@9`, `client/src/types/admin/shapesTab.ts@21` |
+| `dup-9b4f257f5a9a` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@215`, `client/src/composables/admin/useShapesTabCreation.ts@152` |
+| `dup-a3072b74e292` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@210`, `client/src/composables/admin/useShapesTabCreation.ts@147` |
+| `dup-bba3eec172a6` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@93`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@15` |
+| `dup-c1f632479d25` | P0 | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@209`, `client/src/composables/admin/useShapesTabCreation.ts@146` |
 
 ## Notes
 

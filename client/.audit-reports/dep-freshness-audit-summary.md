@@ -7,13 +7,11 @@
 
 Generated from `client/.audit-reports/dep-freshness-audit.json`.
 
-- Major behind: **3**
-- Minor behind: **0**
-- Patch behind: **2**
-- Total scanned: **5**
+- Major behind: **1**
+- Minor behind: **2**
+- Patch behind: **6**
+- Total scanned: **9**
 
 ## Major behind (first 15)
 
-- `ts-morph` (client): 24.0.0 → 27.0.2
-- `vuetify` (client): 3.12.0 → 4.0.0
-- `@types/bcrypt` (server): 5.0.2 → 6.0.0
+- `@types/supertest` (server): 6.0.3 → 7.2.0

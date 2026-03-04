@@ -1,7 +1,6 @@
 /**
  * Shared Error Message Constants
  *
- * LEARNING: Single source of truth for common error strings used by client and server
  * WHY: Eliminates duplicate "Unknown error" definitions in client/constants/errorMessages.ts
  *      and server/constants/router.ts; one definition, both sides re-export
  * PATTERN: Exported const for fallback when error type cannot be determined

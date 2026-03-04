@@ -195,7 +195,6 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'annotation_instances',
   });
 
-  // LEARNING: EventAssignment uses parent_id/child_id pattern with parent_kind enum
   // WHY: Matches partAssignments pattern exactly for consistency
   // PATTERN: parent_id references either partInstance or blockInstance based on parent_kind
   

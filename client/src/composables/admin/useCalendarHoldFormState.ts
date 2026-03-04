@@ -1,5 +1,4 @@
 /**
- * WHY: Calendar config, hold duration, and calendar entries for Business Controls; split from useBusinessControlsFormState (audit: function-complexity).
  */
 import { computed } from 'vue'
 import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'

@@ -15,7 +15,6 @@ export interface UseFormFieldConfigsReturn {
 
 /**
  * Shared form field config computeds (fieldKeys, instanceConfig, inline/stacked).
- * WHY: Deduplicates identical computed blocks from DynamicForm.vue and EntityFormContent.vue.
  */
 export function useFormFieldConfigs(
   entityKey: GlobalEntityKey,

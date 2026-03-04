@@ -169,12 +169,6 @@ export function useBookingWizard() {
 }
 ```
 
-**Learning Points:**
-- Vue composable pattern for state management
-- Reactive refs for state
-- Computed properties for derived data
-- Cascading filter logic using `activeBlockIds`
-
 ---
 
 ### Task 6.1.2: Integrate Scheduler Data
@@ -250,5 +244,3 @@ console.log('Base services after user type selection:', wizard.availableBaseServ
 - Project Plan: `project-manager/PROJECT_PLAN.md`
 - Plan Details: `plan.plan.md`
 - React Reference: `client/src/scheduler/contexts/schedulerContext.tsx`
-
-

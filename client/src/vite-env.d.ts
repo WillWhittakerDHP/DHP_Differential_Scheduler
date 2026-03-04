@@ -17,18 +17,12 @@ interface ImportMeta {
   readonly glob: (pattern: string | string[], options?: { eager?: boolean }) => Record<string, () => Promise<unknown> | unknown>
 }
 
-/**
-LEARNING: Declares .vue files as valid module...
- */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
   const component: DefineComponent<Record<string, never>, Record<string, never>, unknown>
   export default component
 }
 
-/**
-LEARNING: Declares .svg files as valid modules fo...
- */
 declare module '*.svg' {
   const content: string
   export default content
@@ -105,5 +99,3 @@ declare module 'vuetify/lib/components/VInput/VInput' {
 declare module 'vuetify/lib/util/helpers' {
   export function filterInputAttrs(attrs: Record<string, unknown>): Partial<Record<string, unknown>>[]
 }
-
-

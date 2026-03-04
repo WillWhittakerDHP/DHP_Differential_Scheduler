@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Shared Entity Form Content Component
   WHY: Provides consistent form field rendering for EntityCard
   PATTERN: Uses unified layout-based rendering (inline/stacked/regular) for ALL entity types
   NOTE: Row 1 (name/active) rendered separately above this component
@@ -136,7 +135,6 @@ defineExpose({
 
 <template>
   <!--
-    LEARNING: EntityFormContent renders fields using unified layout-based mechanism
     WHY: Single rendering path for ALL entity types using inline/stacked layout
     PATTERN: Use readyInlineFields, readyStackedFields for all entities
     NOTE: Row 1 (name/active) is rendered separately above this component
@@ -144,7 +142,6 @@ defineExpose({
   -->
   <div class="entity-form-content-wrapper">
     <!--
-      LEARNING: DynamicForm component creates field contexts
       WHY: Field contexts must be created before we can render fields
       PATTERN: Render DynamicForm but hide it visually - we render fields manually
       NOTE: We don't exclude name/active from DynamicForm so contexts are created
@@ -178,7 +175,6 @@ defineExpose({
         </VCol>
       </VRow>
 
-      <!-- LEARNING: Stacked Fields -->
       <!-- WHY: Fields configured as stackedFields appear vertically stacked -->
       <!-- PATTERN: Each field in its own div with spacing -->
       <div v-for="fieldKey in (readyStackedFields || [])" :key="String(fieldKey)" class="mb-4">

@@ -1,10 +1,9 @@
 <!-- Extracted from PropertiesTable for component-health (allowlist repair). -->
+<!-- eslint-disable vue/no-mutating-props -- newProperty is a Ref passed by parent for two-way binding -->
 <script setup lang="ts">
-/* eslint-disable vue/no-mutating-props */
-import { computed } from 'vue'
 import type { Ref } from 'vue'
 import type { PropertyRequest } from '@/types/property'
-import { asEmptyString } from '@/utils/safeDefaults'
+import { usePropertyCreateForm } from '@/composables/admin/usePropertyCreateForm'
 
 const props = defineProps<{
   newProperty: Ref<PropertyRequest | Partial<PropertyRequest>>
@@ -12,54 +11,7 @@ const props = defineProps<{
 
 defineEmits<{ (e: 'cancel'): void; (e: 'save'): void }>()
 
-const address = computed(() => asEmptyString(props.newProperty?.value?.address))
-const unit = computed(() => asEmptyString(props.newProperty?.value?.unit))
-const city = computed(() => asEmptyString(props.newProperty?.value?.city))
-const state = computed(() => asEmptyString(props.newProperty?.value?.state))
-const zipCode = computed(() => asEmptyString(props.newProperty?.value?.zipCode))
-const squareFootage = computed(() => props.newProperty?.value?.squareFootage ?? undefined)
-const mlsNumber = computed(() => asEmptyString(props.newProperty?.value?.mlsNumber))
-const bedrooms = computed(() => props.newProperty?.value?.bedrooms ?? undefined)
-const bathrooms = computed(() => props.newProperty?.value?.bathrooms ?? undefined)
-const foundationAccess = computed(() => props.newProperty?.value?.foundationAccess ?? undefined)
-const additionalUnits = computed(() => props.newProperty?.value?.additionalUnits ?? undefined)
-
-function setAddress(v: string): void {
-  if (props.newProperty?.value) props.newProperty.value.address = v
-}
-function setUnit(v: string): void {
-  if (props.newProperty?.value) props.newProperty.value.unit = v
-}
-function setCity(v: string): void {
-  if (props.newProperty?.value) props.newProperty.value.city = v
-}
-function setState(v: string): void {
-  if (props.newProperty?.value) props.newProperty.value.state = v
-}
-function setZipCode(v: string): void {
-  if (props.newProperty?.value) props.newProperty.value.zipCode = v
-}
-function setSquareFootage(v: number | string | null): void {
-  if (props.newProperty?.value) props.newProperty.value.squareFootage = v != null ? Number(v) : undefined
-}
-function setMlsNumber(v: string): void {
-  if (props.newProperty?.value) props.newProperty.value.mlsNumber = v
-}
-function setBedrooms(v: number | string | null): void {
-  if (props.newProperty?.value) props.newProperty.value.bedrooms = v != null ? Number(v) : undefined
-}
-function setBathrooms(v: number | string | null): void {
-  if (props.newProperty?.value) props.newProperty.value.bathrooms = v != null ? Number(v) : undefined
-}
-function setFoundationAccess(v: string | null): void {
-  if (props.newProperty?.value) {
-    props.newProperty.value.foundationAccess =
-      v === 'basement' || v === 'crawlspace' || v === 'slab' ? v : undefined
-  }
-}
-function setAdditionalUnits(v: number | string | null): void {
-  if (props.newProperty?.value) props.newProperty.value.additionalUnits = v != null ? Number(v) : undefined
-}
+const form = usePropertyCreateForm(props.newProperty)
 </script>
 
 <template>
@@ -69,89 +21,89 @@ function setAdditionalUnits(v: number | string | null): void {
       <VRow>
         <VCol cols="12" md="6">
           <VTextField
-            :model-value="address"
+            :model-value="form.address"
             label="Address *"
             required
-            @update:model-value="setAddress"
+            @update:model-value="form.setAddress"
           />
         </VCol>
         <VCol cols="12" md="6">
           <VTextField
-            :model-value="unit"
+            :model-value="form.unit"
             label="Unit"
-            @update:model-value="setUnit"
+            @update:model-value="form.setUnit"
           />
         </VCol>
         <VCol cols="12" md="4">
           <VTextField
-            :model-value="city"
+            :model-value="form.city"
             label="City *"
             required
-            @update:model-value="setCity"
+            @update:model-value="form.setCity"
           />
         </VCol>
         <VCol cols="12" md="4">
           <VTextField
-            :model-value="state"
+            :model-value="form.state"
             label="State *"
             required
-            @update:model-value="setState"
+            @update:model-value="form.setState"
           />
         </VCol>
         <VCol cols="12" md="4">
           <VTextField
-            :model-value="zipCode"
+            :model-value="form.zipCode"
             label="Zip Code *"
             required
-            @update:model-value="setZipCode"
+            @update:model-value="form.setZipCode"
           />
         </VCol>
         <VCol cols="12" md="6">
           <VTextField
-            :model-value="squareFootage"
+            :model-value="form.squareFootage"
             type="number"
             label="Square Footage"
-            @update:model-value="setSquareFootage"
+            @update:model-value="form.setSquareFootage"
           />
         </VCol>
         <VCol cols="12" md="6">
           <VTextField
-            :model-value="mlsNumber"
+            :model-value="form.mlsNumber"
             label="MLS Number"
-            @update:model-value="setMlsNumber"
+            @update:model-value="form.setMlsNumber"
           />
         </VCol>
         <VCol cols="12" md="4">
           <VTextField
-            :model-value="bedrooms"
+            :model-value="form.bedrooms"
             type="number"
             label="Bedrooms"
-            @update:model-value="setBedrooms"
+            @update:model-value="form.setBedrooms"
           />
         </VCol>
         <VCol cols="12" md="4">
           <VTextField
-            :model-value="bathrooms"
+            :model-value="form.bathrooms"
             type="number"
             label="Bathrooms"
-            @update:model-value="setBathrooms"
+            @update:model-value="form.setBathrooms"
           />
         </VCol>
         <VCol cols="12" md="4">
           <VSelect
-            :model-value="foundationAccess"
+            :model-value="String(form.foundationAccess)"
             :items="['basement', 'crawlspace', 'slab']"
             label="Foundation Access"
             clearable
-            @update:model-value="setFoundationAccess"
+            @update:model-value="form.setFoundationAccess"
           />
         </VCol>
         <VCol cols="12" md="6">
           <VTextField
-            :model-value="additionalUnits"
+            :model-value="form.additionalUnits"
             type="number"
             label="Additional Units"
-            @update:model-value="setAdditionalUnits"
+            @update:model-value="form.setAdditionalUnits"
           />
         </VCol>
       </VRow>

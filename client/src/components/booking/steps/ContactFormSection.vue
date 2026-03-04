@@ -282,7 +282,6 @@ const ctx = inject(contactsFormContextKey)
 if (!ctx) {
   throw new Error('ContactFormSection must be used within ContactsStep (contactsFormContextKey provided).')
 }
-// WHY: Re-expose refs at top level so template auto-unwraps (ctx.clientInfo is Ref; template needs ContactInfo).
 const clientInfo = ctx.clientInfo
 const agentInfo = ctx.agentInfo
 const anotherClientInfo = ctx.anotherClientInfo

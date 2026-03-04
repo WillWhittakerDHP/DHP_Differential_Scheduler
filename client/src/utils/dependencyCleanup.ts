@@ -1,5 +1,4 @@
 /**
- * WHY: Clean up active relationships when a parent's valid children change (e.g. validCascades, validParts).
  * When the user changes which children are valid, any affected entity that references an no-longer-valid child
  * has that relationship removed via API and queries invalidated.
  */
@@ -35,7 +34,6 @@ export async function cleanupInvalidActiveRelationships(
   const { getEntitiesByKey, getEntity } = useAdmin()
   const validSet = new Set(newValidChildIds.map(String))
   const { affectedEntityKey, affectedField, linkingField } = dependencyImpact
-  // Child entity key: partAssignments links to partInstance; bookingCascades links to blockInstance
   const childEntityKey: GlobalEntityKey =
     affectedField === 'partAssignments' ? 'partInstance' : affectedEntityKey
 

@@ -1,6 +1,5 @@
 <template>
   <!-- 
-    LEARNING: Vuexy App component with theme and RTL support
     WHY: Provides app-level layout, theming, and RTL support
     PATTERN: VLocaleProvider wraps app for RTL, VApp provides theme context
     COMPARISON: React uses ThemeProvider. Vue uses VApp with VLocaleProvider
@@ -13,13 +12,11 @@
       
       <!-- 
         Dev Panel System (dev mode only) 
-        LEARNING: Show both dev panels on non-admin routes (wizard)
         WHY: Wizard needs both booking debug panel and API debug panel
         PATTERN: Conditionally render based on route
       -->
       <!-- 
         Dev Panel System (dev mode only) 
-        LEARNING: Show both dev panels on non-admin routes (wizard)
         WHY: Wizard needs both booking debug panel and API debug panel
         PATTERN: Conditionally render based on route
       -->
@@ -76,7 +73,6 @@ import { useGlobal } from './composables/useGlobal'
 
 useGlobal()
 
-// LEARNING: Dev panel visibility state
 // PATTERN: Reactive ref passed as prop to DevPanelsContainer
 const isDevMode = isDevModeEnabled()
 const debugPanelVisible = ref(false)
@@ -142,4 +138,3 @@ provide('devPanelButtons', devPanelButtons)
   }
 }
 </style>
-

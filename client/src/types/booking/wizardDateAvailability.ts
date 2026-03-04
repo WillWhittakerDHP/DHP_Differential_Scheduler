@@ -7,6 +7,8 @@ import type { UseWizardStepDataRefsReturn } from '@/types/booking/wizardStepData
 export interface UseWizardDateAvailabilityParams {
   stepDataRefs: UseWizardStepDataRefsReturn
   activeStep: Ref<number>
+  /** Entity identity of the appointment being edited (draft or existing). When set, passed to availability for overlap exclusion. */
+  currentAppointmentId: Ref<string | null>
 }
 
 export interface UseWizardDateAvailabilityReturn {

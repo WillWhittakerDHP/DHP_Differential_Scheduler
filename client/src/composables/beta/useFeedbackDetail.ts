@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch and async handleSave out of BetaFeedbackDetailModal.
  */
 import { ref, watch } from 'vue'
 import type { Ref } from 'vue'

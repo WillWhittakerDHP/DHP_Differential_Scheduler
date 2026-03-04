@@ -1,13 +1,15 @@
 <!--
   Grid config: slot increment, differential perspectives
   WHY: Extracted from BusinessControlsTab to reduce file size and cohesion
-  PATTERN: Injects businessControlsState from parent to avoid prop/emit drilling
+  PATTERN: Injects businessControlsState from parent; handlers from useGridConfigHandlers
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
 import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
+import { useGridConfigHandlers } from '@/composables/admin/useGridConfigHandlers'
+import type { GridConfigState } from '@/types/admin/gridConfigHandlers'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)
 if (!state) throw new Error('GridConfigPanel must be used inside BusinessControlsTab')
@@ -17,30 +19,7 @@ const timeIncrementOptions = TIME_INCREMENT_OPTIONS
 const formState = state.formState
 const differential = state.differential
 
-function handleMinuteIncrement(v: number | string): void {
-  formState.setMinuteIncrement(Number(v))
-}
-function handleMajorAttendees(v: unknown): void {
-  differential.majorAttendees = v as typeof differential.majorAttendees
-}
-function handleMinorAttendees(v: unknown): void {
-  differential.minorAttendees = v as typeof differential.minorAttendees
-}
-function handleMajorLabel(v: string): void {
-  differential.majorLabel = v
-}
-function handleMinorLabel(v: string): void {
-  differential.minorLabel = v
-}
-function handleDifferentialGraphDefaultLabel(v: string): void {
-  differential.differentialGraphDefaultLabel = v
-}
-function handleMajorStateLabel(v: string): void {
-  differential.majorStateLabel = v
-}
-function handleMinorStateLabel(v: string): void {
-  differential.minorStateLabel = v
-}
+const handlers = useGridConfigHandlers(state as GridConfigState)
 </script>
 
 <template>
@@ -51,7 +30,7 @@ function handleMinorStateLabel(v: string): void {
       <div class="text-label-large mb-3">{{ UI_STRINGS.sections.slotIncrementTitle }}</div>
       <VSelect
         :model-value="formState.minuteIncrement"
-        @update:model-value="handleMinuteIncrement"
+        @update:model-value="handlers.handleMinuteIncrement"
         :items="timeIncrementOptions"
         :label="UI_STRINGS.labels.timeSlotIncrement"
         required
@@ -73,7 +52,7 @@ function handleMinorStateLabel(v: string): void {
 
       <VSelect
         :model-value="differential.majorAttendees"
-        @update:model-value="handleMajorAttendees"
+        @update:model-value="handlers.handleMajorAttendees"
         :items="differential.availableUserTypeBlocks"
         :label="UI_STRINGS.differential.majorAttendeesLabel"
         :hint="UI_STRINGS.differential.majorAttendeesHint"
@@ -86,7 +65,7 @@ function handleMinorStateLabel(v: string): void {
 
       <VTextField
         :model-value="differential.majorLabel"
-        @update:model-value="handleMajorLabel"
+        @update:model-value="handlers.handleMajorLabel"
         :label="UI_STRINGS.differential.majorLabelLabel"
         :hint="UI_STRINGS.differential.majorLabelHint"
         persistent-hint
@@ -95,7 +74,7 @@ function handleMinorStateLabel(v: string): void {
 
       <VSelect
         :model-value="differential.minorAttendees"
-        @update:model-value="handleMinorAttendees"
+        @update:model-value="handlers.handleMinorAttendees"
         :items="differential.availableUserTypeBlocks"
         :label="UI_STRINGS.differential.minorAttendeesLabel"
         :hint="UI_STRINGS.differential.minorAttendeesHint"
@@ -108,7 +87,7 @@ function handleMinorStateLabel(v: string): void {
 
       <VTextField
         :model-value="differential.minorLabel"
-        @update:model-value="handleMinorLabel"
+        @update:model-value="handlers.handleMinorLabel"
         :label="UI_STRINGS.differential.minorLabelLabel"
         :hint="UI_STRINGS.differential.minorLabelHint"
         persistent-hint
@@ -117,7 +96,7 @@ function handleMinorStateLabel(v: string): void {
 
       <VTextField
         :model-value="differential.differentialGraphDefaultLabel"
-        @update:model-value="handleDifferentialGraphDefaultLabel"
+        @update:model-value="handlers.handleDifferentialGraphDefaultLabel"
         :label="UI_STRINGS.differential.graphDefaultLabel"
         :hint="UI_STRINGS.differential.graphDefaultHint"
         persistent-hint
@@ -125,8 +104,17 @@ function handleMinorStateLabel(v: string): void {
       />
 
       <VTextField
+        :model-value="differential.moveableFallbackLabel"
+        @update:model-value="handlers.handleMoveableFallbackLabel"
+        :label="UI_STRINGS.differential.moveableFallbackLabel"
+        :hint="UI_STRINGS.differential.moveableFallbackHint"
+        persistent-hint
+        class="mb-4"
+      />
+
+      <VTextField
         :model-value="differential.majorStateLabel"
-        @update:model-value="handleMajorStateLabel"
+        @update:model-value="handlers.handleMajorStateLabel"
         :label="UI_STRINGS.differential.majorStateLabel"
         :hint="UI_STRINGS.differential.majorStateHint"
         persistent-hint
@@ -135,7 +123,7 @@ function handleMinorStateLabel(v: string): void {
 
       <VTextField
         :model-value="differential.minorStateLabel"
-        @update:model-value="handleMinorStateLabel"
+        @update:model-value="handlers.handleMinorStateLabel"
         :label="UI_STRINGS.differential.minorStateLabel"
         :hint="UI_STRINGS.differential.minorStateHint"
         persistent-hint
@@ -145,6 +133,7 @@ function handleMinorStateLabel(v: string): void {
         <div class="mb-1">{{ UI_STRINGS.differential.helpMajor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpMinor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpLabels }}</div>
+        <div class="mb-1">{{ UI_STRINGS.differential.helpMoveableFallback }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpGraphDefault }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpStateLabels }}</div>
         <div>{{ UI_STRINGS.differential.helpFallback }}</div>

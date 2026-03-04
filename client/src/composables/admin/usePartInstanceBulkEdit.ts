@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move .flatMap()/.map() and .reduce() out of PartInstanceBulkEditModal.
  */
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'

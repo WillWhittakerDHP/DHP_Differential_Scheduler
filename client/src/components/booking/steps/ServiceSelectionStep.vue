@@ -1,14 +1,13 @@
 <script setup lang="ts">
 
-import { computed, inject, type Ref } from 'vue'
-import { wizardKey } from '@/composables/booking/injectionKeys'
+import { computed, inject } from 'vue'
+import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { useInstanceSelectionState } from '@/composables/booking/useInstanceSelectionState'
 import { useInstanceComponentsList } from '@/composables/booking/useInstanceComponentsList'
 import { useDynamicGridConfig } from '@/composables/booking/useDynamicGridConfig'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 const wizard = inject(wizardKey)
@@ -16,9 +15,8 @@ if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+const loadedWizardState = inject(loadedWizardStateKey)
 
-// LEARNING: Use instance selection state composable for v-model bridges
 // PATTERN: Composable provides computed properties with getter/setter
 const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
   availableInstances: computed(() => wizard.availableUserTypeBlocks.value),
@@ -49,7 +47,6 @@ const stackSelectionConfigComposable = useInstanceSelectionConfig({
 const baseRowSelectionConfig = rowSelectionConfigComposable.selectionConfig
 const stackSelectionConfig = stackSelectionConfigComposable.selectionConfig
 
-// LEARNING: Use instance display composable for display transformations
 // WHY: Moves icon mapping and display transformation logic out of component into reusable composable
 // PATTERN: Composable handles icon mapping and display transformations
 const userTypeDisplay = useInstanceDisplay({
@@ -57,7 +54,6 @@ const userTypeDisplay = useInstanceDisplay({
 })
 const wizardStateSelector = userTypeDisplay.instancesWithDisplay
 
-// LEARNING: Use dynamic grid config composable
 // PATTERN: Composable provides config with dynamic grid columns
 const { dynamicConfig: rowSelectionConfig } = useDynamicGridConfig({
   baseConfig: baseRowSelectionConfig,
@@ -89,7 +85,6 @@ const isDevMode = isDevModeEnabled()
 
 <template>
   <div class="service-selection-step">
-    <!-- LEARNING: Loading/Empty State Guards -->
     <!-- WHY: Provides user feedback when data isn't loaded or no user types are available -->
     <!-- PATTERN: Conditional rendering with helpful messages -->
     <div v-if="!wizard.bookingData" class="text-body-large text-medium-emphasis py-4">
@@ -172,4 +167,3 @@ const isDevMode = isDevModeEnabled()
   margin-bottom: 1rem;
 }
 </style>
-

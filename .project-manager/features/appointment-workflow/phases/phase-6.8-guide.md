@@ -1,4 +1,4 @@
-# Phase 6.7 Guide: Admin Force-Create & Constraint Overrides
+# Phase 6.8 Guide: Admin Force-Create & Constraint Overrides
 
 **Purpose:** Phase-level guide for planning and tracking the admin force-create and constraint override workflow
 
@@ -8,7 +8,7 @@
 
 ## Phase Overview
 
-**Phase Number:** 6.7
+**Phase Number:** 6.8
 **Phase Name:** Admin Force-Create & Constraint Overrides
 **Description:** Allow admins to force-create an appointment on any date/time — bypassing all availability blockers — and persist which constraints were overridden so the system can honor those exceptions during a future reschedule.
 
@@ -36,7 +36,21 @@
 
 **Force-create flow:** Admin picks a blocked slot → client calls `POST /api/v1/internal/appointments/force-create` → server runs slot computation for that time, collects ALL violations (no short-circuit), creates appointment and a `constraint_override` record (appointment_id, overridden_violations, authorized_by_id, reason, slot_start, slot_end).
 
-**Reschedule flow:** When rescheduling an appointment that has an override, client passes `allowedExceptions` to availability; server relaxes matching constraints for that request so the rescheduled slot is not blocked by the same constraints the original override allowed; new override record created for the rescheduled appointment.
+**Reschedule flow:** When rescheduling an appointment that has an override, client passes `allowedExceptions` to availability; server relaxes matching constraints for that request so the rescheduled slot is not blocked by the same constraints the original override allowed; new override record created for the rescheduled appointment. **Phase 6.5** adds `reschedulingAppointmentId` so the current appointment’s calendar event (and its drive buffers) are excluded from overlap during reschedule; Phase 6.8’s `allowedExceptions` then relaxes **constraint types** (e.g. capacity, business hours) for appointments that were force-created. Both are used together when rescheduling an appointment that has overrides.
+
+---
+
+## Relation to Phase 6.5 (Rescheduling Flow)
+
+Phase 6.5 defines the **rescheduling availability behavior** that every reschedule uses:
+
+- **`reschedulingAppointmentId`:** Client passes it in the computed-availability request; server excludes that appointment’s calendar event from the **overlap** list used in slot computation (so its time and drive buffers do not block slots), while still returning the event in `calendarEvents` so it stays visible on the calendar.
+
+Phase 6.8 adds **override-aware** behavior on top:
+
+- **`allowedExceptions`:** When the rescheduled appointment has a `constraint_override` record, the client passes the override’s violation keys; the server relaxes those **constraint types** (e.g. `capacity.daily`, `range.leadTime`) for that request so the new slot is not blocked by the same constraints the original force-create allowed.
+
+**Implementation order:** Implement Phase 6.5 first (event exclusion via `reschedulingAppointmentId` and original-inspection slot UI). Then Phase 6.8 extends the availability pipeline with `allowedExceptions` and override verification; reschedule UI can show override-allowed slots with a distinct indicator (Session 6.8.4).
 
 ---
 
@@ -94,7 +108,7 @@ Index on `appointment_id`.
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.7.1: Database & Server Infrastructure
+- [ ] ### Session 6.8.1: Database & Server Infrastructure
 **Description:** Create the `constraint_overrides` migration and model, implement `computeViolationsForSlot()` in the slot computation service, and create the force-create route with validation.
 **Tasks:**
 - Create `constraint_overrides` migration (columns per data model above, index on appointment_id)
@@ -104,46 +118,23 @@ Index on `appointment_id`.
 - Create force-create validator (forceSlot times, reason max 500 chars, normal appointment fields)
 - Mount force-create router in appointmentRouter
 
-**Learning Goals:**
-- Understand how to collect all violations without short-circuiting (contrast with normal slot filtering)
-- Practice migration design with array columns (TEXT[])
-- Learn route-level auth and role gating patterns
-
-- [ ] ### Session 6.7.2: Reschedule Constraint Relaxation
 **Description:** Create the constraint relaxation utility for reschedule flows and extend the availability pipeline to accept override exceptions.
 **Tasks:**
 - Create `relaxConstraintsForExceptions()` utility (pure function, clone constraints with enforcement 'off')
 - Extend computeAvailabilityData() and availabilityRouter to accept optional `allowedExceptions` when appointmentId provided
 - Server-side auth: verify appointmentId exists, has ConstraintOverride, requested allowedExceptions ⊆ overridden_violations
 
-**Learning Goals:**
-- Understand pure function constraint transformation (clone with modified enforcement)
-- Practice server-side authorization verification (subset checking)
-- Learn how to extend existing service contracts without breaking callers
-
-- [ ] ### Session 6.7.3: Admin UI — Force-Create
 **Description:** Build the client-side composable and dialog for the force-create flow, plus the admin UI integration.
 **Tasks:**
 - Create useForceCreateAppointment composable (violation preview, confirmation, reason)
 - Create force-create confirmation dialog (violations by category, human-readable labels, explicit confirm, optional reason)
 - Add "Force Schedule" button to admin appointments UI (admin-only; blocked slots selectable in distinct color)
 
-**Learning Goals:**
-- Understand confirmation dialog UX patterns for destructive/override actions
-- Practice composable design for multi-step admin workflows
-- Learn how to present violation data in a user-friendly format
-
-- [ ] ### Session 6.7.4: Reschedule UI & Documentation
 **Description:** Wire the reschedule flow to use override records, showing override-allowed slots with distinct indicators, and create new override records for rescheduled appointments.
 **Tasks:**
 - Reschedule flow: fetch override for appointment, pass allowedExceptions to availability; show override-allowed slots with distinct indicator
 - On reschedule complete, create new ConstraintOverride record for the new slot
 - Update phase documentation and feature handoff
-
-**Learning Goals:**
-- Understand how override context flows from stored data through availability to UI
-- Practice visual differentiation for special-case slots
-- Learn end-to-end data flow across stored records, API parameters, and UI rendering
 
 ---
 
@@ -169,7 +160,7 @@ Index on `appointment_id`.
 - Feature 7 (Authentication) — `req.user` needed for `authorized_by_id`
 
 **Downstream Impact:**
-- Reschedule flow (Phase 6.4) will integrate with constraint relaxation
+- Reschedule flow (Phase 6.5) will integrate with constraint relaxation
 - Override records provide audit trail for admin actions
 
 ---
@@ -225,9 +216,10 @@ All sessions complete. Ready to run phase-completion workflow?
 
 - Feature Guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
 - Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
-- PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6, Phase 6.7)
+- PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6, Phase 6.8)
 - Phase 6.3 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.3-guide.md`
-- BETA_LAUNCH_CHECKLIST: Phase 8A (force-create detail)
+- Phase 6.5 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, `reschedulingAppointmentId`, original-inspection UI)
+- LAUNCH_CHECKLIST: Phase 8A (force-create detail)
 - Slot Computation Service: `server/src/services/slotComputationService.ts`
 - Computed Availability Service: `server/src/services/computedAvailabilityService.ts`
 - Appointment CRUD Router: `server/src/routes/internal/appointments/appointmentCrudRouter.ts`

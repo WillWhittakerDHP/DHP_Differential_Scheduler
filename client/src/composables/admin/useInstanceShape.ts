@@ -9,7 +9,6 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { BlockShapeEntity, GlobalEntity, PartShapeEntity } from '@/types/entities'
 import type { UseInstanceShapeOptions, UseInstanceShapeReturn } from '@/types/admin/instanceShape'
 
-
 export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceShapeReturn {
   const { entityKey, entityId } = options
   const { globalData } = useGlobal()
@@ -22,7 +21,6 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
     return adminComp.getEntity(entityKey, toGlobalEntityId(entityIdRef.value))
   })
   
-  // LEARNING: Get shapeRef from instance - same pattern for both entity types
   // PATTERN: Extract shapeRef based on entity type
   const shapeRef = computed(() => {
     if (!instance.value) return null

@@ -109,8 +109,6 @@ Refactored drive time `applyTo` logic from inclusionary (`first_only`/`last_only
 
 ---
 
-## Learning Checkpoints
-
 ### What
 - Exclusionary logic (`skipDayStart`/`skipDayEnd`) vs inclusionary logic (`first_only`/`last_only`)
 - Business hours boundary detection using Date comparisons

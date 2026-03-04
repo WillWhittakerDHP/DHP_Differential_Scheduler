@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Appointments Data Table Component
   WHY: Data table for managing appointments with inline editing; uses useAppointmentAttendees, constants, create form.
   PATTERN: VDataTable with custom cell slots; create/edit convert client/agent IDs to attendees via composable.
 -->
@@ -39,14 +38,10 @@ const {
   startCreate,
   cancelCreate,
   saveCreate,
-  properties,
-  users,
-  getDisplayValue,
-  getPropertyById,
-  getUserById,
-  getPropertyTypeNames,
+  lookups,
   confirmAppointment,
 } = useAppointmentsTableModel()
+const { properties, users, getDisplayValue, getPropertyById, getUserById, getPropertyTypeNames } = lookups
 
 const handlers = useAppointmentsTableHandlers({
   newAppointment,

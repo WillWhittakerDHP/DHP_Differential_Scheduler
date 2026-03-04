@@ -1,6 +1,5 @@
 import type { DevPanelsComputedData } from '@/types/booking/devPanelsComputed'
 /**
- * PATTERN: Unwrap dev panel data refs into a single appointmentData computed.
  * WHY: Keeps DevPanelsContainer.vue under vue-architecture script line limit.
  */
 import { computed, type ComputedRef } from 'vue'

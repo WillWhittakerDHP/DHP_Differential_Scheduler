@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch(entityId) out of DynamicForm and EntityFormContent.
  */
 import { watch, type Ref } from 'vue'
 import type { GlobalEntityId } from '@/types/entities'

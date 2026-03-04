@@ -62,10 +62,6 @@ export function usePartInstanceForm(
     active: true,
   })
   
-  /**
-LEARNING: Submission loading state
-WHY: Component needs to show load...
-   */
   const isSubmitting = ref(false)
   
   /**

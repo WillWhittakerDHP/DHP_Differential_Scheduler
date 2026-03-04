@@ -12,6 +12,8 @@ export interface UseComputedAvailabilityParams {
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
   activeStep: Ref<number>
+  /** Entity identity of appointment being edited; passed to availability API for overlap exclusion. */
+  appointmentId?: Ref<string | null>
   duration?: Ref<number | null>
   selectedDate?: Ref<string | null>
   dataSource?: Ref<'real' | 'mock' | 'none'>

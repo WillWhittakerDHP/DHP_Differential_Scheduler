@@ -1,6 +1,6 @@
 # Session 2.2.6 Guide: Constraint Attribution & Admin Performance
 
-**Purpose:** Session-level guide with task breakdown and learning goals
+**Purpose:** Session-level guide with task breakdown
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
@@ -16,14 +16,6 @@
 
 **Duration:** ~2-3 hours  
 **Status:** Completed (documentation alignment; Tasks 2.2.6.2–2.2.6.5 already implemented)
-
-### Learning Goals
-
-- **Violation Attribution Patterns:** Understand how to correctly attribute constraint violations
-- **Constraint Display:** Learn how to display buffer minutes in tooltips
-- **Conditional Loading:** Implement conditional data loading based on UI state
-- **Vue Provide/Inject:** Use provide/inject for tab state sharing
-- **Performance Optimization:** Prevent unnecessary API calls until needed
 
 ### Tasks
 
@@ -94,14 +86,12 @@
 - Generate formatted session label with date/status
 - Display compact prompt format for reference
 - Trigger task planning (fill out task embeds in session guide)
-- Set learning goals based on session
 - Identify files to work with based on handoff "Next Action"
 
 **Manual Alternative:**
 1. **Label the session** with format below
 2. **Review previous session notes** (Session 2.2.5)
-3. **Set learning goals** for this session
-4. **Identify files to work with**
+3. **Identify files to work with**
 
 ### Session Labeling Format
 
@@ -126,7 +116,7 @@ Each session should start with:
 
 **Checkpoint Type:** Choose based on task complexity:
 - **Simple tasks** (Task 2.2.6.4): Quick checkpoint (quality only)
-- **Complex tasks** (Tasks 2.2.6.1-2.2.6.3, 2.2.6.5): Full checkpoint (quality + learning + optional feedback)
+- **Complex tasks** (Tasks 2.2.6.1-2.2.6.3, 2.2.6.5): Full checkpoint (quality + optional feedback)
 
 #### Quick Checkpoint Format (Simple Tasks)
 
@@ -147,7 +137,7 @@ Each session should start with:
 
 **Completed:** Fixed violation attribution logic
 
-**Learning:**
+**Architecture Notes:**
 - **Violation Attribution:** Direct conflicts are fundamental (can't double-book)
 - **Drive Time Constraints:** Always buffer-only (represent travel time, not conflicts)
 - **Violation Collection:** Collect ALL violations for debugging overlay
@@ -209,52 +199,10 @@ Break each session into focused tasks. Each task should have:
 
 ### Session Organization
 
-- **Quick Start:** Session overview, learning goals, tasks
+- **Quick Start:** Session overview, tasks
 - **Session Workflow:** Before/during/after session process
 - **Reference:** Templates, examples, related documents
 - **Notes:** Session-specific notes and decisions
-
----
-
-## Learning Checkpoints
-
-### Purpose
-
-Learning checkpoints ensure understanding before moving forward. They're integrated into the unified checkpoint system.
-
-### When to Use Learning Checkpoints
-
-- **Complex tasks:** New concepts, architectural changes, framework transitions
-- **Simple tasks:** Quick checkpoint (quality only) - learning optional
-
-### Learning Checkpoint Process
-
-After completing a task (especially complex ones), pause to:
-
-1. **Review What Was Learned**
-   - What patterns were used?
-   - How does this differ from previous approaches?
-   - What concepts need clarification?
-
-2. **Verify Understanding**
-   - Can you explain what was accomplished?
-   - Do you understand the implementation?
-   - Are there questions before continuing?
-
-3. **Document Decisions**
-   - Why was this approach chosen?
-   - What alternatives were considered?
-   - What might change later?
-
-### Learning Checkpoint Format
-
-Included in full checkpoint format:
-```
-**Learning:** (Optional - for complex tasks)
-- [Key concepts/patterns learned]
-- [Framework differences if applicable]
-- [Questions answered]
-```
 
 ---
 
@@ -281,12 +229,6 @@ When planning a new task, use this structure:
 **Checkpoint:** 
 - [What needs to be verified]
 - [Quality criteria]
-- [Learning goals if complex task]
-
-**Learning Focus:** (Optional - for complex tasks)
-- [Concept 1 to understand]
-- [Concept 2 to understand]
-
 **Dependencies:**
 - [Prerequisite tasks or files]
 ```
@@ -306,17 +248,11 @@ When logging a completed task:
 **Files Modified:**
 - `[path]` - [Description]
 
-**Concepts Learned:**
-- **[Concept]**: [Explanation]
-
 **Key Methods/Functions:**
 - `methodName()` - [Description]
 
 **Architecture Notes:**
 - **[Pattern]**: [Explanation]
-
-**Learning Checkpoint:**
-- [x] [Checkpoint] ✅
 
 **Questions Answered:**
 - **[Question]** - [Answer]
@@ -332,7 +268,7 @@ When logging a completed task:
 ### Document Responsibilities
 
 - **Session Guide** (this file): Instructions for how to work (workflow, checkpoints, end-of-session)
-- **Session Log**: Historical record of what happened (task entries, concepts learned, progress)
+- **Session Log**: Historical record of what happened (task entries, progress)
 - **Session Handoff**: Transition context for next session (where we left off, what's next)
 
 ### Documentation Templates
@@ -342,7 +278,6 @@ When logging a completed task:
 Templates include:
 - Task entry format for session log
 - Handoff document format
-- Learning-focused task template
 
 ### Related Documents
 

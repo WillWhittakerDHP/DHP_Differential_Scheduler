@@ -9,7 +9,6 @@ import type { SelectionCardConfig } from '@/components/booking/types/selectionCa
 import { buildServicesStackSelectionConfig, buildUserTypeBlockRowSelectionConfig } from '@/utils/booking/serviceSelectionConfigBuilders'
 import type { UseInstanceSelectionConfigOptions, UseInstanceSelectionConfigReturn } from '@/types/booking/instanceSelectionConfig'
 
-
 /**
  * PATTERN: useInstanceSelectionConfig composable
 
@@ -26,7 +25,6 @@ export function useInstanceSelectionConfig(
 
   /**
 Create wizard state plugin for the selection
-LEARNING: Plugin enable...
    */
   const statePlugin = createWizardStatePlugin(stateField)
 
@@ -47,4 +45,3 @@ LEARNING: Plugin enable...
     statePlugin,
   }
 }
-

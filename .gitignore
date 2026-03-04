@@ -20,3 +20,12 @@ backups/property-configs/property-config-*.json
 
 # Ignore .cursor nested git repository (synced separately)
 .cursor/.git
+
+# Pending state for /accepted-proceed and /accepted-code (chat-first flow)
+.cursor/commands/.tier-start-pending.json
+.cursor/commands/.task-start-pending.json
+
+# MCP config with machine-specific paths (copy from .cursor/mcp.json.example)
+.cursor/mcp.json
+# Cloned Gmail MCP server (third-party)
+.cursor/gmail-mcp-server

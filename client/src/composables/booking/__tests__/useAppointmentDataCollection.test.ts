@@ -1,6 +1,6 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAppointmentDataCollection } from '../useAppointmentDataCollection'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData } from '../useAppointmentDataCollection'
@@ -45,7 +45,9 @@ describe('useAppointmentDataCollection', () => {
     selectedOptionTypeBlocks: ReturnType<typeof ref>
     selectedLineItemBlocks: ReturnType<typeof ref>
     selectedUserTypeBlock: ReturnType<typeof ref>
-    isQuoteMode: ReturnType<typeof ref>
+    isQuoteMode: ReturnType<typeof ref> | ReturnType<typeof computed<boolean>>
+    wizardMode: ReturnType<typeof ref>
+    setWizardMode: (mode: 'new' | 'quote' | 'reschedule') => void
   }
   let propertyDetailsStepData: ReturnType<typeof ref> | null
   let contactsStepData: ReturnType<typeof ref> | null
@@ -55,13 +57,18 @@ describe('useAppointmentDataCollection', () => {
   let showError: ReturnType<typeof vi.fn>
 
   beforeEach(() => {
+    const wizardModeRef = ref<'new' | 'quote' | 'reschedule'>('new')
     wizard = {
       selectedServiceTypeBlocks: ref([]),
       selectedPropertyTypeBlocks: ref([]),
       selectedOptionTypeBlocks: ref([]),
       selectedLineItemBlocks: ref([]),
       selectedUserTypeBlock: ref(null),
-      isQuoteMode: ref(false),
+      isQuoteMode: computed(() => wizardModeRef.value === 'quote'),
+      wizardMode: wizardModeRef,
+      setWizardMode: (mode) => {
+        wizardModeRef.value = mode
+      },
     }
     propertyDetailsStepData = ref(null)
     contactsStepData = ref(null)
@@ -195,7 +202,7 @@ describe('useAppointmentDataCollection', () => {
     it('should collect appointment data successfully', async () => {
       wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
       wizard.selectedUserTypeBlock.value = { id: 'user-type-1' }
-      wizard.isQuoteMode.value = false
+      wizard.setWizardMode('new')
       
       propertyDetailsStepData = ref({
         address: '123 Main St',
@@ -481,7 +488,7 @@ describe('useAppointmentDataCollection', () => {
 
     it('should set status to quoted when in quote mode', async () => {
       wizard.selectedServiceTypeBlocks.value = [createBookingBlockInstance('service-1')]
-      wizard.isQuoteMode.value = true
+      wizard.setWizardMode('quote')
       
       propertyDetailsStepData = ref({
         address: '123 Main St',

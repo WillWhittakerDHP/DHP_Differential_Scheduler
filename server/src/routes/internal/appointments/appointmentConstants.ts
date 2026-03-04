@@ -55,7 +55,14 @@ export const ERROR_MESSAGES = {
   INVALID_SNAPSHOT_IDS: 'One or more snapshot IDs are invalid',
 } as const
 
-export const DEFAULT_CALENDAR_EMAIL = 'scheduling@districthomepro.com'
+/**
+ * Admin panel dev testing email. Used as default calendar account and as the
+ * mailbox for Gmail MCP invite-response verification (see .cursor/GMAIL_MCP_SETUP.md).
+ */
+export const ADMIN_DEV_TESTING_EMAIL = 'scheduling@districthomepro.com'
+
+/** Default calendar when no writeTo calendar is configured; same as admin dev testing email. */
+export const DEFAULT_CALENDAR_EMAIL = ADMIN_DEV_TESTING_EMAIL
 
 export const STATUSES_REQUIRING_CALENDAR_EVENT = ['submitted', 'confirmed'] as const
 export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING_CALENDAR_EVENT)[number]

@@ -81,8 +81,6 @@ Integrated Google Places autocomplete into the booking wizard Step 2 (Property D
 
 ---
 
-## Learning Checkpoints
-
 ### What
 - Progressive disclosure UI pattern in Vue.js with reactive `isAddressExpanded` ref
 - Google Places API address component extraction (street_number, route, locality, etc.)

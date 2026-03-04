@@ -1,7 +1,6 @@
 /**
  * Shared Maps API Types
  *
- * LEARNING: Single source of truth for Google Maps/Places API types
  * WHY: Eliminates duplication between client and server, ensures contract consistency
  */
 
@@ -67,7 +66,6 @@ export interface LocationBase {
 
 /**
  * Location input for route calculations
- * LEARNING: Routes API accepts placeId, coordinates, or address
  * PATTERN: Priority order for accuracy: placeId > coordinates > address
  */
 export type RouteLocation = LocationBase
@@ -77,7 +75,6 @@ export type RouteMatrixStatus = 'OK' | 'NOT_FOUND' | 'ZERO_RESULTS'
 
 /**
  * Route matrix result for a single origin-destination pair
- * LEARNING: Shared between client and server for route/drive time APIs
  */
 export interface RouteMatrixResult {
   originIndex: number

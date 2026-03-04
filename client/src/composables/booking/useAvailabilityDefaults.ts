@@ -11,7 +11,6 @@ import type { TimeSlot } from '@/types/appointment'
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
 
-
 /**
  * WHY: useAvailabilityDefaults composable
 WHY: Centralizes defaulting logic and...
@@ -37,7 +36,6 @@ FIX:...
 
   /**
 Per-date slot selection storage
-LEARNING: Stores slot selections key...
    */
   const slotSelectionsByDate = ref<Record<string, number>>({})
 
@@ -149,4 +147,3 @@ Watch isDifferentialService (now represents effective differential s...
     appointmentSlotOrderIndex,
   }
 }
-

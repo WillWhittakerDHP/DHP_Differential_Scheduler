@@ -17,7 +17,7 @@ import { useAvailabilityStepHandlers } from '@/utils/booking/availabilityStepHan
 import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
-import { equals } from '@/utils/ternary/ternaryUtils'
+import { isDifferentialFromSelectedBlocks } from '@/composables/booking/useAvailabilityLogic'
 import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 import type {
   UseAvailabilityOrchestratorParams,
@@ -48,12 +48,10 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
   })
 
-  const isEffectivelyDifferentialForDefaults = computed(() => {
-    const selectedServices = wizard.selectedServiceTypeBlocks.value
-    const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
-    if (!isDifferential) return false
-    return true
-  })
+  /** Use canonical differential derivation from useAvailabilityLogic (Phase 6.4). */
+  const isEffectivelyDifferentialForDefaults = computed(() =>
+    isDifferentialFromSelectedBlocks(wizard.selectedServiceTypeBlocks.value)
+  )
 
   const {
     selectedDate,
@@ -179,18 +177,35 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     isDifferentialService: isEffectivelyDifferential
   })
 
-  const moveablePartsScheduling = useMoveablePartsScheduling({ appointmentShape, selectedSlot })
+  const moveablePartsScheduling = useMoveablePartsScheduling({
+    appointmentShape,
+    selectedSlot,
+    propertyDetailsStepData,
+    slotsByDay: computedAvailability.slotsByDay,
+  })
   const {
     hasMoveableParts,
     showModal: showMoveableModal,
     moveableOptions,
+    moveableAppointmentSlots,
+    moveablePartShapeName,
+    selectedMoveableDay,
+    setSelectedMoveableDay,
+    allowedMoveableDates,
+    isLoadingMoveableDaySlots,
     selectedSlotIndex: selectedMoveableSlotIndex,
     contingencyPeriod,
     openModal: openMoveableModal,
     closeModal: closeMoveableModal,
     selectSlot: selectMoveableSlot,
-    isLoadingOptions
+    isLoadingOptions,
   } = moveablePartsScheduling
+
+  const hasMoveablePartsGated = computed(
+    () =>
+      hasMoveableParts.value &&
+      wizard.selectedServiceTypeBlocks.value.some((b) => b.preClosing === true)
+  )
 
   const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
 
@@ -226,11 +241,12 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     handleTimeBasisChange: handleTimeBasisChangeBase
   } = useAvailabilityStepHandlers({
     appointmentSlotOrderIndex,
-    hasMoveableParts,
+    hasMoveableParts: hasMoveablePartsGated,
     selectedSlot,
     openMoveableModal,
     closeMoveableModal,
     moveableOptions,
+    moveableSlotsForConfirm: moveablePartsScheduling.moveableSlotsForConfirm,
     selectedMoveableSlotIndex,
     confirmedMoveableScheduling,
     startTimeType
@@ -279,6 +295,12 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       selectedOptionTypeBlockId,
       showMoveableModal,
       moveableOptions,
+      moveableAppointmentSlots,
+      moveablePartShapeName,
+      selectedMoveableDay,
+      setSelectedMoveableDay,
+      allowedMoveableDates,
+      isLoadingMoveableDaySlots,
       selectedMoveableSlotIndex,
       contingencyPeriod,
       isLoadingOptions,

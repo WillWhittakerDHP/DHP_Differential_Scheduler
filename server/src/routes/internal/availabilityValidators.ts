@@ -35,5 +35,27 @@ export function validateComputedAvailabilityRequest(
     }
   }
 
+  if (
+    req.appointmentId !== undefined
+    && req.appointmentId !== null
+    && typeof req.appointmentId !== 'string'
+  ) {
+    return {
+      valid: false,
+      error: 'appointmentId must be a string when provided',
+    }
+  }
+
+  if (
+    req.reschedulingAppointmentId !== undefined
+    && req.reschedulingAppointmentId !== null
+    && typeof req.reschedulingAppointmentId !== 'string'
+  ) {
+    return {
+      valid: false,
+      error: 'reschedulingAppointmentId must be a string when provided',
+    }
+  }
+
   return { valid: true }
 }

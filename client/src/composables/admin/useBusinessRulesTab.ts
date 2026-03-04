@@ -1,7 +1,5 @@
 import type { BusinessRule } from '@/types/admin/businessRules'
 /**
- * WHY: Tab logic for Business Rules admin tab; keeps BusinessRulesTab.vue thin (audit: component-logic).
- * PATTERN: Composes useBusinessRules, useBusinessRuleForm, useGlobal; exposes selection, filtered rules, and handlers.
  */
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import { ref, computed, watch } from 'vue'

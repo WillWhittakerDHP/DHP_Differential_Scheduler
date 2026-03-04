@@ -1,8 +1,7 @@
 <script setup lang="ts">
 
-import { ref, inject, computed, onMounted, type Ref } from 'vue'
-import type { PlaceDetails } from '@/services/mapsApiService'
-import type { ValidationRule } from '@/types/formValidation'
+import { ref, inject, computed, onMounted } from 'vue'
+import type { PlaceDetails } from '@shared/types/mapsTypes'
 import type { PropertyTypeWithComponents } from './PropertyDetailsSection.vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import {
@@ -11,6 +10,7 @@ import {
   propertyDetailsStepValidateKey,
   propertyDetailsFieldErrorsKey,
   wizardKey,
+  loadedWizardStateKey,
 } from '@/composables/booking/injectionKeys'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
@@ -21,7 +21,6 @@ import { useMapsSessionToken } from '@/composables/useMapsSessionToken'
 import PropertyConfirmationModal from '@/components/booking/modals/PropertyConfirmationModal.vue'
 import PropertyAddressSection from './PropertyAddressSection.vue'
 import PropertyDetailsSection from './PropertyDetailsSection.vue'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { US_STATE_OPTIONS } from '@/configs/usStates'
 import { createLogger } from '@/utils/logger'
 
@@ -40,10 +39,8 @@ if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState', ref(null))
+const loadedWizardState = inject(loadedWizardStateKey) ?? null
 
-
-// LEARNING: Use property type block selection composable
 // PATTERN: Composable provides reactive computed property for selection
 const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
   selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
@@ -51,13 +48,11 @@ const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
   togglePropertyTypeBlock: wizard.togglePropertyTypeBlock
 })
 
-// LEARNING: Use property form state composable
 // PATTERN: Composable manages all form state refs
 const { formData, isAddressExpanded } = usePropertyFormState()
 
 // WHY: Watcher logic moved to usePropertyFormWatchers composable
 
-// LEARNING: Use property details logic composable
 // PATTERN: Composable provides reactive computed properties for property logic
 const propertyDetailsLogic = usePropertyDetailsLogic({
   wizard: {
@@ -103,7 +98,6 @@ const {
   changeAddress
 } = propertyDetailsLogic
 
-// LEARNING: State options from shared config (reusable across wizard and admin address forms)
 const states = US_STATE_OPTIONS
 
 /**
@@ -133,13 +127,13 @@ usePropertyFormWatchers({
   isAddressExpanded
 })
 
-// LEARNING: Use property validation composable
 // PATTERN: Composable provides validation functions and computed properties
 const {
-  validationRules,
   fieldErrors,
   isFormValid,
-  validateForm
+  validateForm,
+  addressValidationRules,
+  propertySizeValidationRules,
 } = usePropertyValidation({
   formData: {
     address: formData.address,
@@ -175,7 +169,6 @@ const foundationAccessDisplayValue = computed(() => {
 const formRef = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 void formRef.value // ref used by template
 
-// LEARNING: Modal state for property confirmation
 const showPropertyConfirmationModal = ref(false)
 
 function handlePropertyConfirm(): void {
@@ -189,7 +182,7 @@ function handlePropertyEdit(): void {
   <VForm ref="formRef" class="property-details-step">
     <PropertyAddressSection
       :form-data="formData"
-      :validation-rules="(validationRules as { address: ValidationRule[]; city: ValidationRule[]; state: ValidationRule[]; zipCode: ValidationRule[] })"
+      :validation-rules="addressValidationRules"
       :field-errors="fieldErrors"
       :is-address-expanded="isAddressExpanded"
       :requires-unit-number="requiresUnitNumber"
@@ -205,7 +198,7 @@ function handlePropertyEdit(): void {
       :available-property-types="(propertyTypeBlocksWithComponents as PropertyTypeWithComponents[])"
       :property-types-cascade-error="wizard.propertyTypesCascadeError?.value ?? null"
       :form-data="formData"
-      :validation-rules="(validationRules as { propertySize: ValidationRule[]; numberOfUnits: ValidationRule[] })"
+      :validation-rules="propertySizeValidationRules"
       :field-errors="fieldErrors"
       :is-multi-family="isMultiFamily"
       :is-enrichment-loading="isEnrichmentLoading"
@@ -213,7 +206,6 @@ function handlePropertyEdit(): void {
       :foundation-access-display-value="foundationAccessDisplayValue"
     />
 
-    <!-- LEARNING: Property Confirmation Modal -->
     <!-- WHY: Allows users to review property details before proceeding -->
     <!-- PATTERN: VDialog modal with property details summary -->
     <PropertyConfirmationModal
@@ -224,7 +216,6 @@ function handlePropertyEdit(): void {
       @edit="handlePropertyEdit"
     />
 
-    <!-- LEARNING: Review & Continue Button -->
     <!-- WHY: Triggers property confirmation modal when form is valid -->
     <!-- PATTERN: Button that shows modal when clicked -->
     <VRow v-if="isFormValid" class="mt-6">
@@ -243,4 +234,3 @@ function handlePropertyEdit(): void {
 
 <style scoped lang="scss">
 </style>
-

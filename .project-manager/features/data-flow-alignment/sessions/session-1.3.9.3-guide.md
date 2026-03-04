@@ -19,25 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current wizard state structure (`selectedBaseService`, `selectedDwellingAdjustment`)
-- Understand Vue 3 Composition API ref patterns
-- Understand computed properties and reactivity
-- Review wizard state plugin architecture
-
-**During Session:**
-- Learn how to refactor refs from single values to arrays
-- Learn how to update selection methods for arrays
-- Learn how to add accumulation computed properties
-- Learn how to update state plugins for array handling
-
-**After Session:**
-- Understand array-based state management patterns in Vue
-- Understand accumulation naming for clarity
-- Understand state plugin updates for multi-select
-
 ---
 
 ## Objectives
@@ -268,4 +249,3 @@
 ---
 
 **Next Sub-Session:** Session 1.3.9.4 - Component Architecture Refactor (NestedSelectionCard)
-

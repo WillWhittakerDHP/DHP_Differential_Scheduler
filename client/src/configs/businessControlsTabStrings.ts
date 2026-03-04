@@ -175,6 +175,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     minorAttendeesHint: 'UserTypeBlock instances that make an event "minor" (e.g., Client)',
     minorLabelLabel: 'Minor Label',
     minorLabelHint: 'Display label for minor perspective (e.g., Minor Formal Presentation)',
+    moveableFallbackLabel: 'Moveable Fallback Label',
+    moveableFallbackHint: 'Used when a moveable part-shape name cannot be determined (e.g., Post-Appointment Work)',
     graphDefaultLabel: 'Differential Graph Default Label',
     graphDefaultHint: 'Message shown when no time slot is selected (e.g., Select a Time Slot)',
     majorStateLabel: 'Major State Label',
@@ -184,6 +186,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     helpMajor: 'Major Attendees: Events with these attendees are considered "major" perspective.',
     helpMinor: 'Minor Attendees: Events with these attendees are considered "minor" perspective.',
     helpLabels: 'Labels: Customize how major and minor perspectives are displayed in the UI.',
+    helpMoveableFallback: 'Moveable Fallback Label: Used when no moveable part-shape can be resolved from event assignments.',
     helpGraphDefault: 'Differential Graph Default Label: Large message shown over the differential graph when no time slot is selected.',
     helpStateLabels: 'State Labels: Messages shown when a time slot is selected. If left empty, defaults to "Showing {Major/Minor Label} times".',
     helpFallback: 'If not configured, the system falls back to hardcoded "Major" (major) and "Minor" (minor) event names, and default labels.'
@@ -197,6 +200,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   defaults: {
     majorLabel: 'Inspector',
     minorLabel: 'Minor Formal Presentation',
+    moveableFallbackLabel: 'Post-Appointment Work',
     differentialGraphDefaultLabel: 'Select a Time Slot'
   },
   sections: {

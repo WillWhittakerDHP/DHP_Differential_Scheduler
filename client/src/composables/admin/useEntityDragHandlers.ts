@@ -8,7 +8,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
 import { createLogger } from '@/utils/logger'
 
-
 const logger = createLogger('useEntityDragHandlers')
 
 /**
@@ -33,7 +32,6 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
    */
   const handleDragEnd = async (): Promise<void> => {
     try {
-      // LEARNING: Use filteredEntities as source of truth for all entities in the group
       // PATTERN: Read from filteredEntities to ensure we update all entities
       const allEntities = filteredEntities.value
       
@@ -89,4 +87,3 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
     syncArrays
   }
 }
-

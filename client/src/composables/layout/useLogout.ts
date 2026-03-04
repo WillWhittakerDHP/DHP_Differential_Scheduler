@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move async logout out of UserProfile.
  */
 import { useRouter } from 'vue-router'
 import { useAbility } from '@casl/vue'

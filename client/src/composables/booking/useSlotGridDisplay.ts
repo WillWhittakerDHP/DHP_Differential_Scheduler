@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move .map() out of AppointmentSlotGrid.
  */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { SlotAvailabilityResult } from '@shared/types/availabilityTypes'

@@ -17,6 +17,7 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
   majorLabel: WritableComputedRef<string>
   minorLabel: WritableComputedRef<string>
   differentialGraphDefaultLabel: WritableComputedRef<string>
+  moveableFallbackLabel: WritableComputedRef<string>
   majorStateLabel: WritableComputedRef<string>
   minorStateLabel: WritableComputedRef<string>
 } {
@@ -100,6 +101,18 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
     }
   })
 
+  const moveableFallbackLabel = computed({
+    get: () =>
+      formData.value?.differentialPerspectives?.moveableFallbackLabel ??
+      DEFAULTS.moveableFallbackLabel,
+    set: (value: string) => {
+      ensureDifferentialPerspectives()
+      if (formData.value?.differentialPerspectives) {
+        formData.value.differentialPerspectives.moveableFallbackLabel = value
+      }
+    }
+  })
+
   const majorStateLabel = computed({
     get: () => formData.value?.differentialPerspectives?.majorStateLabel ?? '',
     set: (value: string) => {
@@ -127,6 +140,7 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
     majorLabel,
     minorLabel,
     differentialGraphDefaultLabel,
+    moveableFallbackLabel,
     majorStateLabel,
     minorStateLabel
   }

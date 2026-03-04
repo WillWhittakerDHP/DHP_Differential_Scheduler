@@ -24,7 +24,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     isDifferentialService
   } = params
 
-  // LEARNING: Convert inputs to computed refs for consistency
   // WHY: Allows both refs and plain values as input
   // PATTERN: Check if value is ComputedRef, wrap if needed
   const blockInstancesRef = computed(() => {
@@ -55,7 +54,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   })
 
   /**
-   * LEARNING: Transform AppointmentSlots to major perspective
    */
   const majorTimeSlots = computed(() => {
     const slots = appointmentSlots.value
@@ -131,4 +129,3 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     getMinorTimeSlot
   }
 }
-

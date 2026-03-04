@@ -60,7 +60,6 @@ const chipStyle = computed(() => {
   return 'cursor: pointer; position: relative; z-index: 10; pointer-events: auto'
 })
 
-// LEARNING: Determine if value is ternary override state
 // WHY: Override state needs special visual indicator
 const isOverride = computed(() => {
   return props.isActive === 'override'
@@ -71,13 +70,11 @@ const complementaryColor = computed(() => {
   return getComplementaryColor(props.color)
 })
 
-// LEARNING: Determine chip color based on state
 // WHY: Different states need different colors for visual distinction
 const chipColor = computed(() => {
   return props.color
 })
 
-// LEARNING: Determine chip variant based on state
 const chipVariant = computed(() => {
   if (props.isActive === false || props.isActive === 'false') {
     return 'outlined'
@@ -120,4 +117,3 @@ const handleKeydown = (event: KeyboardEvent) => {
 </script>
 
 <style scoped lang="scss" src="./StatusButton.scss"></style>
-

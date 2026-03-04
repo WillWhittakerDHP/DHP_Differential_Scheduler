@@ -1,40 +1,10 @@
 {
-  "generatedAt": "2026-03-04T15:52:26.495Z",
+  "generatedAt": "2026-03-04T15:30:37.332Z",
   "runsToConsider": 5,
   "suggestions": [
     {
-      "auditType": "error-handling",
-      "entryKey": "pattern:0",
-      "recommendation": "remove-review",
-      "reason": "Zero suppression hits in last 5 runs"
-    },
-    {
-      "auditType": "error-handling",
-      "entryKey": "pattern:1",
-      "recommendation": "remove-review",
-      "reason": "Zero suppression hits in last 5 runs"
-    },
-    {
-      "auditType": "error-handling",
+      "auditType": "type-import",
       "entryKey": "specific:0",
-      "recommendation": "remove-review",
-      "reason": "Zero suppression hits in last 5 runs"
-    },
-    {
-      "auditType": "error-handling",
-      "entryKey": "specific:1",
-      "recommendation": "remove-review",
-      "reason": "Zero suppression hits in last 5 runs"
-    },
-    {
-      "auditType": "error-handling",
-      "entryKey": "specific:2",
-      "recommendation": "remove-review",
-      "reason": "Zero suppression hits in last 5 runs"
-    },
-    {
-      "auditType": "error-handling",
-      "entryKey": "specific:3",
       "recommendation": "remove-review",
       "reason": "Zero suppression hits in last 5 runs"
     }

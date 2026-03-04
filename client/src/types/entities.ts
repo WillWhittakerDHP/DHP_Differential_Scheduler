@@ -31,6 +31,7 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber?: boolean | null;
   differential?: TernaryBoolean;
+  preClosing?: boolean;
   isMultiFamily: boolean;
   requiresAgent: boolean;
 }

@@ -178,7 +178,6 @@ const router = createCrudRouter({
     return appointmentFields
   },
   afterCreate: async (record, req, res) => {
-    // LEARNING: Complex POST logic moved to afterCreate hook
     // WHY: Keeps factory pattern clean while allowing domain-specific behavior
     // PATTERN: Hook runs after record creation, handles side effects
 

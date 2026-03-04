@@ -1,19 +1,14 @@
+// WHY: Fill container width so graph and bars scale with their div; bars keep relative proportions.
 .differential-graph {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 328px; // LEARNING: Explicitly match calendar's fixed width (~328px)
-  max-width: 328px; // Prevent any expansion
-  box-sizing: border-box; // Ensure padding/borders included in width
-  align-self: flex-start; // Align to start, don't stretch beyond content
-  margin: 0; // Remove any default margins
-  padding: 0; // Remove any default padding
-
-  @media (max-width: 599px) {
-    width: 100%;
-    max-width: 100%;
-  }
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
   h5 {
     margin: 0;
@@ -115,11 +110,12 @@
   box-sizing: border-box; // Include border in width calculation
 }
 
+// WHY: Width from --minor-bar-width (duration ratio) so bottom bar is always shorter than or equal to top bar.
 .minor-bar {
-  width: 50%;
-  max-width: 50%; // Ensure it doesn't exceed half of parent
+  width: var(--minor-bar-width, 50%);
+  max-width: 100%;
   margin-left: auto; // Right-justify
-  box-sizing: border-box; // Include border in width calculation
+  box-sizing: border-box;
 }
 
 // WHY: Makes bars interactive with hover and focus states
@@ -147,7 +143,6 @@
   }
 }
 
-// LEARNING: Bar states - Selected/Active border colors
 .major-bar.selected {
   border-color: rgb(var(--v-theme-primary));
 }
@@ -169,4 +164,3 @@
 .minor-bar.selected {
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
 }
-

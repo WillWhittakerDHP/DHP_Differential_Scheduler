@@ -1,7 +1,6 @@
 /**
  * WHY: Appointment to Wizard Transformer
 
-LEARNING: Transforms appointment API ...
  */
 import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance, BookingData } from '@/types/transformers/bookingData'
@@ -186,7 +185,6 @@ function resolveBlockCategories(
 
 /**
  * WHY: Transform appointment response to wizard state data
-LEARNING: Main trans...
  */
 export async function transformAppointmentToWizard(
   appointment: AppointmentResponse,

@@ -1,6 +1,4 @@
 /**
- * WHY: Centralize browser context capture for feedback/submission with SSR guards.
- * PATTERN: Util only; component does not touch window/navigator directly (audit: component-logic).
  */
 export interface BrowserContext {
   pageUrl: string

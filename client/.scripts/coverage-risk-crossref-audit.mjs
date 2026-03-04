@@ -14,7 +14,7 @@ import {
  * Flags high-risk files: heavily depended on (high fan-in) but untested.
  *
  * When TEST_ENABLED is not 'true' (root .env), writes an empty/no-op
- * report so the meta report is not cluttered until Phase 3.0 (BETA_LAUNCH_CHECKLIST).
+ * report so the meta report is not cluttered until Phase 3.0 (LAUNCH_CHECKLIST).
  * Re-enable by setting TEST_ENABLED=true in project root .env.
  *
  * Reads: import-graph-audit.json, test-audit.json (unless tests disabled)
@@ -66,7 +66,7 @@ function main() {
       '',
       `Generated at: ${out.generatedAt}`,
       '',
-      '**Coverage-risk is suppressed while testing is off.** Set `TEST_ENABLED=true` in project root `.env` (see BETA_LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
+      '**Coverage-risk is suppressed while testing is off.** Set `TEST_ENABLED=true` in project root `.env` (see LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
       '',
     ].join('\n')
     const { outJson, outMd } = writeAuditReports('coverage-risk-crossref', out, mdContent)

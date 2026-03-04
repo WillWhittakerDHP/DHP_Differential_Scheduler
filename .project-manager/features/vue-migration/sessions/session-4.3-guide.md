@@ -103,11 +103,6 @@ const { getGlobalEntities } = useGlobal()
 </template>
 ```
 
-**Learning Points:**
-- Layout options: two-column vs sub-tabs
-- VRow/VCol for responsive grid layout
-- Component composition patterns
-
 ---
 
 ### Task 4.3.2: Create BlockTypeSection.vue Component
@@ -295,12 +290,6 @@ const deleteBlockType = async (blockType: GlobalEntity<'blockType'>) => {
 </template>
 ```
 
-**Learning Points:**
-- VDataTable vs VList for different use cases
-- Table headers and column configuration
-- Action buttons in table rows
-- Empty state handling
-
 ---
 
 ### Task 4.3.3: Create PartTypeSection.vue Component
@@ -406,11 +395,6 @@ const deletePartType = async (partType: GlobalEntity<'partType'>) => {
 </template>
 ```
 
-**Learning Points:**
-- Reusing component patterns
-- PartType has simpler structure than BlockType
-- Consistent UI patterns across sections
-
 ---
 
 ### Task 4.3.4: Implement List/Table Views
@@ -427,10 +411,6 @@ const deletePartType = async (partType: GlobalEntity<'partType'>) => {
 - VDataTable provides built-in sorting and pagination
 - VList is more flexible for custom layouts
 - Choose based on expected data volume and user needs
-
-**Learning Points:**
-- Component selection based on requirements
-- Vuexy table/list component APIs
 
 ---
 
@@ -462,11 +442,6 @@ const deleteBlockType = async (blockType: GlobalEntity<'blockType'>) => {
 }
 ```
 
-**Learning Points:**
-- Action button placement and styling
-- Placeholder functions for future implementation
-- User interaction patterns
-
 ---
 
 ### Task 4.3.6: Integrate useGlobal Composable
@@ -490,11 +465,6 @@ const { getGlobalEntities } = useGlobal()
 const blockTypes = computed(() => getGlobalEntities('blockType'))
 const partTypes = computed(() => getGlobalEntities('partType'))
 ```
-
-**Learning Points:**
-- Composable integration
-- Reactive data with computed properties
-- Data access patterns
 
 ---
 
@@ -588,4 +558,3 @@ client-vue/src/views/admin/
 - Plan Details: `plan.plan.md`
 - Session 4.1 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.1-guide.md`
 - Session 4.2 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.2-guide.md`
-

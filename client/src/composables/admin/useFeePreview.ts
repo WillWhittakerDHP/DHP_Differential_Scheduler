@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch and .map() out of EntityCardFeePreview.
  */
 import { ref, computed, watch } from 'vue'
 import type { Ref } from 'vue'

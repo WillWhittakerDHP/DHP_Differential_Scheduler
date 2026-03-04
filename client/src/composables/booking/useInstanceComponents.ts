@@ -33,9 +33,6 @@ export function useInstanceComponents(
     return getGlobalEntityById(entityKey, id) ?? null
   }
 
-  /**
-LEARNING: Only composable blocks can have option components (instanc...
-   */
   const isComposable = computed(() => {
     const blockInstance = service.value
     if (!blockInstance) return false
@@ -80,4 +77,3 @@ LEARNING: Only composable blocks can have option components (instanc...
     componentCount
   }
 }
-

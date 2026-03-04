@@ -27,7 +27,6 @@ export function getFieldKeys<GE extends GlobalEntityKey>(
     return !(SYSTEM_FIELDS as readonly string[]).includes(key)
   }) as GlobalFieldKey<GE>[] : []
 
-  // LEARNING: If metadata is available, use it as source of truth for which fields to include
   // PATTERN: Prefer metadata keys if available, otherwise use entity keys
   if (fieldMetadata && Object.keys(fieldMetadata).length > 0) {
     const metadataKeys = Object.keys(fieldMetadata) as GlobalFieldKey<GE>[]

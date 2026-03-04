@@ -1,8 +1,8 @@
 {
   "_meta": {
     "description": "Manual purpose annotations for the inventory audit. Add entries as composables/components are created or reviewed.",
-    "lastUpdated": "2026-02-24",
-    "extractionBatchNote": "50 inline type extractions completed; composables set to placement derived, new type files annotated.",
+    "lastUpdated": "2026-03-04",
+    "extractionBatchNote": "50 inline type extractions completed; composables set to placement derived, new type files annotated. 254 type/constant/config files batch-annotated.",
     "validReuseTiers": [
       "shared",
       "feature",
@@ -1579,15 +1579,13 @@
     "targetPath": "client/src/types/admin/iconPickerState.ts"
   },
   "client/src/composables/admin/useInstanceBulkEdit.ts": {
-    "purpose": "WHY: Instance Bulk Edit Composable",
+    "purpose": "Component-logic audit extraction: reduce-based buildBulkEditDataFromForm for InstanceBulkEditModal.",
     "domain": "admin",
     "reuseTier": "feature",
     "tags": [
-      "ui-state"
-    ],
-    "placement": "derived",
-    "priority": "low",
-    "targetPath": "client/src/types/admin/instanceBulkEdit.ts"
+      "component-logic-extraction",
+      "reduce"
+    ]
   },
   "client/src/composables/admin/useInstanceComposableOptions.ts": {
     "purpose": "useInstanceComposableOptions.ts",
@@ -3177,31 +3175,21 @@
     "priority": "low",
     "targetPath": "client/src/types/booking/wizardStepValidation.ts"
   },
-  "client/src/composables/booking/useWizardSubmission.ts": {
-    "purpose": "WHY: useWizardSubmission Composable",
+  "client/src/utils/booking/wizardSubmission.ts": {
+    "purpose": "Wizard submission handler: orchestrates appointment creation and step advancement; no Vue reactivity.",
     "domain": "booking",
     "reuseTier": "feature",
     "tags": [
       "navigation"
-    ],
-    "placement": "derived",
-    "priority": "low",
-    "targetPath": "client/src/types/booking/wizardSubmission.ts",
-    "suppressUtilDisguise": true,
-    "suppressUtilDisguiseReason": "Reads/writes activeStep and completedSteps refs, calls Vue Query mutations; operates on refs indirectly."
+    ]
   },
-  "client/src/composables/booking/useWizardValidation.ts": {
-    "purpose": "WHY: useWizardValidation Composable",
+  "client/src/utils/booking/wizardValidation.ts": {
+    "purpose": "Wizard step validation: resolves validators from Ref or plain object; no Vue reactivity.",
     "domain": "booking",
     "reuseTier": "feature",
     "tags": [
-      "navigation"
-    ],
-    "placement": "derived",
-    "priority": "low",
-    "targetPath": "client/src/types/booking/wizardValidation.ts",
-    "suppressUtilDisguise": true,
-    "suppressUtilDisguiseReason": "Detects and unwraps ref/computed via 'value' in stepValidators; handles Vue reactivity indirectly."
+      "validation"
+    ]
   },
   "client/src/composables/booking/useWizardValidationErrors.ts": {
     "purpose": "PATTERN: Composable for handling validation errors with user-friendly messages",
@@ -4293,46 +4281,98 @@
     ]
   },
   "client/src/types/appointmentStatus.ts": {
+    "purpose": "Appointment status enum and transition types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [],
     "placement": "canonical",
     "placementNote": "Type file also exports runtime values; consider moving constants to constants/ or extract types."
   },
   "client/src/types/datetime.ts": {
+    "purpose": "Date, time, and timezone utility types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [],
     "placement": "canonical",
     "placementNote": "Type file also exports runtime values; consider moving constants to constants/ or extract types."
   },
   "client/src/types/moveableScheduling.ts": {
+    "purpose": "Moveable scheduling constraint and boundary types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [],
     "placement": "canonical",
     "placementNote": "Type file also exports runtime values; consider moving constants to constants/ or extract types."
   },
   "client/src/types/propertyForm.ts": {
+    "purpose": "Property form field definition and validation types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ],
     "placement": "canonical",
     "placementNote": "Type file also exports runtime values; consider moving constants to constants/ or extract types."
   },
   "client/src/constants/apiStatus.ts": {
+    "purpose": "API call status enum constants",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [
+      "data-fetching"
+    ],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
   "client/src/constants/availabilitySettings.ts": {
+    "purpose": "Availability settings default values and option constants",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
   "client/src/constants/blockShapeTypes.ts": {
+    "purpose": "Block shape type identifier constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [],
     "placement": "derived",
     "placementNote": "Type derived from runtime constant via keyof typeof / (typeof X)[number] — cannot be separated"
   },
   "client/src/constants/bookingMode.ts": {
+    "purpose": "Booking mode enum constants",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [],
     "placement": "derived",
     "placementNote": "Type derived from runtime constant via keyof typeof / (typeof X)[number] — cannot be separated"
   },
   "client/src/constants/businessControlsOptions.ts": {
+    "purpose": "Business controls form option constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
   "client/src/constants/fieldMetadata.ts": {
+    "purpose": "Field metadata key and label constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ],
     "placement": "derived",
     "placementNote": "Type derived from runtime constant via keyof typeof / (typeof X)[number] — cannot be separated"
   },
   "client/src/constants/mapsConstants.ts": {
+    "purpose": "Google Maps configuration constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
@@ -4678,14 +4718,35 @@
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
   "client/src/configs/field/display/displayFieldTypes.ts": {
+    "purpose": "Display field type definitions for config system",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state",
+      "field-config"
+    ],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
   "client/src/configs/field/display/selectableDisplayConfig.ts": {
+    "purpose": "Selectable field display configuration mapping",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "table",
+      "settings",
+      "ui-state"
+    ],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
   "client/src/configs/usStates.ts": {
+    "purpose": "US states list for address form select options",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ],
     "placement": "co-located",
     "placementNote": "Constants file also exports types; consider extracting types to types/."
   },
@@ -4716,312 +4777,2489 @@
     "purpose": "Component-logic audit extraction: watches ApiDevPanel visibility prop and triggers initial data fetch when panel becomes visible in dev mode.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "watch"]
+    "tags": [
+      "component-logic-extraction",
+      "watch"
+    ]
   },
   "client/src/composables/admin/useBlockInstanceCreate.ts": {
     "purpose": "Component-logic audit extraction: manages temp entity ID reset on modal open and async handleCreate delegation for BlockInstanceCreateModal.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "modal", "async"]
+    "tags": [
+      "component-logic-extraction",
+      "modal",
+      "async"
+    ]
   },
   "client/src/composables/admin/useComponentDistributionConfirm.ts": {
     "purpose": "Component-logic audit extraction: async handleConfirm with reduce-based distribution value building for ComponentDistributionModal.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "async", "reduce"]
+    "tags": [
+      "component-logic-extraction",
+      "async",
+      "reduce"
+    ]
   },
   "client/src/composables/admin/useMetadataEditModal.ts": {
     "purpose": "Component-logic audit extraction: async handleSave with error handling for MetadataEditModal delegating to editor ref.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "modal", "async"]
+    "tags": [
+      "component-logic-extraction",
+      "modal",
+      "async"
+    ]
   },
   "client/src/composables/admin/usePrimitiveMetadataSave.ts": {
     "purpose": "Component-logic audit extraction: iterates pending field changes, saves each via mutation, refetches query cache, and clears state for AdminPrimitiveMetadataEditor.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "async", "vue-query"]
+    "tags": [
+      "component-logic-extraction",
+      "async",
+      "vue-query"
+    ]
   },
   "client/src/composables/admin/usePropertyMappingsTab.ts": {
     "purpose": "Component-logic audit extraction: two useQuery calls (field mappings, feature mappings) with async queryFns for PropertyMappingsTab.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "vue-query", "async"]
+    "tags": [
+      "component-logic-extraction",
+      "vue-query",
+      "async"
+    ]
   },
   "client/src/composables/admin/useShapeForm.ts": {
     "purpose": "Component-logic audit extraction: shared form logic (onMounted async fetch, async handleSubmit, isEdit, formData, error) for BlockShapeForm and PartShapeForm.",
     "domain": "admin",
     "reuseTier": "shared",
-    "tags": ["component-logic-extraction", "form", "async", "shared-pattern"]
-  },
-  "client/src/composables/admin/useInstanceBulkEdit.ts": {
-    "purpose": "Component-logic audit extraction: reduce-based buildBulkEditDataFromForm for InstanceBulkEditModal.",
-    "domain": "admin",
-    "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "reduce"]
+    "tags": [
+      "component-logic-extraction",
+      "form",
+      "async",
+      "shared-pattern"
+    ]
   },
   "client/src/composables/beta/useFeedbackDashboard.ts": {
     "purpose": "Component-logic audit extraction: async load function (fetchAllFeedback + fetchFeedbackStats), onMounted trigger, and dashboard state for BetaFeedbackDashboard.",
     "domain": "beta",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "async"]
+    "tags": [
+      "component-logic-extraction",
+      "async"
+    ]
   },
   "client/src/composables/beta/useFeedbackDetail.ts": {
     "purpose": "Component-logic audit extraction: watch on feedback prop, async handleSave with error handling, and form state for BetaFeedbackDetailModal.",
     "domain": "beta",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "watch", "async"]
+    "tags": [
+      "component-logic-extraction",
+      "watch",
+      "async"
+    ]
   },
   "client/src/composables/booking/useServiceSelectMapper.ts": {
     "purpose": "Component-logic audit extraction: computed that maps selectedServiceTypeBlocks to string[] IDs for ServiceSelectCards.",
     "domain": "booking",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "map"]
+    "tags": [
+      "component-logic-extraction",
+      "map"
+    ]
   },
   "client/src/composables/booking/useSlotGridDisplay.ts": {
     "purpose": "Component-logic audit extraction: computed that maps appointment slots through derivePerspective for display in AppointmentSlotGrid.",
     "domain": "booking",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "map", "computed"]
+    "tags": [
+      "component-logic-extraction",
+      "map",
+      "computed"
+    ]
   },
   "client/src/composables/layout/useNavSearch.ts": {
     "purpose": "Component-logic audit extraction: search query state, async fetchResults via API, and watch trigger for NavSearchBar.",
     "domain": "layout",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "watch", "async"]
+    "tags": [
+      "component-logic-extraction",
+      "watch",
+      "async"
+    ]
   },
   "client/src/composables/layout/useNotificationActions.ts": {
     "purpose": "Component-logic audit extraction: map-based markRead/markUnRead and filter-based removeNotification for NavBarNotifications.",
     "domain": "layout",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "map", "filter"]
+    "tags": [
+      "component-logic-extraction",
+      "map",
+      "filter"
+    ]
   },
   "client/src/composables/layout/useSuspenseFallback.ts": {
     "purpose": "Component-logic audit extraction: watch on fallback/loading-indicator state for blank.vue Suspense fallback handling.",
     "domain": "layout",
     "reuseTier": "feature",
-    "tags": ["component-logic-extraction", "watch"]
+    "tags": [
+      "component-logic-extraction",
+      "watch"
+    ]
   },
   "client/src/components/booking/dev/ConstraintsPanel.vue": {
     "purpose": "Dev panel tab content: displays active constraints (business hours, lead time, buffers) from availability settings.",
     "domain": "booking/dev",
     "reuseTier": "feature",
-    "tags": ["dev", "ui-state"]
+    "tags": [
+      "dev",
+      "ui-state"
+    ]
   },
   "client/src/components/booking/dev/InstancesPanel.vue": {
     "purpose": "Dev panel tab content: displays block/part instances and event shapes for wizard debugging.",
     "domain": "booking/dev",
     "reuseTier": "feature",
-    "tags": ["dev", "ui-state"]
+    "tags": [
+      "dev",
+      "ui-state"
+    ]
   },
   "client/src/components/booking/dev/SlotShapePanel.vue": {
     "purpose": "Dev panel tab content: slot shape and time-basis display for wizard debugging.",
     "domain": "booking/dev",
     "reuseTier": "feature",
-    "tags": ["dev", "ui-state"]
+    "tags": [
+      "dev",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useBooleanInputClick.ts": {
     "purpose": "Async handleClick for BooleanInput: toggles ternary/boolean with save; extracted from BooleanInput for component-logic audit.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useBusinessHoursFormState.ts": {
     "purpose": "Business controls form: business hours UI mapping and updateBusinessHours; used by useBusinessControlsFormState.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "settings"]
+    "tags": [
+      "form",
+      "settings"
+    ]
   },
   "client/src/composables/admin/useBusinessRulesTab.ts": {
     "purpose": "Business Rules tab: selectedBlockId, filteredRules, rule form state, save/delete/toggle handlers; composes useBusinessRules and useBusinessRuleForm.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "table", "ui-state"]
+    "tags": [
+      "form",
+      "table",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useCalendarHoldFormState.ts": {
     "purpose": "Business controls: calendar enabled/provider, hold duration, calendar entries and validation; used by useBusinessControlsFormState.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "settings"]
+    "tags": [
+      "form",
+      "settings"
+    ]
   },
   "client/src/composables/admin/useEntityCardSubPanels.ts": {
     "purpose": "EntityCard sub-panel state: parts bulk edit mode, expanded shapes, and mapped sub-panel config for tabs.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useEntityIdReset.ts": {
     "purpose": "Watch on entityId prop to reset form tab/state; shared by DynamicForm and EntityFormContent.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useEntityListDelete.ts": {
     "purpose": "Returns async delete handler that confirms and calls remove; pure wrapper (no Vue reactivity).",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["crud", "ui-state"]
+    "tags": [
+      "crud",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useFeePreview.ts": {
     "purpose": "Fee preview: watch on sqftInput, computedCost, and map-based SVG polyline for EntityCardFeePreview.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/composables/admin/useFieldRendererErrorWatch.ts": {
     "purpose": "Watch on validation errors for FieldRenderer; aggregates and exposes error state.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "validation"]
+    "tags": [
+      "form",
+      "validation"
+    ]
   },
   "client/src/composables/admin/useSelectGroupedByKey.ts": {
     "purpose": "Computed that groups select options by a key for SelectInputs; used by groupedByKeyComputed.",
     "domain": "admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/composables/beta/useFeedbackSubmit.ts": {
     "purpose": "Beta feedback submit: form state, watch on modelValue, async handleSubmit; used by BetaFeedbackModal.",
     "domain": "beta",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/composables/booking/useEventShapeById.ts": {
     "purpose": "Resolves event shape by ID from eventShapes array; small lookup helper for booking dev/display.",
     "domain": "booking",
     "reuseTier": "feature",
-    "tags": ["ui-state"]
+    "tags": [
+      "ui-state"
+    ]
   },
   "client/src/composables/booking/useKeyboardToggle.ts": {
     "purpose": "Global keyboard listener (Ctrl/Cmd+Shift+D) for dev panel toggle; window.addEventListener with SSR guard.",
     "domain": "booking",
     "reuseTier": "feature",
-    "tags": ["dev", "ui-state"]
+    "tags": [
+      "dev",
+      "ui-state"
+    ]
   },
   "client/src/composables/booking/usePropertyTypesLabel.ts": {
     "purpose": "Computed label for property types display in booking; small derivation from property types.",
     "domain": "booking",
     "reuseTier": "feature",
-    "tags": ["ui-state", "formatting"]
+    "tags": [
+      "ui-state",
+      "formatting"
+    ]
   },
   "client/src/composables/booking/useTimeSlotMatching.ts": {
     "purpose": "Time slot matching helpers for availability; pure functions for slot comparison/alignment.",
     "domain": "booking",
     "reuseTier": "feature",
-    "tags": ["ui-state"]
+    "tags": [
+      "ui-state"
+    ]
   },
   "client/src/composables/layout/useLogout.ts": {
     "purpose": "Async logout handler for UserProfile; clears auth and redirects.",
     "domain": "layout",
     "reuseTier": "feature",
-    "tags": ["navigation", "ui-state"]
+    "tags": [
+      "navigation",
+      "ui-state"
+    ]
   },
   "client/src/composables/useAsyncOperation.ts": {
     "purpose": "Generic wrapper for async operations with loading/error state; used across composables for consistent async handling.",
     "domain": "root",
     "reuseTier": "shared",
-    "tags": ["ui-state"]
+    "tags": [
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/appointmentAttendees.ts": {
     "purpose": "Pure helpers for attendee role detection (client/agent) and building attendees array from client/agent IDs.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["formatting"]
+    "tags": [
+      "formatting"
+    ]
   },
   "client/src/utils/admin/appointmentHelpers.ts": {
     "purpose": "Appointment display helpers: getStatusColor, getRoleColor, formatAppointmentTimestamp for tables and UI.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["formatting", "ui-state"]
+    "tags": [
+      "formatting",
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/businessRulesApi.ts": {
     "purpose": "API client for business rules: fetch, create, update, delete; used by useBusinessRules composable.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["crud"]
+    "tags": [
+      "crud"
+    ]
   },
   "client/src/utils/admin/entityCardTitleKeydown.ts": {
     "purpose": "Keyboard handler for entity card title editing; Enter to save, Escape to cancel.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/entityDisplay.ts": {
     "purpose": "Entity display text and formatting helpers for admin lists and cards.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["formatting", "ui-state"]
+    "tags": [
+      "formatting",
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/entityList.ts": {
     "purpose": "Entity list filtering and display helpers for admin list views.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["ui-state"]
+    "tags": [
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/inputConfigEditor.ts": {
     "purpose": "Input config editor state and helpers for admin field configuration.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/metadataFieldUpdates.ts": {
     "purpose": "Metadata field update helpers: patch and merge logic for primitive/relationship metadata.",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["form", "crud"]
+    "tags": [
+      "form",
+      "crud"
+    ]
   },
   "client/src/utils/beta/betaFeedback.ts": {
     "purpose": "Beta feedback API client and submission helpers; used by feedback modal and dashboard.",
     "domain": "utils/beta",
     "reuseTier": "feature",
-    "tags": ["crud"]
+    "tags": [
+      "crud"
+    ]
   },
   "client/src/utils/beta/captureBrowserContext.ts": {
     "purpose": "Captures browser context (pageUrl, browserInfo, screenSize) for beta feedback; SSR-safe.",
     "domain": "utils/beta",
     "reuseTier": "feature",
-    "tags": ["formatting"]
+    "tags": [
+      "formatting"
+    ]
   },
   "client/src/utils/booking/devPanelsFormatters.ts": {
     "purpose": "Formatting helpers for dev panel display: appointment and slot data for wizard dev panels.",
     "domain": "utils/booking",
     "reuseTier": "feature",
-    "tags": ["formatting", "dev"]
+    "tags": [
+      "formatting",
+      "dev"
+    ]
   },
   "client/src/utils/booking/timeBasisHandler.ts": {
     "purpose": "Time basis handling for booking availability and slot display.",
     "domain": "utils/booking",
     "reuseTier": "feature",
-    "tags": ["ui-state"]
+    "tags": [
+      "ui-state"
+    ]
   },
   "client/src/utils/formatting/nullDisplay.ts": {
     "purpose": "Pure display helper for null/undefined and object values: formatNullValue for tables and formatters.",
     "domain": "utils/formatting",
     "reuseTier": "shared",
-    "tags": ["formatting"]
+    "tags": [
+      "formatting"
+    ]
   },
   "client/src/utils/time/localTime.ts": {
     "purpose": "Local time formatting and business hours extraction: formatDateTimeForDisplay, formatTimeRangeForDisplay, extractBusinessHoursMinutes.",
     "domain": "utils/time",
     "reuseTier": "feature",
-    "tags": ["formatting"]
+    "tags": [
+      "formatting"
+    ]
   },
   "client/src/utils/admin/entityListDelete.ts": {
     "purpose": "Pure delete-handler factory: confirms and calls remove with error handling; moved from composables (utils-in-disguise).",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["crud", "ui-state"]
+    "tags": [
+      "crud",
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/instanceBulkEdit.ts": {
     "purpose": "Pure helper: builds bulk-edit payload from form values (filtered metadata keys); moved from composables (utils-in-disguise).",
     "domain": "utils/admin",
     "reuseTier": "feature",
-    "tags": ["form", "ui-state"]
+    "tags": [
+      "form",
+      "ui-state"
+    ]
   },
   "client/src/utils/admin/calibrationChartTransforms.ts": {
     "purpose": "Pure transforms for fee calibration chart: getServiceFeeTotals, buildSvgChart, SERVICE_COLORS; extracted from useCalibrationChart.",
     "domain": "admin",
     "reuseTier": "shared",
-    "tags": ["chart", "formatting"]
+    "tags": [
+      "chart",
+      "formatting"
+    ]
+  },
+  "client/src/composables/admin/injectionKeys.ts": {
+    "purpose": "Typed InjectionKey constants and context interfaces for admin provide/inject (RuleFormDialog, InstancesTab, etc.).",
+    "domain": "admin",
+    "reuseTier": "shared",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/composables/admin/useBaseCollectionField.ts": {
+    "purpose": "Base composable for collection field logic shared by usePartsCollectionField and useRelationshipCollectionField; config object injects divergent parts.",
+    "domain": "admin",
+    "reuseTier": "shared",
+    "tags": [
+      "form",
+      "field-config"
+    ]
+  },
+  "client/src/composables/admin/useBlockInstanceList.ts": {
+    "purpose": "Keeps BlockInstanceList.vue thin; provides entityList config, async remove, and navigation for block instances.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "crud",
+      "ui-state"
+    ]
+  },
+  "client/src/composables/admin/useCapacityConstraintsHandlers.ts": {
+    "purpose": "Handler functions for CapacityConstraintsPanel that write into the capacity slice (maxWorkHours, maxIncome).",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "settings"
+    ]
+  },
+  "client/src/composables/admin/useEventInstancesSection.ts": {
+    "purpose": "Keeps EventInstancesSection.vue thin; injects InstancesTab context and exposes display computeds and toggle.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/composables/admin/useGridConfigHandlers.ts": {
+    "purpose": "Handler functions for GridConfigPanel that write into formState and differential (minute increment, attendees, labels).",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "settings"
+    ]
+  },
+  "client/src/composables/admin/useInstancesTab.ts": {
+    "purpose": "Orchestration composable for InstancesTab.vue: wires entity CRUD, grouping, bulk edit, filtering, drag-and-drop, and provides context.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "crud",
+      "ui-state",
+      "drag-drop"
+    ]
+  },
+  "client/src/composables/admin/useOverlapConstraintsPanel.ts": {
+    "purpose": "Keeps OverlapConstraintsPanel.vue thin; injects BusinessControls state and exposes handlers, label/hint computeds, and config constants.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "settings"
+    ]
+  },
+  "client/src/composables/admin/usePropertyCreateForm.ts": {
+    "purpose": "Form state computeds and setters for PropertyCreateForm; keeps the component thin (address, unit, city, etc.).",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "validation"
+    ]
+  },
+  "client/src/composables/admin/useShapesTab.ts": {
+    "purpose": "Orchestration composable for ShapesTab.vue: wires entity CRUD, filtering, display names, drag-and-drop, modals, creation, and deletion.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "crud",
+      "ui-state",
+      "drag-drop",
+      "modal"
+    ]
+  },
+  "client/src/composables/booking/injectionKeys.ts": {
+    "purpose": "Typed InjectionKey constants for booking wizard and dev panels provide/inject (step data, validation, availability, etc.).",
+    "domain": "booking",
+    "reuseTier": "shared",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/composables/booking/useBookingWizardSetup.ts": {
+    "purpose": "Orchestration composable for BookingWizard.vue: wires all wizard composables (navigation, validation, submission, display) and provides context.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state",
+      "navigation",
+      "form"
+    ]
+  },
+  "client/src/composables/booking/useDelayedModalVisibility.ts": {
+    "purpose": "Writable computed that lags modal open by a delay (400ms); extracts watch + timer logic from RequiredConfirmationModal.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state",
+      "modal"
+    ]
+  },
+  "client/src/composables/booking/useMoveableAvailabilityData.ts": {
+    "purpose": "Async options computation and moveable-day slot fetch for moveable parts scheduling; extracted from useMoveablePartsScheduling.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "data-fetching",
+      "ui-state"
+    ]
+  },
+  "client/src/composables/booking/usePropertyTypeSelectWidth.ts": {
+    "purpose": "Computes pixel width for property type select based on measured label widths; extracts watch + map from PropertyDetailsSection.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/composables/fieldContext/buildFieldContextReturn.ts": {
+    "purpose": "Pure helper: builds public FieldContextTypeGrouped from useFieldContextState grouped return; no composable calls.",
+    "domain": "fieldContext",
+    "reuseTier": "shared",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/composables/fieldContext/useFieldContextEntityDerived.ts": {
+    "purpose": "Derives entity value and actual property name for a field context from entity metadata and composed entity composable.",
+    "domain": "fieldContext",
+    "reuseTier": "shared",
+    "tags": [
+      "form",
+      "type-derivation"
+    ]
+  },
+  "client/src/utils/admin/selectConfigResolvers.ts": {
+    "purpose": "Pure resolver for select config: resolves option label key for entity selects (currently all use 'name').",
+    "domain": "utils/admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/utils/admin/selectFilterStrategies.ts": {
+    "purpose": "Pure filter strategies for select entity lists: filterByActiveChildSelect, filterByGlobalEntityIds, etc.",
+    "domain": "utils/admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/utils/admin/selectOptionTransforms.ts": {
+    "purpose": "Pure transforms for grouping entities and building select options: resolveGroupEntityKey, groupEntitiesByParent, buildSelectOptions.",
+    "domain": "utils/admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "formatting"
+    ]
+  },
+  "client/src/utils/booking/bookingFinalTypes.ts": {
+    "purpose": "Re-export barrel for BlockFinal type from booking/blockFinal.",
+    "domain": "utils/booking",
+    "reuseTier": "feature",
+    "tags": [
+      "type-derivation"
+    ]
+  },
+  "client/src/utils/booking/moveablePartShapeName.ts": {
+    "purpose": "Pure helper: resolves moveable part shape display name from shape, event instance names, or fallback label.",
+    "domain": "utils/booking",
+    "reuseTier": "feature",
+    "tags": [
+      "formatting"
+    ]
+  },
+  "client/src/utils/booking/moveableSchedulingBounds.ts": {
+    "purpose": "Pure helpers for moveable scheduling boundaries: computeOuterBoundary and extractInnerBoundary from contingency period and slots.",
+    "domain": "utils/booking",
+    "reuseTier": "feature",
+    "tags": [
+      "formatting"
+    ]
+  },
+  "client/src/utils/booking/moveableSlotToAppointmentSlotAdapter.ts": {
+    "purpose": "Adapter: maps MoveableSlot[] to AppointmentSlot[] for use in AppointmentSlotGrid (nonDifferential perspective).",
+    "domain": "utils/booking",
+    "reuseTier": "feature",
+    "tags": [
+      "formatting"
+    ]
+  },
+  "client/src/utils/dependencyCleanup.ts": {
+    "purpose": "Removes invalid active relationships via API when valid-children list changes; invalidates queries after cleanup.",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [
+      "crud"
+    ]
+  },
+  "client/src/utils/dom/textMeasure.ts": {
+    "purpose": "Measures pixel width of the longest string in a list using canvas measureText; SSR-safe.",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/utils/entityCrud/createEntityCreateMutationOptions.ts": {
+    "purpose": "Factory: builds TanStack useMutation options for entity create (POST with optimistic update and rollback).",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud",
+      "data-fetching"
+    ]
+  },
+  "client/src/utils/entityCrud/createEntityOrderMutationOptions.ts": {
+    "purpose": "Factory: builds TanStack useMutation options for entity order-index patch (PATCH with optimistic update and rollback).",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud",
+      "data-fetching"
+    ]
+  },
+  "client/src/utils/entityCrud/createEntityRemoveMutationOptions.ts": {
+    "purpose": "Factory: builds TanStack useMutation options for entity remove (DELETE with optimistic update and rollback).",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud",
+      "data-fetching"
+    ]
+  },
+  "client/src/utils/entityCrud/createEntityUpdateMutationOptions.ts": {
+    "purpose": "Factory: builds TanStack useMutation options for entity update (PUT with optimistic update and rollback).",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud",
+      "data-fetching"
+    ]
+  },
+  "client/src/components/admin/BulkEditModal.vue": {
+    "purpose": "Generic bulk-edit dialog: renders entity form fields in a modal with save/cancel actions for admin entity lists.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "modal",
+      "form",
+      "crud"
+    ]
+  },
+  "client/src/components/admin/component/ComponentDistributionTableBody.vue": {
+    "purpose": "Table body rows for component distribution preview: shows current/new values and change chips per component.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "table",
+      "ui-state"
+    ]
+  },
+  "client/src/components/booking/fields/WizardSelect.vue": {
+    "purpose": "Wizard-level VSelect wrapper: bakes in persistent-placeholder, full-width, and standardized error handling for step sections.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "generic"
+    ]
+  },
+  "client/src/components/booking/fields/WizardTextField.vue": {
+    "purpose": "Wizard-level VTextField wrapper: bakes in persistent-placeholder, full-width, and standardized error handling for step sections.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "generic"
+    ]
+  },
+  "client/src/components/booking/modals/RequiredConfirmationModal.vue": {
+    "purpose": "Reusable confirmation modal shell with delayed open, dynamic title, default body slot, and configurable actions.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "modal",
+      "ui-state"
+    ]
+  },
+  "client/src/components/booking/steps/ContactFormSection.vue": {
+    "purpose": "Extracted contact form fields from ContactsStep: client info, agent info, and additional contacts via provide/inject.",
+    "domain": "booking/steps",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "validation"
+    ]
+  },
+  "client/src/components/booking/steps/PropertyAddressSection.vue": {
+    "purpose": "Extracted Location section from PropertyDetailsStep: address autocomplete and manual address fields.",
+    "domain": "booking/steps",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "validation"
+    ]
+  },
+  "client/src/components/booking/steps/PropertyDetailsSection.vue": {
+    "purpose": "Extracted Details section from PropertyDetailsStep: property type select, square footage, bedrooms, bathrooms, and enrichment display.",
+    "domain": "booking/steps",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "validation"
+    ]
+  },
+  "shared/types/primitiveBrands.ts": {
+    "purpose": "Branded primitive types for type-safe entity IDs and keys",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/calendarTypes.ts": {
+    "purpose": "Shared calendar event and scheduling types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/mapsTypes.ts": {
+    "purpose": "Google Maps address and geocoding types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/coreEntityTypes.ts": {
+    "purpose": "Core entity type definitions shared between client and server",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/appointmentFeeTypes.ts": {
+    "purpose": "Appointment fee calculation and pricing types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/appointmentTypes.ts": {
+    "purpose": "Shared appointment data structure types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/propertyEnrichmentTypes.ts": {
+    "purpose": "Property enrichment data from external sources",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/identifiable.ts": {
+    "purpose": "Base Identifiable interface with id field for entities",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/metadataEntryTypes.ts": {
+    "purpose": "Metadata entry structure types for entity fields",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/availabilityTypes.ts": {
+    "purpose": "Shared availability slot and scheduling types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/loggerTypes.ts": {
+    "purpose": "Logger interface and log level types shared across packages",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/businessRulesTypes.ts": {
+    "purpose": "Business rules configuration and constraint types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/propertyTypes.ts": {
+    "purpose": "Shared property entity data types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/componentTypes.ts": {
+    "purpose": "Shared component entity data types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "shared/types/contactTypes.ts": {
+    "purpose": "Contact information and attendee types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/appointmentApi.ts": {
+    "purpose": "Appointment API request and response types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "data-fetching"
+    ]
+  },
+  "client/src/types/appointment.ts": {
+    "purpose": "Core appointment data structure types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/events.ts": {
+    "purpose": "Application event and callback types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/availabilitySettingsParams.ts": {
+    "purpose": "Availability settings parameter types for API calls",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/availability.ts": {
+    "purpose": "Core availability slot and schedule types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin.ts": {
+    "purpose": "Top-level admin domain type re-exports and interfaces",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/metadataEditorProps.ts": {
+    "purpose": "Metadata editor component prop types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/userTypes.ts": {
+    "purpose": "User profile and authentication types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/wizardStateFieldConfig.ts": {
+    "purpose": "Wizard state field configuration and mapping types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "settings",
+      "ui-state"
+    ]
+  },
+  "client/src/types/availabilityStepParams.ts": {
+    "purpose": "Availability step parameter and query types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/partInstanceData.ts": {
+    "purpose": "Part instance data structure types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/selectOptions.ts": {
+    "purpose": "Generic select option and dropdown types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/entityForm.ts": {
+    "purpose": "Entity form field definition and state types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/types/vuetifyTypes.ts": {
+    "purpose": "Vuetify component type augmentations and helpers",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/layoutLoading.ts": {
+    "purpose": "Layout loading state indicator types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/shapeFieldMetadata.ts": {
+    "purpose": "Shape field metadata configuration types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/wizardDevOptions.ts": {
+    "purpose": "Wizard dev mode option and toggle types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/wizardStepData.ts": {
+    "purpose": "Wizard step data container and shape types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/vueRefTypes.ts": {
+    "purpose": "Vue ref type helpers and unwrap utilities",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/business.ts": {
+    "purpose": "Business entity data structure types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/autocomplete.ts": {
+    "purpose": "Autocomplete input component types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/loadingIndicator.ts": {
+    "purpose": "Loading indicator display and state types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/property.ts": {
+    "purpose": "Property entity data structure types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/user.ts": {
+    "purpose": "User entity and session types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/annotations.ts": {
+    "purpose": "Annotation entity data structure types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/componentDistribution.ts": {
+    "purpose": "Component distribution layout types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/wizard.ts": {
+    "purpose": "Core booking wizard state and navigation types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/googleCalendar.ts": {
+    "purpose": "Google Calendar API integration types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/ternary.ts": {
+    "purpose": "Ternary logic value types for three-state fields",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/component.ts": {
+    "purpose": "Component entity data structure types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/betaFeedback.ts": {
+    "purpose": "Beta feedback form and submission types",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/addressAutocomplete.ts": {
+    "purpose": "Address autocomplete input and suggestion types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/booking/instanceDisplay.ts": {
+    "purpose": "Instance display formatting and rendering types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/moveablePartsScheduling.ts": {
+    "purpose": "Moveable parts scheduling configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/instanceComponents.ts": {
+    "purpose": "Instance component composition and rendering types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/availabilitySlotColor.ts": {
+    "purpose": "Availability slot color coding and visual indicator types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/appointmentDropdown.ts": {
+    "purpose": "Appointment dropdown selector types for booking UI",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "drag-drop"
+    ]
+  },
+  "client/src/types/booking/devPanelButtonsContext.ts": {
+    "purpose": "Dev panel button context types for debug controls",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/booking/instanceSelectionConfig.ts": {
+    "purpose": "Configuration types for instance selection behavior",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/booking/availabilityStepData.ts": {
+    "purpose": "Data types for the availability wizard step",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/instanceDescriptions.ts": {
+    "purpose": "Instance description and label generation types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/propertyTypeBlockConfig.ts": {
+    "purpose": "Property type to block mapping configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/booking/availabilityValidation.ts": {
+    "purpose": "Validation types for availability slot selection",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/contactsStepData.ts": {
+    "purpose": "Data types for the contacts wizard step",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/propertyValidation.ts": {
+    "purpose": "Property field validation rules and result types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/availabilityUI.ts": {
+    "purpose": "UI state and display types for availability step",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/appointmentDuration.ts": {
+    "purpose": "Appointment duration calculation and display types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/blockInstanceSelection.ts": {
+    "purpose": "Block instance selection state and handler types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardStepValidation.ts": {
+    "purpose": "Per-step validation logic types for booking wizard",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/wizardSubmission.ts": {
+    "purpose": "Wizard submission payload and API request types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/durationRounding.ts": {
+    "purpose": "Duration rounding logic and configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/propertyFormState.ts": {
+    "purpose": "Property form reactive state and field types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/bookingWizardStepValidators.ts": {
+    "purpose": "Step validator function types for booking wizard",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/confirmationStepData.ts": {
+    "purpose": "Data types for the confirmation wizard step",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/propertyFormWatchers.ts": {
+    "purpose": "Property form watcher configuration and handler types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/types/booking/instanceSelectionState.ts": {
+    "purpose": "Reactive state types for instance selection tracking",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/cascadeInstances.ts": {
+    "purpose": "Cascade instance resolution and filtering types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/elementDimensions.ts": {
+    "purpose": "Element dimension measurement and resize types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardNavigation.ts": {
+    "purpose": "Wizard step navigation state and action types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "navigation"
+    ]
+  },
+  "client/src/types/booking/availabilityOrchestrator.ts": {
+    "purpose": "Availability data orchestration and coordination types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/selectionCardGroupConfig.ts": {
+    "purpose": "Selection card group layout and configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/booking/wizardAppointmentManagement.ts": {
+    "purpose": "Wizard appointment creation and update management types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/dependentInstances.ts": {
+    "purpose": "Dependent instance resolution and linking types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/computedAvailability.ts": {
+    "purpose": "Computed availability derived state types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/slotGenerationValidation.ts": {
+    "purpose": "Slot generation validation and error types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/appointmentSlots.ts": {
+    "purpose": "Appointment time slot structure and grouping types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardValidationErrors.ts": {
+    "purpose": "Wizard validation error display and tracking types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/wizardStateData.ts": {
+    "purpose": "Wizard global state data container types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/wizardValidation.ts": {
+    "purpose": "Wizard-level validation orchestration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/availabilityEmptyState.ts": {
+    "purpose": "Empty state display types when no slots available",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/availabilityDefaults.ts": {
+    "purpose": "Default availability configuration value types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/contactsValidation.ts": {
+    "purpose": "Contact form validation rules and result types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/appointmentDataBuilders.ts": {
+    "purpose": "Appointment data builder function types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/timeSlotCalculations.ts": {
+    "purpose": "Time slot calculation and duration computation types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardStepContent.ts": {
+    "purpose": "Wizard step content rendering and layout types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/availabilityLogic.ts": {
+    "purpose": "Availability business logic and filtering types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardStepSync.ts": {
+    "purpose": "Wizard step synchronization and data flow types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/pricingCascadeInstances.ts": {
+    "purpose": "Pricing cascade instance resolution types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/timeSlotMatching.ts": {
+    "purpose": "Time slot matching and comparison utility types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardStepDataRefs.ts": {
+    "purpose": "Wizard step reactive data reference types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/propertyDetailsLogic.ts": {
+    "purpose": "Property details step business logic types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/availabilityStepHandlers.ts": {
+    "purpose": "Availability step event handler function types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/perspectiveResolver.ts": {
+    "purpose": "Perspective resolution types for entity display context",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/responsiveGrid.ts": {
+    "purpose": "Responsive grid layout configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/devPanelsComputed.ts": {
+    "purpose": "Computed properties types for dev panel display",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/booking/wizardDisplay.ts": {
+    "purpose": "Wizard display mode and layout configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/wizardDevMode.ts": {
+    "purpose": "Wizard dev mode toggle and configuration types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/booking/availabilityDevPanel.ts": {
+    "purpose": "Availability dev panel debug display types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/booking/mockCalendarRefresh.ts": {
+    "purpose": "Mock calendar refresh testing utility types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/booking/optionTypeBlockSelection.ts": {
+    "purpose": "Option type block selection handler types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/wizardDateAvailability.ts": {
+    "purpose": "Wizard date availability query and state types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/appointmentShape.ts": {
+    "purpose": "Appointment shape configuration and mapping types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/propertyTypeBlockSelection.ts": {
+    "purpose": "Property type block selection handler types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/dynamicGridConfig.ts": {
+    "purpose": "Dynamic grid layout configuration and breakpoint types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/booking/cascadeFilterPipeline.ts": {
+    "purpose": "Cascade filter pipeline stage and result types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/availabilitySettings.ts": {
+    "purpose": "Availability settings configuration types for booking",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/booking/wizardFilteredOptions.ts": {
+    "purpose": "Wizard filtered option list and query types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/perspectiveMapping.ts": {
+    "purpose": "Perspective mapping between entity views types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/stepValidation.ts": {
+    "purpose": "Individual step validation state and result types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/types/booking/appointmentTimes.ts": {
+    "purpose": "Appointment time range and scheduling types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/instanceComponentsList.ts": {
+    "purpose": "Instance components list rendering types",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/selectionCard/selectionCardConfig.ts": {
+    "purpose": "Configuration types for booking selection card components",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/booking/selectionCard/selectionCardState.ts": {
+    "purpose": "State management types for selection card interaction",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/selectionCard/selectionCardGroupState.ts": {
+    "purpose": "Group state types for multi-selection card sets",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/selectionCard/selectionCardHandlers.ts": {
+    "purpose": "Event handler types for selection card user actions",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/selectionCard/selectionCardComponent.ts": {
+    "purpose": "Component prop and emit types for selection card",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/selectionCard/selectionCardStyles.ts": {
+    "purpose": "Style and theming types for selection card display",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/booking/selectionCard/selectionCard.ts": {
+    "purpose": "Core selection card type definitions and interfaces",
+    "domain": "booking/selectionCard",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/booking/dev/panelPosition.ts": {
+    "purpose": "Dev panel position and layout types for booking debug UI",
+    "domain": "booking/dev",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardFieldContextAndVisibility.ts": {
+    "purpose": "Entity card field context and conditional visibility types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/calendarEntries.ts": {
+    "purpose": "Calendar entry display and management types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/businessControlsFormState.ts": {
+    "purpose": "Business controls form state and field types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/expansionState.ts": {
+    "purpose": "Panel expansion state tracking types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/entityFiltering.ts": {
+    "purpose": "Entity list filtering criteria and state types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/selectTypeResolver.ts": {
+    "purpose": "Select input type resolution and mapping types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/businessRules.ts": {
+    "purpose": "Business rules management interface types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/nestedComputedFactory.ts": {
+    "purpose": "Nested computed property factory pattern types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/fieldInputHandlers.ts": {
+    "purpose": "Field input event handler function types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/admin/partPricing.ts": {
+    "purpose": "Part pricing calculation and display types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/capacityConstraintsHandlers.ts": {
+    "purpose": "Capacity constraint handler function types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardComputed.ts": {
+    "purpose": "Entity card computed property types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/fieldLocation.ts": {
+    "purpose": "Field location and section assignment types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/admin/selectFiltering.ts": {
+    "purpose": "Select option filtering and search types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardFormSetup.ts": {
+    "purpose": "Entity card form initialization types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/types/admin/entityCardStoreSync.ts": {
+    "purpose": "Entity card store synchronization types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/dragAndDrop.ts": {
+    "purpose": "General drag-and-drop interaction types for admin",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "drag-drop"
+    ]
+  },
+  "client/src/types/admin/entityStatus.ts": {
+    "purpose": "Entity status enum and transition types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/instanceComposableOptions.ts": {
+    "purpose": "Instance composable configuration option types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityDragHandlers.ts": {
+    "purpose": "Entity drag event handler function types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "drag-drop"
+    ]
+  },
+  "client/src/types/admin/fieldComponent.ts": {
+    "purpose": "Field component prop and rendering types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/admin/entityTabState.ts": {
+    "purpose": "Entity tab navigation state types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/dialogFormState.ts": {
+    "purpose": "Dialog form modal state management types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form",
+      "modal",
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/blockInstanceForm.ts": {
+    "purpose": "Block instance form field and state types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/types/admin/buildMetadataEntry.ts": {
+    "purpose": "Metadata entry builder function types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/entityCardMetadata.ts": {
+    "purpose": "Entity card metadata display and edit types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardLayout.ts": {
+    "purpose": "Entity card layout and section types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/entityCardActions.ts": {
+    "purpose": "Entity card action button and handler types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardSaveHandlers.ts": {
+    "purpose": "Entity card save handler function types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardSaveAndActions.ts": {
+    "purpose": "Entity card combined save and action types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityGrouping.ts": {
+    "purpose": "Entity grouping and categorization types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/entityCardExpansion.ts": {
+    "purpose": "Entity card expansion panel state types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/entityCardFieldConfiguration.ts": {
+    "purpose": "Entity card field configuration and layout types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/admin/entityCardForm.ts": {
+    "purpose": "Entity card form data and submission types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/types/admin/conditionalFieldVisibility.ts": {
+    "purpose": "Conditional field visibility rule types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/attendeeQuickSelect.ts": {
+    "purpose": "Attendee quick-select dropdown types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/admin/availabilitySettings.ts": {
+    "purpose": "Admin availability settings form types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/admin/calibrationChart.ts": {
+    "purpose": "Calibration chart display and data types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/capacitySettings.ts": {
+    "purpose": "Capacity settings configuration types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/admin/shapesTab.ts": {
+    "purpose": "Shapes tab component state and action types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/fieldContextManager.ts": {
+    "purpose": "Field context management and lifecycle types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/admin/fieldInputSetup.ts": {
+    "purpose": "Field input initialization and setup types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/admin/propertyCreateForm.ts": {
+    "purpose": "Property creation form field and state types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "form"
+    ]
+  },
+  "client/src/types/admin/gridConfigHandlers.ts": {
+    "purpose": "Grid configuration handler function types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "settings"
+    ]
+  },
+  "client/src/types/admin/instancesTab.ts": {
+    "purpose": "Instances tab component state and handler types",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/types/admin/tables/tableModelHelpers.ts": {
+    "purpose": "Table model helper utility types for admin tables",
+    "domain": "admin/tables",
+    "reuseTier": "feature",
+    "tags": [
+      "table"
+    ]
+  },
+  "client/src/types/admin/tables/appointmentsTableHandlers.ts": {
+    "purpose": "Appointments table action handler types",
+    "domain": "admin/tables",
+    "reuseTier": "feature",
+    "tags": [
+      "table"
+    ]
+  },
+  "client/src/types/admin/tables/crudDataTableModel.ts": {
+    "purpose": "CRUD data table model and column definition types",
+    "domain": "admin/tables",
+    "reuseTier": "feature",
+    "tags": [
+      "table",
+      "crud"
+    ]
+  },
+  "client/src/types/forms/fieldComponent.ts": {
+    "purpose": "Form field component type definitions",
+    "domain": "formFields",
+    "reuseTier": "shared",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/forms/getFieldKeys.ts": {
+    "purpose": "Field key extraction and typing utilities",
+    "domain": "formFields",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/forms/layoutFieldCategorization.ts": {
+    "purpose": "Layout field categorization and section types",
+    "domain": "formFields",
+    "reuseTier": "shared",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/types/forms/fieldLocationDispatcher.ts": {
+    "purpose": "Field location dispatch and routing types",
+    "domain": "formFields",
+    "reuseTier": "shared",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/forms/fieldSectionCategorization.ts": {
+    "purpose": "Field section categorization and grouping types",
+    "domain": "formFields",
+    "reuseTier": "shared",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/forms/selectDomAssociation.ts": {
+    "purpose": "Select input DOM association and binding types",
+    "domain": "formFields",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/transformers/adminObject.ts": {
+    "purpose": "Admin object transformer input/output types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/transformers/appointmentToWizardHelpers.ts": {
+    "purpose": "Appointment-to-wizard data mapping helper types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/transformers/bookingData.ts": {
+    "purpose": "Booking data transformer types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/transformers/businessData.ts": {
+    "purpose": "Business data transformer types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/transformers/fieldClassification.ts": {
+    "purpose": "Field classification and categorization types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/transformers/globalData.ts": {
+    "purpose": "Global data transformer types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/entityCrud/sharedMutationHandlers.ts": {
+    "purpose": "Shared entity mutation handler types",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/entityCrud/entityCrudTypes.ts": {
+    "purpose": "Core entity CRUD operation types",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud"
+    ]
+  },
+  "client/src/types/entityCrud/entityCrudState.ts": {
+    "purpose": "Entity CRUD state management types",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud",
+      "ui-state"
+    ]
+  },
+  "client/src/types/entityCrud/entityCrudQuery.ts": {
+    "purpose": "Entity CRUD query and fetch types",
+    "domain": "entityCrud",
+    "reuseTier": "shared",
+    "tags": [
+      "crud",
+      "data-fetching"
+    ]
+  },
+  "client/src/types/componentEntity/componentEntityDomain.ts": {
+    "purpose": "Component entity domain model types",
+    "domain": "componentEntity",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/componentEntity/componentEntityActions.ts": {
+    "purpose": "Component entity action handler types",
+    "domain": "componentEntity",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/componentEntity/componentEntityQuery.ts": {
+    "purpose": "Component entity query and fetch types",
+    "domain": "componentEntity",
+    "reuseTier": "shared",
+    "tags": [
+      "data-fetching"
+    ]
+  },
+  "client/src/types/dataCollections/dataCollectionActions.ts": {
+    "purpose": "Data collection mutation and action types",
+    "domain": "dataCollections",
+    "reuseTier": "shared",
+    "tags": [
+      "data-fetching"
+    ]
+  },
+  "client/src/types/dataCollections/businessDataCollectionTypes.ts": {
+    "purpose": "Business data collection query types",
+    "domain": "dataCollections",
+    "reuseTier": "shared",
+    "tags": [
+      "data-fetching"
+    ]
+  },
+  "client/src/types/dataCollections/globalDataCollectionTypes.ts": {
+    "purpose": "Global data collection query types",
+    "domain": "dataCollections",
+    "reuseTier": "shared",
+    "tags": [
+      "data-fetching"
+    ]
+  },
+  "client/src/types/collections/arrayDiff.ts": {
+    "purpose": "Array diff comparison and change detection types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/collections/resolveByIds.ts": {
+    "purpose": "Resolve-by-ID lookup and mapping types",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/types/dev/apiDevPanelData.ts": {
+    "purpose": "API dev panel data display and inspection types",
+    "domain": "dev",
+    "reuseTier": "feature",
+    "tags": [
+      "dev",
+      "data-fetching"
+    ]
+  },
+  "client/src/types/dev/devPanelTabs.ts": {
+    "purpose": "Dev panel tab configuration and navigation types",
+    "domain": "dev",
+    "reuseTier": "feature",
+    "tags": [
+      "dev"
+    ]
+  },
+  "client/src/types/fieldContext/fieldContextSaveHelpers.ts": {
+    "purpose": "Field context save helper function types",
+    "domain": "fieldContext",
+    "reuseTier": "shared",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/types/fieldContext/fieldContextActions.ts": {
+    "purpose": "Field context action handler types",
+    "domain": "fieldContext",
+    "reuseTier": "shared",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/constants/component.ts": {
+    "purpose": "Component entity field and display constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/constants/entityFieldConstants.ts": {
+    "purpose": "Entity field name and key constants",
+    "domain": "entity",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/constants/errorMessages.ts": {
+    "purpose": "User-facing error message string constants",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/constants/adminPrimitiveMetadataOptions.ts": {
+    "purpose": "Admin primitive metadata option constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/constants/appointmentsTableConstants.ts": {
+    "purpose": "Appointments table column and config constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": [
+      "table"
+    ]
+  },
+  "client/src/constants/businessRulesConstants.ts": {
+    "purpose": "Business rules threshold and config constants",
+    "domain": "root",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/constants/entitySchemaDefaults.ts": {
+    "purpose": "Entity schema default value constants",
+    "domain": "entity",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/constants/scheduling.ts": {
+    "purpose": "Scheduling configuration and time constants",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/constants/constraintTypes.ts": {
+    "purpose": "Constraint type identifier constants",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/constants/attendeeRoles.ts": {
+    "purpose": "Attendee role enum constants",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/constants/statusButtonLabels.ts": {
+    "purpose": "Status button display label constants",
+    "domain": "root",
+    "reuseTier": "shared",
+    "tags": []
+  },
+  "client/src/configs/businessControlsTabStrings.ts": {
+    "purpose": "Business controls tab UI string constants",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/eventPerspectiveLabels.ts": {
+    "purpose": "Event perspective label string constants",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/propertyValidationStrings.ts": {
+    "purpose": "Property validation message string constants",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/configs/contactsValidationStrings.ts": {
+    "purpose": "Contacts validation message string constants",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "validation"
+    ]
+  },
+  "client/src/configs/availabilitySettings/calendar.ts": {
+    "purpose": "Calendar availability settings configuration",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/availabilitySettings/constraints.ts": {
+    "purpose": "Availability constraint settings configuration",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/availabilitySettings/businessHours.ts": {
+    "purpose": "Business hours availability settings configuration",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/availabilitySettings/types.ts": {
+    "purpose": "Availability settings type definitions for configs",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/availabilitySettings/index.ts": {
+    "purpose": "Availability settings config barrel export",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": []
+  },
+  "client/src/configs/availabilitySettings/api.ts": {
+    "purpose": "Availability settings API payload configuration",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "data-fetching"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/baseEntityDisplays.ts": {
+    "purpose": "Base entity field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/annotationShapeDisplays.ts": {
+    "purpose": "Annotation shape field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/blockShapeDisplays.ts": {
+    "purpose": "Block shape field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts": {
+    "purpose": "Annotation instance field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/eventInstanceDisplays.ts": {
+    "purpose": "Event instance field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/partInstanceDisplays.ts": {
+    "purpose": "Part instance field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/partShapeDisplays.ts": {
+    "purpose": "Part shape field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts": {
+    "purpose": "Block instance field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts": {
+    "purpose": "Event shape field display configuration",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/partInstancePrimitiveFields.ts": {
+    "purpose": "Part instance primitive form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/blockShapePrimitiveFields.ts": {
+    "purpose": "Block shape primitive form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/annotationShapeFields.ts": {
+    "purpose": "Annotation shape form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/eventShapeFields.ts": {
+    "purpose": "Event shape form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/baseEntityFields.ts": {
+    "purpose": "Base entity form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/annotationInstanceFields.ts": {
+    "purpose": "Annotation instance form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/blockInstancePrimitiveFields.ts": {
+    "purpose": "Block instance primitive form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/eventInstanceFields.ts": {
+    "purpose": "Event instance form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/form/appliedForm/partShapePrimitiveFields.ts": {
+    "purpose": "Part shape primitive form field configuration",
+    "domain": "field/form",
+    "reuseTier": "feature",
+    "tags": [
+      "field-config"
+    ]
+  },
+  "client/src/configs/field/display/fullFieldDisplayConfig.ts": {
+    "purpose": "Complete field display configuration registry",
+    "domain": "field/display",
+    "reuseTier": "feature",
+    "tags": [
+      "settings",
+      "ui-state",
+      "field-config"
+    ]
+  },
+  "client/src/types/admin/entityInstanceFormBase.ts": {
+    "purpose": "Shared return shape for block/part instance form composables.",
+    "reuseTier": "feature",
+    "domain": "admin",
+    "tags": ["types", "entity-form"]
+  },
+  "client/src/types/errors/axiosErrorUtils.ts": {
+    "purpose": "Extracted error message types for Axios error handling.",
+    "reuseTier": "shared",
+    "domain": "root",
+    "tags": ["types", "error-handling"]
+  },
+  "client/src/types/formFields/formFieldsContext.ts": {
+    "purpose": "Form fields context types for field rendering and form state.",
+    "reuseTier": "shared",
+    "domain": "formFields",
+    "tags": ["types", "form-context"]
+  },
+  "client/src/components/admin/dev/devPanelTypes.ts": {
+    "purpose": "Dev panel visibility props and component types.",
+    "reuseTier": "feature",
+    "domain": "dev",
+    "tags": ["types", "dev-panel"]
+  },
+  "client/src/components/admin/generic/fields/fieldTypes.ts": {
+    "purpose": "Field renderer and field input prop types for generic fields.",
+    "reuseTier": "shared",
+    "domain": "admin/generic",
+    "tags": ["types", "field-renderer"]
+  },
+  "client/src/components/booking/types/selectionCardTypes.ts": {
+    "purpose": "Selection card configuration, appearance, and feature-flag types.",
+    "reuseTier": "feature",
+    "domain": "booking/selectionCard",
+    "tags": ["types", "selection-card"]
   }
 }

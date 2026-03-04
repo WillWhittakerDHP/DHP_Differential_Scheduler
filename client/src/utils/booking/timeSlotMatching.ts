@@ -1,5 +1,4 @@
 /**
- * PATTERN: Pure time-slot matching (no Vue). Used by useTimeSlotMatching for ref wiring.
  */
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { TimeSlot } from '@/types/appointment'

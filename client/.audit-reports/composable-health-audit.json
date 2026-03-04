@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-27T04:02:31.508Z",
-  "totalScanned": 263,
+  "generatedAt": "2026-03-04T15:29:00.846Z",
+  "totalScanned": 275,
   "ruleset": [
     {
       "ruleId": "module-level-ref",
@@ -74,66 +74,11 @@
       "recommendedFix": "Merge re-exports into source or consumer to reduce indirection"
     }
   ],
-  "findings": [
-    {
-      "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-      "lineNumber": 143,
-      "ruleId": "oversized-return",
-      "snippet": "Return surface has 11 properties",
-      "message": "Return surface has 11 properties; decompose into focused composables",
-      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
-      "isExported": true,
-      "composableName": "useAppointmentsTableModel",
-      "consumerCount": 1
-    },
-    {
-      "file": "client/src/composables/admin/useBaseCollectionField.ts",
-      "lineNumber": 208,
-      "ruleId": "oversized-return",
-      "snippet": "Return surface has 12 properties",
-      "message": "Return surface has 12 properties; decompose into focused composables",
-      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
-      "isExported": true,
-      "composableName": "useBaseCollectionField",
-      "consumerCount": 2
-    },
-    {
-      "file": "client/src/composables/formFields/useFormFields.ts",
-      "lineNumber": 1,
-      "ruleId": "excessive-composable-imports",
-      "snippet": "6 composable imports",
-      "message": "High composable fan-out (6 imports); consider decomposing or using a focused facade",
-      "fixHint": "Decompose into smaller focused composables or introduce a facade",
-      "isFileLevel": true,
-      "isExported": true,
-      "consumerCount": 5
-    }
-  ],
-  "files": [
-    {
-      "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/composables/admin/useBaseCollectionField.ts",
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/composables/formFields/useFormFields.ts",
-      "score": 2,
-      "priority": "P2"
-    }
-  ],
+  "findings": [],
+  "files": [],
   "repairWaves": {
     "local": [],
-    "lowFanIn": [
-      0,
-      1
-    ],
-    "highFanIn": [
-      2
-    ]
+    "lowFanIn": [],
+    "highFanIn": []
   }
 }

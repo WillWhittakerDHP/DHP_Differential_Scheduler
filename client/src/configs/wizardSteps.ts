@@ -8,6 +8,11 @@ export interface WizardStepConfig {
   title: string
   /** Step subtitle/description */
   subtitle: string
+  /**
+   * When true, step requires user to complete the required-confirmation modal before advancing.
+   * Wiring to block advance until modal is confirmed is follow-up; see booking/modals/README.md.
+   */
+  confirmModal?: boolean
 }
 
 export const WIZARD_STEPS: WizardStepConfig[] = [

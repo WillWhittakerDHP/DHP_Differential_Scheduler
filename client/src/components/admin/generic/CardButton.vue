@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Unified Card Button Component
   WHY: Single reusable component for all card button types (expansion, delete, action, options)
        Eliminates code duplication and ensures consistent stop-propagation handling
   PATTERN: Configurable component with type-based rendering and automatic event handling
@@ -23,10 +22,6 @@ interface Props {
    */
   type: ButtonType
   
-  /**
-LEARNING: Expansion state for expansion type buttons
-WHY: Expansion ...
-   */
   expanded?: boolean
   
   /**
@@ -140,7 +135,6 @@ function handleClick(event: MouseEvent): void {
 
 <template>
   <!--
-    LEARNING: Card button with conditional positioning
     WHY: Buttons can be absolutely positioned or inline
     PATTERN: Conditional class application and style binding
   -->
@@ -212,4 +206,3 @@ function handleClick(event: MouseEvent): void {
   }
 }
 </style>
-

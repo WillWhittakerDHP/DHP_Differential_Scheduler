@@ -1,7 +1,6 @@
 /**
  * Shared Metadata Entry Types
  *
- * LEARNING: Base type for field and relationship metadata entries (TYPE_SIMILARITY_PROPOSAL § 1.11).
  * WHY: Single source of truth for common shape; client and server entry types extend it.
  * PATTERN: Shared types directory for cross-cutting concerns.
  */

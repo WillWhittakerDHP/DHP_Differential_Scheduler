@@ -82,14 +82,12 @@ function handleSelectedOptionTypeUpdate(value: string | string[] | null): void {
 .availability-cards {
   margin-bottom: 1rem;
 
-  /* Card text smaller than section title (headline-medium) */
   :deep(.selection-card-content h6),
   :deep(.text-headline-small) {
     font-size: 0.9375rem; /* 15px – reasonably less than headline-medium */
     font-weight: 500;
   }
 
-  /* Cards shrink to content height (no extra min-height or padding) */
   :deep(.selection-card-wrapper) {
     min-height: 0;
   }

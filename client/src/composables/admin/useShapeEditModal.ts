@@ -5,7 +5,6 @@ PATTERN: Composable that manage...
 import { ref } from 'vue'
 import type { UseShapeEditModalOptions, UseShapeEditModalReturn } from '@/types/admin/shapeEditModal'
 
-
 /**
  * WHY: Composable for managing shape edit modal
 WHY: Centralizes shape edit mod...
@@ -16,7 +15,6 @@ export function useShapeEditModal(
   const { expandedBlockShapes } = options
 
   /**
-   * LEARNING: Shape edit modal state per BlockShape
    */
   const shapeEditModalOpen = ref<Map<string, boolean>>(new Map())
 

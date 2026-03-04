@@ -1,7 +1,6 @@
 /**
  * WHY: Business Data Collection CRUD Composable
 
-LEARNING: Facade composable fo...
  */
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from '@/types/dataCollections/businessDataCollectionTypes'
@@ -39,4 +38,3 @@ export function useBusinessDataCollectionCrud<
     fetchById,
   }
 }
-

@@ -41,7 +41,6 @@ const {
     multiple
     class="mt-4"
   >
-    <!-- LEARNING: Parts Panel with truncated summary and bulk edit button -->
     <!-- WHY: Shows preview of constituent parts in panel title with bulk edit functionality -->
     <!-- PATTERN: "Parts: Name1, Name2 +X more" format with bulk edit button (similar to InstancesTab) -->
     <VExpansionPanel v-if="subPanelFields.parts.length" value="parts">
@@ -67,7 +66,6 @@ const {
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.parts" :key="fieldKey" class="mb-4">
-          <!-- LEARNING: For relationshipCollection fields that need bulk edit access, render RelationshipCollection directly with ref -->
           <!-- WHY: Bulk edit button in panel title needs access to RelationshipCollection's exposed methods -->
           <!-- PATTERN: Check component type from metadata - if relationshipCollection, render RelationshipCollection with ref; otherwise use FieldRenderer -->
           <RelationshipCollection
@@ -86,7 +84,6 @@ const {
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Relationships Panel with truncated summary -->
     <!-- WHY: Shows preview of related entities in panel title -->
     <!-- PATTERN: "Relationships: Name1, Name2 +X more" format -->
     <VExpansionPanel v-if="subPanelFields.relationships.length" value="relationships">
@@ -107,7 +104,6 @@ const {
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Annotations Panel - no summary in title -->
     <!-- WHY: User requested no annotation chips/summary in panel titles -->
     <!-- PATTERN: Simple panel with just "Annotations" label -->
     <VExpansionPanel v-if="subPanelFields.annotations.length" value="annotations">
@@ -124,7 +120,6 @@ const {
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Events Panel -->
     <!-- WHY: Shows event instances configured for shapes -->
     <!-- PATTERN: Simple panel with "Events" label -->
     <VExpansionPanel v-if="subPanelFields.events.length" value="events">
@@ -142,7 +137,6 @@ const {
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Composition Panel - block-shape-specific components -->
     <!-- WHY: instanceComponents field renders here when composite and composable -->
     <!-- PATTERN: Title uses blockShapeName for "{BlockShape} Components" -->
     <VExpansionPanel v-if="subPanelFields.composition.length" value="composition">
@@ -162,4 +156,3 @@ const {
 
   </VExpansionPanels>
 </template>
-

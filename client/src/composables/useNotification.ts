@@ -7,7 +7,6 @@ import type { Ref } from 'vue'
 import { ref } from 'vue'
 
 /**
- * LEARNING: Notification state interface
  */
 interface Notification {
   message: string
@@ -82,10 +81,6 @@ PATTERN: Function th...
     }, 300)
   }
 
-  /**
-LEARNING: Reset notification state immediately (for testing)
-WHY: Cl...
-   */
   function reset() {
     notification.value = null
     showNotification.value = false
@@ -103,4 +98,3 @@ WHY: Cl...
     reset,
   }
 }
-

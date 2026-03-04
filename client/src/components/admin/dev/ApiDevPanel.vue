@@ -30,7 +30,6 @@ void panelRef.value // ref used by template
 
 const computedAvailability = inject(computedAvailabilityKey, null)
 
-// LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
 const rawApiBase = import.meta.env.VITE_API_BASE_URL
 const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBase !== '' ? rawApiBase : ''
 

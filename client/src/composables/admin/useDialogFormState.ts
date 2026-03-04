@@ -1,7 +1,6 @@
 /**
  * WHY: Dialog Form State Composable
 
-LEARNING: Extracts dialog form state manag...
  */
 import { ref, watch } from 'vue'
 import type { UseDialogFormStateOptions, UseDialogFormStateReturn } from '@/types/admin/dialogFormState'
@@ -26,7 +25,6 @@ export function useDialogFormState<T extends Record<string, unknown> = Record<st
   }
   
   /**
-   * LEARNING: Watch dialog open state and reset form when dialog opens
    */
   watch(dialogOpen, (isOpen) => {
     if (isOpen) {
@@ -39,7 +37,3 @@ export function useDialogFormState<T extends Record<string, unknown> = Record<st
     resetForm
   } as UseDialogFormStateReturn<T>
 }
-
-
-
-

@@ -1,5 +1,4 @@
 /**
- * WHY: Pure data transforms for fee calibration chart (service totals, SVG geometry); keeps useCalibrationChart thin.
  */
 import type { ChartData } from 'chart.js'
 import { toGlobalEntityId } from '@/utils/globalEntity'

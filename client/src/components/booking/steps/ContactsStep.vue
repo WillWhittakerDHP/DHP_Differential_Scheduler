@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { inject, computed, provide, type Ref } from 'vue'
+import { inject, computed, provide } from 'vue'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import {
   contactsStepDataKey,
@@ -8,12 +8,13 @@ import {
   contactsStepValidateKey,
   contactsFormContextKey,
   wizardKey,
+  loadedWizardStateKey,
 } from '@/composables/booking/injectionKeys'
 import { useContactsStepData } from '@/composables/booking/useContactsStepData'
 import { useContactsValidation } from '@/composables/booking/useContactsValidation'
 import ContactFormSection from './ContactFormSection.vue'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+
+const loadedWizardState = inject(loadedWizardStateKey)
 
 const wizard = inject(wizardKey)
 
@@ -27,7 +28,6 @@ const requiresAgent = computed(() => {
   )
 })
 
-// LEARNING: Use contacts step data composable for contact form state management
 // PATTERN: Composable handles all contact form data and optional section visibility
 const contactsStepData = useContactsStepData({
   loadedWizardState
@@ -92,7 +92,6 @@ provide(contactsFormContextKey, {
 
 <template>
   <div class="contacts-step">
-    <!-- LEARNING: Header Section -->
     <!-- WHY: Introduces the step purpose -->
     <!-- PATTERN: Heading with descriptive subtitle -->
     <VRow>
@@ -112,4 +111,3 @@ provide(contactsFormContextKey, {
 .contacts-step {
 }
 </style>
-

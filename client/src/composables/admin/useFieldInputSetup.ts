@@ -8,7 +8,6 @@ import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCard
 import { useFieldInputHandlers } from '@/composables/admin/useFieldInputHandlers'
 import type { UseFieldInputSetupOptions } from '@/types/admin/fieldInputSetup'
 
-
 export interface UseFieldInputSetupReturn {
   fieldValue: Ref<unknown>
   handleChange: (value: string) => void
@@ -26,7 +25,6 @@ export function useFieldInputSetup(
 
   const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
-  // LEARNING: Use unified field value composable
   // WHY: Provides consistent value access pattern that handles Vue's Ref unwrapping
   // PATTERN: Always use useFieldValue for accessing field values
   const fieldValue = useFieldValue(fieldContext)

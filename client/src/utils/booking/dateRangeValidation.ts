@@ -6,7 +6,6 @@ const logger = createLogger('dateRangeValidation')
 
 /**
  * WHY: Validate date range and return normalized RFC3339 datetime range
-LEARNIN...
  */
 export function validateDateRange(
   dateRange: { start: string | null; end: string | null } | null

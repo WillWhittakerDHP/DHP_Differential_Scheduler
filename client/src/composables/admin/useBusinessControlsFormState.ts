@@ -1,5 +1,4 @@
 /**
- * PATTERN: Form state and bindings for Business Controls tab; composes useBusinessHoursFormState and useCalendarHoldFormState (audit: function-complexity).
  */
 import type { ComputedRef } from 'vue'
 import { computed } from 'vue'

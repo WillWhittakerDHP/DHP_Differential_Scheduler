@@ -1,6 +1,5 @@
 /**
  * WHY: usePanelPosition Composable
- * WHY: Moves DOM manipulation logic out of component; uses Vuetify useDisplay for viewport (no direct window access).
  */
 import { ref, watch, nextTick } from 'vue'
 import { useDisplay } from 'vuetify'
@@ -96,7 +95,6 @@ WHY: Calculates transform before state change to prevent visual hop
    */
   const handleToggle = async (willExpand: boolean): Promise<void> => {
     if (willExpand) {
-      // LEARNING: Calculate transform BEFORE toggling expansion state
       // PATTERN: Calculate synchronously, disable transitions, apply transform, then toggle state
       const calculatedTransform = calculatePanelPosition()
       
@@ -110,7 +108,6 @@ WHY: Calculates transform before state change to prevent visual hop
       
       /**
        * WHY: Component controls isExpanded, composable only handles positioning
-       * PATTERN: Use nextTick then requestAnimationFrame for precise timing (SSR-safe guard).
        */
       nextTick(() => {
         if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
@@ -129,7 +126,6 @@ WHY: Calculates transform before state change to prevent visual hop
         updatePanelPosition()
       }, 350)
     } else {
-      // LEARNING: Collapse panel - component manages isExpanded state
       // WHY: Component controls isExpanded, composable only handles positioning
       // PATTERN: Keep transform during collapse, reset after animation completes
       // PATTERN: Wait for collapse transition (300ms) before resetting transform

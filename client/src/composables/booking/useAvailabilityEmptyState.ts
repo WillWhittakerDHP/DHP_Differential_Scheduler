@@ -7,7 +7,6 @@ import { computed } from 'vue'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
-
 /**
  * WHY: useAvailabilityEmptyState composable
 
@@ -29,7 +28,6 @@ export function useAvailabilityEmptyState(
   })
 
   /**
-   * LEARNING: Compute empty state message based on service type and perspective
    */
   const emptyStateMessage = computed<string | null>(() => {
     if (appointmentSlotsCount.value > 0) {

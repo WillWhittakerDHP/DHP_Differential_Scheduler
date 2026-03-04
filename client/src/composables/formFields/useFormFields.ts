@@ -21,8 +21,13 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('useFormFields')
 
 /**
- * PATTERN: useFormFields with inlined useFormFieldsContext (remaining chain repairs Batch 3).
- * Former useFormFieldsContext logic lives below to reduce composable chain depth.
+ * Orchestrates form field setup for entity forms: options, context, and layout (inline/stacked).
+ *
+ * CONSUMERS (composable-health wave 3): useEntityCardFormSetup (→ EntityCard), EntityFormContent.vue,
+ * DynamicForm.vue. Type UseFormFieldsReturn is consumed by entityCardFieldContextAndVisibility.ts.
+ *
+ * APPROACH: Oversized-return and excessive-composable-imports are allowlisted; decomposition into
+ * smaller composables is deferred to a coordinated multi-file pass (high fan-in).
  */
 export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsReturn {
   const {
@@ -36,11 +41,9 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     adminConfig: providedAdminConfig,
   } = options
 
-  // Resolve admin config for callers that pass it; reserved for future use in field context.
   const _resolvedAdminConfig = providedAdminConfig ?? useAdminConfig()
   void _resolvedAdminConfig
   const { warning: showWarning } = useNotification()
-  // WHY: Capture once during setup so context creation works when metadata loads later (e.g. in watchEffect).
   // When cards mount before metadata is ready (e.g. Instances tab), the effect runs with getCurrentInstance() null;
   // using the captured instance avoids infinite nextTick deferral and allows contexts to be created.
   const capturedInstance = getCurrentInstance()
@@ -166,7 +169,6 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
         fieldContextCache.value.set(cacheKey, fieldContext as never)
         triggerRef(fieldContextCache)
       }
-      // Run with captured instance when available (setup); without when effect runs after metadata load.
       if (capturedInstance && appInstance?.runWithContext) {
         appInstance.runWithContext(buildContext)
       } else {

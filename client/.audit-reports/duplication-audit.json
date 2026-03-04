@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T00:13:05.601Z",
+  "generatedAt": "2026-03-04T15:30:08.758Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 695,
+  "fileCount": 713,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -34,6 +34,7 @@
           "client/src/utils/api/relationshipApiHelpers.ts",
           "client/src/utils/booking/BlockFinal.ts",
           "client/src/utils/booking/PartFinal.ts",
+          "client/src/utils/booking/appointmentSlotBuilder.ts",
           "client/src/utils/booking/blockFinalizer.ts",
           "client/src/utils/booking/partFinalizer.ts",
           "client/src/utils/booking/slotShapeLookups.ts",
@@ -57,7 +58,7 @@
           "server/src/services/invites/inviteOrchestrationService.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 48
+        "patternCount": 50
       },
       {
         "prefix": "use",
@@ -74,8 +75,10 @@
           "client/src/composables/admin/useAdminRelationshipMetadataMutations.ts",
           "client/src/composables/admin/useApiDevPanelVisibility.ts",
           "client/src/composables/admin/useAttendeeQuickSelect.ts",
+          "client/src/composables/admin/useBaseCollectionField.ts",
           "client/src/composables/admin/useBlockInstanceCreate.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
+          "client/src/composables/admin/useBlockInstanceList.ts",
           "client/src/composables/admin/useBooleanInputClick.ts",
           "client/src/composables/admin/useBufferSettings.ts",
           "client/src/composables/admin/useBusinessControlsFormState.ts",
@@ -86,6 +89,7 @@
           "client/src/composables/admin/useCalendarEntries.ts",
           "client/src/composables/admin/useCalendarHoldFormState.ts",
           "client/src/composables/admin/useCalibrationChart.ts",
+          "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
           "client/src/composables/admin/useCapacitySettings.ts",
           "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
@@ -113,6 +117,7 @@
           "client/src/composables/admin/useEntityMetadata.ts",
           "client/src/composables/admin/useEntityStatus.ts",
           "client/src/composables/admin/useEntityTabState.ts",
+          "client/src/composables/admin/useEventInstancesSection.ts",
           "client/src/composables/admin/useExpansionState.ts",
           "client/src/composables/admin/useFeePreview.ts",
           "client/src/composables/admin/useFieldComponent.ts",
@@ -126,6 +131,7 @@
           "client/src/composables/admin/useFieldRendererErrorWatch.ts",
           "client/src/composables/admin/useFormElementPatching.ts",
           "client/src/composables/admin/useFormFieldConfigs.ts",
+          "client/src/composables/admin/useGridConfigHandlers.ts",
           "client/src/composables/admin/useIconPickerState.ts",
           "client/src/composables/admin/useInstanceBulkEdit.ts",
           "client/src/composables/admin/useInstanceDragAndDrop.ts",
@@ -133,6 +139,7 @@
           "client/src/composables/admin/useInstanceGrouping.ts",
           "client/src/composables/admin/useInstanceShape.ts",
           "client/src/composables/admin/useInstanceTabHandlers.ts",
+          "client/src/composables/admin/useInstancesTab.ts",
           "client/src/composables/admin/useInstancesTabCreateModal.ts",
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
@@ -142,6 +149,7 @@
           "client/src/composables/admin/useMetadataFieldDrag.ts",
           "client/src/composables/admin/useMetadataFieldOrdering.ts",
           "client/src/composables/admin/useMetadataModalHandlers.ts",
+          "client/src/composables/admin/useOverlapConstraintsPanel.ts",
           "client/src/composables/admin/usePartInstanceBulkEdit.ts",
           "client/src/composables/admin/usePartInstanceCollection.ts",
           "client/src/composables/admin/usePartInstanceExpansion.ts",
@@ -149,6 +157,7 @@
           "client/src/composables/admin/usePartsCollectionField.ts",
           "client/src/composables/admin/usePartsTotals.ts",
           "client/src/composables/admin/usePrimitiveMetadataSave.ts",
+          "client/src/composables/admin/usePropertyCreateForm.ts",
           "client/src/composables/admin/usePropertyMappingsTab.ts",
           "client/src/composables/admin/useRelationshipCollection.ts",
           "client/src/composables/admin/useRelationshipCollectionData.ts",
@@ -167,6 +176,7 @@
           "client/src/composables/admin/useShapeDisplayNames.ts",
           "client/src/composables/admin/useShapeEditModal.ts",
           "client/src/composables/admin/useShapeForm.ts",
+          "client/src/composables/admin/useShapesTab.ts",
           "client/src/composables/admin/useShapesTabCreation.ts",
           "client/src/composables/admin/useShapesTabDeletion.ts",
           "client/src/composables/admin/useShapesTabModals.ts",
@@ -206,6 +216,7 @@
           "client/src/composables/booking/useAvailabilityValidation.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
           "client/src/composables/booking/useBookingWizard.ts",
+          "client/src/composables/booking/useBookingWizardSetup.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
           "client/src/composables/booking/useCascadeInstances.ts",
           "client/src/composables/booking/useComputedAvailability.ts",
@@ -213,6 +224,7 @@
           "client/src/composables/booking/useContactsStepData.ts",
           "client/src/composables/booking/useContactsValidation.ts",
           "client/src/composables/booking/useDateRangeDecider.ts",
+          "client/src/composables/booking/useDelayedModalVisibility.ts",
           "client/src/composables/booking/useDependentInstances.ts",
           "client/src/composables/booking/useDevPanelButtonsInject.ts",
           "client/src/composables/booking/useDevPanelsAppointmentData.ts",
@@ -229,6 +241,7 @@
           "client/src/composables/booking/useInstanceSelectionState.ts",
           "client/src/composables/booking/useKeyboardToggle.ts",
           "client/src/composables/booking/useMockCalendarRefresh.ts",
+          "client/src/composables/booking/useMoveableAvailabilityData.ts",
           "client/src/composables/booking/useMoveablePartsScheduling.ts",
           "client/src/composables/booking/useOptionTypeBlockSelection.ts",
           "client/src/composables/booking/usePerspectiveMapping.ts",
@@ -238,11 +251,11 @@
           "client/src/composables/booking/usePropertyFormWatchers.ts",
           "client/src/composables/booking/usePropertyTypeBlockConfig.ts",
           "client/src/composables/booking/usePropertyTypeBlockSelection.ts",
+          "client/src/composables/booking/usePropertyTypeSelectWidth.ts",
           "client/src/composables/booking/usePropertyTypesLabel.ts",
           "client/src/composables/booking/usePropertyValidation.ts",
           "client/src/composables/booking/useResponsiveGrid.ts",
           "client/src/composables/booking/useSelectionCardGroupConfig.ts",
-          "client/src/composables/booking/useServiceSelectMapper.ts",
           "client/src/composables/booking/useSlotGridDisplay.ts",
           "client/src/composables/booking/useStepValidation.ts",
           "client/src/composables/booking/useTimeSlotCalculations.ts",
@@ -270,6 +283,7 @@
           "client/src/composables/entityCrud/useEntityCrudMutations.ts",
           "client/src/composables/entityCrud/usePrimitiveMutation.ts",
           "client/src/composables/fieldContext/useFieldContext.ts",
+          "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
           "client/src/composables/fieldContext/useFieldContextState.ts",
           "client/src/composables/formFields/useFormFields.ts",
           "client/src/composables/formFields/useFormFieldsStandardLayout.ts",
@@ -303,7 +317,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 245
+        "patternCount": 258
       },
       {
         "prefix": "get",
@@ -337,6 +351,7 @@
           "client/src/utils/booking/cascadeFilterPipeline.ts",
           "client/src/utils/booking/constraintColors.ts",
           "client/src/utils/booking/instanceComponentsList.ts",
+          "client/src/utils/booking/moveablePartShapeName.ts",
           "client/src/utils/booking/pricingCascadeResolver.ts",
           "client/src/utils/booking/selectionCardChildren.ts",
           "client/src/utils/booking/selectionCardComponent.ts",
@@ -384,7 +399,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 127
+        "patternCount": 128
       },
       {
         "prefix": "update",
@@ -400,6 +415,18 @@
     ],
     "repeatedStringFiles": [
       {
+        "value": "confirmed",
+        "files": [
+          "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+          "client/src/composables/admin/useInstancesTab.ts",
+          "client/src/composables/admin/useInstancesTabEventInstance.ts",
+          "client/src/types/admin/instancesTabEventInstance.ts",
+          "client/src/types/entities.ts",
+          "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
+        ],
+        "occurrences": 6
+      },
+      {
         "value": "started",
         "files": [
           "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
@@ -407,17 +434,6 @@
           "server/src/db/models/booking/appointment.ts"
         ],
         "occurrences": 3
-      },
-      {
-        "value": "confirmed",
-        "files": [
-          "client/src/composables/admin/useInstancesTabEventInstance.ts",
-          "client/src/types/admin/instancesTabEventInstance.ts",
-          "client/src/types/entities.ts",
-          "client/src/views/admin/tabs/InstancesTab.vue",
-          "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
-        ],
-        "occurrences": 5
       },
       {
         "value": "held",
@@ -433,234 +449,534 @@
   "duplicateComposableExports": [],
   "groups": [
     {
-      "groupId": "dup-0b2888970ff8",
-      "hash": "0b2888970ff8",
+      "groupId": "dup-39164113c7d0",
+      "hash": "39164113c7d0",
       "uniqueFiles": 2,
-      "occurrences": 2,
+      "occurrences": 3,
       "lineCount": 10,
-      "windowText": "createValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
+      "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
       "locations": [
         {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 4,
-          "endLine": 16,
-          "windowText": "createValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 4,
-          "endLine": 16,
-          "windowText": "createValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-1799efa6c855",
-      "hash": "1799efa6c855",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "createValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 5,
-          "endLine": 19,
-          "windowText": "createValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 5,
-          "endLine": 19,
-          "windowText": "createValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-2b5abdaabd1f",
-      "hash": "2b5abdaabd1f",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "instanceComponents: ComputedRef<InstanceComponent[]>\ncanBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/useComponentEntity.ts",
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
           "startLine": 49,
           "endLine": 58,
-          "windowText": "instanceComponents: ComputedRef<InstanceComponent[]>\ncanBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,",
-          "target": "client/src/composables/useComponentEntity.ts"
+          "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
         },
         {
-          "repoPath": "client/src/types/componentEntity/componentEntityDomain.ts",
-          "startLine": 11,
-          "endLine": 23,
-          "windowText": "instanceComponents: ComputedRef<InstanceComponent[]>\ncanBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,",
-          "target": "client/src/types/componentEntity/componentEntityDomain.ts"
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 199,
+          "endLine": 208,
+          "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+          "startLine": 55,
+          "endLine": 64,
+          "windowText": "partShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,\ntoggleEventShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTabModals.ts"
         }
       ],
-      "score": 22,
+      "score": 23,
       "priority": "P0"
     },
     {
-      "groupId": "dup-5234c03c620e",
-      "hash": "5234c03c620e",
+      "groupId": "dup-6d904a607168",
+      "hash": "6d904a607168",
       "uniqueFiles": 2,
-      "occurrences": 2,
+      "occurrences": 3,
       "lineCount": 10,
-      "windowText": "} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!",
+      "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
       "locations": [
         {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 7,
-          "endLine": 21,
-          "windowText": "} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 48,
+          "endLine": 57,
+          "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
         },
         {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 7,
-          "endLine": 21,
-          "windowText": "} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 198,
+          "endLine": 207,
+          "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+          "startLine": 54,
+          "endLine": 63,
+          "windowText": "blockShapeMetadataModalOpen,\npartShapeMetadataModalOpen,\npartInstanceMetadataModalOpen,\nannotationShapeMetadataModalOpen,\neventShapeMetadataModalOpen,\ntoggleBlockShapeMetadataModal,\ntogglePartShapeMetadataModal,\ntogglePartInstanceMetadataModal,\nhandlePartInstanceMetadataSaved,\ntoggleAnnotationShapeMetadataModal,",
+          "target": "client/src/composables/admin/useShapesTabModals.ts"
         }
       ],
-      "score": 22,
+      "score": 23,
       "priority": "P0"
     },
     {
-      "groupId": "dup-7b6a154e1df0",
-      "hash": "7b6a154e1df0",
+      "groupId": "dup-03cc625a46aa",
+      "hash": "03cc625a46aa",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "validEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!\nexport const validateInputConfig = createValidateInputConfig(config)",
+      "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
       "locations": [
         {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 11,
-          "endLine": 22,
-          "windowText": "validEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!\nexport const validateInputConfig = createValidateInputConfig(config)",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 95,
+          "endLine": 104,
+          "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
         {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 11,
-          "endLine": 22,
-          "windowText": "validEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)\nexport const validateRenderAs = createValidateRenderAs(config)!\nexport const validateInputConfig = createValidateInputConfig(config)",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-936c6271303e",
-      "hash": "936c6271303e",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "createValidateEntityType,\ncreateValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 3,
-          "endLine": 15,
-          "windowText": "createValidateEntityType,\ncreateValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 3,
-          "endLine": 15,
-          "windowText": "createValidateEntityType,\ncreateValidateRequiredFields,\ncreateValidateRenderAs,\ncreateValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-c6a1b36e6807",
-      "hash": "c6a1b36e6807",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy\n) => DistributionPreview[]",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/useComponentEntity.ts",
-          "startLine": 51,
-          "endLine": 61,
-          "windowText": "getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy\n) => DistributionPreview[]",
-          "target": "client/src/composables/useComponentEntity.ts"
-        },
-        {
-          "repoPath": "client/src/types/componentEntity/componentEntityDomain.ts",
-          "startLine": 16,
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 17,
           "endLine": 26,
-          "windowText": "getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy\n) => DistributionPreview[]",
-          "target": "client/src/types/componentEntity/componentEntityDomain.ts"
+          "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
         }
       ],
       "score": 22,
       "priority": "P0"
     },
     {
-      "groupId": "dup-d4ebc711aeec",
-      "hash": "d4ebc711aeec",
+      "groupId": "dup-03ecf443188e",
+      "hash": "03ecf443188e",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "createValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)",
+      "windowText": "partShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void\ntoggleEventShapeMetadataModal: () => void",
       "locations": [
         {
-          "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts",
-          "startLine": 6,
-          "endLine": 20,
-          "windowText": "createValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)",
-          "target": "server/src/routes/internal/admin-metadata/adminMetadataValidators.ts"
+          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+          "startLine": 10,
+          "endLine": 19,
+          "windowText": "partShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void\ntoggleEventShapeMetadataModal: () => void",
+          "target": "client/src/composables/admin/useShapesTabModals.ts"
         },
         {
-          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts",
-          "startLine": 6,
-          "endLine": 20,
-          "windowText": "createValidateInputConfig,\n} from '../shared/metadataValidatorFactory.js'\nvalidEntityTypes: VALID_ENTITY_TYPES as readonly string[],\nrequiredFields: REQUIRED_FIELDS.CREATE_UPDATE,\nerrorMessages: ERROR_MESSAGES,\nrenderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],\nmissingInputConfigMessage: (renderAs: string) =>\n`inputConfig is required when renderAs is \"${renderAs}\". Expected FormFieldConfig structure with relationshipSelect or typeSelect property, or direct select config.`,\nexport const validateEntityType = createValidateEntityType(config)\nexport const validateRequiredFields = createValidateRequiredFields(config)",
-          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataValidators.ts"
+          "repoPath": "client/src/types/admin/shapesTab.ts",
+          "startLine": 22,
+          "endLine": 31,
+          "windowText": "partShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void\ntoggleEventShapeMetadataModal: () => void",
+          "target": "client/src/types/admin/shapesTab.ts"
         }
       ],
       "score": 22,
       "priority": "P0"
     },
     {
-      "groupId": "dup-dac3219ab4d8",
-      "hash": "dac3219ab4d8",
+      "groupId": "dup-0cd5727b10ad",
+      "hash": "0cd5727b10ad",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "canBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy",
+      "windowText": "isCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,",
       "locations": [
         {
-          "repoPath": "client/src/composables/useComponentEntity.ts",
-          "startLine": 50,
-          "endLine": 60,
-          "windowText": "canBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy",
-          "target": "client/src/composables/useComponentEntity.ts"
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 211,
+          "endLine": 221,
+          "windowText": "isCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
         },
         {
-          "repoPath": "client/src/types/componentEntity/componentEntityDomain.ts",
-          "startLine": 15,
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 148,
+          "endLine": 160,
+          "windowText": "isCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-0eec51133848",
+      "hash": "0eec51133848",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 99,
+          "endLine": 108,
+          "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 21,
+          "endLine": 30,
+          "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-15b042726270",
+      "hash": "15b042726270",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 94,
+          "endLine": 103,
+          "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 16,
           "endLine": 25,
-          "windowText": "canBeComposed: (blockInstanceId: GlobalEntityId) => boolean\ngetAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]\ngetComponents: (composerId: GlobalEntityId) => InstanceComponent[]\nisComponent: (entityId: GlobalEntityId) => boolean\ngetComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null\ngetComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null\ncalculateDistributionPreview: (\ncomposerId: GlobalEntityId,\npropertyKey: string,\nstrategy: DistributionStrategy",
-          "target": "client/src/types/componentEntity/componentEntityDomain.ts"
+          "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-2f3ba6277c62",
+      "hash": "2f3ba6277c62",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 16,
+          "endLine": 27,
+          "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        },
+        {
+          "repoPath": "client/src/types/admin/shapesTab.ts",
+          "startLine": 32,
+          "endLine": 41,
+          "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
+          "target": "client/src/types/admin/shapesTab.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-4613f08a0dd9",
+      "hash": "4613f08a0dd9",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 96,
+          "endLine": 105,
+          "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 18,
+          "endLine": 27,
+          "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-593e42bee1ad",
+      "hash": "593e42bee1ad",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "newAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 213,
+          "endLine": 223,
+          "windowText": "newAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 150,
+          "endLine": 162,
+          "windowText": "newAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-702d91fa95aa",
+      "hash": "702d91fa95aa",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "newPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 212,
+          "endLine": 222,
+          "windowText": "newPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 149,
+          "endLine": 161,
+          "windowText": "newPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-76dd3e40c0ef",
+      "hash": "76dd3e40c0ef",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 97,
+          "endLine": 106,
+          "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 19,
+          "endLine": 28,
+          "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-7bbc40d4cc56",
+      "hash": "7bbc40d4cc56",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 100,
+          "endLine": 109,
+          "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 22,
+          "endLine": 31,
+          "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-8664cd70ff8d",
+      "hash": "8664cd70ff8d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 214,
+          "endLine": 224,
+          "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 151,
+          "endLine": 163,
+          "windowText": "newEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-87a347e1daf9",
+      "hash": "87a347e1daf9",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 98,
+          "endLine": 107,
+          "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 20,
+          "endLine": 29,
+          "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-8c3423862ea4",
+      "hash": "8c3423862ea4",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "blockShapeMetadataModalOpen: Ref<boolean>\npartShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
+          "startLine": 9,
+          "endLine": 18,
+          "windowText": "blockShapeMetadataModalOpen: Ref<boolean>\npartShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void",
+          "target": "client/src/composables/admin/useShapesTabModals.ts"
+        },
+        {
+          "repoPath": "client/src/types/admin/shapesTab.ts",
+          "startLine": 21,
+          "endLine": 30,
+          "windowText": "blockShapeMetadataModalOpen: Ref<boolean>\npartShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void",
+          "target": "client/src/types/admin/shapesTab.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-9b4f257f5a9a",
+      "hash": "9b4f257f5a9a",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,\nhandleEventShapeCancelled,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 215,
+          "endLine": 225,
+          "windowText": "isCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,\nhandleEventShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 152,
+          "endLine": 164,
+          "windowText": "isCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,\nhandleAnnotationShapeCreate,\nhandleAnnotationShapeCancelled,\nstartCreatingEventShape,\nhandleEventShapeCreate,\nhandleEventShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-a3072b74e292",
+      "hash": "a3072b74e292",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 210,
+          "endLine": 220,
+          "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 147,
+          "endLine": 159,
+          "windowText": "isCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,\nhandlePartShapeCancelled,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-bba3eec172a6",
+      "hash": "bba3eec172a6",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "startLine": 93,
+          "endLine": 102,
+          "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
+          "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
+        },
+        {
+          "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "startLine": 15,
+          "endLine": 24,
+          "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
+          "target": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue::<script>"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c1f632479d25",
+      "hash": "c1f632479d25",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "isCreatingPartShape,\nisCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,",
+      "locations": [
+        {
+          "repoPath": "client/src/composables/admin/useShapesTab.ts",
+          "startLine": 209,
+          "endLine": 219,
+          "windowText": "isCreatingPartShape,\nisCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,",
+          "target": "client/src/composables/admin/useShapesTab.ts"
+        },
+        {
+          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+          "startLine": 146,
+          "endLine": 158,
+          "windowText": "isCreatingPartShape,\nisCreatingAnnotationShape,\nisCreatingEventShape,\nnewPartShapeInitialValues,\nnewAnnotationShapeName,\nnewEventShapeName,\nisCreatingAnnotationShapeLoading,\nisCreatingEventShapeLoading,\nstartCreatingAnnotationShape,\nhandlePartShapeCreated,",
+          "target": "client/src/composables/admin/useShapesTabCreation.ts"
         }
       ],
       "score": 22,

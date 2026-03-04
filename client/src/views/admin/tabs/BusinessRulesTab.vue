@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Business Rules Tab Component
   WHY: Allows admin to configure validation rules per block instance (services, dwelling adjustments)
   PATTERN: Thin component; all logic in useBusinessRulesTab; RuleFormDialog, RulesList for UI.
 -->

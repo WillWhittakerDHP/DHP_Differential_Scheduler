@@ -12,7 +12,6 @@ import type {
   UseAvailabilityStepDataReturn,
 } from '@/types/booking/availabilityStepData'
 
-
 /**
  * WHY: useAvailabilityStepData composable
 
@@ -25,11 +24,6 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     moveableScheduling
   } = params
 
-
-  /**
-LEARNING: Transform selected time slots to API format
-WHY: Converts ...
-   */
   const selectedTimeSlots = computed<SelectedTimeSlot[] | null>(() => {
     return buildSelectedTimeSlots({
       selectedDateStart: selectedDate.value.start,
@@ -52,4 +46,3 @@ WHY: Converts ...
     stepData
   }
 }
-

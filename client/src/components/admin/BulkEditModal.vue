@@ -24,7 +24,6 @@
 
         <div class="bulk-edit-entity-card">
           <!--
-            LEARNING: EntityCard for bulk edit form
             WHY: Uses EntityCard for consistency, but prevents actual saves
             PATTERN: Set isNew=false and intercept saved event to prevent API calls
             NOTE: Field blur auto-save is disabled by using a non-existent entity ID

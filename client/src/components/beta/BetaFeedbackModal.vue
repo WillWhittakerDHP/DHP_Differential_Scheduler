@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Beta feedback submission modal (wizard only)
   WHY: Collects feedback with auto-captured context (URL, browser, screen size)
   PATTERN: VDialog + VForm; modelValue for open/close; conditional bug fields
 -->

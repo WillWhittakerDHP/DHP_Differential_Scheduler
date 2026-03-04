@@ -1,6 +1,6 @@
 # Session 6.3.3 Log: Confirmation Notifications & Documentation
 
-**Purpose:** Session-level log for tracking task completion and learning
+**Purpose:** Session-level log for tracking task completion and progress
 
 **Session:** 6.3.3 — Confirmation Notifications & Documentation
 **Phase:** 6.3 — Confirmation Routine

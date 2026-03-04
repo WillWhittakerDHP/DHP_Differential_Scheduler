@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move .map() out of DevPanelsContainer.
  * Returns a computed Map from event shape id to EventShape.
  */
 import type { ComputedRef } from 'vue'

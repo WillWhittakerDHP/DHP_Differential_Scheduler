@@ -6,7 +6,6 @@ WHY: Moves MLS data syncing and load...
 import { watch } from 'vue'
 import type { UsePropertyFormWatchersParams, UsePropertyFormWatchersReturn } from '@/types/booking/propertyFormWatchers'
 
-
 /**
  * WHY: usePropertyFormWatchers composable
 
@@ -37,9 +36,6 @@ export function usePropertyFormWatchers(
     }
   }, { immediate: true })
 
-  /**
-LEARNING: Watch loaded wizard state and populate property details fo...
-   */
   if (loadedWizardState) {
     watch(loadedWizardState, (newState) => {
       if (newState?.propertyDetails) {
@@ -75,4 +71,3 @@ LEARNING: Watch loaded wizard state and populate property details fo...
 
   return {}
 }
-

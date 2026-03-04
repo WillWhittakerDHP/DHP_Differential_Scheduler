@@ -58,11 +58,9 @@ const handleBarClick = (type: 'major' | 'minor'): void => {
   }
 }
 
-// LEARNING: Use time formatting composable for time range formatting
 // WHY: Moves time formatting logic out of component
 // PATTERN: Composable provides pure utility functions
 
-// LEARNING: Computed properties for Differential Graph bar states
 // PATTERN: Computed properties that return 'selected', 'active', or 'single' based on state
 const majorBarState = computed(() => {
   if (!props.isDifferentialService) return 'single'
@@ -89,7 +87,6 @@ const minorTimeDisplay = computed(() => {
   return null
 })
 
-// LEARNING: Computed label for selected state
 // PATTERN: Uses configurable state labels with fallback to default format
 const stateLabel = computed(() => {
   if (!props.isDifferentialService) return null
@@ -98,18 +95,27 @@ const stateLabel = computed(() => {
   return null
 })
 
-// LEARNING: Check if state is selected and time slot exists
 const showStateLabel = computed(() => {
-  return props.isDifferentialService && 
+  return props.isDifferentialService &&
          (props.graphBars.major || props.graphBars.minor) &&
          stateLabel.value !== null
+})
+
+const minorBarWidthPercent = computed(() => {
+  const major = props.graphBars.major?.duration ?? 0
+  const minor = props.graphBars.minor?.duration ?? 0
+  if (major <= 0) return 50
+  if (minor <= 0) return 0
+  return Math.min(100, (minor / major) * 100)
 })
 </script>
 
 <template>
   <!-- WHY: Visual bars showing major and minor time blocks for differential scheduling -->
-  <div v-if="isDifferentialService" class="differential-graph">
-    <!-- LEARNING: State label when selected -->
+  <div
+    v-if="isDifferentialService"
+    class="differential-graph"
+  >
     <!-- WHY: Explains what the time slot buttons represent -->
     <div v-if="showStateLabel" class="state-label">
       {{ stateLabel }}
@@ -129,9 +135,10 @@ const showStateLabel = computed(() => {
       <span v-if="majorTimeDisplay" class="bar-text" :class="{ 'selected-text': startTimeType === 'major' }">{{ majorTimeDisplay }}</span>
     </div>
     
-    <!-- WHY: Shows minor time block with filled background, right-justified, half width -->
+    <!-- WHY: Minor bar width from duration ratio so bottom bar is always shorter than or equal to top -->
     <div 
-      class="time-bar minor-bar clickable-bar" 
+      class="time-bar minor-bar clickable-bar"
+      :style="{ '--minor-bar-width': `${minorBarWidthPercent}%` }"
       :class="[minorBarState, { filled: hasSelectedSlot && !!graphBars.minor }]"
       role="button"
       tabindex="0"

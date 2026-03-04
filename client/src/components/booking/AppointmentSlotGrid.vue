@@ -41,7 +41,6 @@ const emit = defineEmits<{
 
 const gridRef = ref<HTMLElement | null>(null)
 
-// LEARNING: Use responsive grid composable
 // PATTERN: Composable provides column calculations and ResizeObserver management
 const {
   buttonGridColumns
@@ -53,13 +52,10 @@ const {
   gap: props.gap
 })
 
-// LEARNING: Use time formatting composable for time operations
 // WHY: Moves time formatting logic out of component to prevent recursion
 // PATTERN: Composable provides pure utility functions
 
 const isDevMode = isDevModeEnabled()
-
-// LEARNING: Constraint colors and formatting utilities imported from shared module
 
 const displaySlots = useSlotGridDisplay({
   appointmentSlots: toRef(props, 'appointmentSlots'),
@@ -83,7 +79,6 @@ const formatSlotTime = (slotData: SlotDisplayItem): string => {
 </script>
 
 <template>
-  <!-- LEARNING: Dynamic button grid with computed column count -->
   <!-- WHY: Adapts to available width for optimal button layout -->
   <!-- PATTERN: CSS Grid with dynamic grid-template-columns via inline style -->
   <div
@@ -107,7 +102,6 @@ const formatSlotTime = (slotData: SlotDisplayItem): string => {
       <span class="slot-button-content">
         {{ formatSlotTime(slotData) }}
       </span>
-      <!-- LEARNING: Constraint dots positioned in top right corner -->
       <!-- WHY: More reliable than overlay, works correctly with scrolling -->
       <!-- PATTERN: Show dots only in dev mode, only on unavailable slots with violations -->
       <span
@@ -134,4 +128,3 @@ const formatSlotTime = (slotData: SlotDisplayItem): string => {
 </template>
 
 <style scoped lang="scss" src="./AppointmentSlotGrid.scss"></style>
-

@@ -74,13 +74,6 @@
 - `server/src/db/seedScripts/adminSeeds/property_definition_seeds.json` (update if needed)
 - `server/src/db/seedScripts/adminSeeds/entity_property_mapping_seeds.json` (update if needed)
 
-**Learning Goals:**
-- Sequelize model creation patterns
-- Database migration best practices
-- Many-to-many relationship patterns
-- Seed data structure and execution
-
-- [ ] ### Session 10.2: API Endpoints
 **Description:** Create CRUD API endpoints for PropertyDefinition and EntityPropertyMapping
 **Tasks:**
 - Create PropertyDefinition router with GET, POST, PUT, PATCH, DELETE endpoints
@@ -96,13 +89,6 @@
 - `server/src/routes/internal/properties/entityPropertyMappingRouter.ts` (new)
 - `server/src/routes/internal/index.ts` (update - register property routes)
 
-**Learning Goals:**
-- Express router patterns
-- RESTful API design
-- Request validation
-- Error handling patterns
-
-- [ ] ### Session 10.3: Frontend Types & Composables
 **Description:** Create TypeScript types and Vue composables for property management
 **Tasks:**
 - Create PropertyDefinition type interface
@@ -121,13 +107,6 @@
 - `client-vue/src/composables/useEntityPropertyMapping.ts` (new)
 - `client-vue/src/composables/useEntity.ts` (update - add property methods if needed)
 
-**Learning Goals:**
-- TypeScript type design patterns
-- Vue composable patterns
-- Vue Query integration
-- Type-safe API client usage
-
-- [ ] ### Session 10.4: UI Components - Property Management in ShapesTab
 **Description:** Add property management UI to ShapesTab, integrated into BlockShape and PartShape cards
 **Tasks:**
 - Add "Properties" section to BlockShapeCard component
@@ -148,13 +127,6 @@
 - `client-vue/src/components/admin/properties/PropertyDefinitionDialog.vue` (new)
 - `client-vue/src/views/admin/tabs/ShapesTab.vue` (update - ensure properties are visible)
 
-**Learning Goals:**
-- Component composition patterns
-- Dialog/modal patterns in Vuetify
-- Drag-and-drop integration
-- Form handling with property definitions
-
-- [ ] ### Session 10.5: Integration & Testing
 **Description:** Connect property system to entity forms and verify end-to-end functionality
 **Tasks:**
 - Verify property definitions appear in entity forms
@@ -172,12 +144,6 @@
 - `client-vue/src/components/admin/generic/EntityCard.vue` (verify property integration)
 - `client-vue/src/composables/useFieldContext.ts` (verify property-based field generation)
 - Test files and documentation updates
-
-**Learning Goals:**
-- Integration testing patterns
-- End-to-end workflow validation
-- System property protection patterns
-- Documentation best practices
 
 ---
 
@@ -260,4 +226,3 @@ This phase focuses on building a simple, integrated property management system. 
 - Session Guides: `project-manager/features/vue-migration/sessions/session-10.[X]-guide.md` (to be created)
 - Property Seed Data: `server/src/db/seedScripts/adminSeeds/property_definition_seeds.json`
 - Entity Mapping Seed Data: `server/src/db/seedScripts/adminSeeds/entity_property_mapping_seeds.json`
-

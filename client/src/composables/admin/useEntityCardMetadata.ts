@@ -8,13 +8,11 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { useEntityMetadata } from './useEntityMetadata'
 import type { UseEntityCardMetadataParams, UseEntityCardMetadataReturn } from '@/types/admin/entityCardMetadata'
 
-
 export function useEntityCardMetadata<GE extends GlobalEntityKey>(
   params: UseEntityCardMetadataParams<GE>
 ): UseEntityCardMetadataReturn {
   const { entityKey, entity, filteredMetadata } = params
 
-  // LEARNING: Use unified metadata composable for all entity types
   // WHY: Single composable handles all entity types without special casing
   // PATTERN: Pass entityKey and entity, composable handles entity type mapping and inheritance
   const fetchedMetadata = useEntityMetadata(

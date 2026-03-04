@@ -21,7 +21,9 @@
     "generate-js": "dotenv -e .env npx sequelize-cli migration:generate --config src/db/config/database.mjs --migrations-path src/db/migrations --name",
     "db:migrate:generate": "npm run generate-js -- \"$1\" && npm run fix-mjs",
     "db:migrate:undo": "dotenv -e .env npx sequelize-cli db:migrate:undo --config src/db/config/database.mjs --migrations-path src/db/migrations",
-    "import:calendar": "npm run compile && node dist/scripts/importCalendarData.js"
+    "import:calendar": "npm run compile && node dist/scripts/importCalendarData.js",
+    "gmail-mcp:creds": "node scripts/write-gmail-mcp-creds.mjs",
+    "gmail-mcp:sync-tokens": "node scripts/sync-gmail-mcp-tokens.mjs"
   },
   "keywords": [
     "nodejs",

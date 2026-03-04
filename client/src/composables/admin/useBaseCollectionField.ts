@@ -17,6 +17,15 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useBaseCollectionField')
 
+/** Grouped to keep return surface under 10 (composable-health). */
+export interface BaseCollectionFieldParentContext<GE extends GlobalEntityKey> {
+  parentEntity: ComputedRef<GlobalEntity<GE> | null | undefined>
+  parentTypeProperty: ComputedRef<string | null>
+  parentTypeEntityKey: ComputedRef<GlobalEntityKey | null>
+  parentTypeRef: ComputedRef<string | null>
+  parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
+}
+
 export interface UseBaseCollectionFieldReturn<
   GE extends GlobalEntityKey,
   _GF extends GlobalFieldKey<GE>
@@ -24,11 +33,7 @@ export interface UseBaseCollectionFieldReturn<
   childEntityKey: ComputedRef<GlobalEntityKey>
   relationshipKey: ComputedRef<string>
   optionsFieldKey: ComputedRef<string>
-  parentEntity: ComputedRef<GlobalEntity<GE> | null | undefined>
-  parentTypeProperty: ComputedRef<string | null>
-  parentTypeEntityKey: ComputedRef<GlobalEntityKey | null>
-  parentTypeRef: ComputedRef<string | null>
-  parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
+  parentContext: BaseCollectionFieldParentContext<GE>
   shouldDisplay: ComputedRef<boolean>
   defaultExpanded: ComputedRef<boolean | undefined>
   getChildParentId: (child: GlobalEntity<GlobalEntityKey>) => string
@@ -209,11 +214,13 @@ export function useBaseCollectionField<
     childEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentEntity,
-    parentTypeProperty,
-    parentTypeEntityKey,
-    parentTypeRef,
-    parentTypeEntity,
+    parentContext: {
+      parentEntity,
+      parentTypeProperty,
+      parentTypeEntityKey,
+      parentTypeRef,
+      parentTypeEntity,
+    },
     shouldDisplay,
     defaultExpanded,
     getChildParentId,

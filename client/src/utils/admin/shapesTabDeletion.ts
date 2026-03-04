@@ -19,19 +19,15 @@ export function useShapesTabDeletion(params: ShapesTabBaseParams): UseShapesTabD
   const { expandedShapes } = params
 
   const handleDeletePartShape = (_id: string): void => {
-    // No-op: deletion handled by EntityCard/entity CRUD
   }
 
   const handleDeleteBlockShape = (_id: string): void => {
-    // No-op: deletion handled by EntityCard/entity CRUD
   }
 
   const handleDeleteAnnotationShape = (_id: string): void => {
-    // No-op: deletion handled by EntityCard/entity CRUD
   }
 
   const handleDeleteEventShape = (_id: string): void => {
-    // No-op: deletion handled by EntityCard/entity CRUD
   }
 
   const handleExistingShapeSaved = (entity: GlobalEntity<GlobalEntityKey>): void => {

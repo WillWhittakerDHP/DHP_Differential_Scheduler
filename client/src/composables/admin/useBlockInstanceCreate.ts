@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move watch and async handleCreate out of BlockInstanceCreateModal.
  */
 import { ref, watch } from 'vue'
 import type { Ref } from 'vue'

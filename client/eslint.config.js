@@ -17,7 +17,7 @@ export default tseslint.config(
     },
   },
   
-  // LEARNING: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
+  // WHY: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
   // PATTERN: Separate config block for Vue files with proper parser setup
   {
     files: ['**/*.vue'],

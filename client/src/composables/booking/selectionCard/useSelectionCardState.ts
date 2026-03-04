@@ -1,7 +1,6 @@
 /**
  * WHY: useSelectionCardState Composable
 
-LEARNING: Extracts selection state man...
  */
 import { computed, watch, ref } from 'vue'
 import type { StatePlugin } from '@/components/booking/types/selectionCardTypes'
@@ -53,10 +52,6 @@ export function useSelectionCardState(params: UseSelectionCardStateParams): UseS
     return null
   })
 
-  /**
-LEARNING: Explicit selection state management
-WHY: Replaces VRadioGr...
-   */
   const isSelected = computed(() => {
     const plugin = activeStatePlugin.value
     if (plugin) {
@@ -76,10 +71,6 @@ WHY: Replaces VRadioGr...
     return plugin?.watchSource?.()
   })
 
-  /**
-LEARNING: Watch state plugin source for reactivity
-PATTERN: Watch th...
-   */
   watch(() => {
     const watchSourceRef = pluginWatchSource.value
     return getWatchSourceValue(watchSourceRef)
@@ -93,5 +84,3 @@ PATTERN: Watch th...
     pluginWatchSource
   }
 }
-
-

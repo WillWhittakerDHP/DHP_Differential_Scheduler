@@ -19,28 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand differential scheduling concept and requirements from USER_STORY.md
-- Understand Time On-Site Graph requirements (two bars showing inspector and client times)
-- Understand part instances structure and how baseTime is used for duration calculations
-- Review existing TimeSlotGrid component and useAvailability composable
-- Understand database migration patterns for adding columns
-
-**During Session:**
-- Learn how to implement dynamic responsive layouts with ResizeObserver
-- Learn how to calculate time slots from part instances (client-side calculations)
-- Learn how to implement Time On-Site Graph visualization
-- Learn database migration patterns for adding boolean columns
-- Learn how to conditionally display UI based on service properties
-
-**After Session:**
-- Understand how to create responsive grid layouts with scrolling fallbacks
-- Understand how to calculate availability from part instances
-- Understand how to implement differential scheduling UI
-- Understand database migration and seeding patterns
-
 ---
 
 ## Objectives
@@ -331,43 +309,6 @@
 
 ---
 
-## Learning Checkpoints
-
-**After Task 1.3.6.1 (Database Migration):**
-- How is the differential column added to the database?
-- How is the BlockInstance model updated?
-- How are services seeded with differential=true?
-
-**After Task 1.3.6.2 (Update BookingBlockInstance Type):**
-- How is the differential property added to the type?
-- How does it flow through the transformer?
-
-**After Task 1.3.6.3 (Time Range Display):**
-- How are time ranges formatted from TimeSlot objects?
-- How are buttons updated to display ranges?
-
-**After Task 1.3.6.4 (Vertical Scrolling):**
-- How is single-column mode detected?
-- How is vertical scrolling implemented?
-
-**After Task 1.3.6.5 (Full-Width Row Fallback):**
-- How is insufficient space detected?
-- How is the layout conditionally rendered?
-
-**After Task 1.3.6.6 (Conditional Toggle):**
-- How is differential service detected?
-- How is the toggle conditionally rendered?
-
-**After Task 1.3.6.7 (Time On-Site Graph):**
-- How are durations calculated from part instances?
-- How are the bars displayed and styled?
-
-**After Task 1.3.6.8 (Integration):**
-- How do all components work together?
-- Are there any integration issues?
-
-**Note:** Client-side availability calculations will be covered in Session 1.3.7
-
 ---
 
 ## Related Documents
@@ -405,4 +346,3 @@ This marker enables the automatic catch-up test workflow. The catch-up will run 
 
 **Session Status:** In Progress  
 **Next Session:** Session 1.3.7 - Client-Side Availability Calculations
-

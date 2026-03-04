@@ -112,7 +112,6 @@ const contentClasses = computed(() => {
 </script>
 
 <template>
-  <!-- LEARNING: Independent select card for dependent options -->
   <!-- WHY: Simpler component without nested rendering complexity -->
   <!-- PATTERN: Checkbox-based card with customizable appearance -->
   <VCard
@@ -121,7 +120,6 @@ const contentClasses = computed(() => {
     variant="outlined"
     @click="handleClick"
   >
-    <!-- LEARNING: Checkbox on the left for consistent multi-select UX -->
     <VCheckbox
       v-if="mergedConfig.controlPosition === 'left'"
       :model-value="modelValue"
@@ -189,4 +187,3 @@ const contentClasses = computed(() => {
   }
 }
 </style>
-

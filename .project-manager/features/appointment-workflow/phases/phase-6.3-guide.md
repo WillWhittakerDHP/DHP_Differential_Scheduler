@@ -12,7 +12,7 @@
 **Phase Name:** Confirmation Routine
 **Description:** Implement the appointment confirmation workflow: transition from `submitted` to `confirmed` with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs. Establishes the confirmation data model (timestamps, who confirmed) and a dedicated admin action rather than raw dropdown editing.
 
-**Duration:** 2–3 sessions
+**Duration:** 3 sessions
 **Status:** Complete
 
 ---
@@ -61,12 +61,6 @@
 - Update client-side appointment types (`client/src/types/appointment.ts`) with new fields
 - Update admin appointment table to display `confirmed_at` and `confirmed_by` columns
 
-**Learning Goals:**
-- Understand state machine patterns for status transitions
-- Learn how `sanitizeInput` works as a server-side data transformation hook
-- Practice migration design with foreign key constraints
-
-- [x] ### Session 6.3.2: Admin Confirmation Action & Auto-Confirm
 **Description:** Create a dedicated "Confirm" action button in the admin appointments table for `submitted` appointments, with a confirmation dialog showing appointment details. Add an optional auto-confirm business setting so appointments can be automatically confirmed on submission when enabled.
 **Tasks:**
 - Add "Confirm" action button to admin appointments table (visible only for `submitted` appointments)
@@ -77,12 +71,6 @@
 - Client: show auto-confirm toggle in admin business settings UI
 - Update admin status dropdown to respect transition guards (only show valid next-statuses)
 
-**Learning Goals:**
-- Understand business rule configuration patterns (admin-configurable behavior)
-- Learn confirmation dialog UX patterns
-- Practice conditional UI rendering based on entity state
-
-- [x] ### Session 6.3.3: Confirmation Notifications & Documentation
 **Description:** Add in-app notification toasts for confirmation events in the admin panel, create notification service stubs that Feature 7 can extend for email notifications, and document the complete confirmation flow.
 **Tasks:**
 - Add in-app notification (toast/snackbar) in admin panel when appointment is confirmed (success feedback)
@@ -90,11 +78,6 @@
 - Document notification expansion points for Feature 7 (email to customer on confirmation)
 - Add confirmation flow documentation to phase guide notes
 - Update feature handoff with confirmation routine completion context
-
-**Learning Goals:**
-- Understand the observer/hook pattern for decoupled event handling
-- Learn how to design extensible notification infrastructure
-- Practice writing documentation that enables future feature work
 
 ---
 
@@ -108,8 +91,8 @@
 
 **Downstream Impact:**
 - Feature 7 (Authentication) enactment will set `confirmed_by` from `req.user` (until then, field is `null`)
-- Phase 6.4 (Rescheduling Flow) depends on transition guards established here
-- Phase 6.7 (Admin Force-Create) will integrate with the transition validation system
+- Phase 6.4 (Moveable Modal & preClosing) is the next phase; Phase 6.5 (Rescheduling Flow) depends on transition guards established here
+- Phase 6.8 (Admin Force-Create) will integrate with the transition validation system
 - Notification stubs from Session 6.3.3 become the hook points for email notifications in Feature 7
 
 ---
@@ -117,15 +100,15 @@
 ## Success Criteria
 
 - [x] All sessions completed
-- [ ] Status transition validation prevents invalid transitions (e.g., `cancelled` → `confirmed`)
-- [ ] `confirmed_at` and `submitted_at` timestamps are automatically populated on transitions
-- [ ] Admin "Confirm" button works for submitted appointments
-- [ ] Auto-confirm business setting toggles automatic confirmation behavior
-- [ ] Admin status dropdown only shows valid next-statuses
-- [ ] In-app notification shown on confirmation
+- [x] Status transition validation prevents invalid transitions (e.g., `cancelled` → `confirmed`)
+- [x] `confirmed_at` and `submitted_at` timestamps are automatically populated on transitions
+- [x] Admin "Confirm" button works for submitted appointments
+- [x] Auto-confirm business setting toggles automatic confirmation behavior
+- [x] Admin status dropdown only shows valid next-statuses
+- [x] In-app notification shown on confirmation
 - [x] Code quality checks passing
 - [x] Documentation updated
-- [x] Ready for next phase
+- [x] Ready for next phase (Phase 6.4)
 
 ---
 

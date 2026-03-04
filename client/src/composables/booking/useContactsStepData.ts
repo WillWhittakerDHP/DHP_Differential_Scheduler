@@ -1,6 +1,5 @@
 /**
  * WHY: Contacts Step Data Composable
- * LEARNING: Extracts contact form data management for the booking wizard contacts step.
  */
 import type { Ref } from 'vue'
 import { ref, watch, computed } from 'vue'

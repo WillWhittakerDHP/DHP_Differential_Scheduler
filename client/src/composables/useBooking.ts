@@ -72,9 +72,6 @@ function createBookingInstance(): UseBookingReturn {
   }
 }
 
-/**
-LEARNING: Transforms global data to booking-optimized...
- */
 export function useBooking(): UseBookingReturn {
   callCount++
 
@@ -96,4 +93,3 @@ attachDebugToWindow('__useBookingDebug', {
     bookingInstance = null
   }
 })
-

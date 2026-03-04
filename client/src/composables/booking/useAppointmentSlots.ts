@@ -17,9 +17,13 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     selectedButtonIndex,
     perspective,
     isDifferentialService,
+    appointmentShapeOverride,
   } = params
 
-  const { appointmentShape } = useAppointmentShape({ blockInstances })
+  const baseShape = useAppointmentShape({ blockInstances })
+  const appointmentShape = computed(() =>
+    appointmentShapeOverride?.value ?? baseShape.appointmentShape.value
+  )
 
   const appointmentSlots = computed(() => {
     const shape = appointmentShape.value

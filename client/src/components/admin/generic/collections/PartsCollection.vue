@@ -1,5 +1,4 @@
 <!--
-  LEARNING: PartsCollection component - wrapper around RelationshipCollection for parts
   WHY: Provides parts-specific bulk edit functionality while using generic RelationshipCollection
   PATTERN: Thin wrapper that adds parts-specific features (bulk edit modal) to generic component
 -->

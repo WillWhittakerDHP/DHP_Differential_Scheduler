@@ -10,6 +10,11 @@ export interface SummaryData {
   propertyType: string
   address: string
   squareFootage: string
+  appointmentDate?: string
+  appointmentTimes?: string
+  moveablePartShapeName?: string
+  moveableCompletion?: string
+  moveableDeadline?: string
 }
 
 export interface PriceData {

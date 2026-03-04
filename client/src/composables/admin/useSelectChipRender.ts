@@ -1,5 +1,4 @@
 /**
- * PATTERN: Chip display label resolution for select (dev-mode fallback when title is value).
  * WHY: Keeps SelectInputs.vue under vue-architecture script line limit.
  */
 import type { Ref } from 'vue'

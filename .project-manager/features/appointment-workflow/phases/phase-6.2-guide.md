@@ -32,7 +32,7 @@
 
 **Security Stubs:** `csrfProtection` and `checkOwnership` stubs exist in `server/src/middlewares/security.ts`. `requireAuth` is now exported (previously `_requireAuth`). Phase 6.2 stubs follow the same pattern — functional middleware that calls `next()` for auth checks, with documented ENACTMENT markers for Feature 7.
 
-**Phase 6.7 (Future):** The full admin force-create and constraint override flow (Phase 6.7) depends on Feature 7 auth. Phase 6.2 prepares the foundation: a simpler stub that establishes the route structure, model fields, and UI placement. Phase 6.7 builds the complete implementation on top.
+**Phase 6.8 (Future):** The full admin force-create and constraint override flow (Phase 6.8) depends on Feature 7 auth. Phase 6.2 prepares the foundation: a simpler stub that establishes the route structure, model fields, and UI placement. Phase 6.8 builds the complete implementation on top.
 
 ---
 
@@ -47,23 +47,14 @@
 - Client: Add "Hold Slot" button to availability step UI (disabled with tooltip "Requires authentication")
 - Document enactment requirements for Feature 7
 
-**Learning Goals:**
-- Understand the stub pattern for auth-gated features
-- Learn how appointment status transitions work
-
-- [x] ### Session 6.2.2: Admin Override Stub
-**Description:** Admin constraint override logic via the existing appointment PATCH endpoint, plus client-side "Override" action in the admin panel. This prepares the structure that Phase 6.7 will expand into the full force-create and constraint override system.
+**Description:** Admin constraint override logic via the existing appointment PATCH endpoint, plus client-side "Override" action in the admin panel. This prepares the structure that Phase 6.8 will expand into the full force-create and constraint override system.
 **Tasks:**
 - Add `override_constraints` (JSONB, nullable) column to appointments via migration and update model
 - Add override logic in `sanitizeInput`: when `overrideConstraints` is present in PATCH body, validate and store the constraint keys
 - Export `requireRole` stub from security middleware for Feature 7 enactment
 - Client: Add "Override Constraints" button to admin appointment view (disabled with tooltip "Requires admin authentication")
-- Document the relationship between this stub and Phase 6.7's full implementation
+- Document the relationship between this stub and Phase 6.8's full implementation
 - Document enactment requirements for Feature 7
-
-**Learning Goals:**
-- Understand how constraint overrides will integrate with the slot computation system
-- Learn the admin role-gating pattern
 
 ---
 
@@ -75,7 +66,7 @@
 
 **Downstream Impact:**
 - Feature 7 (Authentication) enactment will wire real `requireAuth` and `requireRole` into these stubs
-- Phase 6.7 (Admin Force-Create & Constraint Overrides) builds the full override system on top of this stub foundation
+- Phase 6.8 (Admin Force-Create & Constraint Overrides) builds the full override system on top of this stub foundation
 
 ---
 
@@ -119,7 +110,7 @@ All sessions complete. Ready to run phase-completion workflow?
 - **PATCH-based approach:** Hold and override are status transitions, not separate resources. They use the existing `PATCH /appointments/:id` endpoint with `sanitizeInput` computing server-side fields (e.g., `heldUntil` from `holdDurationMinutes`). This keeps the API surface minimal and consistent with how other appointment status changes work.
 - The "stub" pattern here mirrors the existing security stubs (`csrfProtection`, `checkOwnership`) — functional middleware that calls `next()` but skips auth verification. Feature 7 replaces the stub auth with real checks.
 - The `held` status already exists in the ENUM from Phase 6.1, so no ENUM migration is needed — only column additions (`held_by`, `held_until`).
-- Phase 6.7 is the full implementation; Phase 6.2 is the minimal foundation.
+- Phase 6.8 is the full implementation; Phase 6.2 is the minimal foundation.
 
 ---
 

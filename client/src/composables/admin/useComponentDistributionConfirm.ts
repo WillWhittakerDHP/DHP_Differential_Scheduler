@@ -1,5 +1,4 @@
 /**
- * WHY: Component-logic audit - move async handleConfirm and .reduce() out of ComponentDistributionModal.
  */
 import { ref, type Ref } from 'vue'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'

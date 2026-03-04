@@ -80,6 +80,14 @@ export const blockInstancePrimitiveFields = {
     expandable: false,
   },
 
+  preClosing: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Pre-closing",
+    globalField: "preClosing" as const,
+    expandable: false,
+  },
+
   bookingMode: {
     primitiveType: PrimitiveTypeEnum.String,
     primitiveMode: PrimitiveModeEnum.Select,

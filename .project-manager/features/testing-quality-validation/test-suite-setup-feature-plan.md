@@ -4,7 +4,7 @@
 **Status:** Planning
 **Created:** 2026-02-18
 **Branch:** TBD
-**Related:** `BETA_LAUNCH_CHECKLIST.md` Phase 3
+**Related:** `LAUNCH_CHECKLIST.md` Phase 3
 
 ---
 

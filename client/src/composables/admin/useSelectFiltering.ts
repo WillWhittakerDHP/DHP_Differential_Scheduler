@@ -23,7 +23,6 @@ import type { UseSelectFilteringOptions, UseSelectFilteringReturn } from '@/type
 
 const logger = createLogger('useSelectFiltering')
 
-
 export function useSelectFiltering(
   options: UseSelectFilteringOptions
 ): UseSelectFilteringReturn {
@@ -40,17 +39,12 @@ export function useSelectFiltering(
   const adminComp = useAdmin()
   const fieldKey = computed(() => String(fieldContext.state.fieldKey))
 
-  /**
-LEARNING: Detect active child select pattern from config
-WHY: Config...
-   */
   const isActiveChildSelect = computed<boolean>(() => {
     const config = selectConfig.value
     if (!config) {
       return false
     }
     
-    // LEARNING: Active child select pattern: parent type entity lookup
     // PATTERN: Check config properties to detect pattern, not field name
     const hasCandidateParentKey = 'candidateParentKey' in config && !!config.candidateParentKey
     const hasCandidateParentPath = 'candidateParentPath' in config && !!config.candidateParentPath
@@ -68,7 +62,6 @@ WHY: Config...
   })
 
   /**
-   * LEARNING: Detect direct matching pattern from config
    */
   const isDirectMatchingSelect = computed<boolean>(() => {
     const config = selectConfig.value
@@ -76,7 +69,6 @@ WHY: Config...
       return false
     }
     
-    // LEARNING: Direct matching pattern: both candidateParentPath and candidateChildPath have values
     // PATTERN: Config-driven detection based on path configuration
     const hasCandidateParentPath = 'candidateParentPath' in config && config.candidateParentPath && config.candidateParentPath.length > 0
     const hasCandidateChildPath = 'candidateChildPath' in config && config.candidateChildPath && config.candidateChildPath.length > 0
@@ -244,7 +236,6 @@ WHY: Composables can only be called during setup, not inside compute...
       )
     }
     
-    // LEARNING: Direct matching pattern (e.g., dependentInstances)
     // PATTERN: Get value from current entity, filter candidates by matching their path value
     if (isDirectMatchingSelect.value) {
       const config = selectConfig.value
@@ -342,6 +333,3 @@ WHY: Composables can only be called during setup, not inside compute...
     isAttendeeSelect
   }
 }
-
-
-

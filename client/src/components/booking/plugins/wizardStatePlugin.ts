@@ -1,6 +1,5 @@
 /**
 
-LEARNING: State plugin for wizard composable state ...
  */
 import { inject } from 'vue'
 import type { StatePlugin, SelectionCardItem } from '../types/selectionCardTypes'
@@ -111,4 +110,3 @@ WHY: Enables SelectionCard to react to w...
     }
   }
 }
-

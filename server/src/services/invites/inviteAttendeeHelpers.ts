@@ -1,6 +1,5 @@
 /**
  * Attendee helpers for invite orchestration: building attendee lists and updating status.
- * WHY: Extracted from inviteOrchestrationService to reduce file size and function complexity.
  */
 
 import type { EventAttendee } from '../google/calendar/calendarTypes.js'

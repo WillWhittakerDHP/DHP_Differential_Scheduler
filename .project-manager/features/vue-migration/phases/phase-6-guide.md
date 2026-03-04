@@ -53,10 +53,6 @@
 - [x] ### Session 6.1: Create Wizard Layout & Confirmation Step
 **Description:** Create main wizard component with stepper and Phase 5 confirmation step
 **Tasks:** Component creation tasks
-**Learning Goals:**
-- Understand Vuetify VStepper component
-- Learn Vue component structure patterns
-- Convert React/MUI patterns to Vue/Vuetify
 
 **Task Breakdown:**
 - **6.1.1:** Create BookingWizard.vue with VStepper component
@@ -125,10 +121,6 @@
 - [ ] ### Session 6.16: Automated Description Generation from Website
 **Description:** Create tool to read content from www.districthomepro.com and use AI to automatically generate user-type-specific descriptions (buyer, agent, owner) for services
 **Tasks:** Web content extraction, AI generation, admin UI
-**Learning Goals:**
-- Browser automation and web scraping
-- AI prompt engineering for structured content generation
-- Admin tool development patterns
 
 **Task Breakdown:**
 - **6.10.1:** Explore website structure and identify service pages
@@ -143,10 +135,6 @@
 - [ ] ### Session 6.11: Align Seed Scripts to Current Database State
 **Description:** Update seed scripts and seed data JSON files to include all fields that exist in the current database schema, particularly boolean fields (`active`, `dependent`, `visible`) added in Phase 9 migrations
 **Tasks:** Update seed data files, verify seed script, test execution
-**Learning Goals:**
-- Understanding seed data structure and database schema alignment
-- Field defaults and model requirements
-- Seed script testing and validation
 
 **Task Breakdown:**
 - **6.11.1:** Update PartShape seeds with boolean fields

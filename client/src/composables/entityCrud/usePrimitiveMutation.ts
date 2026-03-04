@@ -26,7 +26,6 @@ type PrimitiveMutationVariables = {
 /**
  * Primitive mutation for updating a single field on an entity.
  *
- * LEARNING: Optimistic update pattern using mutation variables
  *      We update cache using what we sent (variables), not what server returns
  * 
  * PERFORMANCE: Eliminates 26+ GET requests per field update
@@ -106,7 +105,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
       }
     },
     onMutate: async (variables) => {
-      // LEARNING: Optimistic update pattern
       // PATTERN: Cancel queries → Snapshot → Update → Return context for rollback
       
       // 1. Cancel any outgoing refetches to prevent race conditions
@@ -142,7 +140,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
           [variables.admin.key]: variables.admin.value,
         }
 
-        // WHY: blockShape has mutual exclusivity: canHaveParts and isStateControl cannot both be true. Server PATCH enforces this; keep optimistic cache in sync.
         if (entityKey === 'blockShape') {
           if (variables.admin.key === BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.canHaveParts && variables.admin.value === true) {
             nextEntity = { ...nextEntity, [BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.isStateControl]: false }
@@ -213,5 +210,3 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
     { previousData?: GlobalData }
   >
 }
-
-

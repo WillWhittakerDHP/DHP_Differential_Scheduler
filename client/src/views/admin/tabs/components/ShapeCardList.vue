@@ -1,6 +1,6 @@
 <!-- Extracted from ShapesTab for component-health (allowlist repair). -->
+<!-- eslint-disable vue/no-mutating-props -- expanded is Ref<string[]> passed by parent for v-model binding -->
 <script setup lang="ts">
-/* eslint-disable vue/no-mutating-props */
 import { computed, isRef, unref } from 'vue'
 import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'

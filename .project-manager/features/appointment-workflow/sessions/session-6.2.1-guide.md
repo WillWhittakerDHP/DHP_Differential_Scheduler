@@ -94,13 +94,6 @@ Create the server-side route and logic for transitioning appointments to `held` 
 
 ---
 
-## Learning Goals
-
-- Understand the stub pattern for auth-gated features
-- Learn how appointment status transitions work
-- Practice creating Sequelize migrations with FK constraints
-- Learn the Joi validation pattern used in the router layer
-
 ---
 
 ## Dependencies

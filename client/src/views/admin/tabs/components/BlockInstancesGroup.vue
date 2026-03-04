@@ -15,7 +15,6 @@ const injected = inject(instancesTabContextKey)
 if (!injected) throw new Error('BlockInstancesGroup must be used inside InstancesTab')
 const ctx = injected as NonNullable<typeof injected>
 
-// WHY: v-model requires a top-level Ref for Vue's template auto-unwrapping.
 // inject() returns a plain object so ctx.expandedInstances is a raw Ref —
 // VExpansionPanels would receive the Ref wrapper instead of the string[].
 const expandedInstances = ctx.expandedInstances

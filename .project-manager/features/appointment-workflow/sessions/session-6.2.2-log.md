@@ -17,9 +17,7 @@
 **Architecture Notes:**
 - **JSONB for flexible constraint storage**: Record<string, boolean> allows any constraint key to be toggled; ALLOWED_OVERRIDE_CONSTRAINTS validates at the route layer
 - **Migration naming**: Timestamp 20260224 used because Sequelize CLI skips migrations lexicographically before already-applied ones
-**Learning Checkpoint:**
-- [x] JSONB column for flexible schema patterns ✅
-- [x] Migration timestamp ordering requirements ✅
+
 **Next Task:**
 - Task 6.2.2.2: Server Override Logic
 
@@ -34,9 +32,7 @@
 **Architecture Notes:**
 - **Same sanitizeInput pattern as hold logic**: Non-column field (overrideConstraints) stripped from spread, validated, and assigned to appointmentFields
 - **Defensive validation**: Only allowed keys pass through (capacity, buffer, blackout, businessHours); values coerced to boolean; empty object and null both clear the field
-**Learning Checkpoint:**
-- [x] ALLOWED_OVERRIDE_CONSTRAINTS as centralized validation source ✅
-- [x] Object.entries filter/reduce for key validation ✅
+
 **Next Task:**
 - Task 6.2.2.3: Security Middleware
 
@@ -51,9 +47,7 @@
 **Architecture Notes:**
 - **Factory pattern matching checkOwnership**: requireRole returns middleware function, just like checkOwnership
 - **Stub follows requireAuth pattern**: Calls next() without checking, ENACTMENT markers document planned behavior
-**Learning Checkpoint:**
-- [x] Middleware factory pattern for role-based access ✅
-- [x] Express type augmentation for req.user.role ✅
+
 **Next Task:**
 - Task 6.2.2.4: Client UI
 
@@ -70,20 +64,18 @@
 **Architecture Notes:**
 - **Same PATCH pattern as holdSlot**: applyOverrideConstraints uses patch.mutate with overrideConstraints payload
 - **Button placement in actions column**: Between Edit and Delete, using tabler-shield-check icon with warning color
-**Learning Checkpoint:**
-- [x] Disabled button with VTooltip pattern ✅
-- [x] PATCH-based composable helper following holdSlot pattern ✅
+
 **Next Task:**
 - Task 6.2.2.5: Documentation
 
 ---
 
-### Task 6.2.2.5: Documentation — Enactment requirements + Phase 6.7 relationship ✅
-**Goal:** Document enactment requirements for Feature 7 and Phase 6.2 → Phase 6.7 relationship
+### Task 6.2.2.5: Documentation — Enactment requirements + Phase 6.8 relationship ✅
+**Goal:** Document enactment requirements for Feature 7 and Phase 6.2 → Phase 6.8 relationship
 
 **Files Modified:**
-- `server/docs/SECURITY_STUBS.md` — Added requireRole stub docs, override constraints in mapping table, Phase 6.2 → 6.7 relationship table
+- `server/docs/SECURITY_STUBS.md` — Added requireRole stub docs, override constraints in mapping table, Phase 6.2 → 6.8 relationship table
 - `.project-manager/features/appointment-workflow/feature-appointment-workflow-handoff.md` — Added override-specific enactment steps (6-10) and updated transition context
 **Architecture Notes:**
 - **SECURITY_STUBS.md as central reference**: All stubs, their planned behavior, and the stub→real mapping live here
-- **Phase relationship documented**: Clear mapping from Phase 6.2 stubs to Phase 6.7 full implementation
+- **Phase relationship documented**: Clear mapping from Phase 6.2 stubs to Phase 6.8 full implementation

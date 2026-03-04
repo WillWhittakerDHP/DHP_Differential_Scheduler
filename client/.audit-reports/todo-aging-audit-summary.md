@@ -7,14 +7,10 @@
 
 Generated from `client/.audit-reports/todo-aging-audit.json`.
 
-- Total markers: **4**
-- Ancient: **4** | Stale: **0** | Aging: **0** | Fresh: **0** | Orphaned: **4**
+- Total markers: **0**
+- Ancient: **0** | Stale: **0** | Aging: **0** | Fresh: **0** | Orphaned: **0**
 
-## Top 4 files
+## Top 0 files
 
 | File | Priority | Score | Total | Ancient | Stale | Orphaned |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `client/src/composables/booking/useAvailabilityDefaults.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/composables/booking/useDevPanelsComputed.ts` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |
-| `client/src/views/admin/tabs/components/RangeConstraintsPanel.vue` | P1 | 7 | 1 | 1 | 0 | 1 |

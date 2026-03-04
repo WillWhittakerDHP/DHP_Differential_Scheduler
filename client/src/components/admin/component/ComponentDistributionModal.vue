@@ -156,8 +156,6 @@ const { handleConfirm, isDistributing } = useComponentDistributionConfirm({
   onClose: () => updateModelValue(false),
 })
 
-// LEARNING: Watchers are now handled in useComponentDistribution composable
 // WHY: Strategy change and modal open watchers moved to composable
 // PATTERN: Composable handles all state management
 </script>
-

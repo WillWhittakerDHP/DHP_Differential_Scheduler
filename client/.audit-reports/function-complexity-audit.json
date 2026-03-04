@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-27T04:02:14.590Z",
-  "totalScanned": 1024,
+  "generatedAt": "2026-03-04T15:28:50.279Z",
+  "totalScanned": 1043,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,105 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/composables/booking/useMoveableAvailabilityData.ts",
+      "functions": [
+        {
+          "name": "useMoveableAvailabilityData",
+          "startLine": 53,
+          "endLine": 181,
+          "length": 129,
+          "maxNesting": 4,
+          "branches": 8,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 129,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+      "functions": [
+        {
+          "name": "useAppointmentsTableModel",
+          "startLine": 40,
+          "endLine": 163,
+          "length": 124,
+          "maxNesting": 3,
+          "branches": 12,
+          "params": 0,
+          "returns": 16,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 124,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 16,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePropertyCreateForm.ts",
+      "functions": [
+        {
+          "name": "usePropertyCreateForm",
+          "startLine": 11,
+          "endLine": 75,
+          "length": 65,
+          "maxNesting": 3,
+          "branches": 16,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 16,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 65,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    }
+  ]
 }

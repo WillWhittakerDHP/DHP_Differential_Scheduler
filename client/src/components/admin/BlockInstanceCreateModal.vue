@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Block Instance Create Modal Component
   WHY: Unified modal for creating and duplicating block instances
   PATTERN: VDialog with EntityCard inside, following InstanceBulkEditModal pattern
   COMPARISON: Similar to InstanceBulkEditModal but for create/duplicate operations
@@ -23,7 +22,6 @@
       </VCardTitle>
 
       <VCardText class="pa-6">
-        <!-- LEARNING: EntityCard for create/duplicate form -->
         <!-- WHY: Uses EntityCard for consistency, but prevents auto-save on blur -->
         <!-- PATTERN: Set isNew=true, disableAutoSave=true, useExpansionPanel=false -->
         <div class="create-modal-entity-card">

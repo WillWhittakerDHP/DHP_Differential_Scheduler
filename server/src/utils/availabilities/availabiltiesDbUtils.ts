@@ -272,7 +272,6 @@ export async function sumWorkHoursForRollingWeek(
 
 /**
  * Sum income (total_fee) from appointment_fee_summaries for a given date.
- * LEARNING: Same pattern as sumWorkHoursForDay but JOINs fee summaries; only counts submitted/confirmed
  */
 export async function sumIncomeForDay(date: Date): Promise<number> {
   try {
@@ -299,7 +298,6 @@ export async function sumIncomeForDay(date: Date): Promise<number> {
 
 /**
  * Sum income for a date range (inclusive).
- * LEARNING: Same pattern as sumWorkHoursForDateRange; used for calendar/rolling week income
  */
 async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<number> {
   try {
@@ -349,4 +347,3 @@ export async function sumIncomeForRollingWeek(date: Date, direction: RollingWeek
     return 0;
   }
 }
-

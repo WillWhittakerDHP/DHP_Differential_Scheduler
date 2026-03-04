@@ -1,6 +1,5 @@
 /**
  * Slot constraint checkers: range, overlap, and capacity.
- * WHY: Extracted from slotComputationService to reduce file size and nesting.
  */
 
 import type {

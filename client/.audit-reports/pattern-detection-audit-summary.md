@@ -14,16 +14,16 @@ Generated from `client/.audit-reports/pattern-detection-audit.json`.
 | String literals (3+ occurrences) | 3 |
 | Type definitions | 0 |
 | Enum patterns | 0 |
-| Config locations | 37 |
-| Function patterns | 430 |
-| Common patterns | 54 |
+| Config locations | 42 |
+| Function patterns | 442 |
+| Common patterns | 58 |
 
 ## Top String Literals (by occurrence count)
 
 | Value | Occurrences |
 | --- | ---: |
 | `held` | 7 |
-| `confirmed` | 4 |
+| `confirmed` | 6 |
 | `started` | 3 |
 
 ## Notes

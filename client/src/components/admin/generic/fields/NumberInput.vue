@@ -53,7 +53,6 @@ const entityCardSaveContext = inject<EntityCardSaveContext | undefined>(ENTITY_C
 
 const disableAutoSave = inject<boolean | undefined>(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, false)
 
-// LEARNING: Use unified field value composable
 const fieldValue = useFieldValue(fieldContext)
 
 // PATTERN: Convert string to number before setting value
@@ -84,4 +83,3 @@ const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
   }
 }
 </style>
-
