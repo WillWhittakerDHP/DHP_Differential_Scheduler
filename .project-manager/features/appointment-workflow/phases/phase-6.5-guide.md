@@ -25,7 +25,7 @@
 2. After each session-end, cascade to next session or phase-end.
 3. Follow governance (audits, thin components, composables).
 
-- [ ] ### Session 6.5.3: Original-inspection slot UI — distinct styling, selectable
+- [x] ### Session 6.5.3: Original-inspection slot UI — distinct styling, selectable
 
 **Description:** ** Original-inspection slot UI — distinct styling, selectable
 

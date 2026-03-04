@@ -124,3 +124,5 @@
 - No regression for new-booking or quote flows (no original-inspection styling).## Notes
 
 [Session-specific notes and decisions]
+
+<!-- end excerpt session -->
