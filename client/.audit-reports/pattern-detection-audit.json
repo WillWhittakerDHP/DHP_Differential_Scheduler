@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T15:30:09.698Z",
+  "generatedAt": "2026-03-01T19:10:13.292Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1109,
+  "fileCount": 1089,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -75,7 +75,6 @@
           "client/src/composables/admin/useBaseCollectionField.ts",
           "client/src/composables/admin/useBlockInstanceCreate.ts",
           "client/src/composables/admin/useBlockInstanceForm.ts",
-          "client/src/composables/admin/useBlockInstanceList.ts",
           "client/src/composables/admin/useBooleanInputClick.ts",
           "client/src/composables/admin/useBufferSettings.ts",
           "client/src/composables/admin/useBusinessControlsFormState.ts",
@@ -86,7 +85,6 @@
           "client/src/composables/admin/useCalendarEntries.ts",
           "client/src/composables/admin/useCalendarHoldFormState.ts",
           "client/src/composables/admin/useCalibrationChart.ts",
-          "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
           "client/src/composables/admin/useCapacitySettings.ts",
           "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
@@ -114,7 +112,6 @@
           "client/src/composables/admin/useEntityMetadata.ts",
           "client/src/composables/admin/useEntityStatus.ts",
           "client/src/composables/admin/useEntityTabState.ts",
-          "client/src/composables/admin/useEventInstancesSection.ts",
           "client/src/composables/admin/useExpansionState.ts",
           "client/src/composables/admin/useFeePreview.ts",
           "client/src/composables/admin/useFieldComponent.ts",
@@ -128,7 +125,6 @@
           "client/src/composables/admin/useFieldRendererErrorWatch.ts",
           "client/src/composables/admin/useFormElementPatching.ts",
           "client/src/composables/admin/useFormFieldConfigs.ts",
-          "client/src/composables/admin/useGridConfigHandlers.ts",
           "client/src/composables/admin/useIconPickerState.ts",
           "client/src/composables/admin/useInstanceBulkEdit.ts",
           "client/src/composables/admin/useInstanceDragAndDrop.ts",
@@ -136,7 +132,6 @@
           "client/src/composables/admin/useInstanceGrouping.ts",
           "client/src/composables/admin/useInstanceShape.ts",
           "client/src/composables/admin/useInstanceTabHandlers.ts",
-          "client/src/composables/admin/useInstancesTab.ts",
           "client/src/composables/admin/useInstancesTabCreateModal.ts",
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/composables/admin/useInstancesTabEventInstanceDrag.ts",
@@ -146,7 +141,6 @@
           "client/src/composables/admin/useMetadataFieldDrag.ts",
           "client/src/composables/admin/useMetadataFieldOrdering.ts",
           "client/src/composables/admin/useMetadataModalHandlers.ts",
-          "client/src/composables/admin/useOverlapConstraintsPanel.ts",
           "client/src/composables/admin/usePartInstanceBulkEdit.ts",
           "client/src/composables/admin/usePartInstanceCollection.ts",
           "client/src/composables/admin/usePartInstanceExpansion.ts",
@@ -154,7 +148,6 @@
           "client/src/composables/admin/usePartsCollectionField.ts",
           "client/src/composables/admin/usePartsTotals.ts",
           "client/src/composables/admin/usePrimitiveMetadataSave.ts",
-          "client/src/composables/admin/usePropertyCreateForm.ts",
           "client/src/composables/admin/usePropertyMappingsTab.ts",
           "client/src/composables/admin/useRelationshipCollection.ts",
           "client/src/composables/admin/useRelationshipCollectionData.ts",
@@ -173,7 +166,6 @@
           "client/src/composables/admin/useShapeDisplayNames.ts",
           "client/src/composables/admin/useShapeEditModal.ts",
           "client/src/composables/admin/useShapeForm.ts",
-          "client/src/composables/admin/useShapesTab.ts",
           "client/src/composables/admin/useShapesTabCreation.ts",
           "client/src/composables/admin/useShapesTabDeletion.ts",
           "client/src/composables/admin/useShapesTabModals.ts",
@@ -213,7 +205,6 @@
           "client/src/composables/booking/useAvailabilityValidation.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
           "client/src/composables/booking/useBookingWizard.ts",
-          "client/src/composables/booking/useBookingWizardSetup.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
           "client/src/composables/booking/useCascadeInstances.ts",
           "client/src/composables/booking/useComputedAvailability.ts",
@@ -221,7 +212,6 @@
           "client/src/composables/booking/useContactsStepData.ts",
           "client/src/composables/booking/useContactsValidation.ts",
           "client/src/composables/booking/useDateRangeDecider.ts",
-          "client/src/composables/booking/useDelayedModalVisibility.ts",
           "client/src/composables/booking/useDependentInstances.ts",
           "client/src/composables/booking/useDevPanelButtonsInject.ts",
           "client/src/composables/booking/useDevPanelsAppointmentData.ts",
@@ -238,7 +228,6 @@
           "client/src/composables/booking/useInstanceSelectionState.ts",
           "client/src/composables/booking/useKeyboardToggle.ts",
           "client/src/composables/booking/useMockCalendarRefresh.ts",
-          "client/src/composables/booking/useMoveableAvailabilityData.ts",
           "client/src/composables/booking/useMoveablePartsScheduling.ts",
           "client/src/composables/booking/useOptionTypeBlockSelection.ts",
           "client/src/composables/booking/usePerspectiveMapping.ts",
@@ -248,7 +237,6 @@
           "client/src/composables/booking/usePropertyFormWatchers.ts",
           "client/src/composables/booking/usePropertyTypeBlockConfig.ts",
           "client/src/composables/booking/usePropertyTypeBlockSelection.ts",
-          "client/src/composables/booking/usePropertyTypeSelectWidth.ts",
           "client/src/composables/booking/usePropertyTypesLabel.ts",
           "client/src/composables/booking/usePropertyValidation.ts",
           "client/src/composables/booking/useResponsiveGrid.ts",
@@ -280,7 +268,6 @@
           "client/src/composables/entityCrud/useEntityCrudMutations.ts",
           "client/src/composables/entityCrud/usePrimitiveMutation.ts",
           "client/src/composables/fieldContext/useFieldContext.ts",
-          "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
           "client/src/composables/fieldContext/useFieldContextState.ts",
           "client/src/composables/formFields/useFormFields.ts",
           "client/src/composables/formFields/useFormFieldsStandardLayout.ts",
@@ -314,7 +301,7 @@
           "client/src/composables/useUser.ts",
           "client/src/shims/vue-i18n.ts"
         ],
-        "patternCount": 258
+        "patternCount": 245
       },
       {
         "prefix": "get",
@@ -348,7 +335,6 @@
           "client/src/utils/booking/cascadeFilterPipeline.ts",
           "client/src/utils/booking/constraintColors.ts",
           "client/src/utils/booking/instanceComponentsList.ts",
-          "client/src/utils/booking/moveablePartShapeName.ts",
           "client/src/utils/booking/pricingCascadeResolver.ts",
           "client/src/utils/booking/selectionCardChildren.ts",
           "client/src/utils/booking/selectionCardComponent.ts",
@@ -396,7 +382,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 128
+        "patternCount": 127
       },
       {
         "prefix": "update",
@@ -415,10 +401,10 @@
         "value": "confirmed",
         "files": [
           "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-          "client/src/composables/admin/useInstancesTab.ts",
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/types/admin/instancesTabEventInstance.ts",
           "client/src/types/entities.ts",
+          "client/src/views/admin/tabs/InstancesTab.vue",
           "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
         ],
         "occurrences": 6
@@ -450,15 +436,9 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 89,
+            "line": 84,
             "context": "status-check",
             "code": "await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })"
-          },
-          {
-            "file": "client/src/composables/admin/useInstancesTab.ts",
-            "line": 163,
-            "context": "status-check",
-            "code": "status: 'confirmed',"
           },
           {
             "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
@@ -479,8 +459,14 @@
             "code": "status: 'confirmed' | 'tentative';"
           },
           {
+            "file": "client/src/views/admin/tabs/InstancesTab.vue",
+            "line": 213,
+            "context": "status-check",
+            "code": "status: 'confirmed',"
+          },
+          {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 231,
+            "line": 232,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -491,13 +477,13 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 114,
+            "line": 109,
             "context": "status-check",
             "code": "status: 'started',"
           },
           {
             "file": "client/src/composables/useAppointment.ts",
-            "line": 83,
+            "line": 84,
             "context": "status-check",
             "code": "patch.mutate({ id, data: { status: 'started' } })"
           },
@@ -531,7 +517,7 @@
         "locations": [
           {
             "file": "client/src/composables/useAppointment.ts",
-            "line": 79,
+            "line": 80,
             "context": "status-check",
             "code": "patch.mutate({ id, data: { status: 'held', holdDurationMinutes: minutes } })"
           },
@@ -827,7 +813,7 @@
         "locations": [
           {
             "file": "client/src/components/booking/plugins/localStatePlugin.ts",
-            "line": 7,
+            "line": 8,
             "name": "LocalStatePlugin"
           }
         ]
@@ -837,7 +823,7 @@
         "locations": [
           {
             "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
-            "line": 20,
+            "line": 21,
             "name": "WizardStatePlugin"
           }
         ]
@@ -857,7 +843,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 40,
+            "line": 35,
             "name": "AppointmentsTableModel"
           }
         ]
@@ -907,7 +893,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useAdmin.ts",
-            "line": 170,
+            "line": 173,
             "name": "Admin"
           }
         ]
@@ -977,7 +963,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useBaseCollectionField.ts",
-            "line": 73,
+            "line": 68,
             "name": "BaseCollectionField"
           }
         ]
@@ -999,16 +985,6 @@
             "file": "client/src/composables/admin/useBlockInstanceForm.ts",
             "line": 27,
             "name": "BlockInstanceForm"
-          }
-        ]
-      },
-      "useBlockInstanceList": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useBlockInstanceList.ts",
-            "line": 21,
-            "name": "BlockInstanceList"
           }
         ]
       },
@@ -1112,16 +1088,6 @@
           }
         ]
       },
-      "useCapacityConstraintsHandlers": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-            "line": 10,
-            "name": "CapacityConstraintsHandlers"
-          }
-        ]
-      },
       "useCapacitySettings": {
         "prefix": "use",
         "locations": [
@@ -1167,7 +1133,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDialogFormState.ts",
-            "line": 13,
+            "line": 14,
             "name": "DialogFormState"
           }
         ]
@@ -1247,7 +1213,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityCardExpansion.ts",
-            "line": 8,
+            "line": 9,
             "name": "EntityCardExpansion"
           }
         ]
@@ -1307,7 +1273,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityCardMetadata.ts",
-            "line": 11,
+            "line": 12,
             "name": "EntityCardMetadata"
           }
         ]
@@ -1337,7 +1303,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityCardSaveState.ts",
-            "line": 12,
+            "line": 13,
             "name": "EntityCardSaveState"
           }
         ]
@@ -1367,7 +1333,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityDragHandlers.ts",
-            "line": 18,
+            "line": 19,
             "name": "EntityDragHandlers"
           }
         ]
@@ -1432,22 +1398,12 @@
           }
         ]
       },
-      "useEventInstancesSection": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useEventInstancesSection.ts",
-            "line": 21,
-            "name": "EventInstancesSection"
-          }
-        ]
-      },
       "useExpansionState": {
         "prefix": "use",
         "locations": [
           {
             "file": "client/src/composables/admin/useExpansionState.ts",
-            "line": 13,
+            "line": 15,
             "name": "ExpansionState"
           }
         ]
@@ -1467,7 +1423,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useFieldComponent.ts",
-            "line": 21,
+            "line": 23,
             "name": "FieldComponent"
           }
         ]
@@ -1507,7 +1463,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useFieldInputSetup.ts",
-            "line": 19,
+            "line": 20,
             "name": "FieldInputSetup"
           }
         ]
@@ -1517,7 +1473,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useFieldLocation.ts",
-            "line": 21,
+            "line": 23,
             "name": "FieldLocation"
           }
         ]
@@ -1537,7 +1493,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useFieldRendererComponent.ts",
-            "line": 9,
+            "line": 10,
             "name": "FieldRendererComponent"
           }
         ]
@@ -1572,22 +1528,12 @@
           }
         ]
       },
-      "useGridConfigHandlers": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useGridConfigHandlers.ts",
-            "line": 10,
-            "name": "GridConfigHandlers"
-          }
-        ]
-      },
       "useIconPickerState": {
         "prefix": "use",
         "locations": [
           {
             "file": "client/src/composables/admin/useIconPickerState.ts",
-            "line": 13,
+            "line": 15,
             "name": "IconPickerState"
           }
         ]
@@ -1627,7 +1573,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceGrouping.ts",
-            "line": 17,
+            "line": 18,
             "name": "InstanceGrouping"
           }
         ]
@@ -1637,7 +1583,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceShape.ts",
-            "line": 12,
+            "line": 13,
             "name": "InstanceShape"
           }
         ]
@@ -1649,16 +1595,6 @@
             "file": "client/src/composables/admin/useInstanceTabHandlers.ts",
             "line": 11,
             "name": "InstanceTabHandlers"
-          }
-        ]
-      },
-      "useInstancesTab": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useInstancesTab.ts",
-            "line": 27,
-            "name": "InstancesTab"
           }
         ]
       },
@@ -1697,7 +1633,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useMetadataCache.ts",
-            "line": 125,
+            "line": 126,
             "name": "MetadataCache"
           }
         ]
@@ -1752,16 +1688,6 @@
           }
         ]
       },
-      "useOverlapConstraintsPanel": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-            "line": 39,
-            "name": "OverlapConstraintsPanel"
-          }
-        ]
-      },
       "usePartInstanceBulkEdit": {
         "prefix": "use",
         "locations": [
@@ -1777,7 +1703,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/usePartInstanceCollection.ts",
-            "line": 18,
+            "line": 21,
             "name": "PartInstanceCollection"
           }
         ]
@@ -1832,16 +1758,6 @@
           }
         ]
       },
-      "usePropertyCreateForm": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/usePropertyCreateForm.ts",
-            "line": 11,
-            "name": "PropertyCreateForm"
-          }
-        ]
-      },
       "usePropertyMappingsTab": {
         "prefix": "use",
         "locations": [
@@ -1857,7 +1773,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useRelationshipCollection.ts",
-            "line": 21,
+            "line": 25,
             "name": "RelationshipCollection"
           }
         ]
@@ -1897,7 +1813,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectConfig.ts",
-            "line": 31,
+            "line": 32,
             "name": "SelectConfig"
           }
         ]
@@ -1927,7 +1843,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFieldValue.ts",
-            "line": 15,
+            "line": 16,
             "name": "SelectFieldValue"
           }
         ]
@@ -1937,7 +1853,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFiltering.ts",
-            "line": 26,
+            "line": 27,
             "name": "SelectFiltering"
           }
         ]
@@ -1977,7 +1893,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectInputsAsync.ts",
-            "line": 9,
+            "line": 11,
             "name": "SelectInputsAsync"
           }
         ]
@@ -2007,7 +1923,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useShapeEditModal.ts",
-            "line": 12,
+            "line": 13,
             "name": "ShapeEditModal"
           }
         ]
@@ -2019,16 +1935,6 @@
             "file": "client/src/composables/admin/useShapeForm.ts",
             "line": 151,
             "name": "ShapeForm"
-          }
-        ]
-      },
-      "useShapesTab": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useShapesTab.ts",
-            "line": 27,
-            "name": "ShapesTab"
           }
         ]
       },
@@ -2087,7 +1993,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useStatusButtonToggle.ts",
-            "line": 22,
+            "line": 23,
             "name": "StatusButtonToggle"
           }
         ]
@@ -2207,7 +2113,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCardGroupState.ts",
-            "line": 15,
+            "line": 16,
             "name": "SelectionCardGroupState"
           }
         ]
@@ -2227,7 +2133,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
-            "line": 24,
+            "line": 25,
             "name": "SelectionCardState"
           }
         ]
@@ -2287,7 +2193,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentLoader.ts",
-            "line": 19,
+            "line": 20,
             "name": "AppointmentLoader"
           }
         ]
@@ -2297,7 +2203,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAppointmentShape.ts",
-            "line": 24,
+            "line": 27,
             "name": "AppointmentShape"
           }
         ]
@@ -2327,7 +2233,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 18,
+            "line": 19,
             "name": "AvailabilityDefaults"
           }
         ]
@@ -2337,7 +2243,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDevPanel.ts",
-            "line": 33,
+            "line": 35,
             "name": "AvailabilityDevPanel"
           }
         ]
@@ -2347,7 +2253,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDevPanel.ts",
-            "line": 72,
+            "line": 74,
             "name": "DevPanelData"
           }
         ]
@@ -2357,7 +2263,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityEmptyState.ts",
-            "line": 15,
+            "line": 16,
             "name": "AvailabilityEmptyState"
           }
         ]
@@ -2367,7 +2273,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityLogic.ts",
-            "line": 76,
+            "line": 79,
             "name": "AvailabilityLogic"
           }
         ]
@@ -2397,7 +2303,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilitySlotColor.ts",
-            "line": 14,
+            "line": 15,
             "name": "AvailabilitySlotColor"
           }
         ]
@@ -2407,7 +2313,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityStepData.ts",
-            "line": 20,
+            "line": 21,
             "name": "AvailabilityStepData"
           }
         ]
@@ -2427,7 +2333,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityUI.ts",
-            "line": 18,
+            "line": 19,
             "name": "AvailabilityUI"
           }
         ]
@@ -2447,17 +2353,17 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
-            "line": 14,
+            "line": 15,
             "name": "BlockInstanceSelection"
           },
           {
             "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
-            "line": 17,
+            "line": 18,
             "name": "BlockInstanceSelection"
           },
           {
             "file": "client/src/composables/booking/useBlockInstanceSelection.ts",
-            "line": 20,
+            "line": 21,
             "name": "BlockInstanceSelection"
           }
         ]
@@ -2467,18 +2373,8 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useBookingWizard.ts",
-            "line": 15,
+            "line": 16,
             "name": "BookingWizard"
-          }
-        ]
-      },
-      "useBookingWizardSetup": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/booking/useBookingWizardSetup.ts",
-            "line": 59,
-            "name": "BookingWizardSetup"
           }
         ]
       },
@@ -2517,7 +2413,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useConfirmationStepData.ts",
-            "line": 15,
+            "line": 18,
             "name": "ConfirmationStepData"
           }
         ]
@@ -2549,16 +2445,6 @@
             "file": "client/src/composables/booking/useDateRangeDecider.ts",
             "line": 6,
             "name": "DateRangeDecider"
-          }
-        ]
-      },
-      "useDelayedModalVisibility": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/booking/useDelayedModalVisibility.ts",
-            "line": 25,
-            "name": "DelayedModalVisibility"
           }
         ]
       },
@@ -2597,7 +2483,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useDevPanelsComputed.ts",
-            "line": 21,
+            "line": 22,
             "name": "DevPanelsComputed"
           }
         ]
@@ -2687,7 +2573,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useInstanceSelectionConfig.ts",
-            "line": 17,
+            "line": 18,
             "name": "InstanceSelectionConfig"
           }
         ]
@@ -2722,22 +2608,12 @@
           }
         ]
       },
-      "useMoveableAvailabilityData": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/booking/useMoveableAvailabilityData.ts",
-            "line": 53,
-            "name": "MoveableAvailabilityData"
-          }
-        ]
-      },
       "useMoveablePartsScheduling": {
         "prefix": "use",
         "locations": [
           {
             "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-            "line": 135,
+            "line": 193,
             "name": "MoveablePartsScheduling"
           }
         ]
@@ -2797,7 +2673,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyFormWatchers.ts",
-            "line": 14,
+            "line": 15,
             "name": "PropertyFormWatchers"
           }
         ]
@@ -2822,16 +2698,6 @@
           }
         ]
       },
-      "usePropertyTypeSelectWidth": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/booking/usePropertyTypeSelectWidth.ts",
-            "line": 30,
-            "name": "PropertyTypeSelectWidth"
-          }
-        ]
-      },
       "usePropertyTypesLabel": {
         "prefix": "use",
         "locations": [
@@ -2847,7 +2713,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyValidation.ts",
-            "line": 19,
+            "line": 13,
             "name": "PropertyValidation"
           }
         ]
@@ -2907,7 +2773,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-            "line": 48,
+            "line": 45,
             "name": "WizardAppointmentManagement"
           }
         ]
@@ -3007,7 +2873,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardStepSync.ts",
-            "line": 8,
+            "line": 10,
             "name": "WizardStepSync"
           }
         ]
@@ -3027,7 +2893,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardSubmission.ts",
-            "line": 16,
+            "line": 15,
             "name": "WizardSubmission"
           }
         ]
@@ -3057,7 +2923,7 @@
         "locations": [
           {
             "file": "client/src/composables/businessDataCollections/useBusinessDataCollectionCrud.ts",
-            "line": 14,
+            "line": 15,
             "name": "BusinessDataCollectionCrud"
           }
         ]
@@ -3137,7 +3003,7 @@
         "locations": [
           {
             "file": "client/src/composables/entityCrud/usePrimitiveMutation.ts",
-            "line": 34,
+            "line": 35,
             "name": "PrimitiveMutation"
           }
         ]
@@ -3182,22 +3048,12 @@
           }
         ]
       },
-      "useFieldContextEntityDerived": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
-            "line": 29,
-            "name": "FieldContextEntityDerived"
-          }
-        ]
-      },
       "useFieldContextState": {
         "prefix": "use",
         "locations": [
           {
             "file": "client/src/composables/fieldContext/useFieldContextState.ts",
-            "line": 36,
+            "line": 37,
             "name": "FieldContextState"
           }
         ]
@@ -3207,7 +3063,7 @@
         "locations": [
           {
             "file": "client/src/composables/formFields/useFormFields.ts",
-            "line": 32,
+            "line": 26,
             "name": "FormFields"
           }
         ]
@@ -3317,7 +3173,7 @@
         "locations": [
           {
             "file": "client/src/composables/useAppointment.ts",
-            "line": 47,
+            "line": 48,
             "name": "Appointment"
           }
         ]
@@ -3337,7 +3193,7 @@
         "locations": [
           {
             "file": "client/src/composables/useBooking.ts",
-            "line": 75,
+            "line": 78,
             "name": "Booking"
           }
         ]
@@ -3387,7 +3243,7 @@
         "locations": [
           {
             "file": "client/src/composables/useComponentDistribution.ts",
-            "line": 19,
+            "line": 20,
             "name": "ComponentDistribution"
           }
         ]
@@ -3427,7 +3283,7 @@
         "locations": [
           {
             "file": "client/src/composables/useFormValidation.ts",
-            "line": 29,
+            "line": 30,
             "name": "FormValidation"
           }
         ]
@@ -3447,7 +3303,7 @@
         "locations": [
           {
             "file": "client/src/composables/useLayoutLoading.ts",
-            "line": 14,
+            "line": 15,
             "name": "LayoutLoading"
           }
         ]
@@ -3457,7 +3313,7 @@
         "locations": [
           {
             "file": "client/src/composables/useLoadingIndicator.ts",
-            "line": 4,
+            "line": 5,
             "name": "LoadingIndicator"
           }
         ]
@@ -3477,7 +3333,7 @@
         "locations": [
           {
             "file": "client/src/composables/useNotification.ts",
-            "line": 40,
+            "line": 41,
             "name": "Notification"
           }
         ]
@@ -3497,7 +3353,7 @@
         "locations": [
           {
             "file": "client/src/composables/useProperty.ts",
-            "line": 40,
+            "line": 41,
             "name": "Property"
           }
         ]
@@ -3537,7 +3393,7 @@
         "locations": [
           {
             "file": "client/src/composables/useUser.ts",
-            "line": 39,
+            "line": 41,
             "name": "User"
           }
         ]
@@ -4172,16 +4028,6 @@
           }
         ]
       },
-      "getMoveablePartShapeName": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/booking/moveablePartShapeName.ts",
-            "line": 20,
-            "name": "MoveablePartShapeName"
-          }
-        ]
-      },
       "createPartFinals": {
         "prefix": "create",
         "locations": [
@@ -4327,7 +4173,7 @@
         "locations": [
           {
             "file": "client/src/utils/dev/formatDevPanelData.ts",
-            "line": 48,
+            "line": 49,
             "name": "ApiStatusColor"
           }
         ]
@@ -4337,7 +4183,7 @@
         "locations": [
           {
             "file": "client/src/utils/dev/formatDevPanelData.ts",
-            "line": 52,
+            "line": 53,
             "name": "ApiStatusLabel"
           }
         ]
@@ -4602,7 +4448,7 @@
           },
           {
             "file": "client/src/utils/transformers/relationshipTransformers.ts",
-            "line": 84,
+            "line": 85,
             "name": "ComponentsRecursive"
           }
         ]
@@ -4612,7 +4458,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/componentAggregator.ts",
-            "line": 137,
+            "line": 139,
             "name": "ComposedEntity"
           }
         ]
@@ -4622,7 +4468,7 @@
         "locations": [
           {
             "file": "client/src/utils/transformers/relationshipTransformers.ts",
-            "line": 156,
+            "line": 158,
             "name": "ComposedEntityFromRelationships"
           }
         ]
@@ -4632,7 +4478,7 @@
         "locations": [
           {
             "file": "client/src/vite-env.d.ts",
-            "line": 75,
+            "line": 81,
             "name": "SingletonHighlighter"
           }
         ]
@@ -4682,7 +4528,7 @@
         "locations": [
           {
             "file": "server/src/routes/helpers/createCrudRouter.ts",
-            "line": 52,
+            "line": 55,
             "name": "CrudRouter"
           }
         ]
@@ -4922,7 +4768,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-            "line": 242,
+            "line": 243,
             "name": "ComponentActiveStates"
           }
         ]
@@ -5272,23 +5118,16 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-        "line": 89,
+        "line": 84,
         "pattern": "AppointmentStatus workflow",
         "code": "await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-        "line": 114,
+        "line": 109,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'started',"
-      },
-      {
-        "type": "status-workflow",
-        "file": "client/src/composables/admin/useInstancesTab.ts",
-        "line": 163,
-        "pattern": "AppointmentStatus workflow",
-        "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
@@ -5300,7 +5139,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/useAppointment.ts",
-        "line": 83,
+        "line": 84,
         "pattern": "AppointmentStatus workflow",
         "code": "patch.mutate({ id, data: { status: 'started' } })"
       },
@@ -5422,6 +5261,13 @@
         "line": 150,
         "pattern": "AppointmentStatus workflow",
         "code": "const status: AppointmentStatus = wizard.isQuoteMode ? 'quoted' : 'submitted'"
+      },
+      {
+        "type": "status-workflow",
+        "file": "client/src/views/admin/tabs/InstancesTab.vue",
+        "line": 213,
+        "pattern": "AppointmentStatus workflow",
+        "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
@@ -5559,21 +5405,21 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 227,
+        "line": 228,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 231,
+        "line": 232,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 236,
+        "line": 237,
         "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },
