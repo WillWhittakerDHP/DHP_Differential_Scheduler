@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T18:26:32.762Z",
+  "generatedAt": "2026-03-04T19:16:50.300Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 268,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 102,
+    "filesWithInlineTypes": 103,
     "annotated": 325,
     "unannotated": 0,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 72,
+      "inlineTypesInComposables": 73,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -3075,7 +3075,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 14,
+      "lineCount": 17,
       "purpose": "Default availability configuration value types",
       "reuseTier": "feature",
       "tags": [],
@@ -3181,7 +3181,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 67,
+      "lineCount": 69,
       "purpose": "Availability data orchestration and coordination types",
       "reuseTier": "feature",
       "tags": [],
@@ -3553,7 +3553,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 28,
+      "lineCount": 31,
       "purpose": "Data types for the contacts wizard step",
       "reuseTier": "feature",
       "tags": [],
@@ -4219,7 +4219,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 7,
+      "lineCount": 10,
       "purpose": "Property form watcher configuration and handler types",
       "reuseTier": "feature",
       "tags": [
@@ -7502,7 +7502,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 64,
+      "lineCount": 67,
       "purpose": "Appointments table column and config constants",
       "reuseTier": "feature",
       "tags": [
@@ -9412,6 +9412,16 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/booking/useCancelAppointment.ts",
+      "exportedTypes": [
+        "UseCancelAppointmentReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
       "exportedTypes": [
         "UseDelayedModalVisibilityParams",
@@ -10416,6 +10426,16 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/booking/useCancelAppointment.ts",
+          "exportedTypes": [
+            "UseCancelAppointmentReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
           "exportedTypes": [
             "UseDelayedModalVisibilityParams",
@@ -11112,7 +11132,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 64,
+        "lineCount": 67,
         "purpose": "Appointments table column and config constants",
         "reuseTier": "feature",
         "tags": [

@@ -110,7 +110,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     capacity: 'Capacity',
     overlap: 'Overlap',
     integration: 'Integration',
-    confirmationAndHolds: 'Confirmation & Holds',
+    confirmationAndHolds: 'Holds',
     increment: 'Slot Increment',
     rounding: 'Rounding',
     timezone: 'Timezone',

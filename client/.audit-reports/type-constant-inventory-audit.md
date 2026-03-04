@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-04T18:26:32.762Z
+Generated: 2026-03-04T19:16:50.300Z
 
 ## Summary
 
 - Type files: **268**
 - Constant files: **23**
 - Config files: **34**
-- Files with inline type exports: **102**
+- Files with inline type exports: **103**
 - Annotated: **325** | Unannotated: **0**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 72 |
+| Inline types in composables | 73 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -487,6 +487,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
 - `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)
+- `client/src/composables/booking/useCancelAppointment.ts`: UseCancelAppointmentReturn (imported by 0 files)
 - `client/src/composables/booking/useDelayedModalVisibility.ts`: UseDelayedModalVisibilityParams, UseDelayedModalVisibilityReturn (imported by 0 files)
 - `client/src/composables/booking/useMoveableAvailabilityData.ts`: UseMoveableAvailabilityDataParams, UseMoveableAvailabilityDataReturn (imported by 0 files)
 - `client/src/composables/booking/usePropertyTypeSelectWidth.ts`: PropertyTypeLike, UsePropertyTypeSelectWidthParams, UsePropertyTypeSelectWidthReturn (imported by 0 files)

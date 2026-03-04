@@ -1,3 +1,22 @@
+/** Base URL for client-facing links (reschedule, cancel). Use APP_BASE_URL or VITE_APP_BASE_URL. */
+function getAppBaseUrl(): string {
+  const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''
+  return base.replace(/\/$/, '')
+}
+
+/** Build full reschedule URL. Matches client buildClientLinks. */
+function buildRescheduleUrl(appointmentId: string): string {
+  const base = getAppBaseUrl()
+  const path = `/booking?mode=reschedule&appointmentId=${encodeURIComponent(appointmentId)}`
+  return base ? `${base}${path}` : path
+}
+
+/** Build full cancel URL. Matches client buildClientLinks. */
+function buildCancelUrl(appointmentId: string): string {
+  const base = getAppBaseUrl()
+  const path = `/cancel?appointmentId=${encodeURIComponent(appointmentId)}`
+  return base ? `${base}${path}` : path
+}
 
 export interface InviteAppointmentData {
   id: string
@@ -22,6 +41,8 @@ export function buildInviteContext(
 
   context.appointmentId = appointment.id
   context.status = appointment.status
+  context.rescheduleLink = buildRescheduleUrl(appointment.id)
+  context.cancelLink = buildCancelUrl(appointment.id)
 
   const address = appointment.propertyVersion?.address
   if (address) {
