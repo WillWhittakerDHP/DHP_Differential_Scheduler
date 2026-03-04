@@ -39,3 +39,12 @@ Completed Task
 - Begin Session 
 
 <!-- end excerpt session -->
+
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
