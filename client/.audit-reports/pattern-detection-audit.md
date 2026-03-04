@@ -14,11 +14,11 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **1108**
-- String literals found: **7** (showing those with 3+ occurrences)
+- Files scanned: **1111**
+- String literals found: **8** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **42**
-- Function patterns found: **441**
+- Function patterns found: **442**
 - Common patterns found: **58**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -119,7 +119,7 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBusinessRuleForm` | `use*` | 1 |
 | `useBusinessRules` | `use*` | 1 |
 | `useBusinessRulesTab` | `use*` | 1 |
-| ... | ... | (+411 more) |
+| ... | ... | (+412 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

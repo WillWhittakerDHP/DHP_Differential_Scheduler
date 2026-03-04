@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-04T17:11:18.813Z",
+  "generatedAt": "2026-03-04T19:42:09.698Z",
   "check": "Deprecation",
-  "totalScanned": 1108,
+  "totalScanned": 1111,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -25,7 +25,83 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "client__src__composables__booking__useAvailabilityDefaults.ts",
+      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 78,
+          "line": "const slotList = (slots as TimeSlot[] | null) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 78,
+          "line": "const slotList = (slots as TimeSlot[] | null) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__booking__buildClientLinks.ts",
+      "repoPath": "client/src/utils/booking/buildClientLinks.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 17,
+          "line": "return import.meta.env?.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 17,
+          "line": "return import.meta.env?.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__invites__inviteContextBuilder.ts",
+      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "jsdoc-deprecated",

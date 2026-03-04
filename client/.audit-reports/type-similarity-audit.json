@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T17:11:12.889Z",
+  "generatedAt": "2026-03-04T19:42:10.093Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1137,
-  "totalDefinitions": 787,
+  "fileCount": 1140,
+  "totalDefinitions": 788,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -475,7 +475,7 @@
           "name": "ContactRefs",
           "kind": "interface",
           "file": "client/src/composables/booking/useContactsStepData.ts",
-          "line": 19,
+          "line": 20,
           "exported": false,
           "propertyCount": 8,
           "signature": "{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, transactionManagerInfo: Ref<ContactInfo> }"
@@ -891,8 +891,8 @@
       "file": "client/src/components/booking/AppointmentSlotGrid.vue",
       "line": 13,
       "exported": false,
-      "fingerprint": "713cd708a97f",
-      "propertyCount": 10,
+      "fingerprint": "f72870a906c9",
+      "propertyCount": 11,
       "primitiveAlias": null
     },
     {
@@ -1836,10 +1836,20 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseCancelAppointmentReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useCancelAppointment.ts",
+      "line": 22,
+      "exported": true,
+      "fingerprint": "ac5577c006ac",
+      "propertyCount": 7,
+      "primitiveAlias": null
+    },
+    {
       "name": "ContactRefs",
       "kind": "interface",
       "file": "client/src/composables/booking/useContactsStepData.ts",
-      "line": 19,
+      "line": 20,
       "exported": false,
       "fingerprint": "7c2d233e1659",
       "propertyCount": 8,
@@ -1881,8 +1891,8 @@
       "file": "client/src/composables/booking/useMoveableAvailabilityData.ts",
       "line": 43,
       "exported": true,
-      "fingerprint": "b3896dde480b",
-      "propertyCount": 6,
+      "fingerprint": "5ef199dd372b",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -4159,17 +4169,17 @@
       "name": "UseAvailabilityDefaultsOptions",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityDefaults.ts",
-      "line": 5,
+      "line": 6,
       "exported": true,
-      "fingerprint": "5cfe726c5bfe",
-      "propertyCount": 3,
+      "fingerprint": "1bc16f8a2a0d",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityDefaultsReturn",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityDefaults.ts",
-      "line": 11,
+      "line": 14,
       "exported": true,
       "fingerprint": "30b925917f45",
       "propertyCount": 4,
@@ -4221,18 +4231,18 @@
       "file": "client/src/types/booking/availabilityOrchestrator.ts",
       "line": 14,
       "exported": true,
-      "fingerprint": "087f1e43d99b",
-      "propertyCount": 43,
+      "fingerprint": "c4a9637042ed",
+      "propertyCount": 44,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityOrchestratorParams",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityOrchestrator.ts",
-      "line": 60,
+      "line": 61,
       "exported": true,
-      "fingerprint": "665c3083f0c8",
-      "propertyCount": 7,
+      "fingerprint": "ad3086802a79",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
@@ -4489,17 +4499,17 @@
       "name": "UseContactsStepDataOptions",
       "kind": "interface",
       "file": "client/src/types/booking/contactsStepData.ts",
-      "line": 6,
+      "line": 7,
       "exported": true,
-      "fingerprint": "408a5f4fe82c",
-      "propertyCount": 1,
+      "fingerprint": "78696769c363",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
       "name": "UseContactsStepDataReturn",
       "kind": "interface",
       "file": "client/src/types/booking/contactsStepData.ts",
-      "line": 10,
+      "line": 13,
       "exported": true,
       "fingerprint": "db7d81019dae",
       "propertyCount": 18,
@@ -4969,10 +4979,10 @@
       "name": "UsePropertyFormWatchersParams",
       "kind": "interface",
       "file": "client/src/types/booking/propertyFormWatchers.ts",
-      "line": 4,
+      "line": 5,
       "exported": true,
-      "fingerprint": "92f1a3f2a016",
-      "propertyCount": 1,
+      "fingerprint": "51f027ce003e",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -5361,7 +5371,7 @@
       "file": "client/src/types/booking/wizardAppointmentManagement.ts",
       "line": 23,
       "exported": true,
-      "fingerprint": "38b5172db9b6",
+      "fingerprint": "255c91054741",
       "propertyCount": 8,
       "primitiveAlias": null
     },
@@ -6981,15 +6991,15 @@
       "file": "client/src/vite-env.d.ts",
       "line": 1,
       "exported": false,
-      "fingerprint": "859126b6e252",
-      "propertyCount": 9,
+      "fingerprint": "b57a671baff9",
+      "propertyCount": 10,
       "primitiveAlias": null
     },
     {
       "name": "ImportMeta",
       "kind": "interface",
       "file": "client/src/vite-env.d.ts",
-      "line": 14,
+      "line": 16,
       "exported": false,
       "fingerprint": "13686f2e8913",
       "propertyCount": 2,
@@ -7489,7 +7499,7 @@
       "name": "InviteAppointmentData",
       "kind": "interface",
       "file": "server/src/services/invites/inviteContextBuilder.ts",
-      "line": 1,
+      "line": 20,
       "exported": true,
       "fingerprint": "8f5a2453ac0f",
       "propertyCount": 11,

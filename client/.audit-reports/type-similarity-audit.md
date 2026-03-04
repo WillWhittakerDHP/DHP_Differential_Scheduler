@@ -19,9 +19,9 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-04T17:11:12.889Z**
-- Files scanned: **1137**
-- Type definitions found: **787**
+- Generated at: **2026-03-04T19:42:10.093Z**
+- Files scanned: **1140**
+- Type definitions found: **788**
 - Similarity groups: **9**
 - UNIFY candidates: **0**
 - BRAND candidates: **0**
@@ -170,7 +170,7 @@ Overlap: **70%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 96 | yes |
-| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 19 | no |
+| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 20 | no |
 
 Overlap: **73%** shared properties
 - Shared: `agentInfo`, `anotherClientInfo`, `clientInfo`, `sellerInfo`, `showAnotherClient`, `showSeller`, `showTransactionManager`, `transactionManagerInfo`

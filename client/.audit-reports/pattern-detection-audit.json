@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T17:11:15.212Z",
+  "generatedAt": "2026-03-04T19:42:09.436Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1108,
+  "fileCount": 1111,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -208,6 +208,7 @@
           "client/src/composables/booking/useBookingWizard.ts",
           "client/src/composables/booking/useBookingWizardSetup.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
+          "client/src/composables/booking/useCancelAppointment.ts",
           "client/src/composables/booking/useCascadeInstances.ts",
           "client/src/composables/booking/useComputedAvailability.ts",
           "client/src/composables/booking/useConfirmationStepData.ts",
@@ -313,7 +314,7 @@
           "client/src/utils/booking/availabilityStepHandlers.ts",
           "client/src/utils/booking/wizardValidation.ts"
         ],
-        "patternCount": 257
+        "patternCount": 258
       },
       {
         "prefix": "get",
@@ -522,6 +523,17 @@
             "line": 14,
             "context": "status-check",
             "code": "recordApiCall: (api: 'events' | 'routes' | 'places' | 'computedData', status: 'hit' | 'error') => vo"
+          }
+        ]
+      },
+      "cancelled": {
+        "count": 1,
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useCancelAppointment.ts",
+            "line": 62,
+            "context": "status-check",
+            "code": "status: 'cancelled',"
           }
         ]
       },
@@ -2266,7 +2278,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 18,
+            "line": 19,
             "name": "AvailabilityDefaults"
           }
         ]
@@ -2316,7 +2328,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
-            "line": 28,
+            "line": 29,
             "name": "AvailabilityOrchestrator"
           }
         ]
@@ -2421,6 +2433,16 @@
           }
         ]
       },
+      "useCancelAppointment": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useCancelAppointment.ts",
+            "line": 33,
+            "name": "CancelAppointment"
+          }
+        ]
+      },
       "useCascadeInstances": {
         "prefix": "use",
         "locations": [
@@ -2456,7 +2478,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsStepData.ts",
-            "line": 89,
+            "line": 121,
             "name": "ContactsStepData"
           }
         ]
@@ -2656,7 +2678,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useMoveableAvailabilityData.ts",
-            "line": 53,
+            "line": 55,
             "name": "MoveableAvailabilityData"
           }
         ]
@@ -2726,7 +2748,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyFormWatchers.ts",
-            "line": 14,
+            "line": 51,
             "name": "PropertyFormWatchers"
           }
         ]
@@ -2836,7 +2858,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-            "line": 48,
+            "line": 49,
             "name": "WizardAppointmentManagement"
           }
         ]
@@ -4621,7 +4643,7 @@
         "locations": [
           {
             "file": "client/src/vite-env.d.ts",
-            "line": 75,
+            "line": 77,
             "name": "SingletonHighlighter"
           }
         ]
