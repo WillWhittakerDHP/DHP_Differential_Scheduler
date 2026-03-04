@@ -1,3 +1,39 @@
+# Session 6.5.4 Guide: Client-facing entry — reschedule/quote/cancel links
+
+**Purpose:** Session-level guide for client-facing reschedule, quote, and cancel links.
+
+**Tier:** Session (Tier 2 - Medium-Level)
+
+---
+
+## Quick Start
+
+### Session Overview
+
+**Session ID:** 6.5.4
+**Session Name:** Client-facing entry — reschedule/quote/cancel links
+**Description:** Reschedule, quote, and cancel links; wizard load-at-step-3; copy quote link; wizard persistence; invite template variables.
+
+**Status:** Complete
+
+### Tasks
+
+- [x] Task 6.5.4.1: Client-facing entry — reschedule / cancel / quote links
+- [x] Task 6.5.4.2: Wizard entry from query
+- [x] Task 6.5.4.3: Cancel flow
+- [x] Task 6.5.4.4: Copy quote link button
+- [x] Task 6.5.4.5: Invite template variables (optional)
+- [x] Task 6.5.4.6: Verification and docs
+
+## Session Workflow
+
+1. Run `/session-start 6.5.4` to begin (or cascade from phase-start).
+2. Execute tasks 6.5.4.1 through 6.5.4.6 in order.
+3. After each task, run `/task-end <taskId>` and cascade to next task or session-end.
+4. Run `/session-end 6.5.4` when all tasks complete.
+
+---
+
 ## Phase intent (goals and context)
 
 ## Phase intent from feature guide
