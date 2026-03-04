@@ -28,7 +28,7 @@ Bulk updates (Phase 7.4) is **NOT a separate feature** - it's a small admin UI e
 
 ## Related Documents
 
-- **Feature Guide**: `feature-feature-7-ui-polish-guide.md`
+- **Feature Guide**: `feature-ui-polish-guide.md`
 - **Vue Migration Completion**: `../vue-migration/vue-migration-completion-summary.md`
 - **Admin UI Overhaul**: `../admin-ui-overhaul/feature-admin-ui-overhaul-guide.md` (for reference)
 

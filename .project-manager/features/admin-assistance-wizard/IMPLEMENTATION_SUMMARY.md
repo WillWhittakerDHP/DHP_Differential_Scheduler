@@ -8,14 +8,14 @@
 ## 📋 Quick Reference
 
 ### Key Documents
-- **[Feature Guide](./feature-gpt-admin-automation-guide.md)** - Complete feature specification (5 phases, ~5 weeks)
+- **[Feature Guide](./feature-admin-assistance-wizard-guide.md)** - Complete feature specification (5 phases, ~5 weeks)
 - **[Phase 1 Tasks](./phase-1-tasks.md)** - Detailed Phase 1 implementation guide
 - **[Phase 1 Todos](./todos/phase-1-todos.json)** - Task tracking JSON
 - **[README](./README.md)** - Quick start and overview
 
 ### Branch
 ```bash
-git checkout -b feature/gpt-admin-automation
+git checkout -b feature/admin-assistance-wizard
 ```
 
 ### Environment Variables
@@ -220,7 +220,7 @@ curl -X POST http://localhost:3000/api/internal/ai/execute \
 ## 📝 Next Steps
 
 1. ✅ Review and approve plan
-2. ⏳ Set up feature branch: `feature/gpt-admin-automation`
+2. ⏳ Set up feature branch: `feature/admin-assistance-wizard`
 3. ⏳ Begin Phase 1 implementation
 4. ⏳ Set up OpenAI API key
 5. ⏳ Create initial GPT service client
@@ -236,7 +236,7 @@ curl -X POST http://localhost:3000/api/internal/ai/execute \
 - `client/src/views/admin/AdminPanel.vue` - Admin panel integration point
 
 ### New Files to Create
-See [feature guide](./feature-gpt-admin-automation-guide.md) for complete file list.
+See [feature guide](./feature-admin-assistance-wizard-guide.md) for complete file list.
 
 ---
 

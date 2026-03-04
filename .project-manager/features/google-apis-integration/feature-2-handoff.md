@@ -215,7 +215,7 @@ Prerequisite for Phase 2.2 - Completed 2026-02-01
 
 ## Related Documents
 
-- **Feature Guide**: `feature-feature-2-google-apis-integration-guide.md`
+- **Feature Guide**: `feature-google-apis-integration-guide.md`
 - **Project Plan**: `../../PROJECT_PLAN.md` (Feature 2 + Feature 7 entries)
 - **Phase Handoffs**:
   - `phases/phase-2.0-handoff.md` ✅ Complete

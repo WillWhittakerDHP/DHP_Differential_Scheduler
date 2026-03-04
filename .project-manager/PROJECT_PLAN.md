@@ -35,13 +35,13 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
 | 10 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
 | 11 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
-| 12 | Pre-Launch Polish | 📋 Planning | `features/beta-launch/` | — |
+| 12 | Pre-Launch Polish | 📋 Planning | `features/pre-launch-polish/` | — |
 | 13 | Alpha Launch & Deployment | 📋 Planning | — | — |
 | 14 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
 | 16 | UI Polish | 🔮 Not Started | `features/ui-polish/` | — |
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
-| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
+| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
 
 ---
@@ -475,7 +475,7 @@ Implement the following so that authenticated users and roles are used where oth
 **Status:** 📋 Planning
 **Description:** Validate the product before authoring E2E tests: (1) document the booking wizard flow and all logical branches in a Mermaid diagram to find bad loops, dead ends, or wrong wiring; (2) build an alpha testing task database where each row is one E2E-testable task; (3) randomly assign tasks to alpha testers and require 2–3 "blank" full wizard runs with their own data. E2E tests (Feature 10) are then derived from this task list. Depends on Feature 7 (Authentication) for assigning tasks to users.
 **Branch:** TBD
-**Directory:** `features/guided-alpha-testing/` (rename from `guided-beta-testing` when work begins)
+**Directory:** `features/guided-alpha-testing/`
 
 ### Why Before Feature 10 (Testing)
 

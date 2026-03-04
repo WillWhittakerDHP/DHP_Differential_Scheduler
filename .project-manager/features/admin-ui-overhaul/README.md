@@ -106,7 +106,7 @@ Complete redesign of the admin interface to reduce cognitive load for non-techni
 
 ## Related Features
 
-- **GPT Admin Automation** (`project-manager/features/gpt-admin-automation/`) - Provides GPT infrastructure that Phase 3 adapts and integrates
+- **GPT Admin Automation** (`project-manager/features/admin-assistance-wizard/`) - Provides GPT infrastructure that Phase 3 adapts and integrates
 
 ---
 

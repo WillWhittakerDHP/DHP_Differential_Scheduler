@@ -26,8 +26,8 @@
 - Updated session-2.2.6-guide.md: Task 2.2.6.2 tooltip example to "Drive To Appointment buffer (20 min)", Files to constraintColors.ts/AppointmentSlotGrid; marked Tasks 2.2.6.2–2.2.6.5 complete; session status to Completed.
 
 **Files Modified:**
-- `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.6-handoff.md`
-- `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.6-guide.md`
+- `.project-manager/features/google-apis-integration/sessions/session-2.2.6-handoff.md`
+- `.project-manager/features/google-apis-integration/sessions/session-2.2.6-guide.md`
 
 ---
 

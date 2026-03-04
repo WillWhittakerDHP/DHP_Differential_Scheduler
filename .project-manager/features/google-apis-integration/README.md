@@ -32,7 +32,7 @@ MLS API integration (Phase 2.3) is **deferrable** - it can be deferred with manu
 
 ## Related Documents
 
-- **Feature Guide**: `feature-feature-2-google-apis-integration-guide.md`
+- **Feature Guide**: `feature-google-apis-integration-guide.md`
 - **Old Project Plan**: `../archive/project-plan.md.old` (Feature 4 reference)
 - **React Calendar Calls**: `../../client/src/scheduler/externalAPI/calendarCalls.ts` (reference)
 - **USER_STORY.md**: `../../USER_STORY.md` (requirements)

@@ -328,9 +328,9 @@ Templates include:
 
 ### Related Documents
 
-- **Session Handoff:** `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.5-handoff.md` (transition context and planning)
-- **Session Log:** `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.5-log.md` (historical record)
-- **Phase Handoff:** `.project-manager/features/feature-2-google-apis-integration/phases/phase-2.2-handoff.md` (phase-level context)
+- **Session Handoff:** `.project-manager/features/google-apis-integration/sessions/session-2.2.5-handoff.md` (transition context and planning)
+- **Session Log:** `.project-manager/features/google-apis-integration/sessions/session-2.2.5-log.md` (historical record)
+- **Phase Handoff:** `.project-manager/features/google-apis-integration/phases/phase-2.2-handoff.md` (phase-level context)
 
 ---
 

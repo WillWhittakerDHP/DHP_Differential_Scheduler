@@ -455,7 +455,7 @@ Dev panel toggle in "Free/Busy" section:
 
 ## Reference Documents
 
-- **Feature Guide**: `../feature-feature-2-google-apis-integration-guide.md`
+- **Feature Guide**: `../feature-google-apis-integration-guide.md`
 - **Appointment Attendees Architecture Plan**: `~/.cursor/plans/appointment_attendees_architecture_64ca4ea1.plan.md`
 - **Google Calendar Free-Busy Setup Plan**: `/Users/districthomepro/.cursor/plans/google_calendar_free-busy_api_setup_cbbaba01.plan.md`
 - **Drive Time Buffer Refactor Plan**: `~/.cursor/plans/drive_time_buffer_refactor_f78512ee.plan.md` ⭐ **NEXT IMPLEMENTATION** (prereq for Phase 2.2)

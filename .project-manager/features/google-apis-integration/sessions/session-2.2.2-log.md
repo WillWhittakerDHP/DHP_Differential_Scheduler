@@ -108,7 +108,7 @@ curl "http://localhost:3001/api/v1/external/maps/debug/drive-time-cache"
 
 ### Created
 - `server/src/services/driveTimeCache.ts`
-- `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.2-log.md`
+- `.project-manager/features/google-apis-integration/sessions/session-2.2.2-log.md`
 
 ### Modified
 - `client/src/configs/availabilitySettings.ts` - Added placeId to DefaultLocation
@@ -117,9 +117,9 @@ curl "http://localhost:3001/api/v1/external/maps/debug/drive-time-cache"
 - `client/src/services/mapsApiService.ts` - Added Routes API functions
 - `server/src/services/googleMapsService.ts` - Added Routes API integration
 - `server/src/routes/external/mapsRoutes.ts` - Added drive-time endpoints
-- `.project-manager/features/feature-2-google-apis-integration/sessions/session-2.2.2-handoff.md`
-- `.project-manager/features/feature-2-google-apis-integration/phases/phase-2.2-handoff.md`
-- `.project-manager/features/feature-2-google-apis-integration/feature-2-handoff.md`
+- `.project-manager/features/google-apis-integration/sessions/session-2.2.2-handoff.md`
+- `.project-manager/features/google-apis-integration/phases/phase-2.2-handoff.md`
+- `.project-manager/features/google-apis-integration/feature-2-handoff.md`
 
 ---
 
