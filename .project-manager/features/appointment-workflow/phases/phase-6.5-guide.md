@@ -42,3 +42,5 @@
 1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
 2. After each session-end, cascade to next session or phase-end.
 3. Follow governance (audits, thin components, composables).
+
+<!-- end excerpt phase -->

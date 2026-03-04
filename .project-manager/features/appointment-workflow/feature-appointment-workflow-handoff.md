@@ -156,3 +156,4 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 - Security Stubs: `server/docs/SECURITY_STUBS.md`
 - Appointment Constants: `server/src/routes/internal/appointments/appointmentConstants.ts`
 
+<!-- end excerpt feature -->
