@@ -1,5 +1,4 @@
 /**
- * WHY: Prop-based ctx reduces provide/inject depth; inject removed to satisfy bidirectional-data-channel.
  */
 import { computed } from 'vue'
 import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
