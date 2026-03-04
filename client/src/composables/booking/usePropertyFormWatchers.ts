@@ -99,10 +99,12 @@ export function usePropertyFormWatchers(
     }, { immediate: true })
   }
 
+  let propertyRestored = false
   if (restoreFrom) {
     watch(restoreFrom, (data) => {
-      if (data) {
+      if (!propertyRestored && data) {
         restoreFormFromDetails(formData, data, isAddressExpanded)
+        propertyRestored = true
       }
     }, { immediate: true })
   }
