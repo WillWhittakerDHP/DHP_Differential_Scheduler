@@ -9,23 +9,27 @@
 - Prior phase/session work established modal behavior and differential/preClosing context. - Current planning output showed template-heavy context and generic Q&A prompts.
 
 ## Goal
-Create phase 6.5 branch and establish Rescheduling Flow scope. Sessions 6.5.1–6.5.4 already defined; 6.5.2 complete; next is 6.5.3 (Original-Inspection UI).
+Achieve Phase 6.5 Rescheduling Flow: wizard mode (reschedule), load-at-step-3, reschedulingAppointmentId bypass, original-inspection slot UI, admin entry, client-facing links. Sessions 6.5.1–6.5.4 deliver these outcomes.
 
 ## Files
-- `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md`
-- Session guides: session-6.5.1 through session-6.5.4
+- Phase guide, session guides, handoffs under `.project-manager/features/appointment-workflow/`
+- Client: booking wizard, availability composables, AppointmentSlotGrid
+- Server: computed-availability, overlap/calendarEvents logic
 
 ## Approach
-1. Phase-start execute creates branch `appointment-workflow-phase-6.5`.
-2. Sessions 6.5.1, 6.5.2 (done), 6.5.3, 6.5.4 are in the phase guide; run session-start for each in order.
-3. Next step: run `/session-start 6.5.3` or `/accepted-proceed` (session 6.5.3 pending).
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
 
 ## Checkpoint
-- Branch `appointment-workflow-phase-6.5` exists.
-- Phase scope and session order confirmed.
+- All four sessions complete; reschedule flow works end-to-end (admin entry, availability bypass, original-inspection UI, client links).
+- Phase-end audit passes.
 
 ## How we build the tierDown to achieve them
-Sessions 6.5.1 (entry/transitions), 6.5.2 (availability bypass — complete), 6.5.3 (original-inspection UI), 6.5.4 (client-facing links). Run session-start for each in order; cascade session-end → next session or phase-end.
+- **Session 6.5.1:** Entry/transitions — wizard mode, load-at-step-3, admin entry
+- **Session 6.5.2:** Availability bypass — reschedulingAppointmentId in request
+- **Session 6.5.3:** Original-inspection slot UI — distinct styling, selectable
+- **Session 6.5.4:** Client-facing entry — reschedule/quote/cancel links
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
