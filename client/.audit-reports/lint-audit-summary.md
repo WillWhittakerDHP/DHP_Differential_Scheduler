@@ -11,41 +11,19 @@ Generated from `lint-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Total scanned | 831 |
-| Findings | 61 |
-| Files with findings | 36 |
+| Total scanned | 858 |
+| Findings | 0 |
+| Files with findings | 0 |
 
 ## By rule
 
 | Rule | Count |
 | --- | ---: |
-| @typescript-eslint/no-unused-vars | 61 |
 
-## Top 20 files
+## Top 0 files
 
 | File | Priority | Score |
 | --- | --- | ---: |
-| `client/src/components/booking/BookingWizard.vue` | P1 | 14 |
-| `client/src/views/admin/tabs/InstancesTab.vue` | P1 | 10 |
-| `client/src/composables/admin/useSelectConfig.ts` | P1 | 6 |
-| `client/src/composables/booking/useDevPanelsComputed.ts` | P1 | 6 |
-| `client/src/components/admin/generic/collections/RelationshipCollection.vue` | P2 | 4 |
-| `client/src/composables/admin/useEntityCardSubPanels.ts` | P2 | 4 |
-| `client/src/composables/admin/useEntityStatus.ts` | P2 | 4 |
-| `client/src/composables/admin/useRelationshipCollection.ts` | P2 | 4 |
-| `client/src/composables/admin/useSelectDomTargets.ts` | P2 | 4 |
-| `client/src/composables/booking/selectionCard/useSelectionCard.ts` | P2 | 4 |
-| `client/src/composables/booking/selectionCard/useSelectionCardGroupState.ts` | P2 | 4 |
-| `client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts` | P2 | 4 |
-| `client/src/composables/booking/selectionCard/useSelectionCardState.ts` | P2 | 4 |
-| `client/src/composables/booking/useInstanceComponents.ts` | P2 | 4 |
-| `client/src/composables/booking/usePropertyDetailsLogic.ts` | P2 | 4 |
-| `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` | P2 | 2 |
-| `client/src/components/booking/DifferentialGraph.vue` | P2 | 2 |
-| `client/src/components/common/AddressAutocomplete.vue` | P2 | 2 |
-| `client/src/composables/admin/useEntityCardFieldConfiguration.ts` | P2 | 2 |
-| `client/src/composables/admin/useEntityDragHandlers.ts` | P2 | 2 |
-
 
 ## Notes
 

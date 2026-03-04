@@ -7,19 +7,17 @@
 
 Generated from `client/.audit-reports/deprecation-audit.json`.
 
-- Files with findings: **2**
-- Requiring review: **3**
+- Files with findings: **0**
+- Requiring review: **0**
 - Allowed exceptions: **0**
 
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **3**
+- Runtime legacy accommodation: **0**
 
-## Top 2 files (ranked by score)
+## Top 0 files (ranked by score)
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/composables/admin/useInstanceBulkEdit.ts` | P1 | 4 | 0 | 2 |
-| `client/src/composables/admin/useEntityCardSaveHandlers.ts` | P2 | 2 | 0 | 1 |
 
 ## Notes
 

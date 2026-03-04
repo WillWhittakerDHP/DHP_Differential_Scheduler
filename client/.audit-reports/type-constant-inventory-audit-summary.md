@@ -11,21 +11,21 @@ Generated from `client/.audit-reports/type-constant-inventory-audit.json`.
 
 | Category | Count |
 | --- | ---: |
-| Type files | 264 |
+| Type files | 268 |
 | Constant files | 23 |
-| Config files | 29 |
-| Files with inline type exports | 48 |
-| Annotated | 65 |
-| Unannotated | 251 |
+| Config files | 34 |
+| Files with inline type exports | 102 |
+| Annotated | 325 |
+| Unannotated | 0 |
 
 ## Classification Issues
 
 | Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 31 |
-| Configs with factory functions | 5 |
-| Duplicate type names | 4 |
+| Inline types in composables | 71 |
+| Configs with factory functions | 8 |
+| Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
 
 - Full report: `client/.audit-reports/type-constant-inventory-audit.md`. Run `npm run audit:type-constant-inventory` to refresh.

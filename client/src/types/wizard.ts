@@ -73,7 +73,7 @@ export interface WizardComputedProperties {
   accAvailability: ComputedRef<BookingBlockInstance[]>
 }
 
-/** Flat shape provided/injected. isQuoteMode is derived from wizardMode (wizardMode === 'quote') for backward compatibility. */
+/** Flat shape provided/injected. isQuoteMode is a convenience derived from wizardMode (wizardMode === 'quote'). */
 export type UseBookingWizardReturn = {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>

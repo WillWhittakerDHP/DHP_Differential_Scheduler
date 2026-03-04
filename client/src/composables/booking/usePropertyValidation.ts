@@ -74,10 +74,14 @@ export function usePropertyValidation(params: UsePropertyValidationParams): UseP
     zipCode: stepReturn.validationRules.value.zipCode,
   }))
 
-  const propertySizeValidationRules = computed<PropertySizeValidationRules>(() => ({
-    propertySize: stepReturn.validationRules.value.propertySize,
-    numberOfUnits: stepReturn.validationRules.value.numberOfUnits ?? [],
-  }))
+  const NO_RULES: ValidationRule[] = []
+  const propertySizeValidationRules = computed<PropertySizeValidationRules>(() => {
+    const rules = stepReturn.validationRules.value
+    return {
+      propertySize: rules.propertySize,
+      numberOfUnits: rules.numberOfUnits !== undefined ? rules.numberOfUnits : NO_RULES,
+    }
+  })
 
   return {
     ...stepReturn,

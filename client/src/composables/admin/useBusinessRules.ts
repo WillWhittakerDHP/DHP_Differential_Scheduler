@@ -30,8 +30,8 @@ const logger = createLogger('useBusinessRules')
 
 export interface UseBusinessRulesReturn {
   rules: Ref<BusinessRule[]>
-  loading: ReturnType<typeof ref<boolean>>
-  saving: ReturnType<typeof ref<boolean>>
+  loading: Ref<boolean>
+  saving: Ref<boolean>
   error: Ref<string | null>
   success: Ref<string | null>
   fetchRules: (filters?: { blockInstanceId?: GlobalEntityId; ruleType?: RuleType; active?: boolean }) => Promise<void>

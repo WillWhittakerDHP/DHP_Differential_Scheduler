@@ -9,18 +9,18 @@ Generated from `client/.audit-reports/inventory-audit.json`.
 
 ## Summary
 
-- Composables: **273** | Utilities: **122** | Components: **66**
-- Annotated: **461** | Unannotated: **0**
+- Composables: **273** | Utilities: **135** | Components: **72**
+- Annotated: **480** | Unannotated: **0**
 
 | Reuse tier | Count |
 | --- | ---: |
-| feature | 336 |
-| shared | 121 |
+| feature | 359 |
+| shared | 117 |
 | local | 4 |
 
 | Classification issue | Count |
 | --- | ---: |
-| Utils in disguise (composables with no Vue reactivity) | 7 |
-| Composables in disguise (utils importing Vue) | 1 |
+| Utils in disguise (composables with no Vue reactivity) | 8 |
+| Composables in disguise (utils importing Vue) | 6 |
 
 - Full report: `client/.audit-reports/inventory-audit.md`.

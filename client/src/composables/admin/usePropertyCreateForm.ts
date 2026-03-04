@@ -20,7 +20,7 @@ export function usePropertyCreateForm(
   const mlsNumber = computed(() => asEmptyString(newProperty.value?.mlsNumber))
   const bedrooms = computed(() => newProperty.value?.bedrooms ?? undefined)
   const bathrooms = computed(() => newProperty.value?.bathrooms ?? undefined)
-  const foundationAccess = computed(() => newProperty.value?.foundationAccess ?? '')
+  const foundationAccess = computed(() => asEmptyString(newProperty.value?.foundationAccess))
   const additionalUnits = computed(() => newProperty.value?.additionalUnits ?? undefined)
 
   return {

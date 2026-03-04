@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-27T04:50:23.606Z",
-  "totalScanned": 1087,
+  "generatedAt": "2026-03-04T15:30:17.547Z",
+  "totalScanned": 1109,
   "ruleset": [
     {
       "ruleId": "nested-partial",
@@ -102,40 +102,10 @@
       "recommendedFix": "Merge re-exports into source or consumer"
     }
   ],
-  "findings": [
-    {
-      "file": "client/src/composables/admin/useBusinessRules.ts",
-      "lineNumber": 33,
-      "ruleId": "typeof-ref-return",
-      "snippet": "loading: ReturnType<typeof ref<boolean>>",
-      "message": "Use Ref directly",
-      "fixHint": "Use Ref directly",
-      "isExported": true,
-      "usageCount": 0
-    },
-    {
-      "file": "client/src/composables/admin/useBusinessRules.ts",
-      "lineNumber": 34,
-      "ruleId": "typeof-ref-return",
-      "snippet": "saving: ReturnType<typeof ref<boolean>>",
-      "message": "Use Ref directly",
-      "fixHint": "Use Ref directly",
-      "isExported": true,
-      "usageCount": 0
-    }
-  ],
-  "files": [
-    {
-      "file": "client/src/composables/admin/useBusinessRules.ts",
-      "score": 4,
-      "priority": "P2"
-    }
-  ],
+  "findings": [],
+  "files": [],
   "repairWaves": {
-    "local": [
-      0,
-      1
-    ],
+    "local": [],
     "lowFanIn": [],
     "highFanIn": []
   }

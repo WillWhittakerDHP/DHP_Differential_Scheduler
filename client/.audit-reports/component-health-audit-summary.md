@@ -11,7 +11,7 @@ Generated from `client/.audit-reports/component-health-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Components scanned | 113 |
+| Components scanned | 2 |
 | Findings | 0 |
 | Files with findings | 0 |
 

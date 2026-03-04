@@ -22,7 +22,7 @@ const statusItems = computed(() => {
 
 const modelValue = computed<AppointmentStatus | null>({
   get: () => (props.editedStatus ?? null) as AppointmentStatus | null,
-  set: (v: AppointmentStatus | null) => emit('update:editedStatus', (v ?? '') as string),
+  set: (v: AppointmentStatus | null) => emit('update:editedStatus', v !== null ? (v as string) : ''),
 })
 </script>
 

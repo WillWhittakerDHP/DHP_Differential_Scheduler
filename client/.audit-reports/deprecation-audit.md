@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **2**
-- Requiring review (Tier 1): **2**
+- Files with findings: **0**
+- Requiring review (Tier 1): **0**
 - Allowed (with justification): 0
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **2**
-- Tier 1 findings: 2 (annotations: 0, legacy-keyword: 0, unhelpful-default: 2)
+- Runtime legacy accommodation: **0**
+- Tier 1 findings: 0 (annotations: 0, legacy-keyword: 0, unhelpful-default: 0)
 
 ## Rules
 
@@ -83,22 +83,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/components/booking/steps/PropertyDetailsSection.vue` | P2 | 2 | 0 | 1 |
-| `client/src/views/admin/tabs/components/AppointmentStatusCell.vue` | P2 | 2 | 0 | 1 |
 
 ## Per-file findings
-
-### `client/src/components/booking/steps/PropertyDetailsSection.vue` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@59: const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
-```
-
-### `client/src/views/admin/tabs/components/AppointmentStatusCell.vue` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@25: set: (v: AppointmentStatus | null) => emit('update:editedStatus', (v ?? '') as string),
-```
 
 ## Notes
 

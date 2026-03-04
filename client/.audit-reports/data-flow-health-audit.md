@@ -4,15 +4,15 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-02-27T04:50:23.871Z
+Generated: 2026-03-04T15:30:18.126Z
 
 ## Overview
 
-- Files scanned: **412**
-- Findings: **0**
-- Files with findings: **0**
+- Files scanned: **426**
+- Findings: **3**
+- Files with findings: **2**
 - Phase A (per-file) findings: **0**
-- Phase B (cross-file) findings: **0**
+- Phase B (cross-file) findings: **3**
 
 ## Input Audit Status
 
@@ -37,6 +37,13 @@ Generated: 2026-02-27T04:50:23.871Z
 | orphaned-injection-key | B | P2 | 1 | Provide key with no matching inject or vice versa. |
 | bidirectional-data-channel | B | info | 0 | Same data accessible via both inject and direct composable import. |
 
+## By rule
+
+| Rule | Phase | Severity | Count |
+| --- | --- | --- | ---: |
+| provide-inject-depth | B | P1 | 2 |
+| bidirectional-data-channel | B | info | 1 |
+
 ## Flow Maps Summary
 
 - Provide sites: **28**
@@ -47,9 +54,24 @@ Generated: 2026-02-27T04:50:23.871Z
 
 ## Repair Waves
 
-- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 0 finding(s)
+- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 3 finding(s)
 - **Wave 2 — Moderate** (affectedFiles 3–5): 0 finding(s)
 - **Wave 3 — Systemic** (affectedFiles ≥ 6): 0 finding(s)
+
+## Top 2 files by score
+
+| File | Priority | Score | Affected |
+| --- | --- | ---: | ---: |
+| `client/src/composables/admin/useEventInstancesSection.ts` | P2 | 2 | 2 |
+| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | P2 | 2 | 2 |
+
+## All findings (first 60)
+
+| File | Line | Rule | Phase | Message | Affected |
+| --- | ---: | --- | --- | --- | ---: |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 40 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
 
 ## Notes
 

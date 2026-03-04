@@ -90,7 +90,7 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
       success(APPOINTMENTS_TABLE_UI.CONFIRM_SUCCESS)
       return true
     } catch (err) {
-      logger.error('Failed to confirm appointment', { error: err, appointmentId: id })
+      logger.error(APPOINTMENTS_TABLE_UI.CONFIRM_ERROR, { error: err, appointmentId: id })
       error(APPOINTMENTS_TABLE_UI.CONFIRM_ERROR)
       return false
     }

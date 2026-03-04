@@ -35,7 +35,7 @@ export function usePropertyTypeSelectWidth(
   watch(
     () => params.availablePropertyTypes.value,
     (list) => {
-      const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
+      const labels = list.map((i) => i.name).filter(Boolean) as string[]
       if (labels.length === 0) {
         propertyTypeSelectWidthPx.value = MIN_PROPERTY_TYPE_WIDTH_PX
         return

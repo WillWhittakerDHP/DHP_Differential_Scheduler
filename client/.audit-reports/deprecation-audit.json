@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-02-27T04:50:20.865Z",
+  "generatedAt": "2026-03-04T15:30:11.318Z",
   "check": "Deprecation",
-  "totalScanned": 1087,
+  "totalScanned": 1109,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 2,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -25,58 +25,7 @@
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "id": "client__src__components__booking__steps__PropertyDetailsSection.vue",
-      "repoPath": "client/src/components/booking/steps/PropertyDetailsSection.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 59,
-          "line": "const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 59,
-          "line": "const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__views__admin__tabs__components__AppointmentStatusCell.vue",
-      "repoPath": "client/src/views/admin/tabs/components/AppointmentStatusCell.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 25,
-          "line": "set: (v: AppointmentStatus | null) => emit('update:editedStatus', (v ?? '') as string),",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 25,
-          "line": "set: (v: AppointmentStatus | null) => emit('update:editedStatus', (v ?? '') as string),",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    }
-  ],
+  "files": [],
   "ruleset": [
     {
       "ruleId": "jsdoc-deprecated",

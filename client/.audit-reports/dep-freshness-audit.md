@@ -1,11 +1,11 @@
 # Dependency Freshness Audit (Generated)
 
-Generated at: 2026-02-26T00:04:10.589Z
+Generated at: 2026-03-04T15:30:30.735Z
 
 ## Summary
 
-- Total outdated: **2**
-- Major behind: **1** | Minor: **1** | Patch: **0**
+- Total outdated: **9**
+- Major behind: **1** | Minor: **2** | Patch: **6**
 
 ## Major behind (top 20)
 
@@ -17,4 +17,5 @@ Generated at: 2026-02-26T00:04:10.589Z
 
 | Package | Dependent | Current | Latest |
 | --- | --- | --- | --- |
+| @vue/tsconfig | client | 0.8.1 | 0.9.0 |
 | pg | server | 8.18.0 | 8.19.0 |

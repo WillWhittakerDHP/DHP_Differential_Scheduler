@@ -120,7 +120,8 @@ export function useMoveableAvailabilityData(
           endTime: defaultDeadlineTime(innerBoundary, bufferMinutes, duration),
         }
       }
-    } catch {
+    } catch (err) {
+      logger.error('Moveable options computation failed', err)
       moveableOptions.value = null
       selectedMoveableDay.value = null
     } finally {
@@ -154,7 +155,8 @@ export function useMoveableAvailabilityData(
           duration,
           dataSource: 'real',
         })
-        moveableDaySlots.value = data.slotsByDay[day] ?? []
+        const daySlots = data.slotsByDay[day]
+        moveableDaySlots.value = Array.isArray(daySlots) ? daySlots : []
       } catch (err) {
         logger.error('Moveable day fetch failed', err)
         moveableDaySlots.value = []

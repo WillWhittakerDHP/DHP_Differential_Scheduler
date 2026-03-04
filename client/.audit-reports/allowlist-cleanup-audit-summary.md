@@ -14,7 +14,7 @@ Generated from `client/.audit-reports/allowlist-cleanup-audit.json`.
 | Audit types requested for suppression hits | 2 |
 | Suppression-hit sources processed | 2 |
 | Missing audit JSON inputs | 0 |
-| Prune suggestions | 0 |
+| Prune suggestions | 1 |
 | Missing specific file references | 0 |
 | Never-permissible allowlist violations | 0 |
 

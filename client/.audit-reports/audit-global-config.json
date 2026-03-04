@@ -95,24 +95,8 @@
       ]
     },
     "error-handling": {
-      "patterns": [
-        {
-          "glob": "server/src/scripts/run-migrations.mjs",
-          "ruleIds": ["*"],
-          "reason": "CLI script; console output intentional for migration progress"
-        },
-        {
-          "glob": "server/src/routes/**/*.ts",
-          "ruleIds": ["catch-without-logger"],
-          "reason": "Router catch blocks delegate to handleRouteError which logs via routerErrorHandler"
-        }
-      ],
-      "specific": [
-        { "file": "client/src/types/datetime.ts", "ruleIds": ["console-in-catch", "catch-without-logger"], "reason": "JSDoc example only; no executable catch in this file" },
-        { "file": "client/src/views/admin/tabs/components/PropertyCreateForm.vue", "ruleId": "eslint-disable", "reason": "Create form mutates parent Ref by design; vue/no-mutating-props disabled for form binding pattern" },
-        { "file": "client/src/views/admin/tabs/components/ShapeCardList.vue", "ruleId": "eslint-disable", "reason": "Create form mutates parent Ref by design; vue/no-mutating-props disabled for form binding pattern" },
-        { "file": "client/src/views/admin/tabs/components/UserCreateForm.vue", "ruleId": "eslint-disable", "reason": "Create form mutates parent Ref by design; vue/no-mutating-props disabled for form binding pattern" }
-      ]
+      "patterns": [],
+      "specific": []
     },
     "deprecation": {
       "patterns": [
@@ -244,20 +228,20 @@
         { "file": "client/src/composables/usePartInstanceData.ts", "ruleIds": ["*"], "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)" },
         { "file": "client/src/composables/useSelectOptions.ts", "ruleIds": ["*"], "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)" },
         { "file": "client/src/constants/entities.ts", "ruleIds": ["*"], "reason": "Canonical entity key constants; high fan-in intentional (pre-typecheck actionable-zero allowlist)" },
-        { "file": "client/src/composables/useAppointment", "ruleIds": ["*"], "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)" },
-        { "file": "client/src/composables/useProperty", "ruleIds": ["*"], "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)" },
-        { "file": "client/src/composables/useUser", "ruleIds": ["*"], "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)" },
-        { "file": "client/src/composables/admin/useBusinessRulesTab", "ruleIds": ["*"], "reason": "Tab orchestrator; depth accepted (Wave 4 Batch D)" },
-        { "file": "client/src/composables/admin/useEntityCardSaveAndActions", "ruleIds": ["*"], "reason": "Entity card actions thin wrapper; depth accepted (Wave 4 Batch D)" },
-        { "file": "client/src/composables/admin/usePartInstanceCollection", "ruleIds": ["*"], "reason": "Structural collection composable; depth accepted (Wave 4 Batch D)" },
-        { "file": "client/src/composables/admin/useRelationshipCollection", "ruleIds": ["*"], "reason": "Relationship collection composable; depth accepted (Wave 4 Batch D)" },
-        { "file": "client/src/composables/booking/useAvailabilityOrchestrator", "ruleIds": ["*"], "reason": "Booking orchestrator; depth accepted (Wave 4 Batch D)" },
-        { "file": "client/src/composables/booking/useDevPanelsAppointmentData", "ruleIds": ["*"], "reason": "Dev panels data wrapper; depth accepted (Wave 4 Batch D)" },
-        { "file": "client/src/composables/admin/tables/useAppointmentsTableModel", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
-        { "file": "client/src/composables/admin/tables/usePropertiesTableModel", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
-        { "file": "client/src/composables/admin/tables/useUsersTableModel", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
-        { "file": "client/src/composables/booking/useAppointmentLoader", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
-        { "file": "client/src/composables/admin/useEntityCardFormSetup", "ruleIds": ["*"], "reason": "Entity card form setup; depth accepted (remaining repairs Batch 4)" }
+        { "file": "client/src/composables/useAppointment.ts", "ruleIds": ["*"], "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)" },
+        { "file": "client/src/composables/useProperty.ts", "ruleIds": ["*"], "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)" },
+        { "file": "client/src/composables/useUser.ts", "ruleIds": ["*"], "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)" },
+        { "file": "client/src/composables/admin/useBusinessRulesTab.ts", "ruleIds": ["*"], "reason": "Tab orchestrator; depth accepted (Wave 4 Batch D)" },
+        { "file": "client/src/composables/admin/useEntityCardSaveAndActions.ts", "ruleIds": ["*"], "reason": "Entity card actions thin wrapper; depth accepted (Wave 4 Batch D)" },
+        { "file": "client/src/composables/admin/usePartInstanceCollection.ts", "ruleIds": ["*"], "reason": "Structural collection composable; depth accepted (Wave 4 Batch D)" },
+        { "file": "client/src/composables/admin/useRelationshipCollection.ts", "ruleIds": ["*"], "reason": "Relationship collection composable; depth accepted (Wave 4 Batch D)" },
+        { "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts", "ruleIds": ["*"], "reason": "Booking orchestrator; depth accepted (Wave 4 Batch D)" },
+        { "file": "client/src/composables/booking/useDevPanelsAppointmentData.ts", "ruleIds": ["*"], "reason": "Dev panels data wrapper; depth accepted (Wave 4 Batch D)" },
+        { "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
+        { "file": "client/src/composables/admin/tables/usePropertiesTableModel.ts", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
+        { "file": "client/src/composables/admin/tables/useUsersTableModel.ts", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
+        { "file": "client/src/composables/booking/useAppointmentLoader.ts", "ruleIds": ["*"], "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)" },
+        { "file": "client/src/composables/admin/useEntityCardFormSetup.ts", "ruleIds": ["*"], "reason": "Entity card form setup; depth accepted (remaining repairs Batch 4)" }
       ]
     },
     "file-cohesion": {
@@ -453,7 +437,8 @@
       "patterns": [],
       "specific": [
         { "file": "server/src/db/config/database.mjs", "ruleId": "hoist", "lineRange": [1, 35], "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention" },
-        { "file": "client/src/composables/booking/useSelectionCardState.ts", "ruleIds": ["*"], "reason": "Inline 'local' is Vue selection card plugin type; different semantic domain from server constant (hotspot triage allowlist)" }
+        { "file": "client/src/composables/booking/useSelectionCardState.ts", "ruleIds": ["*"], "reason": "Inline 'local' is Vue selection card plugin type; different semantic domain from server constant (hotspot triage allowlist)" },
+        { "file": "server/src/routes/internal/index.ts", "ruleId": "hoist", "reason": "Express route mount path '/business-rules'; server cannot import client constant — separate concern from client BUSINESS_RULES_API_BASE" }
       ]
     },
     "lint": { "patterns": [], "specific": [] },

@@ -11,7 +11,7 @@ Generated from `client/.audit-reports/type-escape-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Total scanned | 1057 |
+| Total scanned | 9 |
 | Findings | 0 |
 | Files with findings | 0 |
 

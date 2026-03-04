@@ -601,7 +601,7 @@ computed@19: const squareFootage = computed(() => newProperty.value?.squareFoota
 computed@20: const mlsNumber = computed(() => asEmptyString(newProperty.value?.mlsNumber))
 computed@21: const bedrooms = computed(() => newProperty.value?.bedrooms ?? undefined)
 computed@22: const bathrooms = computed(() => newProperty.value?.bathrooms ?? undefined)
-computed@23: const foundationAccess = computed(() => newProperty.value?.foundationAccess ?? '')
+computed@23: const foundationAccess = computed(() => asEmptyString(newProperty.value?.foundationAccess))
 computed@24: const additionalUnits = computed(() => newProperty.value?.additionalUnits ?? undefined)
 ```
 
@@ -1857,8 +1857,8 @@ watch@70: watch(loadedWizardState, (newState) => {
 ```
 ref@33: const propertyTypeSelectWidthPx = ref(MIN_PROPERTY_TYPE_WIDTH_PX)
 watch@35: watch(
-map@38: const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
-filter@38: const labels = (list ?? []).map((i) => i.name).filter(Boolean) as string[]
+map@38: const labels = list.map((i) => i.name).filter(Boolean) as string[]
+filter@38: const labels = list.map((i) => i.name).filter(Boolean) as string[]
 ```
 
 ### `client/src/composables/booking/useWizardStepSync.ts`

@@ -39,7 +39,7 @@ if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject(loadedWizardStateKey, ref(null))
+const loadedWizardState = inject(loadedWizardStateKey) ?? null
 
 // PATTERN: Composable provides reactive computed property for selection
 const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
