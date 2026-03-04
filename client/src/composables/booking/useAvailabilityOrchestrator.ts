@@ -34,7 +34,8 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     propertyDetailsStepData,
     displayedMonth,
     updateDisplayedMonth,
-    appointmentDurationRef
+    appointmentDurationRef,
+    availabilityStepData
   } = params
 
   const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
@@ -61,7 +62,8 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   } = useAvailabilityDefaults({
     loadedWizardState,
     timeSlots: timeSlotsForDefaults,
-    isDifferentialService: isEffectivelyDifferentialForDefaults
+    isDifferentialService: isEffectivelyDifferentialForDefaults,
+    restoreFrom: availabilityStepData
   })
 
   const today = new Date()

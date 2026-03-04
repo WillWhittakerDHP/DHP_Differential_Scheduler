@@ -15,6 +15,7 @@ import { useContactsValidation } from '@/composables/booking/useContactsValidati
 import ContactFormSection from './ContactFormSection.vue'
 
 const loadedWizardState = inject(loadedWizardStateKey)
+const parentContactsStepData = inject(contactsStepDataKey) ?? null
 
 const wizard = inject(wizardKey)
 
@@ -30,7 +31,8 @@ const requiresAgent = computed(() => {
 
 // PATTERN: Composable handles all contact form data and optional section visibility
 const contactsStepData = useContactsStepData({
-  loadedWizardState
+  loadedWizardState,
+  restoreFrom: parentContactsStepData
 })
 
 const {

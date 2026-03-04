@@ -2,6 +2,9 @@
 // PATTERN: Thin component; orchestration in useBookingWizardSetup (vue-architecture audit).
 import { computed } from 'vue'
 import { useBookingWizardSetup } from '@/composables/booking/useBookingWizardSetup'
+import { buildQuoteLink } from '@/utils/booking/buildClientLinks'
+import { useNotification } from '@/composables/useNotification'
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 
 const {
   steps,
@@ -24,15 +27,35 @@ const {
   update,
   isLoadingAppointment,
   handleLoadAppointment,
+  loadedAppointmentId,
   stepItemClass,
   stepItemStyle,
 } = useBookingWizardSetup()
+
+const { success, error: showError } = useNotification()
+
+/** When viewing an existing quote, show Copy quote link instead of Submit. */
+const showCopyQuoteLink = computed(
+  () => isQuoteMode.value && !!loadedAppointmentId.value && isLastStep.value
+)
 
 const submitButtonLabel = computed(() => {
   if (!isLastStep.value) return 'Next'
   if (create.isPending.value || update.isPending.value) return isUpdateSubmit.value ? 'Updating...' : 'Creating...'
   return isUpdateSubmit.value ? 'Update appointment' : 'Submit'
 })
+
+async function handleCopyQuoteLink(): Promise<void> {
+  const id = loadedAppointmentId.value
+  if (!id) return
+  try {
+    const url = buildQuoteLink(id)
+    await window.navigator.clipboard.writeText(url)
+    success(APPOINTMENTS_TABLE_UI.LINK_COPIED)
+  } catch (err) {
+    showError(err instanceof Error ? err.message : 'Failed to copy link')
+  }
+}
 </script>
 
 <template>
@@ -141,6 +164,15 @@ const submitButtonLabel = computed(() => {
                 </VTooltip>
 
                 <VBtn
+                  v-if="showCopyQuoteLink"
+                  color="primary"
+                  prepend-icon="tabler-link"
+                  @click="handleCopyQuoteLink"
+                >
+                  {{ APPOINTMENTS_TABLE_UI.COPY_QUOTE_LINK }}
+                </VBtn>
+                <VBtn
+                  v-else
                   :color="isLastStep ? 'success' : 'primary'"
                   :prepend-icon="isLastStep ? 'tabler-check' : undefined"
                   :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"

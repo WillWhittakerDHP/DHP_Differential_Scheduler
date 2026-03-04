@@ -40,6 +40,7 @@ if (!wizard) {
 }
 
 const loadedWizardState = inject(loadedWizardStateKey) ?? null
+const propertyDetailsStepData = inject(propertyDetailsStepDataKey) ?? null
 
 // PATTERN: Composable provides reactive computed property for selection
 const { selectedPropertyTypeBlockId } = usePropertyTypeBlockSelection({
@@ -124,7 +125,8 @@ usePropertyFormWatchers({
     suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds
   },
   loadedWizardState,
-  isAddressExpanded
+  isAddressExpanded,
+  restoreFrom: propertyDetailsStepData
 })
 
 // PATTERN: Composable provides validation functions and computed properties

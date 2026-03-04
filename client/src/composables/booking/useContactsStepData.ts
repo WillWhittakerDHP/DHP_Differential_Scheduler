@@ -5,6 +5,7 @@ import type { Ref } from 'vue'
 import { ref, watch, computed } from 'vue'
 import { createLogger } from '@/utils/logger'
 import type { ContactInfo, UseContactsStepDataOptions, UseContactsStepDataReturn } from '@/types/booking/contactsStepData'
+import type { ContactsStepData } from '@/types/wizard'
 import type { WizardStateData } from '@/types/booking/wizardStateData'
 
 const logger = createLogger('useContactsStepData')
@@ -86,10 +87,41 @@ function loadContactsFromWizardState(newState: WizardStateData | null, refs: Con
   }
 }
 
+function restoreContactsFromStepData(data: ContactsStepData, refs: ContactRefs): void {
+  refs.clientInfo.value = {
+    firstName: contactField(data.clientInfo.firstName, 'client.firstName'),
+    lastName: contactField(data.clientInfo.lastName, 'client.lastName'),
+    email: contactField(data.clientInfo.email, 'client.email'),
+  }
+  refs.agentInfo.value = {
+    firstName: contactField(data.agentInfo.firstName, 'agent.firstName'),
+    lastName: contactField(data.agentInfo.lastName, 'agent.lastName'),
+    email: contactField(data.agentInfo.email, 'agent.email'),
+  }
+  refs.anotherClientInfo.value = {
+    firstName: contactField(data.anotherClientInfo.firstName, 'anotherClient.firstName'),
+    lastName: contactField(data.anotherClientInfo.lastName, 'anotherClient.lastName'),
+    email: contactField(data.anotherClientInfo.email, 'anotherClient.email'),
+  }
+  refs.transactionManagerInfo.value = {
+    firstName: contactField(data.transactionManagerInfo.firstName, 'transactionManager.firstName'),
+    lastName: contactField(data.transactionManagerInfo.lastName, 'transactionManager.lastName'),
+    email: contactField(data.transactionManagerInfo.email, 'transactionManager.email'),
+  }
+  refs.sellerInfo.value = {
+    firstName: contactField(data.sellerInfo.firstName, 'seller.firstName'),
+    lastName: contactField(data.sellerInfo.lastName, 'seller.lastName'),
+    email: contactField(data.sellerInfo.email, 'seller.email'),
+  }
+  refs.showAnotherClient.value = data.showAnotherClient
+  refs.showTransactionManager.value = data.showTransactionManager
+  refs.showSeller.value = data.showSeller
+}
+
 export function useContactsStepData(
   options: UseContactsStepDataOptions = {}
 ): UseContactsStepDataReturn {
-  const { loadedWizardState } = options
+  const { loadedWizardState, restoreFrom } = options
 
   const clientInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const agentInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
@@ -132,6 +164,14 @@ export function useContactsStepData(
     watch(loadedWizardState, (newState) => loadContactsFromWizardState(newState ?? null, contactRefs), {
       immediate: true,
     })
+  }
+
+  if (restoreFrom) {
+    watch(restoreFrom, (data) => {
+      if (data) {
+        restoreContactsFromStepData(data, contactRefs)
+      }
+    }, { immediate: true })
   }
 
   const stepData = computed(() => ({

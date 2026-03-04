@@ -6,6 +6,7 @@ PATTERN: Composable that manages sel...
 import { ref, computed, watch } from 'vue'
 import { getFirstAvailabilityDate, getTodayDate } from '@/utils/time/timeFormatting'
 import { matchLoadedTimeSlots } from '@/composables/booking/useTimeSlotMatching'
+import { findMatchingTimeSlot } from '@/utils/booking/timeSlotMatching'
 import { toISO8601Date } from '@/utils/datetime'
 import type { TimeSlot } from '@/types/appointment'
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -16,17 +17,22 @@ import type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } fr
 WHY: Centralizes defaulting logic and...
  */
 export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions): UseAvailabilityDefaultsReturn {
-  const { loadedWizardState, timeSlots, isDifferentialService } = options
+  const { loadedWizardState, timeSlots, isDifferentialService, restoreFrom } = options
 
   /**
 Selected date state
 WHY: Need reactive state for date selection
-FIX:...
+FIX: Restore from parent availabilityStepData when returning to step (wizard persistence).
    */
-  const selectedDate = ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>({ 
-    start: toISO8601Date(getTodayDate()), 
-    end: null 
-  })
+  const getInitialDate = (): { start: ISO8601Date | null; end: ISO8601Date | null } => {
+    const restored = restoreFrom?.value?.candidateDate
+    if (restored?.start) {
+      const start = restored.start.includes('T') ? restored.start.split('T')[0] : restored.start
+      return { start: start as ISO8601Date, end: (restored.end as ISO8601Date | null) ?? null }
+    }
+    return { start: toISO8601Date(getTodayDate()), end: null }
+  }
+  const selectedDate = ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>(getInitialDate())
 
   /**
    * Start time type state
@@ -61,11 +67,38 @@ Per-date slot selection storage
   })
 
   /**
+   * Restore slot selection from parent when returning to step (wizard persistence).
+   * Runs when restoreFrom has candidateTimeSlots and timeSlots are available.
+   */
+  let slotRestored = false
+  watch(
+    [() => restoreFrom?.value, timeSlots, selectedDate],
+    ([restoreVal, slots, date]) => {
+      const data = restoreVal as { candidateTimeSlots?: Array<{ startTime: string }> } | null | undefined
+      const slotList = (slots as TimeSlot[] | null) ?? []
+      const dateStart = (date as { start: string | null })?.start
+      if (!slotRestored && data?.candidateTimeSlots?.length && slotList.length && dateStart) {
+        const firstSlot = data.candidateTimeSlots[0]
+        const matched = findMatchingTimeSlot(firstSlot.startTime, slotList)
+        if (matched) {
+          const buttonIndex = slotList.indexOf(matched)
+          if (buttonIndex >= 0) {
+            slotSelectionsByDate.value = { ...slotSelectionsByDate.value, [dateStart]: buttonIndex }
+            slotRestored = true
+          }
+        }
+      }
+    },
+    { immediate: true }
+  )
+
+  /**
    * Watch loaded wizard state and reset selectedDate to today
-   * NOTE: This ensures we always calculate slots for today/future, not past dates
+   * NOTE: This ensures we always calculate slots for today/future, not past dates.
+   * Skip when restoring from parent (wizard persistence) so we don't overwrite restored date.
    */
   watch(loadedWizardState, () => {
-    // PATTERN: Reset selectedDate to today whenever loadedWizardState changes
+    if (restoreFrom?.value?.candidateDate?.start) return
     const today = toISO8601Date(getTodayDate())
     if (selectedDate.value.start !== today) {
       selectedDate.value = {

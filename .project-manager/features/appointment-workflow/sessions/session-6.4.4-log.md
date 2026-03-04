@@ -78,6 +78,13 @@ Create a reusable required confirmation modal shell and migrate session-specific
 
 
 
+## Retroactive fixes (applied after session 6.4.4 completed)
+
+### Moveable modal slot constraint (committed with task 6.5.4.4)
+The moveable modal's slot grid was not filtering slots against the selected appointment's end time + appointment buffer. `useMoveableAvailabilityData.ts` now always fetches settings to expose `afterBufferMinutes` (based on `buffers.appointment.placement`). `useMoveablePartsScheduling.ts` filters `moveableServerSlotsForDay` to exclude slots before `innerBoundary + afterBufferMinutes`. No changes to `extractInnerBoundary`, `moveableOptions.innerBoundary` semantics, or the main availability grid. See `task-6.5.4.4-planning.md` for full details.
+
+---
+
 ## Test Status
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.

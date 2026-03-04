@@ -12,18 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-04T18:46:02.573Z**
+- Generated at: **2026-03-04T18:49:13.028Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 1**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P2 | `TS6133-ts6133-handlecopyquotelink-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +35,11 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/views/admin/tabs/components/AppointmentActionsCell.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS6133@22:16 'handleCopyQuoteLink' is declared but its value is never read.
+```

@@ -4,7 +4,44 @@
 WHY: Moves MLS data syncing and load...
  */
 import { watch } from 'vue'
+import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { UsePropertyFormWatchersParams, UsePropertyFormWatchersReturn } from '@/types/booking/propertyFormWatchers'
+
+/** Restore form fields from PropertyDetailsData (wizard persistence when returning to step). */
+function restoreFormFromDetails(
+  formData: UsePropertyFormWatchersParams['formData'],
+  details: PropertyDetailsData,
+  isAddressExpanded: { value: boolean }
+): void {
+  formData.address.value = typeof details.address === 'string' ? details.address : ''
+  formData.unit.value = typeof details.unit === 'string' ? details.unit : ''
+  formData.city.value = typeof details.city === 'string' ? details.city : ''
+  formData.state.value = typeof details.state === 'string' ? details.state : ''
+  formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
+  formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
+  formData.candidatePlaceId.value = typeof details.candidatePlaceId === 'string' ? details.candidatePlaceId : undefined
+  formData.candidateCoordinates.value = details.candidateCoordinates ?? undefined
+  formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
+  formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null
+  formData.squareFootage.value = typeof details.squareFootage === 'number' ? details.squareFootage : null
+  formData.bedrooms.value = typeof details.bedrooms === 'number' ? details.bedrooms : null
+  formData.bathrooms.value = typeof details.bathrooms === 'number' ? details.bathrooms : null
+  formData.additionalUnits.value = typeof details.additionalUnits === 'number' ? details.additionalUnits : null
+  formData.foundationAccess.value =
+    typeof details.foundationAccess === 'string' &&
+    (details.foundationAccess === 'basement' || details.foundationAccess === 'crawlspace' || details.foundationAccess === 'slab')
+      ? (details.foundationAccess as 'basement' | 'crawlspace' | 'slab')
+      : null
+  if (formData.source) {
+    formData.source.value = typeof details.source === 'string' ? (details.source as 'api' | 'manual' | 'client') : undefined
+  }
+  if (formData.suggestedBlockInstanceIds) {
+    formData.suggestedBlockInstanceIds.value = Array.isArray(details.suggestedBlockInstanceIds) ? details.suggestedBlockInstanceIds : []
+  }
+  if (details.address) {
+    isAddressExpanded.value = true
+  }
+}
 
 /**
  * WHY: usePropertyFormWatchers composable
@@ -17,7 +54,8 @@ export function usePropertyFormWatchers(
   const {
     formData,
     loadedWizardState,
-    isAddressExpanded
+    isAddressExpanded,
+    restoreFrom
   } = params
 
   /**
@@ -39,32 +77,32 @@ export function usePropertyFormWatchers(
   if (loadedWizardState) {
     watch(loadedWizardState, (newState) => {
       if (newState?.propertyDetails) {
-        const details = newState.propertyDetails
-        formData.address.value = typeof details.address === 'string' ? details.address : ''
-        formData.unit.value = typeof details.unit === 'string' ? details.unit : ''
-        formData.city.value = typeof details.city === 'string' ? details.city : ''
-        formData.state.value = typeof details.state === 'string' ? details.state : ''
-        formData.zipCode.value = typeof details.zipCode === 'string' ? details.zipCode : ''
-        formData.mlsNumber.value = typeof details.mlsNumber === 'string' ? details.mlsNumber : ''
-        
-        formData.candidatePlaceId.value = typeof details.candidatePlaceId === 'string' ? details.candidatePlaceId : undefined
-        formData.candidateCoordinates.value = details.candidateCoordinates || undefined
-        
-        formData.propertySize.value = typeof details.propertySize === 'number' ? details.propertySize : null
-        formData.numberOfUnits.value = typeof details.numberOfUnits === 'number' ? details.numberOfUnits : null
-        formData.squareFootage.value = typeof details.squareFootage === 'number' ? details.squareFootage : null
-        formData.bedrooms.value = typeof details.bedrooms === 'number' ? details.bedrooms : null
-        formData.bathrooms.value = typeof details.bathrooms === 'number' ? details.bathrooms : null
-        formData.additionalUnits.value = typeof details.additionalUnits === 'number' ? details.additionalUnits : null
-        
-        formData.foundationAccess.value = typeof details.foundationAccess === 'string' && 
-          (details.foundationAccess === 'basement' || details.foundationAccess === 'crawlspace' || details.foundationAccess === 'slab')
-          ? details.foundationAccess as 'basement' | 'crawlspace' | 'slab'
-          : null
-        
-        if (details.address) {
-          isAddressExpanded.value = true
-        }
+        const d = newState.propertyDetails
+        restoreFormFromDetails(formData, {
+          address: d.address,
+          unit: d.unit,
+          city: d.city,
+          state: d.state,
+          zipCode: d.zipCode,
+          candidatePlaceId: d.candidatePlaceId,
+          candidateCoordinates: d.candidateCoordinates,
+          propertySize: d.propertySize,
+          numberOfUnits: d.numberOfUnits,
+          mlsNumber: d.mlsNumber,
+          squareFootage: d.squareFootage,
+          bedrooms: d.bedrooms,
+          bathrooms: d.bathrooms,
+          foundationAccess: d.foundationAccess,
+          additionalUnits: d.additionalUnits
+        }, isAddressExpanded)
+      }
+    }, { immediate: true })
+  }
+
+  if (restoreFrom) {
+    watch(restoreFrom, (data) => {
+      if (data) {
+        restoreFormFromDetails(formData, data, isAddressExpanded)
       }
     }, { immediate: true })
   }

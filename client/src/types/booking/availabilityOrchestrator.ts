@@ -67,4 +67,6 @@ export interface UseAvailabilityOrchestratorParams {
   displayedMonth: Ref<DisplayedMonth>
   updateDisplayedMonth: (month: DisplayedMonth) => void
   appointmentDurationRef: Ref<number | null>
+  /** Parent step data for restore when returning to step (wizard persistence). */
+  availabilityStepData?: Ref<AvailabilityStepData | null>
 }

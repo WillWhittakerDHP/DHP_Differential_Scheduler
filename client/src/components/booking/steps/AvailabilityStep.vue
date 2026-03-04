@@ -53,6 +53,8 @@ if (!appointmentDurationRef) {
   throw new Error('appointmentDuration must be provided by BookingWizard')
 }
 
+const availabilityStepData = inject(availabilityStepDataKey, null)
+
 const orchestrator = useAvailabilityOrchestrator({
   wizard,
   loadedWizardState,
@@ -60,7 +62,8 @@ const orchestrator = useAvailabilityOrchestrator({
   propertyDetailsStepData,
   displayedMonth,
   updateDisplayedMonth,
-  appointmentDurationRef
+  appointmentDurationRef,
+  availabilityStepData: availabilityStepData ?? undefined
 })
 const o = {
   ...orchestrator.data,

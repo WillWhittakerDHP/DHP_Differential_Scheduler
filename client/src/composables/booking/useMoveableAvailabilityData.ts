@@ -48,6 +48,8 @@ export interface UseMoveableAvailabilityDataReturn {
   isLoadingMoveableDaySlots: Ref<boolean>
   selectedMoveableDay: Ref<string | null>
   setSelectedMoveableDay: (date: string | null) => void
+  /** Minutes of appointment buffer that apply after the onsite work ends (placement 'after' | 'both'). */
+  afterBufferMinutes: Ref<number>
 }
 
 export function useMoveableAvailabilityData(
@@ -69,6 +71,7 @@ export function useMoveableAvailabilityData(
   const moveableDaySlots = ref<ComputedSlot[]>([])
   const isLoadingMoveableDaySlots = ref(false)
   const selectedMoveableDay = ref<string | null>(null)
+  const afterBufferMinutes = ref(0)
   const fallbackLabel = configuredMoveableFallbackLabelRef ?? ref<string>(DEFAULT_MOVEABLE_FALLBACK_LABEL)
 
   watchEffect(async () => {
@@ -89,6 +92,14 @@ export function useMoveableAvailabilityData(
 
     try {
       isLoadingOptions.value = true
+
+      const settings = await getAvailabilitySettings()
+      const bufferMinutes = settings.buffers?.appointment?.minutes ?? 0
+      const placement = settings.buffers?.appointment?.placement ?? 'off'
+      afterBufferMinutes.value = (placement === 'after' || placement === 'both') ? bufferMinutes : 0
+      fallbackLabel.value =
+        settings.differentialPerspectives?.moveableFallbackLabel ?? DEFAULT_MOVEABLE_FALLBACK_LABEL
+
       const outerBoundary = computeOuterBoundary(contingencyPeriod.value, innerBoundary)
       const innerDate = innerBoundary.slice(0, 10)
       const outerDate = outerBoundary.slice(0, 10)
@@ -109,10 +120,6 @@ export function useMoveableAvailabilityData(
         selectedSlotIndex: selectedSlotIndex.value,
       }
       if (!contingencyPeriod.value.endDate && !contingencyPeriod.value.endTime) {
-        const settings = await getAvailabilitySettings()
-        const bufferMinutes = settings.buffers?.appointment?.minutes ?? 0
-        fallbackLabel.value =
-          settings.differentialPerspectives?.moveableFallbackLabel ?? DEFAULT_MOVEABLE_FALLBACK_LABEL
         contingencyPeriod.value = {
           ...contingencyPeriod.value,
           hasContingency: true,
@@ -178,5 +185,6 @@ export function useMoveableAvailabilityData(
     isLoadingMoveableDaySlots,
     selectedMoveableDay,
     setSelectedMoveableDay,
+    afterBufferMinutes,
   }
 }
