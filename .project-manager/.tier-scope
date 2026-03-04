@@ -1,8 +1,8 @@
 feature.id=appointment-workflow
 feature.name=Feature: appointment-workflow
-phase.id=6.5
-phase.name=Guide: Rescheduling Flow
-session.id=6.5.3
-session.name=** Original-Inspection UI
+phase.id=
+phase.name=
+session.id=
+session.name=
 task.id=
 task.name=
