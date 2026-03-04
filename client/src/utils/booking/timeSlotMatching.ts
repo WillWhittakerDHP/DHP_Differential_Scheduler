@@ -36,10 +36,11 @@ export function extractTimeString(value: string | Date): string | null {
   }
 }
 
-export function findMatchingTimeSlot(
+/** Find slot whose startTime matches the given time string. Accepts any array of objects with startTime. */
+export function findMatchingTimeSlot<T extends { startTime: string }>(
   timeString: string,
-  availableSlots: TimeSlot[]
-): TimeSlot | undefined {
+  availableSlots: T[]
+): T | undefined {
   const normalizedTime = extractTimeString(timeString)
   if (!normalizedTime) return undefined
 

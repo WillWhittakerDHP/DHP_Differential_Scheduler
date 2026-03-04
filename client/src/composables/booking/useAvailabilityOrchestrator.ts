@@ -166,7 +166,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     const inspectorTime = candidateSlots[0].time
     const slots = appointmentSlots.value
     const matched = findMatchingTimeSlot(inspectorTime, slots)
-    return matched && 'buttonIndex' in matched ? (matched as { buttonIndex: number }).buttonIndex : null
+    return matched?.buttonIndex ?? null
   })
 
   const { slotColor, allowedDates, firstAvailableDate } = useAvailabilitySlotColor({

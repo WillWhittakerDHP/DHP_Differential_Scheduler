@@ -19,7 +19,7 @@
 
 ### Tasks
 
-- [x] #### Task 6.5.3.1: Compute original-inspection slot and pass to grid
+- [x] - [x] #### Task 6.5.3.1: Compute original-inspection slot and pass to grid
 
 **Goal:** Make the original inspection slot (the slot that matches the loaded appointment's current time when rescheduling) visually distinct (e.g. `appointment-slot-btn--original-inspection`) while keeping it selectable. User can see which slot is their current appointment and may keep it or pick another.
 
