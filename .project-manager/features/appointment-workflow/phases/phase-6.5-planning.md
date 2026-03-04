@@ -9,21 +9,16 @@
 - Prior phase/session work established modal behavior and differential/preClosing context. - Current planning output showed template-heavy context and generic Q&A prompts.
 
 ## Goal
-Deliver Phase 6.5 Rescheduling Flow: reschedule confirmed appointments using the same wizard flow as quote/dev load; appointment loads at step 3; current appointment excluded from overlap but visible on calendar; original-inspection slot visually distinct; wizard mode reschedule; admin entry (Start new | Edit quote | Reschedule); client-facing links (6.5.4).
+Deliver Phase 6.5 Rescheduling Flow per phase guide. Sessions 6.5.1–6.5.4.
 
 ## Files
-- `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` — phase scope and session list
-- Session guides under `sessions/` (6.5.1–6.5.4)
+Phase guide and session guides under phases/ and sessions/.
 
 ## Approach
-1. Phase branch `appointment-workflow-phase-6.5` (or `phase-6.5` per config) created from feature branch.
-2. Sessions 6.5.1–6.5.4 run in order; session 6.5.2 already complete.
-3. Next: session 6.5.3 (Original-Inspection UI), then 6.5.4 (client-facing links).
-4. Cascade session-end → next session or phase-end.
+Create phase branch; run sessions in order; cascade session-end to next or phase-end.
 
 ## Checkpoint
-- Phase branch exists; scope updated.
-- All sessions (6.5.1–6.5.4) complete per phase guide success criteria.
+Phase branch exists; scope updated; sessions complete per phase guide.
 
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
