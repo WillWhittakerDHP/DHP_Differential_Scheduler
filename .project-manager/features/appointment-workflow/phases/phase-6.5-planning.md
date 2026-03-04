@@ -9,16 +9,19 @@
 - Prior phase/session work established modal behavior and differential/preClosing context. - Current planning output showed template-heavy context and generic Q&A prompts.
 
 ## Goal
-Deliver Phase 6.5 Rescheduling Flow per phase guide. Sessions 6.5.1–6.5.4.
+Achieve Phase 6.5 Rescheduling Flow per phase guide. Sessions 6.5.1–6.5.4. Session 6.5.2 complete; next session 6.5.3 (Original-Inspection UI).
 
 ## Files
-Phase guide and session guides under phases/ and sessions/.
+- Phase guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md`
+- Session guides under `sessions/` — no code changes at phase level; phase creates branch and enables session cascade.
 
 ## Approach
-Create phase branch; run sessions in order; cascade session-end to next or phase-end.
+1. Create phase branch `appointment-workflow-phase-6.5` (or equivalent per harness).
+2. Ensure phase guide lists sessions 6.5.1–6.5.4; session 6.5.3 is next.
+3. Run session-start 6.5.3 when ready; cascade session-end to next or phase-end.
 
 ## Checkpoint
-Phase branch exists; scope updated; sessions complete per phase guide.
+- Phase branch exists; session 6.5.3 can start without "ancestor branch does not exist" error.
 
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
