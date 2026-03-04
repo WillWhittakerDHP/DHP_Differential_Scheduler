@@ -87,7 +87,7 @@
 - Reschedule theme: wizard in reschedule mode shows muted ocean blue/amber palette (stepper, buttons, slots all reflect theme). Switching modes restores correct palette. No regression for new/quote themes.
 - Original-inspection: load appointment for reschedule, go to Availability step, select same date as appointment; the slot matching the current appointment time shows distinct styling (e.g. `appointment-slot-btn--original-inspection`).
 - Slot is still clickable and selectable; selecting it keeps the same time.
-- No regression for new-booking or quote flows (no original-inspection styling).- [ ] #### Task 6.5.3.3: Verify end-to-end original-inspection UI
+- No regression for new-booking or quote flows (no original-inspection styling).- [x] #### Task 6.5.3.3: Verify end-to-end original-inspection UI
 
 **Goal:** Make the original inspection slot (the slot that matches the loaded appointment's current time when rescheduling) visually distinct (e.g. `appointment-slot-btn--original-inspection`) while keeping it selectable. User can see which slot is their current appointment and may keep it or pick another.
 
