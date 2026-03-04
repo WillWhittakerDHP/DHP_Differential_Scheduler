@@ -12,18 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-04T19:44:04.758Z**
+- Generated at: **2026-03-04T23:12:46.795Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 4**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS2322-ts2322-assign-computedref-string` | 46 | 4 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +35,14 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/views/admin/tabs/components/OverlapConstraintsPanel.vue`
+
+- errors: 4, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@105:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
+TS2322@109:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
+TS2322@184:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
+TS2322@188:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
+```
