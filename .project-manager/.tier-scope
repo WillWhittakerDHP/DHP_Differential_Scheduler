@@ -1,7 +1,7 @@
 feature.id=appointment-workflow
 feature.name=Feature: appointment-workflow
 phase.id=6.5
-phase.name=Rescheduling Flow
+phase.name=Rescheduling Flow (Not Started)
 phase.branch=phase-6.5-phase-intent-from-feature-guide
 phase.slug=phase-intent-from-feature-guide
 session.id=

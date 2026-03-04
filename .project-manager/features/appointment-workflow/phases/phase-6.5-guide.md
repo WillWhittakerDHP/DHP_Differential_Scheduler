@@ -7,7 +7,7 @@
 - **Original-inspection slot UI:** Pass the loaded appointment’s time range into the slot grid; mark slots that match/overlap the original time; style with a distinct class (e.g. `appointment-slot-btn--original-inspection`) or overlay so the current time is visible but still selectable.
 - **See:** `features/appointment-workflow/phases/phase-6.5-guide.md` for sessions, implementation details, and relation to Phase 6.8 (allowedExceptions).
 
-- [ ] ### Session 6.5.1: Rescheduling Flow
+- [ ] ### Session 6.5.1: Rescheduling Flow (Not Started)
 
 **Description:** 6.5
 
