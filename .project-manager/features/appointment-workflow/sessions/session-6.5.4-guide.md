@@ -22,37 +22,150 @@
 ### Tasks
 
 - [ ] #### Task 6.5.4.1: URL scheme and router
-**Goal:** Define URL scheme; booking route accepts `mode` and `appointmentId`; cancel route if separate; app base URL available for link building.
-**Files:** `client/src/router/index.ts`, env/config for base URL.
-**Checkpoint:** Route definitions and base URL source documented/implemented.
 
-- [ ] #### Task 6.5.4.2: Wizard entry from query
-**Goal:** On booking route with query params, set wizard mode and `loadedAppointmentId`; load-at-step-3 runs for reschedule/quote.
-**Files:** `BookingWizardView.vue`, wizard composables (`useBookingWizard`, `useWizardAppointmentManagement`).
-**Checkpoint:** Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
 
-- [ ] #### Task 6.5.4.3: Cancel flow
-**Goal:** Cancel URL leads to confirm page; on confirm, PATCH to cancelled; success/error and navigation.
-**Files:** New cancel view or route component; appointment PATCH/composable.
-**Checkpoint:** Cancel link works end-to-end; only valid statuses allow cancel.
+**Files:**
+- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
+- `client/src/views/` — BookingWizardView, cancel view/component
+- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
+- `client/src/utils/` — shared URL-building utility for link generation
+- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
+- Admin components — appointment row/detail "Copy quote link" button; template help
 
-- [ ] #### Task 6.5.4.4: "Copy quote link" button
-**Goal:** Button (e.g. on appointment row/detail for quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback; use shared URL-building utility.
-**Files:** Appointments table/detail components; shared URL utility (client).
-**Checkpoint:** Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
+2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
+3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
+4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
+5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
+6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
 
-- [ ] #### Task 6.5.4.5: Invite template variables (optional)
-**Goal:** Add only `{rescheduleLink}` and `{cancelLink}` to invite template context; resolve to full URLs; update admin template help. Do not add `{quoteLink}`.
-**Files:** `server/src/services/invites/` (templateResolver, inviteContextBuilder); admin Instances tab template help.
-**Checkpoint:** Calendar invite description can include reschedule and cancel links via variables.
+**Checkpoint:**
+- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+- Cancel link works end-to-end; only valid statuses allow cancel.
+- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+- Calendar invite can include reschedule and cancel links via variables.
+- Session docs and handoff updated.- [ ] #### Task 6.5.4.2: Wizard entry from query
 
-- [ ] #### Task 6.5.4.6: Verification and docs
-**Goal:** Smoke-test all links (including quote via pasted link from button); document URL scheme; update handoff/session log.
-**Checkpoint:** Session complete; docs updated.
+**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
 
----
+**Files:**
+- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
+- `client/src/views/` — BookingWizardView, cancel view/component
+- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
+- `client/src/utils/` — shared URL-building utility for link generation
+- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
+- Admin components — appointment row/detail "Copy quote link" button; template help
 
-## Session Workflow
+**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
+2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
+3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
+4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
+5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
+6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
+
+**Checkpoint:**
+- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+- Cancel link works end-to-end; only valid statuses allow cancel.
+- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+- Calendar invite can include reschedule and cancel links via variables.
+- Session docs and handoff updated.- [ ] #### Task 6.5.4.3: Cancel flow
+
+**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
+
+**Files:**
+- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
+- `client/src/views/` — BookingWizardView, cancel view/component
+- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
+- `client/src/utils/` — shared URL-building utility for link generation
+- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
+- Admin components — appointment row/detail "Copy quote link" button; template help
+
+**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
+2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
+3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
+4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
+5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
+6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
+
+**Checkpoint:**
+- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+- Cancel link works end-to-end; only valid statuses allow cancel.
+- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+- Calendar invite can include reschedule and cancel links via variables.
+- Session docs and handoff updated.- [ ] #### Task 6.5.4.4: "Copy quote link" button
+
+**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
+
+**Files:**
+- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
+- `client/src/views/` — BookingWizardView, cancel view/component
+- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
+- `client/src/utils/` — shared URL-building utility for link generation
+- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
+- Admin components — appointment row/detail "Copy quote link" button; template help
+
+**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
+2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
+3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
+4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
+5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
+6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
+
+**Checkpoint:**
+- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+- Cancel link works end-to-end; only valid statuses allow cancel.
+- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+- Calendar invite can include reschedule and cancel links via variables.
+- Session docs and handoff updated.- [ ] #### Task 6.5.4.5: Invite template variables (optional)
+
+**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
+
+**Files:**
+- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
+- `client/src/views/` — BookingWizardView, cancel view/component
+- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
+- `client/src/utils/` — shared URL-building utility for link generation
+- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
+- Admin components — appointment row/detail "Copy quote link" button; template help
+
+**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
+2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
+3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
+4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
+5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
+6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
+
+**Checkpoint:**
+- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+- Cancel link works end-to-end; only valid statuses allow cancel.
+- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+- Calendar invite can include reschedule and cancel links via variables.
+- Session docs and handoff updated.- [ ] #### Task 6.5.4.6: Verification and docs
+
+**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
+
+**Files:**
+- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
+- `client/src/views/` — BookingWizardView, cancel view/component
+- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
+- `client/src/utils/` — shared URL-building utility for link generation
+- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
+- Admin components — appointment row/detail "Copy quote link" button; template help
+
+**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
+2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
+3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
+4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
+5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
+6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
+
+**Checkpoint:**
+- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
+- Cancel link works end-to-end; only valid statuses allow cancel.
+- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
+- Calendar invite can include reschedule and cancel links via variables.
+- Session docs and handoff updated.## Session Workflow
 
 Follow the same workflow as other sessions: use `/session-start 6.5.4 [description]` to begin; work one task at a time with checkpoints; use `/session-end 6.5.4 [description] [next-session]` when done. See session template or `session-6.5.1-guide.md` for full workflow (before/during/after session, checkpoints, end-of-session steps).
 
