@@ -1,6 +1,6 @@
 /**
- * WHY: useAppointmentDataCollection Composable
-WHY: Moves massive data collecti...
+ * Appointment data collection: gathers wizard state into an AppointmentRequest payload.
+ * Accepts reactive params but uses no Vue reactivity internally.
  */
 import {
   buildPropertyRequest,
@@ -18,10 +18,6 @@ import type { UseAppointmentDataCollectionParams, UseAppointmentDataCollectionRe
 const logger = createLogger('useAppointmentDataCollection')
 
 
-/**
- * WHY: useAppointmentDataCollection composable
-WHY: Extracts massive data colle...
- */
 export function useAppointmentDataCollection(params: UseAppointmentDataCollectionParams): UseAppointmentDataCollectionReturn {
   const {
     wizard,

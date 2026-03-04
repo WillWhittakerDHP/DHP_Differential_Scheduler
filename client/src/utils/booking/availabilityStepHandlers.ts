@@ -1,16 +1,10 @@
 /**
- * PATTERN: useAvailabilityStepHandlers Composable
-
-PATTERN: Composable that provide...
+ * Availability step event handlers: slot clicks, moveable confirm/cancel, time basis changes.
+ * Accepts reactive params but uses no Vue reactivity internally.
  */
 import type { UseAvailabilityStepHandlersParams, UseAvailabilityStepHandlersReturn } from '@/types/booking/availabilityStepHandlers'
 
 
-/**
- * WHY: useAvailabilityStepHandlers composable
-
-WHY: Extracts event handler logi...
- */
 export function useAvailabilityStepHandlers(
   params: UseAvailabilityStepHandlersParams
 ): UseAvailabilityStepHandlersReturn {

@@ -86,6 +86,8 @@
     "audit:test:ai": "node .scripts/test-generate-for-ai.mjs",
     "audit:allowlist-cleanup": "node .scripts/allowlist-cleanup-audit.mjs",
     "audit:allowlist-cleanup:summary": "node .scripts/audit-summary.mjs allowlist-cleanup",
+    "audit:config-fix": "node .scripts/config-fix.mjs",
+    "audit:config-fix:dry-run": "node .scripts/config-fix.mjs --dry-run",
     "audit:governance": "npm run audit:allowlist-cleanup",
     "audit:governance:summary": "npm run audit:allowlist-cleanup:summary",
     "audit:meta": "node .scripts/audit-meta-report.mjs",

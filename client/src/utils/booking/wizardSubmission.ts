@@ -1,7 +1,6 @@
 /**
- * WHY: useWizardSubmission Composable
-
-WHY: Moves appointment submission orches...
+ * Wizard submission: orchestrates appointment creation, error handling, and step advancement.
+ * Accepts reactive params but uses no Vue reactivity internally.
  */
 import { ERROR_CREATE_APPOINTMENT } from '@/constants/errorMessages'
 import { createLogger } from '@/utils/logger'

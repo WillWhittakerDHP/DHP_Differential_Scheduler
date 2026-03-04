@@ -1,13 +1,9 @@
 /**
- * Composable for instance tab click handlers
+ * Handler factory for instance tab clicks. Accepts reactive state, no Vue reactivity used internally.
  */
 import type { UseInstanceTabHandlersOptions, UseInstanceTabHandlersReturn } from '@/types/admin/instanceTabHandlers'
 
 
-/**
- * PATTERN: Composable for handling tab clicks
-PATTERN: Set activeTab to clicked tab...
- */
 export function useInstanceTabHandlers(
   options: UseInstanceTabHandlersOptions
 ): UseInstanceTabHandlersReturn {

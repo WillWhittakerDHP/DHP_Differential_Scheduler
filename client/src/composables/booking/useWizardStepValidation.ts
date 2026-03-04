@@ -3,7 +3,7 @@
  * WHY: Keeps BookingWizard.vue under vue-architecture script line limit.
  */
 import { useBookingWizardStepValidators } from '@/composables/booking/useBookingWizardStepValidators'
-import { useWizardValidation } from '@/composables/booking/useWizardValidation'
+import { useWizardValidation } from '@/utils/booking/wizardValidation'
 import type {
   UseWizardStepValidationParams,
   UseWizardStepValidationReturn,

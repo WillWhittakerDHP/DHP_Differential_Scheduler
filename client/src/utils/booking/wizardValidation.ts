@@ -1,7 +1,6 @@
 /**
- * WHY: useWizardValidation Composable
-
-WHY: Moves step validation checking to c...
+ * Wizard step validation: resolves validators from Ref or plain object and validates by step index.
+ * Accepts reactive params but uses no Vue reactivity internally.
  */
 import type {
   StepValidator,

@@ -1,6 +1,6 @@
 /**
- * PATTERN: Deletion and save handlers for Shapes tab (no-op deletes; collapse on save).
- * WHY: Keeps ShapesTab.vue under vue-architecture limits (script size, function count).
+ * Deletion and save handlers for Shapes tab (no-op deletes; collapse on save).
+ * Keeps ShapesTab.vue under vue-architecture limits. No Vue reactivity used internally.
  */
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'

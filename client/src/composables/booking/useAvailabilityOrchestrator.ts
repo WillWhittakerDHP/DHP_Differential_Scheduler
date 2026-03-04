@@ -13,7 +13,7 @@ import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePar
 import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
 import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
 import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
-import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabilityStepHandlers'
+import { useAvailabilityStepHandlers } from '@/utils/booking/availabilityStepHandlers'
 import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'

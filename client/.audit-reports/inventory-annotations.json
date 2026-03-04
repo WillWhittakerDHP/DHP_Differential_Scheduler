@@ -1644,15 +1644,13 @@
     "priority": "low",
     "targetPath": "client/src/types/admin/instanceShape.ts"
   },
-  "client/src/composables/admin/useInstanceTabHandlers.ts": {
-    "purpose": "Composable for instance tab click handlers",
+  "client/src/utils/admin/instanceTabHandlers.ts": {
+    "purpose": "Handler factory for instance tab clicks; accepts reactive state, no Vue reactivity used internally.",
     "domain": "admin",
     "reuseTier": "feature",
     "tags": [
       "ui-state"
     ],
-    "placement": "derived",
-    "priority": "low",
     "targetPath": "client/src/types/admin/instanceTabHandlers.ts",
     "suppressUtilDisguise": true,
     "suppressUtilDisguiseReason": "Mutates activeTab.value ref passed in options; operates on refs indirectly."
@@ -1760,19 +1758,6 @@
     "placement": "derived",
     "priority": "low",
     "targetPath": "client/src/types/admin/partInstanceCollection.ts"
-  },
-  "client/src/composables/admin/usePartInstanceExpansion.ts": {
-    "purpose": "WHY: Composable for part instance expansion handlers",
-    "domain": "admin",
-    "reuseTier": "feature",
-    "tags": [
-      "ui-state"
-    ],
-    "placement": "derived",
-    "priority": "low",
-    "targetPath": "client/src/types/admin/partInstanceExpansion.ts",
-    "suppressUtilDisguise": true,
-    "suppressUtilDisguiseReason": "Mutates expandedPartInstances.value ref passed in options; operates on refs indirectly."
   },
   "client/src/composables/admin/usePartInstanceForm.ts": {
     "purpose": "WHY: Part Instance Form Composable",
@@ -1972,18 +1957,13 @@
     "priority": "low",
     "targetPath": "client/src/types/admin/shapesTabCreation.ts"
   },
-  "client/src/composables/admin/useShapesTabDeletion.ts": {
-    "purpose": "PATTERN: Deletion and save handlers for Shapes tab (no-op deletes; collapse on save). WHY: Keeps ShapesTab.vue under vue",
+  "client/src/utils/admin/shapesTabDeletion.ts": {
+    "purpose": "Deletion and save handlers for Shapes tab; no Vue reactivity, operates on passed-in refs.",
     "domain": "admin",
     "reuseTier": "feature",
     "tags": [
       "ui-state"
-    ],
-    "placement": "derived",
-    "priority": "low",
-    "targetPath": "client/src/types/admin/shapesTabDeletion.ts",
-    "suppressUtilDisguise": true,
-    "suppressUtilDisguiseReason": "Filters expandedShapes.value ref passed in params; operates on refs indirectly."
+    ]
   },
   "client/src/composables/admin/useShapesTabModals.ts": {
     "purpose": "PATTERN: Modal state and toggles for Shapes tab metadata modals. WHY: Keeps ShapesTab.vue under vue-architecture limits ",
@@ -2422,18 +2402,13 @@
     "priority": "low",
     "targetPath": "client/src/types/booking/apiCallStatus.ts"
   },
-  "client/src/composables/booking/useAppointmentDataCollection.ts": {
-    "purpose": "WHY: useAppointmentDataCollection Composable",
+  "client/src/utils/booking/appointmentDataCollection.ts": {
+    "purpose": "Collects wizard state into AppointmentRequest payload; no Vue reactivity, operates on passed-in refs.",
     "domain": "booking",
     "reuseTier": "feature",
     "tags": [
-      "ui-state"
-    ],
-    "placement": "derived",
-    "priority": "low",
-    "targetPath": "client/src/types/booking/appointmentDataCollection.ts",
-    "suppressUtilDisguise": true,
-    "suppressUtilDisguiseReason": "Reads multiple wizard refs (.value) and calls Vue Query mutations; operates on refs indirectly."
+      "data-fetching"
+    ]
   },
   "client/src/composables/booking/useAppointmentDropdown.ts": {
     "purpose": "WHY: Encapsulates appointment dropdown formatting logic",
