@@ -8,7 +8,7 @@ import { inject } from 'vue'
 import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
-import { useGridConfigHandlers } from '@/composables/admin/useGridConfigHandlers'
+import { useGridConfigHandlers } from '@/utils/admin/gridConfigHandlers'
 import type { GridConfigState } from '@/types/admin/gridConfigHandlers'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T15:36:50.218Z",
+  "generatedAt": "2026-03-04T16:19:23.279Z",
   "scope": {
     "composablesIncluded": [
       "client/src/composables/**/*.{ts,js}",
@@ -19,19 +19,19 @@
     ]
   },
   "summary": {
-    "totalComposables": 273,
-    "totalUtils": 135,
+    "totalComposables": 265,
+    "totalUtils": 142,
     "totalComponents": 72,
-    "totalFiles": 480,
-    "annotated": 480,
+    "totalFiles": 479,
+    "annotated": 479,
     "unannotated": 0,
     "byReuseTier": {
       "shared": 117,
-      "feature": 359,
+      "feature": 358,
       "local": 4
     },
     "classificationIssues": {
-      "utilsInDisguise": 8,
+      "utilsInDisguise": 0,
       "composablesInDisguise": 6
     }
   },
@@ -828,29 +828,6 @@
       "reuseTier": "feature",
       "tags": [
         "ui-state"
-      ]
-    },
-    {
-      "id": "client__src__composables__admin__useCapacityConstraintsHandlers.ts",
-      "repoPath": "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-      "name": "useCapacityConstraintsHandlers",
-      "directoryDomain": "admin",
-      "annotatedDomain": "admin",
-      "domainMatch": true,
-      "exports": [
-        "useCapacityConstraintsHandlers"
-      ],
-      "returnKeys": [],
-      "lineCount": 55,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "Handler functions for CapacityConstraintsPanel that write into the capacity slice (maxWorkHours, maxIncome).",
-      "reuseTier": "feature",
-      "tags": [
-        "form",
-        "settings"
       ]
     },
     {
@@ -1925,29 +1902,6 @@
       ]
     },
     {
-      "id": "client__src__composables__admin__useGridConfigHandlers.ts",
-      "repoPath": "client/src/composables/admin/useGridConfigHandlers.ts",
-      "name": "useGridConfigHandlers",
-      "directoryDomain": "admin",
-      "annotatedDomain": "admin",
-      "domainMatch": true,
-      "exports": [
-        "useGridConfigHandlers"
-      ],
-      "returnKeys": [],
-      "lineCount": 37,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "Handler functions for GridConfigPanel that write into formState and differential (minute increment, attendees, labels).",
-      "reuseTier": "feature",
-      "tags": [
-        "form",
-        "settings"
-      ]
-    },
-    {
       "id": "client__src__composables__admin__useIconPickerState.ts",
       "repoPath": "client/src/composables/admin/useIconPickerState.ts",
       "name": "useIconPickerState",
@@ -2120,28 +2074,6 @@
       "operatesOnRefs": false,
       "isComposable": true,
       "purpose": "WHY: Shared composable for getting shape entity from instance entity",
-      "reuseTier": "feature",
-      "tags": [
-        "ui-state"
-      ]
-    },
-    {
-      "id": "client__src__composables__admin__useInstanceTabHandlers.ts",
-      "repoPath": "client/src/composables/admin/useInstanceTabHandlers.ts",
-      "name": "useInstanceTabHandlers",
-      "directoryDomain": "admin",
-      "annotatedDomain": "admin",
-      "domainMatch": true,
-      "exports": [
-        "useInstanceTabHandlers"
-      ],
-      "returnKeys": [],
-      "lineCount": 18,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "Composable for instance tab click handlers",
       "reuseTier": "feature",
       "tags": [
         "ui-state"
@@ -2503,28 +2435,6 @@
       "operatesOnRefs": false,
       "isComposable": true,
       "purpose": "usePartInstanceCollection: name",
-      "reuseTier": "feature",
-      "tags": [
-        "ui-state"
-      ]
-    },
-    {
-      "id": "client__src__composables__admin__usePartInstanceExpansion.ts",
-      "repoPath": "client/src/composables/admin/usePartInstanceExpansion.ts",
-      "name": "usePartInstanceExpansion",
-      "directoryDomain": "admin",
-      "annotatedDomain": "admin",
-      "domainMatch": true,
-      "exports": [
-        "usePartInstanceExpansion"
-      ],
-      "returnKeys": [],
-      "lineCount": 21,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "WHY: Composable for part instance expansion handlers",
       "reuseTier": "feature",
       "tags": [
         "ui-state"
@@ -3226,34 +3136,6 @@
       ]
     },
     {
-      "id": "client__src__composables__admin__useShapesTabDeletion.ts",
-      "repoPath": "client/src/composables/admin/useShapesTabDeletion.ts",
-      "name": "useShapesTabDeletion",
-      "directoryDomain": "admin",
-      "annotatedDomain": "admin",
-      "domainMatch": true,
-      "exports": [
-        "useShapesTabDeletion"
-      ],
-      "returnKeys": [
-        "handleDeleteAnnotationShape",
-        "handleDeleteBlockShape",
-        "handleDeleteEventShape",
-        "handleDeletePartShape",
-        "handleExistingShapeSaved"
-      ],
-      "lineCount": 32,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "PATTERN: Deletion and save handlers for Shapes tab (no-op deletes; collapse on save). WHY: Keeps ShapesTab.vue under vue",
-      "reuseTier": "feature",
-      "tags": [
-        "ui-state"
-      ]
-    },
-    {
       "id": "client__src__composables__admin__useShapesTabModals.ts",
       "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
       "name": "useShapesTabModals",
@@ -3738,30 +3620,6 @@
       ]
     },
     {
-      "id": "client__src__composables__booking__useAppointmentDataCollection.ts",
-      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "name": "useAppointmentDataCollection",
-      "directoryDomain": "booking",
-      "annotatedDomain": "booking",
-      "domainMatch": true,
-      "exports": [
-        "useAppointmentDataCollection"
-      ],
-      "returnKeys": [
-        "collectAppointmentData"
-      ],
-      "lineCount": 93,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "WHY: useAppointmentDataCollection Composable",
-      "reuseTier": "feature",
-      "tags": [
-        "ui-state"
-      ]
-    },
-    {
       "id": "client__src__composables__booking__useAppointmentDropdown.ts",
       "repoPath": "client/src/composables/booking/useAppointmentDropdown.ts",
       "name": "useAppointmentDropdown",
@@ -4128,32 +3986,6 @@
       "operatesOnRefs": false,
       "isComposable": true,
       "purpose": "WHY: useAvailabilityStepData Composable",
-      "reuseTier": "feature",
-      "tags": [
-        "ui-state"
-      ]
-    },
-    {
-      "id": "client__src__composables__booking__useAvailabilityStepHandlers.ts",
-      "repoPath": "client/src/composables/booking/useAvailabilityStepHandlers.ts",
-      "name": "useAvailabilityStepHandlers",
-      "directoryDomain": "booking",
-      "annotatedDomain": "booking",
-      "domainMatch": true,
-      "exports": [
-        "useAvailabilityStepHandlers"
-      ],
-      "returnKeys": [
-        "handleAppointmentSlotClick",
-        "handleMoveableCancel",
-        "handleMoveableConfirm"
-      ],
-      "lineCount": 53,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "PATTERN: useAvailabilityStepHandlers Composable",
       "reuseTier": "feature",
       "tags": [
         "ui-state"
@@ -5804,34 +5636,12 @@
       "returnKeys": [
         "handleSubmit"
       ],
-      "lineCount": 53,
+      "lineCount": 52,
       "usesVueReactivity": true,
       "composesOtherComposables": false,
       "operatesOnRefs": false,
       "isComposable": true,
-      "purpose": "WHY: useWizardSubmission Composable",
-      "reuseTier": "feature",
-      "tags": [
-        "navigation"
-      ]
-    },
-    {
-      "id": "client__src__composables__booking__useWizardValidation.ts",
-      "repoPath": "client/src/composables/booking/useWizardValidation.ts",
-      "name": "useWizardValidation",
-      "directoryDomain": "booking",
-      "annotatedDomain": "booking",
-      "domainMatch": true,
-      "exports": [
-        "useWizardValidation"
-      ],
-      "returnKeys": [],
-      "lineCount": 23,
-      "usesVueReactivity": false,
-      "composesOtherComposables": false,
-      "operatesOnRefs": false,
-      "isComposable": true,
-      "purpose": "WHY: useWizardValidation Composable",
+      "purpose": "Wizard submission: orchestrates appointment creation/update, error handling, and step advancement.",
       "reuseTier": "feature",
       "tags": [
         "navigation"
@@ -7185,6 +6995,25 @@
       ]
     },
     {
+      "id": "client__src__utils__admin__capacityConstraintsHandlers.ts",
+      "repoPath": "client/src/utils/admin/capacityConstraintsHandlers.ts",
+      "name": "capacityConstraintsHandlers",
+      "directoryDomain": "utils/admin",
+      "annotatedDomain": "admin",
+      "domainMatch": false,
+      "exports": [
+        "useCapacityConstraintsHandlers"
+      ],
+      "lineCount": 55,
+      "usesVueReactivity": false,
+      "purpose": "Handler bag for CapacityConstraintsPanel: work-hour and income constraint setters; no Vue reactivity.",
+      "reuseTier": "feature",
+      "tags": [
+        "ui-state",
+        "settings"
+      ]
+    },
+    {
       "id": "client__src__utils__admin__entityCardTitleKeydown.ts",
       "repoPath": "client/src/utils/admin/entityCardTitleKeydown.ts",
       "name": "entityCardTitleKeydown",
@@ -7300,6 +7129,25 @@
       ]
     },
     {
+      "id": "client__src__utils__admin__gridConfigHandlers.ts",
+      "repoPath": "client/src/utils/admin/gridConfigHandlers.ts",
+      "name": "gridConfigHandlers",
+      "directoryDomain": "utils/admin",
+      "annotatedDomain": "admin",
+      "domainMatch": false,
+      "exports": [
+        "useGridConfigHandlers"
+      ],
+      "lineCount": 37,
+      "usesVueReactivity": false,
+      "purpose": "Handler bag for GridConfigPanel: minute increment, attendee labels, graph labels; no Vue reactivity.",
+      "reuseTier": "feature",
+      "tags": [
+        "ui-state",
+        "settings"
+      ]
+    },
+    {
       "id": "client__src__utils__admin__inputConfigEditor.ts",
       "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
       "name": "inputConfigEditor",
@@ -7334,6 +7182,24 @@
       "reuseTier": "feature",
       "tags": [
         "form",
+        "ui-state"
+      ]
+    },
+    {
+      "id": "client__src__utils__admin__instanceTabHandlers.ts",
+      "repoPath": "client/src/utils/admin/instanceTabHandlers.ts",
+      "name": "instanceTabHandlers",
+      "directoryDomain": "utils/admin",
+      "annotatedDomain": "admin",
+      "domainMatch": false,
+      "exports": [
+        "useInstanceTabHandlers"
+      ],
+      "lineCount": 16,
+      "usesVueReactivity": false,
+      "purpose": "Handler factory for instance tab clicks; accepts reactive state, no Vue reactivity used internally.",
+      "reuseTier": "feature",
+      "tags": [
         "ui-state"
       ]
     },
@@ -7435,6 +7301,24 @@
       "lineCount": 85,
       "usesVueReactivity": false,
       "purpose": "Pure helpers for resolving select config type, multiple mode, and option entity key. WHY: Reduces nesting and branch cou",
+      "reuseTier": "feature",
+      "tags": [
+        "ui-state"
+      ]
+    },
+    {
+      "id": "client__src__utils__admin__shapesTabDeletion.ts",
+      "repoPath": "client/src/utils/admin/shapesTabDeletion.ts",
+      "name": "shapesTabDeletion",
+      "directoryDomain": "utils/admin",
+      "annotatedDomain": "admin",
+      "domainMatch": false,
+      "exports": [
+        "useShapesTabDeletion"
+      ],
+      "lineCount": 32,
+      "usesVueReactivity": false,
+      "purpose": "Deletion and save handlers for Shapes tab; no Vue reactivity, operates on passed-in refs.",
       "reuseTier": "feature",
       "tags": [
         "ui-state"
@@ -7820,6 +7704,24 @@
       ]
     },
     {
+      "id": "client__src__utils__booking__appointmentDataCollection.ts",
+      "repoPath": "client/src/utils/booking/appointmentDataCollection.ts",
+      "name": "appointmentDataCollection",
+      "directoryDomain": "utils/booking",
+      "annotatedDomain": "booking",
+      "domainMatch": false,
+      "exports": [
+        "useAppointmentDataCollection"
+      ],
+      "lineCount": 90,
+      "usesVueReactivity": false,
+      "purpose": "Collects wizard state into AppointmentRequest payload; no Vue reactivity, operates on passed-in refs.",
+      "reuseTier": "feature",
+      "tags": [
+        "data-fetching"
+      ]
+    },
+    {
       "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
       "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
       "name": "appointmentSlotBuilder",
@@ -7873,6 +7775,24 @@
       "lineCount": 70,
       "usesVueReactivity": false,
       "purpose": "buildAvailabilityStepData: candidateDate, end, start",
+      "reuseTier": "feature",
+      "tags": [
+        "ui-state"
+      ]
+    },
+    {
+      "id": "client__src__utils__booking__availabilityStepHandlers.ts",
+      "repoPath": "client/src/utils/booking/availabilityStepHandlers.ts",
+      "name": "availabilityStepHandlers",
+      "directoryDomain": "utils/booking",
+      "annotatedDomain": "booking",
+      "domainMatch": false,
+      "exports": [
+        "useAvailabilityStepHandlers"
+      ],
+      "lineCount": 50,
+      "usesVueReactivity": false,
+      "purpose": "Availability step event handlers: slot clicks, moveable confirm/cancel, time basis changes; no Vue reactivity.",
       "reuseTier": "feature",
       "tags": [
         "ui-state"
@@ -8540,6 +8460,24 @@
       "purpose": "timeRangesOverlap helper (BusyPeriodSource/BusyTimeRange in utils/booking/timeSlotTypes.ts).",
       "reuseTier": "shared",
       "tags": []
+    },
+    {
+      "id": "client__src__utils__booking__wizardValidation.ts",
+      "repoPath": "client/src/utils/booking/wizardValidation.ts",
+      "name": "wizardValidation",
+      "directoryDomain": "utils/booking",
+      "annotatedDomain": "booking",
+      "domainMatch": false,
+      "exports": [
+        "useWizardValidation"
+      ],
+      "lineCount": 22,
+      "usesVueReactivity": false,
+      "purpose": "Wizard step validation: resolves validators from Ref or plain object; no Vue reactivity.",
+      "reuseTier": "feature",
+      "tags": [
+        "validation"
+      ]
     },
     {
       "id": "client__src__utils__collections__appendIfMissingById.ts",
@@ -11093,40 +11031,7 @@
     }
   ],
   "classificationHealth": {
-    "utilsInDisguise": [
-      {
-        "repoPath": "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/admin/useGridConfigHandlers.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/admin/useInstanceTabHandlers.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/admin/usePartInstanceExpansion.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/admin/useShapesTabDeletion.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/booking/useAvailabilityStepHandlers.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      },
-      {
-        "repoPath": "client/src/composables/booking/useWizardValidation.ts",
-        "reason": "In composables/ but uses zero Vue reactivity — consider moving to utils/"
-      }
-    ],
+    "utilsInDisguise": [],
     "composablesInDisguise": [
       {
         "repoPath": "client/src/utils/dependencyCleanup.ts",
@@ -11405,6 +11310,25 @@
         ]
       },
       {
+        "id": "client__src__utils__admin__capacityConstraintsHandlers.ts",
+        "repoPath": "client/src/utils/admin/capacityConstraintsHandlers.ts",
+        "name": "capacityConstraintsHandlers",
+        "directoryDomain": "utils/admin",
+        "annotatedDomain": "admin",
+        "domainMatch": false,
+        "exports": [
+          "useCapacityConstraintsHandlers"
+        ],
+        "lineCount": 55,
+        "usesVueReactivity": false,
+        "purpose": "Handler bag for CapacityConstraintsPanel: work-hour and income constraint setters; no Vue reactivity.",
+        "reuseTier": "feature",
+        "tags": [
+          "ui-state",
+          "settings"
+        ]
+      },
+      {
         "id": "client__src__utils__admin__entityDisplayText.ts",
         "repoPath": "client/src/utils/admin/entityDisplayText.ts",
         "name": "entityDisplayText",
@@ -11445,6 +11369,43 @@
         ]
       },
       {
+        "id": "client__src__utils__admin__gridConfigHandlers.ts",
+        "repoPath": "client/src/utils/admin/gridConfigHandlers.ts",
+        "name": "gridConfigHandlers",
+        "directoryDomain": "utils/admin",
+        "annotatedDomain": "admin",
+        "domainMatch": false,
+        "exports": [
+          "useGridConfigHandlers"
+        ],
+        "lineCount": 37,
+        "usesVueReactivity": false,
+        "purpose": "Handler bag for GridConfigPanel: minute increment, attendee labels, graph labels; no Vue reactivity.",
+        "reuseTier": "feature",
+        "tags": [
+          "ui-state",
+          "settings"
+        ]
+      },
+      {
+        "id": "client__src__utils__admin__instanceTabHandlers.ts",
+        "repoPath": "client/src/utils/admin/instanceTabHandlers.ts",
+        "name": "instanceTabHandlers",
+        "directoryDomain": "utils/admin",
+        "annotatedDomain": "admin",
+        "domainMatch": false,
+        "exports": [
+          "useInstanceTabHandlers"
+        ],
+        "lineCount": 16,
+        "usesVueReactivity": false,
+        "purpose": "Handler factory for instance tab clicks; accepts reactive state, no Vue reactivity used internally.",
+        "reuseTier": "feature",
+        "tags": [
+          "ui-state"
+        ]
+      },
+      {
         "id": "client__src__utils__admin__selectTypeResolver.ts",
         "repoPath": "client/src/utils/admin/selectTypeResolver.ts",
         "name": "selectTypeResolver",
@@ -11460,6 +11421,24 @@
         "lineCount": 85,
         "usesVueReactivity": false,
         "purpose": "Pure helpers for resolving select config type, multiple mode, and option entity key. WHY: Reduces nesting and branch cou",
+        "reuseTier": "feature",
+        "tags": [
+          "ui-state"
+        ]
+      },
+      {
+        "id": "client__src__utils__admin__shapesTabDeletion.ts",
+        "repoPath": "client/src/utils/admin/shapesTabDeletion.ts",
+        "name": "shapesTabDeletion",
+        "directoryDomain": "utils/admin",
+        "annotatedDomain": "admin",
+        "domainMatch": false,
+        "exports": [
+          "useShapesTabDeletion"
+        ],
+        "lineCount": 32,
+        "usesVueReactivity": false,
+        "purpose": "Deletion and save handlers for Shapes tab; no Vue reactivity, operates on passed-in refs.",
         "reuseTier": "feature",
         "tags": [
           "ui-state"
@@ -11526,6 +11505,24 @@
         ]
       },
       {
+        "id": "client__src__utils__booking__appointmentDataCollection.ts",
+        "repoPath": "client/src/utils/booking/appointmentDataCollection.ts",
+        "name": "appointmentDataCollection",
+        "directoryDomain": "utils/booking",
+        "annotatedDomain": "booking",
+        "domainMatch": false,
+        "exports": [
+          "useAppointmentDataCollection"
+        ],
+        "lineCount": 90,
+        "usesVueReactivity": false,
+        "purpose": "Collects wizard state into AppointmentRequest payload; no Vue reactivity, operates on passed-in refs.",
+        "reuseTier": "feature",
+        "tags": [
+          "data-fetching"
+        ]
+      },
+      {
         "id": "client__src__utils__booking__appointmentSlotBuilder.ts",
         "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
         "name": "appointmentSlotBuilder",
@@ -11579,6 +11576,24 @@
         "lineCount": 70,
         "usesVueReactivity": false,
         "purpose": "buildAvailabilityStepData: candidateDate, end, start",
+        "reuseTier": "feature",
+        "tags": [
+          "ui-state"
+        ]
+      },
+      {
+        "id": "client__src__utils__booking__availabilityStepHandlers.ts",
+        "repoPath": "client/src/utils/booking/availabilityStepHandlers.ts",
+        "name": "availabilityStepHandlers",
+        "directoryDomain": "utils/booking",
+        "annotatedDomain": "booking",
+        "domainMatch": false,
+        "exports": [
+          "useAvailabilityStepHandlers"
+        ],
+        "lineCount": 50,
+        "usesVueReactivity": false,
+        "purpose": "Availability step event handlers: slot clicks, moveable confirm/cancel, time basis changes; no Vue reactivity.",
         "reuseTier": "feature",
         "tags": [
           "ui-state"
@@ -12137,6 +12152,24 @@
         "purpose": "timeRangesOverlap helper (BusyPeriodSource/BusyTimeRange in utils/booking/timeSlotTypes.ts).",
         "reuseTier": "shared",
         "tags": []
+      },
+      {
+        "id": "client__src__utils__booking__wizardValidation.ts",
+        "repoPath": "client/src/utils/booking/wizardValidation.ts",
+        "name": "wizardValidation",
+        "directoryDomain": "utils/booking",
+        "annotatedDomain": "booking",
+        "domainMatch": false,
+        "exports": [
+          "useWizardValidation"
+        ],
+        "lineCount": 22,
+        "usesVueReactivity": false,
+        "purpose": "Wizard step validation: resolves validators from Ref or plain object; no Vue reactivity.",
+        "reuseTier": "feature",
+        "tags": [
+          "validation"
+        ]
       },
       {
         "id": "client__src__utils__datetime.ts",
@@ -15137,7 +15170,6 @@
         "client/src/composables/admin/useInstanceFiltering.ts",
         "client/src/composables/admin/useInstanceGrouping.ts",
         "client/src/composables/admin/useInstanceShape.ts",
-        "client/src/composables/admin/useInstanceTabHandlers.ts",
         "client/src/composables/admin/useInstancesTab.ts",
         "client/src/composables/admin/useInstancesTabCreateModal.ts",
         "client/src/composables/admin/useInstancesTabEventInstance.ts",
@@ -15149,7 +15181,6 @@
         "client/src/composables/admin/useMetadataModalHandlers.ts",
         "client/src/composables/admin/usePartInstanceBulkEdit.ts",
         "client/src/composables/admin/usePartInstanceCollection.ts",
-        "client/src/composables/admin/usePartInstanceExpansion.ts",
         "client/src/composables/admin/usePartsCollectionField.ts",
         "client/src/composables/admin/usePartsTotals.ts",
         "client/src/composables/admin/useRelationshipCollection.ts",
@@ -15170,7 +15201,6 @@
         "client/src/composables/admin/useShapeEditModal.ts",
         "client/src/composables/admin/useShapesTab.ts",
         "client/src/composables/admin/useShapesTabCreation.ts",
-        "client/src/composables/admin/useShapesTabDeletion.ts",
         "client/src/composables/admin/useShapesTabModals.ts",
         "client/src/composables/admin/useStatusButtonFields.ts",
         "client/src/composables/admin/useStatusButtonHandlers.ts",
@@ -15187,7 +15217,6 @@
         "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
         "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
         "client/src/composables/booking/useApiCallStatus.ts",
-        "client/src/composables/booking/useAppointmentDataCollection.ts",
         "client/src/composables/booking/useAppointmentDropdown.ts",
         "client/src/composables/booking/useAppointmentDuration.ts",
         "client/src/composables/booking/useAppointmentLoader.ts",
@@ -15199,7 +15228,6 @@
         "client/src/composables/booking/useAvailabilityEmptyState.ts",
         "client/src/composables/booking/useAvailabilityLogic.ts",
         "client/src/composables/booking/useAvailabilityStepData.ts",
-        "client/src/composables/booking/useAvailabilityStepHandlers.ts",
         "client/src/composables/booking/useAvailabilityUI.ts",
         "client/src/composables/booking/useAvailabilityValidation.ts",
         "client/src/composables/booking/useBlockInstanceSelection.ts",
@@ -15275,20 +15303,25 @@
         "client/src/composables/useThemeMode.ts",
         "client/src/utils/admin/appointmentHelpers.ts",
         "client/src/utils/admin/buildMetadataEntry.ts",
+        "client/src/utils/admin/capacityConstraintsHandlers.ts",
         "client/src/utils/admin/entityCardTitleKeydown.ts",
         "client/src/utils/admin/entityDisplay.ts",
         "client/src/utils/admin/entityDisplayText.ts",
         "client/src/utils/admin/entityList.ts",
         "client/src/utils/admin/entityListDelete.ts",
         "client/src/utils/admin/fieldKeyboardGuard.ts",
+        "client/src/utils/admin/gridConfigHandlers.ts",
         "client/src/utils/admin/inputConfigEditor.ts",
         "client/src/utils/admin/instanceBulkEdit.ts",
+        "client/src/utils/admin/instanceTabHandlers.ts",
         "client/src/utils/admin/selectTypeResolver.ts",
+        "client/src/utils/admin/shapesTabDeletion.ts",
         "client/src/utils/booking/BlockFinal.ts",
         "client/src/utils/booking/PartFinal.ts",
         "client/src/utils/booking/appointmentDataBuilders.ts",
         "client/src/utils/booking/appointmentTimeCalculations.ts",
         "client/src/utils/booking/availabilityStepData.ts",
+        "client/src/utils/booking/availabilityStepHandlers.ts",
         "client/src/utils/booking/blockFinalizer.ts",
         "client/src/utils/booking/cascadeFilterPipeline.ts",
         "client/src/utils/booking/confirmationStepData.ts",
@@ -15406,7 +15439,6 @@
         "client/src/composables/admin/useBusinessRuleForm.ts",
         "client/src/composables/admin/useBusinessRulesTab.ts",
         "client/src/composables/admin/useCalendarHoldFormState.ts",
-        "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
         "client/src/composables/admin/useDialogFormState.ts",
         "client/src/composables/admin/useEntityCardActions.ts",
         "client/src/composables/admin/useEntityCardExpansion.ts",
@@ -15429,7 +15461,6 @@
         "client/src/composables/admin/useFieldLocation.ts",
         "client/src/composables/admin/useFieldRendererErrorWatch.ts",
         "client/src/composables/admin/useFormFieldConfigs.ts",
-        "client/src/composables/admin/useGridConfigHandlers.ts",
         "client/src/composables/admin/useOverlapConstraintsPanel.ts",
         "client/src/composables/admin/usePartInstanceForm.ts",
         "client/src/composables/admin/usePropertyCreateForm.ts",
@@ -15499,7 +15530,7 @@
         "client/src/components/booking/steps/PropertyDetailsSection.vue",
         "client/src/components/common/AddressAutocomplete.vue"
       ],
-      "note": "104 entries share the \"form\" tag — review whether any share responsibilities"
+      "note": "102 entries share the \"form\" tag — review whether any share responsibilities"
     },
     {
       "tag": "data-fetching",
@@ -15549,13 +15580,14 @@
         "client/src/utils/api/relationshipApi.ts",
         "client/src/utils/api/relationshipApiHelpers.ts",
         "client/src/utils/api/userApi.ts",
+        "client/src/utils/booking/appointmentDataCollection.ts",
         "client/src/utils/booking/appointmentSlotBuilder.ts",
         "client/src/utils/entityCrud/createEntityCreateMutationOptions.ts",
         "client/src/utils/entityCrud/createEntityOrderMutationOptions.ts",
         "client/src/utils/entityCrud/createEntityRemoveMutationOptions.ts",
         "client/src/utils/entityCrud/createEntityUpdateMutationOptions.ts"
       ],
-      "note": "50 entries share the \"data-fetching\" tag — review whether any share responsibilities"
+      "note": "51 entries share the \"data-fetching\" tag — review whether any share responsibilities"
     },
     {
       "tag": "crud",
@@ -15700,11 +15732,11 @@
       "entries": [
         "client/src/composables/admin/useBusinessHoursFormState.ts",
         "client/src/composables/admin/useCalendarHoldFormState.ts",
-        "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-        "client/src/composables/admin/useGridConfigHandlers.ts",
         "client/src/composables/admin/useOverlapConstraintsPanel.ts",
         "client/src/composables/useAdminConfig.ts",
-        "client/src/composables/useThemeMode.ts"
+        "client/src/composables/useThemeMode.ts",
+        "client/src/utils/admin/capacityConstraintsHandlers.ts",
+        "client/src/utils/admin/gridConfigHandlers.ts"
       ],
       "note": "7 entries share the \"settings\" tag — review whether any share responsibilities"
     },
@@ -15714,11 +15746,12 @@
         "client/src/composables/admin/useFieldRendererErrorWatch.ts",
         "client/src/composables/admin/usePropertyCreateForm.ts",
         "client/src/composables/useFormValidation.ts",
+        "client/src/utils/booking/wizardValidation.ts",
         "client/src/components/booking/steps/ContactFormSection.vue",
         "client/src/components/booking/steps/PropertyAddressSection.vue",
         "client/src/components/booking/steps/PropertyDetailsSection.vue"
       ],
-      "note": "6 entries share the \"validation\" tag — review whether any share responsibilities"
+      "note": "7 entries share the \"validation\" tag — review whether any share responsibilities"
     },
     {
       "tag": "navigation",
@@ -15740,13 +15773,12 @@
         "client/src/composables/booking/useWizardStepSync.ts",
         "client/src/composables/booking/useWizardStepValidation.ts",
         "client/src/composables/booking/useWizardSubmission.ts",
-        "client/src/composables/booking/useWizardValidation.ts",
         "client/src/composables/booking/useWizardValidationErrors.ts",
         "client/src/composables/layout/useLogout.ts",
         "client/src/utils/booking/bookingWizardStepValidators.ts",
         "client/src/components/booking/BookingWizard.vue"
       ],
-      "note": "22 entries share the \"navigation\" tag — review whether any share responsibilities"
+      "note": "21 entries share the \"navigation\" tag — review whether any share responsibilities"
     },
     {
       "tag": "dev",

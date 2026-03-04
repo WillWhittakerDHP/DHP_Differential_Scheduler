@@ -11,7 +11,7 @@ import {
   ENFORCEMENT_OPTIONS,
   ROLLING_WEEK_DIRECTION_OPTIONS
 } from '@/constants/businessControlsOptions'
-import { useCapacityConstraintsHandlers } from '@/composables/admin/useCapacityConstraintsHandlers'
+import { useCapacityConstraintsHandlers } from '@/utils/admin/capacityConstraintsHandlers'
 import type { CapacityConstraintsState } from '@/types/admin/capacityConstraintsHandlers'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)

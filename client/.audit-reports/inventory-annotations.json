@@ -1648,10 +1648,25 @@
     "reuseTier": "feature",
     "tags": [
       "ui-state"
-    ],
-    "targetPath": "client/src/types/admin/instanceTabHandlers.ts",
-    "suppressUtilDisguise": true,
-    "suppressUtilDisguiseReason": "Mutates activeTab.value ref passed in options; operates on refs indirectly."
+    ]
+  },
+  "client/src/utils/admin/capacityConstraintsHandlers.ts": {
+    "purpose": "Handler bag for CapacityConstraintsPanel: work-hour and income constraint setters; no Vue reactivity.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state",
+      "settings"
+    ]
+  },
+  "client/src/utils/admin/gridConfigHandlers.ts": {
+    "purpose": "Handler bag for GridConfigPanel: minute increment, attendee labels, graph labels; no Vue reactivity.",
+    "domain": "admin",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state",
+      "settings"
+    ]
   },
   "client/src/composables/admin/useInstancesTabCreateModal.ts": {
     "purpose": "PATTERN: Create/duplicate modal state and handlers for Instances tab. WHY: Keeps InstancesTab.vue under vue-architecture",
@@ -3175,8 +3190,8 @@
     "priority": "low",
     "targetPath": "client/src/types/booking/wizardStepValidation.ts"
   },
-  "client/src/utils/booking/wizardSubmission.ts": {
-    "purpose": "Wizard submission handler: orchestrates appointment creation and step advancement; no Vue reactivity.",
+  "client/src/composables/booking/useWizardSubmission.ts": {
+    "purpose": "Wizard submission: orchestrates appointment creation/update, error handling, and step advancement.",
     "domain": "booking",
     "reuseTier": "feature",
     "tags": [
@@ -3189,6 +3204,14 @@
     "reuseTier": "feature",
     "tags": [
       "validation"
+    ]
+  },
+  "client/src/utils/booking/availabilityStepHandlers.ts": {
+    "purpose": "Availability step event handlers: slot clicks, moveable confirm/cancel, time basis changes; no Vue reactivity.",
+    "domain": "booking",
+    "reuseTier": "feature",
+    "tags": [
+      "ui-state"
     ]
   },
   "client/src/composables/booking/useWizardValidationErrors.ts": {
@@ -5274,15 +5297,6 @@
     "reuseTier": "feature",
     "tags": [
       "ui-state"
-    ]
-  },
-  "client/src/composables/admin/useGridConfigHandlers.ts": {
-    "purpose": "Handler functions for GridConfigPanel that write into formState and differential (minute increment, attendees, labels).",
-    "domain": "admin",
-    "reuseTier": "feature",
-    "tags": [
-      "form",
-      "settings"
     ]
   },
   "client/src/composables/admin/useInstancesTab.ts": {

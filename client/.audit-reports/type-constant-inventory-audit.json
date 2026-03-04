@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T15:44:39.437Z",
+  "generatedAt": "2026-03-04T16:15:50.298Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -44,7 +44,7 @@
     "unannotated": 0,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 71,
+      "inlineTypesInComposables": 72,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -9327,16 +9327,6 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/admin/useShapesTabDeletion.ts",
-      "exportedTypes": [
-        "UseShapesTabDeletionReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/composables/admin/useShapesTabModals.ts",
       "exportedTypes": [
         "UseShapesTabModalsReturn"
@@ -9746,6 +9736,16 @@
       "sourceFile": "client/src/utils/admin/selectOptionTransforms.ts",
       "exportedTypes": [
         "GroupWithParent"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/utils/admin/shapesTabDeletion.ts",
+      "exportedTypes": [
+        "UseShapesTabDeletionReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10710,6 +10710,16 @@
           "sourceFile": "client/src/utils/admin/selectOptionTransforms.ts",
           "exportedTypes": [
             "GroupWithParent"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/utils/admin/shapesTabDeletion.ts",
+          "exportedTypes": [
+            "UseShapesTabDeletionReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",

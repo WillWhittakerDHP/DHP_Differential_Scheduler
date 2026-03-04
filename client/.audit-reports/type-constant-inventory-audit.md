@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-04T15:44:39.437Z
+Generated: 2026-03-04T16:15:50.298Z
 
 ## Summary
 
@@ -17,7 +17,7 @@ Generated: 2026-03-04T15:44:39.437Z
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 71 |
+| Inline types in composables | 72 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -516,6 +516,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/utils/admin/metadataFieldUpdates.ts`: MetadataFieldUpdatesOptions, MetadataFieldUpdatesReturn (imported by 0 files)
 - `client/src/utils/admin/selectFilterStrategies.ts`: ValidChildrenKey (imported by 0 files)
 - `client/src/utils/admin/selectOptionTransforms.ts`: GroupWithParent (imported by 0 files)
+- `client/src/utils/admin/shapesTabDeletion.ts`: UseShapesTabDeletionReturn (imported by 0 files)
 - `client/src/utils/beta/betaFeedback.ts`: BetaFeedbackReturn (imported by 0 files)
 - `client/src/utils/beta/captureBrowserContext.ts`: BrowserContext (imported by 0 files)
 - `client/src/utils/booking/devPanelsFormatters.ts`: DevPanelsFormattersReturn (imported by 0 files)

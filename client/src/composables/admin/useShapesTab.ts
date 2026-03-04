@@ -11,7 +11,7 @@ import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityTabState } from '@/composables/admin/useEntityTabState'
 import { useShapesTabModals } from '@/composables/admin/useShapesTabModals'
 import { useShapesTabCreation } from '@/composables/admin/useShapesTabCreation'
-import { useShapesTabDeletion } from '@/composables/admin/useShapesTabDeletion'
+import { useShapesTabDeletion } from '@/utils/admin/shapesTabDeletion'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import {

@@ -1,6 +1,5 @@
 /**
- * Wizard submission: orchestrates appointment creation, error handling, and step advancement.
- * Accepts reactive params but uses no Vue reactivity internally.
+ * Wizard submission: orchestrates appointment creation/update, error handling, and step advancement.
  */
 import { computed } from 'vue'
 import { ERROR_CREATE_APPOINTMENT, ERROR_UPDATE_APPOINTMENT } from '@/constants/errorMessages'
