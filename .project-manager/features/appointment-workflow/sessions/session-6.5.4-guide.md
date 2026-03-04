@@ -15,13 +15,13 @@
 **Description:** Enable clients to open reschedule, view-quote, or cancel flows via links (URLs with mode and appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a **"Copy quote link" button** in the app generates a copyable URL so staff can send it manually (email, Slack, etc.).
 
 **Duration:** [Estimated]
-**Status:** Not Started
+**Status:** In Progress
 
 **Dependencies:** Session 6.5.1 (wizard mode, load-at-step-3, admin entry).
 
 ### Tasks
 
-- [ ] #### Task 6.5.4.1: URL scheme and router
+- [x] #### Task 6.5.4.1: URL scheme and router
 
 **Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
 
