@@ -27,6 +27,8 @@
 
 **Coupon today:** Coupon discount is a placeholder (0) in `confirmationStepData.ts`; the Apply Coupon button exists in the UI but is not wired. This phase only adds the **visibility** toggle (show/hide the row and button); actual coupon logic can remain placeholder.
 
+**Coupon architecture (future — informs this phase's design):** Coupons will become a new **blockShape** so that coupon application is part of the finalizer pipeline (same pattern as other block shapes). Which users can see which coupons will be controlled by the existing **valid and active cascade** system (ValidPricingCascade at shape level, PricingCascade at instance level). Coupon block instances will be wired into a **cascaded dropdown** (user → service, visually similar to property types). This phase's visibility toggle and UI structure should be designed with this future architecture in mind — the "Apply Coupon" button will eventually open the cascaded coupon selector, and the Coupon Discount row will display the selected coupon's resolved value from the cascade.
+
 ---
 
 ## Phase Objectives

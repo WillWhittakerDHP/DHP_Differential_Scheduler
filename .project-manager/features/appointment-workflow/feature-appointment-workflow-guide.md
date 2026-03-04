@@ -137,6 +137,7 @@
 
 - [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
 **Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
+**Coupon architecture (future — informs this phase's design):** Coupons will become a new blockShape wired through the finalizer pipeline. Visibility and availability will be controlled by the valid/active cascade system (ValidPricingCascade → PricingCascade). Coupon block instances will appear in a cascaded dropdown (user → service, similar to property types). This phase's toggle and UI should anticipate that architecture — the Apply Coupon button will eventually open the cascaded coupon selector, and the Coupon Discount row will show the resolved cascade value.
 **Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
 **Dependencies:** None (reuses `buildConfirmationPriceData`, existing Confirmation step fee UI, and availability settings payload).
 **Success Criteria:**

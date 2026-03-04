@@ -8,5 +8,5 @@ session.id=6.5.4
 session.name=** Client-facing entry — reschedule / cancel / quote links
 session.branch=session-6.5.4-client-facing-entry-reschedule-cancel-quote-links
 session.slug=client-facing-entry-reschedule-cancel-quote-links
-task.id=6.5.4.6
-task.name=Verification and docs
+task.id=
+task.name=
