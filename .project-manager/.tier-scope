@@ -8,5 +8,5 @@ session.id=6.5.3
 session.name=** Original-Inspection UI
 session.branch=session-6.5.3-original-inspection-ui
 session.slug=original-inspection-ui
-task.id=6.5.3.3
-task.name=Verify end-to-end original-inspection UI
+task.id=
+task.name=

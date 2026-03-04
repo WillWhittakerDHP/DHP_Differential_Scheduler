@@ -83,7 +83,7 @@ function onOptionIdUpdate(id: string | null): void {
 
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const selectTimeSlotLabel = computed(
-  () => availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
+  () => availabilitySettings.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot'
 )
 const hasSelectedSlot = computed(
   () => o.graphBars.value?.major != null || o.graphBars.value?.minor != null
