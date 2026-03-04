@@ -166,10 +166,12 @@ export function useContactsStepData(
     })
   }
 
+  let contactsRestored = false
   if (restoreFrom) {
     watch(restoreFrom, (data) => {
-      if (data) {
+      if (!contactsRestored && data) {
         restoreContactsFromStepData(data, contactRefs)
+        contactsRestored = true
       }
     }, { immediate: true })
   }

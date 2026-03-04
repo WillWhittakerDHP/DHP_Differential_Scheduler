@@ -12,19 +12,18 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-04T19:05:51.318Z**
+- Generated at: **2026-03-04T19:07:15.358Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **1**
-- **Errors requiring review: 2**
+- Exit code: **0**
+- **Errors requiring review: 0**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **1**
+- Pools: **0**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2322-ts2322-assign-ref-null-ref-undefined` | 26 | 2 | 2 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -35,19 +34,3 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `src/components/booking/steps/ContactsStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@35:3 Type 'Ref<ContactsStepData | null, ContactsStepData | null> | null' is not assignable to type 'Ref<ContactsStepData | null, ContactsStepData | null> | undefined'.
-```
-
-### `src/components/booking/steps/PropertyDetailsStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@129:3 Type 'Ref<PropertyDetailsData | null, PropertyDetailsData | null> | null' is not assignable to type 'Ref<PropertyDetailsData | null, PropertyDetailsData | null> | undefined'.
-```
