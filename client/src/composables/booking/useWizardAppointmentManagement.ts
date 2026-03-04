@@ -3,6 +3,7 @@
 Used by:...
  */
 import { ref, onMounted, type Ref } from 'vue'
+import { useRoute } from 'vue-router'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { createLogger } from '@/utils/logger'
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
@@ -48,6 +49,7 @@ function applyWizardState(
 export function useWizardAppointmentManagement(
   options: UseWizardAppointmentManagementOptions
 ): UseWizardAppointmentManagementReturn {
+  const route = useRoute()
   const {
     wizard,
     bookingData,
@@ -80,8 +82,12 @@ export function useWizardAppointmentManagement(
   const isLoadingAppointment = ref(false)
 
   /**
+   * Load appointment by id or 'random'. Optional mode override for URL entry (reschedule/quote).
    */
-  const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
+  const handleLoadAppointment = async (
+    appointmentIdOrRandom: string | null,
+    options?: { mode?: 'reschedule' | 'quote' }
+  ): Promise<void> => {
     if (!appointmentIdOrRandom) return
     
     isLoadingAppointment.value = true
@@ -134,9 +140,9 @@ export function useWizardAppointmentManagement(
         localStorage.setItem(PERSIST_KEY_APPOINTMENT_ID, appointment.id)
       }
 
-      // WHEN: Loading by id (not 'random') — entry point may have set reschedule; ensure we're in reschedule mode for submit step
+      // WHEN: Loading by id (not 'random') — use mode from URL entry or default to reschedule
       if (appointmentIdOrRandom !== 'random') {
-        wizard.setWizardMode('reschedule')
+        wizard.setWizardMode(options?.mode ?? 'reschedule')
       }
 
       // WHY: Since appointment data is already loaded, skip step 2 and go directly to step 3 (Availability)
@@ -217,8 +223,19 @@ PATTERN...
     success('Wizard reset successfully')
   }
 
-  // Draft-first: on mount, restore wizard from persisted appointment id so reload keeps state
+  // PATTERN: On mount, restore wizard from URL query (reschedule/quote links) or persisted appointment id
   onMounted(() => {
+    const queryMode = route.query.mode as string | undefined
+    const queryAppointmentId = route.query.appointmentId as string | undefined
+
+    const isValidMode = (m: string): m is 'reschedule' | 'quote' =>
+      m === 'reschedule' || m === 'quote'
+
+    if (queryMode && queryAppointmentId && isValidMode(queryMode)) {
+      void handleLoadAppointment(queryAppointmentId, { mode: queryMode })
+      return
+    }
+
     if (typeof localStorage === 'undefined') return
     const persistedId = localStorage.getItem(PERSIST_KEY_APPOINTMENT_ID)
     if (persistedId && !loadedAppointmentId.value) {

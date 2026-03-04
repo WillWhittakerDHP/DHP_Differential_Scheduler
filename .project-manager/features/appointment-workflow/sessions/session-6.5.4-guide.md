@@ -45,7 +45,7 @@
 - Cancel link works end-to-end; only valid statuses allow cancel.
 - Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
 - Calendar invite can include reschedule and cancel links via variables.
-- Session docs and handoff updated.- [ ] #### Task 6.5.4.2: Wizard entry from query
+- Session docs and handoff updated.- [x] #### Task 6.5.4.2: Wizard entry from query
 
 **Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
 

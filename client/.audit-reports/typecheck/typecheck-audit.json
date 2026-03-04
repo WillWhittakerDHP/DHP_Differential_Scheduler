@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T18:39:26.221Z",
+  "generatedAt": "2026-03-04T18:41:56.104Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,19 +10,72 @@
       "cwd": "server"
     }
   },
-  "exitCode": 0,
+  "exitCode": 1,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "file": "src/composables/booking/useWizardAppointmentManagement.ts",
+      "line": 6,
+      "col": 1,
+      "code": "TS6133",
+      "message": "'useRoute' is declared but its value is never read.",
+      "raw": "src/composables/booking/useWizardAppointmentManagement.ts(6,1): error TS6133: 'useRoute' is declared but its value is never read.",
+      "scope": "client",
+      "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts"
+    }
+  ],
   "allowedErrors": [],
-  "pools": [],
-  "files": []
+  "pools": [
+    {
+      "poolId": "TS6133-ts6133-useroute-is-declared-but-its-value-is-never-read",
+      "groupKey": "TS6133::'useRoute' is declared but its value is never read.",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 3,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 6,
+      "sample": [
+        {
+          "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts",
+          "line": 6,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useRoute' is declared but its value is never read."
+        }
+      ],
+      "priority": "P2"
+    }
+  ],
+  "files": [
+    {
+      "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/booking/useWizardAppointmentManagement.ts",
+          "line": 6,
+          "col": 1,
+          "code": "TS6133",
+          "message": "'useRoute' is declared but its value is never read.",
+          "raw": "src/composables/booking/useWizardAppointmentManagement.ts(6,1): error TS6133: 'useRoute' is declared but its value is never read.",
+          "scope": "client",
+          "repoPath": "src/composables/booking/useWizardAppointmentManagement.ts"
+        }
+      ]
+    }
+  ]
 }
