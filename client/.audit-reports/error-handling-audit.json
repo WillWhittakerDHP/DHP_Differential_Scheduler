@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T18:49:14.561Z",
+  "generatedAt": "2026-03-04T19:05:16.050Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -28,13 +28,13 @@
   },
   "files": [
     {
-      "id": "client__src__views__admin__tabs__components__AppointmentActionsCell.vue",
-      "repoPath": "client/src/views/admin/tabs/components/AppointmentActionsCell.vue",
+      "id": "client__src__components__booking__BookingWizard.vue",
+      "repoPath": "client/src/components/booking/BookingWizard.vue",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "catch-without-logger",
-          "lineNumber": 27,
+          "lineNumber": 55,
           "line": "} catch (err) {",
           "confidence": "high",
           "detectionStage": "validator",

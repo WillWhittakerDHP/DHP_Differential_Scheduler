@@ -12,11 +12,11 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-04T18:49:13.028Z**
+- Generated at: **2026-03-04T19:05:51.318Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 1**
+- **Errors requiring review: 2**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
 - Pools: **1**
 
@@ -24,7 +24,7 @@ Exception handling:
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P2 | `TS6133-ts6133-handlecopyquotelink-is-declared-but-its-value-is-never-read` | 6 | 1 | 1 | 0 | 0 |
+| P0 | `TS2322-ts2322-assign-ref-null-ref-undefined` | 26 | 2 | 2 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -36,10 +36,18 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/views/admin/tabs/components/AppointmentActionsCell.vue`
+### `src/components/booking/steps/ContactsStep.vue`
 
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS6133@22:16 'handleCopyQuoteLink' is declared but its value is never read.
+TS2322@35:3 Type 'Ref<ContactsStepData | null, ContactsStepData | null> | null' is not assignable to type 'Ref<ContactsStepData | null, ContactsStepData | null> | undefined'.
+```
+
+### `src/components/booking/steps/PropertyDetailsStep.vue`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2322@129:3 Type 'Ref<PropertyDetailsData | null, PropertyDetailsData | null> | null' is not assignable to type 'Ref<PropertyDetailsData | null, PropertyDetailsData | null> | undefined'.
 ```

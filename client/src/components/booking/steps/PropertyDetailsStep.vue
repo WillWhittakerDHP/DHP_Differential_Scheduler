@@ -126,7 +126,7 @@ usePropertyFormWatchers({
   },
   loadedWizardState,
   isAddressExpanded,
-  restoreFrom: propertyDetailsStepData
+  restoreFrom: propertyDetailsStepData ?? undefined
 })
 
 // PATTERN: Composable provides validation functions and computed properties

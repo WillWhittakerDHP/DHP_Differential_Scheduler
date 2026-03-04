@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-04T18:49:15.071Z
+Generated at: 2026-03-04T19:05:15.014Z
 
 ## Summary
 
-- Total allowed: **0**
+- Total allowed: **1**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,4 +20,6 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-- (no exceptions configured)
+| File | Rule | Line | Source | Reason |
+| --- | --- | ---: | --- | --- |
+| `client/src/composables/booking/useMoveablePartsScheduling.ts` | composableExport | 33 | pattern | Composables may export camelCase helpers used by other co... |

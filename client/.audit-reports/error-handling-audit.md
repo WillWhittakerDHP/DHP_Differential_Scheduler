@@ -72,12 +72,12 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/src/views/admin/tabs/components/AppointmentActionsCell.vue` | P2 | 1 | 0 | 0 | 1 |
+| `client/src/components/booking/BookingWizard.vue` | P2 | 1 | 0 | 0 | 1 |
 
 ## Per-file findings
 
-### `client/src/views/admin/tabs/components/AppointmentActionsCell.vue` [P2] (score: 1)
+### `client/src/components/booking/BookingWizard.vue` [P2] (score: 1)
 
 ```
-catch-without-logger@27: } catch (err) {
+catch-without-logger@55: } catch (err) {
 ```

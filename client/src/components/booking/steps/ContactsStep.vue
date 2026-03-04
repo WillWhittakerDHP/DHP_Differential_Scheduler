@@ -32,7 +32,7 @@ const requiresAgent = computed(() => {
 // PATTERN: Composable handles all contact form data and optional section visibility
 const contactsStepData = useContactsStepData({
   loadedWizardState,
-  restoreFrom: parentContactsStepData
+  restoreFrom: parentContactsStepData ?? undefined
 })
 
 const {

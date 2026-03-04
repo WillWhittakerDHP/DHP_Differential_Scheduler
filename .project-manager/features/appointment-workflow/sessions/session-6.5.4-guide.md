@@ -93,7 +93,7 @@
 - Cancel link works end-to-end; only valid statuses allow cancel.
 - Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
 - Calendar invite can include reschedule and cancel links via variables.
-- Session docs and handoff updated.- [x] - [x] #### Task 6.5.4.4: "Copy quote link" button
+- Session docs and handoff updated.- [x] - [x] - [x] #### Task 6.5.4.4: "Copy quote link" button
 
 **Goal:** "Copy quote link" button in the **booking wizard** replaces Submit when viewing an existing quote (quote mode + loaded appointment). Clicking copies the quote URL to clipboard and shows "Link copied". Wizard persistence: going backwards preserves all step selections (Service Selection, Property Details, Contacts, Availability).
 
