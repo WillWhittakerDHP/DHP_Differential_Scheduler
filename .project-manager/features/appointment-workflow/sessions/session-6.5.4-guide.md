@@ -96,3 +96,5 @@
 **Files:** Session log, handoff.
 **Approach:** Smoke-test links; update session log and handoff.
 **Checkpoint:** All links work; docs updated.
+
+<!-- end excerpt session -->

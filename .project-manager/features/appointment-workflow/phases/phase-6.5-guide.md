@@ -34,7 +34,7 @@
 2. After each session-end, cascade to next session or phase-end.
 3. Follow governance (audits, thin components, composables).
 
-- [ ] ### Session 6.5.4: Client-facing entry — reschedule/quote/cancel links
+- [x] ### Session 6.5.4: Client-facing entry — reschedule/quote/cancel links
 
 **Description:** ** Client-facing entry — reschedule/quote/cancel links
 
