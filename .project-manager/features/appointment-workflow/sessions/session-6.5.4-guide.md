@@ -95,15 +95,6 @@
 - Calendar invite can include reschedule and cancel links via variables.
 - Session docs and handoff updated.- [x] - [x] - [x] #### Task 6.5.4.4: "Copy quote link" button
 
-**Goal:** "Copy quote link" button in the **booking wizard** replaces Submit when viewing an existing quote (quote mode + loaded appointment). Clicking copies the quote URL to clipboard and shows "Link copied". Wizard persistence: going backwards preserves all step selections (Service Selection, Property Details, Contacts, Availability).
-
-**Files:** BookingWizard.vue (Copy quote link replaces Submit when quote+loaded); useAvailabilityDefaults, usePropertyFormWatchers, useContactsStepData (restore from parent refs); useAvailabilityOrchestrator, AvailabilityStep, PropertyDetailsStep, ContactsStep (inject and pass restoreFrom); AppointmentActionsCell (button removed).
-
-**Checkpoint:**
-- Copy quote link replaces Submit on confirmation step when quote mode + loaded appointment; clicking copies URL.
-- Going Previous preserves all step selections (Service Selection, Property Details, Contacts, Availability).
-- [ ] #### Task 6.5.4.5: Invite template variables (optional)
-
 **Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
 
 **Files:**
@@ -126,30 +117,36 @@
 - Cancel link works end-to-end; only valid statuses allow cancel.
 - Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
 - Calendar invite can include reschedule and cancel links via variables.
-- Session docs and handoff updated.- [ ] #### Task 6.5.4.6: Verification and docs
+- Session docs and handoff updated.- [ ] #### Task 6.5.4.5: Invite template variables (optional)
 
-**Goal:** Enable clients to open reschedule, view-quote, or cancel flows via URLs (mode + appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a "Copy quote link" button in the app generates a copyable URL for staff to send manually.
+**Goal:** Add `{rescheduleLink}` and `{cancelLink}` as optional template variables for calendar invites. When used in event instance templates (title, description, location), resolve to full URLs. Update admin template help. Quote link is not in the template (staff use Copy quote link button).
 
 **Files:**
-- `client/src/router/index.ts` — URL scheme, booking route with query params, cancel route
-- `client/src/views/` — BookingWizardView, cancel view/component
-- `client/src/composables/booking/` — useBookingWizard, useWizardAppointmentManagement (wizard entry from query)
-- `client/src/utils/` — shared URL-building utility for link generation
-- `server/src/services/invites/` — templateResolver, inviteContextBuilder for {rescheduleLink}, {cancelLink}
-- Admin components — appointment row/detail "Copy quote link" button; template help
+- `shared/constants/templateVariables.ts` — Add rescheduleLink, cancelLink to EVENT_TEMPLATE_VARIABLES
+- `server/src/services/invites/inviteContextBuilder.ts` — Add rescheduleLink and cancelLink to buildInviteContext; base URL from env
+- Server env/config — Document APP_BASE_URL (or VITE_APP_BASE_URL) for server-side link building
+- Admin template help — Uses EVENT_TEMPLATE_VARIABLES from shared; auto-picks up new entries
 
-**Approach:** 1. **URL scheme and router:** Define booking route with `mode` and `appointmentId` query params; separate cancel route; document base URL source.
-2. **Wizard entry from query:** On booking route load, read query params, set wizard mode and loadedAppointmentId; load-at-step-3 runs for reschedule/quote.
-3. **Cancel flow:** Cancel URL → confirm page → PATCH to cancelled → success/error and navigation.
-4. **Copy quote link button:** Button on appointment row/detail (quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback.
-5. **Invite template variables (optional):** Add {rescheduleLink} and {cancelLink} only; resolve to full URLs; update admin template help.
-6. **Verification and docs:** Smoke-test all links; document URL scheme; update handoff/session log.
+**Approach:** 1. Add rescheduleLink and cancelLink to shared EVENT_TEMPLATE_VARIABLES. 2. In buildInviteContext, compute full URLs from base URL env. 3. Template resolver already resolves any {var} from context. 4. Document APP_BASE_URL in env example.
 
 **Checkpoint:**
-- Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
-- Cancel link works end-to-end; only valid statuses allow cancel.
-- Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
-- Calendar invite can include reschedule and cancel links via variables.
+- Event template with {rescheduleLink} produces full reschedule URL in calendar invite.
+- Event template with {cancelLink} produces full cancel URL in calendar invite.
+- Admin Instances tab template help lists rescheduleLink and cancelLink.
+
+- [ ] #### Task 6.5.4.6: Verification and docs
+
+**Goal:** Smoke-test all session deliverables; document URL scheme; update handoff and session log.
+
+**Files:**
+- Session log, handoff, session guide
+- URL scheme documentation (if separate doc exists)
+
+**Approach:** 1. Smoke-test reschedule, quote, cancel links end-to-end. 2. Smoke-test invite template variables {rescheduleLink}, {cancelLink}. 3. Update session log with completion status. 4. Update handoff with Next Action. 5. Run session-end when all tasks complete.
+
+**Checkpoint:**
+- All links work: reschedule, quote, cancel.
+- Invite templates resolve {rescheduleLink} and {cancelLink}.
 - Session docs and handoff updated.## Session Workflow
 
 Follow the same workflow as other sessions: use `/session-start 6.5.4 [description]` to begin; work one task at a time with checkpoints; use `/session-end 6.5.4 [description] [next-session]` when done. See session template or `session-6.5.1-guide.md` for full workflow (before/during/after session, checkpoints, end-of-session steps).
