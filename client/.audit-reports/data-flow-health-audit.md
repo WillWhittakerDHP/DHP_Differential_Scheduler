@@ -4,7 +4,7 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-03-04T19:42:09.490Z
+Generated: 2026-03-04T19:43:18.671Z
 
 ## Overview
 
@@ -69,9 +69,9 @@ Generated: 2026-03-04T19:42:09.490Z
 
 | File | Line | Rule | Phase | Message | Affected |
 | --- | ---: | --- | --- | --- | ---: |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 40 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 21 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 39 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 21 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
 
 ## Notes
 
