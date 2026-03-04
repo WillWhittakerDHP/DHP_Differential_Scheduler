@@ -22,7 +22,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+30 more) | 48 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+31 more) | 50 |
 | `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+237 more) | 245 |
 | `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+72 more) | 127 |
 | `update*` | `client/src/utils/admin/businessRulesApi.ts`, `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts` (+2 more) | 5 |
@@ -37,15 +37,457 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **697**
-- Groups (window=10 lines, minOccurrences=2): **0**
+- Files scanned: **712**
+- Groups (window=10 lines, minOccurrences=2): **20**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
+| `dup-39164113c7d0` | 2 | 3 | 10 | `client/src/composables/admin/useShapesTab.ts@49`, `client/src/composables/admin/useShapesTab.ts@199`, `client/src/composables/admin/useShapesTabModals.ts@55` |
+| `dup-6d904a607168` | 2 | 3 | 10 | `client/src/composables/admin/useShapesTab.ts@48`, `client/src/composables/admin/useShapesTab.ts@198`, `client/src/composables/admin/useShapesTabModals.ts@54` |
+| `dup-03cc625a46aa` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@95`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@17` |
+| `dup-03ecf443188e` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@10`, `client/src/types/admin/shapesTab.ts@22` |
+| `dup-0cd5727b10ad` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@211`, `client/src/composables/admin/useShapesTabCreation.ts@148` |
+| `dup-0eec51133848` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@99`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@21` |
+| `dup-15b042726270` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@94`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@16` |
+| `dup-2f3ba6277c62` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabCreation.ts@16`, `client/src/types/admin/shapesTab.ts@32` |
+| `dup-4613f08a0dd9` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@96`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@18` |
+| `dup-593e42bee1ad` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@213`, `client/src/composables/admin/useShapesTabCreation.ts@150` |
+| `dup-702d91fa95aa` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@212`, `client/src/composables/admin/useShapesTabCreation.ts@149` |
+| `dup-76dd3e40c0ef` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@97`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@19` |
+| `dup-7bbc40d4cc56` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@100`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@22` |
+| `dup-8664cd70ff8d` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@214`, `client/src/composables/admin/useShapesTabCreation.ts@151` |
+| `dup-87a347e1daf9` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@98`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@20` |
+| `dup-8c3423862ea4` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@9`, `client/src/types/admin/shapesTab.ts@21` |
+| `dup-9b4f257f5a9a` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@215`, `client/src/composables/admin/useShapesTabCreation.ts@152` |
+| `dup-a3072b74e292` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@210`, `client/src/composables/admin/useShapesTabCreation.ts@147` |
+| `dup-bba3eec172a6` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@93`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@15` |
+| `dup-c1f632479d25` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@209`, `client/src/composables/admin/useShapesTabCreation.ts@146` |
 
 ## Per-group details (top)
 
-LEARNING: When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-39164113c7d0`
+
+- unique files: **2**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 49-58
+- `client/src/composables/admin/useShapesTab.ts` @ lines 199-208
+- `client/src/composables/admin/useShapesTabModals.ts` @ lines 55-64
+
+```
+partShapeMetadataModalOpen,
+partInstanceMetadataModalOpen,
+annotationShapeMetadataModalOpen,
+eventShapeMetadataModalOpen,
+toggleBlockShapeMetadataModal,
+togglePartShapeMetadataModal,
+togglePartInstanceMetadataModal,
+handlePartInstanceMetadataSaved,
+toggleAnnotationShapeMetadataModal,
+toggleEventShapeMetadataModal,
+```
+
+### Group `dup-6d904a607168`
+
+- unique files: **2**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 48-57
+- `client/src/composables/admin/useShapesTab.ts` @ lines 198-207
+- `client/src/composables/admin/useShapesTabModals.ts` @ lines 54-63
+
+```
+blockShapeMetadataModalOpen,
+partShapeMetadataModalOpen,
+partInstanceMetadataModalOpen,
+annotationShapeMetadataModalOpen,
+eventShapeMetadataModalOpen,
+toggleBlockShapeMetadataModal,
+togglePartShapeMetadataModal,
+togglePartInstanceMetadataModal,
+handlePartInstanceMetadataSaved,
+toggleAnnotationShapeMetadataModal,
+```
+
+### Group `dup-03cc625a46aa`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 95-104
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 17-26
+
+```
+driveTimeApplyToOptions,
+defaultLocationPlaceId,
+driveToMinutesLabel,
+driveToMinutesHint,
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+handleBuffersDriveToCandidateMinutes,
+```
+
+### Group `dup-03ecf443188e`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTabModals.ts` @ lines 10-19
+- `client/src/types/admin/shapesTab.ts` @ lines 22-31
+
+```
+partShapeMetadataModalOpen: Ref<boolean>
+partInstanceMetadataModalOpen: Ref<boolean>
+annotationShapeMetadataModalOpen: Ref<boolean>
+eventShapeMetadataModalOpen: Ref<boolean>
+toggleBlockShapeMetadataModal: () => void
+togglePartShapeMetadataModal: () => void
+togglePartInstanceMetadataModal: () => void
+handlePartInstanceMetadataSaved: () => void
+toggleAnnotationShapeMetadataModal: () => void
+toggleEventShapeMetadataModal: () => void
+```
+
+### Group `dup-0cd5727b10ad`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 211-221
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 148-160
+
+```
+isCreatingEventShape,
+newPartShapeInitialValues,
+newAnnotationShapeName,
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+handleAnnotationShapeCreate,
+```
+
+### Group `dup-0eec51133848`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 99-108
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 21-30
+
+```
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+handleBuffersDriveToCandidateMinutes,
+handleBuffersDriveToCandidateApplyTo,
+handleBuffersDriveToCandidateEnforcement,
+handleBuffersDriveFromCandidateMinutes,
+handleBuffersDriveFromCandidateApplyTo,
+```
+
+### Group `dup-15b042726270`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 94-103
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 16-25
+
+```
+bufferPlacementOptions,
+driveTimeApplyToOptions,
+defaultLocationPlaceId,
+driveToMinutesLabel,
+driveToMinutesHint,
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+```
+
+### Group `dup-2f3ba6277c62`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 16-27
+- `client/src/types/admin/shapesTab.ts` @ lines 32-41
+
+```
+isCreatingPartShape: Ref<boolean>
+isCreatingAnnotationShape: Ref<boolean>
+isCreatingEventShape: Ref<boolean>
+newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
+newAnnotationShapeName: Ref<string>
+newEventShapeName: Ref<string>
+isCreatingAnnotationShapeLoading: Ref<boolean>
+isCreatingEventShapeLoading: Ref<boolean>
+createPartShape: () => void
+startCreatingAnnotationShape: () => void
+```
+
+### Group `dup-4613f08a0dd9`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 96-105
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 18-27
+
+```
+defaultLocationPlaceId,
+driveToMinutesLabel,
+driveToMinutesHint,
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+handleBuffersDriveToCandidateMinutes,
+handleBuffersDriveToCandidateApplyTo,
+```
+
+### Group `dup-593e42bee1ad`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 213-223
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 150-162
+
+```
+newAnnotationShapeName,
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+handleAnnotationShapeCreate,
+handleAnnotationShapeCancelled,
+startCreatingEventShape,
+```
+
+### Group `dup-702d91fa95aa`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 212-222
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 149-161
+
+```
+newPartShapeInitialValues,
+newAnnotationShapeName,
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+handleAnnotationShapeCreate,
+handleAnnotationShapeCancelled,
+```
+
+### Group `dup-76dd3e40c0ef`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 97-106
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 19-28
+
+```
+driveToMinutesLabel,
+driveToMinutesHint,
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+handleBuffersDriveToCandidateMinutes,
+handleBuffersDriveToCandidateApplyTo,
+handleBuffersDriveToCandidateEnforcement,
+```
+
+### Group `dup-7bbc40d4cc56`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 100-109
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 22-31
+
+```
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+handleBuffersDriveToCandidateMinutes,
+handleBuffersDriveToCandidateApplyTo,
+handleBuffersDriveToCandidateEnforcement,
+handleBuffersDriveFromCandidateMinutes,
+handleBuffersDriveFromCandidateApplyTo,
+handleBuffersDriveFromCandidateEnforcement,
+```
+
+### Group `dup-8664cd70ff8d`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 214-224
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 151-163
+
+```
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+handleAnnotationShapeCreate,
+handleAnnotationShapeCancelled,
+startCreatingEventShape,
+handleEventShapeCreate,
+```
+
+### Group `dup-87a347e1daf9`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 98-107
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 20-29
+
+```
+driveToMinutesHint,
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+handleBuffersAppointmentEnforcement,
+handleBuffersDriveToCandidateMinutes,
+handleBuffersDriveToCandidateApplyTo,
+handleBuffersDriveToCandidateEnforcement,
+handleBuffersDriveFromCandidateMinutes,
+```
+
+### Group `dup-8c3423862ea4`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTabModals.ts` @ lines 9-18
+- `client/src/types/admin/shapesTab.ts` @ lines 21-30
+
+```
+blockShapeMetadataModalOpen: Ref<boolean>
+partShapeMetadataModalOpen: Ref<boolean>
+partInstanceMetadataModalOpen: Ref<boolean>
+annotationShapeMetadataModalOpen: Ref<boolean>
+eventShapeMetadataModalOpen: Ref<boolean>
+toggleBlockShapeMetadataModal: () => void
+togglePartShapeMetadataModal: () => void
+togglePartInstanceMetadataModal: () => void
+handlePartInstanceMetadataSaved: () => void
+toggleAnnotationShapeMetadataModal: () => void
+```
+
+### Group `dup-9b4f257f5a9a`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 215-225
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 152-164
+
+```
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+handleAnnotationShapeCreate,
+handleAnnotationShapeCancelled,
+startCreatingEventShape,
+handleEventShapeCreate,
+handleEventShapeCancelled,
+```
+
+### Group `dup-a3072b74e292`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 210-220
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 147-159
+
+```
+isCreatingAnnotationShape,
+isCreatingEventShape,
+newPartShapeInitialValues,
+newAnnotationShapeName,
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+handlePartShapeCancelled,
+```
+
+### Group `dup-bba3eec172a6`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 93-102
+- `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 15-24
+
+```
+enforcementOptions,
+bufferPlacementOptions,
+driveTimeApplyToOptions,
+defaultLocationPlaceId,
+driveToMinutesLabel,
+driveToMinutesHint,
+driveFromMinutesLabel,
+driveFromMinutesHint,
+handleBuffersAppointmentMinutes,
+handleBuffersAppointmentPlacement,
+```
+
+### Group `dup-c1f632479d25`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `client/src/composables/admin/useShapesTab.ts` @ lines 209-219
+- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 146-158
+
+```
+isCreatingPartShape,
+isCreatingAnnotationShape,
+isCreatingEventShape,
+newPartShapeInitialValues,
+newAnnotationShapeName,
+newEventShapeName,
+isCreatingAnnotationShapeLoading,
+isCreatingEventShapeLoading,
+startCreatingAnnotationShape,
+handlePartShapeCreated,
+```
