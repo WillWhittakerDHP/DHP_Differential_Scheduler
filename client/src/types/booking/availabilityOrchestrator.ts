@@ -27,6 +27,7 @@ export interface UseAvailabilityOrchestratorReturn {
     appointmentSlots: ComputedRef<AppointmentSlots>
     emptyStateMessage: ComputedRef<string | null>
     selectedButtonIndex: ComputedRef<number | null>
+    originalInspectionButtonIndex: ComputedRef<number | null>
     selectedOptionTypeBlockId: WritableComputedRef<string | null>
     showMoveableModal: Ref<boolean>
     moveableOptions: ComputedRef<MoveableSchedulingOptions | null>

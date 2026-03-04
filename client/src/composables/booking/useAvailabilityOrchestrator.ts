@@ -18,6 +18,7 @@ import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDe
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
 import { isDifferentialFromSelectedBlocks } from '@/composables/booking/useAvailabilityLogic'
+import { findMatchingTimeSlot } from '@/utils/booking/timeSlotMatching'
 import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 import type {
   UseAvailabilityOrchestratorParams,
@@ -149,6 +150,24 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
 
   const { perspective } = usePerspectiveMapping({ startTimeType })
   const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+
+  /** Index of the slot matching the loaded appointment's inspector time when rescheduling on the same day. */
+  const originalInspectionButtonIndex = computed((): number | null => {
+    if (wizard.wizardMode.value !== 'reschedule') return null
+    const loaded = loadedWizardState.value?.availability
+    const candidateDate = loaded?.candidateDate?.start
+    const candidateSlots = loaded?.candidateTimeSlots
+    if (!candidateDate || !candidateSlots?.length) return null
+    const selectedStart = selectedDate.value?.start
+    if (!selectedStart) return null
+    const selectedDay = selectedStart.includes('T') ? selectedStart.split('T')[0] : selectedStart
+    const candidateDay = candidateDate.includes('T') ? candidateDate.split('T')[0] : candidateDate
+    if (selectedDay !== candidateDay) return null
+    const inspectorTime = candidateSlots[0].time
+    const slots = appointmentSlots.value
+    const matched = findMatchingTimeSlot(inspectorTime, slots)
+    return matched && 'buttonIndex' in matched ? (matched as { buttonIndex: number }).buttonIndex : null
+  })
 
   const { slotColor, allowedDates, firstAvailableDate } = useAvailabilitySlotColor({
     startTimeType,
@@ -292,6 +311,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       appointmentSlots,
       emptyStateMessage,
       selectedButtonIndex,
+      originalInspectionButtonIndex,
       selectedOptionTypeBlockId,
       showMoveableModal,
       moveableOptions,

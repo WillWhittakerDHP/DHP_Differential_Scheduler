@@ -163,6 +163,7 @@ const showSlotsOverlay = computed(
               <AppointmentSlotGrid
                 :appointment-slots="o.appointmentSlots.value"
                 :selected-button-index="o.selectedButtonIndex.value"
+                :original-inspection-button-index="o.originalInspectionButtonIndex?.value ?? null"
                 :time-basis="o.perspective.value"
                 :color="o.slotColor.value"
                 class="appointment-slot-grid-abut"

@@ -14,6 +14,7 @@ import { getColorForViolation, formatViolationTooltip } from '@/utils/booking/co
 interface Props {
   appointmentSlots: AppointmentSlots // AppointmentSlots structure
   selectedButtonIndex?: number | null // Selection by buttonIndex
+  originalInspectionButtonIndex?: number | null // Reschedule: buttonIndex of slot matching loaded appointment's inspector time
   timeBasis?: 'major' | 'minor' | 'nonDifferential' // Time perspective for differential scheduling
   color?: 'primary' | 'secondary'
   variant?: 'flat' | 'outlined'
@@ -26,6 +27,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   selectedButtonIndex: null,
+  originalInspectionButtonIndex: null,
   timeBasis: 'nonDifferential',
   color: 'primary',
   variant: 'outlined',
