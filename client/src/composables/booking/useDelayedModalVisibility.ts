@@ -1,5 +1,4 @@
 /**
- * WHY: Extracts delayed modal visibility (watch + DOM timer) from RequiredConfirmationModal so SFC has no Tier1 hotspots.
  */
 import type { Ref, ComputedRef, WritableComputedRef } from 'vue'
 import { ref, computed, watch } from 'vue'

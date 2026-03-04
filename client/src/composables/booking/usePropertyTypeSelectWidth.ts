@@ -1,5 +1,4 @@
 /**
- * WHY: Extracts watch + map (property type labels width) from PropertyDetailsSection so SFC has no Tier1 hotspots.
  */
 import type { Ref, ComputedRef } from 'vue'
 import { ref, watch } from 'vue'

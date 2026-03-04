@@ -22,7 +22,6 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
 
-  // WHY: Single source of truth for wizard flow; only 'new' | 'quote' are persisted; 'reschedule' is session-only
   const persistedWizardMode = useStorage<WizardMode>('booking-wizard-mode', 'new')
   const _sessionMode = ref<WizardMode | null>(null)
   const wizardMode = computed(() => _sessionMode.value ?? persistedWizardMode.value)

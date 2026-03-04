@@ -135,7 +135,6 @@ export function useWizardAppointmentManagement(
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
 
-      // Draft-first: persist id so reload can restore (skip for dev "random" load)
       if (appointmentIdOrRandom !== 'random' && typeof localStorage !== 'undefined') {
         localStorage.setItem(PERSIST_KEY_APPOINTMENT_ID, appointment.id)
       }

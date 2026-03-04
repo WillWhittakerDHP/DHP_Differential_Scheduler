@@ -67,7 +67,6 @@
 
 <script setup lang="ts">
 /**
- * WHY: Thin component; list logic in useBlockInstanceList (component-logic Tier1 extraction).
  */
 import { useBlockInstanceList } from '@/composables/admin/useBlockInstanceList'
 
