@@ -3,8 +3,8 @@
   WHY: Grouped under Calendar as settings related to appointment confirmation status and event holds
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
+import { useConfirmationAndHoldsPanel } from '@/composables/admin/useConfirmationAndHoldsPanel'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
@@ -27,19 +27,6 @@ const props = withDefaults(
   { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days' }
 )
 
-function clampHoldDuration(value: number): number {
-  const n = Number.isNaN(value) ? props.holdDurationFallback : Math.floor(value)
-  return Math.min(props.holdDurationMax, Math.max(props.holdDurationMin, n))
-}
-
-function holdDurationRule(value: unknown): true | string {
-  const n = Number(value)
-  if (Number.isNaN(n)) return `Hold duration must be at least ${props.holdDurationMin} minute(s).`
-  if (n < props.holdDurationMin) return `Hold duration must be at least ${props.holdDurationMin} minute(s).`
-  if (n > props.holdDurationMax) return `Hold duration cannot exceed ${props.holdDurationMax} minutes.`
-  return true
-}
-
 const emit = defineEmits<{
   'update:holdDurationMinutes': [value: number]
   'update:holdDurationMin': [value: number]
@@ -50,34 +37,17 @@ const emit = defineEmits<{
   'update:adminEntryTimeoutUnit': [value: 'days' | 'weeks']
 }>()
 
-const holdDurationHintText = computed(() =>
-  `How long a slot is held before it expires. Allowed range: ${props.holdDurationMin}–${props.holdDurationMax} minutes.`
-)
-function handleAutoConfirmUpdate(v: boolean | null): void {
-  emit('update:autoConfirmEnabled', v === true)
-}
-function handleHoldDurationMinutes(v: string | number): void {
-  emit('update:holdDurationMinutes', clampHoldDuration(Number(v)))
-}
-function handleHoldDurationMin(v: string | number): void {
-  emit('update:holdDurationMin', Math.max(1, Math.floor(Number(v)) || 1))
-}
-function handleHoldDurationMax(v: string | number): void {
-  emit('update:holdDurationMax', Math.min(1440, Math.floor(Number(v)) || 60))
-}
-function handleHoldDurationFallback(v: string | number): void {
-  emit('update:holdDurationFallback', clampHoldDuration(Number(v)))
-}
-function clampAdminEntryTimeout(value: number): number {
-  const n = Math.floor(Number(value))
-  return Number.isNaN(n) || n < 1 ? 1 : Math.min(365, n)
-}
-function handleAdminEntryTimeoutValue(v: string | number): void {
-  emit('update:adminEntryTimeoutValue', clampAdminEntryTimeout(Number(v)))
-}
-function handleAdminEntryTimeoutUnit(v: 'days' | 'weeks'): void {
-  emit('update:adminEntryTimeoutUnit', v)
-}
+const {
+  holdDurationHintText,
+  holdDurationRule,
+  handleAutoConfirmUpdate,
+  handleHoldDurationMinutes,
+  handleHoldDurationMin,
+  handleHoldDurationMax,
+  handleHoldDurationFallback,
+  handleAdminEntryTimeoutValue,
+  handleAdminEntryTimeoutUnit,
+} = useConfirmationAndHoldsPanel(props, emit)
 </script>
 
 <template>

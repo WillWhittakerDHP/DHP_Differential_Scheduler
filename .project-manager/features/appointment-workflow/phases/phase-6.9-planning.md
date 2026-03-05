@@ -19,10 +19,10 @@ Reframe the Appointment Availability (wizard step 3) as a mini-wizard with sub-s
 - `client/src/components/booking/MoveablePartsModal.vue` — deprecated in Session 6.9.2; removed from AvailabilityStep; mark deprecated, do not keep as default.
 
 ## Approach
-- **6.9.1:** Define sub-step model and wide layout only (labels, order, visibility for options/perspective); wire existing sections; no narrow behavior yet.
-- **6.9.2:** Narrow layout: expandable cards, current/completed state, done indicator, optional auto-expand/collapse; animations and polish.
+- **6.9.1:** Define sub-step model (including optional 5th: Confirm moveable details, visibility when slot has moveable parts + service preClosing) and wide layout; wire steps 1–4 to existing sections; reserve step 5 slot with placeholder and visibility gate; no narrow behavior yet.
+- **6.9.2:** Narrow layout: expandable cards for all sub-steps (including 5 when visible), current/completed state, done indicator, optional auto-expand/collapse; animations and polish.
 - **6.9.3:** A11y and focus: keyboard nav, ARIA (aria-expanded, etc.), focus management, reduced motion.
-- **6.9.4:** Add optional 5th sub-step (Confirm moveable details); implement inline moveable content; remove MoveablePartsModal from AvailabilityStep; deprecate modal. No changes to orchestrator validation or slot calculation except moveable gate.
+- **6.9.4:** Implement moveable content in the existing 5th sub-step; remove MoveablePartsModal from AvailabilityStep; deprecate modal; wire slot-completion gate. No changes to orchestrator validation or slot calculation except moveable gate.
 
 ## Checkpoint
 - Sub-steps defined and ordered: Day → Options (if any) → Perspective (if differential) → Time → Confirm moveable details (when applicable).
@@ -33,10 +33,10 @@ Reframe the Appointment Availability (wizard step 3) as a mini-wizard with sub-s
 - Existing validation and slot behavior unchanged (moveable flow in-step); lint passes; app starts without errors.
 
 ## How we build the tierDown to achieve them
-- **Session 6.9.1:** Sub-Step Model and Wide Layout
+- **Session 6.9.1:** Sub-Step Model and Wide Layout (includes optional 5th in model and layout; step 5 placeholder + visibility gate)
 - **Session 6.9.2:** Narrow Layout — Expandable Cards and State
 - **Session 6.9.3:** A11y and Focus for Expandable Cards
-- **Session 6.9.4:** Replace MoveablePartsModal with Optional 5th Sub-Step
+- **Session 6.9.4:** Moveable Content in 5th Sub-Step; Remove Modal and Deprecate
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`

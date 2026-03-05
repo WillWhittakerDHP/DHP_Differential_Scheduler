@@ -1,34 +1,34 @@
-## Phase intent (goals and context)
+# Session 6.8.6 Guide: Admin entry (step 0 / pre-wizard)
 
-# Phase 6.8 Guide: Admin Force-Create & Constraint Overrides
+**Purpose:** Session-level guide for admin-only entry before or as step 0 of the booking wizard: Start new | Edit quote | Reschedule, with dropdown of non-completed inspections and navigation to wizard step 3.
 
-**Purpose:** Phase-level guide for planning and tracking the admin force-create and constraint override workflow
+**Tier:** Session (Tier 2 - Medium-Level)
 
-**Tier:** Phase (Tier 1 - High-Level)
+---
 
-## Session intent from phase guide
+## Quick Start
 
-- [ ] ### Session 6.8.6: Admin entry (step 0 / pre-wizard)
-
+**Session ID:** 6.8.6  
+**Session Name:** Admin entry (step 0 / pre-wizard)  
 **Description:** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
 
-**Tasks:**
-1. Admin setting for time-out (X days/weeks) in Business Controls → Calendar or Confirmation & Holds. 2. API endpoint for list appointments (filtered by status, time-out). 3. Dropdown UI with columns Address, Client name, Agent name; selection sets wizard mode and loadedAppointmentId, navigates to step 3.
+**Status:** In Progress
 
-- [x] #### Task 6.8.6.1: ** Admin entry (step 0 / pre-wizard)
+---
 
-**Goal:** ** Admin entry (step 0 / pre-wizard)
+## Tasks
 
-**Files:**
-(See tierUp guide and context above.)
+- [x] #### Task 6.8.6.1: Admin entry (step 0 / pre-wizard)
 
-**Approach:** See tierUp scope above.
+**Goal:** Admin setting for time-out (X days/weeks) in Business Controls → Calendar or Confirmation & Holds.
 
-**Checkpoint:** Verify per tierUp success criteria. [Fill in]
-**Files:**
-- [Files to work with]
-**Approach:** [Fill in]
-**Checkpoint:** [What needs to be verified]
+**Files:** Client: Business Controls (Confirmation & Holds) — admin entry time-out value and unit.
+
+**Approach:** Add admin entry time-out setting; wire to calendar/availability settings for use by list-appointments API and dropdown filter.
+
+**Checkpoint:** Time-out setting is configurable and persisted; used by API and UI.
+
+---
 
 - [x] #### Task 6.8.6.2: API for list appointments (filtered by status, time-out)
 
@@ -40,7 +40,9 @@
 
 **Checkpoint:** API returns filtered appointment list with required columns; time-out setting from Business Controls is used in the filter.
 
-- [x] - [x] #### Task 6.8.6.3: Dropdown UI and selection → wizard step 3
+---
+
+- [x] #### Task 6.8.6.3: Dropdown UI and selection → wizard step 3
 
 **Goal:** Build admin-only step 0 / pre-wizard UI: choices Start new | Edit quote | Reschedule; for Edit quote/Reschedule, dropdown with filtered list (Address, Client name, Agent name); on selection set wizard mode and loadedAppointmentId, load appointment, navigate to step 3.
 
@@ -49,5 +51,23 @@
 **Approach:** Implement step 0 UI with three actions; when Edit quote or Reschedule selected, call list-appointments API (using time-out from settings), render dropdown with columns; on selection set mode and loadedAppointmentId, trigger load-at-step-3, navigate to step 3.
 
 **Checkpoint:** Admin entry UI shows choices and dropdown; selection sets mode and loadedAppointmentId and lands at step 3.
+
+---
+
+## Session Workflow
+
+### Before Starting a Session
+
+Use `/session-start 6.8.6` to load handoff, session guide, and task context. Implement tasks in order; after each task run `/task-end <taskId>` and cascade to the next task or `/session-end 6.8.6`.
+
+### During Session
+
+Work one task at a time (6.8.6.1 → 6.8.6.2 → 6.8.6.3). Verify each checkpoint before moving on. Session 6.8.6 is complete when all three tasks are done and session-end passes audits.
+
+### End of Session
+
+Run `/session-end 6.8.6` when all tasks are complete. Resolve any verification checklist or audit findings per the playbook.
+
+---
 
 <!-- end excerpt session -->

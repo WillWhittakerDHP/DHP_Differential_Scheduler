@@ -44,23 +44,24 @@
 ## Sessions Breakdown
 
 - [ ] ### Session 6.9.1: Sub-Step Model and Wide Layout
-**Description:** Define the sub-step model (order, visibility conditions) and implement the wide-screen experience. No narrow/card behavior yet — focus on a clean, shippable structure.
+**Description:** Define the sub-step model (order, visibility conditions) including the optional 5th from the start, and implement the wide-screen experience. No narrow/card behavior yet — focus on a clean, shippable structure. The 5th sub-step is part of the model and layout now; its content is implemented in 6.9.4.
 **Tasks:**
-- Define sub-steps: (1) Pick a day, (2) Pick options (conditional on `availableOptionTypeBlocks.length > 0`), (3) Pick perspective (conditional on date selected and `isEffectivelyDifferential`), (4) Pick a time, (5) Pick a moveable part time (conditional on the presence of a movable part)
-- Add step labels/numbers to existing sections (e.g. "1. Pick a day", "2. Options", "3. Perspective", "4. Pick a time"); keep all panels expanded on wide screens.
-- Wire AvailabilityCalendarSection, AvailabilityOptionsSection, DifferentialGraph, AppointmentSlotGrid into the sub-step structure; gate perspective sub-step on date + differential.
+- Define sub-steps: (1) Pick a day, (2) Pick options (conditional on `availableOptionTypeBlocks.length > 0`), (3) Pick perspective (conditional on date selected and `isEffectivelyDifferential`), (4) Pick a time, (5) Confirm moveable details (optional; visible only when slot has moveable parts and service has preClosing — same gate as current `hasMoveablePartsGated` / `showMoveableModal`).
+- Add step labels/numbers to existing sections and to the 5th slot: "1. Pick a day", "2. Options", "3. Perspective", "4. Pick a time", "5. Confirm moveable details" (when applicable); keep all panels expanded on wide screens.
+- Wire AvailabilityCalendarSection, AvailabilityOptionsSection, DifferentialGraph, AppointmentSlotGrid into sub-steps 1–4; reserve a panel/slot for sub-step 5 (placeholder or empty state until 6.9.4 — e.g. "Confirm moveable details" header with a stub message or loading state so the structure and visibility gate are in place).
+- Gate the 5th sub-step visibility on slot has moveable parts + service preClosing so the model and layout already know when to show step 5.
 - Ensure options sub-step is visible and ordered before perspective when options exist.
 - No changes to orchestrator validation or slot calculation.
-- Deliverable: wide layout only; narrow can remain single-column or unchanged until 6.9.2.
+- Deliverable: wide layout with all five sub-steps in the model; steps 1–4 wired to existing components; step 5 is a reserved slot with visibility gate, content added in 6.9.4. Narrow can remain single-column or unchanged until 6.9.2.
 
 - [ ] ### Session 6.9.2: Narrow Layout — Expandable Cards and State
-**Description:** Implement responsive narrow-screen behavior: each sub-step becomes an expandable card; track current step and completed state; show done indicator when collapsed; optional auto-expand next / collapse previous on completion. Animations and visual polish for the cards.
+**Description:** Implement responsive narrow-screen behavior: each sub-step (including the optional 5th when visible) becomes an expandable card; track current step and completed state; show done indicator when collapsed; optional auto-expand next / collapse previous on completion. Animations and visual polish for the cards.
 **Tasks:**
-- On narrow breakpoint, wrap each sub-step in an expandable card (e.g. VExpansionPanel or custom component).
+- On narrow breakpoint, wrap each sub-step in an expandable card (e.g. VExpansionPanel or custom component). All sub-steps in the model (1–5; 5 shown only when moveable gate is true) use the same card behavior.
 - Current sub-step expanded by default; completed sub-steps show a done indicator when collapsed.
 - Consider auto-expand next card and collapse previous when user completes a sub-step (configurable or default on).
 - Transitions/animations for expand/collapse that feel consistent with the rest of the wizard.
-- Sub-step state (current index, completed set) must be explicit so 6.9.3 (a11y) and 6.9.4 (5th sub-step) can rely on it.
+- Sub-step state (current index, completed set) must be explicit so 6.9.3 (a11y) and 6.9.4 (5th content) can rely on it.
 - No a11y implementation yet — that is Session 6.9.3.
 
 - [ ] ### Session 6.9.3: A11y and Focus for Expandable Cards
@@ -72,15 +73,14 @@
 - Respect prefers-reduced-motion: reduce or disable expand/collapse animations when the user has set reduced motion.
 - Verify with keyboard-only and with a screen reader (manual check or documented test).
 
-- [ ] ### Session 6.9.4: Replace MoveablePartsModal with Optional 5th Sub-Step
-**Description:** Add the optional 5th sub-step (Confirm moveable details) and replace MoveablePartsModal. When the selected slot has moveable parts and the service has preClosing, show "5. Confirm moveable details" with the same content as the current modal (contingency deadline, available completion times). Deprecate MoveablePartsModal — remove its use from AvailabilityStep.
+- [ ] ### Session 6.9.4: Moveable Content in 5th Sub-Step; Remove Modal and Deprecate
+**Description:** The optional 5th sub-step is already in the model and layout (from 6.9.1). This session implements its content (contingency deadline, available completion times — same as current MoveablePartsModal body), replaces MoveablePartsModal by removing its use from AvailabilityStep, and deprecates the modal.
 **Tasks:**
-- Add optional 5th sub-step to the sub-step model: "Confirm moveable details", visible only when slot has moveable parts and service has preClosing (same gate as current `hasMoveablePartsGated` / `showMoveableModal` logic).
-- Implement moveable-details content inline as the 5th sub-step panel/card (contingency questions, completion time grid). Reuse or extract shared logic (contingency state, moveable options fetch) into a composable or shared component used by the in-step UI.
+- Implement moveable-details content in the existing 5th sub-step panel/slot: contingency questions, completion time grid. Reuse or extract shared logic (contingency state, moveable options fetch) into a composable or shared component used by the in-step UI; replace the placeholder from 6.9.1.
 - Remove MoveablePartsModal from AvailabilityStep.vue; do not keep the modal as the default implementation.
 - Mark MoveablePartsModal as deprecated (JSDoc/comment and optionally deprecation notice); remove or leave as deprecated for reference in a later cleanup.
 - Ensure slot selection is only considered complete (and step valid) when moveable sub-step is either not applicable or confirmed — same behavior as current modal gate.
-- Wide/narrow layout: 5th sub-step follows the same pattern as 1–4 (expanded panel with label, or expandable card with same state/a11y as 6.9.2/6.9.3).
+- Wide/narrow layout: 5th sub-step already follows the same pattern as 1–4 (from 6.9.1/6.9.2); ensure any state or a11y from 6.9.2/6.9.3 applies to the 5th panel/card when it has content.
 
 ---
 
