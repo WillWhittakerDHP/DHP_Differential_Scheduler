@@ -1,5 +1,4 @@
 /**
- * WHY: Prefer prop-based context when provided to avoid deep provide/inject (data-flow-health audit).
  */
 import { computed, inject } from 'vue'
 import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
