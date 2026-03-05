@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T15:28:52.349Z",
+  "generatedAt": "2026-03-05T01:57:13.525Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +11,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 977,
+  "totalScanned": 976,
   "totalConstantsFiles": 27,
   "totalExportsScanned": 81,
   "deltaMode": true,

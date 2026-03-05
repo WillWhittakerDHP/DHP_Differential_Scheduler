@@ -76,6 +76,14 @@ const router = createCrudRouter({
       handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT, 'fetching appointment')
     }
   },
+  /** Set scheduledById from authenticated user on create; client cannot override (Phase 6.7 / Feature 7). */
+  beforeCreate: async (req: Request, res: Response): Promise<void> => {
+    const authReq = req as Request & { user?: { id: string } }
+    const userId = authReq.user?.id ?? null
+    if (req.body && typeof req.body === 'object') {
+      (req.body as Record<string, unknown>).scheduledById = userId
+    }
+  },
   beforeUpdate: async (req, res): Promise<void> => {
     const body = req.body as {
       status?: string
@@ -107,7 +115,7 @@ const router = createCrudRouter({
       body._holdDurationBoundsFromSettings = bounds
     }
   },
-  sanitizeInput: (data: unknown): unknown => {
+  sanitizeInput: (data: unknown, method?: 'create' | 'update' | 'patch'): unknown => {
     const appointmentData = data as {
       attendees?: AttendeeRequest[]
       feeBreakdown?: unknown
@@ -117,6 +125,7 @@ const router = createCrudRouter({
       _holdDurationBoundsFromSettings?: HoldDurationBounds
       _currentStatus?: AppointmentStatus
       status?: string
+      scheduledById?: string | null
       [key: string]: unknown
     }
     const {
@@ -127,8 +136,13 @@ const router = createCrudRouter({
       _holdDurationDefaultFromSettings: defaultFromSettings,
       _holdDurationBoundsFromSettings: boundsFromSettings,
       _currentStatus: _currentStatusStripped,
+      scheduledById: _scheduledByIdStripped,
       ...appointmentFields
     } = appointmentData
+    // scheduledById is set server-side only (beforeCreate for create); never allow client to set or change it
+    if (method === 'update' || method === 'patch') {
+      delete (appointmentFields as Record<string, unknown>).scheduledById
+    }
 
     const newStatus = appointmentFields.status as AppointmentStatus | undefined
 

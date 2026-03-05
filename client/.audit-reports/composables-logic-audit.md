@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **275**
+- Total composable files scanned: **267**
 
 ## Top hotspots (heuristic)
 
@@ -771,10 +771,10 @@ ref@70: const isLoadingMoveableDaySlots = ref(false)
 watchEffect@74: watchEffect(async () => {
 async@74: watchEffect(async () => {
 await@112: const settings = await getAvailabilitySettings()
-computed@131: const hasClosingDate = computed(
-watch@135: watch(
-async@137: async () => {
-await@151: const data = await fetchComputedAvailabilityData({
+computed@132: const hasClosingDate = computed(
+watch@136: watch(
+async@138: async () => {
+await@152: const data = await fetchComputedAvailabilityData({
 ```
 
 ### `client/src/composables/booking/useWizardAppointmentManagement.ts`
@@ -1721,11 +1721,11 @@ filter@64: return parts.filter(Boolean).join(', ') || null
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=1, await=3, dom=0, console=0
 
 ```
-computed@30: const isUpdateSubmit = computed(() => currentAppointmentId.value != null && currentAppointmentId.value !== '')
-async@32: const handleSubmit = async (): Promise<void> => {
-await@34: const appointmentData = await collectAppointmentData()
-await@41: await updateAppointment.mutateAsync({ id, data: appointmentData })
-await@44: await createAppointment.mutateAsync(appointmentData)
+computed@28: const isUpdateSubmit = computed(() => currentAppointmentId.value != null && currentAppointmentId.value !== '')
+async@30: const handleSubmit = async (): Promise<void> => {
+await@32: const appointmentData = await collectAppointmentData()
+await@39: await updateAppointment.mutateAsync({ id, data: appointmentData })
+await@42: await createAppointment.mutateAsync(appointmentData)
 ```
 
 ### `client/src/composables/useThemeMode.ts`
@@ -2073,16 +2073,6 @@ await@100: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 computed@22: const cardClasses = computed(() => {
 computed@26: const controlClasses = computed(() => {
 computed@30: const contentContainerClasses = computed(() => {
-```
-
-### `client/src/composables/booking/useAppointmentDataCollection.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=2, dom=0, console=0
-
-```
-async@36: const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
-await@59: const createdProperty = await createProperty.mutateAsync(propertyData)
-await@65: const attendees = await buildAttendeesFromContacts(contacts, createUser)
 ```
 
 ### `client/src/composables/booking/useBlockInstanceSelection.ts`
@@ -2667,14 +2657,6 @@ computed@23: const resolvedLabel = computed(() => {
 filter@28: expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== shapeId)
 ```
 
-### `client/src/composables/admin/useShapesTabDeletion.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-```
-filter@33: expandedShapes.value = expandedShapes.value.filter(id => id !== String(entity.id))
-```
-
 ### `client/src/composables/admin/utils/nestedComputedFactory.ts`
 
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
@@ -2801,12 +2783,6 @@ computed@22: return computed(() => {
 
 - (no matches)
 
-### `client/src/composables/admin/useCapacityConstraintsHandlers.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-- (no matches)
-
 ### `client/src/composables/admin/useCapacitySettings.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
@@ -2843,25 +2819,7 @@ computed@22: return computed(() => {
 
 - (no matches)
 
-### `client/src/composables/admin/useGridConfigHandlers.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-- (no matches)
-
 ### `client/src/composables/admin/useInstanceComposableOptions.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-- (no matches)
-
-### `client/src/composables/admin/useInstanceTabHandlers.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-- (no matches)
-
-### `client/src/composables/admin/usePartInstanceExpansion.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 
@@ -2916,12 +2874,6 @@ computed@22: return computed(() => {
 - (no matches)
 
 ### `client/src/composables/booking/useAvailabilityStepData.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-- (no matches)
-
-### `client/src/composables/booking/useAvailabilityStepHandlers.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 
@@ -3060,12 +3012,6 @@ computed@22: return computed(() => {
 - (no matches)
 
 ### `client/src/composables/booking/useWizardStepValidation.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
-
-- (no matches)
-
-### `client/src/composables/booking/useWizardValidation.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 

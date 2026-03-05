@@ -17,10 +17,10 @@ Set `scheduled_by_id` on the appointment create path from `req.user` (Feature 7)
 ## Approach
 - In the appointment create handler, read `req.user` (populated by Feature 7 auth middleware when present).
 - Set `scheduled_by_id` on the entity from `req.user.id` before persist.
-- Ensure client cannot override: do not accept `scheduled_by_id` from request body, or explicitly overwrite with server value in sanitize/create logic. If `req.user` is absent (no auth yet), leave `scheduled_by_id` null per product policy.
+- Ensure client cannot override: do not accept `scheduled_by_id` from request body, or explicitly overwrite with server value in sanitize/create logic. If `req.user` is absent, leave `scheduled_by_id` null.
 
 ## Checkpoint
-Creating an appointment while authenticated results in `scheduled_by_id` populated with the current user id; unauthenticated or missing user leaves it null (or return 401 if create requires auth).
+Creating an appointment while authenticated results in `scheduled_by_id` populated with the current user id; unauthenticated or missing user leaves it null (or 401 if create requires auth).
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/sessions/session-6.7.1-guide.md`
