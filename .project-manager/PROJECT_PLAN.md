@@ -409,7 +409,7 @@ The following auth-related code already exists in the codebase:
 
 Implement the following so that authenticated users and roles are used where other features expect them:
 
-- [ ] ** NOTE FROM USER: in order to do pre-alpha E2E testing, i need a way to switch user types and their associated auths. what would work best? a toggle, a select menu? how many auth conditions will there be? admin/non logged-in/not agent/client? agents, when logged in, will have different rights than non-logged-in non-agents non-admins
+- [ ] ** NOTE FROM USER: in order to do pre-alpha E2E testing, i need a way to switch user types and their associated auths. what would work best? a toggle, a select menu? how many auth conditions will there be? admin/non logged-in/not agent/client? agents, when logged in, will have different rights than non-logged-in non-agents, non-admins
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
 - [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.

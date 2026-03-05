@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T18:31:00.926Z",
+  "generatedAt": "2026-03-05T19:00:05.658Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -7068,7 +7068,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 374,
+      "lineCount": 382,
       "purpose": "Shared availability slot and scheduling types",
       "reuseTier": "shared",
       "tags": [],
