@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:09:59.508Z",
+  "generatedAt": "2026-03-05T16:11:18.435Z",
   "totalScanned": 1108,
   "exceptionSummary": {
     "totalRequiresReview": 15
@@ -296,7 +296,7 @@
     {
       "repoPath": "client/src/types/wizard.ts",
       "category": "general",
-      "lineCount": 148,
+      "lineCount": 147,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,

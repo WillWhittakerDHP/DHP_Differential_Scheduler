@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:09:59.909Z",
+  "generatedAt": "2026-03-05T16:11:19.032Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -523,8 +523,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 95,
-          "endLine": 104,
+          "startLine": 94,
+          "endLine": 103,
           "windowText": "driveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -601,8 +601,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 99,
-          "endLine": 108,
+          "startLine": 98,
+          "endLine": 107,
           "windowText": "driveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -627,8 +627,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 94,
-          "endLine": 103,
+          "startLine": 93,
+          "endLine": 102,
           "windowText": "bufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -679,8 +679,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 96,
-          "endLine": 105,
+          "startLine": 95,
+          "endLine": 104,
           "windowText": "defaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -757,8 +757,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 97,
-          "endLine": 106,
+          "startLine": 96,
+          "endLine": 105,
           "windowText": "driveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -783,8 +783,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 100,
-          "endLine": 109,
+          "startLine": 99,
+          "endLine": 108,
           "windowText": "driveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,\nhandleBuffersDriveFromCandidateApplyTo,\nhandleBuffersDriveFromCandidateEnforcement,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -835,8 +835,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 98,
-          "endLine": 107,
+          "startLine": 97,
+          "endLine": 106,
           "windowText": "driveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,\nhandleBuffersAppointmentEnforcement,\nhandleBuffersDriveToCandidateMinutes,\nhandleBuffersDriveToCandidateApplyTo,\nhandleBuffersDriveToCandidateEnforcement,\nhandleBuffersDriveFromCandidateMinutes,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },
@@ -939,8 +939,8 @@
       "locations": [
         {
           "repoPath": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "startLine": 93,
-          "endLine": 102,
+          "startLine": 92,
+          "endLine": 101,
           "windowText": "enforcementOptions,\nbufferPlacementOptions,\ndriveTimeApplyToOptions,\ndefaultLocationPlaceId,\ndriveToMinutesLabel,\ndriveToMinutesHint,\ndriveFromMinutesLabel,\ndriveFromMinutesHint,\nhandleBuffersAppointmentMinutes,\nhandleBuffersAppointmentPlacement,",
           "target": "client/src/composables/admin/useOverlapConstraintsPanel.ts"
         },

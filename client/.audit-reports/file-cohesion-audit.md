@@ -33,7 +33,7 @@ Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Ti
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | utils | P2 | 3 | 350 | 6 | oversized |
 | `client/src/components/admin/generic/entityCardConstants.ts` | components | P2 | 2 | 30 | 11 | high-exports |
 | `client/src/constants/entities.ts` | general | P2 | 2 | 30 | 11 | high-exports |
-| `client/src/types/wizard.ts` | general | P2 | 2 | 148 | 11 | high-exports |
+| `client/src/types/wizard.ts` | general | P2 | 2 | 147 | 11 | high-exports |
 
 ## Per-file details
 

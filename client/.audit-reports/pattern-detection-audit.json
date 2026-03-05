@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:09:59.505Z",
+  "generatedAt": "2026-03-05T16:11:18.500Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -479,7 +479,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 245,
+            "line": 244,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -1006,7 +1006,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useBlockInstanceList.ts",
-            "line": 21,
+            "line": 20,
             "name": "BlockInstanceList"
           }
         ]
@@ -1426,7 +1426,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEventInstancesSection.ts",
-            "line": 21,
+            "line": 20,
             "name": "EventInstancesSection"
           }
         ]
@@ -1726,7 +1726,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-            "line": 39,
+            "line": 38,
             "name": "OverlapConstraintsPanel"
           }
         ]
@@ -2486,7 +2486,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useDelayedModalVisibility.ts",
-            "line": 25,
+            "line": 24,
             "name": "DelayedModalVisibility"
           }
         ]
@@ -2756,7 +2756,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyTypeSelectWidth.ts",
-            "line": 30,
+            "line": 29,
             "name": "PropertyTypeSelectWidth"
           }
         ]
@@ -5534,35 +5534,35 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 149,
+        "line": 148,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 153,
+        "line": 152,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 241,
+        "line": 240,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 245,
+        "line": 244,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 250,
+        "line": 249,
         "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },

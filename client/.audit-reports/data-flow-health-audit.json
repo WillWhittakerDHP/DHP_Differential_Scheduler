@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-05T16:09:59.771Z",
+  "generatedAt": "2026-03-05T16:11:18.870Z",
   "totalScanned": 418,
   "inputAudits": {
     "importGraph": {
@@ -115,7 +115,7 @@
   "findings": [
     {
       "file": "client/src/composables/admin/useEventInstancesSection.ts",
-      "lineNumber": 22,
+      "lineNumber": 21,
       "ruleId": "provide-inject-depth",
       "snippet": "inject('instancesTabContextKey') — provider in client/src/composables/admin/useInstancesTab.ts",
       "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/composables/admin/useInstancesTab.ts → ... → client/src/composables/admin/useEventInstancesSection.ts); consider direct composable access.",
@@ -137,7 +137,7 @@
     },
     {
       "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-      "lineNumber": 40,
+      "lineNumber": 39,
       "ruleId": "provide-inject-depth",
       "snippet": "inject('BUSINESS_CONTROLS_STATE_KEY') — provider in client/src/views/admin/tabs/BusinessControlsTab.vue",
       "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/views/admin/tabs/BusinessControlsTab.vue → ... → client/src/composables/admin/useOverlapConstraintsPanel.ts); consider direct composable access.",
@@ -159,7 +159,7 @@
     },
     {
       "file": "client/src/composables/admin/useEventInstancesSection.ts",
-      "lineNumber": 22,
+      "lineNumber": 21,
       "ruleId": "bidirectional-data-channel",
       "snippet": "inject('instancesTabContextKey') + composable import in same file",
       "message": "Data 'instancesTabContextKey' accessible via both inject and direct composable import; consolidate to single channel.",
@@ -201,7 +201,7 @@
     "contained": [
       {
         "file": "client/src/composables/admin/useEventInstancesSection.ts",
-        "lineNumber": 22,
+        "lineNumber": 21,
         "ruleId": "provide-inject-depth",
         "snippet": "inject('instancesTabContextKey') — provider in client/src/composables/admin/useInstancesTab.ts",
         "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/composables/admin/useInstancesTab.ts → ... → client/src/composables/admin/useEventInstancesSection.ts); consider direct composable access.",
@@ -223,7 +223,7 @@
       },
       {
         "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-        "lineNumber": 40,
+        "lineNumber": 39,
         "ruleId": "provide-inject-depth",
         "snippet": "inject('BUSINESS_CONTROLS_STATE_KEY') — provider in client/src/views/admin/tabs/BusinessControlsTab.vue",
         "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/views/admin/tabs/BusinessControlsTab.vue → ... → client/src/composables/admin/useOverlapConstraintsPanel.ts); consider direct composable access.",
@@ -245,7 +245,7 @@
       },
       {
         "file": "client/src/composables/admin/useEventInstancesSection.ts",
-        "lineNumber": 22,
+        "lineNumber": 21,
         "ruleId": "bidirectional-data-channel",
         "snippet": "inject('instancesTabContextKey') + composable import in same file",
         "message": "Data 'instancesTabContextKey' accessible via both inject and direct composable import; consolidate to single channel.",

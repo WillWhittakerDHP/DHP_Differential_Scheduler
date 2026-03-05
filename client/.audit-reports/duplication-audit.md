@@ -47,23 +47,23 @@ These candidates were identified by pattern-detection audit as high-probability 
 | --- | ---: | ---: | ---: | --- |
 | `dup-39164113c7d0` | 2 | 3 | 10 | `client/src/composables/admin/useShapesTab.ts@49`, `client/src/composables/admin/useShapesTab.ts@199`, `client/src/composables/admin/useShapesTabModals.ts@55` |
 | `dup-6d904a607168` | 2 | 3 | 10 | `client/src/composables/admin/useShapesTab.ts@48`, `client/src/composables/admin/useShapesTab.ts@198`, `client/src/composables/admin/useShapesTabModals.ts@54` |
-| `dup-03cc625a46aa` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@95`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@17` |
+| `dup-03cc625a46aa` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@94`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@17` |
 | `dup-03ecf443188e` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@10`, `client/src/types/admin/shapesTab.ts@22` |
 | `dup-0cd5727b10ad` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@211`, `client/src/composables/admin/useShapesTabCreation.ts@148` |
-| `dup-0eec51133848` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@99`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@21` |
-| `dup-15b042726270` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@94`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@16` |
+| `dup-0eec51133848` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@98`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@21` |
+| `dup-15b042726270` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@93`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@16` |
 | `dup-2f3ba6277c62` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabCreation.ts@16`, `client/src/types/admin/shapesTab.ts@32` |
-| `dup-4613f08a0dd9` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@96`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@18` |
+| `dup-4613f08a0dd9` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@95`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@18` |
 | `dup-593e42bee1ad` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@213`, `client/src/composables/admin/useShapesTabCreation.ts@150` |
 | `dup-702d91fa95aa` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@212`, `client/src/composables/admin/useShapesTabCreation.ts@149` |
-| `dup-76dd3e40c0ef` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@97`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@19` |
-| `dup-7bbc40d4cc56` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@100`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@22` |
+| `dup-76dd3e40c0ef` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@96`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@19` |
+| `dup-7bbc40d4cc56` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@99`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@22` |
 | `dup-8664cd70ff8d` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@214`, `client/src/composables/admin/useShapesTabCreation.ts@151` |
-| `dup-87a347e1daf9` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@98`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@20` |
+| `dup-87a347e1daf9` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@97`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@20` |
 | `dup-8c3423862ea4` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@9`, `client/src/types/admin/shapesTab.ts@21` |
 | `dup-9b4f257f5a9a` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@215`, `client/src/composables/admin/useShapesTabCreation.ts@152` |
 | `dup-a3072b74e292` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@210`, `client/src/composables/admin/useShapesTabCreation.ts@147` |
-| `dup-bba3eec172a6` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@93`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@15` |
+| `dup-bba3eec172a6` | 2 | 2 | 10 | `client/src/composables/admin/useOverlapConstraintsPanel.ts@92`, `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue@15` |
 | `dup-c1f632479d25` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTab.ts@209`, `client/src/composables/admin/useShapesTabCreation.ts@146` |
 
 ## Per-group details (top)
@@ -119,7 +119,7 @@ toggleAnnotationShapeMetadataModal,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 95-104
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 94-103
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 17-26
 
 ```
@@ -182,7 +182,7 @@ handleAnnotationShapeCreate,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 99-108
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 98-107
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 21-30
 
 ```
@@ -203,7 +203,7 @@ handleBuffersDriveFromCandidateApplyTo,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 94-103
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 93-102
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 16-25
 
 ```
@@ -245,7 +245,7 @@ startCreatingAnnotationShape: () => void
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 96-105
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 95-104
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 18-27
 
 ```
@@ -308,7 +308,7 @@ handleAnnotationShapeCancelled,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 97-106
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 96-105
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 19-28
 
 ```
@@ -329,7 +329,7 @@ handleBuffersDriveToCandidateEnforcement,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 100-109
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 99-108
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 22-31
 
 ```
@@ -371,7 +371,7 @@ handleEventShapeCreate,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 98-107
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 97-106
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 20-29
 
 ```
@@ -455,7 +455,7 @@ handlePartShapeCancelled,
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 93-102
+- `client/src/composables/admin/useOverlapConstraintsPanel.ts` @ lines 92-101
 - `client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue` @ lines 15-24
 
 ```

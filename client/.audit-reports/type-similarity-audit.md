@@ -19,7 +19,7 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T16:10:00.205Z**
+- Generated at: **2026-03-05T16:11:19.900Z**
 - Files scanned: **1137**
 - Type definitions found: **787**
 - Similarity groups: **9**
@@ -155,8 +155,8 @@ Overlap: **40%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 90 | yes |
-| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 77 | yes |
+| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 89 | yes |
+| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 76 | yes |
 
 Overlap: **70%** shared properties
 - Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
