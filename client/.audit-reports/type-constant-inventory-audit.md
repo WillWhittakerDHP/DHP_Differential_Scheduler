@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-05T16:11:58.127Z
+Generated: 2026-03-05T16:25:15.341Z
 
 ## Summary
 
@@ -450,7 +450,7 @@ Generic types always instantiated with the same argument; consider removing the 
 
 ### Unreviewed
 
-- `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 1 files)
+- `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 2 files)
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: AppointmentsTableLookups (imported by 0 files)
 - `client/src/composables/admin/useAdmin.ts`: UseAdminReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminMetadataMutations.ts`: UseAdminMetadataMutationsReturn (imported by 0 files)

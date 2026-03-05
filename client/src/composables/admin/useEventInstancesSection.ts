@@ -19,7 +19,7 @@ export interface UseEventInstancesSectionReturn {
 }
 
 export function useEventInstancesSection(context?: InstancesTabContext): UseEventInstancesSectionReturn {
-  const ctx: InstancesTabContext = context ?? (inject(instancesTabContextKey) as InstancesTabContext | undefined)
+  let ctx: InstancesTabContext | undefined = context ?? (inject(instancesTabContextKey) as InstancesTabContext | undefined)
   if (!ctx) throw new Error('EventInstancesSection must be used inside InstancesTab or receive instancesTabContext prop')
 
   const expandedInstances = ctx.expandedInstances

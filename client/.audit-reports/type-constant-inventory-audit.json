@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:11:58.127Z",
+  "generatedAt": "2026-03-05T16:25:15.341Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -1522,7 +1522,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 22,
+      "lineCount": 24,
       "purpose": "Instances tab component state and handler types",
       "reuseTier": "feature",
       "tags": [],
@@ -8880,7 +8880,7 @@
         "instancesTabContextKey"
       ],
       "primaryPurpose": "composable",
-      "importedByCount": 1,
+      "importedByCount": 2,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -10016,7 +10016,7 @@
             "instancesTabContextKey"
           ],
           "primaryPurpose": "composable",
-          "importedByCount": 1,
+          "importedByCount": 2,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {

@@ -732,15 +732,15 @@ await@49: await handleChange(allIds)
 
 ```
 ref@41: const activeTab = ref('blockShapes')
-computed@147: const filteredAnnotationShapes = computed(() =>
-computed@150: const safeEventShapes = computed(() =>
-computed@153: const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
-computed@154: const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
-computed@155: const annotationShapesTabLabel = computed(
-computed@158: const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
-computed@160: const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
-computed@164: const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
-computed@171: const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
+computed@112: const filteredAnnotationShapes = computed(() =>
+computed@115: const safeEventShapes = computed(() =>
+computed@118: const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
+computed@119: const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
+computed@120: const annotationShapesTabLabel = computed(
+computed@123: const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
+computed@125: const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
+computed@129: const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
+computed@136: const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
 ```
 
 ### `client/src/composables/booking/useAppointmentTimes.ts`
@@ -1601,11 +1601,11 @@ computed@38: const templateWarningsUnwrapped = computed(() => ctx.templateWarnin
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@47: const defaultLocationPlaceId = computed(() => state.location.defaultLocationPlaceId)
-computed@48: const driveToMinutesLabel = computed(() =>
-computed@51: const driveToMinutesHint = computed(() =>
-computed@54: const driveFromMinutesLabel = computed(() =>
-computed@57: const driveFromMinutesHint = computed(() =>
+computed@49: const defaultLocationPlaceId = computed(() => state.location.defaultLocationPlaceId)
+computed@50: const driveToMinutesLabel = computed(() =>
+computed@53: const driveToMinutesHint = computed(() =>
+computed@56: const driveFromMinutesLabel = computed(() =>
+computed@59: const driveFromMinutesHint = computed(() =>
 ```
 
 ### `client/src/composables/admin/useRelationshipCollectionData.ts`
