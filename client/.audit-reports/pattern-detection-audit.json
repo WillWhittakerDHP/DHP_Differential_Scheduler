@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T01:41:35.079Z",
+  "generatedAt": "2026-03-05T16:09:59.505Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -479,7 +479,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 231,
+            "line": 245,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -4036,7 +4036,7 @@
         "locations": [
           {
             "file": "client/src/utils/appointmentFieldFormatters.ts",
-            "line": 119,
+            "line": 124,
             "name": "AppointmentFieldFormatter"
           }
         ]
@@ -5401,7 +5401,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/utils/appointmentFieldFormatters.ts",
-        "line": 111,
+        "line": 116,
         "pattern": "AppointmentStatus workflow",
         "code": "status: (_appointment, value) => String(value || 'started'),"
       },
@@ -5534,35 +5534,35 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 135,
+        "line": 149,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 139,
+        "line": 153,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 227,
+        "line": 241,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 231,
+        "line": 245,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 236,
+        "line": 250,
         "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },
