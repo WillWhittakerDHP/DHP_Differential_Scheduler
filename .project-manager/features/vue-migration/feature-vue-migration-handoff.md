@@ -158,7 +158,7 @@ All remaining work has been organized into focused features:
 **Next Feature Guides:**
 - Feature 1: `project-manager/features/data-flow-alignment/feature-data-flow-alignment-guide.md`
 - Feature 2: `project-manager/features/feature-7-ui-polish/feature-feature-7-ui-polish-guide.md`
-- Feature 3: `project-manager/features/appointment-workflow/feature-booking-calculations-guide.md`
+- Feature 3: `project-manager/features/booking-calculations/feature-booking-calculations-guide.md`
 - Feature 4: `project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
 - Feature 5: `project-manager/features/feature-2-google-apis-integration/feature-feature-2-google-apis-integration-guide.md`
 

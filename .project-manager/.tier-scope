@@ -4,5 +4,5 @@ phase.id=6.7
 phase.name=Guide Template
 session.id=6.7.1
 session.name=** Backend — set scheduled_by_id on create from req.user
-task.id=6.7.1.2
-task.name=Set scheduled_by_id in create path from req.user and block client override
+task.id=
+task.name=

@@ -357,7 +357,7 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 ### Key Files
 - **Workflow:** Feature 6 appointment-workflow planning (see Related Documents)
 - **Calculations:** confirmationStepData, partsTotals, pricingCascadeResolver, appointmentTimeCalculations, useTimeSlotCalculations, BlockFinal/PartFinals (booking utils)
-- **Archived planning:** booking-calculations planning (archived)
+- **Archived planning:** booking-calculations planning (archived in `features/booking-calculations/`)
 
 ### Related Documents
 - Phase 6.4 Guide: `features/appointment-workflow/phases/phase-6.4-guide.md` (Moveable Modal & preClosing)
@@ -367,7 +367,7 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
-- Feature 6 workflow and booking-calculations planning: `features/appointment-workflow/`
+- Feature 6 workflow: `features/appointment-workflow/`; archived booking-calculations planning: `features/booking-calculations/`
 
 ---
 
