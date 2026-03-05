@@ -13,3 +13,5 @@
 
 **Tasks:** 6.7.2.1 (display scheduled_by in appointment details), 6.7.2.2 (includeScheduledBy toggle in event instances)
 **Focus:** Admin appointment details view; EventInstancesSection / Instance Fields (toggle).
+
+<!-- end excerpt phase -->
