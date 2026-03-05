@@ -87,3 +87,5 @@ Each session should start with:
 
 - **Simple tasks:** Quick checkpoint (quality only)
 - **Complex tasks:** Full checkpoint (quality + optional feedback)
+
+<!-- end excerpt session -->
