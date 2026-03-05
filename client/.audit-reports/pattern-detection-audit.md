@@ -28,8 +28,8 @@ Showing string literals that appear 3 or more times:
 | Value | Occurrences | Locations |
 | --- | ---: | --- |
 | `held` | 7 | `client/src/composables/useAppointment.ts:79`, `client/src/types/appointmentApi.ts:61`, `client/src/types/appointmentApi.ts:101` (+4 more) |
-| `confirmed` | 6 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:89`, `client/src/composables/admin/useInstancesTab.ts:163`, `client/src/composables/admin/useInstancesTabEventInstance.ts:82` (+3 more) |
-| `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:114`, `client/src/composables/useAppointment.ts:83`, `server/src/db/models/booking/appointment.ts:49` |
+| `confirmed` | 6 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:91`, `client/src/composables/admin/useInstancesTab.ts:163`, `client/src/composables/admin/useInstancesTabEventInstance.ts:82` (+3 more) |
+| `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:129`, `client/src/composables/useAppointment.ts:83`, `server/src/db/models/booking/appointment.ts:49` |
 
 ## Types and Constants
 

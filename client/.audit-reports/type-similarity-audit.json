@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T00:37:11.380Z",
+  "generatedAt": "2026-03-05T01:28:59.379Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -1189,8 +1189,8 @@
       "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
       "line": 27,
       "exported": true,
-      "fingerprint": "d950e14102c5",
-      "propertyCount": 2,
+      "fingerprint": "22f46c5f4848",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -2277,7 +2277,7 @@
       "name": "UseThemeModeReturn",
       "kind": "interface",
       "file": "client/src/composables/useThemeMode.ts",
-      "line": 47,
+      "line": 51,
       "exported": true,
       "fingerprint": "818ef1d087f3",
       "propertyCount": 5,
@@ -2287,7 +2287,7 @@
       "name": "UseThemeModeOptions",
       "kind": "interface",
       "file": "client/src/composables/useThemeMode.ts",
-      "line": 55,
+      "line": 59,
       "exported": true,
       "fingerprint": "8af8d10942e5",
       "propertyCount": 2,

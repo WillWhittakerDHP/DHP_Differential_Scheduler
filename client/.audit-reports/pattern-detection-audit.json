@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T00:37:12.388Z",
+  "generatedAt": "2026-03-05T01:28:58.460Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -450,7 +450,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 89,
+            "line": 91,
             "context": "status-check",
             "code": "await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })"
           },
@@ -486,12 +486,29 @@
           }
         ]
       },
+      "cancelled": {
+        "count": 2,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+            "line": 104,
+            "context": "status-check",
+            "code": "await update.mutateAsync({ id, data: { status: 'cancelled' } as Partial<AppointmentRequest> })"
+          },
+          {
+            "file": "client/src/composables/booking/useCancelAppointment.ts",
+            "line": 62,
+            "context": "status-check",
+            "code": "status: 'cancelled',"
+          }
+        ]
+      },
       "started": {
         "count": 3,
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 114,
+            "line": 129,
             "context": "status-check",
             "code": "status: 'started',"
           },
@@ -523,17 +540,6 @@
             "line": 14,
             "context": "status-check",
             "code": "recordApiCall: (api: 'events' | 'routes' | 'places' | 'computedData', status: 'hit' | 'error') => vo"
-          }
-        ]
-      },
-      "cancelled": {
-        "count": 1,
-        "locations": [
-          {
-            "file": "client/src/composables/booking/useCancelAppointment.ts",
-            "line": 62,
-            "context": "status-check",
-            "code": "status: 'cancelled',"
           }
         ]
       },
@@ -868,7 +874,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 40,
+            "line": 42,
             "name": "AppointmentsTableModel"
           }
         ]
@@ -3468,7 +3474,7 @@
         "locations": [
           {
             "file": "client/src/composables/useThemeMode.ts",
-            "line": 85,
+            "line": 89,
             "name": "ThemeMode"
           }
         ]
@@ -5283,14 +5289,14 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-        "line": 89,
+        "line": 91,
         "pattern": "AppointmentStatus workflow",
         "code": "await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-        "line": 114,
+        "line": 129,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'started',"
       },
