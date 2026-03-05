@@ -83,6 +83,8 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   colorId: string | null;
   status: 'confirmed' | 'tentative';
   reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
+  /** Virtual: visibility in metadata controls inclusion in display/export; value from appointment at invite time */
+  scheduledBy?: string | null;
 }
 
 export type AnnotationShapeEntity = GlobalEntityBase<"annotationShape">

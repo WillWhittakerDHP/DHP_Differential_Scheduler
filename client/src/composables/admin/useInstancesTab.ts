@@ -162,6 +162,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     colorId: null,
     status: 'confirmed',
     reminderOverrides: null,
+    scheduledBy: null,
   }))
 
   provide(instancesTabContextKey, {

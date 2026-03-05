@@ -4,5 +4,5 @@ phase.id=6.7
 phase.name=Guide Template
 session.id=6.7.2
 session.name=** ** Admin UI — display scheduled_by in appointment details
-task.id=6.7.2.1
-task.name=** ** Admin UI — display scheduled_by in appointment details
+task.id=6.7.2.2
+task.name=Add includeScheduledBy toggle in event instances
