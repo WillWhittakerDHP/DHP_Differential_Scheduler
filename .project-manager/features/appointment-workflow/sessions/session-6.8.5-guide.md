@@ -100,3 +100,5 @@ Label the session: **Session: 6.8.5 — Block-level agentPermissions**. Work tas
 - **Phase guide:** `.project-manager/features/appointment-workflow/phases/phase-6.8-guide.md` (subsection “Block-level agentPermissions”)
 - **Session planning:** `.project-manager/features/appointment-workflow/sessions/session-6.8.5-planning.md`
 - **Existing pattern:** `differential` column in `server/src/db/models/booking/block_instance.ts` and baseline schema (ternary_boolean ENUM).
+
+<!-- end excerpt session -->
