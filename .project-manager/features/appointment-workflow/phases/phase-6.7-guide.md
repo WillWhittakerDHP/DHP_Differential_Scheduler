@@ -7,7 +7,7 @@
 **Tasks:** 6.7.1.1 (set in create path + block override)
 **Focus:** Server create handler, sanitize/request body.
 
-- [ ] ### Session 6.7.2: Admin UI — display scheduled_by; includeScheduledBy toggle in event instances
+- [x] ### Session 6.7.2: Admin UI — display scheduled_by; includeScheduledBy toggle in event instances
 
 **Description:** Show scheduled_by in appointment details; add includeScheduledBy toggle in event instances section.
 

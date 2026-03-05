@@ -46,3 +46,5 @@
 **Approach:** Add includeScheduledBy state (e.g. in InstancesTab context or useEventInstancesSection); expose as a toggle in the Event Instances UI (e.g. next to "Instance Fields" or inside the Instance Fields modal); when enabled, include scheduled_by in event instance display/export. Follow existing toggle patterns (e.g. eventInstanceMetadataModalOpen).
 
 **Checkpoint:** Toggle is visible and persists preference; event instances display/export respects includeScheduledBy.
+
+<!-- end excerpt session -->
