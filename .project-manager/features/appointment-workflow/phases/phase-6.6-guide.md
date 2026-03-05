@@ -50,7 +50,7 @@ Valid transitions are defined in `client/src/constants/appointmentStatus.ts` and
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.6.1: Policy, UI, and retention/audit
+- [x] ### Session 6.6.1: Policy, UI, and retention/audit
 
 **Description:** Define policy (Task 6.6.1.1) and add admin soft/hard delete UI (Task 6.6.1.2).
 

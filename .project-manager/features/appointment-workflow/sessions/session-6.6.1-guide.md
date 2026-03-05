@@ -39,3 +39,5 @@
 **Approach:** Add soft delete and hard delete actions to admin appointment surfaces (e.g. detail view or table actions); wire to existing PATCH or delete endpoints; keep components thin, logic in composables.
 
 **Checkpoint:** Admin can perform soft delete and hard delete; actions respect governance; session/phase guide updated.
+
+<!-- end excerpt session -->
