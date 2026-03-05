@@ -9,7 +9,7 @@
 Session 6.8.5 (Block-level agentPermissions) complete or in progress. Session 6.8.6 follows.
 
 ## Goal
-For admins only, before or as step 0 of the wizard: choices **Start new inspection** | **Edit quote** | **Reschedule**. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks — scheduling began within last X or quote in quote status for last X). Dropdown columns: Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
+For admins only, before or as step 0 of the wizard: choices **Start new inspection** | **Edit quote** | **Reschedule**. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); optionally filter by status for Edit quote vs Reschedule. Filter by admin-configurable time-out (X days/weeks — scheduling began within last X or quote in quote status for last X). Setting location: Business Controls → Calendar or Confirmation & Holds. Dropdown columns: Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
 
 ## Files
 - **Server:** Appointment list endpoint with filters (status, time-out); optional permission filter post–Feature 7.

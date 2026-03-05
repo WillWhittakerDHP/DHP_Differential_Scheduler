@@ -93,6 +93,18 @@ Index on `appointment_id`.
 
 ---
 
+## Block-level agentPermissions (Session 6.8.5)
+
+Add column `agent_permissions` (TernaryBoolean: `'true'`, `'false'`, `'override'`) to `block_instances`, same pattern as `differential`. Full stack: migration → model → versioning (if used) → client types → transformer.
+
+- **Semantics:** `true` = agents only; `false` = clients; `override` = admins can use regardless. Drives which blocks/features (e.g. blocker override, future agent features) are visible or usable per role.
+- **Effective permission:** State = (user role, block.agentPermissions). Admin always allowed; agent when `'true'` or `'override'`; client when `'false'` or `'override'`. Tooltips and permissions (Override constraints, Hold Slot, Force schedule) are variable and state-driven; admins get override.
+- **Visibility:** Update Force Schedule and Override visibility (from 6.8.3/6.8.4) to respect (user role, block.agentPermissions) when user role is available (Feature 7).
+
+**Implementation:** Session 6.8.5.
+
+---
+
 ## Admin entry (step 0 / pre-wizard)
 
 For admins only, before or as step 0 of the wizard:

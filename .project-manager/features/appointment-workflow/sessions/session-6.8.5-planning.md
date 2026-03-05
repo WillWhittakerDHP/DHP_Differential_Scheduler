@@ -9,7 +9,7 @@
 Session 6.8.4 (Reschedule flow and override records) in progress or complete. Session 6.8.5 follows.
 
 ## Goal
-Add `agent_permissions` (TernaryBoolean: `'true'`, `'false'`, `'override'`) to `block_instances`, same pattern as `differential`. Full stack: migration, model, versioning (if used), client types, transformer. Update Force Schedule and Override visibility (from 6.8.3/6.8.4) to respect (user role, block.agentPermissions). Effective permission: admin always allowed; agent when `'true'` or `'override'`; client when `'false'` or `'override'`.
+Add `agent_permissions` (TernaryBoolean: `'true'`, `'false'`, `'override'`) to `block_instances`, same pattern as `differential`. Full stack: migration, model, versioning (if used), client types, transformer. Semantics: `true` = agents only; `false` = clients; `override` = admins can use regardless. Drives which blocks/features (e.g. blocker override, future agent features) are visible or usable per role. Effective permission: state = (user role, block.agentPermissions); admin always allowed; agent when `'true'` or `'override'`; client when `'false'` or `'override'`. Tooltips and permissions (Override constraints, Hold Slot, Force schedule) are variable and state-driven. Update Force Schedule and Override visibility (from 6.8.3/6.8.4) to respect (user role, block.agentPermissions).
 
 ## Files
 - **Server:** `server/src/db/migrations/` (new migration); `server/src/db/models/booking/block_instance.ts`; `server/src/services/instanceVersioning.ts`; `server/src/db/models/booking/block_instance_version.ts` if applicable.
