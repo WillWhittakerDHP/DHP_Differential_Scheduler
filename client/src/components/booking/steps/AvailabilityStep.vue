@@ -94,6 +94,21 @@ const showSlotsOverlay = computed(
     !hasSelectedSlot.value &&
     !o.userHasChosenTimeBasisFromGraph?.value
 )
+
+/** Sub-step model for mini-wizard (Phase 6.9): id, label, visible. Step 5 visible when slot has moveable parts + service preClosing. */
+const availabilitySubSteps = computed(() => {
+  const hasDate = !!o.selectedDate.value?.start
+  const showOptions = (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0
+  const showPerspective = hasDate && o.isEffectivelyDifferential.value
+  const showMoveable = o.hasMoveablePartsGated?.value ?? false
+  return [
+    { id: 1, label: '1. Pick a day', visible: true },
+    { id: 2, label: '2. Options', visible: showOptions },
+    { id: 3, label: '3. Perspective', visible: showPerspective },
+    { id: 4, label: '4. Pick a time', visible: true },
+    { id: 5, label: '5. Confirm moveable details', visible: showMoveable },
+  ]
+})
 </script>
 
 <template>
@@ -122,6 +137,9 @@ const showSlotsOverlay = computed(
       </VCol>
 
       <VCol cols="12" class="calendar-col">
+        <p v-if="availabilitySubSteps[0].visible" class="text-subtitle-1 font-weight-medium mb-2 availability-step-label">
+          {{ availabilitySubSteps[0].label }}
+        </p>
         <AvailabilityCalendarSection
           :model-value="o.selectedDateSingle.value"
           :display-date="o.vDatePickerDisplayDate.value"
@@ -131,6 +149,11 @@ const showSlotsOverlay = computed(
           @update:model-value="o.handleDateChange($event)"
           @update:display-date="o.setVDatePickerDisplayDate($event)"
         />
+        <template v-if="availabilitySubSteps[1].visible">
+          <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
+            {{ availabilitySubSteps[1].label }}
+          </p>
+        </template>
         <AvailabilityOptionsSection
           :has-selected-services="o.wizard.selectedServiceTypeBlocks.value.length > 0"
           :cascade-error="o.wizard.availabilityOptionsCascadeError?.value ?? null"
@@ -144,6 +167,11 @@ const showSlotsOverlay = computed(
       <VCol cols="12" class="time-selection-col">
         <div class="time-selection-content">
           <template v-if="o.selectedDate.value?.start">
+            <template v-if="availabilitySubSteps[2].visible">
+              <p class="text-subtitle-1 font-weight-medium mb-2 availability-step-label">
+                {{ availabilitySubSteps[2].label }}
+              </p>
+            </template>
             <DifferentialGraph
               v-if="o.isEffectivelyDifferential.value"
               :is-differential-service="o.isEffectivelyDifferential.value"
@@ -153,6 +181,9 @@ const showSlotsOverlay = computed(
               class="differential-graph-above-slots"
               @time-basis-change="o.handleTimeBasisChange"
             />
+            <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
+              {{ availabilitySubSteps[3].label }}
+            </p>
             <div v-if="o.appointmentSlots.value.length === 0" class="text-body-medium text-medium-emphasis py-4 mb-4 mb-sm-6">
               {{ o.emptyStateMessage }}
             </div>
@@ -172,6 +203,12 @@ const showSlotsOverlay = computed(
             <div v-if="o.fieldErrors.value?.selectedTimeSlot" class="text-error text-body-small mt-2 mb-2">
               {{ o.fieldErrors.value?.selectedTimeSlot }}
             </div>
+            <template v-if="availabilitySubSteps[4].visible">
+              <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
+                {{ availabilitySubSteps[4].label }}
+              </p>
+              <p class="text-body-small text-medium-emphasis">Confirm moveable details when applicable (content in Session 6.9.4).</p>
+            </template>
           </template>
           <template v-else>
             <div class="d-flex align-center justify-start date-placeholder">
@@ -338,5 +375,9 @@ const showSlotsOverlay = computed(
   @media (max-width: 599px) {
     font-size: 1.25rem;
   }
+}
+
+.availability-step-label {
+  color: rgb(var(--v-theme-on-surface));
 }
 </style>

@@ -185,9 +185,10 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   })
   const {
     hasMoveableParts,
-    showModal: showMoveableModal,
-    moveableOptions,
-    moveableAppointmentSlots,
+    showModal:       showMoveableModal,
+      hasMoveablePartsGated,
+      moveableOptions,
+      moveableAppointmentSlots,
     moveablePartShapeName,
     selectedMoveableDay,
     setSelectedMoveableDay,
@@ -294,6 +295,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       selectedButtonIndex,
       selectedOptionTypeBlockId,
       showMoveableModal,
+      hasMoveablePartsGated,
       moveableOptions,
       moveableAppointmentSlots,
       moveablePartShapeName,
