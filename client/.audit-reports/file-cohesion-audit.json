@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:00:47.347Z",
+  "generatedAt": "2026-03-05T22:06:26.428Z",
   "totalScanned": 1114,
   "exceptionSummary": {
     "totalRequiresReview": 16
@@ -49,20 +49,20 @@
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
-      "lineCount": 361,
-      "exportCount": 16,
+      "lineCount": 398,
+      "exportCount": 19,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 16,
+          "value": 19,
           "threshold": 10,
-          "detail": "16 exports (max: 10)",
+          "detail": "19 exports (max: 10)",
           "tier": 1
         }
       ],
-      "score": 12,
+      "score": 18,
       "priority": "P0"
     },
     {

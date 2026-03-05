@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:00:48.041Z",
+  "generatedAt": "2026-03-05T22:06:26.919Z",
   "check": "Deprecation",
   "totalScanned": 1114,
   "tierModel": "tier1",
@@ -58,7 +58,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 235,
+          "lineNumber": 228,
           "line": "const attendeesData = appointmentBody.attendees ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -67,7 +67,7 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 235,
+          "lineNumber": 228,
           "line": "const attendeesData = appointmentBody.attendees ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"

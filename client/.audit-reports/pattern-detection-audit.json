@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:00:47.900Z",
+  "generatedAt": "2026-03-05T22:06:26.329Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -483,13 +483,13 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 245,
+            "line": 235,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
           {
             "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-            "line": 243,
+            "line": 236,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -4871,7 +4871,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 238,
+            "line": 275,
             "name": "AttendeeRecords"
           }
         ]
@@ -4881,7 +4881,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 267,
+            "line": 304,
             "name": "FeeRecordsForAppointment"
           }
         ]
@@ -4891,7 +4891,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 311,
+            "line": 348,
             "name": "CalendarIdForAppointment"
           }
         ]
@@ -4901,7 +4901,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 328,
+            "line": 365,
             "name": "ConstraintOverrideOnRescheduleIfNeeded"
           }
         ]
@@ -5604,35 +5604,35 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 149,
+        "line": 148,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 153,
+        "line": 152,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 241,
+        "line": 231,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 245,
+        "line": 235,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 250,
+        "line": 240,
         "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },
@@ -5646,42 +5646,42 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 137,
+        "line": 136,
         "pattern": "AppointmentStatus workflow",
         "code": "if (status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 140,
+        "line": 139,
         "pattern": "AppointmentStatus workflow",
         "code": "if (status === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 239,
+        "line": 232,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 243,
+        "line": 236,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 250,
+        "line": 243,
         "pattern": "AppointmentStatus workflow",
         "code": "oldStatus: 'submitted',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 251,
+        "line": 244,
         "pattern": "AppointmentStatus workflow",
         "code": "newStatus: 'confirmed',"
       },

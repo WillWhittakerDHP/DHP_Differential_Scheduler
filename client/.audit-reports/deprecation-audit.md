@@ -98,7 +98,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `server/src/routes/internal/appointments/forceCreateRouter.ts` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@235: const attendeesData = appointmentBody.attendees ?? []
+[LEGACY] unhelpful-default-nullish@228: const attendeesData = appointmentBody.attendees ?? []
 ```
 
 ### `server/src/routes/internal/appointments/listForAdminEntryHandler.ts` [P2] (score: 2)

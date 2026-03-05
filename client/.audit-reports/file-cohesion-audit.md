@@ -20,7 +20,7 @@ Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Ti
 | File | Category | Priority | Score | Lines | Exports | Violations |
 | --- | --- | --- | ---: | ---: | ---: | --- |
 | `client/src/composables/booking/injectionKeys.ts` | composables | P0 | 28 | 112 | 24 | high-exports, pureHelperInComposables |
-| `server/src/routes/internal/appointments/appointmentHelpers.ts` | routes | P0 | 12 | 361 | 16 | high-exports |
+| `server/src/routes/internal/appointments/appointmentHelpers.ts` | routes | P0 | 18 | 398 | 19 | high-exports |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | general | P1 | 6 | 490 | 2 | oversized |
 | `server/src/services/computedAvailabilityService.ts` | services | P1 | 6 | 574 | 3 | oversized |
 | `client/src/constants/apiStatus.ts` | general | P1 | 4 | 33 | 12 | high-exports |
@@ -45,7 +45,7 @@ Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Ti
 
 ### `server/src/routes/internal/appointments/appointmentHelpers.ts` [P0]
 
-- **high-exports**: 16 exports (max: 10)
+- **high-exports**: 19 exports (max: 10)
 
 ### `client/src/configs/field/display/selectableDisplayConfig.ts` [P1]
 

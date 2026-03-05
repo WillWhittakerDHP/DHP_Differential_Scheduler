@@ -22,52 +22,30 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+31 more) | 50 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+249 more) | 257 |
-| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+73 more) | 128 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+31 more) | 51 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+251 more) | 259 |
+| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+74 more) | 131 |
 | `update*` | `client/src/utils/admin/businessRulesApi.ts`, `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts` (+2 more) | 5 |
 
 ### Repeated String Literals (across multiple files)
 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
-| `confirmed` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/useInstancesTab.ts`, `client/src/composables/admin/useInstancesTabEventInstance.ts` (+3 more) | 6 |
+| `confirmed` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/useInstancesTab.ts`, `client/src/composables/admin/useInstancesTabEventInstance.ts` (+4 more) | 7 |
 | `started` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/useAppointment.ts`, `server/src/db/models/booking/appointment.ts` | 3 |
 | `held` | `client/src/composables/useAppointment.ts`, `client/src/types/appointmentApi.ts`, `server/src/db/models/booking/appointment.ts` | 7 |
 
 ## Summary
 
 - Files scanned: **717**
-- Groups (window=10 lines, minOccurrences=2): **1**
+- Groups (window=10 lines, minOccurrences=2): **0**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-782a28431a6a` | 2 | 2 | 10 | `server/src/routes/internal/appointments/appointmentCrudRouter.ts@222`, `server/src/routes/internal/appointments/forceCreateRouter.ts@223` |
 
 ## Per-group details (top)
 
 When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
-
-### Group `dup-782a28431a6a`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `server/src/routes/internal/appointments/appointmentCrudRouter.ts` @ lines 222-234
-- `server/src/routes/internal/appointments/forceCreateRouter.ts` @ lines 223-232
-
-```
-const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))
-const propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))
-const optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))
-await validateSnapshotIds(serviceSnapshotIds)
-await validateSnapshotIds(propertySnapshotIds)
-await validateSnapshotIds(optionSnapshotIds)
-await record.update({
-serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
-propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
-optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
-```

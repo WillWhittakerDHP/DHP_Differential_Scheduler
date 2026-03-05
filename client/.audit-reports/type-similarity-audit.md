@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T22:00:48.705Z**
+- Generated at: **2026-03-05T22:06:28.313Z**
 - Files scanned: **1143**
-- Type definitions found: **797**
-- Similarity groups: **11**
+- Type definitions found: **799**
+- Similarity groups: **12**
 - UNIFY candidates: **0**
 - BRAND candidates: **1**
-- EXTEND candidates: **10**
+- EXTEND candidates: **11**
 - REVIEW candidates: **0**
 
-- P0 (high): **6**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **7**, P1 (medium): **5**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -36,6 +36,7 @@ Each group has a recommended action:
 | --- | --- | --- | --- | ---: | ---: | --- |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
 | P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
+| P0 | EXTEND | SUBSET | `AppointmentRequest`, `AppointmentRecordWithUpdate`, `AppointmentResponse` | 2 | 19 | `{ address?: PropertyResponse, addressId: string, attendee...` |
 | P0 | BRAND | EXACT | `ForceCreateViolationReport`, `ComputedSlot` | 2 | 17 | `{ violations: string[] }` |
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
 | P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
@@ -60,7 +61,7 @@ These types are structurally identical but may represent different concepts. Add
 | `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
 | `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
 
-## EXTEND Candidates (10)
+## EXTEND Candidates (11)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -99,6 +100,17 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `DeletePrimitiveFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 110 | no |
 | `UsePrimitiveMetadataSaveOptions` | interface | `client/src/composables/admin/usePrimitiveMetadataSave.ts` | 6 | yes |
 | `UseAdminPrimitiveMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 13 | yes |
+
+### sim-subset-4f59ed64384b
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **19**
+- Structure: `{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], confirmedAt?: string | null, confirmedBy?: string | null, createdAt: string, heldBy?: string | null, heldByUser?: UserResponse, heldUntil?: string | null, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, submittedAt?: string | null, updatedAt: string, userTypeId?: string | null }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts` | 36 | yes |
+| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 242 | yes |
+| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 71 | yes |
 
 ### sim-subset-87ff2f40bfd6
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:00:48.705Z",
+  "generatedAt": "2026-03-05T22:06:28.313Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -15,7 +15,7 @@
     ]
   },
   "fileCount": 1143,
-  "totalDefinitions": 797,
+  "totalDefinitions": 799,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -217,6 +217,44 @@
       "signature": "{ blockShapeRef?: string | null, clearPendingState: () => void, computeRenderAs: (, dataType: string | undefined, debug: (msg: string, ctx?: unknown) => void }, entityId: string, entityType: EntityMetadataType, existingMetadata: FieldMetadataEntry | undefined, fieldKey: string, fieldKey: string, getBlockShapeRef: () => string | undefined | null, getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getEntityId: () => string | null, getEntityType: () => EntityMetadataType | null, getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>, inputConfig: Record<string, unknown> | null | undefined, logger: { error: (msg: string, ctx?: unknown) => void, onSaved: () => void, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldMetadata: (params: { }",
       "propertyCount": 21,
       "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-subset-4f59ed64384b",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "AppointmentRequest",
+          "kind": "interface",
+          "file": "client/src/types/appointmentApi.ts",
+          "line": 36,
+          "exported": true,
+          "propertyCount": 26,
+          "signature": "{ attendees?: AttendeeRequest[] | null, duration?: number }> | null, endTime: string, feeBreakdown?: AppointmentFeeBreakdownPayload | null, holdDurationMinutes?: number, isQuoteMode?: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<{ startTime: string, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status?: AppointmentStatus, userTypeBlockId?: string | null }"
+        },
+        {
+          "name": "AppointmentRecordWithUpdate",
+          "kind": "interface",
+          "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+          "line": 242,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ optionSnapshotIds: string[] | null, propertySnapshotIds: string[] | null, serviceSnapshotIds: string[] | null }"
+        },
+        {
+          "name": "AppointmentResponse",
+          "kind": "interface",
+          "file": "client/src/types/appointmentApi.ts",
+          "line": 71,
+          "exported": true,
+          "propertyCount": 37,
+          "signature": "{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], confirmedAt?: string | null, confirmedBy?: string | null, createdAt: string, heldBy?: string | null, heldByUser?: UserResponse, heldUntil?: string | null, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, submittedAt?: string | null, updatedAt: string, userTypeId?: string | null }"
+        }
+      ],
+      "signature": "{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], confirmedAt?: string | null, confirmedBy?: string | null, createdAt: string, heldBy?: string | null, heldByUser?: UserResponse, heldUntil?: string | null, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, submittedAt?: string | null, updatedAt: string, userTypeId?: string | null }",
+      "propertyCount": 37,
+      "score": 19,
       "priority": "P0"
     },
     {
@@ -7236,10 +7274,30 @@
       "primitiveAlias": null
     },
     {
+      "name": "AppointmentSnapshotIds",
+      "kind": "interface",
+      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "line": 235,
+      "exported": true,
+      "fingerprint": "e702253f2b2e",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AppointmentRecordWithUpdate",
+      "kind": "interface",
+      "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "line": 242,
+      "exported": true,
+      "fingerprint": "e7a42ea01c0d",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "ForceCreateBody",
       "kind": "interface",
       "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-      "line": 40,
+      "line": 39,
       "exported": false,
       "fingerprint": "c04528c3d690",
       "propertyCount": 5,
