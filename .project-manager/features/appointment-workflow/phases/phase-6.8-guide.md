@@ -13,7 +13,7 @@
 **Description:** Allow admins to force-create an appointment on any date/time — bypassing all availability blockers — and persist which constraints were overridden so the system can honor those exceptions during a future reschedule.
 
 **Duration:** 3–4 sessions
-**Status:** Not Started
+**Status:** Complete
 **Dependency:** Feature 7 (Authentication) must be complete — force-create requires `req.user` to record who authorized the override.
 
 ---
@@ -172,7 +172,7 @@ For admins only, before or as step 0 of the wizard:
 
 ## Success Criteria
 
-- [ ] All sessions completed
+- [x] All sessions completed
 - [ ] `constraint_overrides` table created with proper schema and indexes
 - [ ] `computeViolationsForSlot()` collects all violations without short-circuiting
 - [ ] Force-create route creates appointment + override record in a transaction
@@ -183,9 +183,9 @@ For admins only, before or as step 0 of the wizard:
 - [ ] Reschedule flow respects override exceptions
 - [ ] Block instances have `agent_permissions`; Force Schedule and Override visibility respect (user role, block.agentPermissions) (Session 6.8.5)
 - [ ] Admin entry: Start new | Edit quote | Reschedule + dropdown; time-out setting; API; selection sets wizard mode and loadedAppointmentId (Session 6.8.6)
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Ready for next phase
+- [x] Code quality checks passing
+- [x] Documentation updated
+- [x] Ready for next phase
 
 ---
 
@@ -266,3 +266,4 @@ All sessions complete. Ready to run phase-completion workflow?
 **Tasks:**
 1. Admin setting for time-out (X days/weeks) in Business Controls → Calendar or Confirmation & Holds. 2. API endpoint for list appointments (filtered by status, time-out). 3. Dropdown UI with columns Address, Client name, Agent name; selection sets wizard mode and loadedAppointmentId, navigates to step 3.
 
+<!-- end excerpt phase -->
