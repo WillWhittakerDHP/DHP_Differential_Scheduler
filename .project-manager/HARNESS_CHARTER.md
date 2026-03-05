@@ -610,9 +610,8 @@ export type QuestionKey =
 
 The agent (or any harness consumer) MUST:
 
-1. **Check `controlPlaneDecision.requiredMode`** and switch Cursor mode before presenting output.
-2. **If `controlPlaneDecision.stop` and `controlPlaneDecision.questionKey`** — use AskQuestion with the specified question template; do not present the question as plain chat text.
-3. **If `controlPlaneDecision.nextInvoke`** — on user approval, re-invoke the harness with that spec.
+1. **If `controlPlaneDecision.stop` and `controlPlaneDecision.questionKey`** — present the User choice required block in chat (or use AskQuestion with the specified question template); do not present the question as plain chat text.
+2. **If `controlPlaneDecision.nextInvoke`** — on user approval, re-invoke the harness with that spec.
 4. **Never cascade on failure** — when `success === false`, do not offer cascade or infer next steps.
 5. **Never infer next step from output prose** — use `outcome.nextAction` only as a display hint; routing is driven by the decision matrix.
 
