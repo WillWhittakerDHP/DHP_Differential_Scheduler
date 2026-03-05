@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-05T16:49:03.588Z
+Generated: 2026-03-05T17:23:27.710Z
 
 ## Summary
 
@@ -125,7 +125,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/admin/selectTypeResolver.ts` | dedicated | SelectConfigLike, OptionsSelectConfigLike | no | Select input type resolution and mapping types | feature |
 | `client/src/types/admin/shapeDisplayNames.ts` | dedicated | UseShapeDisplayNamesReturn | no | UseShapeDisplayNamesReturn. | feature |
 | `client/src/types/admin/shapeEditModal.ts` | dedicated | UseShapeEditModalOptions, UseShapeEditModalReturn | no | UseShapeEditModalOptions, UseShapeEditModalReturn. | feature |
-| `client/src/types/admin/shapesTab.ts` | dedicated | UseShapesTabReturn | no | Shapes tab component state and action types | feature |
+| `client/src/types/admin/shapesTab.ts` | dedicated |  | no | Shapes tab component state and action types | feature |
 | `client/src/types/admin/shapesTabCreation.ts` | dedicated |  | no | UseShapesTabCreationParams. | feature |
 | `client/src/types/admin/shapesTabDeletion.ts` | dedicated | ShapesTabBaseParams | no | UseShapesTabDeletionParams. | feature |
 | `client/src/types/admin/statusButtonFields.ts` | dedicated | UseStatusButtonFieldsOptions, UseStatusButtonFieldsReturn | no | UseStatusButtonFieldsOptions, UseStatusButtonFieldsReturn. | feature |
@@ -482,7 +482,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useSelectChipRender.ts`: UseSelectChipRenderReturn (imported by 0 files)
 - `client/src/composables/admin/useSelectEnumOptions.ts`: UseSelectEnumOptionsReturn (imported by 0 files)
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
-- `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 0 files)
+- `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 1 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
 - `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)

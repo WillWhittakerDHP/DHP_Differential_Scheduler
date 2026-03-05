@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:49:03.588Z",
+  "generatedAt": "2026-03-05T17:23:27.710Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -2287,16 +2287,14 @@
       "annotatedDomain": "admin",
       "domainMatch": false,
       "location": "dedicated",
-      "exports": [
-        "UseShapesTabReturn"
-      ],
+      "exports": [],
       "exportKinds": {
         "types": 0,
-        "interfaces": 1,
+        "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 60,
+      "lineCount": 42,
       "purpose": "Shapes tab component state and action types",
       "reuseTier": "feature",
       "tags": [],
@@ -9323,7 +9321,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9333,7 +9331,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -10347,7 +10345,7 @@
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
-          "importedByCount": 0,
+          "importedByCount": 1,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {

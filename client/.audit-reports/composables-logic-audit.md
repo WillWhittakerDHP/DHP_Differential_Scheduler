@@ -1589,11 +1589,11 @@ computed@70: const composerName = computed(() => {
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@27: const eventInstancesDisplay = computed(() => {
-computed@32: const eventShapesList = computed(() => resolvedCtx.eventShapes.value)
-computed@33: const hasEventInstances = computed(() => {
-computed@37: const isLoading = computed(() => resolvedCtx.isLoadingEventInstances.value)
-computed@38: const templateWarningsUnwrapped = computed(() => resolvedCtx.templateWarnings.value)
+computed@25: const eventInstancesDisplay = computed(() => {
+computed@30: const eventShapesList = computed(() => resolvedCtx.eventShapes.value)
+computed@31: const hasEventInstances = computed(() => {
+computed@35: const isLoading = computed(() => resolvedCtx.isLoadingEventInstances.value)
+computed@36: const templateWarningsUnwrapped = computed(() => resolvedCtx.templateWarnings.value)
 ```
 
 ### `client/src/composables/admin/useOverlapConstraintsPanel.ts`
@@ -1601,11 +1601,11 @@ computed@38: const templateWarningsUnwrapped = computed(() => resolvedCtx.templa
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@49: const defaultLocationPlaceId = computed(() => state.location.defaultLocationPlaceId)
-computed@50: const driveToMinutesLabel = computed(() =>
-computed@53: const driveToMinutesHint = computed(() =>
-computed@56: const driveFromMinutesLabel = computed(() =>
-computed@59: const driveFromMinutesHint = computed(() =>
+computed@43: const defaultLocationPlaceId = computed(() => state.location.defaultLocationPlaceId)
+computed@44: const driveToMinutesLabel = computed(() =>
+computed@47: const driveToMinutesHint = computed(() =>
+computed@50: const driveFromMinutesLabel = computed(() =>
+computed@53: const driveFromMinutesHint = computed(() =>
 ```
 
 ### `client/src/composables/admin/useRelationshipCollectionData.ts`

@@ -32,6 +32,7 @@ import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
 import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
+import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
@@ -80,6 +81,7 @@ export function initializeModels(sequelize: Sequelize) {
   const Appointment = AppointmentFactory(sequelize);
   const AppointmentFeeSummary = AppointmentFeeSummaryFactory(sequelize);
   const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
+  const ConstraintOverride = ConstraintOverrideFactory(sequelize);
 
   const BusinessSettings = BusinessSettingsFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
@@ -306,6 +308,23 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'feeSummary',
   });
 
+  Appointment.hasMany(ConstraintOverride, {
+    foreignKey: 'appointment_id',
+    as: 'constraintOverrides',
+  });
+  ConstraintOverride.belongsTo(Appointment, {
+    foreignKey: 'appointment_id',
+    as: 'appointment',
+  });
+  ConstraintOverride.belongsTo(User, {
+    foreignKey: 'authorized_by_id',
+    as: 'authorizedBy',
+  });
+  User.hasMany(ConstraintOverride, {
+    foreignKey: 'authorized_by_id',
+    as: 'constraintOverridesAuthorized',
+  });
+
   BlockInstanceVersion.hasMany(PartInstanceVersion, {
     foreignKey: 'block_instance_version_id', 
     as: 'partInstanceVersions' 
@@ -327,6 +346,7 @@ export function initializeModels(sequelize: Sequelize) {
     AppointmentAttendee,
     AppointmentFeeSummary,
     AppointmentFeeEntry,
+    ConstraintOverride,
     BusinessSettings, BusinessRule,
     AdminMetadata,
     BetaFeedback,

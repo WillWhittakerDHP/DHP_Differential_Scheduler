@@ -43,15 +43,35 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 6.8.1.1: [Task Name]
-**Goal:** [Task goal]
+- [x] #### Task 6.8.1.1: [Task Name]
+
+**Goal:** Create the constraint_overrides persistence layer and force-create API so admins can create an appointment on a blocked slot with stored override metadata (migration, model, computeViolationsForSlot, POST force-create route with auth/role and validation).
+
+**Files:**
+- **Server:** Migration for `constraint_overrides` table; `server/src/models/` (ConstraintOverride, associations to Appointment and User); `server/src/services/slotComputationService.ts`; `server/src/routes/internal/appointments/` (force-create route, validator); appointment router mount.
+
+**Approach:** 1. Add migration with columns per phase guide Data Model (id, appointment_id, overridden_violations, authorized_by_id, reason, slot_start, slot_end, timestamps; index on appointment_id). 2. Create ConstraintOverride Sequelize model and associations (Appointment, User as authorizedBy). 3. Add `computeViolationsForSlot()` in slotComputationService reusing checkRange/checkOverlap/checkCapacity, returning ForceCreateViolationReport (no short-circuit). 4. Add POST `/api/v1/internal/appointments/force-create` with requireAuth, requireRole('admin'); validator for slot times, reason max 500 chars, appointment fields; call computeViolationsForSlot, create appointment + ConstraintOverride in a transaction. 5. Mount force-create router in appointment router.
+
+**Checkpoint:**
+- Migration applied; ConstraintOverride model and associations load.
+- Force-create route creates appointment and override record in one transaction; invalid payloads rejected by validator. [Task goal]
 **Files:** 
 - [Files to work with]
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
 - [ ] #### Task 6.8.1.2: [Task Name]
-**Goal:** [Task goal]
+
+**Goal:** Create the constraint_overrides persistence layer and force-create API so admins can create an appointment on a blocked slot with stored override metadata (migration, model, computeViolationsForSlot, POST force-create route with auth/role and validation).
+
+**Files:**
+- **Server:** Migration for `constraint_overrides` table; `server/src/models/` (ConstraintOverride, associations to Appointment and User); `server/src/services/slotComputationService.ts`; `server/src/routes/internal/appointments/` (force-create route, validator); appointment router mount.
+
+**Approach:** 1. Add migration with columns per phase guide Data Model (id, appointment_id, overridden_violations, authorized_by_id, reason, slot_start, slot_end, timestamps; index on appointment_id). 2. Create ConstraintOverride Sequelize model and associations (Appointment, User as authorizedBy). 3. Add `computeViolationsForSlot()` in slotComputationService reusing checkRange/checkOverlap/checkCapacity, returning ForceCreateViolationReport (no short-circuit). 4. Add POST `/api/v1/internal/appointments/force-create` with requireAuth, requireRole('admin'); validator for slot times, reason max 500 chars, appointment fields; call computeViolationsForSlot, create appointment + ConstraintOverride in a transaction. 5. Mount force-create router in appointment router.
+
+**Checkpoint:**
+- Migration applied; ConstraintOverride model and associations load.
+- Force-create route creates appointment and override record in one transaction; invalid payloads rejected by validator. [Task goal]
 **Files:** 
 - [Files to work with]
 **Approach:** [Approach to take]
@@ -271,8 +291,7 @@ Break each session into focused tasks. Each task should have:
 **Files:** 
 - [Files to work with]
 **Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
-```
+**Checkpoint:** [What needs to be verified]```
 
 ### Session Organization
 
@@ -402,3 +421,4 @@ Break each session into focused tasks:
 ## Notes
 
 [Session-specific notes, patterns, architectural decisions]
+
