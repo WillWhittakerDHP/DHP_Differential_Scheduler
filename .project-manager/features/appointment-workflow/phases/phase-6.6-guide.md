@@ -13,7 +13,7 @@
 **Description:** Policy and UI for cancelled vs deleted; retention rules; audit trail.
 
 **Duration:** Session 6.6.1 (policy + admin UI)
-**Status:** In Progress
+**Status:** Complete
 
 ---
 
@@ -71,3 +71,5 @@ Valid transitions are defined in `client/src/constants/appointmentStatus.ts` and
 - Feature guide: `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`
 - Appointment status: `client/src/constants/appointmentStatus.ts`, `server/src/routes/internal/appointments/appointmentConstants.ts`
 - Admin table: `client/src/views/admin/tabs/components/AppointmentsTable.vue`, `AppointmentActionsCell.vue`
+
+<!-- end excerpt phase -->
