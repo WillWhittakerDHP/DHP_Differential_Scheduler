@@ -15,6 +15,19 @@ export const quoteModeColors = {
   'warning-darken-1': '#CF3E50', // Darker red
 }
 
+// WHY: Reschedule mode palette (blue/teal) so reschedule is visually distinct from new and quote
+export const rescheduleModeColors = {
+  'primary': '#0D9488', // Teal
+  'on-primary': '#fff',
+  'primary-darken-1': '#0F766E',
+  'secondary': '#0369A1', // Blue
+  'on-secondary': '#fff',
+  'secondary-darken-1': '#0284C7',
+  'warning': '#DC2626',
+  'on-warning': '#fff',
+  'warning-darken-1': '#B91C1C',
+}
+
 export const inactiveColors = {
   normal: {
     'primary-inactive': '#E8E6FA', // Light purple (muted primary)
@@ -23,7 +36,61 @@ export const inactiveColors = {
   quote: {
     'primary-inactive': '#E6F8F0', // Light green (muted primary-quote)
     'secondary-inactive': '#F8F0E6', // Light orange-brown (muted secondary-quote)
-  }
+  },
+  reschedule: {
+    'primary-inactive': '#CCFBF1', // Light teal (muted primary-reschedule)
+    'secondary-inactive': '#E0F2FE', // Light blue (muted secondary-reschedule)
+  },
+}
+
+/** Shape shared by quote/reschedule/DHP mode palettes for wizard theme resolution */
+export interface WizardModePalette {
+  'primary': string
+  'on-primary': string
+  'primary-darken-1': string
+  'secondary': string
+  'on-secondary': string
+  'secondary-darken-1': string
+  'warning': string
+  'on-warning': string
+  'warning-darken-1': string
+}
+
+// WHY: DHP (District Home Pro) brand palette — safety yellow, day-glow red, black; toggleable in booking wizard
+export const dhpPalette: Record<'standard' | 'quote' | 'reschedule', WizardModePalette> = {
+  standard: {
+    'primary': '#EED202', // Safety yellow
+    'on-primary': '#000000',
+    'primary-darken-1': '#D4BC00',
+    'secondary': '#FF3333', // Day-glow red
+    'on-secondary': '#FFFFFF',
+    'secondary-darken-1': '#E62E2E',
+    'warning': '#FF3333',
+    'on-warning': '#FFFFFF',
+    'warning-darken-1': '#E62E2E',
+  },
+  quote: {
+    'primary': '#EED202',
+    'on-primary': '#000000',
+    'primary-darken-1': '#D4BC00',
+    'secondary': '#FF3333',
+    'on-secondary': '#FFFFFF',
+    'secondary-darken-1': '#E62E2E',
+    'warning': '#FF3333',
+    'on-warning': '#FFFFFF',
+    'warning-darken-1': '#E62E2E',
+  },
+  reschedule: {
+    'primary': '#EED202',
+    'on-primary': '#000000',
+    'primary-darken-1': '#D4BC00',
+    'secondary': '#FF3333',
+    'on-secondary': '#FFFFFF',
+    'secondary-darken-1': '#E62E2E',
+    'warning': '#FF3333',
+    'on-warning': '#FFFFFF',
+    'warning-darken-1': '#E62E2E',
+  },
 }
 
 export const themes: Record<string, ThemeDefinition> = {

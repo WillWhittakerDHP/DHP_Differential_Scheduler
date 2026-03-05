@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T00:27:09.411Z",
+  "generatedAt": "2026-03-05T00:37:11.380Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1141,
-  "totalDefinitions": 787,
+  "fileCount": 1144,
+  "totalDefinitions": 789,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -466,15 +466,15 @@
       "priority": "P1"
     },
     {
-      "groupId": "sim-subset-47728a2eb291",
+      "groupId": "sim-subset-605ba69423c7",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
         {
           "name": "ContactsFormContext",
           "kind": "interface",
-          "file": "client/src/composables/booking/injectionKeys.ts",
-          "line": 96,
+          "file": "client/src/composables/booking/bookingDevPanelKeys.ts",
+          "line": 38,
           "exported": true,
           "propertyCount": 11,
           "signature": "{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }"
@@ -1766,8 +1766,8 @@
     {
       "name": "InstancesPanelContext",
       "kind": "interface",
-      "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 73,
+      "file": "client/src/composables/booking/bookingDevPanelKeys.ts",
+      "line": 15,
       "exported": true,
       "fingerprint": "38c8c2c0930a",
       "propertyCount": 17,
@@ -1776,8 +1776,8 @@
     {
       "name": "ContactsFormContext",
       "kind": "interface",
-      "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 96,
+      "file": "client/src/composables/booking/bookingDevPanelKeys.ts",
+      "line": 38,
       "exported": true,
       "fingerprint": "76752b2b57bc",
       "propertyCount": 11,
@@ -1837,10 +1837,10 @@
       "name": "UseBookingWizardSetupReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useBookingWizardSetup.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
-      "fingerprint": "8bbe8c70b370",
-      "propertyCount": 25,
+      "fingerprint": "2363c0cf9e09",
+      "propertyCount": 28,
       "primitiveAlias": null
     },
     {
@@ -2277,10 +2277,20 @@
       "name": "UseThemeModeReturn",
       "kind": "interface",
       "file": "client/src/composables/useThemeMode.ts",
-      "line": 11,
+      "line": 47,
       "exported": true,
-      "fingerprint": "1b651935ccb2",
-      "propertyCount": 4,
+      "fingerprint": "818ef1d087f3",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseThemeModeOptions",
+      "kind": "interface",
+      "file": "client/src/composables/useThemeMode.ts",
+      "line": 55,
+      "exported": true,
+      "fingerprint": "8af8d10942e5",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -2491,6 +2501,16 @@
       "exported": false,
       "fingerprint": "cd786917add1",
       "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "WizardModePalette",
+      "kind": "interface",
+      "file": "client/src/plugins/5.vuetify/theme.ts",
+      "line": 47,
+      "exported": true,
+      "fingerprint": "empty",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {

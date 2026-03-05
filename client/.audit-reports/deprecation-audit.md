@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **3**
-- Requiring review (Tier 1): **3**
+- Files with findings: **4**
+- Requiring review (Tier 1): **4**
 - Allowed (with justification): 0
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **3**
-- Tier 1 findings: 3 (annotations: 0, legacy-keyword: 0, unhelpful-default: 3)
+- Runtime legacy accommodation: **4**
+- Tier 1 findings: 4 (annotations: 0, legacy-keyword: 0, unhelpful-default: 4)
 
 ## Rules
 
@@ -84,6 +84,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P2 | 2 | 0 | 1 |
+| `client/src/composables/useThemeMode.ts` | P2 | 2 | 0 | 1 |
 | `client/src/utils/booking/buildClientLinks.ts` | P2 | 2 | 0 | 1 |
 | `server/src/services/invites/inviteContextBuilder.ts` | P2 | 2 | 0 | 1 |
 
@@ -93,6 +94,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ```
 [LEGACY] unhelpful-default-nullish@78: const slotList = (slots as TimeSlot[] | null) ?? []
+```
+
+### `client/src/composables/useThemeMode.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@18: /** Explicit fallbacks to satisfy deprecation audit (avoid ?? '', ?? {} in-place). */
 ```
 
 ### `client/src/utils/booking/buildClientLinks.ts` [P2] (score: 2)

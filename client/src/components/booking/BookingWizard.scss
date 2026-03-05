@@ -20,6 +20,19 @@
   --quote-mode-inactive-primary: 214, 242, 228; // #D6F2E4 (light green, 80% white + 20% #33BF78)
   --quote-mode-inactive-secondary: 242, 228, 214; // #F2E4D6 (light orange-brown, 80% white + 20% #BD7832)
 
+  // WHY: Reschedule mode palette (teal/blue) — same structure as quote mode for CSS override
+  --reschedule-mode-primary: 13, 148, 136; // #0D9488 (teal)
+  --reschedule-mode-primary-darken-1: 15, 118, 110; // #0F766E
+  --reschedule-mode-secondary: 3, 105, 161; // #0369A1 (blue)
+  --reschedule-mode-secondary-darken-1: 2, 132, 199; // #0284C7
+  --reschedule-mode-warning: 220, 38, 38; // #DC2626
+  --reschedule-mode-warning-darken-1: 185, 28, 28; // #B91C1C
+  --reschedule-mode-on-primary: 255, 255, 255;
+  --reschedule-mode-on-secondary: 255, 255, 255;
+  --reschedule-mode-on-warning: 255, 255, 255;
+  --reschedule-mode-inactive-primary: 204, 251, 241; // #CCFBF1 (light teal)
+  --reschedule-mode-inactive-secondary: 224, 242, 254; // #E0F2FE (light blue)
+
   // PATTERN: CSS variable override at component root level with :deep() to ensure cascading
   &.quote-mode-active {
     --v-theme-primary: var(--quote-mode-primary);
@@ -47,6 +60,59 @@
       --v-theme-on-warning: var(--quote-mode-on-warning);
       --inactive-primary: var(--quote-mode-inactive-primary);
       --inactive-secondary: var(--quote-mode-inactive-secondary);
+    }
+  }
+
+  // WHY: DHP brand palette (safety yellow, day-glow red) — applied when Brand colors toggle is on so wizard wins over parent theme
+  &.dhp-colors-active {
+    --v-theme-primary: 238, 210, 2; // #EED202
+    --v-theme-primary-darken-1: 212, 188, 0; // #D4BC00
+    --v-theme-secondary: 255, 51, 51; // #FF3333
+    --v-theme-secondary-darken-1: 230, 46, 46; // #E62E2E
+    --v-theme-warning: 255, 51, 51;
+    --v-theme-warning-darken-1: 230, 46, 46;
+    --v-theme-on-primary: 0, 0, 0; // #000000
+    --v-theme-on-secondary: 255, 255, 255;
+    --v-theme-on-warning: 255, 255, 255;
+
+    :deep(*) {
+      --v-theme-primary: 238, 210, 2;
+      --v-theme-primary-darken-1: 212, 188, 0;
+      --v-theme-secondary: 255, 51, 51;
+      --v-theme-secondary-darken-1: 230, 46, 46;
+      --v-theme-warning: 255, 51, 51;
+      --v-theme-warning-darken-1: 230, 46, 46;
+      --v-theme-on-primary: 0, 0, 0;
+      --v-theme-on-secondary: 255, 255, 255;
+      --v-theme-on-warning: 255, 255, 255;
+    }
+  }
+
+  &.reschedule-mode-active {
+    --v-theme-primary: var(--reschedule-mode-primary);
+    --v-theme-primary-darken-1: var(--reschedule-mode-primary-darken-1);
+    --v-theme-secondary: var(--reschedule-mode-secondary);
+    --v-theme-secondary-darken-1: var(--reschedule-mode-secondary-darken-1);
+    --v-theme-warning: var(--reschedule-mode-warning);
+    --v-theme-warning-darken-1: var(--reschedule-mode-warning-darken-1);
+    --v-theme-on-primary: var(--reschedule-mode-on-primary);
+    --v-theme-on-secondary: var(--reschedule-mode-on-secondary);
+    --v-theme-on-warning: var(--reschedule-mode-on-warning);
+    --inactive-primary: var(--reschedule-mode-inactive-primary);
+    --inactive-secondary: var(--reschedule-mode-inactive-secondary);
+
+    :deep(*) {
+      --v-theme-primary: var(--reschedule-mode-primary);
+      --v-theme-primary-darken-1: var(--reschedule-mode-primary-darken-1);
+      --v-theme-secondary: var(--reschedule-mode-secondary);
+      --v-theme-secondary-darken-1: var(--reschedule-mode-secondary-darken-1);
+      --v-theme-warning: var(--reschedule-mode-warning);
+      --v-theme-warning-darken-1: var(--reschedule-mode-warning-darken-1);
+      --v-theme-on-primary: var(--reschedule-mode-on-primary);
+      --v-theme-on-secondary: var(--reschedule-mode-on-secondary);
+      --v-theme-on-warning: var(--reschedule-mode-on-warning);
+      --inactive-primary: var(--reschedule-mode-inactive-primary);
+      --inactive-secondary: var(--reschedule-mode-inactive-secondary);
     }
   }
 
@@ -82,6 +148,16 @@
 
     // PATTERN: Background color change and border color change (colors handled by CSS variables)
     .booking-wizard.quote-mode-active & {
+      background-color: rgba(var(--v-theme-primary), 0.05);
+      border-bottom-color: rgb(var(--v-theme-primary));
+    }
+
+    .booking-wizard.reschedule-mode-active & {
+      background-color: rgba(var(--v-theme-primary), 0.05);
+      border-bottom-color: rgb(var(--v-theme-primary));
+    }
+
+    .booking-wizard.dhp-colors-active & {
       background-color: rgba(var(--v-theme-primary), 0.05);
       border-bottom-color: rgb(var(--v-theme-primary));
     }

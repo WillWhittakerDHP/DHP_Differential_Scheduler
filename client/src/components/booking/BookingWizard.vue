@@ -19,6 +19,8 @@ const {
   getStepContent,
   isQuoteMode,
   toggleQuoteMode,
+  wizardMode,
+  useDhpColors,
   handleSubmit,
   isUpdateSubmit,
   isDevMode,
@@ -59,13 +61,27 @@ async function handleCopyQuoteLink(): Promise<void> {
 </script>
 
 <template>
-  <VCard class="booking-wizard" :class="{ 'quote-mode-active': isQuoteMode }">
+  <VCard
+    class="booking-wizard"
+    :class="{
+      'quote-mode-active': isQuoteMode && !useDhpColors,
+      'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
+      'dhp-colors-active': useDhpColors,
+    }"
+  >
     
     <VContainer fluid class="pa-0">
       <VRow density="compact" class="wizard-layout">
         <!-- Stepper Header (Top) -->
         <VCol cols="12" class="stepper-column">
-          <VCardText class="stepper-header" :class="{ 'quote-mode-active': isQuoteMode }">
+          <VCardText
+            class="stepper-header"
+            :class="{
+              'quote-mode-active': isQuoteMode && !useDhpColors,
+              'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
+              'dhp-colors-active': useDhpColors,
+            }"
+          >
             <VList class="horizontal-stepper" density="compact">
               <VListItem
                 v-for="(step, index) in steps"
@@ -97,8 +113,8 @@ async function handleCopyQuoteLink(): Promise<void> {
               </VListItem>
             </VList>
             
-            <!-- WHY: Allows users to toggle quote mode -->
-            <!-- PATTERN: VBtn with toggle state -->
+            <!-- WHY: Allows users to toggle quote mode and DHP brand colors (wizard only) -->
+            <!-- PATTERN: VBtn with toggle state; VSwitch for DHP palette -->
             <VRow class="mt-4 align-center justify-center" density="compact">
               <VCol cols="auto">
                 <VBtn
@@ -111,6 +127,15 @@ async function handleCopyQuoteLink(): Promise<void> {
                 >
                   {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
                 </VBtn>
+              </VCol>
+              <VCol cols="auto" class="d-flex align-center">
+                <VSwitch
+                  v-model="useDhpColors"
+                  color="primary"
+                  hide-details
+                  density="compact"
+                />
+                <span class="text-caption text-medium-emphasis ml-2">Brand colors</span>
               </VCol>
               <VCol v-if="isDevMode" cols="auto" class="ml-2">
                 <VBtn

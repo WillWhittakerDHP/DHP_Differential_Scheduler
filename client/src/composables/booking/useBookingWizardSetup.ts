@@ -3,7 +3,8 @@
  * PATTERN: Encapsulates all wizard composable wiring and returns only what the template needs.
  */
 import { computed, provide } from 'vue'
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { useStorage } from '@vueuse/core'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -42,6 +43,9 @@ export interface UseBookingWizardSetupReturn {
   getStepContent: ReturnType<typeof useWizardStepContent>['getStepContent']
   isQuoteMode: ComputedRef<boolean>
   toggleQuoteMode: () => void
+  wizardMode: Ref<import('@/types/wizard').WizardMode>
+  useDhpColors: Ref<boolean>
+  toggleDhpColors: () => void
   handleSubmit: ReturnType<typeof useWizardSubmission>['handleSubmit']
   isUpdateSubmit: ReturnType<typeof useWizardSubmission>['isUpdateSubmit']
   isDevMode: boolean
@@ -154,7 +158,12 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   })
 
   const { getStepContent } = useWizardStepContent()
-  useThemeMode(wizard)
+
+  const useDhpColors = useStorage<boolean>('booking-wizard-dhp-colors', false)
+  const toggleDhpColors = (): void => {
+    useDhpColors.value = !useDhpColors.value
+  }
+  useThemeMode({ wizard, useDhpColors })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)
   const toggleQuoteMode = (): void => {
@@ -212,6 +221,9 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     getStepContent,
     isQuoteMode,
     toggleQuoteMode,
+    wizardMode: wizard.wizardMode,
+    useDhpColors,
+    toggleDhpColors,
     handleSubmit,
     isUpdateSubmit,
     isDevMode,

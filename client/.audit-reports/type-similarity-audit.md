@@ -19,9 +19,9 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T00:27:09.411Z**
-- Files scanned: **1141**
-- Type definitions found: **787**
+- Generated at: **2026-03-05T00:37:11.380Z**
+- Files scanned: **1144**
+- Type definitions found: **789**
 - Similarity groups: **9**
 - UNIFY candidates: **0**
 - BRAND candidates: **0**
@@ -165,14 +165,14 @@ Overlap: **70%** shared properties
 - Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
 - Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
 
-### sim-subset-47728a2eb291
+### sim-subset-605ba69423c7
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **8**
 - Structure: `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 96 | yes |
+| `ContactsFormContext` | interface | `client/src/composables/booking/bookingDevPanelKeys.ts` | 38 | yes |
 | `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 20 | no |
 
 Overlap: **73%** shared properties

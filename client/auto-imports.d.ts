@@ -551,49 +551,71 @@ declare global {
   const whenever: typeof import('@vueuse/core').whenever
   const withAsyncOperation: typeof import('./src/composables/useAsyncOperation').withAsyncOperation
 }
+// for type re-export
 declare global {
+  // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
   export type { CookieOptions, CookieRef } from './src/@core/composable/useCookie'
   import('./src/@core/composable/useCookie')
+  // @ts-ignore
   export type { Coordinates, PlaceDetails, MapsApiError } from './src/composables/useAddressAutocomplete'
   import('./src/composables/useAddressAutocomplete')
+  // @ts-ignore
   export type { UseAdminConfigReturn } from './src/composables/useAdminConfig'
   import('./src/composables/useAdminConfig')
+  // @ts-ignore
   export type { WithAsyncOperationState, WithAsyncOperationOptions } from './src/composables/useAsyncOperation'
   import('./src/composables/useAsyncOperation')
+  // @ts-ignore
   export type { UseAvailabilityReturn } from './src/composables/useAvailability'
   import('./src/composables/useAvailability')
+  // @ts-ignore
   export type { UseBookingReturn } from './src/composables/useBooking'
   import('./src/composables/useBooking')
+  // @ts-ignore
   export type { UseComponentEntityReturn } from './src/composables/useComponentEntity'
   import('./src/composables/useComponentEntity')
+  // @ts-ignore
   export type { UseFormFieldsOptionsBase, UseFormFieldsOptions, UseFormFieldsContextOptions, UseFormFieldsStandardLayoutReturn, UseFormFieldsReturn } from './src/composables/formFields/types'
   import('./src/composables/formFields/types')
+  // @ts-ignore
   export type { UseFormValidationReturn } from './src/composables/useFormValidation'
   import('./src/composables/useFormValidation')
+  // @ts-ignore
   export type { UseGlobalReturn } from './src/composables/useGlobal'
   import('./src/composables/useGlobal')
+  // @ts-ignore
   export type { UseMapsSessionTokenReturn } from './src/composables/useMapsSessionToken'
   import('./src/composables/useMapsSessionToken')
+  // @ts-ignore
   export type { UseNotificationReturn } from './src/composables/useNotification'
   import('./src/composables/useNotification')
+  // @ts-ignore
   export type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from './src/composables/usePartInstanceData'
   import('./src/composables/usePartInstanceData')
+  // @ts-ignore
   export type { UseRelationshipCrudReturn } from './src/composables/useRelationship'
   import('./src/composables/useRelationship')
+  // @ts-ignore
   export type { GroupedEntities, SelectOption, SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
-  export type { UseThemeModeReturn } from './src/composables/useThemeMode'
+  // @ts-ignore
+  export type { UseThemeModeReturn, UseThemeModeOptions } from './src/composables/useThemeMode'
   import('./src/composables/useThemeMode')
+  // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
   import('./src/utils/autocomplete')
+  // @ts-ignore
   export type { LogLevel, AppLogger, Logger } from './src/utils/logger'
   import('./src/utils/logger')
+  // @ts-ignore
   export type { WizardInstance, WizardStateField, WizardFieldConfig } from './src/utils/wizardStateFieldConfig'
   import('./src/utils/wizardStateFieldConfig')
 }
 
+// for vue template auto import
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface GlobalComponents {}

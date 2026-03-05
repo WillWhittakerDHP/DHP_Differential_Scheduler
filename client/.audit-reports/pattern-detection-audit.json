@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T00:27:08.390Z",
+  "generatedAt": "2026-03-05T00:37:12.388Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1111,
+  "fileCount": 1114,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -2418,7 +2418,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useBookingWizardSetup.ts",
-            "line": 59,
+            "line": 63,
             "name": "BookingWizardSetup"
           }
         ]
@@ -3468,7 +3468,7 @@
         "locations": [
           {
             "file": "client/src/composables/useThemeMode.ts",
-            "line": 24,
+            "line": 85,
             "name": "ThemeMode"
           }
         ]
