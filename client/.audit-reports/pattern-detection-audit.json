@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:48:12.676Z",
+  "generatedAt": "2026-03-05T16:56:27.520Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -1426,7 +1426,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEventInstancesSection.ts",
-            "line": 20,
+            "line": 21,
             "name": "EventInstancesSection"
           }
         ]
@@ -1726,7 +1726,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-            "line": 39,
+            "line": 37,
             "name": "OverlapConstraintsPanel"
           }
         ]
