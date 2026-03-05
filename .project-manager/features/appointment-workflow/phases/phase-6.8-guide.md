@@ -200,7 +200,7 @@ All sessions complete. Ready to run phase-completion workflow?
 - Computed Availability Service: `server/src/services/computedAvailabilityService.ts`
 - Appointment CRUD Router: `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
 
-- [ ] ### Session 6.8.2: ** Constraint relaxation & availability pipeline — relaxConstraintsForExceptions, allowedExceptions, override verification
+- [x] ### Session 6.8.2: ** Constraint relaxation & availability pipeline — relaxConstraintsForExceptions, allowedExceptions, override verification
 
 **Description:** ** Constraint relaxation & availability pipeline — relaxConstraintsForExceptions, allowedExceptions, override verification
 

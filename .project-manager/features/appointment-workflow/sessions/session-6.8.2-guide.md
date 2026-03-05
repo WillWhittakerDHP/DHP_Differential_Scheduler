@@ -59,3 +59,5 @@
 
 - **Phase guide:** `.project-manager/features/appointment-workflow/phases/phase-6.8-guide.md`
 - **Session planning:** `.project-manager/features/appointment-workflow/sessions/session-6.8.2-planning.md`
+
+<!-- end excerpt session -->
