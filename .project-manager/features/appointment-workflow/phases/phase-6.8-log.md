@@ -25,14 +25,6 @@
 
 
 
-### Session 6.8.6: Admin entry (step 0 / pre-wizard) ✅
-**Completed:** 2026-03-05
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** Admin entry (step 0 / pre-wizard)
-
-
-
 ### Session 6.8.5: Block-level agentPermissions ✅
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
