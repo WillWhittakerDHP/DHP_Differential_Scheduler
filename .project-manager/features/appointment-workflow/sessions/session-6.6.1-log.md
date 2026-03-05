@@ -1,2 +1,20 @@
 # Session 6.6.1: ** Soft delete vs hard delete — policy, UI, retention/audit (to be refined in session planning)
 
+
+### Task 6.6.1.1: Task 6.6.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.6.1.2
+
+
+
+## Completed Tasks
+
+### Task 6.6.1.1: Task 6.6.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.6.1.2
+
+<!-- end excerpt session -->
