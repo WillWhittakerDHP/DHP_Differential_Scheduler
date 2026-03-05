@@ -53,7 +53,6 @@ Phase 6.8 adds **override-aware** behavior on top:
 **Implementation order:** Implement Phase 6.5 first (event exclusion via `reschedulingAppointmentId` and original-inspection slot UI). Then Phase 6.8 extends the availability pipeline with `allowedExceptions` and override verification; reschedule UI can show override-allowed slots with a distinct indicator (Session 6.8.4).
 
 ---
-
 ## Data Model
 
 **Table:** `constraint_overrides`
@@ -109,34 +108,11 @@ Index on `appointment_id`.
 ## Sessions Breakdown
 
 - [ ] ### Session 6.8.1: Database & Server Infrastructure
-**Description:** Create the `constraint_overrides` migration and model, implement `computeViolationsForSlot()` in the slot computation service, and create the force-create route with validation.
-**Tasks:**
-- Create `constraint_overrides` migration (columns per data model above, index on appointment_id)
-- Create `ConstraintOverride` Sequelize model; associations to Appointment and User (as authorizedBy)
-- Create `computeViolationsForSlot()` in slotComputationService — re-use checkRange/Overlap/Capacity, collect all violations, return `ForceCreateViolationReport`
-- Create `POST /api/v1/internal/appointments/force-create` route (requireAuth, requireRole('admin')); call computeViolationsForSlot, create appointment + ConstraintOverride
-- Create force-create validator (forceSlot times, reason max 500 chars, normal appointment fields)
-- Mount force-create router in appointmentRouter
 
-**Description:** Create the constraint relaxation utility for reschedule flows and extend the availability pipeline to accept override exceptions.
-**Tasks:**
-- Create `relaxConstraintsForExceptions()` utility (pure function, clone constraints with enforcement 'off')
-- Extend computeAvailabilityData() and availabilityRouter to accept optional `allowedExceptions` when appointmentId provided
-- Server-side auth: verify appointmentId exists, has ConstraintOverride, requested allowedExceptions ⊆ overridden_violations
+**Description:** ** Database & Server Infrastructure — migration, model, computeViolationsForSlot, force-create route
 
-**Description:** Build the client-side composable and dialog for the force-create flow, plus the admin UI integration.
 **Tasks:**
-- Create useForceCreateAppointment composable (violation preview, confirmation, reason)
-- Create force-create confirmation dialog (violations by category, human-readable labels, explicit confirm, optional reason)
-- Add "Force Schedule" button to admin appointments UI (admin-only; blocked slots selectable in distinct color)
-
-**Description:** Wire the reschedule flow to use override records, showing override-allowed slots with distinct indicators, and create new override records for rescheduled appointments.
-**Tasks:**
-- Reschedule flow: fetch override for appointment, pass allowedExceptions to availability; show override-allowed slots with distinct indicator
-- On reschedule complete, create new ConstraintOverride record for the new slot
-- Update phase documentation and feature handoff
-
----
+1. Add `constraint_overrides` table and model; implement `computeViolationsForSlot()` and force-create route with auth/role checks. 2. Add `relaxConstraintsForExceptions()` and extend availability pipeline with `allowedExceptions` and server-side override verification. 3. Build client composable and dialog (violation preview, reason, confirm); add admin-only Force Schedule entry point. 4. Wire reschedule flow to pass override violations to availability and create new override records on reschedule.
 
 ## Decision Log
 
@@ -223,3 +199,25 @@ All sessions complete. Ready to run phase-completion workflow?
 - Slot Computation Service: `server/src/services/slotComputationService.ts`
 - Computed Availability Service: `server/src/services/computedAvailabilityService.ts`
 - Appointment CRUD Router: `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
+
+- [ ] ### Session 6.8.2: ** Constraint relaxation & availability pipeline — relaxConstraintsForExceptions, allowedExceptions, override verification
+
+**Description:** ** Constraint relaxation & availability pipeline — relaxConstraintsForExceptions, allowedExceptions, override verification
+
+**Tasks:**
+1. Add `constraint_overrides` table and model; implement `computeViolationsForSlot()` and force-create route with auth/role checks. 2. Add `relaxConstraintsForExceptions()` and extend availability pipeline with `allowedExceptions` and server-side override verification. 3. Build client composable and dialog (violation preview, reason, confirm); add admin-only Force Schedule entry point. 4. Wire reschedule flow to pass override violations to availability and create new override records on reschedule.
+
+- [ ] ### Session 6.8.3: ** Force-create composable and admin UI — useForceCreateAppointment, dialog, Force Schedule button
+
+**Description:** ** Force-create composable and admin UI — useForceCreateAppointment, dialog, Force Schedule button
+
+**Tasks:**
+1. Add `constraint_overrides` table and model; implement `computeViolationsForSlot()` and force-create route with auth/role checks. 2. Add `relaxConstraintsForExceptions()` and extend availability pipeline with `allowedExceptions` and server-side override verification. 3. Build client composable and dialog (violation preview, reason, confirm); add admin-only Force Schedule entry point. 4. Wire reschedule flow to pass override violations to availability and create new override records on reschedule.
+
+- [ ] ### Session 6.8.4: ** Reschedule flow and override records — pass allowedExceptions, distinct slot indicator, new override on reschedule
+
+**Description:** ** Reschedule flow and override records — pass allowedExceptions, distinct slot indicator, new override on reschedule
+
+**Tasks:**
+1. Add `constraint_overrides` table and model; implement `computeViolationsForSlot()` and force-create route with auth/role checks. 2. Add `relaxConstraintsForExceptions()` and extend availability pipeline with `allowedExceptions` and server-side override verification. 3. Build client composable and dialog (violation preview, reason, confirm); add admin-only Force Schedule entry point. 4. Wire reschedule flow to pass override violations to availability and create new override records on reschedule.
+
