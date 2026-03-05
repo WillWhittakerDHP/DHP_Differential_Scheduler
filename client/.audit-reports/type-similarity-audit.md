@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T17:11:01.575Z**
-- Files scanned: **1137**
-- Type definitions found: **787**
-- Similarity groups: **9**
+- Generated at: **2026-03-05T21:41:00.776Z**
+- Files scanned: **1139**
+- Type definitions found: **790**
+- Similarity groups: **10**
 - UNIFY candidates: **0**
-- BRAND candidates: **0**
+- BRAND candidates: **1**
 - EXTEND candidates: **9**
 - REVIEW candidates: **0**
 
-- P0 (high): **4**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **5**, P1 (medium): **5**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -36,6 +36,7 @@ Each group has a recommended action:
 | --- | --- | --- | --- | ---: | ---: | --- |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
 | P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
+| P0 | BRAND | EXACT | `ForceCreateViolationReport`, `ComputedSlot` | 2 | 17 | `{ violations: string[] }` |
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
@@ -43,6 +44,20 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
 | P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
+
+## BRAND Candidates (1)
+
+These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
+
+### sim-exact-645ac1eccd58
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ violations: string[] }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
+| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
 
 ## EXTEND Candidates (9)
 
@@ -92,7 +107,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 20 | yes |
-| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 386 | yes |
+| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 392 | yes |
 
 Overlap: **50%** shared properties
 - Shared: `isAvailable`, `violations`
@@ -106,7 +121,7 @@ Overlap: **50%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `LoadedTimeSlot` | interface | `client/src/types/booking/timeSlotMatching.ts` | 3 | yes |
-| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 376 | yes |
+| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 382 | yes |
 
 Overlap: **67%** shared properties
 - Shared: `endTime`, `startTime`

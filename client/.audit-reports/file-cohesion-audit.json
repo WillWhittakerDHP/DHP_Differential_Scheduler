@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-05T17:11:03.008Z",
-  "totalScanned": 1108,
+  "generatedAt": "2026-03-05T21:41:04.251Z",
+  "totalScanned": 1110,
   "exceptionSummary": {
-    "totalRequiresReview": 15
+    "totalRequiresReview": 16
   },
   "tierModel": "tier1",
   "tier1Rules": [
@@ -49,21 +49,21 @@
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
-      "lineCount": 298,
-      "exportCount": 14,
+      "lineCount": 339,
+      "exportCount": 15,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 14,
+          "value": 15,
           "threshold": 10,
-          "detail": "14 exports (max: 10)",
+          "detail": "15 exports (max: 10)",
           "tier": 1
         }
       ],
-      "score": 8,
-      "priority": "P1"
+      "score": 10,
+      "priority": "P0"
     },
     {
       "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
@@ -78,6 +78,25 @@
           "value": 490,
           "threshold": 350,
           "detail": "490 lines (general max: 350)",
+          "tier": 1
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "category": "services",
+      "lineCount": 574,
+      "exportCount": 3,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 574,
+          "threshold": 400,
+          "detail": "574 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -218,18 +237,18 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "category": "services",
-      "lineCount": 456,
+      "repoPath": "server/src/db/models/index.ts",
+      "category": "general",
+      "lineCount": 358,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 456,
-          "threshold": 400,
-          "detail": "456 lines (services max: 400)",
+          "value": 358,
+          "threshold": 350,
+          "detail": "358 lines (general max: 350)",
           "tier": 1
         }
       ],

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-05T17:11:03.527Z",
+  "generatedAt": "2026-03-05T21:41:05.254Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 66,
+  "serverEndpoints": 67,
   "endpointKeys": [
     "GET /events-cache",
     "GET /rate-limit",
