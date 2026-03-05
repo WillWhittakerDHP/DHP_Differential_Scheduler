@@ -49,3 +49,5 @@
 **Approach:** Implement step 0 UI with three actions; when Edit quote or Reschedule selected, call list-appointments API (using time-out from settings), render dropdown with columns; on selection set mode and loadedAppointmentId, trigger load-at-step-3, navigate to step 3.
 
 **Checkpoint:** Admin entry UI shows choices and dropdown; selection sets mode and loadedAppointmentId and lands at step 3.
+
+<!-- end excerpt session -->
