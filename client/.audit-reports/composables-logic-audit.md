@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **268**
+- Total composable files scanned: **271**
 
 ## Top hotspots (heuristic)
 
@@ -28,6 +28,7 @@ Scope:
 | `client/src/composables/fieldContext/useFieldContextState.ts` | 16 | 0 | 0 | 8 | 8 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRulesTab.ts` | 15 | 0 | 1 | 4 | 7 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
+| `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | 14 | 0 | 0 | 3 | 7 | 0 | 0 |
 | `client/src/composables/admin/useRelationshipCollection.ts` | 14 | 0 | 0 | 3 | 9 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 14 | 0 | 0 | 14 | 0 | 0 | 0 |
 | `client/src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
@@ -36,7 +37,6 @@ Scope:
 | `client/src/composables/admin/useAdminAvailabilitySettings.ts` | 13 | 0 | 1 | 3 | 5 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardSubPanels.ts` | 13 | 0 | 1 | 10 | 0 | 0 | 0 |
 | `client/src/composables/useRelationship.ts` | 13 | 0 | 0 | 1 | 9 | 0 | 0 |
-| `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | 12 | 0 | 0 | 3 | 5 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useCalibrationChart.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
@@ -291,6 +291,27 @@ computed@248: const optionEntityKey = computed(() =>
 computed@258: const optionLabelKey = computed(() => resolveOptionLabelKey())
 ```
 
+### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=5, await=2, dom=0, console=0
+
+```
+map@83: .map(pt => pt.blockInstance?.name)
+filter@84: .filter(Boolean)
+async@89: const confirmAppointment = async (id: string): Promise<boolean> => {
+await@91: await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })
+async@102: const markCancelled = async (id: string): Promise<boolean> => {
+await@104: await update.mutateAsync({ id, data: { status: 'cancelled' } as Partial<AppointmentRequest> })
+computed@116: itemsSource: computed(() => {
+computed@121: isLoadingSource: computed(() => fetchAll.isLoading.value),
+computed@122: errorSource: computed(() => fetchAll.error.value),
+async@123: createItem: async (payload) => create.mutateAsync(payload),
+async@124: updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),
+async@125: deleteItem: async (id) => remove.mutateAsync(id),
+map@143: selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({
+map@155: attendees: appointment.attendees?.map(attendee => ({
+```
+
 ### `client/src/composables/admin/useRelationshipCollection.ts`
 
 - counts: vueQuery=0, watch=0, computed=3, ref=0, async=3, await=6, dom=0, console=0
@@ -454,25 +475,6 @@ async@272: mutationFn: async (payload) => {
 await@273: const response = await apiClient.post<FetchedRelationship>(endpoint, payload)
 async@281: mutationFn: async ({ parentId, childId }) => {
 await@287: await apiClient.delete(deleteEndpoint)
-```
-
-### `client/src/composables/admin/tables/useAppointmentsTableModel.ts`
-
-- counts: vueQuery=0, watch=0, computed=3, ref=0, async=4, await=1, dom=0, console=0
-
-```
-map@81: .map(pt => pt.blockInstance?.name)
-filter@82: .filter(Boolean)
-async@87: const confirmAppointment = async (id: string): Promise<boolean> => {
-await@89: await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })
-computed@101: itemsSource: computed(() => {
-computed@106: isLoadingSource: computed(() => fetchAll.isLoading.value),
-computed@107: errorSource: computed(() => fetchAll.error.value),
-async@108: createItem: async (payload) => create.mutateAsync(payload),
-async@109: updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),
-async@110: deleteItem: async (id) => remove.mutateAsync(id),
-map@128: selectedTimeSlots: appointment.selectedTimeSlots ? (appointment.selectedTimeSlots as Array<{ time: string; duration: number }>).map(slot => ({
-map@140: attendees: appointment.attendees?.map(attendee => ({
 ```
 
 ### `client/src/composables/admin/useBlockInstanceForm.ts`
@@ -752,15 +754,15 @@ await@49: await handleChange(allIds)
 
 ```
 ref@41: const activeTab = ref('blockShapes')
-computed@147: const filteredAnnotationShapes = computed(() =>
-computed@150: const safeEventShapes = computed(() =>
-computed@153: const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
-computed@154: const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
-computed@155: const annotationShapesTabLabel = computed(
-computed@158: const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
-computed@160: const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
-computed@164: const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
-computed@171: const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
+computed@112: const filteredAnnotationShapes = computed(() =>
+computed@115: const safeEventShapes = computed(() =>
+computed@118: const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
+computed@119: const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
+computed@120: const annotationShapesTabLabel = computed(
+computed@123: const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
+computed@125: const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
+computed@129: const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
+computed@136: const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
 ```
 
 ### `client/src/composables/booking/useAppointmentTimes.ts`
@@ -1155,6 +1157,21 @@ timers@9: const interval = ref<ReturnType<typeof setInterval>>()
 timers@15: interval.value = setInterval(() => {
 watch@21: watch([progressValue, isFallbackState], () => {
 timers@46: setTimeout(() => {
+```
+
+### `client/src/composables/useThemeMode.ts`
+
+- counts: vueQuery=0, watch=1, computed=7, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@95: const useDhpColors = computed(() => useDhpColorsRef?.value ?? false)
+computed@97: const isQuoteMode = computed(() => wizardMode.value === 'quote')
+computed@98: const isRescheduleMode = computed(() => wizardMode.value === 'reschedule')
+computed@100: const resolvedPalette = computed(() => {
+computed@110: const currentPrimary = computed(() => {
+computed@115: const currentSecondary = computed(() => {
+computed@120: const currentWarning = computed(() => {
+watch@126: watch(
 ```
 
 ### `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`
@@ -1746,18 +1763,6 @@ async@30: const handleSubmit = async (): Promise<void> => {
 await@32: const appointmentData = await collectAppointmentData()
 await@39: await updateAppointment.mutateAsync({ id, data: appointmentData })
 await@42: await createAppointment.mutateAsync(appointmentData)
-```
-
-### `client/src/composables/useThemeMode.ts`
-
-- counts: vueQuery=0, watch=1, computed=4, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@28: const isQuoteMode = computed(() => wizard?.isQuoteMode.value ?? false)
-computed@31: const currentPrimary = computed(() =>
-computed@34: const currentSecondary = computed(() =>
-computed@37: const currentWarning = computed(() =>
-watch@42: watch(isQuoteMode, (isActive) => {
 ```
 
 ### `client/src/composables/admin/useCalendarEntries.ts`
@@ -2714,7 +2719,7 @@ computed@36: selectedDate: computed(() => selectedDate.value.start)
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@159: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
+computed@168: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 ```
 
 ### `client/src/composables/booking/useDateRangeDecider.ts`
@@ -2864,6 +2869,24 @@ computed@22: return computed(() => {
 - (no matches)
 
 ### `client/src/composables/admin/useTabNavigation.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `client/src/composables/booking/bookingDevPanelKeys.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `client/src/composables/booking/bookingKeys.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `client/src/composables/booking/bookingWizardStepKeys.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 

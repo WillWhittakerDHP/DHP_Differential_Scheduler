@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T23:17:33.070Z",
+  "generatedAt": "2026-03-05T01:21:15.473Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 268,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 103,
+    "filesWithInlineTypes": 105,
     "annotated": 325,
     "unannotated": 0,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 73,
+      "inlineTypesInComposables": 75,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -2291,12 +2291,12 @@
         "UseShapesTabReturn"
       ],
       "exportKinds": {
-        "types": 0,
-        "interfaces": 1,
+        "types": 1,
+        "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 60,
+      "lineCount": 37,
       "purpose": "Shapes tab component state and action types",
       "reuseTier": "feature",
       "tags": [],
@@ -7502,7 +7502,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 67,
+      "lineCount": 71,
       "purpose": "Appointments table column and config constants",
       "reuseTier": "feature",
       "tags": [
@@ -9323,7 +9323,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9333,7 +9333,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9348,11 +9348,41 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/booking/injectionKeys.ts",
+      "sourceFile": "client/src/composables/booking/bookingDevPanelKeys.ts",
       "exportedTypes": [
         "InstancesPanelContext",
         "ContactsFormContext"
       ],
+      "exportedConstants": [
+        "instancesPanelContextKey",
+        "contactsFormContextKey"
+      ],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/bookingKeys.ts",
+      "exportedTypes": [],
+      "exportedConstants": [
+        "availabilityStepValidateKey",
+        "confirmationStepValidKey",
+        "confirmationStepValidateKey",
+        "displayedMonthKey",
+        "updateDisplayedMonthKey",
+        "appointmentDurationKey",
+        "computedAvailabilityKey",
+        "resetMocksSignalKey",
+        "wizardKey",
+        "loadedWizardStateKey"
+      ],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": null
+    },
+    {
+      "sourceFile": "client/src/composables/booking/bookingWizardStepKeys.ts",
+      "exportedTypes": [],
       "exportedConstants": [
         "propertyDetailsStepDataKey",
         "contactsStepDataKey",
@@ -9363,23 +9393,11 @@
         "propertyDetailsFieldErrorsKey",
         "contactsStepValidKey",
         "contactsStepValidateKey",
-        "availabilityStepValidKey",
-        "availabilityStepValidateKey",
-        "confirmationStepValidKey",
-        "confirmationStepValidateKey",
-        "displayedMonthKey",
-        "updateDisplayedMonthKey",
-        "appointmentDurationKey",
-        "computedAvailabilityKey",
-        "resetMocksSignalKey",
-        "wizardKey",
-        "loadedWizardStateKey",
-        "instancesPanelContextKey",
-        "contactsFormContextKey"
+        "availabilityStepValidKey"
       ],
       "primaryPurpose": "composable",
       "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
+      "recommendation": null
     },
     {
       "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
@@ -9640,7 +9658,8 @@
     {
       "sourceFile": "client/src/composables/useThemeMode.ts",
       "exportedTypes": [
-        "UseThemeModeReturn"
+        "UseThemeModeReturn",
+        "UseThemeModeOptions"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10357,7 +10376,7 @@
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
-          "importedByCount": 0,
+          "importedByCount": 1,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -10372,11 +10391,41 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/composables/booking/injectionKeys.ts",
+          "sourceFile": "client/src/composables/booking/bookingDevPanelKeys.ts",
           "exportedTypes": [
             "InstancesPanelContext",
             "ContactsFormContext"
           ],
+          "exportedConstants": [
+            "instancesPanelContextKey",
+            "contactsFormContextKey"
+          ],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/bookingKeys.ts",
+          "exportedTypes": [],
+          "exportedConstants": [
+            "availabilityStepValidateKey",
+            "confirmationStepValidKey",
+            "confirmationStepValidateKey",
+            "displayedMonthKey",
+            "updateDisplayedMonthKey",
+            "appointmentDurationKey",
+            "computedAvailabilityKey",
+            "resetMocksSignalKey",
+            "wizardKey",
+            "loadedWizardStateKey"
+          ],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": null
+        },
+        {
+          "sourceFile": "client/src/composables/booking/bookingWizardStepKeys.ts",
+          "exportedTypes": [],
           "exportedConstants": [
             "propertyDetailsStepDataKey",
             "contactsStepDataKey",
@@ -10387,23 +10436,11 @@
             "propertyDetailsFieldErrorsKey",
             "contactsStepValidKey",
             "contactsStepValidateKey",
-            "availabilityStepValidKey",
-            "availabilityStepValidateKey",
-            "confirmationStepValidKey",
-            "confirmationStepValidateKey",
-            "displayedMonthKey",
-            "updateDisplayedMonthKey",
-            "appointmentDurationKey",
-            "computedAvailabilityKey",
-            "resetMocksSignalKey",
-            "wizardKey",
-            "loadedWizardStateKey",
-            "instancesPanelContextKey",
-            "contactsFormContextKey"
+            "availabilityStepValidKey"
           ],
           "primaryPurpose": "composable",
           "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
+          "recommendation": null
         },
         {
           "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
@@ -10624,7 +10661,8 @@
         {
           "sourceFile": "client/src/composables/useThemeMode.ts",
           "exportedTypes": [
-            "UseThemeModeReturn"
+            "UseThemeModeReturn",
+            "UseThemeModeOptions"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -11132,7 +11170,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 67,
+        "lineCount": 71,
         "purpose": "Appointments table column and config constants",
         "reuseTier": "feature",
         "tags": [

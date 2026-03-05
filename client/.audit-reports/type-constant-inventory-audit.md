@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-04T23:17:33.070Z
+Generated: 2026-03-05T01:21:15.473Z
 
 ## Summary
 
 - Type files: **268**
 - Constant files: **23**
 - Config files: **34**
-- Files with inline type exports: **103**
+- Files with inline type exports: **105**
 - Annotated: **325** | Unannotated: **0**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 73 |
+| Inline types in composables | 75 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -482,9 +482,11 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useSelectChipRender.ts`: UseSelectChipRenderReturn (imported by 0 files)
 - `client/src/composables/admin/useSelectEnumOptions.ts`: UseSelectEnumOptionsReturn (imported by 0 files)
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
-- `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 0 files)
+- `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 1 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
-- `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
+- `client/src/composables/booking/bookingDevPanelKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
+- `client/src/composables/booking/bookingKeys.ts`:  (imported by 0 files)
+- `client/src/composables/booking/bookingWizardStepKeys.ts`:  (imported by 0 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
 - `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)
 - `client/src/composables/booking/useCancelAppointment.ts`: UseCancelAppointmentReturn (imported by 0 files)
@@ -506,7 +508,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/useMapsSessionToken.ts`: UseMapsSessionTokenReturn (imported by 0 files)
 - `client/src/composables/useNotification.ts`: UseNotificationReturn (imported by 0 files)
 - `client/src/composables/useRelationship.ts`: UseRelationshipCrudReturn (imported by 0 files)
-- `client/src/composables/useThemeMode.ts`: UseThemeModeReturn (imported by 0 files)
+- `client/src/composables/useThemeMode.ts`: UseThemeModeReturn, UseThemeModeOptions (imported by 0 files)
 - `client/src/utils/admin/businessRulesApi.ts`: BusinessRulesQueryFilters (imported by 0 files)
 - `client/src/utils/admin/calibrationChartTransforms.ts`:  (imported by 0 files)
 - `client/src/utils/admin/entityCardTitleKeydown.ts`: EntityCardTitleKeydownReturn (imported by 0 files)

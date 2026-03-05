@@ -1,3 +1,35 @@
+# Session 6.6.1 Guide: Soft Delete vs Hard Delete
+
+**Purpose:** Session-level guide for soft delete vs hard delete — policy, UI, retention/audit.
+
+**Tier:** Session (Tier 2 - Medium-Level)
+
+---
+
+## Quick Start
+
+### Session Overview
+
+**Session ID:** 6.6.1
+**Session Name:** Soft Delete vs Hard Delete — policy, UI, retention/audit
+**Description:** Document policy for cancelled (soft) vs deleted (hard); add admin UI actions for mark cancelled and delete; retention/audit behavior.
+
+**Status:** Complete
+
+### Tasks
+
+- [x] Task 6.6.1.1: Policy and documentation
+- [x] Task 6.6.1.2: Admin UI — soft delete and hard delete actions
+
+## Session Workflow
+
+1. Run `/session-start 6.6.1` to begin (or cascade from phase-start).
+2. Execute tasks 6.6.1.1 and 6.6.1.2 in order.
+3. After each task, run `/task-end <taskId>` and cascade to next task or session-end.
+4. Run `/session-end 6.6.1` when all tasks complete.
+
+---
+
 ## Phase intent (goals and context)
 
 **Warning: Feature guide not found or phase 6.6 not listed.** Planning will proceed with minimal context.
