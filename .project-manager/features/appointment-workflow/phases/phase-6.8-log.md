@@ -21,15 +21,7 @@
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
-
-
-
-### Session 6.8.6: Admin entry (step 0 / pre-wizard) ✅
-**Completed:** 2026-03-05
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
+- Completed ** Admin entry (step 0 / pre-wizard)
 
 
 
@@ -200,9 +192,9 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** 6.8.1, 6.8.2, 6.8.3, 6.8.4, 6.8.5, 6.8.6
-**Total Tasks Completed:** 0
-**Success Criteria Met:** Yes - All success criteria met
+**Sessions Completed:** [List all session IDs]
+**Total Tasks Completed:** [Number]
+**Success Criteria Met:** [Yes/No with details]
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -211,4 +203,3 @@
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
-<!-- end excerpt phase -->
