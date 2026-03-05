@@ -1,7 +1,7 @@
-# Session 6.10.1 Guide: Admin Toggle and Settings for Apply Coupon Visibility
+# Session 6.10.1 Guide: Add New Block Shapes Button on Admin Shapes Tab
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
-**Session:** 6.10.1 — Admin Toggle and Settings  
+**Session:** 6.10.1 — Add New Block Shapes Button  
 **Status:** Not Started  
 **Branch:** TBD (e.g. `appointment-workflow-phase-6.10-session-6.10.1`)
 
@@ -9,62 +9,61 @@
 
 ## Session Overview
 
-Add a business setting **showApplyCouponInWizard** (or equivalent name) so admins can turn the apply-coupon line and button on or off in the booking wizard. The toggle lives in **Business Controls → Calendar → Confirmation & Holds**. Persist the value with the same availability/business settings that hold hold duration and auto-confirm; ensure the wizard can read it (e.g. via `getAvailabilitySettings()` / `useAvailabilitySettings().settings`).
+We used to have an "Add new block shape" button on the admin Shapes tab; it is no longer there. This session restores it so admins can create new block shapes from the UI again. If the original implementation can’t be recovered, adapt the same add-new button pattern already used on the other shapes sub-tabs (Part Shapes, Annotation Shapes, Event Shapes) — same UX and flow shape, wired for block shapes. Implementation must follow existing patterns (useShapesTab / useShapesTabCreation, entity config, API) and governance.
 
 ---
 
 ## Key Context
 
-- **AppointmentConfirmationPanel.vue** — Already has hold duration and auto-confirm switch; add a second switch for "Show apply coupon in wizard". Panel receives props from `BusinessControlsCalendarSection` and emits updates; form state is provided by `useBusinessControlsFormState` / `useCalendarHoldFormState` and ultimately `formData` from `useAdminAvailabilitySettings`.
-- **Availability settings API** — `client/src/configs/availabilitySettings/api.ts`: `getAvailabilitySettings()` reads from `/business-settings/availability_settings`; `buildAvailabilityPayload(formData, autoConfirmEnabled)` builds the save payload. Today `autoConfirmEnabled` is passed separately; you can add `showApplyCouponInWizard` either inside the `setting_value` blob or as a separate top-level key in the payload (match server contract).
-- **Server:** If the backend does not yet store this key, add it to the business_settings availability payload (or equivalent) so the client can send and receive it.
+- **ShapesTab.vue** — Admin tab with sub-tabs for Block Shapes, Part Shapes, Annotation Shapes, Event Shapes. Part/Annotation/Event have "Create" flows (e.g. "Create Part Shape", "Create Annotation Shape", "Create Event Shape"); the Block Shapes sub-tab used to have an equivalent add-new button but it’s missing now. Restore it; if needed, mirror the same add-new button and flow used on the other sub-tabs.
+- **useShapesTab.ts** — Orchestrates state, modals, tab labels, entity config. useShapesTabCreation.ts already provides createPartShape, handleAnnotationShapeCreate, handleEventShapeCreate; add or restore createBlockShape and handleBlockShapeCreated following the same pattern.
+- **Entity/API:** Block shapes use the same entity CRUD pattern as other shapes (blockShapes composable, create mutation). Ensure types, API route, and payload support creating a block shape with required fields (e.g. name, type, ref).
 
 ---
 
 ## Tasks
 
-### Task 6.10.1.1: Types and API — Add showApplyCouponInWizard to settings
+### Task 6.10.1.1: Restore "Add new block shape" entry point
 
-**Goal:** Extend availability/business settings types and API so the setting can be read and written.
+**Goal:** Restore the add-new block shape action on the Block Shapes sub-tab. If the original can’t be restored, add a button or "New block shape" card that matches the same pattern as the other sub-tabs ("Create Part Shape", "Create Annotation Shape", "Create Event Shape").
 
 **Files:**
-- `client/src/configs/availabilitySettings/types.ts` — Add `showApplyCouponInWizard?: boolean` to `AvailabilitySettings` and to `RawAvailabilitySettings` if the API returns it in the same blob.
-- `client/src/configs/availabilitySettings/api.ts` — In the response mapping (where `convertedSettings` is built), set `showApplyCouponInWizard: rawSettings.showApplyCouponInWizard ?? false` (or read from the nested path the server uses). In `buildAvailabilityPayload`, include `showApplyCouponInWizard` in the payload (either inside `setting_value` or as a sibling to `auto_confirm_enabled` if the server expects it that way).
+- `client/src/views/admin/tabs/ShapesTab.vue` — In the Block Shapes section, restore or add the entry point that triggers the create flow (same UX as the other shapes sub-tabs: button or inline card that opens create modal or expands inline form).
+- `client/src/composables/admin/useShapesTab.ts` and/or `useShapesTabCreation.ts` — Restore or add createBlockShape and handleBlockShapeCreated, mirroring the Part/Annotation/Event creation pattern; wire to block shape entity create mutation and list refresh. Ensure new block shape gets required fields (name, type/ref per entity config).
 
-**Checkpoint:** Fetch and save round-trip; type-safe; default `false` when missing.
+**Checkpoint:** Add-new entry point visible in Block Shapes tab; clicking it starts the create flow (modal or inline), same as the other sub-tabs.
 
 ---
 
-### Task 6.10.1.2: Admin UI — Switch in Confirmation & Holds panel
+### Task 6.10.1.2: Block shape create flow and API
 
-**Goal:** Add the toggle and wire it to form state and save.
+**Goal:** Create flow collects required fields, calls API, and refreshes the list; new block shape appears in the tab.
 
 **Files:**
-- `client/src/views/admin/tabs/components/AppointmentConfirmationPanel.vue` — Add prop `showApplyCouponInWizard: boolean` and emit `update:showApplyCouponInWizard`. Add a `VSwitch` with label/hint (e.g. "Show apply coupon in wizard" / "When on, the Coupon Discount row and Apply Coupon button are visible in the booking summary and fee preview.").
-- `client/src/configs/businessControlsTabStrings.ts` — Add strings for the new switch (e.g. under `calendar` or a new key) so labels and hints are consistent.
-- `client/src/views/admin/tabs/BusinessControlsCalendarSection.vue` — Pass `showApplyCouponInWizard` into `AppointmentConfirmationPanel` from state and handle `@update:showApplyCouponInWizard`.
-- `client/src/composables/admin/useBusinessControlsFormState.ts` and/or `useCalendarHoldFormState.ts` — Expose `showApplyCouponInWizard` from `formData` (or from the same source as `autoConfirmEnabled`) so the Calendar section can bind it. If the value is stored inside `formData.value.calendarConfig` or similar, ensure the form state mutates that when the switch changes.
-- `client/src/composables/admin/useAdminAvailabilitySettings.ts` — When loading, map the new field from API response into `formData`. When saving, include it in the payload (via `buildAvailabilityPayload` or an extra argument).
+- `client/src/composables/admin/useShapesTabCreation.ts` — Implement createBlockShape and handleBlockShapeCreated (or equivalent names). Use block shape entity composable create mutation; set initial values per entity config (e.g. id placeholder, name, type). On success, clear form and collapse/close create UI; invalidate or refetch block shapes list.
+- Entity config and API — Confirm block shapes have a create endpoint and payload shape; add or extend types if needed so the client can send a valid create payload (name, type, ref, or whatever the server requires).
 
-**Checkpoint:** Toggle appears in Confirmation & Holds; changing it and saving persists the value; reloading the admin tab shows the correct state.
+**Checkpoint:** Submitting the create form creates a block shape via API; list updates and shows the new shape.
 
 ---
 
-### Task 6.10.1.3: Wizard can read the setting
+### Task 6.10.1.3: Governance and polish
 
-**Goal:** Wizard (and later the availability-step fee popover) can access the current value.
+**Goal:** Follow component/composable governance (thin component, logic in composable); no new Tier1 hotspots; explicit return types; lint and app start pass.
 
-**Approach:** If `showApplyCouponInWizard` is part of `AvailabilitySettings` returned by `getAvailabilitySettings()`, then `useAvailabilitySettings()` (used in the wizard) already exposes `settings`; add the field to the type and the wizard can use `useAvailabilitySettings().settings?.showApplyCouponInWizard ?? false`. No new composable required unless you prefer a dedicated small helper.
+**Files:**
+- ShapesTab.vue — Keep template thin; delegate all create logic to useShapesTab/useShapesTabCreation.
+- useShapesTabCreation.ts (and useShapesTab if extended) — Explicit return types; flat contract; action-based mutation (createBlockShape, handleBlockShapeCreated).
 
-**Checkpoint:** From a wizard or any component that uses `useAvailabilitySettings()`, the value is readable and reactive (e.g. for use in Session 6.10.2).
+**Checkpoint:** Lint passes; app starts; no new component-logic or composable-health regressions.
 
 ---
 
 ## Success Criteria
 
-- [ ] Setting is defined in types and included in API get/save.
-- [ ] Admin switch in Confirmation & Holds; save/load works.
-- [ ] Wizard can read the setting via availability settings (e.g. `useAvailabilitySettings().settings?.showApplyCouponInWizard`).
+- [ ] "Add new block shape" (or equivalent) entry point exists on the admin Shapes tab (Block Shapes section).
+- [ ] Create flow collects required fields, calls API, and refreshes the list; new block shape appears.
+- [ ] Implementation follows existing Shapes tab patterns and governance.
 - [ ] Lint passes; app starts.
 
 ---
@@ -72,4 +71,6 @@ Add a business setting **showApplyCouponInWizard** (or equivalent name) so admin
 ## Related Documents
 
 - Phase 6.10 guide: `phases/phase-6.10-guide.md`
-- Session 6.10.2: `session-6.10.2-guide.md` (fee bar and popover; will use this setting)
+- Session 6.10.2: `session-6.10.2-guide.md` (admin toggle and settings)
+- Session 6.10.3: `session-6.10.3-guide.md` (fee bar and popover)
+- useShapesTab.ts, useShapesTabCreation.ts — creation patterns for Part/Annotation/Event shapes
