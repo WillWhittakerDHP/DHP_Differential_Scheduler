@@ -1,5 +1,4 @@
 /**
- * WHY: Context required via prop to avoid deep provide/inject (data-flow-health audit).
  * EventInstancesSection receives instancesTabContext from InstancesTab and passes it here.
  */
 import { computed } from 'vue'
