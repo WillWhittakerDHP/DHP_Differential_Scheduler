@@ -1,7 +1,7 @@
 feature.id=appointment-workflow
 feature.name=Feature: appointment-workflow
-phase.id=
-phase.name=
+phase.id=6.6
+phase.name=Guide: Soft Delete vs Hard Delete
 session.id=
 session.name=
 task.id=
