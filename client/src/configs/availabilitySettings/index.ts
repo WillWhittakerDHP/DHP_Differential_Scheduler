@@ -11,6 +11,8 @@ export {
   type CalendarConfig,
   type CalendarEntry,
   type CalendarProvider,
+  type AdminEntryTimeout,
+  type AdminEntryTimeoutUnit,
   type ConstraintEnforcement,
   type Coordinates,
   type DefaultLocation,

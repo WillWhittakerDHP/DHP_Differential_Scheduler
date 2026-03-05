@@ -12,6 +12,10 @@ const props = withDefaults(
   defineProps<{
     holdDurationMinutes: number
     autoConfirmEnabled: boolean
+    /** Admin entry dropdown time-out: value (X). Session 6.8.6.1 */
+    adminEntryTimeoutValue?: number
+    /** Admin entry dropdown time-out: unit (days | weeks). Session 6.8.6.1 */
+    adminEntryTimeoutUnit?: 'days' | 'weeks'
     /** Min allowed (from admin settings). */
     holdDurationMin?: number
     /** Max allowed (from admin settings). */
@@ -20,7 +24,7 @@ const props = withDefaults(
     holdDurationFallback?: number
     saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
   }>(),
-  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15 }
+  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days' }
 )
 
 function clampHoldDuration(value: number): number {
@@ -42,6 +46,8 @@ const emit = defineEmits<{
   'update:holdDurationMax': [value: number]
   'update:holdDurationFallback': [value: number]
   'update:autoConfirmEnabled': [value: boolean]
+  'update:adminEntryTimeoutValue': [value: number]
+  'update:adminEntryTimeoutUnit': [value: 'days' | 'weeks']
 }>()
 
 const holdDurationHintText = computed(() =>
@@ -62,6 +68,16 @@ function handleHoldDurationMax(v: string | number): void {
 function handleHoldDurationFallback(v: string | number): void {
   emit('update:holdDurationFallback', clampHoldDuration(Number(v)))
 }
+function clampAdminEntryTimeout(value: number): number {
+  const n = Math.floor(Number(value))
+  return Number.isNaN(n) || n < 1 ? 1 : Math.min(365, n)
+}
+function handleAdminEntryTimeoutValue(v: string | number): void {
+  emit('update:adminEntryTimeoutValue', clampAdminEntryTimeout(Number(v)))
+}
+function handleAdminEntryTimeoutUnit(v: 'days' | 'weeks'): void {
+  emit('update:adminEntryTimeoutUnit', v)
+}
 </script>
 
 <template>
@@ -79,6 +95,34 @@ function handleHoldDurationFallback(v: string | number): void {
       persistent-hint
       class="mb-4"
     />
+
+    <VDivider class="my-4" />
+
+    <div class="text-label-large mb-2">{{ UI_STRINGS.calendar.adminEntryTimeoutLabel }}</div>
+    <p class="text-body-small text-medium-emphasis mb-2">
+      {{ UI_STRINGS.calendar.adminEntryTimeoutHint }}
+    </p>
+    <div class="d-flex gap-2 align-center flex-wrap mb-4">
+      <VTextField
+        :model-value="adminEntryTimeoutValue"
+        @update:model-value="handleAdminEntryTimeoutValue"
+        type="number"
+        min="1"
+        max="365"
+        class="flex-grow-0"
+        style="max-width: 6rem;"
+        density="compact"
+        hide-details
+      />
+      <VSelect
+        :model-value="adminEntryTimeoutUnit"
+        @update:model-value="handleAdminEntryTimeoutUnit"
+        :items="[{ title: 'Days', value: 'days' }, { title: 'Weeks', value: 'weeks' }]"
+        density="compact"
+        hide-details
+        style="max-width: 8rem;"
+      />
+    </div>
 
     <VDivider class="my-4" />
 

@@ -51,6 +51,7 @@ export type { DayHours }
 export type RangeConstraint = SharedRangeConstraint
 
 export type { CalendarConfig, CalendarEntry, CalendarProvider }
+export type { AdminEntryTimeout, AdminEntryTimeoutUnit } from '@shared/types/calendarTypes'
 
 /**
  * Default calendar configuration
@@ -63,6 +64,7 @@ export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
   holdDurationMin: 1,
   holdDurationMax: 60,
   holdDurationFallback: 15,
+  adminEntryTimeout: { value: 30, unit: 'days' },
 }
 
 /** Fallback minor perspective event name when differentialPerspectives.minorLabel is not set. */

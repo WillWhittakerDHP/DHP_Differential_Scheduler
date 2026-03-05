@@ -57,12 +57,16 @@ const timezoneOptions = TIMEZONE_OPTIONS
           :hold-duration-min="state.formState.holdDurationMin"
           :hold-duration-max="state.formState.holdDurationMax"
           :hold-duration-fallback="state.formState.holdDurationFallback"
+          :admin-entry-timeout-value="state.formState.adminEntryTimeoutValue"
+          :admin-entry-timeout-unit="state.formState.adminEntryTimeoutUnit"
           :auto-confirm-enabled="state.autoConfirmEnabled"
           :save-button-props="state.saveButtonProps"
           @update:hold-duration-minutes="(v: number) => { state.formState.holdDurationMinutes = v }"
           @update:hold-duration-min="(v: number) => { state.formState.holdDurationMin = v }"
           @update:hold-duration-max="(v: number) => { state.formState.holdDurationMax = v }"
           @update:hold-duration-fallback="(v: number) => { state.formState.holdDurationFallback = v }"
+          @update:admin-entry-timeout-value="(v: number) => { state.formState.adminEntryTimeoutValue = v }"
+          @update:admin-entry-timeout-unit="(v: 'days' | 'weeks') => { state.formState.adminEntryTimeoutUnit = v }"
           @update:auto-confirm-enabled="state.formState.setAutoConfirmEnabled"
         />
       </VWindowItem>

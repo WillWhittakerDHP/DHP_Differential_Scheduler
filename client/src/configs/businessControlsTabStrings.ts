@@ -149,7 +149,9 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     holdDurationMin: 'Hold duration must be at least 1 minute',
     holdDurationMax: 'Hold duration cannot exceed 60 minutes',
     autoConfirmLabel: 'Auto-confirm appointments',
-    autoConfirmHint: 'When enabled, new appointments created with status "Submitted" are automatically transitioned to "Confirmed".'
+    autoConfirmHint: 'When enabled, new appointments created with status "Submitted" are automatically transitioned to "Confirmed".',
+    adminEntryTimeoutLabel: 'Admin entry dropdown time-out',
+    adminEntryTimeoutHint: 'Only show appointments in the Edit quote / Reschedule dropdown where scheduling began within the last X days or weeks (or quote in quote status for last X). Used to limit the list to recent inspections.'
   },
   driveTime: {
     calculatedTitle: 'Calculated Drive Times',

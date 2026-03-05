@@ -20,6 +20,17 @@ export interface CalendarEntry {
 }
 
 /**
+ * Admin entry dropdown time-out: only show appointments where scheduling began within last X (days/weeks)
+ * or quote in quote status for last X. Session 6.8.6 — Business Controls → Confirmation & Holds.
+ */
+export type AdminEntryTimeoutUnit = 'days' | 'weeks'
+
+export interface AdminEntryTimeout {
+  value: number
+  unit: AdminEntryTimeoutUnit
+}
+
+/**
  * Calendar configuration
  */
 export interface CalendarConfig {
@@ -34,4 +45,6 @@ export interface CalendarConfig {
   holdDurationMax?: number
   /** Default when holdDurationMinutes is missing/invalid. From admin settings; fallback 15 if missing. */
   holdDurationFallback?: number
+  /** Admin entry dropdown time-out (X days/weeks). Session 6.8.6. */
+  adminEntryTimeout?: AdminEntryTimeout
 }

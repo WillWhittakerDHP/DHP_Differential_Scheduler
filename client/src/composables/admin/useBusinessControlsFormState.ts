@@ -19,6 +19,8 @@ export interface UseBusinessControlsFormStateReturn {
     holdDurationMin: UseCalendarHoldFormStateReturn['fields']['holdDurationMin']
     holdDurationMax: UseCalendarHoldFormStateReturn['fields']['holdDurationMax']
     holdDurationFallback: UseCalendarHoldFormStateReturn['fields']['holdDurationFallback']
+    adminEntryTimeoutValue: UseCalendarHoldFormStateReturn['fields']['adminEntryTimeoutValue']
+    adminEntryTimeoutUnit: UseCalendarHoldFormStateReturn['fields']['adminEntryTimeoutUnit']
     calendarEntries: UseCalendarHoldFormStateReturn['fields']['calendarEntries']
     addCalendarEntry: UseCalendarHoldFormStateReturn['actions']['addCalendarEntry']
     removeCalendarEntry: UseCalendarHoldFormStateReturn['actions']['removeCalendarEntry']
@@ -61,6 +63,8 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
     holdDurationMin,
     holdDurationMax,
     holdDurationFallback,
+    adminEntryTimeoutValue,
+    adminEntryTimeoutUnit,
     calendarEntries,
     writeToIndex,
     calendarValidationError,
@@ -138,6 +142,8 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
       holdDurationMin,
       holdDurationMax,
       holdDurationFallback,
+      adminEntryTimeoutValue,
+      adminEntryTimeoutUnit,
       calendarEntries,
       addCalendarEntry,
       removeCalendarEntry,

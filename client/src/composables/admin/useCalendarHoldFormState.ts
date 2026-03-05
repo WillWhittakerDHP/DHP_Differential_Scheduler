@@ -6,6 +6,7 @@ import {
   isValidCalendarEmail,
   DEFAULT_CALENDAR_CONFIG,
   type CalendarProvider,
+  type AdminEntryTimeoutUnit,
 } from '@/configs/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import type { UseBusinessControlsFormStateParams } from '@/types/admin/businessControlsFormState'
@@ -21,6 +22,8 @@ export interface UseCalendarHoldFormStateReturn {
     holdDurationMin: import('vue').ComputedRef<number>
     holdDurationMax: import('vue').ComputedRef<number>
     holdDurationFallback: import('vue').ComputedRef<number>
+    adminEntryTimeoutValue: import('vue').ComputedRef<number>
+    adminEntryTimeoutUnit: import('vue').ComputedRef<AdminEntryTimeoutUnit>
     calendarEntries: Ref<CalendarEntry[]>
     writeToIndex: Ref<number>
     calendarValidationError: Ref<string | null>
@@ -123,6 +126,44 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
     },
   })
 
+  const adminEntryTimeoutValue = computed({
+    get: () =>
+      formData.value?.calendarConfig?.adminEntryTimeout?.value ??
+      DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.value ??
+      30,
+    set: (value: number) => {
+      if (formData.value) {
+        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+        if (!formData.value.calendarConfig.adminEntryTimeout) {
+          formData.value.calendarConfig.adminEntryTimeout = {
+            value: 30,
+            unit: 'days',
+          }
+        }
+        formData.value.calendarConfig.adminEntryTimeout.value = Math.max(1, Math.min(365, Math.floor(value) || 1))
+      }
+    },
+  })
+
+  const adminEntryTimeoutUnit = computed({
+    get: () =>
+      (formData.value?.calendarConfig?.adminEntryTimeout?.unit ??
+        DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.unit ??
+        'days') as AdminEntryTimeoutUnit,
+    set: (value: AdminEntryTimeoutUnit) => {
+      if (formData.value) {
+        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
+        if (!formData.value.calendarConfig.adminEntryTimeout) {
+          formData.value.calendarConfig.adminEntryTimeout = {
+            value: 30,
+            unit: 'days',
+          }
+        }
+        formData.value.calendarConfig.adminEntryTimeout.unit = value
+      }
+    },
+  })
+
   const {
     entries: calendarEntries,
     addEntry: addCalendarEntry,
@@ -162,6 +203,8 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
       holdDurationMin,
       holdDurationMax,
       holdDurationFallback,
+      adminEntryTimeoutValue,
+      adminEntryTimeoutUnit,
       calendarEntries,
       writeToIndex,
       calendarValidationError,
