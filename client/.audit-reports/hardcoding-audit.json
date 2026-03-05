@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T21:13:09.015Z",
+  "generatedAt": "2026-03-05T21:18:49.113Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 2,
+  "totalScanned": 0,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
-    "totalRequiresReview": 1,
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0,
-      "linePattern": 1
+      "linePattern": 0
     }
   },
   "entityKeys": [],
@@ -56,87 +56,5 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": [
-    {
-      "id": "server__src__routes__internal__appointments__appointmentHelpers.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 4
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 149,
-          "line": "logger.debug('Calendar integration not enabled')"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 163,
-          "line": "logger.debug('Found writeTo calendar', { email: writeToEntry.email })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 163,
-          "line": "logger.debug('Found writeTo calendar', { email: writeToEntry.email })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 167,
-          "line": "logger.debug('No writeTo calendar configured')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 170,
-          "line": "logger.error('Error reading writeTo calendar from settings', { error })"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 332,
-          "line": "where: { appointmentId: updatedAppointment.id },"
-        }
-      ],
-      "allowed": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 163,
-          "line": "logger.debug('Found writeTo calendar', { email: writeToEntry.email })",
-          "reason": "Logger metadata object; not API/DB field mapping",
-          "source": "linePattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 332,
-          "line": "where: { appointmentId: updatedAppointment.id },",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
-      "priority": "P2",
-      "suggestions": []
-    }
-  ]
+  "files": []
 }
