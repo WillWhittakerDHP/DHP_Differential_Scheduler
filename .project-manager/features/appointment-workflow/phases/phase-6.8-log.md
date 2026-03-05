@@ -25,6 +25,14 @@
 
 
 
+### Session 6.8.5: Block-level agentPermissions ✅
+**Completed:** 2026-03-05
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Block-level agentPermissions
+
+
+
 ### Session 6.8.4: ** Reschedule flow and override records — pass allowedExceptions, distinct slot indicator, new override on reschedule ✅
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
