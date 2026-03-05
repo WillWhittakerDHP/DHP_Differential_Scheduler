@@ -20,6 +20,7 @@ import { createLogger } from '../../../utils/logger.js'
 import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES } from './appointmentConstants.js'
 import { defaultAvailabilitySettings } from '../businessSettings/businessSettingsConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
+import type { AdminEntryTimeout } from '../../../../../shared/types/calendarTypes.js'
 
 const logger = createLogger('AppointmentRouter')
 
@@ -85,6 +86,27 @@ export async function getHoldDurationFromSettings(): Promise<{ bounds: HoldDurat
 export async function getHoldDurationDefaultFromSettings(): Promise<number> {
   const { defaultMinutes } = await getHoldDurationFromSettings()
   return defaultMinutes
+}
+
+/**
+ * Admin entry dropdown time-out (X days/weeks) from availability settings.
+ * Session 6.8.6 — used to filter list-appointments for the admin entry dropdown.
+ */
+const DEFAULT_ADMIN_ENTRY_TIMEOUT: AdminEntryTimeout = { value: 30, unit: 'days' }
+
+export async function getAdminEntryTimeoutFromSettings(): Promise<AdminEntryTimeout> {
+  const setting = await BusinessSettings.findOne({
+    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
+  })
+  const data: AvailabilitySettingsData = (setting?.settingValue != null)
+    ? (setting.settingValue as AvailabilitySettingsData)
+    : defaultAvailabilitySettings
+  const raw = data.calendarConfig?.adminEntryTimeout
+  if (raw && typeof raw.value === 'number' && !Number.isNaN(raw.value) && (raw.unit === 'days' || raw.unit === 'weeks')) {
+    const value = Math.max(1, Math.min(365, Math.floor(raw.value)))
+    return { value, unit: raw.unit }
+  }
+  return DEFAULT_ADMIN_ENTRY_TIMEOUT
 }
 
 /**

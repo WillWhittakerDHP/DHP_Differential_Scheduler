@@ -29,3 +29,23 @@
 - [Files to work with]
 **Approach:** [Fill in]
 **Checkpoint:** [What needs to be verified]
+
+- [x] #### Task 6.8.6.2: API for list appointments (filtered by status, time-out)
+
+**Goal:** Implement API endpoint for list appointments filtered by status (exclude cancelled, deleted) and by admin-configured time-out window (scheduling began within last X days/weeks, or quote in quote status for last X). Return fields needed for admin entry dropdown (id, address, client name, agent name).
+
+**Files:** Server: new or extended list-appointments route; read admin entry time-out from calendar/availability settings. Client: API client for list appointments (used by task 6.8.6.3).
+
+**Approach:** Add or extend list-appointments endpoint with query params for status filter and time-out; resolve time-out (value + unit) from availability/calendar settings; filter appointments by status and time window; return minimal fields for dropdown.
+
+**Checkpoint:** API returns filtered appointment list with required columns; time-out setting from Business Controls is used in the filter.
+
+- [ ] #### Task 6.8.6.3: Dropdown UI and selection → wizard step 3
+
+**Goal:** Build admin-only step 0 / pre-wizard UI: choices Start new | Edit quote | Reschedule; for Edit quote/Reschedule, dropdown with filtered list (Address, Client name, Agent name); on selection set wizard mode and loadedAppointmentId, load appointment, navigate to step 3.
+
+**Files:** Client: admin entry component(s), dropdown using list-appointments API, useWizardAppointmentManagement (loadedAppointmentId, mode), load-at-step-3 integration.
+
+**Approach:** Implement step 0 UI with three actions; when Edit quote or Reschedule selected, call list-appointments API (using time-out from settings), render dropdown with columns; on selection set mode and loadedAppointmentId, trigger load-at-step-3, navigate to step 3.
+
+**Checkpoint:** Admin entry UI shows choices and dropdown; selection sets mode and loadedAppointmentId and lands at step 3.
