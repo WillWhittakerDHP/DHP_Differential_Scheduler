@@ -1,4 +1,5 @@
 /**
+ * WHY: Prefer prop-based context when provided to avoid deep provide/inject (data-flow-health audit).
  */
 import { computed, inject } from 'vue'
 import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
@@ -17,10 +18,9 @@ export interface UseEventInstancesSectionReturn {
   toggleEventInstanceMetadata: () => void
 }
 
-export function useEventInstancesSection(): UseEventInstancesSectionReturn {
-  const injected = inject(instancesTabContextKey)
-  if (!injected) throw new Error('EventInstancesSection must be used inside InstancesTab')
-  const ctx = injected as InstancesTabContext
+export function useEventInstancesSection(context?: InstancesTabContext): UseEventInstancesSectionReturn {
+  const ctx: InstancesTabContext = context ?? (inject(instancesTabContextKey) as InstancesTabContext | undefined)
+  if (!ctx) throw new Error('EventInstancesSection must be used inside InstancesTab or receive instancesTabContext prop')
 
   const expandedInstances = ctx.expandedInstances
 

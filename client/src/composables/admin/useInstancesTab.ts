@@ -18,7 +18,7 @@ import { useInstancesTabEventInstanceDrag } from '@/composables/admin/useInstanc
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { createLogger } from '@/utils/logger'
-import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { instancesTabContextKey, type InstancesTabContext } from '@/composables/admin/injectionKeys'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseInstancesTabReturn } from '@/types/admin/instancesTab'
 
@@ -165,7 +165,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     scheduledBy: null,
   }))
 
-  provide(instancesTabContextKey, {
+  const instancesTabContext: InstancesTabContext = {
     blockShapeComposable,
     blockShapeStateControl,
     blockShapeValidCascades,
@@ -202,9 +202,11 @@ export function useInstancesTab(): UseInstancesTabReturn {
     handleDeleteEventInstance,
     eventInstancesContainer,
     eventInstancesPanelsContainer,
-  })
+  }
+  provide(instancesTabContextKey, instancesTabContext)
 
   return {
+    instancesTabContext,
     activeTab,
     sortedBlockShapes: instanceGroupingComposable.sortedBlockShapes,
     blockInstancesCountByShape,

@@ -53,7 +53,7 @@ function handleDurationRoundingMethod(v: string): void {
       </VWindowItem>
 
       <VWindowItem key="overlap" value="overlap">
-        <OverlapConstraintsPanel />
+        <OverlapConstraintsPanel v-if="state" :business-controls-state="state" />
       </VWindowItem>
 
       <VWindowItem key="rounding" value="rounding">

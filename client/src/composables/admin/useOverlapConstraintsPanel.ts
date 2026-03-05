@@ -1,4 +1,5 @@
 /**
+ * WHY: Prefer prop-based state when provided to avoid deep provide/inject (data-flow-health audit).
  */
 import { computed, inject } from 'vue'
 import {
@@ -35,9 +36,10 @@ export interface UseOverlapConstraintsPanelReturn {
   handleBuffersDriveFromCandidateEnforcement: (v: 'off' | 'flexible' | 'hard') => void
 }
 
-export function useOverlapConstraintsPanel(): UseOverlapConstraintsPanelReturn {
-  const state = inject(BUSINESS_CONTROLS_STATE_KEY) as BusinessControlsState | undefined
-  if (!state) throw new Error('OverlapConstraintsPanel must be used inside BusinessControlsTab')
+export function useOverlapConstraintsPanel(stateParam?: BusinessControlsState): UseOverlapConstraintsPanelReturn {
+  const state: NonNullable<BusinessControlsState> | undefined =
+    stateParam ?? (inject(BUSINESS_CONTROLS_STATE_KEY) as BusinessControlsState | undefined)
+  if (!state) throw new Error('OverlapConstraintsPanel must be used inside BusinessControlsTab or receive businessControlsState prop')
 
   const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
   const enforcementOptions = ENFORCEMENT_OPTIONS

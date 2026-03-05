@@ -12,6 +12,7 @@ import BlockInstancesGroup from './components/BlockInstancesGroup.vue'
 import EventInstancesSection from './components/EventInstancesSection.vue'
 
 const {
+  instancesTabContext,
   activeTab,
   sortedBlockShapes,
   blockInstancesCountByShape,
@@ -89,7 +90,7 @@ const {
 
       <!-- Event Instances Tab Content -->
       <VWindowItem value="eventInstances">
-        <EventInstancesSection />
+        <EventInstancesSection :instances-tab-context="instancesTabContext" />
       </VWindowItem>
     </VWindow>
     
