@@ -19,7 +19,7 @@
 - No changes to orchestrator validation or slot calculation.
 - Deliverable: wide layout with all five sub-steps in the model; steps 1–4 wired to existing components; step 5 is a reserved slot with visibility gate, content added in 6.9.4. Narrow can remain single-column or unchanged until 6.9.2.
 
-- [ ] #### Task 6.9.1.1: ** 6.9
+- [x] #### Task 6.9.1.1: ** 6.9
 
 **Goal:** ** 6.9
 
