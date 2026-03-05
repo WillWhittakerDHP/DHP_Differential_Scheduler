@@ -425,5 +425,7 @@ export interface ComputedSlotAvailabilityData {
     defaultLocation?: DefaultLocation
     generatedAt: string
     cacheStatus: { events: 'hit' | 'miss' }
+    /** True when allowedExceptions were verified against ConstraintOverride and applied to slot computation */
+    allowedExceptionsApplied?: boolean
   }
 }

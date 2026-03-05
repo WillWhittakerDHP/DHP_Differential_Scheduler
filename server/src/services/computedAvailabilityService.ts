@@ -13,12 +13,12 @@ import type {
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange, attachDriveTimesToEvents } from './slotComputationService.js'
 import type { EventWithDrive } from './slotConstraintCheckers.js'
-import { AppointmentAttendee, BusinessSettings } from '../config/app.js'
+import { AppointmentAttendee, BusinessSettings, ConstraintOverride } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
 import {
   extractConstraints,
 } from './constraintExtractor.js'
-import { groupConstraintsByCategory } from '../../../shared/utils/constraintUtils.js'
+import { groupConstraintsByCategory, relaxConstraintsForExceptions } from '../../../shared/utils/constraintUtils.js'
 import { getCalendarEvents } from './google/calendar/eventsService.js'
 import { calculateRouteMatrix } from './google/maps/routesApiService.js'
 import { MapsApiError } from './google/maps/mapsErrorHandler.js'
@@ -284,7 +284,8 @@ function buildComputedAvailabilityResponse(
   regularEvents: CalendarEvent[],
   outOfOfficeEvents: CalendarEvent[],
   eventsResponses: Awaited<ReturnType<typeof getCalendarEvents>>[],
-  request: ComputedAvailabilityRequest
+  request: ComputedAvailabilityRequest,
+  allowedExceptionsApplied?: boolean
 ): ComputedSlotAvailabilityData {
   return {
     slotsByDay,
@@ -304,6 +305,7 @@ function buildComputedAvailabilityResponse(
           ? CACHE_STATUS_HIT
           : CACHE_STATUS_MISS,
       },
+      ...(allowedExceptionsApplied !== undefined ? { allowedExceptionsApplied } : {}),
     },
   }
 }
@@ -339,6 +341,39 @@ async function excludeAppointmentFromOverlap(
   }
 
   return regularEvents.filter((event) => !eventIdsToExclude.has(event.id))
+}
+
+/**
+ * When both allowedExceptions and appointmentId are present, loads ConstraintOverride,
+ * verifies every allowed key is in overriddenViolations, and returns relaxed constraints
+ * and a flag. Otherwise returns original constraints and false.
+ */
+async function resolveAllowedExceptions(
+  constraints: Constraint[],
+  allowedExceptions: string[] | undefined,
+  appointmentId: string | undefined
+): Promise<{ constraintsForSlots: Constraint[]; allowedExceptionsApplied: boolean }> {
+  const hasExceptions = allowedExceptions != null && allowedExceptions.length > 0
+  if (!hasExceptions || !appointmentId) {
+    return { constraintsForSlots: constraints, allowedExceptionsApplied: false }
+  }
+
+  const override = await ConstraintOverride.findOne({
+    where: { appointmentId },
+    attributes: ['overriddenViolations'],
+  })
+  if (!override?.overriddenViolations?.length) {
+    return { constraintsForSlots: constraints, allowedExceptionsApplied: false }
+  }
+
+  const allowedSet = new Set(override.overriddenViolations)
+  const allAllowed = allowedExceptions.every((key) => allowedSet.has(key))
+  if (!allAllowed) {
+    return { constraintsForSlots: constraints, allowedExceptionsApplied: false }
+  }
+
+  const relaxed = relaxConstraintsForExceptions(constraints, allowedExceptions)
+  return { constraintsForSlots: relaxed, allowedExceptionsApplied: true }
 }
 
 export async function computeAvailabilityData(
@@ -410,7 +445,14 @@ export async function computeAvailabilityData(
     scheduledIncomeByKey
   )
 
-  const businessHoursConstraint = enrichedConstraints.find(
+  const { constraintsForSlots, allowedExceptionsApplied } =
+    await resolveAllowedExceptions(
+      enrichedConstraints,
+      request.allowedExceptions,
+      effectiveAppointmentId
+    )
+
+  const businessHoursConstraint = constraintsForSlots.find(
     (c) =>
       c.category === 'range' &&
       c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
@@ -430,7 +472,7 @@ export async function computeAvailabilityData(
         request.dateRange,
         request.duration,
         settings.minuteIncrement,
-        enrichedConstraints,
+        constraintsForSlots,
         overlapRegularEvents,
         effectiveOutOfOfficeEvents,
         driveTimesByPlaceId,
@@ -443,12 +485,13 @@ export async function computeAvailabilityData(
 
   const computedData = buildComputedAvailabilityResponse(
     slotsByDay,
-    enrichedConstraints,
+    constraintsForSlots,
     settings,
     regularEvents,
     outOfOfficeEvents,
     eventsResponses,
-    request
+    request,
+    allowedExceptionsApplied
   )
 
   const duration = Date.now() - startTime

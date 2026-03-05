@@ -57,5 +57,15 @@ export function validateComputedAvailabilityRequest(
     }
   }
 
+  if (req.allowedExceptions !== undefined && req.allowedExceptions !== null) {
+    if (!Array.isArray(req.allowedExceptions)) {
+      return { valid: false, error: 'allowedExceptions must be an array when provided' }
+    }
+    const invalid = req.allowedExceptions.some((v) => typeof v !== 'string')
+    if (invalid) {
+      return { valid: false, error: 'allowedExceptions must contain only strings' }
+    }
+  }
+
   return { valid: true }
 }

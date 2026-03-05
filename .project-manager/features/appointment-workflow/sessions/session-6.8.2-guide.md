@@ -36,7 +36,7 @@
 
 ---
 
-- [ ] #### Task 6.8.2.2: Availability pipeline allowedExceptions and override verification
+- [x] #### Task 6.8.2.2: Availability pipeline allowedExceptions and override verification
 
 **Goal:** Extend the computed-availability pipeline to accept `allowedExceptions` and `reschedulingAppointmentId`, verify requested keys against the appointment's stored ConstraintOverride, and apply constraint relaxation before slot computation.
 
