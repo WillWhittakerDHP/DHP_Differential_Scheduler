@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:02:03.126Z",
+  "generatedAt": "2026-03-05T22:18:40.001Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -3179,7 +3179,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 66,
+      "lineCount": 68,
       "purpose": "Availability data orchestration and coordination types",
       "reuseTier": "feature",
       "tags": [],

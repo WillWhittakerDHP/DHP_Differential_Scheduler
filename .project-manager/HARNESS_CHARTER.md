@@ -61,14 +61,16 @@ The harness solves this by establishing one executable control plane with typed 
 
 The harness must preserve the broad goals already represented in:
 
-- `/.cursor/commands/tiers/START_END_PLAYBOOK_STRUCTURE.md`
-- `/.cursor/commands/tiers/shared/tier-start-workflow.ts`
-- `/.cursor/commands/tiers/shared/tier-end-workflow.ts`
-- `/.cursor/commands/tiers/shared/control-plane-*.ts`
-- `/.cursor/commands/utils/tier-outcome.ts`
-- `/.cursor/commands/utils/command-execution-mode.ts`
-- `/.cursor/commands/audit/run-start-audit-for-tier.ts`
-- `/.cursor/commands/audit/run-end-audit-for-tier.ts`
+- **Playbook:** `/.cursor/commands/tiers/START_END_PLAYBOOK_STRUCTURE.md`
+- **Start orchestrator:** `/.cursor/commands/harness/run-start-steps.ts` (`runTierStartWorkflow`); step logic in `tiers/shared/tier-start-steps.ts`; types in `tiers/shared/tier-start-workflow-types.ts`
+- **End orchestrator:** `/.cursor/commands/harness/run-end-steps.ts` (`runTierEndWorkflow`); step logic in `tiers/shared/tier-end-steps.ts`; types in `tiers/shared/tier-end-workflow-types.ts`
+- **Control plane:** `/.cursor/commands/tiers/shared/control-plane-route.ts`, `control-plane-handlers.ts`, `control-plane-types.ts`
+- **Outcome types:** `/.cursor/commands/utils/tier-outcome.ts`
+- **Plan vs execute:** `/.cursor/commands/utils/command-execution-mode.ts` (no Cursor mode-switching mandate; code-level `mode` and `resumeAfterStep` only)
+- **Git / branch:** `/.cursor/commands/git/shared/tier-branch-manager.ts` (ensureTierBranch, mergeTierBranch, commitUncommittedNonCursor with branch check and in-scope-only staging)
+- **Proceed-from-gate:** `/.cursor/commands/tiers/shared/accepted-proceed.ts`, `accepted-code.ts` (workflow proceeds from gate via `resumeAfterStep`, no full re-run)
+- **Pending state:** `/.cursor/commands/tiers/shared/pending-state.ts` (tier-start and task-start pending for accepted commands)
+- **Audits:** `/.cursor/commands/audit/run-start-audit-for-tier.ts`, `run-end-audit-for-tier.ts`
 
 ### Intent categories to preserve
 
@@ -88,6 +90,12 @@ Task-start uses a dedicated two-phase flow:
 2. **Execute phase**: The user confirms via the **"Begin Coding"** question key (`approve_execute_task`). The harness then re-invokes with the same spec and `mode: 'execute'`. No code runs until this confirmation.
 
 Other tiers use a single approve step (`approve_execute`); only task has this explicit design-then-code separation.
+
+### Current implementation notes (alignment with code)
+
+- **Proceed-from-gate:** When the user runs `/accepted-proceed` or `/accepted-code`, the start workflow **proceeds from the gate** (e.g. from `ensure_branch`) via `resumeAfterStep`; it does not re-run from the top (validate, read_context_light, context_gathering are skipped). This keeps execution efficient and avoids redundant work.
+- **Git at tier-end:** Before committing remaining work, the workflow verifies the current git branch matches the tier's expected branch (`getExpectedBranchForTier`). Only touched files under `frontend-root/` and `server/` are staged and committed; `.cursor`, `.project-manager`, and audit reports are never auto-committed. On wrong branch, tier-end returns `wrong_branch_before_commit` and the playbook directs the user to checkout the correct branch and re-run.
+- **nextInvoke shape:** Control-plane decision uses `nextInvoke: { tier, action, params }` (not a full `WorkflowSpec`). Params carry tier identifiers and `params.options` for execution toggles (e.g. `mode: 'execute'`).
 
 ---
 
@@ -582,11 +590,11 @@ export interface TierOutcome {
 
 ```ts
 export interface ControlPlaneDecision {
-  requiredMode: 'plan' | 'agent';
+  requiredMode?: 'plan' | 'agent';  // optional; no Cursor mode-switching mandate in playbook
   stop: boolean;
   message: string; // user-facing
   questionKey?: QuestionKey;
-  nextInvoke?: WorkflowSpec; // full spec for re-invoke, not loose params
+  nextInvoke?: { tier: TierName; action: TierAction; params: unknown };  // current impl; full WorkflowSpec is charter target
   cascadeCommand?: string;    // e.g. "/task-start 6.4.4.1" — exact command string for cascade choice display in chat
 }
 
@@ -599,21 +607,25 @@ export type QuestionKey =
   | 'verification_options'
   | 'failure_options'
   | 'uncommitted_changes'
-  | 'reopen_options';
+  | 'reopen_options'
+  | 'audit_failed_options';
 ```
 
 **Design notes:**
-- `nextInvoke` is a full `WorkflowSpec`, not loosely typed params.
-- For **task** tier, when the outcome is `plan_mode`, the router uses `approve_execute_task` ("I approve this coding design and want to begin implementation") instead of `approve_execute`. Reason code stays `plan_mode`; only the question key varies by tier for UX. This eliminates the flat-option-key bugs the current playbook warns about.
+- **Current implementation:** `nextInvoke` is `{ tier, action, params }`; params carry tier identifiers and `params.options` (e.g. `mode: 'execute'`). Full `WorkflowSpec` remains the charter target for a future harness kernel.
+- `requiredMode` is retained in the type for compatibility; the playbook no longer mandates Cursor mode-switching; behavior is "present choices in chat" and "proceed when user approves."
+- For **task** tier, when the outcome is plan/context_gathering, the router uses `approve_execute_task` ("Begin Coding") instead of `approve_execute`. Reason code is `context_gathering`; only the question key varies by tier for UX.
 
 ### 8.3 Agent consumption contract
 
 The agent (or any harness consumer) MUST:
 
 1. **If `controlPlaneDecision.stop` and `controlPlaneDecision.questionKey`** — present the User choice required block in chat (or use AskQuestion with the specified question template); do not present the question as plain chat text.
-2. **If `controlPlaneDecision.nextInvoke`** — on user approval, re-invoke the harness with that spec.
-4. **Never cascade on failure** — when `success === false`, do not offer cascade or infer next steps.
-5. **Never infer next step from output prose** — use `outcome.nextAction` only as a display hint; routing is driven by the decision matrix.
+2. **If `controlPlaneDecision.nextInvoke`** — on user approval, re-invoke the harness with that spec. For gate outcomes (e.g. `context_gathering`), when the user runs `/accepted-proceed` or `/accepted-code`, the harness continues from the gate (resumeAfterStep) rather than re-running from the top; the agent does not need to re-invoke the full start command.
+3. **Never cascade on failure** — when `success === false`, do not offer cascade or infer next steps.
+4. **Never infer next step from output prose** — use `outcome.nextAction` only as a display hint; routing is driven by the decision matrix.
+
+The agent does **not** need to check `requiredMode` or switch Cursor mode; the playbook uses "present choices, proceed when user approves" instead of mode mandates.
 
 ---
 
@@ -621,12 +633,13 @@ The agent (or any harness consumer) MUST:
 
 ### Structural split
 
-Reason codes are split into flow codes and failure codes to prevent routing ambiguity.
+Reason codes are split into flow codes and failure codes to prevent routing ambiguity. Legacy string `plan_mode` maps to `context_gathering` in the router.
 
 ```ts
 export type FlowReasonCode =
   | 'context_gathering'
-  | 'plan_mode'
+  | 'planning_doc_incomplete'
+  | 'guide_fill_pending'
   | 'start_ok'
   | 'end_ok'
   | 'task_complete'
@@ -641,6 +654,7 @@ export type FailureReasonCode =
   | 'test_failed'
   | 'preflight_failed'
   | 'git_failed'
+  | 'wrong_branch_before_commit'
   | 'unhandled_error';
 
 export type ReasonCode = FlowReasonCode | FailureReasonCode;
@@ -648,23 +662,25 @@ export type ReasonCode = FlowReasonCode | FailureReasonCode;
 
 ### Decision routing matrix
 
-| reasonCode | stop | requiredMode | questionKey | nextInvoke behavior |
-|---|---|---|---|---|
-| `context_gathering` | true | plan | `context_gathering` | same spec with `pass: 2, mode: 'plan'` |
-| `plan_mode` | true | plan | `approve_execute` (or `approve_execute_task` for task tier) | same spec with `pass: 3, mode: 'execute'` |
-| `start_ok` | false | agent | none | cascade spec if present |
-| `end_ok` | false | agent | none | cascade spec if present |
-| `task_complete` | if cascade | plan if cascade | `cascade_confirmation` | cascade spec |
-| `pending_push` | true | plan | `push_confirmation` | none (agent pushes then checks cascade) |
-| `verification_suggested` | true | plan | `verification_options` | re-invoke with `continuePastVerification` |
-| `reopen_ok` | true | plan | `reopen_options` | see reopen mapping below |
-| `uncommitted_blocking` | true | plan | `uncommitted_changes` | same spec after commit/stash |
-| `validation_failed` | true | plan | `failure_options` | none |
-| `audit_failed` | true | plan | `failure_options` | none |
-| `test_failed` | true | plan | `failure_options` | none |
-| `preflight_failed` | true | plan | `failure_options` | none |
-| `git_failed` | true | plan | `failure_options` | none |
-| `unhandled_error` | true | plan | `failure_options` | none |
+| reasonCode | stop | questionKey | nextInvoke behavior |
+|---|---|---|---|
+| `context_gathering` | true | `context_gathering` | user runs /accepted-proceed or /accepted-code; workflow proceeds from gate (resumeAfterStep) |
+| `planning_doc_incomplete` | true | (message only) | user runs /accepted-proceed again after agent fills doc |
+| `guide_fill_pending` | true | (message only) | user runs /accepted-proceed again after agent fills guide |
+| `start_ok` | false | none | cascade spec if present |
+| `end_ok` | false | none | cascade spec if present |
+| `task_complete` | if cascade | `cascade_confirmation` | cascade spec |
+| `pending_push` | true | `push_confirmation` | none (user runs /accepted-push or /skip-push) |
+| `verification_suggested` | true | `verification_options` | re-invoke with `continuePastVerification` |
+| `reopen_ok` | true | `reopen_options` | see reopen mapping below |
+| `uncommitted_blocking` | true | `uncommitted_changes` | same spec after commit/stash |
+| `validation_failed` | true | `failure_options` | none |
+| `audit_failed` | true | `failure_options` | none |
+| `test_failed` | true | `failure_options` | none |
+| `preflight_failed` | true | `failure_options` | none |
+| `git_failed` | true | `failure_options` | none |
+| `wrong_branch_before_commit` | true | (message only) | user checkouts correct branch, then re-runs tier-end |
+| `unhandled_error` | true | `failure_options` | none |
 
 ### `reopen_ok` nextInvoke mapping
 
@@ -861,6 +877,7 @@ export interface TierStepHandler {
 - No free-form reason-code invention.
 - Side effects only within kernel-invoked step boundary.
 - Adapter files should stay under 300 lines. If an adapter grows larger, extract step handlers into separate modules.
+- **Git:** Branch check and in-scope-only commit policy live in `tier-branch-manager` and the tier-end commit step (kernel/orchestrator), not in adapters.
 
 ---
 

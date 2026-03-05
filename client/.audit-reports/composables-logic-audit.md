@@ -282,11 +282,11 @@ watch@133: watch(displayedMonth, newMonth => {
 watch@141: watch(selectedDate, newDate => {
 computed@151: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
 watch@159: watch(firstAvailableDate, firstDate => {
-computed@204: const hasMoveablePartsGated = computed(
-computed@215: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
-computed@221: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
-ref@235: const userHasChosenTimeBasisFromGraph = ref(false)
-computed@267: busyPeriods: computed(() => []),
+computed@205: const hasMoveablePartsGated = computed(
+computed@216: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
+computed@222: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
+ref@236: const userHasChosenTimeBasisFromGraph = ref(false)
+computed@268: busyPeriods: computed(() => []),
 ```
 
 ### `client/src/composables/admin/useRelationshipCollection.ts`
