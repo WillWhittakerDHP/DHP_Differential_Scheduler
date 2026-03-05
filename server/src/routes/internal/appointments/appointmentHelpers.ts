@@ -221,14 +221,51 @@ export async function createSnapshotsForAppointment(
  */
 export async function validateSnapshotIds(snapshotIds: string[]): Promise<void> {
   if (snapshotIds.length === 0) return
-  
+
   const count = await BlockInstanceVersion.count({
-    where: { id: { [Op.in]: snapshotIds } }
+    where: { id: { [Op.in]: snapshotIds } },
   })
-  
+
   if (count !== snapshotIds.length) {
     throw new Error(ERROR_MESSAGES.INVALID_SNAPSHOT_IDS)
   }
+}
+
+/** Snapshot ID arrays for service/property/option; used by applySnapshotIdsToAppointment. */
+export interface AppointmentSnapshotIds {
+  serviceIds: string[]
+  propertyIds: string[]
+  optionIds: string[]
+}
+
+/** Record that can receive snapshot IDs (e.g. Appointment instance from create). */
+export interface AppointmentRecordWithUpdate {
+  update(values: {
+    serviceSnapshotIds: string[] | null
+    propertySnapshotIds: string[] | null
+    optionSnapshotIds: string[] | null
+  }): Promise<unknown>
+}
+
+/**
+ * Create snapshots for service/property/option IDs, validate them, and update the appointment record.
+ * Shared by appointmentCrudRouter (afterCreate) and forceCreateRouter (post-create) to avoid duplication.
+ */
+export async function applySnapshotIdsToAppointment(
+  record: AppointmentRecordWithUpdate,
+  ids: AppointmentSnapshotIds
+): Promise<void> {
+  const serviceSnapshotIds = await createSnapshotsForAppointment(ids.serviceIds)
+  const propertySnapshotIds = await createSnapshotsForAppointment(ids.propertyIds)
+  const optionSnapshotIds = await createSnapshotsForAppointment(ids.optionIds)
+  await validateSnapshotIds(serviceSnapshotIds)
+  await validateSnapshotIds(propertySnapshotIds)
+  await validateSnapshotIds(optionSnapshotIds)
+  await record.update({
+    serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
+    propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
+    optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
+  })
 }
 
 /** Re-export from shared for single source of truth. */

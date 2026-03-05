@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-05T21:32:06.570Z
+Generated: 2026-03-05T22:02:03.126Z
 
 ## Summary
 
 - Type files: **268**
 - Constant files: **23**
 - Config files: **34**
-- Files with inline type exports: **103**
+- Files with inline type exports: **104**
 - Annotated: **325** | Unannotated: **0**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 73 |
+| Inline types in composables | 74 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -466,6 +466,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useBusinessRulesTab.ts`: UseBusinessRulesTabReturn (imported by 0 files)
 - `client/src/composables/admin/useCalendarHoldFormState.ts`: UseCalendarHoldFormStateReturn (imported by 1 files)
 - `client/src/composables/admin/useComponentDistributionConfirm.ts`: UseComponentDistributionConfirmOptions (imported by 0 files)
+- `client/src/composables/admin/useConfirmationAndHoldsPanel.ts`: ConfirmationAndHoldsPanelEmit, ConfirmationAndHoldsPanelProps, UseConfirmationAndHoldsPanelReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions, UseEntityCardSubPanelsReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityMetadata.ts`: UseEntityMetadataReturn (imported by 0 files)
 - `client/src/composables/admin/useEventInstancesSection.ts`: UseEventInstancesSectionReturn (imported by 0 files)

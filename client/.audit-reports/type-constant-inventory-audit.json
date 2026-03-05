@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T21:32:06.570Z",
+  "generatedAt": "2026-03-05T22:02:03.126Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 268,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 103,
+    "filesWithInlineTypes": 104,
     "annotated": 325,
     "unannotated": 0,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 73,
+      "inlineTypesInComposables": 74,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -9068,6 +9068,18 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "exportedTypes": [
+        "ConfirmationAndHoldsPanelEmit",
+        "ConfirmationAndHoldsPanelProps",
+        "UseConfirmationAndHoldsPanelReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useEntityCardFieldContextAndVisibility.ts",
       "exportedTypes": [
         "UseEntityCardFieldContextAndVisibilityReturn"
@@ -10177,6 +10189,18 @@
           "sourceFile": "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "exportedTypes": [
             "UseComponentDistributionConfirmOptions"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+          "exportedTypes": [
+            "ConfirmationAndHoldsPanelEmit",
+            "ConfirmationAndHoldsPanelProps",
+            "UseConfirmationAndHoldsPanelReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",

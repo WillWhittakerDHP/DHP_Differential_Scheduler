@@ -14,8 +14,7 @@ import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
   appointmentIncludes,
-  createSnapshotsForAppointment,
-  validateSnapshotIds,
+  applySnapshotIdsToAppointment,
   createAttendeeRecords,
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
@@ -219,21 +218,12 @@ const router = createCrudRouter({
       return raw
     }
 
-    const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))
-    const propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))
-    const optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))
-    
-    // Validate snapshot IDs (redundant but defensive)
-    await validateSnapshotIds(serviceSnapshotIds)
-    await validateSnapshotIds(propertySnapshotIds)
-    await validateSnapshotIds(optionSnapshotIds)
-    
-    await record.update({
-      serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
-      propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
-      optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
+    await applySnapshotIdsToAppointment(record, {
+      serviceIds: idsOrEmpty('selectedServiceIds'),
+      propertyIds: idsOrEmpty('selectedPropertyIds'),
+      optionIds: idsOrEmpty('selectedOptionIds'),
     })
-    
+
     await createAttendeeRecords(record.id, attendeesData)
 
     await createFeeRecordsForAppointment(record.id, appointmentData.feeBreakdown ?? null)

@@ -14,8 +14,7 @@ import { getForceCreateSlotContext } from '../../../services/computedAvailabilit
 import { computeViolationsForSlot } from '../../../services/slotComputationService.js'
 import {
   appointmentIncludes,
-  createSnapshotsForAppointment,
-  validateSnapshotIds,
+  applySnapshotIdsToAppointment,
   createAttendeeRecords,
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
@@ -220,16 +219,10 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
       if (raw === undefined || raw === null) return []
       return Array.isArray(raw) ? raw : []
     }
-    const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))
-    const propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))
-    const optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))
-    await validateSnapshotIds(serviceSnapshotIds)
-    await validateSnapshotIds(propertySnapshotIds)
-    await validateSnapshotIds(optionSnapshotIds)
-    await record.update({
-      serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
-      propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
-      optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
+    await applySnapshotIdsToAppointment(record, {
+      serviceIds: idsOrEmpty('selectedServiceIds'),
+      propertyIds: idsOrEmpty('selectedPropertyIds'),
+      optionIds: idsOrEmpty('selectedOptionIds'),
     })
 
     const attendeesData = appointmentBody.attendees ?? []

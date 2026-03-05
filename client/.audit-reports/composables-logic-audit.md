@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **268**
+- Total composable files scanned: **269**
 
 ## Top hotspots (heuristic)
 
@@ -2567,6 +2567,14 @@ computed@95: const fieldMetadataEntry = computed(() => {
 
 ```
 computed@20: const businessHoursForUI = computed(() => {
+```
+
+### `client/src/composables/admin/useConfirmationAndHoldsPanel.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@60: const holdDurationHintText = computed(
 ```
 
 ### `client/src/composables/admin/useDialogFormState.ts`
