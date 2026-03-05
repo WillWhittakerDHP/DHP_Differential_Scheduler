@@ -104,6 +104,16 @@
       "timestamp": "2026-03-05T19:28:55.325Z",
       "auditType": "type-import",
       "hits": {}
+    },
+    {
+      "timestamp": "2026-03-05T19:34:20.797Z",
+      "auditType": "error-handling",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-05T19:34:20.798Z",
+      "auditType": "type-import",
+      "hits": {}
     }
   ],
   "maxRuns": 5
