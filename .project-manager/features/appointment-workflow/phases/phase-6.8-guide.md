@@ -207,7 +207,7 @@ All sessions complete. Ready to run phase-completion workflow?
 **Tasks:**
 1. Add `constraint_overrides` table and model; implement `computeViolationsForSlot()` and force-create route with auth/role checks. 2. Add `relaxConstraintsForExceptions()` and extend availability pipeline with `allowedExceptions` and server-side override verification. 3. Build client composable and dialog (violation preview, reason, confirm); add admin-only Force Schedule entry point. 4. Wire reschedule flow to pass override violations to availability and create new override records on reschedule.
 
-- [ ] ### Session 6.8.3: ** Force-create composable and admin UI — useForceCreateAppointment, dialog, Force Schedule button
+- [x] ### Session 6.8.3: ** Force-create composable and admin UI — useForceCreateAppointment, dialog, Force Schedule button
 
 **Description:** ** Force-create composable and admin UI — useForceCreateAppointment, dialog, Force Schedule button
 
