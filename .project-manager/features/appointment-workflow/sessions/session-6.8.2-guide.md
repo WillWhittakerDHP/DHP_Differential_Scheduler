@@ -55,6 +55,18 @@
 
 ---
 
+## Session Workflow
+
+### Before Starting a Session
+
+Use `/session-start 6.8.2 [description]` to load handoff, session guide, and task context. Implement tasks in order; after each task run `/task-end <taskId>` and cascade to the next task or `/session-end 6.8.2`.
+
+### Session Labeling Format
+
+Label the session: **Session: 6.8.2 — Constraint relaxation & availability pipeline**. Work one task at a time (6.8.2.1 then 6.8.2.2); checkpoint after each task per the guide.
+
+---
+
 ## Reference
 
 - **Phase guide:** `.project-manager/features/appointment-workflow/phases/phase-6.8-guide.md`
