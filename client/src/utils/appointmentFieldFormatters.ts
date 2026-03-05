@@ -40,14 +40,19 @@ function formatPropertyField(
   return String(value)
 }
 
+/** Display name (firstName lastName) when user in list; else role; else id. Matches client/agent pattern. */
 function formatScheduledByField(
   value: unknown,
   users: UserResponse[]
 ): string {
   if (!value) return formatNullValue(value)
-  
+
   const user = users.find(u => u.id === value)
-  return user ? user.userRole : String(value)
+  if (!user) return String(value)
+  if (user.firstName != null || user.lastName != null) {
+    return [user.firstName, user.lastName].filter(Boolean).join(' ').trim() || user.userRole || String(value)
+  }
+  return user.userRole || String(value)
 }
 
 function formatDateField(value: unknown): string {

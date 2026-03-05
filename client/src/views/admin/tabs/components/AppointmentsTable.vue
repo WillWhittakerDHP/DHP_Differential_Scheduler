@@ -3,6 +3,7 @@
   PATTERN: VDataTable with custom cell slots; create/edit convert client/agent IDs to attendees via composable.
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { AppointmentStatus } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
@@ -56,6 +57,11 @@ const handlers = useAppointmentsTableHandlers({
   emit,
 })
 const { formClientId, formAgentId, editingClientId, editingAgentId, confirmingAppointment, showConfirmDialog } = handlers.state
+
+const scheduledByDisplay = computed(() =>
+  confirmingAppointment.value ? getDisplayValue(confirmingAppointment.value, 'scheduledById') : undefined
+)
+
 const {
   handleOpenConfirmDialog,
   handleConfirmAppointment,
@@ -320,6 +326,7 @@ const { formatTimestamp } = handlers
       :show-delete-dialog="showDeleteDialog"
       :show-confirm-dialog="showConfirmDialog"
       :confirming-appointment="confirmingAppointment"
+      :scheduled-by-display="scheduledByDisplay"
       @cancel-delete="cancelDelete"
       @confirm-delete="confirmDelete"
       @cancel-confirm="handleCancelConfirm"

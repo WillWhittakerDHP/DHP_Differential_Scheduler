@@ -7,6 +7,8 @@ defineProps<{
   showDeleteDialog: boolean
   showConfirmDialog: boolean
   confirmingAppointment: AppointmentResponse | null
+  /** Display string for who scheduled the appointment (e.g. "Jane Doe" or "—") */
+  scheduledByDisplay?: string
 }>()
 
 defineEmits<{
@@ -64,6 +66,15 @@ defineEmits<{
               {{ confirmingAppointment.status }}
             </VListItemTitle>
             <VListItemSubtitle>Current Status</VListItemSubtitle>
+          </VListItem>
+          <VListItem v-if="scheduledByDisplay !== undefined">
+            <template #prepend>
+              <VIcon icon="tabler-user" size="small" class="me-2" />
+            </template>
+            <VListItemTitle class="text-body-2">
+              {{ scheduledByDisplay ?? '—' }}
+            </VListItemTitle>
+            <VListItemSubtitle>Scheduled by</VListItemSubtitle>
           </VListItem>
         </VList>
       </VCardText>
