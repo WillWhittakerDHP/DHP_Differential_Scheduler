@@ -22,6 +22,7 @@ import {
   getCalendarIdForAppointment,
   getHoldDurationFromSettings,
   getAutoConfirmEnabledFromSettings,
+  createConstraintOverrideOnRescheduleIfNeeded,
   type HoldDurationBounds,
   type AttendeeRequest,
 } from './appointmentHelpers.js'
@@ -330,6 +331,8 @@ const router = createCrudRouter({
         logger.debug(`Skipping calendar invites on update — ${existingInvites} attendee(s) already have sent invitations`)
       }
     }
+
+    await createConstraintOverrideOnRescheduleIfNeeded(record)
 
     const appointmentWithRelations = await Appointment.findByPk(record.id, {
       include: appointmentIncludes,

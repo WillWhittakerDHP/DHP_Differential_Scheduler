@@ -93,6 +93,21 @@ Index on `appointment_id`.
 
 ---
 
+## Admin entry (step 0 / pre-wizard)
+
+For admins only, before or as step 0 of the wizard:
+
+- **Choices:** Start new inspection | Edit quote | Reschedule
+- **Dropdown (Edit quote / Reschedule):** Non-completed inspections (exclude `cancelled`, `deleted`); optionally filter by status for Edit quote vs Reschedule
+- **Time-out:** Admin-configurable X days/weeks — only appointments where scheduling began within last X, or quote in quote status for last X. Setting location: Business Controls → Calendar or Confirmation & Holds
+- **Columns:** Address, Client name, Agent name
+- **API:** List appointments filtered by status, time-out window; post–Feature 7 by permission
+- **Selection:** Sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3
+
+**Implementation:** Session 6.8.6.
+
+---
+
 ## Phase Objectives
 
 - Create `constraint_overrides` database table and Sequelize model
@@ -102,6 +117,8 @@ Index on `appointment_id`.
 - Extend availability pipeline to accept `allowedExceptions` for override-aware rescheduling
 - Build admin UI: force-create confirmation dialog, violation preview, "Force Schedule" button
 - Integrate reschedule flow with override records
+- Add `agent_permissions` to block_instances (Session 6.8.5)
+- Admin entry: step 0 or pre-wizard (Session 6.8.6)
 
 ---
 
@@ -152,6 +169,8 @@ Index on `appointment_id`.
 - [ ] Admin "Force Schedule" button visible for blocked slots
 - [ ] Force-create dialog shows violations with human-readable labels
 - [ ] Reschedule flow respects override exceptions
+- [ ] Block instances have `agent_permissions`; Force Schedule and Override visibility respect (user role, block.agentPermissions) (Session 6.8.5)
+- [ ] Admin entry: Start new | Edit quote | Reschedule + dropdown; time-out setting; API; selection sets wizard mode and loadedAppointmentId (Session 6.8.6)
 - [ ] Code quality checks passing
 - [ ] Documentation updated
 - [ ] Ready for next phase
@@ -220,4 +239,18 @@ All sessions complete. Ready to run phase-completion workflow?
 
 **Tasks:**
 1. Add `constraint_overrides` table and model; implement `computeViolationsForSlot()` and force-create route with auth/role checks. 2. Add `relaxConstraintsForExceptions()` and extend availability pipeline with `allowedExceptions` and server-side override verification. 3. Build client composable and dialog (violation preview, reason, confirm); add admin-only Force Schedule entry point. 4. Wire reschedule flow to pass override violations to availability and create new override records on reschedule.
+
+- [ ] ### Session 6.8.5: Block-level agentPermissions
+
+**Description:** Add `agent_permissions` (TernaryBoolean: `'true'`, `'false'`, `'override'`) to `block_instances`, same pattern as `differential`. Full stack: migration, model, versioning (if used), client types, transformer. Effective permission: state = (user role, block.agentPermissions); admin always allowed; agent when `'true'` or `'override'`; client when `'false'` or `'override'`. Update Force Schedule and Override visibility (from 6.8.3/6.8.4) to respect agentPermissions when user role is available (Feature 7).
+
+**Tasks:**
+1. Migration: add `agent_permissions` column, default `'false'` (same `ternary_boolean` ENUM as `differential`). 2. Model: add to Sequelize BlockInstance; versioning: add to instanceVersioning if block instances are versioned. 3. Client types and transformer: add to BookingBlockInstance / globalToBookingTransformer. 4. Update Force Schedule and Override visibility logic to respect (user role, block.agentPermissions).
+
+- [ ] ### Session 6.8.6: Admin entry (step 0 / pre-wizard)
+
+**Description:** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
+
+**Tasks:**
+1. Admin setting for time-out (X days/weeks) in Business Controls → Calendar or Confirmation & Holds. 2. API endpoint for list appointments (filtered by status, time-out). 3. Dropdown UI with columns Address, Client name, Agent name; selection sets wizard mode and loadedAppointmentId, navigates to step 3.
 

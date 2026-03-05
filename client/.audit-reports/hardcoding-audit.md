@@ -49,27 +49,56 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **0**
-- **Requiring review: 0**
-- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
+- Total files scanned: **2**
+- **Requiring review: 3**
+- Allowed (with justification): 1 (inline: 0, pattern: 0, specific: 0, linePattern: 1)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `server/src/routes/internal/appointments/appointmentCrudRouter.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/appointments/appointmentHelpers.ts` | 3 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 1 |
 
 ## Allowed Exceptions (for transparency)
 
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-- (no exceptions configured)
+| File | Rule | Line | Source | Reason |
+| --- | --- | ---: | --- | --- |
+| `server/src/routes/internal/appointments/appointmentHelpers.ts` | fieldMapping | 141 | linePattern | Logger metadata object; not API/DB field mapping |
 
 
 ## Per-file suggestions
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
+### `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `server/src/routes/internal/appointments/appointmentCrudRouter.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@250: onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {
+fieldMapping@299: onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {
+```
+
+### `server/src/routes/internal/appointments/appointmentHelpers.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 1
+
+```
+fieldMapping@310: where: { appointmentId: updatedAppointment.id },
+```

@@ -30,6 +30,8 @@ Deliver Admin Force-Create & Constraint Overrides: allow admins to force-create 
 - **Session 6.8.2:** Constraint relaxation & availability pipeline — relaxConstraintsForExceptions, allowedExceptions, override verification
 - **Session 6.8.3:** Force-create composable and admin UI — useForceCreateAppointment, dialog, Force Schedule button
 - **Session 6.8.4:** Reschedule flow and override records — pass allowedExceptions, distinct slot indicator, new override on reschedule
+- **Session 6.8.5:** Block-level agentPermissions — migration, model, versioning, client types, transformer; update Force Schedule and Override visibility to respect (user role, block.agentPermissions)
+- **Session 6.8.6:** Admin entry (step 0 / pre-wizard) — Start new | Edit quote | Reschedule; time-out setting; API; dropdown with Address, Client name, Agent name; selection sets wizard mode and loadedAppointmentId
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`

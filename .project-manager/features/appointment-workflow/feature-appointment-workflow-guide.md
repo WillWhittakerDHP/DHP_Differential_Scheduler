@@ -41,6 +41,8 @@
 
 **State** — Tooltips and permissions are driven by state: **(wizard mode, user role, block.agentPermissions)**. Admins get override behavior for `agentPermissions`; wizard mode drives submit label and action; user role gates Hold Slot, Override constraints, Force schedule.
 
+**Implementation:** Session 6.8.5 (Block-level agentPermissions); Session 6.8.6 (Admin entry).
+
 ---
 
 ## Phases Breakdown
@@ -110,7 +112,7 @@
 - `reschedulingAppointmentId` in computed-availability request; server excludes that appointment’s calendar event from overlap while keeping it in calendarEvents
 - Original-inspection slot visually distinct (e.g. `appointment-slot-btn--original-inspection`) but still selectable
 - Wizard mode set to `reschedule` when loading for reschedule; submit shows “Update appointment” and calls update path
-- Admin entry: step 0 or pre-wizard (admin-only) — Start new | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule; selection sets wizard mode and loadedAppointmentId
+- **Note:** Admin entry (Start new | Edit quote | Reschedule + dropdown) moved to Phase 6.8 Session 6.8.6.
 - Client-facing entry (Session 6.5.4): URLs with mode and appointmentId for reschedule, quote, and cancel; "Copy quote link" button in app for staff to send quote URL manually; optional template variables only `{rescheduleLink}` and `{cancelLink}` for calendar invites and confirmation email (no quote link in invite template)
 - Status transitions: confirmed → rescheduling → submitted
 **See:** `phases/phase-6.5-guide.md` for implementation details, session breakdown, and relation to Phase 6.8 (allowedExceptions)
@@ -139,7 +141,7 @@
 - Force-create route creates appointment + override record
 - Admin UI shows blocked slots with force-create option
 - Reschedule flow respects override exceptions
-- Override constraints and Force schedule visibility gated by **user role** (admin); wizard may be in `reschedule` or other modes when those actions are shown; block-level `agentPermissions` (when added) respected for tooltips and permissions
+- Override constraints and Force schedule visibility gated by **user role** (admin); wizard may be in `reschedule` or other modes when those actions are shown; block-level `agentPermissions` (Session 6.8.5) respected for tooltips and permissions
 - Full architecture, data model, and implementation details in phase guide
 
 - [ ] ### Phase 6.9: Availability Step Mini-Wizard

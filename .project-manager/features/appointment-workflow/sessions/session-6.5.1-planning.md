@@ -160,8 +160,8 @@ Itemized tasks to achieve the session goal. Complete in order unless dependencie
 - [ ] **Task 6.5.1.3 — Reschedule action for confirmed appointments**  
   Add a "Reschedule" action wherever confirmed appointments are listed (e.g. admin appointments table or booking confirmation). Action sets wizard mode to `reschedule` and `loadedAppointmentId` to the selected appointment, then opens/navigates to the wizard at step 3.
 
-- [ ] **Task 6.5.1.4 — Admin entry: Start new | Edit quote | Reschedule**  
-  Implement admin-only step 0 or pre-wizard: choices "Start new" | "Edit quote" | "Reschedule". For Edit quote and Reschedule, show a dropdown of non-completed inspections (filter by status; optional time window). Each row: Address, Client name, Agent name (or minimal identifiers). Selection sets wizard mode and `loadedAppointmentId` and proceeds to wizard (step 3 for Reschedule/quote load).
+- [ ] **Task 6.5.1.4 — Admin entry: Start new | Edit quote | Reschedule** *(moved to Phase 6.8 Session 6.8.6)*  
+  Admin entry is implemented in Session 6.8.6. See `sessions/session-6.8.6-guide.md` and `phases/phase-6.8-guide.md` (Admin entry subsection).
 
 - [ ] **Task 6.5.1.5 — Submit: "Update appointment" and update path**  
   In the confirmation/submit step, when wizard mode is `reschedule`, show primary button label "Update appointment" and call the appointment update (PATCH) path instead of create. Reuse existing update API and success/error handling; ensure no duplicate create and that status transition to `submitted` (or desired end state) is applied.

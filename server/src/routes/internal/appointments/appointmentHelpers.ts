@@ -12,6 +12,7 @@ import {
   PropertyDetails,
   User,
   BlockInstance,
+  ConstraintOverride,
 } from '../../../config/app.js'
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
@@ -294,4 +295,44 @@ export async function getCalendarIdForAppointment(): Promise<string> {
   }
   
   return calendarId
+}
+
+/**
+ * Task 6.8.4.2 — New override on reschedule.
+ * When an appointment that has a ConstraintOverride is rescheduled (slot changed),
+ * create a new ConstraintOverride record for the new slot so the audit trail is preserved
+ * and the new slot remains override-linked.
+ */
+export async function createConstraintOverrideOnRescheduleIfNeeded(
+  updatedAppointment: { id: string; selectedDate: Date | string | null; selectedTimeSlots: Array<Record<string, unknown>> | null }
+): Promise<void> {
+  const existing = await ConstraintOverride.findOne({
+    where: { appointmentId: updatedAppointment.id },
+    order: [['createdAt', 'DESC']],
+  })
+  if (!existing) return
+
+  const slots = updatedAppointment.selectedTimeSlots
+  const first = Array.isArray(slots) && slots.length > 0 ? slots[0] : null
+  const startTime = first && typeof first.startTime === 'string' ? first.startTime : null
+  const endTime = first && typeof first.endTime === 'string' ? first.endTime : null
+  if (!startTime || !endTime) return
+
+  const newSlotStart = new Date(startTime)
+  const newSlotEnd = new Date(endTime)
+  if (Number.isNaN(newSlotStart.getTime()) || Number.isNaN(newSlotEnd.getTime())) return
+
+  const existingStart = existing.slotStart.getTime()
+  const existingEnd = existing.slotEnd.getTime()
+  if (newSlotStart.getTime() === existingStart && newSlotEnd.getTime() === existingEnd) return
+
+  await ConstraintOverride.create({
+    appointmentId: updatedAppointment.id,
+    overriddenViolations: existing.overriddenViolations,
+    authorizedById: existing.authorizedById,
+    reason: existing.reason,
+    slotStart: newSlotStart,
+    slotEnd: newSlotEnd,
+  })
+  logger.info(`Created ConstraintOverride for rescheduled appointment ${updatedAppointment.id} (new slot)`)
 }

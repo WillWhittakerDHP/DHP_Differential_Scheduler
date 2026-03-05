@@ -29,3 +29,13 @@
 - [Files to work with]
 **Approach:** [Fill in]
 **Checkpoint:** [What needs to be verified]
+
+- [x] #### Task 6.8.4.2: New override on reschedule — server creates ConstraintOverride for new slot; client wires reschedule submit
+
+**Goal:** When reschedule moves an appointment that has an override to a new slot, create a new ConstraintOverride record for the new slot (same overriddenViolations or from request). Client wires reschedule submit so server has the data it needs.
+
+**Files:** Server: reschedule endpoint or update flow (e.g. `server/src/routes/internal/appointments/`). Client: reschedule submit/API call.
+
+**Approach:** Server: on reschedule of an overridden appointment, create new ConstraintOverride for the new slot. Client: ensure reschedule API is called with any data needed for the server to create the new override.
+
+**Checkpoint:** On reschedule confirm of an overridden appointment, a new override record is created for the new slot; audit trail preserved.
