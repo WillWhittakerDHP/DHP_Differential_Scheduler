@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:56:28.182Z",
+  "generatedAt": "2026-03-05T16:57:35.418Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -1497,7 +1497,7 @@
       "name": "UseEventInstancesSectionReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useEventInstancesSection.ts",
-      "line": 9,
+      "line": 8,
       "exported": true,
       "fingerprint": "4c66e8d01083",
       "propertyCount": 10,
