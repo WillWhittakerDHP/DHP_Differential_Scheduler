@@ -4,15 +4,15 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-03-05T16:46:47.074Z
+Generated: 2026-03-05T16:48:13.078Z
 
 ## Overview
 
 - Files scanned: **418**
-- Findings: **5**
+- Findings: **3**
 - Files with findings: **2**
 - Phase A (per-file) findings: **0**
-- Phase B (cross-file) findings: **5**
+- Phase B (cross-file) findings: **3**
 
 ## Input Audit Status
 
@@ -41,20 +41,20 @@ Generated: 2026-03-05T16:46:47.074Z
 
 | Rule | Phase | Severity | Count |
 | --- | --- | --- | ---: |
-| provide-inject-depth | B | P1 | 4 |
+| provide-inject-depth | B | P1 | 2 |
 | bidirectional-data-channel | B | info | 1 |
 
 ## Flow Maps Summary
 
-- Provide sites: **30**
-- Inject sites: **52**
+- Provide sites: **29**
+- Inject sites: **51**
 - Matched pairs: **16**
 - Unmatched provides: **13**
 - Unmatched injects: **8**
 
 ## Repair Waves
 
-- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 5 finding(s)
+- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 3 finding(s)
 - **Wave 2 — Moderate** (affectedFiles 3–5): 0 finding(s)
 - **Wave 3 — Systemic** (affectedFiles ≥ 6): 0 finding(s)
 
@@ -62,18 +62,16 @@ Generated: 2026-03-05T16:46:47.074Z
 
 | File | Priority | Score | Affected |
 | --- | --- | ---: | ---: |
-| `client/src/composables/admin/useEventInstancesSection.ts` | P1 | 4 | 2 |
-| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | P1 | 4 | 2 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | P2 | 2 | 2 |
+| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | P2 | 2 | 2 |
 
 ## All findings (first 60)
 
 | File | Line | Rule | Phase | Message | Affected |
 | --- | ---: | --- | --- | --- | ---: |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 2 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 2 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 21 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
 | `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 41 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 22 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
+| `client/src/composables/admin/useEventInstancesSection.ts` | 21 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
 
 ## Notes
 
