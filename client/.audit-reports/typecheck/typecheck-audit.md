@@ -12,20 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-05T16:25:10.756Z**
+- Generated at: **2026-03-05T16:34:29.009Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 5**
+- **Errors requiring review: 2**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **2**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2322-ts2322-assign-computedref-string` | 46 | 4 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-instancestabcontext-undefined-instancestabcontext` | 13 | 1 | 1 | 0 | 0 |
+| P0 | `TS18048-ts18048-ctx-is-possibly-undefined` | 20 | 2 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -37,21 +36,11 @@ Review periodically to ensure exceptions are still valid.
 
 ## Per-file errors requiring review
 
-### `src/views/admin/tabs/components/OverlapConstraintsPanel.vue`
-
-- errors: 4, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@107:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
-TS2322@111:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
-TS2322@186:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
-TS2322@190:18 Type 'ComputedRef<string>' is not assignable to type 'string'.
-```
-
 ### `src/composables/admin/useEventInstancesSection.ts`
 
-- errors: 1, unsafeCasts: 0, suppressions: 0
+- errors: 2, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2322@22:9 Type 'InstancesTabContext | undefined' is not assignable to type 'InstancesTabContext'.
+TS18048@41:5 'ctx' is possibly 'undefined'.
+TS18048@41:49 'ctx' is possibly 'undefined'.
 ```
