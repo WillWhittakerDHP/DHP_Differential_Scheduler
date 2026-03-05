@@ -25,6 +25,14 @@
 
 
 
+### Session 6.7.2: Admin UI — display scheduled_by; includeScheduledBy toggle in event instances ✅
+**Completed:** 2026-03-05
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Set scheduled_by_id on appointment create from req.user; block client override.
+
+
+
 ### Session 6.7.1: Backend — set scheduled_by_id on create from req.user ✅
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
