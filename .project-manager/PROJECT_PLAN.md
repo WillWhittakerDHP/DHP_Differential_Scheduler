@@ -480,7 +480,7 @@ Implement the following so that authenticated users and roles are used where oth
 
 ### Why Before Feature 10 (Testing)
 
-We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers.
+We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers. Note from User--some of my testers will be out of state, so we may need a "show random address" button we include in the wizard which either cooks up a random address in the metro area or pulls one from the appointment database
 
 ### Phase 9.1: Wizard Flow Diagram (Mermaid)
 

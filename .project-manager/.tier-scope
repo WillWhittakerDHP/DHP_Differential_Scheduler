@@ -4,5 +4,5 @@ phase.id=6.8
 phase.name=Guide: Admin Force-Create & Constraint Overrides
 session.id=6.8.4
 session.name=** ** Reschedule flow and override records — pass allowedExceptions, distinct slot indicator, new override on reschedule
-task.id=6.8.4.2
-task.name=New override on reschedule — server creates ConstraintOverride for new slot; client wires reschedule submit
+task.id=
+task.name=
