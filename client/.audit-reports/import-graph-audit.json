@@ -1,13 +1,18 @@
 {
-  "generatedAt": "2026-03-05T17:11:02.754Z",
-  "totalFiles": 1091,
+  "generatedAt": "2026-03-05T22:00:47.799Z",
+  "totalFiles": 1097,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135,
     "maxComposableChainDepth": 2
   },
   "cycles": [],
-  "fanOutViolations": [],
+  "fanOutViolations": [
+    {
+      "file": "server/src/db/models/index",
+      "fanOut": 41
+    }
+  ],
   "fanInViolations": [
     {
       "file": "client/src/constants/entities",
@@ -143,6 +148,11 @@
     {
       "file": "client/src/composables/fieldContext/useFieldContextState",
       "score": 4,
+      "priority": "P2"
+    },
+    {
+      "file": "server/src/db/models/index",
+      "score": 3,
       "priority": "P2"
     },
     {

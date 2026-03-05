@@ -37,15 +37,37 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **711**
-- Groups (window=10 lines, minOccurrences=2): **0**
+- Files scanned: **717**
+- Groups (window=10 lines, minOccurrences=2): **1**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
+| `dup-782a28431a6a` | 2 | 2 | 10 | `server/src/routes/internal/appointments/appointmentCrudRouter.ts@222`, `server/src/routes/internal/appointments/forceCreateRouter.ts@223` |
 
 ## Per-group details (top)
 
 When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-782a28431a6a`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/routes/internal/appointments/appointmentCrudRouter.ts` @ lines 222-234
+- `server/src/routes/internal/appointments/forceCreateRouter.ts` @ lines 223-232
+
+```
+const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))
+const propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))
+const optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))
+await validateSnapshotIds(serviceSnapshotIds)
+await validateSnapshotIds(propertySnapshotIds)
+await validateSnapshotIds(optionSnapshotIds)
+await record.update({
+serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
+propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
+optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
+```

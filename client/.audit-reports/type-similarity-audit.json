@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T17:11:01.575Z",
+  "generatedAt": "2026-03-05T22:00:48.705Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1137,
-  "totalDefinitions": 787,
+  "fileCount": 1143,
+  "totalDefinitions": 797,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -220,6 +220,35 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-exact-645ac1eccd58",
+      "relationship": "EXACT",
+      "action": "BRAND",
+      "members": [
+        {
+          "name": "ForceCreateViolationReport",
+          "kind": "interface",
+          "file": "server/src/services/slotComputationService.ts",
+          "line": 49,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "ComputedSlot",
+          "kind": "interface",
+          "file": "shared/types/availabilityTypes.ts",
+          "line": 401,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ violations: string[] }",
+      "propertyCount": 1,
+      "score": 17,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-subset-87ff2f40bfd6",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -237,7 +266,7 @@
           "name": "SlotAvailabilityResult",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 386,
+          "line": 392,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ isAvailable: boolean, violations?: string[] }"
@@ -259,6 +288,49 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-subset-9bcf40cb9094",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "ConfirmationAndHoldsPanelProps",
+          "kind": "interface",
+          "file": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+          "line": 9,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ holdDurationFallback: number, holdDurationMax: number, holdDurationMin: number }"
+        },
+        {
+          "name": "CalendarConfig",
+          "kind": "interface",
+          "file": "shared/types/calendarTypes.ts",
+          "line": 36,
+          "exported": true,
+          "propertyCount": 8,
+          "signature": "{ adminEntryTimeout?: AdminEntryTimeout, calendars: CalendarEntry[], enabled: boolean, holdDurationFallback?: number, holdDurationMax?: number, holdDurationMin?: number, holdDurationMinutes?: number, provider: CalendarProvider }"
+        }
+      ],
+      "signature": "{ adminEntryTimeout?: AdminEntryTimeout, calendars: CalendarEntry[], enabled: boolean, holdDurationFallback?: number, holdDurationMax?: number, holdDurationMin?: number, holdDurationMinutes?: number, provider: CalendarProvider }",
+      "propertyCount": 8,
+      "overlapPercent": 38,
+      "sharedProperties": [
+        "holdDurationFallback",
+        "holdDurationMax",
+        "holdDurationMin"
+      ],
+      "uniqueToFirst": [],
+      "uniqueToSecond": [
+        "adminEntryTimeout",
+        "calendars",
+        "enabled",
+        "holdDurationMinutes",
+        "provider"
+      ],
+      "score": 15,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-subset-bb8c320874a1",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -276,7 +348,7 @@
           "name": "SlotTimeBounds",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 376,
+          "line": 382,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ duration: number, endTime: string, startTime: string }"
@@ -1359,8 +1431,8 @@
       "file": "client/src/composables/admin/useBusinessControlsFormState.ts",
       "line": 13,
       "exported": true,
-      "fingerprint": "3a621f846d05",
-      "propertyCount": 29,
+      "fingerprint": "16e7558e15e1",
+      "propertyCount": 31,
       "primitiveAlias": null
     },
     {
@@ -1407,10 +1479,10 @@
       "name": "UseCalendarHoldFormStateReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useCalendarHoldFormState.ts",
-      "line": 16,
+      "line": 17,
       "exported": true,
-      "fingerprint": "e1b4f2b7f639",
-      "propertyCount": 24,
+      "fingerprint": "779ab3dda185",
+      "propertyCount": 26,
       "primitiveAlias": null
     },
     {
@@ -1441,6 +1513,36 @@
       "exported": true,
       "fingerprint": "61d2c4432cb6",
       "propertyCount": 7,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ConfirmationAndHoldsPanelProps",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "line": 9,
+      "exported": true,
+      "fingerprint": "fffdb72f8611",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseConfirmationAndHoldsPanelReturn",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "line": 24,
+      "exported": true,
+      "fingerprint": "27fc12a21690",
+      "propertyCount": 9,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ConfirmationAndHoldsPanelEmit",
+      "kind": "type-alias-object",
+      "file": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "line": 14,
+      "exported": true,
+      "fingerprint": "empty",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -1837,7 +1939,7 @@
       "name": "UseBookingWizardSetupReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useBookingWizardSetup.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "8bbe8c70b370",
       "propertyCount": 25,
@@ -1871,6 +1973,16 @@
       "exported": true,
       "fingerprint": "a5c137ce9bb3",
       "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseListForAdminEntryReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useListForAdminEntry.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "9f1c66b7a554",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -2367,7 +2479,7 @@
       "name": "AvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 74,
+      "line": 76,
       "exported": true,
       "fingerprint": "25755d575f6e",
       "propertyCount": 43,
@@ -2377,7 +2489,7 @@
       "name": "RawAvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 127,
+      "line": 129,
       "exported": true,
       "fingerprint": "00e88c8a5e0a",
       "propertyCount": 35,
@@ -7117,10 +7229,20 @@
       "name": "HoldDurationBounds",
       "kind": "interface",
       "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "line": 29,
+      "line": 31,
       "exported": true,
       "fingerprint": "0f844e5c544b",
       "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ForceCreateBody",
+      "kind": "interface",
+      "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "line": 40,
+      "exported": false,
+      "fingerprint": "c04528c3d690",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
@@ -7324,10 +7446,20 @@
       "primitiveAlias": null
     },
     {
+      "name": "ForceCreateSlotContext",
+      "kind": "interface",
+      "file": "server/src/services/computedAvailabilityService.ts",
+      "line": 504,
+      "exported": true,
+      "fingerprint": "258b554585ac",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
       "name": "CacheAcc",
       "kind": "type-alias-object",
       "file": "server/src/services/computedAvailabilityService.ts",
-      "line": 65,
+      "line": 68,
       "exported": false,
       "fingerprint": "d09324d85826",
       "propertyCount": 4,
@@ -7624,10 +7756,20 @@
       "primitiveAlias": null
     },
     {
+      "name": "ForceCreateViolationReport",
+      "kind": "interface",
+      "file": "server/src/services/slotComputationService.ts",
+      "line": 49,
+      "exported": true,
+      "fingerprint": "645ac1eccd58",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "DayConfig",
       "kind": "interface",
       "file": "server/src/services/slotComputationService.ts",
-      "line": 100,
+      "line": 143,
       "exported": false,
       "fingerprint": "538a89a485e8",
       "propertyCount": 3,
@@ -7740,6 +7882,16 @@
       "line": 7,
       "exported": true,
       "fingerprint": "7bdce639696e",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AdminEntryAppointmentItem",
+      "kind": "interface",
+      "file": "shared/types/appointmentTypes.ts",
+      "line": 19,
+      "exported": true,
+      "fingerprint": "fa73b274f98b",
       "propertyCount": 4,
       "primitiveAlias": null
     },
@@ -7939,15 +8091,15 @@
       "file": "shared/types/availabilityTypes.ts",
       "line": 325,
       "exported": true,
-      "fingerprint": "d4734bda8739",
-      "propertyCount": 6,
+      "fingerprint": "76babfa993e8",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
       "name": "ComputedAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 348,
+      "line": 354,
       "exported": true,
       "fingerprint": "64cff98bd68c",
       "propertyCount": 14,
@@ -7957,7 +8109,7 @@
       "name": "SlotTimeBounds",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 376,
+      "line": 382,
       "exported": true,
       "fingerprint": "feedd2f3e18c",
       "propertyCount": 3,
@@ -7967,7 +8119,7 @@
       "name": "SlotAvailabilityResult",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 386,
+      "line": 392,
       "exported": true,
       "fingerprint": "f192f646ba33",
       "propertyCount": 2,
@@ -7977,7 +8129,7 @@
       "name": "ComputedSlot",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 395,
+      "line": 401,
       "exported": true,
       "fingerprint": "645ac1eccd58",
       "propertyCount": 1,
@@ -7987,10 +8139,10 @@
       "name": "ComputedSlotAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 403,
+      "line": 409,
       "exported": true,
-      "fingerprint": "2cb1732b8569",
-      "propertyCount": 14,
+      "fingerprint": "72d66187b2a2",
+      "propertyCount": 15,
       "primitiveAlias": null
     },
     {
@@ -8134,13 +8286,23 @@
       "primitiveAlias": null
     },
     {
+      "name": "AdminEntryTimeout",
+      "kind": "interface",
+      "file": "shared/types/calendarTypes.ts",
+      "line": 27,
+      "exported": true,
+      "fingerprint": "3bf9e1ca732a",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "CalendarConfig",
       "kind": "interface",
       "file": "shared/types/calendarTypes.ts",
-      "line": 25,
+      "line": 36,
       "exported": true,
-      "fingerprint": "29f0552ff019",
-      "propertyCount": 7,
+      "fingerprint": "5ac655613765",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
@@ -8150,6 +8312,16 @@
       "line": 10,
       "exported": true,
       "fingerprint": "f3accce2cf89",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AdminEntryTimeoutUnit",
+      "kind": "type-alias-union",
+      "file": "shared/types/calendarTypes.ts",
+      "line": 26,
+      "exported": true,
+      "fingerprint": "a1d76e20df15",
       "propertyCount": 0,
       "primitiveAlias": null
     },

@@ -4,11 +4,11 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-03-05T17:11:07.125Z
+Generated: 2026-03-05T22:00:47.988Z
 
 ## Overview
 
-- Files scanned: **418**
+- Files scanned: **421**
 - Findings: **0**
 - Files with findings: **0**
 - Phase A (per-file) findings: **0**

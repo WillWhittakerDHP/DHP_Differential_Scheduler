@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T17:11:01.575Z**
-- Files scanned: **1137**
-- Type definitions found: **787**
-- Similarity groups: **9**
+- Generated at: **2026-03-05T22:00:48.705Z**
+- Files scanned: **1143**
+- Type definitions found: **797**
+- Similarity groups: **11**
 - UNIFY candidates: **0**
-- BRAND candidates: **0**
-- EXTEND candidates: **9**
+- BRAND candidates: **1**
+- EXTEND candidates: **10**
 - REVIEW candidates: **0**
 
-- P0 (high): **4**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **6**, P1 (medium): **5**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -36,7 +36,9 @@ Each group has a recommended action:
 | --- | --- | --- | --- | ---: | ---: | --- |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
 | P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
+| P0 | BRAND | EXACT | `ForceCreateViolationReport`, `ComputedSlot` | 2 | 17 | `{ violations: string[] }` |
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
+| P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
@@ -44,7 +46,21 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
 | P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
 
-## EXTEND Candidates (9)
+## BRAND Candidates (1)
+
+These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
+
+### sim-exact-645ac1eccd58
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ violations: string[] }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
+| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
+
+## EXTEND Candidates (10)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -92,11 +108,25 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 20 | yes |
-| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 386 | yes |
+| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 392 | yes |
 
 Overlap: **50%** shared properties
 - Shared: `isAvailable`, `violations`
 - Only in `MoveableSlot`: `dayLabel`, `timeLabel`
+
+### sim-subset-9bcf40cb9094
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **15**
+- Structure: `{ adminEntryTimeout?: AdminEntryTimeout, calendars: CalendarEntry[], enabled: boolean, holdDurationFallback?: number, holdDurationMax?: number, holdDurationMin?: number, holdDurationMinutes?: number, provider: CalendarProvider }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `ConfirmationAndHoldsPanelProps` | interface | `client/src/composables/admin/useConfirmationAndHoldsPanel.ts` | 9 | yes |
+| `CalendarConfig` | interface | `shared/types/calendarTypes.ts` | 36 | yes |
+
+Overlap: **38%** shared properties
+- Shared: `holdDurationFallback`, `holdDurationMax`, `holdDurationMin`
+- Only in `CalendarConfig`: `adminEntryTimeout`, `calendars`, `enabled`, `holdDurationMinutes`, `provider`
 
 ### sim-subset-bb8c320874a1
 
@@ -106,7 +136,7 @@ Overlap: **50%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `LoadedTimeSlot` | interface | `client/src/types/booking/timeSlotMatching.ts` | 3 | yes |
-| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 376 | yes |
+| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 382 | yes |
 
 Overlap: **67%** shared properties
 - Shared: `endTime`, `startTime`
