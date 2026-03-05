@@ -15,7 +15,6 @@ export const quoteModeColors = {
   'warning-darken-1': '#CF3E50', // Darker red
 }
 
-// WHY: Reschedule mode palette (blue/teal) so reschedule is visually distinct from new and quote
 export const rescheduleModeColors = {
   'primary': '#0D9488', // Teal
   'on-primary': '#fff',
@@ -56,7 +55,6 @@ export interface WizardModePalette {
   'warning-darken-1': string
 }
 
-// WHY: DHP (District Home Pro) brand palette — safety yellow, day-glow red, black; toggleable in booking wizard
 export const dhpPalette: Record<'standard' | 'quote' | 'reschedule', WizardModePalette> = {
   standard: {
     'primary': '#EED202', // Safety yellow
