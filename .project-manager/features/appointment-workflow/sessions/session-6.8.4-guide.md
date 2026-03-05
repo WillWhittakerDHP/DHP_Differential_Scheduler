@@ -39,3 +39,5 @@
 **Approach:** Server: on reschedule of an overridden appointment, create new ConstraintOverride for the new slot. Client: ensure reschedule API is called with any data needed for the server to create the new override.
 
 **Checkpoint:** On reschedule confirm of an overridden appointment, a new override record is created for the new slot; audit trail preserved.
+
+<!-- end excerpt session -->
