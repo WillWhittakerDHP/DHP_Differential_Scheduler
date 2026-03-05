@@ -28,6 +28,13 @@ provide('adminCurrentTab', currentTab)
 
 <template>
   <div class="admin-panel">
+    <VRow class="mb-2" density="compact" align="center">
+      <VCol cols="auto">
+        <VBtn variant="text" size="small" :to="{ name: 'admin-booking-entry' }">
+          Open booking wizard
+        </VBtn>
+      </VCol>
+    </VRow>
     <!--
       WHY: Provides tabbed interface with Vuexy styling
       PATTERN: v-model binds to reactive ref for two-way data binding

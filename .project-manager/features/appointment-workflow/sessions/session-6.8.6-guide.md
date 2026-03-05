@@ -40,7 +40,7 @@
 
 **Checkpoint:** API returns filtered appointment list with required columns; time-out setting from Business Controls is used in the filter.
 
-- [ ] #### Task 6.8.6.3: Dropdown UI and selection → wizard step 3
+- [x] #### Task 6.8.6.3: Dropdown UI and selection → wizard step 3
 
 **Goal:** Build admin-only step 0 / pre-wizard UI: choices Start new | Edit quote | Reschedule; for Edit quote/Reschedule, dropdown with filtered list (Address, Client name, Agent name); on selection set wizard mode and loadedAppointmentId, load appointment, navigate to step 3.
 

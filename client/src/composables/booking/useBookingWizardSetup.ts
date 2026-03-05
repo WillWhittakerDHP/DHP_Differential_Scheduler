@@ -2,8 +2,9 @@
  * WHY: Orchestration composable for BookingWizard.vue to keep component script thin (vue-architecture audit).
  * PATTERN: Encapsulates all wizard composable wiring and returns only what the template needs.
  */
-import { computed, provide } from 'vue'
+import { computed, provide, onMounted } from 'vue'
 import type { ComputedRef } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
@@ -146,6 +147,19 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   })
 
   provide(loadedWizardStateKey, loadedWizardState)
+
+  const route = useRoute()
+  const router = useRouter()
+  onMounted(() => {
+    const loadId = route.query.loadAppointmentId as string | undefined
+    const mode = route.query.mode as string | undefined
+    if (loadId && (mode === 'quote' || mode === 'reschedule')) {
+      void handleLoadAppointment(loadId).then(() => {
+        if (mode === 'quote') wizard.setWizardMode('quote')
+        router.replace({ path: '/booking' })
+      })
+    }
+  })
 
   const { stepSubtitles } = useWizardDisplay({
     steps,

@@ -25,6 +25,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/admin/AdminPanel.vue'),
   },
   {
+    path: '/admin/booking',
+    name: 'admin-booking-entry',
+    component: () => import('@/views/admin/AdminBookingEntryView.vue'),
+  },
+  {
     path: '/beta-feedback',
     name: 'beta-feedback',
     component: () => import('@/views/beta/BetaFeedbackView.vue'),
