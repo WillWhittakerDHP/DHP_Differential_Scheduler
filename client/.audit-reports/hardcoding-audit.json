@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T20:09:15.768Z",
+  "generatedAt": "2026-03-05T20:29:47.873Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 2,
+  "totalScanned": 0,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
-    "totalRequiresReview": 3,
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0,
-      "linePattern": 1
+      "linePattern": 0
     }
   },
   "entityKeys": [],
@@ -56,151 +56,5 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": [
-    {
-      "id": "server__src__routes__internal__appointments__appointmentCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 250,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 299,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 250,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 299,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 6,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    },
-    {
-      "id": "server__src__routes__internal__appointments__appointmentHelpers.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 4
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 127,
-          "line": "logger.debug('Calendar integration not enabled')"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 141,
-          "line": "logger.debug('Found writeTo calendar', { email: writeToEntry.email })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 141,
-          "line": "logger.debug('Found writeTo calendar', { email: writeToEntry.email })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 145,
-          "line": "logger.debug('No writeTo calendar configured')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 148,
-          "line": "logger.error('Error reading writeTo calendar from settings', { error })"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 310,
-          "line": "where: { appointmentId: updatedAppointment.id },"
-        }
-      ],
-      "allowed": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 141,
-          "line": "logger.debug('Found writeTo calendar', { email: writeToEntry.email })",
-          "reason": "Logger metadata object; not API/DB field mapping",
-          "source": "linePattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 310,
-          "line": "where: { appointmentId: updatedAppointment.id },",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
-      "priority": "P2",
-      "suggestions": []
-    }
-  ]
+  "files": []
 }
