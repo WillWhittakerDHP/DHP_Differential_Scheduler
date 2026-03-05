@@ -139,7 +139,6 @@ const router = createCrudRouter({
       scheduledById: _scheduledByIdStripped,
       ...appointmentFields
     } = appointmentData
-    // scheduledById is set server-side only (beforeCreate for create); never allow client to set or change it
     if (method === 'update' || method === 'patch') {
       delete (appointmentFields as Record<string, unknown>).scheduledById
     }

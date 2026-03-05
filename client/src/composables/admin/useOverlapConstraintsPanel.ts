@@ -1,5 +1,4 @@
 /**
- * WHY: Keeps OverlapConstraintsPanel.vue thin; moves handler functions and label/hint computeds out of SFC.
  */
 import { computed, inject } from 'vue'
 import {

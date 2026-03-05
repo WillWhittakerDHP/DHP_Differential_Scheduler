@@ -1,5 +1,4 @@
 /**
- * WHY: Keeps EventInstancesSection.vue thin; moves display computeds and toggle out of SFC.
  */
 import { computed, inject } from 'vue'
 import { instancesTabContextKey } from '@/composables/admin/injectionKeys'

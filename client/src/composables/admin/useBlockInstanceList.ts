@@ -1,5 +1,4 @@
 /**
- * WHY: Keeps BlockInstanceList.vue thin; moves entityList config and async remove out of SFC (component-logic Tier1).
  */
 import { useRouter } from 'vue-router'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'

@@ -129,12 +129,10 @@ export function useWizardAppointmentManagement(
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
 
-      // Draft-first: persist id so reload can restore (skip for dev "random" load)
       if (appointmentIdOrRandom !== 'random' && typeof localStorage !== 'undefined') {
         localStorage.setItem(PERSIST_KEY_APPOINTMENT_ID, appointment.id)
       }
 
-      // WHEN: Loading by id (not 'random') — entry point may have set reschedule; ensure we're in reschedule mode for submit step
       if (appointmentIdOrRandom !== 'random') {
         wizard.setWizardMode('reschedule')
       }
@@ -217,7 +215,6 @@ PATTERN...
     success('Wizard reset successfully')
   }
 
-  // Draft-first: on mount, restore wizard from persisted appointment id so reload keeps state
   onMounted(() => {
     if (typeof localStorage === 'undefined') return
     const persistedId = localStorage.getItem(PERSIST_KEY_APPOINTMENT_ID)
