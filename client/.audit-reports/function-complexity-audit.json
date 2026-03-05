@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T18:59:59.292Z",
+  "generatedAt": "2026-03-05T19:01:48.693Z",
   "totalScanned": 1044,
   "totalAllowed": 0,
   "tierModel": "tier1",
@@ -18,85 +18,5 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": [
-    {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "functions": [
-        {
-          "name": "if",
-          "startLine": 112,
-          "endLine": 152,
-          "length": 41,
-          "maxNesting": 5,
-          "branches": 5,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3,
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "name": "if",
-          "startLine": 155,
-          "endLine": 198,
-          "length": 44,
-          "maxNesting": 5,
-          "branches": 5,
-          "params": 1,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3,
-              "tier": 1
-            }
-          ]
-        },
-        {
-          "name": "computeAvailabilityData",
-          "startLine": 379,
-          "endLine": 501,
-          "length": 123,
-          "maxNesting": 1,
-          "branches": 6,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "length",
-              "value": 123,
-              "threshold": 50,
-              "tier": 2
-            }
-          ]
-        },
-        {
-          "name": "getForceCreateSlotContext",
-          "startLine": 516,
-          "endLine": 573,
-          "length": 58,
-          "maxNesting": 1,
-          "branches": 3,
-          "params": 0,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "length",
-              "value": 58,
-              "threshold": 50,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 10,
-      "priority": "P1"
-    }
-  ]
+  "files": []
 }
