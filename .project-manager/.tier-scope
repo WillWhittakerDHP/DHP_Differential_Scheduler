@@ -4,5 +4,5 @@ phase.id=6.6
 phase.name=Guide: Soft Delete vs Hard Delete
 session.id=6.6.1
 session.name=** ** Soft delete vs hard delete — policy, UI, retention/audit (to be refined in session planning)
-task.id=6.6.1.1
-task.name=** Policy, UI, and retention/audit
+task.id=6.6.1.2
+task.name=Admin UI — soft delete and hard delete actions

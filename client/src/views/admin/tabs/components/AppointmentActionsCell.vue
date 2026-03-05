@@ -12,6 +12,7 @@ const emit = defineEmits<{
   cancel: []
   openConfirm: [item: AppointmentResponse]
   startEdit: [item: AppointmentResponse]
+  markCancelled: [id: string]
   delete: [id: string]
 }>()
 </script>
@@ -59,6 +60,24 @@ const emit = defineEmits<{
           </VBtn>
         </template>
         {{ APPOINTMENTS_TABLE_UI.OVERRIDE_TOOLTIP }}
+      </VTooltip>
+      <VTooltip
+        v-if="item.status !== 'cancelled' && item.status !== 'deleted'"
+        location="top"
+      >
+        <template #activator="{ props: markCancelledTooltipProps }">
+          <VBtn
+            v-bind="markCancelledTooltipProps"
+            prepend-icon="tabler-x"
+            size="small"
+            variant="text"
+            color="warning"
+            @click="emit('markCancelled', item.id)"
+          >
+            {{ APPOINTMENTS_TABLE_UI.MARK_CANCELLED }}
+          </VBtn>
+        </template>
+        {{ APPOINTMENTS_TABLE_UI.MARK_CANCELLED_TOOLTIP }}
       </VTooltip>
       <VBtn prepend-icon="tabler-trash" size="small" color="error" variant="text" @click="emit('delete', item.id)">
         {{ APPOINTMENTS_TABLE_UI.DELETE }}

@@ -40,6 +40,7 @@ const {
   saveCreate,
   lookups,
   confirmAppointment,
+  markCancelled,
 } = useAppointmentsTableModel()
 const { properties, users, getDisplayValue, getPropertyById, getUserById, getPropertyTypeNames } = lookups
 
@@ -311,6 +312,7 @@ const { formatTimestamp } = handlers
           @cancel="handleCancelEdit"
           @open-confirm="handleOpenConfirmDialog"
           @start-edit="handleStartEdit"
+          @mark-cancelled="(id: string) => markCancelled(id)"
           @delete="openDeleteDialog"
         />
       </template>

@@ -32,6 +32,8 @@ export interface AppointmentsTableModel extends CrudDataTableModel<
 > {
   lookups: AppointmentsTableLookups
   confirmAppointment: (id: string) => Promise<boolean>
+  /** Soft delete: PATCH status to cancelled (record retained for audit). */
+  markCancelled: (id: string) => Promise<boolean>
 }
 
 /**
@@ -92,6 +94,19 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     } catch (err) {
       logger.error(APPOINTMENTS_TABLE_UI.CONFIRM_ERROR, { error: err, appointmentId: id })
       error(APPOINTMENTS_TABLE_UI.CONFIRM_ERROR)
+      return false
+    }
+  }
+
+  /** Soft delete: set status to cancelled; record retained for audit. */
+  const markCancelled = async (id: string): Promise<boolean> => {
+    try {
+      await update.mutateAsync({ id, data: { status: 'cancelled' } as Partial<AppointmentRequest> })
+      success(APPOINTMENTS_TABLE_UI.MARK_CANCELLED_SUCCESS)
+      return true
+    } catch (err) {
+      logger.error(APPOINTMENTS_TABLE_UI.MARK_CANCELLED_ERROR, { error: err, appointmentId: id })
+      error(APPOINTMENTS_TABLE_UI.MARK_CANCELLED_ERROR)
       return false
     }
   }
@@ -159,6 +174,7 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
       getPropertyTypeNames,
     },
     confirmAppointment,
+    markCancelled,
   }
 }
 
