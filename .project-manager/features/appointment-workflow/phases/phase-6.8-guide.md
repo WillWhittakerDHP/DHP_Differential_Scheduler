@@ -107,7 +107,7 @@ Index on `appointment_id`.
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.8.1: Database & Server Infrastructure
+- [x] ### Session 6.8.1: Database & Server Infrastructure
 
 **Description:** ** Database & Server Infrastructure — migration, model, computeViolationsForSlot, force-create route
 

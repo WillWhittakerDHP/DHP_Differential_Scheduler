@@ -422,3 +422,4 @@ Break each session into focused tasks:
 
 [Session-specific notes, patterns, architectural decisions]
 
+<!-- end excerpt session -->
