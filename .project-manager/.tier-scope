@@ -1,8 +1,10 @@
 feature.id=appointment-workflow
 feature.name=Feature: appointment-workflow
-phase.id=6.8
-phase.name=Guide: Admin Force-Create & Constraint Overrides
-session.id=6.8.5
-session.name=** Block-level agentPermissions
+phase.id=6.9
+phase.name=Guide: Availability Step Mini-Wizard
+phase.branch=phase-6.9-availability-step-mini-wizard
+phase.slug=availability-step-mini-wizard
+session.id=
+session.name=
 task.id=
 task.name=

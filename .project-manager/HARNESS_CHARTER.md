@@ -587,7 +587,7 @@ export interface ControlPlaneDecision {
   message: string; // user-facing
   questionKey?: QuestionKey;
   nextInvoke?: WorkflowSpec; // full spec for re-invoke, not loose params
-  cascadeCommand?: string;    // e.g. "/task-start 6.4.4.1" — exact command string for AskQuestion display
+  cascadeCommand?: string;    // e.g. "/task-start 6.4.4.1" — exact command string for cascade choice display in chat
 }
 
 export type QuestionKey =
@@ -858,7 +858,7 @@ export interface TierStepHandler {
 ### Adapter constraints
 
 - No mode-switch messaging.
-- No direct AskQuestion policy decisions.
+- No direct "present choices" policy decisions beyond the playbook.
 - No free-form reason-code invention.
 - Side effects only within kernel-invoked step boundary.
 - Adapter files should stay under 300 lines. If an adapter grows larger, extract step handlers into separate modules.
