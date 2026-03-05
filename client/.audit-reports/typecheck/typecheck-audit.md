@@ -12,18 +12,20 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-05T22:08:03.706Z**
+- Generated at: **2026-03-05T23:45:52.081Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 3**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **2**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS2451-ts2451-cannot-redeclare-block-scoped-variable-hasmoveablepartsgated` | 24 | 2 | 1 | 0 | 0 |
+| P1 | `TS2339-ts2339-prop-hasmoveablepartsgated-usemoveablepartsschedulingreturn` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +36,13 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `src/composables/booking/useAvailabilityOrchestrator.ts`
+
+- errors: 3, unsafeCasts: 0, suppressions: 0
+
+```
+TS2339@189:7 Property 'hasMoveablePartsGated' does not exist on type 'UseMoveablePartsSchedulingReturn'.
+TS2451@189:7 Cannot redeclare block-scoped variable 'hasMoveablePartsGated'.
+TS2451@205:9 Cannot redeclare block-scoped variable 'hasMoveablePartsGated'.
+```
