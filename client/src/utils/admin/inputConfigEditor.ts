@@ -90,7 +90,6 @@ export function inputConfigEditor(
 
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
       if (renderAs === 'relationshipCollection') {
-        // No baseConfig fields to set for relationshipCollection; reserved for future behavior.
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
