@@ -234,7 +234,6 @@ export interface WorkflowSpec {
   // User-choice params set by caller when re-invoking after confirmation
   userChoices?: {
     continuePastVerification?: boolean;
-    contextGatheringComplete?: boolean;
     pushConfirmed?: boolean;
     cascadeConfirmed?: boolean;
   };
@@ -273,7 +272,7 @@ export interface ConstraintSet {
 
 **Design notes:**
 - `featureContext` is required, not optional. Every run needs a feature anchor.
-- `pass` makes the current implicit 3-pass model explicit (replaces ad-hoc `contextGatheringComplete` booleans).
+- `pass` makes the current implicit 3-pass model explicit.
 - `previousRunSummary` carries forward decisions from prior passes without re-reading everything.
 - `parentTraceId` enables cascade lineage tracking across tier boundaries.
 - `includeRules` removed from contextBudget (governance rule inclusion is a policy concern, handled by the governance plugin's `appliesTo` check).

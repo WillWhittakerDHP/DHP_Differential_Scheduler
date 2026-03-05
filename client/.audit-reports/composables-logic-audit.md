@@ -1621,11 +1621,11 @@ computed@70: const composerName = computed(() => {
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@25: const eventInstancesDisplay = computed(() => {
-computed@30: const eventShapesList = computed(() => ctx.eventShapes.value)
-computed@31: const hasEventInstances = computed(() => {
-computed@35: const isLoading = computed(() => ctx.isLoadingEventInstances.value)
-computed@36: const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
+computed@24: const eventInstancesDisplay = computed(() => {
+computed@29: const eventShapesList = computed(() => ctx.eventShapes.value)
+computed@30: const hasEventInstances = computed(() => {
+computed@34: const isLoading = computed(() => ctx.isLoadingEventInstances.value)
+computed@35: const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
 ```
 
 ### `client/src/composables/admin/useOverlapConstraintsPanel.ts`

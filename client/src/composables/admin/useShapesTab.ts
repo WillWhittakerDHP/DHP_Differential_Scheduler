@@ -44,20 +44,6 @@ export function useShapesTab(): UseShapesTabReturn {
   const { success } = useNotification()
 
   const modals = useShapesTabModals()
-  const {
-    blockShapeMetadataModalOpen,
-    partShapeMetadataModalOpen,
-    partInstanceMetadataModalOpen,
-    annotationShapeMetadataModalOpen,
-    eventShapeMetadataModalOpen,
-    toggleBlockShapeMetadataModal,
-    togglePartShapeMetadataModal,
-    togglePartInstanceMetadataModal,
-    handlePartInstanceMetadataSaved,
-    toggleAnnotationShapeMetadataModal,
-    toggleEventShapeMetadataModal,
-  } = modals
-
   const creation = useShapesTabCreation({
     expandedShapes,
     success,
@@ -65,27 +51,6 @@ export function useShapesTab(): UseShapesTabReturn {
     createEventShapeMutation,
     logger,
   })
-  const {
-    isCreatingPartShape,
-    isCreatingAnnotationShape,
-    isCreatingEventShape,
-    newPartShapeInitialValues,
-    newAnnotationShapeName,
-    newEventShapeName,
-    isCreatingAnnotationShapeLoading,
-    isCreatingEventShapeLoading,
-  } = creation.state
-  const {
-    createPartShape,
-    startCreatingAnnotationShape,
-    handlePartShapeCreated,
-    handlePartShapeCancelled,
-    handleAnnotationShapeCreate,
-    handleAnnotationShapeCancelled,
-    startCreatingEventShape,
-    handleEventShapeCreate,
-    handleEventShapeCancelled,
-  } = creation.actions
 
   const deletion = useShapesTabDeletion({ expandedShapes })
   const {
@@ -180,6 +145,9 @@ export function useShapesTab(): UseShapesTabReturn {
   }))
 
   return {
+    ...modals,
+    ...creation.state,
+    ...creation.actions,
     activeTab,
     blockShapesContainer,
     partShapesContainer,
@@ -195,34 +163,6 @@ export function useShapesTab(): UseShapesTabReturn {
     partShapesTabLabel,
     annotationShapesTabLabel,
     eventShapesTabLabel,
-    blockShapeMetadataModalOpen,
-    partShapeMetadataModalOpen,
-    partInstanceMetadataModalOpen,
-    annotationShapeMetadataModalOpen,
-    eventShapeMetadataModalOpen,
-    toggleBlockShapeMetadataModal,
-    togglePartShapeMetadataModal,
-    togglePartInstanceMetadataModal,
-    handlePartInstanceMetadataSaved,
-    toggleAnnotationShapeMetadataModal,
-    toggleEventShapeMetadataModal,
-    isCreatingPartShape,
-    isCreatingAnnotationShape,
-    isCreatingEventShape,
-    newPartShapeInitialValues,
-    newAnnotationShapeName,
-    newEventShapeName,
-    isCreatingAnnotationShapeLoading,
-    isCreatingEventShapeLoading,
-    createPartShape,
-    startCreatingAnnotationShape,
-    handlePartShapeCreated,
-    handlePartShapeCancelled,
-    handleAnnotationShapeCreate,
-    handleAnnotationShapeCancelled,
-    startCreatingEventShape,
-    handleEventShapeCreate,
-    handleEventShapeCancelled,
     handleDeletePartShape,
     handleDeleteBlockShape,
     handleDeleteAnnotationShape,

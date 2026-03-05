@@ -349,6 +349,13 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
 - **See:** `features/appointment-workflow/phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`.
 
+### Phase 6.12: Annotation Content Layer and Entity Enhancements (Not Started)
+- **Entity enhancements:** Event shape `includeRescheduleLink` and `includeCancelLink` booleans (DB, model, client types, field config, metadata; invite builder reads them). Block shapes tab: fix entity cards not expanding when clicked.
+- **Annotation data layer:** Create `annotation_instance_content` table (annotation_instance_id, user_type_block_instance_id FK, text, tooltip); dimensions dynamic (user type block instances). Deprecate `AnnotationInstance.userType` and simplify `AnnotationAssignment`; migrate existing data. Annotation shape delete: return 409 with actionable message when dependents exist (FK `annotation_instances_type_fkey`).
+- **Annotation UI slots and wizard pipeline:** Add `shared/constants/annotationSlots.ts` with `ANNOTATION_UI_SLOTS` and `ANNOTATION_UI_SLOT_REGISTRY`; add `ui_slot` column (VARCHAR(50), nullable) to `annotation_shapes`; server validates against registry; admin dropdown from registry. Extend `globalToBookingTransformer` to populate annotations on `BookingBlockInstance`; create `useAnnotationContent` composable; wire into SelectionCard/IndependentSelectCard for cardDescription and cardTooltip. Migrate grid overlay to `gridOverlay` annotation slot; `AvailabilityStep.vue` reads from annotation when available, fallback to business settings.
+- **Sessions:** 6.12.1 (entity enhancements + annotation data layer), 6.12.2 (UI slots registry + wizard pipeline).
+- **See:** `features/appointment-workflow/phases/phase-6.12-guide.md`.
+
 ### Booking Calculations (Core Complete)
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`. **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`. Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
 
@@ -366,6 +373,7 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - Phase 6.9 Guide: `features/appointment-workflow/phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- Phase 6.12 Guide: `features/appointment-workflow/phases/phase-6.12-guide.md` (Annotation Content Layer and Entity Enhancements)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow and booking-calculations planning: `features/appointment-workflow/`
 

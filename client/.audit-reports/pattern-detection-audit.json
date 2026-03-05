@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T23:16:25.659Z",
+  "generatedAt": "2026-03-04T23:20:53.287Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -1438,7 +1438,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEventInstancesSection.ts",
-            "line": 21,
+            "line": 20,
             "name": "EventInstancesSection"
           }
         ]

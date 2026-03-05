@@ -157,6 +157,13 @@
 - Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
 **See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
 
+- [ ] ### Phase 6.12: Annotation Content Layer and Entity Enhancements
+**Description:** Entity enhancements: event shape `includeRescheduleLink` and `includeCancelLink` booleans (admin toggles, invite builder); block shapes tab entity card expansion fix. Annotation data layer: create `annotation_instance_content` table (content per user type block instance); deprecate Annotations with Metadata; annotation shape delete returns 409 when dependents exist. Annotation UI slots and wizard pipeline: shared `ANNOTATION_UI_SLOTS` and `ANNOTATION_UI_SLOT_REGISTRY` in `shared/constants/annotationSlots.ts`; `annotation_shapes.ui_slot` column; transformer and `useAnnotationContent` composable; wire annotations into SelectionCard/IndependentSelectCard (cardDescription, cardTooltip); migrate grid overlay to `gridOverlay` annotation slot with fallback to business settings.
+**Sessions:** 2 (6.12.1: entity enhancements + annotation data layer; 6.12.2: UI slots registry + wizard pipeline)
+**Dependencies:** Phase 6.5 (reschedule/cancel links exist to be toggled).
+**Success Criteria:** Event shape and event instance show link toggles; block shapes expand; annotation_instance_content in place; annotation shape delete 409; annotationSlots constant and ui_slot column; wizard shows annotations on cards and grid overlay from annotations when configured.
+**See:** `phases/phase-6.12-guide.md`
+
 ---
 
 ## Booking Calculations (Core Complete)
