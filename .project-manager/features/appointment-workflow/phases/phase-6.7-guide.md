@@ -1,6 +1,6 @@
 **Warning: Feature guide not found or phase 6.7 not listed.** Planning will proceed with minimal context.
 
-- [ ] ### Session 6.7.1: Backend — set scheduled_by_id on create from req.user
+- [x] ### Session 6.7.1: Backend — set scheduled_by_id on create from req.user
 
 **Description:** Set scheduled_by_id on appointment create from req.user; block client override.
 

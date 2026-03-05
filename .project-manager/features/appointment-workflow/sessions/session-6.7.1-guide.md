@@ -39,3 +39,5 @@
 - [Files to work with]
 **Approach:** [Fill in]
 **Checkpoint:** [What needs to be verified]
+
+<!-- end excerpt session -->
