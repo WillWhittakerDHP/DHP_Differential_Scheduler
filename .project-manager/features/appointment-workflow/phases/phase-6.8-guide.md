@@ -259,7 +259,7 @@ All sessions complete. Ready to run phase-completion workflow?
 **Tasks:**
 1. Migration: add `agent_permissions` column, default `'false'` (same `ternary_boolean` ENUM as `differential`). 2. Model: add to Sequelize BlockInstance; versioning: add to instanceVersioning if block instances are versioned. 3. Client types and transformer: add to BookingBlockInstance / globalToBookingTransformer. 4. Update Force Schedule and Override visibility logic to respect (user role, block.agentPermissions).
 
-- [ ] ### Session 6.8.6: Admin entry (step 0 / pre-wizard)
+- [x] ### Session 6.8.6: Admin entry (step 0 / pre-wizard)
 
 **Description:** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
 

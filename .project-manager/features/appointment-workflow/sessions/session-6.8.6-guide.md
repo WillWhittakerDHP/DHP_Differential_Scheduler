@@ -85,3 +85,5 @@ Label the session: **Session: 6.8.6 — Admin entry (step 0 / pre-wizard)**.
 - **Phase guide:** `.project-manager/features/appointment-workflow/phases/phase-6.8-guide.md` (Admin entry subsection)
 - **Session planning:** `.project-manager/features/appointment-workflow/sessions/session-6.8.6-planning.md`
 - **Wizard/load context:** Phase 6.5 (reschedule flow); `loadedAppointmentId`, wizard mode, load-at-step-3.
+
+<!-- end excerpt session -->
