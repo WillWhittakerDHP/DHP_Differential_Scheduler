@@ -6,6 +6,25 @@
 
 **Tier:** Phase (Tier 1 - High-Level)
 
+## Quick Start
+
+- **Scope:** Reschedule flow and override records — pass `allowedExceptions` and `appointmentId` to availability when rescheduling an overridden appointment; show a distinct slot indicator for override-allowed slots; create a new ConstraintOverride for the new slot on reschedule confirm.
+- **Server:** Computed availability accepts `allowedExceptions` and verifies against stored override (Session 6.8.2). On PATCH appointment (reschedule), if the appointment had an existing ConstraintOverride and the slot changed, a new ConstraintOverride is created for the new slot.
+- **Client:** Reschedule availability request includes `allowedExceptions` and `appointmentId` when the appointment has an override (Task 6.8.4.1). Reschedule submit is standard PATCH with new slot; server derives new override from existing override.
+
+## Tasks
+
+- **Task 6.8.4.1:** Reschedule availability — pass `allowedExceptions` and `appointmentId`; distinct slot indicator in UI.
+- **Task 6.8.4.2:** New override on reschedule — server creates ConstraintOverride for new slot in `afterUpdate`; client uses existing PATCH with new slot.
+
+## Session Workflow
+
+1. Load reschedule context (appointment with override if any).
+2. Fetch computed availability with `allowedExceptions` and `appointmentId` when appointment has an override.
+3. User selects new slot; UI may show distinct indicator for override-allowed slots.
+4. On confirm, client PATCHes appointment with new `selectedDate` / `selectedTimeSlots`.
+5. Server updates appointment; `createConstraintOverrideOnRescheduleIfNeeded(record)` creates a new ConstraintOverride for the new slot when one existed and slot changed.
+
 ## Session intent from phase guide
 
 - [ ] ### Session 6.8.4: ** Reschedule flow and override records — pass allowedExceptions, distinct slot indicator, new override on reschedule
