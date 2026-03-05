@@ -14,18 +14,19 @@ Populate `scheduled_by_id` from the authenticated user when creating appointment
 ## Files
 - Server: appointment create endpoint (set `scheduled_by_id` from `req.user`)
 - Client: types/transformers if needed for scheduled_by display
-- Admin: appointment details view (show scheduled_by / scheduler name)
+- Admin: appointment details view (show scheduled_by / scheduler name); event instances section (includeScheduledBy toggle)
 
 ## Approach
 - Use `req.user` (from Feature 7) on appointment create to set `scheduled_by_id`; no client-supplied value for this field on create.
 - Admin appointment details: show scheduled_by (user id and/or display name) from existing or new API shape; follow existing admin detail patterns.
+- Event instances: add includeScheduledBy toggle (e.g. in Instance Fields modal or event instances section) to control whether scheduled-by is included in event instance display/export.
 
 ## Checkpoint
 - Create path sets `scheduled_by_id` from authenticated user; admin details show who scheduled the appointment.
 
 ## How we build the tierDown to achieve them
 - **Session 6.7.1:** Backend — set scheduled_by_id on create from req.user
-- **Session 6.7.2:** Admin UI — display scheduled_by in appointment details
+- **Session 6.7.2:** Admin UI — display scheduled_by in appointment details; add includeScheduledBy toggle in event instances
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`

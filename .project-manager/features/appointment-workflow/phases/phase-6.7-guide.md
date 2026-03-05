@@ -1,118 +1,15 @@
-# Phase 6.7 Guide Template
+**Warning: Feature guide not found or phase 6.7 not listed.** Planning will proceed with minimal context.
 
-**Purpose:** Phase-level guide for planning and tracking major milestones
+- [ ] ### Session 6.7.1: Backend — set scheduled_by_id on create from req.user
 
-**Tier:** Phase (Tier 1 - High-Level)
+**Description:** Set scheduled_by_id on appointment create from req.user; block client override.
 
----
+**Tasks:** 6.7.1.1 (set in create path + block override)
+**Focus:** Server create handler, sanitize/request body.
 
-## Phase Overview
+- [ ] ### Session 6.7.2: Admin UI — display scheduled_by; includeScheduledBy toggle in event instances
 
-**Phase Number:** 6.7
-**Phase Name:** Scheduled By Auto-Population
-**Description:** Scheduled By Auto-Population
+**Description:** Show scheduled_by in appointment details; add includeScheduledBy toggle in event instances section.
 
-**Duration:** [Estimated weeks/months]
-**Status:** [Not Started / In Progress / Complete]
-
----
-
-## Phase Objectives
-
-- [Objective 1]
-- [Objective 2]
-- [Objective 3]
-
----
-
-## Sessions Breakdown
-
-- [ ] ### Session [SESSION_ID]: [SESSION_NAME]
-**Description:** [What this session accomplishes]
-**Tasks:** [Number of tasks]
-**Focus:**
-- [Focus area 1]
-- [Focus area 2]
-
-- [ ] ### Session [SESSION_ID+1]: [SESSION_NAME]
-**Description:** [What this session accomplishes]
-**Tasks:** [Number of tasks]
-**Focus:**
-- [Focus area 1]
-- [Focus area 2]
-
----
-
-## Dependencies
-
-**Prerequisites:**
-- [Dependency 1]
-- [Dependency 2]
-
-**Downstream Impact:**
-- [How this phase affects later phases]
-
----
-
-## Success Criteria
-
-- [ ] All sessions completed
-- [ ] All focus areas addressed
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Ready for next phase
-
----
-
-## End of Phase Workflow
-
-**CRITICAL: Prompt before completing phase**
-
-After completing all sessions in a phase, **prompt the user** before running `/phase-end`:
-
-```
-## Ready to Complete Phase?
-
-All sessions complete. Ready to run phase-completion workflow?
-
-**This will:**
-- Mark phase complete (update checkboxes and status)
-- Update phase log with completion summary
-- Update main handoff document
-- Git commit/push
-
-**Proceed with /phase-end?** (yes/no)
-```
-
-**If user says "yes":**
-- Run `/phase-end` command automatically
-- Complete all phase-completion steps
-
-**If user says "no":**
-- Address any requested changes
-- Re-prompt when ready
-
-After completing all sessions in a phase:
-
-1. **Verify phase completion** - All sessions complete, success criteria met
-2. **Update phase status** - Mark phase as Complete
-3. **Update phase handoff** - Document phase completion and transition context
-4. **Workflow Feedback** (Optional - only if issues encountered):
-   - Were there any problems managing this phase workflow or issues with results?
-   - Note any sticking points, inefficiencies, or workflow friction for future improvement
-   - Consider if phase-level issues suggest improvements needed at session or task level
-
----
-
-## Notes
-
-[Phase-specific notes, decisions, blockers]
-
----
-
-## Related Documents
-
-- Phase Log: `.cursor/workflow-manager/vue-migration/phases/phase-6.7-log.md`
-- Phase Handoff: `.cursor/workflow-manager/vue-migration/phases/phase-6.7-handoff.md`
-- Session Guides: `.cursor/workflow-manager/vue-migration/sessions/session-[X.Y]-guide.md`
-
+**Tasks:** 6.7.2.1 (display scheduled_by in appointment details), 6.7.2.2 (includeScheduledBy toggle in event instances)
+**Focus:** Admin appointment details view; EventInstancesSection / Instance Fields (toggle).

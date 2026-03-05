@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-01T19:10:13.564Z",
-  "totalFiles": 1086,
+  "generatedAt": "2026-03-05T01:41:35.381Z",
+  "totalFiles": 1091,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135,
@@ -11,10 +11,46 @@
   "fanInViolations": [
     {
       "file": "client/src/constants/entities",
-      "fanIn": 157
+      "fanIn": 156
+    },
+    {
+      "file": "client/src/types/entities",
+      "fanIn": 137
     }
   ],
   "composableChainDepthViolations": [
+    {
+      "file": "client/src/composables/fieldContext/useFieldContext",
+      "depth": 4,
+      "chain": [
+        "client/src/composables/fieldContext/useFieldContext",
+        "client/src/composables/fieldContext/useFieldContextState",
+        "client/src/composables/fieldContext/useFieldContextEntityDerived",
+        "client/src/composables/admin/useEntityMetadata",
+        "client/src/composables/admin/useMetadataCache"
+      ]
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields",
+      "depth": 4,
+      "chain": [
+        "client/src/composables/formFields/useFormFields",
+        "client/src/composables/fieldContext/useFieldContextState",
+        "client/src/composables/fieldContext/useFieldContextEntityDerived",
+        "client/src/composables/admin/useEntityMetadata",
+        "client/src/composables/admin/useMetadataCache"
+      ]
+    },
+    {
+      "file": "client/src/composables/admin/useInstancesTab",
+      "depth": 3,
+      "chain": [
+        "client/src/composables/admin/useInstancesTab",
+        "client/src/composables/admin/useInstanceGrouping",
+        "client/src/composables/admin/useAdmin",
+        "client/src/composables/useGlobal"
+      ]
+    },
     {
       "file": "client/src/composables/admin/usePartsCollectionField",
       "depth": 3,
@@ -36,6 +72,16 @@
       ]
     },
     {
+      "file": "client/src/composables/booking/useBookingWizardSetup",
+      "depth": 3,
+      "chain": [
+        "client/src/composables/booking/useBookingWizardSetup",
+        "client/src/composables/booking/useBookingWizard",
+        "client/src/composables/useBooking",
+        "client/src/composables/useGlobal"
+      ]
+    },
+    {
       "file": "client/src/composables/booking/useMoveablePartsScheduling",
       "depth": 3,
       "chain": [
@@ -46,29 +92,34 @@
       ]
     },
     {
-      "file": "client/src/composables/fieldContext/useFieldContext",
+      "file": "client/src/composables/fieldContext/useFieldContextState",
       "depth": 3,
       "chain": [
-        "client/src/composables/fieldContext/useFieldContext",
         "client/src/composables/fieldContext/useFieldContextState",
-        "client/src/composables/admin/useAdmin",
-        "client/src/composables/useGlobal"
-      ]
-    },
-    {
-      "file": "client/src/composables/formFields/useFormFields",
-      "depth": 3,
-      "chain": [
-        "client/src/composables/formFields/useFormFields",
-        "client/src/composables/formFields/useFormFieldsStandardLayout",
-        "client/src/composables/formFields/types",
-        "client/src/composables/fieldContext/types"
+        "client/src/composables/fieldContext/useFieldContextEntityDerived",
+        "client/src/composables/admin/useEntityMetadata",
+        "client/src/composables/admin/useMetadataCache"
       ]
     }
   ],
   "crossBoundary": [],
   "typeMirrorPaths": [],
   "files": [
+    {
+      "file": "client/src/composables/fieldContext/useFieldContext",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields",
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/admin/useInstancesTab",
+      "score": 4,
+      "priority": "P2"
+    },
     {
       "file": "client/src/composables/admin/usePartsCollectionField",
       "score": 4,
@@ -80,22 +131,27 @@
       "priority": "P2"
     },
     {
+      "file": "client/src/composables/booking/useBookingWizardSetup",
+      "score": 4,
+      "priority": "P2"
+    },
+    {
       "file": "client/src/composables/booking/useMoveablePartsScheduling",
       "score": 4,
       "priority": "P2"
     },
     {
-      "file": "client/src/composables/fieldContext/useFieldContext",
-      "score": 4,
-      "priority": "P2"
-    },
-    {
-      "file": "client/src/composables/formFields/useFormFields",
+      "file": "client/src/composables/fieldContext/useFieldContextState",
       "score": 4,
       "priority": "P2"
     },
     {
       "file": "client/src/constants/entities",
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/types/entities",
       "score": 2,
       "priority": "P2"
     }
