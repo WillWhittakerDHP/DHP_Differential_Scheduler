@@ -4,5 +4,5 @@ phase.id=6.7
 phase.name=Guide Template
 session.id=6.7.1
 session.name=** ** Backend — set scheduled_by_id on create from req.user
-task.id=6.7.1.1
-task.name=** Backend — set scheduled_by_id on create from req.user
+task.id=
+task.name=
