@@ -2,7 +2,7 @@
  * Fetches the list of appointments for the admin entry dropdown (Edit quote / Reschedule).
  * Session 6.8.6.3 — uses GET list-for-admin-entry; resolve client/agent names via users lookup.
  */
-import type { ComputedRef } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 import { getListForAdminEntryEndpoint } from '@/utils/api'
@@ -27,9 +27,9 @@ export function useListForAdminEntry(): UseListForAdminEntryReturn {
     },
   })
   return {
-    data: query.data,
-    isLoading: query.isLoading,
-    error: query.error,
+    data: computed(() => query.data.value),
+    isLoading: computed(() => query.isLoading.value),
+    error: computed(() => query.error.value),
     refetch: query.refetch,
   }
 }

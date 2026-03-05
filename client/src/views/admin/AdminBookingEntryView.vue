@@ -111,16 +111,16 @@ const canGo = computed(() => {
               >
                 <template #item="{ props: itemProps, item }">
                   <VListItem v-bind="itemProps">
-                    <VListItemTitle>{{ item.raw?.address || '—' }}</VListItemTitle>
+                    <VListItemTitle>{{ item?.address ?? '—' }}</VListItemTitle>
                     <VListItemSubtitle>
-                      Client: {{ item.raw?.clientName ?? '—' }} · Agent: {{ item.raw?.agentName ?? '—' }}
+                      Client: {{ item?.clientName ?? '—' }} · Agent: {{ item?.agentName ?? '—' }}
                     </VListItemSubtitle>
                   </VListItem>
                 </template>
                 <template #selection="{ item }">
-                  <span>{{ item.raw?.address || '—' }}</span>
-                  <span v-if="item.raw?.clientName || item.raw?.agentName" class="text-caption text-medium-emphasis ml-2">
-                    ({{ item.raw?.clientName }} / {{ item.raw?.agentName }})
+                  <span>{{ item?.address ?? '—' }}</span>
+                  <span v-if="item?.clientName || item?.agentName" class="text-caption text-medium-emphasis ml-2">
+                    ({{ item?.clientName }} / {{ item?.agentName }})
                   </span>
                 </template>
               </VSelect>
