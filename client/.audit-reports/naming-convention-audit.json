@@ -1,33 +1,18 @@
 {
-  "generatedAt": "2026-03-05T17:43:39.391Z",
+  "generatedAt": "2026-03-05T17:50:36.906Z",
   "totalScanned": 1108,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
+    "totalAllowed": 0,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 1,
+      "pattern": 0,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": [
-    {
-      "repoPath": "server/src/db/models/booking/constraint_override.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 34,
-          "line": "export function ConstraintOverrideFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    }
-  ]
+  "scanned": []
 }

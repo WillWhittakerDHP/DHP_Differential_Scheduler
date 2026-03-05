@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T17:43:39.081Z",
+  "generatedAt": "2026-03-05T17:50:36.393Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 9,
+  "totalScanned": 1,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 5,
-    "totalRequiresReview": 2,
+    "totalAllowed": 0,
+    "totalRequiresReview": 1,
     "bySource": {
-      "inline": 2,
+      "inline": 0,
       "pattern": 0,
-      "specific": 1,
-      "linePattern": 2
+      "specific": 0,
+      "linePattern": 0
     }
   },
   "entityKeys": [],
@@ -58,26 +58,26 @@
   ],
   "files": [
     {
-      "id": "server__src__routes__internal__appointments__appointmentCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+      "id": "server__src__routes__internal__appointments__forceCreateRouter.ts",
+      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/forceCreateRouter.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
         "caseString": 0,
         "fieldEqualsString": 0,
-        "fieldMapping": 2,
+        "fieldMapping": 1,
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 0
+        "magicLabel": 2
       },
       "reviewCounts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
         "caseString": 0,
         "fieldEqualsString": 0,
-        "fieldMapping": 2,
+        "fieldMapping": 1,
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
@@ -86,40 +86,33 @@
       },
       "matches": [
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 249,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {"
+          "ruleId": "magicLabel",
+          "lineNumber": 56,
+          "line": "return { valid: false, status: 400, message: 'Request body must be an object' }"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 75,
+          "line": "return { valid: false, status: 400, message: 'Slot duration must be at least 1 minute' }"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 298,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {"
+          "lineNumber": 158,
+          "line": "res.status(validation.status).json({ error: validation.message })"
         }
       ],
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 249,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 298,
-          "line": "onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {",
+          "lineNumber": 158,
+          "line": "res.status(validation.status).json({ error: validation.message })",
           "suppressionStatus": "unsuppressed"
         }
       ],
-      "score": 6,
+      "score": 3,
       "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
+      "suggestions": []
     }
   ]
 }

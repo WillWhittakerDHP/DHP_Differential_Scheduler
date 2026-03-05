@@ -5,6 +5,9 @@
  */
 
 import { Request, Response, Router } from 'express'
+import type { InferCreationAttributes } from 'sequelize'
+import type { MakeNullishOptional } from 'sequelize/types/utils.js'
+import type { Appointment as AppointmentModel } from '../../../db/models/booking/appointment.js'
 import { Appointment, ConstraintOverride } from '../../../config/app.js'
 import { requireAuth, requireRole, csrfProtection } from '../../../middlewares/security.js'
 import { getForceCreateSlotContext } from '../../../services/computedAvailabilityService.js'
@@ -191,9 +194,11 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
     }
 
     const [appointment] = await sequelize.transaction(async (transaction) => {
-      const created = await Appointment.create(appointmentPayload as Record<string, unknown>, {
-        transaction,
-      })
+      type CreationAttrs = MakeNullishOptional<InferCreationAttributes<AppointmentModel>>
+      const created = await Appointment.create(
+        appointmentPayload as CreationAttrs,
+        { transaction }
+      )
       await ConstraintOverride.create(
         {
           appointmentId: created.id,
