@@ -1362,6 +1362,20 @@
       ],
       "specific": [
         {
+          "file": "client/src/composables/admin/useEventInstancesSection.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Context required via prop only (InstancesTab → EventInstancesSection); no inject — data-flow-health fix"
+        },
+        {
+          "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "State required via prop only (BusinessControlsConstraintsSection → OverlapConstraintsPanel); no inject — data-flow-health fix"
+        },
+        {
           "file": "client/src/composables/booking/useWizardStepDataRefs.ts",
           "ruleIds": [
             "orphaned-injection-key"

@@ -1,8 +1,19 @@
+/**
+ * WHY: Single source of truth for Shapes tab API; compose from sub-composable return types
+ * to avoid duplication (duplication-audit, COMPOSABLE_AUTHORING_PLAYBOOK).
+ */
 import type { ComputedRef, Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseShapesTabModalsReturn } from '@/composables/admin/useShapesTabModals'
+import type { UseShapesTabCreationReturn } from '@/composables/admin/useShapesTabCreation'
 
-export interface UseShapesTabReturn {
+/** Flatten creation state + actions for UseShapesTabReturn (no duplicate key list). */
+type UseShapesTabCreationFlat = UseShapesTabCreationReturn['state'] & UseShapesTabCreationReturn['actions']
+
+export interface UseShapesTabReturn
+  extends UseShapesTabModalsReturn,
+    UseShapesTabCreationFlat {
   activeTab: Ref<string>
   blockShapesContainer: Ref<HTMLElement | null>
   partShapesContainer: Ref<HTMLElement | null>
@@ -18,34 +29,6 @@ export interface UseShapesTabReturn {
   partShapesTabLabel: ComputedRef<string>
   annotationShapesTabLabel: ComputedRef<string>
   eventShapesTabLabel: ComputedRef<string>
-  blockShapeMetadataModalOpen: Ref<boolean>
-  partShapeMetadataModalOpen: Ref<boolean>
-  partInstanceMetadataModalOpen: Ref<boolean>
-  annotationShapeMetadataModalOpen: Ref<boolean>
-  eventShapeMetadataModalOpen: Ref<boolean>
-  toggleBlockShapeMetadataModal: () => void
-  togglePartShapeMetadataModal: () => void
-  togglePartInstanceMetadataModal: () => void
-  handlePartInstanceMetadataSaved: () => void
-  toggleAnnotationShapeMetadataModal: () => void
-  toggleEventShapeMetadataModal: () => void
-  isCreatingPartShape: Ref<boolean>
-  isCreatingAnnotationShape: Ref<boolean>
-  isCreatingEventShape: Ref<boolean>
-  newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
-  newAnnotationShapeName: Ref<string>
-  newEventShapeName: Ref<string>
-  isCreatingAnnotationShapeLoading: Ref<boolean>
-  isCreatingEventShapeLoading: Ref<boolean>
-  createPartShape: () => void
-  startCreatingAnnotationShape: () => void
-  handlePartShapeCreated: (entity?: GlobalEntity<GlobalEntityKey>) => void
-  handlePartShapeCancelled: () => void
-  handleAnnotationShapeCreate: () => void
-  handleAnnotationShapeCancelled: () => void
-  startCreatingEventShape: () => void
-  handleEventShapeCreate: () => void
-  handleEventShapeCancelled: () => void
   handleDeletePartShape: (id: string) => void
   handleDeleteBlockShape: (id: string) => void
   handleDeleteAnnotationShape: (id: string) => void

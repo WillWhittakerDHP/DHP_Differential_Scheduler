@@ -38,80 +38,14 @@ These candidates were identified by pattern-detection audit as high-probability 
 ## Summary
 
 - Files scanned: **711**
-- Groups (window=10 lines, minOccurrences=2): **3**
+- Groups (window=10 lines, minOccurrences=2): **0**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-03ecf443188e` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@10`, `client/src/types/admin/shapesTab.ts@22` |
-| `dup-2f3ba6277c62` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabCreation.ts@16`, `client/src/types/admin/shapesTab.ts@32` |
-| `dup-8c3423862ea4` | 2 | 2 | 10 | `client/src/composables/admin/useShapesTabModals.ts@9`, `client/src/types/admin/shapesTab.ts@21` |
 
 ## Per-group details (top)
 
 When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
-
-### Group `dup-03ecf443188e`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/useShapesTabModals.ts` @ lines 10-19
-- `client/src/types/admin/shapesTab.ts` @ lines 22-31
-
-```
-partShapeMetadataModalOpen: Ref<boolean>
-partInstanceMetadataModalOpen: Ref<boolean>
-annotationShapeMetadataModalOpen: Ref<boolean>
-eventShapeMetadataModalOpen: Ref<boolean>
-toggleBlockShapeMetadataModal: () => void
-togglePartShapeMetadataModal: () => void
-togglePartInstanceMetadataModal: () => void
-handlePartInstanceMetadataSaved: () => void
-toggleAnnotationShapeMetadataModal: () => void
-toggleEventShapeMetadataModal: () => void
-```
-
-### Group `dup-2f3ba6277c62`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/useShapesTabCreation.ts` @ lines 16-27
-- `client/src/types/admin/shapesTab.ts` @ lines 32-41
-
-```
-isCreatingPartShape: Ref<boolean>
-isCreatingAnnotationShape: Ref<boolean>
-isCreatingEventShape: Ref<boolean>
-newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
-newAnnotationShapeName: Ref<string>
-newEventShapeName: Ref<string>
-isCreatingAnnotationShapeLoading: Ref<boolean>
-isCreatingEventShapeLoading: Ref<boolean>
-createPartShape: () => void
-startCreatingAnnotationShape: () => void
-```
-
-### Group `dup-8c3423862ea4`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/admin/useShapesTabModals.ts` @ lines 9-18
-- `client/src/types/admin/shapesTab.ts` @ lines 21-30
-
-```
-blockShapeMetadataModalOpen: Ref<boolean>
-partShapeMetadataModalOpen: Ref<boolean>
-partInstanceMetadataModalOpen: Ref<boolean>
-annotationShapeMetadataModalOpen: Ref<boolean>
-eventShapeMetadataModalOpen: Ref<boolean>
-toggleBlockShapeMetadataModal: () => void
-togglePartShapeMetadataModal: () => void
-togglePartInstanceMetadataModal: () => void
-handlePartInstanceMetadataSaved: () => void
-toggleAnnotationShapeMetadataModal: () => void
-```

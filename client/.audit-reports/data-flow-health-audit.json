@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-05T16:48:13.078Z",
+  "generatedAt": "2026-03-05T16:55:35.377Z",
   "totalScanned": 418,
   "inputAudits": {
     "importGraph": {
@@ -112,156 +112,17 @@
       "recommendedFix": "Consolidate to single channel to avoid ambiguity."
     }
   ],
-  "findings": [
-    {
-      "file": "client/src/composables/admin/useEventInstancesSection.ts",
-      "lineNumber": 21,
-      "ruleId": "provide-inject-depth",
-      "snippet": "inject('instancesTabContextKey') — provider in client/src/composables/admin/useInstancesTab.ts",
-      "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/composables/admin/useInstancesTab.ts → ... → client/src/composables/admin/useEventInstancesSection.ts); consider direct composable access.",
-      "fixHint": "Use a composable instead of deep provide/inject.",
-      "confidence": "medium",
-      "phase": "B",
-      "flowPath": [
-        "client/src/composables/admin/useInstancesTab.ts",
-        "client/src/composables/admin/useEventInstancesSection.ts"
-      ],
-      "detail": {
-        "providerFile": "client/src/composables/admin/useInstancesTab.ts",
-        "consumerFile": "client/src/composables/admin/useEventInstancesSection.ts",
-        "depth": -1,
-        "key": "instancesTabContextKey"
-      },
-      "affectedFiles": 2,
-      "isPublicBoundary": true
-    },
-    {
-      "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-      "lineNumber": 41,
-      "ruleId": "provide-inject-depth",
-      "snippet": "inject('BUSINESS_CONTROLS_STATE_KEY') — provider in client/src/views/admin/tabs/BusinessControlsTab.vue",
-      "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/views/admin/tabs/BusinessControlsTab.vue → ... → client/src/composables/admin/useOverlapConstraintsPanel.ts); consider direct composable access.",
-      "fixHint": "Use a composable instead of deep provide/inject.",
-      "confidence": "medium",
-      "phase": "B",
-      "flowPath": [
-        "client/src/views/admin/tabs/BusinessControlsTab.vue",
-        "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-      ],
-      "detail": {
-        "providerFile": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-        "consumerFile": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-        "depth": -1,
-        "key": "BUSINESS_CONTROLS_STATE_KEY"
-      },
-      "affectedFiles": 2,
-      "isPublicBoundary": true
-    },
-    {
-      "file": "client/src/composables/admin/useEventInstancesSection.ts",
-      "lineNumber": 21,
-      "ruleId": "bidirectional-data-channel",
-      "snippet": "inject('instancesTabContextKey') + composable import in same file",
-      "message": "Data 'instancesTabContextKey' accessible via both inject and direct composable import; consolidate to single channel.",
-      "fixHint": "Choose one channel: either inject or composable import.",
-      "confidence": "low",
-      "phase": "B",
-      "detail": {
-        "key": "instancesTabContextKey",
-        "composableImports": [
-          "instancesTabContextKey"
-        ]
-      },
-      "affectedFiles": 1,
-      "isPublicBoundary": false
-    }
-  ],
+  "findings": [],
   "flowMaps": {
-    "provideSites": 29,
-    "injectSites": 51,
+    "provideSites": 30,
+    "injectSites": 50,
     "matchedPairs": 16,
     "unmatchedProvides": 13,
     "unmatchedInjects": 8
   },
-  "files": [
-    {
-      "file": "client/src/composables/admin/useEventInstancesSection.ts",
-      "score": 2,
-      "priority": "P2",
-      "affectedFiles": 2
-    },
-    {
-      "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-      "score": 2,
-      "priority": "P2",
-      "affectedFiles": 2
-    }
-  ],
+  "files": [],
   "repairWaves": {
-    "contained": [
-      {
-        "file": "client/src/composables/admin/useEventInstancesSection.ts",
-        "lineNumber": 21,
-        "ruleId": "provide-inject-depth",
-        "snippet": "inject('instancesTabContextKey') — provider in client/src/composables/admin/useInstancesTab.ts",
-        "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/composables/admin/useInstancesTab.ts → ... → client/src/composables/admin/useEventInstancesSection.ts); consider direct composable access.",
-        "fixHint": "Use a composable instead of deep provide/inject.",
-        "confidence": "medium",
-        "phase": "B",
-        "flowPath": [
-          "client/src/composables/admin/useInstancesTab.ts",
-          "client/src/composables/admin/useEventInstancesSection.ts"
-        ],
-        "detail": {
-          "providerFile": "client/src/composables/admin/useInstancesTab.ts",
-          "consumerFile": "client/src/composables/admin/useEventInstancesSection.ts",
-          "depth": -1,
-          "key": "instancesTabContextKey"
-        },
-        "affectedFiles": 2,
-        "isPublicBoundary": true
-      },
-      {
-        "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-        "lineNumber": 41,
-        "ruleId": "provide-inject-depth",
-        "snippet": "inject('BUSINESS_CONTROLS_STATE_KEY') — provider in client/src/views/admin/tabs/BusinessControlsTab.vue",
-        "message": "Provide/inject chain spans 3+ (no direct import path) levels (client/src/views/admin/tabs/BusinessControlsTab.vue → ... → client/src/composables/admin/useOverlapConstraintsPanel.ts); consider direct composable access.",
-        "fixHint": "Use a composable instead of deep provide/inject.",
-        "confidence": "medium",
-        "phase": "B",
-        "flowPath": [
-          "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "client/src/composables/admin/useOverlapConstraintsPanel.ts"
-        ],
-        "detail": {
-          "providerFile": "client/src/views/admin/tabs/BusinessControlsTab.vue",
-          "consumerFile": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-          "depth": -1,
-          "key": "BUSINESS_CONTROLS_STATE_KEY"
-        },
-        "affectedFiles": 2,
-        "isPublicBoundary": true
-      },
-      {
-        "file": "client/src/composables/admin/useEventInstancesSection.ts",
-        "lineNumber": 21,
-        "ruleId": "bidirectional-data-channel",
-        "snippet": "inject('instancesTabContextKey') + composable import in same file",
-        "message": "Data 'instancesTabContextKey' accessible via both inject and direct composable import; consolidate to single channel.",
-        "fixHint": "Choose one channel: either inject or composable import.",
-        "confidence": "low",
-        "phase": "B",
-        "detail": {
-          "key": "instancesTabContextKey",
-          "composableImports": [
-            "instancesTabContextKey"
-          ]
-        },
-        "affectedFiles": 1,
-        "isPublicBoundary": false
-      }
-    ],
+    "contained": [],
     "moderate": [],
     "systemic": []
   }

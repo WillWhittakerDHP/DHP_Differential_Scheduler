@@ -5,7 +5,7 @@ import { useEventInstancesSection } from '@/composables/admin/useEventInstancesS
 import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
 
 const props = defineProps<{
-  instancesTabContext?: InstancesTabContext
+  instancesTabContext: InstancesTabContext
 }>()
 
 const {

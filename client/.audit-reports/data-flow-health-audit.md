@@ -4,15 +4,15 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-03-05T16:48:13.078Z
+Generated: 2026-03-05T16:55:35.377Z
 
 ## Overview
 
 - Files scanned: **418**
-- Findings: **3**
-- Files with findings: **2**
+- Findings: **0**
+- Files with findings: **0**
 - Phase A (per-file) findings: **0**
-- Phase B (cross-file) findings: **3**
+- Phase B (cross-file) findings: **0**
 
 ## Input Audit Status
 
@@ -37,41 +37,19 @@ Generated: 2026-03-05T16:48:13.078Z
 | orphaned-injection-key | B | P2 | 1 | Provide key with no matching inject or vice versa. |
 | bidirectional-data-channel | B | info | 0 | Same data accessible via both inject and direct composable import. |
 
-## By rule
-
-| Rule | Phase | Severity | Count |
-| --- | --- | --- | ---: |
-| provide-inject-depth | B | P1 | 2 |
-| bidirectional-data-channel | B | info | 1 |
-
 ## Flow Maps Summary
 
-- Provide sites: **29**
-- Inject sites: **51**
+- Provide sites: **30**
+- Inject sites: **50**
 - Matched pairs: **16**
 - Unmatched provides: **13**
 - Unmatched injects: **8**
 
 ## Repair Waves
 
-- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 3 finding(s)
+- **Wave 1 — Contained** (affectedFiles ≤ 2 or per-file): 0 finding(s)
 - **Wave 2 — Moderate** (affectedFiles 3–5): 0 finding(s)
 - **Wave 3 — Systemic** (affectedFiles ≥ 6): 0 finding(s)
-
-## Top 2 files by score
-
-| File | Priority | Score | Affected |
-| --- | --- | ---: | ---: |
-| `client/src/composables/admin/useEventInstancesSection.ts` | P2 | 2 | 2 |
-| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | P2 | 2 | 2 |
-
-## All findings (first 60)
-
-| File | Line | Rule | Phase | Message | Affected |
-| --- | ---: | --- | --- | --- | ---: |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 21 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useOverlapConstraintsPanel.ts` | 41 | provide-inject-depth | B | Provide/inject chain spans 3+ (no direct import... | 2 |
-| `client/src/composables/admin/useEventInstancesSection.ts` | 21 | bidirectional-data-channel | B | Data 'instancesTabContextKey' accessible via bo... | 1 |
 
 ## Notes
 

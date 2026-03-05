@@ -1590,10 +1590,10 @@ computed@70: const composerName = computed(() => {
 
 ```
 computed@27: const eventInstancesDisplay = computed(() => {
-computed@32: const eventShapesList = computed(() => ctx.eventShapes.value)
+computed@32: const eventShapesList = computed(() => resolvedCtx.eventShapes.value)
 computed@33: const hasEventInstances = computed(() => {
-computed@37: const isLoading = computed(() => ctx.isLoadingEventInstances.value)
-computed@38: const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
+computed@37: const isLoading = computed(() => resolvedCtx.isLoadingEventInstances.value)
+computed@38: const templateWarningsUnwrapped = computed(() => resolvedCtx.templateWarnings.value)
 ```
 
 ### `client/src/composables/admin/useOverlapConstraintsPanel.ts`

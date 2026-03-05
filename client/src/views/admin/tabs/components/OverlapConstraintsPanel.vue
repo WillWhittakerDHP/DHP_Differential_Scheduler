@@ -9,7 +9,7 @@ import { useOverlapConstraintsPanel } from '@/composables/admin/useOverlapConstr
 import type { BusinessControlsState } from '@/views/admin/tabs/businessControlsStateKey'
 
 const props = defineProps<{
-  businessControlsState?: BusinessControlsState
+  businessControlsState: BusinessControlsState
 }>()
 
 const overlap = useOverlapConstraintsPanel(props.businessControlsState)

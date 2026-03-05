@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T16:48:13.200Z",
+  "generatedAt": "2026-03-05T16:54:55.910Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -446,84 +446,5 @@
     ]
   },
   "duplicateComposableExports": [],
-  "groups": [
-    {
-      "groupId": "dup-03ecf443188e",
-      "hash": "03ecf443188e",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "partShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void\ntoggleEventShapeMetadataModal: () => void",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
-          "startLine": 10,
-          "endLine": 19,
-          "windowText": "partShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void\ntoggleEventShapeMetadataModal: () => void",
-          "target": "client/src/composables/admin/useShapesTabModals.ts"
-        },
-        {
-          "repoPath": "client/src/types/admin/shapesTab.ts",
-          "startLine": 22,
-          "endLine": 31,
-          "windowText": "partShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void\ntoggleEventShapeMetadataModal: () => void",
-          "target": "client/src/types/admin/shapesTab.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-2f3ba6277c62",
-      "hash": "2f3ba6277c62",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
-          "startLine": 16,
-          "endLine": 27,
-          "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
-          "target": "client/src/composables/admin/useShapesTabCreation.ts"
-        },
-        {
-          "repoPath": "client/src/types/admin/shapesTab.ts",
-          "startLine": 32,
-          "endLine": 41,
-          "windowText": "isCreatingPartShape: Ref<boolean>\nisCreatingAnnotationShape: Ref<boolean>\nisCreatingEventShape: Ref<boolean>\nnewPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>\nnewAnnotationShapeName: Ref<string>\nnewEventShapeName: Ref<string>\nisCreatingAnnotationShapeLoading: Ref<boolean>\nisCreatingEventShapeLoading: Ref<boolean>\ncreatePartShape: () => void\nstartCreatingAnnotationShape: () => void",
-          "target": "client/src/types/admin/shapesTab.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-8c3423862ea4",
-      "hash": "8c3423862ea4",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "blockShapeMetadataModalOpen: Ref<boolean>\npartShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/admin/useShapesTabModals.ts",
-          "startLine": 9,
-          "endLine": 18,
-          "windowText": "blockShapeMetadataModalOpen: Ref<boolean>\npartShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void",
-          "target": "client/src/composables/admin/useShapesTabModals.ts"
-        },
-        {
-          "repoPath": "client/src/types/admin/shapesTab.ts",
-          "startLine": 21,
-          "endLine": 30,
-          "windowText": "blockShapeMetadataModalOpen: Ref<boolean>\npartShapeMetadataModalOpen: Ref<boolean>\npartInstanceMetadataModalOpen: Ref<boolean>\nannotationShapeMetadataModalOpen: Ref<boolean>\neventShapeMetadataModalOpen: Ref<boolean>\ntoggleBlockShapeMetadataModal: () => void\ntogglePartShapeMetadataModal: () => void\ntogglePartInstanceMetadataModal: () => void\nhandlePartInstanceMetadataSaved: () => void\ntoggleAnnotationShapeMetadataModal: () => void",
-          "target": "client/src/types/admin/shapesTab.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    }
-  ]
+  "groups": []
 }

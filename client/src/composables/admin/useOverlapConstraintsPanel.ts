@@ -1,11 +1,9 @@
 /**
- * WHY: Prefer prop-based state when provided to avoid deep provide/inject (data-flow-health audit).
+ * WHY: State required via prop to avoid deep provide/inject (data-flow-health audit).
+ * OverlapConstraintsPanel receives businessControlsState from BusinessControlsConstraintsSection.
  */
-import { computed, inject } from 'vue'
-import {
-  BUSINESS_CONTROLS_STATE_KEY,
-  type BusinessControlsState,
-} from '@/views/admin/tabs/businessControlsStateKey'
+import { computed } from 'vue'
+import type { BusinessControlsState } from '@/views/admin/tabs/businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import {
   ENFORCEMENT_OPTIONS,
@@ -36,11 +34,7 @@ export interface UseOverlapConstraintsPanelReturn {
   handleBuffersDriveFromCandidateEnforcement: (v: 'off' | 'flexible' | 'hard') => void
 }
 
-export function useOverlapConstraintsPanel(stateParam?: BusinessControlsState): UseOverlapConstraintsPanelReturn {
-  const state: NonNullable<BusinessControlsState> | undefined =
-    stateParam ?? (inject(BUSINESS_CONTROLS_STATE_KEY) as BusinessControlsState | undefined)
-  if (!state) throw new Error('OverlapConstraintsPanel must be used inside BusinessControlsTab or receive businessControlsState prop')
-
+export function useOverlapConstraintsPanel(state: NonNullable<BusinessControlsState>): UseOverlapConstraintsPanelReturn {
   const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
   const enforcementOptions = ENFORCEMENT_OPTIONS
   const bufferPlacementOptions = BUFFER_PLACEMENT_OPTIONS

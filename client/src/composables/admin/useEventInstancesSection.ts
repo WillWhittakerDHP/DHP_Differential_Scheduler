@@ -1,7 +1,8 @@
 /**
+ * WHY: Context required via prop to avoid deep provide/inject (data-flow-health audit).
+ * EventInstancesSection receives instancesTabContext from InstancesTab and passes it here.
  */
-import { computed, inject } from 'vue'
-import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { computed } from 'vue'
 import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
 import type { ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
@@ -17,10 +18,8 @@ export interface UseEventInstancesSectionReturn {
   toggleEventInstanceMetadata: () => void
 }
 
-export function useEventInstancesSection(context?: InstancesTabContext): UseEventInstancesSectionReturn {
-  let ctx: InstancesTabContext | undefined = context ?? (inject(instancesTabContextKey) as InstancesTabContext | undefined)
-  if (!ctx) throw new Error('EventInstancesSection must be used inside InstancesTab or receive instancesTabContext prop')
-  const resolvedCtx: InstancesTabContext = ctx as InstancesTabContext
+export function useEventInstancesSection(context: InstancesTabContext): UseEventInstancesSectionReturn {
+  const resolvedCtx: InstancesTabContext = context
 
   const expandedInstances = resolvedCtx.expandedInstances
 
