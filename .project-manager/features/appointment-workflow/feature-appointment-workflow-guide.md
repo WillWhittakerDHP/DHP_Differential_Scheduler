@@ -37,13 +37,31 @@
 
 **Block-level `agentPermissions`** — Add to block_instances a column `agent_permissions` (TernaryBoolean: `'true' | 'false' | 'override'`), same pattern as `differential`. `true` = feature/block is for agents; `false` = for clients; `override` = admins can use regardless. Full stack: migration → model → versioning (if used) → client types → transformer. **Effective permission** is derived from (user role, block.agentPermissions): e.g. admin always allowed; agent allowed when `agentPermissions === 'true' || 'override'`; client when `'false' || 'override'`. Tooltips and permissions (Override constraints, future agent-only features) are driven by this state so they remain variable and consistent.
 
-**Admin entry: step 0 or pre-wizard** — For admins only, before or as step 0 of the wizard: choose **Start new inspection** | **Edit quote** | **Reschedule**. When “Edit quote” or “Reschedule” is selected, show a **dropdown of non-completed inspections** (exclude statuses `cancelled`, `deleted`; optionally filter by status for quote vs reschedule). List is also filtered by an admin-configurable **time-out** (e.g. only appointments where scheduling began within the last X days/weeks, or the quote has been in quote status for the last X; X set in admin panel). Appointment picker dropdown shows columns: **Address**, **Client name**, **Agent name**. Selection sets wizard mode and `loadedAppointmentId`; then the wizard proceeds (e.g. load appointment and go to step 3 for edit/reschedule). Requires an API that returns appointments filtered by status, by time-out window, and (by permission once Feature 7 is in place).
+**Admin entry: step 0 or pre-wizard** — For admins only, before or as step 0 of the wizard: choose **Start new inspection** | **Edit quote** | **Reschedule**. When “Edit quote” or “Reschedule” is selected, show a **dropdown of non-completed inspections** (exclude statuses `cancelled`, `deleted`; optionally filter by status for quote vs reschedule). List is also filtered by an admin-configurable **time-out** (e.g. only appointments where scheduling began within the last X days/weeks, or the quote has been in quote status for the last X; X set in admin panel, e.g. Business Controls → Calendar or Confirmation & Holds). Appointment picker dropdown shows columns: **Address**, **Client name**, **Agent name**. Selection sets wizard mode and `loadedAppointmentId`; then the wizard proceeds (e.g. load appointment and go to step 3 for edit/reschedule). **API:** List appointments filtered by status, by time-out window, and (post–Feature 7) by permission.
 
 **State** — Tooltips and permissions are driven by state: **(wizard mode, user role, block.agentPermissions)**. Admins get override behavior for `agentPermissions`; wizard mode drives submit label and action; user role gates Hold Slot, Override constraints, Force schedule.
 
 ---
 
 ## Phases Breakdown
+
+### Phase status (quick reference)
+
+| Phase | Name | Status | What |
+|-------|------|--------|------|
+| 6.1 | Status Workflow & UI Enhancements | Complete (Jan 2026) | — |
+| 6.2 | Held & Override Stubs | Complete | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
+| 6.3 | Confirmation Routine | Complete | submitted to confirmed; admin or auto confirm; notifications. |
+| 6.4 | Moveable Modal & preClosing | Not Started | preClosing property; differential consolidation; modal gate logic; UX softening; re-enable MoveablePartsModal; unified required-confirmation modal shell (6.4.4). |
+| 6.5 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard (same flow as quote/dev load at step 3); bypass current appointment as constraint (`reschedulingAppointmentId`); UI indicator for original inspection slot. |
+| 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
+| 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
+| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
+| 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
+| 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
+| 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
+
+---
 
 - [x] ### Phase 6.1: Status Workflow & UI Enhancements
 **Description:** Updated status ENUM from 5 to 8 values, added `scheduled_by_id` column, interactive tooltips, cross-tab navigation, and color-coded status chips.
@@ -62,10 +80,10 @@
 - Client UI elements exist but are properly gated
 - Enactment requirements documented for Feature 7
 
-- [ ] ### Phase 6.3: Confirmation Routine
+- [x] ### Phase 6.3: Confirmation Routine
 **Description:** Implement submitted → confirmed transition with status transition guards, admin confirmation action, optional auto-confirm, and notification stubs.
 **Sessions:** 3 (6.3.1: Data Model & Transition Guards, 6.3.2: Admin Confirmation & Auto-Confirm, 6.3.3: Notifications & Docs)
-**Status:** In Progress (Session 6.3.1 complete)
+**Status:** Complete
 **Success Criteria:**
 - Status transition validation prevents invalid transitions
 - Confirmation timestamps auto-populated
@@ -74,7 +92,7 @@
 - Notification stubs ready for Feature 7 email
 
 - [ ] ### Phase 6.4: Moveable Modal & preClosing Property
-**Description:** Refine MoveablePartsModal; add `preClosing` to block_instances; consolidate differential derivation; gate modal on preClosing services; soften UX; re-enable modal.
+**Description:** Refine MoveablePartsModal; add `preClosing` to block_instances; consolidate differential derivation; gate modal on preClosing services; soften UX; re-enable modal. Session 6.4.4: Unified required-confirmation modal shell — one shell component for all "must complete before next step" modals (property, moveable, future submit); MoveablePartsModal and PropertyConfirmationModal use it; transitions/sizing live in the shell only.
 **Sessions:** 1+ (6.4.1+)
 **Dependencies:** Phase 6.3 (Confirmation Routine)
 **Success Criteria:**
@@ -84,7 +102,7 @@
 - Modal re-enabled, smaller, delayed, animated
 
 - [ ] ### Phase 6.5: Rescheduling Flow
-**Description:** Reschedule confirmed appointments using the same flow as quote and dev-mode load: appointment loads at step 3 (Availability); user adjusts and reschedules. The current appointment stays on the calendar but is temporarily excluded from availability constraints so its time and drive buffers do not block slots; the original inspection slot has a distinct UI indicator (e.g. different color or overlay).
+**Description:** Reschedule confirmed appointments using the same flow as quote and dev-mode load: appointment loads at step 3 (Availability); user adjusts and reschedules. **Wizard mode** is the single source of truth for flow type (`initial` | `quote` | `reschedule`); **user role** (post–Feature 7) is a separate axis (admin vs non-admin drives visibility of Hold Slot, Override constraints, Force schedule). Reuse `handleLoadAppointment` and update path. The current appointment stays on the calendar but is temporarily excluded from availability constraints so its time and drive buffers do not block slots; the original inspection slot has a distinct UI indicator (e.g. different color or overlay).
 **Sessions:** 3–4 (6.5.1 entry/transitions, 6.5.2 availability bypass, 6.5.3 original-inspection UI, 6.5.4 client-facing links)
 **Dependencies:** Phase 6.3 (transition guards: confirmed → rescheduling → submitted)
 **Success Criteria:**
@@ -125,7 +143,7 @@
 - Full architecture, data model, and implementation details in phase guide
 
 - [ ] ### Phase 6.9: Availability Step Mini-Wizard
-**Description:** Reframe the Appointment Availability (3rd) wizard step as a mini-wizard: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time. Wide screens: expanded panels with step labels; narrow screens: each sub-step as an expandable card, current step expanded and completed steps showing a done indicator when collapsed.
+**Description:** Reframe the Appointment Availability (3rd) wizard step as a mini-wizard: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time. Wide screens: expanded panels with step labels; Narrow screens: collapse each sub-step into an expandable card; current sub-step expanded by default; completed sub-steps show a done indicator when collapsed.
 **Sessions:** To be planned (1–2)
 **Dependencies:** Phase 6.4 (differential consolidation and option blocks in place). No new backend; UX and layout only.
 **Success Criteria:**
@@ -138,6 +156,8 @@
 - [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
 **Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
 **Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
+- **Session 6.10.1:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
+- **Session 6.10.2:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
 **Dependencies:** None (reuses `buildConfirmationPriceData`, existing Confirmation step fee UI, and availability settings payload).
 **Success Criteria:**
 - Admin: "Show apply coupon in wizard" switch in Confirmation & Holds; setting persisted and read by wizard
@@ -146,8 +166,9 @@
 **See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`
 
 - [ ] ### Phase 6.11: Drive Time Fee Line Item
-**Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence:** Store drive time in the fee breakdown using a single system "Drive time" block instance (virtual block — one row in block_instances, not user-selectable; amount stored in the fee entry only) so the current schema (appointment_fee_entries require block_instance_id) is unchanged.
+**Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence (virtual block instance):** Preserve drive time in the stored fee breakdown by using a single system "Drive time" block instance (one real row in `block_instances` with lineItem block shape, not user-selectable). The block has minimal/zero parts so the normal block fee formula yields 0; the actual amount is stored only in the fee entry: when persisting, add one `appointment_fee_entries` row with that block's id, `block_name` "Drive time", and computed fee in `total_fee`/`base_fee`. This keeps `block_instance_id` required and avoids schema changes; reporting and existing "every entry has a block" assumptions remain valid. Ensure the drive-time block exists (e.g. seed or create per calendar) and is excluded from wizard block selection.
 **Sessions:** 1 (6.11.1: settings, calculation, line item, persistence via virtual block)
+- **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
 **Dependencies:** Availability/slot pipeline exposes drive-to and drive-from minutes for the selected slot; fee pipeline (`buildConfirmationPriceData`) and Confirmation step (and Phase 6.10 fee popover) already show line items.
 **Success Criteria:**
 - Admin: complimentary drive (min), driving rate ($/hr), and drive-time rounding (min) configurable and persisted
@@ -163,6 +184,13 @@
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`.
 
 **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`.
+
+Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
+
+**Key Files:**
+- **Workflow:** Feature 6 appointment-workflow planning (see Related Documents)
+- **Calculations:** confirmationStepData, partsTotals, pricingCascadeResolver, appointmentTimeCalculations, useTimeSlotCalculations, BlockFinal/PartFinals (booking utils)
+- **Archived planning:** booking-calculations planning (archived in `../booking-calculations/`)
 
 **Remaining:**
 - **useFeeCalculations composable:** Consolidate fee logic parallel to `useTimeSlotCalculations()`
@@ -281,11 +309,16 @@ After completing all phases in a feature:
 
 ## Related Documents
 
-- Feature Log: `.project-manager/features/appointment-workflow/feature-appointment-workflow-log.md`
-- Feature Handoff: `.project-manager/features/appointment-workflow/feature-appointment-workflow-handoff.md`
-- Booking Calculations Guide: `.project-manager/features/appointment-workflow/feature-booking-calculations-guide.md`
-- Booking Calculations Handoff: `.project-manager/features/appointment-workflow/feature-booking-calculations-handoff.md`
-- Phase Guides: `.project-manager/features/appointment-workflow/phases/`
-- Phase 6.5 Guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
+- Feature Log: `feature-appointment-workflow-log.md`
+- Feature Handoff: `feature-appointment-workflow-handoff.md`
+- Booking Calculations Guide: `../booking-calculations/feature-booking-calculations-guide.md`
+- Booking Calculations Handoff: `../booking-calculations/feature-booking-calculations-handoff.md`
+- Phase 6.4 Guide: `phases/phase-6.4-guide.md` (Moveable Modal & preClosing)
+- Phase 6.5 Guide: `phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
+- Phase 6.8 Guide: `phases/phase-6.8-guide.md` (architecture, data model, implementation checklist, decision log for Admin Force-Create)
+- Phase 6.9 Guide: `phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
+- Phase 6.10 Guide: `phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
+- Phase 6.11 Guide: `phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6)
 

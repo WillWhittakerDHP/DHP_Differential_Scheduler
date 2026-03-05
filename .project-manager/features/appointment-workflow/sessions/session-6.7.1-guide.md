@@ -29,7 +29,7 @@
 
 **Checkpoint:** Authenticated create → scheduled_by_id set; unauthenticated → null. Verify per tierUp success criteria.
 
-- [ ] #### Task 6.7.1.2: Set scheduled_by_id in create path from req.user and block client override
+- [x] #### Task 6.7.1.2: Set scheduled_by_id in create path from req.user and block client override
 
 **Goal:** Set scheduled_by_id on the appointment create path from req.user (Feature 7); do not allow the client to supply this field on create.
 
