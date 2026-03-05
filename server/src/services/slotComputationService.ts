@@ -22,6 +22,9 @@ import {
   checkRangeConstraints,
   checkOverlapConstraints,
   checkCapacityConstraints,
+  collectRangeViolationKeys,
+  collectOverlapViolationKeys,
+  collectCapacityViolationKeys,
 } from './slotConstraintCheckers.js'
 
 const logger = createLogger('SlotComputationService')
@@ -40,6 +43,46 @@ function generateSlotsForDay(
     minuteIncrement,
     requestEndBoundary
   )
+}
+
+/** Report of all violation keys for a slot (force-create; no short-circuit). */
+export interface ForceCreateViolationReport {
+  violations: string[]
+}
+
+/**
+ * Runs all constraint checks for a single slot without short-circuiting;
+ * returns every violation key (range, overlap, capacity). Used for admin force-create.
+ */
+export function computeViolationsForSlot(
+  slotStart: Date,
+  slotEnd: Date,
+  durationMinutes: number,
+  rangeConstraints: RangeConstraint[],
+  overlapConstraints: OverlapConstraint[],
+  capacityConstraints: CapacityConstraint[],
+  eventsWithDrive: EventWithDrive[],
+  now: Date
+): ForceCreateViolationReport {
+  const rangeKeys = collectRangeViolationKeys(
+    slotStart,
+    slotEnd,
+    rangeConstraints,
+    now
+  )
+  const overlapKeys = collectOverlapViolationKeys(
+    slotStart,
+    slotEnd,
+    eventsWithDrive
+  )
+  const capacityKeys = collectCapacityViolationKeys(
+    slotStart,
+    durationMinutes,
+    capacityConstraints
+  )
+  return {
+    violations: [...rangeKeys, ...overlapKeys, ...capacityKeys],
+  }
 }
 
 function mapToEventWithDrive(
@@ -69,7 +112,7 @@ function mapToEventWithDrive(
   }
 }
 
-function attachDriveTimesToEvents(
+export function attachDriveTimesToEvents(
   regularEvents: CalendarEvent[],
   outOfOfficeEvents: CalendarEvent[],
   driveTimesByPlaceId: Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>,

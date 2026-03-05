@@ -77,7 +77,7 @@ const router = createCrudRouter({
     }
   },
   /** Set scheduledById from authenticated user on create; client cannot override (Phase 6.7 / Feature 7). */
-  beforeCreate: async (req: Request, res: Response): Promise<void> => {
+  beforeCreate: async (req: Request, _res: Response): Promise<void> => {
     const authReq = req as Request & { user?: { id: string } }
     const userId = authReq.user?.id ?? null
     if (req.body && typeof req.body === 'object') {

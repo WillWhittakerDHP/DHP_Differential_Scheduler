@@ -60,7 +60,7 @@ These sections contain session-specific content:
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
-- [ ] #### Task 6.8.1.2: [Task Name]
+- [x] #### Task 6.8.1.2: [Task Name]
 
 **Goal:** Create the constraint_overrides persistence layer and force-create API so admins can create an appointment on a blocked slot with stored override metadata (migration, model, computeViolationsForSlot, POST force-create route with auth/role and validation).
 

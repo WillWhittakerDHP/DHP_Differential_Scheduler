@@ -7,9 +7,12 @@ import type {
   BusinessHoursConfig,
   Constraint,
   RangeConstraint,
+  OverlapConstraint,
+  CapacityConstraint,
 } from '../../../shared/types/availabilityTypes.js'
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
-import { computeSlotsForDateRange } from './slotComputationService.js'
+import { computeSlotsForDateRange, attachDriveTimesToEvents } from './slotComputationService.js'
+import type { EventWithDrive } from './slotConstraintCheckers.js'
 import { AppointmentAttendee, BusinessSettings } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
 import {
@@ -452,4 +455,76 @@ export async function computeAvailabilityData(
   logger.info(`[dataSource=${dataSource}] Computed slot availability in ${duration}ms`)
 
   return computedData
+}
+
+/** Context for force-create: constraints and events for a single slot (used by computeViolationsForSlot). */
+export interface ForceCreateSlotContext {
+  rangeConstraints: RangeConstraint[]
+  overlapConstraints: OverlapConstraint[]
+  capacityConstraints: CapacityConstraint[]
+  eventsWithDrive: EventWithDrive[]
+}
+
+/**
+ * Prepares constraint and event context for a single slot (admin force-create).
+ * Fetches settings, calendar events, drive times, enriches capacity, and returns
+ * grouped constraints + eventsWithDrive for computeViolationsForSlot.
+ */
+export async function getForceCreateSlotContext(
+  slotStart: Date,
+  slotEnd: Date,
+  durationMinutes: number,
+  candidatePlaceId?: string
+): Promise<ForceCreateSlotContext> {
+  const settings = await fetchAvailabilitySettings()
+  const constraints = extractConstraints(settings)
+  const dayStart = new Date(slotStart)
+  dayStart.setUTCHours(0, 0, 0, 0)
+  const dayEnd = new Date(slotEnd)
+  dayEnd.setUTCHours(23, 59, 59, 999)
+  const dateRange = {
+    start: dayStart.toISOString(),
+    end: dayEnd.toISOString(),
+  }
+  const calendarEmails = getReadFromCalendars(settings.calendarConfig)
+  const calendarEnabled =
+    calendarEmails.length > 0 && (settings.calendarConfig?.enabled ?? false)
+  const { events: allCalendarEvents } = await fetchAndDedupeCalendarEvents(
+    calendarEmails,
+    dateRange,
+    calendarEnabled
+  )
+  const { regularEvents, outOfOfficeEvents } = partitionByEventType(allCalendarEvents)
+  const driveTimesByPlaceId = calendarEnabled
+    ? await calculateDriveTimesForPlaceIds(allCalendarEvents, candidatePlaceId)
+    : {}
+  const { capacity } = groupConstraintsByCategory(constraints)
+  const { scheduledHoursByKey, scheduledIncomeByKey } =
+    await computeScheduledHoursForRange(dateRange, capacity)
+  const enrichedConstraints = enrichCapacityConstraintsWithHours(
+    constraints,
+    scheduledHoursByKey,
+    scheduledIncomeByKey
+  )
+  const { range: rangeConstraints, overlap: overlapConstraints, capacity: capacityConstraints } =
+    groupConstraintsByCategory(enrichedConstraints)
+  const rawOooEnforcement = settings.overlapSources?.outOfOffice?.enforcement
+  const oooEnforcement =
+    rawOooEnforcement !== undefined && rawOooEnforcement !== null ? rawOooEnforcement : 'hard'
+  const effectiveOooEnforcement: 'flexible' | 'hard' =
+    oooEnforcement === 'flexible' ? 'flexible' : 'hard'
+  const effectiveOutOfOffice = oooEnforcement === 'off' ? [] : outOfOfficeEvents
+  const eventsWithDrive = attachDriveTimesToEvents(
+    regularEvents,
+    effectiveOutOfOffice,
+    driveTimesByPlaceId,
+    true,
+    effectiveOooEnforcement
+  )
+  return {
+    rangeConstraints,
+    overlapConstraints,
+    capacityConstraints,
+    eventsWithDrive,
+  }
 }

@@ -34,6 +34,7 @@ export const {
   AppointmentAttendee,
   AppointmentFeeSummary,
   AppointmentFeeEntry,
+  ConstraintOverride,
   BusinessSettings,
   BusinessRule,
   AdminMetadata,

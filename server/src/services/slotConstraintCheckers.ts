@@ -218,3 +218,59 @@ export function checkCapacityConstraints(
   })
   return { passes: true, violations }
 }
+
+/** Collect all range violation keys for a slot without short-circuiting (for force-create report). */
+export function collectRangeViolationKeys(
+  slotStart: Date,
+  slotEnd: Date,
+  rangeConstraints: RangeConstraint[],
+  now: Date
+): string[] {
+  const keys: string[] = []
+  for (const constraint of rangeConstraints) {
+    const result = checkOneRangeConstraint(slotStart, slotEnd, constraint, now)
+    if (result.violation) {
+      keys.push(result.violation)
+    } else if (!result.passes) {
+      keys.push(`range.${constraint.type}`)
+    }
+  }
+  return keys
+}
+
+/** Collect all overlap violation keys for a slot (for force-create report). */
+export function collectOverlapViolationKeys(
+  slotStart: Date,
+  slotEnd: Date,
+  eventsWithDrive: EventWithDrive[]
+): string[] {
+  const slotRange = { start: slotStart, end: slotEnd }
+  return eventsWithDrive.flatMap((event) =>
+    getOverlapViolationsForEvent(slotRange, event).map((item) => item.violation)
+  )
+}
+
+/** Collect all capacity violation keys for a slot without short-circuiting (for force-create report). */
+export function collectCapacityViolationKeys(
+  slotStart: Date,
+  durationMinutes: number,
+  capacityConstraints: CapacityConstraint[]
+): string[] {
+  if (capacityConstraints.length === 0) return []
+  const slotDate = extractDateFromRFC3339(slotStart.toISOString())
+  const durationHours = durationMinutes / 60
+  const keys: string[] = []
+  for (const constraint of capacityConstraints) {
+    const result = checkOneCapacityConstraint(
+      slotDate,
+      durationHours,
+      constraint
+    )
+    if (result.violation) {
+      keys.push(result.violation)
+    } else if (!result.passes) {
+      keys.push(`capacity.${constraint.type}`)
+    }
+  }
+  return keys
+}

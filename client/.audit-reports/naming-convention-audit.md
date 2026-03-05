@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-05T17:30:33.769Z
+Generated at: 2026-03-05T17:43:39.394Z
 
 ## Summary
 
-- Total allowed: **0**
+- Total allowed: **1**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,4 +20,6 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-- (no exceptions configured)
+| File | Rule | Line | Source | Reason |
+| --- | --- | ---: | --- | --- |
+| `server/src/db/models/booking/constraint_override.ts` | functionExport | 34 | pattern | Sequelize model factory convention: ModelNameFactory |

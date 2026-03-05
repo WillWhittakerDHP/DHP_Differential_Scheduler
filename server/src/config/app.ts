@@ -34,6 +34,7 @@ export {
   AppointmentAttendee,
   AppointmentFeeSummary,
   AppointmentFeeEntry,
+  ConstraintOverride,
   BusinessSettings,
   BusinessRule,
   AdminMetadata,
