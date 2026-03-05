@@ -329,6 +329,12 @@ export interface ComputedAvailabilityRequest {
   appointmentId?: string
   /** @deprecated Use appointmentId. Kept for compatibility during migration. */
   reschedulingAppointmentId?: string
+  /**
+   * Violation keys the server may relax for this request (e.g. from constraint_override.overridden_violations).
+   * When present with appointmentId/reschedulingAppointmentId, server verifies keys against stored override
+   * and applies relaxConstraintsForExceptions before slot computation (Task 6.8.2.2).
+   */
+  allowedExceptions?: string[]
   duration: number                    // appointment duration in minutes (for capacity keys)
   /**
    * Controls which external APIs the server calls:
