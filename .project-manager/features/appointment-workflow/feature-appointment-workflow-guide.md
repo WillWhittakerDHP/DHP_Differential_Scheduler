@@ -59,7 +59,7 @@
 | 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
 | 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
 | 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
-| 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
+| 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time → confirm moveable details (optional); responsive expandable panels on narrow screens. Sessions 6.9.1 (structure & cards), 6.9.2 (replace MoveablePartsModal with 5th sub-step, deprecate modal). |
 | 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 
@@ -145,13 +145,14 @@
 - Full architecture, data model, and implementation details in phase guide
 
 - [ ] ### Phase 6.9: Availability Step Mini-Wizard
-**Description:** Reframe the Appointment Availability (3rd) wizard step as a mini-wizard: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time. Wide screens: expanded panels with step labels; Narrow screens: collapse each sub-step into an expandable card; current sub-step expanded by default; completed sub-steps show a done indicator when collapsed.
-**Sessions:** To be planned (1–2)
+**Description:** Reframe the Appointment Availability (3rd) wizard step as a mini-wizard: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time, (5) Confirm moveable details — optional, when the selected slot has moveable parts and the service has preClosing. Replace MoveablePartsModal with this optional 5th sub-step; deprecate the modal. Wide screens: expanded panels with step labels; Narrow screens: collapse each sub-step into an expandable card; current sub-step expanded by default; completed sub-steps show a done indicator when collapsed.
+**Sessions:** 2 (6.9.1: structure & responsive cards; 6.9.2: replace MoveablePartsModal with 5th sub-step, deprecate modal)
 **Dependencies:** Phase 6.4 (differential consolidation and option blocks in place). No new backend; UX and layout only.
 **Success Criteria:**
-- Sub-steps ordered and labeled (day → options [if any] → perspective [if differential] → time)
+- Sub-steps ordered and labeled (day → options [if any] → perspective [if differential] → time → confirm moveable [when applicable])
 - Block instance options appear as a dedicated sub-step when available
 - Perspective sub-step only visible when date selected and booking is differential
+- MoveablePartsModal replaced by optional 5th sub-step; modal deprecated and not used in AvailabilityStep
 - Wide: all panels expanded; narrow: expandable cards per sub-step with smart expand/collapse and done state
 - Existing validation and differential/slot behavior unchanged
 

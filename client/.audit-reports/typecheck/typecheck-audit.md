@@ -12,21 +12,18 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-05T21:24:27.152Z**
+- Generated at: **2026-03-05T21:27:45.232Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **1**
-- **Errors requiring review: 11**
+- Exit code: **0**
+- **Errors requiring review: 0**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **3**
+- Pools: **0**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS2339-ts2339-prop-raw` | 90 | 8 | 1 | 0 | 0 |
-| P0 | `TS2322-ts2322-assign-ref-ref-computedref` | 24 | 2 | 1 | 0 | 0 |
-| P1 | `TS2322-ts2322-assign-ref-ref-ref-computedref` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -37,28 +34,3 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `src/views/admin/AdminBookingEntryView.vue`
-
-- errors: 8, unsafeCasts: 0, suppressions: 0
-
-```
-TS2339@114:45 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@116:39 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@116:82 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@121:33 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@122:36 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@122:60 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@123:30 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-TS2339@123:59 Property 'raw' does not exist on type '{ clientName: string; agentName: string; id: string; address: string; clientUserId: string | null; agentUserId: string | null; }'.
-```
-
-### `src/composables/booking/useListForAdminEntry.ts`
-
-- errors: 3, unsafeCasts: 0, suppressions: 0
-
-```
-TS2322@30:5 Type 'Ref<undefined, undefined> | Ref<AdminEntryAppointmentItem[], AdminEntryAppointmentItem[]>' is not assignable to type 'ComputedRef<AdminEntryAppointmentItem[] | undefined>'.
-TS2322@31:5 Type 'Ref<boolean, boolean> | Ref<false, false> | Ref<true, true>' is not assignable to type 'ComputedRef<boolean>'.
-TS2322@32:5 Type 'Ref<Error, Error> | Ref<null, null>' is not assignable to type 'ComputedRef<unknown>'.
-```

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T20:43:07.573Z",
+  "generatedAt": "2026-03-05T21:29:04.204Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 268,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 102,
+    "filesWithInlineTypes": 103,
     "annotated": 325,
     "unannotated": 0,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 72,
+      "inlineTypesInComposables": 73,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -7007,15 +7007,16 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "AttendeeRequest"
+        "AttendeeRequest",
+        "AdminEntryAppointmentItem"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 1,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 11,
+      "lineCount": 24,
       "purpose": "Shared appointment data structure types",
       "reuseTier": "shared",
       "tags": [],
@@ -7115,16 +7116,18 @@
       "location": "dedicated",
       "exports": [
         "CalendarProvider",
+        "AdminEntryTimeoutUnit",
         "CalendarEntry",
+        "AdminEntryTimeout",
         "CalendarConfig"
       ],
       "exportKinds": {
-        "types": 1,
-        "interfaces": 2,
+        "types": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 34,
+      "lineCount": 45,
       "purpose": "Shared calendar event and scheduling types",
       "reuseTier": "shared",
       "tags": [],
@@ -8148,7 +8151,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 39,
+      "lineCount": 41,
       "purpose": "Availability settings config barrel export",
       "reuseTier": "feature",
       "tags": [],
@@ -8176,7 +8179,7 @@
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 164,
+      "lineCount": 166,
       "purpose": "Availability settings type definitions for configs",
       "reuseTier": "feature",
       "tags": [],
@@ -8199,7 +8202,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 215,
+      "lineCount": 217,
       "purpose": "Business controls tab UI string constants",
       "reuseTier": "feature",
       "tags": [],
@@ -9421,6 +9424,16 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/booking/useListForAdminEntry.ts",
+      "exportedTypes": [
+        "UseListForAdminEntryReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/booking/useMoveableAvailabilityData.ts",
       "exportedTypes": [
         "UseMoveableAvailabilityDataParams",
@@ -10418,6 +10431,16 @@
           "exportedTypes": [
             "UseDelayedModalVisibilityParams",
             "UseDelayedModalVisibilityReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useListForAdminEntry.ts",
+          "exportedTypes": [
+            "UseListForAdminEntryReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -11760,7 +11783,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 39,
+        "lineCount": 41,
         "purpose": "Availability settings config barrel export",
         "reuseTier": "feature",
         "tags": [],
@@ -11788,7 +11811,7 @@
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 164,
+        "lineCount": 166,
         "purpose": "Availability settings type definitions for configs",
         "reuseTier": "feature",
         "tags": [],
@@ -11811,7 +11834,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 215,
+        "lineCount": 217,
         "purpose": "Business controls tab UI string constants",
         "reuseTier": "feature",
         "tags": [],

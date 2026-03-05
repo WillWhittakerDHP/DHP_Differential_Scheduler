@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **267**
+- Total composable files scanned: **268**
 
 ## Top hotspots (heuristic)
 
@@ -879,6 +879,22 @@ sort@68: return resolved.sort((a, b) => a.orderIndex - b.orderIndex)
 filter@88: const matchingPartInstances = allPartInstances.filter((pp) => {
 ```
 
+### `client/src/composables/admin/useCalendarHoldFormState.ts`
+
+- counts: vueQuery=0, watch=0, computed=9, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@50: const calendarEnabled = computed({
+computed@62: const calendarProvider = computed({
+computed@75: const holdDurationMinutes = computed({
+computed@90: const holdDurationMin = computed({
+computed@103: const holdDurationMax = computed({
+computed@116: const holdDurationFallback = computed({
+computed@129: const adminEntryTimeoutValue = computed({
+computed@148: const adminEntryTimeoutUnit = computed({
+computed@183: const saveButtonProps = computed(() => ({
+```
+
 ### `client/src/composables/booking/dev/usePanelPosition.ts`
 
 - counts: vueQuery=0, watch=2, computed=0, ref=2, async=1, await=1, dom=0, console=0
@@ -1151,20 +1167,6 @@ async@53: const handleSaveCreate = async (): Promise<void> => {
 await@58: await saveCreate()
 async@61: const handleSaveEdit = async (): Promise<void> => {
 await@66: await saveEdit()
-```
-
-### `client/src/composables/admin/useCalendarHoldFormState.ts`
-
-- counts: vueQuery=0, watch=0, computed=7, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@47: const calendarEnabled = computed({
-computed@59: const calendarProvider = computed({
-computed@72: const holdDurationMinutes = computed({
-computed@87: const holdDurationMin = computed({
-computed@100: const holdDurationMax = computed({
-computed@113: const holdDurationFallback = computed({
-computed@142: const saveButtonProps = computed(() => ({
 ```
 
 ### `client/src/composables/admin/useDragAndDrop.ts`
@@ -1447,6 +1449,19 @@ timers@54: setTimeout(() => {
 lifecycle@62: onUnmounted(() => {
 ```
 
+### `client/src/composables/booking/useListForAdminEntry.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=1, await=1, dom=0, console=0
+
+```
+async@24: queryFn: async (): Promise<AdminEntryAppointmentItem[]> => {
+await@25: const { data } = await apiClient.get<AdminEntryAppointmentItem[]>(getListForAdminEntryEndpoint())
+computed@30: data: computed(() => query.data.value),
+computed@31: isLoading: computed(() => query.isLoading.value),
+computed@32: error: computed(() => query.error.value),
+filter@40: return [user.firstName, user.lastName].filter(Boolean).join(' ').trim() || '—'
+```
+
 ### `client/src/composables/booking/usePricingCascadeInstances.ts`
 
 - counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
@@ -1541,11 +1556,11 @@ async@27: deleteItem: async (id) => remove.mutateAsync(id),
 - counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@79: const durationRoundingEnabled = computed({
-computed@86: const durationRoundingIncrement = computed({
-computed@93: const durationRoundingMethod = computed({
-computed@102: const timezone = computed({
-computed@109: const minuteIncrement = computed({
+computed@83: const durationRoundingEnabled = computed({
+computed@90: const durationRoundingIncrement = computed({
+computed@97: const durationRoundingMethod = computed({
+computed@106: const timezone = computed({
+computed@113: const minuteIncrement = computed({
 ```
 
 ### `client/src/composables/admin/useBusinessRules.ts`
@@ -2073,6 +2088,16 @@ computed@30: const contentContainerClasses = computed(() => {
 computed@31: const selectedBlockId = computed({
 computed@47: const selectedBlockIds = computed({
 map@48: get: () => selectedBlocks.value.map(b => b.id),
+```
+
+### `client/src/composables/booking/useBookingWizardSetup.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+lifecycle@5: import { computed, provide, onMounted } from 'vue'
+lifecycle@153: onMounted(() => {
+computed@173: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 ```
 
 ### `client/src/composables/booking/useInstanceComponents.ts`
@@ -2686,14 +2711,6 @@ computed@31: const shouldShowGridInline = computed(() => {
 
 ```
 computed@36: selectedDate: computed(() => selectedDate.value.start)
-```
-
-### `client/src/composables/booking/useBookingWizardSetup.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@159: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 ```
 
 ### `client/src/composables/booking/useDateRangeDecider.ts`

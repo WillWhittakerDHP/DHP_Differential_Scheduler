@@ -10,9 +10,9 @@
 
 **Phase Number:** 6.9
 **Phase Name:** Availability Step Mini-Wizard
-**Description:** Reframe "Find a day/time slot" (step 3) as a mini-wizard with explicit sub-steps: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time. On wide screens all sub-steps are expanded panels with step labels; on narrow screens each sub-step is an expandable card, with the current step expanded and completed steps showing a done indicator when collapsed.
+**Description:** Reframe "Find a day/time slot" (step 3) as a mini-wizard with explicit sub-steps: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time, (5) Confirm moveable details — optional, only when the selected slot has moveable parts and the service has preClosing. On wide screens all sub-steps are expanded panels with step labels; on narrow screens each sub-step is an expandable card, with the current step expanded and completed steps showing a done indicator when collapsed. MoveablePartsModal is replaced by this optional 5th sub-step and deprecated.
 
-**Duration:** 1–2 sessions (TBD)
+**Duration:** 2 sessions
 **Status:** Not Started
 
 ---
@@ -31,12 +31,13 @@
 
 ## Phase Objectives
 
-- Introduce a mini-wizard structure within the Availability step with four sub-steps: Day → Options (if any) → Perspective (if differential) → Time.
+- Introduce a mini-wizard structure within the Availability step with sub-steps: Day → Options (if any) → Perspective (if differential) → Time → Confirm moveable details (optional, when slot has moveable parts and service has preClosing).
 - Treat block instance options as a first-class sub-step when they exist, so users see that options affect the differential/availability result.
 - Show the perspective sub-step only when a date is selected and the booking is differential.
-- Wide screens: keep current expanded layout; add clear step labels/numbers (e.g. "1. Pick a day", "2. Options", "3. Perspective", "4. Pick a time").
+- Replace MoveablePartsModal with an optional 5th sub-step (Confirm moveable details); deprecate the modal — no longer the default implementation.
+- Wide screens: keep current expanded layout; add clear step labels/numbers (e.g. "1. Pick a day", "2. Options", "3. Perspective", "4. Pick a time", "5. Confirm moveable details" when applicable).
 - Narrow screens: render each sub-step as an expandable card; expand the current sub-step by default; when a sub-step is completed, show a done indicator on the collapsed card; optionally auto-expand the next card and collapse the previous on completion.
-- Preserve existing validation, differential derivation, and slot behavior; change presentation and layout only.
+- Preserve existing validation, differential derivation, and slot behavior; change presentation and layout only (moveable content moves from modal to in-step panel).
 
 ---
 
@@ -50,9 +51,17 @@
 - Narrow layout: wrap each sub-step in an expandable card (e.g. VExpansionPanel or custom); current step expanded by default; completed steps show done indicator when collapsed; consider auto-expand next / collapse previous on completion.
 - Ensure options sub-step is visible and ordered before perspective when options exist.
 - No changes to orchestrator validation or slot calculation; wire existing components into the new structure.
+- Refine animations, focus management, and a11y for expandable cards if scope allows (keyboard, aria-expanded, focus trap, reduced motion); otherwise defer to follow-up.
 
-**Description:** Refine animations, focus management, and a11y for expandable cards; session may be merged into 6.9.1 if scope is small.
-**Tasks:** To be planned if needed (keyboard, aria-expanded, focus trap, reduced motion).
+- [ ] ### Session 6.9.2: Replace MoveablePartsModal with Optional 5th Sub-Step
+**Description:** Replace the MoveablePartsModal (contingency deadline and completion times) with an optional 5th sub-step of the Availability mini-wizard. When the selected slot has moveable parts and the service has preClosing, show "5. Confirm moveable details" as a sub-step (same content as current modal: contingency questions, available completion times). Deprecate MoveablePartsModal — remove its use from AvailabilityStep; keep the component only as deprecated (or remove once in-step implementation is stable).
+**Tasks:**
+- Add optional 5th sub-step to the sub-step model: "Confirm moveable details", visible only when slot has moveable parts and service has preClosing (same gate as current `hasMoveablePartsGated` / `showMoveableModal` logic).
+- Implement moveable-details content inline in the Availability step (e.g. same UI as MoveablePartsModal body: contingency deadline, completion time grid) as the 5th sub-step panel/card. Reuse or extract shared logic (e.g. contingency state, moveable options fetch) into a composable or shared component used by the in-step UI.
+- Remove MoveablePartsModal from AvailabilityStep.vue; do not keep the modal as the default implementation.
+- Mark MoveablePartsModal as deprecated (JSDoc/comment and optionally export a deprecation notice); remove the component in a later cleanup if desired, or leave as deprecated for reference.
+- Ensure slot selection is only considered complete (and step valid) when moveable sub-step is either not applicable or confirmed — same behavior as current modal gate.
+- Wide/narrow layout: 5th sub-step follows same pattern as others (expanded panel with label, or expandable card).
 
 ---
 
@@ -71,12 +80,14 @@
 
 ## Success Criteria
 
-- [ ] Sub-steps are defined and ordered: Day → Options (if any) → Perspective (if differential) → Time.
+- [ ] Sub-steps are defined and ordered: Day → Options (if any) → Perspective (if differential) → Time → Confirm moveable details (optional, when applicable).
 - [ ] Block instance options appear as a dedicated sub-step when `availableOptionTypeBlocks.length > 0`.
 - [ ] Perspective sub-step is only visible when a date is selected and the booking is differential.
+- [ ] MoveablePartsModal replaced by optional 5th sub-step; modal deprecated and no longer used in AvailabilityStep.
+- [ ] When slot has moveable parts and service has preClosing, "Confirm moveable details" appears as 5th sub-step with same behavior (contingency + completion times); slot selection complete only after confirmation or when not applicable.
 - [ ] Wide screens: all sub-steps visible as expanded panels with step labels.
 - [ ] Narrow screens: each sub-step is an expandable card; current step expanded; completed steps show a done indicator when collapsed.
-- [ ] Existing validation, differential logic, and slot selection behavior unchanged.
+- [ ] Existing validation, differential logic, and slot selection behavior unchanged (except moveable flow is in-step).
 - [ ] Linting passes; app starts without errors.
 
 ---
