@@ -297,7 +297,7 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 | 6.5 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard (same flow as quote/dev load at step 3); bypass current appointment as constraint (`reschedulingAppointmentId`); UI indicator for original inspection slot. |
 | 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
 | 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
-| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
+| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. Sessions 6.8.5 (block-level agentPermissions), 6.8.6 (admin entry: Start new \| Edit quote \| Reschedule + dropdown). |
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
 | 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
@@ -323,10 +323,12 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - **Original-inspection slot UI:** Pass the loaded appointment’s time range into the slot grid; mark slots that match/overlap the original time; style with a distinct class (e.g. `appointment-slot-btn--original-inspection`) or overlay so the current time is visible but still selectable.
 - **See:** `features/appointment-workflow/phases/phase-6.5-guide.md` for sessions, implementation details, and relation to Phase 6.8 (allowedExceptions).
 
-### Block-level permissions and admin entry (Feature 6)
+### Block-level permissions and admin entry (Feature 6 — Phase 6.8)
 
-- **`agentPermissions` on block_instances:** Add column `agent_permissions` (TernaryBoolean: `'true' | 'false' | 'override'`), same pattern as `differential`. Full stack: migration → model → versioning (if used) → client types → transformer. `true` = agents only; `false` = clients; `override` = admins can use regardless. Drives which blocks/features (e.g. blocker override, future agent features) are visible or usable per role. **Effective permission:** state combines user role (client / agent / admin) with block’s `agentPermissions` so tooltips and permissions (Override constraints, Hold Slot, Force schedule, etc.) are variable and state-driven; admins get override.
-- **Admin step 0 or pre-wizard:** For admins only, before (or as step 0 of) the wizard: choose **Start new inspection** | **Edit quote** | **Reschedule**. When “Edit quote” or “Reschedule” is selected, show a **dropdown of non-completed inspections** (exclude statuses `cancelled`, `deleted`; optionally filter by status for Edit quote vs Reschedule). Filter by a **time-out** setting from the admin panel (e.g. only appointments where scheduling began within the last X days/weeks, or the quote has been in quote status for the last X days/weeks; X configurable in admin, e.g. Business Controls → Calendar or Confirmation & Holds). Picker is a dropdown with columns: **Address**, **Client name**, **Agent name**. Selection sets wizard mode and `loadedAppointmentId`; then wizard proceeds (e.g. to step 3 for edit/reschedule). API: list appointments filtered by status, by time-out window, and (post–Feature 7) by permission.
+**Implementation:** Phase 6.8, Session 6.8.5 (agentPermissions) and Session 6.8.6 (admin entry). See `features/appointment-workflow/phases/phase-6.8-guide.md`, `sessions/session-6.8.5-guide.md`, `sessions/session-6.8.6-guide.md`.
+
+- **`agentPermissions` on block_instances (Session 6.8.5):** Add column `agent_permissions` (TernaryBoolean: `'true' | 'false' | 'override'`), same pattern as `differential`. Full stack: migration → model → versioning (if used) → client types → transformer. `true` = agents only; `false` = clients; `override` = admins can use regardless. Drives which blocks/features (e.g. blocker override, future agent features) are visible or usable per role. **Effective permission:** state combines user role (client / agent / admin) with block’s `agentPermissions` so tooltips and permissions (Override constraints, Hold Slot, Force schedule, etc.) are variable and state-driven; admins get override.
+- **Admin step 0 or pre-wizard (Session 6.8.6):** For admins only, before (or as step 0 of) the wizard: choose **Start new inspection** | **Edit quote** | **Reschedule**. When “Edit quote” or “Reschedule” is selected, show a **dropdown of non-completed inspections** (exclude statuses `cancelled`, `deleted`; optionally filter by status for Edit quote vs Reschedule). Filter by a **time-out** setting from the admin panel (e.g. only appointments where scheduling began within the last X days/weeks, or the quote has been in quote status for the last X days/weeks; X configurable in admin, e.g. Business Controls → Calendar or Confirmation & Holds). Picker is a dropdown with columns: **Address**, **Client name**, **Agent name**. Selection sets wizard mode and `loadedAppointmentId`; then wizard proceeds (e.g. to step 3 for edit/reschedule). API: list appointments filtered by status, by time-out window, and (post–Feature 7) by permission.
 
 ### Phase 6.9: Availability Step Mini-Wizard (Not Started)
 - Reframe the 3rd wizard step (Appointment Availability) as a mini-wizard with ordered sub-steps: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time.
@@ -362,7 +364,8 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 ### Related Documents
 - Phase 6.4 Guide: `features/appointment-workflow/phases/phase-6.4-guide.md` (Moveable Modal & preClosing)
 - Phase 6.5 Guide: `features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
-- Phase 6.8 Guide: `features/appointment-workflow/phases/phase-6.8-guide.md` (architecture, data model, implementation checklist, decision log for Admin Force-Create)
+- Phase 6.8 Guide: `features/appointment-workflow/phases/phase-6.8-guide.md` (architecture, data model, Sessions 6.8.5 agentPermissions and 6.8.6 admin entry, decision log for Admin Force-Create)
+- Session 6.8.5: `features/appointment-workflow/sessions/session-6.8.5-guide.md` (Block-level agentPermissions); Session 6.8.6: `features/appointment-workflow/sessions/session-6.8.6-guide.md` (Admin entry step 0 / pre-wizard)
 - Phase 6.9 Guide: `features/appointment-workflow/phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
@@ -414,7 +417,7 @@ Implement the following so that authenticated users and roles are used where oth
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
 - [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
-- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.5 / 6.8).
+- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.8; agentPermissions in Session 6.8.5).
 - [ ] **Guided alpha / feedback:** Where Feature 9 (Guided Alpha Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
 - [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
 - [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
@@ -547,7 +550,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ### Related Documents
 
 - LAUNCH_CHECKLIST.md Phase 6A (guided testing; update to "Guided Alpha")
-- Feature 6 (Appointment Workflow) — wizard steps, modes, admin entry
+- Feature 6 (Appointment Workflow) — wizard steps, modes; admin entry in Phase 6.8 Session 6.8.6
 - Feature 10 (Testing & Quality Validation) — E2E tests derived from alpha task list
 - **Feature 9 Session 9.4.1:** `features/guided-alpha-testing/sessions/session-9.4.1-guide.md` — User Feedback & Error Wiring (rename to user_feedback, wire all feedback/errors)
 - **Feature 9 Guide:** `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` — phases 9.1–9.4, implementation order, session 9.4.1 (mirrors this section).
