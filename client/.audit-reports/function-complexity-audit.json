@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T20:11:04.051Z",
+  "generatedAt": "2026-03-05T20:12:24.845Z",
   "totalScanned": 1044,
   "totalAllowed": 0,
   "tierModel": "tier1",
@@ -18,37 +18,5 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": [
-    {
-      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "functions": [
-        {
-          "name": "getWriteToCalendarFromSettings",
-          "startLine": 102,
-          "endLine": 151,
-          "length": 50,
-          "maxNesting": 4,
-          "branches": 5,
-          "params": 0,
-          "returns": 6,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 6,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    }
-  ]
+  "files": []
 }
