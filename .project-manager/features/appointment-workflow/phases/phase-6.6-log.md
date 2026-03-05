@@ -21,6 +21,14 @@
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
+- Completed ** Soft Delete vs Hard Delete — policy, UI, retention/audit
+
+
+
+### Session 6.6.1: Policy, UI, and retention/audit ✅
+**Completed:** 2026-03-05
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
 - Completed ** 6.6
 
 
