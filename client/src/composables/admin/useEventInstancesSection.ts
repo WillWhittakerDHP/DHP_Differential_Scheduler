@@ -21,28 +21,29 @@ export interface UseEventInstancesSectionReturn {
 export function useEventInstancesSection(context?: InstancesTabContext): UseEventInstancesSectionReturn {
   let ctx: InstancesTabContext | undefined = context ?? (inject(instancesTabContextKey) as InstancesTabContext | undefined)
   if (!ctx) throw new Error('EventInstancesSection must be used inside InstancesTab or receive instancesTabContext prop')
+  const resolvedCtx: InstancesTabContext = ctx as InstancesTabContext
 
-  const expandedInstances = ctx.expandedInstances
+  const expandedInstances = resolvedCtx.expandedInstances
 
   const eventInstancesDisplay = computed(() => {
-    const list = ctx.eventInstancesList.value
-    const filtered = ctx.filteredEventInstances.value
+    const list = resolvedCtx.eventInstancesList.value
+    const filtered = resolvedCtx.filteredEventInstances.value
     return list.length > 0 ? list : filtered
   })
-  const eventShapesList = computed(() => ctx.eventShapes.value)
+  const eventShapesList = computed(() => resolvedCtx.eventShapes.value)
   const hasEventInstances = computed(() => {
-    const arr = ctx.eventInstances.value
+    const arr = resolvedCtx.eventInstances.value
     return Array.isArray(arr) && arr.length > 0
   })
-  const isLoading = computed(() => ctx.isLoadingEventInstances.value)
-  const templateWarningsUnwrapped = computed(() => ctx.templateWarnings.value)
+  const isLoading = computed(() => resolvedCtx.isLoadingEventInstances.value)
+  const templateWarningsUnwrapped = computed(() => resolvedCtx.templateWarnings.value)
 
   function toggleEventInstanceMetadata(): void {
-    ctx.eventInstanceMetadataModalOpen.value = !ctx.eventInstanceMetadataModalOpen.value
+    resolvedCtx.eventInstanceMetadataModalOpen.value = !resolvedCtx.eventInstanceMetadataModalOpen.value
   }
 
   return {
-    ctx,
+    ctx: resolvedCtx,
     expandedInstances,
     eventInstancesDisplay,
     eventShapesList,
