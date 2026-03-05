@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T15:05:45.939Z",
+  "generatedAt": "2026-03-05T15:55:55.026Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -5482,7 +5482,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 98,
+      "lineCount": 100,
       "purpose": "Core entity type definitions (runtime helpers moved to utils/globalEntity.ts).",
       "reuseTier": "shared",
       "tags": [
@@ -8703,7 +8703,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 130,
+      "lineCount": 138,
       "purpose": "Event instance form field configuration",
       "reuseTier": "feature",
       "tags": [
@@ -12315,7 +12315,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 130,
+        "lineCount": 138,
         "purpose": "Event instance form field configuration",
         "reuseTier": "feature",
         "tags": [
