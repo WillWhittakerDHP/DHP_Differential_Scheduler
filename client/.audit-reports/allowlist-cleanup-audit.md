@@ -1,18 +1,14 @@
 # Allowlist Cleanup Audit (Generated)
 
-Generated at: 2026-03-06T01:30:34.160Z
+Generated at: 2026-03-06T01:40:46.644Z
 
 ## Summary
 
-- Suppression hits recorded: **1** (type-import)
-- Missing audit JSON inputs: **1**
+- Suppression hits recorded: **2** (error-handling, type-import)
+- Missing audit JSON inputs: **0**
 - Prune suggestions: **0**
 - Missing allowlist specific file references: **0**
 - Never-permissible allowlist violations: **0**
-
-## Missing Audit JSON Inputs
-
-- `client/.audit-reports/error-handling-audit.json`
 
 ## Result
 
