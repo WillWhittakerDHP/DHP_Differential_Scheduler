@@ -153,15 +153,15 @@ const availabilitySubSteps = computed(() => {
           <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
             {{ availabilitySubSteps[1].label }}
           </p>
+          <AvailabilityOptionsSection
+            :has-selected-services="o.wizard.selectedServiceTypeBlocks.value.length > 0"
+            :cascade-error="o.wizard.availabilityOptionsCascadeError?.value ?? null"
+            :available-option-type-blocks="o.wizard.availableOptionTypeBlocks.value"
+            :selected-option-type-block-id="o.selectedOptionTypeBlockId.value"
+            class="availability-options-below-calendar"
+            @update:selected-option-type-block-id="onOptionIdUpdate"
+          />
         </template>
-        <AvailabilityOptionsSection
-          :has-selected-services="o.wizard.selectedServiceTypeBlocks.value.length > 0"
-          :cascade-error="o.wizard.availabilityOptionsCascadeError?.value ?? null"
-          :available-option-type-blocks="o.wizard.availableOptionTypeBlocks.value"
-          :selected-option-type-block-id="o.selectedOptionTypeBlockId.value"
-          class="availability-options-below-calendar"
-          @update:selected-option-type-block-id="onOptionIdUpdate"
-        />
       </VCol>
 
       <VCol cols="12" class="time-selection-col">
@@ -207,7 +207,9 @@ const availabilitySubSteps = computed(() => {
               <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
                 {{ availabilitySubSteps[4].label }}
               </p>
-              <p class="text-body-small text-medium-emphasis">Confirm moveable details when applicable (content in Session 6.9.4).</p>
+              <div class="availability-step-5-slot">
+                <p class="text-body-small text-medium-emphasis">Confirm moveable details when applicable (content in Session 6.9.4).</p>
+              </div>
             </template>
           </template>
           <template v-else>
@@ -379,5 +381,13 @@ const availabilitySubSteps = computed(() => {
 
 .availability-step-label {
   color: rgb(var(--v-theme-on-surface));
+}
+
+/* Reserved slot for sub-step 5 (Confirm moveable details); content in Session 6.9.4 */
+.availability-step-5-slot {
+  padding: 1rem;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 4px;
+  background: rgba(var(--v-theme-surface-variant), 0.3);
 }
 </style>

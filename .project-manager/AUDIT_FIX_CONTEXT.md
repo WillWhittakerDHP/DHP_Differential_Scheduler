@@ -45,6 +45,8 @@ When fixing a specific audit category, attach the corresponding report so the ag
 
 ## Copy-paste block (for /audit-fix command or manual use)
 
+**Tier- and report-pertinent refs:** When you run `/audit-fix` with a report path (or with tier from `.tier-scope`), the command attaches only the playbooks relevant to that audit type or tier (via `.cursor/commands/utils/tier-context-config.ts`). When you invoke without a report path or tier, or when the tier is feature, the full list below is used. The copy-paste block remains the full list for manual use.
+
 Paste the line below into chat (after the audit report path if you have one) so Cursor attaches all required governance context. Add the audit report path as an extra @ ref when fixing a specific report.
 
 ```
