@@ -4,6 +4,7 @@
 WHY: Components should be thin UI wrappers -...
  */
 import { ref, nextTick, computed } from 'vue'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import { fieldKeyboardGuard } from '@/utils/admin/fieldKeyboardGuard'
 import { createLogger } from '@/utils/logger'
 import type { UseSelectHandlersOptions, UseSelectHandlersReturn } from '@/types/admin/selectHandlers'
@@ -33,17 +34,16 @@ export function useSelectHandlers(
 
   const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
     const currentValue = rawFieldValue.value
-    const currentArray = Array.isArray(currentValue) 
-      ? currentValue.map(v => String(v))
+    const currentArray = Array.isArray(currentValue)
+      ? currentValue.map((v) => String(v))
       : currentValue ? [String(currentValue)] : []
-    
+
     const groups = groupedByKey.value
-    const group = groups.find(g => g.groupKey === groupKey)
+    const group = groups.find((g) => g.groupKey === groupKey)
     if (!group) return
-    
-    const groupEntityIds = new Set(group.entities.map((e: unknown) => String((e as { id: unknown }).id)))
-    
-    const otherGroupValues = currentArray.filter(v => !groupEntityIds.has(v))
+
+    const groupEntityIds = new Set(group.entities.map((e: unknown) => toGlobalEntityId(String((e as { id: unknown }).id))))
+    const otherGroupValues = currentArray.filter((v) => !groupEntityIds.has(toGlobalEntityId(v)))
     
     const newGroupValues = Array.isArray(groupValue)
       ? groupValue.map(v => String(v)).filter(v => v !== '')

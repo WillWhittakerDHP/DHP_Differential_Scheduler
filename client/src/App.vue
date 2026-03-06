@@ -31,9 +31,7 @@
           @click="handleApiPanelToggle"
         >
           <span class="button-label">api</span>
-          <VTooltip activator="parent" location="left">
-            API Dev Panel
-          </VTooltip>
+          <VTooltip activator="parent" location="left" text="API Dev Panel" />
         </VBtn>
       </template>
     </VApp>

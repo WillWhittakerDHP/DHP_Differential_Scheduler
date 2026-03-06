@@ -119,19 +119,26 @@ const {
         
         <!--
           WHY: Provides expandable/collapsible cards for BlockShapes that can be reordered
-          PATTERN: v-model binds to expandedShapes array, multiple allows multiple expanded cards
+          PATTERN: Same as Part/Annotation/Event — parent VExpansionPanels with v-model, ShapeCardList with wrap-in-panels=false so EntityCards are direct children and expand/click work
         -->
         <div ref="_blockShapesContainer" class="drag-drop-container">
-          <ShapeCardList
+          <VExpansionPanels
             v-if="blockShapesList.length > 0"
-            entity-key="blockShape"
-            :items="blockShapesList"
-            :expanded="expandedShapes"
-            :is-panel-expanded="isPanelExpanded"
-            drag-class="draggable-block-shape"
-            @saved="handleExistingShapeSaved"
-            @delete="handleDeleteBlockShape"
-          />
+            ref="_blockShapesPanelsContainer"
+            v-model="expandedShapes"
+            multiple
+          >
+            <ShapeCardList
+              entity-key="blockShape"
+              :items="blockShapesList"
+              :expanded="expandedShapes"
+              :is-panel-expanded="isPanelExpanded"
+              drag-class="draggable-block-shape"
+              :wrap-in-panels="false"
+              @saved="handleExistingShapeSaved"
+              @delete="handleDeleteBlockShape"
+            />
+          </VExpansionPanels>
           <VAlert
             v-else
             type="info"

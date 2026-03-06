@@ -15,6 +15,7 @@ import {
   confirmationStepValidateKey,
 } from '@/composables/booking/injectionKeys'
 import WizardSelect from '@/components/booking/fields/WizardSelect.vue'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import type { ConfirmationStepData } from '@/types/wizard'
 
 const wizard = inject(wizardKey)
@@ -70,6 +71,11 @@ function onCouponSelect(id: string | null): void {
   const block = list.find(b => b.id === id)
   if (block) wizard.toggleCouponBlock(block)
 }
+
+// WHY: Vue does not unwrap nested refs in templates. Passing wizard.availableCouponBlocks (a
+// ComputedRef) to :items makes the child receive the Ref; Vuetify then iterates items and throws
+// "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
+const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
 </script>
 
 <template>
@@ -246,7 +252,7 @@ function onCouponSelect(id: string | null): void {
                 <WizardSelect
                   v-else
                   :model-value="selectedCouponBlockId"
-                  :items="wizard.availableCouponBlocks"
+                  :items="couponSelectItems"
                   item-title="name"
                   item-value="id"
                   label="Apply Coupon"
