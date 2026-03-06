@@ -14,11 +14,9 @@ import type { UseShapesTabCreationParams } from '@/types/admin/shapesTabCreation
 export interface UseShapesTabCreationReturn {
   state: {
     isCreatingPartShape: Ref<boolean>
-    isCreatingBlockShape: Ref<boolean>
     isCreatingAnnotationShape: Ref<boolean>
     isCreatingEventShape: Ref<boolean>
     newPartShapeInitialValues: Ref<GlobalEntity<'partShape'> | null>
-    newBlockShapeInitialValues: Ref<GlobalEntity<'blockShape'> | null>
     newAnnotationShapeName: Ref<string>
     newEventShapeName: Ref<string>
     isCreatingAnnotationShapeLoading: Ref<boolean>
@@ -26,12 +24,9 @@ export interface UseShapesTabCreationReturn {
   }
   actions: {
     createPartShape: () => void
-    createBlockShape: () => void
     startCreatingAnnotationShape: () => void
     handlePartShapeCreated: (_entity?: GlobalEntity<GlobalEntityKey>) => void
-    handleBlockShapeCreated: (_entity?: GlobalEntity<GlobalEntityKey>) => void
     handlePartShapeCancelled: () => void
-    handleBlockShapeCancelled: () => void
     handleAnnotationShapeCreate: () => Promise<void>
     handleAnnotationShapeCancelled: () => void
     startCreatingEventShape: () => void
@@ -50,11 +45,9 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
   } = params
 
   const isCreatingPartShape = ref(false)
-  const isCreatingBlockShape = ref(false)
   const isCreatingAnnotationShape = ref(false)
   const isCreatingEventShape = ref(false)
   const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
-  const newBlockShapeInitialValues = ref<GlobalEntity<'blockShape'> | null>(null)
   const newAnnotationShapeName = ref('')
   const newEventShapeName = ref('')
   const isCreatingAnnotationShapeLoading = ref(false)
@@ -70,16 +63,6 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
     expandedShapes.value = ['new-partShape', ...expandedShapes.value]
   }
 
-  const createBlockShape = (): void => {
-    const defaults = getDefaultEntityValues('blockShape')
-    newBlockShapeInitialValues.value = {
-      ...defaults,
-      id: `new-${Date.now()}` as string,
-    } as GlobalEntity<'blockShape'>
-    isCreatingBlockShape.value = true
-    expandedShapes.value = ['new-blockShape', ...expandedShapes.value]
-  }
-
   const startCreatingAnnotationShape = (): void => {
     newAnnotationShapeName.value = ''
     isCreatingAnnotationShape.value = true
@@ -92,22 +75,10 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
   }
 
-  const handleBlockShapeCreated = (_entity?: GlobalEntity<GlobalEntityKey>): void => {
-    isCreatingBlockShape.value = false
-    newBlockShapeInitialValues.value = null
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
-  }
-
   const handlePartShapeCancelled = (): void => {
     isCreatingPartShape.value = false
     newPartShapeInitialValues.value = null
     expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-  }
-
-  const handleBlockShapeCancelled = (): void => {
-    isCreatingBlockShape.value = false
-    newBlockShapeInitialValues.value = null
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
   }
 
   const handleAnnotationShapeCreate = async (): Promise<void> => {
@@ -173,11 +144,9 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
   return {
     state: {
       isCreatingPartShape,
-      isCreatingBlockShape,
       isCreatingAnnotationShape,
       isCreatingEventShape,
       newPartShapeInitialValues,
-      newBlockShapeInitialValues,
       newAnnotationShapeName,
       newEventShapeName,
       isCreatingAnnotationShapeLoading,
@@ -185,12 +154,9 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
     },
     actions: {
       createPartShape,
-      createBlockShape,
       startCreatingAnnotationShape,
       handlePartShapeCreated,
-      handleBlockShapeCreated,
       handlePartShapeCancelled,
-      handleBlockShapeCancelled,
       handleAnnotationShapeCreate,
       handleAnnotationShapeCancelled,
       startCreatingEventShape,

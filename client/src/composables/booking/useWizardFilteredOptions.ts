@@ -5,6 +5,7 @@ import {
   cascadeShapePipeline,
   getUserTypeBlocks
 } from '@/utils/booking/cascadeFilterPipeline'
+import { getBlockInstancesForShapeName } from '@/utils/blockInstanceUtils'
 import type {
   UseWizardFilteredOptionsParams,
   UseWizardFilteredOptionsReturn,
@@ -61,6 +62,12 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availablePropertyTypeBlocks = computed(() => propertyTypesResult.value.instances)
   const propertyTypesCascadeError = computed(() => propertyTypesResult.value.error)
 
+  const availableCouponBlocks = computed(() => {
+    const data = bookingData.value
+    if (data == null) return []
+    return getBlockInstancesForShapeName(data, 'Coupons')
+  })
+
   const availableLineItemBlocks = computed(() => {
     const raw = bookingData.value?.lineItemBlocks
     return raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
@@ -75,6 +82,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     availableServices,
     availableOptionTypeBlocks: availableAvailabilityOptions,
     availablePropertyTypeBlocks,
+    availableCouponBlocks,
     availableLineItemBlocks,
     servicesCascadeError,
     availabilityOptionsCascadeError,
