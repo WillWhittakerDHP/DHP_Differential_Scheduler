@@ -5,6 +5,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 
+/** Sentinel value for option-list group headers (non-selectable row showing block shape name). */
+export const SELECT_OPTION_GROUP_HEADER_VALUE = '__select_group_header__'
+
 export interface SelectOptionBase {
   title: string
   value: string
@@ -12,6 +15,21 @@ export interface SelectOptionBase {
 
 export interface SelectOption extends SelectOptionBase {
   children?: SelectOption[]
+}
+
+/** Non-selectable row in the options list used as a group label (e.g. block shape name). */
+export interface SelectOptionGroupHeader {
+  header: string
+  title: string
+  value: typeof SELECT_OPTION_GROUP_HEADER_VALUE
+}
+
+export type SelectOptionOrHeader = SelectOption | SelectOptionGroupHeader
+
+export function isSelectOptionGroupHeader(
+  item: SelectOptionOrHeader
+): item is SelectOptionGroupHeader {
+  return (item as SelectOptionGroupHeader).value === SELECT_OPTION_GROUP_HEADER_VALUE
 }
 
 export interface GroupedEntities extends SelectGroup {
@@ -29,10 +47,6 @@ export interface UseSelectOptionsOptions {
 }
 
 export interface UseSelectOptionsReturn {
-  options: Ref<SelectOption[]>
-  groupedByKey: Ref<GroupedEntities[]>
-  shouldUseMultipleSelects: Ref<boolean>
-  getGroupOptions: (group: GroupedEntities) => SelectOption[]
-  getGroupValue: (group: GroupedEntities) => string | string[] | null
+  options: Ref<SelectOptionOrHeader[]>
   normalizedValue: Ref<string | string[] | null>
 }
