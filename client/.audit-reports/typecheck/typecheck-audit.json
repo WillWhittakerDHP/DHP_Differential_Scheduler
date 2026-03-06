@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-08T01:35:40.902Z",
+  "generatedAt": "2026-03-06T00:00:32.611Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,72 +10,19 @@
       "cwd": "server"
     }
   },
-  "exitCode": 1,
+  "exitCode": 0,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 1,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [
-    {
-      "file": "src/components/booking/steps/ConfirmationStep.vue",
-      "line": 18,
-      "col": 10,
-      "code": "TS2305",
-      "message": "Module '\"@/composables/admin/tables/useTableModelHelpers\"' has no exported member 'ensureItemsArray'.",
-      "raw": "src/components/booking/steps/ConfirmationStep.vue(18,10): error TS2305: Module '\"@/composables/admin/tables/useTableModelHelpers\"' has no exported member 'ensureItemsArray'.",
-      "scope": "client",
-      "repoPath": "src/components/booking/steps/ConfirmationStep.vue"
-    }
-  ],
+  "errors": [],
   "allowedErrors": [],
-  "pools": [
-    {
-      "poolId": "TS2305-ts2305-module-composables-admin-tables-usetablemodelhelpers-has-no-exported-member-ensureitemsarray",
-      "groupKey": "TS2305::Module '\"@/composables/admin/tables/useTableModelHelpers\"' has no exported member 'ensureItemsArray'.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 10,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 13,
-      "sample": [
-        {
-          "repoPath": "src/components/booking/steps/ConfirmationStep.vue",
-          "line": 18,
-          "col": 10,
-          "code": "TS2305",
-          "message": "Module '\"@/composables/admin/tables/useTableModelHelpers\"' has no exported member 'ensureItemsArray'."
-        }
-      ],
-      "priority": "P1"
-    }
-  ],
-  "files": [
-    {
-      "repoPath": "src/components/booking/steps/ConfirmationStep.vue",
-      "errorCount": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/components/booking/steps/ConfirmationStep.vue",
-          "line": 18,
-          "col": 10,
-          "code": "TS2305",
-          "message": "Module '\"@/composables/admin/tables/useTableModelHelpers\"' has no exported member 'ensureItemsArray'.",
-          "raw": "src/components/booking/steps/ConfirmationStep.vue(18,10): error TS2305: Module '\"@/composables/admin/tables/useTableModelHelpers\"' has no exported member 'ensureItemsArray'.",
-          "scope": "client",
-          "repoPath": "src/components/booking/steps/ConfirmationStep.vue"
-        }
-      ]
-    }
-  ]
+  "pools": [],
+  "files": []
 }
