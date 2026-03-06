@@ -46,52 +46,8 @@
       </div>
     </div>
     
-    <!-- WHY: Provides clearer separation with one select per group (e.g., one per blockShapeRef) -->
-    <!-- PATTERN: Render one AppSelect per group, each labeled with group name -->
-    <template v-if="shouldUseMultipleSelects">
-      <div
-        v-for="group in groupedByKey"
-        :key="`group-${group.groupKey}`"
-        class="select-field-group"
-      >
-        <AppSelect
-          :key="`select-${String(fieldContext.state.fieldKey)}-${group.groupKey}-${isMultiple}`"
-          :id="`field-${String(fieldContext.state.fieldKey)}-${group.groupKey}`"
-          :name="`${String(fieldContext.state.fieldKey)}-${group.groupKey}`"
-          :model-value="getGroupValue(group)"
-          :items="getGroupOptions(group)"
-          :label="group.groupLabel"
-          :placeholder="fieldContext.state.displayConfig.placeholder"
-          :disabled="fieldContext.state.displayConfig.disabled"
-          :readonly="fieldContext.state.displayConfig.readOnly"
-          :error="!!fieldContext.state.error?.value"
-          :error-messages="fieldContext.state.error?.value"
-          :multiple="isMultiple"
-          v-bind="chipsProps"
-          :autocomplete="AUTCOMPLETE_OFF"
-          item-title="title"
-          item-value="value"
-          class="select-field"
-          :class="{ 'select-field--multiple': isMultiple }"
-          @update:model-value="(value: string | string[] | null) => handleGroupChange(group.groupKey, value)"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @keydown="handleKeydown"
-        >
-          <!-- Selection slot with logging for chip rendering -->
-          <template v-if="isMultiple" #selection="{ item }">
-            <VChip>
-              <span>{{ item.title }}</span>
-            </VChip>
-          </template>
-        </AppSelect>
-      </div>
-    </template>
-    
-    <!-- WHY: Fallback to single select for simpler cases -->
-    <!-- PATTERN: Render single AppSelect with all options -->
+    <!-- WHY: Single AppSelect with all options; groupByKey only affects option grouping inside the dropdown -->
     <AppSelect
-      v-else
       :key="`select-${String(fieldContext.state.fieldKey)}-${isMultiple}`"
       :id="`field-${String(fieldContext.state.fieldKey)}`"
       :name="String(fieldContext.state.fieldKey)"
@@ -115,12 +71,25 @@
       @blur="handleBlur"
       @keydown="handleKeydown"
     >
+      <!-- WHY: Group headers (block shape name) render as subheaders; options render as list items -->
+      <template #item="{ item, props: itemProps }">
+        <VListSubheader
+          v-if="isSelectOptionGroupHeader(item)"
+          class="text-caption font-weight-medium"
+        >
+          {{ item.header }}
+        </VListSubheader>
+        <VListItem
+          v-else
+          v-bind="itemProps"
+        />
+      </template>
       <!-- Selection slot with logging for chip rendering -->
-    <template v-if="isMultiple" #selection="{ item }">
-      <VChip>
-        <span>{{ logChipRender(item) || item.title }}</span>
-      </VChip>
-    </template>
+      <template v-if="isMultiple" #selection="{ item }">
+        <VChip v-if="!isSelectOptionGroupHeader(item)">
+          <span>{{ logChipRender(item) || item.title }}</span>
+        </VChip>
+      </template>
   </AppSelect>
   </BaseInput>
 </template>
@@ -143,11 +112,11 @@ import { useSelectFieldValue } from '@/composables/admin/useSelectFieldValue'
 import { useSelectFormAssociation } from '@/composables/admin/useSelectFormAssociation'
 import { useSelectLabelResolution } from '@/composables/admin/useSelectLabelResolution'
 import { useSelectDomTargets } from '@/composables/admin/useSelectDomTargets'
-import { useSelectGroupedByKey } from '@/composables/admin/useSelectGroupedByKey'
 import { useSelectEnumOptions } from '@/composables/admin/useSelectEnumOptions'
 import { useSelectChipRender } from '@/composables/admin/useSelectChipRender'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { useSelectInputsAsync } from '@/composables/admin/useSelectInputsAsync'
+import { isSelectOptionGroupHeader } from '@/types/selectOptions'
 import type { FieldInputProps } from './fieldTypes'
 
 const props = withDefaults(defineProps<FieldInputProps>(), {
@@ -228,13 +197,7 @@ const selectOptionsComposable = useSelectOptions({
 
 // WHY: Component uses composable's computed values and helper functions
 // PATTERN: Destructure composable return values for use in template
-const {
-  options: entityOptions,
-  groupedByKey,
-  shouldUseMultipleSelects,
-  getGroupOptions,
-  getGroupValue
-} = selectOptionsComposable
+const { options: entityOptions } = selectOptionsComposable
 
 const options = computed(() => {
   if (isOptionsSelect.value) {
@@ -268,26 +231,17 @@ const selectHandlersComposable = useSelectHandlers({
   fieldValue,
   isMultiple,
   isAnnotationAssignmentSelect,
-  groupedByKey,
   entityCardSaveContext,
   disableAutoSave
 })
 const {
-  handleGroupChange,
   handleChange,
   handleFocus,
   handleBlur,
   handleKeydown
 } = selectHandlersComposable
 
-// PATTERN: Composable provides DOM targets for form association
-const shouldUseMultipleSelectsComputed = computed(() => shouldUseMultipleSelects.value)
-const { groupedByKeyComputed } = useSelectGroupedByKey(groupedByKey)
-const { selectDomTargets } = useSelectDomTargets({
-  fieldContext,
-  shouldUseMultipleSelects: shouldUseMultipleSelectsComputed,
-  groupedByKey: groupedByKeyComputed
-})
+const { selectDomTargets } = useSelectDomTargets({ fieldContext })
 
 useSelectFormAssociation({ targets: selectDomTargets })
 
@@ -314,14 +268,6 @@ const isQuickSelectAllDisabled = computed(() =>
 </script>
 
 <style scoped>
-.select-field-group {
-  margin-bottom: 16px;
-}
-
-.select-field-group:last-child {
-  margin-bottom: 0;
-}
-
 .select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {
   margin: 0;
 }

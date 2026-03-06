@@ -15,23 +15,10 @@ WHY: Extracts DOM target calculation logic...
 export function useSelectDomTargets(
   options: UseSelectDomTargetsOptions
 ): UseSelectDomTargetsReturn {
-  const { fieldContext, shouldUseMultipleSelects, groupedByKey } = options
+  const { fieldContext } = options
 
   const selectDomTargets = computed(() => {
     const fieldKeyString = String(fieldContext.state.fieldKey)
-
-    if (shouldUseMultipleSelects.value) {
-      // WHY: Functional approach avoids mutations, aligns with workspace rules
-      // PATTERN: Map groups to DOM targets instead of forEach with mutations
-      return groupedByKey.value.map(group => {
-        const id = `field-${fieldKeyString}-${group.groupKey}`
-        return {
-          appSelectId: `app-select-${id}`,
-          expectedName: `${fieldKeyString}-${group.groupKey}`,
-        }
-      })
-    }
-
     const id = `field-${fieldKeyString}`
     return [{ appSelectId: `app-select-${id}`, expectedName: fieldKeyString }]
   })
