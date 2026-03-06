@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
   "generatedAt": "2026-03-05T21:27:21.510Z",
+=======
+  "generatedAt": "2026-03-05T23:59:15.570Z",
+>>>>>>> Stashed changes
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
