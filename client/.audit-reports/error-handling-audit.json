@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
   "generatedAt": "2026-03-05T23:50:51.108Z",
+=======
+  "generatedAt": "2026-03-06T01:24:54.202Z",
+>>>>>>> Stashed changes
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",

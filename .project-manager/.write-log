@@ -1,0 +1,3 @@
+[2026-03-06T00:10:25.574Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.10.1-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
+[2026-03-06T01:07:06.694Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.10.1-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
+[2026-03-06T01:24:54.293Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.9.1-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
