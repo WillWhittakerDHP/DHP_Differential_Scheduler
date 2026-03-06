@@ -38,17 +38,22 @@ const {
   toggleAnnotationShapeMetadataModal,
   toggleEventShapeMetadataModal,
   isCreatingPartShape,
+  isCreatingBlockShape,
   isCreatingAnnotationShape,
   isCreatingEventShape,
   newPartShapeInitialValues,
+  newBlockShapeInitialValues,
   newAnnotationShapeName,
   newEventShapeName,
   isCreatingAnnotationShapeLoading,
   isCreatingEventShapeLoading,
   createPartShape,
+  createBlockShape,
   startCreatingAnnotationShape,
   handlePartShapeCreated,
+  handleBlockShapeCreated,
   handlePartShapeCancelled,
+  handleBlockShapeCancelled,
   handleAnnotationShapeCreate,
   handleAnnotationShapeCancelled,
   startCreatingEventShape,
@@ -114,31 +119,54 @@ const {
             >
               Shape Fields
             </VBtn>
+            <!-- WHY: Restore add-new block shape; same pattern as Create Part Shape -->
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="createBlockShape"
+            >
+              Create Block Shape
+            </VBtn>
           </div>
         </div>
         
         <!--
           WHY: Provides expandable/collapsible cards for BlockShapes that can be reordered
-          PATTERN: v-model binds to expandedShapes array, multiple allows multiple expanded cards
+          PATTERN: v-model binds to expandedShapes array; when creating, show ShapeCreationForm like Part tab
         -->
         <div ref="_blockShapesContainer" class="drag-drop-container">
-          <ShapeCardList
-            v-if="blockShapesList.length > 0"
-            entity-key="blockShape"
-            :items="blockShapesList"
-            :expanded="expandedShapes"
-            :is-panel-expanded="isPanelExpanded"
-            drag-class="draggable-block-shape"
-            @saved="handleExistingShapeSaved"
-            @delete="handleDeleteBlockShape"
-          />
+          <VExpansionPanels
+            v-if="isCreatingBlockShape || blockShapesList.length > 0"
+            ref="_blockShapesPanelsContainer"
+            v-model="expandedShapes"
+            multiple
+          >
+            <ShapeCreationForm
+              v-if="isCreatingBlockShape"
+              entity-key="blockShape"
+              :entity="newBlockShapeInitialValues!"
+              @saved="handleBlockShapeCreated"
+              @cancelled="handleBlockShapeCancelled"
+            />
+            <ShapeCardList
+              v-if="blockShapesList.length > 0"
+              entity-key="blockShape"
+              :items="blockShapesList"
+              :expanded="expandedShapes"
+              :is-panel-expanded="isPanelExpanded"
+              drag-class="draggable-block-shape"
+              :wrap-in-panels="false"
+              @saved="handleExistingShapeSaved"
+              @delete="handleDeleteBlockShape"
+            />
+          </VExpansionPanels>
           <VAlert
             v-else
             type="info"
             variant="tonal"
             class="mt-4"
           >
-            No BlockShapes found. BlockShapes are created automatically when BlockInstances are created.
+            No BlockShapes found. Create one to get started.
           </VAlert>
         </div>
       </VWindowItem>
