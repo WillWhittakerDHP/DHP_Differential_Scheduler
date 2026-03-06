@@ -4,6 +4,7 @@ import type {
   CrudDataTableModelOptions,
 } from '@/types/admin/tables/crudDataTableModel'
 import { createLogger } from '@/utils/logger'
+import { ensureItemsArray } from './useTableModelHelpers'
 
 const logger = createLogger('useCrudDataTableModel')
 
@@ -31,7 +32,7 @@ export function useCrudDataTableModel<
     mapItemToEditPayload,
   } = options
 
-  const items = computed<TableItem[]>(() => itemsSource.value)
+  const items = computed<TableItem[]>(() => ensureItemsArray<TableItem>(itemsSource.value))
   const isLoading = computed<boolean>(() => isLoadingSource.value)
   const error = computed<unknown>(() => errorSource.value)
 

@@ -72,6 +72,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const emailValidator: typeof import('./src/@core/utils/validators').emailValidator
+  const ensureDataTableItems: typeof import('./src/utils/safeDefaults').ensureDataTableItems
   const extendRef: typeof import('@vueuse/core').extendRef
   const extractBusinessHoursMinutes: typeof import('./src/composables/useLocalTime').extractBusinessHoursMinutes
   const extractInstanceComponents: typeof import('./src/utils/instanceComponentUtils').extractInstanceComponents
