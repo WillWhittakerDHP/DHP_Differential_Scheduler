@@ -141,17 +141,7 @@ export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<strin
   if (result.orderIndex === null || result.orderIndex === undefined) {
     result.orderIndex = 0
   }
-
-  // WHY: block_shape_type DB enum does not accept ''; metadata stores type as string so default is ''
-  if (entityKey === 'blockShape' && (result.type === '' || result.type === undefined || result.type === null)) {
-    result.type = 'user'
-  }
-
-  // WHY: block_shapes.allow_multiple_blocks is NOT NULL; not in admin metadata so no default from metadata
-  if (entityKey === 'blockShape' && (result.allowMultipleBlocks === undefined || result.allowMultipleBlocks === null)) {
-    result.allowMultipleBlocks = false
-  }
-
+  
   return result
 }
 
