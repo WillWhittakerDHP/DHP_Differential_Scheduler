@@ -4,6 +4,7 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import type { AppointmentStatus } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
@@ -61,6 +62,8 @@ const { formClientId, formAgentId, editingClientId, editingAgentId, confirmingAp
 const scheduledByDisplay = computed(() =>
   confirmingAppointment.value ? getDisplayValue(confirmingAppointment.value, 'scheduledById') : undefined
 )
+
+const tableItems = computed(() => ensureItemsArray(appointments.value))
 
 const {
   handleOpenConfirmDialog,
@@ -129,7 +132,7 @@ const { formatTimestamp } = handlers
     <VDataTable
       v-if="!isLoading && !appointmentsError"
       :headers="APPOINTMENTS_TABLE_HEADERS"
-      :items="appointments"
+      :items="tableItems"
       :loading="isLoading"
       item-value="id"
       class="elevation-1"

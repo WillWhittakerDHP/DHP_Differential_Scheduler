@@ -41,9 +41,9 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
     rawFieldValue,
     adminComp: providedAdminComp
   } = opts
-  
+
   const adminComp = providedAdminComp || useAdmin()
-  
+
   const groupedByKey = computed((): GroupedEntities[] => {
     const entities = filteredEntities.value
     const config = selectConfig.value
@@ -81,14 +81,14 @@ export function useSelectOptions(opts: UseSelectOptionsOptions): UseSelectOption
    */
   const getGroupValue = (group: GroupedEntities): string | string[] | null => {
     const currentValue = rawFieldValue.value
-    const groupEntityIds = new Set(group.entities.map(e => e.id))
-    
+    const groupEntityIds = new Set(group.entities.map((e) => toGlobalEntityId(String(e.id))))
+
     if (isMultiple.value) {
-      const valueArray = Array.isArray(currentValue) 
-        ? currentValue.map(v => String(v))
+      const valueArray = Array.isArray(currentValue)
+        ? currentValue.map((v) => String(v))
         : currentValue ? [String(currentValue)] : []
-      
-      const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))
+
+      const groupValues = valueArray.filter((v) => groupEntityIds.has(toGlobalEntityId(v)))
       return groupValues.length > 0 ? groupValues : []
     } else {
       const valueString = currentValue ? String(currentValue) : null

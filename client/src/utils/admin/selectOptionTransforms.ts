@@ -8,6 +8,9 @@ import type { GlobalEntity } from '@/types/entities'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type { GroupedEntities, SelectOption } from '@/types/selectOptions'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('selectOptionTransforms')
 
 const PROPERTY_TO_ENTITY_KEY_MAP: Record<string, GlobalEntityKey> = {
   blockShapeRef: 'blockShape',
@@ -120,6 +123,9 @@ export function buildGroupedEntities(
 ): GroupedEntities[] {
   const groupedMap = new Map<string, { groupKey: string; groupLabel: string; entities: GlobalEntity<GlobalEntityKey>[] }>()
 
+  const failedLookups: string[] = []
+  const mapKeysSample = Array.from(groupParentMap.keys()).slice(0, 8)
+
   for (const entity of entities) {
     const groupKey =
       getEntityFieldValue(entity, groupByKey) ?? getEntityFieldValue(entity, `${groupByKey}Ref`)
@@ -127,7 +133,11 @@ export function buildGroupedEntities(
 
     const groupKeyString = String(groupKey)
     if (!groupedMap.has(groupKeyString)) {
-      const groupParent = groupParentMap.get(toGlobalEntityId(groupKeyString))
+      const normalizedKey = toGlobalEntityId(groupKeyString)
+      const groupParent = groupParentMap.get(normalizedKey)
+      if (!groupParent) {
+        failedLookups.push(groupKeyString)
+      }
       const groupLabel = groupParent
         ? getOptionTitle(groupParent, optionLabelKey)
         : groupKeyString
@@ -141,5 +151,47 @@ export function buildGroupedEntities(
     if (group) group.entities.push(entity)
   }
 
+  if (failedLookups.length > 0 && groupByKey === 'blockShapeRef') {
+    logger.debug('[hypothesis B] groupParentMap lookup failed', {
+      failedGroupKeyStrings: failedLookups,
+      mapKeysSample,
+      entitiesCount: entities.length,
+      groupParentMapSize: groupParentMap.size
+    })
+  }
+
   return Array.from(groupedMap.values())
+}
+
+/**
+ * Build GroupedEntities[] from a list of valid shape IDs (e.g. validCascades on block shape).
+ * Ensures every valid shape gets a group with correct label even when it has zero instances.
+ */
+export function buildGroupedEntitiesFromValidShapeIds(
+  validShapeIds: string[],
+  entities: GlobalEntity<GlobalEntityKey>[],
+  groupByKey: string,
+  groupParentMap: Map<string, GlobalEntity<GlobalEntityKey>>,
+  optionLabelKey: string
+): GroupedEntities[] {
+  const refKey = groupByKey === 'blockShapeRef' || groupByKey === 'partShapeRef'
+    ? groupByKey
+    : `${groupByKey}Ref`
+  return validShapeIds.map((shapeId) => {
+    const groupKeyString = String(shapeId)
+    const groupParent = groupParentMap.get(toGlobalEntityId(groupKeyString))
+    const groupLabel = groupParent
+      ? getOptionTitle(groupParent, optionLabelKey)
+      : groupKeyString
+    const groupEntities = entities.filter((entity) => {
+      const entityRef =
+        getEntityFieldValue(entity, groupByKey) ?? getEntityFieldValue(entity, refKey)
+      return entityRef != null && String(entityRef) === groupKeyString
+    })
+    return {
+      groupKey: groupKeyString,
+      groupLabel,
+      entities: groupEntities,
+    }
+  })
 }

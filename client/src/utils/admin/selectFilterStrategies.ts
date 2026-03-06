@@ -7,6 +7,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('selectFilterStrategies')
 
 /** Type for valid children ref key from parent type entity (e.g. validParts, validCascades). */
 export type ValidChildrenKey = 'validCascades' | 'validParts'
@@ -22,10 +25,38 @@ export function filterByActiveChildSelect(
 ): GlobalEntity<GlobalEntityKey>[] {
   const validChildrenRefs = getEntityFieldValue(parentTypeEntity, validChildrenKey)
   if (validChildrenRefs === undefined || !Array.isArray(validChildrenRefs) || validChildrenRefs.length === 0) {
+    if (validChildrenKey === 'validCascades') {
+      logger.debug('[hypothesis A] validCascades empty or missing', {
+        parentShapeId: parentTypeEntity?.id,
+        validChildrenKey,
+        validChildrenRefsType: typeof validChildrenRefs,
+        validChildrenRefsLength: Array.isArray(validChildrenRefs) ? validChildrenRefs.length : 0
+      })
+    }
     return []
   }
-  const validChildrenSet = new Set(validChildrenRefs)
+  const validChildrenSet = new Set(validChildrenRefs.map((id: unknown) => String(id)))
   const candidateTypeRefKey = optionEntityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
+
+  if (validChildrenKey === 'validCascades') {
+    const uniqueCandidateRefs = new Set<string>()
+    const rejectedRefs = new Set<string>()
+    allEntities.forEach((candidate) => {
+      const ref = getEntityFieldValue(candidate, candidateTypeRefKey)
+      if (ref != null) {
+        const refStr = String(ref)
+        uniqueCandidateRefs.add(refStr)
+        if (!validChildrenSet.has(refStr)) rejectedRefs.add(refStr)
+      }
+    })
+    logger.debug('[hypothesis A] validCascades filter', {
+      parentShapeId: parentTypeEntity?.id,
+      validCascadesIds: [...validChildrenSet],
+      allEntitiesCount: allEntities.length,
+      uniqueBlockShapeRefsInInstances: [...uniqueCandidateRefs],
+      rejectedBlockShapeRefsNotInValidCascades: rejectedRefs.size > 0 ? [...rejectedRefs] : undefined
+    })
+  }
 
   return allEntities.filter((candidate) => {
     const candidateTypeRef = getEntityFieldValue(candidate, candidateTypeRefKey)

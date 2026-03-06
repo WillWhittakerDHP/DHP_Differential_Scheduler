@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { ref, computed, inject, type Ref } from 'vue'
 import { usePropertyMappingsTab } from '@/composables/admin/usePropertyMappingsTab'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))
 
@@ -29,6 +30,9 @@ const {
 
 const showFieldDialog = ref(false)
 const showBlockDialog = ref(false)
+
+const fieldTableItems = computed(() => ensureItemsArray(fieldMappings.value))
+const featureTableItems = computed(() => ensureItemsArray(featureMappings.value))
 </script>
 
 <template>
@@ -44,7 +48,7 @@ const showBlockDialog = ref(false)
           Map RESO source fields (e.g. FoundationDetails) to property_details target fields (foundationAccess, additionalUnits).
         </p>
         <VDataTable
-          :items="fieldMappings ?? []"
+          :items="fieldTableItems"
           :headers="[
             { title: 'Source Field', key: 'sourceField', sortable: true },
             { title: 'Target Field', key: 'targetField', sortable: true },
@@ -72,7 +76,7 @@ const showBlockDialog = ref(false)
           Map RESO features (e.g. PoolFeatures, PatioAndPorchFeatures) to block instances for suggested selections.
         </p>
         <VDataTable
-          :items="featureMappings ?? []"
+          :items="featureTableItems"
           :headers="[
             { title: 'Source Field', key: 'sourceField', sortable: true },
             { title: 'Match Type', key: 'matchType' },
