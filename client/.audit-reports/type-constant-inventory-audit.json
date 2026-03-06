@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T03:14:48.537Z",
+  "generatedAt": "2026-03-06T13:39:43.493Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -2912,7 +2912,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 32,
+      "lineCount": 33,
       "purpose": "UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -4791,7 +4791,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 11,
+      "lineCount": 12,
       "purpose": "Wizard filtered option list and query types",
       "reuseTier": "feature",
       "tags": [],
@@ -6704,7 +6704,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 131,
+      "lineCount": 140,
       "purpose": "Core booking wizard state and navigation types",
       "reuseTier": "feature",
       "tags": [],
@@ -7580,7 +7580,7 @@
         "BlockShapeType"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 7,
+      "lineCount": 8,
       "purpose": "Block shape type identifier constants",
       "reuseTier": "feature",
       "tags": [],
@@ -10844,7 +10844,7 @@
             "BlockShapeType"
           ],
           "hasFactoryFunctions": false,
-          "lineCount": 7,
+          "lineCount": 8,
           "purpose": "Block shape type identifier constants",
           "reuseTier": "feature",
           "tags": [],
@@ -11234,7 +11234,7 @@
           "BlockShapeType"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 7,
+        "lineCount": 8,
         "purpose": "Block shape type identifier constants",
         "reuseTier": "feature",
         "tags": [],
