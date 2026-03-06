@@ -18,10 +18,10 @@ Scope:
 
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/composables/admin/useShapesTabCreation.ts` | 20 | 0 | 0 | 8 | 4 | 0 | 1 |
 | `client/src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
 | `client/src/composables/admin/useSelectHandlers.ts` | 18 | 0 | 0 | 2 | 6 | 0 | 0 |
 | `client/src/composables/admin/useShapeForm.ts` | 17 | 0 | 0 | 6 | 8 | 0 | 0 |
-| `client/src/composables/admin/useShapesTabCreation.ts` | 17 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `client/src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 16 | 0 | 0 | 13 | 0 | 0 | 0 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | 16 | 0 | 0 | 8 | 8 | 0 | 0 |
@@ -51,9 +51,44 @@ Legend:
 - **P1**: high leverage cleanup (split / side effects)
 - **P2**: polish / consistency
 
+### `client/src/composables/admin/useShapesTabCreation.ts`
+
+- exports: `useShapesTabCreation`
+- score: **20**
+- return keys (first return): `isCreatingAnnotationShape`, `isCreatingAnnotationShapeLoading`, `isCreatingBlockShape`, `isCreatingEventShape`, `isCreatingEventShapeLoading`, `isCreatingPartShape`, `newAnnotationShapeName`, `newBlockShapeInitialValues`, `newEventShapeName`, `newPartShapeInitialValues`, `state`
+
+- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
+
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/composables/admin/useShapesTabCreation.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=8, async=2, await=2, dom=0, console=0
+
+```
+ref@52: const isCreatingPartShape = ref(false)
+ref@53: const isCreatingBlockShape = ref(false)
+ref@54: const isCreatingAnnotationShape = ref(false)
+ref@55: const isCreatingEventShape = ref(false)
+ref@58: const newAnnotationShapeName = ref('')
+ref@59: const newEventShapeName = ref('')
+ref@60: const isCreatingAnnotationShapeLoading = ref(false)
+ref@61: const isCreatingEventShapeLoading = ref(false)
+filter@92: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+filter@98: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+filter@104: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+filter@110: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+async@113: const handleAnnotationShapeCreate = async (): Promise<void> => {
+await@117: await createAnnotationShapeMutation({
+filter@126: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
+filter@137: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
+async@146: const handleEventShapeCreate = async (): Promise<void> => {
+await@150: await createEventShapeMutation({
+filter@159: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
+filter@170: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
+```
 
 ### `client/src/composables/admin/useInstanceGrouping.ts`
 
@@ -128,30 +163,6 @@ async@110: onMounted(async () => {
 async@123: async function handleSubmit(): Promise<void> {
 await@128: await update(
 await@133: await create(formData.value as Partial<GlobalEntity<'partShape'>>)
-```
-
-### `client/src/composables/admin/useShapesTabCreation.ts`
-
-- counts: vueQuery=0, watch=0, computed=0, ref=7, async=2, await=2, dom=0, console=0
-
-```
-ref@47: const isCreatingPartShape = ref(false)
-ref@48: const isCreatingAnnotationShape = ref(false)
-ref@49: const isCreatingEventShape = ref(false)
-ref@51: const newAnnotationShapeName = ref('')
-ref@52: const newEventShapeName = ref('')
-ref@53: const isCreatingAnnotationShapeLoading = ref(false)
-ref@54: const isCreatingEventShapeLoading = ref(false)
-filter@75: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-filter@81: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
-async@84: const handleAnnotationShapeCreate = async (): Promise<void> => {
-await@88: await createAnnotationShapeMutation({
-filter@97: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-filter@108: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
-async@117: const handleEventShapeCreate = async (): Promise<void> => {
-await@121: await createEventShapeMutation({
-filter@130: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
-filter@141: expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
 ```
 
 ### `client/src/composables/booking/useContactsValidation.ts`

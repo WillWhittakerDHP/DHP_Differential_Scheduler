@@ -6,5 +6,5 @@ phase.branch=phase-6.10-fee-preview-coupon-visibility
 phase.slug=fee-preview-coupon-visibility
 session.id=
 session.name=
-task.id=6.10.1.1
-task.name=Restore "Add new block shape" entry point
+task.id=
+task.name=
