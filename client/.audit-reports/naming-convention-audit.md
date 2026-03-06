@@ -4,7 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-08T01:35:43.346Z
+<<<<<<< Updated upstream
+Generated at: 2026-03-05T21:27:17.222Z
+=======
+Generated at: 2026-03-05T23:59:11.978Z
+>>>>>>> Stashed changes
 
 ## Summary
 
@@ -22,4 +26,4 @@ Review periodically to ensure exceptions are still valid.
 
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
-| `server/src/db/models/admin/block_shape.ts` | functionExport | 32 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `client/src/composables/booking/useListForAdminEntry.ts` | composableExport | 38 | pattern | Composables may export camelCase helpers used by other co... |

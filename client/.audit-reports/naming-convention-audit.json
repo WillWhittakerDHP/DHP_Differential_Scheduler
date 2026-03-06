@@ -1,6 +1,11 @@
 {
-  "generatedAt": "2026-03-08T01:35:43.345Z",
+<<<<<<< Updated upstream
+  "generatedAt": "2026-03-05T21:27:17.218Z",
+  "totalScanned": 1111,
+=======
+  "generatedAt": "2026-03-05T23:59:11.972Z",
   "totalScanned": 1112,
+>>>>>>> Stashed changes
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
@@ -16,13 +21,13 @@
   "files": [],
   "scanned": [
     {
-      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "repoPath": "client/src/composables/booking/useListForAdminEntry.ts",
       "allowed": [
         {
-          "ruleId": "functionExport",
-          "lineNumber": 32,
-          "line": "export function BlockShapeFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "ruleId": "composableExport",
+          "lineNumber": 38,
+          "line": "export function formatUserDisplayName(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
           "source": "pattern",
           "suppressionStatus": "suppressedByPattern"
         }
