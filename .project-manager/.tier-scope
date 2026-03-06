@@ -1,8 +1,10 @@
 feature.id=appointment-workflow
 feature.name=Feature: appointment-workflow
-phase.id=
-phase.name=
+phase.id=6.10
+phase.name=Guide: Fee Preview & Coupon Visibility
+phase.branch=phase-6.10-fee-preview-coupon-visibility
+phase.slug=fee-preview-coupon-visibility
 session.id=
 session.name=
-task.id=
-task.name=
+task.id=6.10.1.1
+task.name=Restore "Add new block shape" entry point
