@@ -1,5 +1,9 @@
 {
+<<<<<<< Updated upstream
   "generatedAt": "2026-03-06T01:22:52.941Z",
+=======
+  "generatedAt": "2026-03-06T02:07:13.124Z",
+>>>>>>> Stashed changes
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +17,11 @@
       "client/src/@layouts/**"
     ]
   },
+<<<<<<< Updated upstream
   "totalScanned": 3,
+=======
+  "totalScanned": 0,
+>>>>>>> Stashed changes
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
