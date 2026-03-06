@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-06T01:07:06.532Z
+Generated at: 2026-03-06T01:22:54.084Z
 
 ## Summary
 
-- Total allowed: **1**
+- Total allowed: **0**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,6 +20,4 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `server/src/db/models/admin/block_shape.ts` | functionExport | 33 | pattern | Sequelize model factory convention: ModelNameFactory |
+- (no exceptions configured)
