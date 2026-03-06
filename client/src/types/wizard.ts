@@ -58,6 +58,8 @@ export interface WizardComputedProperties {
   availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available property type blocks (filtered by selected services) */
   availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available coupon block instances (block shape named "Coupons"; for step 5 Apply Coupon dropdown) */
+  availableCouponBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available line item blocks (bookingMode: "addOn") */
   availableLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   

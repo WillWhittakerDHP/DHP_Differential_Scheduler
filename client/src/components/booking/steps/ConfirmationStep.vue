@@ -14,6 +14,7 @@ import {
   confirmationStepValidKey,
   confirmationStepValidateKey,
 } from '@/composables/booking/injectionKeys'
+import WizardSelect from '@/components/booking/fields/WizardSelect.vue'
 import type { ConfirmationStepData } from '@/types/wizard'
 
 const wizard = inject(wizardKey)
@@ -53,6 +54,9 @@ const {
   propertyDetailsStepData,
   availabilityStepData
 })
+
+// Optional: selected coupon for Apply Coupon dropdown; can be wired to discount in a later task
+const selectedCouponId = ref<string | null>(null)
 </script>
 
 <template>
@@ -222,20 +226,21 @@ const {
             
             <div class="d-flex justify-space-between align-center mb-2">
               <span class="text-body-large">Coupon Discount</span>
-              <div class="d-flex align-center">
+              <div class="d-flex align-center flex-grow-1 justify-end">
                 <span v-if="priceData.couponDiscount > 0" class="text-body-large text-medium-emphasis mr-2">
                   -${{ priceData.couponDiscount.toFixed(2) }}
                 </span>
-                <VBtn
+                <WizardSelect
                   v-else
-                  variant="text"
-                  color="primary"
-                  size="small"
-                  class="text-headline-small summary-link"
-                  @click.prevent
-                >
-                  Apply Coupon
-                </VBtn>
+                  v-model="selectedCouponId"
+                  :items="wizard.availableCouponBlocks"
+                  item-title="name"
+                  item-value="id"
+                  label="Apply Coupon"
+                  placeholder="Select coupon"
+                  class="coupon-select"
+                  style="max-width: 220px;"
+                />
               </div>
             </div>
             
