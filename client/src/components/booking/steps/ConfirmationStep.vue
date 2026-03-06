@@ -3,7 +3,7 @@
 
 PATTERN: Uses composable to aggregate wizard...
  */
-import { inject, ref } from 'vue'
+import { inject, ref, computed } from 'vue'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -55,8 +55,21 @@ const {
   availabilityStepData
 })
 
-// Optional: selected coupon for Apply Coupon dropdown; can be wired to discount in a later task
-const selectedCouponId = ref<string | null>(null)
+// Same pattern as property type on step 2: selection in wizard state
+const selectedCouponBlockId = computed(() => wizard!.selectedCouponBlocks.value[0]?.id ?? null)
+function onCouponSelect(id: string | null): void {
+  if (!wizard) return
+  if (id == null || id === '') {
+    const blocks = wizard.selectedCouponBlocks.value
+    if (blocks.length > 0) {
+      wizard.toggleCouponBlock(blocks[0])
+    }
+    return
+  }
+  const list = wizard.availableCouponBlocks.value
+  const block = list.find(b => b.id === id)
+  if (block) wizard.toggleCouponBlock(block)
+}
 </script>
 
 <template>
@@ -232,7 +245,7 @@ const selectedCouponId = ref<string | null>(null)
                 </span>
                 <WizardSelect
                   v-else
-                  v-model="selectedCouponId"
+                  :model-value="selectedCouponBlockId"
                   :items="wizard.availableCouponBlocks"
                   item-title="name"
                   item-value="id"
@@ -240,6 +253,7 @@ const selectedCouponId = ref<string | null>(null)
                   placeholder="Select coupon"
                   class="coupon-select"
                   style="max-width: 220px;"
+                  @update:model-value="onCouponSelect"
                 />
               </div>
             </div>
