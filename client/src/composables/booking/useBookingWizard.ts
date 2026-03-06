@@ -20,6 +20,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - renamed from selectedServices for consistency
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
+  const selectedCouponBlocks = ref<BookingBlockInstance[]>([]) // Single-select UI, array storage (same pattern as property type)
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
 
   const persistedWizardMode = useStorage<WizardMode>('booking-wizard-mode', 'new')
@@ -67,6 +68,7 @@ Select user type and clear dependent selections
       selectedServiceTypeBlocks.value = []
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
+      selectedCouponBlocks.value = []
     }
   }
 
@@ -82,6 +84,7 @@ Toggle service type block selection (single-select UI, array storage...
     if (!_inBatch.value) {
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
+      selectedCouponBlocks.value = []
     }
   }
 
@@ -110,6 +113,17 @@ Toggle availability option selection
   }
 
   /**
+   * Toggle coupon block selection (single-select UI, array of 0 or 1; same as property type).
+   */
+  const toggleCouponBlock = (block: BookingBlockInstance): void => {
+    if (selectedCouponBlocks.value.length === 1 && selectedCouponBlocks.value[0]?.id === block.id) {
+      selectedCouponBlocks.value = []
+      return
+    }
+    selectedCouponBlocks.value = [block]
+  }
+
+  /**
 Toggle line item block selection
    */
   const toggleLineItemBlock = (block: BookingBlockInstance): void => {
@@ -131,6 +145,7 @@ Toggle line item block selection
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
+    couponCascadeError,
     accServices,
     accProperty,
     accAvailability,
@@ -140,6 +155,7 @@ Toggle line item block selection
     selectedServiceTypeBlocks: selectedServiceTypeBlocks,
     selectedAvailabilityOptions: selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
+    selectedCouponBlocks,
   })
 
   return {
@@ -148,6 +164,7 @@ Toggle line item block selection
       selectedServiceTypeBlocks,
       selectedOptionTypeBlocks,
       selectedPropertyTypeBlocks,
+      selectedCouponBlocks,
       selectedLineItemBlocks,
       isQuoteMode,
       wizardMode,
@@ -157,6 +174,7 @@ Toggle line item block selection
       toggleServiceTypeBlock,
       toggleOptionTypeBlock,
       togglePropertyTypeBlock,
+      toggleCouponBlock,
       toggleLineItemBlock,
       batchUpdate,
       setWizardMode,
@@ -171,6 +189,7 @@ Toggle line item block selection
       servicesCascadeError,
       availabilityOptionsCascadeError,
       propertyTypesCascadeError,
+      couponCascadeError,
       accServices,
       accProperty,
       accAvailability,

@@ -12,6 +12,7 @@ export interface UseAppointmentDataCollectionParams {
     selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedCouponBlocks: Ref<BookingBlockInstance[]>
     selectedLineItemBlocks: Ref<BookingBlockInstance[]>
     selectedUserTypeBlock: Ref<{ id: string } | null>
     isQuoteMode: Ref<boolean>

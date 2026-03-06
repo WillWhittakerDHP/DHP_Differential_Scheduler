@@ -9,21 +9,19 @@
 No prior handoff for this task.
 
 ## Goal
-On wizard step 5 (Confirmation), at the "Apply coupon" UI, show a filtered list of coupon blockShape blockInstances in a dropdown. Use the same logic as property block instances on step 2: identify the block shape by name "Coupons", filter `bookingData.blockInstances` by `blockShapeRef`; expose the list to the step and render with a select/dropdown (e.g. WizardSelect like Property Type on PropertyDetailsStep).
+On wizard step 5 (Confirmation), at the "Apply coupon" UI, show a filtered list of coupon blockShape blockInstances in a dropdown. Use the **same routine** as the property type select on step 2: cascadeShapePipeline, selectedCouponBlocks in wizard state, toggleCouponBlock, availableCouponBlocks and couponCascadeError from useWizardFilteredOptions.
 
 ## Files
-- `client/src/utils/blockInstanceUtils.ts` — Add `getBlockShapeIdByName(bookingData, name)` (or equivalent) to resolve the "Coupons" block shape by name; use it to derive coupon block instances (filter instances where `blockShapeRef === shapeId` and `active`).
-- Wizard/booking composable (e.g. `useWizardFilteredOptions` or the composable that provides wizard state to Confirmation step) — Expose `availableCouponBlocks` (computed list of block instances for the Coupons shape), same pattern as `availablePropertyTypeBlocks` for step 2.
-- `client/src/components/booking/steps/ConfirmationStep.vue` — In the Apply coupon area (Coupon Discount row), add a dropdown/select bound to `availableCouponBlocks`; use WizardSelect with `item-title="name"`, `item-value="id"` like PropertyDetailsSection. Optionally bind selected coupon to wizard state for discount application in a later task.
+- `client/src/constants/blockShapeTypes.ts` — Add COUPON. Server: block_shape_type enum + BlockShape model.
+- `client/src/composables/booking/useWizardFilteredOptions.ts` — availableCouponBlocks via cascadeShapePipeline(BLOCK_SHAPE_TYPES.COUPON, parentInstances: selectedServiceTypeBlocks, currentSelection: selectedCouponBlocks, relationshipName: 'coupons').
+- `client/src/composables/booking/useBookingWizard.ts` — selectedCouponBlocks, toggleCouponBlock; clear on service/user change.
+- `client/src/components/booking/steps/ConfirmationStep.vue` — WizardSelect bound to wizard.availableCouponBlocks and wizard.selectedCouponBlocks / toggleCouponBlock.
 
 ## Approach
-- Add `getBlockShapeIdByName(bookingData, name)` in blockInstanceUtils (or equivalent) to resolve a block shape by name; use it to filter block instances by `blockShapeRef` and `active`.
-- In the wizard/booking composable that feeds Confirmation step, expose `availableCouponBlocks` (computed from Coupons shape id + filtered blockInstances), mirroring `availablePropertyTypeBlocks` for step 2.
-- In ConfirmationStep.vue Apply coupon area, add WizardSelect bound to `availableCouponBlocks` with `item-title="name"`, `item-value="id"`; keep step thin, no filtering logic in template.
-- No cascade pipeline for coupons; name-based lookup only (Coupons shape is type `user`).
+Same as property type select on step 2: add BLOCK_SHAPE_TYPES.COUPON; use getBlockShapeIdByType(bookingData, BLOCK_SHAPE_TYPES.COUPON) inside cascadeShapePipeline; expose availableCouponBlocks and couponCascadeError; wizard state selectedCouponBlocks and toggleCouponBlock; ConfirmationStep binds WizardSelect to wizard. No name-based lookup; no new resolver APIs.
 
 ## Checkpoint
-- Step 5 "Apply coupon" area shows a dropdown listing coupon block instances (from the "Coupons" block shape); list is empty if no Coupons shape or no instances. Selection can be wired to discount/state in a later task.
+- Step 5 "Apply coupon" area shows a dropdown listing coupon block instances (cascade from selected services); list empty if no Coupon shape or no cascade. Selection in wizard.selectedCouponBlocks.
 
 ## How we build the tierDown
 - **Task 6.10.1.1:** Restore "Add new block shape" entry point
