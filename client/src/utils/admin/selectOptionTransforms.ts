@@ -6,7 +6,13 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
-import type { GroupedEntities, SelectOption } from '@/types/selectOptions'
+import type {
+  GroupedEntities,
+  SelectOption,
+  SelectOptionGroupHeader,
+  SelectOptionOrHeader,
+} from '@/types/selectOptions'
+import { SELECT_OPTION_GROUP_HEADER_VALUE } from '@/types/selectOptions'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { createLogger } from '@/utils/logger'
 
@@ -89,13 +95,17 @@ export function buildGroupedOptionsMap(
 }
 
 /**
- * Convert grouped map to select options (nested or flattened by isMultiple).
+ * Convert grouped map to select options.
+ * - When isMultiple && withHeaders: flat array with group header rows (block shape name) then options per group.
+ * - When isMultiple && !withHeaders: flat list of options only (legacy).
+ * - When !isMultiple: nested result (group objects with children).
  */
 export function groupedMapToSelectOptions(
   groupedMap: Map<string, GroupWithParent>,
   optionLabelKey: string,
-  isMultiple: boolean
-): SelectOption[] {
+  isMultiple: boolean,
+  withHeaders: boolean = false
+): SelectOption[] | SelectOptionOrHeader[] {
   const groupedEntities = Array.from(groupedMap.values())
   const result = groupedEntities.map((group) => ({
     title: getOptionTitle(group.parent, optionLabelKey),
@@ -107,6 +117,21 @@ export function groupedMapToSelectOptions(
   }))
 
   if (isMultiple) {
+    if (withHeaders) {
+      const withHeaderRows: SelectOptionOrHeader[] = []
+      for (const group of result) {
+        const groupLabel = group.title
+        withHeaderRows.push({
+          header: groupLabel,
+          title: groupLabel,
+          value: SELECT_OPTION_GROUP_HEADER_VALUE,
+        } as SelectOptionGroupHeader)
+        for (const child of asEmptyArray(group.children)) {
+          withHeaderRows.push(child)
+        }
+      }
+      return withHeaderRows
+    }
     return result.flatMap((group) => asEmptyArray(group.children))
   }
   return result

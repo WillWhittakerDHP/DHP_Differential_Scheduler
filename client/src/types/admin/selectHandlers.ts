@@ -10,7 +10,6 @@ export interface UseSelectHandlersOptions {
   rawFieldValue: ReadonlyVueRef<unknown>
   fieldValue: ComputedRef<string | string[] | null>
   isMultiple: ComputedRef<boolean>
-  groupedByKey: ReadonlyVueRef<Array<{ groupKey: string; groupLabel: string; entities: unknown[] }>>
   entityCardSaveContext?: EntityCardSaveContext | null
   disableAutoSave?: boolean
   isAnnotationAssignmentSelect?: ComputedRef<boolean>
@@ -18,7 +17,6 @@ export interface UseSelectHandlersOptions {
 
 export interface UseSelectHandlersReturn {
   isUpdatingProgrammatically: Ref<boolean>
-  handleGroupChange: (groupKey: string, groupValue: string | string[] | null) => Promise<void>
   handleChange: (value: string | string[] | null) => Promise<void>
   handleFocus: () => void
   handleBlur: () => Promise<void>
