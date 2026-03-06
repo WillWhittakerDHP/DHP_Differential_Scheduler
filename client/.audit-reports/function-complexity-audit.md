@@ -13,17 +13,17 @@ Tier 1 (nesting, branches, length-when-branchy) drives score and file count; Tie
 - Files scanned: **1048**
 - Files with complex functions: **1**
 - Complex functions found: **1**
-- Violations: nesting=0, branches=1, length=1, params=0, returns=1
+- Violations: nesting=0, branches=1, length=1, params=0, returns=0
 - Tier 1 violations (score): nesting=0, branches=1, length=1
 
 ## Top hotspots
 
 | File | Priority | Score | Complex Fns | Worst Nesting | Worst Length |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/src/utils/admin/inputConfigEditor.ts` | P1 | 5 | 1 | 3 | 94 |
+| `client/src/composables/booking/useBookingWizard.ts` | P1 | 5 | 1 | 2 | 185 |
 
 ## Per-file details
 
-### `client/src/utils/admin/inputConfigEditor.ts` [P1]
+### `client/src/composables/booking/useBookingWizard.ts` [P1]
 
-- **inputConfigEditor** (L25-118, 94 lines): branches=14>8, length=94>50, returns=7>4
+- **useBookingWizard** (L15-199, 185 lines): branches=18>8, length=185>50
