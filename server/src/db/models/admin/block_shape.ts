@@ -21,7 +21,6 @@ export class BlockShape extends Model<
   declare type: 'user' | 'service' | 'property' | 'option';
   declare composable: boolean;
   declare canHaveParts: boolean;
-  declare allowMultipleBlocks: boolean;
   declare isStateControl: boolean; // If true, acts as state selector in wizard (mutually exclusive with canHaveParts)
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -63,12 +62,6 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
         field: 'can_have_parts', // Map to snake_case database column
-      },
-      allowMultipleBlocks: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: 'allow_multiple_blocks',
       },
       isStateControl: {
         type: DataTypes.BOOLEAN,
