@@ -61,16 +61,17 @@ We used to have an "Add new block shape" button on the admin Shapes tab; it is n
 
 ### Task 6.10.1.4: Apply Coupon dropdown — coupon blockShape blockInstances on step 5
 
-**Goal:** On wizard step 5 (Confirmation), at the "Apply coupon" UI, show a filtered list of coupon blockShape blockInstances in a dropdown. Use the same logic as property block instances on step 2: identify the block shape (for Coupons, by name "Coupons"), then filter `bookingData.blockInstances` by `blockShapeRef`; expose the list to the step and render with a select/dropdown (e.g. WizardSelect like Property Type on PropertyDetailsStep).
+**Goal:** On wizard step 5 (Confirmation), at the "Apply coupon" UI, show a filtered list of coupon blockShape blockInstances in a dropdown. Use the **same routine** as the property type select on step 2: `cascadeShapePipeline` with `BLOCK_SHAPE_TYPES.COUPON`, `parentInstances: selectedServiceTypeBlocks`, `currentSelection: selectedCouponBlocks`, `relationshipName: 'coupons'`. Wizard state includes `selectedCouponBlocks` and `toggleCouponBlock`; step 5 binds WizardSelect to `wizard.availableCouponBlocks` and wizard selection.
 
 **Files:**
-- `client/src/utils/blockInstanceUtils.ts` — Add `getBlockShapeIdByName(bookingData, name)` (or equivalent) to resolve the "Coupons" block shape by name; use it to derive coupon block instances (filter instances where `blockShapeRef === shapeId` and `active`).
-- Wizard/booking composable (e.g. `useWizardFilteredOptions` or the composable that provides wizard state to Confirmation step) — Expose `availableCouponBlocks` (computed list of block instances for the Coupons shape), same pattern as `availablePropertyTypeBlocks` for step 2.
-- `client/src/components/booking/steps/ConfirmationStep.vue` — In the Apply coupon area (Coupon Discount row), add a dropdown/select bound to `availableCouponBlocks`; use WizardSelect with `item-title="name"`, `item-value="id"` like PropertyDetailsSection. Optionally bind selected coupon to wizard state for discount application in a later task.
+- `client/src/constants/blockShapeTypes.ts` — Add `COUPON: 'coupon'`. Server: add `coupon` to block_shape_type enum and BlockShape model.
+- `client/src/composables/booking/useWizardFilteredOptions.ts` — Expose `availableCouponBlocks` and `couponCascadeError` via `cascadeShapePipeline` (same as property types); params include `selectedCouponBlocks`.
+- `client/src/composables/booking/useBookingWizard.ts` — Add `selectedCouponBlocks`, `toggleCouponBlock`; clear coupon selection when user/service type changes; pass `selectedCouponBlocks` to useWizardFilteredOptions.
+- `client/src/components/booking/steps/ConfirmationStep.vue` — Apply coupon area: WizardSelect bound to `wizard.availableCouponBlocks`, model from `wizard.selectedCouponBlocks`, `@update:model-value` calls `wizard.toggleCouponBlock` (same usage pattern as PropertyDetailsSection).
 
-**Approach:** Mirror step 2 property-type flow: property types come from `cascadeShapePipeline` / `getBlockShapeIdByType(bookingData, BLOCK_SHAPE_TYPES.PROPERTY)` and are shown in PropertyDetailsSection via WizardSelect. For coupons, use name-based lookup (Coupons shape has type `user`), then filter instances; no cascade—just shape-filtered list. Keep Confirmation step thin; put filtering in a composable.
+**Approach:** Same strategy and same routine as property type select on step 2: no name-based lookup; use type-based shape id and cascade pipeline. Add BLOCK_SHAPE_TYPES.COUPON; use cascadeShapePipeline with parentInstances = selectedServiceTypeBlocks, currentSelection = selectedCouponBlocks, relationshipName = 'coupons'. Keep Confirmation step thin; selection in wizard state.
 
-**Checkpoint:** Step 5 "Apply coupon" area shows a dropdown listing coupon block instances (from the "Coupons" block shape); list is empty if no Coupons shape or no instances. Selection can be wired to discount/state in a later task.
+**Checkpoint:** Step 5 "Apply coupon" area shows a dropdown listing coupon block instances (cascade from selected services); list is empty if no Coupon shape, no instances, or no cascade configured. Selection stored in wizard.selectedCouponBlocks; can be wired to discount in a later task.
 
 ---
 

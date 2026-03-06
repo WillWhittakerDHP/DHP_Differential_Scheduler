@@ -71,34 +71,6 @@ export function getBlockShapeIdByType(
   return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
 }
 
-/**
- * Resolve a block shape by name (e.g. "Coupons" for user-type shapes).
- * WHY: Coupons shape is type 'user'; step 5 coupon dropdown uses name-based lookup, not cascade.
- */
-export function getBlockShapeIdByName(bookingData: BookingData, name: string): string | null {
-  const blockShapes = getBlockShapes(bookingData, 'getBlockShapeIdByName')
-  const blockShape = blockShapes.find((bs) => bs.name === name)
-  if (blockShape === undefined) return null
-  return blockShape.id != null ? blockShape.id : null
-}
-
-/**
- * Return active block instances for a block shape identified by name.
- * Used for step 5 Apply Coupon dropdown (Coupons shape block instances).
- */
-export function getBlockInstancesForShapeName(
-  bookingData: BookingData,
-  shapeName: string
-): BookingBlockInstance[] {
-  const shapeId = getBlockShapeIdByName(bookingData, shapeName)
-  if (shapeId == null) return []
-  const instances = getBlockInstances(bookingData, 'getBlockInstancesForShapeName')
-  const shapeIdNormalized = toGlobalEntityId(shapeId)
-  return instances.filter(
-    (instance) => toGlobalEntityId(instance.blockShapeRef) === shapeIdNormalized && instance.active
-  )
-}
-
 export function generateIncrementedName(
   currentName: string,
   blockShapeRef: string,
