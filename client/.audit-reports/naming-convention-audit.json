@@ -1,33 +1,18 @@
 {
-  "generatedAt": "2026-03-06T01:07:06.516Z",
+  "generatedAt": "2026-03-06T01:22:54.083Z",
   "totalScanned": 1112,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
+    "totalAllowed": 0,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 1,
+      "pattern": 0,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": [
-    {
-      "repoPath": "server/src/db/models/admin/block_shape.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 33,
-          "line": "export function BlockShapeFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    }
-  ]
+  "scanned": []
 }
