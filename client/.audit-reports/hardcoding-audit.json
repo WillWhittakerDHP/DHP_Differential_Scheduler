@@ -1,13 +1,5 @@
 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  "generatedAt": "2026-03-05T23:59:11.288Z",
-=======
-  "generatedAt": "2026-03-06T01:24:53.618Z",
->>>>>>> Stashed changes
-=======
-  "generatedAt": "2026-03-06T01:28:35.166Z",
->>>>>>> Stashed changes
+  "generatedAt": "2026-03-06T01:34:45.009Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -21,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 0,
+  "totalScanned": 1,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
+    "totalAllowed": 2,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0,
-      "linePattern": 0
+      "linePattern": 2
     }
   },
   "entityKeys": [],
