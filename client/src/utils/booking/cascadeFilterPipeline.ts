@@ -77,7 +77,10 @@ function filterByShape(
 ): BookingBlockInstance[] {
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
   if (!shapeId) return []
-  return instances.filter(instance => instance.blockShapeRef === shapeId)
+  const shapeIdNorm = String(shapeId)
+  return instances.filter(
+    instance => String(instance.blockShapeRef) === shapeIdNorm
+  )
 }
 
 interface FallbackParams {
@@ -135,11 +138,14 @@ export function cascadeShapePipeline(params: PipelineParams): {
   }
 
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
+
   if (!shapeId) {
     if (relationshipName === 'availability options') {
       logger.warn('Option block shape [type: option] not found')
     } else if (relationshipName === 'property types') {
       logger.warn('Property block shape [type: property] not found')
+    } else if (relationshipName === 'coupons') {
+      logger.warn('Coupon block shape [type: coupon] not found')
     }
     return { instances: [], error: cascadeResult.success ? null : cascadeResult.error }
   }
