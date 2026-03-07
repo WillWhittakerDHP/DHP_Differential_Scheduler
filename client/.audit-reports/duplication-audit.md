@@ -37,7 +37,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **717**
+- Files scanned: **719**
 - Groups (window=10 lines, minOccurrences=2): **0**
 - Candidate findings from pattern-detection: **7**
 

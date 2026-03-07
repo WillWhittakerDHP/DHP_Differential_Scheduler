@@ -10,13 +10,25 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **0**
+- Total files: **1**
 
 ## Top hotspots (by heuristic score)
 
 | File | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/views/admin/AdminBookingEntryView.vue` | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/views/admin/AdminBookingEntryView.vue`
+
+- counts: computed=0, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
+
+```
+computed@18: const users = computed(() => {
+computed@28: const dropdownItems = computed(() => {
+map@31: return items.map((item: AdminEntryAppointmentItem) => ({
+computed@50: const canGo = computed(() => {
+```

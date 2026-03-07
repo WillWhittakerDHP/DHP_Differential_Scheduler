@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Ref } from 'vue'
-import type { PropertyRequest } from '@/types/property'
+import type { PropertyRequest, PropertyResponse } from '@/types/property'
 import { usePropertiesTableModel } from '@/composables/admin/tables/usePropertiesTableModel'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import PropertyCreateForm from './PropertyCreateForm.vue'
@@ -46,7 +46,7 @@ const headers = [
   { title: 'Actions', key: 'actions', sortable: false },
 ]
 
-const tableItems = computed(() => ensureItemsArray(properties.value))
+const tableItems = computed(() => ensureItemsArray<PropertyResponse>(properties.value))
 </script>
 
 <template>

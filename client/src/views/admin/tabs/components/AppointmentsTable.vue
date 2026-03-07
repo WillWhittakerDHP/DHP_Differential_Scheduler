@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
-import type { AppointmentStatus } from '@/types/appointment'
+import type { AppointmentStatus, AppointmentResponse } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
 import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
@@ -63,7 +63,7 @@ const scheduledByDisplay = computed(() =>
   confirmingAppointment.value ? getDisplayValue(confirmingAppointment.value, 'scheduledById') : undefined
 )
 
-const tableItems = computed(() => ensureItemsArray(appointments.value))
+const tableItems = computed(() => ensureItemsArray<AppointmentResponse>(appointments.value))
 
 const {
   handleOpenConfirmDialog,

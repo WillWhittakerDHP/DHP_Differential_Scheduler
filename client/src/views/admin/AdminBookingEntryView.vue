@@ -26,7 +26,8 @@ const getUserById = (id: string | null | undefined): import('@/types/user').User
 }
 
 const dropdownItems = computed(() => {
-  const items = listItems.value ?? []
+  const raw = listItems.value
+  const items = Array.isArray(raw) ? raw : []
   return items.map((item: AdminEntryAppointmentItem) => ({
     ...item,
     clientName: formatUserDisplayName(getUserById(item.clientUserId)),

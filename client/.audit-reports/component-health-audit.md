@@ -4,13 +4,13 @@
 
 # Component Health Audit
 
-Generated: 2026-03-06T13:39:37.638Z
+Generated: 2026-03-07T18:37:08.615Z
 
 ## Overview
 
-- Components scanned: **1**
-- Findings: **0**
-- Files with findings: **0**
+- Components scanned: **6**
+- Findings: **4**
+- Files with findings: **3**
 
 ## Ruleset
 
@@ -27,11 +27,35 @@ Generated: 2026-03-06T13:39:37.638Z
 | unused-named-slot | P2 | 1 | Named slot defined but never filled by any parent. |
 | constant-prop-value | info | 0 | Prop always receives the same literal value across all parents. |
 
+## By rule
+
+| Rule | Severity | Count |
+| --- | --- | ---: |
+| oversized-template | P2 | 3 |
+| component-coupling | P1 | 1 |
+
 ## Repair Waves
 
 - **Wave 1 — Local** (parentCount = 0): 0 finding(s)
-- **Wave 2 — Low fan-in** (parentCount 1–3): 0 finding(s)
+- **Wave 2 — Low fan-in** (parentCount 1–3): 4 finding(s)
 - **Wave 3 — High fan-in** (parentCount ≥ 4): 0 finding(s)
+
+## Top 3 files by score
+
+| File | Priority | Score | Parents |
+| --- | --- | ---: | ---: |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | P1 | 3 | 1 |
+| `client/src/views/admin/tabs/components/PropertiesTable.vue` | P2 | 1 | 1 |
+| `client/src/views/admin/tabs/components/UsersTable.vue` | P2 | 1 | 1 |
+
+## All findings (first 60)
+
+| File | Line | Rule | Message | Parents |
+| --- | ---: | --- | --- | ---: |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | 5 | component-coupling | Component imports 6 sibling components; high coupling sur... | 1 |
+| `client/src/views/admin/tabs/components/AppointmentsTable.vue` | 87 | oversized-template | Template is 253 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/PropertiesTable.vue` | 52 | oversized-template | Template is 282 lines; extract sub-components to improve ... | 1 |
+| `client/src/views/admin/tabs/components/UsersTable.vue` | 47 | oversized-template | Template is 209 lines; extract sub-components to improve ... | 1 |
 
 ## Notes
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T00:00:35.591Z",
+  "generatedAt": "2026-03-07T18:37:46.424Z",
   "check": "Deprecation",
   "totalScanned": 1114,
   "tierModel": "tier1",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -25,83 +25,7 @@
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "id": "client__src__views__admin__AdminBookingEntryView.vue",
-      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 26,
-          "line": "const items = listItems.value ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 26,
-          "line": "const items = listItems.value ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__appointments__forceCreateRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 228,
-          "line": "const attendeesData = appointmentBody.attendees ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 228,
-          "line": "const attendeesData = appointmentBody.attendees ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__routes__internal__appointments__listForAdminEntryHandler.ts",
-      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 46,
-          "line": "const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 46,
-          "line": "const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    }
-  ],
+  "files": [],
   "ruleset": [
     {
       "ruleId": "jsdoc-deprecated",
