@@ -62,6 +62,20 @@ Completed Task
 
 
 **Where we left off:**
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+=======
+Completed Task 
+
+**What you need to start:**
+- Begin Session 6.10.2
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
 Completed Task 
 
 **What you need to start:**
