@@ -154,6 +154,7 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
 
   const validation = validateForceCreateBody(req.body)
   if (!validation.valid) {
+    // @audit-allow:hardcoding:fieldMapping - Standard Express error response shape; 'error' key is conventional (RFC 7807-style)
     res.status(validation.status).json({ error: validation.message })
     return
   }
@@ -225,7 +226,8 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
       optionIds: idsOrEmpty('selectedOptionIds'),
     })
 
-    const attendeesData = appointmentBody.attendees ?? []
+    const rawAttendees = appointmentBody.attendees
+    const attendeesData = Array.isArray(rawAttendees) ? rawAttendees : []
     await createAttendeeRecords(record.id, attendeesData as AttendeeRequest[])
     await createFeeRecordsForAppointment(record.id, appointmentBody.feeBreakdown ?? null)
 
