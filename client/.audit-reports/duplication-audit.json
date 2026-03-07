@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T00:00:33.868Z",
+  "generatedAt": "2026-03-07T18:37:44.886Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 717,
+  "fileCount": 719,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T00:00:34.418Z",
+  "generatedAt": "2026-03-07T18:37:45.435Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -489,7 +489,7 @@
           },
           {
             "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-            "line": 236,
+            "line": 237,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -876,7 +876,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useCrudDataTableModel.ts",
-            "line": 10,
+            "line": 11,
             "name": "CrudDataTableModel"
           }
         ]
@@ -896,7 +896,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useTableModelHelpers.ts",
-            "line": 11,
+            "line": 20,
             "name": "ItemsSource"
           }
         ]
@@ -1906,7 +1906,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFieldValue.ts",
-            "line": 15,
+            "line": 16,
             "name": "SelectFieldValue"
           }
         ]
@@ -1946,7 +1946,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectHandlers.ts",
-            "line": 19,
+            "line": 20,
             "name": "SelectHandlers"
           }
         ]
@@ -3466,7 +3466,7 @@
         "locations": [
           {
             "file": "client/src/composables/useSelectOptions.ts",
-            "line": 35,
+            "line": 32,
             "name": "SelectOptions"
           }
         ]
@@ -3766,7 +3766,7 @@
         "locations": [
           {
             "file": "client/src/utils/admin/selectOptionTransforms.ts",
-            "line": 33,
+            "line": 42,
             "name": "OptionTitle"
           }
         ]
@@ -4166,7 +4166,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 184,
+            "line": 190,
             "name": "UserTypeBlocks"
           }
         ]
@@ -4801,7 +4801,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 55,
+            "line": 56,
             "name": "HoldDurationBoundsFromSettings"
           }
         ]
@@ -4811,7 +4811,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 68,
+            "line": 69,
             "name": "HoldDurationFromSettings"
           }
         ]
@@ -4821,7 +4821,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 86,
+            "line": 87,
             "name": "HoldDurationDefaultFromSettings"
           }
         ]
@@ -4831,7 +4831,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 97,
+            "line": 98,
             "name": "AdminEntryTimeoutFromSettings"
           }
         ]
@@ -4841,7 +4841,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 116,
+            "line": 117,
             "name": "AutoConfirmEnabledFromSettings"
           }
         ]
@@ -4851,7 +4851,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 124,
+            "line": 125,
             "name": "WriteToCalendarFromSettings"
           }
         ]
@@ -4861,7 +4861,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 199,
+            "line": 200,
             "name": "SnapshotsForAppointment"
           }
         ]
@@ -4871,7 +4871,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 275,
+            "line": 276,
             "name": "AttendeeRecords"
           }
         ]
@@ -4881,7 +4881,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 304,
+            "line": 305,
             "name": "FeeRecordsForAppointment"
           }
         ]
@@ -4891,7 +4891,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 348,
+            "line": 349,
             "name": "CalendarIdForAppointment"
           }
         ]
@@ -4901,7 +4901,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 365,
+            "line": 366,
             "name": "ConstraintOverrideOnRescheduleIfNeeded"
           }
         ]
@@ -5639,7 +5639,7 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-        "line": 113,
+        "line": 114,
         "pattern": "AppointmentStatus workflow",
         "code": "* Task 6.3.2.3/6.3.2.4: Whether to auto-confirm appointments created with status 'submitted'."
       },
@@ -5660,28 +5660,28 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 232,
+        "line": 233,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 236,
+        "line": 237,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 243,
+        "line": 244,
         "pattern": "AppointmentStatus workflow",
         "code": "oldStatus: 'submitted',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 244,
+        "line": 245,
         "pattern": "AppointmentStatus workflow",
         "code": "newStatus: 'confirmed',"
       },

@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-06T00:00:33.458Z**
+- Generated at: **2026-03-07T18:37:44.435Z**
 - Files scanned: **1143**
-- Type definitions found: **799**
-- Similarity groups: **12**
+- Type definitions found: **800**
+- Similarity groups: **13**
 - UNIFY candidates: **0**
-- BRAND candidates: **1**
+- BRAND candidates: **2**
 - EXTEND candidates: **11**
 - REVIEW candidates: **0**
 
-- P0 (high): **7**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **8**, P1 (medium): **5**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -41,13 +41,14 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
 | P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
+| P0 | BRAND | EXACT | `UseSelectConfigOptions`, `UseSelectDomTargetsOptions` | 2 | 12 | `{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, ...` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
 | P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
 | P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
 
-## BRAND Candidates (1)
+## BRAND Candidates (2)
 
 These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
 
@@ -60,6 +61,16 @@ These types are structurally identical but may represent different concepts. Add
 | --- | --- | --- | ---: | --- |
 | `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
 | `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
+
+### sim-exact-0d7d919f2c4e
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **12**
+- Structure: `{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseSelectConfigOptions` | interface | `client/src/types/admin/selectConfig.ts` | 7 | yes |
+| `UseSelectDomTargetsOptions` | interface | `client/src/types/admin/selectDomTargets.ts` | 6 | yes |
 
 ## EXTEND Candidates (11)
 
@@ -109,7 +120,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts` | 36 | yes |
-| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 242 | yes |
+| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 243 | yes |
 | `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 71 | yes |
 
 ### sim-subset-87ff2f40bfd6
@@ -196,15 +207,15 @@ Overlap: **27%** shared properties
 ### sim-subset-f43751655285
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
-- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }`
+- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedCouponBlocks: Ref<BookingBlockInstance[]>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 89 | yes |
-| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 76 | yes |
+| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 97 | yes |
+| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 83 | yes |
 
-Overlap: **70%** shared properties
-- Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
+Overlap: **73%** shared properties
+- Shared: `isQuoteMode`, `selectedCouponBlocks`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
 - Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
 
 ### sim-subset-47728a2eb291

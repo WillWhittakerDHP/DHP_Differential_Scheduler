@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T13:39:43.493Z",
+  "generatedAt": "2026-03-07T18:37:18.322Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -43,7 +43,7 @@
     "annotated": 325,
     "unannotated": 0,
     "classificationIssues": {
-      "mixedTypeConstantFiles": 12,
+      "mixedTypeConstantFiles": 13,
       "inlineTypesInComposables": 74,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
@@ -2022,7 +2022,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 14,
+      "lineCount": 11,
       "purpose": "UseSelectDomTargetsOptions, UseSelectDomTargetsReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -2131,7 +2131,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 22,
       "purpose": "UseSelectHandlersOptions, UseSelectHandlersReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -6353,17 +6353,19 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
+        "SelectOptionOrHeader",
         "SelectOptionBase",
+        "SelectOptionGroupHeader",
         "UseSelectOptionsOptions",
         "UseSelectOptionsReturn"
       ],
       "exportKinds": {
-        "types": 0,
-        "interfaces": 3,
+        "types": 1,
+        "interfaces": 4,
         "enums": 0
       },
-      "alsoExportsRuntime": false,
-      "lineCount": 33,
+      "alsoExportsRuntime": true,
+      "lineCount": 43,
       "purpose": "Generic select option and dropdown types",
       "reuseTier": "shared",
       "tags": [],
@@ -9979,6 +9981,10 @@
     "mixedFiles": [
       {
         "repoPath": "client/src/types/propertyForm.ts",
+        "reason": "In types/ but exports runtime values"
+      },
+      {
+        "repoPath": "client/src/types/selectOptions.ts",
         "reason": "In types/ but exports runtime values"
       },
       {

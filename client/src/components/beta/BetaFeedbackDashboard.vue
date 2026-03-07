@@ -136,7 +136,7 @@ const {
   load,
 } = useFeedbackDashboard();
 
-const tableItems = computed(() => ensureItemsArray(items.value));
+const tableItems = computed(() => ensureItemsArray<BetaFeedback>(items.value));
 
 const statusFilterItems: { title: string; value: FeedbackStatus }[] = [
   { title: 'New', value: 'new' },

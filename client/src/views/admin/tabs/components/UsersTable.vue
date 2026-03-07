@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Ref } from 'vue'
-import type { UserRequest } from '@/types/user'
+import type { UserRequest, UserResponse } from '@/types/user'
 import { useUsersTableModel } from '@/composables/admin/tables/useUsersTableModel'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import UserCreateForm from './UserCreateForm.vue'
@@ -41,7 +41,7 @@ const headers = [
   { title: 'Actions', key: 'actions', sortable: false },
 ]
 
-const tableItems = computed(() => ensureItemsArray(users.value))
+const tableItems = computed(() => ensureItemsArray<UserResponse>(users.value))
 </script>
 
 <template>

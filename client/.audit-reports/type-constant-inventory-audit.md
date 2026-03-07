@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-06T13:39:43.493Z
+Generated: 2026-03-07T18:37:18.322Z
 
 ## Summary
 
@@ -16,7 +16,7 @@ Generated: 2026-03-06T13:39:43.493Z
 
 | Classification Issue | Count |
 | --- | ---: |
-| Mixed type+constant files | 12 |
+| Mixed type+constant files | 13 |
 | Inline types in composables | 74 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
@@ -345,7 +345,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/partInstanceData.ts` | dedicated | UsePartInstanceDataOptions, UsePartInstanceDataReturn | no | Part instance data structure types | feature |
 | `client/src/types/property.ts` | dedicated | PropertyVersionType, PropertyTypesRequest | no | Property entity data structure types | feature |
 | `client/src/types/propertyForm.ts` | dedicated | PropertySource, PropertyFormData | yes | Property form field definition and validation types | feature |
-| `client/src/types/selectOptions.ts` | dedicated | SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn | no | Generic select option and dropdown types | shared |
+| `client/src/types/selectOptions.ts` | dedicated | SelectOptionOrHeader, SelectOptionBase, SelectOptionGroupHeader, UseSelectOptionsOptions, UseSelectOptionsReturn | yes | Generic select option and dropdown types | shared |
 | `client/src/types/shapeFieldMetadata.ts` | dedicated | ShapeFieldMetadata, ShapeLayoutConfig, ComposedFieldConfig | no | Shape field metadata configuration types | shared |
 | `client/src/types/ternary.ts` | dedicated | TernaryBoolean | no | Ternary logic value types for three-state fields | shared |
 | `client/src/types/transformers/adminObject.ts` | dedicated | AdminObject, AdminObjectMap | no | Admin object transformer input/output types | shared |

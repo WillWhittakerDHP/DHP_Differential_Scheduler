@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **3**
-- Requiring review (Tier 1): **3**
+- Files with findings: **0**
+- Requiring review (Tier 1): **0**
 - Allowed (with justification): 0
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **3**
-- Tier 1 findings: 3 (annotations: 0, legacy-keyword: 0, unhelpful-default: 3)
+- Runtime legacy accommodation: **0**
+- Tier 1 findings: 0 (annotations: 0, legacy-keyword: 0, unhelpful-default: 0)
 
 ## Rules
 
@@ -83,29 +83,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/views/admin/AdminBookingEntryView.vue` | P2 | 2 | 0 | 1 |
-| `server/src/routes/internal/appointments/forceCreateRouter.ts` | P2 | 2 | 0 | 1 |
-| `server/src/routes/internal/appointments/listForAdminEntryHandler.ts` | P2 | 2 | 0 | 1 |
 
 ## Per-file findings
-
-### `client/src/views/admin/AdminBookingEntryView.vue` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@26: const items = listItems.value ?? []
-```
-
-### `server/src/routes/internal/appointments/forceCreateRouter.ts` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@228: const attendeesData = appointmentBody.attendees ?? []
-```
-
-### `server/src/routes/internal/appointments/listForAdminEntryHandler.ts` [P2] (score: 2)
-
-```
-[LEGACY] unhelpful-default-nullish@46: const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []
-```
 
 ## Notes
 
