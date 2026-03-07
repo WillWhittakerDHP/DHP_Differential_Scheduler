@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T00:00:35.190Z",
+  "generatedAt": "2026-03-07T18:37:46.027Z",
   "totalScanned": 1114,
   "exceptionSummary": {
     "totalRequiresReview": 16
@@ -49,7 +49,7 @@
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
-      "lineCount": 398,
+      "lineCount": 399,
       "exportCount": 19,
       "mixedConcerns": false,
       "hasExports": true,
@@ -220,16 +220,16 @@
     {
       "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
       "category": "components",
-      "lineCount": 575,
+      "lineCount": 582,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 575,
+          "value": 582,
           "threshold": 500,
-          "detail": "575 lines (components max: 500)",
+          "detail": "582 lines (components max: 500)",
           "tier": 1
         }
       ],
@@ -315,7 +315,7 @@
     {
       "repoPath": "client/src/types/wizard.ts",
       "category": "general",
-      "lineCount": 147,
+      "lineCount": 156,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,

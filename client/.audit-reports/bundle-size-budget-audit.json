@@ -1,103 +1,117 @@
 {
-  "generatedAt": "2026-03-04T15:30:19.973Z",
-  "buildTimestamp": "2026-02-26T20:54:27.101Z",
-  "totalScanned": 57,
+  "generatedAt": "2026-03-07T18:37:51.529Z",
+  "buildTimestamp": "2026-03-05T00:34:41.848Z",
+  "totalScanned": 61,
   "chunks": [
     {
-      "file": "assets/AddressAutocomplete.vue_vue_type_script_setup_true_lang-oEkE5vvj.js",
+      "file": "assets/AddressAutocomplete.vue_vue_type_script_setup_true_lang-Dk9z87dB.js",
       "sizeKb": 8.25,
       "gzipKb": 3.07,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/AdminPanel-C5a1GJ-2.js",
-      "sizeKb": 5.69,
-      "gzipKb": 2.28,
+      "file": "assets/AdminPanel-BFkMM7v_.js",
+      "sizeKb": 5.76,
+      "gzipKb": 2.31,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/AdminPanel-Epraq2yH.css",
+      "file": "assets/AdminPanel-DlvIg0BA.css",
       "sizeKb": 0.04,
       "gzipKb": 0.06,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/AvailabilityStep-CBIELR-J.css",
-      "sizeKb": 12.89,
-      "gzipKb": 2.31,
+      "file": "assets/AvailabilityStep-D9SiNMmN.js",
+      "sizeKb": 50.95,
+      "gzipKb": 15.72,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/AvailabilityStep-DDmuoWPv.css",
+      "sizeKb": 13.36,
+      "gzipKb": 2.41,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/AvailabilityStep-oSxRCqZx.js",
-      "sizeKb": 46.9,
-      "gzipKb": 14.54,
-      "type": "js",
-      "isEntry": false
-    },
-    {
-      "file": "assets/BetaFeedbackView-BuMeJOHg.js",
-      "sizeKb": 9.48,
-      "gzipKb": 3.17,
-      "type": "js",
-      "isEntry": false
-    },
-    {
-      "file": "assets/BetaFeedbackView-DoYPPwpZ.css",
+      "file": "assets/BetaFeedbackView-1UZAge82.css",
       "sizeKb": 0.15,
       "gzipKb": 0.15,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/BookingWizardView-C3f5qavy.css",
-      "sizeKb": 5.78,
-      "gzipKb": 1.33,
-      "type": "css",
-      "isEntry": false
-    },
-    {
-      "file": "assets/BookingWizardView-mNIhAoC8.js",
-      "sizeKb": 54.01,
-      "gzipKb": 16.8,
+      "file": "assets/BetaFeedbackView-DG2Bqx9q.js",
+      "sizeKb": 9.48,
+      "gzipKb": 3.16,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/BusinessControlsTab-BUzo-yjm.css",
+      "file": "assets/BookingWizardView-BmT8-bVA.js",
+      "sizeKb": 58.88,
+      "gzipKb": 18.38,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/BookingWizardView-Bmryo114.css",
+      "sizeKb": 7.11,
+      "gzipKb": 1.5,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/BusinessControlsTab-J06W35pL.js",
+      "sizeKb": 96.82,
+      "gzipKb": 22.16,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/BusinessControlsTab-bu_Eg08f.css",
       "sizeKb": 0.36,
       "gzipKb": 0.22,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/BusinessControlsTab-DjWDKBP5.js",
-      "sizeKb": 92.2,
-      "gzipKb": 21.57,
+      "file": "assets/CancelConfirmView-CWjVTii7.css",
+      "sizeKb": 0.1,
+      "gzipKb": 0.11,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/CancelConfirmView-Dm-wsZk-.js",
+      "sizeKb": 3.35,
+      "gzipKb": 1.5,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/ConfirmationStep-C9z0lWug.css",
+      "file": "assets/ConfirmationStep-DyS9UXIt.js",
+      "sizeKb": 7.44,
+      "gzipKb": 2.28,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ConfirmationStep-n2Bh0ymk.css",
       "sizeKb": 0.47,
       "gzipKb": 0.25,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/ConfirmationStep-uNiiie8t.js",
-      "sizeKb": 6.11,
-      "gzipKb": 2.04,
-      "type": "js",
-      "isEntry": false
-    },
-    {
-      "file": "assets/ContactsStep-BIP6q9yh.js",
-      "sizeKb": 13.7,
-      "gzipKb": 3.07,
+      "file": "assets/ContactsStep-DzPhLh5L.js",
+      "sizeKb": 14.91,
+      "gzipKb": 3.28,
       "type": "js",
       "isEntry": false
     },
@@ -109,107 +123,121 @@
       "isEntry": false
     },
     {
-      "file": "assets/DataManagementTab-BUk47D-9.css",
+      "file": "assets/DataManagementTab-B-VnYE-K.js",
+      "sizeKb": 46.05,
+      "gzipKb": 10.12,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/DataManagementTab-B4RDlzqH.css",
       "sizeKb": 1.56,
       "gzipKb": 0.48,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/DataManagementTab-C7eaiJTs.js",
-      "sizeKb": 44.67,
-      "gzipKb": 9.71,
-      "type": "js",
-      "isEntry": false
-    },
-    {
-      "file": "assets/EntityCard-BtUG_XB1.js",
+      "file": "assets/EntityCard-h68Al1j3.js",
       "sizeKb": 0.59,
       "gzipKb": 0.34,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/InstancesTab-Cg1s6VJ1.js",
-      "sizeKb": 42.23,
-      "gzipKb": 12.36,
-      "type": "js",
-      "isEntry": false
-    },
-    {
-      "file": "assets/InstancesTab-_v7uSjKg.css",
+      "file": "assets/InstancesTab-CbimXIL2.css",
       "sizeKb": 1.7,
       "gzipKb": 0.61,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/PropertyDetailsStep-B6Xg74mN.js",
-      "sizeKb": 26.44,
-      "gzipKb": 7.53,
+      "file": "assets/InstancesTab-DqinOJrp.js",
+      "sizeKb": 43.71,
+      "gzipKb": 12.67,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/PropertyDetailsStep-C7ZxdZTc.css",
+      "file": "assets/PropertyDetailsStep-C5fGuVY1.css",
       "sizeKb": 0.23,
       "gzipKb": 0.15,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/SelectionCardGroup-B_qLkCde.css",
-      "sizeKb": 3.61,
-      "gzipKb": 0.89,
-      "type": "css",
+      "file": "assets/PropertyDetailsStep-a9pzd01e.js",
+      "sizeKb": 27.25,
+      "gzipKb": 7.65,
+      "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/SelectionCardGroup-CTnSgsGE.js",
+      "file": "assets/RequiredConfirmationModal.vue_vue_type_script_setup_true_lang-DHJqflB9.js",
+      "sizeKb": 2.35,
+      "gzipKb": 1.1,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/SelectionCardGroup-BrSs8BwK.js",
       "sizeKb": 16.5,
       "gzipKb": 5.21,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/ServiceSelectionStep-BWJok9R0.js",
-      "sizeKb": 8.06,
+      "file": "assets/SelectionCardGroup-BsJM67m6.css",
+      "sizeKb": 3.61,
+      "gzipKb": 0.89,
+      "type": "css",
+      "isEntry": false
+    },
+    {
+      "file": "assets/ServiceSelectionStep-YmVW5ur6.js",
+      "sizeKb": 8.05,
       "gzipKb": 2.8,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/ServiceSelectionStep-CLvoDWQV.css",
+      "file": "assets/ServiceSelectionStep-loLURZbB.css",
       "sizeKb": 0.41,
       "gzipKb": 0.18,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/ShapesTab-ChZPjJQW.js",
-      "sizeKb": 18.39,
-      "gzipKb": 4.9,
+      "file": "assets/ShapesTab-CxEOd20Q.js",
+      "sizeKb": 19.65,
+      "gzipKb": 5.15,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/ShapesTab-D-LCPjMc.css",
+      "file": "assets/ShapesTab-aIBb-zm0.css",
       "sizeKb": 0.84,
       "gzipKb": 0.33,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/WizardTextField.vue_vue_type_script_setup_true_lang-mgesTSpU.js",
+      "file": "assets/WizardTextField.vue_vue_type_script_setup_true_lang-zffRcfXy.js",
       "sizeKb": 0.56,
       "gzipKb": 0.38,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/appointmentsTableConstants-DH0X8YiP.js",
-      "sizeKb": 2.48,
-      "gzipKb": 1.07,
+      "file": "assets/appointmentStatus-kJqMVDZ6.js",
+      "sizeKb": 0.45,
+      "gzipKb": 0.2,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/appointmentsTableConstants-CTDSvluL.js",
+      "sizeKb": 2.81,
+      "gzipKb": 1.17,
       "type": "js",
       "isEntry": false
     },
@@ -221,52 +249,52 @@
       "isEntry": false
     },
     {
-      "file": "assets/betaFeedback-CmL2EVTz.js",
+      "file": "assets/betaFeedback-D0AF5Osh.js",
       "sizeKb": 0.74,
       "gzipKb": 0.37,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/datetime-BzzjtrLW.js",
-      "sizeKb": 4.95,
-      "gzipKb": 1.71,
+      "file": "assets/datetime-BDwq2N5d.js",
+      "sizeKb": 4.18,
+      "gzipKb": 1.46,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/errorMessages-ChOmi9qr.js",
+      "file": "assets/errorMessages-C9lYqY4p.js",
       "sizeKb": 0.19,
       "gzipKb": 0.14,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/eventAttendeeUtils-BV9v6gGv.js",
+      "file": "assets/eventAttendeeUtils-AVpyJQ9C.js",
       "sizeKb": 0.32,
       "gzipKb": 0.23,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/iconify-xG1x1Gc-.js",
+      "file": "assets/iconify-j2tpkn_2.js",
       "sizeKb": 18.05,
       "gzipKb": 7.05,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/index-BFMtTyHL.css",
-      "sizeKb": 126.53,
-      "gzipKb": 15.06,
-      "type": "css",
+      "file": "assets/index-BpkLYJu-.js",
+      "sizeKb": 103.1,
+      "gzipKb": 30.35,
+      "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/index-cyymr-ki.js",
-      "sizeKb": 101.76,
-      "gzipKb": 30.05,
-      "type": "js",
+      "file": "assets/index-mgF-7Swp.css",
+      "sizeKb": 126.53,
+      "gzipKb": 15.06,
+      "type": "css",
       "isEntry": false
     },
     {
@@ -291,112 +319,112 @@
       "isEntry": false
     },
     {
-      "file": "assets/pinia-B87p1dPI.js",
+      "file": "assets/pinia-CYQbIG1u.js",
       "sizeKb": 3.67,
       "gzipKb": 1.82,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/timeFormatting-B1cLDU6S.js",
+      "file": "assets/timeFormatting-C_kauy9Y.js",
       "sizeKb": 0.48,
       "gzipKb": 0.31,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useBlockInstanceSelection-Bhf1cxCm.js",
-      "sizeKb": 0.48,
-      "gzipKb": 0.31,
+      "file": "assets/useBusiness-D6AdKoZy.js",
+      "sizeKb": 1.05,
+      "gzipKb": 0.54,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useComponentEntity-npHnFADe.js",
+      "file": "assets/useComponentEntity-Cl5__akC.js",
       "sizeKb": 4.02,
       "gzipKb": 1.51,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useEntityTabState-BrWcF4cN.css",
+      "file": "assets/useEntityTabState-CRtiYR9K.css",
       "sizeKb": 31.18,
-      "gzipKb": 5.42,
+      "gzipKb": 5.43,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/useEntityTabState-CRJaVvFt.js",
-      "sizeKb": 246.41,
-      "gzipKb": 69.86,
+      "file": "assets/useEntityTabState-CikyS5En.js",
+      "sizeKb": 246.65,
+      "gzipKb": 69.96,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useStepValidation-BEp-7xi6.js",
+      "file": "assets/useStepValidation-w0d56RZJ.js",
       "sizeKb": 2.85,
       "gzipKb": 1.21,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useTabNavigation-BoJLg5Us.js",
+      "file": "assets/useTabNavigation-CLLvO-bf.js",
       "sizeKb": 0.15,
       "gzipKb": 0.15,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/useWizardStepSync-DDSdxsmv.js",
+      "file": "assets/useWizardStepSync-CMY3IR-G.js",
       "sizeKb": 0.52,
       "gzipKb": 0.34,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vee-validate-BLy76YOh.js",
+      "file": "assets/vee-validate-BUN0ESPl.js",
       "sizeKb": 27.86,
       "gzipKb": 10.05,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vue-RbN4JVuX.js",
-      "sizeKb": 77.78,
-      "gzipKb": 30.75,
+      "file": "assets/vue-CXDTPvUa.js",
+      "sizeKb": 77.79,
+      "gzipKb": 30.76,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vue-query-DxLsMSA7.js",
+      "file": "assets/vue-query-Dropo6Se.js",
       "sizeKb": 36.95,
       "gzipKb": 10.93,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vue-router-DNHFWmiD.js",
-      "sizeKb": 24.94,
-      "gzipKb": 9.79,
+      "file": "assets/vue-router-Cp3krIFy.js",
+      "sizeKb": 24.98,
+      "gzipKb": 9.8,
       "type": "js",
       "isEntry": false
     },
     {
-      "file": "assets/vuetify-C90MPy7L.js",
-      "sizeKb": 348.43,
-      "gzipKb": 109.51,
-      "type": "js",
-      "isEntry": false
-    },
-    {
-      "file": "assets/vuetify-DZTe57-x.css",
+      "file": "assets/vuetify-Dcrvl_Q0.css",
       "sizeKb": 620.73,
-      "gzipKb": 87.63,
+      "gzipKb": 87.62,
       "type": "css",
       "isEntry": false
     },
     {
-      "file": "assets/vueuse-BSatPeLz.js",
+      "file": "assets/vuetify-ZxuFsui1.js",
+      "sizeKb": 348.42,
+      "gzipKb": 109.46,
+      "type": "js",
+      "isEntry": false
+    },
+    {
+      "file": "assets/vueuse-ByYQHvxe.js",
       "sizeKb": 11.64,
       "gzipKb": 4.96,
       "type": "js",
@@ -404,27 +432,27 @@
     }
   ],
   "totals": {
-    "totalJsKb": 417.04,
-    "totalCssKb": 115.11,
-    "largestChunkKb": 109.51,
+    "totalJsKb": 425.19999999999993,
+    "totalCssKb": 115.49000000000001,
+    "largestChunkKb": 109.46,
     "entryPointKb": 0
   },
   "budgetResults": {
     "totalJsKb": {
       "budget": 800,
-      "actual": 417.04,
+      "actual": 425.2,
       "pass": true,
-      "pctOfBudget": 52
+      "pctOfBudget": 53
     },
     "totalCssKb": {
       "budget": 200,
-      "actual": 115.11,
+      "actual": 115.49,
       "pass": true,
       "pctOfBudget": 58
     },
     "largestChunkKb": {
       "budget": 250,
-      "actual": 109.51,
+      "actual": 109.46,
       "pass": true,
       "pctOfBudget": 44
     },

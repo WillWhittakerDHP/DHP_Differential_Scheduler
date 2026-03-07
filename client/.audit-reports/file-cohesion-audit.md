@@ -20,7 +20,7 @@ Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Ti
 | File | Category | Priority | Score | Lines | Exports | Violations |
 | --- | --- | --- | ---: | ---: | ---: | --- |
 | `client/src/composables/booking/injectionKeys.ts` | composables | P0 | 28 | 112 | 24 | high-exports, pureHelperInComposables |
-| `server/src/routes/internal/appointments/appointmentHelpers.ts` | routes | P0 | 18 | 398 | 19 | high-exports |
+| `server/src/routes/internal/appointments/appointmentHelpers.ts` | routes | P0 | 18 | 399 | 19 | high-exports |
 | `client/src/configs/field/display/selectableDisplayConfig.ts` | general | P1 | 6 | 490 | 2 | oversized |
 | `server/src/services/computedAvailabilityService.ts` | services | P1 | 6 | 574 | 3 | oversized |
 | `client/src/constants/apiStatus.ts` | general | P1 | 4 | 33 | 12 | high-exports |
@@ -29,12 +29,12 @@ Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Ti
 | `client/src/utils/booking/confirmationStepData.ts` | utils | P2 | 3 | 310 | 3 | oversized |
 | `client/src/utils/tablerIcons.ts` | utils | P2 | 3 | 356 | 1 | oversized |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | utils | P2 | 3 | 357 | 3 | oversized |
-| `client/src/views/admin/tabs/ShapesTab.vue` | components | P2 | 3 | 575 | 0 | oversized |
+| `client/src/views/admin/tabs/ShapesTab.vue` | components | P2 | 3 | 582 | 0 | oversized |
 | `server/src/db/models/index.ts` | general | P2 | 3 | 358 | 1 | oversized |
 | `server/src/utils/availabilities/availabiltiesDbUtils.ts` | utils | P2 | 3 | 350 | 6 | oversized |
 | `client/src/components/admin/generic/entityCardConstants.ts` | components | P2 | 2 | 30 | 11 | high-exports |
 | `client/src/constants/entities.ts` | general | P2 | 2 | 30 | 11 | high-exports |
-| `client/src/types/wizard.ts` | general | P2 | 2 | 147 | 11 | high-exports |
+| `client/src/types/wizard.ts` | general | P2 | 2 | 156 | 11 | high-exports |
 
 ## Per-file details
 
@@ -81,7 +81,7 @@ Tier 1 (oversized, high-exports, mixed-concerns) drives score and file count; Ti
 
 ### `client/src/views/admin/tabs/ShapesTab.vue` [P2]
 
-- **oversized**: 575 lines (components max: 500)
+- **oversized**: 582 lines (components max: 500)
 
 ### `server/src/db/models/index.ts` [P2]
 

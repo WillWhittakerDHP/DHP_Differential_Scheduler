@@ -19,7 +19,6 @@ Scope:
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
-| `client/src/composables/admin/useSelectHandlers.ts` | 18 | 0 | 0 | 2 | 6 | 0 | 0 |
 | `client/src/composables/admin/useShapeForm.ts` | 17 | 0 | 0 | 6 | 8 | 0 | 0 |
 | `client/src/composables/admin/useShapesTabCreation.ts` | 17 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 17 | 0 | 0 | 17 | 0 | 0 | 0 |
@@ -42,6 +41,7 @@ Scope:
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/useInstanceDragAndDrop.ts` | 12 | 0 | 2 | 5 | 0 | 0 | 0 |
 | `client/src/composables/admin/usePartInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
+| `client/src/composables/admin/useSelectHandlers.ts` | 12 | 0 | 0 | 2 | 5 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityLogic.ts` | 12 | 0 | 1 | 8 | 0 | 0 | 0 |
 
 ## Per-file suggestions (actionable)
@@ -79,31 +79,6 @@ filter@100: const validCascadeRels = globalData.relationships.validCascades.filt
 map@106: .map(child => child.name)
 filter@107: .filter(Boolean) as string[]
 watch@116: watch(sortedBlockShapes, (shapes) => {
-```
-
-### `client/src/composables/admin/useSelectHandlers.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=1, async=3, await=3, dom=0, console=0
-
-```
-ref@32: const isUpdatingProgrammatically = ref(false)
-async@34: const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
-map@37: ? currentValue.map(v => String(v))
-map@44: const groupEntityIds = new Set(group.entities.map((e: unknown) => String((e as { id: unknown }).id)))
-filter@46: const otherGroupValues = currentArray.filter(v => !groupEntityIds.has(v))
-map@49: ? groupValue.map(v => String(v)).filter(v => v !== '')
-filter@49: ? groupValue.map(v => String(v)).filter(v => v !== '')
-async@59: const handleChange = async (value: string | string[] | null): Promise<void> => {
-map@71: normalizedValue = value.map(v => String(v)).filter(v => v !== '')
-filter@71: normalizedValue = value.map(v => String(v)).filter(v => v !== '')
-filter@78: normalizedValue = currentArray.filter(v => v !== newValueStr)
-sort@103: const currentSorted = [...currentArray].sort().join(',')
-sort@104: const normalizedSorted = [...normalizedArray].sort().join(',')
-await@111: await nextTick()
-async@125: const handleBlur = async (): Promise<void> => {
-await@138: const isValid = await fieldContext.actions.validate()
-await@142: await fieldContext.actions.save()
-computed@149: const isEditable = computed(
 ```
 
 ### `client/src/composables/admin/useShapeForm.ts`
@@ -571,6 +546,25 @@ lifecycle@115: * PATTERN: Call loadEntity in onMounted hook
 lifecycle@117: onMounted(() => {
 ```
 
+### `client/src/composables/admin/useSelectHandlers.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=1, async=2, await=3, dom=0, console=0
+
+```
+ref@32: const isUpdatingProgrammatically = ref(false)
+async@34: const handleChange = async (value: string | string[] | null): Promise<void> => {
+map@47: .map(v => String(v))
+filter@48: .filter(v => v !== '' && v !== SELECT_OPTION_GROUP_HEADER_VALUE)
+filter@56: normalizedValue = currentArray.filter(v => v !== newValueStr)
+sort@81: const currentSorted = [...currentArray].sort().join(',')
+sort@82: const normalizedSorted = [...normalizedArray].sort().join(',')
+await@89: await nextTick()
+async@103: const handleBlur = async (): Promise<void> => {
+await@116: const isValid = await fieldContext.actions.validate()
+await@120: await fieldContext.actions.save()
+computed@127: const isEditable = computed(
+```
+
 ### `client/src/composables/booking/useAvailabilityLogic.ts`
 
 - counts: vueQuery=0, watch=1, computed=8, ref=0, async=0, await=0, dom=0, console=0
@@ -962,22 +956,6 @@ map@80: availableRoles: eventShapeEntities.map(es => ({ name: es.name, different
 computed@88: const differentialTimeBlocks = computed(() => {
 ```
 
-### `client/src/composables/useSelectOptions.ts`
-
-- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@47: const groupedByKey = computed((): GroupedEntities[] => {
-computed@66: const shouldUseMultipleSelects = computed(() => {
-map@84: const groupEntityIds = new Set(group.entities.map(e => e.id))
-map@88: ? currentValue.map(v => String(v))
-filter@91: const groupValues = valueArray.filter(v => groupEntityIds.has(toGlobalEntityId(v)))
-computed@99: const options = computed((): SelectOption[] => {
-computed@129: const normalizedValue = computed(() => {
-map@134: return value.map(v => String(v)).filter(v => v !== '')
-filter@134: return value.map(v => String(v)).filter(v => v !== '')
-```
-
 ### `client/src/composables/admin/useAttendeeQuickSelect.ts`
 
 - counts: vueQuery=0, watch=0, computed=2, ref=1, async=1, await=1, dom=0, console=0
@@ -1275,12 +1253,12 @@ await@37: const isValid = await validate()
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=3, await=3, dom=0, console=0
 
 ```
-async@57: const saveEdit = async (): Promise<void> => {
-await@61: await updateItem(editingId.value, editedData.value as UpdatePayload)
-async@80: const saveCreate = async (): Promise<void> => {
-await@88: await createItem(newItem.value)
-async@107: const confirmDelete = async (): Promise<void> => {
-await@111: await deleteItem(deletingId.value)
+async@58: const saveEdit = async (): Promise<void> => {
+await@62: await updateItem(editingId.value, editedData.value as UpdatePayload)
+async@81: const saveCreate = async (): Promise<void> => {
+await@89: await createItem(newItem.value)
+async@108: const confirmDelete = async (): Promise<void> => {
+await@112: await deleteItem(deletingId.value)
 ```
 
 ### `client/src/composables/admin/useFeePreview.ts`
@@ -1643,11 +1621,11 @@ sort@88: return filtered.sort((a, b) => {
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@25: const fieldValue = computed(() => {
-map@32: ? opt.children.map(child => String(child.value))
-map@39: const normalized = value.map(v => String(v)).filter(v => v !== '')
-filter@39: const normalized = value.map(v => String(v)).filter(v => v !== '')
-filter@42: const validValues = normalized.filter(v => optionValues.has(v))
+computed@26: const fieldValue = computed(() => {
+map@35: return opt.children.map(child => String(child.value))
+map@44: .map(v => String(v))
+filter@45: .filter(v => v !== '' && v !== SELECT_OPTION_GROUP_HEADER_VALUE)
+filter@48: const validValues = normalized.filter(v => optionValues.has(v))
 ```
 
 ### `client/src/composables/admin/useSelectFormAssociation.ts`
@@ -1921,6 +1899,17 @@ computed@29: const list = computed((): CollectionItem[] => {
 computed@36: const isLoading = computed((): boolean => false)
 computed@37: const error = computed((): unknown | undefined => undefined)
 computed@46: const item = computed((): CollectionItem | undefined => {
+```
+
+### `client/src/composables/useSelectOptions.ts`
+
+- counts: vueQuery=0, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@44: const options = computed((): SelectOption[] => {
+computed@76: const normalizedValue = computed(() => {
+map@81: return value.map(v => String(v)).filter(v => v !== '')
+filter@81: return value.map(v => String(v)).filter(v => v !== '')
 ```
 
 ### `client/src/composables/admin/useAdmin.ts`
@@ -2233,6 +2222,15 @@ async@24: export async function withAsyncOperation<T>(
 await@37: const result = await operation()
 ```
 
+### `client/src/composables/admin/tables/useTableModelHelpers.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+map@12: * WHY: VDataTable (and similar) call transformItems(props.items) which does items.map(); the
+computed@23: return computed(() => ensureItemsArray<T>(data.value))
+```
+
 ### `client/src/composables/admin/useBlockInstanceList.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=1, dom=0, console=0
@@ -2312,15 +2310,6 @@ computed@43: const titleRowFields = computed(() => {
 ```
 async@21: async function handleSave(): Promise<void> {
 await@27: await editorRef.value.save()
-```
-
-### `client/src/composables/admin/useSelectDomTargets.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@20: const selectDomTargets = computed(() => {
-map@26: return groupedByKey.value.map(group => {
 ```
 
 ### `client/src/composables/admin/useSelectGroupedByKey.ts`
@@ -2540,14 +2529,6 @@ computed@61: isLoading: computed(() => isLoading.value),
 computed@62: error: computed(() => error.value),
 ```
 
-### `client/src/composables/admin/tables/useTableModelHelpers.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@14: return computed(() => {
-```
-
 ### `client/src/composables/admin/useApiDevPanelVisibility.ts`
 
 - counts: vueQuery=0, watch=1, computed=0, ref=0, async=0, await=0, dom=0, console=0
@@ -2666,6 +2647,14 @@ computed@23: return computed(() => {
 
 ```
 ref@18: const partInstanceMetadataModalOpen = ref(false)
+```
+
+### `client/src/composables/admin/useSelectDomTargets.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@20: const selectDomTargets = computed(() => {
 ```
 
 ### `client/src/composables/admin/useSelectEnumOptions.ts`

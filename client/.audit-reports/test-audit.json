@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-04T15:30:18.921Z",
+  "generatedAt": "2026-03-07T18:37:51.054Z",
   "summary": {
-    "totalSourceFiles": 1109,
+    "totalSourceFiles": 1114,
     "totalTestFiles": 0,
-    "untestedSourceFiles": 1109,
+    "untestedSourceFiles": 1114,
     "orphanedTestFiles": 0,
     "coveragePercentage": 0
   },
@@ -1055,10 +1055,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 8,
+        "independence": 7,
         "roi": 2,
-        "cognitiveLoad": 1,
-        "overall": 3.9,
+        "cognitiveLoad": 2,
+        "overall": 3.8,
         "bucket": "P2"
       }
     },
@@ -1690,8 +1690,8 @@
         "reliability": 7,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 6,
+        "cognitiveLoad": 2,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -1711,25 +1711,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.7,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-      "functions": [
-        "useCapacityConstraintsHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useCapacityConstraintsHandlers"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -1779,6 +1760,25 @@
       "classes": [],
       "composables": [
         "useConditionalFieldVisibility"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "functions": [
+        "useConfirmationAndHoldsPanel"
+      ],
+      "classes": [],
+      "composables": [
+        "useConfirmationAndHoldsPanel"
       ],
       "exportCount": 2,
       "priority": {
@@ -2519,25 +2519,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/admin/useGridConfigHandlers.ts",
-      "functions": [
-        "useGridConfigHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useGridConfigHandlers"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 6.3,
-        "bucket": "P1"
-      }
-    },
-    {
       "repoPath": "client/src/composables/admin/useIconPickerState.ts",
       "functions": [
         "useIconPickerState"
@@ -2663,25 +2644,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 4.9,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/useInstanceTabHandlers.ts",
-      "functions": [
-        "useInstanceTabHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useInstanceTabHandlers"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -2926,25 +2888,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.7,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/usePartInstanceExpansion.ts",
-      "functions": [
-        "usePartInstanceExpansion"
-      ],
-      "classes": [],
-      "composables": [
-        "usePartInstanceExpansion"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -3277,8 +3220,8 @@
         "reliability": 5,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 5.3,
+        "cognitiveLoad": 1,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -3412,25 +3355,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.1,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/useShapesTabDeletion.ts",
-      "functions": [
-        "useShapesTabDeletion"
-      ],
-      "classes": [],
-      "composables": [
-        "useShapesTabDeletion"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -3778,25 +3702,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "functions": [
-        "useAppointmentDataCollection"
-      ],
-      "classes": [],
-      "composables": [
-        "useAppointmentDataCollection"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 9,
-        "independence": 10,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.7,
-        "bucket": "P0"
-      }
-    },
-    {
       "repoPath": "client/src/composables/booking/useAppointmentDropdown.ts",
       "functions": [
         "useAppointmentDropdown"
@@ -4062,25 +3967,6 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 7.3,
-        "bucket": "P0"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityStepHandlers.ts",
-      "functions": [
-        "useAvailabilityStepHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useAvailabilityStepHandlers"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 10,
-        "independence": 10,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 8.1,
         "bucket": "P0"
       }
     },
@@ -4613,6 +4499,26 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 6.5,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/booking/useListForAdminEntry.ts",
+      "functions": [
+        "formatUserDisplayName",
+        "useListForAdminEntry"
+      ],
+      "classes": [],
+      "composables": [
+        "useListForAdminEntry"
+      ],
+      "exportCount": 3,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.2,
         "bucket": "P1"
       }
     },
@@ -5191,8 +5097,8 @@
         "reliability": 10,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.7,
+        "cognitiveLoad": 1,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -5318,31 +5224,12 @@
       ],
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 9,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/booking/useWizardValidation.ts",
-      "functions": [
-        "useWizardValidation"
-      ],
-      "classes": [],
-      "composables": [
-        "useWizardValidation"
-      ],
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 8,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.5,
-        "bucket": "P1"
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -6179,8 +6066,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 3.8,
+        "cognitiveLoad": 0,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -6656,8 +6543,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -8615,10 +8502,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 9,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -10994,16 +10881,18 @@
     },
     {
       "repoPath": "client/src/types/selectOptions.ts",
-      "functions": [],
+      "functions": [
+        "isSelectOptionGroupHeader"
+      ],
       "classes": [],
       "composables": [],
-      "exportCount": 0,
+      "exportCount": 1,
       "priority": {
         "reliability": 0,
         "independence": 9,
-        "roi": 0,
+        "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.8,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -11194,11 +11083,11 @@
       "composables": [],
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.2,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -11347,6 +11236,25 @@
       }
     },
     {
+      "repoPath": "client/src/utils/admin/capacityConstraintsHandlers.ts",
+      "functions": [
+        "useCapacityConstraintsHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useCapacityConstraintsHandlers"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/admin/entityCardTitleKeydown.ts",
       "functions": [
         "entityCardTitleKeydown"
@@ -11453,6 +11361,25 @@
       }
     },
     {
+      "repoPath": "client/src/utils/admin/gridConfigHandlers.ts",
+      "functions": [
+        "useGridConfigHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useGridConfigHandlers"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 5.4,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
       "functions": [
         "inputConfigEditor"
@@ -11483,6 +11410,25 @@
         "roi": 4,
         "cognitiveLoad": 0,
         "overall": 4,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/admin/instanceTabHandlers.ts",
+      "functions": [
+        "useInstanceTabHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useInstanceTabHandlers"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -11544,6 +11490,7 @@
       "repoPath": "client/src/utils/admin/selectOptionTransforms.ts",
       "functions": [
         "buildGroupedEntities",
+        "buildGroupedEntitiesFromValidShapeIds",
         "buildGroupedOptionsMap",
         "entitiesToFlatOptions",
         "getOptionTitle",
@@ -11552,13 +11499,13 @@
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 6,
+      "exportCount": 7,
       "priority": {
         "reliability": 2,
-        "independence": 9,
+        "independence": 7,
         "roi": 8,
-        "cognitiveLoad": 1,
-        "overall": 5.1,
+        "cognitiveLoad": 3,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -11579,6 +11526,25 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 4.9,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/admin/shapesTabDeletion.ts",
+      "functions": [
+        "useShapesTabDeletion"
+      ],
+      "classes": [],
+      "composables": [
+        "useShapesTabDeletion"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -11622,11 +11588,12 @@
       "functions": [
         "getAppointmentByIdEndpoint",
         "getAppointmentEndpoint",
-        "getAppointmentVersionsEndpoint"
+        "getAppointmentVersionsEndpoint",
+        "getListForAdminEntryEndpoint"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
         "reliability": 2,
         "independence": 10,
@@ -11942,6 +11909,25 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/appointmentDataCollection.ts",
+      "functions": [
+        "useAppointmentDataCollection"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentDataCollection"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
       "functions": [
         "applyShapeToTime",
@@ -11994,6 +11980,25 @@
         "roi": 8,
         "cognitiveLoad": 1,
         "overall": 6.7,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/availabilityStepHandlers.ts",
+      "functions": [
+        "useAvailabilityStepHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityStepHandlers"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -12061,8 +12066,8 @@
         "reliability": 5,
         "independence": 10,
         "roi": 9,
-        "cognitiveLoad": 1,
-        "overall": 6.8,
+        "cognitiveLoad": 2,
+        "overall": 6.9,
         "bucket": "P1"
       }
     },
@@ -12622,6 +12627,25 @@
         "roi": 6,
         "cognitiveLoad": 0,
         "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/wizardValidation.ts",
+      "functions": [
+        "useWizardValidation"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardValidation"
+      ],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -13642,6 +13666,21 @@
       }
     },
     {
+      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 1.1,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/views/admin/AdminPanel.vue",
       "functions": [],
       "classes": [],
@@ -13994,10 +14033,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -14084,10 +14123,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 1.9,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -14161,8 +14200,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.4,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -14249,10 +14288,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 10,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3,
+        "overall": 1.9,
         "bucket": "P2"
       }
     },
@@ -14339,10 +14378,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 10,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 2.2,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -15216,6 +15255,25 @@
         "roi": 5,
         "cognitiveLoad": 1,
         "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/db/models/booking/constraint_override.ts",
+      "functions": [
+        "ConstraintOverrideFactory"
+      ],
+      "classes": [
+        "ConstraintOverride"
+      ],
+      "composables": [],
+      "exportCount": 2,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -16388,9 +16446,12 @@
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "functions": [
+        "applySnapshotIdsToAppointment",
         "createAttendeeRecords",
+        "createConstraintOverrideOnRescheduleIfNeeded",
         "createFeeRecordsForAppointment",
         "createSnapshotsForAppointment",
+        "getAdminEntryTimeoutFromSettings",
         "getAutoConfirmEnabledFromSettings",
         "getCalendarIdForAppointment",
         "getHoldDurationBoundsFromSettings",
@@ -16402,13 +16463,13 @@
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 11,
+      "exportCount": 14,
       "priority": {
         "reliability": 5,
-        "independence": 9,
+        "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 6,
-        "overall": 6.2,
+        "cognitiveLoad": 7,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -16424,6 +16485,38 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
+      "functions": [
+        "listForAdminEntryHandler"
+      ],
+      "classes": [],
+      "composables": [],
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -17623,18 +17716,19 @@
     {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "functions": [
-        "computeAvailabilityData"
+        "computeAvailabilityData",
+        "getForceCreateSlotContext"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
         "reliability": 6,
         "independence": 3,
         "roi": 1,
-        "cognitiveLoad": 6,
-        "overall": 3.9,
-        "bucket": "P2"
+        "cognitiveLoad": 7,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -18144,18 +18238,20 @@
     {
       "repoPath": "server/src/services/slotComputationService.ts",
       "functions": [
-        "computeSlotsForDateRange"
+        "attachDriveTimesToEvents",
+        "computeSlotsForDateRange",
+        "computeViolationsForSlot"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 1,
+      "exportCount": 3,
       "priority": {
         "reliability": 4,
         "independence": 9,
-        "roi": 1,
-        "cognitiveLoad": 2,
-        "overall": 3.9,
-        "bucket": "P2"
+        "roi": 4,
+        "cognitiveLoad": 3,
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -18164,17 +18260,20 @@
         "checkCapacityConstraints",
         "checkOverlapConstraints",
         "checkRangeConstraints",
+        "collectCapacityViolationKeys",
+        "collectOverlapViolationKeys",
+        "collectRangeViolationKeys",
         "timeRangesOverlap"
       ],
       "classes": [],
       "composables": [],
-      "exportCount": 4,
+      "exportCount": 7,
       "priority": {
         "reliability": 2,
         "independence": 10,
-        "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4.2,
+        "roi": 5,
+        "cognitiveLoad": 3,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -18605,9 +18704,9 @@
     },
     {
       "directory": "client/src/composables/admin",
-      "sourceCount": 121,
+      "sourceCount": 117,
       "testCount": 0,
-      "untestedCount": 121
+      "untestedCount": 117
     },
     {
       "directory": "client/src/composables/admin/tables",
@@ -18635,9 +18734,9 @@
     },
     {
       "directory": "client/src/composables/booking",
-      "sourceCount": 87,
+      "sourceCount": 85,
       "testCount": 0,
-      "untestedCount": 87
+      "untestedCount": 85
     },
     {
       "directory": "client/src/composables/booking/selectionCard",
@@ -18911,9 +19010,9 @@
     },
     {
       "directory": "client/src/utils/admin",
-      "sourceCount": 18,
+      "sourceCount": 22,
       "testCount": 0,
-      "untestedCount": 18
+      "untestedCount": 22
     },
     {
       "directory": "client/src/utils",
@@ -18935,9 +19034,9 @@
     },
     {
       "directory": "client/src/utils/booking",
-      "sourceCount": 41,
+      "sourceCount": 44,
       "testCount": 0,
-      "untestedCount": 41
+      "untestedCount": 44
     },
     {
       "directory": "client/src/utils/collections",
@@ -19037,9 +19136,9 @@
     },
     {
       "directory": "client/src/views/admin",
-      "sourceCount": 1,
+      "sourceCount": 2,
       "testCount": 0,
-      "untestedCount": 1
+      "untestedCount": 2
     },
     {
       "directory": "client/src/views/admin/entities",
@@ -19109,9 +19208,9 @@
     },
     {
       "directory": "server/src/db/models/booking",
-      "sourceCount": 28,
+      "sourceCount": 29,
       "testCount": 0,
-      "untestedCount": 28
+      "untestedCount": 29
     },
     {
       "directory": "server/src/db/models",
@@ -19181,9 +19280,9 @@
     },
     {
       "directory": "server/src/routes/internal/appointments",
-      "sourceCount": 4,
+      "sourceCount": 6,
       "testCount": 0,
-      "untestedCount": 4
+      "untestedCount": 6
     },
     {
       "directory": "server/src/routes/internal",
@@ -20652,10 +20751,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 4,
-        "independence": 8,
+        "independence": 7,
         "roi": 2,
-        "cognitiveLoad": 1,
-        "overall": 3.9,
+        "cognitiveLoad": 2,
+        "overall": 3.8,
         "bucket": "P2"
       }
     },
@@ -21431,8 +21530,8 @@
         "reliability": 7,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 6,
+        "cognitiveLoad": 2,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -21456,29 +21555,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.7,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useCapacityConstraintsHandlers.ts",
-      "functions": [
-        "useCapacityConstraintsHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useCapacityConstraintsHandlers"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -21537,6 +21613,29 @@
       "classes": [],
       "composables": [
         "useConditionalFieldVisibility"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 5,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 5.1,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "functions": [
+        "useConfirmationAndHoldsPanel"
+      ],
+      "classes": [],
+      "composables": [
+        "useConfirmationAndHoldsPanel"
       ],
       "classMethods": {},
       "hasTest": false,
@@ -22444,29 +22543,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/admin/useGridConfigHandlers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useGridConfigHandlers.ts",
-      "functions": [
-        "useGridConfigHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useGridConfigHandlers"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 6.3,
-        "bucket": "P1"
-      }
-    },
-    {
       "repoPath": "client/src/composables/admin/useIconPickerState.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useIconPickerState.ts",
       "functions": [
@@ -22620,29 +22696,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 4.9,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/useInstanceTabHandlers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceTabHandlers.ts",
-      "functions": [
-        "useInstanceTabHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useInstanceTabHandlers"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -22939,29 +22992,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.7,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/usePartInstanceExpansion.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/usePartInstanceExpansion.ts",
-      "functions": [
-        "usePartInstanceExpansion"
-      ],
-      "classes": [],
-      "composables": [
-        "usePartInstanceExpansion"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -23366,8 +23396,8 @@
         "reliability": 5,
         "independence": 8,
         "roi": 5,
-        "cognitiveLoad": 2,
-        "overall": 5.3,
+        "cognitiveLoad": 1,
+        "overall": 5.2,
         "bucket": "P1"
       }
     },
@@ -23529,29 +23559,6 @@
         "roi": 5,
         "cognitiveLoad": 0,
         "overall": 5.1,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/admin/useShapesTabDeletion.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapesTabDeletion.ts",
-      "functions": [
-        "useShapesTabDeletion"
-      ],
-      "classes": [],
-      "composables": [
-        "useShapesTabDeletion"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 5,
-        "independence": 10,
-        "roi": 5,
-        "cognitiveLoad": 0,
-        "overall": 5.5,
         "bucket": "P1"
       }
     },
@@ -23975,29 +23982,6 @@
       }
     },
     {
-      "repoPath": "client/src/composables/booking/useAppointmentDataCollection.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDataCollection.ts",
-      "functions": [
-        "useAppointmentDataCollection"
-      ],
-      "classes": [],
-      "composables": [
-        "useAppointmentDataCollection"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 9,
-        "independence": 10,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.7,
-        "bucket": "P0"
-      }
-    },
-    {
       "repoPath": "client/src/composables/booking/useAppointmentDropdown.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAppointmentDropdown.ts",
       "functions": [
@@ -24319,29 +24303,6 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 7.3,
-        "bucket": "P0"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityStepHandlers.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityStepHandlers.ts",
-      "functions": [
-        "useAvailabilityStepHandlers"
-      ],
-      "classes": [],
-      "composables": [
-        "useAvailabilityStepHandlers"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 10,
-        "independence": 10,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 8.1,
         "bucket": "P0"
       }
     },
@@ -24986,6 +24947,30 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 6.5,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/composables/booking/useListForAdminEntry.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useListForAdminEntry.ts",
+      "functions": [
+        "formatUserDisplayName",
+        "useListForAdminEntry"
+      ],
+      "classes": [],
+      "composables": [
+        "useListForAdminEntry"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 3,
+      "priority": {
+        "reliability": 7,
+        "independence": 5,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.2,
         "bucket": "P1"
       }
     },
@@ -25692,8 +25677,8 @@
         "reliability": 10,
         "independence": 8,
         "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 7.7,
+        "cognitiveLoad": 1,
+        "overall": 7.8,
         "bucket": "P0"
       }
     },
@@ -25847,35 +25832,12 @@
       "testFile": null,
       "exportCount": 2,
       "priority": {
-        "reliability": 7,
+        "reliability": 9,
         "independence": 8,
         "roi": 7,
         "cognitiveLoad": 0,
-        "overall": 6.5,
-        "bucket": "P1"
-      }
-    },
-    {
-      "repoPath": "client/src/composables/booking/useWizardValidation.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useWizardValidation.ts",
-      "functions": [
-        "useWizardValidation"
-      ],
-      "classes": [],
-      "composables": [
-        "useWizardValidation"
-      ],
-      "classMethods": {},
-      "hasTest": false,
-      "testFile": null,
-      "exportCount": 2,
-      "priority": {
-        "reliability": 7,
-        "independence": 8,
-        "roi": 7,
-        "cognitiveLoad": 0,
-        "overall": 6.5,
-        "bucket": "P1"
+        "overall": 7.3,
+        "bucket": "P0"
       }
     },
     {
@@ -26904,8 +26866,8 @@
         "reliability": 2,
         "independence": 7,
         "roi": 5,
-        "cognitiveLoad": 1,
-        "overall": 3.8,
+        "cognitiveLoad": 0,
+        "overall": 3.7,
         "bucket": "P2"
       }
     },
@@ -27501,8 +27463,8 @@
         "reliability": 0,
         "independence": 10,
         "roi": 0,
-        "cognitiveLoad": 1,
-        "overall": 2.1,
+        "cognitiveLoad": 0,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -29995,10 +29957,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 9,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.8,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -33007,19 +32969,21 @@
     {
       "repoPath": "client/src/types/selectOptions.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/types/selectOptions.ts",
-      "functions": [],
+      "functions": [
+        "isSelectOptionGroupHeader"
+      ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 0,
+      "exportCount": 1,
       "priority": {
         "reliability": 0,
         "independence": 9,
-        "roi": 0,
+        "roi": 1,
         "cognitiveLoad": 0,
-        "overall": 1.8,
+        "overall": 2.1,
         "bucket": "P2"
       }
     },
@@ -33262,11 +33226,11 @@
       "testFile": null,
       "exportCount": 0,
       "priority": {
-        "reliability": 4,
+        "reliability": 2,
         "independence": 8,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 3.2,
+        "overall": 2.4,
         "bucket": "P2"
       }
     },
@@ -33447,6 +33411,29 @@
       }
     },
     {
+      "repoPath": "client/src/utils/admin/capacityConstraintsHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/capacityConstraintsHandlers.ts",
+      "functions": [
+        "useCapacityConstraintsHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useCapacityConstraintsHandlers"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/admin/entityCardTitleKeydown.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/entityCardTitleKeydown.ts",
       "functions": [
@@ -33577,6 +33564,29 @@
       }
     },
     {
+      "repoPath": "client/src/utils/admin/gridConfigHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/gridConfigHandlers.ts",
+      "functions": [
+        "useGridConfigHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useGridConfigHandlers"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 5.4,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/inputConfigEditor.ts",
       "functions": [
@@ -33615,6 +33625,29 @@
         "roi": 4,
         "cognitiveLoad": 0,
         "overall": 4,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/admin/instanceTabHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/instanceTabHandlers.ts",
+      "functions": [
+        "useInstanceTabHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useInstanceTabHandlers"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.2,
         "bucket": "P1"
       }
     },
@@ -33689,6 +33722,7 @@
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/selectOptionTransforms.ts",
       "functions": [
         "buildGroupedEntities",
+        "buildGroupedEntitiesFromValidShapeIds",
         "buildGroupedOptionsMap",
         "entitiesToFlatOptions",
         "getOptionTitle",
@@ -33700,13 +33734,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 6,
+      "exportCount": 7,
       "priority": {
         "reliability": 2,
-        "independence": 9,
+        "independence": 7,
         "roi": 8,
-        "cognitiveLoad": 1,
-        "overall": 5.1,
+        "cognitiveLoad": 3,
+        "overall": 4.9,
         "bucket": "P1"
       }
     },
@@ -33731,6 +33765,29 @@
         "roi": 7,
         "cognitiveLoad": 0,
         "overall": 4.9,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/admin/shapesTabDeletion.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/admin/shapesTabDeletion.ts",
+      "functions": [
+        "useShapesTabDeletion"
+      ],
+      "classes": [],
+      "composables": [
+        "useShapesTabDeletion"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 10,
+        "roi": 6,
+        "cognitiveLoad": 0,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },
@@ -33783,14 +33840,15 @@
       "functions": [
         "getAppointmentByIdEndpoint",
         "getAppointmentEndpoint",
-        "getAppointmentVersionsEndpoint"
+        "getAppointmentVersionsEndpoint",
+        "getListForAdminEntryEndpoint"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 3,
+      "exportCount": 4,
       "priority": {
         "reliability": 2,
         "independence": 10,
@@ -34174,6 +34232,29 @@
       }
     },
     {
+      "repoPath": "client/src/utils/booking/appointmentDataCollection.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentDataCollection.ts",
+      "functions": [
+        "useAppointmentDataCollection"
+      ],
+      "classes": [],
+      "composables": [
+        "useAppointmentDataCollection"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 4,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 5.6,
+        "bucket": "P1"
+      }
+    },
+    {
       "repoPath": "client/src/utils/booking/appointmentSlotBuilder.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentSlotBuilder.ts",
       "functions": [
@@ -34238,6 +34319,29 @@
         "roi": 8,
         "cognitiveLoad": 1,
         "overall": 6.7,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/availabilityStepHandlers.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/availabilityStepHandlers.ts",
+      "functions": [
+        "useAvailabilityStepHandlers"
+      ],
+      "classes": [],
+      "composables": [
+        "useAvailabilityStepHandlers"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 6,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 6.4,
         "bucket": "P1"
       }
     },
@@ -34321,8 +34425,8 @@
         "reliability": 5,
         "independence": 10,
         "roi": 9,
-        "cognitiveLoad": 1,
-        "overall": 6.8,
+        "cognitiveLoad": 2,
+        "overall": 6.9,
         "bucket": "P1"
       }
     },
@@ -35006,6 +35110,29 @@
         "roi": 6,
         "cognitiveLoad": 0,
         "overall": 4.6,
+        "bucket": "P1"
+      }
+    },
+    {
+      "repoPath": "client/src/utils/booking/wizardValidation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/wizardValidation.ts",
+      "functions": [
+        "useWizardValidation"
+      ],
+      "classes": [],
+      "composables": [
+        "useWizardValidation"
+      ],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 2,
+        "independence": 8,
+        "roi": 8,
+        "cognitiveLoad": 0,
+        "overall": 4.8,
         "bucket": "P1"
       }
     },
@@ -36281,6 +36408,25 @@
       }
     },
     {
+      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/AdminBookingEntryView.vue",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 0,
+        "independence": 5,
+        "roi": 0,
+        "cognitiveLoad": 1,
+        "overall": 1.1,
+        "bucket": "P2"
+      }
+    },
+    {
       "repoPath": "client/src/views/admin/AdminPanel.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/AdminPanel.vue",
       "functions": [],
@@ -36729,10 +36875,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 10,
         "roi": 0,
         "cognitiveLoad": 0,
-        "overall": 1.6,
+        "overall": 2,
         "bucket": "P2"
       }
     },
@@ -36843,10 +36989,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 8,
+        "independence": 6,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 1.9,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -36940,8 +37086,8 @@
         "reliability": 0,
         "independence": 6,
         "roi": 0,
-        "cognitiveLoad": 2,
-        "overall": 1.4,
+        "cognitiveLoad": 3,
+        "overall": 1.5,
         "bucket": "P2"
       }
     },
@@ -37052,10 +37198,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 10,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 3,
-        "overall": 2.3,
+        "overall": 1.9,
         "bucket": "P2"
       }
     },
@@ -37166,10 +37312,10 @@
       "exportCount": 0,
       "priority": {
         "reliability": 0,
-        "independence": 10,
+        "independence": 8,
         "roi": 0,
         "cognitiveLoad": 2,
-        "overall": 2.2,
+        "overall": 1.8,
         "bucket": "P2"
       }
     },
@@ -38381,6 +38527,33 @@
         "roi": 5,
         "cognitiveLoad": 1,
         "overall": 3.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/db/models/booking/constraint_override.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/db/models/booking/constraint_override.ts",
+      "functions": [
+        "ConstraintOverrideFactory"
+      ],
+      "classes": [
+        "ConstraintOverride"
+      ],
+      "composables": [],
+      "classMethods": {
+        "ConstraintOverride": [
+          "ConstraintOverrideFactory"
+        ]
+      },
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 2,
+      "priority": {
+        "reliability": 0,
+        "independence": 8,
+        "roi": 5,
+        "cognitiveLoad": 0,
+        "overall": 3.1,
         "bucket": "P2"
       }
     },
@@ -39912,9 +40085,12 @@
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/appointmentHelpers.ts",
       "functions": [
+        "applySnapshotIdsToAppointment",
         "createAttendeeRecords",
+        "createConstraintOverrideOnRescheduleIfNeeded",
         "createFeeRecordsForAppointment",
         "createSnapshotsForAppointment",
+        "getAdminEntryTimeoutFromSettings",
         "getAutoConfirmEnabledFromSettings",
         "getCalendarIdForAppointment",
         "getHoldDurationBoundsFromSettings",
@@ -39929,13 +40105,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 11,
+      "exportCount": 14,
       "priority": {
         "reliability": 5,
-        "independence": 9,
+        "independence": 8,
         "roi": 6,
-        "cognitiveLoad": 6,
-        "overall": 6.2,
+        "cognitiveLoad": 7,
+        "overall": 6.1,
         "bucket": "P1"
       }
     },
@@ -39955,6 +40131,46 @@
         "roi": 0,
         "cognitiveLoad": 0,
         "overall": 2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "functions": [],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 0,
+      "priority": {
+        "reliability": 2,
+        "independence": 6,
+        "roi": 0,
+        "cognitiveLoad": 2,
+        "overall": 2.2,
+        "bucket": "P2"
+      }
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
+      "functions": [
+        "listForAdminEntryHandler"
+      ],
+      "classes": [],
+      "composables": [],
+      "classMethods": {},
+      "hasTest": false,
+      "testFile": null,
+      "exportCount": 1,
+      "priority": {
+        "reliability": 0,
+        "independence": 7,
+        "roi": 1,
+        "cognitiveLoad": 0,
+        "overall": 1.7,
         "bucket": "P2"
       }
     },
@@ -41446,21 +41662,22 @@
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/computedAvailabilityService.ts",
       "functions": [
-        "computeAvailabilityData"
+        "computeAvailabilityData",
+        "getForceCreateSlotContext"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 2,
       "priority": {
         "reliability": 6,
         "independence": 3,
         "roi": 1,
-        "cognitiveLoad": 6,
-        "overall": 3.9,
-        "bucket": "P2"
+        "cognitiveLoad": 7,
+        "overall": 4,
+        "bucket": "P1"
       }
     },
     {
@@ -42091,21 +42308,23 @@
       "repoPath": "server/src/services/slotComputationService.ts",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/slotComputationService.ts",
       "functions": [
-        "computeSlotsForDateRange"
+        "attachDriveTimesToEvents",
+        "computeSlotsForDateRange",
+        "computeViolationsForSlot"
       ],
       "classes": [],
       "composables": [],
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 1,
+      "exportCount": 3,
       "priority": {
         "reliability": 4,
         "independence": 9,
-        "roi": 1,
-        "cognitiveLoad": 2,
-        "overall": 3.9,
-        "bucket": "P2"
+        "roi": 4,
+        "cognitiveLoad": 3,
+        "overall": 4.9,
+        "bucket": "P1"
       }
     },
     {
@@ -42115,6 +42334,9 @@
         "checkCapacityConstraints",
         "checkOverlapConstraints",
         "checkRangeConstraints",
+        "collectCapacityViolationKeys",
+        "collectOverlapViolationKeys",
+        "collectRangeViolationKeys",
         "timeRangesOverlap"
       ],
       "classes": [],
@@ -42122,13 +42344,13 @@
       "classMethods": {},
       "hasTest": false,
       "testFile": null,
-      "exportCount": 4,
+      "exportCount": 7,
       "priority": {
         "reliability": 2,
         "independence": 10,
-        "roi": 4,
-        "cognitiveLoad": 2,
-        "overall": 4.2,
+        "roi": 5,
+        "cognitiveLoad": 3,
+        "overall": 4.6,
         "bucket": "P1"
       }
     },

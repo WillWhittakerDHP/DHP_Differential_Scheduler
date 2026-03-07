@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T13:39:40.943Z",
+  "generatedAt": "2026-03-07T18:37:07.966Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -18,7 +18,7 @@
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 1,
-    "totalRequiresReview": 8,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -57,68 +57,6 @@
   ],
   "consolidationGroups": [
     {
-      "id": "inline-orphan-createdAt",
-      "classification": "HOIST",
-      "description": "Value 'createdAt' defined in constants but used inline in 2 locations",
-      "locations": [
-        {
-          "file": "client/src/constants/entityFieldConstants.ts",
-          "export": "FIELD_NAMES",
-          "line": 1,
-          "inline": false
-        },
-        {
-          "file": "server/src/routes/internal/entities/entityConstants.ts",
-          "export": "FIELD_NAMES",
-          "line": 47,
-          "inline": false
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "export": null,
-          "line": 370,
-          "inline": true
-        },
-        {
-          "file": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
-          "export": null,
-          "line": 39,
-          "inline": true
-        }
-      ],
-      "score": 24,
-      "priority": "P0",
-      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
-    },
-    {
-      "id": "inline-orphan-DESC",
-      "classification": "HOIST",
-      "description": "Value 'DESC' defined in constants but used inline in 2 locations",
-      "locations": [
-        {
-          "file": "server/src/routes/internal/entities/entityConstants.ts",
-          "export": "SORT_ORDERS",
-          "line": 65,
-          "inline": false
-        },
-        {
-          "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "export": null,
-          "line": 370,
-          "inline": true
-        },
-        {
-          "file": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
-          "export": null,
-          "line": 39,
-          "inline": true
-        }
-      ],
-      "score": 16,
-      "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
-    },
-    {
       "id": "inline-orphan--business-rules",
       "classification": "HOIST",
       "description": "Value '/business-rules' defined in constants but used inline in 1 locations",
@@ -143,69 +81,6 @@
   ],
   "files": [
     {
-      "id": "server__src__routes__internal__appointments__appointmentHelpers.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "score": 11.333333333333332,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 370,
-          "line": "inline: value",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 370,
-          "line": "inline: value",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
-      "id": "server__src__routes__internal__appointments__listForAdminEntryHandler.ts",
-      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
-      "score": 11.333333333333332,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 39,
-          "line": "inline: value",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 39,
-          "line": "inline: value",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
-      "id": "server__src__routes__internal__entities__entityConstants.ts",
-      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
-      "score": 11.333333333333332,
-      "priority": "P1",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 47,
-          "line": "export: FIELD_NAMES",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "hoist",
-          "lineNumber": 65,
-          "line": "export: SORT_ORDERS",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
       "id": "client__src__constants__businessRulesConstants.ts",
       "repoPath": "client/src/constants/businessRulesConstants.ts",
       "score": 6,
@@ -216,21 +91,6 @@
           "ruleId": "hoist",
           "lineNumber": 5,
           "line": "export: BUSINESS_RULES_API_BASE",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
-      "id": "client__src__constants__entityFieldConstants.ts",
-      "repoPath": "client/src/constants/entityFieldConstants.ts",
-      "score": 6,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 1,
-          "line": "export: FIELD_NAMES",
           "suppressionStatus": "unsuppressed"
         }
       ]
