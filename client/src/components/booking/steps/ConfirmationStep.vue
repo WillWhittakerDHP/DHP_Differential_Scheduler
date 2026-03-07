@@ -81,7 +81,7 @@ const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCoupo
 const showCouponRow = computed(
   () =>
     (couponSelectItems.value?.length ?? 0) > 0 ||
-    (priceData?.couponDiscount ?? 0) > 0
+    (priceData.value?.couponDiscount ?? 0) > 0
 )
 </script>
 
