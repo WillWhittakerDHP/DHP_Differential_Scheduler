@@ -74,3 +74,6 @@ export type AppointmentStatusRequiringCalendarEvent = (typeof STATUSES_REQUIRING
  */
 export const ALLOWED_OVERRIDE_CONSTRAINTS = ['capacity', 'buffer', 'blackout', 'businessHours'] as const
 export type OverrideConstraintKey = (typeof ALLOWED_OVERRIDE_CONSTRAINTS)[number]
+
+/** ConstraintOverride model FK field names (Sequelize where/create clauses). */
+export const CONSTRAINT_OVERRIDE_FIELDS = { APPOINTMENT_ID: 'appointmentId' } as const
