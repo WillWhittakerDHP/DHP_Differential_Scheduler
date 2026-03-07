@@ -13,6 +13,7 @@
     "preflight:commands:lint:server": "npm --prefix server run lint",
     "preflight:commands:build:server": "npm --prefix server run build",
     "preflight:commands:typecheck:harness": "npm --prefix client exec -- tsc -p tsconfig.cursor-commands.json",
+    "preflight:commands:lint:harness": "npx eslint .cursor/commands -c .cursor/commands/eslint.config.js --max-warnings 9999",
     "preflight:commands:test:harness": "npx vitest --config vitest.config.workspace.cursor.ts --run",
     "preflight:commands": "npm run preflight:commands:typecheck:client && npm run preflight:commands:lint:server && npm run preflight:commands:build:server && npm run preflight:commands:typecheck:harness && npm run preflight:commands:test:harness",
     "typecheck:audit": "npm --prefix client run typecheck:audit",
