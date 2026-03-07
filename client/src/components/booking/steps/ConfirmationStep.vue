@@ -76,6 +76,13 @@ function onCouponSelect(id: string | null): void {
 // ComputedRef) to :items makes the child receive the Ref; Vuetify then iterates items and throws
 // "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
 const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
+
+// Show coupon row only when coupons are available to select or a coupon discount is already applied
+const showCouponRow = computed(
+  () =>
+    (couponSelectItems.value?.length ?? 0) > 0 ||
+    (priceData?.couponDiscount ?? 0) > 0
+)
 </script>
 
 <template>
@@ -243,7 +250,7 @@ const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCoupo
               </span>
             </div>
             
-            <div class="d-flex justify-space-between align-center mb-2">
+            <div v-if="showCouponRow" class="d-flex justify-space-between align-center mb-2">
               <span class="text-body-large">Coupon Discount</span>
               <div class="d-flex align-center flex-grow-1 justify-end">
                 <span v-if="priceData.couponDiscount > 0" class="text-body-large text-medium-emphasis mr-2">
