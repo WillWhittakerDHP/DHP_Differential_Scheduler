@@ -1,10 +1,14 @@
 <script setup lang="ts">
 
-import { inject, computed } from 'vue'
+import { inject, computed, nextTick, onMounted, provide, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+import { createLogger } from '@/utils/logger'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
+import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
 import {
   computedAvailabilityKey,
   propertyDetailsStepDataKey,
@@ -16,11 +20,12 @@ import {
   availabilityStepValidateKey,
   loadedWizardStateKey,
 } from '@/composables/booking/injectionKeys'
-import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
-import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
-import AvailabilityCalendarSection from '@/components/booking/steps/AvailabilityCalendarSection.vue'
-import AvailabilityOptionsSection from '@/components/booking/steps/AvailabilityOptionsSection.vue'
 import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
+import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
+import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
+import { availabilitySubStepContextKey } from '@/composables/booking/injectionKeys'
+import { formatTimeRange } from '@/utils/time/timeFormatting'
+import { derivePerspective } from '@/utils/booking/perspectiveResolver'
 
 const wizard = inject(wizardKey)
 if (!wizard) {
@@ -77,14 +82,22 @@ useWizardStepSync({
   stepValidateKey: availabilityStepValidateKey
 })
 
+const confirmation = useAvailabilityConfirmationState()
+
 function onOptionIdUpdate(id: string | null): void {
   o.selectedOptionTypeBlockId.value = id
+  confirmation.confirm(1)
 }
 
-const { settings: availabilitySettings } = useAvailabilitySettings()
-const selectTimeSlotLabel = computed(
-  () => availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
-)
+const logger = createLogger('AvailabilityStep')
+const { settings: availabilitySettings, isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
+
+/** Overlay message over the slot grid before user picks a time basis; from admin Grid tab "Differential Graph Default Label". No fallback — if missing, we warn and show error in UI. */
+const slotGridOverlayLabel = computed(() => {
+  const raw = availabilitySettings.value?.differentialPerspectives?.differentialGraphDefaultLabel
+  return typeof raw === 'string' ? raw.trim() : null
+})
+
 const hasSelectedSlot = computed(
   () => o.graphBars.value?.major != null || o.graphBars.value?.minor != null
 )
@@ -95,128 +108,268 @@ const showSlotsOverlay = computed(
     !o.userHasChosenTimeBasisFromGraph?.value
 )
 
-/** Sub-step model for mini-wizard (Phase 6.9): id, label, visible. Step 5 visible when slot has moveable parts + service preClosing. */
-const availabilitySubSteps = computed(() => {
-  const hasDate = !!o.selectedDate.value?.start
-  const showOptions = (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0
-  const showPerspective = hasDate && o.isEffectivelyDifferential.value
-  const showMoveable = o.hasMoveablePartsGated?.value ?? false
-  return [
-    { id: 1, label: '1. Pick a day', visible: true },
-    { id: 2, label: '2. Options', visible: showOptions },
-    { id: 3, label: '3. Perspective', visible: showPerspective },
-    { id: 4, label: '4. Pick a time', visible: true },
-    { id: 5, label: '5. Confirm moveable details', visible: showMoveable },
-  ]
+/** When overlay is shown but label is not configured, show this message in the UI. */
+const slotGridOverlayError = computed(() => {
+  if (!showSlotsOverlay.value) return null
+  if (slotGridOverlayLabel.value) return null
+  return 'Differential Graph Default Label is not configured. Set it in Admin → Business Controls → Calendar → Grid.'
+})
+
+watch(
+  [showSlotsOverlay, slotGridOverlayLabel, availabilitySettingsLoading],
+  ([showing, label, loading]) => {
+    if (!loading && showing && !label) {
+      logger.warn('Slot grid overlay is shown but differentialGraphDefaultLabel is missing. Configure in Admin → Business Controls → Calendar → Grid.')
+    }
+  },
+  { immediate: true }
+)
+
+// Narrow layout: expandable cards (Task 6.9.2.1). Breakpoint matches existing 600px in styles.
+const { smAndUp } = useDisplay()
+const isNarrow = computed(() => !smAndUp.value)
+
+const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
+const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
+const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
+const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
+
+/** Admin-configurable sub-step card titles. Perspective uses differentialGraphDefaultLabel. */
+const subStepLabels = computed(() => {
+  const dp = availabilitySettings.value?.differentialPerspectives
+  const graphLabel = typeof dp?.differentialGraphDefaultLabel === 'string'
+    ? dp.differentialGraphDefaultLabel.trim()
+    : null
+  return {
+    0: dp?.subStepLabelPickDay?.trim() || undefined,
+    1: dp?.subStepLabelOptions?.trim() || undefined,
+    2: graphLabel || undefined,
+    3: dp?.subStepLabelPickTime?.trim() || undefined,
+    4: dp?.subStepLabelConfirmMoveable?.trim() || undefined,
+  }
+})
+
+const subSteps = useAvailabilitySubSteps({
+  hasOptions,
+  hasDateSelected,
+  isEffectivelyDifferential: o.isEffectivelyDifferential,
+  hasMoveablePartsGated: o.hasMoveablePartsGated,
+  selectedOptionTypeBlockId: o.selectedOptionTypeBlockId,
+  userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
+  hasSlotSelected,
+  hasMoveableConfirmed,
+  confirmationState: confirmation,
+  subStepLabels,
+})
+
+/** Visible sub-steps (filter to only visible). Shared across narrow and wide. */
+const visibleSubStepsFiltered = computed(() =>
+  subSteps.visibleSubSteps.value.filter((s) => s.visible)
+)
+/** Wide layout: left column (steps 0–1). */
+const leftColumnSteps = computed(() =>
+  visibleSubStepsFiltered.value.filter((s) => s.index <= 1)
+)
+/** Wide layout: right column (steps 2–4). */
+const rightColumnSteps = computed(() =>
+  visibleSubStepsFiltered.value.filter((s) => s.index >= 2)
+)
+/** Single expanded panel index for accordion; strictly driven by current step (one-way). */
+const narrowExpanded = ref<number>(0)
+/** Current step index for template (nested ref not auto-unwrapped). */
+const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)
+watch(
+  currentStepIndexValue,
+  (idx) => {
+    narrowExpanded.value = idx
+  }
+)
+function syncExpandedToCurrentStep(): void {
+  narrowExpanded.value = currentStepIndexValue.value
+}
+
+/** Wrapped handlers that also mark steps as confirmed. */
+function handleDateChangeWithConfirm(value: string | Date | string[] | Date[] | null): void {
+  o.handleDateChange(value)
+  confirmation.confirm(0)
+}
+function handleTimeBasisChangeWithConfirm(type: 'major' | 'minor'): void {
+  o.handleTimeBasisChange(type)
+  confirmation.confirm(2)
+}
+function handleSlotClickWithConfirm(buttonIndex: number): void {
+  o.handleAppointmentSlotClick(buttonIndex)
+  confirmation.confirm(3)
+}
+function handleMoveableConfirmWithConfirm(): void {
+  o.handleMoveableConfirm()
+  confirmation.confirm(4)
+}
+
+/** Collapsed panel summary per step (data state). */
+function getStepSummary(stepIndex: number): string | null {
+  if (stepIndex === 0) {
+    const start = o.selectedDate.value?.start
+    if (!start) return null
+    const date = new Date(start.includes('T') ? start : `${start}T00:00:00`)
+    if (Number.isNaN(date.getTime())) return null
+    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+  }
+  if (stepIndex === 1) {
+    const id = o.selectedOptionTypeBlockId.value
+    if (!id) return null
+    const block = o.wizard.availableOptionTypeBlocks.value.find((b) => b.id === id)
+    return block?.name ?? id
+  }
+  if (stepIndex === 2) {
+    if (!o.userHasChosenTimeBasisFromGraph?.value) return null
+    const pers = o.perspective.value
+    const majorLabel = availabilitySettings.value?.differentialPerspectives?.majorLabel ?? 'Major'
+    const minorLabel = availabilitySettings.value?.differentialPerspectives?.minorLabel ?? 'Minor'
+    if (pers === 'major') return `${majorLabel} times`
+    if (pers === 'minor') return `${minorLabel} times`
+    return null
+  }
+  if (stepIndex === 3) {
+    const idx = o.selectedButtonIndex.value
+    if (idx == null) return null
+    const slots = o.appointmentSlots.value
+    const slot = slots.find((s) => s.buttonIndex === idx)
+    if (!slot) return null
+    const range = derivePerspective(slot, o.perspective.value)
+    return range ? formatTimeRange(range) : null
+  }
+  if (stepIndex === 4) {
+    return o.stepData.value?.moveableScheduling ? 'Confirmed' : null
+  }
+  return null
+}
+
+/** Badge state for collapsed panel: empty | prefilled | confirmed. */
+function getStepBadgeState(stepIndex: number): 'empty' | 'prefilled' | 'confirmed' {
+  const hasValue = getStepSummary(stepIndex) != null
+  const isConfirmed = confirmation.isConfirmed(stepIndex)
+  if (!hasValue) return 'empty'
+  if (isConfirmed) return 'confirmed'
+  return 'prefilled'
+}
+
+/** Context for AvailabilitySubStepContent (inject). */
+const subStepContext = {
+  o,
+  handleDateChangeWithConfirm,
+  onOptionIdUpdate,
+  handleTimeBasisChangeWithConfirm,
+  handleSlotClickWithConfirm,
+  get showSlotsOverlay() {
+    return showSlotsOverlay.value
+  },
+  get slotGridOverlayLabel() {
+    return slotGridOverlayLabel.value
+  },
+  get slotGridOverlayError() {
+    return slotGridOverlayError.value
+  },
+  get emptyStateMessage() {
+    return o.emptyStateMessage.value ?? ''
+  },
+  get firstAvailableNotice() {
+    return o.firstAvailableNotice?.value ?? null
+  },
+  clearFirstAvailableNotice: o.clearFirstAvailableNotice,
+}
+provide(availabilitySubStepContextKey, subStepContext)
+
+// WHY: Set panel + reset confirmation when entering with loaded appointment so user reviews from step 0.
+onMounted(() => {
+  const loaded = loadedWizardState?.value
+  const hasLoadedAvailability =
+    loaded?.availability?.candidateDate != null ||
+    loaded?.availability?.candidateTimeSlots != null
+  if (hasLoadedAvailability) {
+    confirmation.reset()
+  }
+  nextTick(() => {
+    narrowExpanded.value = currentStepIndexValue.value
+  })
 })
 </script>
 
 <template>
   <div class="availability-step">
-    <VRow class="calendar-grid-row">
-      <VCol cols="12" class="position-relative overflow-visible">
-        <div class="d-flex align-center justify-space-between flex-wrap mb-2">
-          <div>
-            <h4 class="text-headline-large mb-2">Appointment Availability</h4>
-            <p class="text-body-medium mb-6 mb-sm-4">Select a time that works for everybody</p>
+    <div class="d-flex align-center justify-space-between flex-wrap mb-2">
+      <div>
+        <h4 class="text-headline-large mb-2">Appointment Availability</h4>
+        <p class="text-body-medium mb-6 mb-sm-4">Select a time that works for everybody</p>
+      </div>
+    </div>
+
+    <!-- Narrow layout: expandable cards (Task 6.9.2.1). Expansion is controlled from current step only. -->
+    <VExpansionPanels
+      v-if="isNarrow"
+      :model-value="narrowExpanded"
+      variant="accordion"
+      @update:model-value="syncExpandedToCurrentStep"
+      class="availability-step-panels"
+    >
+      <VExpansionPanel
+        v-for="step in visibleSubStepsFiltered"
+        :key="step.index"
+        :value="step.index"
+        class="availability-substep-panel"
+      >
+        <VExpansionPanelTitle class="availability-substep-title">
+          <AvailabilitySubStepHeader
+            :step="step"
+            :badge-state="getStepBadgeState(step.index)"
+            :summary="getStepSummary(step.index)"
+            :show-summary="confirmation.isConfirmed(step.index)"
+          />
+        </VExpansionPanelTitle>
+        <VExpansionPanelText>
+          <AvailabilitySubStepContent :step-index="step.index" />
+        </VExpansionPanelText>
+      </VExpansionPanel>
+    </VExpansionPanels>
+
+    <!-- Wide layout: visible sub-step headers and summaries, no collapse -->
+    <VRow v-else class="calendar-grid-row">
+      <VCol cols="12" md="5" class="availability-wide-left">
+        <div
+          v-for="step in leftColumnSteps"
+          :key="step.index"
+          class="availability-wide-section"
+        >
+          <div class="availability-substep-header-wide">
+            <AvailabilitySubStepHeader
+              :step="step"
+              :badge-state="getStepBadgeState(step.index)"
+              :summary="getStepSummary(step.index)"
+              :show-summary="confirmation.isConfirmed(step.index)"
+            />
+          </div>
+          <div class="availability-substep-content-wide">
+            <AvailabilitySubStepContent :step-index="step.index" />
           </div>
         </div>
       </VCol>
-
-      <VCol v-if="(o.firstAvailableNotice?.value ?? '').trim()" cols="12" class="pt-0 pb-2">
-        <VAlert
-          type="info"
-          variant="tonal"
-          closable
-          density="compact"
-          class="first-available-notice"
-          @click:close="o.clearFirstAvailableNotice"
+      <VCol cols="12" md="7" class="availability-wide-right time-selection-col">
+        <div
+          v-for="step in rightColumnSteps"
+          :key="step.index"
+          class="availability-wide-section"
         >
-          {{ o.firstAvailableNotice?.value }}
-        </VAlert>
-      </VCol>
-
-      <VCol cols="12" class="calendar-col">
-        <p v-if="availabilitySubSteps[0].visible" class="text-subtitle-1 font-weight-medium mb-2 availability-step-label">
-          {{ availabilitySubSteps[0].label }}
-        </p>
-        <AvailabilityCalendarSection
-          :model-value="o.selectedDateSingle.value"
-          :display-date="o.vDatePickerDisplayDate.value"
-          :min="o.getTodayDate()"
-          :allowed-dates="(date: unknown) => o.allowedDates.value(date as string)"
-          :selected-date-error="o.fieldErrors.value?.selectedDate"
-          @update:model-value="o.handleDateChange($event)"
-          @update:display-date="o.setVDatePickerDisplayDate($event)"
-        />
-        <template v-if="availabilitySubSteps[1].visible">
-          <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
-            {{ availabilitySubSteps[1].label }}
-          </p>
-          <AvailabilityOptionsSection
-            :has-selected-services="o.wizard.selectedServiceTypeBlocks.value.length > 0"
-            :cascade-error="o.wizard.availabilityOptionsCascadeError?.value ?? null"
-            :available-option-type-blocks="o.wizard.availableOptionTypeBlocks.value"
-            :selected-option-type-block-id="o.selectedOptionTypeBlockId.value"
-            class="availability-options-below-calendar"
-            @update:selected-option-type-block-id="onOptionIdUpdate"
-          />
-        </template>
-      </VCol>
-
-      <VCol cols="12" class="time-selection-col">
-        <div class="time-selection-content">
-          <template v-if="o.selectedDate.value?.start">
-            <template v-if="availabilitySubSteps[2].visible">
-              <p class="text-subtitle-1 font-weight-medium mb-2 availability-step-label">
-                {{ availabilitySubSteps[2].label }}
-              </p>
-            </template>
-            <DifferentialGraph
-              v-if="o.isEffectivelyDifferential.value"
-              :is-differential-service="o.isEffectivelyDifferential.value"
-              :graph-bars="o.graphBars.value"
-              :selected-services="o.wizard.selectedServiceTypeBlocks.value"
-              :start-time-type="o.perspective.value"
-              class="differential-graph-above-slots"
-              @time-basis-change="o.handleTimeBasisChange"
+          <div class="availability-substep-header-wide">
+            <AvailabilitySubStepHeader
+              :step="step"
+              :badge-state="getStepBadgeState(step.index)"
+              :summary="getStepSummary(step.index)"
+              :show-summary="confirmation.isConfirmed(step.index)"
             />
-            <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
-              {{ availabilitySubSteps[3].label }}
-            </p>
-            <div v-if="o.appointmentSlots.value.length === 0" class="text-body-medium text-medium-emphasis py-4 mb-4 mb-sm-6">
-              {{ o.emptyStateMessage }}
-            </div>
-            <div v-else class="slot-grid-wrapper" :class="{ 'slot-grid-wrapper--overlay': showSlotsOverlay }">
-              <div v-if="showSlotsOverlay" class="slot-grid-overlay">
-                <span class="slot-grid-overlay-text">{{ selectTimeSlotLabel }}</span>
-              </div>
-              <AppointmentSlotGrid
-                :appointment-slots="o.appointmentSlots.value"
-                :selected-button-index="o.selectedButtonIndex.value"
-                :time-basis="o.perspective.value"
-                :color="o.slotColor.value"
-                class="appointment-slot-grid-abut"
-                @slot-click="o.handleAppointmentSlotClick"
-              />
-            </div>
-            <div v-if="o.fieldErrors.value?.selectedTimeSlot" class="text-error text-body-small mt-2 mb-2">
-              {{ o.fieldErrors.value?.selectedTimeSlot }}
-            </div>
-            <template v-if="availabilitySubSteps[4].visible">
-              <p class="text-subtitle-1 font-weight-medium mb-2 mt-4 availability-step-label">
-                {{ availabilitySubSteps[4].label }}
-              </p>
-              <div class="availability-step-5-slot">
-                <p class="text-body-small text-medium-emphasis">Confirm moveable details when applicable (content in Session 6.9.4).</p>
-              </div>
-            </template>
-          </template>
-          <template v-else>
-            <div class="d-flex align-center justify-start date-placeholder">
-              <p class="text-body-large text-medium-emphasis">Select a date from the calendar to see available time slots</p>
-            </div>
-          </template>
+          </div>
+          <div class="availability-substep-content-wide">
+            <AvailabilitySubStepContent :step-index="step.index" />
+          </div>
         </div>
       </VCol>
     </VRow>
@@ -236,7 +389,7 @@ const availabilitySubSteps = computed(() => {
       @update:selected-moveable-day="o.setSelectedMoveableDay"
       @update:contingency-period="o.contingencyPeriod.value = $event"
       @select-slot="o.selectMoveableSlot"
-      @confirm="o.handleMoveableConfirm"
+      @confirm="handleMoveableConfirmWithConfirm"
       @cancel="o.handleMoveableCancel"
     />
   </div>
@@ -251,11 +404,9 @@ const availabilitySubSteps = computed(() => {
   overflow: visible;
 }
 
-.first-available-notice {
-  font-size: 0.8125rem;
-}
-
-.calendar-col {
+/* Calendar/slot styles - apply via :deep to AvailabilitySubStepContent */
+.availability-substep-content-wide :deep(.calendar-col),
+.availability-substep-panel :deep(.calendar-col) {
   margin-bottom: 1.5rem;
   @media (min-width: 600px) {
     margin-bottom: 0;
@@ -281,7 +432,6 @@ const availabilitySubSteps = computed(() => {
     margin-bottom: 0;
     padding-bottom: 0;
   }
-  /* Collapse adjacent-month placeholder cells so they don't add empty rows and gap below the visible dates */
   :deep(.v-date-picker-month__day--hide-adjacent) {
     height: 0;
     min-height: 0;
@@ -379,15 +529,128 @@ const availabilitySubSteps = computed(() => {
   }
 }
 
-.availability-step-label {
-  color: rgb(var(--v-theme-on-surface));
+.slot-grid-overlay-error {
+  color: rgb(var(--v-theme-error));
+  font-weight: 600;
+  font-size: 1rem;
+  max-width: min(90vw, 420px);
 }
 
-/* Reserved slot for sub-step 5 (Confirm moveable details); content in Session 6.9.4 */
+/* Narrow layout: expandable cards (Task 6.9.2.1) */
+.availability-step-panels {
+  margin-bottom: 0;
+}
+
+.availability-substep-panel {
+  margin-bottom: 0;
+}
+
+.availability-substep-title {
+  min-height: 48px;
+}
+
 .availability-step-5-slot {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+/* Wide layout: visible sub-step headers and content (no collapse) */
+.availability-wide-section {
+  margin-bottom: 1.5rem;
+}
+.availability-wide-section:last-child {
+  margin-bottom: 0;
+}
+.availability-substep-header-wide {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.availability-substep-content-wide {
+  min-width: 0;
+}
+.availability-wide-left .availability-wide-section:first-child :deep(.calendar-col) {
+  margin-bottom: 1rem;
+}
+
+/* Shared content styles (AvailabilitySubStepContent) */
+.availability-substep-content-wide :deep(.time-selection-content),
+.availability-substep-panel :deep(.time-selection-content) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: 300px;
+  flex: 1 1 auto;
+  @media (min-width: 600px) {
+    min-height: 350px;
+  }
+}
+.availability-substep-content-wide :deep(.date-placeholder),
+.availability-substep-panel :deep(.date-placeholder) {
+  min-height: 300px;
+  width: 100%;
+  @media (min-width: 600px) {
+    min-height: 400px;
+  }
+}
+.availability-substep-content-wide :deep(.slot-grid-wrapper),
+.availability-substep-panel :deep(.slot-grid-wrapper) {
+  position: relative;
+  margin-top: 1rem;
+}
+.availability-substep-content-wide :deep(.slot-grid-wrapper--overlay),
+.availability-substep-panel :deep(.slot-grid-wrapper--overlay) {
+  filter: grayscale(0.5);
+  opacity: 0.6;
+}
+.availability-substep-content-wide :deep(.slot-grid-overlay),
+.availability-substep-panel :deep(.slot-grid-overlay) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--v-theme-surface), 0.9);
+  z-index: 10;
+  pointer-events: none;
+}
+.availability-substep-content-wide :deep(.slot-grid-overlay-text),
+.availability-substep-panel :deep(.slot-grid-overlay-text) {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(var(--v-theme-on-surface));
+  text-align: center;
   padding: 1rem;
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  border-radius: 4px;
-  background: rgba(var(--v-theme-surface-variant), 0.3);
+  @media (max-width: 599px) {
+    font-size: 1.25rem;
+  }
+}
+.availability-substep-content-wide :deep(.slot-grid-overlay-error),
+.availability-substep-panel :deep(.slot-grid-overlay-error) {
+  color: rgb(var(--v-theme-error));
+  font-weight: 600;
+  font-size: 1rem;
+  max-width: min(90vw, 420px);
+}
+.availability-substep-content-wide :deep(.availability-options-below-calendar),
+.availability-substep-panel :deep(.availability-options-below-calendar) {
+  margin-top: 1rem;
+}
+.availability-substep-content-wide :deep(.differential-graph-above-slots),
+.availability-substep-panel :deep(.differential-graph-above-slots) {
+  flex-shrink: 0;
+}
+.availability-substep-content-wide :deep(.appointment-slot-grid-abut),
+.availability-substep-panel :deep(.appointment-slot-grid-abut) {
+  margin-bottom: 0 !important;
 }
 </style>

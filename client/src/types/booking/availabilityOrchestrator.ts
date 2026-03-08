@@ -20,6 +20,7 @@ export interface UseAvailabilityOrchestratorReturn {
     allowedDates: ComputedRef<(date: string) => boolean>
     fieldErrors: Ref<Record<string, string>>
     isEffectivelyDifferential: ComputedRef<boolean>
+    hasMoveablePartsGated: ComputedRef<boolean>
     userHasChosenTimeBasisFromGraph: Ref<boolean>
     graphBars: ComputedRef<{ major: TimeRange | null; minor: TimeRange | null }>
     perspective: ComputedRef<PerspectiveKey>

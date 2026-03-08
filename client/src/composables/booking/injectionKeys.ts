@@ -109,3 +109,20 @@ export interface ContactsFormContext {
 
 export const contactsFormContextKey: InjectionKey<ContactsFormContext> =
   Symbol('contactsFormContext')
+
+/** Context for AvailabilitySubStepContent (orchestrator + handlers). Provider: AvailabilityStep. */
+export interface AvailabilitySubStepContext {
+  o: Record<string, unknown>
+  handleDateChangeWithConfirm: (v: string | Date | string[] | Date[] | null) => void
+  onOptionIdUpdate: (id: string | null) => void
+  handleTimeBasisChangeWithConfirm: (type: 'major' | 'minor') => void
+  handleSlotClickWithConfirm: (buttonIndex: number) => void
+  showSlotsOverlay: boolean
+  slotGridOverlayLabel: string | null
+  slotGridOverlayError: string | null
+  emptyStateMessage: string
+  firstAvailableNotice: string | null
+  clearFirstAvailableNotice: () => void
+}
+export const availabilitySubStepContextKey: InjectionKey<AvailabilitySubStepContext> =
+  Symbol('availabilitySubStepContext')

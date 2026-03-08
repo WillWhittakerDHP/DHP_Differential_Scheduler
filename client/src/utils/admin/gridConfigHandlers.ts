@@ -38,5 +38,17 @@ export function useGridConfigHandlers(state: GridConfigState): UseGridConfigHand
     handleMinorStateLabel(v: string): void {
       differential.minorStateLabel = v
     },
+    handleSubStepLabelPickDay(v: string): void {
+      differential.subStepLabelPickDay = v
+    },
+    handleSubStepLabelOptions(v: string): void {
+      differential.subStepLabelOptions = v
+    },
+    handleSubStepLabelPickTime(v: string): void {
+      differential.subStepLabelPickTime = v
+    },
+    handleSubStepLabelConfirmMoveable(v: string): void {
+      differential.subStepLabelConfirmMoveable = v
+    },
   }
 }

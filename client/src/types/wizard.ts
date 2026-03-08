@@ -26,6 +26,8 @@ export interface WizardState {
   selectedPropertyTypeBlocks: BookingBlockInstance[]
   /** Array of selected line item blocks (bookingMode: "addOn") */
   selectedLineItemBlocks: BookingBlockInstance[]
+  /** Array of selected coupon block (single-select UI, array storage; same pattern as property type) */
+  selectedCouponBlocks: BookingBlockInstance[]
   /** Whether user only wants a quote (not booking) */
   isQuoteMode: boolean
   /** Mode for wizard flow: new, quote, or reschedule (load-at-step-3 + update path) */
@@ -43,6 +45,8 @@ export interface WizardSelectionMethods {
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle line item block selection (multi-select) */
   toggleLineItemBlock: (block: BookingBlockInstance) => void
+  /** Toggle coupon block selection (single-select UI, array storage; same as property type) */
+  toggleCouponBlock: (block: BookingBlockInstance) => void
   /** Run multiple wizard state updates without cascading clears (e.g. when loading an appointment) */
   batchUpdate: (fn: () => void) => void
   /** Set wizard mode (new, quote, reschedule). Entry points set 'reschedule' then call handleLoadAppointment(id). */
@@ -58,6 +62,8 @@ export interface WizardComputedProperties {
   availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available property type blocks (filtered by selected services) */
   availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available coupon block instances (cascade from selected services; same routine as property type) */
+  availableCouponBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available line item blocks (bookingMode: "addOn") */
   availableLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   
@@ -65,6 +71,7 @@ export interface WizardComputedProperties {
   servicesCascadeError: ComputedRef<string | null>
   availabilityOptionsCascadeError: ComputedRef<string | null>
   propertyTypesCascadeError: ComputedRef<string | null>
+  couponCascadeError: ComputedRef<string | null>
   
   /** Accumulation computed properties for duration calculations */
   accServices: ComputedRef<BookingBlockInstance[]>
@@ -79,6 +86,7 @@ export type UseBookingWizardReturn = {
   selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
   selectedLineItemBlocks: Ref<BookingBlockInstance[]>
+  selectedCouponBlocks: Ref<BookingBlockInstance[]>
   isQuoteMode: Ref<boolean>
   wizardMode: Ref<WizardMode>
 } & WizardSelectionMethods & WizardComputedProperties & {
@@ -93,6 +101,7 @@ export interface UseBookingWizardReturnGrouped {
     selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
     selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
     selectedLineItemBlocks: Ref<BookingBlockInstance[]>
+    selectedCouponBlocks: Ref<BookingBlockInstance[]>
     isQuoteMode: Ref<boolean>
     wizardMode: Ref<WizardMode>
   }

@@ -123,6 +123,11 @@ export interface AvailabilitySettings {
     majorStateLabel?: string
     minorStateLabel?: string
     selectTimeSlotLabel?: string
+    /** Availability sub-step card titles (narrow layout). Perspective uses differentialGraphDefaultLabel. */
+    subStepLabelPickDay?: string
+    subStepLabelOptions?: string
+    subStepLabelPickTime?: string
+    subStepLabelConfirmMoveable?: string
   }
   calendarConfig?: CalendarConfig
 }
@@ -157,6 +162,10 @@ export interface RawAvailabilitySettings {
     minorAttendees?: string[]
     majorLabel?: string
     minorLabel?: string
+    subStepLabelPickDay?: string
+    subStepLabelOptions?: string
+    subStepLabelPickTime?: string
+    subStepLabelConfirmMoveable?: string
     moveableFallbackLabel?: string
     differentialGraphDefaultLabel?: string
     majorStateLabel?: string

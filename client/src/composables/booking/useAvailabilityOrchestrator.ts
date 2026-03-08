@@ -285,6 +285,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       allowedDates,
       fieldErrors,
       isEffectivelyDifferential,
+      hasMoveablePartsGated,
       userHasChosenTimeBasisFromGraph,
       graphBars,
       perspective,
