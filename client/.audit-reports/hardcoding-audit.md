@@ -51,7 +51,7 @@ When extracting literals to constants, prefer these constant files (from constan
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
 - Total files scanned: **1**
 - **Requiring review: 3**
-- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
+- Allowed (with justification): 1 (inline: 0, pattern: 0, specific: 0, linePattern: 1)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
@@ -87,7 +87,7 @@ Legend: `ruleId@lineNumber: line`
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@142: updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
-fieldMapping@182: updateAppointment: { mutateAsync: update.mutateAsync },
-fieldMapping@203: updateAppointment: { isPending: update.isPending },
+fieldMapping@143: updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
+fieldMapping@183: updateAppointment: { mutateAsync: update.mutateAsync },
+fieldMapping@204: updateAppointment: { isPending: update.isPending },
 ```

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:02:00.593Z",
+  "generatedAt": "2026-03-08T01:20:18.422Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -76,7 +76,7 @@
         {
           "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
           "export": null,
-          "line": 333,
+          "line": 370,
           "inline": true
         },
         {
@@ -104,7 +104,7 @@
         {
           "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
           "export": null,
-          "line": 333,
+          "line": 370,
           "inline": true
         },
         {
@@ -151,13 +151,13 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 333,
+          "lineNumber": 370,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 333,
+          "lineNumber": 370,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

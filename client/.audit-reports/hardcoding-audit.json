@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T21:27:16.756Z",
+  "generatedAt": "2026-03-08T01:35:42.151Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 6,
+  "totalScanned": 12,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
+    "totalAllowed": 1,
     "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0,
-      "linePattern": 0
+      "linePattern": 1
     }
   },
   "entityKeys": [],
@@ -87,17 +87,17 @@
       "matches": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 142,
+          "lineNumber": 143,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 182,
+          "lineNumber": 183,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 203,
+          "lineNumber": 204,
           "line": "updateAppointment: { isPending: update.isPending },"
         }
       ],
@@ -105,19 +105,19 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 142,
+          "lineNumber": 143,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 182,
+          "lineNumber": 183,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync },",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 203,
+          "lineNumber": 204,
           "line": "updateAppointment: { isPending: update.isPending },",
           "suppressionStatus": "unsuppressed"
         }
