@@ -55,8 +55,8 @@ if (!ctx) {
       @update:selected-option-type-block-id="ctx.onOptionIdUpdate"
     />
   </div>
-  <!-- Step 2: Perspective -->
-  <div v-else-if="stepIndex === 2" class="time-selection-content">
+  <!-- Step 3: Pick a time (graph at top when differential, then slots) -->
+  <div v-else-if="stepIndex === 3" class="time-selection-content">
     <DifferentialGraph
       v-if="ctx.o.isEffectivelyDifferential.value"
       :is-differential-service="ctx.o.isEffectivelyDifferential.value"
@@ -66,9 +66,6 @@ if (!ctx) {
       class="differential-graph-above-slots"
       @time-basis-change="ctx.handleTimeBasisChangeWithConfirm"
     />
-  </div>
-  <!-- Step 3: Pick a time -->
-  <div v-else-if="stepIndex === 3" class="time-selection-content">
     <template v-if="ctx.o.selectedDate.value?.start">
       <div v-if="ctx.o.appointmentSlots.value.length === 0" class="text-body-medium text-medium-emphasis py-4 mb-4 mb-sm-6">
         {{ ctx.emptyStateMessage }}

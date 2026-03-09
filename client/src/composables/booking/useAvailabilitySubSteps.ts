@@ -2,6 +2,10 @@
  * Sub-step model for the availability mini-wizard (Phase 6.9).
  * Exposes visible sub-steps, current index, and completed set for narrow layout
  * (expandable cards) and for 6.9.3 (a11y) / 6.9.4 (5th content).
+ *
+ * Task 6.9.2.2: State is explicit — currentStepIndex and completedStepIndices are stable
+ * and consumed by AvailabilityStep (auto-expand), AvailabilitySubStepHeader (badge/summary),
+ * and will be used by 6.9.3 (a11y focus/aria) and 6.9.4 (5th step content).
  */
 import { computed, type ComputedRef, type Ref } from 'vue'
 
@@ -52,11 +56,8 @@ export function useAvailabilitySubSteps(
     const steps: AvailabilitySubStepDef[] = []
     steps.push({ index: 0, label: label(0), visible: true })
     steps.push({ index: 1, label: label(1), visible: params.hasOptions.value })
-    steps.push({
-      index: 2,
-      label: label(2),
-      visible: params.hasDateSelected.value && params.isEffectivelyDifferential.value,
-    })
+    /* Step 2 (Perspective) merged into Pick a time — graph shows at top of step 3 when differential. */
+    steps.push({ index: 2, label: label(2), visible: false })
     steps.push({ index: 3, label: label(3), visible: true })
     steps.push({ index: 4, label: label(4), visible: params.hasMoveablePartsGated.value })
     return steps

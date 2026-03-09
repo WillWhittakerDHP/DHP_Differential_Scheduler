@@ -23,15 +23,6 @@ defineProps<Props>()
       size="small"
       class="availability-substep-done"
     />
-    <VChip
-      v-else-if="badgeState === 'prefilled'"
-      size="x-small"
-      variant="tonal"
-      color="info"
-      class="availability-substep-prefilled"
-    >
-      Loaded
-    </VChip>
     <span>{{ step.label }}</span>
     <span v-if="showSummary && summary" class="availability-substep-summary text-medium-emphasis">
       {{ summary }}
@@ -45,8 +36,5 @@ defineProps<Props>()
 }
 .availability-substep-summary {
   font-size: 0.875rem;
-}
-.availability-substep-prefilled {
-  flex-shrink: 0;
 }
 </style>

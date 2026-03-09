@@ -15,7 +15,7 @@ Session 6.9.1 complete: sub-step model, wide layout, steps 1–4 wired, step 5 r
 
 ### Tasks
 
-- [ ] #### Task 6.9.2.1: Expandable cards and state
+- [x] #### Task 6.9.2.1: Expandable cards and state
 **Goal:** On narrow breakpoint, wrap each sub-step in an expandable card; track and display current step and completed state; show a done indicator when a completed step is collapsed.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — narrow layout with expandable cards (e.g. VExpansionPanel or custom), current/completed state, done indicator.
@@ -23,7 +23,7 @@ Session 6.9.1 complete: sub-step model, wide layout, steps 1–4 wired, step 5 r
 **Approach:** Use a narrow breakpoint (e.g. useDisplay or existing mobile breakpoint). Render sub-steps 1–5 (5 only when moveable gate) as cards; current sub-step expanded by default; completed sub-steps show done indicator when collapsed. Keep explicit sub-step state (current index, completed set) for 6.9.3 and 6.9.4.
 **Checkpoint:** Narrow screens show each sub-step as an expandable card; current step expanded, completed steps show done indicator when collapsed. Wide layout unchanged. Lint passes; app starts.
 
-- [ ] #### Task 6.9.2.2: Auto-expand/collapse and animations
+- [x] #### Task 6.9.2.2: Auto-expand/collapse and animations
 **Goal:** Optional auto-expand next card and collapse previous on sub-step completion; add transitions/animations for expand/collapse; ensure sub-step state is explicit and usable by later sessions.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — auto-expand/collapse behavior, transitions.

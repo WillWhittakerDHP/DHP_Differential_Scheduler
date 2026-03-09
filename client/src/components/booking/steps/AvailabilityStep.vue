@@ -174,7 +174,11 @@ const leftColumnSteps = computed(() =>
 const rightColumnSteps = computed(() =>
   visibleSubStepsFiltered.value.filter((s) => s.index >= 2)
 )
-/** Single expanded panel index for accordion; strictly driven by current step (one-way). */
+/** Single expanded panel index for accordion; strictly driven by current step (one-way).
+ * Task 6.9.2.2: Auto-expand on confirm — when user confirms a sub-step, currentStepIndex advances
+ * (via useAvailabilitySubSteps + confirmationState), this watcher syncs narrowExpanded, and the
+ * next panel opens (accordion collapses previous). Sub-step state (currentStepIndex, completedStepIndices)
+ * is explicit for 6.9.3 (a11y) and 6.9.4 (5th content). */
 const narrowExpanded = ref<number>(0)
 /** Current step index for template (nested ref not auto-unwrapped). */
 const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)
@@ -184,8 +188,9 @@ watch(
     narrowExpanded.value = idx
   }
 )
-function syncExpandedToCurrentStep(): void {
-  narrowExpanded.value = currentStepIndexValue.value
+/** Accept user click or programmatic sync. User can expand any panel (e.g. to review a previous step). */
+function onExpandedChange(expandedIndex: number): void {
+  narrowExpanded.value = expandedIndex
 }
 
 /** Wrapped handlers that also mark steps as confirmed. */
@@ -304,12 +309,12 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Narrow layout: expandable cards (Task 6.9.2.1). Expansion is controlled from current step only. -->
+    <!-- Narrow layout: expandable cards (Task 6.9.2.1). User can expand any panel; watcher auto-expands on confirm. -->
     <VExpansionPanels
       v-if="isNarrow"
       :model-value="narrowExpanded"
       variant="accordion"
-      @update:model-value="syncExpandedToCurrentStep"
+      @update:model-value="onExpandedChange"
       class="availability-step-panels"
     >
       <VExpansionPanel
@@ -536,13 +541,21 @@ onMounted(() => {
   max-width: min(90vw, 420px);
 }
 
-/* Narrow layout: expandable cards (Task 6.9.2.1) */
+/* Narrow layout: expandable cards (Task 6.9.2.1). Task 6.9.2.2: smooth expand/collapse transitions. */
 .availability-step-panels {
   margin-bottom: 0;
+  /* LEARNING: Vuetify VExpansionPanel uses internal VExpandTransition. Override duration for consistency with wizard (200–300ms). */
+  --v-expand-transition-duration: 0.25s;
 }
 
 .availability-substep-panel {
   margin-bottom: 0;
+}
+
+/* Task 6.9.2.2: Ensure expansion panel content animates smoothly (Vuetify 3 uses v-expansion-panel-text__wrapper). */
+.availability-step-panels :deep(.v-expansion-panel-text__wrapper) {
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
 }
 
 .availability-substep-title {

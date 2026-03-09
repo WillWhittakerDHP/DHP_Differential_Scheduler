@@ -159,11 +159,21 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   watch(firstAvailableDate, firstDate => {
     if (!firstDate) return
     const today = getTodayDate()
-    if (selectedDate.value.start !== today) return
     if (firstDate === today) {
       firstAvailableNotice.value = null
       return
     }
+    const currentStart = selectedDate.value.start
+    const currentDay = currentStart ? (currentStart.includes('T') ? currentStart.split('T')[0] : currentStart) : null
+    // When showing notice, keep syncing to firstAvailableDate — prefetch may complete after per-day fetch,
+    // so firstAvailableDate can change from partial (e.g. tomorrow) to correct (e.g. March 15).
+    if (firstAvailableNotice.value !== null && currentDay !== firstDate) {
+      selectedDate.value = { start: toISO8601Date(firstDate), end: null }
+      const dateObj = new Date(firstDate + 'T00:00:00')
+      firstAvailableNotice.value = `Today is fully booked. Showing ${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} — the earliest date with available slots.`
+      return
+    }
+    if (currentDay !== today) return
     selectedDate.value = { start: toISO8601Date(firstDate), end: null }
     const dateObj = new Date(firstDate + 'T00:00:00')
     firstAvailableNotice.value = `Today is fully booked. Showing ${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} — the earliest date with available slots.`
@@ -226,11 +236,15 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     selectedSlot
   })
 
-  const { handleDateChange } = useAvailabilityUI({
+  const { handleDateChange: handleDateChangeBase } = useAvailabilityUI({
     selectedDate,
     selectedButtonIndex,
     fieldErrors
   })
+  const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
+    firstAvailableNotice.value = null
+    handleDateChangeBase(value)
+  }
 
   const userHasChosenTimeBasisFromGraph = ref(false)
 

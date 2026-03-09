@@ -19,3 +19,6 @@
 [2026-03-08T02:42:52.096Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.9.2-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
 [2026-03-09T14:50:42.228Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.9.2-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
 [2026-03-09T14:58:00.342Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.9.2-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
+[2026-03-09T15:11:04.033Z] BLOCKED overwrite .project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
+[2026-03-09T15:16:02.550Z] WRITE .project-manager/features/appointment-workflow/sessions/task-6.9.2.2-planning.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:74)
+[2026-03-09T15:49:56.050Z] WRITE .project-manager/features/appointment-workflow/sessions/session-6.9.2-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:80)

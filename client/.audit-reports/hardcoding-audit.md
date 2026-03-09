@@ -49,14 +49,15 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **0**
-- **Requiring review: 0**
-- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
+- Total files scanned: **1**
+- **Requiring review: 1**
+- Allowed (with justification): 2 (inline: 0, pattern: 0, specific: 0, linePattern: 2)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/components/booking/steps/AvailabilitySubStepContent.vue` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -73,3 +74,12 @@ Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/components/booking/steps/AvailabilitySubStepContent.vue`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldMapping@73: <div v-else class="slot-grid-wrapper" :class="{ 'slot-grid-wrapper--overlay': ctx.showSlotsOverlay }">
+```
