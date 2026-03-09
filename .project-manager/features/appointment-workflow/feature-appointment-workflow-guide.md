@@ -60,9 +60,8 @@
 | 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
 | 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time → confirm moveable details (optional); responsive expandable panels on narrow screens. Sessions 6.9.1 (sub-step model & wide layout, optional 5th in model + placeholder), 6.9.2 (narrow expandable cards & state), 6.9.3 (a11y & focus), 6.9.4 (moveable content in 5th, remove modal, deprecate). |
-| 6.10 | Fee Preview & Coupon Visibility | Not Started | Add new block shapes button on admin Shapes tab (6.10.1); fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (Shapes tab button), 6.10.2 (admin toggle + settings), 6.10.3 (availability-step fee bar + popover). |
+| 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
-| 6.12 | Admin Branding & Theming | Not Started | New admin Branding area (top-level tab or sub-tab under CONTROLS): logo (upload/URL), favicon, custom theme colors in DB; og:image (and optionally og:title/og:description) for public booking; seed colors and generated light/dark, primary/secondary/tertiary, main/quote/reschedule, warning variants. No regression to Business tab or theme switcher. |
 
 ---
 
@@ -158,18 +157,16 @@
 - Existing validation and differential/slot behavior unchanged
 
 - [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
-**Description:** Restore the add new block shapes button on the admin Shapes tab (it used to exist and is missing; if needed, adapt the same add-new pattern as the other shapes sub-tabs). Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
-**Sessions:** 3 (6.10.1: Add new block shapes button; 6.10.2: Admin toggle and settings; 6.10.3: Availability-step fee bar and popover)
-- **Session 6.10.1:** Add new block shapes button on admin Shapes tab — restore it (it used to be there); if the original can’t be recovered, adapt the same add-new button pattern as the other shapes sub-tabs.
-- **Session 6.10.2:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
-- **Session 6.10.3:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
+**Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
+**Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
+- **Session 6.10.1:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
+- **Session 6.10.2:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
 **Dependencies:** None (reuses `buildConfirmationPriceData`, existing Confirmation step fee UI, and availability settings payload).
 **Success Criteria:**
-- Shapes tab: Add new block shapes button works; admins can create block shapes from the UI
 - Admin: "Show apply coupon in wizard" switch in Confirmation & Holds; setting persisted and read by wizard
 - Availability step: compact "Fee preview: $X.XX" bar at top; hover shows popover with Bag Total, optional Coupon row (+ Apply Coupon when enabled), Order Total, line items, Total (no submit)
 - Confirmation step: Coupon Discount row and Apply Coupon button only visible when `showApplyCouponInWizard` is true
-**See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`, `sessions/session-6.10.3-guide.md`
+**See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`
 
 - [ ] ### Phase 6.11: Drive Time Fee Line Item
 **Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence (virtual block instance):** Preserve drive time in the stored fee breakdown by using a single system "Drive time" block instance (one real row in `block_instances` with lineItem block shape, not user-selectable). The block has minimal/zero parts so the normal block fee formula yields 0; the actual amount is stored only in the fee entry: when persisting, add one `appointment_fee_entries` row with that block's id, `block_name` "Drive time", and computed fee in `total_fee`/`base_fee`. This keeps `block_instance_id` required and avoids schema changes; reporting and existing "every entry has a block" assumptions remain valid. Ensure the drive-time block exists (e.g. seed or create per calendar) and is excluded from wizard block selection.
@@ -182,12 +179,6 @@
 - Confirmation step and availability-step fee popover show Drive time row when applicable
 - Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
 **See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
-
-- [ ] ### Phase 6.12: Admin Branding & Theming
-**Description:** Add an Admin Branding area (new top-level tab or sub-tab under Business/CONTROLS). Business can: set logo (upload or URL) and persist logo URL; control favicon; choose custom CSS theme colors. Move current business colors from theme (e.g. client/src/plugins/5.vuetify/theme.ts, themeConfig.ts) into the database. Provide seed colors (manual pick and/or from logo) and generate light/dark, primary/secondary/tertiary, main/quote/reschedule, warning variants (hue/degree/saturation). Use stored logo (or dedicated image URL) as og:image for public booking/landing so shared links show rich preview (Calendly-style); optionally og:title and og:description. No regression to Business (CONTROLS) tab or theme switcher (NavbarThemeSwitcher, useThemeMode).
-**Sessions:** [To be planned]
-**Success Criteria:**
-- [To be defined]
 
 ---
 

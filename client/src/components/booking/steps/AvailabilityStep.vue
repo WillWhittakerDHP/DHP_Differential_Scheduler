@@ -150,6 +150,11 @@ watch(
 function onExpandedChange(expandedIndex: number): void {
   narrowExpanded.value = expandedIndex
 }
+/** Task 6.9.3.1: Keyboard handler for Enter/Space on headers. Toggle expand/collapse per WAI-ARIA accordion. */
+function onHeaderKeydown(stepIndex: number): void {
+  const next = narrowExpanded.value === stepIndex ? -1 : stepIndex
+  onExpandedChange(next)
+}
 
 /** Context for AvailabilitySubStepContent (inject). */
 const subStepContext = {
@@ -201,7 +206,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Narrow layout: expandable cards (Task 6.9.2.1). User can expand any panel; watcher auto-expands on confirm. -->
+    <!-- Narrow layout: expandable cards (Task 6.9.2.1). User can expand any panel; watcher auto-expands on confirm.
+         LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
+         WAI-ARIA accordion: Tab navigates between headers; Enter/Space expand/collapse. Tab order follows
+         visibleSubStepsFiltered DOM order. -->
     <VExpansionPanels
       v-if="isNarrow"
       :model-value="narrowExpanded"
@@ -215,7 +223,11 @@ onMounted(() => {
         :value="step.index"
         class="availability-substep-panel"
       >
-        <VExpansionPanelTitle class="availability-substep-title">
+        <VExpansionPanelTitle
+          class="availability-substep-title"
+          @keydown.enter.prevent.stop="onHeaderKeydown(step.index)"
+          @keydown.space.prevent.stop="onHeaderKeydown(step.index)"
+        >
           <AvailabilitySubStepHeader
             :step="step"
             :badge-state="ui.getStepBadgeState(step.index)"
