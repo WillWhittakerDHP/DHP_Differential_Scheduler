@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-09T16:07:50.203Z",
+=======
+  "generatedAt": "2026-03-09T16:10:57.612Z",
+>>>>>>> session-6.9.2
   "totalScanned": 1,
   "exceptionSummary": {
     "totalRequiresReview": 1

@@ -1,6 +1,6 @@
 /**
  * Extracted UI logic for AvailabilityStep (audit-fix: reduce component script size and function count).
- * Domain rules: step summaries, badge state, slot overlay, sub-step labels, column layout.
+ * Domain rules: step summaries, badge state, slot overlay, sub-step labels.
  */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import { formatTimeRange } from '@/utils/time/timeFormatting'
