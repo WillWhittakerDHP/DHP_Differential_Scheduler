@@ -15,7 +15,7 @@ Session 6.9.2 complete: narrow layout with expandable cards, current/completed s
 
 ### Tasks
 
-- [x] #### Task 6.9.3.1: Keyboard navigation
+- [x] - [x] #### Task 6.9.3.1: Keyboard navigation
 **Goal:** Keyboard: navigate between sub-step headers (e.g. Tab); Enter/Space to expand/collapse; arrow keys if appropriate for step-to-step movement.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — narrow layout cards.

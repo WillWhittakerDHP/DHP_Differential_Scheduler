@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref, defineAsyncComponent } from 'vue'
 import type { LoadingIndicatorInstance } from '@/types/loadingIndicator'
 import { useConfigStore } from '@core/stores/config'
 import { AppContentLayoutNav } from '@layouts/enums'
 import { switchToVerticalNavOnLtOverlayNavBreakpoint } from '@layouts/utils'
 import { useLayoutLoading } from '@/composables/useLayoutLoading'
+import { useSkins } from '@core/composable/useSkins'
 
 const DefaultLayoutWithHorizontalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithHorizontalNav.vue'))
 const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithVerticalNav.vue'))

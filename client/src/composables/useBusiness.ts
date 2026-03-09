@@ -3,7 +3,7 @@
 
 PATTERN: Mirrors useGlobal composable for cons...
  */
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { businessTransformer, type BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 import { asEmptyArray } from '@/utils/safeDefaults'

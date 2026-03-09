@@ -1,4 +1,5 @@
 import type { Router, RouteLocationNormalized } from 'vue-router'
+import { useCookie } from '@core/composable/useCookie'
 import { canNavigate } from '@layouts/plugins/casl'
 import { getQueryClient } from '@/plugins/3.vue-query'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'

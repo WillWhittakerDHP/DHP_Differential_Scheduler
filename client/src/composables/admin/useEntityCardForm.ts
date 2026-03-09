@@ -2,7 +2,7 @@
  * WHY: Entity Card Form Owner Composable
 WHY: Keeps form creation and store syn...
  */
-import { computed } from 'vue'
+import { computed, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { toGlobalEntityId } from '@/utils/globalEntity'

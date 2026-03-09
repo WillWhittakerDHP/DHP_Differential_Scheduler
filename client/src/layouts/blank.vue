@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useSuspenseFallback } from '@/composables/layout/useSuspenseFallback'
+import { useSkins } from '@core/composable/useSkins'
 
 const { injectSkinClasses } = useSkins()
 const { isFallbackStateActive, refLoadingIndicator } = useSuspenseFallback()

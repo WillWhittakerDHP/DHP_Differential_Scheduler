@@ -1,4 +1,4 @@
-import { computed, type Ref } from 'vue'
+import { computed, type Ref, type ComputedRef } from 'vue'
 import type { ValidationRule, ValidationResult } from '@/types/formValidation'
 import { createLogger } from '@/utils/logger'
 
