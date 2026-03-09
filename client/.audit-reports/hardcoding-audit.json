@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-08T01:35:42.151Z",
+  "generatedAt": "2026-03-09T17:01:20.249Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 12,
+  "totalScanned": 0,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
-    "totalRequiresReview": 3,
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0,
-      "linePattern": 1
+      "linePattern": 0
     }
   },
   "entityKeys": [],
@@ -56,81 +56,5 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": [
-    {
-      "id": "client__src__composables__booking__useBookingWizardSetup.ts",
-      "repoPath": "client/src/composables/booking/useBookingWizardSetup.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useBookingWizardSetup.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 3,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 3,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 143,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 183,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 204,
-          "line": "updateAppointment: { isPending: update.isPending },"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 143,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 183,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync },",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 204,
-          "line": "updateAppointment: { isPending: update.isPending },",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 9,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    }
-  ]
+  "files": []
 }
