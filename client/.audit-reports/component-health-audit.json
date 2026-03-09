@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-09T15:52:01.272Z",
-  "totalScanned": 4,
+  "generatedAt": "2026-03-09T16:07:50.635Z",
+  "totalScanned": 1,
   "ruleset": [
     {
       "ruleId": "excessive-prop-count",
@@ -84,90 +84,11 @@
       "recommendedFix": "Make the value a default or remove the prop entirely."
     }
   ],
-  "findings": [
-    {
-      "ruleId": "template-directive-depth",
-      "lineNumber": 75,
-      "snippet": "Directive nesting depth 4",
-      "message": "Template directive nesting depth 4; extract sub-components or use computed properties to flatten.",
-      "fixHint": "Break nested v-if/v-for blocks into child components.",
-      "confidence": "medium",
-      "isFileLevel": true,
-      "detail": {
-        "directiveDepth": 4
-      },
-      "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
-      "isExported": true,
-      "parentCount": 1
-    },
-    {
-      "ruleId": "constant-prop-value",
-      "lineNumber": 5,
-      "snippet": "summary=\"confirmation.isConfirmed(step.index)\" (3 usages)",
-      "message": "Prop 'summary' always receives 'confirmation.isConfirmed(step.index)'; consider making it a default or removing the prop.",
-      "fixHint": "Set as default value or remove the prop.",
-      "confidence": "low",
-      "isFileLevel": false,
-      "detail": {
-        "propName": "summary",
-        "constantValue": "confirmation.isConfirmed(step.index)",
-        "usageCount": 3
-      },
-      "file": "client/src/components/booking/steps/AvailabilitySubStepHeader.vue",
-      "isExported": true,
-      "parentCount": 1
-    }
-  ],
-  "files": [
-    {
-      "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
-      "score": 2,
-      "priority": "P2",
-      "parentCount": 1
-    },
-    {
-      "file": "client/src/components/booking/steps/AvailabilitySubStepHeader.vue",
-      "score": 0,
-      "priority": "P2",
-      "parentCount": 1
-    }
-  ],
+  "findings": [],
+  "files": [],
   "repairWaves": {
     "local": [],
-    "lowFanIn": [
-      {
-        "ruleId": "template-directive-depth",
-        "lineNumber": 75,
-        "snippet": "Directive nesting depth 4",
-        "message": "Template directive nesting depth 4; extract sub-components or use computed properties to flatten.",
-        "fixHint": "Break nested v-if/v-for blocks into child components.",
-        "confidence": "medium",
-        "isFileLevel": true,
-        "detail": {
-          "directiveDepth": 4
-        },
-        "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
-        "isExported": true,
-        "parentCount": 1
-      },
-      {
-        "ruleId": "constant-prop-value",
-        "lineNumber": 5,
-        "snippet": "summary=\"confirmation.isConfirmed(step.index)\" (3 usages)",
-        "message": "Prop 'summary' always receives 'confirmation.isConfirmed(step.index)'; consider making it a default or removing the prop.",
-        "fixHint": "Set as default value or remove the prop.",
-        "confidence": "low",
-        "isFileLevel": false,
-        "detail": {
-          "propName": "summary",
-          "constantValue": "confirmation.isConfirmed(step.index)",
-          "usageCount": 3
-        },
-        "file": "client/src/components/booking/steps/AvailabilitySubStepHeader.vue",
-        "isExported": true,
-        "parentCount": 1
-      }
-    ],
+    "lowFanIn": [],
     "highFanIn": []
   }
 }

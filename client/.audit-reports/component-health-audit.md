@@ -4,13 +4,13 @@
 
 # Component Health Audit
 
-Generated: 2026-03-09T15:52:01.272Z
+Generated: 2026-03-09T16:07:50.635Z
 
 ## Overview
 
-- Components scanned: **4**
-- Findings: **2**
-- Files with findings: **2**
+- Components scanned: **1**
+- Findings: **0**
+- Files with findings: **0**
 
 ## Ruleset
 
@@ -27,32 +27,11 @@ Generated: 2026-03-09T15:52:01.272Z
 | unused-named-slot | P2 | 1 | Named slot defined but never filled by any parent. |
 | constant-prop-value | info | 0 | Prop always receives the same literal value across all parents. |
 
-## By rule
-
-| Rule | Severity | Count |
-| --- | --- | ---: |
-| template-directive-depth | P1 | 1 |
-| constant-prop-value | info | 1 |
-
 ## Repair Waves
 
 - **Wave 1 — Local** (parentCount = 0): 0 finding(s)
-- **Wave 2 — Low fan-in** (parentCount 1–3): 2 finding(s)
+- **Wave 2 — Low fan-in** (parentCount 1–3): 0 finding(s)
 - **Wave 3 — High fan-in** (parentCount ≥ 4): 0 finding(s)
-
-## Top 2 files by score
-
-| File | Priority | Score | Parents |
-| --- | --- | ---: | ---: |
-| `client/src/components/booking/steps/AvailabilitySubStepContent.vue` | P2 | 2 | 1 |
-| `client/src/components/booking/steps/AvailabilitySubStepHeader.vue` | P2 | 0 | 1 |
-
-## All findings (first 60)
-
-| File | Line | Rule | Message | Parents |
-| --- | ---: | --- | --- | ---: |
-| `client/src/components/booking/steps/AvailabilitySubStepContent.vue` | 75 | template-directive-depth | Template directive nesting depth 4; extract sub-component... | 1 |
-| `client/src/components/booking/steps/AvailabilitySubStepHeader.vue` | 5 | constant-prop-value | Prop 'summary' always receives 'confirmation.isConfirmed(... | 1 |
 
 ## Notes
 

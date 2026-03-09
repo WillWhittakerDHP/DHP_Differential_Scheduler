@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-09T15:52:01.190Z",
-  "totalScanned": 4,
+  "generatedAt": "2026-03-09T16:07:50.203Z",
+  "totalScanned": 1,
   "exceptionSummary": {
     "totalRequiresReview": 1
   },
@@ -24,159 +24,134 @@
       "matches": [
         {
           "ruleId": "provideInject",
-          "lineNumber": 30,
+          "lineNumber": 29,
           "line": "const wizard = inject(wizardKey)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 35,
+          "lineNumber": 34,
           "line": "const loadedWizardState = inject(loadedWizardStateKey)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 40,
+          "lineNumber": 39,
           "line": "const computedAvailability = inject(computedAvailabilityKey)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 45,
+          "lineNumber": 44,
           "line": "const propertyDetailsStepData = inject(propertyDetailsStepDataKey)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 50,
+          "lineNumber": 49,
           "line": "const displayedMonth = inject(displayedMonthKey)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 51,
+          "lineNumber": 50,
           "line": "const updateDisplayedMonth = inject(updateDisplayedMonthKey)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 56,
+          "lineNumber": 55,
           "line": "const appointmentDurationRef = inject(appointmentDurationKey)"
         },
         {
-          "ruleId": "computed",
-          "lineNumber": 96,
-          "line": "const slotGridOverlayLabel = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 101,
-          "line": "const hasSelectedSlot = computed("
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 104,
-          "line": "const showSlotsOverlay = computed("
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 112,
-          "line": "const slotGridOverlayError = computed(() => {"
-        },
-        {
           "ruleId": "watch",
-          "lineNumber": 118,
+          "lineNumber": 91,
           "line": "watch("
         },
         {
           "ruleId": "computed",
-          "lineNumber": 130,
+          "lineNumber": 103,
           "line": "const isNarrow = computed(() => !smAndUp.value)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 132,
+          "lineNumber": 105,
           "line": "const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 133,
+          "lineNumber": 106,
           "line": "const hasDateSelected = computed(() => !!o.selectedDate.value?.start)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 134,
+          "lineNumber": 107,
           "line": "const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 135,
+          "lineNumber": 108,
           "line": "const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 138,
-          "line": "const subStepLabels = computed(() => {"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 158,
+          "lineNumber": 116,
           "line": "userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 166,
+          "lineNumber": 124,
           "line": "const visibleSubStepsFiltered = computed(() =>"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 167,
+          "lineNumber": 125,
           "line": "subSteps.visibleSubSteps.value.filter((s) => s.visible)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 170,
+          "lineNumber": 128,
           "line": "const leftColumnSteps = computed(() =>"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 171,
+          "lineNumber": 129,
           "line": "visibleSubStepsFiltered.value.filter((s) => s.index <= 1)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 174,
+          "lineNumber": 132,
           "line": "const rightColumnSteps = computed(() =>"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 175,
+          "lineNumber": 133,
           "line": "visibleSubStepsFiltered.value.filter((s) => s.index >= 2)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 184,
+          "lineNumber": 142,
           "line": "const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 185,
+          "lineNumber": 143,
           "line": "watch("
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 262,
+          "lineNumber": 154,
           "line": "/** Context for AvailabilitySubStepContent (inject). */"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 286,
+          "lineNumber": 178,
           "line": "provide(availabilitySubStepContextKey, subStepContext)"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "watch",
-          "lineNumber": 118,
+          "lineNumber": 91,
           "line": "watch("
         },
         {
           "ruleId": "watch",
-          "lineNumber": 185,
+          "lineNumber": 143,
           "line": "watch("
         }
       ],
