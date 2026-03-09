@@ -12,35 +12,18 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-09T14:51:15.634Z**
+- Generated at: **2026-03-09T15:26:54.791Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **1**
-- **Errors requiring review: 25**
+- Exit code: **0**
+- **Errors requiring review: 0**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **17**
+- Pools: **0**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P0 | `TS18046-ts18046-vls-ctx-ctx-o-wizard-is-of-type-unknown` | 38 | 4 | 1 | 0 | 0 |
-| P0 | `TS18046-ts18046-vls-ctx-ctx-o-fielderrors-is-of-type-unknown` | 29 | 3 | 1 | 0 | 0 |
-| P0 | `TS18046-ts18046-vls-ctx-ctx-o-appointmentslots-is-of-type-unknown` | 20 | 2 | 1 | 0 | 0 |
-| P0 | `TS18046-ts18046-vls-ctx-ctx-o-iseffectivelydifferential-is-of-type-unknown` | 20 | 2 | 1 | 0 | 0 |
-| P0 | `TS18046-ts18046-vls-ctx-ctx-o-perspective-is-of-type-unknown` | 20 | 2 | 1 | 0 | 0 |
-| P1 | `TS2305-ts2305-module-composables-admin-tables-usetablemodelhelpers-has-no-exported-member-ensureitemsarray` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS2345-ts2345-arg-string-string-date-date-null-string-null` | 13 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-alloweddates-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-gettodaydate-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-graphbars-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-selectedbuttonindex-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-selecteddate-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-selecteddatesingle-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-selectedoptiontypeblockid-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-setvdatepickerdisplaydate-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-slotcolor-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
-| P1 | `TS18046-ts18046-vls-ctx-ctx-o-vdatepickerdisplaydate-is-of-type-unknown` | 11 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -51,49 +34,3 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `src/components/booking/steps/AvailabilitySubStepContent.vue`
-
-- errors: 23, unsafeCasts: 0, suppressions: 0
-
-```
-TS18046@39:21 '__VLS_ctx.ctx.o.selectedDateSingle' is of type 'unknown'.
-TS18046@40:22 '__VLS_ctx.ctx.o.vDatePickerDisplayDate' is of type 'unknown'.
-TS18046@41:13 '__VLS_ctx.ctx.o.getTodayDate' is of type 'unknown'.
-TS18046@42:42 '__VLS_ctx.ctx.o.allowedDates' is of type 'unknown'.
-TS18046@43:29 '__VLS_ctx.ctx.o.fieldErrors' is of type 'unknown'.
-TS18046@45:29 '__VLS_ctx.ctx.o.setVDatePickerDisplayDate' is of type 'unknown'.
-TS18046@51:31 '__VLS_ctx.ctx.o.wizard' is of type 'unknown'.
-TS18046@52:23 '__VLS_ctx.ctx.o.wizard' is of type 'unknown'.
-TS18046@53:38 '__VLS_ctx.ctx.o.wizard' is of type 'unknown'.
-TS18046@54:39 '__VLS_ctx.ctx.o.selectedOptionTypeBlockId' is of type 'unknown'.
-TS18046@61:13 '__VLS_ctx.ctx.o.isEffectivelyDifferential' is of type 'unknown'.
-TS18046@62:33 '__VLS_ctx.ctx.o.isEffectivelyDifferential' is of type 'unknown'.
-TS18046@63:20 '__VLS_ctx.ctx.o.graphBars' is of type 'unknown'.
-TS18046@64:27 '__VLS_ctx.ctx.o.wizard' is of type 'unknown'.
-TS18046@65:25 '__VLS_ctx.ctx.o.perspective' is of type 'unknown'.
-TS18046@72:21 '__VLS_ctx.ctx.o.selectedDate' is of type 'unknown'.
-TS18046@73:18 '__VLS_ctx.ctx.o.appointmentSlots' is of type 'unknown'.
-TS18046@82:31 '__VLS_ctx.ctx.o.appointmentSlots' is of type 'unknown'.
-TS18046@83:35 '__VLS_ctx.ctx.o.selectedButtonIndex' is of type 'unknown'.
-TS18046@84:24 '__VLS_ctx.ctx.o.perspective' is of type 'unknown'.
-TS18046@85:19 '__VLS_ctx.ctx.o.slotColor' is of type 'unknown'.
-TS18046@90:18 '__VLS_ctx.ctx.o.fieldErrors' is of type 'unknown'.
-TS18046@91:12 '__VLS_ctx.ctx.o.fieldErrors' is of type 'unknown'.
-```
-
-### `src/components/booking/steps/AvailabilityStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2345@193:22 Argument of type 'string | string[] | Date | Date[] | null' is not assignable to parameter of type 'string | null'.
-```
-
-### `src/components/booking/steps/ConfirmationStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2305@18:10 Module '"@/composables/admin/tables/useTableModelHelpers"' has no exported member 'ensureItemsArray'.
-```
