@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **271**
+- Total composable files scanned: **272**
 
 ## Top hotspots (heuristic)
 
@@ -1700,6 +1700,18 @@ map@63: eventShapes = eventShapes.map(eventShape => {
 map@68: attendees = rawChildren.map((child: GlobalEntity<GlobalEntityKey>) => child.id)
 map@78: eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees: [] }))
 map@83: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
+```
+
+### `client/src/composables/booking/useAvailabilityStepUI.ts`
+
+- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@37: const hasSelectedSlot = computed(
+computed@40: const slotGridOverlayLabel = computed(() => {
+computed@44: const showSlotsOverlay = computed(
+computed@50: const slotGridOverlayError = computed(() => {
+computed@56: const subStepLabels = computed(() => {
 ```
 
 ### `client/src/composables/booking/useContactsStepData.ts`

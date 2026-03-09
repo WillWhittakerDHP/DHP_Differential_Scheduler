@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-09T15:52:01.265Z",
-  "totalScanned": 1052,
+  "generatedAt": "2026-03-09T16:10:57.990Z",
+  "totalScanned": 1053,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,111 +18,5 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": [
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
-      "functions": [
-        {
-          "name": "useAvailabilityOrchestrator",
-          "startLine": 28,
-          "endLine": 340,
-          "length": 313,
-          "maxNesting": 3,
-          "branches": 15,
-          "params": 1,
-          "returns": 12,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 15,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 313,
-              "threshold": 50,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 12,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilitySubSteps.ts",
-      "functions": [
-        {
-          "name": "useAvailabilitySubSteps",
-          "startLine": 50,
-          "endLine": 110,
-          "length": 61,
-          "maxNesting": 2,
-          "branches": 16,
-          "params": 0,
-          "returns": 8,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 16,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 61,
-              "threshold": 50,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 8,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
-      "functions": [
-        {
-          "name": "getStepSummary",
-          "startLine": 215,
-          "endLine": 251,
-          "length": 37,
-          "maxNesting": 1,
-          "branches": 16,
-          "params": 1,
-          "returns": 14,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 16,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 14,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
-    }
-  ]
+  "files": []
 }

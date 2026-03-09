@@ -9,6 +9,7 @@ import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
+import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStepUI'
 import {
   computedAvailabilityKey,
   propertyDetailsStepDataKey,
@@ -24,8 +25,6 @@ import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
 import { availabilitySubStepContextKey } from '@/composables/booking/injectionKeys'
-import { formatTimeRange } from '@/utils/time/timeFormatting'
-import { derivePerspective } from '@/utils/booking/perspectiveResolver'
 
 const wizard = inject(wizardKey)
 if (!wizard) {
@@ -83,40 +82,14 @@ useWizardStepSync({
 })
 
 const confirmation = useAvailabilityConfirmationState()
-
-function onOptionIdUpdate(id: string | null): void {
-  o.selectedOptionTypeBlockId.value = id
-  confirmation.confirm(1)
-}
-
-const logger = createLogger('AvailabilityStep')
 const { settings: availabilitySettings, isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
 
-/** Overlay message over the slot grid before user picks a time basis; from admin Grid tab "Differential Graph Default Label". No fallback — if missing, we warn and show error in UI. */
-const slotGridOverlayLabel = computed(() => {
-  const raw = availabilitySettings.value?.differentialPerspectives?.differentialGraphDefaultLabel
-  return typeof raw === 'string' ? raw.trim() : null
-})
+const ui = useAvailabilityStepUI({ o, availabilitySettings, confirmation })
 
-const hasSelectedSlot = computed(
-  () => o.graphBars.value?.major != null || o.graphBars.value?.minor != null
-)
-const showSlotsOverlay = computed(
-  () =>
-    o.isEffectivelyDifferential.value &&
-    !hasSelectedSlot.value &&
-    !o.userHasChosenTimeBasisFromGraph?.value
-)
-
-/** When overlay is shown but label is not configured, show this message in the UI. */
-const slotGridOverlayError = computed(() => {
-  if (!showSlotsOverlay.value) return null
-  if (slotGridOverlayLabel.value) return null
-  return 'Differential Graph Default Label is not configured. Set it in Admin → Business Controls → Calendar → Grid.'
-})
+const logger = createLogger('AvailabilityStep')
 
 watch(
-  [showSlotsOverlay, slotGridOverlayLabel, availabilitySettingsLoading],
+  [ui.showSlotsOverlay, ui.slotGridOverlayLabel, availabilitySettingsLoading],
   ([showing, label, loading]) => {
     if (!loading && showing && !label) {
       logger.warn('Slot grid overlay is shown but differentialGraphDefaultLabel is missing. Configure in Admin → Business Controls → Calendar → Grid.')
@@ -134,21 +107,6 @@ const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
 const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
 const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
 
-/** Admin-configurable sub-step card titles. Perspective uses differentialGraphDefaultLabel. */
-const subStepLabels = computed(() => {
-  const dp = availabilitySettings.value?.differentialPerspectives
-  const graphLabel = typeof dp?.differentialGraphDefaultLabel === 'string'
-    ? dp.differentialGraphDefaultLabel.trim()
-    : null
-  return {
-    0: dp?.subStepLabelPickDay?.trim() || undefined,
-    1: dp?.subStepLabelOptions?.trim() || undefined,
-    2: graphLabel || undefined,
-    3: dp?.subStepLabelPickTime?.trim() || undefined,
-    4: dp?.subStepLabelConfirmMoveable?.trim() || undefined,
-  }
-})
-
 const subSteps = useAvailabilitySubSteps({
   hasOptions,
   hasDateSelected,
@@ -159,7 +117,7 @@ const subSteps = useAvailabilitySubSteps({
   hasSlotSelected,
   hasMoveableConfirmed,
   confirmationState: confirmation,
-  subStepLabels,
+  subStepLabels: ui.subStepLabels,
 })
 
 /** Visible sub-steps (filter to only visible). Shared across narrow and wide. */
@@ -193,87 +151,21 @@ function onExpandedChange(expandedIndex: number): void {
   narrowExpanded.value = expandedIndex
 }
 
-/** Wrapped handlers that also mark steps as confirmed. */
-function handleDateChangeWithConfirm(value: string | Date | string[] | Date[] | null): void {
-  o.handleDateChange(value)
-  confirmation.confirm(0)
-}
-function handleTimeBasisChangeWithConfirm(type: 'major' | 'minor'): void {
-  o.handleTimeBasisChange(type)
-  confirmation.confirm(2)
-}
-function handleSlotClickWithConfirm(buttonIndex: number): void {
-  o.handleAppointmentSlotClick(buttonIndex)
-  confirmation.confirm(3)
-}
-function handleMoveableConfirmWithConfirm(): void {
-  o.handleMoveableConfirm()
-  confirmation.confirm(4)
-}
-
-/** Collapsed panel summary per step (data state). */
-function getStepSummary(stepIndex: number): string | null {
-  if (stepIndex === 0) {
-    const start = o.selectedDate.value?.start
-    if (!start) return null
-    const date = new Date(start.includes('T') ? start : `${start}T00:00:00`)
-    if (Number.isNaN(date.getTime())) return null
-    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-  }
-  if (stepIndex === 1) {
-    const id = o.selectedOptionTypeBlockId.value
-    if (!id) return null
-    const block = o.wizard.availableOptionTypeBlocks.value.find((b) => b.id === id)
-    return block?.name ?? id
-  }
-  if (stepIndex === 2) {
-    if (!o.userHasChosenTimeBasisFromGraph?.value) return null
-    const pers = o.perspective.value
-    const majorLabel = availabilitySettings.value?.differentialPerspectives?.majorLabel ?? 'Major'
-    const minorLabel = availabilitySettings.value?.differentialPerspectives?.minorLabel ?? 'Minor'
-    if (pers === 'major') return `${majorLabel} times`
-    if (pers === 'minor') return `${minorLabel} times`
-    return null
-  }
-  if (stepIndex === 3) {
-    const idx = o.selectedButtonIndex.value
-    if (idx == null) return null
-    const slots = o.appointmentSlots.value
-    const slot = slots.find((s) => s.buttonIndex === idx)
-    if (!slot) return null
-    const range = derivePerspective(slot, o.perspective.value)
-    return range ? formatTimeRange(range) : null
-  }
-  if (stepIndex === 4) {
-    return o.stepData.value?.moveableScheduling ? 'Confirmed' : null
-  }
-  return null
-}
-
-/** Badge state for collapsed panel: empty | prefilled | confirmed. */
-function getStepBadgeState(stepIndex: number): 'empty' | 'prefilled' | 'confirmed' {
-  const hasValue = getStepSummary(stepIndex) != null
-  const isConfirmed = confirmation.isConfirmed(stepIndex)
-  if (!hasValue) return 'empty'
-  if (isConfirmed) return 'confirmed'
-  return 'prefilled'
-}
-
 /** Context for AvailabilitySubStepContent (inject). */
 const subStepContext = {
   o,
-  handleDateChangeWithConfirm,
-  onOptionIdUpdate,
-  handleTimeBasisChangeWithConfirm,
-  handleSlotClickWithConfirm,
+  handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
+  onOptionIdUpdate: ui.onOptionIdUpdate,
+  handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
+  handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
   get showSlotsOverlay() {
-    return showSlotsOverlay.value
+    return ui.showSlotsOverlay.value
   },
   get slotGridOverlayLabel() {
-    return slotGridOverlayLabel.value
+    return ui.slotGridOverlayLabel.value
   },
   get slotGridOverlayError() {
-    return slotGridOverlayError.value
+    return ui.slotGridOverlayError.value
   },
   get emptyStateMessage() {
     return o.emptyStateMessage.value ?? ''
@@ -326,8 +218,8 @@ onMounted(() => {
         <VExpansionPanelTitle class="availability-substep-title">
           <AvailabilitySubStepHeader
             :step="step"
-            :badge-state="getStepBadgeState(step.index)"
-            :summary="getStepSummary(step.index)"
+            :badge-state="ui.getStepBadgeState(step.index)"
+            :summary="ui.getStepSummary(step.index)"
             :show-summary="confirmation.isConfirmed(step.index)"
           />
         </VExpansionPanelTitle>
@@ -348,8 +240,8 @@ onMounted(() => {
           <div class="availability-substep-header-wide">
             <AvailabilitySubStepHeader
               :step="step"
-              :badge-state="getStepBadgeState(step.index)"
-              :summary="getStepSummary(step.index)"
+              :badge-state="ui.getStepBadgeState(step.index)"
+              :summary="ui.getStepSummary(step.index)"
               :show-summary="confirmation.isConfirmed(step.index)"
             />
           </div>
@@ -367,8 +259,8 @@ onMounted(() => {
           <div class="availability-substep-header-wide">
             <AvailabilitySubStepHeader
               :step="step"
-              :badge-state="getStepBadgeState(step.index)"
-              :summary="getStepSummary(step.index)"
+              :badge-state="ui.getStepBadgeState(step.index)"
+              :summary="ui.getStepSummary(step.index)"
               :show-summary="confirmation.isConfirmed(step.index)"
             />
           </div>
@@ -394,7 +286,7 @@ onMounted(() => {
       @update:selected-moveable-day="o.setSelectedMoveableDay"
       @update:contingency-period="o.contingencyPeriod.value = $event"
       @select-slot="o.selectMoveableSlot"
-      @confirm="handleMoveableConfirmWithConfirm"
+      @confirm="ui.handleMoveableConfirmWithConfirm"
       @cancel="o.handleMoveableCancel"
     />
   </div>

@@ -27,33 +27,28 @@ Legend: `ruleId@lineNumber: line`
 - counts: computed=0, ref=0, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
 
 ```
-provideInject@30: const wizard = inject(wizardKey)
-provideInject@35: const loadedWizardState = inject(loadedWizardStateKey)
-provideInject@40: const computedAvailability = inject(computedAvailabilityKey)
-provideInject@45: const propertyDetailsStepData = inject(propertyDetailsStepDataKey)
-provideInject@50: const displayedMonth = inject(displayedMonthKey)
-provideInject@51: const updateDisplayedMonth = inject(updateDisplayedMonthKey)
-provideInject@56: const appointmentDurationRef = inject(appointmentDurationKey)
-computed@96: const slotGridOverlayLabel = computed(() => {
-computed@101: const hasSelectedSlot = computed(
-computed@104: const showSlotsOverlay = computed(
-computed@112: const slotGridOverlayError = computed(() => {
-watch@118: watch(
-computed@130: const isNarrow = computed(() => !smAndUp.value)
-computed@132: const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
-computed@133: const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
-computed@134: const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
-computed@135: const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
-computed@138: const subStepLabels = computed(() => {
-computed@158: userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
-computed@166: const visibleSubStepsFiltered = computed(() =>
-filter@167: subSteps.visibleSubSteps.value.filter((s) => s.visible)
-computed@170: const leftColumnSteps = computed(() =>
-filter@171: visibleSubStepsFiltered.value.filter((s) => s.index <= 1)
-computed@174: const rightColumnSteps = computed(() =>
-filter@175: visibleSubStepsFiltered.value.filter((s) => s.index >= 2)
-computed@184: const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)
-watch@185: watch(
-provideInject@262: /** Context for AvailabilitySubStepContent (inject). */
-provideInject@286: provide(availabilitySubStepContextKey, subStepContext)
+provideInject@29: const wizard = inject(wizardKey)
+provideInject@34: const loadedWizardState = inject(loadedWizardStateKey)
+provideInject@39: const computedAvailability = inject(computedAvailabilityKey)
+provideInject@44: const propertyDetailsStepData = inject(propertyDetailsStepDataKey)
+provideInject@49: const displayedMonth = inject(displayedMonthKey)
+provideInject@50: const updateDisplayedMonth = inject(updateDisplayedMonthKey)
+provideInject@55: const appointmentDurationRef = inject(appointmentDurationKey)
+watch@91: watch(
+computed@103: const isNarrow = computed(() => !smAndUp.value)
+computed@105: const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
+computed@106: const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
+computed@107: const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
+computed@108: const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
+computed@116: userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
+computed@124: const visibleSubStepsFiltered = computed(() =>
+filter@125: subSteps.visibleSubSteps.value.filter((s) => s.visible)
+computed@128: const leftColumnSteps = computed(() =>
+filter@129: visibleSubStepsFiltered.value.filter((s) => s.index <= 1)
+computed@132: const rightColumnSteps = computed(() =>
+filter@133: visibleSubStepsFiltered.value.filter((s) => s.index >= 2)
+computed@142: const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)
+watch@143: watch(
+provideInject@154: /** Context for AvailabilitySubStepContent (inject). */
+provideInject@178: provide(availabilitySubStepContextKey, subStepContext)
 ```

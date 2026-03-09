@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-09T15:52:07.903Z",
-  "totalScanned": 271,
+  "generatedAt": "2026-03-09T16:11:02.651Z",
+  "totalScanned": 272,
   "ruleset": [
     {
       "ruleId": "module-level-ref",
@@ -85,6 +85,17 @@
       "isExported": true,
       "composableName": "useDifferentialPerspectives",
       "consumerCount": 1
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+      "lineNumber": 137,
+      "ruleId": "oversized-return",
+      "snippet": "Return surface has 11 properties",
+      "message": "Return surface has 11 properties; decompose into focused composables",
+      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
+      "isExported": true,
+      "composableName": "useAvailabilityStepUI",
+      "consumerCount": 1
     }
   ],
   "files": [
@@ -92,12 +103,18 @@
       "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
       "score": 2,
       "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+      "score": 2,
+      "priority": "P2"
     }
   ],
   "repairWaves": {
     "local": [],
     "lowFanIn": [
-      0
+      0,
+      1
     ],
     "highFanIn": []
   }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-09T15:52:06.113Z",
+  "generatedAt": "2026-03-09T16:11:01.962Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 268,
     "totalConstantFiles": 23,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 106,
+    "filesWithInlineTypes": 107,
     "annotated": 325,
     "unannotated": 0,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 76,
+      "inlineTypesInComposables": 77,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -9394,7 +9394,7 @@
         "availabilitySubStepContextKey"
       ],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9415,13 +9415,24 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
       "sourceFile": "client/src/composables/booking/useAvailabilityDevPanel.ts",
       "exportedTypes": [
         "UseDevPanelDataReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilityStepUI.ts",
+      "exportedTypes": [
+        "UseAvailabilityStepUIParams",
+        "UseAvailabilityStepUIReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10456,7 +10467,7 @@
             "availabilitySubStepContextKey"
           ],
           "primaryPurpose": "composable",
-          "importedByCount": 0,
+          "importedByCount": 1,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -10474,6 +10485,17 @@
           "exportedTypes": [
             "AvailabilityConfirmationState",
             "UseAvailabilityConfirmationStateReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "exportedTypes": [
+            "UseAvailabilityStepUIParams",
+            "UseAvailabilityStepUIReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
