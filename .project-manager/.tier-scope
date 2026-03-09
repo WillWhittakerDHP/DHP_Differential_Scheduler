@@ -1,11 +1,8 @@
 feature.id=appointment-workflow
 feature.name=Feature: appointment-workflow
-phase.id=6.9
-phase.name=Guide: Availability Step Mini-Wizard
-phase.branch=phase-6.9-availability-step-mini-wizard
-phase.slug=availability-step-mini-wizard
-session.id=6.9.1
-session.name=Session 6.9.1
-session.branch=session-6.9.1
+phase.id=
+phase.name=
+session.id=
+session.name=
 task.id=
 task.name=

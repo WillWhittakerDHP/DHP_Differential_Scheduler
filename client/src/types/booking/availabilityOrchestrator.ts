@@ -30,8 +30,6 @@ export interface UseAvailabilityOrchestratorReturn {
     selectedButtonIndex: ComputedRef<number | null>
     selectedOptionTypeBlockId: WritableComputedRef<string | null>
     showMoveableModal: Ref<boolean>
-    /** True when selected slot has moveable parts and service has preClosing (gate for step 5 visibility). */
-    hasMoveablePartsGated: ComputedRef<boolean>
     moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
     moveableAppointmentSlots: ComputedRef<AppointmentSlots>
     moveablePartShapeName: ComputedRef<string>
