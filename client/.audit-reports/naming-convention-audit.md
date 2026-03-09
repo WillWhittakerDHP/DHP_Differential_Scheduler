@@ -4,16 +4,18 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-08T02:42:52.224Z
+Generated at: 2026-03-09T14:58:00.211Z
 
 ## Summary
 
 - Total allowed: **0**
-- Requiring review: **0**
+- Requiring review: **1**
 
 ## Files with naming violations
 
-None.
+| File | Rule | Line | Snippet |
+| --- | --- | ---: | --- |
+| `client/src/composables/booking/injectionKeys.ts` | composableFileName | 1 | Composable file should be use[Name].ts: injectionK |
 
 ## Allowed Exceptions (for transparency)
 

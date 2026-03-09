@@ -47,7 +47,7 @@ export interface UseAvailabilityOrchestratorReturn {
   actions: {
     getTodayDate: () => string
     setVDatePickerDisplayDate: (val: Date) => void
-    handleDateChange: (date: string | null) => void
+    handleDateChange: (date: string | Date | string[] | Date[] | null) => void
     handleTimeBasisChange: (basis: 'major' | 'minor') => void
     handleAppointmentSlotClick: (index: number) => void
     selectMoveableSlot: (index: number) => void

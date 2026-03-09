@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-09T14:50:42.407Z",
+  "generatedAt": "2026-03-09T14:57:59.744Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 27,
+  "totalScanned": 4,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 120,
-    "totalRequiresReview": 4,
+    "totalAllowed": 2,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 116,
+      "pattern": 0,
       "specific": 0,
-      "linePattern": 4
+      "linePattern": 2
     }
   },
   "entityKeys": [],
@@ -56,128 +56,5 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": [
-    {
-      "id": "client__src__composables__booking__useBookingWizardSetup.ts",
-      "repoPath": "client/src/composables/booking/useBookingWizardSetup.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useBookingWizardSetup.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 3,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 3,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 143,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 183,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync },"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 204,
-          "line": "updateAppointment: { isPending: update.isPending },"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 143,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 183,
-          "line": "updateAppointment: { mutateAsync: update.mutateAsync },",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 204,
-          "line": "updateAppointment: { isPending: update.isPending },",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 9,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    },
-    {
-      "id": "client__src__components__booking__steps__AvailabilitySubStepContent.vue",
-      "repoPath": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/steps/AvailabilitySubStepContent.vue",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 76,
-          "line": "<div v-else class=\"slot-grid-wrapper\" :class=\"{ 'slot-grid-wrapper--overlay': ctx.showSlotsOverlay }\">"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 76,
-          "line": "<div v-else class=\"slot-grid-wrapper\" :class=\"{ 'slot-grid-wrapper--overlay': ctx.showSlotsOverlay }\">",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
-      "priority": "P2",
-      "suggestions": []
-    }
-  ]
+  "files": []
 }

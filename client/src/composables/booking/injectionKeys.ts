@@ -20,6 +20,11 @@ import type { EventShape } from '@/types/events'
 import type { ServiceSummary, TimeSlotResults } from '@/types/booking/devPanelsComputed'
 import type { ContactInfo } from '@/types/booking/contactsStepData'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { UseAvailabilityOrchestratorReturn } from '@/types/booking/availabilityOrchestrator'
+
+/** Flattened orchestrator state + actions + wizard for AvailabilitySubStepContent. */
+export type AvailabilitySubStepOrchestratorState = UseAvailabilityOrchestratorReturn['data'] &
+  UseAvailabilityOrchestratorReturn['actions'] & { wizard: UseAvailabilityOrchestratorReturn['wizard'] }
 
 export const propertyDetailsStepDataKey: InjectionKey<Ref<PropertyDetailsStepData | null>> =
   Symbol('propertyDetailsStepData')
@@ -112,7 +117,7 @@ export const contactsFormContextKey: InjectionKey<ContactsFormContext> =
 
 /** Context for AvailabilitySubStepContent (orchestrator + handlers). Provider: AvailabilityStep. */
 export interface AvailabilitySubStepContext {
-  o: Record<string, unknown>
+  o: AvailabilitySubStepOrchestratorState
   handleDateChangeWithConfirm: (v: string | Date | string[] | Date[] | null) => void
   onOptionIdUpdate: (id: string | null) => void
   handleTimeBasisChangeWithConfirm: (type: 'major' | 'minor') => void
