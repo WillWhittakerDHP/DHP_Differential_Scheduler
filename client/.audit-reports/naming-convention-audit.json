@@ -1,33 +1,18 @@
 {
-  "generatedAt": "2026-03-10T18:58:38.603Z",
+  "generatedAt": "2026-03-10T19:10:44.258Z",
   "totalScanned": 1117,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
+    "totalAllowed": 0,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 1,
+      "pattern": 0,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": [
-    {
-      "repoPath": "client/src/composables/booking/useStepValidation.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 12,
-          "line": "export function collectErrors(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    }
-  ]
+  "scanned": []
 }
