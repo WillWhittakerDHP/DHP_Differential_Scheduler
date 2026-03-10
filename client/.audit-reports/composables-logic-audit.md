@@ -24,12 +24,12 @@ Scope:
 | `client/src/composables/admin/useShapesTabCreation.ts` | 17 | 0 | 0 | 7 | 4 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 17 | 0 | 0 | 17 | 0 | 0 | 0 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | 16 | 0 | 0 | 13 | 0 | 0 | 0 |
+| `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 16 | 0 | 5 | 10 | 0 | 0 | 0 |
 | `client/src/composables/booking/useContactsValidation.ts` | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 16 | 0 | 0 | 13 | 0 | 0 | 0 |
 | `client/src/composables/fieldContext/useFieldContextState.ts` | 16 | 0 | 0 | 8 | 8 | 0 | 0 |
 | `client/src/composables/admin/useBusinessRulesTab.ts` | 15 | 0 | 1 | 4 | 7 | 0 | 0 |
 | `client/src/composables/admin/useSelectConfig.ts` | 15 | 0 | 0 | 12 | 0 | 0 | 0 |
-| `client/src/composables/booking/useAvailabilityOrchestrator.ts` | 15 | 0 | 5 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/useRelationshipCollection.ts` | 14 | 0 | 0 | 3 | 9 | 0 | 0 |
 | `client/src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
 | `client/src/composables/useAddressAutocomplete.ts` | 14 | 0 | 1 | 4 | 9 | 0 | 0 |
@@ -201,6 +201,29 @@ computed@162: const subStepLabelPickTime = computed({
 computed@173: const subStepLabelConfirmMoveable = computed({
 ```
 
+### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
+
+- counts: vueQuery=0, watch=5, computed=9, ref=1, async=0, await=0, dom=0, console=0
+
+```
+computed@52: const isEffectivelyDifferentialForDefaults = computed(() =>
+computed@87: const selectedDayKey = computed(() => {
+computed@91: const serverSlotsForDay = computed(() => {
+map@98: serverSlotsForDay.value.map(s => ({
+watch@119: watch(vDatePickerDisplayDate, newDate => {
+watch@129: watch(appointmentDuration, newDuration => {
+watch@133: watch(displayedMonth, newMonth => {
+watch@141: watch(selectedDate, newDate => {
+computed@151: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
+watch@159: watch(firstAvailableDate, firstDate => {
+computed@214: const hasMoveablePartsGated = computed(
+computed@225: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
+computed@231: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
+computed@240: const isFormValid = computed(() => {
+ref@256: const userHasChosenTimeBasisFromGraph = ref(false)
+computed@288: busyPeriods: computed(() => []),
+```
+
 ### `client/src/composables/booking/useContactsValidation.ts`
 
 - counts: vueQuery=0, watch=0, computed=16, ref=0, async=0, await=0, dom=0, console=0
@@ -312,28 +335,6 @@ computed@224: const isMultiple = computed(() =>
 computed@236: const chipsProps = computed(() => {
 computed@248: const optionEntityKey = computed(() =>
 computed@258: const optionLabelKey = computed(() => resolveOptionLabelKey())
-```
-
-### `client/src/composables/booking/useAvailabilityOrchestrator.ts`
-
-- counts: vueQuery=0, watch=5, computed=8, ref=1, async=0, await=0, dom=0, console=0
-
-```
-computed@52: const isEffectivelyDifferentialForDefaults = computed(() =>
-computed@87: const selectedDayKey = computed(() => {
-computed@91: const serverSlotsForDay = computed(() => {
-map@98: serverSlotsForDay.value.map(s => ({
-watch@119: watch(vDatePickerDisplayDate, newDate => {
-watch@129: watch(appointmentDuration, newDuration => {
-watch@133: watch(displayedMonth, newMonth => {
-watch@141: watch(selectedDate, newDate => {
-computed@151: const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
-watch@159: watch(firstAvailableDate, firstDate => {
-computed@214: const hasMoveablePartsGated = computed(
-computed@225: appointmentSlotsCount: computed(() => appointmentSlots.value.length)
-computed@231: moveableScheduling: computed(() => confirmedMoveableScheduling.value)
-ref@249: const userHasChosenTimeBasisFromGraph = ref(false)
-computed@281: busyPeriods: computed(() => []),
 ```
 
 ### `client/src/composables/admin/useRelationshipCollection.ts`

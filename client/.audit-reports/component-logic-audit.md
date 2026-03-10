@@ -10,13 +10,50 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **0**
+- Total files: **1**
 
 ## Top hotspots (by heuristic score)
 
 | File | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/components/booking/steps/AvailabilityStep.vue` | 0 | 4 | 0 | 0 | 2 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/components/booking/steps/AvailabilityStep.vue`
+
+- counts: computed=0, ref=0, watch=4, async=0, await=0, map=0, reduce=0, dom=2, inlineConfig=0, console=0, alert=0
+
+```
+provideInject@28: const wizard = inject(wizardKey)
+provideInject@33: const loadedWizardState = inject(loadedWizardStateKey)
+provideInject@38: const computedAvailability = inject(computedAvailabilityKey)
+provideInject@43: const propertyDetailsStepData = inject(propertyDetailsStepDataKey)
+provideInject@48: const displayedMonth = inject(displayedMonthKey)
+provideInject@49: const updateDisplayedMonth = inject(updateDisplayedMonthKey)
+provideInject@54: const appointmentDurationRef = inject(appointmentDurationKey)
+watch@90: watch(
+computed@102: const isNarrow = computed(() => !smAndUp.value)
+computed@104: const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
+computed@105: const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
+computed@106: const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
+computed@107: const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
+computed@115: userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
+computed@123: const visibleSubStepsFiltered = computed(() =>
+filter@124: subSteps.visibleSubSteps.value.filter((s) => s.visible)
+computed@127: const leftColumnSteps = computed(() =>
+filter@128: visibleSubStepsFiltered.value.filter((s) => s.index <= 1)
+computed@131: const rightColumnSteps = computed(() =>
+filter@132: visibleSubStepsFiltered.value.filter((s) => s.index >= 2)
+computed@141: const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)
+watch@142: watch(
+dom@161: const contentEl = document.getElementById(`availability-substep-content-${stepIndex}`)
+dom@171: const headerEl = document.getElementById(`availability-substep-title-${stepIndex}`)
+watch@176: watch(
+provideInject@188: /** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
+provideInject@213: provide(availabilitySubStepContextKey, subStepContext)
+provideInject@240: LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
+watch@244: LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,
+```
