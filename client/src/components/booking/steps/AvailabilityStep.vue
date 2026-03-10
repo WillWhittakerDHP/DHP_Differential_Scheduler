@@ -209,7 +209,8 @@ onMounted(() => {
     <!-- Narrow layout: expandable cards (Task 6.9.2.1). User can expand any panel; watcher auto-expands on confirm.
          LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
          WAI-ARIA accordion: Tab navigates between headers; Enter/Space expand/collapse. Tab order follows
-         visibleSubStepsFiltered DOM order. -->
+         visibleSubStepsFiltered DOM order.
+         LEARNING (Task 6.9.3.2): ARIA attributes so screen readers announce step position and state. -->
     <VExpansionPanels
       v-if="isNarrow"
       :model-value="narrowExpanded"
@@ -224,7 +225,11 @@ onMounted(() => {
         class="availability-substep-panel"
       >
         <VExpansionPanelTitle
+          :id="'availability-substep-title-' + step.index"
           class="availability-substep-title"
+          :aria-expanded="narrowExpanded === step.index"
+          :aria-controls="'availability-substep-content-' + step.index"
+          :aria-label="`Step ${step.index + 1} of ${visibleSubStepsFiltered.length}: ${step.label}`"
           @keydown.enter.prevent.stop="onHeaderKeydown(step.index)"
           @keydown.space.prevent.stop="onHeaderKeydown(step.index)"
         >
@@ -235,7 +240,11 @@ onMounted(() => {
             :show-summary="confirmation.isConfirmed(step.index)"
           />
         </VExpansionPanelTitle>
-        <VExpansionPanelText>
+        <VExpansionPanelText
+          :id="'availability-substep-content-' + step.index"
+          role="region"
+          :aria-labelledby="'availability-substep-title-' + step.index"
+        >
           <AvailabilitySubStepContent :step-index="step.index" />
         </VExpansionPanelText>
       </VExpansionPanel>

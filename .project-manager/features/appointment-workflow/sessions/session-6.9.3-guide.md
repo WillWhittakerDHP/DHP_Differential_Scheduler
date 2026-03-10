@@ -23,7 +23,7 @@ Session 6.9.2 complete: narrow layout with expandable cards, current/completed s
 **Approach:** Ensure Tab order follows sub-step sequence; Enter/Space toggle expand/collapse on focused header; consider arrow keys for step-to-step movement.
 **Checkpoint:** Keyboard-only user can navigate and expand/collapse cards. Lint passes; app starts.
 
-- [ ] #### Task 6.9.3.2: ARIA and semantics
+- [x] #### Task 6.9.3.2: ARIA and semantics
 **Goal:** ARIA: aria-expanded, aria-controls, aria-label/aria-labelledby on cards and headers; role and semantics so screen readers announce step position and state.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — VExpansionPanel / card wrapper.
