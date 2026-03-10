@@ -542,7 +542,7 @@ computed@108: const svgChart = computed((): SvgChartShape => buildSvgChart(chart
 - counts: vueQuery=0, watch=2, computed=1, ref=4, async=0, await=0, dom=0, console=0
 
 ```
-lifecycle@5: import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef } from 'vue'
+lifecycle@5: import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance } from 'vue'
 ref@36: const isMounted = ref(false)
 watch@41: watch(mainInstancesByShape, (instancesMap) => {
 ref@44: blockInstancesLists.value.set(blockShapeId, ref([...instances]))
@@ -721,16 +721,16 @@ filter@317: return allEntities.value.filter((candidate) =>
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=3, await=3, dom=0, console=0
 
 ```
-computed@20: const validOptionIds = computed(() => {
-map@22: .map(opt => {
-map@24: return opt.children.map((child: SelectOption) => String(child.value))
-filter@29: .filter((id): id is string => id !== '' && id !== '__NULL__')
-async@32: const handleQuickSelectMajor = async (): Promise<void> => {
-await@35: await handleChange(majorIds)
-async@39: const handleQuickSelectMinor = async (): Promise<void> => {
-await@42: await handleChange(minorIds)
-async@46: const handleQuickSelectAll = async (): Promise<void> => {
-await@49: await handleChange(allIds)
+computed@21: const validOptionIds = computed(() => {
+map@23: .map(opt => {
+map@25: return opt.children.map((child: SelectOption) => String(child.value))
+filter@30: .filter((id): id is string => id !== '' && id !== '__NULL__')
+async@33: const handleQuickSelectMajor = async (): Promise<void> => {
+await@36: await handleChange(majorIds)
+async@40: const handleQuickSelectMinor = async (): Promise<void> => {
+await@43: await handleChange(minorIds)
+async@47: const handleQuickSelectAll = async (): Promise<void> => {
+await@50: await handleChange(allIds)
 ```
 
 ### `client/src/composables/admin/useShapesTab.ts`
