@@ -503,6 +503,17 @@ onMounted(() => {
   transition-timing-function: ease-in-out;
 }
 
+/* Task 6.9.3.4: Respect prefers-reduced-motion — disable expand/collapse animations when user prefers reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .availability-step-panels {
+    --v-expand-transition-duration: 0s;
+  }
+
+  .availability-step-panels :deep(.v-expansion-panel-text__wrapper) {
+    transition-duration: 0s;
+  }
+}
+
 .availability-substep-title {
   min-height: 48px;
 }

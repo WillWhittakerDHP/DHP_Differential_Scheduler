@@ -39,7 +39,7 @@ Session 6.9.2 complete: narrow layout with expandable cards, current/completed s
 **Approach:** On expand: focus first focusable in content or content container; on collapse: focus header; ensure Tab/Escape allow exit.
 **Checkpoint:** Focus moves correctly on expand/collapse; no focus trap. Lint passes; app starts.
 
-- [ ] #### Task 6.9.3.4: Reduced motion
+- [x] #### Task 6.9.3.4: Reduced motion
 **Goal:** Respect prefers-reduced-motion: reduce or disable expand/collapse animations when the user has set reduced motion.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — animation/transition logic.
