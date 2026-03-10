@@ -156,6 +156,36 @@ function onHeaderKeydown(stepIndex: number): void {
   onExpandedChange(next)
 }
 
+/** Task 6.9.3.3: Focus first focusable element in content region. Used when expanding a panel. */
+function focusFirstFocusableInContent(stepIndex: number): void {
+  nextTick(() => {
+    const contentEl = document.getElementById(`availability-substep-content-${stepIndex}`)
+    const focusable = contentEl?.querySelector<HTMLElement>(
+      'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+    )
+    focusable?.focus()
+  })
+}
+
+/** Task 6.9.3.3: Focus the header button. Used when collapsing a panel. */
+function focusHeader(stepIndex: number): void {
+  const headerEl = document.getElementById(`availability-substep-title-${stepIndex}`)
+  ;(headerEl as HTMLElement | null)?.focus()
+}
+
+/** Task 6.9.3.3: Focus management — on expand focus content, on collapse focus header. No focus trap. */
+watch(
+  narrowExpanded,
+  (newVal, oldVal) => {
+    if (newVal >= 0) {
+      focusFirstFocusableInContent(newVal)
+    } else if (oldVal >= 0) {
+      focusHeader(oldVal)
+    }
+  },
+  { flush: 'post' }
+)
+
 /** Context for AvailabilitySubStepContent (inject). */
 const subStepContext = {
   o,
@@ -210,7 +240,9 @@ onMounted(() => {
          LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
          WAI-ARIA accordion: Tab navigates between headers; Enter/Space expand/collapse. Tab order follows
          visibleSubStepsFiltered DOM order.
-         LEARNING (Task 6.9.3.2): ARIA attributes so screen readers announce step position and state. -->
+         LEARNING (Task 6.9.3.2): ARIA attributes so screen readers announce step position and state.
+         LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,
+         back to header on collapse; no focus trap. -->
     <VExpansionPanels
       v-if="isNarrow"
       :model-value="narrowExpanded"

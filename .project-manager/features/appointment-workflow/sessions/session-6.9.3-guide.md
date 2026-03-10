@@ -31,7 +31,7 @@ Session 6.9.2 complete: narrow layout with expandable cards, current/completed s
 **Approach:** Add aria-expanded, aria-controls, aria-label/aria-labelledby; ensure roles and semantics for screen reader announcements.
 **Checkpoint:** Screen reader announces step position and state. Lint passes; app starts.
 
-- [ ] #### Task 6.9.3.3: Focus management
+- [x] #### Task 6.9.3.3: Focus management
 **Goal:** Focus: when expanding a card, move focus into the expanded content or to the first focusable element; when collapsing, return focus to the card header; avoid focus trap that blocks escape.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — expand/collapse handlers.
