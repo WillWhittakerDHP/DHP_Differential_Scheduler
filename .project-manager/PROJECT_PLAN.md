@@ -414,8 +414,6 @@ The following auth-related code already exists in the codebase:
 
 Implement the following so that authenticated users and roles are used where other features expect them:
 
-- [ ] ** NOTE FROM USER: in order to do pre-alpha E2E testing, i need a way to switch user types and their associated auths. what would work best? a toggle, a select menu? how many auth conditions will there be? admin/non logged-in/not agent/client? agents, when logged in, will have different rights than non-logged-in non-agents, non-admins. or do i misunderstand what the auth step is for? 
-- [ ] ** Questions from User: can we add a "log-in with google"
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
 - [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
@@ -423,6 +421,11 @@ Implement the following so that authenticated users and roles are used where oth
 - [ ] **Guided alpha / feedback:** Where Feature 9 (Guided Alpha Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
 - [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
 - [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
+
+### Open Questions (Feature 7)
+
+1. **Pre-alpha user-type switching:** For E2E testing, what mechanism lets testers switch between user types and associated auth levels (toggle, select menu)? How many auth conditions exist — admin / non-logged-in / non-agent / client / agent? Agents logged in have different rights than unauthenticated non-agents and non-admins. *(Needs design decision before Enactment step.)*
+2. **Google OAuth:** Can we add a "Log in with Google" option? *(Needs scoping — deferred or included in auth strategy step.)*
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2A
@@ -690,12 +693,16 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Scope (from LAUNCH_CHECKLIST Phase 6)
 
-- **Vue error boundary** — Graceful fallback UI when a component crashes. (NOTE FROM USER: I want to make sure that we get a note in the betafeedback chain for any fallback behavior that IDs where the fallback happened and any other data we can generate with-out AI to help us see problems, kind of like how the logger always logs on errors, fallbacks, and defaults in dev mode. as far as i remember, we have a database table that is supposed to accept feedback in a way you can read it. i want something like that. ASK ME FORE MORE DETAIL IF YOU DON"T UNDERSTAND WHAT I MEAN. infact, this may be helpful for lots of things, and not just the vue error boundary)
+- **Vue error boundary** — Graceful fallback UI when a component crashes. Fallback events should feed into the beta-feedback pipeline (see Open Questions below).
 - **Loading/error state review** — Audit all views for spinners, error messages, retry buttons.
 - **Cross-browser/device testing** — Desktop (Chrome/Firefox/Safari) and mobile (iOS/Android).
 - **README update** — Deployment instructions and architecture overview.
 - **Verify feedback system in production** — Smoke-test existing feedback system (Feature 14) in hosted env; blocked by Feature 13 (deployed env).
 - **Alpha tester onboarding guide** — Static document for testers who prefer docs over in-app guide.
+
+### Open Questions (Feature 12)
+
+1. **Automatic fallback telemetry:** When a Vue error boundary triggers, automatically log an entry to the beta-feedback pipeline that identifies where the fallback happened and captures available diagnostic data (no AI required) — similar to the existing dev-mode logger that fires on errors, fallbacks, and defaults. The existing feedback database table should accept these entries so they are readable by the team. This pattern may be broadly useful beyond the error boundary (e.g. silent-fallback detection, default-value usage). *(Needs design spike — scope TBD when Feature 12 is active.)*
 
 ### Related Documents
 - LAUNCH_CHECKLIST.md Phase 6

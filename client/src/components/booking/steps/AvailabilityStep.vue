@@ -21,7 +21,6 @@ import {
   availabilityStepValidateKey,
   loadedWizardStateKey,
 } from '@/composables/booking/injectionKeys'
-import MoveablePartsModal from '@/components/booking/MoveablePartsModal.vue'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
 import { availabilitySubStepContextKey } from '@/composables/booking/injectionKeys'
@@ -324,25 +323,6 @@ onMounted(() => {
         </div>
       </VCol>
     </VRow>
-
-    <MoveablePartsModal
-      :show-modal="o.showMoveableModal.value"
-      :moveable-options="o.moveableOptions.value"
-      :moveable-part-shape-name="o.moveablePartShapeName.value"
-      :moveable-appointment-slots="o.moveableAppointmentSlots.value"
-      :selected-moveable-day="o.selectedMoveableDay.value"
-      :allowed-moveable-dates="o.allowedMoveableDates.value"
-      :is-loading-moveable-day-slots="o.isLoadingMoveableDaySlots.value"
-      :selected-slot-index="o.selectedMoveableSlotIndex.value"
-      :contingency-period="o.contingencyPeriod.value"
-      :is-loading-options="o.isLoadingOptions.value"
-      @update:show-modal="o.showMoveableModal.value = $event"
-      @update:selected-moveable-day="o.setSelectedMoveableDay"
-      @update:contingency-period="o.contingencyPeriod.value = $event"
-      @select-slot="o.selectMoveableSlot"
-      @confirm="ui.handleMoveableConfirmWithConfirm"
-      @cancel="o.handleMoveableCancel"
-    />
   </div>
 </template>
 

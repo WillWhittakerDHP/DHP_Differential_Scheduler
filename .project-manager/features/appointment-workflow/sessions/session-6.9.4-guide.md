@@ -23,7 +23,7 @@ Session 6.9.3 complete: a11y and focus for expandable cards (keyboard, ARIA, foc
 **Approach:** Reuse or extract shared logic into a composable or shared component; wire contingency state and completion time grid into the 5th panel.
 **Checkpoint:** 5th sub-step shows moveable content when applicable. Lint passes; app starts.
 
-- [ ] #### Task 6.9.4.2: Remove MoveablePartsModal from AvailabilityStep
+- [x] #### Task 6.9.4.2: Remove MoveablePartsModal from AvailabilityStep
 **Goal:** Remove MoveablePartsModal from AvailabilityStep.vue; do not keep the modal as the default implementation.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — remove modal usage.

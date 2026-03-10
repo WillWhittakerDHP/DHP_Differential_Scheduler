@@ -10,8 +10,6 @@ export function useAvailabilityStepHandlers(
 ): UseAvailabilityStepHandlersReturn {
   const {
     appointmentSlotOrderIndex,
-    hasMoveableParts,
-    openMoveableModal,
     closeMoveableModal,
     moveableOptions,
     moveableSlotsForConfirm,
@@ -20,12 +18,9 @@ export function useAvailabilityStepHandlers(
     startTimeType
   } = params
 
+  /** Task 6.9.4.2: Moveable flow is in-step (5th sub-step); no modal open. */
   const handleAppointmentSlotClick = (buttonIndex: number): void => {
     appointmentSlotOrderIndex.value = buttonIndex
-    
-    if (hasMoveableParts.value) {
-      openMoveableModal()
-    }
   }
 
   /**
