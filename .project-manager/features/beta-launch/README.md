@@ -1,32 +1,12 @@
-# Feature 15: Beta Launch
+# Orphaned Directory: beta-launch
 
-**Feature Number:** 15
-**Status:** 📋 Planning
-**Created:** 2026-02-18
-**Branch:** TBD
-**Depends On:** Features 10–14 (Authentication, Security Hardening, Test Quality Validation, Guided Beta Testing, Production Readiness), LAUNCH_CHECKLIST.md
+> **This directory is from an old feature numbering scheme and does not map to any active feature in PROJECT_PLAN.md.**
+>
+> - The original "Feature 15: Beta Launch" was renumbered and restructured.
+> - Current Feature 15 is "Beta Feedback Response" (directory: `features/beta-feedback-response/`).
+> - Feature 12 (Pre-Launch Polish) will use `features/pre-launch-polish/` when work begins.
+> - Feature 13 (Alpha Launch & Deployment) covers the deployment scope originally described here.
+>
+> This directory can be removed or archived once confirmed no other docs reference it.
 
----
-
-## Overview
-
-Final preparation and execution of the beta launch. This feature covers deploying the application to a hosted environment, setting up production infrastructure, and onboarding the first alpha/beta testers. Detailed planning will be added as work begins — this feature draws heavily from the comprehensive `LAUNCH_CHECKLIST.md` at the project root.
-
-## Scope (to be detailed)
-
-- Hosting & deployment on Render (API + static site + database)
-- Authentication implementation (Magic Link strategy for beta)
-- Security hardening (CORS, rate limiting, input validation)
-- Production environment configuration
-- Database migrations on production
-- End-to-end verification in hosted environment
-- Alpha tester onboarding
-
-## Related Documents
-
-- **Launch Checklist:** `../../../LAUNCH_CHECKLIST.md` — The comprehensive checklist this feature will execute against
-- **Feature Plan:** TBD (will be created when work begins)
-
----
-
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-03-10

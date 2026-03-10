@@ -26,7 +26,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
 | 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
 | 2 | Google APIs Integration | ✅ Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
-| 3 | Calendar & Appointment Availability | ⏳ Reopened | `features/calendar-appointment-availability/` | Core complete 2026-02-21; reopened |
+| 3 | Calendar & Appointment Availability | ✅ Complete | `features/calendar-appointment-availability/` | Completed 2026-02-21 |
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
 | 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
@@ -35,7 +35,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
 | 10 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
 | 11 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
-| 12 | Pre-Launch Polish | 📋 Planning | `features/beta-launch/` | — |
+| 12 | Pre-Launch Polish | 📋 Planning | `features/pre-launch-polish/` (to create) | — |
 | 13 | Alpha Launch & Deployment | 📋 Planning | — | — |
 | 14 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
@@ -196,9 +196,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 3: Calendar & Appointment Availability
 
-**Status:** ⏳ Reopened (remaining work: calendar event creation/editing UI)
+**Status:** ✅ Complete
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
 **Branch:** `feature/calendar-appointment-availability`
+**Completed:** 2026-02-21
 
 ### What's Built
 
@@ -228,10 +229,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 7. `useAppointmentSlots` applies appointment shape → displays slots with differential info
 8. User selects slot → stored in wizard state
 
-### Remaining Work
-- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective.
+### Remaining Work (delegated to other features)
+- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective — tracked in **Feature 17 (Admin UI Overhaul)**.
 
-Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time availability sync is tracked in **Feature 12 (Pre-Launch Polish)**.
+- **Real-time availability sync:** Tracked in **Feature 13 (Alpha Launch & Deployment)**, Step 10 end-to-end verification scope.
 
 ---
 
@@ -762,7 +763,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 | 7 | **Deploy static site (Feature 13)** — Configure static site, set `VITE_API_BASE_URL`, `VITE_APP_STAGE` (e.g. `alpha` for MLS testers), and `VITE_INCLUDE_DEV_FLAGS=false` for alpha, add SPA rewrite rule. | Step 6 |
 | 8 | **Google OAuth production config (Feature 13)** — Update redirect URI in Google Cloud Console. Consider DB-backed token storage. | Step 6 |
 | 9 | **Bright MLS credentials (Feature 13)** — Procure credentials, configure env vars, test enrichment pipeline. | Step 6 |
-| 10 | **End-to-end verification (Feature 13)** — Static site loads, API responds, DB connected, calendar works. | Steps 6–9 |
+| 10 | **End-to-end verification (Feature 13)** — Static site loads, API responds, DB connected, calendar works, real-time availability sync confirmed (slots update when calendar changes). | Steps 6–9 |
 | 11 | **Deploy CI job (optional)** — Add auto-deploy from `main` to Render. Manual deploys initially acceptable. | Step 10 |
 
 > **Steps 1–4 can be done before any Render account exists.** Steps 5–10 are the deployment sequence. Feature 13 depends on Features 7 (auth), 8 (security), 9 (Guided Alpha Testing), 10 (Testing), and 11 (production readiness) being substantially complete.

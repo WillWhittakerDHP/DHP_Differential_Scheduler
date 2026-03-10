@@ -242,7 +242,9 @@ onMounted(() => {
          visibleSubStepsFiltered DOM order.
          LEARNING (Task 6.9.3.2): ARIA attributes so screen readers announce step position and state.
          LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,
-         back to header on collapse; no focus trap. -->
+         back to header on collapse; no focus trap.
+         WHY (Task 6.9.4.5): Use visibleIdx (not step.index) for aria-label step number — step 2 is hidden, so
+         visible steps can be [0,1,3,4]; step.index+1 would yield "Step 5 of 4" for the 5th panel. -->
     <VExpansionPanels
       v-if="isNarrow"
       :model-value="narrowExpanded"
@@ -251,7 +253,7 @@ onMounted(() => {
       class="availability-step-panels"
     >
       <VExpansionPanel
-        v-for="step in visibleSubStepsFiltered"
+        v-for="(step, visibleIdx) in visibleSubStepsFiltered"
         :key="step.index"
         :value="step.index"
         class="availability-substep-panel"
@@ -261,7 +263,7 @@ onMounted(() => {
           class="availability-substep-title"
           :aria-expanded="narrowExpanded === step.index"
           :aria-controls="'availability-substep-content-' + step.index"
-          :aria-label="`Step ${step.index + 1} of ${visibleSubStepsFiltered.length}: ${step.label}`"
+          :aria-label="`Step ${visibleIdx + 1} of ${visibleSubStepsFiltered.length}: ${step.label}`"
           @keydown.enter.prevent.stop="onHeaderKeydown(step.index)"
           @keydown.space.prevent.stop="onHeaderKeydown(step.index)"
         >

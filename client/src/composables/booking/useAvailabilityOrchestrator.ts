@@ -231,9 +231,16 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     moveableScheduling: computed(() => confirmedMoveableScheduling.value)
   })
 
-  const { fieldErrors, isFormValid, validateForm } = useAvailabilityValidation({
+  const { fieldErrors, isFormValid: baseIsFormValid, validateForm } = useAvailabilityValidation({
     selectedDate,
     selectedSlot
+  })
+
+  /** Task 6.9.4.4: Gate step validity on moveable confirmation when applicable (same as previous modal gate). */
+  const isFormValid = computed(() => {
+    if (!baseIsFormValid.value) return false
+    if (hasMoveablePartsGated.value && !confirmedMoveableScheduling.value) return false
+    return true
   })
 
   const { handleDateChange: handleDateChangeBase } = useAvailabilityUI({
