@@ -30,3 +30,5 @@
 [2026-03-10T19:12:43.801Z] WRITE .project-manager/features/appointment-workflow/sessions/session-6.9.3-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:80)
 [2026-03-10T19:13:47.502Z] WRITE .project-manager/features/appointment-workflow/sessions/task-6.9.3.4-planning.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:80)
 [2026-03-10T19:16:51.505Z] WRITE .project-manager/features/appointment-workflow/sessions/session-6.9.3-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:80)
+[2026-03-10T19:19:11.892Z] BLOCKED overwrite .project-manager/features/appointment-workflow/sessions/session-6.9.3-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:80)
+[2026-03-10T19:19:11.895Z] BLOCKED overwrite .project-manager/features/appointment-workflow/phases/phase-6.9-guide.md (caller: /Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/commands/utils/utils.ts:80)
