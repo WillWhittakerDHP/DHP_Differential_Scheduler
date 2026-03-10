@@ -64,7 +64,7 @@
 - Sub-step state (current index, completed set) must be explicit so 6.9.3 (a11y) and 6.9.4 (5th content) can rely on it.
 - No a11y implementation yet — that is Session 6.9.3.
 
-- [ ] ### Session 6.9.3: A11y and Focus for Expandable Cards
+- [x] ### Session 6.9.3: A11y and Focus for Expandable Cards
 **Description:** Dedicated session for accessibility of the expandable sub-step cards: keyboard navigation, ARIA attributes, focus management, and reduced motion. Ensures the mini-wizard is usable without a mouse and with assistive tech.
 **Tasks:**
 - Keyboard: navigate between sub-step headers (e.g. Tab); Enter/Space to expand/collapse; arrow keys if appropriate for step-to-step movement.

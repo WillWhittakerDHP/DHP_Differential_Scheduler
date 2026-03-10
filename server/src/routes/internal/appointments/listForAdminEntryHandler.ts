@@ -11,6 +11,7 @@ import { appointmentIncludes } from './appointmentHelpers.js'
 import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { ERROR_MESSAGES } from './appointmentConstants.js'
+import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js'
 import type { AdminEntryAppointmentItem } from '../../../../../shared/types/appointmentTypes.js'
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../../../../../shared/constants/roleConstants.js'
 
@@ -33,10 +34,10 @@ export async function listForAdminEntryHandler(req: Request, res: Response): Pro
     const appointments = await Appointment.findAll({
       where: {
         status: { [Op.notIn]: ['cancelled', 'deleted'] as const },
-        createdAt: { [Op.gte]: cutoff },
+        [FIELD_NAMES.CREATED_AT]: { [Op.gte]: cutoff },
       },
       include: appointmentIncludes,
-      order: [['createdAt', 'DESC']],
+      order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
     })
 
     const items: AdminEntryAppointmentItem[] = appointments.map((apt): AdminEntryAppointmentItem => {
