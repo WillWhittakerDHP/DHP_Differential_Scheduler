@@ -30,7 +30,7 @@ Session 6.9.3 complete: a11y and focus for expandable cards (keyboard, ARIA, foc
 **Approach:** Remove modal import, usage, and any triggers; ensure moveable flow is fully in-step.
 **Checkpoint:** Modal no longer used in AvailabilityStep. Lint passes; app starts.
 
-- [ ] #### Task 6.9.4.3: Deprecate MoveablePartsModal
+- [x] #### Task 6.9.4.3: Deprecate MoveablePartsModal
 **Goal:** Mark MoveablePartsModal as deprecated (JSDoc/comment and optionally deprecation notice); remove or leave as deprecated for reference in a later cleanup.
 **Files:**
 - MoveablePartsModal component file.

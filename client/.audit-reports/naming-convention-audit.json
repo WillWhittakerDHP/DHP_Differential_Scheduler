@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-03-10T22:34:32.971Z",
+  "generatedAt": "2026-03-10T22:35:56.117Z",
   "totalScanned": 1117,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 1,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -13,26 +13,6 @@
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "repoPath": "client/src/composables/booking/injectionKeys.ts",
-      "score": 2,
-      "priority": "P2",
-      "count": 1
-    }
-  ],
-  "scanned": [
-    {
-      "repoPath": "client/src/composables/booking/injectionKeys.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "composableFileName",
-          "lineNumber": 1,
-          "line": "Composable file should be use[Name].ts: injectionKeys.ts",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    }
-  ]
+  "files": [],
+  "scanned": []
 }

@@ -26,7 +26,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
 | 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
 | 2 | Google APIs Integration | ✅ Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
-| 3 | Calendar & Appointment Availability | ✅ Complete | `features/calendar-appointment-availability/` | Completed 2026-02-21 |
+| 3 | Calendar & Appointment Availability | ⏳ Reopened | `features/calendar-appointment-availability/` | Core complete 2026-02-21; reopened |
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
 | 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
@@ -196,7 +196,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 3: Calendar & Appointment Availability
 
-**Status:** ⏳ Reopened (Phase 3.6 in progress)
+**Status:** ⏳ Reopened (remaining work: calendar event creation/editing UI)
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
 **Branch:** `feature/calendar-appointment-availability`
 
@@ -489,7 +489,11 @@ Implement the following so that authenticated users and roles are used where oth
 
 ### Why Before Feature 10 (Testing)
 
-We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers. Note from User--some of my testers will be out of state, so we may need a "show random address" button we include in the wizard which either cooks up a random address in the metro area or pulls one from the appointment database
+We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers.
+
+### Open Questions (Feature 9)
+
+1. **Out-of-state testers and address generation:** Some alpha testers will be out of state and unable to enter a local property address. Should the wizard include a "show random address" button that generates a random address in the metro area or pulls one from the appointment database? *(Needs design decision — affects Property Details step UI and data seeding strategy.)*
 
 ### Phase 9.1: Wizard Flow Diagram (Mermaid)
 
