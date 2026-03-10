@@ -15,7 +15,7 @@ Session 6.9.3 complete: a11y and focus for expandable cards (keyboard, ARIA, foc
 
 ### Tasks
 
-- [ ] #### Task 6.9.4.1: Implement moveable content in 5th sub-step panel
+- [x] #### Task 6.9.4.1: Implement moveable content in 5th sub-step panel
 **Goal:** Implement moveable-details content in the existing 5th sub-step panel/slot: contingency questions, completion time grid. Reuse or extract shared logic (contingency state, moveable options fetch) into a composable or shared component used by the in-step UI; replace the placeholder from 6.9.1.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — 5th sub-step content.

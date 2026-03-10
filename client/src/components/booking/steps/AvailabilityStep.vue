@@ -186,13 +186,14 @@ watch(
   { flush: 'post' }
 )
 
-/** Context for AvailabilitySubStepContent (inject). */
+/** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
 const subStepContext = {
   o,
   handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
   onOptionIdUpdate: ui.onOptionIdUpdate,
   handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
   handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
+  handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
   get showSlotsOverlay() {
     return ui.showSlotsOverlay.value
   },

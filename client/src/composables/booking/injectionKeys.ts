@@ -122,6 +122,8 @@ export interface AvailabilitySubStepContext {
   onOptionIdUpdate: (id: string | null) => void
   handleTimeBasisChangeWithConfirm: (type: 'major' | 'minor') => void
   handleSlotClickWithConfirm: (buttonIndex: number) => void
+  /** Task 6.9.4.1: For step 4 (moveable details) — confirm advances confirmation state. */
+  handleMoveableConfirmWithConfirm: () => void
   showSlotsOverlay: boolean
   slotGridOverlayLabel: string | null
   slotGridOverlayError: string | null

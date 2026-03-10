@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T22:21:55.802Z",
+  "generatedAt": "2026-03-10T22:24:11.704Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -70,7 +70,7 @@
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 2
+        "magicLabel": 6
       },
       "reviewCounts": {
         "switchEntityKey": 0,
@@ -99,6 +99,26 @@
           "ruleId": "fieldMapping",
           "lineNumber": 153,
           "line": "<div v-else class=\"slot-grid-wrapper\" :class=\"{ 'slot-grid-wrapper--overlay': ctx.showSlotsOverlay }\">"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 206,
+          "line": "label=\"Deadline Date\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 216,
+          "line": "label=\"Deadline Time\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 241,
+          "line": "aria-label=\"Previous day\""
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 251,
+          "line": "aria-label=\"Next day\""
         }
       ],
       "allowed": [],
@@ -112,7 +132,13 @@
       ],
       "score": 3,
       "priority": "P2",
-      "suggestions": []
+      "suggestions": [
+        {
+          "priority": "P2",
+          "kind": "ui_strings",
+          "message": "Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module."
+        }
+      ]
     }
   ]
 }

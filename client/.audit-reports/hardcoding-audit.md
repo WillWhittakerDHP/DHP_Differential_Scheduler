@@ -71,6 +71,12 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
+### `client/src/components/booking/steps/AvailabilitySubStepContent.vue`
+
+- score: **3**
+
+- **P2** (ui_strings): Many UI strings detected in an SFC. Consider moving large label maps / naming logic to a composable or config module.
+
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
