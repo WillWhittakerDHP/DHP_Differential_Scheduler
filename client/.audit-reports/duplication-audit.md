@@ -23,7 +23,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
 | `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+31 more) | 51 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+251 more) | 259 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+256 more) | 264 |
 | `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+74 more) | 131 |
 | `update*` | `client/src/utils/admin/businessRulesApi.ts`, `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts` (+2 more) | 5 |
 
