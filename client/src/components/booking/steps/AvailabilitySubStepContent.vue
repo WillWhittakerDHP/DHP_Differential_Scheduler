@@ -1,6 +1,6 @@
 <!--
   Shared sub-step content: calendar, options, graph, slots, moveable.
-  Used in narrow (VExpansionPanelText) and wide (section content).
+  Used in VExpansionPanelText (accordion) and section content.
   Task 6.9.4.1: Step 4 moveable content (contingency + completion times) in-step.
 -->
 <script setup lang="ts">

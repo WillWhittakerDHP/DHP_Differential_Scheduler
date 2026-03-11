@@ -127,7 +127,7 @@ const accordion = useAvailabilityStepAccordion({
 })
 
 /** Expanded panel index for template (unwrap ref for correct v-model/aria types). */
-const narrowExpanded = computed(() => accordion.narrowExpanded.value)
+const expandedIndex = computed(() => accordion.expandedIndex.value)
 
 /** Loaded appointment with availability data — keep step 4 open for confirmation review. */
 const hasLoadedAvailability = computed(
@@ -186,17 +186,17 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Narrow layout: expandable cards (Task 6.9.2.1). User can expand any panel; watcher auto-expands on confirm.
+    <!-- Expandable panels (accordion). User can expand any panel; watcher auto-expands on confirm.
          LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
          WAI-ARIA accordion: Tab navigates between headers; Enter/Space expand/collapse. Tab order follows
          visibleSubStepsFiltered DOM order.
          LEARNING (Task 6.9.3.2): ARIA attributes so screen readers announce step position and state.
-         LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,
+         LEARNING (Task 6.9.3.3): Focus management — watch(expandedIndex) moves focus into content on expand,
          back to header on collapse; no focus trap.
          WHY (Task 6.9.4.5): Use visibleIdx (not step.index) for aria-label step number — step 2 is hidden, so
          visible steps can be [0,1,3,4]; step.index+1 would yield "Step 5 of 4" for the 5th panel. -->
     <VExpansionPanels
-      :model-value="narrowExpanded"
+      :model-value="expandedIndex"
       variant="accordion"
       @update:model-value="onExpandedChange"
       class="availability-step-panels"
@@ -210,7 +210,7 @@ onMounted(() => {
         <VExpansionPanelTitle
           :id="'availability-substep-title-' + step.index"
           class="availability-substep-title"
-          :aria-expanded="narrowExpanded === step.index"
+          :aria-expanded="expandedIndex === step.index"
           :aria-controls="'availability-substep-content-' + step.index"
           :aria-label="`Step ${visibleIdx + 1} of ${visibleSubStepsFiltered.length}: ${step.label}`"
           @keydown.enter.prevent.stop="accordion.onHeaderKeydown(step.index)"

@@ -123,7 +123,7 @@ export interface AvailabilitySettings {
     majorStateLabel?: string
     minorStateLabel?: string
     selectTimeSlotLabel?: string
-    /** Availability sub-step card titles (narrow layout). Perspective uses differentialGraphDefaultLabel. */
+    /** Availability sub-step card titles (accordion). Perspective uses differentialGraphDefaultLabel. */
     subStepLabelPickDay?: string
     subStepLabelOptions?: string
     subStepLabelPickTime?: string

@@ -1,10 +1,10 @@
 /**
- * Accordion/expansion state and focus management for AvailabilityStep narrow layout.
+ * Accordion/expansion state and focus management for AvailabilityStep.
  * Extracted to reduce component script size (vue-architecture audit): DOM and watch logic
  * live here; component keeps only wiring and template.
  *
  * WHY: Component Authoring Playbook — Tier1 hotspots (watch, dom) belong in composables.
- * PATTERN: Flat return (narrowExpanded, onExpandedChange, onHeaderKeydown); mutations via
+ * PATTERN: Flat return (expandedIndex, setExpanded, onHeaderKeydown); mutations via
  * explicit actions; no Ref|ComputedRef unions at boundary.
  */
 import { ref, watch, nextTick, onMounted, type ComputedRef, type Ref } from 'vue'
@@ -20,7 +20,7 @@ export interface UseAvailabilityStepAccordionParams {
 
 export interface UseAvailabilityStepAccordionReturn {
   /** Single expanded panel index; -1 = all collapsed. */
-  narrowExpanded: Ref<number>
+  expandedIndex: Ref<number>
   /** Call when user expands/collapses a panel (click or keyboard). */
   setExpanded: (expandedIndex: number) => void
   /** Keyboard handler for Enter/Space on headers (WAI-ARIA accordion). */
@@ -65,18 +65,18 @@ export function useAvailabilityStepAccordion(
   const contentIdPrefix = params.contentIdPrefix ?? DEFAULT_CONTENT_PREFIX
   const titleIdPrefix = params.titleIdPrefix ?? DEFAULT_TITLE_PREFIX
 
-  const narrowExpanded = ref<number>(0)
+  const expandedIndex = ref<number>(0)
 
   watch(
     currentStepIndex,
     (idx) => {
-      narrowExpanded.value = idx
+      expandedIndex.value = idx
     },
     { immediate: false }
   )
 
   watch(
-    narrowExpanded,
+    expandedIndex,
     (newVal, oldVal) => {
       if (newVal >= 0) {
         focusFirstFocusableInContent(newVal, contentIdPrefix)
@@ -89,21 +89,21 @@ export function useAvailabilityStepAccordion(
 
   onMounted(() => {
     nextTick(() => {
-      narrowExpanded.value = currentStepIndex.value
+      expandedIndex.value = currentStepIndex.value
     })
   })
 
-  function setExpanded(expandedIndex: number): void {
-    narrowExpanded.value = expandedIndex
+  function setExpanded(index: number): void {
+    expandedIndex.value = index
   }
 
   function onHeaderKeydown(stepIndex: number): void {
-    const next = narrowExpanded.value === stepIndex ? -1 : stepIndex
+    const next = expandedIndex.value === stepIndex ? -1 : stepIndex
     setExpanded(next)
   }
 
   return {
-    narrowExpanded,
+    expandedIndex,
     setExpanded,
     onHeaderKeydown,
   }

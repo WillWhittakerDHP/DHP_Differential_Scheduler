@@ -1,6 +1,6 @@
 <!--
   Shared sub-step header: badge + label + summary.
-  Used in narrow (VExpansionPanelTitle) and wide (section header).
+  Used in VExpansionPanelTitle (accordion) and section header.
 -->
 <script setup lang="ts">
 import type { AvailabilitySubStepDef } from '@/composables/booking/useAvailabilitySubSteps'

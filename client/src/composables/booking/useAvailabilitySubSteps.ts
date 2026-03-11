@@ -1,6 +1,6 @@
 /**
  * Sub-step model for the availability mini-wizard (Phase 6.9).
- * Exposes visible sub-steps, current index, and completed set for narrow layout
+ * Exposes visible sub-steps, current index, and completed set for the accordion
  * (expandable cards) and for 6.9.3 (a11y) / 6.9.4 (5th content).
  *
  * Task 6.9.2.2: State is explicit — currentStepIndex and completedStepIndices are stable
