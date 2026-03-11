@@ -4,13 +4,13 @@
 
 # Component Health Audit
 
-Generated: 2026-03-11T01:39:43.079Z
+Generated: 2026-03-11T01:41:24.237Z
 
 ## Overview
 
-- Components scanned: **6**
-- Findings: **1**
-- Files with findings: **1**
+- Components scanned: **0**
+- Findings: **0**
+- Files with findings: **0**
 
 ## Ruleset
 
@@ -27,29 +27,11 @@ Generated: 2026-03-11T01:39:43.079Z
 | unused-named-slot | P2 | 1 | Named slot defined but never filled by any parent. |
 | constant-prop-value | info | 0 | Prop always receives the same literal value across all parents. |
 
-## By rule
-
-| Rule | Severity | Count |
-| --- | --- | ---: |
-| constant-prop-value | info | 1 |
-
 ## Repair Waves
 
 - **Wave 1 — Local** (parentCount = 0): 0 finding(s)
-- **Wave 2 — Low fan-in** (parentCount 1–3): 1 finding(s)
+- **Wave 2 — Low fan-in** (parentCount 1–3): 0 finding(s)
 - **Wave 3 — High fan-in** (parentCount ≥ 4): 0 finding(s)
-
-## Top 1 files by score
-
-| File | Priority | Score | Parents |
-| --- | --- | ---: | ---: |
-| `client/src/components/booking/steps/SlotGridWithOverlay.vue` | P2 | 0 | 1 |
-
-## All findings (first 60)
-
-| File | Line | Rule | Message | Parents |
-| --- | ---: | --- | --- | ---: |
-| `client/src/components/booking/steps/SlotGridWithOverlay.vue` | 5 | constant-prop-value | Prop 'color' always receives 'primary'; consider making i... | 1 |
 
 ## Notes
 
