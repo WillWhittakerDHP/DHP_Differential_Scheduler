@@ -35,7 +35,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
 | 10 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
 | 11 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
-| 12 | Pre-Launch Polish | 📋 Planning | `features/beta-launch/` | — |
+| 12 | Pre-Launch Polish | 📋 Planning | `features/pre-launch-polish/` (to create) | — |
 | 13 | Alpha Launch & Deployment | 📋 Planning | — | — |
 | 14 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
@@ -196,9 +196,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 3: Calendar & Appointment Availability
 
-**Status:** ⏳ Reopened (Phase 3.6 in progress)
+**Status:** ✅ Complete
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
 **Branch:** `feature/calendar-appointment-availability`
+**Completed:** 2026-02-21
 
 ### What's Built
 
@@ -228,10 +229,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 7. `useAppointmentSlots` applies appointment shape → displays slots with differential info
 8. User selects slot → stored in wizard state
 
-### Remaining Work
-- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective.
+### Remaining Work (delegated to other features)
+- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective — tracked in **Feature 17 (Admin UI Overhaul)**.
 
-Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time availability sync is tracked in **Feature 12 (Pre-Launch Polish)**.
+- **Real-time availability sync:** Tracked in **Feature 13 (Alpha Launch & Deployment)**, Step 10 end-to-end verification scope.
 
 ---
 
@@ -418,8 +419,6 @@ The following auth-related code already exists in the codebase:
 
 Implement the following so that authenticated users and roles are used where other features expect them:
 
-- [ ] ** NOTE FROM USER: in order to do pre-alpha E2E testing, i need a way to switch user types and their associated auths. what would work best? a toggle, a select menu? how many auth conditions will there be? admin/non logged-in/not agent/client? agents, when logged in, will have different rights than non-logged-in non-agents, non-admins. or do i misunderstand what the auth step is for? 
-- [ ] ** Questions from User: can we add a "log-in with google"
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
 - [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
@@ -427,6 +426,11 @@ Implement the following so that authenticated users and roles are used where oth
 - [ ] **Guided alpha / feedback:** Where Feature 9 (Guided Alpha Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
 - [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
 - [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
+
+### Open Questions (Feature 7)
+
+1. **Pre-alpha user-type switching:** For E2E testing, what mechanism lets testers switch between user types and associated auth levels (toggle, select menu)? How many auth conditions exist — admin / non-logged-in / non-agent / client / agent? Agents logged in have different rights than unauthenticated non-agents and non-admins. *(Needs design decision before Enactment step.)*
+2. **Google OAuth:** Can we add a "Log in with Google" option? *(Needs scoping — deferred or included in auth strategy step.)*
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2A
@@ -490,7 +494,11 @@ Implement the following so that authenticated users and roles are used where oth
 
 ### Why Before Feature 10 (Testing)
 
-We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers. Note from User--some of my testers will be out of state, so we may need a "show random address" button we include in the wizard which either cooks up a random address in the metro area or pulls one from the appointment database
+We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers.
+
+### Open Questions (Feature 9)
+
+1. **Out-of-state testers and address generation:** Some alpha testers will be out of state and unable to enter a local property address. Should the wizard include a "show random address" button that generates a random address in the metro area or pulls one from the appointment database? *(Needs design decision — affects Property Details step UI and data seeding strategy.)*
 
 ### Phase 9.1: Wizard Flow Diagram (Mermaid)
 
@@ -694,12 +702,16 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Scope (from LAUNCH_CHECKLIST Phase 6)
 
-- **Vue error boundary** — Graceful fallback UI when a component crashes. (NOTE FROM USER: I want to make sure that we get a note in the betafeedback chain for any fallback behavior that IDs where the fallback happened and any other data we can generate with-out AI to help us see problems, kind of like how the logger always logs on errors, fallbacks, and defaults in dev mode. as far as i remember, we have a database table that is supposed to accept feedback in a way you can read it. i want something like that. ASK ME FORE MORE DETAIL IF YOU DON"T UNDERSTAND WHAT I MEAN. infact, this may be helpful for lots of things, and not just the vue error boundary)
+- **Vue error boundary** — Graceful fallback UI when a component crashes. Fallback events should feed into the beta-feedback pipeline (see Open Questions below).
 - **Loading/error state review** — Audit all views for spinners, error messages, retry buttons.
 - **Cross-browser/device testing** — Desktop (Chrome/Firefox/Safari) and mobile (iOS/Android).
 - **README update** — Deployment instructions and architecture overview.
 - **Verify feedback system in production** — Smoke-test existing feedback system (Feature 14) in hosted env; blocked by Feature 13 (deployed env).
 - **Alpha tester onboarding guide** — Static document for testers who prefer docs over in-app guide.
+
+### Open Questions (Feature 12)
+
+1. **Automatic fallback telemetry:** When a Vue error boundary triggers, automatically log an entry to the beta-feedback pipeline that identifies where the fallback happened and captures available diagnostic data (no AI required) — similar to the existing dev-mode logger that fires on errors, fallbacks, and defaults. The existing feedback database table should accept these entries so they are readable by the team. This pattern may be broadly useful beyond the error boundary (e.g. silent-fallback detection, default-value usage). *(Needs design spike — scope TBD when Feature 12 is active.)*
 
 ### Related Documents
 - LAUNCH_CHECKLIST.md Phase 6
@@ -755,7 +767,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 | 7 | **Deploy static site (Feature 13)** — Configure static site, set `VITE_API_BASE_URL`, `VITE_APP_STAGE` (e.g. `alpha` for MLS testers), and `VITE_INCLUDE_DEV_FLAGS=false` for alpha, add SPA rewrite rule. | Step 6 |
 | 8 | **Google OAuth production config (Feature 13)** — Update redirect URI in Google Cloud Console. Consider DB-backed token storage. | Step 6 |
 | 9 | **Bright MLS credentials (Feature 13)** — Procure credentials, configure env vars, test enrichment pipeline. | Step 6 |
-| 10 | **End-to-end verification (Feature 13)** — Static site loads, API responds, DB connected, calendar works. | Steps 6–9 |
+| 10 | **End-to-end verification (Feature 13)** — Static site loads, API responds, DB connected, calendar works, real-time availability sync confirmed (slots update when calendar changes). | Steps 6–9 |
 | 11 | **Deploy CI job (optional)** — Add auto-deploy from `main` to Render. Manual deploys initially acceptable. | Step 10 |
 
 > **Steps 1–4 can be done before any Render account exists.** Steps 5–10 are the deployment sequence. Feature 13 depends on Features 7 (auth), 8 (security), 9 (Guided Alpha Testing), 10 (Testing), and 11 (production readiness) being substantially complete.
