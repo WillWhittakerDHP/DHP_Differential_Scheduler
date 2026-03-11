@@ -318,7 +318,6 @@ watch(
   font-size: 0.8125rem;
 }
 
-/* Task 6.9.4.1: Moveable step 4 styles (mirror MoveablePartsModal). */
 .moveable-slot-grid-wrapper {
   position: relative;
 }

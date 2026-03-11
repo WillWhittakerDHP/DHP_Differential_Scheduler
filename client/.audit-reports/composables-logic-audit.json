@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T01:47:22.213Z",
+  "generatedAt": "2026-03-11T02:14:06.522Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -40,37 +40,37 @@
       "matches": [
         {
           "ruleId": "lifecycle",
-          "lineNumber": 10,
+          "lineNumber": 9,
           "line": "import { ref, watch, nextTick, onMounted, type ComputedRef, type Ref } from 'vue'",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 38,
+          "lineNumber": 37,
           "line": "const contentEl = document.getElementById(`${contentIdPrefix}${stepIndex}`)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 57,
+          "lineNumber": 56,
           "line": "const headerEl = document.getElementById(`${titleIdPrefix}${stepIndex}`)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 70,
+          "lineNumber": 69,
           "line": "watch(",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 78,
+          "lineNumber": 77,
           "line": "watch(",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "lifecycle",
-          "lineNumber": 90,
+          "lineNumber": 89,
           "line": "onMounted(() => {",
           "suppressionStatus": "unsuppressed"
         }
@@ -79,7 +79,7 @@
         "useAvailabilityStepAccordion"
       ],
       "returnKeys": [
-        "narrowExpanded",
+        "expandedIndex",
         "onHeaderKeydown",
         "setExpanded"
       ],

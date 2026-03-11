@@ -169,7 +169,6 @@ const subStepContext = {
 }
 provide(availabilitySubStepContextKey, subStepContext)
 
-// WHY: Reset confirmation when entering with loaded appointment so user reviews from step 0.
 onMounted(() => {
   if (hasLoadedAvailability.value) {
     confirmation.reset()
@@ -243,7 +242,6 @@ onMounted(() => {
   overflow: visible;
 }
 
-/* Calendar/slot styles - apply via :deep to AvailabilitySubStepContent */
 .availability-substep-panel :deep(.calendar-col) {
   margin-bottom: 1.5rem;
   @media (min-width: 600px) {
@@ -365,10 +363,8 @@ onMounted(() => {
   max-width: min(90vw, 420px);
 }
 
-/* Narrow layout: expandable cards (Task 6.9.2.1). Task 6.9.2.2: smooth expand/collapse transitions. */
 .availability-step-panels {
   margin-bottom: 0;
-  /* LEARNING: Vuetify VExpansionPanel uses internal VExpandTransition. Override duration for consistency with wizard (200–300ms). */
   --v-expand-transition-duration: 0.25s;
 }
 
@@ -376,13 +372,11 @@ onMounted(() => {
   margin-bottom: 0;
 }
 
-/* Task 6.9.2.2: Ensure expansion panel content animates smoothly (Vuetify 3 uses v-expansion-panel-text__wrapper). */
 .availability-step-panels :deep(.v-expansion-panel-text__wrapper) {
   transition-duration: 0.25s;
   transition-timing-function: ease-in-out;
 }
 
-/* Task 6.9.3.4: Respect prefers-reduced-motion — disable expand/collapse animations when user prefers reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   .availability-step-panels {
     --v-expand-transition-duration: 0s;
@@ -403,7 +397,6 @@ onMounted(() => {
   align-items: center;
 }
 
-/* Content styles (AvailabilitySubStepContent inside accordion) */
 .availability-substep-panel :deep(.time-selection-content) {
   display: flex;
   flex-direction: column;

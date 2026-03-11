@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-11T01:47:22.184Z",
-  "totalScanned": 1,
+  "generatedAt": "2026-03-11T02:14:06.222Z",
+  "totalScanned": 2,
   "exceptionSummary": {
-    "totalRequiresReview": 1
+    "totalRequiresReview": 2
   },
   "files": [
     {
@@ -105,7 +105,7 @@
         {
           "ruleId": "computed",
           "lineNumber": 130,
-          "line": "const narrowExpanded = computed(() => accordion.narrowExpanded.value)"
+          "line": "const expandedIndex = computed(() => accordion.expandedIndex.value)"
         },
         {
           "ruleId": "computed",
@@ -124,13 +124,13 @@
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 190,
+          "lineNumber": 189,
           "line": "LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 194,
-          "line": "LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,"
+          "lineNumber": 193,
+          "line": "LEARNING (Task 6.9.3.3): Focus management — watch(expandedIndex) moves focus into content on expand,"
         }
       ],
       "requiresReview": [
@@ -141,11 +141,84 @@
         },
         {
           "ruleId": "watch",
-          "lineNumber": 194,
-          "line": "LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,"
+          "lineNumber": 193,
+          "line": "LEARNING (Task 6.9.3.3): Focus management — watch(expandedIndex) moves focus into content on expand,"
         }
       ],
       "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__booking__steps__AvailabilitySubStepContent.vue",
+      "repoPath": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+      "counts": {
+        "watch": 1,
+        "watchEffect": 0,
+        "async": 0,
+        "await": 0,
+        "map": 0,
+        "reduce": 0,
+        "dom": 0,
+        "inlineConfig": 0,
+        "console": 0,
+        "alert": 0
+      },
+      "matches": [
+        {
+          "ruleId": "provideInject",
+          "lineNumber": 22,
+          "line": "const ctx = inject(availabilitySubStepContextKey)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 45,
+          "line": "const step4HasClosingDate = computed("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 51,
+          "line": "const step4InnerDayKey = computed("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 54,
+          "line": "const step4OuterDayKey = computed("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 58,
+          "line": "const step4CanStepPrev = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 66,
+          "line": "const step4CanStepNext = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 74,
+          "line": "const step4SelectedMoveableDayLabel = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 87,
+          "line": "const step4CanConfirm = computed(() => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 114,
+          "line": "watch("
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "watch",
+          "lineNumber": 114,
+          "line": "watch("
+        }
+      ],
+      "score": 1,
       "priority": "P2"
     }
   ],

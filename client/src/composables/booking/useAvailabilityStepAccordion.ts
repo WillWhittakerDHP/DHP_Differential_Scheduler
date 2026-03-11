@@ -4,7 +4,6 @@
  * live here; component keeps only wiring and template.
  *
  * WHY: Component Authoring Playbook — Tier1 hotspots (watch, dom) belong in composables.
- * PATTERN: Flat return (expandedIndex, setExpanded, onHeaderKeydown); mutations via
  * explicit actions; no Ref|ComputedRef unions at boundary.
  */
 import { ref, watch, nextTick, onMounted, type ComputedRef, type Ref } from 'vue'

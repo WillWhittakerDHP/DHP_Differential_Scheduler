@@ -56,7 +56,6 @@ export function useAvailabilitySubSteps(
     const steps: AvailabilitySubStepDef[] = []
     steps.push({ index: 0, label: label(0), visible: true })
     steps.push({ index: 1, label: label(1), visible: params.hasOptions.value })
-    /* Step 2 (Perspective) merged into Pick a time — graph shows at top of step 3 when differential. */
     steps.push({ index: 2, label: label(2), visible: false })
     steps.push({ index: 3, label: label(3), visible: true })
     steps.push({ index: 4, label: label(4), visible: params.hasMoveablePartsGated.value })
@@ -66,7 +65,6 @@ export function useAvailabilitySubSteps(
   const completedStepIndices = computed<Set<number>>(() => {
     const conf = params.confirmationState
     if (conf) {
-      // Prefilled vs confirmed: checkmark = confirmed
       const completed = new Set<number>()
       if (conf.isConfirmed(0)) completed.add(0)
       if (conf.isConfirmed(1)) completed.add(1)
@@ -75,7 +73,6 @@ export function useAvailabilitySubSteps(
       if (conf.isConfirmed(4)) completed.add(4)
       return completed
     }
-    // Completion-based: checkmark = has value
     const completed = new Set<number>()
     if (params.hasDateSelected.value) completed.add(0)
     if (!params.hasOptions.value || params.selectedOptionTypeBlockId.value !== null) completed.add(1)
@@ -89,13 +86,10 @@ export function useAvailabilitySubSteps(
     const visible = visibleSubSteps.value.filter((s) => s.visible)
     const conf = params.confirmationState
     if (conf) {
-      // Prefilled vs confirmed: open first unconfirmed step
       const firstUnconfirmed = visible.find((s) => !conf.isConfirmed(s.index))
       if (firstUnconfirmed) return firstUnconfirmed.index
-      // All confirmed → collapse (same flow as steps 0–3 advancing)
       if (visible.length > 0) return -1
     } else {
-      // Completion-based: open first incomplete step
       const completed = completedStepIndices.value
       const firstIncomplete = visible.find((s) => !completed.has(s.index))
       if (firstIncomplete) return firstIncomplete.index

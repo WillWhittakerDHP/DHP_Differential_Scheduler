@@ -55,7 +55,7 @@ Legend:
 
 - exports: `useAvailabilityStepAccordion`
 - score: **6**
-- return keys (first return): `narrowExpanded`, `onHeaderKeydown`, `setExpanded`
+- return keys (first return): `expandedIndex`, `onHeaderKeydown`, `setExpanded`
 
 - **P0** (side_effects): Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.
 
@@ -1431,12 +1431,12 @@ watch@134: watch(isDifferentialService, (isEffectivelyDifferential) => {
 - counts: vueQuery=0, watch=2, computed=0, ref=0, async=0, await=0, dom=2, console=0
 
 ```
-lifecycle@10: import { ref, watch, nextTick, onMounted, type ComputedRef, type Ref } from 'vue'
-dom@38: const contentEl = document.getElementById(`${contentIdPrefix}${stepIndex}`)
-dom@57: const headerEl = document.getElementById(`${titleIdPrefix}${stepIndex}`)
-watch@70: watch(
-watch@78: watch(
-lifecycle@90: onMounted(() => {
+lifecycle@9: import { ref, watch, nextTick, onMounted, type ComputedRef, type Ref } from 'vue'
+dom@37: const contentEl = document.getElementById(`${contentIdPrefix}${stepIndex}`)
+dom@56: const headerEl = document.getElementById(`${titleIdPrefix}${stepIndex}`)
+watch@69: watch(
+watch@77: watch(
+lifecycle@89: onMounted(() => {
 ```
 
 ### `client/src/composables/booking/useCascadeInstances.ts`
@@ -2758,7 +2758,7 @@ computed@35: const subStepLabels = computed(() => {
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-filter@89: const visible = visibleSubSteps.value.filter((s) => s.visible)
+filter@86: const visible = visibleSubSteps.value.filter((s) => s.visible)
 ```
 
 ### `client/src/composables/booking/useAvailabilityUI.ts`
