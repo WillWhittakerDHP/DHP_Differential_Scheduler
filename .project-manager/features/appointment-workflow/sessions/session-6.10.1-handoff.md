@@ -46,6 +46,7 @@ Completed Task
 
 
 **Where we left off:**
+<<<<<<< Updated upstream
 Completed Task 
 
 **What you need to start:**
@@ -98,6 +99,8 @@ Completed Task
 
 **Where we left off:**
 
+=======
+>>>>>>> Stashed changes
 [Minimal notes about what was completed - 2-3 sentences max]
 
 **What you need to start:**
