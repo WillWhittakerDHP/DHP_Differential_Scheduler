@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **273**
+- Total composable files scanned: **274**
 
 ## Top hotspots (heuristic)
 
@@ -50,6 +50,14 @@ Legend:
 - **P0**: fix soon (architecture/side-effect risk)
 - **P1**: high leverage cleanup (split / side effects)
 - **P2**: polish / consistency
+
+### `client/src/composables/booking/useAvailabilityStepAccordion.ts`
+
+- exports: `useAvailabilityStepAccordion`
+- score: **6**
+- return keys (first return): `narrowExpanded`, `onHeaderKeydown`, `setExpanded`
+
+- **P0** (side_effects): Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable.
 
 ## Per-file matches (line-level)
 
@@ -1416,6 +1424,19 @@ watch@82: watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => 
 map@90: const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({
 watch@108: watch(timeSlots, (slots) => {
 watch@134: watch(isDifferentialService, (isEffectivelyDifferential) => {
+```
+
+### `client/src/composables/booking/useAvailabilityStepAccordion.ts`
+
+- counts: vueQuery=0, watch=2, computed=0, ref=0, async=0, await=0, dom=2, console=0
+
+```
+lifecycle@10: import { ref, watch, nextTick, onMounted, type ComputedRef, type Ref } from 'vue'
+dom@38: const contentEl = document.getElementById(`${contentIdPrefix}${stepIndex}`)
+dom@57: const headerEl = document.getElementById(`${titleIdPrefix}${stepIndex}`)
+watch@70: watch(
+watch@78: watch(
+lifecycle@90: onMounted(() => {
 ```
 
 ### `client/src/composables/booking/useCascadeInstances.ts`

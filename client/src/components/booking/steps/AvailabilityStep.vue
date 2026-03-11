@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { inject, computed, nextTick, onMounted, provide, ref, watch } from 'vue'
+import { inject, computed, onMounted, provide, watch } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
@@ -10,6 +10,7 @@ import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySu
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
 import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStepUI'
 import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailabilityStepSlotOverlay'
+import { useAvailabilityStepAccordion } from '@/composables/booking/useAvailabilityStepAccordion'
 import {
   computedAvailabilityKey,
   propertyDetailsStepDataKey,
@@ -120,20 +121,14 @@ const subSteps = useAvailabilitySubSteps({
 const visibleSubStepsFiltered = computed(() =>
   subSteps.visibleSubSteps.value.filter((s) => s.visible)
 )
-/** Single expanded panel index for accordion; strictly driven by current step (one-way).
- * Task 6.9.2.2: Auto-expand on confirm — when user confirms a sub-step, currentStepIndex advances
- * (via useAvailabilitySubSteps + confirmationState), this watcher syncs narrowExpanded, and the
- * next panel opens (accordion collapses previous). Sub-step state (currentStepIndex, completedStepIndices)
- * is explicit for 6.9.3 (a11y) and 6.9.4 (5th content). */
-const narrowExpanded = ref<number>(0)
-/** Current step index for template (nested ref not auto-unwrapped). */
-const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)
-watch(
-  currentStepIndexValue,
-  (idx) => {
-    narrowExpanded.value = idx
-  }
-)
+
+const accordion = useAvailabilityStepAccordion({
+  currentStepIndex: computed(() => subSteps.currentStepIndex.value),
+})
+
+/** Expanded panel index for template (unwrap ref for correct v-model/aria types). */
+const narrowExpanded = computed(() => accordion.narrowExpanded.value)
+
 /** Loaded appointment with availability data — keep step 4 open for confirmation review. */
 const hasLoadedAvailability = computed(
   () =>
@@ -141,55 +136,11 @@ const hasLoadedAvailability = computed(
     (loadedWizardState?.value?.availability?.candidateTimeSlots != null)
 )
 
-/** Accept user click or programmatic sync. User can expand any panel (e.g. to review a previous step). */
-function onExpandedChange(expandedIndex: number): void {
-  narrowExpanded.value = expandedIndex
+/** Unwrap Vuetify update:model-value (may emit value or Ref per typings). */
+function onExpandedChange(val: number | { value: number }): void {
+  const num = typeof val === 'object' && val !== null && 'value' in val ? (val as { value: number }).value : val
+  accordion.setExpanded(num)
 }
-/** Task 6.9.3.1: Keyboard handler for Enter/Space on headers. Toggle expand/collapse per WAI-ARIA accordion. */
-function onHeaderKeydown(stepIndex: number): void {
-  const next = narrowExpanded.value === stepIndex ? -1 : stepIndex
-  onExpandedChange(next)
-}
-
-/** Task 6.9.3.3: Focus first focusable element in content region. Used when expanding a panel.
- * WHY: For step 3 (Pick a time) and step 4 (Confirm moveable), prefer first available slot button.
- * WHY: scrollIntoView ensures the first slot is visible when the grid opens (e.g. in accordion). */
-function focusFirstFocusableInContent(stepIndex: number): void {
-  nextTick(() => {
-    const contentEl = document.getElementById(`availability-substep-content-${stepIndex}`)
-    if (!contentEl) return
-    const slotStep = stepIndex === 3 || stepIndex === 4
-    const firstSlot = slotStep
-      ? contentEl.querySelector<HTMLElement>('.appointment-slot-btn:not([disabled])')
-      : null
-    const focusable = firstSlot ?? contentEl.querySelector<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
-    )
-    if (focusable) {
-      focusable.focus()
-      focusable.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
-    }
-  })
-}
-
-/** Task 6.9.3.3: Focus the header button. Used when collapsing a panel. */
-function focusHeader(stepIndex: number): void {
-  const headerEl = document.getElementById(`availability-substep-title-${stepIndex}`)
-  ;(headerEl as HTMLElement | null)?.focus()
-}
-
-/** Task 6.9.3.3: Focus management — on expand focus content, on collapse focus header. No focus trap. */
-watch(
-  narrowExpanded,
-  (newVal, oldVal) => {
-    if (newVal >= 0) {
-      focusFirstFocusableInContent(newVal)
-    } else if (oldVal >= 0) {
-      focusHeader(oldVal)
-    }
-  },
-  { flush: 'post' }
-)
 
 /** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
 const subStepContext = {
@@ -218,14 +169,11 @@ const subStepContext = {
 }
 provide(availabilitySubStepContextKey, subStepContext)
 
-// WHY: Set panel + reset confirmation when entering with loaded appointment so user reviews from step 0.
+// WHY: Reset confirmation when entering with loaded appointment so user reviews from step 0.
 onMounted(() => {
   if (hasLoadedAvailability.value) {
     confirmation.reset()
   }
-  nextTick(() => {
-    narrowExpanded.value = currentStepIndexValue.value
-  })
 })
 </script>
 
@@ -265,8 +213,8 @@ onMounted(() => {
           :aria-expanded="narrowExpanded === step.index"
           :aria-controls="'availability-substep-content-' + step.index"
           :aria-label="`Step ${visibleIdx + 1} of ${visibleSubStepsFiltered.length}: ${step.label}`"
-          @keydown.enter.prevent.stop="onHeaderKeydown(step.index)"
-          @keydown.space.prevent.stop="onHeaderKeydown(step.index)"
+          @keydown.enter.prevent.stop="accordion.onHeaderKeydown(step.index)"
+          @keydown.space.prevent.stop="accordion.onHeaderKeydown(step.index)"
         >
           <AvailabilitySubStepHeader
             :step="step"
