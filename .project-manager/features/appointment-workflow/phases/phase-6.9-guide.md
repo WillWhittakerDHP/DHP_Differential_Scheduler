@@ -43,7 +43,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.9.1: Sub-Step Model and Wide Layout
+- [x] ### Session 6.9.1: Sub-Step Model and Wide Layout
 **Description:** Define the sub-step model (order, visibility conditions) including the optional 5th from the start, and implement the wide-screen experience. No narrow/card behavior yet — focus on a clean, shippable structure. The 5th sub-step is part of the model and layout now; its content is implemented in 6.9.4.
 **Tasks:**
 - Define sub-steps: (1) Pick a day, (2) Pick options (conditional on `availableOptionTypeBlocks.length > 0`), (3) Pick perspective (conditional on date selected and `isEffectivelyDifferential`), (4) Pick a time, (5) Confirm moveable details (optional; visible only when slot has moveable parts and service has preClosing — same gate as current `hasMoveablePartsGated` / `showMoveableModal`).
@@ -54,7 +54,7 @@
 - No changes to orchestrator validation or slot calculation.
 - Deliverable: wide layout with all five sub-steps in the model; steps 1–4 wired to existing components; step 5 is a reserved slot with visibility gate, content added in 6.9.4. Narrow can remain single-column or unchanged until 6.9.2.
 
-- [ ] ### Session 6.9.2: Narrow Layout — Expandable Cards and State
+- [x] ### Session 6.9.2: Narrow Layout — Expandable Cards and State
 **Description:** Implement responsive narrow-screen behavior: each sub-step (including the optional 5th when visible) becomes an expandable card; track current step and completed state; show done indicator when collapsed; optional auto-expand next / collapse previous on completion. Animations and visual polish for the cards.
 **Tasks:**
 - On narrow breakpoint, wrap each sub-step in an expandable card (e.g. VExpansionPanel or custom component). All sub-steps in the model (1–5; 5 shown only when moveable gate is true) use the same card behavior.
@@ -73,7 +73,7 @@
 - Respect prefers-reduced-motion: reduce or disable expand/collapse animations when the user has set reduced motion.
 - Verify with keyboard-only and with a screen reader (manual check or documented test).
 
-- [ ] ### Session 6.9.4: Moveable Content in 5th Sub-Step; Remove Modal and Deprecate
+- [x] ### Session 6.9.4: Moveable Content in 5th Sub-Step; Remove Modal and Deprecate
 **Description:** The optional 5th sub-step is already in the model and layout (from 6.9.1). This session implements its content (contingency deadline, available completion times — same as current MoveablePartsModal body), replaces MoveablePartsModal by removing its use from AvailabilityStep, and deprecates the modal.
 **Tasks:**
 - Implement moveable-details content in the existing 5th sub-step panel/slot: contingency questions, completion time grid. Reuse or extract shared logic (contingency state, moveable options fetch) into a composable or shared component used by the in-step UI; replace the placeholder from 6.9.1.
