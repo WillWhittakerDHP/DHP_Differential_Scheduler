@@ -40,7 +40,7 @@
 
 ## Sessions Breakdown
 
-- [x] ### Session 6.10.1: Add New Block Shapes Button on Admin Shapes Tab
+- [ ] ### Session 6.10.1: Add New Block Shapes Button on Admin Shapes Tab
 **Description:** Restore the add new block shapes button on the admin Shapes tab (it used to exist and is no longer there). If the original can’t be recovered, adapt the same add-new button pattern used on the other shapes sub-tabs. Ensure create flow and API work end-to-end.
 **See:** `sessions/session-6.10.1-guide.md`
 

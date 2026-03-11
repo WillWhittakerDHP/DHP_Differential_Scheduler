@@ -10,60 +10,13 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **2**
+- Total files: **0**
 
 ## Top hotspots (by heuristic score)
 
 | File | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/components/booking/steps/AvailabilityStep.vue` | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/AvailabilitySubStepContent.vue` | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `client/src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: computed=0, ref=0, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@29: const wizard = inject(wizardKey)
-provideInject@34: const loadedWizardState = inject(loadedWizardStateKey)
-provideInject@39: const computedAvailability = inject(computedAvailabilityKey)
-provideInject@44: const propertyDetailsStepData = inject(propertyDetailsStepDataKey)
-provideInject@49: const displayedMonth = inject(displayedMonthKey)
-provideInject@50: const updateDisplayedMonth = inject(updateDisplayedMonthKey)
-provideInject@55: const appointmentDurationRef = inject(appointmentDurationKey)
-watch@92: watch(
-computed@102: const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
-computed@103: const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
-computed@104: const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
-computed@105: const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
-computed@113: userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
-computed@121: const visibleSubStepsFiltered = computed(() =>
-filter@122: subSteps.visibleSubSteps.value.filter((s) => s.visible)
-computed@126: currentStepIndex: computed(() => subSteps.currentStepIndex.value),
-computed@130: const expandedIndex = computed(() => accordion.expandedIndex.value)
-computed@133: const hasLoadedAvailability = computed(
-provideInject@145: /** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
-provideInject@170: provide(availabilitySubStepContextKey, subStepContext)
-provideInject@189: LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
-watch@193: LEARNING (Task 6.9.3.3): Focus management — watch(expandedIndex) moves focus into content on expand,
-```
-
-### `client/src/components/booking/steps/AvailabilitySubStepContent.vue`
-
-- counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@22: const ctx = inject(availabilitySubStepContextKey)
-computed@45: const step4HasClosingDate = computed(
-computed@51: const step4InnerDayKey = computed(
-computed@54: const step4OuterDayKey = computed(
-computed@58: const step4CanStepPrev = computed(() => {
-computed@66: const step4CanStepNext = computed(() => {
-computed@74: const step4SelectedMoveableDayLabel = computed(() => {
-computed@87: const step4CanConfirm = computed(() => {
-watch@114: watch(
-```
