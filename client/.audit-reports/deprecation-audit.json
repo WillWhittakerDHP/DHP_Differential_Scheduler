@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.919Z",
+  "generatedAt": "2026-03-11T01:52:37.944Z",
   "check": "Deprecation",
-  "totalScanned": 1114,
+  "totalScanned": 1123,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 4,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,6 +26,31 @@
     }
   },
   "files": [
+    {
+      "id": "client__src__components__booking__steps__AvailabilityStep.vue",
+      "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 163,
+          "line": "return o.emptyStateMessage.value ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 163,
+          "line": "return o.emptyStateMessage.value ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
     {
       "id": "client__src__views__admin__AdminBookingEntryView.vue",
       "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
@@ -83,7 +108,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 46,
+          "lineNumber": 47,
           "line": "const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -92,7 +117,7 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 46,
+          "lineNumber": 47,
           "line": "const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"

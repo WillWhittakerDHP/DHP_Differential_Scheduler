@@ -14,12 +14,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **1114**
+- Files scanned: **1123**
 - String literals found: **7** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **42**
-- Function patterns found: **447**
-- Common patterns found: **64**
+- Function patterns found: **452**
+- Common patterns found: **68**
 
 ## String Literals (Potential Enum/Key Candidates)
 
@@ -119,17 +119,19 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBusinessRuleForm` | `use*` | 1 |
 | `useBusinessRules` | `use*` | 1 |
 | `useBusinessRulesTab` | `use*` | 1 |
-| ... | ... | (+417 more) |
+| ... | ... | (+422 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 
 ### Status Workflow Patterns
 
-Found 64 occurrences of status workflow patterns:
+Found 68 occurrences of status workflow patterns:
 
+- `client/src/components/booking/steps/AvailabilitySubStepHeader.vue`: 1 occurrence(s)
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: 2 occurrence(s)
 - `client/src/composables/admin/useInstancesTab.ts`: 1 occurrence(s)
 - `client/src/composables/admin/useInstancesTabEventInstance.ts`: 1 occurrence(s)
+- `client/src/composables/booking/useAvailabilityStepUI.ts`: 3 occurrence(s)
 - `client/src/composables/useAppointment.ts`: 1 occurrence(s)
 - `client/src/constants/appointmentStatus.ts`: 8 occurrence(s)
 - `client/src/types/admin/instancesTabEventInstance.ts`: 1 occurrence(s)
@@ -145,6 +147,4 @@ Found 64 occurrences of status workflow patterns:
 - `server/src/routes/internal/appointments/appointmentCrudRouter.ts`: 5 occurrence(s)
 - `server/src/routes/internal/appointments/appointmentHelpers.ts`: 1 occurrence(s)
 - `server/src/routes/internal/appointments/forceCreateRouter.ts`: 6 occurrence(s)
-- `server/src/services/google/calendar/calendarTypes.ts`: 1 occurrence(s)
-- `server/src/services/google/calendar/eventCreationService.ts`: 1 occurrence(s)
-- ... (+2 more files)
+- ... (+4 more files)

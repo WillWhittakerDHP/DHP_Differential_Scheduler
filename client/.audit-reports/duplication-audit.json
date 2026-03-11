@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:06:27.709Z",
+  "generatedAt": "2026-03-11T01:52:37.996Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 717,
+  "fileCount": 726,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -450,32 +450,5 @@
     ]
   },
   "duplicateComposableExports": [],
-  "groups": [
-    {
-      "groupId": "dup-782a28431a6a",
-      "hash": "782a28431a6a",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))\nconst propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))\nconst optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))\nawait validateSnapshotIds(serviceSnapshotIds)\nawait validateSnapshotIds(propertySnapshotIds)\nawait validateSnapshotIds(optionSnapshotIds)\nawait record.update({\nserviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,\npropertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,\noptionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "startLine": 222,
-          "endLine": 234,
-          "windowText": "const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))\nconst propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))\nconst optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))\nawait validateSnapshotIds(serviceSnapshotIds)\nawait validateSnapshotIds(propertySnapshotIds)\nawait validateSnapshotIds(optionSnapshotIds)\nawait record.update({\nserviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,\npropertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,\noptionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,",
-          "target": "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
-        },
-        {
-          "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-          "startLine": 223,
-          "endLine": 232,
-          "windowText": "const serviceSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedServiceIds'))\nconst propertySnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedPropertyIds'))\nconst optionSnapshotIds = await createSnapshotsForAppointment(idsOrEmpty('selectedOptionIds'))\nawait validateSnapshotIds(serviceSnapshotIds)\nawait validateSnapshotIds(propertySnapshotIds)\nawait validateSnapshotIds(optionSnapshotIds)\nawait record.update({\nserviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,\npropertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,\noptionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,",
-          "target": "server/src/routes/internal/appointments/forceCreateRouter.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    }
-  ]
+  "groups": []
 }

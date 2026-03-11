@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.428Z",
-  "totalScanned": 1114,
+  "generatedAt": "2026-03-11T01:52:37.648Z",
+  "totalScanned": 1123,
   "exceptionSummary": {
     "totalRequiresReview": 16
   },
@@ -23,16 +23,16 @@
     {
       "repoPath": "client/src/composables/booking/injectionKeys.ts",
       "category": "composables",
-      "lineCount": 112,
-      "exportCount": 24,
+      "lineCount": 136,
+      "exportCount": 27,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 24,
+          "value": 27,
           "threshold": 10,
-          "detail": "24 exports (max: 10)",
+          "detail": "27 exports (max: 10)",
           "tier": 1
         },
         {
@@ -43,13 +43,13 @@
           "tier": 2
         }
       ],
-      "score": 28,
+      "score": 34,
       "priority": "P0"
     },
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
-      "lineCount": 398,
+      "lineCount": 399,
       "exportCount": 19,
       "mixedConcerns": false,
       "hasExports": true,
@@ -220,16 +220,16 @@
     {
       "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
       "category": "components",
-      "lineCount": 575,
+      "lineCount": 582,
       "exportCount": 0,
       "mixedConcerns": false,
       "hasExports": false,
       "violations": [
         {
           "rule": "oversized",
-          "value": 575,
+          "value": 582,
           "threshold": 500,
-          "detail": "575 lines (components max: 500)",
+          "detail": "582 lines (components max: 500)",
           "tier": 1
         }
       ],
@@ -315,7 +315,7 @@
     {
       "repoPath": "client/src/types/wizard.ts",
       "category": "general",
-      "lineCount": 147,
+      "lineCount": 156,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,

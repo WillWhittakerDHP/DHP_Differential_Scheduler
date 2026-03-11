@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:06:28.313Z",
+  "generatedAt": "2026-03-11T01:52:39.410Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1143,
-  "totalDefinitions": 799,
+  "fileCount": 1152,
+  "totalDefinitions": 814,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -237,7 +237,7 @@
           "name": "AppointmentRecordWithUpdate",
           "kind": "interface",
           "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "line": 242,
+          "line": 243,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ optionSnapshotIds: string[] | null, propertySnapshotIds: string[] | null, serviceSnapshotIds: string[] | null }"
@@ -445,6 +445,44 @@
       "priority": "P1"
     },
     {
+      "groupId": "sim-subset-aa9ab77dd46c",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "UseAvailabilityStepSlotOverlayParams",
+          "kind": "interface",
+          "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+          "line": 8,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ availabilitySettings: Ref<AvailabilitySettings | null>, o: AvailabilitySubStepOrchestratorState }"
+        },
+        {
+          "name": "UseAvailabilityStepUIParams",
+          "kind": "interface",
+          "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "line": 12,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ availabilitySettings: Ref<AvailabilitySettings | null>, confirmation: UseAvailabilityConfirmationStateReturn, o: AvailabilitySubStepOrchestratorState }"
+        }
+      ],
+      "signature": "{ availabilitySettings: Ref<AvailabilitySettings | null>, confirmation: UseAvailabilityConfirmationStateReturn, o: AvailabilitySubStepOrchestratorState }",
+      "propertyCount": 3,
+      "overlapPercent": 67,
+      "sharedProperties": [
+        "availabilitySettings",
+        "o"
+      ],
+      "uniqueToFirst": [],
+      "uniqueToSecond": [
+        "confirmation"
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "groupId": "sim-subset-d4dc4450299d",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -539,26 +577,27 @@
           "name": "UseBookingWizardReturnGrouped",
           "kind": "interface",
           "file": "client/src/types/wizard.ts",
-          "line": 89,
+          "line": 97,
           "exported": true,
-          "propertyCount": 10,
-          "signature": "{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }"
+          "propertyCount": 11,
+          "signature": "{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedCouponBlocks: Ref<BookingBlockInstance[]>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }"
         },
         {
           "name": "UseBookingWizardReturn",
           "kind": "type-alias-object",
           "file": "client/src/types/wizard.ts",
-          "line": 76,
+          "line": 83,
           "exported": true,
-          "propertyCount": 7,
-          "signature": "{ isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, wizardMode: Ref<WizardMode> }"
+          "propertyCount": 8,
+          "signature": "{ isQuoteMode: Ref<boolean>, selectedCouponBlocks: Ref<BookingBlockInstance[]>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, wizardMode: Ref<WizardMode> }"
         }
       ],
-      "signature": "{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }",
-      "propertyCount": 10,
-      "overlapPercent": 70,
+      "signature": "{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedCouponBlocks: Ref<BookingBlockInstance[]>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }",
+      "propertyCount": 11,
+      "overlapPercent": 73,
       "sharedProperties": [
         "isQuoteMode",
+        "selectedCouponBlocks",
         "selectedLineItemBlocks",
         "selectedOptionTypeBlocks",
         "selectedPropertyTypeBlocks",
@@ -584,7 +623,7 @@
           "name": "ContactsFormContext",
           "kind": "interface",
           "file": "client/src/composables/booking/injectionKeys.ts",
-          "line": 96,
+          "line": 101,
           "exported": true,
           "propertyCount": 11,
           "signature": "{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }"
@@ -1077,7 +1116,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/booking/MoveablePartsModal.vue",
-      "line": 7,
+      "line": 11,
       "exported": false,
       "fingerprint": "0c6b8188549c",
       "propertyCount": 10,
@@ -1087,7 +1126,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/MoveablePartsModal.vue",
-      "line": 22,
+      "line": 26,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1201,6 +1240,36 @@
       "exported": false,
       "fingerprint": "dbf88ccd2b98",
       "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+      "line": 11,
+      "exported": false,
+      "fingerprint": "cd6fd2a7fbeb",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/booking/steps/AvailabilitySubStepHeader.vue",
+      "line": 3,
+      "exported": false,
+      "fingerprint": "5205a6989c72",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/booking/steps/SlotGridWithOverlay.vue",
+      "line": 5,
+      "exported": false,
+      "fingerprint": "03c52a537c34",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -1907,7 +1976,7 @@
       "name": "InstancesPanelContext",
       "kind": "interface",
       "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 73,
+      "line": 78,
       "exported": true,
       "fingerprint": "38c8c2c0930a",
       "propertyCount": 17,
@@ -1917,10 +1986,20 @@
       "name": "ContactsFormContext",
       "kind": "interface",
       "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 96,
+      "line": 101,
       "exported": true,
       "fingerprint": "76752b2b57bc",
       "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilitySubStepContext",
+      "kind": "interface",
+      "file": "client/src/composables/booking/injectionKeys.ts",
+      "line": 119,
+      "exported": true,
+      "fingerprint": "a7c710cb6b9c",
+      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
@@ -1931,6 +2010,26 @@
       "exported": true,
       "fingerprint": "632e4797a1b0",
       "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilityConfirmationState",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "1132b3b47342",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityConfirmationStateReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
+      "line": 15,
+      "exported": true,
+      "fingerprint": "34023e7d3d47",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -1971,6 +2070,96 @@
       "exported": false,
       "fingerprint": "87052eb74194",
       "propertyCount": 12,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityStepAccordionParams",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "d99e06fbb55d",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityStepAccordionReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
+      "line": 20,
+      "exported": true,
+      "fingerprint": "dce7cfaf6e3f",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityStepSlotOverlayParams",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+      "line": 8,
+      "exported": true,
+      "fingerprint": "7471c1330b00",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityStepSlotOverlayReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+      "line": 13,
+      "exported": true,
+      "fingerprint": "0dc1e5638c83",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityStepUIParams",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "d76d20f5fe78",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilityStepUIReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+      "line": 18,
+      "exported": true,
+      "fingerprint": "711817e5da61",
+      "propertyCount": 12,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilitySubStepDef",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "6d10d2de4cc6",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilitySubStepsParams",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+      "line": 17,
+      "exported": true,
+      "fingerprint": "af81f1a9b1e0",
+      "propertyCount": 14,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAvailabilitySubStepsReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+      "line": 32,
+      "exported": true,
+      "fingerprint": "3c898a6d806c",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -2047,7 +2236,7 @@
       "name": "UseMoveablePartsSchedulingParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 95,
+      "line": 96,
       "exported": false,
       "fingerprint": "d3f37407658d",
       "propertyCount": 4,
@@ -2057,7 +2246,7 @@
       "name": "UseMoveablePartsSchedulingReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 105,
+      "line": 106,
       "exported": true,
       "fingerprint": "a7b27e830138",
       "propertyCount": 19,
@@ -2519,18 +2708,18 @@
       "file": "client/src/configs/availabilitySettings/types.ts",
       "line": 76,
       "exported": true,
-      "fingerprint": "25755d575f6e",
-      "propertyCount": 43,
+      "fingerprint": "dcfc6eb1f610",
+      "propertyCount": 47,
       "primitiveAlias": null
     },
     {
       "name": "RawAvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 129,
+      "line": 134,
       "exported": true,
-      "fingerprint": "00e88c8a5e0a",
-      "propertyCount": 35,
+      "fingerprint": "af45881241d8",
+      "propertyCount": 39,
       "primitiveAlias": null
     },
     {
@@ -2607,7 +2796,7 @@
       "name": "SuggestionItemBase",
       "kind": "interface",
       "file": "client/src/layouts/components/NavSearchBar.vue",
-      "line": 9,
+      "line": 10,
       "exported": false,
       "fingerprint": "342b113616ee",
       "propertyCount": 3,
@@ -2617,7 +2806,7 @@
       "name": "SuggestionGroup",
       "kind": "interface",
       "file": "client/src/layouts/components/NavSearchBar.vue",
-      "line": 23,
+      "line": 24,
       "exported": false,
       "fingerprint": "7e0193f414b6",
       "propertyCount": 2,
@@ -3259,18 +3448,18 @@
       "file": "client/src/types/admin/gridConfigHandlers.ts",
       "line": 7,
       "exported": true,
-      "fingerprint": "61272ca35c4a",
-      "propertyCount": 12,
+      "fingerprint": "481722c3f9a8",
+      "propertyCount": 16,
       "primitiveAlias": null
     },
     {
       "name": "UseGridConfigHandlersReturn",
       "kind": "interface",
       "file": "client/src/types/admin/gridConfigHandlers.ts",
-      "line": 23,
+      "line": 27,
       "exported": true,
-      "fingerprint": "6dab70daf6c3",
-      "propertyCount": 9,
+      "fingerprint": "639551009e7f",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
@@ -4209,15 +4398,15 @@
       "file": "client/src/types/booking/appointmentDataCollection.ts",
       "line": 9,
       "exported": true,
-      "fingerprint": "786d8da7dd9c",
-      "propertyCount": 17,
+      "fingerprint": "0d4f9ba29342",
+      "propertyCount": 18,
       "primitiveAlias": null
     },
     {
       "name": "UseAppointmentDataCollectionReturn",
       "kind": "interface",
       "file": "client/src/types/booking/appointmentDataCollection.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "eb85b286448f",
       "propertyCount": 1,
@@ -4379,15 +4568,15 @@
       "file": "client/src/types/booking/availabilityOrchestrator.ts",
       "line": 14,
       "exported": true,
-      "fingerprint": "087f1e43d99b",
-      "propertyCount": 43,
+      "fingerprint": "71ea34cac504",
+      "propertyCount": 44,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityOrchestratorParams",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityOrchestrator.ts",
-      "line": 60,
+      "line": 61,
       "exported": true,
       "fingerprint": "665c3083f0c8",
       "propertyCount": 7,
@@ -5579,8 +5768,8 @@
       "file": "client/src/types/booking/wizardFilteredOptions.ts",
       "line": 4,
       "exported": true,
-      "fingerprint": "48f49c77facf",
-      "propertyCount": 5,
+      "fingerprint": "a6a2208c2e88",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {
@@ -6609,45 +6798,45 @@
       "file": "client/src/types/wizard.ts",
       "line": 18,
       "exported": true,
-      "fingerprint": "1e0c02f129c8",
-      "propertyCount": 7,
+      "fingerprint": "1721014ebe43",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
       "name": "WizardSelectionMethods",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 34,
+      "line": 36,
       "exported": true,
-      "fingerprint": "3c849daeb77f",
-      "propertyCount": 7,
+      "fingerprint": "3ce83771efd5",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
       "name": "WizardComputedProperties",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 51,
+      "line": 55,
       "exported": true,
-      "fingerprint": "d845590247d6",
-      "propertyCount": 11,
+      "fingerprint": "7b42e8495405",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
       "name": "UseBookingWizardReturnGrouped",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 89,
+      "line": 97,
       "exported": true,
-      "fingerprint": "20b3ce0073ab",
-      "propertyCount": 10,
+      "fingerprint": "0f0689e6db20",
+      "propertyCount": 11,
       "primitiveAlias": null
     },
     {
       "name": "ContactsStepData",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 114,
+      "line": 123,
       "exported": true,
       "fingerprint": "691dccfef8db",
       "propertyCount": 18,
@@ -6657,7 +6846,7 @@
       "name": "ConfirmationStepData",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 129,
+      "line": 138,
       "exported": true,
       "fingerprint": "53f85169b5e7",
       "propertyCount": 1,
@@ -6667,7 +6856,7 @@
       "name": "WizardStepDataAndValidationRefs",
       "kind": "interface",
       "file": "client/src/types/wizard.ts",
-      "line": 132,
+      "line": 141,
       "exported": true,
       "fingerprint": "134fe37a39b1",
       "propertyCount": 13,
@@ -6677,10 +6866,10 @@
       "name": "UseBookingWizardReturn",
       "kind": "type-alias-object",
       "file": "client/src/types/wizard.ts",
-      "line": 76,
+      "line": 83,
       "exported": true,
-      "fingerprint": "c47897b5bfbc",
-      "propertyCount": 7,
+      "fingerprint": "7e7e9e09c926",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
@@ -6957,7 +7146,7 @@
       "name": "FallbackParams",
       "kind": "interface",
       "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-      "line": 82,
+      "line": 85,
       "exported": false,
       "fingerprint": "110279b434a7",
       "propertyCount": 5,
@@ -6967,7 +7156,7 @@
       "name": "PipelineParams",
       "kind": "interface",
       "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-      "line": 105,
+      "line": 108,
       "exported": false,
       "fingerprint": "a405e1ba4cc3",
       "propertyCount": 3,
@@ -7267,7 +7456,7 @@
       "name": "HoldDurationBounds",
       "kind": "interface",
       "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "0f844e5c544b",
       "propertyCount": 3,
@@ -7277,7 +7466,7 @@
       "name": "AppointmentSnapshotIds",
       "kind": "interface",
       "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "line": 235,
+      "line": 236,
       "exported": true,
       "fingerprint": "e702253f2b2e",
       "propertyCount": 3,
@@ -7287,7 +7476,7 @@
       "name": "AppointmentRecordWithUpdate",
       "kind": "interface",
       "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "line": 242,
+      "line": 243,
       "exported": true,
       "fingerprint": "e7a42ea01c0d",
       "propertyCount": 3,

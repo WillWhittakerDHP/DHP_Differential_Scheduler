@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.329Z",
+  "generatedAt": "2026-03-11T01:52:37.683Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1114,
+  "fileCount": 1123,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -195,6 +195,7 @@
           "client/src/composables/booking/useAppointmentShape.ts",
           "client/src/composables/booking/useAppointmentSlots.ts",
           "client/src/composables/booking/useAppointmentTimes.ts",
+          "client/src/composables/booking/useAvailabilityConfirmationState.ts",
           "client/src/composables/booking/useAvailabilityDefaults.ts",
           "client/src/composables/booking/useAvailabilityDevPanel.ts",
           "client/src/composables/booking/useAvailabilityEmptyState.ts",
@@ -202,7 +203,11 @@
           "client/src/composables/booking/useAvailabilityOrchestrator.ts",
           "client/src/composables/booking/useAvailabilitySettings.ts",
           "client/src/composables/booking/useAvailabilitySlotColor.ts",
+          "client/src/composables/booking/useAvailabilityStepAccordion.ts",
           "client/src/composables/booking/useAvailabilityStepData.ts",
+          "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+          "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "client/src/composables/booking/useAvailabilitySubSteps.ts",
           "client/src/composables/booking/useAvailabilityUI.ts",
           "client/src/composables/booking/useAvailabilityValidation.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
@@ -315,7 +320,7 @@
           "client/src/utils/booking/availabilityStepHandlers.ts",
           "client/src/utils/booking/wizardValidation.ts"
         ],
-        "patternCount": 259
+        "patternCount": 264
       },
       {
         "prefix": "get",
@@ -896,7 +901,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useTableModelHelpers.ts",
-            "line": 11,
+            "line": 16,
             "name": "ItemsSource"
           }
         ]
@@ -1956,7 +1961,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectInputsAsync.ts",
-            "line": 9,
+            "line": 10,
             "name": "SelectInputsAsync"
           }
         ]
@@ -2281,6 +2286,16 @@
           }
         ]
       },
+      "useAvailabilityConfirmationState": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
+            "line": 35,
+            "name": "AvailabilityConfirmationState"
+          }
+        ]
+      },
       "useAvailabilityDefaults": {
         "prefix": "use",
         "locations": [
@@ -2361,6 +2376,16 @@
           }
         ]
       },
+      "useAvailabilityStepAccordion": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
+            "line": 61,
+            "name": "AvailabilityStepAccordion"
+          }
+        ]
+      },
       "useAvailabilityStepData": {
         "prefix": "use",
         "locations": [
@@ -2368,6 +2393,36 @@
             "file": "client/src/composables/booking/useAvailabilityStepData.ts",
             "line": 20,
             "name": "AvailabilityStepData"
+          }
+        ]
+      },
+      "useAvailabilityStepSlotOverlay": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+            "line": 20,
+            "name": "AvailabilityStepSlotOverlay"
+          }
+        ]
+      },
+      "useAvailabilityStepUI": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+            "line": 30,
+            "name": "AvailabilityStepUI"
+          }
+        ]
+      },
+      "useAvailabilitySubSteps": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+            "line": 50,
+            "name": "AvailabilitySubSteps"
           }
         ]
       },
@@ -2696,7 +2751,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-            "line": 135,
+            "line": 136,
             "name": "MoveablePartsScheduling"
           }
         ]
@@ -4166,7 +4221,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 184,
+            "line": 190,
             "name": "UserTypeBlocks"
           }
         ]
@@ -4801,7 +4856,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 55,
+            "line": 56,
             "name": "HoldDurationBoundsFromSettings"
           }
         ]
@@ -4811,7 +4866,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 68,
+            "line": 69,
             "name": "HoldDurationFromSettings"
           }
         ]
@@ -4821,7 +4876,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 86,
+            "line": 87,
             "name": "HoldDurationDefaultFromSettings"
           }
         ]
@@ -4831,7 +4886,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 97,
+            "line": 98,
             "name": "AdminEntryTimeoutFromSettings"
           }
         ]
@@ -4841,7 +4896,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 116,
+            "line": 117,
             "name": "AutoConfirmEnabledFromSettings"
           }
         ]
@@ -4851,7 +4906,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 124,
+            "line": 125,
             "name": "WriteToCalendarFromSettings"
           }
         ]
@@ -4861,7 +4916,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 199,
+            "line": 200,
             "name": "SnapshotsForAppointment"
           }
         ]
@@ -4871,7 +4926,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 275,
+            "line": 276,
             "name": "AttendeeRecords"
           }
         ]
@@ -4881,7 +4936,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 304,
+            "line": 305,
             "name": "FeeRecordsForAppointment"
           }
         ]
@@ -4891,7 +4946,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 348,
+            "line": 349,
             "name": "CalendarIdForAppointment"
           }
         ]
@@ -4901,7 +4956,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 365,
+            "line": 366,
             "name": "ConstraintOverrideOnRescheduleIfNeeded"
           }
         ]
@@ -5330,6 +5385,13 @@
     "commonPatterns": [
       {
         "type": "status-workflow",
+        "file": "client/src/components/booking/steps/AvailabilitySubStepHeader.vue",
+        "line": 6,
+        "pattern": "AppointmentStatus workflow",
+        "code": "badgeState: 'empty' | 'prefilled' | 'confirmed'"
+      },
+      {
+        "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
         "line": 89,
         "pattern": "AppointmentStatus workflow",
@@ -5355,6 +5417,27 @@
         "line": 82,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
+      },
+      {
+        "type": "status-workflow",
+        "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+        "line": 21,
+        "pattern": "AppointmentStatus workflow",
+        "code": "getStepBadgeState: (stepIndex: number) => 'empty' | 'prefilled' | 'confirmed'"
+      },
+      {
+        "type": "status-workflow",
+        "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+        "line": 105,
+        "pattern": "AppointmentStatus workflow",
+        "code": "function getStepBadgeState(stepIndex: number): 'empty' | 'prefilled' | 'confirmed' {"
+      },
+      {
+        "type": "status-workflow",
+        "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+        "line": 109,
+        "pattern": "AppointmentStatus workflow",
+        "code": "if (isConfirmed) return 'confirmed'"
       },
       {
         "type": "status-workflow",
@@ -5604,14 +5687,14 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 149,
+        "line": 148,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 153,
+        "line": 152,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
@@ -5639,7 +5722,7 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-        "line": 113,
+        "line": 114,
         "pattern": "AppointmentStatus workflow",
         "code": "* Task 6.3.2.3/6.3.2.4: Whether to auto-confirm appointments created with status 'submitted'."
       },

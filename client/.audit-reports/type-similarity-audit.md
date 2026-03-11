@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T22:06:28.313Z**
-- Files scanned: **1143**
-- Type definitions found: **799**
-- Similarity groups: **12**
+- Generated at: **2026-03-11T01:52:39.410Z**
+- Files scanned: **1152**
+- Type definitions found: **814**
+- Similarity groups: **13**
 - UNIFY candidates: **0**
 - BRAND candidates: **1**
-- EXTEND candidates: **11**
+- EXTEND candidates: **12**
 - REVIEW candidates: **0**
 
-- P0 (high): **7**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **7**, P1 (medium): **6**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -42,6 +42,7 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
+| P1 | EXTEND | SUBSET | `UseAvailabilityStepSlotOverlayParams`, `UseAvailabilityStepUIParams` | 2 | 10 | `{ availabilitySettings: Ref<AvailabilitySettings | null>,...` |
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
 | P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
@@ -61,7 +62,7 @@ These types are structurally identical but may represent different concepts. Add
 | `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
 | `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
 
-## EXTEND Candidates (11)
+## EXTEND Candidates (12)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -109,7 +110,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts` | 36 | yes |
-| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 242 | yes |
+| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 243 | yes |
 | `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 71 | yes |
 
 ### sim-subset-87ff2f40bfd6
@@ -165,6 +166,20 @@ Overlap: **67%** shared properties
 | `DeleteRelationshipFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 97 | no |
 | `SaveRelationshipFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 31 | no |
 
+### sim-subset-aa9ab77dd46c
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ availabilitySettings: Ref<AvailabilitySettings | null>, confirmation: UseAvailabilityConfirmationStateReturn, o: AvailabilitySubStepOrchestratorState }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseAvailabilityStepSlotOverlayParams` | interface | `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts` | 8 | yes |
+| `UseAvailabilityStepUIParams` | interface | `client/src/composables/booking/useAvailabilityStepUI.ts` | 12 | yes |
+
+Overlap: **67%** shared properties
+- Shared: `availabilitySettings`, `o`
+- Only in `UseAvailabilityStepUIParams`: `confirmation`
+
 ### sim-subset-d4dc4450299d
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
@@ -196,15 +211,15 @@ Overlap: **27%** shared properties
 ### sim-subset-f43751655285
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
-- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }`
+- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedCouponBlocks: Ref<BookingBlockInstance[]>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 89 | yes |
-| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 76 | yes |
+| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 97 | yes |
+| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 83 | yes |
 
-Overlap: **70%** shared properties
-- Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
+Overlap: **73%** shared properties
+- Shared: `isQuoteMode`, `selectedCouponBlocks`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
 - Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
 
 ### sim-subset-47728a2eb291
@@ -214,7 +229,7 @@ Overlap: **70%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 96 | yes |
+| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 101 | yes |
 | `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 19 | no |
 
 Overlap: **73%** shared properties
