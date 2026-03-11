@@ -46,6 +46,9 @@ Implement moveable-details content (contingency questions, completion time grid)
 - **Task 6.9.4.3:** Deprecate MoveablePartsModal — JSDoc @deprecated and inline comment.
 - **Task 6.9.4.4:** Ensure slot selection validation — gate step valid when moveable applicable and not confirmed.
 - **Task 6.9.4.5:** Verify 5th panel in wide/narrow layout — expandable card and a11y apply when visible.
+
+## Amendment (Session 6.9.4)
+**Scope change — sub-step collapse extended to all screen widths:** Original Phase 6.9 design had wide layout with all panels expanded; narrow layout with expandable cards. During this session, the decision was changed: sub-step expand/collapse behavior (current step expanded, completed steps collapsed with summary) should apply at all screen widths, not just narrow. Wide layout should use the same accordion pattern so users get consistent progressive disclosure regardless of viewport. Implementation deferred to a follow-up task; this note records the intent.
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/phases/phase-6.9-guide.md`

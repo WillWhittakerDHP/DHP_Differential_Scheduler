@@ -8,8 +8,8 @@ import type { AvailabilitySubStepDef } from '@/composables/booking/useAvailabili
 interface Props {
   step: AvailabilitySubStepDef
   badgeState: 'empty' | 'prefilled' | 'confirmed'
-  summary: string | null
-  showSummary: boolean
+  /** Summary to show when step is confirmed (null = hide). Replaces summary+showSummary to avoid constant-prop-value. */
+  displaySummary: string | null
 }
 defineProps<Props>()
 </script>
@@ -24,8 +24,8 @@ defineProps<Props>()
       class="availability-substep-done"
     />
     <span>{{ step.label }}</span>
-    <span v-if="showSummary && summary" class="availability-substep-summary text-medium-emphasis">
-      {{ summary }}
+    <span v-if="displaySummary" class="availability-substep-summary text-medium-emphasis">
+      {{ displaySummary }}
     </span>
   </span>
 </template>

@@ -1,16 +1,47 @@
 {
-  "generatedAt": "2026-03-10T23:03:17.376Z",
-  "totalScanned": 1119,
+  "generatedAt": "2026-03-11T01:33:07.058Z",
+  "totalScanned": 1122,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "totals": {
-    "totalScanned": 1119,
-    "totalMarkers": 0,
-    "fresh": 0,
+    "totalScanned": 1122,
+    "totalMarkers": 2,
+    "fresh": 2,
     "aging": 0,
     "stale": 0,
     "ancient": 0,
-    "orphaned": 0
+    "orphaned": 2
   },
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+      "markers": [
+        {
+          "lineNumber": 223,
+          "marker": "TODO",
+          "line": "<!-- TODO(PROJECT_PLAN Phase 6.8): Lunch Buffer UI — constraint config; deferred until admin force-create/overrides. -->",
+          "category": "fresh",
+          "days": 0,
+          "orphaned": true
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
+      "markers": [
+        {
+          "lineNumber": 94,
+          "marker": "TODO",
+          "line": "<!-- TODO(PROJECT_PLAN Phase 6.8): Date Range Constraint UI — constraint config; deferred until admin force-create/overr",
+          "category": "fresh",
+          "days": 0,
+          "orphaned": true
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    }
+  ]
 }

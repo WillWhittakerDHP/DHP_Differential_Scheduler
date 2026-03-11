@@ -20,6 +20,7 @@ When extracting literals to constants, prefer these constant files (from constan
 
 - `client/src/components/admin/generic/entityCardConstants.ts`
 - `client/src/constants/appointmentsTableConstants.ts`
+- `client/src/constants/availabilityStepConstants.ts`
 - `client/src/constants/businessRulesConstants.ts`
 - `client/src/constants/entityFieldConstants.ts`
 - `client/src/constants/mapsConstants.ts`
@@ -51,7 +52,7 @@ When extracting literals to constants, prefer these constant files (from constan
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
 - Total files scanned: **0**
 - **Requiring review: 0**
-- Allowed (with justification): 2 (inline: 0, pattern: 0, specific: 0, linePattern: 2)
+- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 

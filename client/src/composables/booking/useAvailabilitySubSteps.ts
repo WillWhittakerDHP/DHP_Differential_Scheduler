@@ -92,13 +92,15 @@ export function useAvailabilitySubSteps(
       // Prefilled vs confirmed: open first unconfirmed step
       const firstUnconfirmed = visible.find((s) => !conf.isConfirmed(s.index))
       if (firstUnconfirmed) return firstUnconfirmed.index
+      // All confirmed → collapse (same flow as steps 0–3 advancing)
+      if (visible.length > 0) return -1
     } else {
       // Completion-based: open first incomplete step
       const completed = completedStepIndices.value
       const firstIncomplete = visible.find((s) => !completed.has(s.index))
       if (firstIncomplete) return firstIncomplete.index
+      if (visible.length > 0) return -1
     }
-    if (visible.length > 0) return visible[visible.length - 1].index
     return 0
   })
 

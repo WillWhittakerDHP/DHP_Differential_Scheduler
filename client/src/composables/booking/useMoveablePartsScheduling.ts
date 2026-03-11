@@ -11,6 +11,7 @@ import { computed, ref, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import type { PropertyDetailsData } from '@/types/propertyForm'
+import { AVAILABILITY_SUBSTEP_UI } from '@/constants/availabilityStepConstants'
 import { DEFAULT_CONTINGENCY } from '@/constants/moveableScheduling'
 import { createLogger } from '@/utils/logger'
 import { localTime } from '@/utils/time/localTime'
@@ -69,8 +70,8 @@ function formatDayLabel(
 
   const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0))
 
-  if (dateOnly.getTime() === today.getTime()) return 'Today'
-  if (dateOnly.getTime() === tomorrow.getTime()) return 'Tomorrow'
+  if (dateOnly.getTime() === today.getTime()) return AVAILABILITY_SUBSTEP_UI.TODAY
+  if (dateOnly.getTime() === tomorrow.getTime()) return AVAILABILITY_SUBSTEP_UI.TOMORROW
 
   return formatDateForDisplay(isoDate, { month: 'short', day: 'numeric' })
 }

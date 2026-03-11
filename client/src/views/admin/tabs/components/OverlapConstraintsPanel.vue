@@ -220,7 +220,7 @@ const overlap = useOverlapConstraintsPanel(props.businessControlsState)
 
       <OverlapRuleSection />
 
-      <!-- @audit-allow:todo-aging:orphaned - Future work: Lunch Buffer UI -->
+      <!-- TODO(PROJECT_PLAN Phase 6.8): Lunch Buffer UI — constraint config; deferred until admin force-create/overrides. -->
       <VExpansionPanel :title="overlap.UI_STRINGS.panels.lunchBuffer">
         <VExpansionPanelText>
           <VAlert type="info" variant="tonal">

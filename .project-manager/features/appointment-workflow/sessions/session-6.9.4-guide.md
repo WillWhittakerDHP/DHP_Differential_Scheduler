@@ -45,7 +45,7 @@ Session 6.9.3 complete: a11y and focus for expandable cards (keyboard, ARIA, foc
 **Approach:** Gate step completion on moveable confirmation when applicable; align with current modal gate behavior.
 **Checkpoint:** Validation matches previous modal behavior. Lint passes; app starts.
 
-- [x] - [x] #### Task 6.9.4.5: Verify 5th panel in wide/narrow layout
+- [x] - [x] - [x] #### Task 6.9.4.5: Verify 5th panel in wide/narrow layout
 **Goal:** Wide/narrow layout: 5th sub-step already follows the same pattern as 1–4 (from 6.9.1/6.9.2); ensure any state or a11y from 6.9.2/6.9.3 applies to the 5th panel/card when it has content.
 **Files:**
 - `client/src/components/booking/steps/AvailabilityStep.vue` — 5th panel integration.

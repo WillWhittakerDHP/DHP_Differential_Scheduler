@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-10T23:03:26.256Z
+Generated: 2026-03-11T01:33:25.383Z
 
 ## Summary
 
 - Type files: **268**
-- Constant files: **23**
+- Constant files: **24**
 - Config files: **34**
-- Files with inline type exports: **107**
-- Annotated: **325** | Unannotated: **0**
+- Files with inline type exports: **108**
+- Annotated: **325** | Unannotated: **1**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 12 |
-| Inline types in composables | 77 |
+| Inline types in composables | 78 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -394,6 +394,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/appointmentsTableConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/attendeeRoles.ts` | 0 | 0 | no |
 | constants | `client/src/constants/availabilitySettings.ts` | 3 | 1 | no |
+| constants | `client/src/constants/availabilityStepConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/blockShapeTypes.ts` | 1 | 1 | no |
 | constants | `client/src/constants/bookingMode.ts` | 1 | 1 | no |
 | constants | `client/src/constants/businessControlsOptions.ts` | 8 | 1 | no |
@@ -485,9 +486,10 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
 - `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 1 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
-- `client/src/composables/booking/injectionKeys.ts`: AvailabilitySubStepOrchestratorState, InstancesPanelContext, ContactsFormContext, AvailabilitySubStepContext (imported by 1 files)
+- `client/src/composables/booking/injectionKeys.ts`: AvailabilitySubStepOrchestratorState, InstancesPanelContext, ContactsFormContext, AvailabilitySubStepContext (imported by 2 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilityConfirmationState.ts`: AvailabilityConfirmationState, UseAvailabilityConfirmationStateReturn (imported by 1 files)
+- `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts`: UseAvailabilityStepSlotOverlayParams, UseAvailabilityStepSlotOverlayReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilityStepUI.ts`: UseAvailabilityStepUIParams, UseAvailabilityStepUIReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilitySubSteps.ts`: AvailabilitySubStepDef, UseAvailabilitySubStepsParams, UseAvailabilitySubStepsReturn (imported by 0 files)
 - `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)

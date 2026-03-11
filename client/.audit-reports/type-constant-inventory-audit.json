@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T23:03:26.256Z",
+  "generatedAt": "2026-03-11T01:33:25.383Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -37,14 +37,14 @@
   },
   "summary": {
     "totalTypeFiles": 268,
-    "totalConstantFiles": 23,
+    "totalConstantFiles": 24,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 107,
+    "filesWithInlineTypes": 108,
     "annotated": 325,
-    "unannotated": 0,
+    "unannotated": 1,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 77,
+      "inlineTypesInComposables": 78,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -6225,7 +6225,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 25,
       "purpose": "Moveable scheduling constraint and boundary types",
       "reuseTier": "feature",
       "tags": [],
@@ -7563,6 +7563,30 @@
       "derivedPattern": false
     },
     {
+      "id": "client__src__constants__availabilityStepConstants.ts",
+      "repoPath": "client/src/constants/availabilityStepConstants.ts",
+      "name": "availabilityStepConstants",
+      "directoryDomain": "availabilityStepConstants.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "constants",
+      "exports": [
+        "SLOT_GRID_WRAPPER_OVERLAY_CLASS",
+        "AVAILABILITY_SUBSTEP_UI"
+      ],
+      "constCount": 2,
+      "usesAsConst": true,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": false,
+      "lineCount": 28,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
       "id": "client__src__constants__blockShapeTypes.ts",
       "repoPath": "client/src/constants/blockShapeTypes.ts",
       "name": "blockShapeTypes",
@@ -7665,7 +7689,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 69,
+      "lineCount": 72,
       "purpose": "Business rules threshold and config constants",
       "reuseTier": "feature",
       "tags": [],
@@ -9394,7 +9418,7 @@
         "availabilitySubStepContextKey"
       ],
       "primaryPurpose": "composable",
-      "importedByCount": 1,
+      "importedByCount": 2,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9422,6 +9446,17 @@
       "sourceFile": "client/src/composables/booking/useAvailabilityDevPanel.ts",
       "exportedTypes": [
         "UseDevPanelDataReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+      "exportedTypes": [
+        "UseAvailabilityStepSlotOverlayParams",
+        "UseAvailabilityStepSlotOverlayReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10467,7 +10502,7 @@
             "availabilitySubStepContextKey"
           ],
           "primaryPurpose": "composable",
-          "importedByCount": 1,
+          "importedByCount": 2,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -10489,6 +10524,17 @@
           "exportedConstants": [],
           "primaryPurpose": "composable",
           "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+          "exportedTypes": [
+            "UseAvailabilityStepSlotOverlayParams",
+            "UseAvailabilityStepSlotOverlayReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -11291,6 +11337,30 @@
         "derivedPattern": false
       },
       {
+        "id": "client__src__constants__availabilityStepConstants.ts",
+        "repoPath": "client/src/constants/availabilityStepConstants.ts",
+        "name": "availabilityStepConstants",
+        "directoryDomain": "availabilityStepConstants.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "constants",
+        "exports": [
+          "SLOT_GRID_WRAPPER_OVERLAY_CLASS",
+          "AVAILABILITY_SUBSTEP_UI"
+        ],
+        "constCount": 2,
+        "usesAsConst": true,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": false,
+        "lineCount": 28,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
         "id": "client__src__constants__blockShapeTypes.ts",
         "repoPath": "client/src/constants/blockShapeTypes.ts",
         "name": "blockShapeTypes",
@@ -11393,7 +11463,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 69,
+        "lineCount": 72,
         "purpose": "Business rules threshold and config constants",
         "reuseTier": "feature",
         "tags": [],

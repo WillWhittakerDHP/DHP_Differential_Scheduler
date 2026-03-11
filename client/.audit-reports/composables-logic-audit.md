@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **272**
+- Total composable files scanned: **273**
 
 ## Top hotspots (heuristic)
 
@@ -252,22 +252,22 @@ computed@61: const reactiveRules = computed(() => {
 - counts: vueQuery=0, watch=0, computed=12, ref=1, async=0, await=0, dom=0, console=0
 
 ```
-map@49: return slots.map((slot) => ({
-computed@139: const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
-ref@141: const showModal = ref(false)
-computed@146: const moveableEventFinal = computed(() => {
-map@149: const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-computed@155: const hasMoveableParts = computed(() => (moveableEventFinal.value?.roundedDuration ?? 0) > 0)
-computed@157: const moveableDuration = computed(() => {
-computed@165: const moveablePartShapeName = computed(() =>
-computed@199: const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)
-computed@200: const moveableShapeOverride = computed(() =>
-computed@205: blockInstances: computed(() => []),
-computed@208: perspective: computed(() => 'nonDifferential' as const),
-computed@209: isDifferentialService: computed(() => false),
-computed@213: const allowedMoveableDates = computed(() => {
-map@225: moveableAppointmentSlots.value.map((s) => {
-computed@258: moveableOptions: computed(() => moveableOptions.value),
+map@50: return slots.map((slot) => ({
+computed@140: const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
+ref@142: const showModal = ref(false)
+computed@147: const moveableEventFinal = computed(() => {
+map@150: const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+computed@156: const hasMoveableParts = computed(() => (moveableEventFinal.value?.roundedDuration ?? 0) > 0)
+computed@158: const moveableDuration = computed(() => {
+computed@166: const moveablePartShapeName = computed(() =>
+computed@200: const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)
+computed@201: const moveableShapeOverride = computed(() =>
+computed@206: blockInstances: computed(() => []),
+computed@209: perspective: computed(() => 'nonDifferential' as const),
+computed@210: isDifferentialService: computed(() => false),
+computed@214: const allowedMoveableDates = computed(() => {
+map@226: moveableAppointmentSlots.value.map((s) => {
+computed@259: moveableOptions: computed(() => moveableOptions.value),
 ```
 
 ### `client/src/composables/fieldContext/useFieldContextState.ts`
@@ -1703,18 +1703,6 @@ map@78: eventShapes = eventShapes.map(eventShape => ({ ...eventShape, attendees:
 map@83: partShapes.map(ps => [ps.id, ps as GlobalEntity<'partShape'>])
 ```
 
-### `client/src/composables/booking/useAvailabilityStepUI.ts`
-
-- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@37: const hasSelectedSlot = computed(
-computed@40: const slotGridOverlayLabel = computed(() => {
-computed@44: const showSlotsOverlay = computed(
-computed@50: const slotGridOverlayError = computed(() => {
-computed@56: const subStepLabels = computed(() => {
-```
-
 ### `client/src/composables/booking/useContactsStepData.ts`
 
 - counts: vueQuery=0, watch=1, computed=1, ref=3, async=0, await=0, dom=0, console=0
@@ -1861,6 +1849,17 @@ watch@43: watch(modelValue, (newVal) => {
 computed@55: const isSelected = computed(() => {
 computed@69: const pluginWatchSource = computed(() => {
 watch@74: watch(() => {
+```
+
+### `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts`
+
+- counts: vueQuery=0, watch=0, computed=4, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@25: const hasSelectedSlot = computed(
+computed@28: const slotGridOverlayLabel = computed(() => {
+computed@32: const showSlotsOverlay = computed(
+computed@38: const slotGridOverlayError = computed(() => {
 ```
 
 ### `client/src/composables/booking/useBookingWizard.ts`
@@ -2723,6 +2722,14 @@ computed@11: return computed({
 
 ```
 watch@31: watch(isSelected, (newValue) => {
+```
+
+### `client/src/composables/booking/useAvailabilityStepUI.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@35: const subStepLabels = computed(() => {
 ```
 
 ### `client/src/composables/booking/useAvailabilitySubSteps.ts`

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T23:03:17.166Z",
-  "totalScanned": 1,
+  "generatedAt": "2026-03-11T01:33:03.824Z",
+  "totalScanned": 5,
   "exceptionSummary": {
-    "totalRequiresReview": 1
+    "totalRequiresReview": 2
   },
   "files": [
     {
@@ -59,148 +59,201 @@
         },
         {
           "ruleId": "watch",
-          "lineNumber": 90,
+          "lineNumber": 91,
           "line": "watch("
         },
         {
           "ruleId": "computed",
-          "lineNumber": 102,
-          "line": "const isNarrow = computed(() => !smAndUp.value)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 104,
+          "lineNumber": 101,
           "line": "const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 105,
+          "lineNumber": 102,
           "line": "const hasDateSelected = computed(() => !!o.selectedDate.value?.start)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 106,
+          "lineNumber": 103,
           "line": "const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 107,
+          "lineNumber": 104,
           "line": "const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 115,
+          "lineNumber": 112,
           "line": "userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 123,
+          "lineNumber": 120,
           "line": "const visibleSubStepsFiltered = computed(() =>"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 124,
+          "lineNumber": 121,
           "line": "subSteps.visibleSubSteps.value.filter((s) => s.visible)"
         },
         {
           "ruleId": "computed",
-          "lineNumber": 127,
-          "line": "const leftColumnSteps = computed(() =>"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 128,
-          "line": "visibleSubStepsFiltered.value.filter((s) => s.index <= 1)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 131,
-          "line": "const rightColumnSteps = computed(() =>"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 132,
-          "line": "visibleSubStepsFiltered.value.filter((s) => s.index >= 2)"
-        },
-        {
-          "ruleId": "computed",
-          "lineNumber": 141,
+          "lineNumber": 130,
           "line": "const currentStepIndexValue = computed(() => subSteps.currentStepIndex.value)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 142,
+          "lineNumber": 131,
           "line": "watch("
         },
         {
+          "ruleId": "computed",
+          "lineNumber": 138,
+          "line": "const hasLoadedAvailability = computed("
+        },
+        {
           "ruleId": "dom",
-          "lineNumber": 161,
+          "lineNumber": 159,
           "line": "const contentEl = document.getElementById(`availability-substep-content-${stepIndex}`)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 171,
+          "lineNumber": 177,
           "line": "const headerEl = document.getElementById(`availability-substep-title-${stepIndex}`)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 176,
+          "lineNumber": 182,
           "line": "watch("
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 188,
+          "lineNumber": 194,
           "line": "/** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 213,
+          "lineNumber": 219,
           "line": "provide(availabilitySubStepContextKey, subStepContext)"
         },
         {
           "ruleId": "provideInject",
-          "lineNumber": 240,
+          "lineNumber": 242,
           "line": "LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 244,
+          "lineNumber": 246,
           "line": "LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,"
         }
       ],
       "requiresReview": [
         {
           "ruleId": "watch",
-          "lineNumber": 90,
+          "lineNumber": 91,
           "line": "watch("
         },
         {
           "ruleId": "watch",
-          "lineNumber": 142,
+          "lineNumber": 131,
           "line": "watch("
         },
         {
           "ruleId": "dom",
-          "lineNumber": 161,
+          "lineNumber": 159,
           "line": "const contentEl = document.getElementById(`availability-substep-content-${stepIndex}`)"
         },
         {
           "ruleId": "dom",
-          "lineNumber": 171,
+          "lineNumber": 177,
           "line": "const headerEl = document.getElementById(`availability-substep-title-${stepIndex}`)"
         },
         {
           "ruleId": "watch",
-          "lineNumber": 176,
+          "lineNumber": 182,
           "line": "watch("
         },
         {
           "ruleId": "watch",
-          "lineNumber": 244,
+          "lineNumber": 246,
           "line": "LEARNING (Task 6.9.3.3): Focus management — watch(narrowExpanded) moves focus into content on expand,"
         }
       ],
       "score": 6,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__components__booking__steps__AvailabilitySubStepContent.vue",
+      "repoPath": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+      "counts": {
+        "watch": 1,
+        "watchEffect": 0,
+        "async": 0,
+        "await": 0,
+        "map": 0,
+        "reduce": 0,
+        "dom": 0,
+        "inlineConfig": 0,
+        "console": 0,
+        "alert": 0
+      },
+      "matches": [
+        {
+          "ruleId": "provideInject",
+          "lineNumber": 22,
+          "line": "const ctx = inject(availabilitySubStepContextKey)"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 45,
+          "line": "const step4HasClosingDate = computed("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 51,
+          "line": "const step4InnerDayKey = computed("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 54,
+          "line": "const step4OuterDayKey = computed("
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 58,
+          "line": "const step4CanStepPrev = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 66,
+          "line": "const step4CanStepNext = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 74,
+          "line": "const step4SelectedMoveableDayLabel = computed(() => {"
+        },
+        {
+          "ruleId": "computed",
+          "lineNumber": 87,
+          "line": "const step4CanConfirm = computed(() => {"
+        },
+        {
+          "ruleId": "watch",
+          "lineNumber": 114,
+          "line": "watch("
+        }
+      ],
+      "requiresReview": [
+        {
+          "ruleId": "watch",
+          "lineNumber": 114,
+          "line": "watch("
+        }
+      ],
+      "score": 1,
       "priority": "P2"
     }
   ],

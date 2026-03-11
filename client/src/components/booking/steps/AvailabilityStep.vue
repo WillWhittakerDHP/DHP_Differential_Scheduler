@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
 import { inject, computed, nextTick, onMounted, provide, ref, watch } from 'vue'
-import { useDisplay } from 'vuetify'
 import { createLogger } from '@/utils/logger'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
@@ -10,6 +9,7 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
 import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStepUI'
+import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailabilityStepSlotOverlay'
 import {
   computedAvailabilityKey,
   propertyDetailsStepDataKey,
@@ -84,11 +84,12 @@ const confirmation = useAvailabilityConfirmationState()
 const { settings: availabilitySettings, isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
 
 const ui = useAvailabilityStepUI({ o, availabilitySettings, confirmation })
+const overlay = useAvailabilityStepSlotOverlay({ o, availabilitySettings })
 
 const logger = createLogger('AvailabilityStep')
 
 watch(
-  [ui.showSlotsOverlay, ui.slotGridOverlayLabel, availabilitySettingsLoading],
+  [overlay.showSlotsOverlay, overlay.slotGridOverlayLabel, availabilitySettingsLoading],
   ([showing, label, loading]) => {
     if (!loading && showing && !label) {
       logger.warn('Slot grid overlay is shown but differentialGraphDefaultLabel is missing. Configure in Admin → Business Controls → Calendar → Grid.')
@@ -96,10 +97,6 @@ watch(
   },
   { immediate: true }
 )
-
-// Narrow layout: expandable cards (Task 6.9.2.1). Breakpoint matches existing 600px in styles.
-const { smAndUp } = useDisplay()
-const isNarrow = computed(() => !smAndUp.value)
 
 const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
 const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
@@ -119,17 +116,9 @@ const subSteps = useAvailabilitySubSteps({
   subStepLabels: ui.subStepLabels,
 })
 
-/** Visible sub-steps (filter to only visible). Shared across narrow and wide. */
+/** Visible sub-steps (filter to only visible). */
 const visibleSubStepsFiltered = computed(() =>
   subSteps.visibleSubSteps.value.filter((s) => s.visible)
-)
-/** Wide layout: left column (steps 0–1). */
-const leftColumnSteps = computed(() =>
-  visibleSubStepsFiltered.value.filter((s) => s.index <= 1)
-)
-/** Wide layout: right column (steps 2–4). */
-const rightColumnSteps = computed(() =>
-  visibleSubStepsFiltered.value.filter((s) => s.index >= 2)
 )
 /** Single expanded panel index for accordion; strictly driven by current step (one-way).
  * Task 6.9.2.2: Auto-expand on confirm — when user confirms a sub-step, currentStepIndex advances
@@ -145,6 +134,13 @@ watch(
     narrowExpanded.value = idx
   }
 )
+/** Loaded appointment with availability data — keep step 4 open for confirmation review. */
+const hasLoadedAvailability = computed(
+  () =>
+    (loadedWizardState?.value?.availability?.candidateDate != null) ||
+    (loadedWizardState?.value?.availability?.candidateTimeSlots != null)
+)
+
 /** Accept user click or programmatic sync. User can expand any panel (e.g. to review a previous step). */
 function onExpandedChange(expandedIndex: number): void {
   narrowExpanded.value = expandedIndex
@@ -155,14 +151,24 @@ function onHeaderKeydown(stepIndex: number): void {
   onExpandedChange(next)
 }
 
-/** Task 6.9.3.3: Focus first focusable element in content region. Used when expanding a panel. */
+/** Task 6.9.3.3: Focus first focusable element in content region. Used when expanding a panel.
+ * WHY: For step 3 (Pick a time) and step 4 (Confirm moveable), prefer first available slot button.
+ * WHY: scrollIntoView ensures the first slot is visible when the grid opens (e.g. in accordion). */
 function focusFirstFocusableInContent(stepIndex: number): void {
   nextTick(() => {
     const contentEl = document.getElementById(`availability-substep-content-${stepIndex}`)
-    const focusable = contentEl?.querySelector<HTMLElement>(
+    if (!contentEl) return
+    const slotStep = stepIndex === 3 || stepIndex === 4
+    const firstSlot = slotStep
+      ? contentEl.querySelector<HTMLElement>('.appointment-slot-btn:not([disabled])')
+      : null
+    const focusable = firstSlot ?? contentEl.querySelector<HTMLElement>(
       'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
     )
-    focusable?.focus()
+    if (focusable) {
+      focusable.focus()
+      focusable.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    }
   })
 }
 
@@ -194,13 +200,13 @@ const subStepContext = {
   handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
   handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
   get showSlotsOverlay() {
-    return ui.showSlotsOverlay.value
+    return overlay.showSlotsOverlay.value
   },
   get slotGridOverlayLabel() {
-    return ui.slotGridOverlayLabel.value
+    return overlay.slotGridOverlayLabel.value
   },
   get slotGridOverlayError() {
-    return ui.slotGridOverlayError.value
+    return overlay.slotGridOverlayError.value
   },
   get emptyStateMessage() {
     return o.emptyStateMessage.value ?? ''
@@ -214,11 +220,7 @@ provide(availabilitySubStepContextKey, subStepContext)
 
 // WHY: Set panel + reset confirmation when entering with loaded appointment so user reviews from step 0.
 onMounted(() => {
-  const loaded = loadedWizardState?.value
-  const hasLoadedAvailability =
-    loaded?.availability?.candidateDate != null ||
-    loaded?.availability?.candidateTimeSlots != null
-  if (hasLoadedAvailability) {
+  if (hasLoadedAvailability.value) {
     confirmation.reset()
   }
   nextTick(() => {
@@ -246,7 +248,6 @@ onMounted(() => {
          WHY (Task 6.9.4.5): Use visibleIdx (not step.index) for aria-label step number — step 2 is hidden, so
          visible steps can be [0,1,3,4]; step.index+1 would yield "Step 5 of 4" for the 5th panel. -->
     <VExpansionPanels
-      v-if="isNarrow"
       :model-value="narrowExpanded"
       variant="accordion"
       @update:model-value="onExpandedChange"
@@ -270,8 +271,7 @@ onMounted(() => {
           <AvailabilitySubStepHeader
             :step="step"
             :badge-state="ui.getStepBadgeState(step.index)"
-            :summary="ui.getStepSummary(step.index)"
-            :show-summary="confirmation.isConfirmed(step.index)"
+            :display-summary="confirmation.isConfirmed(step.index) ? ui.getStepSummary(step.index) : null"
           />
         </VExpansionPanelTitle>
         <VExpansionPanelText
@@ -283,48 +283,6 @@ onMounted(() => {
         </VExpansionPanelText>
       </VExpansionPanel>
     </VExpansionPanels>
-
-    <!-- Wide layout: visible sub-step headers and summaries, no collapse -->
-    <VRow v-else class="calendar-grid-row">
-      <VCol cols="12" md="5" class="availability-wide-left">
-        <div
-          v-for="step in leftColumnSteps"
-          :key="step.index"
-          class="availability-wide-section"
-        >
-          <div class="availability-substep-header-wide">
-            <AvailabilitySubStepHeader
-              :step="step"
-              :badge-state="ui.getStepBadgeState(step.index)"
-              :summary="ui.getStepSummary(step.index)"
-              :show-summary="confirmation.isConfirmed(step.index)"
-            />
-          </div>
-          <div class="availability-substep-content-wide">
-            <AvailabilitySubStepContent :step-index="step.index" />
-          </div>
-        </div>
-      </VCol>
-      <VCol cols="12" md="7" class="availability-wide-right time-selection-col">
-        <div
-          v-for="step in rightColumnSteps"
-          :key="step.index"
-          class="availability-wide-section"
-        >
-          <div class="availability-substep-header-wide">
-            <AvailabilitySubStepHeader
-              :step="step"
-              :badge-state="ui.getStepBadgeState(step.index)"
-              :summary="ui.getStepSummary(step.index)"
-              :show-summary="confirmation.isConfirmed(step.index)"
-            />
-          </div>
-          <div class="availability-substep-content-wide">
-            <AvailabilitySubStepContent :step-index="step.index" />
-          </div>
-        </div>
-      </VCol>
-    </VRow>
   </div>
 </template>
 
@@ -338,7 +296,6 @@ onMounted(() => {
 }
 
 /* Calendar/slot styles - apply via :deep to AvailabilitySubStepContent */
-.availability-substep-content-wide :deep(.calendar-col),
 .availability-substep-panel :deep(.calendar-col) {
   margin-bottom: 1.5rem;
   @media (min-width: 600px) {
@@ -379,15 +336,6 @@ onMounted(() => {
     padding: 0;
     margin: 0;
     overflow: hidden;
-  }
-}
-
-.time-selection-col {
-  padding-left: 0;
-  min-width: 0;
-  @media (min-width: 600px) {
-    padding-left: 1rem;
-    flex: 1 1 0% !important;
   }
 }
 
@@ -507,28 +455,7 @@ onMounted(() => {
   align-items: center;
 }
 
-/* Wide layout: visible sub-step headers and content (no collapse) */
-.availability-wide-section {
-  margin-bottom: 1.5rem;
-}
-.availability-wide-section:last-child {
-  margin-bottom: 0;
-}
-.availability-substep-header-wide {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-.availability-substep-content-wide {
-  min-width: 0;
-}
-.availability-wide-left .availability-wide-section:first-child :deep(.calendar-col) {
-  margin-bottom: 1rem;
-}
-
-/* Shared content styles (AvailabilitySubStepContent) */
-.availability-substep-content-wide :deep(.time-selection-content),
+/* Content styles (AvailabilitySubStepContent inside accordion) */
 .availability-substep-panel :deep(.time-selection-content) {
   display: flex;
   flex-direction: column;
@@ -543,7 +470,6 @@ onMounted(() => {
     min-height: 350px;
   }
 }
-.availability-substep-content-wide :deep(.date-placeholder),
 .availability-substep-panel :deep(.date-placeholder) {
   min-height: 300px;
   width: 100%;
@@ -551,17 +477,14 @@ onMounted(() => {
     min-height: 400px;
   }
 }
-.availability-substep-content-wide :deep(.slot-grid-wrapper),
 .availability-substep-panel :deep(.slot-grid-wrapper) {
   position: relative;
   margin-top: 1rem;
 }
-.availability-substep-content-wide :deep(.slot-grid-wrapper--overlay),
 .availability-substep-panel :deep(.slot-grid-wrapper--overlay) {
   filter: grayscale(0.5);
   opacity: 0.6;
 }
-.availability-substep-content-wide :deep(.slot-grid-overlay),
 .availability-substep-panel :deep(.slot-grid-overlay) {
   position: absolute;
   top: 0;
@@ -575,7 +498,6 @@ onMounted(() => {
   z-index: 10;
   pointer-events: none;
 }
-.availability-substep-content-wide :deep(.slot-grid-overlay-text),
 .availability-substep-panel :deep(.slot-grid-overlay-text) {
   font-size: 1.5rem;
   font-weight: 700;
@@ -586,22 +508,18 @@ onMounted(() => {
     font-size: 1.25rem;
   }
 }
-.availability-substep-content-wide :deep(.slot-grid-overlay-error),
 .availability-substep-panel :deep(.slot-grid-overlay-error) {
   color: rgb(var(--v-theme-error));
   font-weight: 600;
   font-size: 1rem;
   max-width: min(90vw, 420px);
 }
-.availability-substep-content-wide :deep(.availability-options-below-calendar),
 .availability-substep-panel :deep(.availability-options-below-calendar) {
   margin-top: 1rem;
 }
-.availability-substep-content-wide :deep(.differential-graph-above-slots),
 .availability-substep-panel :deep(.differential-graph-above-slots) {
   flex-shrink: 0;
 }
-.availability-substep-content-wide :deep(.appointment-slot-grid-abut),
 .availability-substep-panel :deep(.appointment-slot-grid-abut) {
   margin-bottom: 0 !important;
 }
