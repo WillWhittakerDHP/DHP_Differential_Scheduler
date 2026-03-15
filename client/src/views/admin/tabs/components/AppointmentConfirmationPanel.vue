@@ -51,6 +51,10 @@ const {
   handleAdminEntryTimeoutValue,
   handleAdminEntryTimeoutUnit,
 } = useConfirmationAndHoldsPanel(props, emit)
+
+function handleShowApplyCouponUpdate(value: boolean | null): void {
+  emit('update:showApplyCouponInWizard', value === true)
+}
 </script>
 
 <template>
@@ -71,7 +75,7 @@ const {
 
     <VSwitch
       :model-value="showApplyCouponInWizard"
-      @update:model-value="$emit('update:showApplyCouponInWizard', $event)"
+      @update:model-value="handleShowApplyCouponUpdate"
       :label="UI_STRINGS.calendar.showApplyCouponLabel"
       :hint="UI_STRINGS.calendar.showApplyCouponHint"
       persistent-hint
