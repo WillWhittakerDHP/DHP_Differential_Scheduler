@@ -54,7 +54,7 @@ function transformVersionToBookingInstance(
 
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
     const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
-    return {
+    const part = {
       id: pi.id,
       entityKey: 'partInstance' as const,
       name: safeString(pi.name, 'VersionBlockInstance.partInstances.name'),
@@ -68,6 +68,8 @@ function transformVersionToBookingInstance(
       zeroOutPart: currentPart?.zeroOutPart ?? false,
       activePartIds: asEmptyArray(currentPart?.activePartIds),
     }
+    const percentageOff = (pi as BookingPartInstance).percentageOff ?? currentPart?.percentageOff
+    return { ...part, ...(percentageOff !== undefined && percentageOff !== null && { percentageOff }) } as BookingPartInstance
   })
 
   return {

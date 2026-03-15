@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T02:06:08.240Z",
+  "generatedAt": "2026-03-07T18:37:44.886Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 726,
+  "fileCount": 719,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -198,7 +198,6 @@
           "client/src/composables/booking/useAppointmentShape.ts",
           "client/src/composables/booking/useAppointmentSlots.ts",
           "client/src/composables/booking/useAppointmentTimes.ts",
-          "client/src/composables/booking/useAvailabilityConfirmationState.ts",
           "client/src/composables/booking/useAvailabilityDefaults.ts",
           "client/src/composables/booking/useAvailabilityDevPanel.ts",
           "client/src/composables/booking/useAvailabilityEmptyState.ts",
@@ -206,11 +205,7 @@
           "client/src/composables/booking/useAvailabilityOrchestrator.ts",
           "client/src/composables/booking/useAvailabilitySettings.ts",
           "client/src/composables/booking/useAvailabilitySlotColor.ts",
-          "client/src/composables/booking/useAvailabilityStepAccordion.ts",
           "client/src/composables/booking/useAvailabilityStepData.ts",
-          "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-          "client/src/composables/booking/useAvailabilityStepUI.ts",
-          "client/src/composables/booking/useAvailabilitySubSteps.ts",
           "client/src/composables/booking/useAvailabilityUI.ts",
           "client/src/composables/booking/useAvailabilityValidation.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
@@ -323,7 +318,7 @@
           "client/src/utils/booking/availabilityStepHandlers.ts",
           "client/src/utils/booking/wizardValidation.ts"
         ],
-        "patternCount": 264
+        "patternCount": 259
       },
       {
         "prefix": "get",

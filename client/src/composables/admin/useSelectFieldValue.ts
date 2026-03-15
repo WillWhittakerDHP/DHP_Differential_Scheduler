@@ -5,6 +5,7 @@ WHY: Components should be thin UI wrapper...
  */
 import { computed } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
+import { isSelectOptionGroupHeader, SELECT_OPTION_GROUP_HEADER_VALUE } from '@/types/selectOptions'
 import type { UseSelectFieldValueOptions, UseSelectFieldValueReturn } from '@/types/admin/selectFieldValue'
 
 /**
@@ -25,18 +26,23 @@ export function useSelectFieldValue(
   const fieldValue = computed(() => {
     const value = rawFieldValue.value
     
-    // PATTERN: Flatten grouped options (children) and flat options into a single Set for O(1) lookup
+    // PATTERN: Flatten grouped options (children) and flat options into a single Set for O(1) lookup.
+    // Exclude group header rows (non-selectable labels) from option values.
     const optionValues = new Set(
-      selectOptions.value.flatMap(opt =>
-        opt.children && Array.isArray(opt.children)
-          ? opt.children.map(child => String(child.value))
-          : [String(opt.value)]
-      )
+      selectOptions.value.flatMap(opt => {
+        if (isSelectOptionGroupHeader(opt)) return []
+        if (opt.children && Array.isArray(opt.children)) {
+          return opt.children.map(child => String(child.value))
+        }
+        return [String(opt.value)]
+      })
     )
     
     if (isMultiple.value) {
       if (Array.isArray(value)) {
-        const normalized = value.map(v => String(v)).filter(v => v !== '')
+        const normalized = value
+          .map(v => String(v))
+          .filter(v => v !== '' && v !== SELECT_OPTION_GROUP_HEADER_VALUE)
         
         // PATTERN: Only include values that exist in the options array
         const validValues = normalized.filter(v => optionValues.has(v))

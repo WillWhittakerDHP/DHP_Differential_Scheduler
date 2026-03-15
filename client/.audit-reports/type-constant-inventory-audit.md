@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-11T02:26:38.529Z
+Generated: 2026-03-15T18:23:16.004Z
 
 ## Summary
 
 - Type files: **268**
-- Constant files: **24**
+- Constant files: **23**
 - Config files: **34**
-- Files with inline type exports: **109**
-- Annotated: **325** | Unannotated: **1**
+- Files with inline type exports: **104**
+- Annotated: **325** | Unannotated: **0**
 
 | Classification Issue | Count |
 | --- | ---: |
-| Mixed type+constant files | 12 |
-| Inline types in composables | 79 |
+| Mixed type+constant files | 13 |
+| Inline types in composables | 74 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 5 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -345,7 +345,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/partInstanceData.ts` | dedicated | UsePartInstanceDataOptions, UsePartInstanceDataReturn | no | Part instance data structure types | feature |
 | `client/src/types/property.ts` | dedicated | PropertyVersionType, PropertyTypesRequest | no | Property entity data structure types | feature |
 | `client/src/types/propertyForm.ts` | dedicated | PropertySource, PropertyFormData | yes | Property form field definition and validation types | feature |
-| `client/src/types/selectOptions.ts` | dedicated | SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn | no | Generic select option and dropdown types | shared |
+| `client/src/types/selectOptions.ts` | dedicated | SelectOptionOrHeader, SelectOptionBase, SelectOptionGroupHeader, UseSelectOptionsOptions, UseSelectOptionsReturn | yes | Generic select option and dropdown types | shared |
 | `client/src/types/shapeFieldMetadata.ts` | dedicated | ShapeFieldMetadata, ShapeLayoutConfig, ComposedFieldConfig | no | Shape field metadata configuration types | shared |
 | `client/src/types/ternary.ts` | dedicated | TernaryBoolean | no | Ternary logic value types for three-state fields | shared |
 | `client/src/types/transformers/adminObject.ts` | dedicated | AdminObject, AdminObjectMap | no | Admin object transformer input/output types | shared |
@@ -394,7 +394,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/appointmentsTableConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/attendeeRoles.ts` | 0 | 0 | no |
 | constants | `client/src/constants/availabilitySettings.ts` | 3 | 1 | no |
-| constants | `client/src/constants/availabilityStepConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/blockShapeTypes.ts` | 1 | 1 | no |
 | constants | `client/src/constants/bookingMode.ts` | 1 | 1 | no |
 | constants | `client/src/constants/businessControlsOptions.ts` | 8 | 1 | no |
@@ -486,13 +485,8 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
 - `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 1 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
-- `client/src/composables/booking/injectionKeys.ts`: AvailabilitySubStepOrchestratorState, InstancesPanelContext, ContactsFormContext, AvailabilitySubStepContext (imported by 2 files)
+- `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
-- `client/src/composables/booking/useAvailabilityConfirmationState.ts`: AvailabilityConfirmationState, UseAvailabilityConfirmationStateReturn (imported by 1 files)
-- `client/src/composables/booking/useAvailabilityStepAccordion.ts`: UseAvailabilityStepAccordionParams, UseAvailabilityStepAccordionReturn (imported by 0 files)
-- `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts`: UseAvailabilityStepSlotOverlayParams, UseAvailabilityStepSlotOverlayReturn (imported by 0 files)
-- `client/src/composables/booking/useAvailabilityStepUI.ts`: UseAvailabilityStepUIParams, UseAvailabilityStepUIReturn (imported by 0 files)
-- `client/src/composables/booking/useAvailabilitySubSteps.ts`: AvailabilitySubStepDef, UseAvailabilitySubStepsParams, UseAvailabilitySubStepsReturn (imported by 0 files)
 - `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)
 - `client/src/composables/booking/useDelayedModalVisibility.ts`: UseDelayedModalVisibilityParams, UseDelayedModalVisibilityReturn (imported by 0 files)
 - `client/src/composables/booking/useListForAdminEntry.ts`: UseListForAdminEntryReturn (imported by 0 files)

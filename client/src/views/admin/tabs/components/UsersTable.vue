@@ -3,9 +3,11 @@
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Ref } from 'vue'
-import type { UserRequest } from '@/types/user'
+import type { UserRequest, UserResponse } from '@/types/user'
 import { useUsersTableModel } from '@/composables/admin/tables/useUsersTableModel'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import UserCreateForm from './UserCreateForm.vue'
 
 const {
@@ -38,6 +40,8 @@ const headers = [
   { title: 'Login ID', key: 'loginId', sortable: true },
   { title: 'Actions', key: 'actions', sortable: false },
 ]
+
+const tableItems = computed(() => ensureItemsArray<UserResponse>(users.value))
 </script>
 
 <template>
@@ -83,7 +87,7 @@ const headers = [
 
     <!-- Empty state -->
     <VAlert
-      v-if="!isLoading && !usersError && users.length === 0"
+      v-if="!isLoading && !usersError && tableItems.length === 0"
       type="info"
       variant="tonal"
       class="mb-4"
@@ -95,7 +99,7 @@ const headers = [
     <VDataTable
       v-if="!isLoading && !usersError"
       :headers="headers"
-      :items="users"
+      :items="tableItems"
       :loading="isLoading"
       item-value="id"
       class="elevation-1"

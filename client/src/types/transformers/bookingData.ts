@@ -13,6 +13,8 @@ export type BookingPartInstance = CoreEntity & {
   orderIndex: number
   zeroOutPart: boolean
   activePartIds: string[]
+  /** Optional percentage off (e.g. 10 for 10% off) for coupon/discount; used by Part/Block Finals in fee pipeline. */
+  percentageOff?: number
 }
 
 export type BookingBlockShape = {

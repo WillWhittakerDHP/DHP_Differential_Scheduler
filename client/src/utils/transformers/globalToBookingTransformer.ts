@@ -257,10 +257,13 @@ function transformPartInstance(
     baseFee?: number
     rateOverBaseFee?: number
     zeroOutPart?: boolean
+    percentageOff?: number
+    percentage_off?: number
   }
 
   const pricingRels = findRelationshipsByParent(partInstance.id, pricingCascadesRelationships)
   const activePartIds = extractChildIds(pricingRels)
+  const percentageOff = partInstanceWithProps.percentageOff ?? partInstanceWithProps.percentage_off
 
   return {
     id: partInstance.id,
@@ -275,6 +278,7 @@ function transformPartInstance(
     orderIndex: partInstance.orderIndex,
     zeroOutPart: partInstanceWithProps.zeroOutPart ?? false,
     activePartIds,
+    ...(percentageOff !== undefined && percentageOff !== null && { percentageOff }),
   }
 }
 

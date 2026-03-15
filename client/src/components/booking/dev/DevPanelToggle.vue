@@ -20,9 +20,7 @@ useKeyboardToggle(() => emit('toggle'))
     @click.stop="emit('toggle')"
   >
     <span class="button-label">slot</span>
-    <VTooltip activator="parent" location="left">
-      Debug Panel (Ctrl+Shift+D)
-    </VTooltip>
+    <VTooltip activator="parent" location="left" text="Debug Panel (Ctrl+Shift+D)" />
   </VBtn>
 </template>
 

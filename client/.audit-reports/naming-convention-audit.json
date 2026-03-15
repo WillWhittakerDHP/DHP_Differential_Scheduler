@@ -1,33 +1,18 @@
 {
-  "generatedAt": "2026-03-11T01:38:16.440Z",
-  "totalScanned": 1120,
+  "generatedAt": "2026-03-15T18:13:36.528Z",
+  "totalScanned": 1112,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
+    "totalAllowed": 0,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 1,
+      "pattern": 0,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": [
-    {
-      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 34,
-          "line": "export function computeMoveableSlots(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    }
-  ]
+  "scanned": []
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T02:06:08.808Z",
+  "generatedAt": "2026-03-07T18:37:44.435Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1152,
-  "totalDefinitions": 814,
+  "fileCount": 1143,
+  "totalDefinitions": 800,
   "groups": [
     {
       "groupId": "sim-subset-71fff301522c",
@@ -407,6 +407,35 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-exact-0d7d919f2c4e",
+      "relationship": "EXACT",
+      "action": "BRAND",
+      "members": [
+        {
+          "name": "UseSelectConfigOptions",
+          "kind": "interface",
+          "file": "client/src/types/admin/selectConfig.ts",
+          "line": 7,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "UseSelectDomTargetsOptions",
+          "kind": "interface",
+          "file": "client/src/types/admin/selectDomTargets.ts",
+          "line": 6,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> }",
+      "propertyCount": 1,
+      "score": 12,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-subset-1554fa06fa28",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -441,44 +470,6 @@
       ],
       "signature": "{ deleteRelationshipFieldOverride: (, entityId: string, entityId: string, entityType: EntityMetadataType, entityType: EntityMetadataType, existingMetadata?: FieldMetadataEntry, isSaving: import('vue').Ref<boolean>, relationshipKey: string, relationshipKey: string, renderingUpdates: Partial<FieldMetadataEntry>, saveRelationshipFieldRendering: ( }",
       "propertyCount": 11,
-      "score": 10,
-      "priority": "P1"
-    },
-    {
-      "groupId": "sim-subset-aa9ab77dd46c",
-      "relationship": "SUBSET",
-      "action": "EXTEND",
-      "members": [
-        {
-          "name": "UseAvailabilityStepSlotOverlayParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-          "line": 8,
-          "exported": true,
-          "propertyCount": 2,
-          "signature": "{ availabilitySettings: Ref<AvailabilitySettings | null>, o: AvailabilitySubStepOrchestratorState }"
-        },
-        {
-          "name": "UseAvailabilityStepUIParams",
-          "kind": "interface",
-          "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
-          "line": 12,
-          "exported": true,
-          "propertyCount": 3,
-          "signature": "{ availabilitySettings: Ref<AvailabilitySettings | null>, confirmation: UseAvailabilityConfirmationStateReturn, o: AvailabilitySubStepOrchestratorState }"
-        }
-      ],
-      "signature": "{ availabilitySettings: Ref<AvailabilitySettings | null>, confirmation: UseAvailabilityConfirmationStateReturn, o: AvailabilitySubStepOrchestratorState }",
-      "propertyCount": 3,
-      "overlapPercent": 67,
-      "sharedProperties": [
-        "availabilitySettings",
-        "o"
-      ],
-      "uniqueToFirst": [],
-      "uniqueToSecond": [
-        "confirmation"
-      ],
       "score": 10,
       "priority": "P1"
     },
@@ -623,7 +614,7 @@
           "name": "ContactsFormContext",
           "kind": "interface",
           "file": "client/src/composables/booking/injectionKeys.ts",
-          "line": 101,
+          "line": 96,
           "exported": true,
           "propertyCount": 11,
           "signature": "{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }"
@@ -1116,7 +1107,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/booking/MoveablePartsModal.vue",
-      "line": 11,
+      "line": 7,
       "exported": false,
       "fingerprint": "0c6b8188549c",
       "propertyCount": 10,
@@ -1126,7 +1117,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/MoveablePartsModal.vue",
-      "line": 26,
+      "line": 22,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1240,36 +1231,6 @@
       "exported": false,
       "fingerprint": "dbf88ccd2b98",
       "propertyCount": 4,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Props",
-      "kind": "interface",
-      "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
-      "line": 11,
-      "exported": false,
-      "fingerprint": "cd6fd2a7fbeb",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Props",
-      "kind": "interface",
-      "file": "client/src/components/booking/steps/AvailabilitySubStepHeader.vue",
-      "line": 3,
-      "exported": false,
-      "fingerprint": "5205a6989c72",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "Props",
-      "kind": "interface",
-      "file": "client/src/components/booking/steps/SlotGridWithOverlay.vue",
-      "line": 5,
-      "exported": false,
-      "fingerprint": "03c52a537c34",
-      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
@@ -1976,7 +1937,7 @@
       "name": "InstancesPanelContext",
       "kind": "interface",
       "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 78,
+      "line": 73,
       "exported": true,
       "fingerprint": "38c8c2c0930a",
       "propertyCount": 17,
@@ -1986,20 +1947,10 @@
       "name": "ContactsFormContext",
       "kind": "interface",
       "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 101,
+      "line": 96,
       "exported": true,
       "fingerprint": "76752b2b57bc",
       "propertyCount": 11,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AvailabilitySubStepContext",
-      "kind": "interface",
-      "file": "client/src/composables/booking/injectionKeys.ts",
-      "line": 119,
-      "exported": true,
-      "fingerprint": "a7c710cb6b9c",
-      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
@@ -2010,26 +1961,6 @@
       "exported": true,
       "fingerprint": "632e4797a1b0",
       "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AvailabilityConfirmationState",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
-      "line": 7,
-      "exported": true,
-      "fingerprint": "1132b3b47342",
-      "propertyCount": 5,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityConfirmationStateReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
-      "line": 15,
-      "exported": true,
-      "fingerprint": "34023e7d3d47",
-      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -2070,96 +2001,6 @@
       "exported": false,
       "fingerprint": "87052eb74194",
       "propertyCount": 12,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityStepAccordionParams",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
-      "line": 11,
-      "exported": true,
-      "fingerprint": "d99e06fbb55d",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityStepAccordionReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
-      "line": 20,
-      "exported": true,
-      "fingerprint": "dce7cfaf6e3f",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityStepSlotOverlayParams",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-      "line": 8,
-      "exported": true,
-      "fingerprint": "7471c1330b00",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityStepSlotOverlayReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-      "line": 13,
-      "exported": true,
-      "fingerprint": "0dc1e5638c83",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityStepUIParams",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "d76d20f5fe78",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilityStepUIReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
-      "line": 18,
-      "exported": true,
-      "fingerprint": "711817e5da61",
-      "propertyCount": 12,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AvailabilitySubStepDef",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
-      "line": 11,
-      "exported": true,
-      "fingerprint": "6d10d2de4cc6",
-      "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilitySubStepsParams",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
-      "line": 17,
-      "exported": true,
-      "fingerprint": "af81f1a9b1e0",
-      "propertyCount": 14,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseAvailabilitySubStepsReturn",
-      "kind": "interface",
-      "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
-      "line": 32,
-      "exported": true,
-      "fingerprint": "3c898a6d806c",
-      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -2236,7 +2077,7 @@
       "name": "UseMoveablePartsSchedulingParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 96,
+      "line": 95,
       "exported": false,
       "fingerprint": "d3f37407658d",
       "propertyCount": 4,
@@ -2246,7 +2087,7 @@
       "name": "UseMoveablePartsSchedulingReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "line": 106,
+      "line": 105,
       "exported": true,
       "fingerprint": "a7b27e830138",
       "propertyCount": 19,
@@ -2708,18 +2549,18 @@
       "file": "client/src/configs/availabilitySettings/types.ts",
       "line": 76,
       "exported": true,
-      "fingerprint": "dcfc6eb1f610",
-      "propertyCount": 47,
+      "fingerprint": "25755d575f6e",
+      "propertyCount": 43,
       "primitiveAlias": null
     },
     {
       "name": "RawAvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 134,
+      "line": 129,
       "exported": true,
-      "fingerprint": "af45881241d8",
-      "propertyCount": 39,
+      "fingerprint": "00e88c8a5e0a",
+      "propertyCount": 35,
       "primitiveAlias": null
     },
     {
@@ -2796,7 +2637,7 @@
       "name": "SuggestionItemBase",
       "kind": "interface",
       "file": "client/src/layouts/components/NavSearchBar.vue",
-      "line": 10,
+      "line": 9,
       "exported": false,
       "fingerprint": "342b113616ee",
       "propertyCount": 3,
@@ -2806,7 +2647,7 @@
       "name": "SuggestionGroup",
       "kind": "interface",
       "file": "client/src/layouts/components/NavSearchBar.vue",
-      "line": 24,
+      "line": 23,
       "exported": false,
       "fingerprint": "7e0193f414b6",
       "propertyCount": 2,
@@ -3448,18 +3289,18 @@
       "file": "client/src/types/admin/gridConfigHandlers.ts",
       "line": 7,
       "exported": true,
-      "fingerprint": "481722c3f9a8",
-      "propertyCount": 16,
+      "fingerprint": "61272ca35c4a",
+      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
       "name": "UseGridConfigHandlersReturn",
       "kind": "interface",
       "file": "client/src/types/admin/gridConfigHandlers.ts",
-      "line": 27,
+      "line": 23,
       "exported": true,
-      "fingerprint": "639551009e7f",
-      "propertyCount": 13,
+      "fingerprint": "6dab70daf6c3",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
@@ -3866,17 +3707,17 @@
       "name": "UseSelectDomTargetsOptions",
       "kind": "interface",
       "file": "client/src/types/admin/selectDomTargets.ts",
-      "line": 7,
+      "line": 6,
       "exported": true,
-      "fingerprint": "91fa15c2a606",
-      "propertyCount": 3,
+      "fingerprint": "0d7d919f2c4e",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
       "name": "UseSelectDomTargetsReturn",
       "kind": "interface",
       "file": "client/src/types/admin/selectDomTargets.ts",
-      "line": 13,
+      "line": 10,
       "exported": true,
       "fingerprint": "56a2b925da16",
       "propertyCount": 1,
@@ -3938,18 +3779,18 @@
       "file": "client/src/types/admin/selectHandlers.ts",
       "line": 7,
       "exported": true,
-      "fingerprint": "a4afe68dbb1d",
-      "propertyCount": 10,
+      "fingerprint": "c032ac7ab7f0",
+      "propertyCount": 7,
       "primitiveAlias": null
     },
     {
       "name": "UseSelectHandlersReturn",
       "kind": "interface",
       "file": "client/src/types/admin/selectHandlers.ts",
-      "line": 18,
+      "line": 17,
       "exported": true,
-      "fingerprint": "d6ef31ef5f2b",
-      "propertyCount": 6,
+      "fingerprint": "1e6df2e55ea6",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
@@ -4568,15 +4409,15 @@
       "file": "client/src/types/booking/availabilityOrchestrator.ts",
       "line": 14,
       "exported": true,
-      "fingerprint": "71ea34cac504",
-      "propertyCount": 44,
+      "fingerprint": "087f1e43d99b",
+      "propertyCount": 43,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityOrchestratorParams",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityOrchestrator.ts",
-      "line": 61,
+      "line": 60,
       "exported": true,
       "fingerprint": "665c3083f0c8",
       "propertyCount": 7,
@@ -6606,7 +6447,7 @@
       "name": "SelectOptionBase",
       "kind": "interface",
       "file": "client/src/types/selectOptions.ts",
-      "line": 7,
+      "line": 10,
       "exported": true,
       "fingerprint": "fbee4b3e4137",
       "propertyCount": 2,
@@ -6616,17 +6457,27 @@
       "name": "SelectOption",
       "kind": "interface",
       "file": "client/src/types/selectOptions.ts",
-      "line": 12,
+      "line": 15,
       "exported": true,
       "fingerprint": "48cd07de0ad9",
       "propertyCount": 1,
       "primitiveAlias": null
     },
     {
+      "name": "SelectOptionGroupHeader",
+      "kind": "interface",
+      "file": "client/src/types/selectOptions.ts",
+      "line": 21,
+      "exported": true,
+      "fingerprint": "76b884818e0e",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "GroupedEntities",
       "kind": "interface",
       "file": "client/src/types/selectOptions.ts",
-      "line": 16,
+      "line": 34,
       "exported": true,
       "fingerprint": "cc1e63e0db8f",
       "propertyCount": 1,
@@ -6636,7 +6487,7 @@
       "name": "UseSelectOptionsOptions",
       "kind": "interface",
       "file": "client/src/types/selectOptions.ts",
-      "line": 20,
+      "line": 38,
       "exported": true,
       "fingerprint": "e94cdfae9b06",
       "propertyCount": 7,
@@ -6646,10 +6497,10 @@
       "name": "UseSelectOptionsReturn",
       "kind": "interface",
       "file": "client/src/types/selectOptions.ts",
-      "line": 30,
+      "line": 48,
       "exported": true,
-      "fingerprint": "686c75148e24",
-      "propertyCount": 6,
+      "fingerprint": "825a757302aa",
+      "propertyCount": 2,
       "primitiveAlias": null
     },
     {
@@ -7086,7 +6937,7 @@
       "name": "ValidChildrenKey",
       "kind": "type-alias-union",
       "file": "client/src/utils/admin/selectFilterStrategies.ts",
-      "line": 12,
+      "line": 15,
       "exported": true,
       "fingerprint": "d29992992dd8",
       "propertyCount": 0,
@@ -7096,7 +6947,7 @@
       "name": "GroupWithParent",
       "kind": "interface",
       "file": "client/src/utils/admin/selectOptionTransforms.ts",
-      "line": 54,
+      "line": 63,
       "exported": true,
       "fingerprint": "8bc4aba77898",
       "propertyCount": 2,

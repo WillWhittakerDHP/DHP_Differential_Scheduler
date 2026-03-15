@@ -379,6 +379,8 @@ export interface TierScopeSnapshot {
 }
 ```
 
+**Current implementation:** The live snapshot (`.cursor/commands/utils/tier-scope-writer.ts`) extends `phase` with optional `branch` and `slug` for deterministic branch resolution. `.project-manager/.tier-scope` is read by `readTierScope()` and attached to `WorkflowCommandContext.scope` in `contextFromParams` and `getCurrent()`. Tier configs use `ctx.scope?.phase?.branch` and `ctx.scope?.phase?.slug` when present; otherwise they fall back to `phase-${id}` (with prefix matching in `ensureTierBranch`). Session branches are **always created from the phase branch**, not the feature branch: session config `getParentBranchName` returns the phase branch (from scope or `phase-${phaseId}`). `ensureTierBranch` auto-rebases an ancestor onto its parent when the ancestor is not based on the parent, and re-checks after pulling from remote.
+
 **Design note:** Sub-contexts are typed and scoped. New fields require explicit interface changes, preventing silent accumulation of `unknown`-typed bags like `auditPayload` and `params: unknown` in the current system.
 
 ### 7.4 `SpecBuilder`
@@ -930,7 +932,7 @@ Harness v1 should remain interoperable with:
 
 - existing tier identifiers
 - existing `controlPlaneDecision` consumption pattern
-- existing `.tier-scope` lifecycle semantics
+- existing `.tier-scope` lifecycle semantics (read via `readTierScope()`, written on tier-start success; used for branch/slug resolution and audit-fix context injection)
 - existing command invocation style where feasible
 
 Compatibility does not require preserving current internal file/module layout.

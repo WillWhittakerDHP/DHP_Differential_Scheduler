@@ -2,6 +2,14 @@
 
 When fixing findings from session, phase, or task audits, load the following documents so thresholds, allowlists, and decision trees are applied consistently. This ensures fixes align with governance and do not introduce new violations.
 
+**Read the attached context first.** The agent must read the governance playbooks and tier-appropriate docs (guide + planning doc) before making changes, and reuse existing patterns to avoid duplication and maintain governance.
+
+---
+
+## Tier-appropriate context (injected by /audit-fix when available)
+
+When you run `/audit-fix` (with or without a report path), the command reads `.project-manager/.tier-scope` and injects @ refs for the **current tier's guide and planning doc** (e.g. session 6.10.1 → session guide + session planning doc; task 6.9.1.1 → task planning doc + session guide). This gives the agent the right scope so fixes stay aligned with the current tier and do not duplicate or contradict the plan. The same `.tier-scope` file is read by `readTierScope()` and attached to `WorkflowCommandContext.scope` for tier-start flows (e.g. `/session-start`, `/task-start`), so branch and slug resolution use the current scope when present.
+
 ---
 
 ## Required for all audit fixes
@@ -57,4 +65,4 @@ Paste the line below into chat (after the audit report path if you have one) so 
 `@.cursor/project-manager/features/<feature>/audits/session-6.7.2-audit.md`  
 (or the path shown in the tier-end message).
 
-**Usage:** Run `/audit-fix [report-path]` to generate a full prompt (instruction + @ refs); paste the output into chat.
+**Usage:** Run `/audit-fix [report-path]` to generate a full prompt (instruction + governance @ refs + tier-appropriate context + report). Paste the output into chat. The instruction tells the agent to read the attached context first and maintain governance patterns.

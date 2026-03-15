@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-11T02:06:08.808Z**
-- Files scanned: **1152**
-- Type definitions found: **814**
+- Generated at: **2026-03-07T18:37:44.435Z**
+- Files scanned: **1143**
+- Type definitions found: **800**
 - Similarity groups: **13**
 - UNIFY candidates: **0**
-- BRAND candidates: **1**
-- EXTEND candidates: **12**
+- BRAND candidates: **2**
+- EXTEND candidates: **11**
 - REVIEW candidates: **0**
 
-- P0 (high): **7**, P1 (medium): **6**, P2 (low): **0**
+- P0 (high): **8**, P1 (medium): **5**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -41,14 +41,14 @@ Each group has a recommended action:
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
 | P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
+| P0 | BRAND | EXACT | `UseSelectConfigOptions`, `UseSelectDomTargetsOptions` | 2 | 12 | `{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, ...` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
-| P1 | EXTEND | SUBSET | `UseAvailabilityStepSlotOverlayParams`, `UseAvailabilityStepUIParams` | 2 | 10 | `{ availabilitySettings: Ref<AvailabilitySettings | null>,...` |
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
 | P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
 | P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
 
-## BRAND Candidates (1)
+## BRAND Candidates (2)
 
 These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
 
@@ -62,7 +62,17 @@ These types are structurally identical but may represent different concepts. Add
 | `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
 | `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
 
-## EXTEND Candidates (12)
+### sim-exact-0d7d919f2c4e
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **12**
+- Structure: `{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseSelectConfigOptions` | interface | `client/src/types/admin/selectConfig.ts` | 7 | yes |
+| `UseSelectDomTargetsOptions` | interface | `client/src/types/admin/selectDomTargets.ts` | 6 | yes |
+
+## EXTEND Candidates (11)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -166,20 +176,6 @@ Overlap: **67%** shared properties
 | `DeleteRelationshipFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 97 | no |
 | `SaveRelationshipFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 31 | no |
 
-### sim-subset-aa9ab77dd46c
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
-- Structure: `{ availabilitySettings: Ref<AvailabilitySettings | null>, confirmation: UseAvailabilityConfirmationStateReturn, o: AvailabilitySubStepOrchestratorState }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `UseAvailabilityStepSlotOverlayParams` | interface | `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts` | 8 | yes |
-| `UseAvailabilityStepUIParams` | interface | `client/src/composables/booking/useAvailabilityStepUI.ts` | 12 | yes |
-
-Overlap: **67%** shared properties
-- Shared: `availabilitySettings`, `o`
-- Only in `UseAvailabilityStepUIParams`: `confirmation`
-
 ### sim-subset-d4dc4450299d
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **10**
@@ -229,7 +225,7 @@ Overlap: **73%** shared properties
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 101 | yes |
+| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 96 | yes |
 | `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 19 | no |
 
 Overlap: **73%** shared properties

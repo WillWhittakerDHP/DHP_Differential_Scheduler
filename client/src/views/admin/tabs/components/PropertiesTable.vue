@@ -3,9 +3,11 @@
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Ref } from 'vue'
-import type { PropertyRequest } from '@/types/property'
+import type { PropertyRequest, PropertyResponse } from '@/types/property'
 import { usePropertiesTableModel } from '@/composables/admin/tables/usePropertiesTableModel'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import PropertyCreateForm from './PropertyCreateForm.vue'
 
 const {
@@ -43,6 +45,8 @@ const headers = [
   { title: 'Additional Units', key: 'additionalUnits', sortable: true },
   { title: 'Actions', key: 'actions', sortable: false },
 ]
+
+const tableItems = computed(() => ensureItemsArray<PropertyResponse>(properties.value))
 </script>
 
 <template>
@@ -89,7 +93,7 @@ const headers = [
 
     <!-- Empty state -->
     <VAlert
-      v-if="!isLoading && !propertiesError && properties.length === 0"
+      v-if="!isLoading && !propertiesError && tableItems.length === 0"
       type="info"
       variant="tonal"
       class="mb-4"
@@ -101,7 +105,7 @@ const headers = [
     <VDataTable
       v-if="!isLoading && !propertiesError"
       :headers="headers"
-      :items="properties"
+      :items="tableItems"
       :loading="isLoading"
       item-value="id"
       class="elevation-1"

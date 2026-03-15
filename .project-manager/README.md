@@ -19,20 +19,17 @@
 ├── features/ (feature-level documentation)
 │   ├── vue-migration/ (Feature 0 — ✅ Complete)
 │   ├── data-flow-alignment/ (Feature 1 — ✅ Complete)
-│   ├── google-apis-integration/ (Feature 2 — ✅ Complete)
-│   ├── calendar-appointment-availability/ (Feature 3 — ✅ Complete)
-│   ├── appointment-workflow/ (Feature 6 — ⏳ Partial)
-│   ├── authentication/ (Feature 7 — 📋 Planning)
-│   ├── security-hardening/ (Feature 8 — 📋 Planning)
-│   ├── guided-alpha-testing/ (Feature 9 — 📋 Planning)
-│   ├── testing-quality-validation/ (Feature 10 — 📋 Planning)
-│   ├── production-readiness/ (Feature 11 — 📋 Planning)
-│   ├── pre-launch-polish/ (Feature 12 — 📋 Planning)
-│   ├── beta-feedback/ (Feature 14 — ✅ Complete)
-│   ├── beta-feedback-response/ (Feature 15 — 📋 Planning)
+│   ├── feature-2-google-apis-integration/ (Feature 2 — ✅ Functionally Complete)
+│   ├── booking-calculations/ (Feature 3 — ⏳ Core Complete)
+│   ├── calendar-appointment-availability/ (Feature 4 — ✅ Functionally Complete)
+│   ├── beta-feedback/ (Feature 5 — ✅ Complete)
+│   ├── appointment-workflow/ (Feature 8 — ⏳ Partial)
+│   ├── test-suite-setup/ (Feature 9 — 📋 Planning)
+│   ├── beta-feedback-response/ (Feature 10 — 📋 Planning)
+│   ├── beta-launch/ (Feature 11 — 📋 Planning)
 │   ├── ui-polish/ (Feature 16 — 🔮 Future)
-│   ├── admin-ui-overhaul/ (Feature 17 — 🔮 Future)
-│   └── admin-assistance-wizard/ (Feature 18 — 🔮 Future)
+│   ├── admin-ui-overhaul/ (Feature 13 — 🔮 Future)
+│   └── gpt-admin-automation/ (Feature 14 — 🔮 Future, to be renamed admin-assistance-wizard)
 └── archive/ (historical/archived documents)
 ```
 
@@ -61,33 +58,28 @@ Each feature directory contains:
 
 ---
 
-## Current Status (2026-03-04)
+## Current Status (2026-02-18)
 
 ### Completed / Functionally Complete
 - **Feature 0:** Vue.js Migration — ✅ Core Complete
 - **Feature 1:** Data Flow Alignment — ✅ Complete (2026-01-31)
-- **Feature 2:** Google APIs Integration — ✅ Complete (MLS credentials pending on external provider)
-- **Feature 3:** Calendar & Appointment Availability — ✅ Complete (2026-02-21)
-- **Feature 4:** Pricing Cascades — ✅ Complete (2026-02-13) — sub-feature, no directory
-- **Feature 5:** Property Enrichment & Mappings — ✅ Complete (2026-02-11) — sub-feature, no directory
-- **Feature 6:** Appointment Workflow & Booking Calculations — ⏳ Partial (Phase 1 complete, future phases planned)
-- **Feature 14:** Beta Feedback System — ✅ Complete (2026-02-10)
+- **Feature 2:** Google APIs Integration — ✅ Functionally Complete (MLS credentials pending on external provider)
+- **Feature 3:** Booking Calculations — ⏳ Core Complete (logic works, needs consolidation composable)
+- **Feature 4:** Calendar & Appointment Availability — ✅ Functionally Complete (full booking flow working)
+- **Feature 5:** Beta Feedback System — ✅ Complete (2026-02-10)
+- **Feature 6:** Pricing Cascades — ✅ Complete (2026-02-13)
+- **Feature 7:** Property Enrichment & Mappings — ✅ Complete (2026-02-11)
+- **Feature 8:** Appointment Workflow — ⏳ Phase 1 Complete, future phases planned
 
 ### Planning (Pre-Launch)
-- **Feature 7:** Authentication
-- **Feature 8:** Security Hardening
-- **Feature 9:** Guided Alpha Testing
-- **Feature 10:** Testing & Quality Validation
-- **Feature 11:** Production Readiness
-- **Feature 12:** Pre-Launch Polish
-- **Feature 13:** Alpha Launch & Deployment
-- **Feature 15:** Beta Feedback Response
-- **Feature 19:** CRM / Inspection Platform Integration
+- **Feature 9:** Test Suite Setup
+- **Feature 10:** Beta Feedback Response
+- **Feature 11:** Beta Launch
 
 ### Future (Post-Launch)
-- **Feature 16:** UI Polish
-- **Feature 17:** Admin UI Overhaul
-- **Feature 18:** Admin Assistance Wizard
+- **Feature 12:** UI Polish
+- **Feature 13:** Admin UI Overhaul
+- **Feature 14:** Admin Assistance Wizard (guided service setup, replaces GPT concept)
 
 ---
 
@@ -154,8 +146,8 @@ Each feature directory contains:
 - **Client Directory:** The Vue 3 application lives in `client/` (previously `client-vue/` — renamed after React codebase removal)
 - **Feature-Level Docs Requirement:** Feature-level planning documents (feature guide, `README.md`) MUST be created before any phase planning documents. See `FEATURE_VALIDATION_CHECKLIST.md`.
 - **3-Tier Structure:** Feature → Phase → Session. Each tier has its own documentation as needed.
-- **Features 4–5:** Pricing Cascades and Property Enrichment are complete sub-features documented in PROJECT_PLAN without dedicated directories.
-- **Feature 18:** "Admin Assistance Wizard" replaces the original "GPT Admin Automation" concept. Directory renamed to `admin-assistance-wizard/`.
+- **Features 6–7:** Pricing Cascades and Property Enrichment are complete sub-features documented in PROJECT_PLAN without dedicated directories.
+- **Feature 14:** "Admin Assistance Wizard" replaces the original "GPT Admin Automation" concept. The directory `gpt-admin-automation/` will be renamed when work begins.
 
 ---
 

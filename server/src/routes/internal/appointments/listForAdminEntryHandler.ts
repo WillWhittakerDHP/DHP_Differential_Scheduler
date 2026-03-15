@@ -44,7 +44,8 @@ export async function listForAdminEntryHandler(req: Request, res: Response): Pro
       const pv = (apt as { propertyVersion?: { address?: { address: string; unit: string | null; city: string; state: string; zipCode: string } } }).propertyVersion
       const address = formatAddress(pv?.address ?? null)
 
-      const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []
+      const rawAttendees = (apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees
+      const attendees = Array.isArray(rawAttendees) ? rawAttendees : []
       let clientUserId: string | null = null
       let agentUserId: string | null = null
       for (const att of attendees) {

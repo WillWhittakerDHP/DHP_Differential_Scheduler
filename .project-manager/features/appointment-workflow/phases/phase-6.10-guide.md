@@ -12,7 +12,7 @@
 **Phase Name:** Fee Preview & Coupon Visibility
 **Description:** (0) Restore the add new block shapes button on the admin Shapes tab (it used to exist and is no longer there). If the original can’t be recovered, adapt the same add-new button pattern used on the other shapes sub-tabs (Part, Annotation, Event). (1) Add a bar at the top of the Appointment Availability (step 3) wizard that shows total fee as a preview; on hover, show fee details in a popover (same structure as the Confirmation step: Bag Total, optional Coupon row and Apply Coupon button, Order Total, line items, Total — no submit buttons). (2) Add an admin toggle in Business Controls → Calendar → Confirmation & Holds to show or hide the apply-coupon line and button in the wizard; persist the setting with availability/business settings; wizard (Confirmation step and availability-step popover) respects the toggle.
 
-**Duration:** 3 sessions
+**Duration:** 4 sessions
 **Status:** Not Started
 
 ---
@@ -26,8 +26,6 @@
 **Business Controls:** Calendar tab → Confirmation & Holds subtab (`AppointmentConfirmationPanel.vue`) already has hold duration and auto-confirm; same panel is the right place for "Show apply coupon in wizard". Settings are loaded/saved via `useAdminAvailabilitySettings` and `buildAvailabilityPayload` in `client/src/configs/availabilitySettings/`; `autoConfirmEnabled` is passed separately to the payload — a similar pattern can be used for `showApplyCouponInWizard`.
 
 **Coupon today:** Coupon discount is a placeholder (0) in `confirmationStepData.ts`; the Apply Coupon button exists in the UI but is not wired. This phase only adds the **visibility** toggle (show/hide the row and button); actual coupon logic can remain placeholder.
-
-**Coupon architecture (future — informs this phase's design):** Coupons will become a new **blockShape** so that coupon application is part of the finalizer pipeline (same pattern as other block shapes). Which users can see which coupons will be controlled by the existing **valid and active cascade** system (ValidPricingCascade at shape level, PricingCascade at instance level). Coupon block instances will be wired into a **cascaded dropdown** (user → service, visually similar to property types). This phase's visibility toggle and UI structure should be designed with this future architecture in mind — the "Apply Coupon" button will eventually open the cascaded coupon selector, and the Coupon Discount row will display the selected coupon's resolved value from the cascade.
 
 ---
 
@@ -50,9 +48,15 @@
 **Description:** Add `showApplyCouponInWizard` to availability/business settings (types, API response mapping, payload for save). Add the switch in AppointmentConfirmationPanel; wire form state and save. Ensure wizard can read the setting (e.g. via `getAvailabilitySettings()` / `useAvailabilitySettings()`).
 **See:** `sessions/session-6.10.2-guide.md`
 
-- [ ] ### Session 6.10.3: Availability-Step Fee Preview Bar and Popover
+- [x] ### Session 6.10.3: Availability-Step Fee Preview Bar and Popover
 **Description:** In AvailabilityStep.vue, compute `priceData` with `buildConfirmationPriceData` (wizard + propertyDetailsStepData). Add a compact bar at the top showing total fee; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`. Update ConfirmationStep.vue to show the coupon row only when the setting is true.
 **See:** `sessions/session-6.10.3-guide.md`
+
+- [ ] ### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee
+**Description:** Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee
+**Tasks:** [To be planned]
+**Focus:**
+- [To be identified during planning]
 
 ---
 
@@ -83,3 +87,4 @@
 - sessions/session-6.10.1-guide.md — Add new block shapes button
 - sessions/session-6.10.2-guide.md — Admin toggle and settings
 - sessions/session-6.10.3-guide.md — Fee bar and popover
+- sessions/session-6.10.4-guide.md — Coupon fee calculation

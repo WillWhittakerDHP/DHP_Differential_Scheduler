@@ -14,7 +14,7 @@
 
 **Last Completed:** Task 
 **Next Session:** Session 6.9.2
-**Git Branch:** `session-6.10.1`
+**Git Branch:** `session-6.9.1`
 **Last Updated:** 2026-03-06
 
 ## Next Action
@@ -22,15 +22,6 @@
 Start Session 6.9.2
 
 ## Transition Context
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 6.9.2
-
-<!-- end excerpt session -->
-
 
 **Where we left off:**
 Completed Task 

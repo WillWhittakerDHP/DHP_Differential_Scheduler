@@ -4,11 +4,11 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-03-11T02:06:08.134Z
+Generated: 2026-03-07T18:37:50.561Z
 
 ## Overview
 
-- Files scanned: **429**
+- Files scanned: **421**
 - Findings: **0**
 - Files with findings: **0**
 - Phase A (per-file) findings: **0**
@@ -39,9 +39,9 @@ Generated: 2026-03-11T02:06:08.134Z
 
 ## Flow Maps Summary
 
-- Provide sites: **30**
-- Inject sites: **50**
-- Matched pairs: **17**
+- Provide sites: **29**
+- Inject sites: **49**
+- Matched pairs: **16**
 - Unmatched provides: **13**
 - Unmatched injects: **8**
 

@@ -1,12 +1,12 @@
 # Test Audit Report (Generated)
 
-Generated at: 2026-03-04T15:30:18.921Z
+Generated at: 2026-03-07T18:37:51.054Z
 
 ## Summary
 
-- **Total source files**: 1109
+- **Total source files**: 1114
 - **Total test files**: 0
-- **Untested source files**: 1109
+- **Untested source files**: 1114
 - **Orphaned test files**: 0
 - **Coverage**: 0%
 
@@ -21,14 +21,12 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/utils/transformers/fieldClassification.ts` | **8.9** | 10 | 10 | 8 | 3 | 2 |
 | `client/src/utils/transformers/globalToBookingTransformer.ts` | **8.4** | 10 | 8 | 9 | 2 | 1 |
 | `client/src/utils/transformers/transformerPrimitives.ts` | **8.4** | 8 | 10 | 10 | 2 | 9 |
-| `client/src/composables/booking/useAvailabilityStepHandlers.ts` | **8.1** | 10 | 7 | 10 | 0 | 2 |
 | `client/src/utils/transformers/relationshipTransformers.ts` | **8.0** | 10 | 10 | 4 | 2 | 5 |
 | `client/src/composables/booking/useAvailabilityLogic.ts` | **7.9** | 10 | 8 | 6 | 3 | 3 |
+| `client/src/composables/booking/useWizardFilteredOptions.ts` | **7.8** | 10 | 7 | 8 | 1 | 2 |
 | `client/src/utils/transformers/componentAggregator.ts` | **7.8** | 10 | 10 | 4 | 0 | 2 |
-| `client/src/composables/booking/useAppointmentDataCollection.ts` | **7.7** | 9 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useAvailabilityEmptyState.ts` | **7.7** | 10 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useConfirmationStepData.ts` | **7.7** | 10 | 7 | 8 | 0 | 2 |
-| `client/src/composables/booking/useWizardFilteredOptions.ts` | **7.7** | 10 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useWizardStepValidation.ts` | **7.7** | 9 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useWizardValidationErrors.ts` | **7.7** | 9 | 7 | 10 | 0 | 2 |
 | `client/src/utils/transformers/fetchToGlobalTransformer.ts` | **7.7** | 10 | 8 | 5 | 3 | 1 |
@@ -45,6 +43,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useBookingWizardStepValidators.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useSlotGridDisplay.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/composables/booking/useWizardStepDataRefs.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
+| `client/src/composables/booking/useWizardSubmission.ts` | **7.3** | 9 | 7 | 8 | 0 | 2 |
 | `client/src/utils/booking/partFinalizer.ts` | **7.3** | 7 | 9 | 8 | 2 | 4 |
 | `client/src/composables/booking/useAvailabilityOrchestrator.ts` | **7.2** | 10 | 7 | 4 | 3 | 2 |
 | `client/src/composables/booking/useWizardStepContent.ts` | **7.2** | 7 | 8 | 10 | 0 | 3 |
@@ -64,6 +63,7 @@ Files are sorted by **Priority Score** (weighted: Reliability 40%, ROI 30%, Inde
 | `client/src/composables/booking/useOptionTypeBlockSelection.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/usePropertyTypeBlockSelection.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
 | `client/src/composables/booking/useWizardNumberUpdate.ts` | **6.9** | 7 | 7 | 10 | 0 | 2 |
+| `client/src/utils/booking/cascadeFilterPipeline.ts` | **6.9** | 5 | 9 | 10 | 2 | 3 |
 | `server/src/utils/availabilities/availabilityPrimitives.ts` | **6.9** | 7 | 7 | 10 | 0 | 4 |
 | `client/src/composables/admin/useDifferentialPerspectives.ts` | **6.8** | 9 | 5 | 7 | 3 | 2 |
 | `client/src/composables/booking/useStepValidation.ts` | **6.8** | 7 | 8 | 8 | 0 | 3 |
@@ -103,11 +103,11 @@ These test files may not have corresponding source files, or the mapping failed.
 | `client/src/utils/formatting` | 1 | 0 | 1 | 0% |
 | `client/src/utils/optimistic` | 1 | 0 | 1 | 0% |
 | `client/src/utils/ternary` | 1 | 0 | 1 | 0% |
-| `client/src/views/admin` | 1 | 0 | 1 | 0% |
 | `client/src/views/beta` | 1 | 0 | 1 | 0% |
 | `client/src/views/booking` | 1 | 0 | 1 | 0% |
 | `server/src/db/models` | 1 | 0 | 1 | 0% |
 | `server/src/routes` | 1 | 0 | 1 | 0% |
+| `server/src/routes/internal/dev` | 1 | 0 | 1 | 0% |
 
 ## Recommendations
 

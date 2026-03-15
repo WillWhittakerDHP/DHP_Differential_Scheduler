@@ -82,7 +82,7 @@
     <VCard>
       <VDataTable
         :headers="headers"
-        :items="items"
+        :items="tableItems"
         :loading="loading"
         item-value="id"
         class="cursor-pointer"
@@ -120,6 +120,7 @@ import { computed } from 'vue';
 import BetaFeedbackDetailModal from './BetaFeedbackDetailModal.vue';
 import { useFeedbackDashboard } from '@/composables/beta/useFeedbackDashboard';
 import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback';
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers';
 import { asEmptyArray } from '@/utils/safeDefaults';
 import { createLogger } from '@/utils/logger';
 
@@ -134,6 +135,8 @@ const {
   filters,
   load,
 } = useFeedbackDashboard();
+
+const tableItems = computed(() => ensureItemsArray<BetaFeedback>(items.value));
 
 const statusFilterItems: { title: string; value: FeedbackStatus }[] = [
   { title: 'New', value: 'new' },

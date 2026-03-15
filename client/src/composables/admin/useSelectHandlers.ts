@@ -4,6 +4,7 @@
 WHY: Components should be thin UI wrappers -...
  */
 import { ref, nextTick, computed } from 'vue'
+import { SELECT_OPTION_GROUP_HEADER_VALUE } from '@/types/selectOptions'
 import { fieldKeyboardGuard } from '@/utils/admin/fieldKeyboardGuard'
 import { createLogger } from '@/utils/logger'
 import type { UseSelectHandlersOptions, UseSelectHandlersReturn } from '@/types/admin/selectHandlers'
@@ -21,40 +22,14 @@ export function useSelectHandlers(
 ): UseSelectHandlersReturn {
   const {
     fieldContext,
-    rawFieldValue,
+    rawFieldValue: _rawFieldValue,
     fieldValue,
     isMultiple,
-    groupedByKey,
     entityCardSaveContext = null,
     disableAutoSave = false
   } = options
 
   const isUpdatingProgrammatically = ref(false)
-
-  const handleGroupChange = async (groupKey: string, groupValue: string | string[] | null): Promise<void> => {
-    const currentValue = rawFieldValue.value
-    const currentArray = Array.isArray(currentValue) 
-      ? currentValue.map(v => String(v))
-      : currentValue ? [String(currentValue)] : []
-    
-    const groups = groupedByKey.value
-    const group = groups.find(g => g.groupKey === groupKey)
-    if (!group) return
-    
-    const groupEntityIds = new Set(group.entities.map((e: unknown) => String((e as { id: unknown }).id)))
-    
-    const otherGroupValues = currentArray.filter(v => !groupEntityIds.has(v))
-    
-    const newGroupValues = Array.isArray(groupValue)
-      ? groupValue.map(v => String(v)).filter(v => v !== '')
-      : groupValue ? [String(groupValue)] : []
-    
-    const combinedValues = [...otherGroupValues, ...newGroupValues]
-    const uniqueValues = Array.from(new Set(combinedValues))
-    
-    const finalValue = isMultiple.value ? uniqueValues : (uniqueValues[0] ?? undefined)
-    fieldContext.actions.setValue(finalValue)
-  }
 
   const handleChange = async (value: string | string[] | null): Promise<void> => {
     // PATTERN: Check flag before processing update
@@ -68,13 +43,16 @@ export function useSelectHandlers(
       if (value === null || value === undefined) {
         normalizedValue = []
       } else if (Array.isArray(value)) {
-        normalizedValue = value.map(v => String(v)).filter(v => v !== '')
+        normalizedValue = value
+          .map(v => String(v))
+          .filter(v => v !== '' && v !== SELECT_OPTION_GROUP_HEADER_VALUE)
       } else {
         const currentValue = fieldValue.value
         const currentArray = Array.isArray(currentValue) ? currentValue : []
         const newValueStr = String(value)
-        
-        if (currentArray.includes(newValueStr)) {
+        if (newValueStr === SELECT_OPTION_GROUP_HEADER_VALUE) {
+          normalizedValue = currentArray
+        } else if (currentArray.includes(newValueStr)) {
           normalizedValue = currentArray.filter(v => v !== newValueStr)
         } else {
           normalizedValue = [...currentArray, newValueStr]
@@ -156,7 +134,6 @@ export function useSelectHandlers(
 
   return {
     isUpdatingProgrammatically,
-    handleGroupChange,
     handleChange,
     handleFocus,
     handleBlur,

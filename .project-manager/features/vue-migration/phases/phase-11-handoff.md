@@ -373,7 +373,7 @@ Add support for nested member bulk updates. Support multi-level template rows (e
 ### Notes
 - Phase 11 (Bulk Updates) has been moved to Feature 2: UI Polish as a small enhancement
 - All Phase 11 work will be implemented as part of Feature 2
-- See `project-manager/features/ui-polish/feature-ui-polish-guide.md` for Feature 2 details
+- See `project-manager/features/ui-polish/feature-ui-polish-guide.md` for Feature 16 (UI Polish) details
 
 ---
 

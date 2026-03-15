@@ -130,6 +130,8 @@ export interface AvailabilitySettings {
     subStepLabelConfirmMoveable?: string
   }
   calendarConfig?: CalendarConfig
+  /** When true, show the apply-coupon row and button in the booking wizard (Confirmation step and availability-step fee popover). */
+  showApplyCouponInWizard?: boolean
 }
 
 export interface RawAvailabilitySettings {
@@ -179,4 +181,5 @@ export interface RawAvailabilitySettings {
       enforcement: ConstraintEnforcement
     }
   }
+  showApplyCouponInWizard?: boolean
 }

@@ -17,7 +17,7 @@ import {
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
-import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES } from './appointmentConstants.js'
+import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES, CONSTRAINT_OVERRIDE_FIELDS } from './appointmentConstants.js'
 import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js'
 import { defaultAvailabilitySettings } from '../businessSettings/businessSettingsConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
@@ -122,49 +122,53 @@ export async function getAutoConfirmEnabledFromSettings(): Promise<boolean> {
   return setting?.autoConfirmEnabled === true
 }
 
+type CalendarConfigValue = {
+  calendarConfig?: {
+    enabled?: boolean
+    provider?: string
+    calendars?: Array<{ email?: string; readFrom?: boolean; writeTo?: boolean }>
+  }
+}
+
+/** Parses availability settings and returns calendar config or null if invalid. */
+function parseCalendarConfigFromSetting(setting: { settingValue?: unknown } | null): { calendars: Array<{ email?: string; writeTo?: boolean }> } | null {
+  if (!setting?.settingValue) return null
+  const settings = setting.settingValue as CalendarConfigValue
+  const calendarConfig = settings.calendarConfig
+  if (!calendarConfig?.enabled) return null
+  if (!Array.isArray(calendarConfig.calendars)) {
+    logger.error('Invalid calendar config: calendars must be an array')
+    return null
+  }
+  return { calendars: calendarConfig.calendars }
+}
+
+/** Finds the first writeTo calendar with a non-empty email. */
+function findWriteToCalendarEmail(calendars: Array<{ email?: string; writeTo?: boolean }>): string | undefined {
+  const entry = calendars.find(e => e.writeTo && e.email?.trim())
+  return entry?.email?.trim()
+}
+
+/** Email of the calendar configured for write operations, or undefined if none. */
 export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
   try {
     const setting = await BusinessSettings.findOne({
       where: { settingKey: AVAILABILITY_SETTINGS_KEY },
     })
-    
     if (!setting || !setting.settingValue) {
       logger.debug('No availability_settings found, using default calendar')
       return undefined
     }
-    
-    const settings = setting.settingValue as {
-      calendarConfig?: {
-        enabled?: boolean
-        provider?: string
-        calendars?: Array<{
-          email?: string
-          readFrom?: boolean
-          writeTo?: boolean
-        }>
-      }
-    }
-    
-    const calendarConfig = settings.calendarConfig
-    if (!calendarConfig || !calendarConfig.enabled) {
-      logger.debug('Calendar integration not enabled')
+    const config = parseCalendarConfigFromSetting(setting)
+    if (!config) {
+      logger.debug('Calendar integration not enabled or invalid config')
       return undefined
     }
-    
-    if (!Array.isArray(calendarConfig.calendars)) {
-      logger.error('Invalid calendar config: calendars must be an array')
-      return undefined
+    const email = findWriteToCalendarEmail(config.calendars)
+    if (email) {
+      logger.debug('Found writeTo calendar', { email })
+      return email
     }
-    
-    const writeToEntry = calendarConfig.calendars.find(
-      entry => entry.writeTo && entry.email && entry.email.trim() !== ''
-    )
-    
-    if (writeToEntry?.email) {
-      logger.debug('Found writeTo calendar', { email: writeToEntry.email })
-      return writeToEntry.email.trim()
-    }
-    
     logger.debug('No writeTo calendar configured')
     return undefined
   } catch (error) {
@@ -367,7 +371,7 @@ export async function createConstraintOverrideOnRescheduleIfNeeded(
   updatedAppointment: { id: string; selectedDate: Date | string | null; selectedTimeSlots: Array<Record<string, unknown>> | null }
 ): Promise<void> {
   const existing = await ConstraintOverride.findOne({
-    where: { appointmentId: updatedAppointment.id },
+    where: { [CONSTRAINT_OVERRIDE_FIELDS.APPOINTMENT_ID]: updatedAppointment.id },
     order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   })
   if (!existing) return
@@ -387,7 +391,7 @@ export async function createConstraintOverrideOnRescheduleIfNeeded(
   if (newSlotStart.getTime() === existingStart && newSlotEnd.getTime() === existingEnd) return
 
   await ConstraintOverride.create({
-    appointmentId: updatedAppointment.id,
+    [CONSTRAINT_OVERRIDE_FIELDS.APPOINTMENT_ID]: updatedAppointment.id,
     overriddenViolations: existing.overriddenViolations,
     authorizedById: existing.authorizedById,
     reason: existing.reason,

@@ -12,6 +12,8 @@ const props = withDefaults(
   defineProps<{
     holdDurationMinutes: number
     autoConfirmEnabled: boolean
+    /** When true, show the apply-coupon row and button in the booking wizard. */
+    showApplyCouponInWizard?: boolean
     /** Admin entry dropdown time-out: value (X). Session 6.8.6.1 */
     adminEntryTimeoutValue?: number
     /** Admin entry dropdown time-out: unit (days | weeks). Session 6.8.6.1 */
@@ -24,7 +26,7 @@ const props = withDefaults(
     holdDurationFallback?: number
     saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
   }>(),
-  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days' }
+  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days', showApplyCouponInWizard: false }
 )
 
 const emit = defineEmits<{
@@ -33,6 +35,7 @@ const emit = defineEmits<{
   'update:holdDurationMax': [value: number]
   'update:holdDurationFallback': [value: number]
   'update:autoConfirmEnabled': [value: boolean]
+  'update:showApplyCouponInWizard': [value: boolean]
   'update:adminEntryTimeoutValue': [value: number]
   'update:adminEntryTimeoutUnit': [value: 'days' | 'weeks']
 }>()
@@ -62,6 +65,15 @@ const {
       @update:model-value="handleAutoConfirmUpdate"
       :label="UI_STRINGS.calendar.autoConfirmLabel"
       :hint="UI_STRINGS.calendar.autoConfirmHint"
+      persistent-hint
+      class="mb-4"
+    />
+
+    <VSwitch
+      :model-value="showApplyCouponInWizard"
+      @update:model-value="$emit('update:showApplyCouponInWizard', $event)"
+      :label="UI_STRINGS.calendar.showApplyCouponLabel"
+      :hint="UI_STRINGS.calendar.showApplyCouponHint"
       persistent-hint
       class="mb-4"
     />
