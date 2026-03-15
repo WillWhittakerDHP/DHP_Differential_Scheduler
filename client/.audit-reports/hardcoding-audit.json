@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T20:47:27.794Z",
+  "generatedAt": "2026-03-15T22:24:22.392Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1,
+  "totalScanned": 0,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
@@ -30,6 +30,7 @@
   "canonicalConstantsFiles": [
     "client/src/components/admin/generic/entityCardConstants.ts",
     "client/src/constants/appointmentsTableConstants.ts",
+    "client/src/constants/availabilityStepConstants.ts",
     "client/src/constants/businessRulesConstants.ts",
     "client/src/constants/entityFieldConstants.ts",
     "client/src/constants/mapsConstants.ts",
