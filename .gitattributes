@@ -1,4 +1,2 @@
-# Multi-machine: merge strategies for tracked harness state
-# Append-only logs: keep lines from both sides
-.project-manager/.audit-baseline-log.jsonl merge=union
-# .tier-scope is gitignored (machine-local state); no merge strategy needed
+# Multi-machine: merge strategies for tracked harness state (only for files we track)
+# .audit-baseline-log.jsonl, .tier-scope, .write-log are gitignored (transient); no merge strategy needed

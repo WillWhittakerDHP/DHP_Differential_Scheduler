@@ -6,5 +6,5 @@ phase.branch=phase-6.10-fee-preview-coupon-visibility
 phase.slug=fee-preview-coupon-visibility
 session.id=6.10.3
 session.name=Session 6.10.3
-task.id=6.10.3.2
-task.name=Hover popover with fee details
+task.id=6.10.3.3
+task.name=Confirmation step — conditional coupon row
