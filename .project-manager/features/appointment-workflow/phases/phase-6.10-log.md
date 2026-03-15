@@ -25,6 +25,14 @@
 
 
 
+### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee ✅
+**Completed:** 2026-03-15
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off and negative base fee
+
+
+
 ### Session 6.10.3: Availability-Step Fee Preview Bar and Popover ✅
 **Completed:** 2026-03-15
 **Tasks Completed:** All tasks completed
