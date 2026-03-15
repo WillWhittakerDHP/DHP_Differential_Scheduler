@@ -2,7 +2,7 @@
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
 **Session:** 6.10.2 — Admin Toggle and Settings  
-**Status:** Not Started  
+**Status:** In Progress  
 **Branch:** TBD (e.g. `appointment-workflow-phase-6.10-session-6.10.2`)
 
 ---

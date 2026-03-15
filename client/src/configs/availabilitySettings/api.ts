@@ -76,6 +76,7 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         calendarConfig: rawSettings.calendarConfig,
         defaultLocation: rawSettings.defaultLocation,
         overlapSources: rawSettings.overlapSources,
+        showApplyCouponInWizard: rawSettings.showApplyCouponInWizard ?? false,
       }
 
       cachedSettings = {
@@ -139,6 +140,7 @@ export function buildAvailabilityPayload(
   if (formData.differentialPerspectives) settingsToSave.differentialPerspectives = formData.differentialPerspectives
   if (formData.calendarConfig) settingsToSave.calendarConfig = formData.calendarConfig
   if (formData.defaultLocation) settingsToSave.defaultLocation = formData.defaultLocation
+  settingsToSave.showApplyCouponInWizard = formData.showApplyCouponInWizard ?? false
 
   return { setting_value: settingsToSave, auto_confirm_enabled: autoConfirmEnabled }
 }

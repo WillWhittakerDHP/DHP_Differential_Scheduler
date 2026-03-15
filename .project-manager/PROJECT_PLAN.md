@@ -1005,6 +1005,10 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIS
 **Converting to and launching the app version (summary):** (1) Complete Admin UI Overhaul so component count and structure are ready for Ionic. (2) Install Ionic Vue, migrate booking wizard (and admin, if in scope) to Ionic components; keep composables and API usage unchanged. (3) Add Capacitor, point `webDir` at the built client (e.g. `dist/`). (4) Add iOS and Android platforms (`npx cap add ios`, `npx cap add android`). (5) Configure production API URL and app identity (icons, splash, bundle id). (6) Build and run in simulator/emulator; verify flows and API connectivity. (7) For Apple Store: create Apple Developer account, configure signing and entitlements, archive and upload via Xcode (or CI); prepare metadata and screenshots. See LAUNCH_CHECKLIST.md Phase 7 and "Converting to and launching the app version" for detailed checklist and commentary.
 
 ---
+### Open Questions 
+
+1. Will we need to adjust or add to the click handlers to create a consistent behavior with for app activities, since clicking and dragging isn't exactly what happens in an app?
+2. Will we need to register in the App Store
 
 ## Related Documents
 

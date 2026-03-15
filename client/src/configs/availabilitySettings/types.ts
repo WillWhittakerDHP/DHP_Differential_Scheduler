@@ -125,6 +125,8 @@ export interface AvailabilitySettings {
     selectTimeSlotLabel?: string
   }
   calendarConfig?: CalendarConfig
+  /** When true, the Coupon Discount row and Apply Coupon button are visible in the booking wizard (Confirmation step and availability-step fee preview). */
+  showApplyCouponInWizard?: boolean
 }
 
 export interface RawAvailabilitySettings {
@@ -170,4 +172,6 @@ export interface RawAvailabilitySettings {
       enforcement: ConstraintEnforcement
     }
   }
+  /** When true, the apply-coupon UI is shown in the wizard. API returns this in setting_value. */
+  showApplyCouponInWizard?: boolean
 }
