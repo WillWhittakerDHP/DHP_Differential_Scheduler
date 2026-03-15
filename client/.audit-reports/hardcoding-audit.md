@@ -49,78 +49,27 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **4**
-- **Requiring review: 5**
-- Allowed (with justification): 39 (inline: 2, pattern: 24, specific: 8, linePattern: 5)
+- Total files scanned: **0**
+- **Requiring review: 0**
+- Allowed (with justification): 1 (inline: 0, pattern: 0, specific: 0, linePattern: 1)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/computedAvailabilityService.ts` | 6 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 3 |
-| `client/src/composables/booking/useAvailabilityStepFeePreview.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useConfirmationStepData.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/appointmentDataCollection.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 88 | inline | API drive-time payload shape |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 92 | inline | API drive-time payload shape |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 189 | linePattern | Metadata/context object; not API/DB field mapping |
+- (no exceptions configured)
 
 
 ## Per-file suggestions
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
-### `server/src/services/computedAvailabilityService.ts`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `server/src/services/computedAvailabilityService.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=5, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 3
-
-```
-fieldMapping@225: const def: RouteLocation = { placeId: defaultPlaceId.trim() }
-fieldMapping@226: const cand: RouteLocation = { placeId: candidatePlaceId.trim() }
-```
-
-### `client/src/composables/booking/useAvailabilityStepFeePreview.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@53: ? { totalDriveMinutes: Math.max(0, rawDrive) }
-```
-
-### `client/src/composables/booking/useConfirmationStepData.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@65: ? { totalDriveMinutes: Math.max(0, rawDrive) }
-```
-
-### `client/src/utils/booking/appointmentDataCollection.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@92: ? { totalDriveMinutes: Math.max(0, rawDrive) }
-```
