@@ -52,7 +52,7 @@
 **Description:** In AvailabilityStep.vue, compute `priceData` with `buildConfirmationPriceData` (wizard + propertyDetailsStepData). Add a compact bar at the top showing total fee; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`. Update ConfirmationStep.vue to show the coupon row only when the setting is true.
 **See:** `sessions/session-6.10.3-guide.md`
 
-- [ ] ### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee
+- [x] ### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee
 **Description:** Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee
 **Tasks:** [To be planned]
 **Focus:**

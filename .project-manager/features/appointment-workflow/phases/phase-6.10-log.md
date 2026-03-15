@@ -17,22 +17,6 @@
 
 ## Completed Sessions
 
-### Session 6.10.6: Settings Architecture Cleanup — Three-Table Separation ✅
-**Completed:** 2026-03-16
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed Settings Architecture Cleanup — Three-Table Separation
-
-
-
-### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee ✅
-**Completed:** 2026-03-15
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off and negative base fee
-
-
-
 ### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee ✅
 **Completed:** 2026-03-15
 **Tasks Completed:** All tasks completed
@@ -168,9 +152,9 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** 6.10.1, 6.10.2, 6.10.3, 6.10.4, 6.10.5, 6.10.6
-**Total Tasks Completed:** 0
-**Success Criteria Met:** Yes - All success criteria met
+**Sessions Completed:** [List all session IDs]
+**Total Tasks Completed:** [Number]
+**Success Criteria Met:** [Yes/No with details]
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -179,4 +163,3 @@
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
-<!-- end excerpt phase -->
