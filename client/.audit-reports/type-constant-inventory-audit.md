@@ -4,22 +4,22 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-15T18:23:16.004Z
+Generated: 2026-03-15T22:10:09.793Z
 
 ## Summary
 
 - Type files: **268**
-- Constant files: **23**
+- Constant files: **24**
 - Config files: **34**
-- Files with inline type exports: **104**
-- Annotated: **325** | Unannotated: **0**
+- Files with inline type exports: **113**
+- Annotated: **325** | Unannotated: **1**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 13 |
-| Inline types in composables | 74 |
+| Inline types in composables | 83 |
 | Configs with factory functions | 8 |
-| Duplicate type names | 5 |
+| Duplicate type names | 7 |
 | Cleanup candidates (misplaced + unused) | 0 |
 | Monomorphic generics | 9 |
 
@@ -394,6 +394,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/appointmentsTableConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/attendeeRoles.ts` | 0 | 0 | no |
 | constants | `client/src/constants/availabilitySettings.ts` | 3 | 1 | no |
+| constants | `client/src/constants/availabilityStepConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/blockShapeTypes.ts` | 1 | 1 | no |
 | constants | `client/src/constants/bookingMode.ts` | 1 | 1 | no |
 | constants | `client/src/constants/businessControlsOptions.ts` | 8 | 1 | no |
@@ -485,9 +486,18 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
 - `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 1 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
-- `client/src/composables/booking/injectionKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
+- `client/src/composables/booking/bookingDevPanelKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
+- `client/src/composables/booking/bookingKeys.ts`:  (imported by 0 files)
+- `client/src/composables/booking/bookingWizardStepKeys.ts`:  (imported by 0 files)
+- `client/src/composables/booking/injectionKeys.ts`: AvailabilitySubStepOrchestratorState, InstancesPanelContext, ContactsFormContext, AvailabilitySubStepContext (imported by 2 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityConfirmationState.ts`: AvailabilityConfirmationState, UseAvailabilityConfirmationStateReturn (imported by 1 files)
+- `client/src/composables/booking/useAvailabilityStepAccordion.ts`: UseAvailabilityStepAccordionParams, UseAvailabilityStepAccordionReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts`: UseAvailabilityStepSlotOverlayParams, UseAvailabilityStepSlotOverlayReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityStepUI.ts`: UseAvailabilityStepUIParams, UseAvailabilityStepUIReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilitySubSteps.ts`: AvailabilitySubStepDef, UseAvailabilitySubStepsParams, UseAvailabilitySubStepsReturn (imported by 0 files)
 - `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)
+- `client/src/composables/booking/useCancelAppointment.ts`: UseCancelAppointmentReturn (imported by 0 files)
 - `client/src/composables/booking/useDelayedModalVisibility.ts`: UseDelayedModalVisibilityParams, UseDelayedModalVisibilityReturn (imported by 0 files)
 - `client/src/composables/booking/useListForAdminEntry.ts`: UseListForAdminEntryReturn (imported by 0 files)
 - `client/src/composables/booking/useMoveableAvailabilityData.ts`: UseMoveableAvailabilityDataParams, UseMoveableAvailabilityDataReturn (imported by 0 files)
@@ -507,7 +517,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/useMapsSessionToken.ts`: UseMapsSessionTokenReturn (imported by 0 files)
 - `client/src/composables/useNotification.ts`: UseNotificationReturn (imported by 0 files)
 - `client/src/composables/useRelationship.ts`: UseRelationshipCrudReturn (imported by 0 files)
-- `client/src/composables/useThemeMode.ts`: UseThemeModeReturn (imported by 0 files)
+- `client/src/composables/useThemeMode.ts`: UseThemeModeReturn, UseThemeModeOptions (imported by 0 files)
 - `client/src/utils/admin/businessRulesApi.ts`: BusinessRulesQueryFilters (imported by 0 files)
 - `client/src/utils/admin/calibrationChartTransforms.ts`:  (imported by 0 files)
 - `client/src/utils/admin/entityCardTitleKeydown.ts`: EntityCardTitleKeydownReturn (imported by 0 files)
@@ -540,3 +550,5 @@ _None (or unused-code-audit.json not available)._
 - **DurationRoundingConfig**: client/src/types/booking/durationRounding.ts, shared/types/availabilityTypes.ts
 - **ComponentStrategy**: client/src/types/component.ts, shared/types/componentTypes.ts
 - **ComponentConfig**: client/src/types/component.ts, shared/types/componentTypes.ts
+- **InstancesPanelContext**: client/src/composables/booking/bookingDevPanelKeys.ts, client/src/composables/booking/injectionKeys.ts
+- **ContactsFormContext**: client/src/composables/booking/bookingDevPanelKeys.ts, client/src/composables/booking/injectionKeys.ts
