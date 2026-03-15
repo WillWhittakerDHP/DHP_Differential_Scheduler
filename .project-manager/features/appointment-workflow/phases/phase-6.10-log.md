@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 6.10.2: Admin Toggle and Settings for Apply Coupon Visibility ✅
+**Completed:** 2026-03-15
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed Admin Toggle and Settings for Apply Coupon Visibility
+
+
+
 ### Session 6.10.1: Add New Block Shapes Button on Admin Shapes Tab ✅
 **Completed:** 2026-03-07
 **Tasks Completed:** All tasks completed
