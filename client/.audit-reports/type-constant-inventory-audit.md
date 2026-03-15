@@ -4,22 +4,22 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T18:36:13.900Z
+Generated: 2026-03-15T22:10:09.793Z
 
 ## Summary
 
 - Type files: **268**
-- Constant files: **23**
+- Constant files: **24**
 - Config files: **34**
-- Files with inline type exports: **105**
-- Annotated: **325** | Unannotated: **0**
+- Files with inline type exports: **113**
+- Annotated: **325** | Unannotated: **1**
 
 | Classification Issue | Count |
 | --- | ---: |
-| Mixed type+constant files | 12 |
-| Inline types in composables | 75 |
+| Mixed type+constant files | 13 |
+| Inline types in composables | 83 |
 | Configs with factory functions | 8 |
-| Duplicate type names | 5 |
+| Duplicate type names | 7 |
 | Cleanup candidates (misplaced + unused) | 0 |
 | Monomorphic generics | 9 |
 
@@ -125,7 +125,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/admin/selectTypeResolver.ts` | dedicated | SelectConfigLike, OptionsSelectConfigLike | no | Select input type resolution and mapping types | feature |
 | `client/src/types/admin/shapeDisplayNames.ts` | dedicated | UseShapeDisplayNamesReturn | no | UseShapeDisplayNamesReturn. | feature |
 | `client/src/types/admin/shapeEditModal.ts` | dedicated | UseShapeEditModalOptions, UseShapeEditModalReturn | no | UseShapeEditModalOptions, UseShapeEditModalReturn. | feature |
-| `client/src/types/admin/shapesTab.ts` | dedicated | UseShapesTabReturn | no | Shapes tab component state and action types | feature |
+| `client/src/types/admin/shapesTab.ts` | dedicated |  | no | Shapes tab component state and action types | feature |
 | `client/src/types/admin/shapesTabCreation.ts` | dedicated |  | no | UseShapesTabCreationParams. | feature |
 | `client/src/types/admin/shapesTabDeletion.ts` | dedicated | ShapesTabBaseParams | no | UseShapesTabDeletionParams. | feature |
 | `client/src/types/admin/statusButtonFields.ts` | dedicated | UseStatusButtonFieldsOptions, UseStatusButtonFieldsReturn | no | UseStatusButtonFieldsOptions, UseStatusButtonFieldsReturn. | feature |
@@ -345,7 +345,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/partInstanceData.ts` | dedicated | UsePartInstanceDataOptions, UsePartInstanceDataReturn | no | Part instance data structure types | feature |
 | `client/src/types/property.ts` | dedicated | PropertyVersionType, PropertyTypesRequest | no | Property entity data structure types | feature |
 | `client/src/types/propertyForm.ts` | dedicated | PropertySource, PropertyFormData | yes | Property form field definition and validation types | feature |
-| `client/src/types/selectOptions.ts` | dedicated | SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn | no | Generic select option and dropdown types | shared |
+| `client/src/types/selectOptions.ts` | dedicated | SelectOptionOrHeader, SelectOptionBase, SelectOptionGroupHeader, UseSelectOptionsOptions, UseSelectOptionsReturn | yes | Generic select option and dropdown types | shared |
 | `client/src/types/shapeFieldMetadata.ts` | dedicated | ShapeFieldMetadata, ShapeLayoutConfig, ComposedFieldConfig | no | Shape field metadata configuration types | shared |
 | `client/src/types/ternary.ts` | dedicated | TernaryBoolean | no | Ternary logic value types for three-state fields | shared |
 | `client/src/types/transformers/adminObject.ts` | dedicated | AdminObject, AdminObjectMap | no | Admin object transformer input/output types | shared |
@@ -363,10 +363,10 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/wizardStateFieldConfig.ts` | dedicated | WizardInstance, WizardStateField, WizardFieldConfig | no | Wizard state field configuration and mapping types | feature |
 | `client/src/types/wizardStepData.ts` | dedicated | SummaryData, PriceData | no | Wizard step data container and shape types | feature |
 | `shared/types/appointmentFeeTypes.ts` | dedicated | AppointmentFeeSummaryCreate, AppointmentFeeEntryCreate, AppointmentFeeSummary, FeeEntryBase, AppointmentFeeBreakdownPayload | no | Appointment fee calculation and pricing types | shared |
-| `shared/types/appointmentTypes.ts` | dedicated | AttendeeRequest | no | Shared appointment data structure types | shared |
+| `shared/types/appointmentTypes.ts` | dedicated | AttendeeRequest, AdminEntryAppointmentItem | no | Shared appointment data structure types | shared |
 | `shared/types/availabilityTypes.ts` | dedicated | RFC3339DateTime, ConstraintEnforcement, RollingWeekDirection, ConstraintCategory, RangeConstraintType… | no | Shared availability slot and scheduling types | shared |
 | `shared/types/businessRulesTypes.ts` | dedicated | RuleConfig, RequiredFieldsRuleConfig, RequiresAgentRuleConfig, ConditionalValidationRuleConfig, ValidationMessageRuleConfig | no | Business rules configuration and constraint types | shared |
-| `shared/types/calendarTypes.ts` | dedicated | CalendarProvider, CalendarEntry, CalendarConfig | no | Shared calendar event and scheduling types | shared |
+| `shared/types/calendarTypes.ts` | dedicated | CalendarProvider, AdminEntryTimeoutUnit, CalendarEntry, AdminEntryTimeout, CalendarConfig | no | Shared calendar event and scheduling types | shared |
 | `shared/types/componentTypes.ts` | dedicated | ComponentStrategy, ComponentConfig | no | Shared component entity data types | shared |
 | `shared/types/contactTypes.ts` | dedicated | ContactInfoBase | no | Contact information and attendee types | shared |
 | `shared/types/coreEntityTypes.ts` | dedicated | CoreEntity | no | Core entity type definitions shared between client and server | shared |
@@ -394,6 +394,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/appointmentsTableConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/attendeeRoles.ts` | 0 | 0 | no |
 | constants | `client/src/constants/availabilitySettings.ts` | 3 | 1 | no |
+| constants | `client/src/constants/availabilityStepConstants.ts` | 2 | 0 | no |
 | constants | `client/src/constants/blockShapeTypes.ts` | 1 | 1 | no |
 | constants | `client/src/constants/bookingMode.ts` | 1 | 1 | no |
 | constants | `client/src/constants/businessControlsOptions.ts` | 8 | 1 | no |
@@ -466,6 +467,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useBusinessRulesTab.ts`: UseBusinessRulesTabReturn (imported by 0 files)
 - `client/src/composables/admin/useCalendarHoldFormState.ts`: UseCalendarHoldFormStateReturn (imported by 1 files)
 - `client/src/composables/admin/useComponentDistributionConfirm.ts`: UseComponentDistributionConfirmOptions (imported by 0 files)
+- `client/src/composables/admin/useConfirmationAndHoldsPanel.ts`: ConfirmationAndHoldsPanelEmit, ConfirmationAndHoldsPanelProps, UseConfirmationAndHoldsPanelReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions, UseEntityCardSubPanelsReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityMetadata.ts`: UseEntityMetadataReturn (imported by 0 files)
 - `client/src/composables/admin/useEventInstancesSection.ts`: UseEventInstancesSectionReturn (imported by 0 files)
@@ -487,10 +489,17 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/booking/bookingDevPanelKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
 - `client/src/composables/booking/bookingKeys.ts`:  (imported by 0 files)
 - `client/src/composables/booking/bookingWizardStepKeys.ts`:  (imported by 0 files)
+- `client/src/composables/booking/injectionKeys.ts`: AvailabilitySubStepOrchestratorState, InstancesPanelContext, ContactsFormContext, AvailabilitySubStepContext (imported by 2 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityConfirmationState.ts`: AvailabilityConfirmationState, UseAvailabilityConfirmationStateReturn (imported by 1 files)
+- `client/src/composables/booking/useAvailabilityStepAccordion.ts`: UseAvailabilityStepAccordionParams, UseAvailabilityStepAccordionReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts`: UseAvailabilityStepSlotOverlayParams, UseAvailabilityStepSlotOverlayReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityStepUI.ts`: UseAvailabilityStepUIParams, UseAvailabilityStepUIReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilitySubSteps.ts`: AvailabilitySubStepDef, UseAvailabilitySubStepsParams, UseAvailabilitySubStepsReturn (imported by 0 files)
 - `client/src/composables/booking/useBookingWizardSetup.ts`: UseBookingWizardSetupReturn (imported by 0 files)
 - `client/src/composables/booking/useCancelAppointment.ts`: UseCancelAppointmentReturn (imported by 0 files)
 - `client/src/composables/booking/useDelayedModalVisibility.ts`: UseDelayedModalVisibilityParams, UseDelayedModalVisibilityReturn (imported by 0 files)
+- `client/src/composables/booking/useListForAdminEntry.ts`: UseListForAdminEntryReturn (imported by 0 files)
 - `client/src/composables/booking/useMoveableAvailabilityData.ts`: UseMoveableAvailabilityDataParams, UseMoveableAvailabilityDataReturn (imported by 0 files)
 - `client/src/composables/booking/usePropertyTypeSelectWidth.ts`: PropertyTypeLike, UsePropertyTypeSelectWidthParams, UsePropertyTypeSelectWidthReturn (imported by 0 files)
 - `client/src/composables/booking/useSlotGridDisplay.ts`: UseSlotGridDisplayOptions (imported by 0 files)
@@ -541,3 +550,5 @@ _None (or unused-code-audit.json not available)._
 - **DurationRoundingConfig**: client/src/types/booking/durationRounding.ts, shared/types/availabilityTypes.ts
 - **ComponentStrategy**: client/src/types/component.ts, shared/types/componentTypes.ts
 - **ComponentConfig**: client/src/types/component.ts, shared/types/componentTypes.ts
+- **InstancesPanelContext**: client/src/composables/booking/bookingDevPanelKeys.ts, client/src/composables/booking/injectionKeys.ts
+- **ContactsFormContext**: client/src/composables/booking/bookingDevPanelKeys.ts, client/src/composables/booking/injectionKeys.ts

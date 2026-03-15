@@ -2,7 +2,7 @@
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
 **Session:** 6.10.5 — Wizard sub-tab and consolidated settings  
-**Status:** Complete  
+**Status:** Not Started  
 **Branch:** TBD
 
 **Depends on:** Session 6.10.2 (admin toggle and settings); Session 6.10.3 (fee bar and popover). Wizard settings exist in Holds and Grid; this session consolidates them.
@@ -46,19 +46,19 @@ Add a Wizard sub-tab to Business Controls → Calendar (alongside Integration, H
 
 ## Tasks
 
-- [x] #### Task 6.10.5.1: Create useWizardSettings composable
+- [ ] #### Task 6.10.5.1: Create useWizardSettings composable
 **Goal:** Create a composable that consolidates wizard settings access; replace scattered handlers with this pattern.
 **Files:** `client/src/composables/admin/useWizardSettings.ts` (or `client/src/composables/booking/useWizardSettings.ts` if wizard-facing); types in `client/src/configs/availabilitySettings/types.ts`.
 **Approach:** Extract `showApplyCouponInWizard` (and other wizard settings) into a single composable; expose read path for wizard steps and write path for Admin panel; wire to existing form state / availability settings API.
 **Checkpoint:** Composable exists; `handleShowApplyCouponInWizard` and similar handlers replaced with composable usage.
 
-- [x] #### Task 6.10.5.2: Add Wizard sub-tab and WizardConfigPanel
+- [ ] #### Task 6.10.5.2: Add Wizard sub-tab and WizardConfigPanel
 **Goal:** Add Wizard sub-tab to BusinessControlsCalendarSection; create WizardConfigPanel component.
 **Files:** `client/src/views/admin/tabs/BusinessControlsCalendarSection.vue`; `client/src/views/admin/tabs/components/WizardConfigPanel.vue`; `client/src/configs/businessControlsTabStrings.ts`.
 **Approach:** Add VTab and VWindowItem for "Wizard"; create WizardConfigPanel that uses useWizardSettings; move showApplyCouponInWizard from AppointmentConfirmationPanel to WizardConfigPanel.
 **Checkpoint:** Wizard tab visible; showApplyCouponInWizard toggle works from Wizard tab.
 
-- [x] #### Task 6.10.5.3: Move differential sub-step labels and brand colors to Wizard tab
+- [ ] #### Task 6.10.5.3: Move differential sub-step labels and brand colors to Wizard tab
 **Goal:** Move differential sub-step labels from GridConfigPanel and brand colors toggle to WizardConfigPanel.
 **Files:** `client/src/views/admin/tabs/components/GridConfigPanel.vue`; `client/src/views/admin/tabs/components/WizardConfigPanel.vue`; form state / differential state.
 **Approach:** Remove differential sub-step labels from Grid; add to WizardConfigPanel; locate and move brand colors toggle.
@@ -68,11 +68,11 @@ Add a Wizard sub-tab to Business Controls → Calendar (alongside Integration, H
 
 ## Success Criteria
 
-- [x] Wizard sub-tab exists in Business Controls → Calendar.
-- [x] `useWizardSettings` composable consolidates wizard settings; no scattered handlers.
-- [x] showApplyCouponInWizard, differential sub-step labels, brand colors toggle all in Wizard tab.
-- [x] Wizard steps (AvailabilityStep, ConfirmationStep) read settings via useWizardSettings or equivalent.
-- [x] Lint and app start pass.
+- [ ] Wizard sub-tab exists in Business Controls → Calendar.
+- [ ] `useWizardSettings` composable consolidates wizard settings; no scattered handlers.
+- [ ] showApplyCouponInWizard, differential sub-step labels, brand colors toggle all in Wizard tab.
+- [ ] Wizard steps (AvailabilityStep, ConfirmationStep) read settings via useWizardSettings or equivalent.
+- [ ] Lint and app start pass.
 
 ---
 
