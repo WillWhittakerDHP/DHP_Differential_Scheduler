@@ -20,6 +20,7 @@ export interface UseAvailabilityOrchestratorReturn {
     allowedDates: ComputedRef<(date: string) => boolean>
     fieldErrors: Ref<Record<string, string>>
     isEffectivelyDifferential: ComputedRef<boolean>
+    hasMoveablePartsGated: ComputedRef<boolean>
     userHasChosenTimeBasisFromGraph: Ref<boolean>
     graphBars: ComputedRef<{ major: TimeRange | null; minor: TimeRange | null }>
     perspective: ComputedRef<PerspectiveKey>
@@ -47,7 +48,7 @@ export interface UseAvailabilityOrchestratorReturn {
   actions: {
     getTodayDate: () => string
     setVDatePickerDisplayDate: (val: Date) => void
-    handleDateChange: (date: string | null) => void
+    handleDateChange: (date: string | Date | string[] | Date[] | null) => void
     handleTimeBasisChange: (basis: 'major' | 'minor') => void
     handleAppointmentSlotClick: (index: number) => void
     selectMoveableSlot: (index: number) => void

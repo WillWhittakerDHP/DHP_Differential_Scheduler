@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import type { Notification } from '@layouts/types'
 import { useNotificationActions } from '@/composables/layout/useNotificationActions'
 

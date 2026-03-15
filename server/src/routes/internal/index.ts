@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { BUSINESS_RULES_ROUTE } from "../../../../shared/constants/businessRulesConstants.js";
 import { EntityRouter } from "./entities/entityRouter.js";
 import { RelationshipRouter } from "./relationships/relationshipRouter.js";
 import { PropertyRouter } from "./properties/propertyRouter.js";
@@ -28,7 +29,7 @@ router.use('/availability', AvailabilityRouter);
 
 router.use('/business-settings', BusinessSettingsRouter);
 
-router.use('/business-rules', BusinessRulesRouter);
+router.use(BUSINESS_RULES_ROUTE, BusinessRulesRouter);
 
 // WHY: Matches entity pattern where single endpoint handles all fields, backend routes based on type
 router.use('/admin-metadata', adminMetadataRouter);

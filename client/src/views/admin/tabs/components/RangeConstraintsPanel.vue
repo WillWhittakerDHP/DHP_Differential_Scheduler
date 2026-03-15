@@ -91,7 +91,7 @@ function handleRangeConstraintsLeadTimeMinutes(v: number | string): void {
         </VExpansionPanelText>
       </VExpansionPanel>
 
-      <!-- @audit-allow:todo-aging:orphaned - Future work: Date Range Constraint UI -->
+      <!-- TODO(PROJECT_PLAN Phase 6.8): Date Range Constraint UI — constraint config; deferred until admin force-create/overrides. -->
       <VExpansionPanel :title="UI_STRINGS.panels.dateRangeConstraint">
         <VExpansionPanelText>
           <VAlert type="info" variant="tonal">

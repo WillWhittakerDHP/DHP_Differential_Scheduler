@@ -1,7 +1,7 @@
 /**
  * WHY: useRelationshipCollection Composable
  */
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useQueryClient } from '@tanstack/vue-query'

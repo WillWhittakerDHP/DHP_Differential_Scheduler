@@ -3,7 +3,7 @@
 
 PATTERN: Uses composable to aggregate wizard...
  */
-import { inject, ref } from 'vue'
+import { inject, ref, computed } from 'vue'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
@@ -14,6 +14,8 @@ import {
   confirmationStepValidKey,
   confirmationStepValidateKey,
 } from '@/composables/booking/injectionKeys'
+import WizardSelect from '@/components/booking/fields/WizardSelect.vue'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import type { ConfirmationStepData } from '@/types/wizard'
 
 const wizard = inject(wizardKey)
@@ -53,6 +55,34 @@ const {
   propertyDetailsStepData,
   availabilityStepData
 })
+
+// Same pattern as property type on step 2: selection in wizard state
+const selectedCouponBlockId = computed(() => wizard!.selectedCouponBlocks.value[0]?.id ?? null)
+function onCouponSelect(id: string | null): void {
+  if (!wizard) return
+  if (id == null || id === '') {
+    const blocks = wizard.selectedCouponBlocks.value
+    if (blocks.length > 0) {
+      wizard.toggleCouponBlock(blocks[0])
+    }
+    return
+  }
+  const list = wizard.availableCouponBlocks.value
+  const block = list.find(b => b.id === id)
+  if (block) wizard.toggleCouponBlock(block)
+}
+
+// WHY: Vue does not unwrap nested refs in templates. Passing wizard.availableCouponBlocks (a
+// ComputedRef) to :items makes the child receive the Ref; Vuetify then iterates items and throws
+// "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
+const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
+
+// Show coupon row only when coupons are available to select or a coupon discount is already applied
+const showCouponRow = computed(
+  () =>
+    (couponSelectItems.value?.length ?? 0) > 0 ||
+    (priceData.value?.couponDiscount ?? 0) > 0
+)
 </script>
 
 <template>
@@ -220,22 +250,24 @@ const {
               </span>
             </div>
             
-            <div class="d-flex justify-space-between align-center mb-2">
+            <div v-if="showCouponRow" class="d-flex justify-space-between align-center mb-2">
               <span class="text-body-large">Coupon Discount</span>
-              <div class="d-flex align-center">
+              <div class="d-flex align-center flex-grow-1 justify-end">
                 <span v-if="priceData.couponDiscount > 0" class="text-body-large text-medium-emphasis mr-2">
                   -${{ priceData.couponDiscount.toFixed(2) }}
                 </span>
-                <VBtn
+                <WizardSelect
                   v-else
-                  variant="text"
-                  color="primary"
-                  size="small"
-                  class="text-headline-small summary-link"
-                  @click.prevent
-                >
-                  Apply Coupon
-                </VBtn>
+                  :model-value="selectedCouponBlockId"
+                  :items="couponSelectItems"
+                  item-title="name"
+                  item-value="id"
+                  label="Apply Coupon"
+                  placeholder="Select coupon"
+                  class="coupon-select"
+                  style="max-width: 220px;"
+                  @update:model-value="onCouponSelect"
+                />
               </div>
             </div>
             

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T01:34:11.267Z",
+  "generatedAt": "2026-03-11T02:06:08.240Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 717,
+  "fileCount": 726,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -58,7 +58,7 @@
           "server/src/services/invites/inviteOrchestrationService.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 50
+        "patternCount": 51
       },
       {
         "prefix": "use",
@@ -92,6 +92,7 @@
           "client/src/composables/admin/useCapacitySettings.ts",
           "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
+          "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
           "client/src/composables/admin/useDefaultLocation.ts",
           "client/src/composables/admin/useDialogFormState.ts",
           "client/src/composables/admin/useDifferentialPerspectives.ts",
@@ -197,6 +198,7 @@
           "client/src/composables/booking/useAppointmentShape.ts",
           "client/src/composables/booking/useAppointmentSlots.ts",
           "client/src/composables/booking/useAppointmentTimes.ts",
+          "client/src/composables/booking/useAvailabilityConfirmationState.ts",
           "client/src/composables/booking/useAvailabilityDefaults.ts",
           "client/src/composables/booking/useAvailabilityDevPanel.ts",
           "client/src/composables/booking/useAvailabilityEmptyState.ts",
@@ -204,14 +206,17 @@
           "client/src/composables/booking/useAvailabilityOrchestrator.ts",
           "client/src/composables/booking/useAvailabilitySettings.ts",
           "client/src/composables/booking/useAvailabilitySlotColor.ts",
+          "client/src/composables/booking/useAvailabilityStepAccordion.ts",
           "client/src/composables/booking/useAvailabilityStepData.ts",
+          "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+          "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "client/src/composables/booking/useAvailabilitySubSteps.ts",
           "client/src/composables/booking/useAvailabilityUI.ts",
           "client/src/composables/booking/useAvailabilityValidation.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
           "client/src/composables/booking/useBookingWizard.ts",
           "client/src/composables/booking/useBookingWizardSetup.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
-          "client/src/composables/booking/useCancelAppointment.ts",
           "client/src/composables/booking/useCascadeInstances.ts",
           "client/src/composables/booking/useComputedAvailability.ts",
           "client/src/composables/booking/useConfirmationStepData.ts",
@@ -234,6 +239,7 @@
           "client/src/composables/booking/useInstanceSelectionConfig.ts",
           "client/src/composables/booking/useInstanceSelectionState.ts",
           "client/src/composables/booking/useKeyboardToggle.ts",
+          "client/src/composables/booking/useListForAdminEntry.ts",
           "client/src/composables/booking/useMockCalendarRefresh.ts",
           "client/src/composables/booking/useMoveableAvailabilityData.ts",
           "client/src/composables/booking/useMoveablePartsScheduling.ts",
@@ -317,7 +323,7 @@
           "client/src/utils/booking/availabilityStepHandlers.ts",
           "client/src/utils/booking/wizardValidation.ts"
         ],
-        "patternCount": 258
+        "patternCount": 264
       },
       {
         "prefix": "get",
@@ -384,6 +390,7 @@
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
           "server/src/services/calendarEventsCache.ts",
+          "server/src/services/computedAvailabilityService.ts",
           "server/src/services/driveTimeCache.ts",
           "server/src/services/google/calendar/eventsService.ts",
           "server/src/services/google/maps/placesApiService.ts",
@@ -399,7 +406,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 128
+        "patternCount": 131
       },
       {
         "prefix": "update",
@@ -422,9 +429,10 @@
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/types/admin/instancesTabEventInstance.ts",
           "client/src/types/entities.ts",
-          "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
+          "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+          "server/src/routes/internal/appointments/forceCreateRouter.ts"
         ],
-        "occurrences": 6
+        "occurrences": 7
       },
       {
         "value": "started",

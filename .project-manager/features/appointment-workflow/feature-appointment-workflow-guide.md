@@ -60,7 +60,7 @@
 | 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
 | 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time → confirm moveable details (optional); responsive expandable panels on narrow screens. Sessions 6.9.1 (sub-step model & wide layout, optional 5th in model + placeholder), 6.9.2 (narrow expandable cards & state), 6.9.3 (a11y & focus), 6.9.4 (moveable content in 5th, remove modal, deprecate). |
-| 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
+| 6.10 | Fee Preview & Coupon Visibility | Not Started | Add new block shapes button on admin Shapes tab (6.10.1); fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (Shapes tab button), 6.10.2 (admin toggle + settings), 6.10.3 (availability-step fee bar + popover). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 
 ---
@@ -157,17 +157,18 @@
 - Existing validation and differential/slot behavior unchanged
 
 - [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
-**Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
-**Coupon architecture (future — informs this phase's design):** Coupons will become a new blockShape wired through the finalizer pipeline. Visibility and availability will be controlled by the valid/active cascade system (ValidPricingCascade → PricingCascade). Coupon block instances will appear in a cascaded dropdown (user → service, similar to property types). This phase's toggle and UI should anticipate that architecture — the Apply Coupon button will eventually open the cascaded coupon selector, and the Coupon Discount row will show the resolved cascade value.
-**Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
-- **Session 6.10.1:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
-- **Session 6.10.2:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
+**Description:** Restore the add new block shapes button on the admin Shapes tab (it used to exist and is missing; if needed, adapt the same add-new pattern as the other shapes sub-tabs). Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
+**Sessions:** 3 (6.10.1: Add new block shapes button; 6.10.2: Admin toggle and settings; 6.10.3: Availability-step fee bar and popover)
+- **Session 6.10.1:** Add new block shapes button on admin Shapes tab — restore it (it used to be there); if the original can’t be recovered, adapt the same add-new button pattern as the other shapes sub-tabs.
+- **Session 6.10.2:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
+- **Session 6.10.3:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
 **Dependencies:** None (reuses `buildConfirmationPriceData`, existing Confirmation step fee UI, and availability settings payload).
 **Success Criteria:**
+- Shapes tab: Add new block shapes button works; admins can create block shapes from the UI
 - Admin: "Show apply coupon in wizard" switch in Confirmation & Holds; setting persisted and read by wizard
 - Availability step: compact "Fee preview: $X.XX" bar at top; hover shows popover with Bag Total, optional Coupon row (+ Apply Coupon when enabled), Order Total, line items, Total (no submit)
 - Confirmation step: Coupon Discount row and Apply Coupon button only visible when `showApplyCouponInWizard` is true
-**See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`
+**See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`, `sessions/session-6.10.3-guide.md`
 
 - [ ] ### Phase 6.11: Drive Time Fee Line Item
 **Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence (virtual block instance):** Preserve drive time in the stored fee breakdown by using a single system "Drive time" block instance (one real row in `block_instances` with lineItem block shape, not user-selectable). The block has minimal/zero parts so the normal block fee formula yields 0; the actual amount is stored only in the fee entry: when persisting, add one `appointment_fee_entries` row with that block's id, `block_name` "Drive time", and computed fee in `total_fee`/`base_fee`. This keeps `block_instance_id` required and avoids schema changes; reporting and existing "every entry has a block" assumptions remain valid. Ensure the drive-time block exists (e.g. seed or create per calendar) and is excluded from wizard block selection.
@@ -180,13 +181,6 @@
 - Confirmation step and availability-step fee popover show Drive time row when applicable
 - Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
 **See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
-
-- [ ] ### Phase 6.12: Annotation Content Layer and Entity Enhancements
-**Description:** Entity enhancements: event shape `includeRescheduleLink` and `includeCancelLink` booleans (admin toggles, invite builder); block shapes tab entity card expansion fix. Annotation data layer: create `annotation_instance_content` table (content per user type block instance); deprecate Annotations with Metadata; annotation shape delete returns 409 when dependents exist. Annotation UI slots and wizard pipeline: shared `ANNOTATION_UI_SLOTS` and `ANNOTATION_UI_SLOT_REGISTRY` in `shared/constants/annotationSlots.ts`; `annotation_shapes.ui_slot` column; transformer and `useAnnotationContent` composable; wire annotations into SelectionCard/IndependentSelectCard (cardDescription, cardTooltip); migrate grid overlay to `gridOverlay` annotation slot with fallback to business settings.
-**Sessions:** 2 (6.12.1: entity enhancements + annotation data layer; 6.12.2: UI slots registry + wizard pipeline)
-**Dependencies:** Phase 6.5 (reschedule/cancel links exist to be toggled).
-**Success Criteria:** Event shape and event instance show link toggles; block shapes expand; annotation_instance_content in place; annotation shape delete 409; annotationSlots constant and ui_slot column; wizard shows annotations on cards and grid overlay from annotations when configured.
-**See:** `phases/phase-6.12-guide.md`
 
 ---
 

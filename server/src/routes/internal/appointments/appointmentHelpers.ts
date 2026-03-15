@@ -18,6 +18,7 @@ import { createBlockInstanceVersion } from '../../../services/instanceVersioning
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
 import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES } from './appointmentConstants.js'
+import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js'
 import { defaultAvailabilitySettings } from '../businessSettings/businessSettingsConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import type { AdminEntryTimeout } from '../../../../../shared/types/calendarTypes.js'
@@ -367,7 +368,7 @@ export async function createConstraintOverrideOnRescheduleIfNeeded(
 ): Promise<void> {
   const existing = await ConstraintOverride.findOne({
     where: { appointmentId: updatedAppointment.id },
-    order: [['createdAt', 'DESC']],
+    order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   })
   if (!existing) return
 

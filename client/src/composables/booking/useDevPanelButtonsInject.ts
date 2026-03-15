@@ -1,4 +1,4 @@
-import { computed, inject, ref, type ComputedRef } from 'vue'
+import { computed, inject, ref, type ComputedRef, type Ref } from 'vue'
 import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
 
 /**

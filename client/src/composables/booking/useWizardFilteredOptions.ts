@@ -16,7 +16,8 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     selectedUserType,
     selectedServiceTypeBlocks,
     selectedAvailabilityOptions,
-    selectedPropertyTypeBlocks
+    selectedPropertyTypeBlocks,
+    selectedCouponBlocks
   } = params
 
   const availableUserTypeBlocks = computed(() => getUserTypeBlocks(bookingData.value))
@@ -61,6 +62,19 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availablePropertyTypeBlocks = computed(() => propertyTypesResult.value.instances)
   const propertyTypesCascadeError = computed(() => propertyTypesResult.value.error)
 
+  const couponTypesResult = computed(() =>
+    cascadeShapePipeline({
+      bookingData: bookingData.value,
+      parentInstances: selectedServiceTypeBlocks.value,
+      currentSelection: selectedCouponBlocks.value,
+      relationshipName: 'coupons',
+      shapeType: BLOCK_SHAPE_TYPES.COUPON,
+      allowFallbackToAllOfShape: false
+    })
+  )
+  const availableCouponBlocks = computed(() => couponTypesResult.value.instances)
+  const couponCascadeError = computed(() => couponTypesResult.value.error)
+
   const availableLineItemBlocks = computed(() => {
     const raw = bookingData.value?.lineItemBlocks
     return raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
@@ -75,10 +89,12 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     availableServices,
     availableOptionTypeBlocks: availableAvailabilityOptions,
     availablePropertyTypeBlocks,
+    availableCouponBlocks,
     availableLineItemBlocks,
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
+    couponCascadeError,
     accServices,
     accProperty,
     accAvailability

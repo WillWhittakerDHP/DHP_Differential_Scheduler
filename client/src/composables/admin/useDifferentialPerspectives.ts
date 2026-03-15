@@ -20,6 +20,10 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
   moveableFallbackLabel: WritableComputedRef<string>
   majorStateLabel: WritableComputedRef<string>
   minorStateLabel: WritableComputedRef<string>
+  subStepLabelPickDay: WritableComputedRef<string>
+  subStepLabelOptions: WritableComputedRef<string>
+  subStepLabelPickTime: WritableComputedRef<string>
+  subStepLabelConfirmMoveable: WritableComputedRef<string>
 } {
   const { formData } = params
   const { getGlobalData, getGlobalEntities } = useGlobal()
@@ -133,6 +137,51 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
     }
   })
 
+  const subStepLabelPickDay = computed({
+    get: () =>
+      formData.value?.differentialPerspectives?.subStepLabelPickDay ?? DEFAULTS.subStepLabelPickDay,
+    set: (value: string) => {
+      ensureDifferentialPerspectives()
+      if (formData.value?.differentialPerspectives) {
+        formData.value.differentialPerspectives.subStepLabelPickDay = value
+      }
+    }
+  })
+
+  const subStepLabelOptions = computed({
+    get: () =>
+      formData.value?.differentialPerspectives?.subStepLabelOptions ?? DEFAULTS.subStepLabelOptions,
+    set: (value: string) => {
+      ensureDifferentialPerspectives()
+      if (formData.value?.differentialPerspectives) {
+        formData.value.differentialPerspectives.subStepLabelOptions = value
+      }
+    }
+  })
+
+  const subStepLabelPickTime = computed({
+    get: () =>
+      formData.value?.differentialPerspectives?.subStepLabelPickTime ?? DEFAULTS.subStepLabelPickTime,
+    set: (value: string) => {
+      ensureDifferentialPerspectives()
+      if (formData.value?.differentialPerspectives) {
+        formData.value.differentialPerspectives.subStepLabelPickTime = value
+      }
+    }
+  })
+
+  const subStepLabelConfirmMoveable = computed({
+    get: () =>
+      formData.value?.differentialPerspectives?.subStepLabelConfirmMoveable ??
+      DEFAULTS.subStepLabelConfirmMoveable,
+    set: (value: string) => {
+      ensureDifferentialPerspectives()
+      if (formData.value?.differentialPerspectives) {
+        formData.value.differentialPerspectives.subStepLabelConfirmMoveable = value
+      }
+    }
+  })
+
   return {
     availableUserTypeBlocks,
     majorAttendees,
@@ -142,6 +191,10 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
     differentialGraphDefaultLabel,
     moveableFallbackLabel,
     majorStateLabel,
-    minorStateLabel
+    minorStateLabel,
+    subStepLabelPickDay,
+    subStepLabelOptions,
+    subStepLabelPickTime,
+    subStepLabelConfirmMoveable
   }
 }

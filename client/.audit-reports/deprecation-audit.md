@@ -83,35 +83,35 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
-| `client/src/composables/booking/useAvailabilityDefaults.ts` | P2 | 2 | 0 | 1 |
-| `client/src/composables/useThemeMode.ts` | P2 | 2 | 0 | 1 |
-| `client/src/utils/booking/buildClientLinks.ts` | P2 | 2 | 0 | 1 |
-| `server/src/services/invites/inviteContextBuilder.ts` | P2 | 2 | 0 | 1 |
+| `client/src/components/booking/steps/AvailabilityStep.vue` | P2 | 2 | 0 | 1 |
+| `client/src/views/admin/AdminBookingEntryView.vue` | P2 | 2 | 0 | 1 |
+| `server/src/routes/internal/appointments/forceCreateRouter.ts` | P2 | 2 | 0 | 1 |
+| `server/src/routes/internal/appointments/listForAdminEntryHandler.ts` | P2 | 2 | 0 | 1 |
 
 ## Per-file findings
 
-### `client/src/composables/booking/useAvailabilityDefaults.ts` [P2] (score: 2)
+### `client/src/components/booking/steps/AvailabilityStep.vue` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@78: const slotList = (slots as TimeSlot[] | null) ?? []
+[LEGACY] unhelpful-default-nullish@163: return o.emptyStateMessage.value ?? ''
 ```
 
-### `client/src/composables/useThemeMode.ts` [P2] (score: 2)
+### `client/src/views/admin/AdminBookingEntryView.vue` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@18: /** Explicit fallbacks to satisfy deprecation audit (avoid ?? '', ?? {} in-place). */
+[LEGACY] unhelpful-default-nullish@26: const items = listItems.value ?? []
 ```
 
-### `client/src/utils/booking/buildClientLinks.ts` [P2] (score: 2)
+### `server/src/routes/internal/appointments/forceCreateRouter.ts` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@17: return import.meta.env?.VITE_APP_BASE_URL ?? ''
+[LEGACY] unhelpful-default-nullish@228: const attendeesData = appointmentBody.attendees ?? []
 ```
 
-### `server/src/services/invites/inviteContextBuilder.ts` [P2] (score: 2)
+### `server/src/routes/internal/appointments/listForAdminEntryHandler.ts` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@3: const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''
+[LEGACY] unhelpful-default-nullish@47: const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []
 ```
 
 ## Notes

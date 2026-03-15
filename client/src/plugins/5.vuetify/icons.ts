@@ -1,3 +1,4 @@
+import { h } from 'vue'
 import type { IconAliases, IconProps } from 'vuetify'
 
 import checkboxChecked from '@images/svg/checkbox-checked.svg'

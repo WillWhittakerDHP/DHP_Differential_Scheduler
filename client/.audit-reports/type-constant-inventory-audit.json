@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T01:21:15.473Z",
+  "generatedAt": "2026-03-11T02:26:38.529Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -37,14 +37,14 @@
   },
   "summary": {
     "totalTypeFiles": 268,
-    "totalConstantFiles": 23,
+    "totalConstantFiles": 24,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 105,
+    "filesWithInlineTypes": 109,
     "annotated": 325,
-    "unannotated": 0,
+    "unannotated": 1,
     "classificationIssues": {
       "mixedTypeConstantFiles": 12,
-      "inlineTypesInComposables": 75,
+      "inlineTypesInComposables": 79,
       "configsWithLogic": 8,
       "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
@@ -1272,7 +1272,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 32,
+      "lineCount": 40,
       "purpose": "Grid configuration handler function types",
       "reuseTier": "feature",
       "tags": [
@@ -2287,16 +2287,14 @@
       "annotatedDomain": "admin",
       "domainMatch": false,
       "location": "dedicated",
-      "exports": [
-        "UseShapesTabReturn"
-      ],
+      "exports": [],
       "exportKinds": {
-        "types": 1,
+        "types": 0,
         "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 37,
+      "lineCount": 42,
       "purpose": "Shapes tab component state and action types",
       "reuseTier": "feature",
       "tags": [],
@@ -2914,7 +2912,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 32,
+      "lineCount": 33,
       "purpose": "UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -3075,7 +3073,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 17,
+      "lineCount": 14,
       "purpose": "Default availability configuration value types",
       "reuseTier": "feature",
       "tags": [],
@@ -3181,7 +3179,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 69,
+      "lineCount": 67,
       "purpose": "Availability data orchestration and coordination types",
       "reuseTier": "feature",
       "tags": [],
@@ -3553,7 +3551,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 31,
+      "lineCount": 28,
       "purpose": "Data types for the contacts wizard step",
       "reuseTier": "feature",
       "tags": [],
@@ -4219,7 +4217,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 10,
+      "lineCount": 7,
       "purpose": "Property form watcher configuration and handler types",
       "reuseTier": "feature",
       "tags": [
@@ -4793,7 +4791,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 11,
+      "lineCount": 12,
       "purpose": "Wizard filtered option list and query types",
       "reuseTier": "feature",
       "tags": [],
@@ -5482,7 +5480,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 98,
+      "lineCount": 100,
       "purpose": "Core entity type definitions (runtime helpers moved to utils/globalEntity.ts).",
       "reuseTier": "shared",
       "tags": [
@@ -6227,7 +6225,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 25,
       "purpose": "Moveable scheduling constraint and boundary types",
       "reuseTier": "feature",
       "tags": [],
@@ -6706,7 +6704,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 131,
+      "lineCount": 140,
       "purpose": "Core booking wizard state and navigation types",
       "reuseTier": "feature",
       "tags": [],
@@ -7009,15 +7007,16 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "AttendeeRequest"
+        "AttendeeRequest",
+        "AdminEntryAppointmentItem"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 1,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 11,
+      "lineCount": 24,
       "purpose": "Shared appointment data structure types",
       "reuseTier": "shared",
       "tags": [],
@@ -7070,7 +7069,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 374,
+      "lineCount": 382,
       "purpose": "Shared availability slot and scheduling types",
       "reuseTier": "shared",
       "tags": [],
@@ -7117,16 +7116,18 @@
       "location": "dedicated",
       "exports": [
         "CalendarProvider",
+        "AdminEntryTimeoutUnit",
         "CalendarEntry",
+        "AdminEntryTimeout",
         "CalendarConfig"
       ],
       "exportKinds": {
-        "types": 1,
-        "interfaces": 2,
+        "types": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 34,
+      "lineCount": 45,
       "purpose": "Shared calendar event and scheduling types",
       "reuseTier": "shared",
       "tags": [],
@@ -7502,7 +7503,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 71,
+      "lineCount": 64,
       "purpose": "Appointments table column and config constants",
       "reuseTier": "feature",
       "tags": [
@@ -7562,6 +7563,30 @@
       "derivedPattern": false
     },
     {
+      "id": "client__src__constants__availabilityStepConstants.ts",
+      "repoPath": "client/src/constants/availabilityStepConstants.ts",
+      "name": "availabilityStepConstants",
+      "directoryDomain": "availabilityStepConstants.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "constants",
+      "exports": [
+        "SLOT_GRID_WRAPPER_OVERLAY_CLASS",
+        "AVAILABILITY_SUBSTEP_UI"
+      ],
+      "constCount": 2,
+      "usesAsConst": true,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": false,
+      "lineCount": 28,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
       "id": "client__src__constants__blockShapeTypes.ts",
       "repoPath": "client/src/constants/blockShapeTypes.ts",
       "name": "blockShapeTypes",
@@ -7579,7 +7604,7 @@
         "BlockShapeType"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 7,
+      "lineCount": 8,
       "purpose": "Block shape type identifier constants",
       "reuseTier": "feature",
       "tags": [],
@@ -7664,7 +7689,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 69,
+      "lineCount": 72,
       "purpose": "Business rules threshold and config constants",
       "reuseTier": "feature",
       "tags": [],
@@ -8150,7 +8175,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 39,
+      "lineCount": 41,
       "purpose": "Availability settings config barrel export",
       "reuseTier": "feature",
       "tags": [],
@@ -8178,7 +8203,7 @@
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 164,
+      "lineCount": 175,
       "purpose": "Availability settings type definitions for configs",
       "reuseTier": "feature",
       "tags": [],
@@ -8201,7 +8226,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 215,
+      "lineCount": 231,
       "purpose": "Business controls tab UI string constants",
       "reuseTier": "feature",
       "tags": [],
@@ -8703,7 +8728,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 130,
+      "lineCount": 138,
       "purpose": "Event instance form field configuration",
       "reuseTier": "feature",
       "tags": [
@@ -9067,6 +9092,18 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+      "exportedTypes": [
+        "ConfirmationAndHoldsPanelEmit",
+        "ConfirmationAndHoldsPanelProps",
+        "UseConfirmationAndHoldsPanelReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useEntityCardFieldContextAndVisibility.ts",
       "exportedTypes": [
         "UseEntityCardFieldContextAndVisibilityReturn"
@@ -9348,41 +9385,13 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/booking/bookingDevPanelKeys.ts",
+      "sourceFile": "client/src/composables/booking/injectionKeys.ts",
       "exportedTypes": [
+        "AvailabilitySubStepOrchestratorState",
         "InstancesPanelContext",
-        "ContactsFormContext"
+        "ContactsFormContext",
+        "AvailabilitySubStepContext"
       ],
-      "exportedConstants": [
-        "instancesPanelContextKey",
-        "contactsFormContextKey"
-      ],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/bookingKeys.ts",
-      "exportedTypes": [],
-      "exportedConstants": [
-        "availabilityStepValidateKey",
-        "confirmationStepValidKey",
-        "confirmationStepValidateKey",
-        "displayedMonthKey",
-        "updateDisplayedMonthKey",
-        "appointmentDurationKey",
-        "computedAvailabilityKey",
-        "resetMocksSignalKey",
-        "wizardKey",
-        "loadedWizardStateKey"
-      ],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": null
-    },
-    {
-      "sourceFile": "client/src/composables/booking/bookingWizardStepKeys.ts",
-      "exportedTypes": [],
       "exportedConstants": [
         "propertyDetailsStepDataKey",
         "contactsStepDataKey",
@@ -9393,11 +9402,24 @@
         "propertyDetailsFieldErrorsKey",
         "contactsStepValidKey",
         "contactsStepValidateKey",
-        "availabilityStepValidKey"
+        "availabilityStepValidKey",
+        "availabilityStepValidateKey",
+        "confirmationStepValidKey",
+        "confirmationStepValidateKey",
+        "displayedMonthKey",
+        "updateDisplayedMonthKey",
+        "appointmentDurationKey",
+        "computedAvailabilityKey",
+        "resetMocksSignalKey",
+        "wizardKey",
+        "loadedWizardStateKey",
+        "instancesPanelContextKey",
+        "contactsFormContextKey",
+        "availabilitySubStepContextKey"
       ],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": null
+      "importedByCount": 2,
+      "recommendation": "Consider extracting to a dedicated type file"
     },
     {
       "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
@@ -9410,9 +9432,65 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
+      "exportedTypes": [
+        "AvailabilityConfirmationState",
+        "UseAvailabilityConfirmationStateReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 1,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/booking/useAvailabilityDevPanel.ts",
       "exportedTypes": [
         "UseDevPanelDataReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
+      "exportedTypes": [
+        "UseAvailabilityStepAccordionParams",
+        "UseAvailabilityStepAccordionReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+      "exportedTypes": [
+        "UseAvailabilityStepSlotOverlayParams",
+        "UseAvailabilityStepSlotOverlayReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilityStepUI.ts",
+      "exportedTypes": [
+        "UseAvailabilityStepUIParams",
+        "UseAvailabilityStepUIReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+      "exportedTypes": [
+        "AvailabilitySubStepDef",
+        "UseAvailabilitySubStepsParams",
+        "UseAvailabilitySubStepsReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -9430,9 +9508,10 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/booking/useCancelAppointment.ts",
+      "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
       "exportedTypes": [
-        "UseCancelAppointmentReturn"
+        "UseDelayedModalVisibilityParams",
+        "UseDelayedModalVisibilityReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -9440,10 +9519,9 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
+      "sourceFile": "client/src/composables/booking/useListForAdminEntry.ts",
       "exportedTypes": [
-        "UseDelayedModalVisibilityParams",
-        "UseDelayedModalVisibilityReturn"
+        "UseListForAdminEntryReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -9658,8 +9736,7 @@
     {
       "sourceFile": "client/src/composables/useThemeMode.ts",
       "exportedTypes": [
-        "UseThemeModeReturn",
-        "UseThemeModeOptions"
+        "UseThemeModeReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10202,6 +10279,18 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
+          "exportedTypes": [
+            "ConfirmationAndHoldsPanelEmit",
+            "ConfirmationAndHoldsPanelProps",
+            "UseConfirmationAndHoldsPanelReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useEntityCardSubPanels.ts",
           "exportedTypes": [
             "SubPanelFields",
@@ -10391,41 +10480,13 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/composables/booking/bookingDevPanelKeys.ts",
+          "sourceFile": "client/src/composables/booking/injectionKeys.ts",
           "exportedTypes": [
+            "AvailabilitySubStepOrchestratorState",
             "InstancesPanelContext",
-            "ContactsFormContext"
+            "ContactsFormContext",
+            "AvailabilitySubStepContext"
           ],
-          "exportedConstants": [
-            "instancesPanelContextKey",
-            "contactsFormContextKey"
-          ],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/bookingKeys.ts",
-          "exportedTypes": [],
-          "exportedConstants": [
-            "availabilityStepValidateKey",
-            "confirmationStepValidKey",
-            "confirmationStepValidateKey",
-            "displayedMonthKey",
-            "updateDisplayedMonthKey",
-            "appointmentDurationKey",
-            "computedAvailabilityKey",
-            "resetMocksSignalKey",
-            "wizardKey",
-            "loadedWizardStateKey"
-          ],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": null
-        },
-        {
-          "sourceFile": "client/src/composables/booking/bookingWizardStepKeys.ts",
-          "exportedTypes": [],
           "exportedConstants": [
             "propertyDetailsStepDataKey",
             "contactsStepDataKey",
@@ -10436,16 +10497,85 @@
             "propertyDetailsFieldErrorsKey",
             "contactsStepValidKey",
             "contactsStepValidateKey",
-            "availabilityStepValidKey"
+            "availabilityStepValidKey",
+            "availabilityStepValidateKey",
+            "confirmationStepValidKey",
+            "confirmationStepValidateKey",
+            "displayedMonthKey",
+            "updateDisplayedMonthKey",
+            "appointmentDurationKey",
+            "computedAvailabilityKey",
+            "resetMocksSignalKey",
+            "wizardKey",
+            "loadedWizardStateKey",
+            "instancesPanelContextKey",
+            "contactsFormContextKey",
+            "availabilitySubStepContextKey"
           ],
           "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": null
+          "importedByCount": 2,
+          "recommendation": "Consider extracting to a dedicated type file"
         },
         {
           "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
           "exportedTypes": [
             "UseAppointmentLoaderReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
+          "exportedTypes": [
+            "AvailabilityConfirmationState",
+            "UseAvailabilityConfirmationStateReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
+          "exportedTypes": [
+            "UseAvailabilityStepAccordionParams",
+            "UseAvailabilityStepAccordionReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
+          "exportedTypes": [
+            "UseAvailabilityStepSlotOverlayParams",
+            "UseAvailabilityStepSlotOverlayReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "exportedTypes": [
+            "UseAvailabilityStepUIParams",
+            "UseAvailabilityStepUIReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+          "exportedTypes": [
+            "AvailabilitySubStepDef",
+            "UseAvailabilitySubStepsParams",
+            "UseAvailabilitySubStepsReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -10463,9 +10593,10 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/composables/booking/useCancelAppointment.ts",
+          "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
           "exportedTypes": [
-            "UseCancelAppointmentReturn"
+            "UseDelayedModalVisibilityParams",
+            "UseDelayedModalVisibilityReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -10473,10 +10604,9 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/composables/booking/useDelayedModalVisibility.ts",
+          "sourceFile": "client/src/composables/booking/useListForAdminEntry.ts",
           "exportedTypes": [
-            "UseDelayedModalVisibilityParams",
-            "UseDelayedModalVisibilityReturn"
+            "UseListForAdminEntryReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -10661,8 +10791,7 @@
         {
           "sourceFile": "client/src/composables/useThemeMode.ts",
           "exportedTypes": [
-            "UseThemeModeReturn",
-            "UseThemeModeOptions"
+            "UseThemeModeReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -10857,7 +10986,7 @@
             "BlockShapeType"
           ],
           "hasFactoryFunctions": false,
-          "lineCount": 7,
+          "lineCount": 8,
           "purpose": "Block shape type identifier constants",
           "reuseTier": "feature",
           "tags": [],
@@ -11170,7 +11299,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 71,
+        "lineCount": 64,
         "purpose": "Appointments table column and config constants",
         "reuseTier": "feature",
         "tags": [
@@ -11230,6 +11359,30 @@
         "derivedPattern": false
       },
       {
+        "id": "client__src__constants__availabilityStepConstants.ts",
+        "repoPath": "client/src/constants/availabilityStepConstants.ts",
+        "name": "availabilityStepConstants",
+        "directoryDomain": "availabilityStepConstants.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "constants",
+        "exports": [
+          "SLOT_GRID_WRAPPER_OVERLAY_CLASS",
+          "AVAILABILITY_SUBSTEP_UI"
+        ],
+        "constCount": 2,
+        "usesAsConst": true,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": false,
+        "lineCount": 28,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
         "id": "client__src__constants__blockShapeTypes.ts",
         "repoPath": "client/src/constants/blockShapeTypes.ts",
         "name": "blockShapeTypes",
@@ -11247,7 +11400,7 @@
           "BlockShapeType"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 7,
+        "lineCount": 8,
         "purpose": "Block shape type identifier constants",
         "reuseTier": "feature",
         "tags": [],
@@ -11332,7 +11485,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 69,
+        "lineCount": 72,
         "purpose": "Business rules threshold and config constants",
         "reuseTier": "feature",
         "tags": [],
@@ -11820,7 +11973,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 39,
+        "lineCount": 41,
         "purpose": "Availability settings config barrel export",
         "reuseTier": "feature",
         "tags": [],
@@ -11848,7 +12001,7 @@
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 164,
+        "lineCount": 175,
         "purpose": "Availability settings type definitions for configs",
         "reuseTier": "feature",
         "tags": [],
@@ -11871,7 +12024,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 215,
+        "lineCount": 231,
         "purpose": "Business controls tab UI string constants",
         "reuseTier": "feature",
         "tags": [],
@@ -12373,7 +12526,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 130,
+        "lineCount": 138,
         "purpose": "Event instance form field configuration",
         "reuseTier": "feature",
         "tags": [

@@ -1,8 +1,11 @@
 
-import { RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES } from '@shared/constants/businessRulesConstants'
+import {
+  RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES,
+  BUSINESS_RULES_ROUTE,
+} from '@shared/constants/businessRulesConstants'
 
-/** Base path for business rules API (relative to apiClient baseURL) */
-export const BUSINESS_RULES_API_BASE = '/business-rules'
+/** Base path for business rules API (relative to apiClient baseURL). Re-export from shared. */
+export const BUSINESS_RULES_API_BASE = BUSINESS_RULES_ROUTE
 
 export const BUSINESS_RULES_MESSAGES = {
   FAILED_TO_LOAD: 'Failed to load business rules',

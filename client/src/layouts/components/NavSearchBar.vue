@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import Shepherd from 'shepherd.js'
 import type { RouteLocationRaw } from 'vue-router'

@@ -21,7 +21,7 @@
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
+- Completed ** Admin entry (step 0 / pre-wizard)
 
 
 
@@ -29,7 +29,15 @@
 **Completed:** 2026-03-05
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** For admins only, before or as step 0 of the wizard: choices Start new inspection | Edit quote | Reschedule. When Edit quote or Reschedule, show dropdown of non-completed inspections (exclude cancelled, deleted); filter by admin-configurable time-out (X days/weeks); dropdown columns Address, Client name, Agent name. Selection sets wizard mode and `loadedAppointmentId`; wizard proceeds to step 3. API: list appointments filtered by status, time-out window; post–Feature 7 by permission.
+- Completed ** Admin entry (step 0 / pre-wizard)
+
+
+
+### Session 6.8.6: Admin entry (step 0 / pre-wizard) ✅
+**Completed:** 2026-03-05
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Admin entry (step 0 / pre-wizard)
 
 
 

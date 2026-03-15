@@ -39,8 +39,6 @@ function handleSelectedOptionTypeUpdate(value: string | string[] | null): void {
 
 <template>
   <div v-if="hasSelectedServices" class="availability-options-section">
-    <h5 class="text-headline-medium mb-4 mb-sm-6">Availability Options</h5>
-
     <VAlert
       v-if="cascadeError"
       type="error"
@@ -71,12 +69,8 @@ function handleSelectedOptionTypeUpdate(value: string | string[] | null): void {
 <style scoped lang="scss">
 .availability-options-section {
   margin-top: 0;
-  padding-top: 1.5rem;
+  padding-top: 0;
   width: 100%;
-
-  @media (min-width: 600px) {
-    padding-top: 1.5rem;
-  }
 }
 
 .availability-cards {

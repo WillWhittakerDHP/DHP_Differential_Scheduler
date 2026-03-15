@@ -1,67 +1,70 @@
-# Session 6.10.2 Guide: Availability-Step Fee Preview Bar and Popover
+# Session 6.10.2 Guide: Admin Toggle and Settings for Apply Coupon Visibility
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
-**Session:** 6.10.2 — Fee Bar and Popover  
+**Session:** 6.10.2 — Admin Toggle and Settings  
 **Status:** Not Started  
 **Branch:** TBD (e.g. `appointment-workflow-phase-6.10-session-6.10.2`)
-
-**Depends on:** Session 6.10.1 (admin toggle and settings) so `showApplyCouponInWizard` is available to the wizard.
 
 ---
 
 ## Session Overview
 
-Add a fee preview bar at the top of the Appointment Availability step (step 3) that shows the total fee (e.g. "Fee preview: $X.XX"). On hover, show a popover with the same fee details as the Confirmation step: Bag Total, optional Coupon Discount row and Apply Coupon button (only when `showApplyCouponInWizard` is true), Order Total, line items, Total. No submit buttons in the popover. Also update the Confirmation step so the Coupon Discount row and Apply Coupon button are only visible when `showApplyCouponInWizard` is true.
+Add a business setting **showApplyCouponInWizard** (or equivalent name) so admins can turn the apply-coupon line and button on or off in the booking wizard. The toggle lives in **Business Controls → Calendar → Confirmation & Holds**. Persist the value with the same availability/business settings that hold hold duration and auto-confirm; ensure the wizard can read it (e.g. via `getAvailabilitySettings()` / `useAvailabilitySettings().settings`).
 
 ---
 
 ## Key Context
 
-- **AvailabilityStep.vue** — Already injects `wizard`, `propertyDetailsStepData`. It does not currently use `buildConfirmationPriceData`; add a computed that calls it with `wizard.selectedServiceTypeBlocks.value`, `selectedPropertyTypeBlocks`, `selectedOptionTypeBlocks`, `selectedLineItemBlocks`, and from `propertyDetailsStepData?.value`: `squareFootage ?? propertySize`, `additionalUnits`. Reuse the same logic as `useConfirmationStepData` (see `client/src/composables/booking/useConfirmationStepData.ts` and `client/src/utils/booking/confirmationStepData.ts`).
-- **Confirmation step fee UI** — `ConfirmationStep.vue` lines 136–228: Total Fee Display, then Price Details (Bag Total, Coupon Discount row with Apply Coupon, Order Total, line items, Total). Reuse this structure in the popover (without the main submit flow).
-- **Setting:** Use `useAvailabilitySettings().settings?.showApplyCouponInWizard ?? false` to conditionally show the coupon row in both the popover and the Confirmation step.
+- **AppointmentConfirmationPanel.vue** — Already has hold duration and auto-confirm switch; add a second switch for "Show apply coupon in wizard". Panel receives props from `BusinessControlsCalendarSection` and emits updates; form state is provided by `useBusinessControlsFormState` / `useCalendarHoldFormState` and ultimately `formData` from `useAdminAvailabilitySettings`.
+- **Availability settings API** — `client/src/configs/availabilitySettings/api.ts`: `getAvailabilitySettings()` reads from `/business-settings/availability_settings`; `buildAvailabilityPayload(formData, autoConfirmEnabled)` builds the save payload. Today `autoConfirmEnabled` is passed separately; you can add `showApplyCouponInWizard` either inside the `setting_value` blob or as a separate top-level key in the payload (match server contract).
+- **Server:** If the backend does not yet store this key, add it to the business_settings availability payload (or equivalent) so the client can send and receive it.
 
 ---
 
 ## Tasks
 
-### Task 6.10.2.1: Fee preview bar and priceData in AvailabilityStep
+### Task 6.10.2.1: Types and API — Add showApplyCouponInWizard to settings
 
-**Goal:** Compute priceData and show a compact bar at the top of the step.
+**Goal:** Extend availability/business settings types and API so the setting can be read and written.
 
 **Files:**
-- `client/src/components/booking/steps/AvailabilityStep.vue` — Import `buildConfirmationPriceData` from `@/utils/booking/confirmationStepData`. Add a computed `availabilityStepPriceData` that calls `buildConfirmationPriceData` with wizard selections and property details (squareFootage, aduCount). Add a bar at the top (e.g. above or beside the "Appointment Availability" heading): "Fee preview: $X.XX" using `priceData.finalTotal` and `priceData.currency`. Show the bar only when the fee is meaningful (e.g. `wizard.selectedServiceTypeBlocks.value.length > 0` and optionally when `priceData.finalTotal >= 0`).
+- `client/src/configs/availabilitySettings/types.ts` — Add `showApplyCouponInWizard?: boolean` to `AvailabilitySettings` and to `RawAvailabilitySettings` if the API returns it in the same blob.
+- `client/src/configs/availabilitySettings/api.ts` — In the response mapping (where `convertedSettings` is built), set `showApplyCouponInWizard: rawSettings.showApplyCouponInWizard ?? false` (or read from the nested path the server uses). In `buildAvailabilityPayload`, include `showApplyCouponInWizard` in the payload (either inside `setting_value` or as a sibling to `auto_confirm_enabled` if the server expects it that way).
 
-**Checkpoint:** Bar appears when at least one service is selected; amount matches the logic used on the Confirmation step.
+**Checkpoint:** Fetch and save round-trip; type-safe; default `false` when missing.
 
 ---
 
-### Task 6.10.2.2: Hover popover with fee details
+### Task 6.10.2.2: Admin UI — Switch in Confirmation & Holds panel
 
-**Goal:** On hover (or click) over the fee bar, show a popover with the same structure as Confirmation step Price Details.
+**Goal:** Add the toggle and wire it to form state and save.
 
 **Files:**
-- `client/src/components/booking/steps/AvailabilityStep.vue` — Wrap the fee bar in a `VTooltip` or `VMenu`/`VPopover`. Popover content: Bag Total, then (when `showApplyCouponInWizard`) Coupon Discount row and Apply Coupon button, then Order Total, then line items, then Total (finalTotal). Use the same labels and layout as ConfirmationStep (no submit buttons). Read `showApplyCouponInWizard` from `useAvailabilitySettings().settings?.showApplyCouponInWizard ?? false`.
+- `client/src/views/admin/tabs/components/AppointmentConfirmationPanel.vue` — Add prop `showApplyCouponInWizard: boolean` and emit `update:showApplyCouponInWizard`. Add a `VSwitch` with label/hint (e.g. "Show apply coupon in wizard" / "When on, the Coupon Discount row and Apply Coupon button are visible in the booking summary and fee preview.").
+- `client/src/configs/businessControlsTabStrings.ts` — Add strings for the new switch (e.g. under `calendar` or a new key) so labels and hints are consistent.
+- `client/src/views/admin/tabs/BusinessControlsCalendarSection.vue` — Pass `showApplyCouponInWizard` into `AppointmentConfirmationPanel` from state and handle `@update:showApplyCouponInWizard`.
+- `client/src/composables/admin/useBusinessControlsFormState.ts` and/or `useCalendarHoldFormState.ts` — Expose `showApplyCouponInWizard` from `formData` (or from the same source as `autoConfirmEnabled`) so the Calendar section can bind it. If the value is stored inside `formData.value.calendarConfig` or similar, ensure the form state mutates that when the switch changes.
+- `client/src/composables/admin/useAdminAvailabilitySettings.ts` — When loading, map the new field from API response into `formData`. When saving, include it in the payload (via `buildAvailabilityPayload` or an extra argument).
 
-**Checkpoint:** Hover shows popover; content matches Confirmation step fee details; coupon row only when setting is on.
+**Checkpoint:** Toggle appears in Confirmation & Holds; changing it and saving persists the value; reloading the admin tab shows the correct state.
 
 ---
 
-### Task 6.10.2.3: Confirmation step — conditional coupon row
+### Task 6.10.2.3: Wizard can read the setting
 
-**Goal:** Show the Coupon Discount row and Apply Coupon button only when the admin toggle is on.
+**Goal:** Wizard (and later the availability-step fee popover) can access the current value.
 
-**Files:**
-- `client/src/components/booking/steps/ConfirmationStep.vue` — Use `useAvailabilitySettings().settings?.showApplyCouponInWizard ?? false`. Wrap the Coupon Discount row (the `div` that contains "Coupon Discount" and either the discount amount or the Apply Coupon button) in `v-if="showApplyCouponInWizard"`.
+**Approach:** If `showApplyCouponInWizard` is part of `AvailabilitySettings` returned by `getAvailabilitySettings()`, then `useAvailabilitySettings()` (used in the wizard) already exposes `settings`; add the field to the type and the wizard can use `useAvailabilitySettings().settings?.showApplyCouponInWizard ?? false`. No new composable required unless you prefer a dedicated small helper.
 
-**Checkpoint:** With toggle off, Confirmation step has no coupon row; with toggle on, it appears as today.
+**Checkpoint:** From a wizard or any component that uses `useAvailabilitySettings()`, the value is readable and reactive (e.g. for use in Session 6.10.3).
 
 ---
 
 ## Success Criteria
 
-- [ ] Availability step: Fee preview bar at top when fee is meaningful; hover shows popover with Bag Total, optional Coupon row (+ Apply Coupon when enabled), Order Total, line items, Total (no submit).
-- [ ] Confirmation step: Coupon row visible only when `showApplyCouponInWizard` is true.
+- [ ] Setting is defined in types and included in API get/save.
+- [ ] Admin switch in Confirmation & Holds; save/load works.
+- [ ] Wizard can read the setting via availability settings (e.g. `useAvailabilitySettings().settings?.showApplyCouponInWizard`).
 - [ ] Lint passes; app starts.
 
 ---
@@ -69,6 +72,4 @@ Add a fee preview bar at the top of the Appointment Availability step (step 3) t
 ## Related Documents
 
 - Phase 6.10 guide: `phases/phase-6.10-guide.md`
-- Session 6.10.1: `session-6.10.1-guide.md` (admin toggle and settings)
-- ConfirmationStep.vue (fee layout reference)
-- confirmationStepData.ts (buildConfirmationPriceData)
+- Session 6.10.3: `session-6.10.3-guide.md` (fee bar and popover; will use this setting)

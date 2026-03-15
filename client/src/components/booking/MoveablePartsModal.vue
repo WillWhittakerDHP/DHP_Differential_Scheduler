@@ -1,9 +1,13 @@
 <!--
   MoveablePartsModal Component
-  
+
+  @deprecated Session 6.9.4 — Superseded by in-step moveable flow. Use AvailabilitySubStepContent
+  step 4 (Confirm moveable details) instead. This modal is no longer used in AvailabilityStep;
+  kept for reference only. Remove in a future cleanup.
+
   WHY: Allows users to specify when moveable work should be completed, bounded by contingency deadlines
   PATTERN: Uses RequiredConfirmationModal shell; moveable-specific content (contingency, time grid) in body slot.
-  
+
   Phase 6.4: Re-enabled. Modal opens only when (1) slot has moveable parts and (2) selected service
   has preClosing: true (gated in useAvailabilityOrchestrator via hasMoveablePartsGated).
   Dynamic title and progressive (answer → different response) behavior preserved via shell.
@@ -143,6 +147,10 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * @deprecated Session 6.9.4 — Superseded by in-step moveable flow (AvailabilitySubStepContent step 4).
+ * Use the 5th sub-step in AvailabilityStep instead. This component is no longer used; kept for reference.
+ */
 import { computed } from 'vue'
 import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { AppointmentSlot } from '@/types/appointment'

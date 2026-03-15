@@ -19,7 +19,8 @@ export interface MoveableSchedulingOptions {
 }
 
 export interface MoveableSlot extends SlotTimeBounds {
-  dayLabel: string          // "Today", "Tomorrow", "Jan 16"
+  /** Relative day label (e.g. AVAILABILITY_SUBSTEP_UI.TODAY/TOMORROW or formatted date like "Jan 16"). */
+  dayLabel: string
   timeLabel: string         // "2:00 PM - 3:30 PM"
   /** When set from server/computed slots; omitted when no constraint data (defaults to available). */
   isAvailable?: boolean

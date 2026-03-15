@@ -5,6 +5,9 @@
  * PATTERN: Exported const object; both client and server derive RuleType from it
  */
 
+/** Route path for business rules API (constants-consolidation: single source for client and server). */
+export const BUSINESS_RULES_ROUTE = '/business-rules'
+
 /** Rule type value constants (single source of truth for rule_type column and form defaults) */
 export const RULE_TYPE_VALUES = {
   REQUIRED_FIELDS: 'required_fields',

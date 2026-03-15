@@ -613,6 +613,20 @@
             "*"
           ],
           "reason": "Borderline; mostly watch/computed wiring, no single deep function (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Step UI orchestrator; branch count from step state and label mapping (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Sub-step visibility/orchestration; branch count from step visibility logic (hotspot triage allowlist)"
         }
       ]
     },
@@ -966,6 +980,21 @@
             "excessive-emit-count"
           ],
           "reason": "Places/timezone form panel; event surface; intentional"
+        },
+        {
+          "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+          "ruleIds": [
+            "component-coupling",
+            "template-directive-depth"
+          ],
+          "reason": "Step content switcher; imports step-specific components by design; template depth from v-if step index (extract deferred)"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "ruleIds": [
+            "oversized-template"
+          ],
+          "reason": "Panel form; template extraction deferred"
         }
       ],
       "linePatterns": []
@@ -1290,6 +1319,13 @@
             "oversized-return"
           ],
           "reason": "Form bindings 22 props; extracted from PropertyCreateForm per vue-architecture"
+        },
+        {
+          "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 13 props; perspectives form state cohesion"
         }
       ],
       "linePatterns": []

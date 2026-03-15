@@ -18,6 +18,10 @@ export interface GridConfigState {
     moveableFallbackLabel: string
     majorStateLabel: string
     minorStateLabel: string
+    subStepLabelPickDay: string
+    subStepLabelOptions: string
+    subStepLabelPickTime: string
+    subStepLabelConfirmMoveable: string
   }
 }
 
@@ -31,4 +35,8 @@ export interface UseGridConfigHandlersReturn {
   handleMoveableFallbackLabel: (v: string) => void
   handleMajorStateLabel: (v: string) => void
   handleMinorStateLabel: (v: string) => void
+  handleSubStepLabelPickDay: (v: string) => void
+  handleSubStepLabelOptions: (v: string) => void
+  handleSubStepLabelPickTime: (v: string) => void
+  handleSubStepLabelConfirmMoveable: (v: string) => void
 }
