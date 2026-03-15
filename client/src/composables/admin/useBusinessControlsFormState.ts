@@ -33,6 +33,8 @@ export interface UseBusinessControlsFormStateReturn {
     saveButtonProps: UseCalendarHoldFormStateReturn['ui']['saveButtonProps']
     clearError: UseCalendarHoldFormStateReturn['actions']['clearError']
     setCalendarProvider: UseCalendarHoldFormStateReturn['actions']['setCalendarProvider']
+    showApplyCouponInWizard: ComputedRef<boolean>
+    setShowApplyCouponInWizard: (v: boolean) => void
   }
   rounding: {
     durationRoundingEnabled: ComputedRef<boolean>
@@ -129,6 +131,17 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
     autoConfirmEnabled.value = v
   }
 
+  const showApplyCouponInWizard = computed({
+    get: () => formData.value?.showApplyCouponInWizard ?? false,
+    set: (v: boolean) => {
+      if (formData.value) formData.value.showApplyCouponInWizard = v
+    },
+  })
+
+  const setShowApplyCouponInWizard = (v: boolean): void => {
+    showApplyCouponInWizard.value = v
+  }
+
   return {
     businessHours: {
       businessHoursForUI,
@@ -156,6 +169,8 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
       saveButtonProps,
       clearError,
       setCalendarProvider,
+      showApplyCouponInWizard,
+      setShowApplyCouponInWizard,
     },
     rounding: {
       durationRoundingEnabled,

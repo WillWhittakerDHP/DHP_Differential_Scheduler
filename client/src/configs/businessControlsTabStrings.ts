@@ -150,6 +150,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     holdDurationMax: 'Hold duration cannot exceed 60 minutes',
     autoConfirmLabel: 'Auto-confirm appointments',
     autoConfirmHint: 'When enabled, new appointments created with status "Submitted" are automatically transitioned to "Confirmed".',
+    showApplyCouponLabel: 'Show apply coupon in wizard',
+    showApplyCouponHint: 'When on, the Coupon Discount row and Apply Coupon button are visible in the booking summary and fee preview.',
     adminEntryTimeoutLabel: 'Admin entry dropdown time-out',
     adminEntryTimeoutHint: 'Only show appointments in the Edit quote / Reschedule dropdown where scheduling began within the last X days or weeks (or quote in quote status for last X). Used to limit the list to recent inspections.'
   },

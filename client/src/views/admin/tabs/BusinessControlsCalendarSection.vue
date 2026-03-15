@@ -60,6 +60,7 @@ const timezoneOptions = TIMEZONE_OPTIONS
           :admin-entry-timeout-value="state.formState.adminEntryTimeoutValue"
           :admin-entry-timeout-unit="state.formState.adminEntryTimeoutUnit"
           :auto-confirm-enabled="state.autoConfirmEnabled"
+          :show-apply-coupon-in-wizard="state.formState.showApplyCouponInWizard"
           :save-button-props="state.saveButtonProps"
           @update:hold-duration-minutes="(v: number) => { state.formState.holdDurationMinutes = v }"
           @update:hold-duration-min="(v: number) => { state.formState.holdDurationMin = v }"
@@ -68,6 +69,7 @@ const timezoneOptions = TIMEZONE_OPTIONS
           @update:admin-entry-timeout-value="(v: number) => { state.formState.adminEntryTimeoutValue = v }"
           @update:admin-entry-timeout-unit="(v: 'days' | 'weeks') => { state.formState.adminEntryTimeoutUnit = v }"
           @update:auto-confirm-enabled="state.formState.setAutoConfirmEnabled"
+          @update:show-apply-coupon-in-wizard="state.formState.setShowApplyCouponInWizard"
         />
       </VWindowItem>
 
