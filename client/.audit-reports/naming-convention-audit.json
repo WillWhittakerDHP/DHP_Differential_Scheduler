@@ -1,75 +1,18 @@
 {
-  "generatedAt": "2026-03-21T13:39:14.123Z",
-  "totalScanned": 1154,
+  "generatedAt": "2026-03-15T20:37:37.175Z",
+  "totalScanned": 1127,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 4,
+    "totalAllowed": 0,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 4,
+      "pattern": 0,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": [
-    {
-      "repoPath": "client/src/composables/admin/useAdminAvailabilitySettings.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 19,
-          "line": "export function calculateMaxBusinessHours(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "allowed": [
-        {
-          "ruleId": "composableExport",
-          "lineNumber": 34,
-          "line": "export function computeMoveableSlots(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "server/src/db/models/booking/block_instance.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 41,
-          "line": "export function BlockInstanceFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    },
-    {
-      "repoPath": "server/src/db/models/booking/event_shape.ts",
-      "allowed": [
-        {
-          "ruleId": "functionExport",
-          "lineNumber": 39,
-          "line": "export function EventShapeFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
-      "requiresReview": []
-    }
-  ]
+  "scanned": []
 }

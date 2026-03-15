@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:27:31.915Z",
+  "generatedAt": "2026-03-15T20:37:34.867Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -23,36 +23,36 @@
   },
   "errors": [
     {
-      "file": "src/composables/admin/useInstanceDragAndDrop.ts",
-      "line": 67,
-      "col": 37,
-      "code": "TS2345",
-      "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
-      "raw": "src/composables/admin/useInstanceDragAndDrop.ts(67,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+      "file": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue",
+      "line": 74,
+      "col": 68,
+      "code": "TS2769",
+      "message": "No overload matches this call.",
+      "raw": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue(74,68): error TS2769: No overload matches this call.",
       "scope": "client",
-      "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts"
+      "repoPath": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue"
     }
   ],
   "allowedErrors": [],
   "pools": [
     {
-      "poolId": "TS2345-ts2345-arg-string-globalentityid",
-      "groupKey": "TS2345::arg:string=>GlobalEntityId",
+      "poolId": "TS2769-ts2769-no-overload-matches-this-call",
+      "groupKey": "TS2769::No overload matches this call.",
       "errorCount": 1,
       "fileCount": 1,
-      "severityScore": 10,
+      "severityScore": 9,
       "blastRadiusScore": 2,
       "repetitionScore": 1,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
-      "totalScore": 13,
+      "totalScore": 12,
       "sample": [
         {
-          "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts",
-          "line": 67,
-          "col": 37,
-          "code": "TS2345",
-          "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'."
+          "repoPath": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue",
+          "line": 74,
+          "col": 68,
+          "code": "TS2769",
+          "message": "No overload matches this call."
         }
       ],
       "priority": "P1"
@@ -60,20 +60,20 @@
   ],
   "files": [
     {
-      "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts",
+      "repoPath": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue",
       "errorCount": 1,
       "unsafeCastHits": 0,
       "suppressionHits": 0,
       "errors": [
         {
-          "file": "src/composables/admin/useInstanceDragAndDrop.ts",
-          "line": 67,
-          "col": 37,
-          "code": "TS2345",
-          "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
-          "raw": "src/composables/admin/useInstanceDragAndDrop.ts(67,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+          "file": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue",
+          "line": 74,
+          "col": 68,
+          "code": "TS2769",
+          "message": "No overload matches this call.",
+          "raw": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue(74,68): error TS2769: No overload matches this call.",
           "scope": "client",
-          "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts"
+          "repoPath": "src/views/admin/tabs/components/AppointmentConfirmationPanel.vue"
         }
       ]
     }
