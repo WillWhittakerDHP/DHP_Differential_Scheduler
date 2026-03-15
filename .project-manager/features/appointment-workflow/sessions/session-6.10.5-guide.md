@@ -2,7 +2,7 @@
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
 **Session:** 6.10.5 — Wizard sub-tab and consolidated settings  
-**Status:** Not Started  
+**Status:** In Progress  
 **Branch:** TBD
 
 **Depends on:** Session 6.10.2 (admin toggle and settings); Session 6.10.3 (fee bar and popover). Wizard settings exist in Holds and Grid; this session consolidates them.
@@ -46,7 +46,7 @@ Add a Wizard sub-tab to Business Controls → Calendar (alongside Integration, H
 
 ## Tasks
 
-- [ ] #### Task 6.10.5.1: Create useWizardSettings composable
+- [x] #### Task 6.10.5.1: Create useWizardSettings composable
 **Goal:** Create a composable that consolidates wizard settings access; replace scattered handlers with this pattern.
 **Files:** `client/src/composables/admin/useWizardSettings.ts` (or `client/src/composables/booking/useWizardSettings.ts` if wizard-facing); types in `client/src/configs/availabilitySettings/types.ts`.
 **Approach:** Extract `showApplyCouponInWizard` (and other wizard settings) into a single composable; expose read path for wizard steps and write path for Admin panel; wire to existing form state / availability settings API.
