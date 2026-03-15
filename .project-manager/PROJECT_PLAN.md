@@ -50,7 +50,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 
 | Milestone | Definition of Done |
 |-----------|--------------------|
-| **Alpha Ready** | Features 7–10 and Feature 13 (Alpha Launch) substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
+| **Alpha Ready** | Features 7–11 and Feature 13 (Alpha Launch) substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
 | **Post-Alpha Ready (Between Alpha and Beta)** | Feature 17 (Admin UI Overhaul) complete — wizard and admin UI redesigned. Booking wizard and admin surfaces migrated to Ionic for Vue where planned. Native app path established: Ionic app wrapped in Capacitor, iOS/Android builds produced. Apple Store (and optionally Play Store) submission package ready. See LAUNCH_CHECKLIST.md "Between Alpha and Beta" and Phase 7 for conversion and launch steps. |
 | **Beta Ready** | Feature 9 (Guided Alpha Testing) complete — wizard flow diagram, alpha task database, guided assignment and 2–3 blank runs. Feature 10 (Testing) E2E derived from alpha task list. Features 7–10 and 13–15 complete. Feature 19 (CRM / Inspection Platform Integration) research and API set-up complete so inspection-creation path (Spectora/ISN or own CRM) is decided and PoC proven. E2E tests cover critical paths, error tracking live. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. Beta testers can use the web app and/or the native (Ionic) app. |
 | **Production Ready** | Features 7–15 plus password auth transition. Full test coverage, polished UI, rollback procedures documented and tested. Ready for public access. |
@@ -721,7 +721,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ## Feature 13: Alpha Launch & Deployment
 
 **Status:** 📋 Planning
-**Description:** Alpha milestone. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. App deployed, auth working, core booking + admin flows functional; no external testers yet. Depends on Features 7–10. See LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
+**Description:** Alpha milestone. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. App deployed, auth working, core booking + admin flows functional; no external testers yet. Depends on Features 7–11. See LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
 **Branch:** TBD
 
 ### Existing Infrastructure

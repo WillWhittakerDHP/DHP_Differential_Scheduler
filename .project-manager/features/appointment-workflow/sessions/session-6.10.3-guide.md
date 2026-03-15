@@ -2,10 +2,22 @@
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
 **Session:** 6.10.3 — Fee Bar and Popover  
-**Status:** Not Started  
+**Status:** In Progress  
 **Branch:** TBD (e.g. `appointment-workflow-phase-6.10-session-6.10.3`)
 
 **Depends on:** Session 6.10.2 (admin toggle and settings) so `showApplyCouponInWizard` is available to the wizard.
+
+---
+
+## Quick Start
+
+**Session 6.10.3** adds a fee preview bar on the Availability step (step 3) and a hover/click popover with fee details; Confirmation step coupon row is gated by the admin toggle. Tasks: 6.10.3.1 (fee bar + priceData) → 6.10.3.2 (popover) → 6.10.3.3 (Confirmation step conditional coupon row). Run `/session-start 6.10.3` then cascade to `/task-start 6.10.3.1`; complete each task with `/task-end` before the next.
+
+---
+
+## Session Workflow
+
+Use `/session-start 6.10.3` to load handoff and branch; cascade to `/task-start 6.10.3.1`. Work tasks in order (6.10.3.1 → 6.10.3.2 → 6.10.3.3); run `/task-end <taskId>` after each. After the last task, run `/session-end 6.10.3` (verification, session audit, merge to phase branch).
 
 ---
 

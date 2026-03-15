@@ -120,7 +120,6 @@ declare global {
   const getBlockInstancesByShapeIdFromBooking: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByShapeIdFromBooking
   const getBlockInstancesByShapeName: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByShapeName
   const getBlockInstancesByType: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByType
-  const getBlockInstancesForShapeName: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesForShapeName
   const getBlockShapeIdByName: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByName
   const getBlockShapeIdByType: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByType
   const getBulkPatchEndpoint: typeof import('./src/utils/api/entityApi').getBulkPatchEndpoint
@@ -677,8 +676,6 @@ declare module 'vue' {
     readonly getAllUserTypeBlockIds: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getAllUserTypeBlockIds']>
     readonly getApiErrorMessage: UnwrapRef<typeof import('./src/composables/useApiErrorMessage')['getApiErrorMessage']>
     readonly getAppointmentFieldFormatter: UnwrapRef<typeof import('./src/utils/appointmentFieldFormatters')['getAppointmentFieldFormatter']>
-    readonly getBlockInstancesForShapeName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockInstancesForShapeName']>
-    readonly getBlockShapeIdByName: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByName']>
     readonly getBlockShapeIdByType: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getBlockShapeIdByType']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
