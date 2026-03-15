@@ -59,6 +59,19 @@
 - [To be identified during planning]
 
 ---
+- [ ] ### Session 6.10.5: add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
+**Description:** add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
+**Tasks:** [To be planned]
+**Focus:**
+- [To be identified during planning]
+
+---
+
+## Tasks
+
+Sessions and tasks for this phase. See Sessions Breakdown above for session list and details.
+
+---
 
 ## Dependencies
 

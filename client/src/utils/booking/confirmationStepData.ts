@@ -8,7 +8,6 @@ import type {
   AppointmentFeeBreakdownPayload,
 } from '@shared/types/appointmentFeeTypes'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
-import { calculatePartsTotals } from './partsTotals'
 import {
   filterZeroedParts
 } from './partFinalizer'
@@ -16,8 +15,7 @@ import { createBlockFinal } from './BlockFinal'
 import { getEffectivePartsForFee } from './pricingCascadeResolver'
 import { asEmptyArray } from '@/utils/safeDefaults'
 
-/** Placeholder values until coupon and business-settings integration; single source for confirmation pricing. */
-const CONFIRMATION_PLACEHOLDER_COUPON_DISCOUNT = 0
+/** Placeholder values until delivery/business-settings integration; single source for confirmation pricing. */
 const CONFIRMATION_PLACEHOLDER_DELIVERY_CHARGES = 5.0
 const CONFIRMATION_PLACEHOLDER_DELIVERY_FREE = true
 
@@ -76,22 +74,21 @@ function calculateBlockInstanceFee(
     effectiveParts === rawParts
       ? blockInstance
       : { ...blockInstance, partInstances: effectiveParts }
-  // PATTERN: Create BlockFinal for consistency with new architecture
+  // PATTERN: Create BlockFinal for consistency with new architecture (PartFinal applies percentageOff)
   const blockFinal = createBlockFinal(blockForFinal)
   const nonZeroedFinalizedParts = filterZeroedParts(blockFinal.finalizedParts)
-  
-  // PATTERN: Flat map sourcePartInstances from non-zeroed finalized parts
-  const nonZeroedParts = nonZeroedFinalizedParts.flatMap(fp => fp.sourcePartInstances)
-  
-  // PATTERN: Use calculatePartsTotals utility for base calculations
-  const partsTotals = calculatePartsTotals(nonZeroedParts)
-  
-  // PATTERN: Use totalBaseFee from shared utility
-  const baseFee = partsTotals.totalBaseFee
-  
-  // PATTERN: Multiply totalRateOverBaseFee by squareFootage
+
+  // PATTERN: Use blockTotals from BlockFinal so percentage-off and negative base fee from PartFinal flow through
+  const blockTotals = nonZeroedFinalizedParts.reduce(
+    (acc, part) => ({
+      baseFee: acc.baseFee + part.baseFee,
+      rateOverBaseFee: acc.rateOverBaseFee + part.rateOverBaseFee
+    }),
+    { baseFee: 0, rateOverBaseFee: 0 }
+  )
+  const baseFee = blockTotals.baseFee
   const sqft = squareFootage ?? 0
-  const overageFee = partsTotals.totalRateOverBaseFee * sqft
+  const overageFee = blockTotals.rateOverBaseFee * sqft
   
   const totalFeeBeforeMultiplier = baseFee + overageFee
   
@@ -254,6 +251,47 @@ export function buildAppointmentFeeBreakdown(
   return { summary, entries }
 }
 
+/**
+ * Sum of discounts from parts: percentage off (baseFee and rateOverBaseFee * sqft) and negative baseFee.
+ * Used for Coupon Discount row and order total; 0 when no parts have percentageOff or negative baseFee.
+ */
+function calculateTotalCouponDiscount(
+  wizard: WizardSelectionState,
+  squareFootage: number | null,
+  aduCount?: number | null
+): number {
+  const sqft = squareFootage ?? 0
+  const adu = aduCount ?? 1
+  const allPartInstances: BookingPartInstance[] = [
+    ...asEmptyArray(wizard.selectedServices).flatMap((s) => asEmptyArray(s.partInstances)),
+    ...asEmptyArray(wizard.selectedPropertyTypeBlocks).flatMap((p) => asEmptyArray(p.partInstances)),
+    ...asEmptyArray(wizard.selectedOptionTypeBlocks).flatMap((o) => asEmptyArray(o.partInstances)),
+    ...asEmptyArray(wizard.selectedLineItemBlocks).flatMap((l) => asEmptyArray(l.partInstances)),
+  ]
+  const blocks: BookingBlockInstance[] = [
+    ...asEmptyArray(wizard.selectedServices),
+    ...asEmptyArray(wizard.selectedPropertyTypeBlocks),
+    ...asEmptyArray(wizard.selectedOptionTypeBlocks),
+    ...asEmptyArray(wizard.selectedLineItemBlocks),
+  ]
+  let totalDiscount = 0
+  for (const block of blocks) {
+    const rawParts = block.partInstances ?? []
+    const effectiveParts: BookingPartInstance[] =
+      allPartInstances.length > 0 ? getEffectivePartsForFee(rawParts, allPartInstances) : rawParts
+    const multiplier = block.allowMultiple ? adu : 1
+    for (const p of effectiveParts) {
+      const baseFee = p.baseFee ?? 0
+      const rateOverBaseFee = p.rateOverBaseFee ?? 0
+      const pct = p.percentageOff ?? 0
+      const discountFromPct = (baseFee * pct) / 100 + (rateOverBaseFee * sqft * pct) / 100
+      const discountFromNegative = baseFee < 0 ? Math.abs(baseFee) : 0
+      totalDiscount += (discountFromPct + discountFromNegative) * multiplier
+    }
+  }
+  return totalDiscount
+}
+
 export function buildConfirmationPriceData(
   wizard: WizardSelectionState,
   squareFootage: number | null,
@@ -281,9 +319,9 @@ export function buildConfirmationPriceData(
     return { label: block.name, amount, isFree: amount === 0 }
   })
 
-  const bagTotal = summary.totalFee
-  const couponDiscount = CONFIRMATION_PLACEHOLDER_COUPON_DISCOUNT
-  const orderTotal = bagTotal - couponDiscount
+  const couponDiscount = calculateTotalCouponDiscount(wizard, squareFootage, aduCount)
+  const bagTotal = summary.totalFee + couponDiscount
+  const orderTotal = summary.totalFee
   const deliveryCharges = CONFIRMATION_PLACEHOLDER_DELIVERY_CHARGES
   const deliveryFree = CONFIRMATION_PLACEHOLDER_DELIVERY_FREE
   const finalTotal = orderTotal + (deliveryFree ? 0 : deliveryCharges)
