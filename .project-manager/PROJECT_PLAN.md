@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-02-27
+**Last Updated:** 2026-03-15
 **Status:** Active Planning Document
 
 ---
@@ -285,7 +285,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 **Status:** ⏳ Partial (Phase 1 Complete for workflow; core complete for calculations)
 **Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard. Booking calculation logic is implemented; workflow Phase 1 complete.
-**Branch:** `feature/google-apis-integration`
+**Branch:** `feature/appointment-workflow`
 
 ### Appointment Workflow Phases
 
@@ -839,16 +839,36 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 **Status:** 🔮 Future
 **When:** Scheduled **between Alpha Ready and Beta Ready** (post-alpha, pre-beta). The UI overhaul (wizard + admin) is done before inviting beta testers, so the Ionic migration and native app build use the simplified component set.
-**Description:** Complete redesign of the admin interface and wizard UX. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure. Reduces metadata-driven generic components so that subsequent Ionic Vue migration (booking wizard and admin, as planned) targets a smaller, clearer component set.
+**Description:** (1) **Admin vs Developer Split:** Rename current admin panel to Developer; create a new Admin panel from scratch for business administration only (users, roles, permissions, org settings). (2) **Smart UI Redesign:** Guided workflows, relationship builder, templates, progressive disclosure. (3) **Live Preview Panel:** Real-time booking simulation. (4) **Selective AI Assistance:** GPT-powered helpers integrated into workflows.
 **Branch:** TBD
 
+### Phase 0: Admin vs Developer Split (Pre-Phase 1)
+
+**Goal:** Rename current admin panel to Developer; create a new Admin panel for business administration only.
+
+**Current state:** Admin panel today (`/admin`, `AdminPanel.vue`) has: Instances (dev/data model), Shapes (dev/schema), APPOINTMENTS (mixed), CONTROLS (business admin). Data chain: `views/admin/`, `composables/admin/`, `components/admin/`, `types/admin/`, `utils/admin/`, `useAdmin`, routes `/admin`, `/admin-metadata`, etc.
+
+**Architecture decision:**
+- **Developer panel** (renamed): Instances, Shapes, metadata, block shapes, entity forms, dev tools. Route `/developer`.
+- **Admin panel** (new): Users, roles, permissions, org settings. Flat, focused UI. Route `/admin`. No metadata, shapes, instances.
+
+**Tasks:**
+1. **Rename current admin → Developer:** Grep/replace across client (views, composables, components, types, utils, router). Decide on API path renames (`/admin-metadata` → `/developer-metadata` or keep). Decide on DB model renames vs. keeping DB names.
+2. **Route and access:** `/admin` → `/developer` for the current panel. Add `/admin` for the new Admin panel.
+3. **New Admin panel:** New route, layout, and components. Only business admin: users, roles, permissions, org settings. Flat, focused UI.
+4. **Move CONTROLS:** Decide whether Business Controls (rules, calendar, holds, wizard) live in Developer or Admin.
+
+**Caveats:** User role `admin` (access control) — keep or introduce `developer` role? API paths may be external contracts. DB models: keep names vs. migrations.
+
 ### Planned Phases
-1. **Smart UI Redesign** — Guided workflows, relationship builder, templates
+0. **Admin vs Developer Split** — Rename current admin → Developer; create new Admin panel (business admin only)
+1. **Smart UI Redesign** — Guided workflows, relationship builder, templates (applies to Developer panel)
 2. **Live Preview Panel** — Real-time booking simulation as admins configure services
 3. **Integration with Admin Assistance Wizard** (Feature 18)
 
 ### Related Documents
-- LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); "Between Alpha and Beta" section; Feature 17 planning
+- Feature 17 guide: `features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md` (Phase 0, architecture decision, grep/replace scope)
+- LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); "Between Alpha and Beta" section
 
 ---
 

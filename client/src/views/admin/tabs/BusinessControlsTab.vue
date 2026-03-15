@@ -21,6 +21,7 @@ import type {
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import BusinessControlsConstraintsSection from './BusinessControlsConstraintsSection.vue'
 import BusinessControlsCalendarSection from './BusinessControlsCalendarSection.vue'
+import WizardConfigPanel from './components/WizardConfigPanel.vue'
 import BusinessControlsRulesSection from './BusinessControlsRulesSection.vue'
 
 const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
@@ -106,6 +107,7 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
       <VTabs v-model="currentMainTab" class="mb-4">
         <VTab value="constraints">{{ UI_STRINGS.tabs.constraints }}</VTab>
         <VTab value="calendar">{{ UI_STRINGS.tabs.calendar }}</VTab>
+        <VTab value="wizard">{{ UI_STRINGS.tabs.wizard }}</VTab>
         <VTab value="rules">{{ UI_STRINGS.tabs.rules }}</VTab>
       </VTabs>
 
@@ -116,6 +118,10 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
         <VWindowItem key="calendar" value="calendar">
           <BusinessControlsCalendarSection />
+        </VWindowItem>
+
+        <VWindowItem key="wizard" value="wizard">
+          <WizardConfigPanel v-if="businessControlsState?.wizardSettings" />
         </VWindowItem>
 
         <VWindowItem key="rules" value="rules">

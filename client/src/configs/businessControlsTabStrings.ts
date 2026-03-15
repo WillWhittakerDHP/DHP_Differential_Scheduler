@@ -115,7 +115,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     rounding: 'Rounding',
     timezone: 'Timezone',
     places: 'Places',
-    grid: 'Grid'
+    grid: 'Grid',
+    wizard: 'Wizard'
   },
   calendar: {
     integrationTitle: 'Calendar Integration',
