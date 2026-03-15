@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-15T22:10:09.793Z
+Generated: 2026-03-15T22:16:07.248Z
 
 ## Summary
 
 - Type files: **268**
 - Constant files: **24**
 - Config files: **34**
-- Files with inline type exports: **113**
+- Files with inline type exports: **114**
 - Annotated: **325** | Unannotated: **1**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 13 |
-| Inline types in composables | 83 |
+| Inline types in composables | 84 |
 | Configs with factory functions | 8 |
 | Duplicate type names | 7 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -493,6 +493,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilityConfirmationState.ts`: AvailabilityConfirmationState, UseAvailabilityConfirmationStateReturn (imported by 1 files)
 - `client/src/composables/booking/useAvailabilityStepAccordion.ts`: UseAvailabilityStepAccordionParams, UseAvailabilityStepAccordionReturn (imported by 0 files)
+- `client/src/composables/booking/useAvailabilityStepFeePreview.ts`: UseAvailabilityStepFeePreviewParams, UseAvailabilityStepFeePreviewReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilityStepSlotOverlay.ts`: UseAvailabilityStepSlotOverlayParams, UseAvailabilityStepSlotOverlayReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilityStepUI.ts`: UseAvailabilityStepUIParams, UseAvailabilityStepUIReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilitySubSteps.ts`: AvailabilitySubStepDef, UseAvailabilitySubStepsParams, UseAvailabilitySubStepsReturn (imported by 0 files)

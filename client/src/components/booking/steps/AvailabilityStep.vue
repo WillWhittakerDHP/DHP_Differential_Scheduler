@@ -102,6 +102,17 @@ const {
   bookingData,
 })
 
+const {
+  availabilityStepPriceData,
+  showFeeBar,
+  feePreviewLabel,
+  showApplyCouponInWizard,
+} = useAvailabilityStepFeePreview({
+  wizard: o.wizard,
+  propertyDetailsStepData,
+  availabilitySettings,
+})
+
 const logger = createLogger('AvailabilityStep')
 
 watch(
