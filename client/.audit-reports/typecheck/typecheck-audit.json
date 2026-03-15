@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T17:59:03.548Z",
+  "generatedAt": "2026-03-15T18:02:44.437Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,72 +10,19 @@
       "cwd": "server"
     }
   },
-  "exitCode": 1,
+  "exitCode": 0,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 1,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [
-    {
-      "file": "src/components/booking/steps/AvailabilityStep.vue",
-      "line": 129,
-      "col": 37,
-      "code": "TS2339",
-      "message": "Property 'showApplyCouponInWizard' does not exist on type 'AvailabilitySettings'.",
-      "raw": "src/components/booking/steps/AvailabilityStep.vue(129,37): error TS2339: Property 'showApplyCouponInWizard' does not exist on type 'AvailabilitySettings'.",
-      "scope": "client",
-      "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
-    }
-  ],
+  "errors": [],
   "allowedErrors": [],
-  "pools": [
-    {
-      "poolId": "TS2339-ts2339-prop-showapplycouponinwizard-availabilitysettings",
-      "groupKey": "TS2339::prop:showApplyCouponInWizard@AvailabilitySettings",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 10,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 13,
-      "sample": [
-        {
-          "repoPath": "src/components/booking/steps/AvailabilityStep.vue",
-          "line": 129,
-          "col": 37,
-          "code": "TS2339",
-          "message": "Property 'showApplyCouponInWizard' does not exist on type 'AvailabilitySettings'."
-        }
-      ],
-      "priority": "P1"
-    }
-  ],
-  "files": [
-    {
-      "repoPath": "src/components/booking/steps/AvailabilityStep.vue",
-      "errorCount": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/components/booking/steps/AvailabilityStep.vue",
-          "line": 129,
-          "col": 37,
-          "code": "TS2339",
-          "message": "Property 'showApplyCouponInWizard' does not exist on type 'AvailabilitySettings'.",
-          "raw": "src/components/booking/steps/AvailabilityStep.vue(129,37): error TS2339: Property 'showApplyCouponInWizard' does not exist on type 'AvailabilitySettings'.",
-          "scope": "client",
-          "repoPath": "src/components/booking/steps/AvailabilityStep.vue"
-        }
-      ]
-    }
-  ]
+  "pools": [],
+  "files": []
 }
