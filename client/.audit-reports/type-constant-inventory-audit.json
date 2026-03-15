@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T22:10:09.793Z",
+  "generatedAt": "2026-03-15T22:16:07.248Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 268,
     "totalConstantFiles": 24,
     "totalConfigFiles": 34,
-    "filesWithInlineTypes": 113,
+    "filesWithInlineTypes": 114,
     "annotated": 325,
     "unannotated": 1,
     "classificationIssues": {
       "mixedTypeConstantFiles": 13,
-      "inlineTypesInComposables": 83,
+      "inlineTypesInComposables": 84,
       "configsWithLogic": 8,
       "duplicateTypeNames": 7,
       "cleanupCandidates": 0,
@@ -9518,6 +9518,17 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
+      "exportedTypes": [
+        "UseAvailabilityStepFeePreviewParams",
+        "UseAvailabilityStepFeePreviewReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
       "exportedTypes": [
         "UseAvailabilityStepSlotOverlayParams",
@@ -10663,6 +10674,17 @@
           "exportedTypes": [
             "UseAvailabilityStepAccordionParams",
             "UseAvailabilityStepAccordionReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
+          "exportedTypes": [
+            "UseAvailabilityStepFeePreviewParams",
+            "UseAvailabilityStepFeePreviewReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
