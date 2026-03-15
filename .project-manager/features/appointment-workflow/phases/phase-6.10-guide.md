@@ -48,7 +48,7 @@
 **Description:** Add `showApplyCouponInWizard` to availability/business settings (types, API response mapping, payload for save). Add the switch in AppointmentConfirmationPanel; wire form state and save. Ensure wizard can read the setting (e.g. via `getAvailabilitySettings()` / `useAvailabilitySettings()`).
 **See:** `sessions/session-6.10.2-guide.md`
 
-- [ ] ### Session 6.10.3: Availability-Step Fee Preview Bar and Popover
+- [x] ### Session 6.10.3: Availability-Step Fee Preview Bar and Popover
 **Description:** In AvailabilityStep.vue, compute `priceData` with `buildConfirmationPriceData` (wizard + propertyDetailsStepData). Add a compact bar at the top showing total fee; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`. Update ConfirmationStep.vue to show the coupon row only when the setting is true.
 **See:** `sessions/session-6.10.3-guide.md`
 
