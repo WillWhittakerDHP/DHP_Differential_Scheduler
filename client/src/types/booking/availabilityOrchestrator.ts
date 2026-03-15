@@ -27,6 +27,7 @@ export interface UseAvailabilityOrchestratorReturn {
     appointmentSlots: ComputedRef<AppointmentSlots>
     emptyStateMessage: ComputedRef<string | null>
     selectedButtonIndex: ComputedRef<number | null>
+    originalInspectionButtonIndex: ComputedRef<number | null>
     selectedOptionTypeBlockId: WritableComputedRef<string | null>
     showMoveableModal: Ref<boolean>
     moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
@@ -66,4 +67,6 @@ export interface UseAvailabilityOrchestratorParams {
   displayedMonth: Ref<DisplayedMonth>
   updateDisplayedMonth: (month: DisplayedMonth) => void
   appointmentDurationRef: Ref<number | null>
+  /** Parent step data for restore when returning to step (wizard persistence). */
+  availabilityStepData?: Ref<AvailabilityStepData | null>
 }

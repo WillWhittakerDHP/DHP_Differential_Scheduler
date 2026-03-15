@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.329Z",
+  "generatedAt": "2026-03-05T01:34:10.901Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -55,7 +55,7 @@
           "server/src/services/invites/inviteOrchestrationService.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 51
+        "patternCount": 50
       },
       {
         "prefix": "use",
@@ -89,7 +89,6 @@
           "client/src/composables/admin/useCapacitySettings.ts",
           "client/src/composables/admin/useComponentDistributionConfirm.ts",
           "client/src/composables/admin/useConditionalFieldVisibility.ts",
-          "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
           "client/src/composables/admin/useDefaultLocation.ts",
           "client/src/composables/admin/useDialogFormState.ts",
           "client/src/composables/admin/useDifferentialPerspectives.ts",
@@ -209,6 +208,7 @@
           "client/src/composables/booking/useBookingWizard.ts",
           "client/src/composables/booking/useBookingWizardSetup.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
+          "client/src/composables/booking/useCancelAppointment.ts",
           "client/src/composables/booking/useCascadeInstances.ts",
           "client/src/composables/booking/useComputedAvailability.ts",
           "client/src/composables/booking/useConfirmationStepData.ts",
@@ -231,7 +231,6 @@
           "client/src/composables/booking/useInstanceSelectionConfig.ts",
           "client/src/composables/booking/useInstanceSelectionState.ts",
           "client/src/composables/booking/useKeyboardToggle.ts",
-          "client/src/composables/booking/useListForAdminEntry.ts",
           "client/src/composables/booking/useMockCalendarRefresh.ts",
           "client/src/composables/booking/useMoveableAvailabilityData.ts",
           "client/src/composables/booking/useMoveablePartsScheduling.ts",
@@ -315,7 +314,7 @@
           "client/src/utils/booking/availabilityStepHandlers.ts",
           "client/src/utils/booking/wizardValidation.ts"
         ],
-        "patternCount": 259
+        "patternCount": 258
       },
       {
         "prefix": "get",
@@ -382,7 +381,6 @@
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
           "server/src/services/calendarEventsCache.ts",
-          "server/src/services/computedAvailabilityService.ts",
           "server/src/services/driveTimeCache.ts",
           "server/src/services/google/calendar/eventsService.ts",
           "server/src/services/google/maps/placesApiService.ts",
@@ -398,7 +396,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 131
+        "patternCount": 128
       },
       {
         "prefix": "update",
@@ -421,10 +419,9 @@
           "client/src/composables/admin/useInstancesTabEventInstance.ts",
           "client/src/types/admin/instancesTabEventInstance.ts",
           "client/src/types/entities.ts",
-          "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-          "server/src/routes/internal/appointments/forceCreateRouter.ts"
+          "server/src/routes/internal/appointments/appointmentCrudRouter.ts"
         ],
-        "occurrences": 7
+        "occurrences": 6
       },
       {
         "value": "started",
@@ -449,11 +446,11 @@
   "aggregated": {
     "stringLiterals": {
       "confirmed": {
-        "count": 7,
+        "count": 6,
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 89,
+            "line": 91,
             "context": "status-check",
             "code": "await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })"
           },
@@ -483,15 +480,26 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 235,
+            "line": 231,
             "context": "status-check",
             "code": "status: 'confirmed',"
+          }
+        ]
+      },
+      "cancelled": {
+        "count": 2,
+        "locations": [
+          {
+            "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+            "line": 104,
+            "context": "status-check",
+            "code": "await update.mutateAsync({ id, data: { status: 'cancelled' } as Partial<AppointmentRequest> })"
           },
           {
-            "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-            "line": 236,
+            "file": "client/src/composables/booking/useCancelAppointment.ts",
+            "line": 62,
             "context": "status-check",
-            "code": "status: 'confirmed',"
+            "code": "status: 'cancelled',"
           }
         ]
       },
@@ -500,7 +508,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 114,
+            "line": 129,
             "context": "status-check",
             "code": "status: 'started',"
           },
@@ -866,7 +874,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-            "line": 40,
+            "line": 42,
             "name": "AppointmentsTableModel"
           }
         ]
@@ -1046,7 +1054,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useBusinessControlsFormState.ts",
-            "line": 49,
+            "line": 47,
             "name": "BusinessControlsFormState"
           }
         ]
@@ -1106,7 +1114,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useCalendarHoldFormState.ts",
-            "line": 46,
+            "line": 43,
             "name": "CalendarHoldFormState"
           }
         ]
@@ -1148,16 +1156,6 @@
             "file": "client/src/composables/admin/useConditionalFieldVisibility.ts",
             "line": 4,
             "name": "ConditionalFieldVisibility"
-          }
-        ]
-      },
-      "useConfirmationAndHoldsPanel": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
-            "line": 56,
-            "name": "ConfirmationAndHoldsPanel"
           }
         ]
       },
@@ -2286,7 +2284,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityDefaults.ts",
-            "line": 18,
+            "line": 19,
             "name": "AvailabilityDefaults"
           }
         ]
@@ -2336,7 +2334,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
-            "line": 28,
+            "line": 29,
             "name": "AvailabilityOrchestrator"
           }
         ]
@@ -2426,7 +2424,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useBookingWizardSetup.ts",
-            "line": 60,
+            "line": 63,
             "name": "BookingWizardSetup"
           }
         ]
@@ -2438,6 +2436,16 @@
             "file": "client/src/composables/booking/useBookingWizardStepValidators.ts",
             "line": 10,
             "name": "BookingWizardStepValidators"
+          }
+        ]
+      },
+      "useCancelAppointment": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useCancelAppointment.ts",
+            "line": 33,
+            "name": "CancelAppointment"
           }
         ]
       },
@@ -2476,7 +2484,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useContactsStepData.ts",
-            "line": 89,
+            "line": 121,
             "name": "ContactsStepData"
           }
         ]
@@ -2661,16 +2669,6 @@
           }
         ]
       },
-      "useListForAdminEntry": {
-        "prefix": "use",
-        "locations": [
-          {
-            "file": "client/src/composables/booking/useListForAdminEntry.ts",
-            "line": 21,
-            "name": "ListForAdminEntry"
-          }
-        ]
-      },
       "useMockCalendarRefresh": {
         "prefix": "use",
         "locations": [
@@ -2686,7 +2684,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useMoveableAvailabilityData.ts",
-            "line": 53,
+            "line": 55,
             "name": "MoveableAvailabilityData"
           }
         ]
@@ -2756,7 +2754,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/usePropertyFormWatchers.ts",
-            "line": 14,
+            "line": 51,
             "name": "PropertyFormWatchers"
           }
         ]
@@ -2866,7 +2864,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardAppointmentManagement.ts",
-            "line": 48,
+            "line": 49,
             "name": "WizardAppointmentManagement"
           }
         ]
@@ -3476,7 +3474,7 @@
         "locations": [
           {
             "file": "client/src/composables/useThemeMode.ts",
-            "line": 24,
+            "line": 89,
             "name": "ThemeMode"
           }
         ]
@@ -3861,16 +3859,6 @@
           }
         ]
       },
-      "getListForAdminEntryEndpoint": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "client/src/utils/api/appointmentApi.ts",
-            "line": 15,
-            "name": "ListForAdminEntryEndpoint"
-          }
-        ]
-      },
       "getAvailabilityEndpoint": {
         "prefix": "get",
         "locations": [
@@ -4076,7 +4064,7 @@
         "locations": [
           {
             "file": "client/src/utils/appointmentFieldFormatters.ts",
-            "line": 124,
+            "line": 119,
             "name": "AppointmentFieldFormatter"
           }
         ]
@@ -4661,7 +4649,7 @@
         "locations": [
           {
             "file": "client/src/vite-env.d.ts",
-            "line": 75,
+            "line": 77,
             "name": "SingletonHighlighter"
           }
         ]
@@ -4801,7 +4789,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 55,
+            "line": 53,
             "name": "HoldDurationBoundsFromSettings"
           }
         ]
@@ -4811,7 +4799,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 68,
+            "line": 66,
             "name": "HoldDurationFromSettings"
           }
         ]
@@ -4821,18 +4809,8 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 86,
+            "line": 84,
             "name": "HoldDurationDefaultFromSettings"
-          }
-        ]
-      },
-      "getAdminEntryTimeoutFromSettings": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 97,
-            "name": "AdminEntryTimeoutFromSettings"
           }
         ]
       },
@@ -4841,7 +4819,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 116,
+            "line": 93,
             "name": "AutoConfirmEnabledFromSettings"
           }
         ]
@@ -4851,7 +4829,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 124,
+            "line": 101,
             "name": "WriteToCalendarFromSettings"
           }
         ]
@@ -4861,7 +4839,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 199,
+            "line": 176,
             "name": "SnapshotsForAppointment"
           }
         ]
@@ -4871,7 +4849,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 275,
+            "line": 215,
             "name": "AttendeeRecords"
           }
         ]
@@ -4881,7 +4859,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 304,
+            "line": 244,
             "name": "FeeRecordsForAppointment"
           }
         ]
@@ -4891,18 +4869,8 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 348,
+            "line": 288,
             "name": "CalendarIdForAppointment"
-          }
-        ]
-      },
-      "createConstraintOverrideOnRescheduleIfNeeded": {
-        "prefix": "create",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 365,
-            "name": "ConstraintOverrideOnRescheduleIfNeeded"
           }
         ]
       },
@@ -5093,16 +5061,6 @@
             "file": "server/src/services/calendarEventsCache.ts",
             "line": 135,
             "name": "AllCachedEntries"
-          }
-        ]
-      },
-      "getForceCreateSlotContext": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/services/computedAvailabilityService.ts",
-            "line": 516,
-            "name": "ForceCreateSlotContext"
           }
         ]
       },
@@ -5331,14 +5289,14 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-        "line": 89,
+        "line": 91,
         "pattern": "AppointmentStatus workflow",
         "code": "await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-        "line": 114,
+        "line": 129,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'started',"
       },
@@ -5471,7 +5429,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/utils/appointmentFieldFormatters.ts",
-        "line": 116,
+        "line": 111,
         "pattern": "AppointmentStatus workflow",
         "code": "status: (_appointment, value) => String(value || 'started'),"
       },
@@ -5604,86 +5562,44 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 148,
+        "line": 135,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 152,
+        "line": 139,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 231,
+        "line": 227,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 235,
+        "line": 231,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 240,
+        "line": 236,
         "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-        "line": 113,
+        "line": 90,
         "pattern": "AppointmentStatus workflow",
         "code": "* Task 6.3.2.3/6.3.2.4: Whether to auto-confirm appointments created with status 'submitted'."
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 136,
-        "pattern": "AppointmentStatus workflow",
-        "code": "if (status === 'submitted') {"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 139,
-        "pattern": "AppointmentStatus workflow",
-        "code": "if (status === 'confirmed') {"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 232,
-        "pattern": "AppointmentStatus workflow",
-        "code": "if (record.status === 'submitted') {"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 236,
-        "pattern": "AppointmentStatus workflow",
-        "code": "status: 'confirmed',"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 243,
-        "pattern": "AppointmentStatus workflow",
-        "code": "oldStatus: 'submitted',"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 244,
-        "pattern": "AppointmentStatus workflow",
-        "code": "newStatus: 'confirmed',"
       },
       {
         "type": "status-workflow",

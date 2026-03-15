@@ -2,6 +2,9 @@
 // PATTERN: Thin component; orchestration in useBookingWizardSetup (vue-architecture audit).
 import { computed } from 'vue'
 import { useBookingWizardSetup } from '@/composables/booking/useBookingWizardSetup'
+import { buildQuoteLink } from '@/utils/booking/buildClientLinks'
+import { useNotification } from '@/composables/useNotification'
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 
 const {
   steps,
@@ -16,6 +19,8 @@ const {
   getStepContent,
   isQuoteMode,
   toggleQuoteMode,
+  wizardMode,
+  useDhpColors,
   handleSubmit,
   isUpdateSubmit,
   isDevMode,
@@ -24,25 +29,59 @@ const {
   update,
   isLoadingAppointment,
   handleLoadAppointment,
+  loadedAppointmentId,
   stepItemClass,
   stepItemStyle,
 } = useBookingWizardSetup()
+
+const { success, error: showError } = useNotification()
+
+/** When viewing an existing quote, show Copy quote link instead of Submit. */
+const showCopyQuoteLink = computed(
+  () => isQuoteMode.value && !!loadedAppointmentId.value && isLastStep.value
+)
 
 const submitButtonLabel = computed(() => {
   if (!isLastStep.value) return 'Next'
   if (create.isPending.value || update.isPending.value) return isUpdateSubmit.value ? 'Updating...' : 'Creating...'
   return isUpdateSubmit.value ? 'Update appointment' : 'Submit'
 })
+
+async function handleCopyQuoteLink(): Promise<void> {
+  const id = loadedAppointmentId.value
+  if (!id) return
+  try {
+    const url = buildQuoteLink(id)
+    await window.navigator.clipboard.writeText(url)
+    success(APPOINTMENTS_TABLE_UI.LINK_COPIED)
+  } catch (err) {
+    showError(err instanceof Error ? err.message : 'Failed to copy link')
+  }
+}
 </script>
 
 <template>
-  <VCard class="booking-wizard" :class="{ 'quote-mode-active': isQuoteMode }">
+  <VCard
+    class="booking-wizard"
+    :class="{
+      'quote-mode-active': isQuoteMode && !useDhpColors,
+      'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
+      'dhp-colors-active': useDhpColors,
+    }"
+  >
     
     <VContainer fluid class="pa-0">
       <VRow density="compact" class="wizard-layout">
         <!-- Stepper Header (Top) -->
         <VCol cols="12" class="stepper-column">
-          <VCardText class="stepper-header" :class="{ 'quote-mode-active': isQuoteMode }">
+          <VCardText
+            class="stepper-header"
+            :class="{
+              'quote-mode-active': isQuoteMode && !useDhpColors,
+              'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
+              'dhp-colors-active': useDhpColors,
+            }"
+          >
             <VList class="horizontal-stepper" density="compact">
               <VListItem
                 v-for="(step, index) in steps"
@@ -74,8 +113,8 @@ const submitButtonLabel = computed(() => {
               </VListItem>
             </VList>
             
-            <!-- WHY: Allows users to toggle quote mode -->
-            <!-- PATTERN: VBtn with toggle state -->
+            <!-- WHY: Allows users to toggle quote mode and DHP brand colors (wizard only) -->
+            <!-- PATTERN: VBtn with toggle state; VSwitch for DHP palette -->
             <VRow class="mt-4 align-center justify-center" density="compact">
               <VCol cols="auto">
                 <VBtn
@@ -88,6 +127,15 @@ const submitButtonLabel = computed(() => {
                 >
                   {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
                 </VBtn>
+              </VCol>
+              <VCol cols="auto" class="d-flex align-center">
+                <VSwitch
+                  v-model="useDhpColors"
+                  color="primary"
+                  hide-details
+                  density="compact"
+                />
+                <span class="text-caption text-medium-emphasis ml-2">Brand colors</span>
               </VCol>
               <VCol v-if="isDevMode" cols="auto" class="ml-2">
                 <VBtn
@@ -141,6 +189,15 @@ const submitButtonLabel = computed(() => {
                 </VTooltip>
 
                 <VBtn
+                  v-if="showCopyQuoteLink"
+                  color="primary"
+                  prepend-icon="tabler-link"
+                  @click="handleCopyQuoteLink"
+                >
+                  {{ APPOINTMENTS_TABLE_UI.COPY_QUOTE_LINK }}
+                </VBtn>
+                <VBtn
+                  v-else
                   :color="isLastStep ? 'success' : 'primary'"
                   :prepend-icon="isLastStep ? 'tabler-check' : undefined"
                   :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"

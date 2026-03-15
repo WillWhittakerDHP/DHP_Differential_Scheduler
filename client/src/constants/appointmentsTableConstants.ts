@@ -63,4 +63,11 @@ export const APPOINTMENTS_TABLE_UI = {
   CONFIRM_DIALOG_MESSAGE: 'Are you sure you want to confirm this appointment?',
   CONFIRM_SUCCESS: 'Appointment confirmed successfully',
   CONFIRM_ERROR: 'Failed to confirm appointment',
+  COPY_QUOTE_LINK: 'Copy quote link',
+  COPY_QUOTE_LINK_TOOLTIP: 'Copy link for client to view quote',
+  LINK_COPIED: 'Link copied',
+  MARK_CANCELLED: 'Mark cancelled',
+  MARK_CANCELLED_TOOLTIP: 'Soft delete: set status to cancelled (record kept for audit)',
+  MARK_CANCELLED_SUCCESS: 'Appointment marked as cancelled',
+  MARK_CANCELLED_ERROR: 'Failed to mark appointment as cancelled',
 } as const

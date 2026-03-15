@@ -1,5 +1,6 @@
 <!-- Thin component; display computeds and toggle in useEventInstancesSection. -->
 <script setup lang="ts">
+import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { useEventInstancesSection } from '@/composables/admin/useEventInstancesSection'
 import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
@@ -8,6 +9,7 @@ const props = defineProps<{
   instancesTabContext: InstancesTabContext
 }>()
 
+const props = defineProps<{ instancesTabContext: InstancesTabContext }>()
 const {
   ctx,
   expandedInstances,

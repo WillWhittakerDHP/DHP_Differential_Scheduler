@@ -145,5 +145,14 @@
       color: rgba(var(--v-theme-on-surface), 0.5) !important;
       opacity: 1 !important; // Remove opacity override, use color opacity instead
     }
+
+    // WHY: Reschedule mode — slot matching loaded appointment's current time; distinct but still selectable
+    // PATTERN: Stronger border and tint so user sees "Current appointment time" at a glance
+    &--original-inspection:not(.appointment-slot-btn--busy) {
+      border-width: 2px !important;
+      border-style: solid;
+      box-shadow: 0 0 0 1px rgba(var(--v-theme-primary), 0.3);
+      font-weight: 600;
+    }
   }
 }

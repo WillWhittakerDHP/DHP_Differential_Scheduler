@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.428Z",
+  "generatedAt": "2026-03-05T01:34:10.805Z",
   "totalScanned": 1114,
   "exceptionSummary": {
-    "totalRequiresReview": 16
+    "totalRequiresReview": 14
   },
   "tierModel": "tier1",
   "tier1Rules": [
@@ -21,49 +21,23 @@
   },
   "files": [
     {
-      "repoPath": "client/src/composables/booking/injectionKeys.ts",
-      "category": "composables",
-      "lineCount": 112,
-      "exportCount": 24,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "high-exports",
-          "value": 24,
-          "threshold": 10,
-          "detail": "24 exports (max: 10)",
-          "tier": 1
-        },
-        {
-          "rule": "pureHelperInComposables",
-          "value": 1,
-          "threshold": 0,
-          "detail": "Looks like a pure helper (no Vue reactivity / lifecycle / vue-query). Consider moving to `src/utils/`.",
-          "tier": 2
-        }
-      ],
-      "score": 28,
-      "priority": "P0"
-    },
-    {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
-      "lineCount": 398,
-      "exportCount": 19,
+      "lineCount": 298,
+      "exportCount": 14,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 19,
+          "value": 14,
           "threshold": 10,
-          "detail": "19 exports (max: 10)",
+          "detail": "14 exports (max: 10)",
           "tier": 1
         }
       ],
-      "score": 18,
-      "priority": "P0"
+      "score": 8,
+      "priority": "P1"
     },
     {
       "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
@@ -78,25 +52,6 @@
           "value": 490,
           "threshold": 350,
           "detail": "490 lines (general max: 350)",
-          "tier": 1
-        }
-      ],
-      "score": 6,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "category": "services",
-      "lineCount": 574,
-      "exportCount": 3,
-      "mixedConcerns": false,
-      "hasExports": true,
-      "violations": [
-        {
-          "rule": "oversized",
-          "value": 574,
-          "threshold": 400,
-          "detail": "574 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -237,18 +192,18 @@
       "priority": "P2"
     },
     {
-      "repoPath": "server/src/db/models/index.ts",
-      "category": "general",
-      "lineCount": 358,
+      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "category": "services",
+      "lineCount": 456,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 358,
-          "threshold": 350,
-          "detail": "358 lines (general max: 350)",
+          "value": 456,
+          "threshold": 400,
+          "detail": "456 lines (services max: 400)",
           "tier": 1
         }
       ],

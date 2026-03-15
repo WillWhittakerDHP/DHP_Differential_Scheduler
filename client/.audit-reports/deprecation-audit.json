@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.919Z",
+  "generatedAt": "2026-03-05T01:34:11.090Z",
   "check": "Deprecation",
   "totalScanned": 1114,
   "tierModel": "tier1",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 4,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -27,14 +27,14 @@
   },
   "files": [
     {
-      "id": "client__src__views__admin__AdminBookingEntryView.vue",
-      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
+      "id": "client__src__composables__booking__useAvailabilityDefaults.ts",
+      "repoPath": "client/src/composables/booking/useAvailabilityDefaults.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 26,
-          "line": "const items = listItems.value ?? []",
+          "lineNumber": 78,
+          "line": "const slotList = (slots as TimeSlot[] | null) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -42,8 +42,8 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 26,
-          "line": "const items = listItems.value ?? []",
+          "lineNumber": 78,
+          "line": "const slotList = (slots as TimeSlot[] | null) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -52,14 +52,14 @@
       "priority": "P2"
     },
     {
-      "id": "server__src__routes__internal__appointments__forceCreateRouter.ts",
-      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "id": "client__src__composables__useThemeMode.ts",
+      "repoPath": "client/src/composables/useThemeMode.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 228,
-          "line": "const attendeesData = appointmentBody.attendees ?? []",
+          "lineNumber": 18,
+          "line": "/** Explicit fallbacks to satisfy deprecation audit (avoid ?? '', ?? {} in-place). */",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -67,8 +67,8 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 228,
-          "line": "const attendeesData = appointmentBody.attendees ?? []",
+          "lineNumber": 18,
+          "line": "/** Explicit fallbacks to satisfy deprecation audit (avoid ?? '', ?? {} in-place). */",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -77,14 +77,14 @@
       "priority": "P2"
     },
     {
-      "id": "server__src__routes__internal__appointments__listForAdminEntryHandler.ts",
-      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
+      "id": "client__src__utils__booking__buildClientLinks.ts",
+      "repoPath": "client/src/utils/booking/buildClientLinks.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 46,
-          "line": "const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []",
+          "lineNumber": 17,
+          "line": "return import.meta.env?.VITE_APP_BASE_URL ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -92,8 +92,33 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 46,
-          "line": "const attendees = ((apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees) ?? []",
+          "lineNumber": 17,
+          "line": "return import.meta.env?.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__services__invites__inviteContextBuilder.ts",
+      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }

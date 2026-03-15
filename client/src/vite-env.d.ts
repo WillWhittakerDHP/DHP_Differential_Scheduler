@@ -1,6 +1,8 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string
+  /** Optional base URL for client-facing links (reschedule, cancel, quote). Used by server-side invite templates. */
+  readonly VITE_APP_BASE_URL?: string
   readonly VITE_APP_STAGE?: string
   readonly VITE_INCLUDE_DEV_FLAGS?: string
   readonly VITE_VERBOSE_LOGGING?: string

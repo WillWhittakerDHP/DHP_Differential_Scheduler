@@ -189,6 +189,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     isLoadingMoveableDaySlots,
     selectedMoveableDay,
     setSelectedMoveableDay: setSelectedMoveableDayInner,
+    afterBufferMinutes,
   } = moveableData
 
   const setSelectedMoveableDay = (date: string | null) => {
@@ -196,7 +197,14 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     selectedSlotIndex.value = null
   }
 
-  const moveableServerSlotsForDay = computed(() => moveableDaySlots.value)
+  const moveableServerSlotsForDay = computed(() => {
+    const slots = moveableDaySlots.value
+    const opts = moveableOptions.value
+    if (!opts) return slots
+    const bufferMs = afterBufferMinutes.value * 60_000
+    const earliestMs = new Date(opts.innerBoundary).getTime() + bufferMs
+    return slots.filter(s => new Date(s.startTime).getTime() >= earliestMs)
+  })
   const moveableShapeOverride = computed(() =>
     createMinimalAppointmentShapeForDuration(moveableDuration.value)
   )

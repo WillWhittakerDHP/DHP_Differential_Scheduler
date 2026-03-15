@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-05T22:06:26.484Z",
+  "generatedAt": "2026-03-05T01:34:10.642Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 68,
+  "serverEndpoints": 66,
   "endpointKeys": [
     "GET /events-cache",
     "GET /rate-limit",
@@ -23,7 +23,6 @@
     "DELETE /:entityType/:entityId/:fieldKey",
     "DELETE /:entityType/:entityId/:relationshipKey",
     "GET /:id/versions",
-    "GET /list-for-admin-entry",
     "POST /computed-data",
     "GET /stats",
     "GET /block/:blockInstanceId",
@@ -81,10 +80,6 @@
     },
     {
       "name": "AttendeeRequest",
-      "file": "shared/types/appointmentTypes.ts"
-    },
-    {
-      "name": "AdminEntryAppointmentItem",
       "file": "shared/types/appointmentTypes.ts"
     },
     {
@@ -261,14 +256,6 @@
     },
     {
       "name": "CalendarEntry",
-      "file": "shared/types/calendarTypes.ts"
-    },
-    {
-      "name": "AdminEntryTimeoutUnit",
-      "file": "shared/types/calendarTypes.ts"
-    },
-    {
-      "name": "AdminEntryTimeout",
       "file": "shared/types/calendarTypes.ts"
     },
     {

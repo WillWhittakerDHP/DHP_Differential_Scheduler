@@ -19,16 +19,16 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-05T22:06:28.313Z**
-- Files scanned: **1143**
-- Type definitions found: **799**
-- Similarity groups: **12**
+- Generated at: **2026-03-05T01:34:11.733Z**
+- Files scanned: **1144**
+- Type definitions found: **789**
+- Similarity groups: **9**
 - UNIFY candidates: **0**
-- BRAND candidates: **1**
-- EXTEND candidates: **11**
+- BRAND candidates: **0**
+- EXTEND candidates: **9**
 - REVIEW candidates: **0**
 
-- P0 (high): **7**, P1 (medium): **5**, P2 (low): **0**
+- P0 (high): **4**, P1 (medium): **5**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
@@ -36,10 +36,7 @@ Each group has a recommended action:
 | --- | --- | --- | --- | ---: | ---: | --- |
 | P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
 | P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
-| P0 | EXTEND | SUBSET | `AppointmentRequest`, `AppointmentRecordWithUpdate`, `AppointmentResponse` | 2 | 19 | `{ address?: PropertyResponse, addressId: string, attendee...` |
-| P0 | BRAND | EXACT | `ForceCreateViolationReport`, `ComputedSlot` | 2 | 17 | `{ violations: string[] }` |
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
-| P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
 | P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
 | P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
 | P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
@@ -47,21 +44,7 @@ Each group has a recommended action:
 | P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
 | P1 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs` | 2 | 8 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
 
-## BRAND Candidates (1)
-
-These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
-
-### sim-exact-645ac1eccd58
-
-- Relationship: **EXACT**, Priority: **P0**, Score: **17**
-- Structure: `{ violations: string[] }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
-| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
-
-## EXTEND Candidates (11)
+## EXTEND Candidates (9)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
@@ -101,17 +84,6 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `UsePrimitiveMetadataSaveOptions` | interface | `client/src/composables/admin/usePrimitiveMetadataSave.ts` | 6 | yes |
 | `UseAdminPrimitiveMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 13 | yes |
 
-### sim-subset-4f59ed64384b
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **19**
-- Structure: `{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], confirmedAt?: string | null, confirmedBy?: string | null, createdAt: string, heldBy?: string | null, heldByUser?: UserResponse, heldUntil?: string | null, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, submittedAt?: string | null, updatedAt: string, userTypeId?: string | null }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts` | 36 | yes |
-| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 242 | yes |
-| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 71 | yes |
-
 ### sim-subset-87ff2f40bfd6
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **15**
@@ -120,25 +92,11 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 20 | yes |
-| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 392 | yes |
+| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 386 | yes |
 
 Overlap: **50%** shared properties
 - Shared: `isAvailable`, `violations`
 - Only in `MoveableSlot`: `dayLabel`, `timeLabel`
-
-### sim-subset-9bcf40cb9094
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **15**
-- Structure: `{ adminEntryTimeout?: AdminEntryTimeout, calendars: CalendarEntry[], enabled: boolean, holdDurationFallback?: number, holdDurationMax?: number, holdDurationMin?: number, holdDurationMinutes?: number, provider: CalendarProvider }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `ConfirmationAndHoldsPanelProps` | interface | `client/src/composables/admin/useConfirmationAndHoldsPanel.ts` | 9 | yes |
-| `CalendarConfig` | interface | `shared/types/calendarTypes.ts` | 36 | yes |
-
-Overlap: **38%** shared properties
-- Shared: `holdDurationFallback`, `holdDurationMax`, `holdDurationMin`
-- Only in `CalendarConfig`: `adminEntryTimeout`, `calendars`, `enabled`, `holdDurationMinutes`, `provider`
 
 ### sim-subset-bb8c320874a1
 
@@ -148,7 +106,7 @@ Overlap: **38%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `LoadedTimeSlot` | interface | `client/src/types/booking/timeSlotMatching.ts` | 3 | yes |
-| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 382 | yes |
+| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 376 | yes |
 
 Overlap: **67%** shared properties
 - Shared: `endTime`, `startTime`
@@ -207,15 +165,15 @@ Overlap: **70%** shared properties
 - Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
 - Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
 
-### sim-subset-47728a2eb291
+### sim-subset-605ba69423c7
 
 - Relationship: **SUBSET**, Priority: **P1**, Score: **8**
 - Structure: `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 96 | yes |
-| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 19 | no |
+| `ContactsFormContext` | interface | `client/src/composables/booking/bookingDevPanelKeys.ts` | 38 | yes |
+| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 20 | no |
 
 Overlap: **73%** shared properties
 - Shared: `agentInfo`, `anotherClientInfo`, `clientInfo`, `sellerInfo`, `showAnotherClient`, `showSeller`, `showTransactionManager`, `transactionManagerInfo`

@@ -53,6 +53,8 @@ if (!appointmentDurationRef) {
   throw new Error('appointmentDuration must be provided by BookingWizard')
 }
 
+const availabilityStepData = inject(availabilityStepDataKey, null)
+
 const orchestrator = useAvailabilityOrchestrator({
   wizard,
   loadedWizardState,
@@ -60,7 +62,8 @@ const orchestrator = useAvailabilityOrchestrator({
   propertyDetailsStepData,
   displayedMonth,
   updateDisplayedMonth,
-  appointmentDurationRef
+  appointmentDurationRef,
+  availabilityStepData: availabilityStepData ?? undefined
 })
 const o = {
   ...orchestrator.data,
@@ -83,7 +86,7 @@ function onOptionIdUpdate(id: string | null): void {
 
 const { settings: availabilitySettings } = useAvailabilitySettings()
 const selectTimeSlotLabel = computed(
-  () => availabilitySettings.value?.differentialPerspectives?.selectTimeSlotLabel || 'Select a Time Slot'
+  () => availabilitySettings.value?.differentialPerspectives?.differentialGraphDefaultLabel || 'Select a Time Slot'
 )
 const hasSelectedSlot = computed(
   () => o.graphBars.value?.major != null || o.graphBars.value?.minor != null
@@ -163,6 +166,7 @@ const showSlotsOverlay = computed(
               <AppointmentSlotGrid
                 :appointment-slots="o.appointmentSlots.value"
                 :selected-button-index="o.selectedButtonIndex.value"
+                :original-inspection-button-index="o.originalInspectionButtonIndex?.value ?? null"
                 :time-basis="o.perspective.value"
                 :color="o.slotColor.value"
                 class="appointment-slot-grid-abut"

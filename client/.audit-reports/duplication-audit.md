@@ -22,16 +22,16 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Prefix | Files | Pattern Count |
 | --- | --- | ---: |
-| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+31 more) | 51 |
-| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+251 more) | 259 |
-| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+74 more) | 131 |
+| `create*` | `client/src/components/booking/plugins/localStatePlugin.ts`, `client/src/components/booking/plugins/wizardStatePlugin.ts`, `client/src/composables/admin/tables/useTableModelHelpers.ts` (+31 more) | 50 |
+| `use*` | `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`, `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/tables/useCrudDataTableModel.ts` (+250 more) | 258 |
+| `get*` | `client/src/composables/admin/useDragAndDropHelpers.ts`, `client/src/composables/booking/useWizardStepContent.ts`, `client/src/composables/useApiErrorMessage.ts` (+73 more) | 128 |
 | `update*` | `client/src/utils/admin/businessRulesApi.ts`, `client/src/utils/booking/selectionCardHandlers.ts`, `server/src/routes/internal/relationships/relationshipHelpers.ts` (+2 more) | 5 |
 
 ### Repeated String Literals (across multiple files)
 
 | Value | Files | Occurrences |
 | --- | --- | ---: |
-| `confirmed` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/useInstancesTab.ts`, `client/src/composables/admin/useInstancesTabEventInstance.ts` (+4 more) | 7 |
+| `confirmed` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/admin/useInstancesTab.ts`, `client/src/composables/admin/useInstancesTabEventInstance.ts` (+3 more) | 6 |
 | `started` | `client/src/composables/admin/tables/useAppointmentsTableModel.ts`, `client/src/composables/useAppointment.ts`, `server/src/db/models/booking/appointment.ts` | 3 |
 | `held` | `client/src/composables/useAppointment.ts`, `client/src/types/appointmentApi.ts`, `server/src/db/models/booking/appointment.ts` | 7 |
 

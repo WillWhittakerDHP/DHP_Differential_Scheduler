@@ -158,6 +158,7 @@
 
 - [ ] ### Phase 6.10: Fee Preview & Coupon Visibility
 **Description:** Add a fee preview bar at the top of the Availability step showing total fee; on hover, show fee details (same as Confirmation step) in a popover, with optional Coupon row/Apply Coupon when enabled. Make the apply-coupon line and button toggleable from admin: Business Controls → Calendar → Confirmation & Holds.
+**Coupon architecture (future — informs this phase's design):** Coupons will become a new blockShape wired through the finalizer pipeline. Visibility and availability will be controlled by the valid/active cascade system (ValidPricingCascade → PricingCascade). Coupon block instances will appear in a cascaded dropdown (user → service, similar to property types). This phase's toggle and UI should anticipate that architecture — the Apply Coupon button will eventually open the cascaded coupon selector, and the Coupon Discount row will show the resolved cascade value.
 **Sessions:** 2 (6.10.1: Admin toggle and settings; 6.10.2: Availability-step fee bar and popover)
 - **Session 6.10.1:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
 - **Session 6.10.2:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
@@ -179,6 +180,13 @@
 - Confirmation step and availability-step fee popover show Drive time row when applicable
 - Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
 **See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
+
+- [ ] ### Phase 6.12: Annotation Content Layer and Entity Enhancements
+**Description:** Entity enhancements: event shape `includeRescheduleLink` and `includeCancelLink` booleans (admin toggles, invite builder); block shapes tab entity card expansion fix. Annotation data layer: create `annotation_instance_content` table (content per user type block instance); deprecate Annotations with Metadata; annotation shape delete returns 409 when dependents exist. Annotation UI slots and wizard pipeline: shared `ANNOTATION_UI_SLOTS` and `ANNOTATION_UI_SLOT_REGISTRY` in `shared/constants/annotationSlots.ts`; `annotation_shapes.ui_slot` column; transformer and `useAnnotationContent` composable; wire annotations into SelectionCard/IndependentSelectCard (cardDescription, cardTooltip); migrate grid overlay to `gridOverlay` annotation slot with fallback to business settings.
+**Sessions:** 2 (6.12.1: entity enhancements + annotation data layer; 6.12.2: UI slots registry + wizard pipeline)
+**Dependencies:** Phase 6.5 (reschedule/cancel links exist to be toggled).
+**Success Criteria:** Event shape and event instance show link toggles; block shapes expand; annotation_instance_content in place; annotation shape delete 409; annotationSlots constant and ui_slot column; wizard shows annotations on cards and grid overlay from annotations when configured.
+**See:** `phases/phase-6.12-guide.md`
 
 ---
 

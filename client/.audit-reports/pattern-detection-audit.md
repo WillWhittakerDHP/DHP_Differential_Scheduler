@@ -15,11 +15,11 @@ Exception handling:
 ## Summary
 
 - Files scanned: **1114**
-- String literals found: **7** (showing those with 3+ occurrences)
+- String literals found: **8** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **42**
-- Function patterns found: **447**
-- Common patterns found: **64**
+- Function patterns found: **442**
+- Common patterns found: **58**
 
 ## String Literals (Potential Enum/Key Candidates)
 
@@ -27,9 +27,9 @@ Showing string literals that appear 3 or more times:
 
 | Value | Occurrences | Locations |
 | --- | ---: | --- |
-| `confirmed` | 7 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:89`, `client/src/composables/admin/useInstancesTab.ts:163`, `client/src/composables/admin/useInstancesTabEventInstance.ts:82` (+4 more) |
 | `held` | 7 | `client/src/composables/useAppointment.ts:79`, `client/src/types/appointmentApi.ts:61`, `client/src/types/appointmentApi.ts:101` (+4 more) |
-| `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:114`, `client/src/composables/useAppointment.ts:83`, `server/src/db/models/booking/appointment.ts:49` |
+| `confirmed` | 6 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:91`, `client/src/composables/admin/useInstancesTab.ts:163`, `client/src/composables/admin/useInstancesTabEventInstance.ts:82` (+3 more) |
+| `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:129`, `client/src/composables/useAppointment.ts:83`, `server/src/db/models/booking/appointment.ts:49` |
 
 ## Types and Constants
 
@@ -119,13 +119,13 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBusinessRuleForm` | `use*` | 1 |
 | `useBusinessRules` | `use*` | 1 |
 | `useBusinessRulesTab` | `use*` | 1 |
-| ... | ... | (+417 more) |
+| ... | ... | (+412 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 
 ### Status Workflow Patterns
 
-Found 64 occurrences of status workflow patterns:
+Found 58 occurrences of status workflow patterns:
 
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: 2 occurrence(s)
 - `client/src/composables/admin/useInstancesTab.ts`: 1 occurrence(s)
@@ -144,7 +144,7 @@ Found 64 occurrences of status workflow patterns:
 - `server/src/routes/internal/appointments/appointmentConstants.ts`: 9 occurrence(s)
 - `server/src/routes/internal/appointments/appointmentCrudRouter.ts`: 5 occurrence(s)
 - `server/src/routes/internal/appointments/appointmentHelpers.ts`: 1 occurrence(s)
-- `server/src/routes/internal/appointments/forceCreateRouter.ts`: 6 occurrence(s)
 - `server/src/services/google/calendar/calendarTypes.ts`: 1 occurrence(s)
 - `server/src/services/google/calendar/eventCreationService.ts`: 1 occurrence(s)
-- ... (+2 more files)
+- `server/src/services/notificationService.ts`: 1 occurrence(s)
+- ... (+1 more files)

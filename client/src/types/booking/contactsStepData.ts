@@ -1,11 +1,14 @@
 import type { Ref } from 'vue'
 import type { ContactInfoBase } from '@shared/types/contactTypes'
 import type { WizardStateData } from '@/types/booking/wizardStateData'
+import type { ContactsStepData } from '@/types/wizard'
 
 export type ContactInfo = ContactInfoBase
 
 export interface UseContactsStepDataOptions {
   loadedWizardState?: Ref<WizardStateData | null>
+  /** Restore contacts from parent step data when returning to step (wizard persistence). */
+  restoreFrom?: Ref<ContactsStepData | null>
 }
 
 export interface UseContactsStepDataReturn {

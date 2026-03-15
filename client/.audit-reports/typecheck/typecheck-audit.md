@@ -12,19 +12,18 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-08T01:35:40.902Z**
+- Generated at: **2026-03-05T01:35:04.089Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **1**
-- **Errors requiring review: 1**
+- Exit code: **0**
+- **Errors requiring review: 0**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **1**
+- Pools: **0**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P1 | `TS2305-ts2305-module-composables-admin-tables-usetablemodelhelpers-has-no-exported-member-ensureitemsarray` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -35,11 +34,3 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `src/components/booking/steps/ConfirmationStep.vue`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2305@18:10 Module '"@/composables/admin/tables/useTableModelHelpers"' has no exported member 'ensureItemsArray'.
-```

@@ -1,6 +1,6 @@
-# Session 6.5.4 Guide: Client-facing entry — reschedule / cancel / quote links
+# Session 6.5.4 Guide: Client-facing entry — reschedule/quote/cancel links
 
-**Purpose:** Session-level guide for URL-based client entry and optional invite link variables
+**Purpose:** Session-level guide for client-facing reschedule, quote, and cancel links.
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
@@ -11,61 +11,126 @@
 ### Session Overview
 
 **Session ID:** 6.5.4
-**Session Name:** Client-facing entry — reschedule / cancel / quote links
-**Description:** Enable clients to open reschedule, view-quote, or cancel flows via links (URLs with mode and appointmentId). Reschedule and cancel links can be embedded in calendar invites via optional template variables. The quote link is not in the invite template; a **"Copy quote link" button** in the app generates a copyable URL so staff can send it manually (email, Slack, etc.).
+**Session Name:** Client-facing entry — reschedule/quote/cancel links
+**Description:** Reschedule, quote, and cancel links; wizard load-at-step-3; copy quote link; wizard persistence; invite template variables.
 
-**Duration:** [Estimated]
-**Status:** Not Started
-
-**Dependencies:** Session 6.5.1 (wizard mode, load-at-step-3, admin entry).
+**Status:** Complete
 
 ### Tasks
 
-- [ ] #### Task 6.5.4.1: URL scheme and router
-**Goal:** Define URL scheme; booking route accepts `mode` and `appointmentId`; cancel route if separate; app base URL available for link building.
-**Files:** `client/src/router/index.ts`, env/config for base URL.
-**Checkpoint:** Route definitions and base URL source documented/implemented.
-
-- [ ] #### Task 6.5.4.2: Wizard entry from query
-**Goal:** On booking route with query params, set wizard mode and `loadedAppointmentId`; load-at-step-3 runs for reschedule/quote.
-**Files:** `BookingWizardView.vue`, wizard composables (`useBookingWizard`, `useWizardAppointmentManagement`).
-**Checkpoint:** Visiting `/booking?mode=reschedule&appointmentId=<id>` loads appointment and lands at step 3.
-
-- [ ] #### Task 6.5.4.3: Cancel flow
-**Goal:** Cancel URL leads to confirm page; on confirm, PATCH to cancelled; success/error and navigation.
-**Files:** New cancel view or route component; appointment PATCH/composable.
-**Checkpoint:** Cancel link works end-to-end; only valid statuses allow cancel.
-
-- [ ] #### Task 6.5.4.4: "Copy quote link" button
-**Goal:** Button (e.g. on appointment row/detail for quote-status) builds quote URL, copies to clipboard, shows "Link copied" feedback; use shared URL-building utility.
-**Files:** Appointments table/detail components; shared URL utility (client).
-**Checkpoint:** Staff can copy quote link and paste into email/Slack; opening pasted link loads wizard in quote mode at step 3.
-
-- [ ] #### Task 6.5.4.5: Invite template variables (optional)
-**Goal:** Add only `{rescheduleLink}` and `{cancelLink}` to invite template context; resolve to full URLs; update admin template help. Do not add `{quoteLink}`.
-**Files:** `server/src/services/invites/` (templateResolver, inviteContextBuilder); admin Instances tab template help.
-**Checkpoint:** Calendar invite description can include reschedule and cancel links via variables.
-
-- [ ] #### Task 6.5.4.6: Verification and docs
-**Goal:** Smoke-test all links (including quote via pasted link from button); document URL scheme; update handoff/session log.
-**Checkpoint:** Session complete; docs updated.
-
----
+- [x] Task 6.5.4.1: Client-facing entry — reschedule / cancel / quote links
+- [x] Task 6.5.4.2: Wizard entry from query
+- [x] Task 6.5.4.3: Cancel flow
+- [x] Task 6.5.4.4: Copy quote link button
+- [x] Task 6.5.4.5: Invite template variables (optional)
+- [x] Task 6.5.4.6: Verification and docs
 
 ## Session Workflow
 
-Follow the same workflow as other sessions: use `/session-start 6.5.4 [description]` to begin; work one task at a time with checkpoints; use `/session-end 6.5.4 [description] [next-session]` when done. See session template or `session-6.5.1-guide.md` for full workflow (before/during/after session, checkpoints, end-of-session steps).
+1. Run `/session-start 6.5.4` to begin (or cascade from phase-start).
+2. Execute tasks 6.5.4.1 through 6.5.4.6 in order.
+3. After each task, run `/task-end <taskId>` and cascade to next task or session-end.
+4. Run `/session-end 6.5.4` when all tasks complete.
 
 ---
 
-## Reference
+## Phase intent (goals and context)
 
-- **Planning:** `sessions/session-6.5.4-planning.md` — goal, approach, tasks, files
-- **Phase guide:** `phases/phase-6.5-guide.md` — Session 6.5.4 success criteria
-- **Feature 3 (invites):** Phase 3.5 template resolver and variable list — for adding `{rescheduleLink}` and `{cancelLink}` only (quote link is via button, not template)
+## Phase intent from feature guide
 
----
+### Phase 6.5: Rescheduling Flow (Not Started)
+- **Wizard mode:** Single source of truth for flow type: `initial` (new booking), `quote` (new quote), `reschedule` (editing existing). Drives themes, submit button label (“Submit” | “Send quote” | “Update appointment”), submit action (create vs update), and availability params (e.g. `reschedulingAppointmentId`). User role (post–Feature 7) is a separate axis: admin vs non-admin drives visibility of “Hold Slot,” “Override constraints,” “Force schedule,” etc.
+- **Same flow as quote and dev load:** Appointment loads at step 3 (Availability); user adjusts and saves/holds quote or books/reschedules. No new wizard steps; reuse `handleLoadAppointment` and update path.
+- **Bypass current appointment as constraint:** Add `reschedulingAppointmentId` to computed-availability request. Server excludes that appointment’s calendar event (and its drive buffers) from the overlap list used in slot computation, while still returning it in `calendarEvents` so it stays visible on the calendar.
+- **Original-inspection slot UI:** Pass the loaded appointment’s time range into the slot grid; mark slots that match/overlap the original time; style with a distinct class (e.g. `appointment-slot-btn--original-inspection`) or overlay so the current time is visible but still selectable.
+- **See:** `features/appointment-workflow/phases/phase-6.5-guide.md` for sessions, implementation details, and relation to Phase 6.8 (allowedExceptions).
 
-## Notes
+- [ ] ### Session 6.5.1: Entry/transitions — wizard mode, load-at-step-3, admin entry
 
-[Session-specific notes, URL design decisions, base URL source choice]
+**Description:** ** Entry/transitions — wizard mode, load-at-step-3, admin entry
+
+**Tasks:**
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
+
+- [x] ### Session 6.5.2: Availability bypass — reschedulingAppointmentId in request
+
+**Description:** ** Availability bypass — reschedulingAppointmentId in request
+
+**Tasks:**
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
+
+- [x] ### Session 6.5.3: Original-inspection slot UI — distinct styling, selectable
+
+**Description:** ** Original-inspection slot UI — distinct styling, selectable
+
+**Tasks:**
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
+
+- [ ] ### Session 6.5.4: Client-facing entry — reschedule/quote/cancel links
+
+**Description:** ** Client-facing entry — reschedule/quote/cancel links
+
+**Tasks:**
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
+
+## Session intent from phase guide
+
+- [ ] ### Session 6.5.4: Client-facing entry — reschedule/quote/cancel links
+
+**Description:** ** Client-facing entry — reschedule/quote/cancel links
+
+**Tasks:**
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
+
+- [ ] #### Task 6.5.4.1: ** Client-facing entry — reschedule / cancel / quote links
+
+**Goal:** ** Client-facing entry — reschedule / cancel / quote links
+
+**Files:**
+(See tierUp guide and context above.)
+
+**Approach:** See tierUp scope above.
+
+**Checkpoint:** Verify per tierUp success criteria.
+
+- [x] #### Task 6.5.4.2: Wizard entry from query
+**Goal:** Wizard entry from query params.
+**Files:** router, composables, views.
+**Approach:** Read query, set mode and loadedAppointmentId.
+**Checkpoint:** Load-at-step-3 works.
+
+- [x] #### Task 6.5.4.3: Cancel flow
+**Goal:** Cancel flow end-to-end.
+**Files:** cancel route, view, PATCH.
+**Approach:** Cancel URL → confirm → PATCH.
+**Checkpoint:** Cancel works.
+
+- [x] #### Task 6.5.4.4: Copy quote link button
+**Goal:** Copy quote link in wizard; wizard persistence.
+**Files:** BookingWizard, AppointmentActionsCell, useAvailabilityDefaults, etc.
+**Approach:** Button replaces Submit when quote+loaded; restore from parent refs.
+**Checkpoint:** Copy link works; going back preserves selections.
+
+- [x] #### Task 6.5.4.5: Invite template variables (optional)
+**Goal:** Add {rescheduleLink} and {cancelLink} to calendar invites.
+**Files:** shared/constants/templateVariables.ts, inviteContextBuilder.ts, env.
+**Approach:** Add to EVENT_TEMPLATE_VARIABLES; buildInviteContext with base URL.
+**Checkpoint:** Event template resolves {rescheduleLink} and {cancelLink}.
+
+- [x] #### Task 6.5.4.6: Verification and docs
+**Goal:** Smoke-test all session deliverables; update docs.
+**Files:** Session log, handoff.
+**Approach:** Smoke-test links; update session log and handoff.
+**Checkpoint:** All links work; docs updated.
+
+<!-- end excerpt session -->

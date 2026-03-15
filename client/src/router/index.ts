@@ -34,6 +34,11 @@ const routes: RouteRecordRaw[] = [
     name: 'beta-feedback',
     component: () => import('@/views/beta/BetaFeedbackView.vue'),
   },
+  {
+    path: '/cancel',
+    name: 'cancel-appointment',
+    component: () => import('@/views/booking/CancelConfirmView.vue'),
+  },
 ]
 
 const router = createRouter({

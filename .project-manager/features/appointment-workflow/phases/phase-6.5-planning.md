@@ -9,20 +9,27 @@
 - Prior phase/session work established modal behavior and differential/preClosing context. - Current planning output showed template-heavy context and generic Q&A prompts.
 
 ## Goal
-Achieve Phase 6.5 Rescheduling Flow per phase guide. Sessions 6.5.1–6.5.4. Session 6.5.2 complete; next session 6.5.3 (Original-Inspection UI).
+Achieve Phase 6.5 Rescheduling Flow: wizard mode (reschedule), load-at-step-3, reschedulingAppointmentId bypass, original-inspection slot UI, admin entry, client-facing links. Sessions 6.5.1–6.5.4 deliver these outcomes.
 
 ## Files
-- Phase guide: `.project-manager/features/appointment-workflow/phases/phase-6.5-guide.md`
-- Session guides under `sessions/` — no code changes at phase level; phase creates branch and enables session cascade.
+- Phase guide, session guides, handoffs under `.project-manager/features/appointment-workflow/`
+- Client: booking wizard, availability composables, AppointmentSlotGrid
+- Server: computed-availability, overlap/calendarEvents logic
 
 ## Approach
-1. Create phase branch `appointment-workflow-phase-6.5` (or equivalent per harness).
-2. Ensure phase guide lists sessions 6.5.1–6.5.4; session 6.5.3 is next.
-3. Run session-start 6.5.3 when ready; cascade session-end to next or phase-end.
+1. Run session-start for each session in order (6.5.1 → 6.5.2 → 6.5.3 → 6.5.4).
+2. After each session-end, cascade to next session or phase-end.
+3. Follow governance (audits, thin components, composables).
 
 ## Checkpoint
-- Phase branch exists; session 6.5.3 can start without "ancestor branch does not exist" error.
+- All four sessions complete; reschedule flow works end-to-end (admin entry, availability bypass, original-inspection UI, client links).
+- Phase-end audit passes.
 
+## How we build the tierDown to achieve them
+- **Session 6.5.1:** Entry/transitions — wizard mode, load-at-step-3, admin entry
+- **Session 6.5.2:** Availability bypass — reschedulingAppointmentId in request
+- **Session 6.5.3:** Original-inspection slot UI — distinct styling, selectable
+- **Session 6.5.4:** Client-facing entry — reschedule/quote/cancel links
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`

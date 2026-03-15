@@ -29,7 +29,7 @@ export interface UseWizardAppointmentManagementReturn {
   currentAppointmentId: Ref<string | null>
   selectedAppointmentId: Ref<string | null>
   isLoadingAppointment: Ref<boolean>
-  handleLoadAppointment: (appointmentIdOrRandom: string | null) => Promise<void>
+  handleLoadAppointment: (appointmentIdOrRandom: string | null, options?: { mode?: 'reschedule' | 'quote' }) => Promise<void>
   handleUpdateAppointment: () => Promise<void>
   handleResetWizard: () => void
 }

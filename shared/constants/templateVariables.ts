@@ -13,4 +13,6 @@ export const EVENT_TEMPLATE_VARIABLES = [
   { name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },
   { name: 'status', description: 'Current appointment status', example: 'confirmed' },
   { name: 'service', description: 'Primary service name', example: "Buyer's Inspection" },
+  { name: 'rescheduleLink', description: 'Full URL for reschedule flow', example: 'https://example.com/booking?mode=reschedule&appointmentId=abc-123' },
+  { name: 'cancelLink', description: 'Full URL for cancel flow', example: 'https://example.com/cancel?appointmentId=abc-123' },
 ] as const
