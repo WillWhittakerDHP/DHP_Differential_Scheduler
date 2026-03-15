@@ -489,7 +489,7 @@ Implement the following so that authenticated users and roles are used where oth
 **Status:** 📋 Planning
 **Description:** Validate the product before authoring E2E tests: (1) document the booking wizard flow and all logical branches in a Mermaid diagram to find bad loops, dead ends, or wrong wiring; (2) build an alpha testing task database where each row is one E2E-testable task; (3) randomly assign tasks to alpha testers and require 2–3 "blank" full wizard runs with their own data. E2E tests (Feature 10) are then derived from this task list. Depends on Feature 7 (Authentication) for assigning tasks to users.
 **Branch:** TBD
-**Directory:** `features/guided-alpha-testing/` (rename from `guided-beta-testing` when work begins)
+**Directory:** `features/guided-alpha-testing/`
 
 ### Why Before Feature 10 (Testing)
 
