@@ -36,3 +36,6 @@ client/auto-imports.d.ts
 # Transient workflow state (generated during harness execution, not project artifacts)
 .project-manager/.git-ops-log
 .project-manager/.write-log
+# Machine-local harness state (avoids merge conflicts when two machines work different branches)
+.project-manager/.tier-scope
+.project-manager/.audit-baseline-log.jsonl
