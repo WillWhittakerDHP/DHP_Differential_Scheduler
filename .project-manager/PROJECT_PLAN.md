@@ -25,7 +25,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 |---|---------|--------|-----------|-----------|
 | 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
 | 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
-| 2 | Google APIs Integration | ✅ Complete | `features/google-apis-integration/` | Started 2026-01-31 |
+| 2 | Google APIs Integration | ✅ Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
 | 3 | Calendar & Appointment Availability | ✅ Complete | `features/calendar-appointment-availability/` | Completed 2026-02-21 |
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
@@ -35,13 +35,13 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
 | 10 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
 | 11 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
-| 12 | Pre-Launch Polish | 📋 Planning | `features/pre-launch-polish/` | — |
+| 12 | Pre-Launch Polish | 📋 Planning | `features/pre-launch-polish/` (to create) | — |
 | 13 | Alpha Launch & Deployment | 📋 Planning | — | — |
 | 14 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
-| 16 | UI Polish | 🔮 Not Started | `features/ui-polish/` | — |
+| 16 | UI Polish | 🔮 Not Started | `features/feature-7-ui-polish/` | — |
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
-| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
+| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
 
 ---
@@ -196,9 +196,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 3: Calendar & Appointment Availability
 
-**Status:** ⏳ Reopened (Phase 3.6 in progress)
+**Status:** ✅ Complete
 **Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
 **Branch:** `feature/calendar-appointment-availability`
+**Completed:** 2026-02-21
 
 ### What's Built
 
@@ -228,10 +229,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 7. `useAppointmentSlots` applies appointment shape → displays slots with differential info
 8. User selects slot → stored in wizard state
 
-### Remaining Work
-- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective.
+### Remaining Work (delegated to other features)
+- **Calendar event creation/editing UI:** Currently read-only from the calendar perspective — tracked in **Feature 17 (Admin UI Overhaul)**.
 
-Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time availability sync is tracked in **Feature 12 (Pre-Launch Polish)**.
+- **Real-time availability sync:** Tracked in **Feature 13 (Alpha Launch & Deployment)**, Step 10 end-to-end verification scope.
 
 ---
 
@@ -297,9 +298,9 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 | 6.5 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard (same flow as quote/dev load at step 3); bypass current appointment as constraint (`reschedulingAppointmentId`); UI indicator for original inspection slot. |
 | 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
 | 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
-| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
+| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. Sessions 6.8.5 (block-level agentPermissions), 6.8.6 (admin entry: Start new \| Edit quote \| Reschedule + dropdown). |
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
-| 6.10 | Fee Preview & Coupon Visibility | Not Started | Fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (admin toggle + settings), 6.10.2 (availability-step fee bar + popover). |
+| 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | Add new block shapes button on admin Shapes tab (6.10.1 ✅); admin toggle to show/hide apply-coupon in wizard (6.10.2 ✅); fee preview bar on availability step (6.10.3 not started); coupon fee calculation (6.10.4 not started). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 
 ### Phase 6.1 Completed (Workflow)
@@ -323,10 +324,13 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - **Original-inspection slot UI:** Pass the loaded appointment’s time range into the slot grid; mark slots that match/overlap the original time; style with a distinct class (e.g. `appointment-slot-btn--original-inspection`) or overlay so the current time is visible but still selectable.
 - **See:** `features/appointment-workflow/phases/phase-6.5-guide.md` for sessions, implementation details, and relation to Phase 6.8 (allowedExceptions).
 
-### Block-level permissions and admin entry (Feature 6)
+### Block-level permissions and admin entry (Feature 6 — Phase 6.8)
 
-- **`agentPermissions` on block_instances:** Add column `agent_permissions` (TernaryBoolean: `'true' | 'false' | 'override'`), same pattern as `differential`. Full stack: migration → model → versioning (if used) → client types → transformer. `true` = agents only; `false` = clients; `override` = admins can use regardless. Drives which blocks/features (e.g. blocker override, future agent features) are visible or usable per role. **Effective permission:** state combines user role (client / agent / admin) with block’s `agentPermissions` so tooltips and permissions (Override constraints, Hold Slot, Force schedule, etc.) are variable and state-driven; admins get override.
-- **Admin step 0 or pre-wizard:** For admins only, before (or as step 0 of) the wizard: choose **Start new inspection** | **Edit quote** | **Reschedule**. When “Edit quote” or “Reschedule” is selected, show a **dropdown of non-completed inspections** (exclude statuses `cancelled`, `deleted`; optionally filter by status for Edit quote vs Reschedule). Filter by a **time-out** setting from the admin panel (e.g. only appointments where scheduling began within the last X days/weeks, or the quote has been in quote status for the last X days/weeks; X configurable in admin, e.g. Business Controls → Calendar or Confirmation & Holds). Picker is a dropdown with columns: **Address**, **Client name**, **Agent name**. Selection sets wizard mode and `loadedAppointmentId`; then wizard proceeds (e.g. to step 3 for edit/reschedule). API: list appointments filtered by status, by time-out window, and (post–Feature 7) by permission.
+**Implementation:** Phase 6.8 — Session 6.8.5 (block-level agent_permissions), Session 6.8.6 (admin step 0 / pre-wizard). Full spec and tasks are in the phase and session docs only.
+
+- **agentPermissions (Session 6.8.5):** See phase-6.8-guide.md subsection “Block-level agentPermissions” and session-6.8.5-guide.md for full stack (migration → model → versioning → client types → transformer), effective permission (user role + block.agentPermissions), tooltips/permissions (Override, Hold Slot, Force schedule), and Force Schedule/Override visibility.
+- **Admin step 0 or pre-wizard (Session 6.8.6):** See phase-6.8-guide.md subsection “Admin entry” and session-6.8.6-guide.md for choices (Start new | Edit quote | Reschedule), time-out setting (Business Controls → Calendar or Confirmation & Holds), API (filter by status, time-out; post–Feature 7 by permission), dropdown columns (Address, Client name, Agent name), and selection → wizard mode and loadedAppointmentId → step 3.
+
 
 ### Phase 6.9: Availability Step Mini-Wizard (Not Started)
 - Reframe the 3rd wizard step (Appointment Availability) as a mini-wizard with ordered sub-steps: (1) Pick a day, (2) Pick block instance options when they exist (they affect differential calculation), (3) Pick perspective only when a date is selected and the booking is differential, (4) Pick a time.
@@ -335,12 +339,12 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - Dependencies: Option-type blocks and differential logic already drive availability; no new backend. UX and layout only.
 
 ### Phase 6.10: Fee Preview & Coupon Visibility (Not Started)
-(NOTE: We need to add a new blockShape for coupons so that their application will be part of the finalizers. we will control which users can see which coupons with the valid and active cascade stuff. then we need to wire those block instances into a drop down cascaded like user->service and loking like property types)
 - **Fee preview bar on availability step:** A bar at the top of the Appointment Availability (step 3) wizard showing total fee as a preview (e.g. "Fee preview: $X.XX"). On hover, show fee details in a popover — same structure as step 5 (Confirmation): Bag Total, optional Coupon Discount row (and Apply Coupon button when enabled by admin), Order Total, line items, Total. No submit buttons in the popover.
 - **Apply coupon toggle in admin:** Business Controls → **Calendar** → **Confirmation & Holds** subtab. Add a switch "Show apply coupon in wizard" so the Coupon Discount row and Apply Coupon button can be shown or hidden in the booking flow. Persist the setting with availability/business settings (e.g. `showApplyCouponInWizard` in payload and types); wizard reads it via availability settings and shows the coupon row in Confirmation step and in the availability-step fee popover only when the toggle is on.
-- **Session 6.10.1:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
-- **Session 6.10.2:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
-- **See:** `features/appointment-workflow/phases/phase-6.10-guide.md` and sessions `session-6.10.1-guide.md`, `session-6.10.2-guide.md`.
+- **Session 6.10.1:** Add new block shapes button on admin Shapes tab — restore it (it used to exist and is missing); if needed, adapt the same add-new pattern as the other shapes sub-tabs.
+- **Session 6.10.2:** Admin toggle and settings — add `showApplyCouponInWizard` to availability settings types and API; add switch in `AppointmentConfirmationPanel`; wire form state and save; wizard reads setting (e.g. from `useAvailabilitySettings().settings` or shared config).
+- **Session 6.10.3:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
+- **See:** `features/appointment-workflow/phases/phase-6.10-guide.md` and sessions `session-6.10.1-guide.md`, `session-6.10.2-guide.md`, `session-6.10.3-guide.md`.
 
 ### Phase 6.11: Drive Time Fee Line Item (Not Started)
 - **Admin-configurable settings (Business Controls / business rules area):** **Complimentary drive time (minutes)** — drive below this is not charged. **Driving rate per hour ($)** — (rounded billable minutes / 60) × rate. **Rounding (minutes)** — round billable drive to nearest N minutes (configurable in admin). If driving logic or fee-related config lives in Business Controls (e.g. Calendar → Confirmation & Holds or a Driving / Business Rules tab), add these three settings there; persist with business/availability settings API.
@@ -349,33 +353,30 @@ Admin calendar view is tracked in **Feature 17 (Admin UI Overhaul)**. Real-time 
 - **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
 - **See:** `features/appointment-workflow/phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`.
 
-### Phase 6.12: Annotation Content Layer and Entity Enhancements (Not Started)
-- **Entity enhancements:** Event shape `includeRescheduleLink` and `includeCancelLink` booleans (DB, model, client types, field config, metadata; invite builder reads them). Block shapes tab: fix entity cards not expanding when clicked.
-- **Annotation data layer:** Create `annotation_instance_content` table (annotation_instance_id, user_type_block_instance_id FK, text, tooltip); dimensions dynamic (user type block instances). Deprecate `AnnotationInstance.userType` and simplify `AnnotationAssignment`; migrate existing data. Annotation shape delete: return 409 with actionable message when dependents exist (FK `annotation_instances_type_fkey`).
-- **Annotation UI slots and wizard pipeline:** Add `shared/constants/annotationSlots.ts` with `ANNOTATION_UI_SLOTS` and `ANNOTATION_UI_SLOT_REGISTRY`; add `ui_slot` column (VARCHAR(50), nullable) to `annotation_shapes`; server validates against registry; admin dropdown from registry. Extend `globalToBookingTransformer` to populate annotations on `BookingBlockInstance`; create `useAnnotationContent` composable; wire into SelectionCard/IndependentSelectCard for cardDescription and cardTooltip. Migrate grid overlay to `gridOverlay` annotation slot; `AvailabilityStep.vue` reads from annotation when available, fallback to business settings.
-- **Sessions:** 6.12.1 (entity enhancements + annotation data layer), 6.12.2 (UI slots registry + wizard pipeline).
-- **See:** `features/appointment-workflow/phases/phase-6.12-guide.md`.
-
 ### Booking Calculations (Core Complete)
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`. **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`. Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
 
 **Remaining (calculations):** **useFeeCalculations composable:** Add a composable parallel to `useTimeSlotCalculations()`, reusing existing fee and finalization utils (`calculateBlockInstanceFee`, `buildConfirmationPriceData`, pricing cascade resolution, `createBlockFinal` / `createPartFinals`). Wire it into the confirmation step so fee logic is exposed in one place. **Admin-configurable fee-related settings:** Coupon discount, delivery charges, and delivery-free behavior are currently hardcoded in the fee flow. Move to admin-configurable business settings and have the fee flow (e.g. useFeeCalculations or shared utils) read from those settings.
 
+### Open Questions (Feature 6)
+
+1. **Coupon fee calculation and finalizer integration:** The coupon block shape (`BLOCK_SHAPE_TYPES.COUPON`) and cascade dropdown on step 5 are implemented (Session 6.10.1). However, coupon discount is still a placeholder (0) in `confirmationStepData.ts` — the actual fee reduction (e.g. percentage off, negative base fee) is not wired into the finalizers (`createBlockFinal` / `createPartFinals`). Planned as **Session 6.10.4** (phase-6.10-guide.md): "add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee." *(Design decision needed: should coupons reduce the fee via a percentage column on the part instance, a flat discount, or both? How does this interact with the pricing cascade?)*
+
 ### Key Files
 - **Workflow:** Feature 6 appointment-workflow planning (see Related Documents)
 - **Calculations:** confirmationStepData, partsTotals, pricingCascadeResolver, appointmentTimeCalculations, useTimeSlotCalculations, BlockFinal/PartFinals (booking utils)
-- **Archived planning:** booking-calculations planning (archived)
+- **Archived planning:** booking-calculations planning (archived in `features/booking-calculations/`)
 
 ### Related Documents
 - Phase 6.4 Guide: `features/appointment-workflow/phases/phase-6.4-guide.md` (Moveable Modal & preClosing)
 - Phase 6.5 Guide: `features/appointment-workflow/phases/phase-6.5-guide.md` (Rescheduling flow, availability bypass, original-inspection UI)
-- Phase 6.8 Guide: `features/appointment-workflow/phases/phase-6.8-guide.md` (architecture, data model, implementation checklist, decision log for Admin Force-Create)
+- Phase 6.8 Guide: `features/appointment-workflow/phases/phase-6.8-guide.md` (architecture, data model, Sessions 6.8.5 agentPermissions and 6.8.6 admin entry, decision log for Admin Force-Create)
+- Session 6.8.5: `features/appointment-workflow/sessions/session-6.8.5-guide.md` (Block-level agentPermissions); Session 6.8.6: `features/appointment-workflow/sessions/session-6.8.6-guide.md` (Admin entry step 0 / pre-wizard)
 - Phase 6.9 Guide: `features/appointment-workflow/phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
-- Phase 6.12 Guide: `features/appointment-workflow/phases/phase-6.12-guide.md` (Annotation Content Layer and Entity Enhancements)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
-- Feature 6 workflow and booking-calculations planning: `features/appointment-workflow/`
+- Feature 6 workflow: `features/appointment-workflow/`; archived booking-calculations planning: `features/booking-calculations/`
 
 ---
 
@@ -420,10 +421,15 @@ Implement the following so that authenticated users and roles are used where oth
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
 - [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
-- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.5 / 6.8).
+- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.8; agentPermissions in Session 6.8.5).
 - [ ] **Guided alpha / feedback:** Where Feature 9 (Guided Alpha Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
 - [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
 - [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
+
+### Open Questions (Feature 7)
+
+1. **Pre-alpha user-type switching:** For E2E testing, what mechanism lets testers switch between user types and associated auth levels (toggle, select menu)? How many auth conditions exist — admin / non-logged-in / non-agent / client / agent? Agents logged in have different rights than unauthenticated non-agents and non-admins. *(Needs design decision before Enactment step.)*
+2. **Google OAuth:** Can we add a "Log in with Google" option? *(Needs scoping — deferred or included in auth strategy step.)*
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2A
@@ -483,11 +489,15 @@ Implement the following so that authenticated users and roles are used where oth
 **Status:** 📋 Planning
 **Description:** Validate the product before authoring E2E tests: (1) document the booking wizard flow and all logical branches in a Mermaid diagram to find bad loops, dead ends, or wrong wiring; (2) build an alpha testing task database where each row is one E2E-testable task; (3) randomly assign tasks to alpha testers and require 2–3 "blank" full wizard runs with their own data. E2E tests (Feature 10) are then derived from this task list. Depends on Feature 7 (Authentication) for assigning tasks to users.
 **Branch:** TBD
-**Directory:** `features/guided-alpha-testing/`
+**Directory:** `features/guided-alpha-testing/` (rename from `guided-beta-testing` when work begins)
 
 ### Why Before Feature 10 (Testing)
 
 We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers.
+
+### Open Questions (Feature 9)
+
+1. **Out-of-state testers and address generation:** Some alpha testers will be out of state and unable to enter a local property address. Should the wizard include a "show random address" button that generates a random address in the metro area or pulls one from the appointment database? *(Needs design decision — affects Property Details step UI and data seeding strategy.)*
 
 ### Phase 9.1: Wizard Flow Diagram (Mermaid)
 
@@ -553,7 +563,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ### Related Documents
 
 - LAUNCH_CHECKLIST.md Phase 6A (guided testing; update to "Guided Alpha")
-- Feature 6 (Appointment Workflow) — wizard steps, modes, admin entry
+- Feature 6 (Appointment Workflow) — wizard steps, modes; admin entry in Phase 6.8 Session 6.8.6
 - Feature 10 (Testing & Quality Validation) — E2E tests derived from alpha task list
 - **Feature 9 Session 9.4.1:** `features/guided-alpha-testing/sessions/session-9.4.1-guide.md` — User Feedback & Error Wiring (rename to user_feedback, wire all feedback/errors)
 - **Feature 9 Guide:** `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` — phases 9.1–9.4, implementation order, session 9.4.1 (mirrors this section).
@@ -691,12 +701,16 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Scope (from LAUNCH_CHECKLIST Phase 6)
 
-- **Vue error boundary** — Graceful fallback UI when a component crashes. (NOTE FROM USER: I want to make sure that we get a note in the betafeedback chain for any fallback behavior that IDs where the fallback happened and any other data we can generate with-out AI to help us see problems, kind of like how the logger always logs on errors, fallbacks, and defaults in dev mode. as far as i remember, we have a database table that is supposed to accept feedback in a way you can read it. i want something like that. ASK ME FORE MORE DETAIL IF YOU DON"T UNDERSTAND WHAT I MEAN. infact, this may be helpful for lots of things, and not just the vue error boundary)
+- **Vue error boundary** — Graceful fallback UI when a component crashes. Fallback events should feed into the beta-feedback pipeline (see Open Questions below).
 - **Loading/error state review** — Audit all views for spinners, error messages, retry buttons.
 - **Cross-browser/device testing** — Desktop (Chrome/Firefox/Safari) and mobile (iOS/Android).
 - **README update** — Deployment instructions and architecture overview.
 - **Verify feedback system in production** — Smoke-test existing feedback system (Feature 14) in hosted env; blocked by Feature 13 (deployed env).
 - **Alpha tester onboarding guide** — Static document for testers who prefer docs over in-app guide.
+
+### Open Questions (Feature 12)
+
+1. **Automatic fallback telemetry:** When a Vue error boundary triggers, automatically log an entry to the beta-feedback pipeline that identifies where the fallback happened and captures available diagnostic data (no AI required) — similar to the existing dev-mode logger that fires on errors, fallbacks, and defaults. The existing feedback database table should accept these entries so they are readable by the team. This pattern may be broadly useful beyond the error boundary (e.g. silent-fallback detection, default-value usage). *(Needs design spike — scope TBD when Feature 12 is active.)*
 
 ### Related Documents
 - LAUNCH_CHECKLIST.md Phase 6
@@ -752,7 +766,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 | 7 | **Deploy static site (Feature 13)** — Configure static site, set `VITE_API_BASE_URL`, `VITE_APP_STAGE` (e.g. `alpha` for MLS testers), and `VITE_INCLUDE_DEV_FLAGS=false` for alpha, add SPA rewrite rule. | Step 6 |
 | 8 | **Google OAuth production config (Feature 13)** — Update redirect URI in Google Cloud Console. Consider DB-backed token storage. | Step 6 |
 | 9 | **Bright MLS credentials (Feature 13)** — Procure credentials, configure env vars, test enrichment pipeline. | Step 6 |
-| 10 | **End-to-end verification (Feature 13)** — Static site loads, API responds, DB connected, calendar works. | Steps 6–9 |
+| 10 | **End-to-end verification (Feature 13)** — Static site loads, API responds, DB connected, calendar works, real-time availability sync confirmed (slots update when calendar changes). | Steps 6–9 |
 | 11 | **Deploy CI job (optional)** — Add auto-deploy from `main` to Render. Manual deploys initially acceptable. | Step 10 |
 
 > **Steps 1–4 can be done before any Render account exists.** Steps 5–10 are the deployment sequence. Feature 13 depends on Features 7 (auth), 8 (security), 9 (Guided Alpha Testing), 10 (Testing), and 11 (production readiness) being substantially complete.
@@ -994,6 +1008,10 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIS
 **Converting to and launching the app version (summary):** (1) Complete Admin UI Overhaul so component count and structure are ready for Ionic. (2) Install Ionic Vue, migrate booking wizard (and admin, if in scope) to Ionic components; keep composables and API usage unchanged. (3) Add Capacitor, point `webDir` at the built client (e.g. `dist/`). (4) Add iOS and Android platforms (`npx cap add ios`, `npx cap add android`). (5) Configure production API URL and app identity (icons, splash, bundle id). (6) Build and run in simulator/emulator; verify flows and API connectivity. (7) For Apple Store: create Apple Developer account, configure signing and entitlements, archive and upload via Xcode (or CI); prepare metadata and screenshots. See LAUNCH_CHECKLIST.md Phase 7 and "Converting to and launching the app version" for detailed checklist and commentary.
 
 ---
+### Open Questions 
+
+1. Will we need to adjust or add to the click handlers to create a consistent behavior with for app activities, since clicking and dragging isn't exactly what happens in an app?
+2. Will we need to register in the App Store
 
 ## Related Documents
 
