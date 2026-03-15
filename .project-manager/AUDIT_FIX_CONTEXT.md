@@ -8,7 +8,7 @@ When fixing findings from session, phase, or task audits, load the following doc
 
 ## Tier-appropriate context (injected by /audit-fix when available)
 
-When you run `/audit-fix` (with or without a report path), the command reads `.project-manager/.tier-scope` and injects @ refs for the **current tier's guide and planning doc** (e.g. session 6.10.1 → session guide + session planning doc; task 6.9.1.1 → task planning doc + session guide). This gives the agent the right scope so fixes stay aligned with the current tier and do not duplicate or contradict the plan.
+When you run `/audit-fix` (with or without a report path), the command reads `.project-manager/.tier-scope` and injects @ refs for the **current tier's guide and planning doc** (e.g. session 6.10.1 → session guide + session planning doc; task 6.9.1.1 → task planning doc + session guide). This gives the agent the right scope so fixes stay aligned with the current tier and do not duplicate or contradict the plan. The same `.tier-scope` file is read by `readTierScope()` and attached to `WorkflowCommandContext.scope` for tier-start flows (e.g. `/session-start`, `/task-start`), so branch and slug resolution use the current scope when present.
 
 ---
 

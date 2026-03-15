@@ -1,181 +1,25 @@
-# Session 6.10.1: 6.10
-
-
-### Task 6.10.1.1: Task 6.10.1.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.2
-
-
+# Session 6.10.1 Log
 
 ## Completed Tasks
 
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
+### Task 6.10.1.1: Restore "Add new block shape" entry point ✅
+**Goal:** Restore the add-new block shape action on the Block Shapes sub-tab.
+**Completed:** 2026-03-06
 
-**Next Task:**
-- 6.10.1.5
+### Task 6.10.1.2: Block shape create flow and API ✅
+**Goal:** Create flow collects required fields, calls API, and refreshes the list.
+**Completed:** 2026-03-07
 
+### Task 6.10.1.3: Governance and polish ✅
+**Goal:** Follow component/composable governance; no new Tier1 hotspots; lint and app start pass.
+**Completed:** 2026-03-07
 
+### Task 6.10.1.4: Apply Coupon dropdown on step 5 ✅
+**Goal:** Coupon blockShape blockInstances in a dropdown on wizard step 5 using `cascadeShapePipeline` with `BLOCK_SHAPE_TYPES.COUPON`.
+**Completed:** 2026-03-07
 
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-
-<<<<<<< Updated upstream
-=======
-### Task 6.10.1.2: Task 6.10.1.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.3
-
-
-
-### Task 6.10.1.2: Task 6.10.1.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.3
-
-
-
->>>>>>> Stashed changes
-### Task 6.10.1.1: Task 6.10.1.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.2
-
-<<<<<<< Updated upstream
-<!-- end excerpt session -->
-=======
-<!-- end excerpt session -->
-### Task 6.10.1.2: Task 6.10.1.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.3
-
-
-### Task 6.10.1.2: Task 6.10.1.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.3
-
->>>>>>> Stashed changes
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-
+---
 
 ## Test Status
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-### Task 6.10.1.4: Task 6.10.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.10.1.5
-
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-<<<<<<< Updated upstream
-=======
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
->>>>>>> Stashed changes
-<<<<<<< Updated upstream
-=======
->>>>>>> session-6.10.1
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
->>>>>>> Stashed changes

@@ -2,6 +2,7 @@
 
 import { inject, computed } from 'vue'
 import { wizardKey } from '@/composables/booking/injectionKeys'
+import { buildConfirmationPriceData } from '@/utils/booking/confirmationStepData'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
@@ -94,6 +95,34 @@ const showSlotsOverlay = computed(
     !hasSelectedSlot.value &&
     !o.userHasChosenTimeBasisFromGraph?.value
 )
+
+// PATTERN: Same inputs as useConfirmationStepData so fee matches Confirmation step
+const availabilityStepPriceData = computed(() => {
+  const stepDataValue = propertyDetailsStepData?.value
+  const aduCount = stepDataValue?.additionalUnits ?? null
+  const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
+  return buildConfirmationPriceData(
+    {
+      selectedServices: wizard!.selectedServiceTypeBlocks.value,
+      selectedPropertyTypeBlocks: wizard!.selectedPropertyTypeBlocks.value,
+      selectedOptionTypeBlocks: wizard!.selectedOptionTypeBlocks.value,
+      selectedLineItemBlocks: wizard!.selectedLineItemBlocks.value,
+    },
+    squareFootage ?? null,
+    aduCount
+  )
+})
+const showFeeBar = computed(
+  () =>
+    (wizard?.selectedServiceTypeBlocks.value?.length ?? 0) > 0 &&
+    (availabilityStepPriceData.value?.finalTotal ?? 0) >= 0
+)
+const feePreviewLabel = computed(() => {
+  const p = availabilityStepPriceData.value
+  if (!p) return 'Fee preview: $0.00'
+  const prefix = p.currency === 'USD' ? '$' : `${p.currency} `
+  return `Fee preview: ${prefix}${p.finalTotal.toFixed(2)}`
+})
 </script>
 
 <template>
@@ -104,6 +133,9 @@ const showSlotsOverlay = computed(
           <div>
             <h4 class="text-headline-large mb-2">Appointment Availability</h4>
             <p class="text-body-medium mb-6 mb-sm-4">Select a time that works for everybody</p>
+          </div>
+          <div v-if="showFeeBar" class="text-body-large text-medium-emphasis">
+            {{ feePreviewLabel }}
           </div>
         </div>
       </VCol>
