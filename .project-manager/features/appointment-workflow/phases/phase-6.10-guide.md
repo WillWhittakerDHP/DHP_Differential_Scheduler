@@ -61,9 +61,11 @@
 ---
 - [ ] ### Session 6.10.5: add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
 **Description:** add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
-**Tasks:** [To be planned]
+**Tasks:** Add Wizard sub-tab; create WizardConfigPanel; create useWizardSettings composable; move showApplyCouponInWizard, differential sub-step labels, brand colors toggle; wire form state and save.
 **Focus:**
-- [To be identified during planning]
+- Add Wizard sub-tab to Business Controls → Calendar (alongside Integration, Holds, Places, Grid)
+- Create `useWizardSettings` composable (or equivalent) to consolidate wizard settings access — replace scattered handlers like `handleShowApplyCouponInWizard` with a single composable that exposes all wizard settings (showApplyCouponInWizard, brand colors, differential labels, etc.) for both Admin panel and wizard components
+- Move wizard-specific settings from Holds (showApplyCouponInWizard), Grid (differential sub-step labels), and elsewhere (brand colors toggle) into the new Wizard tab
 
 ---
 
