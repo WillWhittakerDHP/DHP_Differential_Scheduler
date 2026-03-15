@@ -39,7 +39,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 13 | Alpha Launch & Deployment | 📋 Planning | — | — |
 | 14 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
-| 16 | UI Polish | 🔮 Not Started | `features/feature-7-ui-polish/` | — |
+| 16 | UI Polish | 🔮 Not Started | `features/ui-polish/` | — |
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |

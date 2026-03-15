@@ -21,6 +21,7 @@ export interface UseBusinessControlsFormStateReturn {
     holdDurationFallback: UseCalendarHoldFormStateReturn['fields']['holdDurationFallback']
     adminEntryTimeoutValue: UseCalendarHoldFormStateReturn['fields']['adminEntryTimeoutValue']
     adminEntryTimeoutUnit: UseCalendarHoldFormStateReturn['fields']['adminEntryTimeoutUnit']
+    showApplyCouponInWizard: UseCalendarHoldFormStateReturn['fields']['showApplyCouponInWizard']
     calendarEntries: UseCalendarHoldFormStateReturn['fields']['calendarEntries']
     addCalendarEntry: UseCalendarHoldFormStateReturn['actions']['addCalendarEntry']
     removeCalendarEntry: UseCalendarHoldFormStateReturn['actions']['removeCalendarEntry']
@@ -65,6 +66,7 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
     holdDurationFallback,
     adminEntryTimeoutValue,
     adminEntryTimeoutUnit,
+    showApplyCouponInWizard,
     calendarEntries,
     writeToIndex,
     calendarValidationError,
@@ -144,6 +146,7 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
       holdDurationFallback,
       adminEntryTimeoutValue,
       adminEntryTimeoutUnit,
+      showApplyCouponInWizard,
       calendarEntries,
       addCalendarEntry,
       removeCalendarEntry,

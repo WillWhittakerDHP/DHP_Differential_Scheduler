@@ -24,6 +24,7 @@ export interface UseCalendarHoldFormStateReturn {
     holdDurationFallback: import('vue').ComputedRef<number>
     adminEntryTimeoutValue: import('vue').ComputedRef<number>
     adminEntryTimeoutUnit: import('vue').ComputedRef<AdminEntryTimeoutUnit>
+    showApplyCouponInWizard: import('vue').ComputedRef<boolean>
     calendarEntries: Ref<CalendarEntry[]>
     writeToIndex: Ref<number>
     calendarValidationError: Ref<string | null>
@@ -164,6 +165,13 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
     },
   })
 
+  const showApplyCouponInWizard = computed({
+    get: () => formData.value?.showApplyCouponInWizard ?? false,
+    set: (value: boolean) => {
+      if (formData.value) formData.value.showApplyCouponInWizard = value
+    },
+  })
+
   const {
     entries: calendarEntries,
     addEntry: addCalendarEntry,
@@ -196,19 +204,20 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
   }
 
   return {
-    fields: {
-      calendarEnabled,
-      calendarProvider,
-      holdDurationMinutes,
-      holdDurationMin,
-      holdDurationMax,
-      holdDurationFallback,
-      adminEntryTimeoutValue,
-      adminEntryTimeoutUnit,
-      calendarEntries,
-      writeToIndex,
-      calendarValidationError,
-    },
+  fields: {
+    calendarEnabled,
+    calendarProvider,
+    holdDurationMinutes,
+    holdDurationMin,
+    holdDurationMax,
+    holdDurationFallback,
+    adminEntryTimeoutValue,
+    adminEntryTimeoutUnit,
+    showApplyCouponInWizard,
+    calendarEntries,
+    writeToIndex,
+    calendarValidationError,
+  },
     actions: {
       addCalendarEntry,
       removeCalendarEntry,

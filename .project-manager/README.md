@@ -27,7 +27,7 @@
 │   ├── test-suite-setup/ (Feature 9 — 📋 Planning)
 │   ├── beta-feedback-response/ (Feature 10 — 📋 Planning)
 │   ├── beta-launch/ (Feature 11 — 📋 Planning)
-│   ├── feature-7-ui-polish/ (Feature 12 — 🔮 Future)
+│   ├── ui-polish/ (Feature 16 — 🔮 Future)
 │   ├── admin-ui-overhaul/ (Feature 13 — 🔮 Future)
 │   └── gpt-admin-automation/ (Feature 14 — 🔮 Future, to be renamed admin-assistance-wizard)
 └── archive/ (historical/archived documents)

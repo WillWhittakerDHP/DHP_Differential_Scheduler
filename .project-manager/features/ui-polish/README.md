@@ -1,7 +1,7 @@
-# Feature 17: UI Polish
+# Feature 16: UI Polish
 
-**Status:** Planning
-**Feature Number:** 17
+**Status:** 🔮 Not Started
+**Feature Number:** 16
 **Description:** Polish admin panel and booking wizard UI to be "niceish". Includes bulk updates as small enhancement.
 
 ## Overview
@@ -17,22 +17,22 @@ This feature focuses on polishing the UI to transform it from functional but unp
 
 ## Phases
 
-- **Phase 7.1**: Admin Panel UI Polish
-- **Phase 7.2**: Booking Wizard UI Polish
-- **Phase 7.3**: Responsive Design and Mobile Optimization
-- **Phase 7.4**: Bulk Updates Enhancement (small feature)
+- **Phase 16.1**: Admin Panel UI Polish
+- **Phase 16.2**: Booking Wizard UI Polish
+- **Phase 16.3**: Responsive Design and Mobile Optimization
+- **Phase 16.4**: Bulk Updates Enhancement (small feature)
 
 ## Note on Bulk Updates
 
-Bulk updates (Phase 7.4) is **NOT a separate feature** - it's a small admin UI enhancement included here as part of UI polish work. It was originally planned as Phase 11 but has been moved here.
+Bulk updates (Phase 16.4) is **NOT a separate feature** - it's a small admin UI enhancement included here as part of UI polish work. It was originally planned as Phase 11 but has been moved here.
 
 ## Related Documents
 
-- **Feature Guide**: `feature-feature-7-ui-polish-guide.md`
+- **Feature Guide**: `feature-ui-polish-guide.md` (to create when work begins)
 - **Vue Migration Completion**: `../vue-migration/vue-migration-completion-summary.md`
 - **Admin UI Overhaul**: `../admin-ui-overhaul/feature-admin-ui-overhaul-guide.md` (for reference)
 
 ---
 
-**Last Updated:** 2025-02-01
+**Last Updated:** 2026-03-15
 
