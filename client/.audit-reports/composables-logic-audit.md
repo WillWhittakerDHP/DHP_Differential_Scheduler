@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **278**
+- Total composable files scanned: **279**
 
 ## Top hotspots (heuristic)
 
@@ -2144,6 +2144,16 @@ await@100: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 computed@22: const cardClasses = computed(() => {
 computed@26: const controlClasses = computed(() => {
 computed@30: const contentContainerClasses = computed(() => {
+```
+
+### `client/src/composables/booking/useAvailabilityStepFeePreview.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@48: const showFeeBar = computed(
+computed@54: const feePreviewLabel = computed(() => {
+computed@61: const showApplyCouponInWizard = computed(
 ```
 
 ### `client/src/composables/booking/useBlockInstanceSelection.ts`

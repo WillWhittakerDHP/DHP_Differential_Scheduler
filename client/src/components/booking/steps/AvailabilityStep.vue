@@ -3,8 +3,8 @@
 import { inject, computed, onMounted, provide, watch } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { wizardKey } from '@/composables/booking/injectionKeys'
-import { buildConfirmationPriceData } from '@/utils/booking/confirmationStepData'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
+import { useAvailabilityStepFeePreview } from '@/composables/booking/useAvailabilityStepFeePreview'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
@@ -88,6 +88,17 @@ const { settings: availabilitySettings, isLoading: availabilitySettingsLoading }
 const ui = useAvailabilityStepUI({ o, availabilitySettings, confirmation })
 const overlay = useAvailabilityStepSlotOverlay({ o, availabilitySettings })
 
+const {
+  availabilityStepPriceData,
+  showFeeBar,
+  feePreviewLabel,
+  showApplyCouponInWizard,
+} = useAvailabilityStepFeePreview({
+  wizard: o.wizard,
+  propertyDetailsStepData,
+  availabilitySettings,
+})
+
 const logger = createLogger('AvailabilityStep')
 
 watch(
@@ -169,36 +180,6 @@ const subStepContext = {
   clearFirstAvailableNotice: o.clearFirstAvailableNotice,
 }
 provide(availabilitySubStepContextKey, subStepContext)
-
-const availabilityStepPriceData = computed(() => {
-  const stepDataValue = propertyDetailsStepData?.value
-  const aduCount = stepDataValue?.additionalUnits ?? null
-  const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
-  return buildConfirmationPriceData(
-    {
-      selectedServices: wizard!.selectedServiceTypeBlocks.value,
-      selectedPropertyTypeBlocks: wizard!.selectedPropertyTypeBlocks.value,
-      selectedOptionTypeBlocks: wizard!.selectedOptionTypeBlocks.value,
-      selectedLineItemBlocks: wizard!.selectedLineItemBlocks.value,
-    },
-    squareFootage ?? null,
-    aduCount
-  )
-})
-const showFeeBar = computed(
-  () =>
-    (wizard?.selectedServiceTypeBlocks.value?.length ?? 0) > 0 &&
-    (availabilityStepPriceData.value?.finalTotal ?? 0) >= 0
-)
-const feePreviewLabel = computed(() => {
-  const p = availabilityStepPriceData.value
-  if (!p) return 'Fee preview: $0.00'
-  const prefix = p.currency === 'USD' ? '$' : `${p.currency} `
-  return `Fee preview: ${prefix}${p.finalTotal.toFixed(2)}`
-})
-const showApplyCouponInWizard = computed(
-  () => availabilitySettings.value?.showApplyCouponInWizard ?? false
-)
 
 onMounted(() => {
   if (hasLoadedAvailability.value) {
