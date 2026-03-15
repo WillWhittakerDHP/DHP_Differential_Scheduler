@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
-import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from './businessControlsStateKey'
+import { BUSINESS_CONTROLS_STATE_KEY } from './businessControlsStateKey'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
@@ -13,9 +13,7 @@ import AppointmentConfirmationPanel from './components/AppointmentConfirmationPa
 import PlacesTimezonePanel from './components/PlacesTimezonePanel.vue'
 import GridConfigPanel from './components/GridConfigPanel.vue'
 
-const _injectedState = inject(BUSINESS_CONTROLS_STATE_KEY)
-if (!_injectedState) throw new Error('BusinessControlsCalendarSection must be used inside BusinessControlsTab')
-const state: BusinessControlsState = _injectedState
+const state = inject(BUSINESS_CONTROLS_STATE_KEY)
 const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'integration' })
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
@@ -54,13 +52,14 @@ const timezoneOptions = TIMEZONE_OPTIONS
 
       <VWindowItem key="confirmation" value="confirmation">
         <AppointmentConfirmationPanel
-          v-if="state?.formState"
+          v-if="state?.formState && state?.wizardSettings"
           :hold-duration-minutes="state.formState.holdDurationMinutes"
           :hold-duration-min="state.formState.holdDurationMin"
           :hold-duration-max="state.formState.holdDurationMax"
           :hold-duration-fallback="state.formState.holdDurationFallback"
           :admin-entry-timeout-value="state.formState.adminEntryTimeoutValue"
           :admin-entry-timeout-unit="state.formState.adminEntryTimeoutUnit"
+          :show-apply-coupon-in-wizard="state.wizardSettings.showApplyCouponInWizard"
           :auto-confirm-enabled="state.autoConfirmEnabled"
           :save-button-props="state.saveButtonProps"
           @update:hold-duration-minutes="(v: number) => { state.formState.holdDurationMinutes = v }"
@@ -69,6 +68,7 @@ const timezoneOptions = TIMEZONE_OPTIONS
           @update:hold-duration-fallback="(v: number) => { state.formState.holdDurationFallback = v }"
           @update:admin-entry-timeout-value="(v: number) => { state.formState.adminEntryTimeoutValue = v }"
           @update:admin-entry-timeout-unit="(v: 'days' | 'weeks') => { state.formState.adminEntryTimeoutUnit = v }"
+          @update:show-apply-coupon-in-wizard="state.wizardSettings.setShowApplyCouponInWizard"
           @update:auto-confirm-enabled="state.formState.setAutoConfirmEnabled"
         />
       </VWindowItem>
