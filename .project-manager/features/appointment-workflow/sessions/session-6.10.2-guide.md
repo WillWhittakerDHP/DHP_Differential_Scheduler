@@ -7,6 +7,14 @@
 
 ---
 
+## Quick Start
+
+**Session 6.10.2** adds a business setting **showApplyCouponInWizard** so admins can control visibility of the apply-coupon row in the booking wizard. Toggle lives in Business Controls → Calendar → Confirmation & Holds; value is persisted with availability settings and readable in the wizard via `useAvailabilitySettings().settings?.showApplyCouponInWizard`.
+
+**Tasks:** 6.10.2.1 (types/API) → 6.10.2.2 (admin UI toggle) → 6.10.2.3 (wizard reads setting). Run `/session-start 6.10.2` then `/task-start 6.10.2.1` (cascade); complete each task with `/task-end` before starting the next.
+
+---
+
 ## Session Overview
 
 Add a business setting **showApplyCouponInWizard** (or equivalent name) so admins can turn the apply-coupon line and button on or off in the booking wizard. The toggle lives in **Business Controls → Calendar → Confirmation & Holds**. Persist the value with the same availability/business settings that hold hold duration and auto-confirm; ensure the wizard can read it (e.g. via `getAvailabilitySettings()` / `useAvailabilitySettings().settings`).
@@ -18,6 +26,12 @@ Add a business setting **showApplyCouponInWizard** (or equivalent name) so admin
 - **AppointmentConfirmationPanel.vue** — Already has hold duration and auto-confirm switch; add a second switch for "Show apply coupon in wizard". Panel receives props from `BusinessControlsCalendarSection` and emits updates; form state is provided by `useBusinessControlsFormState` / `useCalendarHoldFormState` and ultimately `formData` from `useAdminAvailabilitySettings`.
 - **Availability settings API** — `client/src/configs/availabilitySettings/api.ts`: `getAvailabilitySettings()` reads from `/business-settings/availability_settings`; `buildAvailabilityPayload(formData, autoConfirmEnabled)` builds the save payload. Today `autoConfirmEnabled` is passed separately; you can add `showApplyCouponInWizard` either inside the `setting_value` blob or as a separate top-level key in the payload (match server contract).
 - **Server:** If the backend does not yet store this key, add it to the business_settings availability payload (or equivalent) so the client can send and receive it.
+
+---
+
+## Session Workflow
+
+Use `/session-start 6.10.2` to load handoff, branch, and task context; then cascade to `/task-start 6.10.2.1`. Work tasks in order (6.10.2.1 → 6.10.2.2 → 6.10.2.3); run `/task-end <taskId>` after each. After the last task, run `/session-end 6.10.2` (verification, session audit, merge to phase branch). Agent responses should follow the session-start response template: current state, objectives, files, next action.
 
 ---
 
