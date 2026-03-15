@@ -51,7 +51,7 @@ When extracting literals to constants, prefer these constant files (from constan
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
 - Total files scanned: **0**
 - **Requiring review: 0**
-- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
+- Allowed (with justification): 5 (inline: 0, pattern: 4, specific: 1, linePattern: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
