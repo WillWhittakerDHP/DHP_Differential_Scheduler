@@ -14,7 +14,7 @@
 
 **Last Completed:** Task 
 **Next Session:** Session 6.10.5
-**Git Branch:** `session-6.10.4`
+**Git Branch:** `phase-6.10-fee-preview-coupon-visibility`
 **Last Updated:** 2026-03-15
 
 ## Next Action
@@ -22,6 +22,15 @@
 Start Session 6.10.5
 
 ## Transition Context
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 6.10.5
+
+<!-- end excerpt session -->
+
 
 **Where we left off:**
 Completed Task 
