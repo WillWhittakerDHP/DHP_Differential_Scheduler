@@ -70,9 +70,9 @@ Thresholds are enforced by the function-complexity audit; align design with thes
 
 - **Nesting:** Max 3 levels (if/else, try/catch, switch). Deeper nesting → extract helpers or split logic.
 - **Branches:** Max 8 branches per function. More → split or use lookup tables / strategy functions.
-- **Length when branchy:** Functions with many branches should stay under ~50 lines; otherwise extract.
+- **Length when branchy:** Functions with many branches should stay under 50 lines; otherwise extract.
 - **Explicit return types:** Exported boundary functions (including composables) must have explicit return types.
-- **No silent failure:** Do not swallow errors or return silently on invalid input; log and propagate or throw. See `explicit-error-handling.mdc`.
+- **No silent failure:** Do not swallow errors or return silently on invalid input; log and propagate or throw. See `coding-standards.mdc`.
 
 ---
 
@@ -97,13 +97,13 @@ Thresholds are enforced by the function-complexity audit; align design with thes
 | String-keyed `provide('key', value)` | No type safety at inject site | `InjectionKey<ContextType>` and provide/inject with that key |
 | Giant composable with 10+ return properties | Hard to test; mixed concerns | Split into state/actions/query or focused composables |
 | Deep nesting or 8+ branches in one function | Hard to reason about; audit violation | Extract helpers, use lookup tables, or split function |
-| Silent catch or empty fallback | Hides bugs; violates explicit-error-handling | Log and rethrow or return typed error result |
+| Silent catch or empty fallback | Hides bugs; violates coding-standards.mdc | Log and rethrow or return typed error result |
 
 ---
 
 ## Baseline score formula (session tier)
 
-The `composable-governance` baseline score (0–100) is derived in `.cursor/commands/audit/utils.ts` (`getComposableGovernanceScore`). Formula: start at 100; subtract composable-health findings (missing-return-type 5, oversized-return 2, excessive-composable-imports 2, untyped-provide 2 per finding) and function-complexity P0 file count × 3; cap at 0. Same category is stored at session-start and compared at session-end.
+The `composable-governance` baseline score (0–100) is derived in `.cursor/commands/audit/background-audit-runner.ts` (`computeGovernanceScores`). Formula: start at 100; subtract composable-health findings (missing-return-type 5, oversized-return 2, excessive-composable-imports 2, untyped-provide 2 per finding) and function-complexity P0 file count × 3; cap at 0. Same category is stored at session-start and compared at session-end.
 
 ---
 

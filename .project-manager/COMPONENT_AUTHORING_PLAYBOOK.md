@@ -106,7 +106,7 @@ Component-health thresholds are defined in the audit script; component-logic use
 
 ## Baseline score formula (session tier)
 
-The `component-governance` baseline score (0–100) is derived in `.cursor/commands/audit/utils.ts` (`getComponentGovernanceScore`). Formula: start at 100; subtract P0 file count × 3 and P1 file count × 1 (from `component-health-audit.json` `files[]` by `priority`); cap at 0. Same category is stored at session-start and compared at session-end. Component-logic is not included in the numeric score but is enforced by the session-tier audit and checklist.
+The `component-governance` baseline score (0–100) is derived in `.cursor/commands/audit/background-audit-runner.ts` (`computeGovernanceScores`). Formula: start at 100; subtract P0 file count × 3 and P1 file count × 1 (from `component-health-audit.json` `files[]` by `priority`); cap at 0. Same category is stored at session-start and compared at session-end. Component-logic is not included in the numeric score but is enforced by the session-tier audit and checklist.
 
 ---
 

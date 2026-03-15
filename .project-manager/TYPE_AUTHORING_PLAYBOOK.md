@@ -57,7 +57,7 @@ Pick one of null vs undefined per boundary semantic; do not mix them for the sam
 - **Acceptable:** Composable return objects when Vue’s `UnwrapRef` causes deep inference mismatches — use an explicit return interface and `as ReturnInterface`.
 - **Acceptable:** Narrowing after a null check, e.g. `const narrowed = ctx as NonNullable<typeof ctx>` after `if (!ctx) throw ...`.
 - **Unacceptable:** `as unknown as T` to hide a real type mismatch; fix the source type or add a type guard instead.
-- Prefer type guards (`value is Type`) over assertions for runtime narrowing. See `type-assertion-guidance.mdc` and `frontend-root/src/admin/dataTransformation/typeAdapters.ts`.
+- Prefer type guards (`value is Type`) over assertions for runtime narrowing. See `type-governance.mdc` and `coding-standards.mdc`.
 
 ---
 
@@ -106,6 +106,17 @@ Is this type used by multiple features?
 | No ref/computed assertions          | type-escape-audit | as-ref, as-computed-ref, as-writable-computed |
 | Descriptive generics                | type-health-audit | single-letter-generic |
 | No `Record<string, any>`            | type-health-audit | record-string-any |
+| Inventory: mixed type/constant files | type-constant-inventory | mixedTypeConstantFiles |
+| Inventory: inline types in composables | type-constant-inventory | inlineTypesInComposables |
+| Inventory: duplicate type names        | type-constant-inventory | duplicateTypeNames |
+| Inventory: configs with logic          | type-constant-inventory | configsWithLogic |
+| Inventory: cleanup candidates         | type-constant-inventory | cleanupCandidates |
+
+---
+
+## Baseline score formula (session tier)
+
+The `type-constant-inventory` baseline score (0–100) is derived in `.cursor/commands/audit/background-audit-runner.ts` (`computeGovernanceScores`). Formula: start at 100; subtract classificationIssues penalties (mixedTypeConstantFiles × 2, inlineTypesInComposables × 1, duplicateTypeNames × 5, configsWithLogic × 2, cleanupCandidates × 3) from `type-constant-inventory-audit.json` `summary.classificationIssues`; cap at 0. Same category is stored at session-start and compared at session-end.
 
 ---
 

@@ -46,8 +46,8 @@ Thresholds are defined in `client/.audit-reports/function-complexity-audit-confi
 
 ## Return type and error-handling policy
 
-- **Explicit return types:** All exported functions and boundary functions (e.g. callbacks passed to components) must have an explicit return type. Align with `explicit-return-types.mdc`.
-- **No silent catch:** Do not swallow errors in empty catch blocks or return silently on invalid input. Log and rethrow, or return a typed error result. Align with `explicit-error-handling.mdc`.
+- **Explicit return types:** All exported functions and boundary functions (e.g. callbacks passed to components) must have an explicit return type. Align with `function-governance.mdc`.
+- **No silent catch:** Do not swallow errors in empty catch blocks or return silently on invalid input. Log and rethrow, or return a typed error result. Align with `coding-standards.mdc`.
 - **Transformations:** Prefer named utility functions with explicit return types; keep transformations testable and free of hidden side effects.
 
 ---
@@ -87,14 +87,14 @@ The function-complexity audit reports violations with rule names and priority (P
 | Length when branchy ≤ 50| function-complexity             | length-when-branchy        |
 | Script setup ≤ 100      | function-complexity             | script-setup-length        |
 | Params / returns ≤ 4    | function-complexity             | params, returns            |
-| Explicit return types   | workspace rule + composable-health | missing-return-type (composables) |
-| No silent catch         | explicit-error-handling.mdc     | N/A (manual / review)      |
+| Explicit return types   | function-governance.mdc + composable-health | missing-return-type (composables) |
+| No silent catch         | coding-standards.mdc     | N/A (manual / review)      |
 
 ---
 
 ## Baseline score formula (session tier)
 
-The `function-governance` baseline score (0–100) is derived in `.cursor/commands/audit/utils.ts` (`getFunctionGovernanceScore`). Formula: start at 100; subtract P0 file count × 3 and P1 file count × 1 (from `function-complexity-audit.json` `files[]` by `priority`); cap at 0. Same category is stored at session-start and compared at session-end.
+The `function-governance` baseline score (0–100) is derived in `.cursor/commands/audit/background-audit-runner.ts` (`computeGovernanceScores`). Formula: start at 100; subtract P0 file count × 3 and P1 file count × 1 (from `function-complexity-audit.json` `files[]` by `priority`); cap at 0. Same category is stored at session-start and compared at session-end.
 
 ---
 
