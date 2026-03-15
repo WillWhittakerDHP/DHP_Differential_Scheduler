@@ -8,6 +8,7 @@ import { BUSINESS_CONTROLS_STATE_KEY } from './businessControlsStateKey'
 import { useAdminAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAdminAvailabilitySettings'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { useBusinessControlsFormState } from '@/composables/admin/useBusinessControlsFormState'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
 import { useBufferSettings } from '@/composables/admin/useBufferSettings'
 import { useDefaultLocation } from '@/composables/admin/useDefaultLocation'
@@ -50,6 +51,10 @@ const formState = {
 }
 const { clearError, saveButtonProps } = formStateGrouped.calendar
 
+const wizardSettings = useWizardSettings({
+  showApplyCouponInWizardBinding: formStateGrouped.calendar.showApplyCouponInWizard,
+})
+
 const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
 
 const maxBusinessHours = computed(() => {
@@ -64,6 +69,7 @@ const differential = useDifferentialPerspectives({ formData } as UseDifferential
 
 const businessControlsState = reactive({
   formState,
+  wizardSettings,
   capacity,
   buffers,
   location,
