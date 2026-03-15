@@ -9,10 +9,10 @@
 ## Feature Overview
 
 **Feature Name:** Admin UI Overhaul
-**Description:** Complete redesign of the admin interface to reduce cognitive load for non-technical administrators while maintaining reliability and adding intelligent assistance. Integrates three major initiatives: Smart UI Redesign (guided workflows, relationship builders, templates, contextual intelligence), Live Preview Panel (real-time booking simulation), and Selective AI Assistance (GPT-powered helpers integrated into workflows).
+**Description:** (1) **Admin vs Developer Split:** Rename current admin panel to Developer; create a new Admin panel from scratch for business administration only. (2) **Smart UI Redesign:** Guided workflows, relationship builders, templates, contextual intelligence, progressive disclosure. (3) **Live Preview Panel:** Real-time booking simulation. (4) **Selective AI Assistance:** GPT-powered helpers integrated into workflows.
 **Status:** Research
 
-**Duration:** 8 weeks (3 weeks Phase 1, 2 weeks Phase 2, 3 weeks Phase 3)
+**Duration:** 10–11 weeks (2–3 weeks Phase 0, 3 weeks Phase 1, 2 weeks Phase 2, 3 weeks Phase 3)
 **Started:** 2025-02-01
 **Completed:** [Date] (if complete)
 
@@ -60,13 +60,79 @@
 
 ---
 
+## Current State
+
+**Admin panel today** (`/admin`, `AdminPanel.vue`):
+
+| Tab | Content | Nature |
+|-----|---------|--------|
+| Instances | Block/Part/Event/Annotation instances, entity cards, metadata editing | Dev / data model |
+| Shapes | Block/Part/Event/Annotation shapes, metadata | Dev / schema |
+| APPOINTMENTS | Appointments, properties, users tables | Mixed |
+| CONTROLS | Business rules, constraints, calendar, holds, grid, wizard settings | Business admin |
+
+**Data chain using "admin":**
+
+- **Client:** `views/admin/`, `composables/admin/`, `components/admin/`, `types/admin/`, `utils/admin/`, `utils/api/adminMetadataApi.ts`
+- **Router:** `/admin`, `admin-panel`, `admin-booking-entry`
+- **API:** `/admin-metadata`, `/admin-primitive-metadata`, `/admin-relationship-metadata`
+- **Server:** `routes/internal/admin-metadata/`, `db/models/admin/` (adminMetadata, adminRelationshipMetadata, business_settings, etc.)
+- **Composables:** `useAdmin`, `useAdminConfig`, `useAdminAvailabilitySettings`, etc.
+
+---
+
+## Architecture Decision: Admin vs Developer Split
+
+**Current panel** = Developer (dev/data-model focus): Instances, Shapes, metadata, block shapes, entity forms, dev tools.
+
+**New panel** = Admin (business administration only): Users, roles, permissions, org settings. Flat, focused UI. No metadata, shapes, instances.
+
+**Rename strategy:** Client renames first; API and DB renames optional and migration-driven.
+
+**CONTROLS placement:** Explicit decision required — Business Controls (rules, calendar, holds, wizard) may live in Admin panel rather than Developer. To be decided during Phase 0 planning.
+
+**Grep/Replace scope (straightforward renames):**
+- `views/admin/` → `views/developer/`
+- `composables/admin/` → `composables/developer/`
+- `components/admin/` → `components/developer/`
+- `types/admin/` → `types/developer/`
+- `utils/admin/` → `utils/developer/`
+- `useAdmin` → `useDeveloper`
+- `AdminPanel` → `DeveloperPanel`
+- Route `/admin` → `/developer`, `admin-panel` → `developer-panel`
+
+---
+
 ## Phases Breakdown
 
-- [ ] ### Phase 1: Smart UI Redesign
-**Description:** Implement guided workflows, relationship builder, templates, contextual intelligence, and progressive disclosure to simplify admin interface
-**Duration:** 3 weeks
+- [ ] ### Phase 0: Admin vs Developer Split
+**Description:** Rename current admin panel to Developer; create a new Admin panel for business administration only.
+**Duration:** 2–3 weeks
 **Sessions:** [To be determined]
 **Dependencies:** None
+**Tasks:**
+1. **Rename current admin → Developer:** Grep/replace across client (views, composables, components, types, utils, router). Decide on API path renames (`/admin-metadata` → `/developer-metadata` or keep). Decide on DB model renames vs. keeping DB names.
+2. **Route and access:** `/admin` → `/developer` for the current panel. Add `/admin` for the new Admin panel.
+3. **New Admin panel:** New route, layout, and components. Only business admin: users, roles, permissions, org settings. Flat, focused UI; no metadata, shapes, instances.
+4. **Move CONTROLS:** Decide whether Business Controls (rules, calendar, holds, wizard) live in Developer or Admin.
+**Scope:**
+- **Developer:** Instances, Shapes, metadata, block shapes, entity forms, dev tools.
+- **Admin:** Users, roles, permissions, org settings (and optionally CONTROLS).
+**Grep/replace strategy:** Start with client-only renames. Treat API and DB renames as separate, optional steps with migrations.
+**Caveats:**
+- **User role `admin`:** Used in `userRole === 'admin'` for access control. Decide: keep admin as a role, or introduce developer as a separate role.
+- **API paths:** `/admin-metadata`, etc. may be external contracts. Options: keep paths and only rename UI, or rename and migrate.
+- **DB models:** Renaming tables/columns needs migrations; often easier to keep DB names and only rename in app code.
+**Success Criteria:**
+- Developer panel at `/developer` with Instances, Shapes, metadata, entity forms
+- Admin panel at `/admin` with users, roles, permissions, org settings only
+- CONTROLS placement decided and implemented
+
+- [ ] ### Phase 1: Smart UI Redesign
+**Description:** Implement guided workflows, relationship builder, templates, contextual intelligence, and progressive disclosure to simplify Developer interface
+**Duration:** 3 weeks
+**Sessions:** [To be determined]
+**Dependencies:** Phase 0 (Admin vs Developer Split)
 **Success Criteria:**
 - Admin can create complete service without understanding underlying data model
 - Guided workflows prevent 90%+ of invalid configurations
