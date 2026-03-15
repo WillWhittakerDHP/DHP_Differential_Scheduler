@@ -3,13 +3,10 @@
 import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { useEventInstancesSection } from '@/composables/admin/useEventInstancesSection'
-import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
 
 const props = defineProps<{
   instancesTabContext: InstancesTabContext
 }>()
-
-const props = defineProps<{ instancesTabContext: InstancesTabContext }>()
 const {
   ctx,
   expandedInstances,

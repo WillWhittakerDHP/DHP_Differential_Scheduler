@@ -603,7 +603,7 @@ declare global {
   export type { GroupedEntities, SelectOption, SelectOptionBase, UseSelectOptionsOptions, UseSelectOptionsReturn } from './src/composables/useSelectOptions'
   import('./src/composables/useSelectOptions')
   // @ts-ignore
-  export type { UseThemeModeReturn } from './src/composables/useThemeMode'
+  export type { UseThemeModeReturn, UseThemeModeOptions } from './src/composables/useThemeMode'
   import('./src/composables/useThemeMode')
   // @ts-ignore
   export type { AutocompleteValue } from './src/utils/autocomplete'
