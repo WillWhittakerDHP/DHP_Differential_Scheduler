@@ -103,3 +103,4 @@ Sessions and tasks for this phase. See Sessions Breakdown above for session list
 - sessions/session-6.10.2-guide.md — Admin toggle and settings
 - sessions/session-6.10.3-guide.md — Fee bar and popover
 - sessions/session-6.10.4-guide.md — Coupon fee calculation
+- sessions/session-6.10.5-guide.md — Wizard sub-tab and consolidated settings
