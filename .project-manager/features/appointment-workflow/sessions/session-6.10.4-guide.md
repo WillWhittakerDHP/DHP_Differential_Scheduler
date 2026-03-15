@@ -27,7 +27,7 @@
 **Approach:** Extend types; ensure field flows to Part/Block Finals.  
 **Checkpoint:** Part instance has optional percentage field; pipeline receives it.
 
-- [x] #### Task 6.10.4.2: Adjust Part/Block Finals for percentage off and negative base fee
+- [x] - [x] #### Task 6.10.4.2: Adjust Part/Block Finals for percentage off and negative base fee
 **Goal:** Apply percentage off and negative base fee in Part/Block Finals; integrate with confirmation pricing.  
 **Files:** `client/src/utils/booking/` (partsTotals, partFinalizer, BlockFinal, confirmationStepData.ts).  
 **Approach:** Apply percentage off to part/block totals; handle negative base fee; wire into buildConfirmationPriceData.  

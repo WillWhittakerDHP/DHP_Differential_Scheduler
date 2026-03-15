@@ -3,12 +3,8 @@
   WHY: Grouped under Calendar as settings related to appointment confirmation status and event holds
 -->
 <script setup lang="ts">
-import { inject } from 'vue'
-import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useConfirmationAndHoldsPanel } from '@/composables/admin/useConfirmationAndHoldsPanel'
-import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from '../businessControlsStateKey'
-import DriveTimeFeeAdminFields from './DriveTimeFeeAdminFields.vue'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
@@ -16,6 +12,8 @@ const props = withDefaults(
   defineProps<{
     holdDurationMinutes: number
     autoConfirmEnabled: boolean
+    /** When true, show the apply-coupon row and button in the booking wizard. */
+    showApplyCouponInWizard?: boolean
     /** Admin entry dropdown time-out: value (X). Session 6.8.6.1 */
     adminEntryTimeoutValue?: number
     /** Admin entry dropdown time-out: unit (days | weeks). Session 6.8.6.1 */
@@ -28,7 +26,7 @@ const props = withDefaults(
     holdDurationFallback?: number
     saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
   }>(),
-  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days' }
+  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days', showApplyCouponInWizard: false }
 )
 
 const emit = defineEmits<{
@@ -37,6 +35,7 @@ const emit = defineEmits<{
   'update:holdDurationMax': [value: number]
   'update:holdDurationFallback': [value: number]
   'update:autoConfirmEnabled': [value: boolean]
+  'update:showApplyCouponInWizard': [value: boolean]
   'update:adminEntryTimeoutValue': [value: number]
   'update:adminEntryTimeoutUnit': [value: 'days' | 'weeks']
 }>()
@@ -53,13 +52,8 @@ const {
   handleAdminEntryTimeoutUnit,
 } = useConfirmationAndHoldsPanel(props, emit)
 
-const businessState = inject<BusinessControlsState | null>(BUSINESS_CONTROLS_STATE_KEY, null)
-
-function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
-  const fd = businessState?.availabilityFormData
-  if (fd) {
-    fd.driveTimeFee = value
-  }
+function handleShowApplyCouponInWizard(value: boolean | null): void {
+  emit('update:showApplyCouponInWizard', value === true)
 }
 </script>
 
@@ -75,6 +69,15 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
       @update:model-value="handleAutoConfirmUpdate"
       :label="UI_STRINGS.calendar.autoConfirmLabel"
       :hint="UI_STRINGS.calendar.autoConfirmHint"
+      persistent-hint
+      class="mb-4"
+    />
+
+    <VSwitch
+      :model-value="showApplyCouponInWizard"
+      @update:model-value="handleShowApplyCouponInWizard"
+      :label="UI_STRINGS.calendar.showApplyCouponLabel"
+      :hint="UI_STRINGS.calendar.showApplyCouponHint"
       persistent-hint
       class="mb-4"
     />
@@ -160,14 +163,6 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
       How long a slot is held before it expires. Allowed range: {{ holdDurationMin }}–{{ holdDurationMax }} minutes.
     </div>
   </div>
-
-  <VDivider v-if="businessState?.availabilityFormData?.driveTimeFee" class="my-4" />
-
-  <DriveTimeFeeAdminFields
-    v-if="businessState?.availabilityFormData?.driveTimeFee"
-    :model-value="businessState.availabilityFormData.driveTimeFee"
-    @update:model-value="onDriveTimeFeeUpdate"
-  />
 
   <div class="d-flex gap-2 mt-4">
     <VBtn v-bind="saveButtonProps">
