@@ -7,6 +7,8 @@ export interface PartInstanceFormData {
   partShapeRef: string
   orderIndex: number
   active: boolean
+  /** Optional percentage off (e.g. 10 for 10% off) for coupon/discount; flows to fee pipeline. */
+  percentageOff?: number
 }
 
 export type UsePartInstanceFormOptions = UseEntityFormRedirectOptions

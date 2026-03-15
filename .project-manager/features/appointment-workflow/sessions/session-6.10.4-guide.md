@@ -2,7 +2,7 @@
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
 **Session:** 6.10.4 — Coupon fee calculation  
-**Status:** Not Started  
+**Status:** In Progress  
 **Branch:** TBD
 
 **Depends on:** Session 6.10.3 (fee bar and popover; Confirmation step conditional coupon row).
@@ -21,7 +21,7 @@
 
 ### Tasks
 
-- [ ] #### Task 6.10.4.1: Add percentage column to part instance
+- [x] #### Task 6.10.4.1: Add percentage column to part instance
 **Goal:** Add percentage column (e.g. percentage off) to part instance; wire into fee pipeline inputs.  
 **Files:** Part-instance / block-shape types; fee pipeline entry points.  
 **Approach:** Extend types; ensure field flows to Part/Block Finals.  
