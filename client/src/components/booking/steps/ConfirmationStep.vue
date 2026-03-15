@@ -5,6 +5,7 @@ PATTERN: Uses composable to aggregate wizard...
  */
 import { inject, ref, computed } from 'vue'
 import { wizardKey } from '@/composables/booking/injectionKeys'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import {
@@ -77,11 +78,16 @@ function onCouponSelect(id: string | null): void {
 // "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
 const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
 
-// Show coupon row only when coupons are available to select or a coupon discount is already applied
+// Show coupon row only when admin enables it and (coupons available or discount applied)
+const { settings: availabilitySettings } = useAvailabilitySettings()
+const showApplyCouponInWizard = computed(
+  () => availabilitySettings.value?.showApplyCouponInWizard ?? false
+)
 const showCouponRow = computed(
   () =>
-    (couponSelectItems.value?.length ?? 0) > 0 ||
-    (priceData.value?.couponDiscount ?? 0) > 0
+    showApplyCouponInWizard.value &&
+    ((couponSelectItems.value?.length ?? 0) > 0 ||
+      (priceData.value?.couponDiscount ?? 0) > 0)
 )
 </script>
 
