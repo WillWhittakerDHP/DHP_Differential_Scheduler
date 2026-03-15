@@ -20,7 +20,6 @@ When extracting literals to constants, prefer these constant files (from constan
 
 - `client/src/components/admin/generic/entityCardConstants.ts`
 - `client/src/constants/appointmentsTableConstants.ts`
-- `client/src/constants/availabilityStepConstants.ts`
 - `client/src/constants/businessRulesConstants.ts`
 - `client/src/constants/entityFieldConstants.ts`
 - `client/src/constants/mapsConstants.ts`
