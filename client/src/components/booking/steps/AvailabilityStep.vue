@@ -123,6 +123,11 @@ const feePreviewLabel = computed(() => {
   const prefix = p.currency === 'USD' ? '$' : `${p.currency} `
   return `Fee preview: ${prefix}${p.finalTotal.toFixed(2)}`
 })
+
+// Show coupon row in fee popover only when admin toggle is on (matches Confirmation step)
+const showApplyCouponInWizard = computed(
+  () => availabilitySettings.value?.showApplyCouponInWizard ?? false
+)
 </script>
 
 <template>
@@ -134,9 +139,60 @@ const feePreviewLabel = computed(() => {
             <h4 class="text-headline-large mb-2">Appointment Availability</h4>
             <p class="text-body-medium mb-6 mb-sm-4">Select a time that works for everybody</p>
           </div>
-          <div v-if="showFeeBar" class="text-body-large text-medium-emphasis">
-            {{ feePreviewLabel }}
-          </div>
+          <VMenu
+            v-if="showFeeBar"
+            location="bottom"
+            :close-on-content-click="true"
+            transition="scale-transition"
+            max-width="320"
+          >
+            <template #activator="{ props: menuProps }">
+              <div
+                v-bind="menuProps"
+                class="text-body-large text-medium-emphasis fee-preview-bar cursor-pointer"
+              >
+                {{ feePreviewLabel }}
+              </div>
+            </template>
+            <VCard class="fee-popover-card pa-3" min-width="280">
+              <h6 class="text-headline-small mb-3">Price Details</h6>
+              <div class="d-flex flex-column gap-2">
+                <div class="d-flex justify-space-between align-center">
+                  <span class="text-body-large">Bag Total</span>
+                  <span class="text-body-large text-medium-emphasis">
+                    ${{ availabilityStepPriceData.bagTotal.toFixed(2) }}
+                  </span>
+                </div>
+                <div v-if="showApplyCouponInWizard" class="d-flex justify-space-between align-center">
+                  <span class="text-body-large">Coupon Discount</span>
+                  <span class="text-body-large text-medium-emphasis">
+                    {{ availabilityStepPriceData.couponDiscount > 0 ? `-$${availabilityStepPriceData.couponDiscount.toFixed(2)}` : '—' }}
+                  </span>
+                </div>
+                <div class="d-flex justify-space-between align-center">
+                  <span class="text-body-large">Order Total</span>
+                  <span class="text-body-large text-medium-emphasis">
+                    ${{ availabilityStepPriceData.orderTotal.toFixed(2) }}
+                  </span>
+                </div>
+                <template v-for="(lineItem, idx) in availabilityStepPriceData.lineItems" :key="idx">
+                  <div class="d-flex justify-space-between align-center">
+                    <span class="text-body-large">{{ lineItem.label }}</span>
+                    <span class="text-body-large text-medium-emphasis">
+                      ${{ lineItem.amount.toFixed(2) }}
+                    </span>
+                  </div>
+                </template>
+              </div>
+              <VDivider class="my-2" />
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-body-large font-weight-medium">Total</span>
+                <span class="text-body-large font-weight-medium">
+                  ${{ availabilityStepPriceData.finalTotal.toFixed(2) }}
+                </span>
+              </div>
+            </VCard>
+          </VMenu>
         </div>
       </VCol>
 

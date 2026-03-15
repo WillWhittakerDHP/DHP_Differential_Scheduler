@@ -1,5 +1,4 @@
-# Multi-machine: merge strategies for harness state (belt-and-suspenders if re-tracked)
+# Multi-machine: merge strategies for tracked harness state
 # Append-only logs: keep lines from both sides
 .project-manager/.audit-baseline-log.jsonl merge=union
-# Machine-local scope: current branch wins
-.project-manager/.tier-scope merge=ours
+# .tier-scope is gitignored (machine-local state); no merge strategy needed
