@@ -52,7 +52,7 @@ Add a Wizard sub-tab to Business Controls → Calendar (alongside Integration, H
 **Approach:** Extract `showApplyCouponInWizard` (and other wizard settings) into a single composable; expose read path for wizard steps and write path for Admin panel; wire to existing form state / availability settings API.
 **Checkpoint:** Composable exists; `handleShowApplyCouponInWizard` and similar handlers replaced with composable usage.
 
-- [ ] #### Task 6.10.5.2: Add Wizard sub-tab and WizardConfigPanel
+- [x] #### Task 6.10.5.2: Add Wizard sub-tab and WizardConfigPanel
 **Goal:** Add Wizard sub-tab to BusinessControlsCalendarSection; create WizardConfigPanel component.
 **Files:** `client/src/views/admin/tabs/BusinessControlsCalendarSection.vue`; `client/src/views/admin/tabs/components/WizardConfigPanel.vue`; `client/src/configs/businessControlsTabStrings.ts`.
 **Approach:** Add VTab and VWindowItem for "Wizard"; create WizardConfigPanel that uses useWizardSettings; move showApplyCouponInWizard from AppointmentConfirmationPanel to WizardConfigPanel.
