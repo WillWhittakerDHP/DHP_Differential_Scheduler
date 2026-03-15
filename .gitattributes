@@ -1,2 +1,0 @@
-# Multi-machine: merge strategies for tracked harness state (only for files we track)
-# .audit-baseline-log.jsonl, .tier-scope, .write-log are gitignored (transient); no merge strategy needed
