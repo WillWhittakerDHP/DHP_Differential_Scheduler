@@ -1261,6 +1261,19 @@ async@108: const confirmDelete = async (): Promise<void> => {
 await@112: await deleteItem(deletingId.value)
 ```
 
+### `client/src/composables/admin/useBusinessControlsFormState.ts`
+
+- counts: vueQuery=0, watch=0, computed=6, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@85: const durationRoundingEnabled = computed({
+computed@92: const durationRoundingIncrement = computed({
+computed@99: const durationRoundingMethod = computed({
+computed@108: const timezone = computed({
+computed@115: const minuteIncrement = computed({
+computed@134: const showApplyCouponInWizard = computed({
+```
+
 ### `client/src/composables/admin/useFeePreview.ts`
 
 - counts: vueQuery=0, watch=1, computed=2, ref=1, async=0, await=0, dom=0, console=0
@@ -1530,18 +1543,6 @@ computed@24: errorSource: computed(() => fetchAll.error.value),
 async@25: createItem: async (payload) => create.mutateAsync(payload),
 async@26: updateItem: async (id, payload) => update.mutateAsync({ id, data: payload }),
 async@27: deleteItem: async (id) => remove.mutateAsync(id),
-```
-
-### `client/src/composables/admin/useBusinessControlsFormState.ts`
-
-- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@83: const durationRoundingEnabled = computed({
-computed@90: const durationRoundingIncrement = computed({
-computed@97: const durationRoundingMethod = computed({
-computed@106: const timezone = computed({
-computed@113: const minuteIncrement = computed({
 ```
 
 ### `client/src/composables/admin/useBusinessRules.ts`

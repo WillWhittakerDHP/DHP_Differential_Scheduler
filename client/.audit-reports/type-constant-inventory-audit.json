@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-07T20:39:42.098Z",
+  "generatedAt": "2026-03-15T16:21:24.053Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -8067,7 +8067,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": true,
-      "lineCount": 125,
+      "lineCount": 127,
       "purpose": "Availability settings API payload configuration",
       "reuseTier": "feature",
       "tags": [
@@ -8181,7 +8181,7 @@
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 166,
+      "lineCount": 170,
       "purpose": "Availability settings type definitions for configs",
       "reuseTier": "feature",
       "tags": [],
@@ -8204,7 +8204,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 217,
+      "lineCount": 219,
       "purpose": "Business controls tab UI string constants",
       "reuseTier": "feature",
       "tags": [],
@@ -11727,7 +11727,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": true,
-        "lineCount": 125,
+        "lineCount": 127,
         "purpose": "Availability settings API payload configuration",
         "reuseTier": "feature",
         "tags": [
@@ -11841,7 +11841,7 @@
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 166,
+        "lineCount": 170,
         "purpose": "Availability settings type definitions for configs",
         "reuseTier": "feature",
         "tags": [],
@@ -11864,7 +11864,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 217,
+        "lineCount": 219,
         "purpose": "Business controls tab UI string constants",
         "reuseTier": "feature",
         "tags": [],
