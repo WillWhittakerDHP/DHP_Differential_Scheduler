@@ -6,17 +6,14 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const APPOINTMENT_FIELD_FORMATTERS: typeof import('./src/utils/appointmentFieldFormatters').APPOINTMENT_FIELD_FORMATTERS
   const AUTCOMPLETE_OFF: typeof import('./src/utils/autocomplete').AUTCOMPLETE_OFF
   const BUSINESS_DATA_QUERY_KEY: typeof import('./src/composables/useBusiness').BUSINESS_DATA_QUERY_KEY
   const EffectScope: typeof import('vue').EffectScope
-  const RENDER_LOGGER_KEY: typeof import('./src/utils/renderLoggerKeys').RENDER_LOGGER_KEY
   const WIZARD_FIELD_CONFIGS: typeof import('./src/utils/wizardStateFieldConfig').WIZARD_FIELD_CONFIGS
   const _clearCache: typeof import('./src/composables/useAdminConfig')._clearCache
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const alphaDashValidator: typeof import('./src/@core/utils/validators').alphaDashValidator
   const alphaValidator: typeof import('./src/@core/utils/validators').alphaValidator
-  const api: typeof import('./src/utils/api/index').default
   const asEmptyArray: typeof import('./src/utils/safeDefaults').asEmptyArray
   const asEmptyObject: typeof import('./src/utils/safeDefaults').asEmptyObject
   const asEmptyString: typeof import('./src/utils/safeDefaults').asEmptyString
@@ -24,22 +21,7 @@ declare global {
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
   const avatarText: typeof import('./src/@core/utils/formatters').avatarText
   const betweenValidator: typeof import('./src/@core/utils/validators').betweenValidator
-  const businessHoursTimeToRfc3339: typeof import('./src/utils/datetime').businessHoursTimeToRfc3339
-  const calculateClientPresenceDuration: typeof import('./src/utils/differentialScheduling').calculateClientPresenceDuration
-  const calculateClientStartTime: typeof import('./src/utils/differentialScheduling').calculateClientStartTime
-  const calculateClientStartTimeFromInspector: typeof import('./src/utils/differentialScheduling').calculateClientStartTimeFromInspector
-  const calculateDurationFromBlockInstances: typeof import('./src/utils/timeSlotCalculations').calculateDurationFromBlockInstances
-  const calculateDurationFromPartInstances: typeof import('./src/utils/timeSlotCalculations').calculateDurationFromPartInstances
-  const calculateInspectorStartTime: typeof import('./src/utils/differentialScheduling').calculateInspectorStartTime
-  const calculateMajorStartTime: typeof import('./src/utils/differentialScheduling').calculateMajorStartTime
-  const calculateMajorTotal: typeof import('./src/utils/differentialScheduling').calculateMajorTotal
-  const calculateMinorPresenceDuration: typeof import('./src/utils/differentialScheduling').calculateMinorPresenceDuration
-  const calculateMinorStartTime: typeof import('./src/utils/differentialScheduling').calculateMinorStartTime
-  const calculateMinorStartTimeFromMajor: typeof import('./src/utils/differentialScheduling').calculateMinorStartTimeFromMajor
-  const calculateOnSiteTotal: typeof import('./src/utils/differentialScheduling').calculateOnSiteTotal
-  const calculatePropertyAdjustments: typeof import('./src/utils/differentialScheduling').calculatePropertyAdjustments
   const cleanupInvalidActiveRelationships: typeof import('./src/utils/dependencyCleanup').cleanupInvalidActiveRelationships
-  const clearMetadataCache: typeof import('./src/composables/useFieldMetadata').clearMetadataCache
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
   const computedEager: typeof import('@vueuse/core').computedEager
@@ -56,14 +38,12 @@ declare global {
   const createPinia: typeof import('pinia').createPinia
   const createReactiveFn: typeof import('@vueuse/core').createReactiveFn
   const createRef: typeof import('@vueuse/core').createRef
-  const createRenderLogger: typeof import('./src/utils/renderLogger').createRenderLogger
   const createReusableTemplate: typeof import('@vueuse/core').createReusableTemplate
   const createSharedComposable: typeof import('@vueuse/core').createSharedComposable
   const createTemplatePromise: typeof import('@vueuse/core').createTemplatePromise
   const createUnrefFn: typeof import('@vueuse/core').createUnrefFn
   const createUrl: typeof import('./src/@core/composable/createUrl').createUrl
   const customRef: typeof import('vue').customRef
-  const dateOnlyToRfc3339: typeof import('./src/utils/datetime').dateOnlyToRfc3339
   const debouncedRef: typeof import('@vueuse/core').debouncedRef
   const debouncedWatch: typeof import('@vueuse/core').debouncedWatch
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
@@ -72,115 +52,28 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const emailValidator: typeof import('./src/@core/utils/validators').emailValidator
-  const ensureDataTableItems: typeof import('./src/utils/safeDefaults').ensureDataTableItems
   const extendRef: typeof import('@vueuse/core').extendRef
-  const extractBusinessHoursMinutes: typeof import('./src/composables/useLocalTime').extractBusinessHoursMinutes
   const extractInstanceComponents: typeof import('./src/utils/instanceComponentUtils').extractInstanceComponents
-  const extractServiceComponents: typeof import('./src/utils/serviceComponentUtils').extractServiceComponents
-  const fetchUserTypeBlockBlockInstances: typeof import('./src/utils/userTypeBlockUtils').fetchUserTypeBlockBlockInstances
-  const findBlockInstanceByIdAndShapeId: typeof import('./src/utils/blockInstanceUtils').findBlockInstanceByIdAndShapeId
-  const findUserTypeBlockIdsByName: typeof import('./src/utils/eventAttendeeUtils').findUserTypeBlockIdsByName
-  const formatAnnotationForDisplay: typeof import('./src/utils/annotationUtils').formatAnnotationForDisplay
   const formatDate: typeof import('./src/@core/utils/formatters').formatDate
   const formatDateToMonthShort: typeof import('./src/@core/utils/formatters').formatDateToMonthShort
-  const formatTimeRangeForDisplay: typeof import('./src/composables/useLocalTime').formatTimeRangeForDisplay
   const generateIncrementedName: typeof import('./src/utils/blockInstanceUtils').generateIncrementedName
-  const generateTimeSlots: typeof import('./src/utils/timeSlotCalculations').generateTimeSlots
   const getActivePinia: typeof import('pinia').getActivePinia
-  const getAdminInputMetadataEndpoint: typeof import('./src/utils/api').getAdminInputMetadataEndpoint
-  const getAdminMetadataBatchEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminMetadataBatchEndpoint
-  const getAdminMetadataEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminMetadataEndpoint
-  const getAdminPrimitiveMetadataEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminPrimitiveMetadataEndpoint
-  const getAdminRelationshipMetadataEndpoint: typeof import('./src/utils/api/adminMetadataApi').getAdminRelationshipMetadataEndpoint
-  const getAgentEventShape: typeof import('./src/utils/eventAttendeeUtils').getAgentEventShape
   const getAllUserTypeBlockIds: typeof import('./src/utils/eventAttendeeUtils').getAllUserTypeBlockIds
-  const getAnnotationAssignmentsEndpoint: typeof import('./src/utils/api').getAnnotationAssignmentsEndpoint
-  const getAnnotationByIdEndpoint: typeof import('./src/utils/api').getAnnotationByIdEndpoint
-  const getAnnotationEndpoint: typeof import('./src/utils/api').getAnnotationEndpoint
-  const getAnnotationMetadataEndpoint: typeof import('./src/utils/api').getAnnotationMetadataEndpoint
-  const getAnnotationOrderIndexEndpoint: typeof import('./src/utils/api').getAnnotationOrderIndexEndpoint
-  const getAnnotationShapeByIdEndpoint: typeof import('./src/utils/api').getAnnotationShapeByIdEndpoint
-  const getAnnotationShapeEndpoint: typeof import('./src/utils/api').getAnnotationShapeEndpoint
-  const getAnnotationTypeByIdEndpoint: typeof import('./src/utils/api').getAnnotationTypeByIdEndpoint
-  const getAnnotationTypeEndpoint: typeof import('./src/utils/api').getAnnotationTypeEndpoint
-  const getAnnotationsForUserTypeBlock: typeof import('./src/utils/annotationUtils').getAnnotationsForUserTypeBlock
   const getApiErrorMessage: typeof import('./src/composables/useApiErrorMessage').getApiErrorMessage
-  const getAppointmentByIdEndpoint: typeof import('./src/utils/api/appointmentApi').getAppointmentByIdEndpoint
-  const getAppointmentEndpoint: typeof import('./src/utils/api/appointmentApi').getAppointmentEndpoint
   const getAppointmentFieldFormatter: typeof import('./src/utils/appointmentFieldFormatters').getAppointmentFieldFormatter
-  const getAppointmentVersionsEndpoint: typeof import('./src/utils/api/appointmentApi').getAppointmentVersionsEndpoint
-  const getAvailabilityEndpoint: typeof import('./src/utils/api/availabilityApi').getAvailabilityEndpoint
-  const getAvailableUserTypeBlocksForAnnotation: typeof import('./src/utils/annotationUtils').getAvailableUserTypeBlocksForAnnotation
-  const getAvailableUserTypeBlocksForDescription: typeof import('./src/utils/descriptionValidation').getAvailableUserTypeBlocksForDescription
-  const getBlockInstanceAnnotationEndpoint: typeof import('./src/utils/api/relationshipApi').getBlockInstanceAnnotationEndpoint
-  const getBlockInstanceAnnotationsEndpoint: typeof import('./src/utils/api/relationshipApi').getBlockInstanceAnnotationsEndpoint
-  const getBlockInstanceDescriptionEndpoint: typeof import('./src/utils/api').getBlockInstanceDescriptionEndpoint
-  const getBlockInstanceDescriptionsEndpoint: typeof import('./src/utils/api').getBlockInstanceDescriptionsEndpoint
-  const getBlockInstancesByShapeId: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByShapeId
-  const getBlockInstancesByShapeIdFromBooking: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByShapeIdFromBooking
-  const getBlockInstancesByShapeName: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByShapeName
-  const getBlockInstancesByType: typeof import('./src/utils/blockInstanceUtils').getBlockInstancesByType
-  const getBlockShapeIdByName: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByName
   const getBlockShapeIdByType: typeof import('./src/utils/blockInstanceUtils').getBlockShapeIdByType
-  const getBulkPatchEndpoint: typeof import('./src/utils/api/entityApi').getBulkPatchEndpoint
-  const getCalendarAvailability: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailability
-  const getCalendarAvailabilitySync: typeof import('./src/utils/timeSlotCalculations').getCalendarAvailabilitySync
-  const getClientEventShape: typeof import('./src/utils/eventAttendeeUtils').getClientEventShape
-  const getComposedFormConfigEndpoint: typeof import('./src/utils/api').getComposedFormConfigEndpoint
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
   const getDayOfWeek: typeof import('./src/utils/datetime').getDayOfWeek
   const getDefaultEntityValues: typeof import('./src/utils/entityDefaults').getDefaultEntityValues
-  const getDescriptionByIdEndpoint: typeof import('./src/utils/api').getDescriptionByIdEndpoint
-  const getDescriptionEndpoint: typeof import('./src/utils/api').getDescriptionEndpoint
-  const getEntitiesBatchEndpoint: typeof import('./src/utils/api/entityApi').getEntitiesBatchEndpoint
-  const getEntityByIdEndpoint: typeof import('./src/utils/api/entityApi').getEntityByIdEndpoint
   const getEntityDisplayName: typeof import('./src/utils/entityDefaults').getEntityDisplayName
-  const getEntityEndpoint: typeof import('./src/utils/api/entityApi').getEntityEndpoint
-  const getEntityOrderIndexEndpoint: typeof import('./src/utils/api').getEntityOrderIndexEndpoint
-  const getEventAssignmentsEndpoint: typeof import('./src/utils/api').getEventAssignmentsEndpoint
-  const getEventByIdEndpoint: typeof import('./src/utils/api').getEventByIdEndpoint
-  const getEventEndpoint: typeof import('./src/utils/api').getEventEndpoint
-  const getEventMetadataEndpoint: typeof import('./src/utils/api').getEventMetadataEndpoint
-  const getEventOrderIndexEndpoint: typeof import('./src/utils/api').getEventOrderIndexEndpoint
-  const getEventShapeByIdEndpoint: typeof import('./src/utils/api').getEventShapeByIdEndpoint
   const getEventShapeByRole: typeof import('./src/utils/eventAttendeeUtils').getEventShapeByRole
-  const getEventShapeEndpoint: typeof import('./src/utils/api').getEventShapeEndpoint
-  const getFieldMetadata: typeof import('./src/composables/useFieldMetadata').getFieldMetadata
   const getIcon: typeof import('./src/utils/iconMapper').getIcon
-  const getInspectorEventShape: typeof import('./src/utils/eventAttendeeUtils').getInspectorEventShape
   const getMajorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMajorEventShape
   const getMinorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMinorEventShape
-  const getMockBusyTimesSync: typeof import('./src/utils/timeSlotCalculations').getMockBusyTimesSync
-  const getOrderIndexEndpoint: typeof import('./src/utils/api/entityApi').getOrderIndexEndpoint
-  const getPartShapeEventEndpoint: typeof import('./src/utils/api').getPartShapeEventEndpoint
-  const getPartShapeEventsEndpoint: typeof import('./src/utils/api').getPartShapeEventsEndpoint
-  const getPropertyByIdEndpoint: typeof import('./src/utils/api/propertyApi').getPropertyByIdEndpoint
-  const getPropertyEndpoint: typeof import('./src/utils/api/propertyApi').getPropertyEndpoint
-  const getPropertyTypeByIdEndpoint: typeof import('./src/utils/api').getPropertyTypeByIdEndpoint
-  const getPropertyTypesEndpoint: typeof import('./src/utils/api').getPropertyTypesEndpoint
-  const getRelationshipByIdEndpoint: typeof import('./src/utils/api').getRelationshipByIdEndpoint
-  const getRelationshipByParentChildEndpoint: typeof import('./src/utils/api/relationshipApi').getRelationshipByParentChildEndpoint
-  const getRelationshipEndpoint: typeof import('./src/utils/api/relationshipApi').getRelationshipEndpoint
-  const getRelationshipsBatchEndpoint: typeof import('./src/utils/api/relationshipApi').getRelationshipsBatchEndpoint
-  const getShapeFieldMetadataByIdEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataByIdEndpoint
-  const getShapeFieldMetadataEndpoint: typeof import('./src/utils/api').getShapeFieldMetadataEndpoint
-  const getShapeLayoutConfigByIdEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigByIdEndpoint
-  const getShapeLayoutConfigByShapeEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigByShapeEndpoint
-  const getShapeLayoutConfigEndpoint: typeof import('./src/utils/api').getShapeLayoutConfigEndpoint
-  const getStateControlBlockInstanceOptions: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstanceOptions
   const getStateControlBlockInstances: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstances
-  const getStateControlBlockShapes: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockShapes
-  const getUserByIdEndpoint: typeof import('./src/utils/api/userApi').getUserByIdEndpoint
-  const getUserEndpoint: typeof import('./src/utils/api/userApi').getUserEndpoint
-  const getUserTypeBlockBlockShapeId: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockBlockShapeId
-  const getUserTypeBlockById: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockById
-  const getUserTypeBlockName: typeof import('./src/utils/userTypeBlockUtils').getUserTypeBlockName
-  const getUserTypeBlockOptionsFromGlobalData: typeof import('./src/utils/annotationUtils').getUserTypeBlockOptionsFromGlobalData
   const h: typeof import('vue').h
-  const hasAttendee: typeof import('./src/utils/eventAttendeeUtils').hasAttendee
-  const hasDuplicateUserTypeBlock: typeof import('./src/utils/annotationUtils').hasDuplicateUserTypeBlock
   const hexToRgb: typeof import('./src/@core/utils/colorConverter').hexToRgb
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
   const inject: typeof import('vue').inject
@@ -200,11 +93,9 @@ declare global {
   const isServiceComposable: typeof import('./src/utils/instanceComponentUtils').isServiceComposable
   const isShallow: typeof import('vue').isShallow
   const isToday: typeof import('./src/@core/utils/helpers').isToday
-  const isUserTypeBlockBlockInstance: typeof import('./src/utils/userTypeBlockUtils').isUserTypeBlockBlockInstance
   const kFormatter: typeof import('./src/@core/utils/formatters').kFormatter
   const lengthValidator: typeof import('./src/@core/utils/validators').lengthValidator
   const makeDestructurable: typeof import('@vueuse/core').makeDestructurable
-  const manualResetRef: typeof import('@vueuse/core').manualResetRef
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
   const mapIcon: typeof import('./src/utils/iconMapper').mapIcon
@@ -214,7 +105,6 @@ declare global {
   const markRaw: typeof import('vue').markRaw
   const mergeEntityDefaults: typeof import('./src/utils/entityDefaults').mergeEntityDefaults
   const nextTick: typeof import('vue').nextTick
-  const normalizeOrderIndices: typeof import('./src/utils/orderIndexUtils').normalizeOrderIndices
   const onActivated: typeof import('vue').onActivated
   const onBeforeMount: typeof import('vue').onBeforeMount
   const onBeforeUnmount: typeof import('vue').onBeforeUnmount
@@ -260,19 +150,12 @@ declare global {
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const resolveVuetifyTheme: typeof import('./src/@core/utils/vuetify').resolveVuetifyTheme
-  const rfc3339ToBusinessHoursTime: typeof import('./src/utils/datetime').rfc3339ToBusinessHoursTime
-  const rfc3339ToDateOnly: typeof import('./src/utils/datetime').rfc3339ToDateOnly
-  const rfc3339ToLocalHHmm: typeof import('./src/composables/useLocalTime').rfc3339ToLocalHHmm
-  const rfc3339ToLocalMinutesFromMidnight: typeof import('./src/composables/useLocalTime').rfc3339ToLocalMinutesFromMidnight
-  const rfc3339ToTimeOfDay: typeof import('./src/utils/datetime').rfc3339ToTimeOfDay
   const rgbaToHex: typeof import('./src/@core/utils/colorConverter').rgbaToHex
-  const roundUpToIncrement: typeof import('./src/utils/timeSlotCalculations').roundUpToIncrement
   const setActivePinia: typeof import('pinia').setActivePinia
   const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
-  const sortByOrderIndex: typeof import('./src/utils/orderIndexUtils').sortByOrderIndex
   const storeToRefs: typeof import('pinia').storeToRefs
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
@@ -280,7 +163,6 @@ declare global {
   const templateRef: typeof import('@vueuse/core').templateRef
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
-  const timeOfDayToRfc3339: typeof import('./src/utils/datetime').timeOfDayToRfc3339
   const toDayOfWeek: typeof import('./src/utils/datetime').toDayOfWeek
   const toGlobalEntityId: typeof import('./src/utils/globalEntity').toGlobalEntityId
   const toGlobalEntityIdOrNull: typeof import('./src/utils/globalEntity').toGlobalEntityIdOrNull
@@ -291,8 +173,6 @@ declare global {
   const toRef: typeof import('vue').toRef
   const toRefs: typeof import('vue').toRefs
   const toValue: typeof import('vue').toValue
-  const transformToClientPerspective: typeof import('./src/utils/differentialScheduling').transformToClientPerspective
-  const transformToInspectorPerspective: typeof import('./src/utils/differentialScheduling').transformToInspectorPerspective
   const transformToMajorPerspective: typeof import('./src/utils/differentialScheduling').transformToMajorPerspective
   const transformToMinorPerspective: typeof import('./src/utils/differentialScheduling').transformToMinorPerspective
   const triggerRef: typeof import('vue').triggerRef
@@ -304,17 +184,11 @@ declare global {
   const unref: typeof import('vue').unref
   const unrefElement: typeof import('@vueuse/core').unrefElement
   const until: typeof import('@vueuse/core').until
-  const updateOrderAfterDragDrop: typeof import('./src/utils/orderIndexUtils').updateOrderAfterDragDrop
   const urlValidator: typeof import('./src/@core/utils/validators').urlValidator
   const useActiveElement: typeof import('@vueuse/core').useActiveElement
   const useAddressAutocomplete: typeof import('./src/composables/useAddressAutocomplete').useAddressAutocomplete
-  const useAdmin: typeof import('./src/composables/useAdmin').useAdmin
   const useAdminConfig: typeof import('./src/composables/useAdminConfig').useAdminConfig
   const useAnimate: typeof import('@vueuse/core').useAnimate
-  const useAnnotationAssignments: typeof import('./src/composables/useAnnotationAssignments').useAnnotationAssignments
-  const useAnnotationShapes: typeof import('./src/composables/useAnnotationShapes').useAnnotationShapes
-  const useAnnotationTypes: typeof import('./src/composables/useAnnotationType').useAnnotationTypes
-  const useAnnotations: typeof import('./src/composables/useAnnotations').useAnnotations
   const useAppointment: typeof import('./src/composables/useAppointment').useAppointment
   const useAppointments: typeof import('./src/composables/useBusiness').useAppointments
   const useArrayDifference: typeof import('@vueuse/core').useArrayDifference
@@ -337,7 +211,6 @@ declare global {
   const useBattery: typeof import('@vueuse/core').useBattery
   const useBluetooth: typeof import('@vueuse/core').useBluetooth
   const useBooking: typeof import('./src/composables/useBooking').useBooking
-  const useBookingWizard: typeof import('./src/composables/useBookingWizard').useBookingWizard
   const useBreakpoints: typeof import('@vueuse/core').useBreakpoints
   const useBroadcastChannel: typeof import('@vueuse/core').useBroadcastChannel
   const useBrowserLocation: typeof import('@vueuse/core').useBrowserLocation
@@ -349,15 +222,10 @@ declare global {
   const useColorMode: typeof import('@vueuse/core').useColorMode
   const useComponentDistribution: typeof import('./src/composables/useComponentDistribution').useComponentDistribution
   const useComponentEntity: typeof import('./src/composables/useComponentEntity').useComponentEntity
-  const useCompositionEntity: typeof import('./src/composables/useComponentEntity').useCompositionEntity
   const useConfirmDialog: typeof import('@vueuse/core').useConfirmDialog
   const useCookie: typeof import('./src/@core/composable/useCookie').useCookie
   const useCountdown: typeof import('@vueuse/core').useCountdown
   const useCounter: typeof import('@vueuse/core').useCounter
-  const useCreateAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useCreateAnnotationShape
-  const useCreateAnnotationType: typeof import('./src/composables/useAnnotationType').useCreateAnnotationType
-  const useCreateEventInstance: typeof import('./src/composables/useEventInstances').useCreateEventInstance
-  const useCreateEventShape: typeof import('./src/composables/useEventShapes').useCreateEventShape
   const useCssModule: typeof import('vue').useCssModule
   const useCssSupports: typeof import('@vueuse/core').useCssSupports
   const useCssVar: typeof import('@vueuse/core').useCssVar
@@ -370,10 +238,6 @@ declare global {
   const useDebounce: typeof import('@vueuse/core').useDebounce
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
   const useDebouncedRefHistory: typeof import('@vueuse/core').useDebouncedRefHistory
-  const useDeleteAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useDeleteAnnotationShape
-  const useDeleteAnnotationType: typeof import('./src/composables/useAnnotationType').useDeleteAnnotationType
-  const useDeleteEventInstance: typeof import('./src/composables/useEventInstances').useDeleteEventInstance
-  const useDeleteEventShape: typeof import('./src/composables/useEventShapes').useDeleteEventShape
   const useDeviceMotion: typeof import('@vueuse/core').useDeviceMotion
   const useDeviceOrientation: typeof import('@vueuse/core').useDeviceOrientation
   const useDevicePixelRatio: typeof import('@vueuse/core').useDevicePixelRatio
@@ -387,17 +251,13 @@ declare global {
   const useElementHover: typeof import('@vueuse/core').useElementHover
   const useElementSize: typeof import('@vueuse/core').useElementSize
   const useElementVisibility: typeof import('@vueuse/core').useElementVisibility
-  const useEntityCrud: typeof import('./src/composables/entityCrud/useEntityCrud').useEntityCrud
   const useEntityForm: typeof import('./src/composables/useEntityForm').useEntityForm
   const useEventBus: typeof import('@vueuse/core').useEventBus
-  const useEventInstances: typeof import('./src/composables/useEventInstances').useEventInstances
   const useEventListener: typeof import('@vueuse/core').useEventListener
-  const useEventShapes: typeof import('./src/composables/useEventShapes').useEventShapes
   const useEventSource: typeof import('@vueuse/core').useEventSource
   const useEyeDropper: typeof import('@vueuse/core').useEyeDropper
   const useFavicon: typeof import('@vueuse/core').useFavicon
   const useFetch: typeof import('@vueuse/core').useFetch
-  const useFieldContext: typeof import('./src/composables/fieldContext/useFieldContext').useFieldContext
   const useFieldValue: typeof import('./src/composables/useFieldValue').useFieldValue
   const useFileDialog: typeof import('@vueuse/core').useFileDialog
   const useFileSystemAccess: typeof import('@vueuse/core').useFileSystemAccess
@@ -423,7 +283,6 @@ declare global {
   const useLayoutLoading: typeof import('./src/composables/useLayoutLoading').useLayoutLoading
   const useLoadingIndicator: typeof import('./src/composables/useLoadingIndicator').useLoadingIndicator
   const useLocalStorage: typeof import('@vueuse/core').useLocalStorage
-  const useLocalTime: typeof import('./src/composables/useLocalTime').useLocalTime
   const useMagicKeys: typeof import('@vueuse/core').useMagicKeys
   const useManualRefHistory: typeof import('@vueuse/core').useManualRefHistory
   const useMapsSessionToken: typeof import('./src/composables/useMapsSessionToken').useMapsSessionToken
@@ -460,14 +319,12 @@ declare global {
   const usePreferredReducedMotion: typeof import('@vueuse/core').usePreferredReducedMotion
   const usePreferredReducedTransparency: typeof import('@vueuse/core').usePreferredReducedTransparency
   const usePrevious: typeof import('@vueuse/core').usePrevious
-  const usePrimitiveMutation: typeof import('./src/composables/entityCrud/usePrimitiveMutation').usePrimitiveMutation
   const useProperties: typeof import('./src/composables/useBusiness').useProperties
   const useProperty: typeof import('./src/composables/useProperty').useProperty
   const useRafFn: typeof import('@vueuse/core').useRafFn
   const useRefHistory: typeof import('@vueuse/core').useRefHistory
   const useRelationshipCrud: typeof import('./src/composables/useRelationship').useRelationshipCrud
   const useResizeObserver: typeof import('@vueuse/core').useResizeObserver
-  const useResponsiveLeftSidebar: typeof import('./src/@core/composable/useResponsiveSidebar').useResponsiveLeftSidebar
   const useResponsiveSidebar: typeof import('./src/@core/composable/useResponsiveSidebar').useResponsiveSidebar
   const useSSRWidth: typeof import('@vueuse/core').useSSRWidth
   const useScreenOrientation: typeof import('@vueuse/core').useScreenOrientation
@@ -476,8 +333,6 @@ declare global {
   const useScroll: typeof import('@vueuse/core').useScroll
   const useScrollLock: typeof import('@vueuse/core').useScrollLock
   const useSelectOptions: typeof import('./src/composables/useSelectOptions').useSelectOptions
-  const useSelectionCard: typeof import('./src/composables/useSelectionCard').useSelectionCard
-  const useSelectionCardGroup: typeof import('./src/composables/useSelectionCard').useSelectionCardGroup
   const useSessionStorage: typeof import('@vueuse/core').useSessionStorage
   const useShare: typeof import('@vueuse/core').useShare
   const useSkins: typeof import('./src/@core/composable/useSkins').useSkins
@@ -502,7 +357,6 @@ declare global {
   const useThrottledRefHistory: typeof import('@vueuse/core').useThrottledRefHistory
   const useTimeAgo: typeof import('@vueuse/core').useTimeAgo
   const useTimeAgoIntl: typeof import('@vueuse/core').useTimeAgoIntl
-  const useTimeFormatting: typeof import('./src/composables/useTimeFormatting').useTimeFormatting
   const useTimeout: typeof import('@vueuse/core').useTimeout
   const useTimeoutFn: typeof import('@vueuse/core').useTimeoutFn
   const useTimeoutPoll: typeof import('@vueuse/core').useTimeoutPoll
@@ -512,10 +366,6 @@ declare global {
   const useToString: typeof import('@vueuse/core').useToString
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
-  const useUpdateAnnotationShape: typeof import('./src/composables/useAnnotationShapes').useUpdateAnnotationShape
-  const useUpdateAnnotationType: typeof import('./src/composables/useAnnotationType').useUpdateAnnotationType
-  const useUpdateEventInstance: typeof import('./src/composables/useEventInstances').useUpdateEventInstance
-  const useUpdateEventShape: typeof import('./src/composables/useEventShapes').useUpdateEventShape
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
   const useUser: typeof import('./src/composables/useUser').useUser
   const useUserMedia: typeof import('@vueuse/core').useUserMedia
@@ -532,7 +382,6 @@ declare global {
   const useWindowFocus: typeof import('@vueuse/core').useWindowFocus
   const useWindowScroll: typeof import('@vueuse/core').useWindowScroll
   const useWindowSize: typeof import('@vueuse/core').useWindowSize
-  const validateAnnotationMetadata: typeof import('./src/utils/annotationUtils').validateAnnotationMetadata
   const validateRFC3339DateTime: typeof import('./src/utils/datetime').validateRFC3339DateTime
   const watch: typeof import('vue').watch
   const watchArray: typeof import('@vueuse/core').watchArray
