@@ -39,7 +39,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 13 | Alpha Launch & Deployment | 📋 Planning | — | — |
 | 14 | Beta Feedback System | ✅ Complete | `features/beta-feedback/` | Completed 2026-02-10 |
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
-| 16 | UI Polish | 🔮 Not Started | `features/feature-7-ui-polish/` | — |
+| 16 | UI Polish | 🔮 Not Started | `features/ui-polish/` | — |
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
@@ -50,7 +50,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 
 | Milestone | Definition of Done |
 |-----------|--------------------|
-| **Alpha Ready** | Features 7–10 and Feature 13 (Alpha Launch) substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
+| **Alpha Ready** | Features 7–11 and Feature 13 (Alpha Launch) substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
 | **Post-Alpha Ready (Between Alpha and Beta)** | Feature 17 (Admin UI Overhaul) complete — wizard and admin UI redesigned. Booking wizard and admin surfaces migrated to Ionic for Vue where planned. Native app path established: Ionic app wrapped in Capacitor, iOS/Android builds produced. Apple Store (and optionally Play Store) submission package ready. See LAUNCH_CHECKLIST.md "Between Alpha and Beta" and Phase 7 for conversion and launch steps. |
 | **Beta Ready** | Feature 9 (Guided Alpha Testing) complete — wizard flow diagram, alpha task database, guided assignment and 2–3 blank runs. Feature 10 (Testing) E2E derived from alpha task list. Features 7–10 and 13–15 complete. Feature 19 (CRM / Inspection Platform Integration) research and API set-up complete so inspection-creation path (Spectora/ISN or own CRM) is decided and PoC proven. E2E tests cover critical paths, error tracking live. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. Beta testers can use the web app and/or the native (Ionic) app. |
 | **Production Ready** | Features 7–15 plus password auth transition. Full test coverage, polished UI, rollback procedures documented and tested. Ready for public access. |
@@ -339,6 +339,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Dependencies: Option-type blocks and differential logic already drive availability; no new backend. UX and layout only.
 
 ### Phase 6.10: Fee Preview & Coupon Visibility (Not Started)
+- **Coupon list ↔ Coupons block shape:** When we show or wire the list of coupons (Apply Coupon dropdown or cascade), **connect to the "Coupons" block shape** and reuse the same **block-shape-filtered instances** strategy as service, property, and option in the wizard: identify the block shape (for Coupons, by name e.g. "Coupons" via `bookingData.blockShapes.find(bs => bs.name === 'Coupons')` or a helper), then filter `bookingData.blockInstances` by `blockShapeRef === shapeId`. Reference: `getBlockShapeIdByType`, `cascadeShapePipeline`, `useWizardFilteredOptions` (see phase 6.10 guide).
 - **Fee preview bar on availability step:** A bar at the top of the Appointment Availability (step 3) wizard showing total fee as a preview (e.g. "Fee preview: $X.XX"). On hover, show fee details in a popover — same structure as step 5 (Confirmation): Bag Total, optional Coupon Discount row (and Apply Coupon button when enabled by admin), Order Total, line items, Total. No submit buttons in the popover.
 - **Apply coupon toggle in admin:** Business Controls → **Calendar** → **Confirmation & Holds** subtab. Add a switch "Show apply coupon in wizard" so the Coupon Discount row and Apply Coupon button can be shown or hidden in the booking flow. Persist the setting with availability/business settings (e.g. `showApplyCouponInWizard` in payload and types); wizard reads it via availability settings and shows the coupon row in Confirmation step and in the availability-step fee popover only when the toggle is on.
 - **Session 6.10.1:** Add new block shapes button on admin Shapes tab — restore it (it used to exist and is missing); if needed, adapt the same add-new pattern as the other shapes sub-tabs.
@@ -720,7 +721,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ## Feature 13: Alpha Launch & Deployment
 
 **Status:** 📋 Planning
-**Description:** Alpha milestone. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. App deployed, auth working, core booking + admin flows functional; no external testers yet. Depends on Features 7–10. See LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
+**Description:** Alpha milestone. Merge & sanity check, Render setup (API + static site + PostgreSQL), render.yaml Blueprint. App deployed, auth working, core booking + admin flows functional; no external testers yet. Depends on Features 7–11. See LAUNCH_CHECKLIST.md Phase 0, Phase 1, Appendix A.
 **Branch:** TBD
 
 ### Existing Infrastructure
