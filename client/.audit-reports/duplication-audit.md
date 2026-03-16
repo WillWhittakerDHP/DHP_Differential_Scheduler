@@ -45,7 +45,7 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
-| `dup-23e58d4b1c3c` | 3 | 3 | 10 | `server/src/db/models/admin/business_settings.ts@102`, `server/src/db/models/admin/calendar_settings.ts@40`, `server/src/db/models/admin/wizard_settings.ts@50` |
+| `dup-23e58d4b1c3c` | 3 | 3 | 10 | `server/src/db/models/admin/business_settings.ts@102`, `server/src/db/models/admin/calendar_settings.ts@38`, `server/src/db/models/admin/wizard_settings.ts@48` |
 | `dup-07637ee7e645` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@24`, `client/src/composables/booking/injectionKeys.ts@39` |
 | `dup-11f12b62a4a1` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@23`, `client/src/composables/booking/injectionKeys.ts@38` |
 | `dup-123065415eeb` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@12`, `client/src/composables/booking/injectionKeys.ts@50` |
@@ -81,8 +81,8 @@ When a group spans multiple files in the same domain, it’s often a good extrac
 
 Locations:
 - `server/src/db/models/admin/business_settings.ts` @ lines 102-122
-- `server/src/db/models/admin/calendar_settings.ts` @ lines 40-60
-- `server/src/db/models/admin/wizard_settings.ts` @ lines 50-70
+- `server/src/db/models/admin/calendar_settings.ts` @ lines 38-58
+- `server/src/db/models/admin/wizard_settings.ts` @ lines 48-68
 
 ```
 type: DataTypes.JSONB,

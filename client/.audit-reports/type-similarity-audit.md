@@ -19,7 +19,7 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-16T01:28:21.312Z**
+- Generated at: **2026-03-16T01:53:46.594Z**
 - Files scanned: **1180**
 - Type definitions found: **836**
 - Similarity groups: **20**
@@ -67,7 +67,7 @@ These types are structurally identical and likely represent the same concept. Im
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `CalendarSettingsData` | interface | `client/src/configs/calendarSettings/types.ts` | 7 | yes |
-| `CalendarSettingsData` | interface | `server/src/db/models/admin/calendar_settings.ts` | 14 | yes |
+| `CalendarSettingsData` | interface | `server/src/db/models/admin/calendar_settings.ts` | 12 | yes |
 
 ### sim-exact-f3a7450b3718
 
@@ -77,7 +77,7 @@ These types are structurally identical and likely represent the same concept. Im
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `WizardSettingsData` | interface | `client/src/configs/wizardSettings/types.ts` | 4 | yes |
-| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 13 | yes |
+| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 11 | yes |
 
 ### sim-exact-38c8c2c0930a
 
@@ -169,7 +169,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `DifferentialPerspectivesLabels` | interface | `client/src/configs/availabilitySettings/types.ts` | 108 | yes |
 | `WizardSettingsData` | interface | `client/src/configs/wizardSettings/types.ts` | 4 | yes |
 | `GridConfigState` | interface | `client/src/types/admin/gridConfigHandlers.ts` | 7 | yes |
-| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 13 | yes |
+| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 11 | yes |
 
 ### sim-subset-78a568e60ff2
 

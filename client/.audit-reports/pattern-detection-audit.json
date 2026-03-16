@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T01:28:20.282Z",
+  "generatedAt": "2026-03-16T01:53:45.167Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -961,7 +961,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/tables/useTableModelHelpers.ts",
-            "line": 20,
+            "line": 19,
             "name": "ItemsSource"
           }
         ]
@@ -5710,7 +5710,7 @@
       {
         "type": "status-workflow",
         "file": "server/src/db/models/admin/calendar_settings.ts",
-        "line": 16,
+        "line": 14,
         "pattern": "AppointmentStatus workflow",
         "code": "/** When true, appointments created with status 'submitted' are auto-transitioned to 'confirmed'. */"
       },

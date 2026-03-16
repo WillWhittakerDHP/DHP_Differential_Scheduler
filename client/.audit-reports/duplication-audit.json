@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T01:28:20.789Z",
+  "generatedAt": "2026-03-16T01:53:45.753Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -481,15 +481,15 @@
         },
         {
           "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 40,
-          "endLine": 60,
+          "startLine": 38,
+          "endLine": 58,
           "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
           "target": "server/src/db/models/admin/calendar_settings.ts"
         },
         {
           "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 50,
-          "endLine": 70,
+          "startLine": 48,
+          "endLine": 68,
           "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
           "target": "server/src/db/models/admin/wizard_settings.ts"
         }
@@ -1157,15 +1157,15 @@
       "locations": [
         {
           "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 35,
-          "endLine": 59,
+          "startLine": 33,
+          "endLine": 57,
           "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
           "target": "server/src/db/models/admin/calendar_settings.ts"
         },
         {
           "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 45,
-          "endLine": 69,
+          "startLine": 43,
+          "endLine": 67,
           "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
           "target": "server/src/db/models/admin/wizard_settings.ts"
         }
@@ -1365,15 +1365,15 @@
       "locations": [
         {
           "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 34,
-          "endLine": 54,
+          "startLine": 32,
+          "endLine": 52,
           "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
           "target": "server/src/db/models/admin/calendar_settings.ts"
         },
         {
           "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 44,
-          "endLine": 64,
+          "startLine": 42,
+          "endLine": 62,
           "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
           "target": "server/src/db/models/admin/wizard_settings.ts"
         }

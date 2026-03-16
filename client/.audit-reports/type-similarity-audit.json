@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T01:28:21.312Z",
+  "generatedAt": "2026-03-16T01:53:46.594Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -181,7 +181,7 @@
           "name": "WizardSettingsData",
           "kind": "interface",
           "file": "server/src/db/models/admin/wizard_settings.ts",
-          "line": 13,
+          "line": 11,
           "exported": true,
           "propertyCount": 13,
           "signature": "{ differentialGraphDefaultLabel?: string, majorLabel?: string, majorStateLabel?: string, minorLabel?: string, minorStateLabel?: string, moveableFallbackLabel?: string, selectTimeSlotLabel?: string, showApplyCoupon?: boolean, subStepLabelConfirmMoveable?: string, subStepLabelOptions?: string, subStepLabelPickDay?: string, subStepLabelPickTime?: string, useBrandColors?: boolean }"
@@ -322,7 +322,7 @@
           "name": "CalendarSettingsData",
           "kind": "interface",
           "file": "server/src/db/models/admin/calendar_settings.ts",
-          "line": 14,
+          "line": 12,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -380,7 +380,7 @@
           "name": "WizardSettingsData",
           "kind": "interface",
           "file": "server/src/db/models/admin/wizard_settings.ts",
-          "line": 13,
+          "line": 11,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -7808,7 +7808,7 @@
       "name": "CalendarSettingsData",
       "kind": "interface",
       "file": "server/src/db/models/admin/calendar_settings.ts",
-      "line": 14,
+      "line": 12,
       "exported": true,
       "fingerprint": "217bd8a1214a",
       "propertyCount": 1,
@@ -7818,7 +7818,7 @@
       "name": "WizardSettingsData",
       "kind": "interface",
       "file": "server/src/db/models/admin/wizard_settings.ts",
-      "line": 13,
+      "line": 11,
       "exported": true,
       "fingerprint": "f3a7450b3718",
       "propertyCount": 13,
