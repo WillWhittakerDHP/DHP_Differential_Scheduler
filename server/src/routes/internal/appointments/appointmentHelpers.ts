@@ -2,7 +2,6 @@
 import { Op } from 'sequelize'
 import type { AppointmentFeeBreakdownPayload, AppointmentFeeEntryCreate } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
-  BusinessSettings,
   BlockInstanceVersion,
   AppointmentAttendee,
   AppointmentFeeSummary,
@@ -14,18 +13,17 @@ import {
   BlockInstance,
   ConstraintOverride,
 } from '../../../config/app.js'
+import { getCalendarSettings } from '../../../repositories/calendarSettingsRepository.js'
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
-import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES, CONSTRAINT_OVERRIDE_FIELDS } from './appointmentConstants.js'
+import { DEFAULT_CALENDAR_EMAIL, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES, CONSTRAINT_OVERRIDE_FIELDS } from './appointmentConstants.js'
 import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js'
-import { defaultAvailabilitySettings } from '../businessSettings/businessSettingsConstants.js'
-import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
+import type { CalendarSettingsData } from '../../../db/models/admin/calendar_settings.js'
 import type { AdminEntryTimeout } from '../../../../../shared/types/calendarTypes.js'
 
 const logger = createLogger('AppointmentRouter')
 
-/** Code fallbacks when admin settings omit hold duration bounds (e.g. legacy data). */
 const HOLD_DURATION_MIN_FALLBACK = 1
 const HOLD_DURATION_MAX_FALLBACK = 60
 const HOLD_DURATION_VALUE_FALLBACK = 15
@@ -36,12 +34,11 @@ export interface HoldDurationBounds {
   fallback: number
 }
 
-/** Derive bounds from availability settings data (sync; no DB). */
-function holdDurationBoundsFromData(data: AvailabilitySettingsData): HoldDurationBounds {
-  const cc = data.calendarConfig
-  const minRaw = cc?.holdDurationMin
-  const maxRaw = cc?.holdDurationMax
-  const fallbackRaw = cc?.holdDurationFallback
+/** Derive bounds from calendar settings (sync; no DB). */
+function holdDurationBoundsFromCalendarData(data: CalendarSettingsData): HoldDurationBounds {
+  const minRaw = data.holdDurationMin
+  const maxRaw = data.holdDurationMax
+  const fallbackRaw = data.holdDurationFallback
   const min = typeof minRaw === 'number' && !Number.isNaN(minRaw) ? Math.floor(minRaw) : HOLD_DURATION_MIN_FALLBACK
   const max = typeof maxRaw === 'number' && !Number.isNaN(maxRaw) ? Math.floor(maxRaw) : HOLD_DURATION_MAX_FALLBACK
   const fallback = typeof fallbackRaw === 'number' && !Number.isNaN(fallbackRaw) ? Math.floor(fallbackRaw) : HOLD_DURATION_VALUE_FALLBACK
@@ -49,60 +46,34 @@ function holdDurationBoundsFromData(data: AvailabilitySettingsData): HoldDuratio
   return { min, max, fallback: clampedFallback }
 }
 
-/**
- * Hold duration bounds and fallback from admin availability settings.
- * Uses code fallbacks when settings omit values (e.g. legacy calendarConfig).
- */
+/** Hold duration bounds and fallback from calendar_settings. */
 export async function getHoldDurationBoundsFromSettings(): Promise<HoldDurationBounds> {
-  const setting = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-  })
-  const data: AvailabilitySettingsData = (setting?.settingValue != null)
-    ? (setting.settingValue as AvailabilitySettingsData)
-    : defaultAvailabilitySettings
-  return holdDurationBoundsFromData(data)
+  const data = await getCalendarSettings()
+  return holdDurationBoundsFromCalendarData(data)
 }
 
-/**
- * Hold duration bounds and default in one read. Use when both are needed (e.g. router beforeCreate + sanitize).
- */
+/** Hold duration bounds and default in one read. */
 export async function getHoldDurationFromSettings(): Promise<{ bounds: HoldDurationBounds; defaultMinutes: number }> {
-  const setting = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-  })
-  const data: AvailabilitySettingsData = (setting?.settingValue != null)
-    ? (setting.settingValue as AvailabilitySettingsData)
-    : defaultAvailabilitySettings
-  const bounds = holdDurationBoundsFromData(data)
-  const raw = data.calendarConfig?.holdDurationMinutes
+  const data = await getCalendarSettings()
+  const bounds = holdDurationBoundsFromCalendarData(data)
+  const raw = data.holdDurationMinutes
   const parsed = typeof raw === 'number' && !Number.isNaN(raw) ? Math.floor(raw) : bounds.fallback
   const defaultMinutes = Math.min(bounds.max, Math.max(bounds.min, parsed))
   return { bounds, defaultMinutes }
 }
 
-/**
- * Default hold duration (minutes) from admin availability settings.
- * Clamped by min/max from settings; uses fallback when value missing or invalid.
- */
+/** Default hold duration (minutes) from calendar_settings. */
 export async function getHoldDurationDefaultFromSettings(): Promise<number> {
   const { defaultMinutes } = await getHoldDurationFromSettings()
   return defaultMinutes
 }
 
-/**
- * Admin entry dropdown time-out (X days/weeks) from availability settings.
- * Session 6.8.6 — used to filter list-appointments for the admin entry dropdown.
- */
 const DEFAULT_ADMIN_ENTRY_TIMEOUT: AdminEntryTimeout = { value: 30, unit: 'days' }
 
+/** Admin entry dropdown time-out from calendar_settings. */
 export async function getAdminEntryTimeoutFromSettings(): Promise<AdminEntryTimeout> {
-  const setting = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-  })
-  const data: AvailabilitySettingsData = (setting?.settingValue != null)
-    ? (setting.settingValue as AvailabilitySettingsData)
-    : defaultAvailabilitySettings
-  const raw = data.calendarConfig?.adminEntryTimeout
+  const data = await getCalendarSettings()
+  const raw = data.adminEntryTimeout
   if (raw && typeof raw.value === 'number' && !Number.isNaN(raw.value) && (raw.unit === 'days' || raw.unit === 'weeks')) {
     const value = Math.max(1, Math.min(365, Math.floor(raw.value)))
     return { value, unit: raw.unit }
@@ -110,40 +81,12 @@ export async function getAdminEntryTimeoutFromSettings(): Promise<AdminEntryTime
   return DEFAULT_ADMIN_ENTRY_TIMEOUT
 }
 
-/**
- * Task 6.3.2.3/6.3.2.4: Whether to auto-confirm appointments created with status 'submitted'.
- * Reads the availability_settings row's auto_confirm_enabled column (default false).
- */
+/** Whether to auto-confirm appointments (from calendar_settings). */
 export async function getAutoConfirmEnabledFromSettings(): Promise<boolean> {
-  const setting = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-    attributes: ['autoConfirmEnabled'],
-  })
-  return setting?.autoConfirmEnabled === true
+  const data = await getCalendarSettings()
+  return data.autoConfirmEnabled === true
 }
 
-type CalendarConfigValue = {
-  calendarConfig?: {
-    enabled?: boolean
-    provider?: string
-    calendars?: Array<{ email?: string; readFrom?: boolean; writeTo?: boolean }>
-  }
-}
-
-/** Parses availability settings and returns calendar config or null if invalid. */
-function parseCalendarConfigFromSetting(setting: { settingValue?: unknown } | null): { calendars: Array<{ email?: string; writeTo?: boolean }> } | null {
-  if (!setting?.settingValue) return null
-  const settings = setting.settingValue as CalendarConfigValue
-  const calendarConfig = settings.calendarConfig
-  if (!calendarConfig?.enabled) return null
-  if (!Array.isArray(calendarConfig.calendars)) {
-    logger.error('Invalid calendar config: calendars must be an array')
-    return null
-  }
-  return { calendars: calendarConfig.calendars }
-}
-
-/** Finds the first writeTo calendar with a non-empty email. */
 function findWriteToCalendarEmail(calendars: Array<{ email?: string; writeTo?: boolean }>): string | undefined {
   const entry = calendars.find(e => e.writeTo && e.email?.trim())
   return entry?.email?.trim()
@@ -152,19 +95,12 @@ function findWriteToCalendarEmail(calendars: Array<{ email?: string; writeTo?: b
 /** Email of the calendar configured for write operations, or undefined if none. */
 export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
   try {
-    const setting = await BusinessSettings.findOne({
-      where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-    })
-    if (!setting || !setting.settingValue) {
-      logger.debug('No availability_settings found, using default calendar')
-      return undefined
-    }
-    const config = parseCalendarConfigFromSetting(setting)
-    if (!config) {
+    const data = await getCalendarSettings()
+    if (!data.enabled || !Array.isArray(data.calendars)) {
       logger.debug('Calendar integration not enabled or invalid config')
       return undefined
     }
-    const email = findWriteToCalendarEmail(config.calendars)
+    const email = findWriteToCalendarEmail(data.calendars)
     if (email) {
       logger.debug('Found writeTo calendar', { email })
       return email

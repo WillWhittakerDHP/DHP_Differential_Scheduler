@@ -3,7 +3,6 @@ import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '../../../../../shared/constants/errorMessages.js'
 import type { RFC3339DateTime, DayHours } from '../../../../../shared/types/availabilityTypes.js'
-import type { CalendarConfig } from '../../../../../shared/types/calendarTypes.js'
 
 export { AVAILABILITY_SETTINGS_KEY }
 
@@ -48,19 +47,10 @@ export const defaultAvailabilitySettings: AvailabilitySettingsData = {
     }
   },
   durationRounding: {
-    enabled: false, // Default disabled for testing
+    enabled: false,
     increment: 15,
     method: 'roundUp'
   },
-  calendarConfig: {
-    enabled: false,
-    provider: 'none',
-    calendars: [],
-    holdDurationMinutes: 15,
-    holdDurationMin: 1,
-    holdDurationMax: 60,
-    holdDurationFallback: 15
-  } as CalendarConfig
 }
 
 export const ERROR_MESSAGES = {
