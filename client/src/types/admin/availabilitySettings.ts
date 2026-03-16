@@ -7,7 +7,6 @@ export interface UseAvailabilitySettingsOptions {
 
 export interface UseAdminAvailabilitySettingsReturn {
   formData: Ref<AvailabilitySettings | null>
-  autoConfirmEnabled: Ref<boolean>
   loading: Ref<boolean>
   saving: Ref<boolean>
   error: Ref<string | null>

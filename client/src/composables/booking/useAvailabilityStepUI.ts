@@ -3,16 +3,15 @@
  * Domain rules: step summaries, badge state, sub-step labels.
  * Slot overlay (showSlotsOverlay, slotGridOverlayLabel, slotGridOverlayError) lives in useAvailabilityStepSlotOverlay.
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { formatTimeRange } from '@/utils/time/timeFormatting'
 import { derivePerspective } from '@/utils/booking/perspectiveResolver'
 import type { AvailabilitySubStepOrchestratorState } from '@/composables/booking/injectionKeys'
 import type { UseAvailabilityConfirmationStateReturn } from '@/composables/booking/useAvailabilityConfirmationState'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings/types'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 
 export interface UseAvailabilityStepUIParams {
   o: AvailabilitySubStepOrchestratorState
-  availabilitySettings: Ref<AvailabilitySettings | null>
   confirmation: UseAvailabilityConfirmationStateReturn
 }
 
@@ -30,22 +29,17 @@ export interface UseAvailabilityStepUIReturn {
 export function useAvailabilityStepUI(
   params: UseAvailabilityStepUIParams
 ): UseAvailabilityStepUIReturn {
-  const { o, availabilitySettings, confirmation } = params
+  const { o, confirmation } = params
+  const wizardSettings = useWizardSettings()
 
   const subStepLabels = computed(() => {
-    const dp = availabilitySettings.value?.differentialPerspectives
-    const graphLabel = typeof dp?.differentialGraphDefaultLabel === 'string'
-      ? dp.differentialGraphDefaultLabel.trim()
-      : null
-    const moveableLabel = dp?.subStepLabelConfirmMoveable?.trim()
-      ?.replace(/\bmoveable\b/gi, o.moveablePartShapeName.value) ??
+    const base = wizardSettings.subStepLabels.value
+    const raw4 = base[4]
+    const moveableLabel = raw4?.replace(/\bmoveable\b/gi, o.moveablePartShapeName.value) ??
       `Schedule ${o.moveablePartShapeName.value}`
     return {
-      0: dp?.subStepLabelPickDay?.trim() || undefined,
-      1: dp?.subStepLabelOptions?.trim() || undefined,
-      2: graphLabel || undefined,
-      3: dp?.subStepLabelPickTime?.trim() || undefined,
-      4: moveableLabel || undefined,
+      ...base,
+      4: moveableLabel,
     }
   })
 
@@ -66,10 +60,8 @@ export function useAvailabilityStepUI(
     if (stepIndex === 2) {
       if (!o.userHasChosenTimeBasisFromGraph?.value) return null
       const pers = o.perspective.value
-      const majorLabel = availabilitySettings.value?.differentialPerspectives?.majorLabel ?? 'Major'
-      const minorLabel = availabilitySettings.value?.differentialPerspectives?.minorLabel ?? 'Minor'
-      if (pers === 'major') return `${majorLabel} times`
-      if (pers === 'minor') return `${minorLabel} times`
+      if (pers === 'major') return `${wizardSettings.majorLabel.value} times`
+      if (pers === 'minor') return `${wizardSettings.minorLabel.value} times`
       return null
     }
     if (stepIndex === 3) {

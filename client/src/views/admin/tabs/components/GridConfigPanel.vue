@@ -129,43 +129,6 @@ const handlers = useGridConfigHandlers(state as GridConfigState)
         persistent-hint
       />
 
-      <div class="text-label-large mb-3 mt-6">{{ UI_STRINGS.differential.subStepLabelsSectionTitle }}</div>
-      <div class="text-body-small mb-4 text-medium-emphasis">
-        {{ UI_STRINGS.differential.subStepLabelsSectionHint }}
-      </div>
-      <VTextField
-        :model-value="differential.subStepLabelPickDay"
-        @update:model-value="handlers.handleSubStepLabelPickDay"
-        :label="UI_STRINGS.differential.subStepLabelPickDay"
-        :hint="UI_STRINGS.differential.subStepLabelPickDayHint"
-        persistent-hint
-        class="mb-4"
-      />
-      <VTextField
-        :model-value="differential.subStepLabelOptions"
-        @update:model-value="handlers.handleSubStepLabelOptions"
-        :label="UI_STRINGS.differential.subStepLabelOptions"
-        :hint="UI_STRINGS.differential.subStepLabelOptionsHint"
-        persistent-hint
-        class="mb-4"
-      />
-      <VTextField
-        :model-value="differential.subStepLabelPickTime"
-        @update:model-value="handlers.handleSubStepLabelPickTime"
-        :label="UI_STRINGS.differential.subStepLabelPickTime"
-        :hint="UI_STRINGS.differential.subStepLabelPickTimeHint"
-        persistent-hint
-        class="mb-4"
-      />
-      <VTextField
-        :model-value="differential.subStepLabelConfirmMoveable"
-        @update:model-value="handlers.handleSubStepLabelConfirmMoveable"
-        :label="UI_STRINGS.differential.subStepLabelConfirmMoveable"
-        :hint="UI_STRINGS.differential.subStepLabelConfirmMoveableHint"
-        persistent-hint
-        class="mb-4"
-      />
-
       <div class="text-body-small mt-4 text-medium-emphasis">
         <div class="mb-1">{{ UI_STRINGS.differential.helpMajor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpMinor }}</div>

@@ -217,7 +217,7 @@ const handlers = useCapacityConstraintsHandlers(state as CapacityConstraintsStat
     </div>
 
     <div class="d-flex gap-2 mt-4">
-      <VBtn v-bind="state.saveButtonProps">
+      <VBtn v-bind="(state.constraintsSaveButtonProps ?? state.saveButtonProps)">
         {{ UI_STRINGS.buttons.saveSettings }}
       </VBtn>
     </div>

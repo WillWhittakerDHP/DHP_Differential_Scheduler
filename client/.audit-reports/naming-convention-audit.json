@@ -1,18 +1,47 @@
 {
-  "generatedAt": "2026-03-15T22:46:36.825Z",
-  "totalScanned": 1130,
+  "generatedAt": "2026-03-16T00:36:09.493Z",
+  "totalScanned": 1148,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
+    "totalAllowed": 2,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 0,
+      "pattern": 2,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": []
+  "scanned": [
+    {
+      "repoPath": "client/src/composables/admin/useAdminAvailabilitySettings.ts",
+      "allowed": [
+        {
+          "ruleId": "composableExport",
+          "lineNumber": 18,
+          "line": "export function calculateMaxBusinessHours(",
+          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/admin/business_settings.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 85,
+          "line": "export function BusinessSettingsFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    }
+  ]
 }

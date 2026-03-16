@@ -8,7 +8,7 @@ import { createLogger } from '@/utils/logger'
 import { formatDuration } from '@/utils/time/timeFormatting'
 import { localTime } from '@/utils/time/localTime'
 import { toRFC3339DateTime } from '@/utils/datetime'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type {
@@ -33,25 +33,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   } = params
 
   const { formatTimeRangeForDisplay } = localTime()
-  
-  const { settings: availabilitySettings } = useAvailabilitySettings()
-  
-  const majorLabel = computed(() => {
-    const label = availabilitySettings.value?.differentialPerspectives?.majorLabel
-    if (label === undefined || label === null || label === '') {
-      logger.debug('Time slot: missing majorLabel in settings, using default', { scope: 'differentialPerspectives' })
-      return 'Inspector'
-    }
-    return label
-  })
-  const minorLabel = computed(() => {
-    const label = availabilitySettings.value?.differentialPerspectives?.minorLabel
-    if (label === undefined || label === null || label === '') {
-      logger.debug('Time slot: missing minorLabel in settings, using default', { scope: 'differentialPerspectives' })
-      return 'Client Formal Presentation'
-    }
-    return label
-  })
+  const { majorLabel, minorLabel } = useWizardSettings()
 
   const majorDuration = computed(() => {
     const shape = appointmentShape.value

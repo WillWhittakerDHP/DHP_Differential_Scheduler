@@ -1,45 +1,114 @@
 /**
- * WHY: Single composable for wizard-related settings used in both Admin (read/write)
- * and booking wizard (read-only from API). Replaces scattered handlers (e.g. showApplyCouponInWizard).
- * PATTERN: Read from useAvailabilitySettings when no binding; write via optional Ref binding (Admin).
+ * Wizard display settings: Admin (read/write via bindings) or booking wizard (read-only from /wizard-settings API).
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
+import { getWizardSettings } from '@/configs/wizardSettings'
+import type { WizardSettingsData } from '@/configs/wizardSettings'
 
 export interface UseWizardSettingsOptions {
-  /** When provided (Admin), composable reads/writes this ref; otherwise read-only from API (wizard). */
-  showApplyCouponInWizardBinding?: Ref<boolean>
+  showApplyCouponBinding?: Ref<boolean>
+  useBrandColorsBinding?: Ref<boolean>
+}
+
+export interface WizardSubStepLabels {
+  0?: string
+  1?: string
+  2?: string
+  3?: string
+  4?: string
 }
 
 export interface UseWizardSettingsReturn {
-  /** Current value: from binding when provided, else from availability settings API. */
-  showApplyCouponInWizard: ComputedRef<boolean>
-  /** Updates value when binding provided; no-op in read-only (wizard) mode. */
-  setShowApplyCouponInWizard: (value: boolean) => void
+  showApplyCoupon: ComputedRef<boolean>
+  setShowApplyCoupon: (value: boolean) => void
+  useBrandColors: ComputedRef<boolean>
+  setUseBrandColors: (value: boolean) => void
+  subStepLabels: ComputedRef<WizardSubStepLabels>
+  differentialGraphDefaultLabel: ComputedRef<string | null>
+  majorLabel: ComputedRef<string>
+  minorLabel: ComputedRef<string>
+  majorStateLabel: ComputedRef<string>
+  minorStateLabel: ComputedRef<string>
+  moveableFallbackLabel: ComputedRef<string>
+  /** Alias for useBrandColors (booking wizard uses this name). */
+  useDhpBrandColors: ComputedRef<boolean>
 }
 
-/**
- * Consolidates wizard settings access. Use with no options in wizard (read-only);
- * pass showApplyCouponInWizardBinding in Admin to wire form state.
- */
+const DEFAULT_MAJOR_LABEL = 'Major'
+const DEFAULT_MINOR_LABEL = 'Minor'
+const DEFAULT_MOVEABLE_FALLBACK = 'Post-Appointment Work'
+
 export function useWizardSettings(
   options?: UseWizardSettingsOptions
 ): UseWizardSettingsReturn {
-  const { settings } = useAvailabilitySettings()
+  const wizardData = ref<WizardSettingsData | null>(null)
 
-  const binding = options?.showApplyCouponInWizardBinding
-
-  const showApplyCouponInWizard = computed<boolean>(() => {
-    if (binding) return binding.value
-    return settings.value?.showApplyCouponInWizard ?? false
+  watchEffect(() => {
+    void getWizardSettings().then((data) => {
+      wizardData.value = data
+    })
   })
 
-  function setShowApplyCouponInWizard(value: boolean): void {
-    if (binding) binding.value = value
+  const couponBinding = options?.showApplyCouponBinding
+  const brandColorsBinding = options?.useBrandColorsBinding
+
+  const showApplyCoupon = computed<boolean>(() => {
+    if (couponBinding) return couponBinding.value
+    return wizardData.value?.showApplyCoupon ?? false
+  })
+
+  function setShowApplyCoupon(value: boolean): void {
+    if (couponBinding) couponBinding.value = value
   }
 
+  const useBrandColors = computed<boolean>(() => {
+    if (brandColorsBinding) return brandColorsBinding.value
+    return wizardData.value?.useBrandColors ?? false
+  })
+
+  function setUseBrandColors(value: boolean): void {
+    if (brandColorsBinding) brandColorsBinding.value = value
+  }
+
+  const subStepLabelPickDay = computed(() => wizardData.value?.subStepLabelPickDay?.trim() || undefined)
+  const subStepLabelOptions = computed(() => wizardData.value?.subStepLabelOptions?.trim() || undefined)
+  const subStepLabelPickTime = computed(() => wizardData.value?.subStepLabelPickTime?.trim() || undefined)
+  const subStepLabelConfirmMoveable = computed(() => wizardData.value?.subStepLabelConfirmMoveable?.trim() || undefined)
+  const differentialGraphDefaultLabel = computed(() => {
+    const raw = wizardData.value?.differentialGraphDefaultLabel
+    return typeof raw === 'string' ? raw.trim() || null : null
+  })
+  const subStepLabels = computed<WizardSubStepLabels>(() => ({
+    0: subStepLabelPickDay.value,
+    1: subStepLabelOptions.value,
+    2: differentialGraphDefaultLabel.value ?? undefined,
+    3: subStepLabelPickTime.value,
+    4: subStepLabelConfirmMoveable.value,
+  }))
+  const majorLabel = computed(() => wizardData.value?.majorLabel?.trim() || DEFAULT_MAJOR_LABEL)
+  const minorLabel = computed(() => wizardData.value?.minorLabel?.trim() || DEFAULT_MINOR_LABEL)
+  const majorStateLabel = computed(
+    () => wizardData.value?.majorStateLabel?.trim() || `Showing ${majorLabel.value} times`
+  )
+  const minorStateLabel = computed(
+    () => wizardData.value?.minorStateLabel?.trim() || `Showing ${minorLabel.value} times`
+  )
+  const moveableFallbackLabel = computed(
+    () => wizardData.value?.moveableFallbackLabel?.trim() || DEFAULT_MOVEABLE_FALLBACK
+  )
+
   return {
-    showApplyCouponInWizard,
-    setShowApplyCouponInWizard,
+    showApplyCoupon,
+    setShowApplyCoupon,
+    useBrandColors,
+    setUseBrandColors,
+    subStepLabels,
+    differentialGraphDefaultLabel,
+    majorLabel,
+    minorLabel,
+    majorStateLabel,
+    minorStateLabel,
+    moveableFallbackLabel,
+    useDhpBrandColors: useBrandColors,
   }
 }

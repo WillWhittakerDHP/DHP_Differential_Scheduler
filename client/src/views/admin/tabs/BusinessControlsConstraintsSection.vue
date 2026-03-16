@@ -43,7 +43,7 @@ function handleDurationRoundingMethod(v: string): void {
           :update-business-hours="state.formState.updateBusinessHours"
           :day-names="dayNames"
           :range-constraints-lead-time-minutes="state.buffers.rangeConstraintsLeadTimeMinutes"
-          :save-button-props="state.saveButtonProps"
+          :save-button-props="state.constraintsSaveButtonProps ?? state.saveButtonProps"
           @update:range-constraints-lead-time-minutes="(v: number) => { state.buffers.rangeConstraintsLeadTimeMinutes = v }"
         />
       </VWindowItem>
@@ -62,7 +62,7 @@ function handleDurationRoundingMethod(v: string): void {
           :duration-rounding-enabled="state.formState.durationRoundingEnabled"
           :duration-rounding-increment="state.formState.durationRoundingIncrement"
           :duration-rounding-method="state.formState.durationRoundingMethod"
-          :save-button-props="state.saveButtonProps"
+          :save-button-props="state.constraintsSaveButtonProps ?? state.saveButtonProps"
           @update:duration-rounding-enabled="(v: boolean) => { state.formState.durationRoundingEnabled = v }"
           @update:duration-rounding-increment="(v: number) => { state.formState.durationRoundingIncrement = v }"
           @update:duration-rounding-method="handleDurationRoundingMethod"

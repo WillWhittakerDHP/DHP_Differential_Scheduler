@@ -113,8 +113,8 @@ async function handleCopyQuoteLink(): Promise<void> {
               </VListItem>
             </VList>
             
-            <!-- WHY: Allows users to toggle quote mode and DHP brand colors (wizard only) -->
-            <!-- PATTERN: VBtn with toggle state; VSwitch for DHP palette -->
+            <!-- WHY: Quote mode toggle; brand colors are configured in Admin → Business Controls → Wizard -->
+            <!-- PATTERN: VBtn with toggle state -->
             <VRow class="mt-4 align-center justify-center" density="compact">
               <VCol cols="auto">
                 <VBtn
@@ -127,15 +127,6 @@ async function handleCopyQuoteLink(): Promise<void> {
                 >
                   {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
                 </VBtn>
-              </VCol>
-              <VCol cols="auto" class="d-flex align-center">
-                <VSwitch
-                  v-model="useDhpColors"
-                  color="primary"
-                  hide-details
-                  density="compact"
-                />
-                <span class="text-caption text-medium-emphasis ml-2">Brand colors</span>
               </VCol>
               <VCol v-if="isDevMode" cols="auto" class="ml-2">
                 <VBtn

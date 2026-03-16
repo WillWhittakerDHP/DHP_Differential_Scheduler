@@ -22,8 +22,6 @@ import type {
   DayHours,
   BufferConfig,
 } from '@shared/types/availabilityTypes'
-import type { CalendarConfig, CalendarEntry, CalendarProvider } from '@shared/types/calendarTypes'
-
 export type {
   ConstraintEnforcement,
   Coordinates,
@@ -50,28 +48,11 @@ export type { DayHours }
  */
 export type RangeConstraint = SharedRangeConstraint
 
-export type { CalendarConfig, CalendarEntry, CalendarProvider }
-export type { AdminEntryTimeout, AdminEntryTimeoutUnit } from '@shared/types/calendarTypes'
-
-/**
- * Default calendar configuration
- */
-export const DEFAULT_CALENDAR_CONFIG: CalendarConfig = {
-  enabled: false,
-  provider: 'none',
-  calendars: [],
-  holdDurationMinutes: 15,
-  holdDurationMin: 1,
-  holdDurationMax: 60,
-  holdDurationFallback: 15,
-  adminEntryTimeout: { value: 30, unit: 'days' },
-}
-
-/** Fallback minor perspective event name when differentialPerspectives.minorLabel is not set. */
+/** Fallback minor perspective event name when wizard_settings.minorLabel is not set. */
 export const DEFAULT_MINOR_EVENT_NAME = 'Minor'
 
 /**
- * Availability settings interface
+ * Availability settings (computation only). Calendar and wizard display live in calendar_settings / wizard_settings.
  */
 export interface AvailabilitySettings {
   businessHours: {
@@ -116,22 +97,7 @@ export interface AvailabilitySettings {
   differentialPerspectives?: {
     majorAttendees?: GlobalEntityId[]
     minorAttendees?: GlobalEntityId[]
-    majorLabel?: string
-    minorLabel?: string
-    moveableFallbackLabel?: string
-    differentialGraphDefaultLabel?: string
-    majorStateLabel?: string
-    minorStateLabel?: string
-    selectTimeSlotLabel?: string
-    /** Availability sub-step card titles (accordion). Perspective uses differentialGraphDefaultLabel. */
-    subStepLabelPickDay?: string
-    subStepLabelOptions?: string
-    subStepLabelPickTime?: string
-    subStepLabelConfirmMoveable?: string
   }
-  calendarConfig?: CalendarConfig
-  /** When true, show the apply-coupon row and button in the booking wizard (Confirmation step and availability-step fee popover). */
-  showApplyCouponInWizard?: boolean
 }
 
 export interface RawAvailabilitySettings {
@@ -162,24 +128,11 @@ export interface RawAvailabilitySettings {
   differentialPerspectives?: {
     majorAttendees?: string[]
     minorAttendees?: string[]
-    majorLabel?: string
-    minorLabel?: string
-    subStepLabelPickDay?: string
-    subStepLabelOptions?: string
-    subStepLabelPickTime?: string
-    subStepLabelConfirmMoveable?: string
-    moveableFallbackLabel?: string
-    differentialGraphDefaultLabel?: string
-    majorStateLabel?: string
-    minorStateLabel?: string
-    selectTimeSlotLabel?: string
   }
-  calendarConfig?: CalendarConfig
   defaultLocation?: DefaultLocation
   overlapSources?: {
     outOfOffice?: {
       enforcement: ConstraintEnforcement
     }
   }
-  showApplyCouponInWizard?: boolean
 }

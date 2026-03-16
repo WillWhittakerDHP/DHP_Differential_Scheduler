@@ -1,4 +1,5 @@
 /**
+ * Groups form state for Business Controls tab: availability (constraints), calendar, wizard, rounding.
  */
 import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
@@ -9,7 +10,6 @@ import type { UseBusinessControlsFormStateParams } from '@/types/admin/businessC
 import type { UseBusinessHoursFormStateReturn } from '@/composables/admin/useBusinessHoursFormState'
 import type { UseCalendarHoldFormStateReturn } from '@/composables/admin/useCalendarHoldFormState'
 
-/** Grouped return for composable-health (oversized-return repair). Tab spreads to flat for provide. */
 export interface UseBusinessControlsFormStateReturn {
   businessHours: Pick<UseBusinessHoursFormStateReturn, 'businessHoursForUI' | 'isBusinessHoursConfig' | 'updateBusinessHours'>
   calendar: {
@@ -21,7 +21,7 @@ export interface UseBusinessControlsFormStateReturn {
     holdDurationFallback: UseCalendarHoldFormStateReturn['fields']['holdDurationFallback']
     adminEntryTimeoutValue: UseCalendarHoldFormStateReturn['fields']['adminEntryTimeoutValue']
     adminEntryTimeoutUnit: UseCalendarHoldFormStateReturn['fields']['adminEntryTimeoutUnit']
-    showApplyCouponInWizard: UseCalendarHoldFormStateReturn['fields']['showApplyCouponInWizard']
+    autoConfirmEnabled: UseCalendarHoldFormStateReturn['fields']['autoConfirmEnabled']
     calendarEntries: UseCalendarHoldFormStateReturn['fields']['calendarEntries']
     addCalendarEntry: UseCalendarHoldFormStateReturn['actions']['addCalendarEntry']
     removeCalendarEntry: UseCalendarHoldFormStateReturn['actions']['removeCalendarEntry']
@@ -48,7 +48,7 @@ export interface UseBusinessControlsFormStateReturn {
 }
 
 export function useBusinessControlsFormState(params: UseBusinessControlsFormStateParams): UseBusinessControlsFormStateReturn {
-  const { formData, autoConfirmEnabled } = params
+  const { formData } = params
 
   const {
     businessHoursForUI,
@@ -66,7 +66,7 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
     holdDurationFallback,
     adminEntryTimeoutValue,
     adminEntryTimeoutUnit,
-    showApplyCouponInWizard,
+    autoConfirmEnabled,
     calendarEntries,
     writeToIndex,
     calendarValidationError,
@@ -146,7 +146,7 @@ export function useBusinessControlsFormState(params: UseBusinessControlsFormStat
       holdDurationFallback,
       adminEntryTimeoutValue,
       adminEntryTimeoutUnit,
-      showApplyCouponInWizard,
+      autoConfirmEnabled,
       calendarEntries,
       addCalendarEntry,
       removeCalendarEntry,

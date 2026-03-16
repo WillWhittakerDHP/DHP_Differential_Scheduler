@@ -4,7 +4,7 @@
 WHY: Extracts empty state message ...
  */
 import { computed } from 'vue'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
 /**
@@ -17,15 +17,7 @@ export function useAvailabilityEmptyState(
 ): UseAvailabilityEmptyStateReturn {
   const { isEffectivelyDifferential, startTimeType, appointmentSlotsCount } = params
   
-  const { settings: availabilitySettings } = useAvailabilitySettings()
-  const majorLabel = computed(() => {
-    const raw = availabilitySettings.value?.differentialPerspectives?.majorLabel
-    return raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'
-  })
-  const minorLabel = computed(() => {
-    const raw = availabilitySettings.value?.differentialPerspectives?.minorLabel
-    return raw !== undefined && raw !== null && raw !== '' ? raw : 'Minor'
-  })
+  const { majorLabel, minorLabel } = useWizardSettings()
 
   /**
    */

@@ -9,6 +9,7 @@ import type { ContingencyPeriod, MoveableSchedulingOptions } from '@/types/movea
 import { toRFC3339DateTime } from '@/utils/datetime'
 import { fetchComputedAvailabilityData } from '@/services/calendarApiService'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { createLogger } from '@/utils/logger'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import {
@@ -66,6 +67,7 @@ export function useMoveableAvailabilityData(
     configuredMoveableFallbackLabelRef,
   } = params
 
+  const { moveableFallbackLabel } = useWizardSettings()
   const moveableOptions = ref<MoveableSchedulingOptions | null>(null)
   const isLoadingOptions = ref(false)
   const moveableDaySlots = ref<ComputedSlot[]>([])
@@ -97,8 +99,7 @@ export function useMoveableAvailabilityData(
       const bufferMinutes = settings.buffers?.appointment?.minutes ?? 0
       const placement = settings.buffers?.appointment?.placement ?? 'off'
       afterBufferMinutes.value = (placement === 'after' || placement === 'both') ? bufferMinutes : 0
-      fallbackLabel.value =
-        settings.differentialPerspectives?.moveableFallbackLabel ?? DEFAULT_MOVEABLE_FALLBACK_LABEL
+      fallbackLabel.value = moveableFallbackLabel.value
 
       const outerBoundary = computeOuterBoundary(contingencyPeriod.value, innerBoundary)
       const innerDate = innerBoundary.slice(0, 10)

@@ -1,18 +1,11 @@
 /**
- * Availability settings config — barrel re-export.
- * Split by domain: types, constraints, businessHours, calendar, api.
+ * Availability settings config — barrel re-export (availability only; calendar/wizard in their own configs).
  */
 export {
-  DEFAULT_CALENDAR_CONFIG,
   DEFAULT_MINOR_EVENT_NAME,
   type AvailabilitySettings,
   type RawAvailabilitySettings,
   type RangeConstraint,
-  type CalendarConfig,
-  type CalendarEntry,
-  type CalendarProvider,
-  type AdminEntryTimeout,
-  type AdminEntryTimeoutUnit,
   type ConstraintEnforcement,
   type Coordinates,
   type DefaultLocation,
