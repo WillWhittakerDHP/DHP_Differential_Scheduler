@@ -1,4 +1,6 @@
 /**
+ * WHY: Singleton table for calendar integration config (provider, calendars, hold duration, auto-confirm).
+ * PATTERN: One row; GET returns setting_value; PUT upserts.
  */
 import {
   Model,
@@ -8,22 +10,19 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
-export type { CalendarSettingsData } from '../../../../../shared/types/calendarSettingsDocument.js'
+import type { CalendarConfig } from '../../../../../shared/types/calendarTypes.js';
+
+export interface CalendarSettingsData extends CalendarConfig {
+  /** When true, appointments created with status 'submitted' are auto-transitioned to 'confirmed'. */
+  autoConfirmEnabled?: boolean;
+}
 
 export class CalendarSettings extends Model<
   InferAttributes<CalendarSettings>,
   InferCreationAttributes<CalendarSettings>
 > {
   declare id: CreationOptional<string>;
-  declare enabled: boolean;
-  declare provider: string;
-  declare holdDurationMinutes: number;
-  declare holdDurationMin: number;
-  declare holdDurationMax: number;
-  declare holdDurationFallback: number;
-  declare adminEntryTimeoutValue: number;
-  declare adminEntryTimeoutUnit: string;
-  declare autoConfirmEnabled: boolean;
+  declare settingValue: CalendarSettingsData;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -37,49 +36,10 @@ export function CalendarSettingsFactory(sequelize: Sequelize) {
         primaryKey: true,
         allowNull: false,
       },
-      enabled: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
-      provider: { type: DataTypes.STRING(32), allowNull: false, defaultValue: 'none' },
-      holdDurationMinutes: {
-        type: DataTypes.INTEGER,
+      settingValue: {
+        type: DataTypes.JSONB,
         allowNull: false,
-        defaultValue: 15,
-        field: 'hold_duration_minutes',
-      },
-      holdDurationMin: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 1,
-        field: 'hold_duration_min',
-      },
-      holdDurationMax: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 60,
-        field: 'hold_duration_max',
-      },
-      holdDurationFallback: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 15,
-        field: 'hold_duration_fallback',
-      },
-      adminEntryTimeoutValue: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 30,
-        field: 'admin_entry_timeout_value',
-      },
-      adminEntryTimeoutUnit: {
-        type: DataTypes.STRING(16),
-        allowNull: false,
-        defaultValue: 'days',
-        field: 'admin_entry_timeout_unit',
-      },
-      autoConfirmEnabled: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: 'auto_confirm_enabled',
+        field: 'setting_value',
       },
       createdAt: {
         type: DataTypes.DATE,
