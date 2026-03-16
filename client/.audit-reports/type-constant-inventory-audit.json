@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T22:21:43.523Z",
+  "generatedAt": "2026-03-16T01:12:34.274Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,16 +36,16 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 268,
+    "totalTypeFiles": 270,
     "totalConstantFiles": 24,
-    "totalConfigFiles": 34,
-    "filesWithInlineTypes": 114,
+    "totalConfigFiles": 41,
+    "filesWithInlineTypes": 115,
     "annotated": 325,
-    "unannotated": 1,
+    "unannotated": 10,
     "classificationIssues": {
-      "mixedTypeConstantFiles": 13,
-      "inlineTypesInComposables": 84,
-      "configsWithLogic": 8,
+      "mixedTypeConstantFiles": 14,
+      "inlineTypesInComposables": 85,
+      "configsWithLogic": 11,
       "duplicateTypeNames": 7,
       "cleanupCandidates": 0,
       "monomorphicGenerics": 9
@@ -125,7 +125,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 16,
+      "lineCount": 15,
       "purpose": "Admin availability settings form types",
       "reuseTier": "feature",
       "tags": [
@@ -203,12 +203,12 @@
         "UseBusinessControlsFormStateParams"
       ],
       "exportKinds": {
-        "types": 2,
-        "interfaces": 0,
+        "types": 1,
+        "interfaces": 1,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 6,
+      "lineCount": 14,
       "purpose": "Business controls form state and field types",
       "reuseTier": "feature",
       "tags": [
@@ -266,6 +266,32 @@
       "lineCount": 13,
       "purpose": "Calendar entry display and management types",
       "reuseTier": "feature",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "client__src__types__admin__calendarSettings.ts",
+      "repoPath": "client/src/types/admin/calendarSettings.ts",
+      "name": "calendarSettings",
+      "directoryDomain": "admin/calendarSettings.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "UseAdminCalendarSettingsOptions",
+        "UseAdminCalendarSettingsReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 14,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -2557,6 +2583,32 @@
       "targetPath": null
     },
     {
+      "id": "client__src__types__admin__wizardSettings.ts",
+      "repoPath": "client/src/types/admin/wizardSettings.ts",
+      "name": "wizardSettings",
+      "directoryDomain": "admin/wizardSettings.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "UseAdminWizardSettingsOptions",
+        "UseAdminWizardSettingsReturn"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 14,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
       "id": "client__src__types__admin.ts",
       "repoPath": "client/src/types/admin.ts",
       "name": "admin",
@@ -2758,16 +2810,15 @@
       "exports": [
         "UseBufferSettingsParams",
         "UseDefaultLocationParams",
-        "UseDifferentialPerspectivesParams",
         "AvailabilitySettingsFormParams"
       ],
       "exportKinds": {
-        "types": 3,
+        "types": 2,
         "interfaces": 1,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 11,
+      "lineCount": 16,
       "purpose": "Availability settings parameter types for API calls",
       "reuseTier": "feature",
       "tags": [
@@ -7663,7 +7714,7 @@
         "OptionItem"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 52,
+      "lineCount": 48,
       "purpose": "Business controls form option constants",
       "reuseTier": "feature",
       "tags": [],
@@ -8091,7 +8142,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": true,
-      "lineCount": 127,
+      "lineCount": 119,
       "purpose": "Availability settings API payload configuration",
       "reuseTier": "feature",
       "tags": [
@@ -8177,7 +8228,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 41,
+      "lineCount": 34,
       "purpose": "Availability settings config barrel export",
       "reuseTier": "feature",
       "tags": [],
@@ -8193,19 +8244,19 @@
       "domainMatch": false,
       "category": "configs",
       "exports": [
-        "DEFAULT_CALENDAR_CONFIG",
         "DEFAULT_MINOR_EVENT_NAME"
       ],
-      "constCount": 2,
+      "constCount": 1,
       "usesAsConst": false,
       "alsoExportsTypes": true,
       "exportedTypeNames": [
         "RangeConstraint",
         "AvailabilitySettings",
+        "DifferentialPerspectivesLabels",
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 178,
+      "lineCount": 151,
       "purpose": "Availability settings type definitions for configs",
       "reuseTier": "feature",
       "tags": [],
@@ -8228,9 +8279,95 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 233,
+      "lineCount": 236,
       "purpose": "Business controls tab UI string constants",
       "reuseTier": "feature",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__calendarSettings__api.ts",
+      "repoPath": "client/src/configs/calendarSettings/api.ts",
+      "name": "api",
+      "directoryDomain": "calendarSettings/api.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 24,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__calendarSettings__index.ts",
+      "repoPath": "client/src/configs/calendarSettings/index.ts",
+      "name": "index",
+      "directoryDomain": "calendarSettings/index.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": false,
+      "lineCount": 3,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__calendarSettings__types.ts",
+      "repoPath": "client/src/configs/calendarSettings/types.ts",
+      "name": "types",
+      "directoryDomain": "calendarSettings/types.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [
+        "DEFAULT_CALENDAR_CONFIG"
+      ],
+      "constCount": 1,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": false,
+      "lineCount": 19,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__calendarSettings__validation.ts",
+      "repoPath": "client/src/configs/calendarSettings/validation.ts",
+      "name": "validation",
+      "directoryDomain": "calendarSettings/validation.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 10,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "derivedPattern": false
@@ -8867,6 +9004,71 @@
       "derivedPattern": false
     },
     {
+      "id": "client__src__configs__wizardSettings__api.ts",
+      "repoPath": "client/src/configs/wizardSettings/api.ts",
+      "name": "api",
+      "directoryDomain": "wizardSettings/api.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": true,
+      "lineCount": 24,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__wizardSettings__index.ts",
+      "repoPath": "client/src/configs/wizardSettings/index.ts",
+      "name": "index",
+      "directoryDomain": "wizardSettings/index.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": false,
+      "exportedTypeNames": [],
+      "hasFactoryFunctions": false,
+      "lineCount": 2,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
+      "id": "client__src__configs__wizardSettings__types.ts",
+      "repoPath": "client/src/configs/wizardSettings/types.ts",
+      "name": "types",
+      "directoryDomain": "wizardSettings/types.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "category": "configs",
+      "exports": [],
+      "constCount": 0,
+      "usesAsConst": false,
+      "alsoExportsTypes": true,
+      "exportedTypeNames": [
+        "WizardSettingsData"
+      ],
+      "hasFactoryFunctions": false,
+      "lineCount": 18,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "derivedPattern": false
+    },
+    {
       "id": "client__src__configs__wizardSteps.ts",
       "repoPath": "client/src/configs/wizardSteps.ts",
       "name": "wizardSteps",
@@ -9373,6 +9575,18 @@
       "exportedConstants": [],
       "primaryPurpose": "composable",
       "importedByCount": 1,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useWizardSettings.ts",
+      "exportedTypes": [
+        "UseWizardSettingsOptions",
+        "WizardSubStepLabels",
+        "UseWizardSettingsReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -10185,6 +10399,10 @@
         "reason": "In constants/configs and exports type definitions"
       },
       {
+        "repoPath": "client/src/configs/wizardSettings/types.ts",
+        "reason": "In constants/configs and exports type definitions"
+      },
+      {
         "repoPath": "client/src/configs/wizardSteps.ts",
         "reason": "In constants/configs and exports type definitions"
       }
@@ -10546,6 +10764,18 @@
           "exportedConstants": [],
           "primaryPurpose": "composable",
           "importedByCount": 1,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useWizardSettings.ts",
+          "exportedTypes": [
+            "UseWizardSettingsOptions",
+            "WizardSubStepLabels",
+            "UseWizardSettingsReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -11301,12 +11531,24 @@
         "name": "constraints"
       },
       {
+        "repoPath": "client/src/configs/calendarSettings/api.ts",
+        "name": "api"
+      },
+      {
+        "repoPath": "client/src/configs/calendarSettings/validation.ts",
+        "name": "validation"
+      },
+      {
         "repoPath": "client/src/configs/field/display/fullFieldDisplayConfig.ts",
         "name": "fullFieldDisplayConfig"
       },
       {
         "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
         "name": "selectableDisplayConfig"
+      },
+      {
+        "repoPath": "client/src/configs/wizardSettings/api.ts",
+        "name": "api"
       }
     ],
     "duplicateTypeNames": [
@@ -11625,7 +11867,7 @@
           "OptionItem"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 52,
+        "lineCount": 48,
         "purpose": "Business controls form option constants",
         "reuseTier": "feature",
         "tags": [],
@@ -12055,7 +12297,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": true,
-        "lineCount": 127,
+        "lineCount": 119,
         "purpose": "Availability settings API payload configuration",
         "reuseTier": "feature",
         "tags": [
@@ -12141,7 +12383,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 41,
+        "lineCount": 34,
         "purpose": "Availability settings config barrel export",
         "reuseTier": "feature",
         "tags": [],
@@ -12157,19 +12399,19 @@
         "domainMatch": false,
         "category": "configs",
         "exports": [
-          "DEFAULT_CALENDAR_CONFIG",
           "DEFAULT_MINOR_EVENT_NAME"
         ],
-        "constCount": 2,
+        "constCount": 1,
         "usesAsConst": false,
         "alsoExportsTypes": true,
         "exportedTypeNames": [
           "RangeConstraint",
           "AvailabilitySettings",
+          "DifferentialPerspectivesLabels",
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 178,
+        "lineCount": 151,
         "purpose": "Availability settings type definitions for configs",
         "reuseTier": "feature",
         "tags": [],
@@ -12192,9 +12434,95 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 233,
+        "lineCount": 236,
         "purpose": "Business controls tab UI string constants",
         "reuseTier": "feature",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__calendarSettings__api.ts",
+        "repoPath": "client/src/configs/calendarSettings/api.ts",
+        "name": "api",
+        "directoryDomain": "calendarSettings/api.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 24,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__calendarSettings__index.ts",
+        "repoPath": "client/src/configs/calendarSettings/index.ts",
+        "name": "index",
+        "directoryDomain": "calendarSettings/index.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": false,
+        "lineCount": 3,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__calendarSettings__types.ts",
+        "repoPath": "client/src/configs/calendarSettings/types.ts",
+        "name": "types",
+        "directoryDomain": "calendarSettings/types.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [
+          "DEFAULT_CALENDAR_CONFIG"
+        ],
+        "constCount": 1,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": false,
+        "lineCount": 19,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__calendarSettings__validation.ts",
+        "repoPath": "client/src/configs/calendarSettings/validation.ts",
+        "name": "validation",
+        "directoryDomain": "calendarSettings/validation.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 10,
+        "purpose": null,
+        "reuseTier": "unknown",
         "tags": [],
         "placement": null,
         "derivedPattern": false
@@ -12828,6 +13156,71 @@
           "ui-state"
         ],
         "placement": "co-located",
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__wizardSettings__api.ts",
+        "repoPath": "client/src/configs/wizardSettings/api.ts",
+        "name": "api",
+        "directoryDomain": "wizardSettings/api.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": true,
+        "lineCount": 24,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__wizardSettings__index.ts",
+        "repoPath": "client/src/configs/wizardSettings/index.ts",
+        "name": "index",
+        "directoryDomain": "wizardSettings/index.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": false,
+        "exportedTypeNames": [],
+        "hasFactoryFunctions": false,
+        "lineCount": 2,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
+        "derivedPattern": false
+      },
+      {
+        "id": "client__src__configs__wizardSettings__types.ts",
+        "repoPath": "client/src/configs/wizardSettings/types.ts",
+        "name": "types",
+        "directoryDomain": "wizardSettings/types.ts",
+        "annotatedDomain": null,
+        "domainMatch": null,
+        "category": "configs",
+        "exports": [],
+        "constCount": 0,
+        "usesAsConst": false,
+        "alsoExportsTypes": true,
+        "exportedTypeNames": [
+          "WizardSettingsData"
+        ],
+        "hasFactoryFunctions": false,
+        "lineCount": 18,
+        "purpose": null,
+        "reuseTier": "unknown",
+        "tags": [],
+        "placement": null,
         "derivedPattern": false
       },
       {

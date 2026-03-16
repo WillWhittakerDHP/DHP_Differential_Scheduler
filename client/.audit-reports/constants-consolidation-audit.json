@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T22:21:31.836Z",
+  "generatedAt": "2026-03-16T01:12:32.066Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 993,
+  "totalScanned": 1012,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -56,6 +56,81 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "consolidationGroups": [],
-  "files": []
+  "consolidationGroups": [
+    {
+      "id": "inline-orphan-setting-value-is-required",
+      "classification": "HOIST",
+      "description": "Value 'setting_value is required' defined in constants but used inline in 2 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/businessSettings/businessSettingsConstants.ts",
+          "export": "ERROR_MESSAGES",
+          "line": 56,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
+          "export": null,
+          "line": 48,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
+          "export": null,
+          "line": 41,
+          "inline": true
+        }
+      ],
+      "score": 16,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/businessSettings/businessSettingsConstants.ts"
+    }
+  ],
+  "files": [
+    {
+      "id": "server__src__routes__internal__businessSettings__businessSettingsConstants.ts",
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsConstants.ts",
+      "score": 5.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 56,
+          "line": "export: ERROR_MESSAGES",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__calendarSettings__calendarSettingsCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
+      "score": 5.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 48,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__wizardSettings__wizardSettingsCrudRouter.ts",
+      "repoPath": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
+      "score": 5.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 41,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    }
+  ]
 }
