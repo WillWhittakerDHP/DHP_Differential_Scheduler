@@ -2330,15 +2330,6 @@ async@24: export async function withAsyncOperation<T>(
 await@37: const result = await operation()
 ```
 
-### `client/src/composables/admin/tables/useTableModelHelpers.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
-
-```
-map@12: * WHY: VDataTable (and similar) call transformItems(props.items) which does items.map(); the
-computed@23: return computed(() => ensureItemsArray<T>(data.value))
-```
-
 ### `client/src/composables/admin/useBlockInstanceList.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=1, dom=0, console=0
@@ -2635,6 +2626,14 @@ computed@63: error: computed(() => error.value),
 ```
 computed@61: isLoading: computed(() => isLoading.value),
 computed@62: error: computed(() => error.value),
+```
+
+### `client/src/composables/admin/tables/useTableModelHelpers.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@22: return computed(() => ensureItemsArray<T>(data.value))
 ```
 
 ### `client/src/composables/admin/useApiDevPanelVisibility.ts`
