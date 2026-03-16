@@ -40,11 +40,11 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.10.1: Add New Block Shapes Button on Admin Shapes Tab
+- [x] ### Session 6.10.1: Add New Block Shapes Button on Admin Shapes Tab
 **Description:** Restore the add new block shapes button on the admin Shapes tab (it used to exist and is no longer there). If the original can’t be recovered, adapt the same add-new button pattern used on the other shapes sub-tabs. Ensure create flow and API work end-to-end.
 **See:** `sessions/session-6.10.1-guide.md`
 
-- [ ] ### Session 6.10.2: Admin Toggle and Settings for Apply Coupon Visibility
+- [x] ### Session 6.10.2: Admin Toggle and Settings for Apply Coupon Visibility
 **Description:** Add `showApplyCouponInWizard` to availability/business settings (types, API response mapping, payload for save). Add the switch in AppointmentConfirmationPanel; wire form state and save. Ensure wizard can read the setting (e.g. via `getAvailabilitySettings()` / `useAvailabilitySettings()`).
 **See:** `sessions/session-6.10.2-guide.md`
 
