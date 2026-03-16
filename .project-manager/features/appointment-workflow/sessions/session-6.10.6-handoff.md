@@ -60,6 +60,15 @@ Completed Task
 
 
 **Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
 Session 6.10.6 complete. Three-table separation implemented: availability_settings (via business_settings row), calendar_settings, wizard_settings, each with singleton GET/PUT CRUD. availability_setting_entries and availabilitySettingsRepository removed. Client has calendarSettings and wizardSettings configs and composables; useWizardSettings reads from wizard_settings API; BusinessControlsTab loads/saves Constraints, Calendar, Wizard independently; useDifferentialPerspectives uses wizardFormData for labels in Admin. Post-session fix: isValidCalendarEmail added to calendarSettings/validation.ts and exported from calendarSettings index so useCalendarHoldFormState and Admin Business tab load without module error.
 
 **What you need to start:**
