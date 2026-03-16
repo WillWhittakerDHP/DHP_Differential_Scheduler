@@ -12,8 +12,8 @@
 **Phase Name:** Fee Preview & Coupon Visibility
 **Description:** (0) Restore the add new block shapes button on the admin Shapes tab (it used to exist and is no longer there). If the original can’t be recovered, adapt the same add-new button pattern used on the other shapes sub-tabs (Part, Annotation, Event). (1) Add a bar at the top of the Appointment Availability (step 3) wizard that shows total fee as a preview; on hover, show fee details in a popover (same structure as the Confirmation step: Bag Total, optional Coupon row and Apply Coupon button, Order Total, line items, Total — no submit buttons). (2) Add an admin toggle in Business Controls → Calendar → Confirmation & Holds to show or hide the apply-coupon line and button in the wizard; persist the setting with availability/business settings; wizard (Confirmation step and availability-step popover) respects the toggle.
 
-**Duration:** 4 sessions
-**Status:** Not Started
+**Duration:** 6 sessions
+**Status:** In Progress
 
 ---
 
@@ -59,13 +59,24 @@
 - [To be identified during planning]
 
 ---
-- [ ] ### Session 6.10.5: add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
+- [x] ### Session 6.10.5: add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
 **Description:** add wizard sub-tab and consolidate wizard settings from scattered locations throughout the admin controls tab and move the brand colors toggle to the wizard settings tab
 **Tasks:** Add Wizard sub-tab; create WizardConfigPanel; create useWizardSettings composable; move showApplyCouponInWizard, differential sub-step labels, brand colors toggle; wire form state and save.
 **Focus:**
 - Add Wizard sub-tab to Business Controls → Calendar (alongside Integration, Holds, Places, Grid)
 - Create `useWizardSettings` composable (or equivalent) to consolidate wizard settings access — replace scattered handlers like `handleShowApplyCouponInWizard` with a single composable that exposes all wizard settings (showApplyCouponInWizard, brand colors, differential labels, etc.) for both Admin panel and wizard components
 - Move wizard-specific settings from Holds (showApplyCouponInWizard), Grid (differential sub-step labels), and elsewhere (brand colors toggle) into the new Wizard tab
+**See:** `sessions/session-6.10.5-guide.md`
+
+- [x] ### Session 6.10.6: Settings Architecture Cleanup — Three-Table Separation
+**Description:** Split availability/business/wizard settings into three singleton tables (availability_settings, calendar_settings, wizard_settings); remove availability_setting_entries table and repository; establish singleton CRUD per table; client configs and composables per concern; Admin Constraints/Calendar/Wizard tabs load and save independently; booking wizard reads from availability + wizard_settings.
+**Tasks:** 6.10.6.1 Server new tables/CRUD → 6.10.6.2 Server consumers → 6.10.6.3 Remove old code → 6.10.6.4 Client configs/composables → 6.10.6.5 Tab and form state wiring → 6.10.6.6 Bug fixes → 6.10.6.7 Verify.
+**Focus:**
+- Three tables: availability_settings (business_settings row), calendar_settings, wizard_settings; singleton GET/PUT routers
+- Deprecate availabilitySettingsRepository and availability_setting_entries
+- useWizardSettings reads from wizard_settings API; useDifferentialPerspectives accepts wizardFormData for labels in Admin
+- Post-session fix: isValidCalendarEmail exported from calendarSettings so Admin Business tab loads
+**See:** `sessions/session-6.10.6-guide.md`
 
 ---
 
@@ -104,3 +115,4 @@ Sessions and tasks for this phase. See Sessions Breakdown above for session list
 - sessions/session-6.10.3-guide.md — Fee bar and popover
 - sessions/session-6.10.4-guide.md — Coupon fee calculation
 - sessions/session-6.10.5-guide.md — Wizard sub-tab and consolidated settings
+- sessions/session-6.10.6-guide.md — Settings architecture cleanup (three-table separation)
