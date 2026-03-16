@@ -7,7 +7,6 @@ import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabili
 import { useAvailabilityStepFeePreview } from '@/composables/booking/useAvailabilityStepFeePreview'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-import { useBooking } from '@/composables/useBooking'
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
 import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStepUI'
@@ -85,7 +84,6 @@ useWizardStepSync({
 
 const confirmation = useAvailabilityConfirmationState()
 const { isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
-const { bookingData } = useBooking()
 
 const ui = useAvailabilityStepUI({ o, confirmation })
 const overlay = useAvailabilityStepSlotOverlay({ o })
@@ -98,19 +96,6 @@ const {
 } = useAvailabilityStepFeePreview({
   wizard: o.wizard,
   propertyDetailsStepData,
-  availabilityStepData: o.stepData,
-  bookingData,
-})
-
-const {
-  availabilityStepPriceData,
-  showFeeBar,
-  feePreviewLabel,
-  showApplyCouponInWizard,
-} = useAvailabilityStepFeePreview({
-  wizard: o.wizard,
-  propertyDetailsStepData,
-  availabilitySettings,
 })
 
 const logger = createLogger('AvailabilityStep')

@@ -67,9 +67,7 @@ export function useMoveableAvailabilityData(
     configuredMoveableFallbackLabelRef,
   } = params
 
-  const {
-    labels: { moveableFallbackLabel },
-  } = useWizardSettings()
+  const { moveableFallbackLabel } = useWizardSettings()
   const moveableOptions = ref<MoveableSchedulingOptions | null>(null)
   const isLoadingOptions = ref(false)
   const moveableDaySlots = ref<ComputedSlot[]>([])

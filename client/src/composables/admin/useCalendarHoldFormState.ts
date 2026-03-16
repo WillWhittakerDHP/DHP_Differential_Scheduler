@@ -23,7 +23,7 @@ export interface UseCalendarHoldFormStateReturn {
     holdDurationFallback: import('vue').ComputedRef<number>
     adminEntryTimeoutValue: import('vue').ComputedRef<number>
     adminEntryTimeoutUnit: import('vue').ComputedRef<AdminEntryTimeoutUnit>
-    autoConfirmEnabled: import('vue').WritableComputedRef<boolean>
+    autoConfirmEnabled: import('vue').ComputedRef<boolean>
     calendarEntries: import('vue').Ref<CalendarEntry[]>
     writeToIndex: import('vue').Ref<number>
     calendarValidationError: import('vue').Ref<string | null>

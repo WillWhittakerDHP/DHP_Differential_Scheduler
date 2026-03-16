@@ -1,17 +1,25 @@
 <!--
-  WHY: Wizard-specific settings (e.g. show Apply Coupon in wizard) consolidated in one tab.
-  PATTERN: Injects BUSINESS_CONTROLS_STATE_KEY; uses state.wizardSettings from useWizardSettings (task 6.10.5.1).
+  WHY: Wizard-specific settings consolidated in one tab (task 6.10.5).
+  PATTERN: Injects BUSINESS_CONTROLS_STATE_KEY; uses state.wizardSettings and state.differential (sub-step labels).
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
 import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
+import { useGridConfigHandlers } from '@/utils/admin/gridConfigHandlers'
+import type { GridConfigState } from '@/types/admin/gridConfigHandlers'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
+const handlers = state ? useGridConfigHandlers(state as GridConfigState) : null
+const differential = state?.differential
 
 function handleShowApplyCoupon(value: boolean | null): void {
-  state?.wizardSettings?.setShowApplyCouponInWizard(value === true)
+  state?.wizardSettings?.setShowApplyCoupon(value === true)
+}
+
+function handleUseBrandColors(value: boolean | null): void {
+  state?.wizardSettings?.setUseBrandColors(value === true)
 }
 </script>
 
@@ -24,16 +32,70 @@ function handleShowApplyCoupon(value: boolean | null): void {
 
     <VSwitch
       v-if="state?.wizardSettings"
-      :model-value="state.wizardSettings.showApplyCouponInWizard"
+      :model-value="state.wizardSettings.showApplyCoupon"
       @update:model-value="handleShowApplyCoupon"
       :label="UI_STRINGS.calendar.showApplyCouponLabel"
       :hint="UI_STRINGS.calendar.showApplyCouponHint"
       persistent-hint
       class="mb-4"
     />
+    <VSwitch
+      v-if="state?.wizardSettings"
+      :model-value="state.wizardSettings.useBrandColors"
+      @update:model-value="handleUseBrandColors"
+      :label="UI_STRINGS.calendar.useBrandColorsLabel"
+      :hint="UI_STRINGS.calendar.useBrandColorsHint"
+      persistent-hint
+      class="mb-4"
+    />
+
+    <VDivider v-if="state?.differential && handlers" class="my-6" />
+
+    <div v-if="differential && handlers" class="mb-6">
+      <div class="text-label-large mb-3">{{ UI_STRINGS.differential.subStepLabelsSectionTitle }}</div>
+      <div class="text-body-small mb-4 text-medium-emphasis">
+        {{ UI_STRINGS.differential.subStepLabelsSectionHint }}
+      </div>
+      <VTextField
+        :model-value="differential.subStepLabelPickDay"
+        @update:model-value="handlers.handleSubStepLabelPickDay"
+        :label="UI_STRINGS.differential.subStepLabelPickDay"
+        :hint="UI_STRINGS.differential.subStepLabelPickDayHint"
+        persistent-hint
+        class="mb-4"
+      />
+      <VTextField
+        :model-value="differential.subStepLabelOptions"
+        @update:model-value="handlers.handleSubStepLabelOptions"
+        :label="UI_STRINGS.differential.subStepLabelOptions"
+        :hint="UI_STRINGS.differential.subStepLabelOptionsHint"
+        persistent-hint
+        class="mb-4"
+      />
+      <VTextField
+        :model-value="differential.subStepLabelPickTime"
+        @update:model-value="handlers.handleSubStepLabelPickTime"
+        :label="UI_STRINGS.differential.subStepLabelPickTime"
+        :hint="UI_STRINGS.differential.subStepLabelPickTimeHint"
+        persistent-hint
+        class="mb-4"
+      />
+      <VTextField
+        :model-value="differential.subStepLabelConfirmMoveable"
+        @update:model-value="handlers.handleSubStepLabelConfirmMoveable"
+        :label="UI_STRINGS.differential.subStepLabelConfirmMoveable"
+        :hint="UI_STRINGS.differential.subStepLabelConfirmMoveableHint"
+        persistent-hint
+        class="mb-4"
+      />
+    </div>
 
     <div class="d-flex gap-2 mt-4">
-      <VBtn v-if="state?.saveButtonProps" v-bind="state.saveButtonProps">
+      <VBtn
+        v-if="state?.wizardSaveButtonProps"
+        type="submit"
+        v-bind="state.wizardSaveButtonProps"
+      >
         {{ UI_STRINGS.buttons.saveSettings }}
       </VBtn>
     </div>

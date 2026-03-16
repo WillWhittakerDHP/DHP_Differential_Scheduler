@@ -23,8 +23,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-const { labels } = useWizardSettings()
-const { majorLabel, minorLabel, majorStateLabel, minorStateLabel } = labels
+const { majorLabel, minorLabel, majorStateLabel, minorStateLabel } = useWizardSettings()
 
 const hasSelectedSlot = computed(() => 
   props.graphBars.major !== null || props.graphBars.minor !== null

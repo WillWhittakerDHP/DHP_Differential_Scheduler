@@ -33,8 +33,7 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
   } = params
 
   const { formatTimeRangeForDisplay } = localTime()
-  const { labels } = useWizardSettings()
-  const { majorLabel, minorLabel } = labels
+  const { majorLabel, minorLabel } = useWizardSettings()
 
   const majorDuration = computed(() => {
     const shape = appointmentShape.value

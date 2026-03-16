@@ -20,9 +20,7 @@ export function useAvailabilityStepSlotOverlay(
   params: UseAvailabilityStepSlotOverlayParams
 ): UseAvailabilityStepSlotOverlayReturn {
   const { o } = params
-  const {
-    labels: { differentialGraphDefaultLabel },
-  } = useWizardSettings()
+  const { differentialGraphDefaultLabel } = useWizardSettings()
 
   const hasSelectedSlot = computed(
     () => o.graphBars.value?.major != null || o.graphBars.value?.minor != null

@@ -21,7 +21,6 @@ import type {
   RangeConstraint as SharedRangeConstraint,
   DayHours,
   BufferConfig,
-  DriveTimeFeeConfig,
 } from '@shared/types/availabilityTypes'
 export type {
   ConstraintEnforcement,
@@ -40,7 +39,6 @@ export type {
   BusinessHoursConfig,
   DateRangeConfig,
   BufferConfig,
-  DriveTimeFeeConfig,
 }
 export type { DayHours }
 
@@ -99,27 +97,7 @@ export interface AvailabilitySettings {
   differentialPerspectives?: {
     majorAttendees?: GlobalEntityId[]
     minorAttendees?: GlobalEntityId[]
-  } & DifferentialPerspectivesLabels
-  /** Calendar/hold config when merged from calendar_settings (e.g. hold duration for slot hold). */
-  calendarConfig?: {
-    holdDurationMinutes?: number
   }
-  /** Billable drive-time pricing (distinct from overlap buffer drive minutes). */
-  driveTimeFee?: DriveTimeFeeConfig
-}
-
-/** Optional wizard/display labels on differential perspectives (form state; not in API payload). */
-export interface DifferentialPerspectivesLabels {
-  majorLabel?: string
-  minorLabel?: string
-  differentialGraphDefaultLabel?: string
-  moveableFallbackLabel?: string
-  majorStateLabel?: string
-  minorStateLabel?: string
-  subStepLabelPickDay?: string
-  subStepLabelOptions?: string
-  subStepLabelPickTime?: string
-  subStepLabelConfirmMoveable?: string
 }
 
 export interface RawAvailabilitySettings {
@@ -157,5 +135,4 @@ export interface RawAvailabilitySettings {
       enforcement: ConstraintEnforcement
     }
   }
-  driveTimeFee?: DriveTimeFeeConfig
 }

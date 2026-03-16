@@ -10,7 +10,7 @@ export type { UseDifferentialPerspectivesParams }
 
 const DEFAULTS = BUSINESS_CONTROLS_TAB_STRINGS.defaults
 
-export interface UseDifferentialPerspectivesReturn {
+export function useDifferentialPerspectives(params: UseDifferentialPerspectivesParams): {
   availableUserTypeBlocks: ComputedRef<{ id: GlobalEntityId; title: string; value: GlobalEntityId }[]>
   majorAttendees: WritableComputedRef<GlobalEntityId[]>
   minorAttendees: WritableComputedRef<GlobalEntityId[]>
@@ -24,9 +24,7 @@ export interface UseDifferentialPerspectivesReturn {
   subStepLabelOptions: WritableComputedRef<string>
   subStepLabelPickTime: WritableComputedRef<string>
   subStepLabelConfirmMoveable: WritableComputedRef<string>
-}
-
-export function useDifferentialPerspectives(params: UseDifferentialPerspectivesParams): UseDifferentialPerspectivesReturn {
+} {
   const { formData, wizardFormData } = params
   const { getGlobalData, getGlobalEntities } = useGlobal()
 

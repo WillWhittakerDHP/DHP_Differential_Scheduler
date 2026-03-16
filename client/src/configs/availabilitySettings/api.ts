@@ -74,7 +74,6 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
           : undefined,
         defaultLocation: rawSettings.defaultLocation,
         overlapSources: rawSettings.overlapSources,
-        driveTimeFee: rawSettings.driveTimeFee,
       }
 
       cachedSettings = {
@@ -134,7 +133,6 @@ export function buildAvailabilityPayload(formData: AvailabilitySettings): { sett
   if (formData.durationRounding) settingsToSave.durationRounding = formData.durationRounding
   if (formData.differentialPerspectives) settingsToSave.differentialPerspectives = formData.differentialPerspectives
   if (formData.defaultLocation) settingsToSave.defaultLocation = formData.defaultLocation
-  if (formData.driveTimeFee) settingsToSave.driveTimeFee = formData.driveTimeFee
 
   return { setting_value: settingsToSave }
 }
