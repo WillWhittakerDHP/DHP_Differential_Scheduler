@@ -17,7 +17,7 @@
 
 ## Session Workflow
 
-Use `/session-start 6.10.3` to load handoff and branch; cascade to `/task-start 6.10.3.1`. Work tasks in order (6.10.3.1 → 6.10.3.2 → 6.10.3.3); run `/task-end <taskId>` after each. After the last task, run `/session-end 6.10.3` (verification, session audit, merge to phase branch).
+Use `/session-start 6.10.3` to load handoff and branch; cascade to `/task-start 6.10.3.1`. Work tasks in order (6.10.3.1 → 6.10.3.2 → 6.10.3.3 → 6.10.3.4); run `/task-end <taskId>` after each. After the last task, run `/session-end 6.10.3` (verification, session audit, merge to phase branch).
 
 ---
 

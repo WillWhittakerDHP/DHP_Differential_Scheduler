@@ -68,15 +68,12 @@ export async function getAvailabilitySettings(): Promise<AvailabilitySettings> {
         durationRounding: rawSettings.durationRounding,
         differentialPerspectives: rawSettings.differentialPerspectives
           ? {
-              ...rawSettings.differentialPerspectives,
               majorAttendees: rawSettings.differentialPerspectives.majorAttendees?.map(toGlobalEntityId),
               minorAttendees: rawSettings.differentialPerspectives.minorAttendees?.map(toGlobalEntityId),
             }
           : undefined,
-        calendarConfig: rawSettings.calendarConfig,
         defaultLocation: rawSettings.defaultLocation,
         overlapSources: rawSettings.overlapSources,
-        showApplyCouponInWizard: rawSettings.showApplyCouponInWizard ?? false,
       }
 
       cachedSettings = {
@@ -103,12 +100,9 @@ export function invalidateAvailabilitySettingsCache(): void {
 }
 
 /**
- * Build the PUT payload for saving availability settings.
+ * Build the PUT payload for saving availability settings (availability only; calendar/wizard use their own endpoints).
  */
-export function buildAvailabilityPayload(
-  formData: AvailabilitySettings,
-  autoConfirmEnabled: boolean
-): { setting_value: Record<string, unknown>; auto_confirm_enabled: boolean } {
+export function buildAvailabilityPayload(formData: AvailabilitySettings): { setting_value: Record<string, unknown> } {
   const settingsToSave: Record<string, unknown> = {
     businessHours: formData.businessHours,
     minuteIncrement: formData.minuteIncrement,
@@ -138,9 +132,7 @@ export function buildAvailabilityPayload(
   if (formData.timezone) settingsToSave.timezone = formData.timezone
   if (formData.durationRounding) settingsToSave.durationRounding = formData.durationRounding
   if (formData.differentialPerspectives) settingsToSave.differentialPerspectives = formData.differentialPerspectives
-  if (formData.calendarConfig) settingsToSave.calendarConfig = formData.calendarConfig
   if (formData.defaultLocation) settingsToSave.defaultLocation = formData.defaultLocation
-  settingsToSave.showApplyCouponInWizard = formData.showApplyCouponInWizard ?? false
 
-  return { setting_value: settingsToSave, auto_confirm_enabled: autoConfirmEnabled }
+  return { setting_value: settingsToSave }
 }

@@ -1,9 +1,9 @@
 /**
- * PATTERN: Composable for managing calendar entries
+ * PATTERN: Composable for managing calendar entries (reads/writes calendar_settings formData.calendars).
  */
 import { computed, type Ref } from 'vue'
-import type { CalendarEntry, AvailabilitySettings } from '@/configs/availabilitySettings'
-import { DEFAULT_CALENDAR_CONFIG } from '@/configs/availabilitySettings'
+import type { CalendarEntry } from '@/configs/calendarSettings'
+import type { CalendarSettingsData } from '@/configs/calendarSettings'
 import type { UseCalendarEntriesReturn } from '@/types/admin/calendarEntries'
 import { asEmptyArray } from '@/utils/safeDefaults'
 
@@ -35,20 +35,17 @@ function setWriteToAtIndex(calendars: CalendarEntry[], index: number, value: boo
   }
 }
 
-function ensureCalendarConfig(formData: Ref<AvailabilitySettings | null>): void {
+function ensureCalendarsArray(formData: Ref<CalendarSettingsData | null>): void {
   if (!formData.value) return
-  if (!formData.value.calendarConfig) {
-    formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-  }
-  if (!Array.isArray(formData.value.calendarConfig.calendars)) {
-    formData.value.calendarConfig.calendars = []
+  if (!Array.isArray(formData.value.calendars)) {
+    formData.value.calendars = []
   }
 }
 
-function addEntryStandalone(formData: Ref<AvailabilitySettings | null>, entriesLength: number): void {
+function addEntryStandalone(formData: Ref<CalendarSettingsData | null>, entriesLength: number): void {
   if (!formData.value) return
-  ensureCalendarConfig(formData)
-  const calendars = formData.value.calendarConfig!.calendars!
+  ensureCalendarsArray(formData)
+  const calendars = formData.value.calendars
   const newEntry: CalendarEntry = {
     email: '',
     label: '',
@@ -59,11 +56,11 @@ function addEntryStandalone(formData: Ref<AvailabilitySettings | null>, entriesL
 }
 
 function removeEntryStandalone(
-  formData: Ref<AvailabilitySettings | null>,
+  formData: Ref<CalendarSettingsData | null>,
   index: number,
   entries: CalendarEntry[]
 ): void {
-  const calendars = formData.value?.calendarConfig?.calendars
+  const calendars = formData.value?.calendars
   if (!calendars || !Array.isArray(calendars)) return
   const wasWriteTo = entries[index]?.writeTo
   calendars.splice(index, 1)
@@ -73,13 +70,13 @@ function removeEntryStandalone(
 }
 
 function updateEntryStandalone(
-  formData: Ref<AvailabilitySettings | null>,
+  formData: Ref<CalendarSettingsData | null>,
   index: number,
   updates: Partial<CalendarEntry>,
   entries: CalendarEntry[],
   setWriteToAtIndexFn: (calendars: CalendarEntry[], i: number, value: boolean) => void
 ): void {
-  const calendars = formData.value?.calendarConfig?.calendars
+  const calendars = formData.value?.calendars
   if (!calendars || index < 0 || index >= entries.length) return
   const { writeTo: _w, ...otherUpdates } = updates
   if (updates.writeTo !== undefined) {
@@ -106,16 +103,16 @@ function computeValidationError(
 }
 
 export function useCalendarEntries(
-  formData: Ref<AvailabilitySettings | null>,
+  formData: Ref<CalendarSettingsData | null>,
   calendarEnabled: Ref<boolean>,
   calendarProvider: Ref<'google' | 'outlook' | 'none'>
 ): UseCalendarEntriesReturn {
   const entries = computed<CalendarEntry[]>({
-    get: () => asEmptyArray(formData.value?.calendarConfig?.calendars),
+    get: () => asEmptyArray(formData.value?.calendars),
     set: (value: CalendarEntry[]) => {
       if (!formData.value) return
-      ensureCalendarConfig(formData)
-      formData.value.calendarConfig!.calendars = value
+      ensureCalendarsArray(formData)
+      formData.value.calendars = value
     },
   })
 
@@ -126,7 +123,7 @@ export function useCalendarEntries(
   const removeEntry = (index: number): void => removeEntryStandalone(formData, index, entries.value)
 
   const setWriteTo = (index: number, value: boolean): void => {
-    const calendars = formData.value?.calendarConfig?.calendars
+    const calendars = formData.value?.calendars
     if (calendars && Array.isArray(calendars)) setWriteToAtIndex(calendars, index, value)
   }
 

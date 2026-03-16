@@ -83,20 +83,19 @@ useWizardStepSync({
 })
 
 const confirmation = useAvailabilityConfirmationState()
-const { settings: availabilitySettings, isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
+const { isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
 
-const ui = useAvailabilityStepUI({ o, availabilitySettings, confirmation })
-const overlay = useAvailabilityStepSlotOverlay({ o, availabilitySettings })
+const ui = useAvailabilityStepUI({ o, confirmation })
+const overlay = useAvailabilityStepSlotOverlay({ o })
 
 const {
   availabilityStepPriceData,
   showFeeBar,
   feePreviewLabel,
-  showApplyCouponInWizard,
+  showApplyCoupon,
 } = useAvailabilityStepFeePreview({
   wizard: o.wizard,
   propertyDetailsStepData,
-  availabilitySettings,
 })
 
 const logger = createLogger('AvailabilityStep')
@@ -219,7 +218,7 @@ onMounted(() => {
                 ${{ availabilityStepPriceData.bagTotal.toFixed(2) }}
               </span>
             </div>
-            <div v-if="showApplyCouponInWizard" class="d-flex justify-space-between align-center">
+            <div v-if="showApplyCoupon" class="d-flex justify-space-between align-center">
               <span class="text-body-large">Coupon Discount</span>
               <span class="text-body-large text-medium-emphasis">
                 {{ availabilityStepPriceData.couponDiscount > 0 ? `-$${availabilityStepPriceData.couponDiscount.toFixed(2)}` : '—' }}

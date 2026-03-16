@@ -1,17 +1,13 @@
 /**
- * WHY: Composable for availability settings management
- * Delegates parsing to getAvailabilitySettings() and payload building to
- * buildAvailabilityPayload() in configs/availabilitySettings.ts for
- * load/save symmetry. Only admin-specific concerns live here.
+ * Admin composable for availability settings (constraints, buffers, capacity). Calendar and wizard use separate composables.
  */
 import { ref, watch } from 'vue'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
-import type { AvailabilitySettings, CalendarConfig } from '@/configs/availabilitySettings'
+import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import {
   getAvailabilitySettings,
   invalidateAvailabilitySettingsCache,
-  DEFAULT_CALENDAR_CONFIG,
   validateBusinessHoursRange,
   buildAvailabilityPayload,
 } from '@/configs/availabilitySettings'
@@ -37,7 +33,6 @@ export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['b
 
 export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOptions): UseAdminAvailabilitySettingsReturn {
   const formData = ref<AvailabilitySettings | null>(null)
-  const autoConfirmEnabled = ref(false)
   const loading = ref(false)
   const saving = ref(false)
   const error = ref<string | null>(null)
@@ -48,13 +43,8 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
   const loadSettings = async (): Promise<void> => {
     loading.value = true
     error.value = null
-
     try {
-      const response = await apiClient.get('/business-settings/availability_settings')
-      autoConfirmEnabled.value = response.data?.auto_confirm_enabled === true
-
       const settings = await getAvailabilitySettings()
-
       if (!settings.durationRounding) {
         settings.durationRounding = {
           enabled: false,
@@ -62,12 +52,6 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
           method: 'roundUp' as const,
         }
       }
-      const calendarConfig: CalendarConfig = {
-        ...DEFAULT_CALENDAR_CONFIG,
-        ...settings.calendarConfig,
-      }
-      settings.calendarConfig = calendarConfig
-
       formData.value = settings
     } catch (err: unknown) {
       logger.error('Failed to load settings from API', { err })
@@ -106,7 +90,7 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
     saving.value = true
 
     try {
-      const payload = buildAvailabilityPayload(formData.value, autoConfirmEnabled.value)
+      const payload = buildAvailabilityPayload(formData.value)
       await apiClient.put('/business-settings/availability_settings', payload)
       invalidateAvailabilitySettingsCache()
 
@@ -139,7 +123,6 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
 
   return {
     formData,
-    autoConfirmEnabled,
     loading,
     saving,
     error,

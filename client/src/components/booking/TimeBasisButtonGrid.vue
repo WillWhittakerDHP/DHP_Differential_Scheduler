@@ -1,21 +1,12 @@
 <script setup lang="ts">
 
-import { computed } from 'vue'
 import { timeBasisHandler, type TimeBasisHandlerProps, type TimeBasisHandlerEmits } from '@/utils/booking/timeBasisHandler'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 
 const props = defineProps<TimeBasisHandlerProps>()
 const emit = defineEmits<TimeBasisHandlerEmits>()
 
-const { settings: availabilitySettings } = useAvailabilitySettings()
-const majorLabel = computed(() => {
-  const raw = availabilitySettings.value?.differentialPerspectives?.majorLabel
-  return raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'
-})
-const minorLabel = computed(() => {
-  const raw = availabilitySettings.value?.differentialPerspectives?.minorLabel
-  return raw !== undefined && raw !== null && raw !== '' ? raw : 'Client Formal Presentation'
-})
+const { majorLabel, minorLabel } = useWizardSettings()
 
 // FIX: Use shared time basis handler from composable
 const { handleTimeBasisClick } = timeBasisHandler(props, emit)

@@ -8,25 +8,25 @@ import { buildConfirmationPriceData } from '@/utils/booking/confirmationStepData
 import type { PriceData } from '@/types/wizardStepData'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { PropertyDetailsStepData } from '@/types/wizard'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings/types'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 
 export interface UseAvailabilityStepFeePreviewParams {
   wizard: UseBookingWizardReturn
   propertyDetailsStepData: Ref<PropertyDetailsStepData | null> | null
-  availabilitySettings: Ref<AvailabilitySettings | null>
 }
 
 export interface UseAvailabilityStepFeePreviewReturn {
   availabilityStepPriceData: ComputedRef<PriceData>
   showFeeBar: ComputedRef<boolean>
   feePreviewLabel: ComputedRef<string>
-  showApplyCouponInWizard: ComputedRef<boolean>
+  showApplyCoupon: ComputedRef<boolean>
 }
 
 export function useAvailabilityStepFeePreview(
   params: UseAvailabilityStepFeePreviewParams
 ): UseAvailabilityStepFeePreviewReturn {
-  const { wizard, propertyDetailsStepData, availabilitySettings } = params
+  const { wizard, propertyDetailsStepData } = params
+  const { showApplyCoupon } = useWizardSettings()
 
   const availabilityStepPriceData = computed<PriceData>(() => {
     const stepDataValue = propertyDetailsStepData?.value
@@ -58,14 +58,10 @@ export function useAvailabilityStepFeePreview(
     return `Fee preview: ${prefix}${p.finalTotal.toFixed(2)}`
   })
 
-  const showApplyCouponInWizard = computed(
-    () => availabilitySettings.value?.showApplyCouponInWizard ?? false
-  )
-
   return {
     availabilityStepPriceData,
     showFeeBar,
     feePreviewLabel,
-    showApplyCouponInWizard,
+    showApplyCoupon,
   }
 }

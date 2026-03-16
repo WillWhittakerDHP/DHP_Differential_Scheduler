@@ -1,4 +1,5 @@
 /**
+ * Form state for calendar_settings tab (hold duration, admin timeout, calendars). showApplyCoupon/useBrandColors live in wizard tab.
  */
 import { computed } from 'vue'
 import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'
@@ -7,13 +8,11 @@ import {
   DEFAULT_CALENDAR_CONFIG,
   type CalendarProvider,
   type AdminEntryTimeoutUnit,
-} from '@/configs/availabilitySettings'
+  type CalendarEntry,
+} from '@/configs/calendarSettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import type { UseBusinessControlsFormStateParams } from '@/types/admin/businessControlsFormState'
-import type { CalendarEntry } from '@/configs/availabilitySettings'
-import type { Ref } from 'vue'
 
-/** Grouped return for composable-health (oversized-return repair). */
 export interface UseCalendarHoldFormStateReturn {
   fields: {
     calendarEnabled: import('vue').ComputedRef<boolean>
@@ -24,10 +23,10 @@ export interface UseCalendarHoldFormStateReturn {
     holdDurationFallback: import('vue').ComputedRef<number>
     adminEntryTimeoutValue: import('vue').ComputedRef<number>
     adminEntryTimeoutUnit: import('vue').ComputedRef<AdminEntryTimeoutUnit>
-    showApplyCouponInWizard: import('vue').ComputedRef<boolean>
-    calendarEntries: Ref<CalendarEntry[]>
-    writeToIndex: Ref<number>
-    calendarValidationError: Ref<string | null>
+    autoConfirmEnabled: import('vue').ComputedRef<boolean>
+    calendarEntries: import('vue').Ref<CalendarEntry[]>
+    writeToIndex: import('vue').Ref<number>
+    calendarValidationError: import('vue').Ref<string | null>
   }
   actions: {
     addCalendarEntry: () => void
@@ -45,130 +44,79 @@ export interface UseCalendarHoldFormStateReturn {
 }
 
 export function useCalendarHoldFormState(params: UseBusinessControlsFormStateParams): UseCalendarHoldFormStateReturn {
-  const { formData, saving, error } = params
+  const { calendarFormData, calendarSaving, calendarError } = params
   const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
   const calendarEnabled = computed({
-    get: () => formData.value?.calendarConfig?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
+    get: () => calendarFormData.value?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
     set: (value: boolean) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) {
-          formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        }
-        formData.value.calendarConfig.enabled = value
-      }
+      if (calendarFormData.value) calendarFormData.value.enabled = value
     },
   })
 
   const calendarProvider = computed({
-    get: () =>
-      (formData.value?.calendarConfig?.provider ?? DEFAULT_CALENDAR_CONFIG.provider) as CalendarProvider,
+    get: () => (calendarFormData.value?.provider ?? DEFAULT_CALENDAR_CONFIG.provider) as CalendarProvider,
     set: (value: CalendarProvider) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) {
-          formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        }
-        formData.value.calendarConfig.provider = value
-      }
+      if (calendarFormData.value) calendarFormData.value.provider = value
     },
   })
 
   const holdDurationMinutes = computed({
-    get: () =>
-      formData.value?.calendarConfig?.holdDurationMinutes ??
-      DEFAULT_CALENDAR_CONFIG.holdDurationMinutes ??
-      15,
+    get: () => calendarFormData.value?.holdDurationMinutes ?? DEFAULT_CALENDAR_CONFIG.holdDurationMinutes ?? 15,
     set: (value: number) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) {
-          formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        }
-        formData.value.calendarConfig.holdDurationMinutes = value
-      }
+      if (calendarFormData.value) calendarFormData.value.holdDurationMinutes = value
     },
   })
 
   const holdDurationMin = computed({
-    get: () =>
-      formData.value?.calendarConfig?.holdDurationMin ??
-      DEFAULT_CALENDAR_CONFIG.holdDurationMin ??
-      1,
+    get: () => calendarFormData.value?.holdDurationMin ?? DEFAULT_CALENDAR_CONFIG.holdDurationMin ?? 1,
     set: (value: number) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        formData.value.calendarConfig.holdDurationMin = value
-      }
+      if (calendarFormData.value) calendarFormData.value.holdDurationMin = value
     },
   })
 
   const holdDurationMax = computed({
-    get: () =>
-      formData.value?.calendarConfig?.holdDurationMax ??
-      DEFAULT_CALENDAR_CONFIG.holdDurationMax ??
-      60,
+    get: () => calendarFormData.value?.holdDurationMax ?? DEFAULT_CALENDAR_CONFIG.holdDurationMax ?? 60,
     set: (value: number) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        formData.value.calendarConfig.holdDurationMax = value
-      }
+      if (calendarFormData.value) calendarFormData.value.holdDurationMax = value
     },
   })
 
   const holdDurationFallback = computed({
-    get: () =>
-      formData.value?.calendarConfig?.holdDurationFallback ??
-      DEFAULT_CALENDAR_CONFIG.holdDurationFallback ??
-      15,
+    get: () => calendarFormData.value?.holdDurationFallback ?? DEFAULT_CALENDAR_CONFIG.holdDurationFallback ?? 15,
     set: (value: number) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        formData.value.calendarConfig.holdDurationFallback = value
-      }
+      if (calendarFormData.value) calendarFormData.value.holdDurationFallback = value
     },
   })
 
   const adminEntryTimeoutValue = computed({
-    get: () =>
-      formData.value?.calendarConfig?.adminEntryTimeout?.value ??
-      DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.value ??
-      30,
+    get: () => calendarFormData.value?.adminEntryTimeout?.value ?? DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.value ?? 30,
     set: (value: number) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        if (!formData.value.calendarConfig.adminEntryTimeout) {
-          formData.value.calendarConfig.adminEntryTimeout = {
-            value: 30,
-            unit: 'days',
-          }
+      if (calendarFormData.value) {
+        if (!calendarFormData.value.adminEntryTimeout) {
+          calendarFormData.value.adminEntryTimeout = { value: 30, unit: 'days' }
         }
-        formData.value.calendarConfig.adminEntryTimeout.value = Math.max(1, Math.min(365, Math.floor(value) || 1))
+        calendarFormData.value.adminEntryTimeout.value = Math.max(1, Math.min(365, Math.floor(value) || 1))
       }
     },
   })
 
   const adminEntryTimeoutUnit = computed({
-    get: () =>
-      (formData.value?.calendarConfig?.adminEntryTimeout?.unit ??
-        DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.unit ??
-        'days') as AdminEntryTimeoutUnit,
+    get: () => (calendarFormData.value?.adminEntryTimeout?.unit ?? DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.unit ?? 'days') as AdminEntryTimeoutUnit,
     set: (value: AdminEntryTimeoutUnit) => {
-      if (formData.value) {
-        if (!formData.value.calendarConfig) formData.value.calendarConfig = { ...DEFAULT_CALENDAR_CONFIG }
-        if (!formData.value.calendarConfig.adminEntryTimeout) {
-          formData.value.calendarConfig.adminEntryTimeout = {
-            value: 30,
-            unit: 'days',
-          }
+      if (calendarFormData.value) {
+        if (!calendarFormData.value.adminEntryTimeout) {
+          calendarFormData.value.adminEntryTimeout = { value: 30, unit: 'days' }
         }
-        formData.value.calendarConfig.adminEntryTimeout.unit = value
+        calendarFormData.value.adminEntryTimeout.unit = value
       }
     },
   })
 
-  const showApplyCouponInWizard = computed({
-    get: () => formData.value?.showApplyCouponInWizard ?? false,
+  const autoConfirmEnabled = computed({
+    get: () => calendarFormData.value?.autoConfirmEnabled ?? false,
     set: (value: boolean) => {
-      if (formData.value) formData.value.showApplyCouponInWizard = value
+      if (calendarFormData.value) calendarFormData.value.autoConfirmEnabled = value
     },
   })
 
@@ -181,7 +129,7 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
     setWriteTo,
     writeToIndex,
     validationError: calendarValidationError,
-  } = useCalendarEntries(formData, calendarEnabled, calendarProvider)
+  } = useCalendarEntries(calendarFormData, calendarEnabled, calendarProvider)
 
   const emailValidationRule = (value: string): true | string => {
     if (!value || value.trim() === '') return true
@@ -191,12 +139,12 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
   const saveButtonProps = computed(() => ({
     type: 'submit' as const,
     color: 'primary' as const,
-    loading: saving.value,
-    disabled: saving.value,
+    loading: calendarSaving.value,
+    disabled: calendarSaving.value,
   }))
 
   const clearError = (): void => {
-    error.value = null
+    calendarError.value = null
   }
 
   const setCalendarProvider = (v: string): void => {
@@ -204,20 +152,20 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
   }
 
   return {
-  fields: {
-    calendarEnabled,
-    calendarProvider,
-    holdDurationMinutes,
-    holdDurationMin,
-    holdDurationMax,
-    holdDurationFallback,
-    adminEntryTimeoutValue,
-    adminEntryTimeoutUnit,
-    showApplyCouponInWizard,
-    calendarEntries,
-    writeToIndex,
-    calendarValidationError,
-  },
+    fields: {
+      calendarEnabled,
+      calendarProvider,
+      holdDurationMinutes,
+      holdDurationMin,
+      holdDurationMax,
+      holdDurationFallback,
+      adminEntryTimeoutValue,
+      adminEntryTimeoutUnit,
+      autoConfirmEnabled,
+      calendarEntries,
+      writeToIndex,
+      calendarValidationError,
+    },
     actions: {
       addCalendarEntry,
       removeCalendarEntry,

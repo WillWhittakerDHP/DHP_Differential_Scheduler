@@ -4,7 +4,7 @@ import { computed } from 'vue'
 import type { TimeRange } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { formatTimeRange } from '@/utils/time/timeFormatting'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import type { TimeBasisHandlerProps } from '@/utils/booking/timeBasisHandler'
 
 interface Props extends TimeBasisHandlerProps {
@@ -23,21 +23,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-const { settings: availabilitySettings } = useAvailabilitySettings()
-const majorLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.majorLabel || 'Major'
-)
-const minorLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.minorLabel || 'Client Formal Presentation'
-)
-
-// WHY: State labels are configurable in admin panel
-const majorStateLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.majorStateLabel || `Showing ${majorLabel.value} times`
-)
-const minorStateLabel = computed(() => 
-  availabilitySettings.value?.differentialPerspectives?.minorStateLabel || `Showing ${minorLabel.value} times`
-)
+const { majorLabel, minorLabel, majorStateLabel, minorStateLabel } = useWizardSettings()
 
 const hasSelectedSlot = computed(() => 
   props.graphBars.major !== null || props.graphBars.minor !== null

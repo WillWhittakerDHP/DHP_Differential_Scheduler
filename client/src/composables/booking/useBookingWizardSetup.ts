@@ -5,8 +5,8 @@
 import { computed, provide, onMounted } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStorage } from '@vueuse/core'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
 import { useUser } from '@/composables/useUser'
@@ -45,8 +45,8 @@ export interface UseBookingWizardSetupReturn {
   isQuoteMode: ComputedRef<boolean>
   toggleQuoteMode: () => void
   wizardMode: Ref<import('@/types/wizard').WizardMode>
-  useDhpColors: Ref<boolean>
-  toggleDhpColors: () => void
+  /** From availability settings (useWizardSettings); configured in Admin Wizard tab. */
+  useDhpColors: ComputedRef<boolean>
   handleSubmit: ReturnType<typeof useWizardSubmission>['handleSubmit']
   isUpdateSubmit: ReturnType<typeof useWizardSubmission>['isUpdateSubmit']
   isDevMode: boolean
@@ -174,11 +174,8 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
 
   const { getStepContent } = useWizardStepContent()
 
-  const useDhpColors = useStorage<boolean>('booking-wizard-dhp-colors', false)
-  const toggleDhpColors = (): void => {
-    useDhpColors.value = !useDhpColors.value
-  }
-  useThemeMode({ wizard, useDhpColors })
+  const { useDhpBrandColors } = useWizardSettings()
+  useThemeMode({ wizard, useDhpColors: useDhpBrandColors })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)
   const toggleQuoteMode = (): void => {
@@ -237,8 +234,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     isQuoteMode,
     toggleQuoteMode,
     wizardMode: wizard.wizardMode,
-    useDhpColors,
-    toggleDhpColors,
+    useDhpColors: useDhpBrandColors,
     handleSubmit,
     isUpdateSubmit,
     isDevMode,

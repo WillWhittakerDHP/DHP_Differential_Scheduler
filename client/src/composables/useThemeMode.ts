@@ -3,7 +3,7 @@
  * Watches wizardMode and useDhpColors; applies quote/reschedule/DHP palettes and sets --v-theme-* CSS vars.
  */
 import { computed, watch } from 'vue'
-import type { Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import { useTheme } from 'vuetify'
 import {
   quoteModeColors,
@@ -59,7 +59,8 @@ export interface UseThemeModeReturn {
 
 export interface UseThemeModeOptions {
   wizard?: UseBookingWizardReturn
-  useDhpColors?: Ref<boolean>
+  /** When true, use DHP palette. Can be Ref (wizard local) or ComputedRef (from useWizardSettings/API). */
+  useDhpColors?: Ref<boolean> | ComputedRef<boolean>
 }
 
 /**

@@ -1,7 +1,7 @@
 /**
- * Calendar configuration helpers for availability settings.
+ * Calendar helpers (CalendarConfig lives in calendarSettings after settings split).
  */
-import type { CalendarConfig } from './types'
+import type { CalendarConfig } from '@/configs/calendarSettings'
 
 /**
  * Validate email format for calendar configuration.
