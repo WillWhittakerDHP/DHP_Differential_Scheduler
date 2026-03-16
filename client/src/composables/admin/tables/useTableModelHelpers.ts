@@ -9,7 +9,6 @@ export type { TableModelFormatHelpers } from '@/types/admin/tables/tableModelHel
 export { formatNullValue } from '@/utils/formatting/nullDisplay'
 
 /**
- * WHY: VDataTable (and similar) call transformItems(props.items) which does items.map(); the
  * items prop must be an array or "items is not iterable" is thrown. Reused by createItemsSource
  * and by every :items binding so the contract is enforced in one place.
  */
