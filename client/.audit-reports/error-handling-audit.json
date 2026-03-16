@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T22:46:36.177Z",
+  "generatedAt": "2026-03-16T00:36:11.434Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1129,
+  "totalScanned": 1147,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,7 +26,25 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "client__src__components__booking__BookingWizard.vue",
+      "repoPath": "client/src/components/booking/BookingWizard.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 57,
+          "line": "} catch (err) {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "empty-catch",
