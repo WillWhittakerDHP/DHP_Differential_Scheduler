@@ -1,9 +1,5 @@
-import type {
-  DriveTimeApplyTo,
-  CalendarProvider,
-  ConstraintEnforcement,
-  RollingWeekDirection
-} from '@/configs/availabilitySettings'
+import type { DriveTimeApplyTo, ConstraintEnforcement, RollingWeekDirection } from '@/configs/availabilitySettings'
+import type { CalendarProvider } from '@/configs/calendarSettings'
 import { ROLLING_WEEK_DIRECTION } from '@shared/constants/availabilityConstants'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 

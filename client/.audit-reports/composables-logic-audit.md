@@ -12,7 +12,7 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **279**
+- Total composable files scanned: **282**
 
 ## Top hotspots (heuristic)
 
@@ -34,7 +34,6 @@ Scope:
 | `client/src/composables/dev/useApiDevPanelData.ts` | 14 | 0 | 0 | 2 | 12 | 0 | 0 |
 | `client/src/composables/useAddressAutocomplete.ts` | 14 | 0 | 1 | 4 | 9 | 0 | 0 |
 | `client/src/composables/useComponentEntity.ts` | 14 | 0 | 0 | 1 | 9 | 0 | 0 |
-| `client/src/composables/admin/useAdminAvailabilitySettings.ts` | 13 | 0 | 1 | 3 | 5 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardSubPanels.ts` | 13 | 0 | 1 | 10 | 0 | 0 | 0 |
 | `client/src/composables/useRelationship.ts` | 13 | 0 | 0 | 1 | 9 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
@@ -43,6 +42,7 @@ Scope:
 | `client/src/composables/admin/usePartInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useSelectHandlers.ts` | 12 | 0 | 0 | 2 | 5 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityLogic.ts` | 12 | 0 | 1 | 8 | 0 | 0 | 0 |
+| `client/src/composables/admin/useAdminAvailabilitySettings.ts` | 11 | 0 | 1 | 2 | 4 | 0 | 0 |
 
 ## Per-file suggestions (actionable)
 
@@ -221,15 +221,15 @@ map@41: .map((bi) => ({
 computed@56: const majorAttendees = computed({
 computed@66: const minorAttendees = computed({
 computed@76: const majorLabel = computed({
-computed@86: const minorLabel = computed({
-computed@96: const differentialGraphDefaultLabel = computed({
-computed@108: const moveableFallbackLabel = computed({
-computed@120: const majorStateLabel = computed({
-computed@130: const minorStateLabel = computed({
-computed@140: const subStepLabelPickDay = computed({
-computed@151: const subStepLabelOptions = computed({
-computed@162: const subStepLabelPickTime = computed({
-computed@173: const subStepLabelConfirmMoveable = computed({
+computed@93: const minorLabel = computed({
+computed@110: const differentialGraphDefaultLabel = computed({
+computed@127: const moveableFallbackLabel = computed({
+computed@144: const majorStateLabel = computed({
+computed@161: const minorStateLabel = computed({
+computed@178: const subStepLabelPickDay = computed({
+computed@195: const subStepLabelOptions = computed({
+computed@212: const subStepLabelPickTime = computed({
+computed@229: const subStepLabelConfirmMoveable = computed({
 ```
 
 ### `client/src/composables/booking/useContactsValidation.ts`
@@ -427,26 +427,6 @@ map@169: const promises = Object.entries(componentUpdates).map(([componentId, co
 await@172: await Promise.all(promises)
 ```
 
-### `client/src/composables/admin/useAdminAvailabilitySettings.ts`
-
-- counts: vueQuery=0, watch=1, computed=0, ref=3, async=2, await=3, dom=0, console=0
-
-```
-map@26: ...Object.values(businessHours).map(day => {
-map@29: const [startHour, startMin] = startTimeStr.split(':').map(Number)
-map@30: const [endHour, endMin] = endTimeStr.split(':').map(Number)
-ref@40: const autoConfirmEnabled = ref(false)
-ref@41: const loading = ref(false)
-ref@42: const saving = ref(false)
-async@48: const loadSettings = async (): Promise<void> => {
-await@53: const response = await apiClient.get('/business-settings/availability_settings')
-await@56: const settings = await getAvailabilitySettings()
-async@93: const saveSettings = async (): Promise<void> => {
-await@110: await apiClient.put('/business-settings/availability_settings', payload)
-timers@114: setTimeout(() => { success.value = null }, 3000)
-watch@127: watch(
-```
-
 ### `client/src/composables/admin/useEntityCardSubPanels.ts`
 
 - counts: vueQuery=0, watch=1, computed=10, ref=0, async=0, await=0, dom=0, console=0
@@ -601,6 +581,24 @@ computed@313: const selectedDateSingle = computed({
 computed@335: const currentAppointmentSlots = computed(() => {
 ```
 
+### `client/src/composables/admin/useAdminAvailabilitySettings.ts`
+
+- counts: vueQuery=0, watch=1, computed=0, ref=2, async=2, await=2, dom=0, console=0
+
+```
+map@22: ...Object.values(businessHours).map(day => {
+map@25: const [startHour, startMin] = startTimeStr.split(':').map(Number)
+map@26: const [endHour, endMin] = endTimeStr.split(':').map(Number)
+ref@36: const loading = ref(false)
+ref@37: const saving = ref(false)
+async@43: const loadSettings = async (): Promise<void> => {
+await@47: const settings = await getAvailabilitySettings()
+async@77: const saveSettings = async (): Promise<void> => {
+await@94: await apiClient.put('/business-settings/availability_settings', payload)
+timers@98: setTimeout(() => { success.value = null }, 3000)
+watch@111: watch(
+```
+
 ### `client/src/composables/admin/usePropertyCreateForm.ts`
 
 - counts: vueQuery=0, watch=0, computed=11, ref=0, async=0, await=0, dom=0, console=0
@@ -617,6 +615,24 @@ computed@21: const bedrooms = computed(() => newProperty.value?.bedrooms ?? unde
 computed@22: const bathrooms = computed(() => newProperty.value?.bathrooms ?? undefined)
 computed@23: const foundationAccess = computed(() => asEmptyString(newProperty.value?.foundationAccess))
 computed@24: const additionalUnits = computed(() => newProperty.value?.additionalUnits ?? undefined)
+```
+
+### `client/src/composables/admin/useWizardSettings.ts`
+
+- counts: vueQuery=0, watch=1, computed=10, ref=0, async=0, await=0, dom=0, console=0
+
+```
+watchEffect@46: watchEffect(() => {
+computed@73: const subStepLabelPickDay = computed(() => wizardData.value?.subStepLabelPickDay?.trim() || undefined)
+computed@74: const subStepLabelOptions = computed(() => wizardData.value?.subStepLabelOptions?.trim() || undefined)
+computed@75: const subStepLabelPickTime = computed(() => wizardData.value?.subStepLabelPickTime?.trim() || undefined)
+computed@76: const subStepLabelConfirmMoveable = computed(() => wizardData.value?.subStepLabelConfirmMoveable?.trim() || undefined)
+computed@77: const differentialGraphDefaultLabel = computed(() => {
+computed@88: const majorLabel = computed(() => wizardData.value?.majorLabel?.trim() || DEFAULT_MAJOR_LABEL)
+computed@89: const minorLabel = computed(() => wizardData.value?.minorLabel?.trim() || DEFAULT_MINOR_LABEL)
+computed@90: const majorStateLabel = computed(
+computed@93: const minorStateLabel = computed(
+computed@96: const moveableFallbackLabel = computed(
 ```
 
 ### `client/src/composables/booking/selectionCard/useSelectionCard.ts`
@@ -643,16 +659,16 @@ ref@96: const config = configOption ? (isRef(configOption) ? configOption : ref(
 
 ```
 async@3: * Owns async options computation (watchEffect) and moveable-day slot fetch (watch).
-ref@70: const isLoadingOptions = ref(false)
-ref@72: const isLoadingMoveableDaySlots = ref(false)
-ref@74: const afterBufferMinutes = ref(0)
-watchEffect@77: watchEffect(async () => {
-async@77: watchEffect(async () => {
-await@96: const settings = await getAvailabilitySettings()
-computed@139: const hasClosingDate = computed(
-watch@143: watch(
-async@145: async () => {
-await@159: const data = await fetchComputedAvailabilityData({
+ref@72: const isLoadingOptions = ref(false)
+ref@74: const isLoadingMoveableDaySlots = ref(false)
+ref@76: const afterBufferMinutes = ref(0)
+watchEffect@79: watchEffect(async () => {
+async@79: watchEffect(async () => {
+await@98: const settings = await getAvailabilitySettings()
+computed@140: const hasClosingDate = computed(
+watch@144: watch(
+async@146: async () => {
+await@160: const data = await fetchComputedAvailabilityData({
 ```
 
 ### `client/src/composables/useComponentDistribution.ts`
@@ -678,16 +694,16 @@ map@122: return componentIds.map(componentId => {
 - counts: vueQuery=0, watch=0, computed=10, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@51: const calendarEnabled = computed({
-computed@63: const calendarProvider = computed({
-computed@76: const holdDurationMinutes = computed({
-computed@91: const holdDurationMin = computed({
-computed@104: const holdDurationMax = computed({
-computed@117: const holdDurationFallback = computed({
-computed@130: const adminEntryTimeoutValue = computed({
-computed@149: const adminEntryTimeoutUnit = computed({
-computed@168: const showApplyCouponInWizard = computed({
-computed@191: const saveButtonProps = computed(() => ({
+computed@50: const calendarEnabled = computed({
+computed@57: const calendarProvider = computed({
+computed@64: const holdDurationMinutes = computed({
+computed@71: const holdDurationMin = computed({
+computed@78: const holdDurationMax = computed({
+computed@85: const holdDurationFallback = computed({
+computed@92: const adminEntryTimeoutValue = computed({
+computed@104: const adminEntryTimeoutUnit = computed({
+computed@116: const autoConfirmEnabled = computed({
+computed@139: const saveButtonProps = computed(() => ({
 ```
 
 ### `client/src/composables/admin/useInstanceBulkEdit.ts`
@@ -959,20 +975,34 @@ watch@152: watch(
 watch@165: watch(
 ```
 
-### `client/src/composables/booking/useTimeSlotCalculations.ts`
+### `client/src/composables/admin/useAdminCalendarSettings.ts`
 
-- counts: vueQuery=0, watch=0, computed=5, ref=0, async=0, await=0, dom=0, console=0
+- counts: vueQuery=0, watch=1, computed=0, ref=2, async=2, await=2, dom=0, console=0
 
 ```
-computed@39: const majorLabel = computed(() => {
-computed@47: const minorLabel = computed(() => {
-computed@56: const majorDuration = computed(() => {
-map@60: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-map@64: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
-computed@72: const minorDuration = computed(() => {
-map@76: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-map@80: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
-computed@88: const differentialTimeBlocks = computed(() => {
+ref@14: const loading = ref(false)
+ref@15: const saving = ref(false)
+async@19: const loadSettings = async (): Promise<void> => {
+await@23: const data = await getCalendarSettings()
+async@34: const saveSettings = async (): Promise<void> => {
+await@44: await apiClient.put('/calendar-settings', payload)
+timers@46: setTimeout(() => { success.value = null }, 3000)
+watch@58: watch(enabled, (isEnabled) => {
+```
+
+### `client/src/composables/admin/useAdminWizardSettings.ts`
+
+- counts: vueQuery=0, watch=1, computed=0, ref=2, async=2, await=2, dom=0, console=0
+
+```
+ref@14: const loading = ref(false)
+ref@15: const saving = ref(false)
+async@19: const loadSettings = async (): Promise<void> => {
+await@23: formData.value = await getWizardSettings()
+async@33: const saveSettings = async (): Promise<void> => {
+await@42: await apiClient.put('/wizard-settings', buildWizardPayload(formData.value))
+timers@44: setTimeout(() => { success.value = null }, 3000)
+watch@56: watch(enabled, (isEnabled) => {
 ```
 
 ### `client/src/composables/admin/useAttendeeQuickSelect.ts`
@@ -1175,14 +1205,14 @@ timers@46: setTimeout(() => {
 - counts: vueQuery=0, watch=1, computed=7, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@95: const useDhpColors = computed(() => useDhpColorsRef?.value ?? false)
-computed@97: const isQuoteMode = computed(() => wizardMode.value === 'quote')
-computed@98: const isRescheduleMode = computed(() => wizardMode.value === 'reschedule')
-computed@100: const resolvedPalette = computed(() => {
-computed@110: const currentPrimary = computed(() => {
-computed@115: const currentSecondary = computed(() => {
-computed@120: const currentWarning = computed(() => {
-watch@126: watch(
+computed@96: const useDhpColors = computed(() => useDhpColorsRef?.value ?? false)
+computed@98: const isQuoteMode = computed(() => wizardMode.value === 'quote')
+computed@99: const isRescheduleMode = computed(() => wizardMode.value === 'reschedule')
+computed@101: const resolvedPalette = computed(() => {
+computed@111: const currentPrimary = computed(() => {
+computed@116: const currentSecondary = computed(() => {
+computed@121: const currentWarning = computed(() => {
+watch@127: watch(
 ```
 
 ### `client/src/composables/admin/tables/useAppointmentsTableHandlers.ts`
@@ -1295,6 +1325,20 @@ map@80: return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
 ref@133: const isEnrichmentLoading = ref(false)
 async@172: const syncMLSData = async (): Promise<void> => {
 await@186: const enrichment = await fetchPropertyEnrichment(
+```
+
+### `client/src/composables/booking/useTimeSlotCalculations.ts`
+
+- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@38: const majorDuration = computed(() => {
+map@42: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+map@46: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+computed@54: const minorDuration = computed(() => {
+map@58: const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+map@62: availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+computed@70: const differentialTimeBlocks = computed(() => {
 ```
 
 ### `client/src/composables/useEntityForm.ts`
@@ -1794,9 +1838,9 @@ await@42: await createAppointment.mutateAsync(appointmentData)
 
 ```
 filter@30: const writeToCount = calendars.filter((e) => e.writeTo).length
-filter@102: const writeToCount = entries.filter((e) => e.writeTo).length
-computed@122: const writeToIndex = computed(() => entries.value.findIndex((e) => e.writeTo))
-computed@147: const isValid = computed(() => validationError.value === null)
+filter@99: const writeToCount = entries.filter((e) => e.writeTo).length
+computed@119: const writeToIndex = computed(() => entries.value.findIndex((e) => e.writeTo))
+computed@144: const isValid = computed(() => validationError.value === null)
 ```
 
 ### `client/src/composables/admin/useDefaultLocation.ts`
@@ -1882,9 +1926,9 @@ watch@74: watch(() => {
 
 ```
 computed@25: const hasSelectedSlot = computed(
-computed@28: const slotGridOverlayLabel = computed(() => {
-computed@32: const showSlotsOverlay = computed(
-computed@38: const slotGridOverlayError = computed(() => {
+computed@28: const slotGridOverlayLabel = computed(() => differentialGraphDefaultLabel.value)
+computed@29: const showSlotsOverlay = computed(
+computed@35: const slotGridOverlayError = computed(() => {
 ```
 
 ### `client/src/composables/booking/useBookingWizard.ts`
@@ -2146,16 +2190,6 @@ computed@26: const controlClasses = computed(() => {
 computed@30: const contentContainerClasses = computed(() => {
 ```
 
-### `client/src/composables/booking/useAvailabilityStepFeePreview.ts`
-
-- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@48: const showFeeBar = computed(
-computed@54: const feePreviewLabel = computed(() => {
-computed@61: const showApplyCouponInWizard = computed(
-```
-
 ### `client/src/composables/booking/useBlockInstanceSelection.ts`
 
 - counts: vueQuery=0, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
@@ -2173,7 +2207,7 @@ map@48: get: () => selectedBlocks.value.map(b => b.id),
 ```
 lifecycle@5: import { computed, provide, onMounted } from 'vue'
 lifecycle@158: onMounted(() => {
-computed@183: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
+computed@180: const isQuoteMode = computed(() => wizard.isQuoteMode.value)
 ```
 
 ### `client/src/composables/booking/useInstanceComponents.ts`
@@ -2449,15 +2483,6 @@ computed@53: selectedDate: computed(() => selectedDate.value.start ?? undefined)
 computed@54: selectedTime: computed(() => {
 ```
 
-### `client/src/composables/booking/useAvailabilityEmptyState.ts`
-
-- counts: vueQuery=0, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@21: const majorLabel = computed(() => {
-computed@25: const minorLabel = computed(() => {
-```
-
 ### `client/src/composables/booking/useAvailabilitySlotColor.ts`
 
 - counts: vueQuery=0, watch=0, computed=1, ref=0, async=0, await=0, dom=0, console=0
@@ -2465,6 +2490,15 @@ computed@25: const minorLabel = computed(() => {
 ```
 computed@26: const allowedDates = computed(() => {
 sort@47: const sortedDays = Array.from(slotsMap.keys()).sort()
+```
+
+### `client/src/composables/booking/useAvailabilityStepFeePreview.ts`
+
+- counts: vueQuery=0, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@48: const showFeeBar = computed(
+computed@54: const feePreviewLabel = computed(() => {
 ```
 
 ### `client/src/composables/booking/useDevPanelButtonsInject.ts`
@@ -2998,6 +3032,12 @@ computed@22: return computed(() => {
 - (no matches)
 
 ### `client/src/composables/booking/useAvailabilityConfirmationState.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
+
+- (no matches)
+
+### `client/src/composables/booking/useAvailabilityEmptyState.ts`
 
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 

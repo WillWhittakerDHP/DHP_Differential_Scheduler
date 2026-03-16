@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import type { CalendarEntry } from '@/configs/availabilitySettings'
+import type { CalendarEntry } from '@/configs/calendarSettings'
 
 export interface UseCalendarEntriesReturn {
   entries: Ref<CalendarEntry[]>

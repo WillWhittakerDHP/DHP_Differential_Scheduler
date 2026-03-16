@@ -97,7 +97,25 @@ export interface AvailabilitySettings {
   differentialPerspectives?: {
     majorAttendees?: GlobalEntityId[]
     minorAttendees?: GlobalEntityId[]
+  } & DifferentialPerspectivesLabels
+  /** Calendar/hold config when merged from calendar_settings (e.g. hold duration for slot hold). */
+  calendarConfig?: {
+    holdDurationMinutes?: number
   }
+}
+
+/** Optional wizard/display labels on differential perspectives (form state; not in API payload). */
+export interface DifferentialPerspectivesLabels {
+  majorLabel?: string
+  minorLabel?: string
+  differentialGraphDefaultLabel?: string
+  moveableFallbackLabel?: string
+  majorStateLabel?: string
+  minorStateLabel?: string
+  subStepLabelPickDay?: string
+  subStepLabelOptions?: string
+  subStepLabelPickTime?: string
+  subStepLabelConfirmMoveable?: string
 }
 
 export interface RawAvailabilitySettings {
