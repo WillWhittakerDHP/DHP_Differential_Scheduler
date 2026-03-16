@@ -1,16 +1,16 @@
-# Feature 12: Test Quality Validation
+# Feature 10: Testing & Quality Validation — Test Quality Validation
 
-**Feature Number:** 12
+**Feature Number:** 10
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD
-**Depends On:** LAUNCH_CHECKLIST.md Phase 3A; Feature 9 (Test Suite Setup) for existing Vitest/Jest infrastructure
+**Depends On:** LAUNCH_CHECKLIST.md Phase 3A; Phases 10.1–10.4 (Test Suite Setup) for existing Vitest/Jest infrastructure
 
 ---
 
 ## Overview
 
-Ensure that tests verify **desired behavior**, not just that code runs without crashing. Adds three layers: mutation testing (Stryker), property-based testing (fast-check), and a behavioral alignment audit. Complements Feature 9 (E2E, coverage, CI) by validating test quality.
+Ensure that tests verify **desired behavior**, not just that code runs without crashing. Adds three layers: mutation testing (Stryker), property-based testing (fast-check), and a behavioral alignment audit. Complements Phases 10.1–10.4 (E2E, coverage, CI) by validating test quality. Covers Feature 10 Phases 10.5–10.6.
 
 ## Key Objectives
 
@@ -21,10 +21,11 @@ Ensure that tests verify **desired behavior**, not just that code runs without c
 
 ## Related Documents
 
-- **Feature Guide (full spec):** `feature-test-quality-validation-guide.md`
+- **Feature Guide (full spec):** `test-quality-validation-feature-plan.md`
 - **Checklist (todo layer):** `../../../LAUNCH_CHECKLIST.md` — Phase 3A
-- **Test Suite Setup:** `../test-suite-setup/` — Feature 9
+- **Test Suite Setup (Phases 10.1–10.4):** `test-suite-setup-README.md`
+- **PROJECT_PLAN.md:** Feature 10 — single source of truth
 
 ---
 
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-03-15
