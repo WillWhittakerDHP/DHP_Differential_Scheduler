@@ -8,6 +8,8 @@ import { AppointmentRouter } from "./appointments/appointmentRouter.js";
 import { AppointmentFeeRouter } from "./appointment-fees/appointmentFeeRouter.js";
 import { AvailabilityRouter } from "./availabilityRouter.js";
 import { BusinessSettingsRouter } from "./businessSettingsRouter.js";
+import { CalendarSettingsRouter } from "./calendarSettings/calendarSettingsRouter.js";
+import { WizardSettingsRouter } from "./wizardSettings/wizardSettingsRouter.js";
 import BusinessRulesRouter from "./businessRulesRouter.js";
 import adminMetadataRouter from "./admin-metadata/adminMetadataRouter.js";
 import { DevStatusRouter } from "./dev/devStatusRouter.js";
@@ -28,6 +30,8 @@ router.use('/appointment-fee-summaries', AppointmentFeeRouter);
 router.use('/availability', AvailabilityRouter);
 
 router.use('/business-settings', BusinessSettingsRouter);
+router.use('/calendar-settings', CalendarSettingsRouter);
+router.use('/wizard-settings', WizardSettingsRouter);
 
 router.use(BUSINESS_RULES_ROUTE, BusinessRulesRouter);
 

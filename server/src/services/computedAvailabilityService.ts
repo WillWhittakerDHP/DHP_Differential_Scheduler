@@ -13,8 +13,12 @@ import type {
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange, attachDriveTimesToEvents } from './slotComputationService.js'
 import type { EventWithDrive } from './slotConstraintCheckers.js'
-import { AppointmentAttendee, BusinessSettings, ConstraintOverride } from '../config/app.js'
+import { AppointmentAttendee, ConstraintOverride, BusinessSettings } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
+import type { CalendarSettingsData } from '../db/models/admin/calendar_settings.js'
+import { getCalendarSettings } from '../repositories/calendarSettingsRepository.js'
+import { AVAILABILITY_SETTINGS_KEY } from '../constants/appConstants.js'
+import { defaultAvailabilitySettings } from '../routes/internal/businessSettings/businessSettingsConstants.js'
 import {
   extractConstraints,
 } from './constraintExtractor.js'
@@ -26,7 +30,6 @@ import { getCachedDriveTime, cacheDriveTime } from './driveTimeCache.js'
 import { withRetry } from './google/shared/googleApiRetry.js'
 import type { RouteLocation } from './google/maps/mapsTypes.js'
 import { computeScheduledHoursForRange } from './capacityComputer.js'
-import { AVAILABILITY_SETTINGS_KEY } from '../routes/internal/appointments/appointmentConstants.js'
 import { partitionByEventType } from '../utils/availabilities/availabilityPrimitives.js'
 import { createLogger } from '../utils/logger.js'
 
@@ -35,14 +38,13 @@ const logger = createLogger('ComputedAvailabilityService')
 const CACHE_STATUS_HIT = 'hit' as const
 const CACHE_STATUS_MISS = 'miss' as const
 
-function getReadFromCalendars(calendarConfig?: AvailabilitySettingsData['calendarConfig']): string[] {
-  if (!calendarConfig || !calendarConfig.enabled || !Array.isArray(calendarConfig.calendars)) {
+function getReadFromCalendars(calendarSettings: CalendarSettingsData): string[] {
+  if (!calendarSettings.enabled || !Array.isArray(calendarSettings.calendars)) {
     return []
   }
-  
-  return calendarConfig.calendars
-    .filter(entry => entry.readFrom && entry.email && entry.email.trim() !== '')
-    .map(entry => entry.email.trim())
+  return calendarSettings.calendars
+    .filter((entry) => entry.readFrom && entry.email && entry.email.trim() !== '')
+    .map((entry) => entry.email.trim())
 }
 
 async function calculateDriveTimesForPlaceIds(
@@ -210,13 +212,10 @@ async function calculateDriveTimesForPlaceIds(
 }
 
 async function fetchAvailabilitySettings(): Promise<AvailabilitySettingsData> {
-  const setting = await BusinessSettings.findOne({
+  const row = await BusinessSettings.findOne({
     where: { settingKey: AVAILABILITY_SETTINGS_KEY },
   })
-  if (!setting) {
-    throw new Error(`Settings not found for key: ${AVAILABILITY_SETTINGS_KEY}`)
-  }
-  return setting.settingValue
+  return (row?.settingValue ?? defaultAvailabilitySettings) as AvailabilitySettingsData
 }
 
 async function fetchAndDedupeCalendarEvents(
@@ -383,6 +382,7 @@ export async function computeAvailabilityData(
   const dataSource = request.dataSource ?? 'real'
 
   const settings = await fetchAvailabilitySettings()
+  const calendarSettings = await getCalendarSettings()
 
   if (dataSource === 'none') {
     logger.info(`[dataSource=none] Returning empty response with settings metadata`)
@@ -401,10 +401,10 @@ export async function computeAvailabilityData(
 
   const useRealApis = dataSource === 'real'
 
-  const calendarEmails = getReadFromCalendars(settings.calendarConfig)
+  const calendarEmails = getReadFromCalendars(calendarSettings)
   const calendarEnabled = useRealApis
     && calendarEmails.length > 0
-    && (settings.calendarConfig?.enabled ?? false)
+    && (calendarSettings.enabled ?? false)
 
   const { events: allCalendarEvents, responses: eventsResponses } =
     await fetchAndDedupeCalendarEvents(
@@ -520,6 +520,7 @@ export async function getForceCreateSlotContext(
   candidatePlaceId?: string
 ): Promise<ForceCreateSlotContext> {
   const settings = await fetchAvailabilitySettings()
+  const calendarSettings = await getCalendarSettings()
   const constraints = extractConstraints(settings)
   const dayStart = new Date(slotStart)
   dayStart.setUTCHours(0, 0, 0, 0)
@@ -529,9 +530,9 @@ export async function getForceCreateSlotContext(
     start: dayStart.toISOString(),
     end: dayEnd.toISOString(),
   }
-  const calendarEmails = getReadFromCalendars(settings.calendarConfig)
+  const calendarEmails = getReadFromCalendars(calendarSettings)
   const calendarEnabled =
-    calendarEmails.length > 0 && (settings.calendarConfig?.enabled ?? false)
+    calendarEmails.length > 0 && (calendarSettings.enabled ?? false)
   const { events: allCalendarEvents } = await fetchAndDedupeCalendarEvents(
     calendarEmails,
     dateRange,

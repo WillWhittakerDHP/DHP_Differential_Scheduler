@@ -36,6 +36,8 @@ export {
   AppointmentFeeEntry,
   ConstraintOverride,
   BusinessSettings,
+  CalendarSettings,
+  WizardSettings,
   BusinessRule,
   AdminMetadata,
   BetaFeedback,
