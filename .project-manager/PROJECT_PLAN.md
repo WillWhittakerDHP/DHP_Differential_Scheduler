@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-02-27
+**Last Updated:** 2026-03-15
 **Status:** Active Planning Document
 
 ---
@@ -25,7 +25,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 |---|---------|--------|-----------|-----------|
 | 0 | Vue.js Migration | ✅ Complete | `features/vue-migration/` | Completed ~2025-02 |
 | 1 | Data Flow Alignment | ✅ Complete | `features/data-flow-alignment/` | 2025-02-01 → 2026-01-31 |
-| 2 | Google APIs Integration | ✅ Complete | `features/feature-2-google-apis-integration/` | Started 2026-01-31 |
+| 2 | Google APIs Integration | ✅ Complete | `features/google-apis-integration/` | Started 2026-01-31 |
 | 3 | Calendar & Appointment Availability | ✅ Complete | `features/calendar-appointment-availability/` | Completed 2026-02-21 |
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
@@ -41,7 +41,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 15 | Beta Feedback Response | 📋 Planning | `features/beta-feedback-response/` | — |
 | 16 | UI Polish | 🔮 Not Started | `features/ui-polish/` | — |
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
-| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/gpt-admin-automation/` | — |
+| 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
 
 ---
@@ -52,7 +52,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 |-----------|--------------------|
 | **Alpha Ready** | Features 7–11 and Feature 13 (Alpha Launch) substantially complete. App deployed on Render, auth working, core booking and admin flows functional. Will can use it end-to-end from a browser that isn't localhost. No external testers yet. |
 | **Post-Alpha Ready (Between Alpha and Beta)** | Feature 17 (Admin UI Overhaul) complete — wizard and admin UI redesigned. Booking wizard and admin surfaces migrated to Ionic for Vue where planned. Native app path established: Ionic app wrapped in Capacitor, iOS/Android builds produced. Apple Store (and optionally Play Store) submission package ready. See LAUNCH_CHECKLIST.md "Between Alpha and Beta" and Phase 7 for conversion and launch steps. |
-| **Beta Ready** | Feature 9 (Guided Alpha Testing) complete — wizard flow diagram, alpha task database, guided assignment and 2–3 blank runs. Feature 10 (Testing) E2E derived from alpha task list. Features 7–10 and 13–15 complete. Feature 19 (CRM / Inspection Platform Integration) research and API set-up complete so inspection-creation path (Spectora/ISN or own CRM) is decided and PoC proven. E2E tests cover critical paths, error tracking live. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. Beta testers can use the web app and/or the native (Ionic) app. |
+| **Beta Ready** | Feature 9 (Guided Alpha Testing) complete — wizard flow diagram, alpha task database, guided assignment and 2–3 blank runs. Feature 10 (Testing) E2E derived from alpha task list. Features 7–15 complete. Feature 19 (CRM / Inspection Platform Integration) research and API set-up complete so inspection-creation path (Spectora/ISN or own CRM) is decided and PoC proven. E2E tests cover critical paths, error tracking live. Testers can log in via magic link, submit feedback, follow assigned test tasks. Ready to invite 5–10 trusted testers. Beta testers can use the web app and/or the native (Ionic) app. |
 | **Production Ready** | Features 7–15 plus password auth transition. Full test coverage, polished UI, rollback procedures documented and tested. Ready for public access. |
 | **Native App Ready** | Capacitor shell wrapping the app (Ionic-based after post-alpha work). iOS/Android builds run in simulator/emulator and connect to production API. App Store / Play Store submission ready. Not a PROJECT_PLAN feature — detailed plan in LAUNCH_CHECKLIST.md Phase 7 and "Converting to and launching the app version." |
 
@@ -285,7 +285,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 **Status:** ⏳ Partial (Phase 1 Complete for workflow; core complete for calculations)
 **Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard. Booking calculation logic is implemented; workflow Phase 1 complete.
-**Branch:** `feature/google-apis-integration`
+**Branch:** `feature/appointment-workflow`
 
 ### Appointment Workflow Phases
 
@@ -839,16 +839,36 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 **Status:** 🔮 Future
 **When:** Scheduled **between Alpha Ready and Beta Ready** (post-alpha, pre-beta). The UI overhaul (wizard + admin) is done before inviting beta testers, so the Ionic migration and native app build use the simplified component set.
-**Description:** Complete redesign of the admin interface and wizard UX. Guided workflows, live preview panel, relationship builders, templates, progressive disclosure. Reduces metadata-driven generic components so that subsequent Ionic Vue migration (booking wizard and admin, as planned) targets a smaller, clearer component set.
+**Description:** (1) **Admin vs Developer Split:** Rename current admin panel to Developer; create a new Admin panel from scratch for business administration only (users, roles, permissions, org settings). (2) **Smart UI Redesign:** Guided workflows, relationship builder, templates, progressive disclosure. (3) **Live Preview Panel:** Real-time booking simulation. (4) **Selective AI Assistance:** GPT-powered helpers integrated into workflows.
 **Branch:** TBD
 
+### Phase 0: Admin vs Developer Split (Pre-Phase 1)
+
+**Goal:** Rename current admin panel to Developer; create a new Admin panel for business administration only.
+
+**Current state:** Admin panel today (`/admin`, `AdminPanel.vue`) has: Instances (dev/data model), Shapes (dev/schema), APPOINTMENTS (mixed), CONTROLS (business admin). Data chain: `views/admin/`, `composables/admin/`, `components/admin/`, `types/admin/`, `utils/admin/`, `useAdmin`, routes `/admin`, `/admin-metadata`, etc.
+
+**Architecture decision:**
+- **Developer panel** (renamed): Instances, Shapes, metadata, block shapes, entity forms, dev tools. Route `/developer`.
+- **Admin panel** (new): Users, roles, permissions, org settings. Flat, focused UI. Route `/admin`. No metadata, shapes, instances.
+
+**Tasks:**
+1. **Rename current admin → Developer:** Grep/replace across client (views, composables, components, types, utils, router). Decide on API path renames (`/admin-metadata` → `/developer-metadata` or keep). Decide on DB model renames vs. keeping DB names.
+2. **Route and access:** `/admin` → `/developer` for the current panel. Add `/admin` for the new Admin panel.
+3. **New Admin panel:** New route, layout, and components. Only business admin: users, roles, permissions, org settings. Flat, focused UI.
+4. **Move CONTROLS:** Decide whether Business Controls (rules, calendar, holds, wizard) live in Developer or Admin.
+
+**Caveats:** User role `admin` (access control) — keep or introduce `developer` role? API paths may be external contracts. DB models: keep names vs. migrations.
+
 ### Planned Phases
-1. **Smart UI Redesign** — Guided workflows, relationship builder, templates
+0. **Admin vs Developer Split** — Rename current admin → Developer; create new Admin panel (business admin only)
+1. **Smart UI Redesign** — Guided workflows, relationship builder, templates (applies to Developer panel)
 2. **Live Preview Panel** — Real-time booking simulation as admins configure services
 3. **Integration with Admin Assistance Wizard** (Feature 18)
 
 ### Related Documents
-- LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); "Between Alpha and Beta" section; Feature 17 planning
+- Feature 17 guide: `features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md` (Phase 0, architecture decision, grep/replace scope)
+- LAUNCH_CHECKLIST.md Phase 7 (Ionic Stage 2 depends on this); "Between Alpha and Beta" section
 
 ---
 
