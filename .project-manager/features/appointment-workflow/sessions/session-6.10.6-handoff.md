@@ -19,9 +19,18 @@
 
 ## Next Action
 
-Start Session 
+Start Session  (see session guide and phase guide for scope).
 
 ## Transition Context
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
 
 **Where we left off:**
 Completed Task 
