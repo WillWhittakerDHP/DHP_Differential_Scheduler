@@ -1,7 +1,7 @@
-# Feature 9: Test Suite Setup — Feature Plan
+# Feature 10: Testing & Quality Validation — Test Suite Setup Plan
 
-**Feature:** Test Suite Setup
-**Status:** Planning
+**Feature:** Test Suite Setup (Feature 10, Phases 10.1–10.4, 10.7)
+**Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD
 **Related:** `LAUNCH_CHECKLIST.md` Phase 3
@@ -14,7 +14,7 @@ Expand the existing testing infrastructure to cover all critical paths before be
 
 ---
 
-## Phase 9.1: Audit & Coverage Targets
+## Phase 10.1: Audit & Coverage Targets
 
 **Status:** Not Started
 
@@ -31,7 +31,7 @@ Expand the existing testing infrastructure to cover all critical paths before be
 
 ---
 
-## Phase 9.2: Playwright Setup
+## Phase 10.2: Playwright Setup
 
 **Status:** Not Started
 
@@ -68,7 +68,7 @@ e2e/
 
 ---
 
-## Phase 9.3: E2E Tests for Critical Flows
+## Phase 10.3: E2E Tests for Critical Flows
 
 **Status:** Not Started
 
@@ -86,7 +86,7 @@ e2e/
 
 ---
 
-## Phase 9.4: Server Integration Tests
+## Phase 10.4: Server Integration Tests
 
 **Status:** Not Started
 
@@ -104,7 +104,7 @@ e2e/
 
 ---
 
-## Phase 9.5: CI Pipeline Enhancements
+## Phase 10.7: CI Pipeline Enhancements
 
 **Status:** Not Started
 
@@ -141,7 +141,7 @@ GitHub Actions CI
 
 - Existing Vitest and Jest test infrastructure
 - GitHub Actions CI pipeline (`.github/workflows/ci.yml`)
-- Authentication system (for authenticated test fixtures — Feature 10)
+- Authentication system (for authenticated test fixtures — Feature 7)
 - Running development server for E2E tests
 
 ---
@@ -157,7 +157,7 @@ GitHub Actions CI
 | E2E | None | — | 0 | — |
 | Static Analysis | TypeScript + ESLint | CI pipeline | N/A | Strict mode enabled |
 
-### Test Quality Validation (Feature 12)
+### Test Quality Validation (Phases 10.5–10.6)
 
 | Layer | Tool | Location | Purpose |
 |-------|------|----------|---------|
@@ -169,7 +169,7 @@ GitHub Actions CI
 ### File Naming Convention
 
 - Example-based unit tests: `*.test.ts` in `__tests__/` directories.
-- Property-based tests: `*.property.test.ts` alongside unit tests (see Feature 12).
+- Property-based tests: `*.property.test.ts` alongside unit tests (see Phases 10.5–10.6).
 
 ### E2E Structure (Proposed)
 
@@ -185,10 +185,10 @@ e2e/
 ### Relationship Between Quality Layers
 
 - **Coverage** — untested code paths.
-- **Mutation score** — weak assertions (Feature 12).
-- **Property-based** — edge cases in pure functions (Feature 12).
-- **Alignment audit** — structural vs behavior-focused tests (Feature 12).
+- **Mutation score** — weak assertions (Phases 10.5–10.6).
+- **Property-based** — edge cases in pure functions (Phases 10.5–10.6).
+- **Alignment audit** — structural vs behavior-focused tests (Phases 10.5–10.6).
 
 ---
 
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-03-15
