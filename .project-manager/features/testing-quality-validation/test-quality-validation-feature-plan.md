@@ -1,6 +1,6 @@
-# Feature 12: Test Quality Validation — Feature Plan
+# Feature 10: Testing & Quality Validation — Test Quality Validation Plan
 
-**Feature:** Test Quality Validation
+**Feature:** Test Quality Validation (Feature 10, Phases 10.5–10.6)
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Source:** LAUNCH_CHECKLIST.md Phase 3A
@@ -41,7 +41,9 @@ Relationship:
 
 ---
 
-## Phase 12.1: Mutation Testing (Stryker)
+## Phase 10.5: Mutation & Property-Based Testing (Stryker, fast-check)
+
+### 10.5.1: Mutation Testing (Stryker)
 
 - [ ] **3A.1** Install Stryker Mutator with Vitest plugin (`client/`): `npm install --save-dev @stryker-mutator/core @stryker-mutator/vitest-runner @stryker-mutator/typescript-checker`
 
@@ -59,9 +61,7 @@ Relationship:
 
 - [ ] **3A.8** Add `.mutation-reports/` to `client/.gitignore`.
 
----
-
-## Phase 12.2: Property-Based Testing (fast-check)
+### 10.5.2: Property-Based Testing (fast-check)
 
 - [ ] **3A.9** Install fast-check: `cd client && npm install --save-dev fast-check`. Use inside Vitest `it()` blocks.
 
@@ -71,7 +71,7 @@ Relationship:
 
 ---
 
-## Phase 12.3: Behavioral Alignment Audit
+## Phase 10.6: Behavioral Alignment Audit
 
 - [ ] **3A.12** Create `client/.scripts/test-alignment-audit.mjs`. Script: find all *.test.ts / *.spec.ts under src; for each file analyze: it-block names (behavioral vs structural), hasNegativeAssertions, hasSpecificValues, hasStructureOnlyChecks, hasDescriptiveHeader, hasPreconditions; compute alignmentScore (0–6), grade A/B/C/D; output `.audit-reports/test-alignment-audit.json` and `test-alignment-audit-summary.md`. (Full script: LAUNCH_CHECKLIST.md Phase 3A.12.)
 
@@ -83,7 +83,7 @@ Relationship:
 
 ---
 
-## Phase 12.4: CI Integration & Dashboard
+## CI Integration (see Phase 10.7)
 
 - [ ] **3A.16** Add mutation testing job to `.github/workflows/ci.yml`. Job name: mutation-test, needs: test-client, if: pull_request; steps: checkout, setup-node, npm ci (client), npx stryker run; upload artifact `.mutation-reports/` retention 14 days. Start as non-blocking; promote to required once scores stabilize. (Full YAML: LAUNCH_CHECKLIST.md Phase 3A.16.)
 
@@ -103,6 +103,4 @@ Relationship:
 
 ---
 
----
-
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-03-15
