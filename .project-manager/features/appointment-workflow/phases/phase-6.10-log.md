@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 6.10.6: Settings Architecture Cleanup — Three-Table Separation ✅
+**Completed:** 2026-03-16
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed Settings Architecture Cleanup — Three-Table Separation
+
+
+
 ### Session 6.10.4: Coupon fee calculation — add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee ✅
 **Completed:** 2026-03-15
 **Tasks Completed:** All tasks completed
