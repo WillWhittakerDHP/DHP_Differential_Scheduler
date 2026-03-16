@@ -2,7 +2,7 @@
 
 **Phase:** 6.10 — Fee Preview & Coupon Visibility  
 **Session:** 6.10.5 — Wizard sub-tab and consolidated settings  
-**Status:** In Progress  
+**Status:** Complete  
 **Branch:** TBD
 
 **Depends on:** Session 6.10.2 (admin toggle and settings); Session 6.10.3 (fee bar and popover). Wizard settings exist in Holds and Grid; this session consolidates them.
@@ -58,7 +58,7 @@ Add a Wizard sub-tab to Business Controls → Calendar (alongside Integration, H
 **Approach:** Add VTab and VWindowItem for "Wizard"; create WizardConfigPanel that uses useWizardSettings; move showApplyCouponInWizard from AppointmentConfirmationPanel to WizardConfigPanel.
 **Checkpoint:** Wizard tab visible; showApplyCouponInWizard toggle works from Wizard tab.
 
-- [ ] #### Task 6.10.5.3: Move differential sub-step labels and brand colors to Wizard tab
+- [x] #### Task 6.10.5.3: Move differential sub-step labels and brand colors to Wizard tab
 **Goal:** Move differential sub-step labels from GridConfigPanel and brand colors toggle to WizardConfigPanel.
 **Files:** `client/src/views/admin/tabs/components/GridConfigPanel.vue`; `client/src/views/admin/tabs/components/WizardConfigPanel.vue`; form state / differential state.
 **Approach:** Remove differential sub-step labels from Grid; add to WizardConfigPanel; locate and move brand colors toggle.
@@ -68,11 +68,11 @@ Add a Wizard sub-tab to Business Controls → Calendar (alongside Integration, H
 
 ## Success Criteria
 
-- [ ] Wizard sub-tab exists in Business Controls → Calendar.
-- [ ] `useWizardSettings` composable consolidates wizard settings; no scattered handlers.
-- [ ] showApplyCouponInWizard, differential sub-step labels, brand colors toggle all in Wizard tab.
-- [ ] Wizard steps (AvailabilityStep, ConfirmationStep) read settings via useWizardSettings or equivalent.
-- [ ] Lint and app start pass.
+- [x] Wizard sub-tab exists in Business Controls → Calendar.
+- [x] `useWizardSettings` composable consolidates wizard settings; no scattered handlers.
+- [x] showApplyCouponInWizard, differential sub-step labels, brand colors toggle all in Wizard tab.
+- [x] Wizard steps (AvailabilityStep, ConfirmationStep) read settings via useWizardSettings or equivalent.
+- [x] Lint and app start pass.
 
 ---
 

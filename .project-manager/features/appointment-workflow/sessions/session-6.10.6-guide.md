@@ -40,25 +40,25 @@ Work tasks in order (6.10.6.1 through 6.10.6.7). After the last task, run sessio
 
 ## Tasks
 
-### Task 6.10.6.1: Server — New tables, models, CRUD
+- [x] ### Task 6.10.6.1: Server — New tables, models, CRUD
 Create CalendarSettings and WizardSettings models and migrations; create calendar_settings and wizard_settings tables; migration to split existing blob and drop availability_setting_entries; singleton CRUD routers for calendar-settings and wizard-settings; simplify businessSettingsCrudRouter to availability row only.
 
-### Task 6.10.6.2: Server — Update consumers and model fixes
+- [x] ### Task 6.10.6.2: Server — Update consumers and model fixes
 computedAvailabilityService and appointmentHelpers read from new tables; fix business_settings model (updatedAt, strip calendar/wizard fields from AvailabilitySettingsData); calendarSettingsRepository if needed.
 
-### Task 6.10.6.3: Server — Remove old code
+- [x] ### Task 6.10.6.3: Server — Remove old code
 Delete availabilitySettingsRepository, availability_setting_entry model, related migrations; remove AvailabilitySettingEntry from model registry.
 
-### Task 6.10.6.4: Client — New configs and composables
+- [x] ### Task 6.10.6.4: Client — New configs and composables
 Create calendarSettings and wizardSettings configs (types, api, validation); useAdminCalendarSettings and useAdminWizardSettings; strip moved fields from availability configs; export isValidCalendarEmail from calendarSettings.
 
-### Task 6.10.6.5: Client — Tab and form state; wizard/differential wiring
+- [x] ### Task 6.10.6.5: Client — Tab and form state; wizard/differential wiring
 useWizardSettings reads from wizard_settings API; BusinessControlsTab loads availability, calendar, wizard independently; useCalendarHoldFormState and useBusinessControlsFormState use calendar/wizard formData; useDifferentialPerspectives accepts wizardFormData; WizardConfigPanel uses wizardSaveButtonProps; Constraints section uses constraintsSaveButtonProps.
 
-### Task 6.10.6.6: Bug fixes
+- [x] ### Task 6.10.6.6: Bug fixes
 TimeBasisButtonGrid (startTimeType, minorLabel); useTimeSlotCalculations syntax; BookingWizard duplicate computed/template; useBookingWizardSetup useDhpBrandColors.
 
-### Task 6.10.6.7: Verify
+- [x] ### Task 6.10.6.7: Verify
 App start (npm run start:dev); client and server lint; smoke-test admin Constraints/Calendar/Wizard load and save, and booking wizard.
 
 ---
