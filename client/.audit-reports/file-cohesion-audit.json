@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-07T18:37:46.027Z",
-  "totalScanned": 1114,
+  "generatedAt": "2026-03-16T01:28:20.190Z",
+  "totalScanned": 1150,
   "exceptionSummary": {
-    "totalRequiresReview": 16
+    "totalRequiresReview": 18
   },
   "tierModel": "tier1",
   "tier1Rules": [
@@ -23,16 +23,16 @@
     {
       "repoPath": "client/src/composables/booking/injectionKeys.ts",
       "category": "composables",
-      "lineCount": 112,
-      "exportCount": 24,
+      "lineCount": 136,
+      "exportCount": 27,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "high-exports",
-          "value": 24,
+          "value": 27,
           "threshold": 10,
-          "detail": "24 exports (max: 10)",
+          "detail": "27 exports (max: 10)",
           "tier": 1
         },
         {
@@ -43,13 +43,13 @@
           "tier": 2
         }
       ],
-      "score": 28,
+      "score": 34,
       "priority": "P0"
     },
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
       "category": "routes",
-      "lineCount": 399,
+      "lineCount": 339,
       "exportCount": 19,
       "mixedConcerns": false,
       "hasExports": true,
@@ -87,16 +87,16 @@
     {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
       "category": "services",
-      "lineCount": 574,
+      "lineCount": 575,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 574,
+          "value": 575,
           "threshold": 400,
-          "detail": "574 lines (services max: 400)",
+          "detail": "575 lines (services max: 400)",
           "tier": 1
         }
       ],
@@ -161,18 +161,37 @@
       "priority": "P1"
     },
     {
+      "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
+      "category": "components",
+      "lineCount": 533,
+      "exportCount": 0,
+      "mixedConcerns": false,
+      "hasExports": false,
+      "violations": [
+        {
+          "rule": "oversized",
+          "value": 533,
+          "threshold": 500,
+          "detail": "533 lines (components max: 500)",
+          "tier": 1
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
       "repoPath": "client/src/utils/booking/confirmationStepData.ts",
       "category": "utils",
-      "lineCount": 310,
+      "lineCount": 348,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 310,
+          "value": 348,
           "threshold": 300,
-          "detail": "310 lines (utils max: 300)",
+          "detail": "348 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -201,16 +220,16 @@
     {
       "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
       "category": "utils",
-      "lineCount": 357,
+      "lineCount": 361,
       "exportCount": 3,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 357,
+          "value": 361,
           "threshold": 300,
-          "detail": "357 lines (utils max: 300)",
+          "detail": "361 lines (utils max: 300)",
           "tier": 1
         }
       ],
@@ -239,16 +258,16 @@
     {
       "repoPath": "server/src/db/models/index.ts",
       "category": "general",
-      "lineCount": 358,
+      "lineCount": 362,
       "exportCount": 1,
       "mixedConcerns": false,
       "hasExports": true,
       "violations": [
         {
           "rule": "oversized",
-          "value": 358,
+          "value": 362,
           "threshold": 350,
-          "detail": "358 lines (general max: 350)",
+          "detail": "362 lines (general max: 350)",
           "tier": 1
         }
       ],
@@ -316,6 +335,25 @@
       "repoPath": "client/src/types/wizard.ts",
       "category": "general",
       "lineCount": 156,
+      "exportCount": 11,
+      "mixedConcerns": false,
+      "hasExports": true,
+      "violations": [
+        {
+          "rule": "high-exports",
+          "value": 11,
+          "threshold": 10,
+          "detail": "11 exports (max: 10)",
+          "tier": 1
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "category": "routes",
+      "lineCount": 80,
       "exportCount": 11,
       "mixedConcerns": false,
       "hasExports": true,

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-07T18:37:46.725Z",
+  "generatedAt": "2026-03-16T01:28:19.676Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 68,
+  "serverEndpoints": 72,
   "endpointKeys": [
     "GET /events-cache",
     "GET /rate-limit",
@@ -31,6 +31,7 @@
     "PUT /:key",
     "PATCH /:key",
     "DELETE /:key",
+    "PUT /",
     "PATCH /:entityType/order_index",
     "PATCH /:entityType/bulk",
     "GET /config",
