@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T01:14:16.020Z",
+  "generatedAt": "2026-03-16T01:15:21.615Z",
   "totalScanned": 1074,
   "totalAllowed": 0,
   "tierModel": "tier1",
@@ -18,43 +18,5 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": [
-    {
-      "repoPath": "client/src/composables/admin/useCalendarHoldFormState.ts",
-      "functions": [
-        {
-          "name": "useCalendarHoldFormState",
-          "startLine": 46,
-          "endLine": 183,
-          "length": 138,
-          "maxNesting": 4,
-          "branches": 13,
-          "params": 1,
-          "returns": 3,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3,
-              "tier": 1
-            },
-            {
-              "rule": "branches",
-              "value": 13,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 138,
-              "threshold": 50,
-              "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 10,
-      "priority": "P1"
-    }
-  ]
+  "files": []
 }

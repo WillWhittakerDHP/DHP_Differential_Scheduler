@@ -19,9 +19,18 @@
 
 ## Next Action
 
-Run /phase-end 6.10 or start next session per phase-6.10-guide.md. 
+Run /phase-end 6.10 or start next session per phase-6.10-guide.md.
 
 ## Transition Context
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
 
 **Where we left off:**
 Completed Task 
