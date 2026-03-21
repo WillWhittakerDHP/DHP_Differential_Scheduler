@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T04:37:39.834Z",
+  "generatedAt": "2026-03-21T04:55:17.115Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,16 +13,16 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 24,
+  "totalScanned": 33,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 3,
-    "totalRequiresReview": 3,
+    "totalAllowed": 126,
+    "totalRequiresReview": 6,
     "bySource": {
       "inline": 0,
-      "pattern": 0,
-      "specific": 2,
+      "pattern": 122,
+      "specific": 3,
       "linePattern": 1
     }
   },
@@ -120,6 +120,86 @@
           "ruleId": "fieldMapping",
           "lineNumber": 212,
           "line": "updateAppointment: { isPending: update.isPending },",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 9,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
+    },
+    {
+      "id": "client__src__views__admin__tabs__BusinessControlsTab.vue",
+      "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 3,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 3,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 99,
+          "line": "const capacity = useCapacitySettings({ formData: availability.formData, maxBusinessHours })"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 100,
+          "line": "const buffers = useBufferSettings({ formData: availability.formData } as UseBufferSettingsParams)"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 101,
+          "line": "const location = useDefaultLocation({ formData: availability.formData } as UseDefaultLocationParams)"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 105,
+          "line": "__brand: 'UseDifferentialPerspectivesParams',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 99,
+          "line": "const capacity = useCapacitySettings({ formData: availability.formData, maxBusinessHours })",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 100,
+          "line": "const buffers = useBufferSettings({ formData: availability.formData } as UseBufferSettingsParams)",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 101,
+          "line": "const location = useDefaultLocation({ formData: availability.formData } as UseDefaultLocationParams)",
           "suppressionStatus": "unsuppressed"
         }
       ],
