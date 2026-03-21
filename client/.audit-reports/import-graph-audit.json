@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T04:15:59.770Z",
-  "totalFiles": 1133,
+  "generatedAt": "2026-03-21T14:52:04.521Z",
+  "totalFiles": 1150,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135,
@@ -10,7 +10,7 @@
   "fanOutViolations": [
     {
       "file": "server/src/db/models/index",
-      "fanOut": 43
+      "fanOut": 51
     }
   ],
   "fanInViolations": [
@@ -108,7 +108,22 @@
     }
   ],
   "crossBoundary": [],
-  "typeMirrorPaths": [],
+  "typeMirrorPaths": [
+    {
+      "from": "client/src/types/admin/wizardSettings",
+      "mirror": "client/src/composables/admin/useWizardSettings",
+      "sharedExports": [
+        "UseWizardSettingsOptions",
+        "UseWizardSettingsReturn",
+        "UseWizardSettingsFlagsReturn",
+        "UseWizardSettingsLabelsReturn",
+        "WizardSubStepLabels"
+      ],
+      "consumersFromTypes": 3,
+      "consumersFromComposable": 12,
+      "recommendation": "Consolidate imports to one canonical path."
+    }
+  ],
   "files": [
     {
       "file": "client/src/composables/fieldContext/useFieldContext",

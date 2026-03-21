@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **5**
-- Requiring review (Tier 1): **5**
+- Files with findings: **8**
+- Requiring review (Tier 1): **10**
 - Allowed (with justification): 0
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **5**
-- Tier 1 findings: 5 (annotations: 0, legacy-keyword: 0, unhelpful-default: 5)
+- Runtime legacy accommodation: **14**
+- Tier 1 findings: 10 (annotations: 0, legacy-keyword: 0, unhelpful-default: 10)
 
 ## Rules
 
@@ -83,18 +83,29 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
+| `server/src/repositories/availabilityRelationalCodec.ts` | P1 | 6 | 0 | 3 |
 | `client/src/components/booking/steps/AvailabilityStep.vue` | P2 | 2 | 0 | 1 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P2 | 2 | 0 | 1 |
 | `client/src/composables/useThemeMode.ts` | P2 | 2 | 0 | 1 |
 | `client/src/utils/booking/buildClientLinks.ts` | P2 | 2 | 0 | 1 |
+| `client/src/utils/booking/partFinalizer.ts` | P2 | 2 | 0 | 1 |
+| `server/src/repositories/calendarSettingsRepository.ts` | P2 | 2 | 0 | 5 |
 | `server/src/services/invites/inviteContextBuilder.ts` | P2 | 2 | 0 | 1 |
 
 ## Per-file findings
 
+### `server/src/repositories/availabilityRelationalCodec.ts` [P1] (score: 6)
+
+```
+[LEGACY] unhelpful-default-nullish@143: const list = hoursByRc.get(h.rangeConstraintId) ?? []
+[LEGACY] unhelpful-default-nullish@150: const hrs = hoursByRc.get(rc.id) ?? []
+[LEGACY] unhelpful-default-nullish@202: placeId: root.defaultLocationPlaceId ?? '',
+```
+
 ### `client/src/components/booking/steps/AvailabilityStep.vue` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@174: return o.emptyStateMessage.value ?? ''
+[LEGACY] unhelpful-default-nullish@178: return o.emptyStateMessage.value ?? ''
 ```
 
 ### `client/src/composables/booking/useAvailabilityDefaults.ts` [P2] (score: 2)
@@ -113,6 +124,22 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ```
 [LEGACY] unhelpful-default-nullish@17: return import.meta.env?.VITE_APP_BASE_URL ?? ''
+```
+
+### `client/src/utils/booking/partFinalizer.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@202: const events = assignments[partShapeName] ?? []
+```
+
+### `server/src/repositories/calendarSettingsRepository.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@36: const entries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries ?? []
+[LEGACY] chaining-fallback@71: adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,
+[LEGACY] chaining-fallback@72: adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',
+[LEGACY] chaining-fallback@86: adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,
+[LEGACY] chaining-fallback@87: adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',
 ```
 
 ### `server/src/services/invites/inviteContextBuilder.ts` [P2] (score: 2)

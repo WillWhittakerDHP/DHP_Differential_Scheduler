@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-21T04:16:02.110Z",
-  "totalScanned": 439,
+  "generatedAt": "2026-03-21T14:52:04.517Z",
+  "totalScanned": 440,
   "inputAudits": {
     "importGraph": {
       "available": true,
@@ -115,7 +115,7 @@
   "findings": [],
   "flowMaps": {
     "provideSites": 30,
-    "injectSites": 53,
+    "injectSites": 54,
     "matchedPairs": 18,
     "unmatchedProvides": 12,
     "unmatchedInjects": 8

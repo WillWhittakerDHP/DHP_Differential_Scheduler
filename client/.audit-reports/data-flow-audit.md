@@ -4,7 +4,7 @@
 
 # Data Flow Validation Audit (Generated)
 
-Generated at: 2026-03-21T04:16:00.357Z
+Generated at: 2026-03-21T14:52:04.429Z
 
 ## Summary
 
@@ -15,8 +15,8 @@ Generated at: 2026-03-21T04:16:00.357Z
 
 | File | Rule | Line | Snippet |
 | --- | --- | ---: | --- |
-| `server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts` | reqBodyUnvalidated | 46 | const settingValue = req.body?.setting_value; |
-| `server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts` | reqBodyUnvalidated | 39 | const settingValue = req.body?.setting_value; |
+| `server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts` | reqBodyUnvalidated | 34 | const settingValue = req.body?.setting_value; |
+| `server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts` | reqBodyUnvalidated | 34 | const settingValue = req.body?.setting_value; |
 
 ## Allowed Exceptions (for transparency)
 

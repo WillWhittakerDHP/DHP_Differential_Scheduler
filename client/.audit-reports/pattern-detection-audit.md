@@ -14,12 +14,12 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **1150**
+- Files scanned: **1167**
 - String literals found: **8** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **49**
-- Function patterns found: **459**
-- Common patterns found: **68**
+- Function patterns found: **460**
+- Common patterns found: **67**
 
 ## String Literals (Potential Enum/Key Candidates)
 
@@ -126,13 +126,13 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBufferSettings` | `use*` | 1 |
 | `useBusinessControlsFormState` | `use*` | 1 |
 | `useBusinessHoursFormState` | `use*` | 1 |
-| ... | ... | (+429 more) |
+| ... | ... | (+430 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 
 ### Status Workflow Patterns
 
-Found 68 occurrences of status workflow patterns:
+Found 67 occurrences of status workflow patterns:
 
 - `client/src/components/booking/steps/AvailabilitySubStepHeader.vue`: 1 occurrence(s)
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: 2 occurrence(s)
@@ -148,10 +148,10 @@ Found 68 occurrences of status workflow patterns:
 - `client/src/types/entities.ts`: 1 occurrence(s)
 - `client/src/utils/appointmentFieldFormatters.ts`: 1 occurrence(s)
 - `client/src/utils/booking/appointmentDataBuilders.ts`: 1 occurrence(s)
-- `server/src/db/models/admin/calendar_settings.ts`: 1 occurrence(s)
 - `server/src/db/models/booking/appointment.ts`: 5 occurrence(s)
 - `server/src/db/models/booking/event_instance.ts`: 2 occurrence(s)
 - `server/src/routes/internal/appointments/appointmentConstants.ts`: 9 occurrence(s)
 - `server/src/routes/internal/appointments/appointmentCrudRouter.ts`: 5 occurrence(s)
 - `server/src/routes/internal/appointments/forceCreateRouter.ts`: 6 occurrence(s)
-- ... (+4 more files)
+- `server/src/services/google/calendar/calendarTypes.ts`: 1 occurrence(s)
+- ... (+3 more files)
