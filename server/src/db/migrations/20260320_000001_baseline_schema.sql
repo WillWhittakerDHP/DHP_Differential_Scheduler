@@ -11,7 +11,7 @@ SET idle_in_transaction_session_timeout = 0;
 SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
+SET search_path = public;
 SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
@@ -52,7 +52,8 @@ CREATE TYPE public.block_shape_type AS ENUM (
     'user',
     'service',
     'property',
-    'option'
+    'option',
+    'coupon'
 );
 
 
@@ -434,6 +435,46 @@ CREATE TYPE public.user_role_enum AS ENUM (
 
 
 --
+-- Name: cleanup_booking_cascades_on_valid_cascade_delete(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.cleanup_booking_cascades_on_valid_cascade_delete() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        DELETE FROM booking_cascades bc
+        USING block_instances parent_inst,
+              block_instances child_inst
+        WHERE bc.parent_id = parent_inst.id
+          AND bc.child_id  = child_inst.id
+          AND parent_inst.block_shape_ref = OLD.parent_id
+          AND child_inst.block_shape_ref  = OLD.child_id;
+        RETURN OLD;
+      END;
+      $$;
+
+
+--
+-- Name: cleanup_part_assignments_on_valid_part_delete(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.cleanup_part_assignments_on_valid_part_delete() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        DELETE FROM part_assignments pa
+        USING block_instances parent_inst,
+              part_instances  child_inst
+        WHERE pa.parent_id = parent_inst.id
+          AND pa.child_id  = child_inst.id
+          AND parent_inst.block_shape_ref = OLD.parent_id
+          AND child_inst.part_shape_ref   = OLD.child_id;
+        RETURN OLD;
+      END;
+      $$;
+
+
+--
 -- Name: validate_property_version_type(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -800,6 +841,56 @@ COMMENT ON COLUMN public.appointment_attendees.google_event_id IS 'Google Calend
 
 
 --
+-- Name: appointment_fee_entries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.appointment_fee_entries (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    fee_summary_id uuid NOT NULL,
+    block_instance_id uuid NOT NULL,
+    block_name text NOT NULL,
+    block_shape_ref uuid NOT NULL,
+    base_fee numeric DEFAULT 0 NOT NULL,
+    overage_fee numeric DEFAULT 0 NOT NULL,
+    total_fee numeric DEFAULT 0 NOT NULL,
+    quantity integer DEFAULT 1 NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: COLUMN appointment_fee_entries.block_instance_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.appointment_fee_entries.block_instance_id IS 'References block_instances(id) but no FK constraint to allow instance deletion while preserving fee history';
+
+
+--
+-- Name: COLUMN appointment_fee_entries.block_shape_ref; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.appointment_fee_entries.block_shape_ref IS 'References block_shapes(id) for grouping entries by block type (service, property, option, lineItem)';
+
+
+--
+-- Name: appointment_fee_summaries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.appointment_fee_summaries (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    appointment_id uuid NOT NULL,
+    base_fee_total numeric DEFAULT 0 NOT NULL,
+    overage_fee_total numeric DEFAULT 0 NOT NULL,
+    total_fee numeric DEFAULT 0 NOT NULL,
+    square_footage numeric DEFAULT 0 NOT NULL,
+    adu_count integer DEFAULT 1 NOT NULL,
+    currency character varying(3) DEFAULT 'USD'::character varying NOT NULL,
+    calculated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: appointments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -828,7 +919,13 @@ CREATE TABLE public.appointments (
     option_snapshots jsonb,
     service_snapshot_ids uuid[],
     property_snapshot_ids uuid[],
-    option_snapshot_ids uuid[]
+    option_snapshot_ids uuid[],
+    held_by uuid,
+    held_until timestamp with time zone,
+    override_constraints jsonb,
+    submitted_at timestamp with time zone,
+    confirmed_at timestamp with time zone,
+    confirmed_by uuid
 );
 
 
@@ -931,6 +1028,62 @@ COMMENT ON COLUMN public.appointments.option_snapshot_ids IS 'Array of block_ins
 
 
 --
+-- Name: beta_feedback; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.beta_feedback (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    reporter_name character varying(100) NOT NULL,
+    reporter_email character varying(255),
+    category character varying(50) NOT NULL,
+    severity character varying(20) DEFAULT 'medium'::character varying NOT NULL,
+    title character varying(255) NOT NULL,
+    description text NOT NULL,
+    page_url character varying(500),
+    browser_info character varying(500),
+    screen_size character varying(50),
+    steps_to_reproduce text,
+    expected_behavior text,
+    actual_behavior text,
+    status character varying(30) DEFAULT 'new'::character varying NOT NULL,
+    resolution_notes text,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: beta_feedback_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.beta_feedback_tags (
+    id integer NOT NULL,
+    feedback_id uuid NOT NULL,
+    tag character varying(100) NOT NULL
+);
+
+
+--
+-- Name: beta_feedback_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.beta_feedback_tags_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: beta_feedback_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.beta_feedback_tags_id_seq OWNED BY public.beta_feedback_tags.id;
+
+
+--
 -- Name: block_instance_versions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -942,7 +1095,8 @@ CREATE TABLE public.block_instance_versions (
     base_sq_ft integer,
     allow_multiple boolean DEFAULT false NOT NULL,
     differential public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    pre_closing boolean DEFAULT false NOT NULL
 );
 
 
@@ -970,10 +1124,12 @@ CREATE TABLE public.block_instances (
     composite boolean DEFAULT false NOT NULL,
     differential public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
     allow_multiple boolean DEFAULT false NOT NULL,
-    requires_unit_number boolean,
+    requires_unit_number boolean DEFAULT false NOT NULL,
     booking_mode public.booking_mode_enum DEFAULT 'standalone'::public.booking_mode_enum NOT NULL,
     is_multi_family boolean DEFAULT false NOT NULL,
-    requires_agent boolean DEFAULT false NOT NULL
+    requires_agent boolean DEFAULT false NOT NULL,
+    pre_closing boolean DEFAULT false NOT NULL,
+    agent_permissions public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL
 );
 
 
@@ -1121,6 +1277,42 @@ COMMENT ON COLUMN public.business_settings.setting_key IS 'Unique key identifyin
 --
 
 COMMENT ON COLUMN public.business_settings.setting_value IS 'JSONB object containing the setting configuration';
+
+
+--
+-- Name: calendar_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.calendar_settings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    setting_value jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: TABLE calendar_settings; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.calendar_settings IS 'Singleton: calendar integration config (provider, calendars, hold duration, autoConfirmEnabled)';
+
+
+--
+-- Name: constraint_overrides; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.constraint_overrides (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    appointment_id uuid NOT NULL,
+    overridden_violations text[] DEFAULT '{}'::text[] NOT NULL,
+    authorized_by_id uuid,
+    reason text,
+    slot_start timestamp with time zone NOT NULL,
+    slot_end timestamp with time zone NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 
 --
@@ -1278,7 +1470,17 @@ CREATE TABLE public.event_instances (
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     order_index integer DEFAULT 0 NOT NULL,
-    active boolean DEFAULT true NOT NULL
+    active boolean DEFAULT true NOT NULL,
+    visibility character varying(20) DEFAULT 'default'::character varying NOT NULL,
+    transparency character varying(12) DEFAULT 'opaque'::character varying NOT NULL,
+    guests_can_modify boolean DEFAULT false NOT NULL,
+    guests_can_invite_others boolean DEFAULT true NOT NULL,
+    guests_can_see_other_guests boolean DEFAULT true NOT NULL,
+    add_conference_link boolean DEFAULT false NOT NULL,
+    send_updates character varying(16) DEFAULT 'all'::character varying NOT NULL,
+    color_id character varying(4) DEFAULT NULL::character varying,
+    status character varying(12) DEFAULT 'confirmed'::character varying NOT NULL,
+    reminder_overrides jsonb
 );
 
 
@@ -1332,6 +1534,76 @@ COMMENT ON COLUMN public.event_instances.active IS 'Whether this event instance 
 
 
 --
+-- Name: COLUMN event_instances.visibility; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.visibility IS 'Event visibility: default, public, private, confidential';
+
+
+--
+-- Name: COLUMN event_instances.transparency; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.transparency IS 'Free/busy: opaque (busy) or transparent (free)';
+
+
+--
+-- Name: COLUMN event_instances.guests_can_modify; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.guests_can_modify IS 'Whether attendees can edit the event';
+
+
+--
+-- Name: COLUMN event_instances.guests_can_invite_others; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.guests_can_invite_others IS 'Whether attendees can invite other people';
+
+
+--
+-- Name: COLUMN event_instances.guests_can_see_other_guests; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.guests_can_see_other_guests IS 'Whether attendees can see the guest list';
+
+
+--
+-- Name: COLUMN event_instances.add_conference_link; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.add_conference_link IS 'Whether to auto-attach a Google Meet link';
+
+
+--
+-- Name: COLUMN event_instances.send_updates; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.send_updates IS 'Email invitation behavior: all, externalOnly, none';
+
+
+--
+-- Name: COLUMN event_instances.color_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.color_id IS 'Google Calendar event color ID (1-11), null for default';
+
+
+--
+-- Name: COLUMN event_instances.status; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.status IS 'Event status: confirmed or tentative';
+
+
+--
+-- Name: COLUMN event_instances.reminder_overrides; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instances.reminder_overrides IS 'JSON array of reminder overrides, e.g. [{"method":"popup","minutes":10}]';
+
+
+--
 -- Name: event_shape_attendees; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1371,6 +1643,7 @@ CREATE TABLE public.event_shapes (
     active boolean DEFAULT true NOT NULL,
     is_ternary boolean DEFAULT false NOT NULL,
     ternary_default character varying(10),
+    differential_role character varying(12) DEFAULT NULL::character varying,
     CONSTRAINT check_ternary_default_valid CHECK (((ternary_default IS NULL) OR ((ternary_default)::text = ANY ((ARRAY['true'::character varying, 'false'::character varying, 'override'::character varying])::text[]))))
 );
 
@@ -1497,6 +1770,20 @@ CREATE TABLE public.part_shapes (
 
 
 --
+-- Name: pricing_cascades; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pricing_cascades (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    parent_id uuid NOT NULL,
+    child_id uuid NOT NULL,
+    disabled boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: property_details; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1527,6 +1814,43 @@ COMMENT ON COLUMN public.property_details.property_version_id IS 'Foreign key to
 --
 
 COMMENT ON COLUMN public.property_details.source IS 'Source of data: api (MLS API), manual (admin input), client (booking wizard)';
+
+
+--
+-- Name: property_feature_mappings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.property_feature_mappings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    data_source character varying(50) DEFAULT 'bright_mls'::character varying NOT NULL,
+    source_field character varying(100) NOT NULL,
+    match_type character varying(30) NOT NULL,
+    match_value text,
+    block_instance_id uuid NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    priority integer DEFAULT 0 NOT NULL,
+    notes text,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: property_field_mappings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.property_field_mappings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    data_source character varying(50) DEFAULT 'bright_mls'::character varying NOT NULL,
+    source_field character varying(100) NOT NULL,
+    target_field character varying(100) NOT NULL,
+    value_mapping jsonb,
+    fallback_value text,
+    active boolean DEFAULT true NOT NULL,
+    notes text,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 
 --
@@ -1680,6 +2004,46 @@ CREATE TABLE public.valid_parts (
 
 
 --
+-- Name: valid_pricing_cascades; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.valid_pricing_cascades (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    parent_id uuid NOT NULL,
+    child_id uuid NOT NULL,
+    disabled boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: wizard_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.wizard_settings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    setting_value jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: TABLE wizard_settings; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.wizard_settings IS 'Singleton: wizard display config (coupon, brand colors, labels)';
+
+
+--
+-- Name: beta_feedback_tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.beta_feedback_tags ALTER COLUMN id SET DEFAULT nextval('public.beta_feedback_tags_id_seq'::regclass);
+
+
+--
 -- Name: booking_cascades active_blocks_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1760,11 +2124,51 @@ ALTER TABLE ONLY public.appointment_attendees
 
 
 --
+-- Name: appointment_fee_entries appointment_fee_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_fee_entries
+    ADD CONSTRAINT appointment_fee_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: appointment_fee_summaries appointment_fee_summaries_appointment_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_fee_summaries
+    ADD CONSTRAINT appointment_fee_summaries_appointment_id_key UNIQUE (appointment_id);
+
+
+--
+-- Name: appointment_fee_summaries appointment_fee_summaries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_fee_summaries
+    ADD CONSTRAINT appointment_fee_summaries_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: appointments appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.appointments
     ADD CONSTRAINT appointments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: beta_feedback beta_feedback_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.beta_feedback
+    ADD CONSTRAINT beta_feedback_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: beta_feedback_tags beta_feedback_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.beta_feedback_tags
+    ADD CONSTRAINT beta_feedback_tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -1840,6 +2244,22 @@ ALTER TABLE ONLY public.business_settings
 
 
 --
+-- Name: calendar_settings calendar_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.calendar_settings
+    ADD CONSTRAINT calendar_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: constraint_overrides constraint_overrides_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.constraint_overrides
+    ADD CONSTRAINT constraint_overrides_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: annotation_instances descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1912,11 +2332,43 @@ ALTER TABLE ONLY public.part_shapes
 
 
 --
+-- Name: pricing_cascades pricing_cascades_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pricing_cascades
+    ADD CONSTRAINT pricing_cascades_parent_id_child_id_key UNIQUE (parent_id, child_id);
+
+
+--
+-- Name: pricing_cascades pricing_cascades_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pricing_cascades
+    ADD CONSTRAINT pricing_cascades_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: property_details property_details_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.property_details
     ADD CONSTRAINT property_details_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: property_feature_mappings property_feature_mappings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.property_feature_mappings
+    ADD CONSTRAINT property_feature_mappings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: property_field_mappings property_field_mappings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.property_field_mappings
+    ADD CONSTRAINT property_field_mappings_pkey PRIMARY KEY (id);
 
 
 --
@@ -2053,6 +2505,30 @@ ALTER TABLE ONLY public.valid_parts
 
 ALTER TABLE ONLY public.valid_parts
     ADD CONSTRAINT valid_parts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: valid_pricing_cascades valid_pricing_cascades_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_pricing_cascades
+    ADD CONSTRAINT valid_pricing_cascades_parent_id_child_id_key UNIQUE (parent_id, child_id);
+
+
+--
+-- Name: valid_pricing_cascades valid_pricing_cascades_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_pricing_cascades
+    ADD CONSTRAINT valid_pricing_cascades_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wizard_settings wizard_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wizard_settings
+    ADD CONSTRAINT wizard_settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -2385,6 +2861,13 @@ CREATE UNIQUE INDEX idx_business_settings_setting_key ON public.business_setting
 
 
 --
+-- Name: idx_constraint_overrides_appointment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_constraint_overrides_appointment_id ON public.constraint_overrides USING btree (appointment_id);
+
+
+--
 -- Name: idx_event_assignments_child_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2417,6 +2900,41 @@ CREATE INDEX idx_event_shape_attendees_user_type_block_instance_id ON public.eve
 --
 
 CREATE UNIQUE INDEX idx_event_shapes_name_unique ON public.event_shapes USING btree (name);
+
+
+--
+-- Name: idx_fee_entries_block_instance; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_fee_entries_block_instance ON public.appointment_fee_entries USING btree (block_instance_id);
+
+
+--
+-- Name: idx_fee_entries_block_shape_ref; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_fee_entries_block_shape_ref ON public.appointment_fee_entries USING btree (block_shape_ref);
+
+
+--
+-- Name: idx_fee_entries_summary; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_fee_entries_summary ON public.appointment_fee_entries USING btree (fee_summary_id);
+
+
+--
+-- Name: idx_fee_summaries_appointment; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_fee_summaries_appointment ON public.appointment_fee_summaries USING btree (appointment_id);
+
+
+--
+-- Name: idx_fee_summaries_total_fee; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_fee_summaries_total_fee ON public.appointment_fee_summaries USING btree (total_fee);
 
 
 --
@@ -2459,6 +2977,20 @@ CREATE INDEX idx_property_details_property_version_id ON public.property_details
 --
 
 CREATE INDEX idx_property_details_source ON public.property_details USING btree (source);
+
+
+--
+-- Name: idx_property_feature_mappings_data_source_active; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_property_feature_mappings_data_source_active ON public.property_feature_mappings USING btree (data_source, active);
+
+
+--
+-- Name: idx_property_field_mappings_data_source_active; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_property_field_mappings_data_source_active ON public.property_field_mappings USING btree (data_source, active);
 
 
 --
@@ -2553,6 +3085,20 @@ CREATE INDEX part_types_order_index_idx ON public.part_shapes USING btree (order
 
 
 --
+-- Name: pricing_cascades_child_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX pricing_cascades_child_id_idx ON public.pricing_cascades USING btree (child_id);
+
+
+--
+-- Name: pricing_cascades_parent_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX pricing_cascades_parent_id_idx ON public.pricing_cascades USING btree (parent_id);
+
+
+--
 -- Name: property_version_types_block_instance_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2613,6 +3159,34 @@ CREATE INDEX valid_parts_child_id_idx ON public.valid_parts USING btree (child_i
 --
 
 CREATE INDEX valid_parts_parent_id_idx ON public.valid_parts USING btree (parent_id);
+
+
+--
+-- Name: valid_pricing_cascades_child_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX valid_pricing_cascades_child_id_idx ON public.valid_pricing_cascades USING btree (child_id);
+
+
+--
+-- Name: valid_pricing_cascades_parent_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX valid_pricing_cascades_parent_id_idx ON public.valid_pricing_cascades USING btree (parent_id);
+
+
+--
+-- Name: valid_cascades trg_cleanup_booking_cascades; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_cleanup_booking_cascades AFTER DELETE ON public.valid_cascades FOR EACH ROW EXECUTE FUNCTION public.cleanup_booking_cascades_on_valid_cascade_delete();
+
+
+--
+-- Name: valid_parts trg_cleanup_part_assignments; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_cleanup_part_assignments AFTER DELETE ON public.valid_parts FOR EACH ROW EXECUTE FUNCTION public.cleanup_part_assignments_on_valid_part_delete();
 
 
 --
@@ -2703,6 +3277,38 @@ ALTER TABLE ONLY public.appointment_attendees
 
 
 --
+-- Name: appointment_fee_entries appointment_fee_entries_fee_summary_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_fee_entries
+    ADD CONSTRAINT appointment_fee_entries_fee_summary_id_fkey FOREIGN KEY (fee_summary_id) REFERENCES public.appointment_fee_summaries(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: appointment_fee_summaries appointment_fee_summaries_appointment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointment_fee_summaries
+    ADD CONSTRAINT appointment_fee_summaries_appointment_id_fkey FOREIGN KEY (appointment_id) REFERENCES public.appointments(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: appointments appointments_confirmed_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_confirmed_by_fkey FOREIGN KEY (confirmed_by) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: appointments appointments_held_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_held_by_fkey FOREIGN KEY (held_by) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
 -- Name: appointments appointments_property_version_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2724,6 +3330,14 @@ ALTER TABLE ONLY public.appointments
 
 ALTER TABLE ONLY public.appointments
     ADD CONSTRAINT appointments_user_type_id_fkey FOREIGN KEY (user_type_id) REFERENCES public.block_instances(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: beta_feedback_tags beta_feedback_tags_feedback_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.beta_feedback_tags
+    ADD CONSTRAINT beta_feedback_tags_feedback_id_fkey FOREIGN KEY (feedback_id) REFERENCES public.beta_feedback(id) ON DELETE CASCADE;
 
 
 --
@@ -2764,6 +3378,22 @@ ALTER TABLE ONLY public.business_rules
 
 ALTER TABLE ONLY public.business_rules
     ADD CONSTRAINT business_rules_validation_message_annotation_id_fkey FOREIGN KEY (validation_message_annotation_id) REFERENCES public.annotation_instances(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: constraint_overrides constraint_overrides_appointment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.constraint_overrides
+    ADD CONSTRAINT constraint_overrides_appointment_id_fkey FOREIGN KEY (appointment_id) REFERENCES public.appointments(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: constraint_overrides constraint_overrides_authorized_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.constraint_overrides
+    ADD CONSTRAINT constraint_overrides_authorized_by_id_fkey FOREIGN KEY (authorized_by_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
@@ -2847,11 +3477,35 @@ ALTER TABLE ONLY public.part_instances
 
 
 --
+-- Name: pricing_cascades pricing_cascades_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pricing_cascades
+    ADD CONSTRAINT pricing_cascades_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.part_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: pricing_cascades pricing_cascades_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pricing_cascades
+    ADD CONSTRAINT pricing_cascades_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.part_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: property_details property_details_property_version_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.property_details
     ADD CONSTRAINT property_details_property_version_id_fkey FOREIGN KEY (property_version_id) REFERENCES public.property_versions(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: property_feature_mappings property_feature_mappings_block_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.property_feature_mappings
+    ADD CONSTRAINT property_feature_mappings_block_instance_id_fkey FOREIGN KEY (block_instance_id) REFERENCES public.block_instances(id) ON DELETE CASCADE;
 
 
 --
@@ -2940,6 +3594,22 @@ ALTER TABLE ONLY public.valid_parts
 
 ALTER TABLE ONLY public.valid_parts
     ADD CONSTRAINT valid_parts_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.block_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: valid_pricing_cascades valid_pricing_cascades_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_pricing_cascades
+    ADD CONSTRAINT valid_pricing_cascades_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.part_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: valid_pricing_cascades valid_pricing_cascades_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_pricing_cascades
+    ADD CONSTRAINT valid_pricing_cascades_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.part_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
