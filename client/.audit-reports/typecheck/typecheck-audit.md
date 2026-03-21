@@ -12,7 +12,7 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-21T15:27:08.902Z**
+- Generated at: **2026-03-21T15:27:31.915Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
@@ -41,5 +41,5 @@ Review periodically to ensure exceptions are still valid.
 - errors: 1, unsafeCasts: 0, suppressions: 0
 
 ```
-TS2345@72:37 Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.
+TS2345@67:37 Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.
 ```
