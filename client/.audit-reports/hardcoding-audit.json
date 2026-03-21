@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T13:39:13.996Z",
+  "generatedAt": "2026-03-21T15:33:59.887Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 43,
+  "totalScanned": 2,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 39,
-    "totalRequiresReview": 5,
+    "totalAllowed": 0,
+    "totalRequiresReview": 3,
     "bySource": {
-      "inline": 2,
-      "pattern": 24,
-      "specific": 8,
-      "linePattern": 5
+      "inline": 0,
+      "pattern": 0,
+      "specific": 0,
+      "linePattern": 0
     }
   },
   "entityKeys": [],
@@ -59,27 +59,27 @@
   ],
   "files": [
     {
-      "id": "server__src__services__computedAvailabilityService.ts",
-      "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/services/computedAvailabilityService.ts",
+      "id": "client__src__composables__admin__useInstanceDragAndDrop.ts",
+      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceDragAndDrop.ts",
       "counts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
         "caseString": 0,
         "fieldEqualsString": 0,
-        "fieldMapping": 5,
-        "inlineLabelMap": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 3,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 3
+        "magicLabel": 5
       },
       "reviewCounts": {
         "switchEntityKey": 0,
         "switchTypeLike": 0,
         "caseString": 0,
         "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 3,
         "omitFieldsArray": 0,
         "headersArray": 0,
         "magicLabel": 0,
@@ -87,264 +87,68 @@
       },
       "matches": [
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 88,
-          "line": "{ driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }"
+          "ruleId": "magicLabel",
+          "lineNumber": 77,
+          "line": "logger.error('Failed to patch order index after grouped-zone drag', { error: _error, blockShapeId })"
         },
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 92,
-          "line": "{ driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }"
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 104,
-          "line": "logger.debug('Drive time cache check', {"
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 153,
-          "line": "logger.error('Failed to batch calculate driveToCandidate', { error, placeIds: uncachedToPlaceIds })"
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})"
         },
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 189,
-          "line": "{ status: result.status, condition: result.condition }"
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})"
         },
         {
           "ruleId": "magicLabel",
-          "lineNumber": 196,
-          "line": "logger.error('Failed to batch calculate driveFromCandidate', {"
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})"
         },
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 225,
-          "line": "const def: RouteLocation = { placeId: defaultPlaceId.trim() }"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 226,
-          "line": "const cand: RouteLocation = { placeId: candidatePlaceId.trim() }"
+          "ruleId": "magicLabel",
+          "lineNumber": 314,
+          "line": "logger.debug('Failed to initialize drag and drop for group', { error, dragKey })"
         }
       ],
-      "allowed": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 88,
-          "line": "{ driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }",
-          "reason": "API drive-time payload shape",
-          "source": "inline",
-          "suppressionStatus": "suppressedInline"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 92,
-          "line": "{ driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }",
-          "reason": "API drive-time payload shape",
-          "source": "inline",
-          "suppressionStatus": "suppressedInline"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 189,
-          "line": "{ status: result.status, condition: result.condition }",
-          "reason": "Metadata/context object; not API/DB field mapping",
-          "source": "linePattern",
-          "suppressionStatus": "suppressedByPattern"
-        }
-      ],
+      "allowed": [],
       "requiresReview": [
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 225,
-          "line": "const def: RouteLocation = { placeId: defaultPlaceId.trim() }",
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "fieldMapping",
-          "lineNumber": 226,
-          "line": "const cand: RouteLocation = { placeId: candidatePlaceId.trim() }",
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})",
           "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 6,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    },
-    {
-      "id": "client__src__composables__booking__useAvailabilityStepFeePreview.ts",
-      "repoPath": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 53,
-          "line": "? { totalDriveMinutes: Math.max(0, rawDrive) }"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 53,
-          "line": "? { totalDriveMinutes: Math.max(0, rawDrive) }",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "client__src__composables__booking__useConfirmationStepData.ts",
-      "repoPath": "client/src/composables/booking/useConfirmationStepData.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/booking/useConfirmationStepData.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 65,
-          "line": "? { totalDriveMinutes: Math.max(0, rawDrive) }"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 65,
-          "line": "? { totalDriveMinutes: Math.max(0, rawDrive) }",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
-      "priority": "P2",
-      "suggestions": []
-    },
-    {
-      "id": "client__src__utils__booking__appointmentDataCollection.ts",
-      "repoPath": "client/src/utils/booking/appointmentDataCollection.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/booking/appointmentDataCollection.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 6
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 1,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 41,
-          "line": "showError('Please select at least one service type')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 46,
-          "line": "showError('Property details are required')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 51,
-          "line": "showError('Contact information is required')"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 56,
-          "line": "showError('Availability selection is required')"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 92,
-          "line": "? { totalDriveMinutes: Math.max(0, rawDrive) }"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 115,
-          "line": "logger.error('Failed to collect appointment data', { error })"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 116,
-          "line": "const errorMessage = error instanceof Error ? error.message : 'Failed to collect appointment data'"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 92,
-          "line": "? { totalDriveMinutes: Math.max(0, rawDrive) }",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 3,
       "priority": "P2",
       "suggestions": []
     }

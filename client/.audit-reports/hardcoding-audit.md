@@ -50,78 +50,39 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **4**
-- **Requiring review: 5**
-- Allowed (with justification): 39 (inline: 2, pattern: 24, specific: 8, linePattern: 5)
+- Total files scanned: **1**
+- **Requiring review: 3**
+- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `server/src/services/computedAvailabilityService.ts` | 6 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 3 |
-| `client/src/composables/booking/useAvailabilityStepFeePreview.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/composables/booking/useConfirmationStepData.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-| `client/src/utils/booking/appointmentDataCollection.ts` | 3 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
+| `client/src/composables/admin/useInstanceDragAndDrop.ts` | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 88 | inline | API drive-time payload shape |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 92 | inline | API drive-time payload shape |
-| `server/src/services/computedAvailabilityService.ts` | fieldMapping | 189 | linePattern | Metadata/context object; not API/DB field mapping |
+- (no exceptions configured)
 
 
 ## Per-file suggestions
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
-### `server/src/services/computedAvailabilityService.ts`
-
-- score: **6**
-
-- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
-
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
 
-### `server/src/services/computedAvailabilityService.ts`
+### `client/src/composables/admin/useInstanceDragAndDrop.ts`
 
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=5, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 2, allowed: 3
-
-```
-fieldMapping@225: const def: RouteLocation = { placeId: defaultPlaceId.trim() }
-fieldMapping@226: const cand: RouteLocation = { placeId: candidatePlaceId.trim() }
-```
-
-### `client/src/composables/booking/useAvailabilityStepFeePreview.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=3
+- requiring review: 3, allowed: 0
 
 ```
-fieldMapping@53: ? { totalDriveMinutes: Math.max(0, rawDrive) }
-```
-
-### `client/src/composables/booking/useConfirmationStepData.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@65: ? { totalDriveMinutes: Math.max(0, rawDrive) }
-```
-
-### `client/src/utils/booking/appointmentDataCollection.ts`
-
-- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=1, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
-- requiring review: 1, allowed: 0
-
-```
-fieldMapping@92: ? { totalDriveMinutes: Math.max(0, rawDrive) }
+inlineLabelMap@260: fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})
+inlineLabelMap@283: fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})
+inlineLabelMap@311: fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})
 ```

@@ -12,18 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-21T15:27:31.915Z**
+- Generated at: **2026-03-21T15:33:59.403Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**
-- **Errors requiring review: 1**
+- **Errors requiring review: 2**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **1**
+- Pools: **2**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P1 | `TS2304-ts2304-cannot-find-name-usecookie` | 13 | 1 | 1 | 0 | 0 |
 | P1 | `TS2345-ts2345-arg-string-globalentityid` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
@@ -42,4 +43,12 @@ Review periodically to ensure exceptions are still valid.
 
 ```
 TS2345@67:37 Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.
+```
+
+### `src/plugins/1.router/additional-routes.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2304@11:24 Cannot find name 'useCookie'.
 ```

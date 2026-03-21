@@ -10,11 +10,11 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **0**
-- Requiring review: **0**
+- Files with findings: **1**
+- Requiring review: **3**
 - Allowed (with justification): 0
 
-- P0 (silent catches): **0**
+- P0 (silent catches): **3**
 - P1 (console-in-catch, alert-in-catch, type suppressions): **0**
 - P2 (general console, catch-without-logger): **0**
 
@@ -72,5 +72,14 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
+| `client/src/composables/admin/useInstanceDragAndDrop.ts` | P0 | 30 | 3 | 0 | 0 |
 
 ## Per-file findings
+
+### `client/src/composables/admin/useInstanceDragAndDrop.ts` [P0] (score: 30)
+
+```
+silent-catch-promise@260: fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'applic...
+silent-catch-promise@283: fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'applic...
+silent-catch-promise@311: fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'applic...
+```
