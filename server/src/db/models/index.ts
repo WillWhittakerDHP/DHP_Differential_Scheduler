@@ -36,7 +36,15 @@ import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
 import { CalendarSettingsFactory } from "./admin/calendar_settings.js";
 import { WizardSettingsFactory } from "./admin/wizard_settings.js";
-import { AppSettingEntryFactory } from "./admin/app_setting_entry.js";
+import { AvailabilitySettingFactory } from "./admin/availability_setting.js";
+import { AvailabilityBusinessHourFactory } from "./admin/availability_business_hour.js";
+import { AvailabilityBufferEntryFactory } from "./admin/availability_buffer_entry.js";
+import { AvailabilityRangeConstraintFactory } from "./admin/availability_range_constraint.js";
+import { AvailabilityRangeConstraintHourFactory } from "./admin/availability_range_constraint_hour.js";
+import { AvailabilityMaxWorkHourFactory } from "./admin/availability_max_work_hour.js";
+import { AvailabilityMaxIncomeRowFactory } from "./admin/availability_max_income_row.js";
+import { AvailabilityDifferentialAttendeeFactory } from "./admin/availability_differential_attendee.js";
+import { CalendarSettingCalendarFactory } from "./admin/calendar_setting_calendar.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
@@ -89,7 +97,15 @@ export function initializeModels(sequelize: Sequelize) {
   const BusinessSettings = BusinessSettingsFactory(sequelize);
   const CalendarSettings = CalendarSettingsFactory(sequelize);
   const WizardSettings = WizardSettingsFactory(sequelize);
-  const AppSettingEntry = AppSettingEntryFactory(sequelize);
+  const AvailabilitySetting = AvailabilitySettingFactory(sequelize);
+  const AvailabilityBusinessHour = AvailabilityBusinessHourFactory(sequelize);
+  const AvailabilityBufferEntry = AvailabilityBufferEntryFactory(sequelize);
+  const AvailabilityRangeConstraint = AvailabilityRangeConstraintFactory(sequelize);
+  const AvailabilityRangeConstraintHour = AvailabilityRangeConstraintHourFactory(sequelize);
+  const AvailabilityMaxWorkHour = AvailabilityMaxWorkHourFactory(sequelize);
+  const AvailabilityMaxIncomeRow = AvailabilityMaxIncomeRowFactory(sequelize);
+  const AvailabilityDifferentialAttendee = AvailabilityDifferentialAttendeeFactory(sequelize);
+  const CalendarSettingCalendar = CalendarSettingCalendarFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
   const AdminMetadata = AdminMetadataFactory(sequelize);
@@ -340,6 +356,47 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'blockInstanceVersion' 
   });
 
+  AvailabilitySetting.hasMany(AvailabilityBusinessHour, {
+    foreignKey: 'availabilitySettingsId',
+    as: 'availabilityBusinessHours',
+  });
+  AvailabilityBusinessHour.belongsTo(AvailabilitySetting, { foreignKey: 'availabilitySettingsId' });
+  AvailabilitySetting.hasMany(AvailabilityBufferEntry, {
+    foreignKey: 'availabilitySettingsId',
+    as: 'availabilityBufferEntries',
+  });
+  AvailabilityBufferEntry.belongsTo(AvailabilitySetting, { foreignKey: 'availabilitySettingsId' });
+  AvailabilitySetting.hasMany(AvailabilityRangeConstraint, {
+    foreignKey: 'availabilitySettingsId',
+    as: 'availabilityRangeConstraints',
+  });
+  AvailabilityRangeConstraint.belongsTo(AvailabilitySetting, { foreignKey: 'availabilitySettingsId' });
+  AvailabilityRangeConstraint.hasMany(AvailabilityRangeConstraintHour, {
+    foreignKey: 'rangeConstraintId',
+    as: 'availabilityRangeConstraintHours',
+  });
+  AvailabilityRangeConstraintHour.belongsTo(AvailabilityRangeConstraint, { foreignKey: 'rangeConstraintId' });
+  AvailabilitySetting.hasMany(AvailabilityMaxWorkHour, {
+    foreignKey: 'availabilitySettingsId',
+    as: 'availabilityMaxWorkHours',
+  });
+  AvailabilityMaxWorkHour.belongsTo(AvailabilitySetting, { foreignKey: 'availabilitySettingsId' });
+  AvailabilitySetting.hasMany(AvailabilityMaxIncomeRow, {
+    foreignKey: 'availabilitySettingsId',
+    as: 'availabilityMaxIncomeRows',
+  });
+  AvailabilityMaxIncomeRow.belongsTo(AvailabilitySetting, { foreignKey: 'availabilitySettingsId' });
+  AvailabilitySetting.hasMany(AvailabilityDifferentialAttendee, {
+    foreignKey: 'availabilitySettingsId',
+    as: 'availabilityDifferentialAttendees',
+  });
+  AvailabilityDifferentialAttendee.belongsTo(AvailabilitySetting, { foreignKey: 'availabilitySettingsId' });
+  CalendarSettings.hasMany(CalendarSettingCalendar, {
+    foreignKey: 'calendarSettingsId',
+    as: 'calendarEntries',
+  });
+  CalendarSettingCalendar.belongsTo(CalendarSettings, { foreignKey: 'calendarSettingsId' });
+
   return {
     PartInstance, PartShape,
     BlockInstance, BlockShape,
@@ -353,7 +410,19 @@ export function initializeModels(sequelize: Sequelize) {
     AppointmentFeeSummary,
     AppointmentFeeEntry,
     ConstraintOverride,
-    BusinessSettings, CalendarSettings, WizardSettings, AppSettingEntry, BusinessRule,
+    BusinessSettings,
+    CalendarSettings,
+    WizardSettings,
+    AvailabilitySetting,
+    AvailabilityBusinessHour,
+    AvailabilityBufferEntry,
+    AvailabilityRangeConstraint,
+    AvailabilityRangeConstraintHour,
+    AvailabilityMaxWorkHour,
+    AvailabilityMaxIncomeRow,
+    AvailabilityDifferentialAttendee,
+    CalendarSettingCalendar,
+    BusinessRule,
     AdminMetadata,
     BetaFeedback,
     BetaFeedbackTag,

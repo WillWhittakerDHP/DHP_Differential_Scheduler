@@ -282,3 +282,311 @@ export default {
     }
 
     const av = avDoc
+
+    await sequelize.query(
+      `UPDATE public.availability_settings SET
+        minute_increment = :minuteIncrement,
+        timezone = :timezone,
+        default_location_place_id = :dlp,
+        default_location_label = :dll,
+        default_location_lat = :dla,
+        default_location_lng = :dlo,
+        duration_rounding_enabled = :dre,
+        duration_rounding_increment = :dri,
+        duration_rounding_method = :drm,
+        overlap_out_of_office_enforcement = :ooo,
+        updated_at = NOW()
+      WHERE id = :id`,
+      {
+        replacements: {
+          id: avId,
+          minuteIncrement: av.minuteIncrement ?? 15,
+          timezone: av.timezone ?? null,
+          dlp: av.defaultLocation?.placeId ?? null,
+          dll: av.defaultLocation?.label ?? null,
+          dla: av.defaultLocation?.coordinates?.lat ?? null,
+          dlo: av.defaultLocation?.coordinates?.lng ?? null,
+          dre: av.durationRounding?.enabled ?? false,
+          dri: av.durationRounding?.increment ?? null,
+          drm: av.durationRounding?.method ?? null,
+          ooo: av.overlapSources?.outOfOffice?.enforcement ?? null,
+        },
+      }
+    )
+
+    for (const tbl of [
+      'availability_business_hours',
+      'availability_buffers',
+      'availability_range_constraint_hours',
+      'availability_range_constraints',
+      'availability_max_work_hours',
+      'availability_max_income',
+      'availability_differential_attendees',
+    ]) {
+      if (tbl === 'availability_range_constraint_hours') {
+        await sequelize.query(
+          `DELETE FROM public.availability_range_constraint_hours WHERE range_constraint_id IN (
+            SELECT id FROM public.availability_range_constraints WHERE availability_settings_id = :aid
+          )`,
+          { replacements: { aid: avId } }
+        )
+      } else if (tbl === 'availability_range_constraints') {
+        await sequelize.query(
+          `DELETE FROM public.availability_range_constraints WHERE availability_settings_id = :aid`,
+          { replacements: { aid: avId } }
+        )
+      } else {
+        await sequelize.query(
+          `DELETE FROM public.${tbl} WHERE availability_settings_id = :aid`,
+          { replacements: { aid: avId } }
+        )
+      }
+    }
+
+    const bh = av.businessHours || {}
+    for (let dow = 0; dow <= 6; dow++) {
+      const day = bh[String(dow)] ?? bh[dow]
+      if (day?.start && day?.end) {
+        await sequelize.query(
+          `INSERT INTO public.availability_business_hours (availability_settings_id, day_of_week, start_at, end_at)
+           VALUES (:aid, :dow, :st::timestamptz, :en::timestamptz)`,
+          { replacements: { aid: avId, dow, st: day.start, en: day.end } }
+        )
+      }
+    }
+
+    const bufMap = [
+      ['appointment', av.buffers?.appointment],
+      ['drive_to_candidate', av.buffers?.driveToCandidate],
+      ['drive_from_candidate', av.buffers?.driveFromCandidate],
+      ['lunch', av.buffers?.lunch],
+    ]
+    for (const [kind, b] of bufMap) {
+      if (!b || typeof b !== 'object') continue
+      await sequelize.query(
+        `INSERT INTO public.availability_buffers (availability_settings_id, buffer_kind, minutes, enforcement, placement, apply_to)
+         VALUES (:aid, :kind, :min, :enf, :pl, :ap)`,
+        {
+          replacements: {
+            aid: avId,
+            kind,
+            min: b.minutes ?? null,
+            enf: b.enforcement ?? null,
+            pl: b.placement ?? null,
+            ap: b.applyTo ?? null,
+          },
+        }
+      )
+    }
+
+    const rc = av.rangeConstraints || {}
+    for (const rt of ['businessHours', 'leadTime', 'dateRange']) {
+      const c = rc[rt]
+      if (!c || typeof c !== 'object') continue
+      const enforcement = c.enforcement ?? 'hard'
+      let leadMin = null
+      let drs = null
+      let dre = null
+      if (c.type === 'leadTime' && c.config?.minutes != null) leadMin = c.config.minutes
+      if (c.type === 'dateRange' && c.config) {
+        drs = c.config.start ?? null
+        dre = c.config.end ?? null
+      }
+      const insRc = await sequelize.query(
+        `INSERT INTO public.availability_range_constraints (
+          availability_settings_id, range_type, enforcement, lead_time_minutes, date_range_start, date_range_end
+        ) VALUES (:aid, :rt, :enf, :lm, CAST(:drs AS TIMESTAMPTZ), CAST(:dre AS TIMESTAMPTZ)) RETURNING id`,
+        {
+          replacements: {
+            aid: avId,
+            rt,
+            enf: enforcement,
+            lm: leadMin,
+            drs,
+            dre,
+          },
+          type: Sequelize.QueryTypes.SELECT,
+        }
+      )
+      const rcId = insRc[0].id
+      if (c.type === 'businessHours' && c.config?.hours) {
+        const hours = c.config.hours
+        for (let dow = 0; dow <= 6; dow++) {
+          const day = hours[String(dow)] ?? hours[dow]
+          if (day?.start && day?.end) {
+            await sequelize.query(
+              `INSERT INTO public.availability_range_constraint_hours (range_constraint_id, day_of_week, start_at, end_at)
+               VALUES (:rcid, :dow, :st::timestamptz, :en::timestamptz)`,
+              { replacements: { rcid: rcId, dow, st: day.start, en: day.end } }
+            )
+          }
+        }
+      }
+    }
+
+    const mw = av.maxWorkHours || {}
+    for (const sk of ['day', 'calendarWeek', 'rollingWeek']) {
+      const w = mw[sk]
+      if (!w || w.maxHours == null) continue
+      const sc = sk === 'calendarWeek' ? 'calendar_week' : sk === 'rollingWeek' ? 'rolling_week' : 'day'
+      await sequelize.query(
+        `INSERT INTO public.availability_max_work_hours (availability_settings_id, scope, max_hours, enforcement, rolling_direction)
+         VALUES (:aid, :sc, :mh, :enf, :dir)`,
+        {
+          replacements: {
+            aid: avId,
+            sc,
+            mh: w.maxHours,
+            enf: w.enforcement,
+            dir: w.direction ?? null,
+          },
+        }
+      )
+    }
+
+    const mi = av.maxIncome || {}
+    for (const sk of ['day', 'calendarWeek', 'rollingWeek']) {
+      const w = mi[sk]
+      if (!w || w.maxIncome == null) continue
+      const sc = sk === 'calendarWeek' ? 'calendar_week' : sk === 'rollingWeek' ? 'rolling_week' : 'day'
+      await sequelize.query(
+        `INSERT INTO public.availability_max_income (availability_settings_id, scope, max_income, enforcement, rolling_direction)
+         VALUES (:aid, :sc, :mv, :enf, :dir)`,
+        {
+          replacements: {
+            aid: avId,
+            sc,
+            mv: w.maxIncome,
+            enf: w.enforcement,
+            dir: w.direction ?? null,
+          },
+        }
+      )
+    }
+
+    const maj = av.differentialPerspectives?.majorAttendees
+    if (Array.isArray(maj)) {
+      let i = 0
+      for (const v of maj) {
+        await sequelize.query(
+          `INSERT INTO public.availability_differential_attendees (availability_settings_id, role, sort_order, value)
+           VALUES (:aid, 'major', :so, :val)`,
+          { replacements: { aid: avId, so: i++, val: String(v) } }
+        )
+      }
+    }
+    const minr = av.differentialPerspectives?.minorAttendees
+    if (Array.isArray(minr)) {
+      let i = 0
+      for (const v of minr) {
+        await sequelize.query(
+          `INSERT INTO public.availability_differential_attendees (availability_settings_id, role, sort_order, value)
+           VALUES (:aid, 'minor', :so, :val)`,
+          { replacements: { aid: avId, so: i++, val: String(v) } }
+        )
+      }
+    }
+
+    const cal = { ...DEFAULT_CAL, ...(await fetchCalendarDoc(sequelize)) }
+    const [calRows] = await sequelize.query(`SELECT id FROM public.calendar_settings ORDER BY updated_at DESC NULLS LAST LIMIT 1`)
+    const calId = calRows[0]?.id
+    if (calId) {
+      await sequelize.query(
+        `UPDATE public.calendar_settings SET
+          enabled = :en, provider = :pr,
+          hold_duration_minutes = :hdm, hold_duration_min = :hdmin, hold_duration_max = :hdmax, hold_duration_fallback = :hdf,
+          admin_entry_timeout_value = :aev, admin_entry_timeout_unit = :aeu,
+          auto_confirm_enabled = :ac
+        WHERE id = :id`,
+        {
+          replacements: {
+            id: calId,
+            en: Boolean(cal.enabled),
+            pr: cal.provider ?? 'none',
+            hdm: cal.holdDurationMinutes ?? 15,
+            hdmin: cal.holdDurationMin ?? 1,
+            hdmax: cal.holdDurationMax ?? 60,
+            hdf: cal.holdDurationFallback ?? 15,
+            aev: cal.adminEntryTimeout?.value ?? 30,
+            aeu: cal.adminEntryTimeout?.unit ?? 'days',
+            ac: Boolean(cal.autoConfirmEnabled),
+          },
+        }
+      )
+      await sequelize.query(`DELETE FROM public.calendar_setting_calendars WHERE calendar_settings_id = :id`, {
+        replacements: { id: calId },
+      })
+      const cals = Array.isArray(cal.calendars) ? cal.calendars : []
+      let order = 0
+      for (const e of cals) {
+        if (!e?.email) continue
+        await sequelize.query(
+          `INSERT INTO public.calendar_setting_calendars (calendar_settings_id, sort_order, email, label, read_from, write_to)
+           VALUES (:cid, :so, :em, :lb, :rf, :wt)`,
+          {
+            replacements: {
+              cid: calId,
+              so: order++,
+              em: String(e.email).trim(),
+              lb: e.label ?? null,
+              rf: Boolean(e.readFrom),
+              wt: Boolean(e.writeTo),
+            },
+          }
+        )
+      }
+    }
+
+    const wiz = { ...DEFAULT_WIZ, ...(await fetchWizardDoc(sequelize)) }
+    await sequelize.query(
+      `UPDATE public.wizard_settings SET
+        show_apply_coupon = :sac,
+        use_brand_colors = :ubc,
+        major_label = :maj,
+        minor_label = :min,
+        moveable_fallback_label = :mfb,
+        differential_graph_default_label = :dgd,
+        major_state_label = :msl,
+        minor_state_label = :mis,
+        select_time_slot_label = :sts,
+        sub_step_label_pick_day = :spd,
+        sub_step_label_options = :sop,
+        sub_step_label_pick_time = :spt,
+        sub_step_label_confirm_moveable = :scm,
+        updated_at = NOW()
+      WHERE id = (SELECT id FROM public.wizard_settings ORDER BY updated_at DESC NULLS LAST LIMIT 1)`,
+      {
+        replacements: {
+          sac: Boolean(wiz.showApplyCoupon),
+          ubc: Boolean(wiz.useBrandColors),
+          maj: wiz.majorLabel ?? null,
+          min: wiz.minorLabel ?? null,
+          mfb: wiz.moveableFallbackLabel ?? null,
+          dgd: wiz.differentialGraphDefaultLabel ?? null,
+          msl: wiz.majorStateLabel ?? null,
+          mis: wiz.minorStateLabel ?? null,
+          sts: wiz.selectTimeSlotLabel ?? null,
+          spd: wiz.subStepLabelPickDay ?? null,
+          sop: wiz.subStepLabelOptions ?? null,
+          spt: wiz.subStepLabelPickTime ?? null,
+          scm: wiz.subStepLabelConfirmMoveable ?? null,
+        },
+      }
+    )
+
+    await sequelize.query(`ALTER TABLE public.wizard_settings DROP COLUMN IF EXISTS setting_value`)
+    await sequelize.query(`ALTER TABLE public.calendar_settings DROP COLUMN IF EXISTS setting_value`)
+
+    await sequelize.query(`DELETE FROM public.business_settings WHERE setting_key = 'availability_settings'`)
+
+    if (await tableExists(sequelize, 'app_setting_entries')) {
+      await sequelize.query(`DROP TABLE IF EXISTS public.app_setting_entries`)
+    }
+  },
+
+  async down() {
+    throw new Error(
+      'Irreversible migration 20260325_000006_relational_settings: restore from backup or rebuild DB.'
+    )
+  },
+}

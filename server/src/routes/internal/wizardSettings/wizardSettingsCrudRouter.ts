@@ -1,5 +1,5 @@
 /**
- * Singleton CRUD for wizard settings. Persisted in app_setting_entries (namespace wizard, path document).
+ * Singleton CRUD for wizard settings. Relational columns on wizard_settings.
  */
 import { Router, Request, Response } from 'express';
 import type { WizardSettingsData } from '../../../../../shared/types/wizardSettingsTypes.js';

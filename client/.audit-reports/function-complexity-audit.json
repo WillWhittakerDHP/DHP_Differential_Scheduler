@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T13:54:21.547Z",
-  "totalScanned": 1082,
+  "generatedAt": "2026-03-21T14:14:48.926Z",
+  "totalScanned": 1091,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,105 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "server/src/repositories/availabilitySettingsRepository.ts",
+      "functions": [
+        {
+          "name": "persistAvailabilityData",
+          "startLine": 85,
+          "endLine": 258,
+          "length": 174,
+          "maxNesting": 5,
+          "branches": 29,
+          "params": 2,
+          "returns": 0,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 29,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 174,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
+      "functions": [
+        {
+          "name": "inputConfigEditor",
+          "startLine": 25,
+          "endLine": 114,
+          "length": 90,
+          "maxNesting": 3,
+          "branches": 13,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 90,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/wizardSettingsRepository.ts",
+      "functions": [
+        {
+          "name": "getWizardSettingsData",
+          "startLine": 14,
+          "endLine": 39,
+          "length": 26,
+          "maxNesting": 1,
+          "branches": 12,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    }
+  ]
 }
