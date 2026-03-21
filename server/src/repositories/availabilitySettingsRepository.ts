@@ -3,6 +3,7 @@
  */
 import type { Transaction } from 'sequelize'
 import type { AvailabilitySettingsData } from '../../../shared/types/availabilitySettingsDocument.js'
+import type { BufferConfig, DriveTimeConfig } from '../../../shared/types/availabilityTypes.js'
 import {
   AvailabilitySetting,
   AvailabilityBusinessHour,
@@ -135,7 +136,7 @@ async function persistAvailabilityData(data: AvailabilitySettingsData, t: Transa
       if (!b) continue
       const kind = apiBufferKind(key)
       if (key === 'driveToCandidate' || key === 'driveFromCandidate') {
-        const d = b as import('../../../shared/types/availabilityTypes.js').DriveTimeConfig
+        const d = b as DriveTimeConfig
         await AvailabilityBufferEntry.create(
           {
             availabilitySettingsId: id,
@@ -148,7 +149,7 @@ async function persistAvailabilityData(data: AvailabilitySettingsData, t: Transa
           { transaction: t }
         )
       } else {
-        const d = b as import('../../../shared/types/availabilityTypes.js').BufferConfig
+        const d = b as BufferConfig
         await AvailabilityBufferEntry.create(
           {
             availabilitySettingsId: id,

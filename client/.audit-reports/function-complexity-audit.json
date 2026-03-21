@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:14:48.926Z",
+  "generatedAt": "2026-03-21T14:25:11.162Z",
   "totalScanned": 1091,
   "totalAllowed": 0,
   "tierModel": "tier1",
@@ -20,12 +20,85 @@
   "baseRef": "HEAD~1",
   "files": [
     {
+      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "functions": [
+        {
+          "name": "bufferKindToApi",
+          "startLine": 38,
+          "endLine": 44,
+          "length": 7,
+          "maxNesting": 0,
+          "branches": 4,
+          "params": 1,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "rangeConstraintFromRow",
+          "startLine": 56,
+          "endLine": 101,
+          "length": 46,
+          "maxNesting": 4,
+          "branches": 6,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "assembleAvailabilityDocument",
+          "startLine": 103,
+          "endLine": 239,
+          "length": 137,
+          "maxNesting": 3,
+          "branches": 39,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 39,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 137,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
       "repoPath": "server/src/repositories/availabilitySettingsRepository.ts",
       "functions": [
         {
           "name": "persistAvailabilityData",
-          "startLine": 85,
-          "endLine": 258,
+          "startLine": 86,
+          "endLine": 259,
           "length": 174,
           "maxNesting": 5,
           "branches": 29,
@@ -55,68 +128,6 @@
       ],
       "score": 10,
       "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
-      "functions": [
-        {
-          "name": "inputConfigEditor",
-          "startLine": 25,
-          "endLine": 114,
-          "length": 90,
-          "maxNesting": 3,
-          "branches": 13,
-          "params": 0,
-          "returns": 7,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 13,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 90,
-              "threshold": 50,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 7,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        }
-      ],
-      "score": 5,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "server/src/repositories/wizardSettingsRepository.ts",
-      "functions": [
-        {
-          "name": "getWizardSettingsData",
-          "startLine": 14,
-          "endLine": 39,
-          "length": 26,
-          "maxNesting": 1,
-          "branches": 12,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 12,
-              "threshold": 8,
-              "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 3,
-      "priority": "P2"
     }
   ]
 }
