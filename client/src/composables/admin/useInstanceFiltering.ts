@@ -1,10 +1,11 @@
 import { computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { rawBookingModeIsAddOnOnly } from '@shared/utils/ternaryAliasUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import type { UseInstanceFilteringOptions, UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
 
-const DEFAULT_BOOKING_MODE = DEFAULT_VALUES.BOOKING_MODE
+const DEFAULT_BOOKING_MODE_STORAGE = DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
 
 function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChildIds: Set<string>): boolean {
   return componentChildIds.has(instance.id)
@@ -40,8 +41,10 @@ export function useInstanceFiltering(
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
       const mainInstances = instances
         .filter((instance) => {
-          const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE
-          return !isComponentChild(instance, componentChildIds.value) && mode !== 'addOn'
+          const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE_STORAGE
+          return (
+            !isComponentChild(instance, componentChildIds.value) && !rawBookingModeIsAddOnOnly(mode)
+          )
         })
       result.set(blockShapeId, mainInstances)
     })
@@ -55,8 +58,10 @@ export function useInstanceFiltering(
     blockInstancesByShape.value.forEach((instances, blockShapeId) => {
       const groupedInstances = instances
         .filter((instance) => {
-          const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE
-          return isComponentChild(instance, componentChildIds.value) || mode === 'addOn'
+          const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE_STORAGE
+          return (
+            isComponentChild(instance, componentChildIds.value) || rawBookingModeIsAddOnOnly(mode)
+          )
         })
       result.set(blockShapeId, groupedInstances)
     })

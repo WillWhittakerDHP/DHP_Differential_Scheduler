@@ -1,5 +1,6 @@
 
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { DifferentialRoleStorage } from '@shared/types/differentialRole'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
@@ -31,7 +32,7 @@ function hasAttendee(
 
 export function getEventShapeByRole(
   eventShapes: EventShapeEntity[],
-  role: 'major' | 'minor' | 'moveable'
+  role: DifferentialRoleStorage
 ): EventShapeEntity | null {
   return eventShapes.find(es => es.differentialRole === role) ?? null
 }

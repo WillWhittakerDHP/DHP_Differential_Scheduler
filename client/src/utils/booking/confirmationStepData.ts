@@ -1,4 +1,5 @@
 import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
+import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
 import type { BookingBlockInstance, BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
@@ -14,6 +15,7 @@ import {
 import { createBlockFinal } from './BlockFinal'
 import { getEffectivePartsForFee } from './pricingCascadeResolver'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import { computeDriveTimeFee, mergeDriveTimeFeeConfig } from '@/utils/booking/computeDriveTimeFee'
 
 /** Placeholder values until delivery/business-settings integration; single source for confirmation pricing. */
 const CONFIRMATION_PLACEHOLDER_DELIVERY_CHARGES = 5.0
@@ -24,6 +26,29 @@ type WizardSelectionState = {
   selectedPropertyTypeBlocks: readonly BookingBlockInstance[]
   selectedOptionTypeBlocks: readonly BookingBlockInstance[]
   selectedLineItemBlocks: readonly BookingBlockInstance[]
+}
+
+/** Passed from availability step when a slot is selected (task 6.11.1.3+). */
+export interface ConfirmationDriveContext {
+  totalDriveMinutes: number
+}
+
+/** UI label for the virtual drive-time row (Phase 6.11). */
+const DRIVE_TIME_LINE_ITEM_LABEL = 'Drive time'
+
+function driveTimeFeeFromContext(
+  driveContext: ConfirmationDriveContext | null | undefined,
+  driveTimeFeeSettings: DriveTimeFeeConfig | null | undefined
+): number {
+  if (driveContext == null) {
+    return 0
+  }
+  if (!Number.isFinite(driveContext.totalDriveMinutes)) {
+    return 0
+  }
+  const minutes = Math.max(0, driveContext.totalDriveMinutes)
+  const cfg = mergeDriveTimeFeeConfig(driveTimeFeeSettings)
+  return computeDriveTimeFee(minutes, cfg).fee
 }
 
 type PropertyDetailsStepData = {
@@ -59,7 +84,7 @@ function formatTimeRange(startIso: string, endIso: string): string {
 /** Extends shared FeeEntryBase for single source of truth. */
 type BlockInstanceFeeResult = FeeEntryBase
 
-function calculateBlockInstanceFee(
+export function calculateBlockInstanceFee(
   blockInstance: BookingBlockInstance,
   squareFootage: number | null,
   aduCount?: number | null,
@@ -182,18 +207,27 @@ export function buildConfirmationSummaryData(
   }
 }
 
+/** Optional drive row for persisted fee breakdown (Phase 6.11.5). */
+export interface AppointmentFeeBreakdownDriveOptions {
+  driveContext?: ConfirmationDriveContext | null
+  driveTimeFeeSettings?: DriveTimeFeeConfig | null
+  driveTimeSystemBlock?: { blockInstanceId: string; blockShapeRef: string } | null
+}
+
 /**
  * Build fee breakdown payload for appointment submission (summary + per-block entries).
  *
  * @param wizard - Wizard selection state with selected block instances
  * @param squareFootage - Property square footage for overage fee calculation
  * @param aduCount - Optional ADU count multiplier for allowMultiple blocks
+ * @param driveOptions - When `driveContext` and `driveTimeSystemBlock` are set, appends Drive time entry and updates summary totals.
  * @returns Payload with summary and entries for server to persist
  */
 export function buildAppointmentFeeBreakdown(
   wizard: WizardSelectionState,
   squareFootage: number | null,
-  aduCount?: number | null
+  aduCount?: number | null,
+  driveOptions?: AppointmentFeeBreakdownDriveOptions | null
 ): AppointmentFeeBreakdownPayload {
   const sqft = squareFootage ?? 0
   const adu = aduCount ?? 1
@@ -224,7 +258,7 @@ export function buildAppointmentFeeBreakdown(
     })),
   ]
 
-  const entries: AppointmentFeeEntryCreate[] = blocksWithFees.map(({ block, fee }) => ({
+  let entries: AppointmentFeeEntryCreate[] = blocksWithFees.map(({ block, fee }) => ({
     blockInstanceId: block.id,
     blockName: block.name,
     blockShapeRef: block.blockShapeRef,
@@ -234,9 +268,29 @@ export function buildAppointmentFeeBreakdown(
     quantity: block.allowMultiple ? adu : 1,
   }))
 
-  const baseFeeTotal = blocksWithFees.reduce((sum, { fee }) => sum + fee.baseFee, 0)
+  let baseFeeTotal = blocksWithFees.reduce((sum, { fee }) => sum + fee.baseFee, 0)
   const overageFeeTotal = blocksWithFees.reduce((sum, { fee }) => sum + fee.overageFee, 0)
-  const totalFee = baseFeeTotal + overageFeeTotal
+  let totalFee = baseFeeTotal + overageFeeTotal
+
+  const dc = driveOptions?.driveContext
+  const sys = driveOptions?.driveTimeSystemBlock
+  if (dc != null && sys != null && Number.isFinite(dc.totalDriveMinutes)) {
+    const driveFee = driveTimeFeeFromContext(dc, driveOptions?.driveTimeFeeSettings)
+    entries = [
+      ...entries,
+      {
+        blockInstanceId: sys.blockInstanceId,
+        blockName: DRIVE_TIME_LINE_ITEM_LABEL,
+        blockShapeRef: sys.blockShapeRef,
+        baseFee: driveFee,
+        overageFee: 0,
+        totalFee: driveFee,
+        quantity: 1,
+      },
+    ]
+    baseFeeTotal += driveFee
+    totalFee += driveFee
+  }
 
   const summary: AppointmentFeeSummaryCreate = {
     baseFeeTotal,
@@ -292,13 +346,33 @@ function calculateTotalCouponDiscount(
   return totalDiscount
 }
 
+/**
+ * Build confirmation {@link PriceData} for display and fee preview.
+ *
+ * @param driveContext - When set (slot selected with drive totals), appends Drive time line and adds fee to totals.
+ * @param driveTimeFeeSettings - From availability/business settings (`driveTimeFee`); merged with defaults when omitted.
+ * @param driveTimeSystemBlock - System block ref for persisted breakdown; when set with `driveContext`, breakdown includes drive row (same totals as UI).
+ */
 export function buildConfirmationPriceData(
   wizard: WizardSelectionState,
   squareFootage: number | null,
-  aduCount?: number | null
+  aduCount?: number | null,
+  driveContext?: ConfirmationDriveContext | null,
+  driveTimeFeeSettings?: DriveTimeFeeConfig | null,
+  driveTimeSystemBlock?: { blockInstanceId: string; blockShapeRef: string } | null
 ): PriceData {
+  const driveInBreakdown =
+    driveContext != null && driveTimeSystemBlock != null && Number.isFinite(driveContext.totalDriveMinutes)
+  const driveOpts: AppointmentFeeBreakdownDriveOptions | null = driveInBreakdown
+    ? {
+        driveContext,
+        driveTimeFeeSettings,
+        driveTimeSystemBlock,
+      }
+    : null
+
   // PATTERN: Use squareFootage parameter (extracted from propertyDetailsStepData by caller)
-  const { summary, entries } = buildAppointmentFeeBreakdown(wizard, squareFootage, aduCount)
+  const { summary, entries } = buildAppointmentFeeBreakdown(wizard, squareFootage, aduCount, driveOpts)
 
   const lineItemBlocks = asEmptyArray(wizard.selectedLineItemBlocks)
   const lineItemEntries = entries.filter((e) =>
@@ -313,21 +387,32 @@ export function buildConfirmationPriceData(
     { baseFee: 0, overageFee: 0, totalFee: 0 }
   )
 
-  const lineItems = lineItemBlocks.map((block) => {
+  const blockLineItems = lineItemBlocks.map((block) => {
     const entry = entries.find((e) => e.blockInstanceId === block.id)
     const amount = entry?.totalFee ?? 0
     return { label: block.name, amount, isFree: amount === 0 }
   })
 
+  const driveTimeFeeAmount =
+    driveInBreakdown && driveTimeSystemBlock != null
+      ? entries.find((e) => e.blockInstanceId === driveTimeSystemBlock.blockInstanceId)?.totalFee ?? 0
+      : driveTimeFeeFromContext(driveContext, driveTimeFeeSettings)
+  const driveLineItems =
+    driveContext != null
+      ? [{ label: DRIVE_TIME_LINE_ITEM_LABEL, amount: driveTimeFeeAmount, isFree: driveTimeFeeAmount === 0 }]
+      : []
+  const lineItems = [...blockLineItems, ...driveLineItems]
+
   const couponDiscount = calculateTotalCouponDiscount(wizard, squareFootage, aduCount)
-  const bagTotal = summary.totalFee + couponDiscount
-  const orderTotal = summary.totalFee
+  const blocksPlusDriveTotal = driveInBreakdown ? summary.totalFee : summary.totalFee + driveTimeFeeAmount
+  const bagTotal = blocksPlusDriveTotal + couponDiscount
+  const orderTotal = blocksPlusDriveTotal
   const deliveryCharges = CONFIRMATION_PLACEHOLDER_DELIVERY_CHARGES
   const deliveryFree = CONFIRMATION_PLACEHOLDER_DELIVERY_FREE
   const finalTotal = orderTotal + (deliveryFree ? 0 : deliveryCharges)
 
   return {
-    totalFee: summary.totalFee,
+    totalFee: blocksPlusDriveTotal,
     currency: summary.currency,
     bagTotal,
     couponDiscount,

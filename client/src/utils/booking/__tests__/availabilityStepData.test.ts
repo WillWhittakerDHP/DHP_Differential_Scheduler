@@ -30,6 +30,7 @@ import { describe, it, expect } from 'vitest'
 import {
   buildSelectedTimeSlots,
   buildAvailabilityStepData,
+  totalDriveMinutesFromAppointmentSlot,
 } from '../availabilityStepData'
 import type { AppointmentSlot, AppointmentShape, EventFinal, TimeRange } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -43,12 +44,14 @@ const mockMajorEventShape: EventShapeEntity = {
   id: 'event-shape-major',
   name: 'OnSite',
   attendees: [MAJOR_ATTENDEE_ID],
+  differentialRole: 'major',
 }
 
 const mockMinorEventShape: EventShapeEntity = {
   id: 'event-shape-minor',
   name: 'ClientPresent',
   attendees: [MINOR_ATTENDEE_ID],
+  differentialRole: 'minor',
 }
 
 const mockAvailabilitySettings: AvailabilitySettings = {
@@ -324,72 +327,107 @@ describe('availabilityStepData', () => {
   describe('buildAvailabilityStepData', () => {
     it('should build data with selected date and time slots', () => {
       const result = buildAvailabilityStepData({
-        selectedDate: { start: '2026-01-15', end: '2026-01-15' },
-        selectedTimeSlots: [{ 
-          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
-          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
-          duration: 120,
-        }],
+        candidateDate: { start: '2026-01-15', end: '2026-01-15' },
+        candidateTimeSlots: [
+          {
+            startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+            endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+            duration: 120,
+          },
+        ],
+        moveableScheduling: null,
+        totalDriveMinutes: 45,
       })
-      
+
       expect(result).toEqual({
-        selectedDate: { start: '2026-01-15', end: '2026-01-15' },
-        selectedTimeSlots: [{ 
-          startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
-          endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
-          duration: 120,
-        }],
+        candidateDate: { start: '2026-01-15', end: '2026-01-15' },
+        candidateTimeSlots: [
+          {
+            startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
+            endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
+            duration: 120,
+          },
+        ],
+        moveableScheduling: null,
+        totalDriveMinutes: 45,
       })
     })
 
     it('should handle null start date', () => {
       const result = buildAvailabilityStepData({
-        selectedDate: { start: null, end: null },
-        selectedTimeSlots: null,
+        candidateDate: { start: null, end: null },
+        candidateTimeSlots: null,
+        moveableScheduling: null,
+        totalDriveMinutes: null,
       })
-      
-      expect(result.selectedDate.start).toBeNull()
-      expect(result.selectedDate.end).toBeNull()
+
+      expect(result.candidateDate.start).toBeNull()
+      expect(result.candidateDate.end).toBeNull()
     })
 
     it('should handle null time slots', () => {
       const result = buildAvailabilityStepData({
-        selectedDate: { start: '2026-01-15', end: '2026-01-15' },
-        selectedTimeSlots: null,
+        candidateDate: { start: '2026-01-15', end: '2026-01-15' },
+        candidateTimeSlots: null,
+        moveableScheduling: null,
+        totalDriveMinutes: null,
       })
-      
-      expect(result.selectedTimeSlots).toBeNull()
+
+      expect(result.candidateTimeSlots).toBeNull()
     })
 
     it('should handle multiple time slots', () => {
       const result = buildAvailabilityStepData({
-        selectedDate: { start: '2026-01-15', end: '2026-01-15' },
-        selectedTimeSlots: [
-          { 
+        candidateDate: { start: '2026-01-15', end: '2026-01-15' },
+        candidateTimeSlots: [
+          {
             startTime: '2026-01-15T09:00:00.000Z' as RFC3339DateTime,
             endTime: '2026-01-15T11:00:00.000Z' as RFC3339DateTime,
             duration: 120,
           },
-          { 
+          {
             startTime: '2026-01-15T11:30:00.000Z' as RFC3339DateTime,
             endTime: '2026-01-15T12:00:00.000Z' as RFC3339DateTime,
             duration: 30,
           },
         ],
+        moveableScheduling: null,
+        totalDriveMinutes: null,
       })
-      
-      expect(result.selectedTimeSlots).toHaveLength(2)
+
+      expect(result.candidateTimeSlots).toHaveLength(2)
     })
 
     it('should create new date object (not reference)', () => {
       const inputDate = { start: '2026-01-15', end: '2026-01-15' }
       const result = buildAvailabilityStepData({
-        selectedDate: inputDate,
-        selectedTimeSlots: null,
+        candidateDate: inputDate,
+        candidateTimeSlots: null,
+        moveableScheduling: null,
+        totalDriveMinutes: null,
       })
-      
-      expect(result.selectedDate).not.toBe(inputDate)
-      expect(result.selectedDate).toEqual(inputDate)
+
+      expect(result.candidateDate).not.toBe(inputDate)
+      expect(result.candidateDate).toEqual(inputDate)
+    })
+  })
+
+  describe('totalDriveMinutesFromAppointmentSlot', () => {
+    it('returns null when slot is null', () => {
+      expect(totalDriveMinutesFromAppointmentSlot(null)).toBeNull()
+    })
+
+    it('sums optional drive legs', () => {
+      expect(
+        totalDriveMinutesFromAppointmentSlot({
+          driveToCandidate: 12,
+          driveFromCandidate: 18,
+        } as AppointmentSlot)
+      ).toBe(30)
+    })
+
+    it('treats missing legs as zero', () => {
+      expect(totalDriveMinutesFromAppointmentSlot({} as AppointmentSlot)).toBe(0)
     })
   })
 })

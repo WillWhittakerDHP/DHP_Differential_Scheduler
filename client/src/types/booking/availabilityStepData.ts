@@ -10,6 +10,11 @@ export interface AvailabilityStepData {
   candidateDate: { start: string | null; end: string | null }
   candidateTimeSlots: SelectedTimeSlot[] | null
   moveableScheduling: MoveableSchedulingOptions | null
+  /**
+   * Sum of drive legs for the selected slot (minutes), when a slot is selected and server provided legs.
+   * Null when no slot selected.
+   */
+  totalDriveMinutes: number | null
 }
 
 export interface UseAvailabilityStepDataParams extends AvailabilityStepParamsBase {

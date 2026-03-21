@@ -4,7 +4,10 @@ import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { PropertyRequest } from '@/types/property'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { buildAppointmentFeeBreakdown } from '@/utils/booking/confirmationStepData'
+import {
+  buildAppointmentFeeBreakdown,
+  type AppointmentFeeBreakdownDriveOptions,
+} from '@/utils/booking/confirmationStepData'
 import { toISO8601Date } from '@/utils/datetime'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { ContactsStepData } from '@/types/wizard'
@@ -135,8 +138,20 @@ export function buildAppointmentRequest(params: {
   quantities: BlockQuantities
   squareFootage: number | null
   aduCount: number | null
+  /** Phase 6.11.5: optional drive fee row in persisted fee breakdown */
+  feeDriveOptions?: AppointmentFeeBreakdownDriveOptions | null
 }): AppointmentRequest {
-  const { propertyVersionId, wizard, propertyDetails, attendees, availability, quantities, squareFootage, aduCount } = params
+  const {
+    propertyVersionId,
+    wizard,
+    propertyDetails,
+    attendees,
+    availability,
+    quantities,
+    squareFootage,
+    aduCount,
+    feeDriveOptions,
+  } = params
   const hasServiceQty = Object.keys(quantities.serviceQuantities).length > 0
   const hasPropertyQty = Object.keys(quantities.propertyQuantities).length > 0
   const hasOptionQty = Object.keys(quantities.optionTypeBlockQuantities).length > 0
@@ -146,7 +161,12 @@ export function buildAppointmentRequest(params: {
     selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
     selectedLineItemBlocks: wizard.selectedLineItemBlocks,
   }
-  const feeBreakdown = buildAppointmentFeeBreakdown(wizardForFee, squareFootage, aduCount)
+  const feeBreakdown = buildAppointmentFeeBreakdown(
+    wizardForFee,
+    squareFootage,
+    aduCount,
+    feeDriveOptions ?? undefined
+  )
   const status: AppointmentStatus = wizard.isQuoteMode ? 'quoted' : 'submitted'
 
   return {

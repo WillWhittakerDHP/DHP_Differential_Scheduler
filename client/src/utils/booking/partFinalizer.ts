@@ -1,7 +1,7 @@
 
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { PartFinal } from './PartFinal'
-import type { BlockFinal } from './bookingFinalTypes'
+import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from '@/types/events'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
@@ -9,6 +9,7 @@ import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal, SlotShape } from '@/types/appointment'
+import type { TernaryBoolean } from '@/types/ternary'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { roundDuration } from '@/utils/booking/durationRounding'
@@ -191,6 +192,51 @@ export function calculateSlotShape(
     roundedDifferentialOffset
   }
   return result
+}
+
+function resolvePartShapeDifferentialFlags(
+  partShapeName: string,
+  assignments: Record<string, EventInstance[]>,
+  shapeById: Map<string, EventShape>
+): { major: TernaryBoolean; minor: TernaryBoolean; moveable: boolean } {
+  const events = assignments[partShapeName] ?? []
+  let major: TernaryBoolean = 'false'
+  let minor: TernaryBoolean = 'false'
+  let moveable = false
+  for (const ei of events) {
+    const es = shapeById.get(toGlobalEntityId(ei.eventShapeRef))
+    const role = es?.differentialRole
+    if (role === 'major') {
+      major = 'true'
+    } else if (role === 'minor') {
+      minor = 'true'
+    } else if (role === 'moveable') {
+      moveable = true
+    }
+  }
+  return { major, minor, moveable }
+}
+
+/** Set PartFinal major/minor/moveable from eventAssignmentsByPartShape + event shape roles. */
+export function enrichBlockFinalsWithDifferentialRoles(
+  blockFinals: BlockFinal[],
+  eventAssignmentsByPartShape: Record<string, EventInstance[]>,
+  eventShapes: EventShape[]
+): BlockFinal[] {
+  const shapeById = new Map(
+    eventShapes.map((es) => [toGlobalEntityId(es.id), es])
+  )
+  return blockFinals.map((bf) => ({
+    ...bf,
+    finalizedParts: bf.finalizedParts.map((pf) => {
+      const flags = resolvePartShapeDifferentialFlags(
+        pf.partShape,
+        eventAssignmentsByPartShape,
+        shapeById
+      )
+      return { ...pf, ...flags }
+    }),
+  }))
 }
 
 export function sumPartFinalsDuration(parts: PartFinal[]): number {

@@ -60,7 +60,7 @@ Implement the full drive time fee flow: (1) Admin settings — complimentary dri
 
 ---
 
-### Task 6.11.1.3: Expose selected-slot drive minutes in wizard
+### Task 6.11.1.3: Expose selected-slot drive minutes in wizard ✅
 
 **Goal:** Ensure that when a slot is selected, the wizard/confirmation context has access to total drive minutes (driveTo + driveFrom) for that slot. Pass this into the fee builder call site(s).
 
@@ -73,7 +73,7 @@ Implement the full drive time fee flow: (1) Admin settings — complimentary dri
 
 ---
 
-### Task 6.11.1.4: Fee pipeline — accept drive context, compute and append line item
+### Task 6.11.1.4: Fee pipeline — accept drive context, compute and append line item ✅
 
 **Goal:** `buildConfirmationPriceData` accepts optional drive context; reads complimentary, rate, and rounding from settings; computes drive time fee; appends "Drive time" line item; includes amount in order total.
 
@@ -113,8 +113,8 @@ Implement the full drive time fee flow: (1) Admin settings — complimentary dri
 
 - [ ] Admin: Complimentary drive (min), driving rate ($/hr), and drive-time rounding (min) are configurable and persisted; UI in Business Controls.
 - [ ] Calculation helper: Correct fee for given total drive and settings; rounding and edge cases handled.
-- [ ] Wizard: Selected-slot drive minutes available and passed into fee builder at Confirmation (and availability step if 6.10 in place).
-- [ ] Fee pipeline: Optional drive context; "Drive time" line item appended and included in total.
+- [x] Wizard: Selected-slot drive minutes available and passed into fee builder at Confirmation (and availability step if 6.10 in place). *(6.11.1.3 — context wired; line item in 6.11.1.4.)*
+- [x] Fee pipeline: Optional drive context; "Drive time" line item appended and included in total. *(6.11.1.4 — UI/preview; persistence → 6.11.1.5.)*
 - [ ] Stored fee breakdown includes drive time as a fee entry referencing the system "Drive time" block instance when applicable (virtual block approach).
 - [ ] Lint passes; app starts.
 

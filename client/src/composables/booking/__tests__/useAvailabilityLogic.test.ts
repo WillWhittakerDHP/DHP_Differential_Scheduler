@@ -65,9 +65,7 @@ function createTimeSlot(
     startTime,
     endTime,
     duration: options.duration || 60,
-    onSite: false,
-    clientPresent: false,
-    moveable: false,
+    slotKind: 'major',
     isAvailable: true,
   }
 }

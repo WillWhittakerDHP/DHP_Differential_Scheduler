@@ -25,6 +25,7 @@ import {
 import { groupConstraintsByCategory, relaxConstraintsForExceptions } from '../../../shared/utils/constraintUtils.js'
 import { getCalendarEvents } from './google/calendar/eventsService.js'
 import { calculateRouteMatrix } from './google/maps/routesApiService.js'
+import { GOOGLE_API_STATUS } from './google/maps/mapsConstants.js'
 import { MapsApiError } from './google/maps/mapsErrorHandler.js'
 import { getCachedDriveTime, cacheDriveTime } from './driveTimeCache.js'
 import { withRetry } from './google/shared/googleApiRetry.js'
@@ -209,6 +210,60 @@ async function calculateDriveTimesForPlaceIds(
   }
 
   return resultsFinal
+}
+
+/**
+ * Fee context: drive minutes default location → candidate and candidate → default (Routes API + cache).
+ */
+async function resolveDefaultLocationCandidateDriveLegsMinutes(
+  defaultPlaceId: string | undefined,
+  candidatePlaceId: string | undefined
+): Promise<{ driveToCandidate: number; driveFromCandidate: number }> {
+  if (!defaultPlaceId?.trim() || !candidatePlaceId?.trim()) {
+    return { driveToCandidate: 0, driveFromCandidate: 0 }
+  }
+  const def: RouteLocation = { placeId: defaultPlaceId.trim() }
+  const cand: RouteLocation = { placeId: candidatePlaceId.trim() }
+
+  let driveToCandidate = 0
+  let driveFromCandidate = 0
+  const cachedTo = getCachedDriveTime(def, cand)
+  if (cachedTo) {
+    driveToCandidate = Math.ceil(cachedTo.durationSeconds / 60)
+  }
+  const cachedFrom = getCachedDriveTime(cand, def)
+  if (cachedFrom) {
+    driveFromCandidate = Math.ceil(cachedFrom.durationSeconds / 60)
+  }
+
+  try {
+    if (!cachedTo) {
+      const toResults = await withRetry(
+        () => calculateRouteMatrix([def], [cand], true),
+        (error) => error instanceof MapsApiError && error.retryable
+      )
+      const r = toResults[0]
+      if (r && r.status === GOOGLE_API_STATUS.OK && r.durationSeconds > 0) {
+        cacheDriveTime(def, cand, r.durationSeconds, r.distanceMeters)
+        driveToCandidate = Math.ceil(r.durationSeconds / 60)
+      }
+    }
+    if (!cachedFrom) {
+      const fromResults = await withRetry(
+        () => calculateRouteMatrix([cand], [def], true),
+        (error) => error instanceof MapsApiError && error.retryable
+      )
+      const r = fromResults[0]
+      if (r && r.status === GOOGLE_API_STATUS.OK && r.durationSeconds > 0) {
+        cacheDriveTime(cand, def, r.durationSeconds, r.distanceMeters)
+        driveFromCandidate = Math.ceil(r.durationSeconds / 60)
+      }
+    }
+  } catch (error) {
+    logger.warn('resolveDefaultLocationCandidateDriveLegsMinutes: route lookup failed', { error })
+  }
+
+  return { driveToCandidate, driveFromCandidate }
 }
 
 async function fetchAvailabilitySettings(): Promise<AvailabilitySettingsData> {
@@ -430,6 +485,13 @@ export async function computeAvailabilityData(
     ? await calculateDriveTimesForPlaceIds(overlapRegularEvents, request.candidatePlaceId)
     : {}
 
+  const candidateDriveLegs = useRealApis
+    ? await resolveDefaultLocationCandidateDriveLegsMinutes(
+        settings.defaultLocation?.placeId,
+        request.candidatePlaceId
+      )
+    : { driveToCandidate: 0, driveFromCandidate: 0 }
+
   if (!useRealApis) {
     logger.info(`[dataSource=${dataSource}] Skipping Google Calendar and Routes API calls`)
   }
@@ -479,7 +541,8 @@ export async function computeAvailabilityData(
         businessHoursConfig,
         settings.timezone ?? 'UTC',
         new Date(),
-        effectiveOooEnforcement
+        effectiveOooEnforcement,
+        candidateDriveLegs
       )
     : {}
 

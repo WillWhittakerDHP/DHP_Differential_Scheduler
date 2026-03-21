@@ -43,7 +43,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, true)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -94,7 +94,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, true)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -129,7 +129,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, true)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -172,7 +172,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, true)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -194,7 +194,7 @@ describe('useConfirmationStepData', () => {
       const service2 = createBlockInstance('service-2', 'Service 2', 75, false) // allowMultiple: false
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service1, service2]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service1, service2]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -229,7 +229,7 @@ describe('useConfirmationStepData', () => {
       const propertyTypeBlock = createBlockInstance('property-1', 'Property Adjustment', 50, true)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([propertyTypeBlock]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -266,7 +266,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, true)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -299,7 +299,7 @@ describe('useConfirmationStepData', () => {
       expect(priceData.value.overageFeeTotal).toBe(0)
       
       const newService = createBlockInstance('service-2', 'New Service', 150, true)
-      wizard.selectedServices.value = [newService]
+      wizard.selectedServiceTypeBlocks.value = [newService]
       await nextTick()
       
       expect(priceData.value.totalFee).toBe(300)
@@ -311,7 +311,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -348,7 +348,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -385,7 +385,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -422,7 +422,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, false, undefined, 0.5)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -466,7 +466,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, true, undefined, 0.5)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),
@@ -505,7 +505,7 @@ describe('useConfirmationStepData', () => {
       const lineItem2 = createBlockInstance('li2', 'Setup', 15)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([lineItem1]),
@@ -549,7 +549,7 @@ describe('useConfirmationStepData', () => {
       const lineItem = createBlockInstance('li1', 'Delivery', 25, true) // allowMultiple: true
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([lineItem]),
@@ -587,7 +587,7 @@ describe('useConfirmationStepData', () => {
       const service = createBlockInstance('service-1', 'Test Service', 100, false)
       
       const wizard = {
-        selectedServices: ref<BookingBlockInstance[]>([service]),
+        selectedServiceTypeBlocks: ref<BookingBlockInstance[]>([service]),
         selectedPropertyTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedOptionTypeBlocks: ref<BookingBlockInstance[]>([]),
         selectedLineItemBlocks: ref<BookingBlockInstance[]>([]),

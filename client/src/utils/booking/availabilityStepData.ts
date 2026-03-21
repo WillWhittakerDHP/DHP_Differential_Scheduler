@@ -10,6 +10,24 @@ export type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/ava
 
 const logger = createLogger('availabilityStepData')
 
+/**
+ * Sum drive legs from a selected appointment slot (server → client). Null when no slot.
+ */
+export function totalDriveMinutesFromAppointmentSlot(
+  slot: { driveToCandidate?: number; driveFromCandidate?: number } | null
+): number | null {
+  if (!slot) {
+    return null
+  }
+  const to = slot.driveToCandidate ?? 0
+  const from = slot.driveFromCandidate ?? 0
+  const sum = to + from
+  if (!Number.isFinite(sum)) {
+    return null
+  }
+  return Math.max(0, sum)
+}
+
 type BuildSelectedTimeSlotsParams = {
   selectedDateStart: string | null
   selectedSlot: AppointmentSlot | null
@@ -71,6 +89,7 @@ export function buildAvailabilityStepData(params: {
   candidateDate: { start: string | null; end: string | null }
   candidateTimeSlots: SelectedTimeSlot[] | null
   moveableScheduling?: MoveableSchedulingOptions | null
+  totalDriveMinutes: number | null
 }): AvailabilityStepData {
   return {
     candidateDate: {
@@ -79,5 +98,6 @@ export function buildAvailabilityStepData(params: {
     },
     candidateTimeSlots: params.candidateTimeSlots,
     moveableScheduling: params.moveableScheduling ?? null,
+    totalDriveMinutes: params.totalDriveMinutes,
   }
 }

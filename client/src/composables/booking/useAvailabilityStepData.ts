@@ -4,7 +4,11 @@
 WHY: Moves data transformation and s...
  */
 import { computed } from 'vue'
-import { buildAvailabilityStepData, buildSelectedTimeSlots } from '@/utils/booking/availabilityStepData'
+import {
+  buildAvailabilityStepData,
+  buildSelectedTimeSlots,
+  totalDriveMinutesFromAppointmentSlot,
+} from '@/utils/booking/availabilityStepData'
 import type {
   SelectedTimeSlot,
   AvailabilityStepData,
@@ -31,6 +35,8 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     })
   })
 
+  const totalDriveMinutes = computed(() => totalDriveMinutesFromAppointmentSlot(selectedSlot.value))
+
   /**
    */
   const stepData = computed<AvailabilityStepData>(() =>
@@ -38,6 +44,7 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
       candidateDate: selectedDate.value,
       candidateTimeSlots: selectedTimeSlots.value,
       moveableScheduling: moveableScheduling?.value ?? null,
+      totalDriveMinutes: totalDriveMinutes.value,
     })
   )
 

@@ -44,12 +44,20 @@ function transformVersionToBookingInstance(
     entityKey: 'blockInstance' as const,
     active: true,
     bookingMode: DEFAULT_VALUES.BOOKING_MODE,
+    agentPermissions: 'false',
+    differential: 'false',
+    preClosing: false,
     orderIndex: 0,
     blockShape: '',
     blockShapeRef: '',
     activeBlockIds: [],
     partInstances: [],
     requiresUnitNumber: null,
+    baseSqFt: 0,
+    icon: '',
+    allowMultiple: false,
+    isMultiFamily: false,
+    requiresAgent: false,
   }
 
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
@@ -79,8 +87,7 @@ function transformVersionToBookingInstance(
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
     baseSqFt: safeNumber(version.baseSqFt, 'VersionBlockInstance.baseSqFt'),
     allowMultiple: version.allowMultiple,
-    // Preserve existing differential state when present; fallback to false for legacy payloads.
-    differential: convertToTernaryBoolean(currentInstance?.differential ?? false, 'false'),
+    differential: convertToTernaryBoolean(currentInstance?.differential, 'false'),
     partInstances,
   } as BookingBlockInstance
 }

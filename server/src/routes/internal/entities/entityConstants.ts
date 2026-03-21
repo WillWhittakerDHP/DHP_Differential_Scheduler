@@ -31,8 +31,11 @@ export const ERROR_MESSAGES = {
   PART_ASSIGNMENT_CLEANUP_ERROR: 'Error disabling old partAssignments relationships',
 } as const
 
+/** Domain default for BookingMode (wizard); storage uses TernaryBoolean. */
 export const DEFAULT_VALUES = {
   BOOKING_MODE: 'standalone' as const,
+  /** DB `booking_mode` column default (ternary_boolean). */
+  BOOKING_MODE_STORAGE: 'false' as const,
   CONFIG_VERSION: '1.0.0' as const,
 } as const
 
@@ -48,6 +51,10 @@ export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   BOOKING_MODE: 'bookingMode',
   BOOKING_MODE_SNAKE: 'booking_mode',
+  AGENT_PERMISSIONS: 'agentPermissions',
+  AGENT_PERMISSIONS_SNAKE: 'agent_permissions',
+  DIFFERENTIAL_ROLE: 'differentialRole',
+  DIFFERENTIAL_ROLE_SNAKE: 'differential_role',
   CREATED_AT: 'createdAt',
   ID: 'id',
   ANNOTATIONS: 'annotations',
