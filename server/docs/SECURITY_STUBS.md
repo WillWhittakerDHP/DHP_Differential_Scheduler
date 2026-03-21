@@ -8,10 +8,10 @@ The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** 
 **Applied to:** `/api/v1/internal/*` routes
 
 - **General limiter:** 100 requests per 15 minutes per IP. Excess requests receive **429 Too Many Requests** with `Retry-After` header.
+- **Auth-route limiter:** 10 requests per 15 minutes per IP on `/api/v1/internal/auth/*`. Placeholder route returns 501 until Feature 7 (Authentication) adds login routes.
 - **Headers:** `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` (standard); `X-RateLimit-*` (legacy).
-- **Auth-route limiter:** Stricter limit (10 req/15 min) for auth routes will be added in Session 8.2.2 when Feature 7 (Authentication) adds login routes.
 
-### How to verify
+### How to verify (general limiter)
 
 With the server running (e.g. `npm run start:dev`), exhaust the limit and confirm 429. Use any GET under `/api/v1/internal/` (e.g. `/api/v1/internal/entities`):
 
@@ -27,6 +27,25 @@ Expect the first 100 responses to be `200` and the 101st to be `429`. To inspect
 ```bash
 # After exhausting the limit, one more request shows 429
 curl -v http://localhost:3001/api/v1/internal/entities
+# On 429: expect Retry-After header and JSON body: {"error":"Too many requests, please try again later."}
+```
+
+### How to verify (auth-route limiter)
+
+Auth routes use a stricter limit (10 req/15 min). Send 11 requests to `/api/v1/internal/auth`; the 11th should return 429:
+
+```bash
+# Send 11 requests; the 11th should return 429
+for i in $(seq 1 11); do
+  curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3001/api/v1/internal/auth
+done
+```
+
+Expect the first 10 responses to be `501` (placeholder) and the 11th to be `429`. To inspect the 429 response and headers:
+
+```bash
+# After exhausting the limit, one more request shows 429
+curl -v http://localhost:3001/api/v1/internal/auth
 # On 429: expect Retry-After header and JSON body: {"error":"Too many requests, please try again later."}
 ```
 
