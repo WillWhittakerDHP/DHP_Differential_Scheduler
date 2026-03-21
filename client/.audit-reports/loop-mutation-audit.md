@@ -18,7 +18,7 @@ Exception handling:
 
 - Total files scanned: **0**
 - **Requiring review: 0**
-- Allowed (with justification): 61 (inline: 0, pattern: 61, specific: 0)
+- Allowed (with justification): 65 (inline: 0, pattern: 65, specific: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
