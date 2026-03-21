@@ -57,3 +57,5 @@ Add inbound HTTP rate limiting to protect the internal API from abuse. The gener
 
 - Phase Guide: `../phases/phase-8.2-guide.md`
 - Feature Guide: `../feature-security-hardening-guide.md`
+
+<!-- end excerpt session -->
