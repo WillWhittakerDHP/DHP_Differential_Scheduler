@@ -33,7 +33,6 @@ import { AppointmentFactory } from "./booking/appointment.js";
 import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
 import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
 import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
-import { BusinessSettingsFactory } from "./admin/business_settings.js";
 import { CalendarSettingsFactory } from "./admin/calendar_settings.js";
 import { WizardSettingsFactory } from "./admin/wizard_settings.js";
 import { AvailabilitySettingFactory } from "./admin/availability_setting.js";
@@ -94,7 +93,6 @@ export function initializeModels(sequelize: Sequelize) {
   const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
   const ConstraintOverride = ConstraintOverrideFactory(sequelize);
 
-  const BusinessSettings = BusinessSettingsFactory(sequelize);
   const CalendarSettings = CalendarSettingsFactory(sequelize);
   const WizardSettings = WizardSettingsFactory(sequelize);
   const AvailabilitySetting = AvailabilitySettingFactory(sequelize);
@@ -410,7 +408,6 @@ export function initializeModels(sequelize: Sequelize) {
     AppointmentFeeSummary,
     AppointmentFeeEntry,
     ConstraintOverride,
-    BusinessSettings,
     CalendarSettings,
     WizardSettings,
     AvailabilitySetting,

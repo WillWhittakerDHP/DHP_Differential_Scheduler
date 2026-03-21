@@ -1,5 +1,5 @@
 
-import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
+import type { AvailabilitySettingsData } from '../../../../../shared/types/availabilitySettingsDocument.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsConstants.js'
 import { ROLLING_WEEK_DIRECTION } from '../../../utils/availabilities/availabilityConstants.js'
