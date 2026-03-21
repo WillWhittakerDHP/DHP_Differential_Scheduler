@@ -36,6 +36,7 @@ import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
 import { CalendarSettingsFactory } from "./admin/calendar_settings.js";
 import { WizardSettingsFactory } from "./admin/wizard_settings.js";
+import { AppSettingEntryFactory } from "./admin/app_setting_entry.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
@@ -88,6 +89,7 @@ export function initializeModels(sequelize: Sequelize) {
   const BusinessSettings = BusinessSettingsFactory(sequelize);
   const CalendarSettings = CalendarSettingsFactory(sequelize);
   const WizardSettings = WizardSettingsFactory(sequelize);
+  const AppSettingEntry = AppSettingEntryFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
   const AdminMetadata = AdminMetadataFactory(sequelize);
@@ -351,7 +353,7 @@ export function initializeModels(sequelize: Sequelize) {
     AppointmentFeeSummary,
     AppointmentFeeEntry,
     ConstraintOverride,
-    BusinessSettings, CalendarSettings, WizardSettings, BusinessRule,
+    BusinessSettings, CalendarSettings, WizardSettings, AppSettingEntry, BusinessRule,
     AdminMetadata,
     BetaFeedback,
     BetaFeedbackTag,

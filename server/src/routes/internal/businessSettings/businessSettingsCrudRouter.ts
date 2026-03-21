@@ -1,10 +1,14 @@
 /**
- * CRUD for business_settings. Only key in use is availability_settings; direct read/write of that row.
- * Calendar and wizard settings use /calendar-settings and /wizard-settings.
+ * CRUD for business_settings. availability_settings lives in app_setting_entries (availabilitySettingsRepository).
+ * Other keys remain on business_settings. Calendar and wizard use dedicated routes.
  */
 import { Router, Request, Response } from 'express';
 import { BusinessSettings } from '../../../config/app.js';
-import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js';
+import type { AvailabilitySettingsData } from '../../../../../shared/types/availabilitySettingsDocument.js';
+import {
+  getAvailabilitySettingsData,
+  saveAvailabilitySettingsData,
+} from '../../../repositories/availabilitySettingsRepository.js';
 import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js';
 import { handleRouteError } from '../../helpers/routerErrorHandler.js';
 import {
@@ -22,15 +26,10 @@ import { HTTP_STATUS_CODES } from '../../../constants/router.js';
 const router = Router();
 
 async function getAvailabilityRow(): Promise<{ setting_key: string; setting_value: AvailabilitySettingsData }> {
-  const row = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-  });
-  const settingValue = row?.settingValue
-    ? (row.settingValue as AvailabilitySettingsData)
-    : (defaultAvailabilitySettings as AvailabilitySettingsData);
+  const setting_value = await getAvailabilitySettingsData();
   return {
     setting_key: AVAILABILITY_SETTINGS_KEY,
-    setting_value: settingValue,
+    setting_value,
   };
 }
 
@@ -52,8 +51,15 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
       sendSuccess(res, settingWithDefault);
     } else {
       const settings = await BusinessSettings.findAll();
-      const list = settings.map((s) => transformSettingToResponse(s));
-      const hasAvailability = list.some((s: { setting_key: string }) => s.setting_key === AVAILABILITY_SETTINGS_KEY);
+      const list: Array<{ setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean }> = [];
+      for (const s of settings) {
+        if (s.settingKey === AVAILABILITY_SETTINGS_KEY) {
+          list.push(await getAvailabilityRow());
+        } else {
+          list.push(transformSettingToResponse(s));
+        }
+      }
+      const hasAvailability = list.some((s) => s.setting_key === AVAILABILITY_SETTINGS_KEY);
       if (!hasAvailability) {
         list.push(await getAvailabilityRow());
       }
@@ -105,16 +111,9 @@ router.post(
         return;
       }
       if (setting_key === AVAILABILITY_SETTINGS_KEY) {
-        let row = await BusinessSettings.findOne({ where: { settingKey: AVAILABILITY_SETTINGS_KEY } });
-        if (row) {
-          await row.update({ settingValue: setting_value as AvailabilitySettingsData });
-        } else {
-          row = await BusinessSettings.create({
-            settingKey: AVAILABILITY_SETTINGS_KEY,
-            settingValue: setting_value as AvailabilitySettingsData,
-          });
-        }
-        sendCreated(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: row.settingValue });
+        await saveAvailabilitySettingsData(setting_value as AvailabilitySettingsData);
+        const saved = await getAvailabilitySettingsData();
+        sendCreated(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: saved });
         return;
       }
       const existing = await BusinessSettings.findOne({ where: { settingKey: setting_key } });
@@ -152,16 +151,9 @@ router.put(
         return;
       }
       if (key === AVAILABILITY_SETTINGS_KEY) {
-        let row = await BusinessSettings.findOne({ where: { settingKey: AVAILABILITY_SETTINGS_KEY } });
-        if (row) {
-          await row.update({ settingValue: setting_value as AvailabilitySettingsData });
-        } else {
-          row = await BusinessSettings.create({
-            settingKey: AVAILABILITY_SETTINGS_KEY,
-            settingValue: setting_value as AvailabilitySettingsData,
-          });
-        }
-        sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: row.settingValue });
+        await saveAvailabilitySettingsData(setting_value as AvailabilitySettingsData);
+        const saved = await getAvailabilitySettingsData();
+        sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: saved });
         return;
       }
       const setting = await BusinessSettings.findOne({ where: { settingKey: key } });
@@ -195,27 +187,16 @@ router.patch(
         return;
       }
       if (key === AVAILABILITY_SETTINGS_KEY) {
-        const row = await BusinessSettings.findOne({ where: { settingKey: AVAILABILITY_SETTINGS_KEY } });
-        const existing = row?.settingValue as AvailabilitySettingsData | undefined;
-        const mergedValue = mergeSettingValues(
-          existing ?? defaultAvailabilitySettings,
-          setting_value
-        ) as AvailabilitySettingsData;
+        const existing = await getAvailabilitySettingsData();
+        const mergedValue = mergeSettingValues(existing, setting_value) as AvailabilitySettingsData;
         const availabilityValidation = validateAvailabilitySettingsWithDetails(key, mergedValue);
         if (!availabilityValidation.valid) {
           sendBadRequest(res, availabilityValidation.error, availabilityValidation.details?.message as string);
           return;
         }
-        if (row) {
-          await row.update({ settingValue: mergedValue });
-          sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: row.settingValue });
-        } else {
-          const created = await BusinessSettings.create({
-            settingKey: AVAILABILITY_SETTINGS_KEY,
-            settingValue: mergedValue,
-          });
-          sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: created.settingValue });
-        }
+        await saveAvailabilitySettingsData(mergedValue);
+        const saved = await getAvailabilitySettingsData();
+        sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: saved });
         return;
       }
       const setting = await BusinessSettings.findOne({ where: { settingKey: key } });
@@ -246,10 +227,7 @@ router.delete(
     try {
       const key = paramString(req, 'key');
       if (key === AVAILABILITY_SETTINGS_KEY) {
-        const row = await BusinessSettings.findOne({ where: { settingKey: AVAILABILITY_SETTINGS_KEY } });
-        if (row) {
-          await row.update({ settingValue: defaultAvailabilitySettings as AvailabilitySettingsData });
-        }
+        await saveAvailabilitySettingsData(defaultAvailabilitySettings);
         res.status(HTTP_STATUS_CODES.NO_CONTENT).send();
         return;
       }

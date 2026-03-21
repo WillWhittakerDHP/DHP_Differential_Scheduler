@@ -13,6 +13,7 @@ export default {
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
+    '^@shared/(.+)\\.js$': '<rootDir>/../shared/$1.ts',
   },
   setupFilesAfterEnv: ['<rootDir>/src/test/setup/jestSetup.ts'],
   collectCoverageFrom: [

@@ -21,7 +21,7 @@ export function transformSettingToResponse(setting: BusinessSettingRecord): { se
   return out
 }
 
-/** Sync: return setting or default for availability_settings; availability is read from business_settings by the router. */
+/** Sync: return setting or default; availability_settings is served from app_setting_entries via the router. */
 export function getSettingWithDefault(
   setting: BusinessSettingRecord | null,
   key: string

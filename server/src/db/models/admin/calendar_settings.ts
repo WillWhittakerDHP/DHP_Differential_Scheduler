@@ -8,12 +8,8 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
-import type { CalendarConfig } from '../../../../../shared/types/calendarTypes.js';
-
-export interface CalendarSettingsData extends CalendarConfig {
-  /** When true, appointments created with status 'submitted' are auto-transitioned to 'confirmed'. */
-  autoConfirmEnabled?: boolean;
-}
+import type { CalendarSettingsData } from '../../../../../shared/types/calendarSettingsDocument.js'
+export type { CalendarSettingsData } from '../../../../../shared/types/calendarSettingsDocument.js'
 
 export class CalendarSettings extends Model<
   InferAttributes<CalendarSettings>,

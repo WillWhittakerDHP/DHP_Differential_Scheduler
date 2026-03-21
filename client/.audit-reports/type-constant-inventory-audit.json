@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T02:04:34.907Z",
+  "generatedAt": "2026-03-21T13:53:05.822Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,12 +36,12 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 270,
+    "totalTypeFiles": 273,
     "totalConstantFiles": 24,
     "totalConfigFiles": 41,
     "filesWithInlineTypes": 115,
     "annotated": 325,
-    "unannotated": 10,
+    "unannotated": 13,
     "classificationIssues": {
       "mixedTypeConstantFiles": 14,
       "inlineTypesInComposables": 85,
@@ -7078,6 +7078,31 @@
       "targetPath": null
     },
     {
+      "id": "shared__types__availabilitySettingsDocument.ts",
+      "repoPath": "shared/types/availabilitySettingsDocument.ts",
+      "name": "availabilitySettingsDocument",
+      "directoryDomain": "availabilitySettingsDocument.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "AvailabilitySettingsData"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 78,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
       "id": "shared__types__availabilityTypes.ts",
       "repoPath": "shared/types/availabilityTypes.ts",
       "name": "availabilityTypes",
@@ -7154,6 +7179,29 @@
       "lineCount": 53,
       "purpose": "Business rules configuration and constraint types",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__calendarSettingsDocument.ts",
+      "repoPath": "shared/types/calendarSettingsDocument.ts",
+      "name": "calendarSettingsDocument",
+      "directoryDomain": "calendarSettingsDocument.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 4,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -7445,6 +7493,31 @@
       "lineCount": 29,
       "purpose": "Shared property entity data types",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__wizardSettingsTypes.ts",
+      "repoPath": "shared/types/wizardSettingsTypes.ts",
+      "name": "wizardSettingsTypes",
+      "directoryDomain": "wizardSettingsTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "WizardSettingsData"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 15,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,

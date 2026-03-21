@@ -25,12 +25,14 @@ import {
   validateOverlapConstraint,
   validateCapacityConstraint,
 } from './constraintValidationHelpers'
-import type { AvailabilitySettingsData } from '../../db/models/admin/business_settings'
+import type { AvailabilitySettingsData } from '../../../../shared/types/availabilitySettingsDocument.js'
 import type {
   RangeConstraint,
   OverlapConstraint,
   CapacityConstraint,
   RFC3339DateTime,
+  DayHours,
+  DateRangeConfig,
 } from '../../../../shared/types/availabilityTypes.js'
 
 function rangeConstraints(all: ReturnType<typeof extractConstraints>): RangeConstraint[] {
@@ -61,6 +63,7 @@ function createAvailabilitySettingsData(
     minuteIncrement: 15,
     rangeConstraints: {
       businessHours: {
+        category: 'range',
         type: 'businessHours',
         enforcement: 'hard',
         config: {
@@ -94,11 +97,13 @@ describe('constraintExtractor', () => {
       const settings = createAvailabilitySettingsData({
         rangeConstraints: {
           businessHours: {
+            category: 'range',
             type: 'businessHours',
             enforcement: 'hard',
             config: { hours: {} as any }
           },
           leadTime: {
+            category: 'range',
             type: 'leadTime',
             enforcement: 'hard',
             config: { minutes: 60 }
@@ -114,17 +119,19 @@ describe('constraintExtractor', () => {
       const settings = createAvailabilitySettingsData({
         rangeConstraints: {
           businessHours: {
+            category: 'range',
             type: 'businessHours',
             enforcement: 'hard',
             config: { hours: {} as any }
           },
           dateRange: {
+            category: 'range',
             type: 'dateRange',
             enforcement: 'hard',
             config: {
-              start: '2026-01-01T00:00:00Z',
-              end: '2026-12-31T23:59:59Z'
-            }
+              start: '2026-01-01T00:00:00Z' as RFC3339DateTime,
+              end: '2026-12-31T23:59:59Z' as RFC3339DateTime,
+            } as DateRangeConfig,
           }
         }
       })
@@ -309,13 +316,13 @@ describe('constraintExtractor', () => {
         enforcement: 'hard',
         config: {
           hours: {
-            0: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
-            1: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
-            2: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
-            3: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
-            4: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
-            5: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
-            6: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime },
+            0: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
+            1: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
+            2: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
+            3: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
+            4: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
+            5: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
+            6: { start: '2000-01-01T09:00:00Z' as RFC3339DateTime, end: '2000-01-01T17:00:00Z' as RFC3339DateTime } as DayHours,
           }
         }
       }
@@ -344,9 +351,9 @@ describe('constraintExtractor', () => {
         type: 'dateRange',
         enforcement: 'hard',
         config: {
-          start: '2026-01-01T00:00:00Z',
-          end: '2026-12-31T23:59:59Z'
-        }
+          start: '2026-01-01T00:00:00Z' as RFC3339DateTime,
+          end: '2026-12-31T23:59:59Z' as RFC3339DateTime,
+        } as DateRangeConfig,
       }
       
       const result = validateRangeConstraint(constraint)
