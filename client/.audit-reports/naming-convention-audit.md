@@ -4,22 +4,22 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-21T16:07:51.886Z
+Generated at: 2026-03-21T16:15:35.929Z
 
 ## Summary
 
-- Total allowed: **1**
-- Requiring review: **0**
+- Total allowed: **0**
+- Requiring review: **1**
 
 ## Files with naming violations
 
-None.
+| File | Rule | Line | Snippet |
+| --- | --- | ---: | --- |
+| `client/src/composables/booking/injectionKeys.ts` | composableFileName | 1 | Composable file should be use[Name].ts: injectionK |
 
 ## Allowed Exceptions (for transparency)
 
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `server/src/db/models/booking/annotation_instance.ts` | functionExport | 42 | pattern | Sequelize model factory convention: ModelNameFactory |
+- (no exceptions configured)

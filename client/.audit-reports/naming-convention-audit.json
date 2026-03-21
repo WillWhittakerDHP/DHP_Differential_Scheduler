@@ -1,33 +1,38 @@
 {
-  "generatedAt": "2026-03-21T16:07:51.885Z",
-  "totalScanned": 1170,
+  "generatedAt": "2026-03-21T16:15:35.928Z",
+  "totalScanned": 1172,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 1,
-    "totalRequiresReview": 0,
+    "totalAllowed": 0,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
-      "pattern": 1,
+      "pattern": 0,
       "specific": 0,
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "repoPath": "client/src/composables/booking/injectionKeys.ts",
+      "score": 2,
+      "priority": "P2",
+      "count": 1
+    }
+  ],
   "scanned": [
     {
-      "repoPath": "server/src/db/models/booking/annotation_instance.ts",
-      "allowed": [
+      "repoPath": "client/src/composables/booking/injectionKeys.ts",
+      "allowed": [],
+      "requiresReview": [
         {
-          "ruleId": "functionExport",
-          "lineNumber": 42,
-          "line": "export function AnnotationInstanceFactory(",
-          "reason": "Sequelize model factory convention: ModelNameFactory",
-          "source": "pattern",
-          "suppressionStatus": "suppressedByPattern"
+          "ruleId": "composableFileName",
+          "lineNumber": 1,
+          "line": "Composable file should be use[Name].ts: injectionKeys.ts",
+          "suppressionStatus": "unsuppressed"
         }
-      ],
-      "requiresReview": []
+      ]
     }
   ]
 }

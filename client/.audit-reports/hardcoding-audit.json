@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T16:07:51.757Z",
+  "generatedAt": "2026-03-21T16:15:35.128Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 14,
+  "totalScanned": 6,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
@@ -71,7 +71,7 @@
         "inlineLabelMap": 0,
         "omitFieldsArray": 0,
         "headersArray": 0,
-        "magicLabel": 1
+        "magicLabel": 0
       },
       "reviewCounts": {
         "switchEntityKey": 0,
@@ -87,23 +87,18 @@
       },
       "matches": [
         {
-          "ruleId": "magicLabel",
-          "lineNumber": 83,
-          "line": "setupLogger.warn('Warm-up availability settings fetch failed', { err })"
-        },
-        {
           "ruleId": "fieldMapping",
-          "lineNumber": 163,
+          "lineNumber": 154,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 207,
+          "lineNumber": 198,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync },"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 228,
+          "lineNumber": 219,
           "line": "updateAppointment: { isPending: update.isPending },"
         }
       ],
@@ -111,19 +106,19 @@
       "requiresReview": [
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 163,
+          "lineNumber": 154,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 207,
+          "lineNumber": 198,
           "line": "updateAppointment: { mutateAsync: update.mutateAsync },",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "fieldMapping",
-          "lineNumber": 228,
+          "lineNumber": 219,
           "line": "updateAppointment: { isPending: update.isPending },",
           "suppressionStatus": "unsuppressed"
         }
