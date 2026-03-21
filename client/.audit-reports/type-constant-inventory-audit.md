@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T18:16:27.948Z
+Generated: 2026-03-21T18:28:19.001Z
 
 ## Summary
 
@@ -405,7 +405,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/wizardStateFieldConfig.ts` | dedicated | WizardInstance, WizardStateField, WizardFieldConfig | no | Wizard state field configuration and mapping types | feature |
 | `client/src/types/wizardStepData.ts` | dedicated | SummaryData, PriceData | no | Wizard step data container and shape types | feature |
 | `shared/types/appointmentFeeTypes.ts` | dedicated | AppointmentFeeSummaryCreate, AppointmentFeeEntryCreate, AppointmentFeeSummary, FeeEntryBase, AppointmentFeeBreakdownPayload | no | Appointment fee calculation and pricing types | shared |
-| `shared/types/appointmentTypes.ts` | dedicated | AttendeeRequest, AdminEntryAppointmentItem | no | Shared appointment data structure types | shared |
+| `shared/types/appointmentTypes.ts` | dedicated | AppointmentSelectedTimeSlotPayload, AttendeeRequest, AdminEntryAppointmentItem | no | Shared appointment data structure types | shared |
 | `shared/types/availabilityTypes.ts` | dedicated | RFC3339DateTime, ConstraintEnforcement, RollingWeekDirection, ConstraintCategory, RangeConstraintType… | no | Shared availability slot and scheduling types | shared |
 | `shared/types/businessRulesTypes.ts` | dedicated | RuleConfig, RequiredFieldsRuleConfig, RequiresAgentRuleConfig, ConditionalValidationRuleConfig, ValidationMessageRuleConfig | no | Business rules configuration and constraint types | shared |
 | `shared/types/calendarTypes.ts` | dedicated | CalendarProvider, AdminEntryTimeoutUnit, CalendarEntry, AdminEntryTimeout, CalendarConfig | no | Shared calendar event and scheduling types | shared |

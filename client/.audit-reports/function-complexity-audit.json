@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T18:16:25.236Z",
-  "totalScanned": 1112,
+  "generatedAt": "2026-03-21T18:28:16.542Z",
+  "totalScanned": 1117,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -20,34 +20,120 @@
   "baseRef": "HEAD~1",
   "files": [
     {
-      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "repoPath": "server/src/services/appointmentCalendarService.ts",
       "functions": [
         {
-          "name": "useInstanceDragAndDrop",
-          "startLine": 25,
-          "endLine": 168,
-          "length": 144,
-          "maxNesting": 4,
-          "branches": 4,
+          "name": "createCalendarEventForAppointment",
+          "startLine": 57,
+          "endLine": 142,
+          "length": 86,
+          "maxNesting": 5,
+          "branches": 9,
           "params": 0,
-          "returns": 3,
+          "returns": 4,
           "violations": [
             {
               "rule": "nesting",
-              "value": 4,
+              "value": 5,
               "threshold": 3,
               "tier": 1
             },
             {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
               "rule": "length",
-              "value": 144,
+              "value": 86,
               "threshold": 50,
               "tier": 1
             }
           ]
         }
       ],
-      "score": 7,
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+      "functions": [
+        {
+          "name": "syncPropertyDetailsFromWizardBlob",
+          "startLine": 26,
+          "endLine": 96,
+          "length": 71,
+          "maxNesting": 2,
+          "branches": 14,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 71,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "propertyDetailsApiShapeFromPropertyVersionJson",
+          "startLine": 99,
+          "endLine": 136,
+          "length": 38,
+          "maxNesting": 1,
+          "branches": 16,
+          "params": 1,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 16,
+              "threshold": 8,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+      "functions": [
+        {
+          "name": "sumWorkHoursForDateRange",
+          "startLine": 122,
+          "endLine": 150,
+          "length": 29,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 2,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 5,
       "priority": "P1"
     }
   ]

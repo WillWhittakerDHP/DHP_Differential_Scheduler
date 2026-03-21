@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:16:27.948Z",
+  "generatedAt": "2026-03-21T18:28:19.001Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -7120,16 +7120,17 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
+        "AppointmentSelectedTimeSlotPayload",
         "AttendeeRequest",
         "AdminEntryAppointmentItem"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 30,
       "purpose": "Shared appointment data structure types",
       "reuseTier": "shared",
       "tags": [],
