@@ -25,7 +25,8 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
     entityIds,
     dragEndHandler,
     group,
-    draggableClass
+    draggableClass,
+    dragHandle,
   } = params
 
   /**
@@ -71,6 +72,7 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
             parent: panelsRef,
             values: entityIds,
             group,
+            ...(dragHandle ? { dragHandle } : {}),
             // PATTERN: Extract common logic to shared utility
             draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],

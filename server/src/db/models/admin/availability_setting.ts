@@ -22,6 +22,9 @@ export class AvailabilitySetting extends Model<
   declare durationRoundingIncrement: CreationOptional<number | null>
   declare durationRoundingMethod: CreationOptional<string | null>
   declare overlapOutOfOfficeEnforcement: CreationOptional<string | null>
+  declare driveTimeFeeComplimentaryMinutes: number
+  declare driveTimeFeeRatePerHour: number
+  declare driveTimeFeeRoundingMinutes: number
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>
 }
@@ -80,6 +83,24 @@ export function AvailabilitySettingFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
         field: 'overlap_out_of_office_enforcement',
+      },
+      driveTimeFeeComplimentaryMinutes: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'drive_time_fee_complimentary_minutes',
+      },
+      driveTimeFeeRatePerHour: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'drive_time_fee_rate_per_hour',
+      },
+      driveTimeFeeRoundingMinutes: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 15,
+        field: 'drive_time_fee_rounding_minutes',
       },
       createdAt: {
         type: DataTypes.DATE,

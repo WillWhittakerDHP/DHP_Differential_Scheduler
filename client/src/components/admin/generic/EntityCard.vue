@@ -203,10 +203,14 @@ defineExpose({
   -->
   <VExpansionPanel
     v-if="props.useExpansionPanel"
-    :value="entity.id"
+    :value="String(entity.id)"
     :class="[
       $attrs.class,
-      entityKey === 'blockInstance' ? 'entity-card-expansion--instance-reorder' : undefined,
+      entityKey === 'blockInstance'
+        ? 'entity-card-expansion--instance-reorder'
+        : entityKey === 'blockShape' || entityKey === 'partShape'
+          ? 'entity-card-expansion--shape-list-reorder'
+          : undefined,
     ]"
     @group:selected="handleExpansionChange"
     @keydown.capture="handleTitleKeydown"
@@ -214,7 +218,10 @@ defineExpose({
     <template #title>
       <div
         class="d-flex flex-column gap-2 flex-grow-1"
-        :class="{ 'entity-card-title--reorder-indent': entityKey === 'blockInstance' }"
+        :class="{
+          'entity-card-title--reorder-indent':
+            entityKey === 'blockInstance' || entityKey === 'blockShape' || entityKey === 'partShape',
+        }"
         @keydown="handleTitleKeydown"
       >
         <div class="d-flex align-center gap-2 flex-wrap">
@@ -320,6 +327,25 @@ defineExpose({
         aria-hidden="true"
       />
     </span>
+    <!--
+      WHY: FormKit drag on the whole panel steals clicks from VExpansionPanelTitle; grip + dragHandle matches Instances tab.
+      PATTERN: Same floated grip as blockInstance; used only for block/part shape lists in ShapesTab.
+    -->
+    <span
+      v-else-if="entityKey === 'blockShape' || entityKey === 'partShape'"
+      class="shape-list-drag-handle shape-list-drag-handle--floated"
+      role="img"
+      aria-label="Drag to reorder"
+      @click.stop
+    >
+      <Icon
+        icon="tabler:grip-vertical"
+        width="20"
+        height="20"
+        class="shape-list-drag-handle-icon"
+        aria-hidden="true"
+      />
+    </span>
   </VExpansionPanel>
 
   <!--
@@ -418,7 +444,8 @@ defineExpose({
        At opacity 0 it still captures pointers, so the drag handle never receives hover (cursor stays default).
   PATTERN: pointer-events: none on that overlay only for block-instance cards that expose a reorder grip.
 */
-:deep(.entity-card-expansion--instance-reorder .v-expansion-panel-title__overlay) {
+:deep(.entity-card-expansion--instance-reorder .v-expansion-panel-title__overlay),
+:deep(.entity-card-expansion--shape-list-reorder .v-expansion-panel-title__overlay) {
   pointer-events: none;
 }
 
@@ -427,7 +454,8 @@ defineExpose({
   padding-inline-start: 2.5rem;
 }
 
-.entity-card-expansion--instance-reorder {
+.entity-card-expansion--instance-reorder,
+.entity-card-expansion--shape-list-reorder {
   position: relative;
 }
 
@@ -458,6 +486,37 @@ defineExpose({
 
 /* WHY: Inline SVG from Iconify uses currentColor — match Vuetify medium-emphasis text */
 .instance-drag-handle-icon {
+  display: block;
+  flex-shrink: 0;
+  cursor: grab;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+}
+
+.shape-list-drag-handle {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px;
+  z-index: 2;
+}
+
+.shape-list-drag-handle--floated {
+  position: absolute;
+  left: 10px;
+  top: calc(var(--v-expansion-panel-title-min-height, 48px) / 2);
+  transform: translateY(-50%);
+}
+
+.shape-list-drag-handle:active {
+  cursor: grabbing;
+}
+
+.shape-list-drag-handle-icon {
   display: block;
   flex-shrink: 0;
   cursor: grab;

@@ -97,6 +97,7 @@ export function useShapesTab(): UseShapesTabReturn {
     dragEndHandler: partShapesDragHandlers.handleDragEnd,
     group: 'partShapes',
     draggableClass: 'draggable-part-shape',
+    dragHandle: '.shape-list-drag-handle',
   })
   useDragAndDrop({
     containerRef: blockShapesContainer,
@@ -107,6 +108,7 @@ export function useShapesTab(): UseShapesTabReturn {
     dragEndHandler: blockShapesDragHandlers.handleDragEnd,
     group: 'blockShapes',
     draggableClass: 'draggable-block-shape',
+    dragHandle: '.shape-list-drag-handle',
   })
 
   const filteredAnnotationShapes = computed(() =>

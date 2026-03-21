@@ -84,12 +84,20 @@ export async function getAvailabilitySettingsData(): Promise<AvailabilitySetting
 }
 
 async function persistAvailabilityData(data: AvailabilitySettingsData, t: Transaction): Promise<void> {
+  const fee = data.driveTimeFee
+  const driveTimeFeeComplimentaryMinutes = fee?.complimentaryDriveMinutes ?? 0
+  const driveTimeFeeRatePerHour = fee?.drivingRatePerHour ?? 0
+  const driveTimeFeeRoundingMinutes = fee?.driveTimeRoundingMinutes ?? 15
+
   let root = await AvailabilitySetting.findOne({ transaction: t })
   if (!root) {
     root = await AvailabilitySetting.create(
       {
         minuteIncrement: data.minuteIncrement ?? 15,
         durationRoundingEnabled: data.durationRounding?.enabled ?? false,
+        driveTimeFeeComplimentaryMinutes,
+        driveTimeFeeRatePerHour,
+        driveTimeFeeRoundingMinutes,
       },
       { transaction: t }
     )
@@ -108,6 +116,9 @@ async function persistAvailabilityData(data: AvailabilitySettingsData, t: Transa
       durationRoundingIncrement: data.durationRounding?.increment ?? null,
       durationRoundingMethod: data.durationRounding?.method ?? null,
       overlapOutOfOfficeEnforcement: data.overlapSources?.outOfOffice?.enforcement ?? null,
+      driveTimeFeeComplimentaryMinutes,
+      driveTimeFeeRatePerHour,
+      driveTimeFeeRoundingMinutes,
       updatedAt: new Date(),
     },
     { transaction: t }
