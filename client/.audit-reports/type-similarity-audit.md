@@ -19,7 +19,7 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-21T15:18:54.946Z**
+- Generated at: **2026-03-21T15:27:09.262Z**
 - Files scanned: **1206**
 - Type definitions found: **851**
 - Similarity groups: **20**

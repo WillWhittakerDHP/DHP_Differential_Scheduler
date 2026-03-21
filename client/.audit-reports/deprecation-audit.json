@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:18:54.745Z",
+  "generatedAt": "2026-03-21T15:27:10.480Z",
   "check": "Deprecation",
   "totalScanned": 1167,
   "tierModel": "tier1",
@@ -86,14 +86,14 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 56,
+          "lineNumber": 61,
           "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 63,
+          "lineNumber": 68,
           "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -102,14 +102,14 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 56,
+          "lineNumber": 61,
           "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 63,
+          "lineNumber": 68,
           "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"

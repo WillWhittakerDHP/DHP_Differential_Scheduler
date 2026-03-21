@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:18:54.690Z",
+  "generatedAt": "2026-03-21T15:27:09.798Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -1692,7 +1692,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceDragAndDrop.ts",
-            "line": 87,
+            "line": 92,
             "name": "InstanceDragAndDrop"
           }
         ]
