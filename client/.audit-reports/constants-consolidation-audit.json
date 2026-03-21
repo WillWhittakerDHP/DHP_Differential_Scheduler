@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:49:59.405Z",
+  "generatedAt": "2026-03-21T14:57:45.219Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -99,7 +99,7 @@
         {
           "file": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
           "export": null,
-          "line": 60,
+          "line": 59,
           "inline": true
         }
       ],
@@ -127,7 +127,7 @@
         {
           "file": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
           "export": null,
-          "line": 64,
+          "line": 63,
           "inline": true
         }
       ],
@@ -155,7 +155,7 @@
         {
           "file": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
           "export": null,
-          "line": 34,
+          "line": 33,
           "inline": true
         },
         {
@@ -318,19 +318,19 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 60,
+          "lineNumber": 59,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 64,
+          "lineNumber": 63,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 34,
+          "lineNumber": 33,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

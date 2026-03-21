@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:50:01.144Z",
+  "generatedAt": "2026-03-21T14:57:48.094Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -239,7 +239,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 42,
+      "lineCount": 40,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8275,7 +8275,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 10,
+      "lineCount": 8,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -12555,7 +12555,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 10,
+        "lineCount": 8,
         "purpose": null,
         "reuseTier": "unknown",
         "tags": [],
