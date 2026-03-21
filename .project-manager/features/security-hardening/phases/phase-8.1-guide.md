@@ -28,7 +28,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.1.1: CORS Origin Wiring
+- [x] ### Session 8.1.1: CORS Origin Wiring
 **Description:** Add CORS_ORIGIN env var, wire CORS origin in app.ts, update .env.example, verify origin restriction.
 **Tasks:** 1
 **Focus:**
