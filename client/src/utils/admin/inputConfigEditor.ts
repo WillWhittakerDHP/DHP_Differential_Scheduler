@@ -1,6 +1,9 @@
 /**
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('inputConfigEditor')
 
 export interface InputConfigFormData {
   targetMode: string | null
@@ -87,6 +90,14 @@ export function inputConfigEditor(
       }
       if (formData.placeholder) {
         baseConfig.placeholder = formData.placeholder
+      }
+
+      const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
+      if (renderAs === 'relationshipCollection') {
+        logger.warn(
+          'inputConfigEditor: relationship targetMode with renderAs relationshipCollection has no dedicated merge path yet',
+          { fieldKey }
+        )
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
