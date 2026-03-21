@@ -36,6 +36,12 @@
 
 ---
 
+## Tasks
+
+Sessions and tasks for this phase. See Sessions Breakdown below for the session list; task IDs and checklists live in `sessions/session-6.12.1-guide.md` and `sessions/session-6.12.2-guide.md` as they are refined.
+
+---
+
 ## Sessions Breakdown
 
 - [ ] ### Session 6.12.1: Entity enhancements and annotation data layer
