@@ -76,6 +76,7 @@ function onCouponSelect(id: string | null): void {
 // "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
 const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
 
+// Show coupon row only when admin enables it and (coupons available or discount applied)
 const { showApplyCoupon } = useWizardSettings()
 const showCouponRow = computed(
   () =>
