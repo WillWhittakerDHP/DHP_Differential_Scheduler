@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T13:54:22.451Z",
+  "generatedAt": "2026-03-21T14:14:49.729Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1020,
+  "totalScanned": 1029,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 17,
+    "totalRequiresReview": 19,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -170,6 +170,28 @@
       "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
     },
     {
+      "id": "inline-orphan-availability-settings",
+      "classification": "HOIST",
+      "description": "Value 'availability_settings' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "AVAILABILITY_SETTINGS_KEY",
+          "line": 36,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/admin/availability_setting.ts",
+          "export": null,
+          "line": 102,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
       "id": "inline-orphan-differential-role",
       "classification": "HOIST",
       "description": "Value 'differential_role' defined in constants but used inline in 1 locations",
@@ -205,13 +227,13 @@
         {
           "file": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
           "export": null,
-          "line": 48,
+          "line": 36,
           "inline": true
         },
         {
           "file": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
           "export": null,
-          "line": 41,
+          "line": 36,
           "inline": true
         }
       ],
@@ -345,6 +367,36 @@
       ]
     },
     {
+      "id": "server__src__constants__appConstants.ts",
+      "repoPath": "server/src/constants/appConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 36,
+          "line": "export: AVAILABILITY_SETTINGS_KEY",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__admin__availability_setting.ts",
+      "repoPath": "server/src/db/models/admin/availability_setting.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 102,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
       "id": "server__src__db__models__booking__event_shape.ts",
       "repoPath": "server/src/db/models/booking/event_shape.ts",
       "score": 6,
@@ -383,7 +435,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 48,
+          "lineNumber": 36,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
@@ -398,7 +450,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 41,
+          "lineNumber": 36,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

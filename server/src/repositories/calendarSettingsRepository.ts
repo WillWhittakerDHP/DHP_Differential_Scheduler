@@ -1,13 +1,11 @@
 /**
- * Canonical persistence for calendar_settings document (namespace calendar, path document).
+ * Relational calendar settings (singleton + calendar_setting_calendars).
  */
 import type { Transaction } from 'sequelize'
 import type { CalendarSettingsData } from '../../../shared/types/calendarSettingsDocument.js'
-import { AppSettingEntry } from '../config/app.js'
-import { createLogger } from '../utils/logger.js'
-
-const NAMESPACE = 'calendar' as const
-const DOCUMENT_PATH = 'document' as const
+import type { CalendarSettingCalendar } from '../db/models/admin/calendar_setting_calendar.js'
+import { CalendarSettings, CalendarSettingCalendar as CalendarSettingCalendarModel } from '../config/app.js'
+import { sequelize } from '../config/database.js'
 
 const DEFAULT: CalendarSettingsData = {
   enabled: false,
@@ -21,49 +19,106 @@ const DEFAULT: CalendarSettingsData = {
   autoConfirmEnabled: false,
 }
 
-const logger = createLogger('CalendarSettingsRepository')
-
 export async function getCalendarSettings(): Promise<CalendarSettingsData> {
-  const row = await AppSettingEntry.findOne({
-    where: { namespace: NAMESPACE, path: DOCUMENT_PATH },
+  const row = await CalendarSettings.findOne({
+    include: [
+      {
+        model: CalendarSettingCalendarModel,
+        as: 'calendarEntries',
+        separate: true,
+        order: [['sortOrder', 'ASC']],
+      },
+    ],
   })
-  if (row?.valueJsonb && typeof row.valueJsonb === 'object') {
-    return { ...DEFAULT, ...(row.valueJsonb as CalendarSettingsData) }
+  if (!row) {
+    return { ...DEFAULT }
   }
-  logger.warn('calendar document missing in app_setting_entries; using defaults', {
-    namespace: NAMESPACE,
-    path: DOCUMENT_PATH,
-  })
-  return { ...DEFAULT }
+  const entries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries ?? []
+  return {
+    ...DEFAULT,
+    enabled: row.enabled,
+    provider: row.provider as CalendarSettingsData['provider'],
+    holdDurationMinutes: row.holdDurationMinutes,
+    holdDurationMin: row.holdDurationMin,
+    holdDurationMax: row.holdDurationMax,
+    holdDurationFallback: row.holdDurationFallback,
+    adminEntryTimeout: {
+      value: row.adminEntryTimeoutValue,
+      unit: row.adminEntryTimeoutUnit as 'days' | 'weeks',
+    },
+    autoConfirmEnabled: row.autoConfirmEnabled,
+    calendars: entries.map((e) => ({
+      email: e.email,
+      ...(e.label ? { label: e.label } : {}),
+      readFrom: e.readFrom,
+      writeTo: e.writeTo,
+    })),
+  }
+}
+
+async function persistCalendar(data: CalendarSettingsData, t: Transaction): Promise<CalendarSettingsData> {
+  const merged = { ...DEFAULT, ...data }
+  let row = await CalendarSettings.findOne({ transaction: t })
+  if (!row) {
+    row = await CalendarSettings.create(
+      {
+        enabled: merged.enabled,
+        provider: merged.provider,
+        holdDurationMinutes: merged.holdDurationMinutes ?? 15,
+        holdDurationMin: merged.holdDurationMin ?? 1,
+        holdDurationMax: merged.holdDurationMax ?? 60,
+        holdDurationFallback: merged.holdDurationFallback ?? 15,
+        adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,
+        adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',
+        autoConfirmEnabled: merged.autoConfirmEnabled ?? false,
+      },
+      { transaction: t }
+    )
+  } else {
+    await row.update(
+      {
+        enabled: merged.enabled,
+        provider: merged.provider,
+        holdDurationMinutes: merged.holdDurationMinutes ?? 15,
+        holdDurationMin: merged.holdDurationMin ?? 1,
+        holdDurationMax: merged.holdDurationMax ?? 60,
+        holdDurationFallback: merged.holdDurationFallback ?? 15,
+        adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,
+        adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',
+        autoConfirmEnabled: merged.autoConfirmEnabled ?? false,
+        updatedAt: new Date(),
+      },
+      { transaction: t }
+    )
+  }
+
+  await CalendarSettingCalendarModel.destroy({ where: { calendarSettingsId: row.id }, transaction: t })
+  const cals = Array.isArray(merged.calendars) ? merged.calendars : []
+  let order = 0
+  for (const e of cals) {
+    if (!e?.email) continue
+    await CalendarSettingCalendarModel.create(
+      {
+        calendarSettingsId: row.id,
+        sortOrder: order++,
+        email: String(e.email).trim(),
+        label: e.label ?? null,
+        readFrom: Boolean(e.readFrom),
+        writeTo: Boolean(e.writeTo),
+      },
+      { transaction: t }
+    )
+  }
+
+  return merged
 }
 
 export async function saveCalendarSettingsData(
   data: CalendarSettingsData,
   options?: { transaction?: Transaction }
 ): Promise<CalendarSettingsData> {
-  const t = options?.transaction
-  const merged = { ...DEFAULT, ...data }
-  const existing = await AppSettingEntry.findOne({
-    where: { namespace: NAMESPACE, path: DOCUMENT_PATH },
-    transaction: t,
-  })
-  const now = new Date()
-  if (existing) {
-    await existing.update(
-      { valueJsonb: merged, schemaVersion: 1, updatedAt: now },
-      { transaction: t }
-    )
-    return merged
+  if (options?.transaction) {
+    return persistCalendar(data, options.transaction)
   }
-  await AppSettingEntry.create(
-    {
-      namespace: NAMESPACE,
-      path: DOCUMENT_PATH,
-      valueJsonb: merged,
-      schemaVersion: 1,
-      updatedAt: now,
-    },
-    { transaction: t }
-  )
-  return merged
+  return sequelize.transaction(async (t) => persistCalendar(data, t))
 }
