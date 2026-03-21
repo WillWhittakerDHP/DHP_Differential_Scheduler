@@ -35,7 +35,7 @@
 - Create and mount limiter middleware in app.ts
 - Verify 429 response when limit exceeded
 
-- [ ] ### Session 8.2.2: Auth-route limiter and verification
+- [x] ### Session 8.2.2: Auth-route limiter and verification
 **Description:** Add stricter limiter (10 req/15 min) for auth routes; wire to placeholder or real path; document in SECURITY_STUBS.
 **Tasks:** 2
 **Focus:**
