@@ -3,10 +3,17 @@
  */
 import type { AvailabilitySettingsData } from '../../../shared/types/availabilitySettingsDocument.js'
 import type {
+  BufferPlacement,
   ConstraintEnforcement,
+  DriveTimeApplyTo,
+  IncomeCapacityFilter,
   RangeConstraint,
   RFC3339DateTime,
   DayHours,
+  RollingWeekDirection,
+  RollingWeekCapacityFilter,
+  RollingWeekIncomeCapacityFilter,
+  WorkCapacityFilter,
 } from '../../../shared/types/availabilityTypes.js'
 import type { AvailabilitySetting } from '../db/models/admin/availability_setting.js'
 import type { AvailabilityBusinessHour } from '../db/models/admin/availability_business_hour.js'
@@ -118,7 +125,7 @@ export function assembleAvailabilityDocument(
       buffersOut[apiKey] = {
         minutes: b.minutes,
         enforcement: b.enforcement as ConstraintEnforcement,
-        applyTo: (b.applyTo ?? 'all') as import('../../../shared/types/availabilityTypes.js').DriveTimeApplyTo,
+        applyTo: (b.applyTo ?? 'all') as DriveTimeApplyTo,
       }
       continue
     }
@@ -126,7 +133,7 @@ export function assembleAvailabilityDocument(
     buffersOut[apiKey] = {
       type: apiKey === 'lunch' ? 'lunch' : 'appointment',
       minutes: b.minutes,
-      placement: b.placement as import('../../../shared/types/availabilityTypes.js').BufferPlacement,
+      placement: b.placement as BufferPlacement,
       enforcement: b.enforcement as ConstraintEnforcement,
     }
   }
@@ -154,14 +161,14 @@ export function assembleAvailabilityDocument(
     const entry = {
       maxHours: r.maxHours,
       enforcement: r.enforcement as ConstraintEnforcement,
-      ...(r.rollingDirection ? { direction: r.rollingDirection as import('../../../shared/types/availabilityTypes.js').RollingWeekDirection } : {}),
+      ...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),
     }
     if (sk === 'rollingWeek') {
-      mwOut.rollingWeek = entry as import('../../../shared/types/availabilityTypes.js').RollingWeekCapacityFilter
+      mwOut.rollingWeek = entry as RollingWeekCapacityFilter
     } else if (sk === 'calendarWeek') {
-      mwOut.calendarWeek = entry as import('../../../shared/types/availabilityTypes.js').WorkCapacityFilter
+      mwOut.calendarWeek = entry as WorkCapacityFilter
     } else {
-      mwOut.day = entry as import('../../../shared/types/availabilityTypes.js').WorkCapacityFilter
+      mwOut.day = entry as WorkCapacityFilter
     }
   }
 
@@ -171,14 +178,14 @@ export function assembleAvailabilityDocument(
     const entry = {
       maxIncome: r.maxIncome,
       enforcement: r.enforcement as ConstraintEnforcement,
-      ...(r.rollingDirection ? { direction: r.rollingDirection as import('../../../shared/types/availabilityTypes.js').RollingWeekDirection } : {}),
+      ...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),
     }
     if (sk === 'rollingWeek') {
-      miOut.rollingWeek = entry as import('../../../shared/types/availabilityTypes.js').RollingWeekIncomeCapacityFilter
+      miOut.rollingWeek = entry as RollingWeekIncomeCapacityFilter
     } else if (sk === 'calendarWeek') {
-      miOut.calendarWeek = entry as import('../../../shared/types/availabilityTypes.js').IncomeCapacityFilter
+      miOut.calendarWeek = entry as IncomeCapacityFilter
     } else {
-      miOut.day = entry as import('../../../shared/types/availabilityTypes.js').IncomeCapacityFilter
+      miOut.day = entry as IncomeCapacityFilter
     }
   }
 
