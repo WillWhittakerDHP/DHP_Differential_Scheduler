@@ -108,7 +108,9 @@ watch(
   [overlay.showSlotsOverlay, overlay.slotGridOverlayLabel, availabilitySettingsLoading],
   ([showing, label, loading]) => {
     if (!loading && showing && !label) {
-      logger.warn('Slot grid overlay is shown but differentialGraphDefaultLabel is missing. Configure in Admin → Business Controls → Calendar → Grid.')
+      logger.warn(
+        'Slot grid overlay is shown but differentialGraphDefaultLabel is missing in wizard settings. Set it under Admin → Business Controls → Calendar → Grid, then Save (wizard settings are persisted with that save).'
+      )
     }
   },
   { immediate: true }

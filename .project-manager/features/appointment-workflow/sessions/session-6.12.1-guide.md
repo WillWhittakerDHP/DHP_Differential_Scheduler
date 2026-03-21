@@ -43,14 +43,14 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] - [x] #### Task 6.12.1.1: [Task Name]
+- [x] #### Task 6.12.1.1: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
-- [ ] #### Task 6.12.1.2: [Task Name]
+- [x] #### Task 6.12.1.2: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]

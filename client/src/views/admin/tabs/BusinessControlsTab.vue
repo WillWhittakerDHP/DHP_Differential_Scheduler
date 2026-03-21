@@ -79,6 +79,10 @@ async function handleSave(): Promise<void> {
   } else if (currentMainTab.value === 'calendar') {
     await calendar.saveSettings()
     await availability.saveSettings()
+    // Grid (and related) edits write label fields to wizard form in memory; booking reads GET /wizard-settings.
+    if (wizard.formData.value) {
+      await wizard.saveSettings()
+    }
   } else if (currentMainTab.value === 'wizard') {
     await wizard.saveSettings()
   }
