@@ -1,9 +1,10 @@
 <!-- Extracted from InstancesTab for component-health (allowlist repair). -->
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue'
+import { computed, inject, ref, type Ref } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { groupedInstanceDragZoneKey } from '@/composables/admin/useInstanceDragAndDrop'
 import type { GlobalEntity } from '@/types/entities'
 import { asEmptyArray } from '@/utils/safeDefaults'
 
@@ -29,7 +30,12 @@ const blockInstances = computed(() => {
   const main = ctx.mainInstancesByShape.value.get(props.blockShape.id)
   return asEmptyArray(list ?? main)
 })
-const groupedInstances = computed(() => asEmptyArray(ctx.groupedInstancesByShape.value.get(props.blockShape.id)))
+const groupedInstances = computed(() => {
+  const zoneKey = groupedInstanceDragZoneKey(props.blockShape.id)
+  const fromList = ctx.blockInstancesLists.value.get(zoneKey)?.value
+  const fromShape = ctx.groupedInstancesByShape.value.get(props.blockShape.id)
+  return asEmptyArray(fromList ?? fromShape)
+})
 const hasMainOrGrouped = computed(() => blockInstances.value.length > 0 || groupedInstances.value.length > 0)
 const cascadeLabel = computed(() => {
   const cascades = asEmptyArray(blockShapeValidCascadesMap.value.get(props.blockShape.id))
@@ -40,15 +46,26 @@ function setGroupContainer(_id: string, el: HTMLElement | null): void {
   ctx.groupContainers.value.set(props.blockShape.id, el)
 }
 
-function setGroupPanelsRef(el: Element | ComponentPublicInstance | null): void {
+function setPanelsRefOnMap(
+  mapRef: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>,
+  el: Element | ComponentPublicInstance | null
+): void {
   const elTyped = el as ComponentPublicInstance | HTMLElement | null
   const blockShapeId = props.blockShape.id
-  if (!ctx.groupPanelsContainers.value.has(blockShapeId)) {
-    ctx.groupPanelsContainers.value.set(blockShapeId, ref(elTyped))
+  if (!mapRef.value.has(blockShapeId)) {
+    mapRef.value.set(blockShapeId, ref(elTyped))
   } else {
-    const panelsRef = ctx.groupPanelsContainers.value.get(blockShapeId)
+    const panelsRef = mapRef.value.get(blockShapeId)
     if (panelsRef) panelsRef.value = elTyped
   }
+}
+
+function setGroupPanelsRef(el: Element | ComponentPublicInstance | null): void {
+  setPanelsRefOnMap(ctx.groupPanelsContainers, el)
+}
+
+function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null): void {
+  setPanelsRefOnMap(ctx.groupPanelsGroupedContainers, el)
 }
 </script>
 
@@ -146,15 +163,22 @@ function setGroupPanelsRef(el: Element | ComponentPublicInstance | null): void {
           </VChip>
         </VCardTitle>
         <VCardText>
-          <VExpansionPanels v-model="expandedInstances" multiple>
+          <VExpansionPanels
+            :ref="setGroupPanelsGroupedRef"
+            v-model="expandedInstances"
+            multiple
+          >
             <EntityCard
               v-for="instance in groupedInstances"
               :key="instance.id"
+              :class="`draggable-instance-${blockShape.id} draggable-instance-item`"
+              :data-drag-id="instance.id"
               entity-key="blockInstance"
               :entity="instance"
               :expanded="ctx.isPanelExpanded(instance.id)"
               @saved="ctx.handleExistingBlockInstanceSaved"
               @delete="(id: string) => ctx.handleDeleteBlockInstance(id)"
+              @duplicate="ctx.handleDuplicateClick"
             />
           </VExpansionPanels>
         </VCardText>

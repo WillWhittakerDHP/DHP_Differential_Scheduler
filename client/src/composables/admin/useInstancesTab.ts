@@ -74,8 +74,11 @@ export function useInstancesTab(): UseInstancesTabReturn {
     blockInstancesLists,
     groupContainers,
     groupPanelsContainers,
+    groupPanelsGroupedContainers,
   } = useInstanceDragAndDrop({
     mainInstancesByShape,
+    groupedInstancesByShape,
+    blockInstancesByShape,
     patchBlockInstanceOrderIndex,
   })
 
@@ -180,6 +183,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     expandedInstances,
     isPanelExpanded,
     groupPanelsContainers,
+    groupPanelsGroupedContainers,
     groupedInstancesByShape,
     handleExistingBlockInstanceSaved,
     handleDeleteBlockInstance,

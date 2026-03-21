@@ -49,6 +49,7 @@ export interface InstancesTabContext {
   expandedInstances: Ref<string[]>
   isPanelExpanded: (id: string) => boolean
   groupPanelsContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
+  groupPanelsGroupedContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
   groupedInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
   handleExistingBlockInstanceSaved: (entity: GlobalEntity<GlobalEntityKey>) => void
   handleDeleteBlockInstance: (id: string) => void
