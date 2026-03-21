@@ -29,3 +29,5 @@ Phase 8.2 (Inbound Rate Limiting) complete. General limiter (100 req/15 min) and
 **What you need to start next phase:**
 - Review feature-security-hardening-guide.md for phase ordering
 - Check phase guides for scope
+
+<!-- end excerpt feature -->
