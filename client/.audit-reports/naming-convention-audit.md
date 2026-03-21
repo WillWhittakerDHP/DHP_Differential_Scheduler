@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-21T04:55:17.254Z
+Generated at: 2026-03-21T04:56:40.132Z
 
 ## Summary
 
-- Total allowed: **2**
+- Total allowed: **0**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,7 +20,4 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `client/src/composables/admin/useAdminAvailabilitySettings.ts` | composableExport | 26 | pattern | Composables may export camelCase helpers used by other co... |
-| `server/src/db/models/admin/business_settings.ts` | functionExport | 87 | pattern | Sequelize model factory convention: ModelNameFactory |
+- (no exceptions configured)
