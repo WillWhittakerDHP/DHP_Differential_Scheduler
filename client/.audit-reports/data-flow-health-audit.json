@@ -1,28 +1,25 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-21T18:54:22.302Z",
+  "generatedAt": "2026-03-21T19:02:23.114Z",
   "totalScanned": 439,
   "inputAudits": {
     "importGraph": {
-      "available": false,
+      "available": true,
       "path": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/import-graph-audit.json",
-      "reason": "parse error: Expected property name or '}' in JSON at position 2 (line 2 column 1)"
+      "reason": null
     },
     "apiContract": {
-      "available": false,
+      "available": true,
       "path": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/api-contract-audit.json",
-      "reason": "parse error: Expected property name or '}' in JSON at position 2 (line 2 column 1)"
+      "reason": null
     },
     "typeInventory": {
-      "available": false,
+      "available": true,
       "path": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/type-constant-inventory-audit.json",
-      "reason": "parse error: Expected property name or '}' in JSON at position 2 (line 2 column 1)"
+      "reason": null
     }
   },
-  "skippedRules": [
-    "provide-inject-depth",
-    "type-boundary-gap"
-  ],
+  "skippedRules": [],
   "ruleset": [
     {
       "ruleId": "untyped-inject",

@@ -4,7 +4,7 @@
 
 # Data Flow Health Audit
 
-Generated: 2026-03-21T18:54:22.302Z
+Generated: 2026-03-21T19:02:23.114Z
 
 ## Overview
 
@@ -18,14 +18,9 @@ Generated: 2026-03-21T18:54:22.302Z
 
 | Input Audit | Available | Path |
 | --- | --- | --- |
-| import-graph | No | `/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/import-graph-audit.json` |
-| api-contract | No | `/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/api-contract-audit.json` |
-| type-inventory | No | `/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/type-constant-inventory-audit.json` |
-
-### Skipped rules (missing input audits)
-
-- `provide-inject-depth`
-- `type-boundary-gap`
+| import-graph | Yes | `/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/import-graph-audit.json` |
+| api-contract | Yes | `/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/api-contract-audit.json` |
+| type-inventory | Yes | `/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/type-constant-inventory-audit.json` |
 
 ## Ruleset
 
