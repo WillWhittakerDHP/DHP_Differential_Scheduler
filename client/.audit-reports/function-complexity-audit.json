@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T14:25:11.162Z",
-  "totalScanned": 1091,
+  "generatedAt": "2026-03-21T14:42:08.186Z",
+  "totalScanned": 1090,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -20,77 +20,65 @@
   "baseRef": "HEAD~1",
   "files": [
     {
-      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
       "functions": [
         {
-          "name": "bufferKindToApi",
-          "startLine": 38,
-          "endLine": 44,
-          "length": 7,
-          "maxNesting": 0,
-          "branches": 4,
+          "name": "validateAvailabilitySettings",
+          "startLine": 15,
+          "endLine": 340,
+          "length": 326,
+          "maxNesting": 5,
+          "branches": 84,
           "params": 1,
-          "returns": 5,
+          "returns": 44,
           "violations": [
             {
-              "rule": "returns",
+              "rule": "nesting",
               "value": 5,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 84,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 326,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 44,
               "threshold": 4,
               "tier": 2
             }
           ]
         },
         {
-          "name": "rangeConstraintFromRow",
-          "startLine": 56,
-          "endLine": 101,
-          "length": 46,
+          "name": "validateAvailabilitySettingsWithDetails",
+          "startLine": 383,
+          "endLine": 400,
+          "length": 18,
           "maxNesting": 4,
-          "branches": 6,
+          "branches": 2,
           "params": 0,
-          "returns": 5,
+          "returns": 2,
           "violations": [
             {
               "rule": "nesting",
               "value": 4,
               "threshold": 3,
               "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 5,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        },
-        {
-          "name": "assembleAvailabilityDocument",
-          "startLine": 103,
-          "endLine": 239,
-          "length": 137,
-          "maxNesting": 3,
-          "branches": 39,
-          "params": 0,
-          "returns": 1,
-          "violations": [
-            {
-              "rule": "branches",
-              "value": 39,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 137,
-              "threshold": 50,
-              "tier": 1
             }
           ]
         }
       ],
-      "score": 10,
-      "priority": "P1"
+      "score": 15,
+      "priority": "P0"
     },
     {
       "repoPath": "server/src/repositories/availabilitySettingsRepository.ts",

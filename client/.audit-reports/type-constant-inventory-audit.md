@@ -4,7 +4,7 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T14:25:13.619Z
+Generated: 2026-03-21T14:42:10.792Z
 
 ## Summary
 
@@ -164,12 +164,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/wizardSettings.ts` | dedicated | WizardSubStepLabels, UseWizardSettingsOptions, UseWizardSettingsFlagsReturn, UseWizardSettingsLabelsReturn, UseWizardSettingsReturn… | no | (none) | unknown |
-
-### Domain: availabilitySettingsDocument.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `shared/types/availabilitySettingsDocument.ts` | dedicated | AvailabilitySettingsData | no | (none) | unknown |
 
 ### Domain: availabilitySettingsDocument.ts
 

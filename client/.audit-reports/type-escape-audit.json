@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-21T14:25:13.328Z",
-  "totalScanned": 2,
+  "generatedAt": "2026-03-21T14:42:10.342Z",
+  "totalScanned": 8,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "findings": [],
