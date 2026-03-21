@@ -50,14 +50,17 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **0**
-- **Requiring review: 0**
+- Total files scanned: **3**
+- **Requiring review: 17**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `server/src/repositories/availabilityRelationalCodec.ts` | 39 | 0 | 0 | 0 | 2 | 11 | 0 | 0 | 0 | 0 |
+| `client/src/views/admin/tabs/BusinessControlsTab.vue` | 9 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| `server/src/repositories/availabilitySettingsRepository.ts` | 3 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -71,6 +74,60 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
+### `server/src/repositories/availabilityRelationalCodec.ts`
+
+- score: **39**
+
+- **P1** (dynamic_fields): Repeated `field === "..."` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map.
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `client/src/views/admin/tabs/BusinessControlsTab.vue`
+
+- score: **9**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `server/src/repositories/availabilityRelationalCodec.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=2, fieldMapping=11, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 13, allowed: 0
+
+```
+fieldMapping@86: config: { minutes: rc.leadTimeMinutes },
+fieldMapping@164: ...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),
+fieldMapping@181: ...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),
+fieldMapping@195: outOfOffice: { enforcement: root.overlapOutOfOfficeEnforcement as ConstraintEnforcement },
+fieldMapping@203: ...(root.defaultLocationLabel ? { label: root.defaultLocationLabel } : {}),
+fieldMapping@205: ? { coordinates: { lat: root.defaultLocationLat, lng: root.defaultLocationLng } }
+fieldMapping@221: ...(majors.length ? { majorAttendees: majors.map((x) => x.value) } : {}),
+fieldMapping@222: ...(minors.length ? { minorAttendees: minors.map((x) => x.value) } : {}),
+fieldMapping@234: ...(root.timezone ? { timezone: root.timezone } : {}),
+fieldMapping@237: ...(root.durationRoundingIncrement != null ? { increment: root.durationRoundingIncrement } : {}),
+fieldMapping@239: ? { method: root.durationRoundingMethod as 'roundUp' | 'roundDown' | 'roundNearest' }
+fieldEqualsString@251: if (key === 'driveToCandidate') return 'drive_to_candidate'
+fieldEqualsString@252: if (key === 'driveFromCandidate') return 'drive_from_candidate'
+```
+
+### `client/src/views/admin/tabs/BusinessControlsTab.vue`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=3, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 3, allowed: 0
+
+```
+fieldMapping@102: const capacity = useCapacitySettings({ formData: availability.formData, maxBusinessHours })
+fieldMapping@103: const buffers = useBufferSettings({ formData: availability.formData } as UseBufferSettingsParams)
+fieldMapping@104: const location = useDefaultLocation({ formData: availability.formData } as UseDefaultLocationParams)
+```
+
+### `server/src/repositories/availabilitySettingsRepository.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=1, fieldMapping=0, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 1, allowed: 0
+
+```
+fieldEqualsString@146: if (key === 'driveToCandidate' || key === 'driveFromCandidate') {
+```

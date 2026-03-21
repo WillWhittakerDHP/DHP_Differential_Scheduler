@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:44:34.458Z",
+  "generatedAt": "2026-03-21T15:51:17.776Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 3,
+  "totalScanned": 5,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 17,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -57,5 +57,323 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": []
+  "files": [
+    {
+      "id": "server__src__repositories__availabilityRelationalCodec.ts",
+      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/repositories/availabilityRelationalCodec.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 2,
+        "fieldMapping": 11,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 2,
+        "fieldMapping": 11,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 86,
+          "line": "config: { minutes: rc.leadTimeMinutes },"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 164,
+          "line": "...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 181,
+          "line": "...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 195,
+          "line": "outOfOffice: { enforcement: root.overlapOutOfOfficeEnforcement as ConstraintEnforcement },"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 203,
+          "line": "...(root.defaultLocationLabel ? { label: root.defaultLocationLabel } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 205,
+          "line": "? { coordinates: { lat: root.defaultLocationLat, lng: root.defaultLocationLng } }"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 221,
+          "line": "...(majors.length ? { majorAttendees: majors.map((x) => x.value) } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 222,
+          "line": "...(minors.length ? { minorAttendees: minors.map((x) => x.value) } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 234,
+          "line": "...(root.timezone ? { timezone: root.timezone } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 237,
+          "line": "...(root.durationRoundingIncrement != null ? { increment: root.durationRoundingIncrement } : {}),"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 239,
+          "line": "? { method: root.durationRoundingMethod as 'roundUp' | 'roundDown' | 'roundNearest' }"
+        },
+        {
+          "ruleId": "fieldEqualsString",
+          "lineNumber": 251,
+          "line": "if (key === 'driveToCandidate') return 'drive_to_candidate'"
+        },
+        {
+          "ruleId": "fieldEqualsString",
+          "lineNumber": 252,
+          "line": "if (key === 'driveFromCandidate') return 'drive_from_candidate'"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 86,
+          "line": "config: { minutes: rc.leadTimeMinutes },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 164,
+          "line": "...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 181,
+          "line": "...(r.rollingDirection ? { direction: r.rollingDirection as RollingWeekDirection } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 195,
+          "line": "outOfOffice: { enforcement: root.overlapOutOfOfficeEnforcement as ConstraintEnforcement },",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 203,
+          "line": "...(root.defaultLocationLabel ? { label: root.defaultLocationLabel } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 205,
+          "line": "? { coordinates: { lat: root.defaultLocationLat, lng: root.defaultLocationLng } }",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 221,
+          "line": "...(majors.length ? { majorAttendees: majors.map((x) => x.value) } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 222,
+          "line": "...(minors.length ? { minorAttendees: minors.map((x) => x.value) } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 234,
+          "line": "...(root.timezone ? { timezone: root.timezone } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 237,
+          "line": "...(root.durationRoundingIncrement != null ? { increment: root.durationRoundingIncrement } : {}),",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 239,
+          "line": "? { method: root.durationRoundingMethod as 'roundUp' | 'roundDown' | 'roundNearest' }",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldEqualsString",
+          "lineNumber": 251,
+          "line": "if (key === 'driveToCandidate') return 'drive_to_candidate'",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldEqualsString",
+          "lineNumber": 252,
+          "line": "if (key === 'driveFromCandidate') return 'drive_from_candidate'",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 39,
+      "priority": "P0",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "dynamic_fields",
+          "message": "Repeated `field === \"...\"` checks detected. Consider driving this via field config (display/form config) or a reusable formatter map."
+        },
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
+    },
+    {
+      "id": "client__src__views__admin__tabs__BusinessControlsTab.vue",
+      "repoPath": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/views/admin/tabs/BusinessControlsTab.vue",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 3,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 3,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 102,
+          "line": "const capacity = useCapacitySettings({ formData: availability.formData, maxBusinessHours })"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 103,
+          "line": "const buffers = useBufferSettings({ formData: availability.formData } as UseBufferSettingsParams)"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 104,
+          "line": "const location = useDefaultLocation({ formData: availability.formData } as UseDefaultLocationParams)"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 108,
+          "line": "__brand: 'UseDifferentialPerspectivesParams',"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 102,
+          "line": "const capacity = useCapacitySettings({ formData: availability.formData, maxBusinessHours })",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 103,
+          "line": "const buffers = useBufferSettings({ formData: availability.formData } as UseBufferSettingsParams)",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 104,
+          "line": "const location = useDefaultLocation({ formData: availability.formData } as UseDefaultLocationParams)",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 9,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "priority": "P1",
+          "kind": "casing_utility",
+          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
+        }
+      ]
+    },
+    {
+      "id": "server__src__repositories__availabilitySettingsRepository.ts",
+      "repoPath": "server/src/repositories/availabilitySettingsRepository.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/repositories/availabilitySettingsRepository.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 1,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 1,
+        "fieldMapping": 0,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldEqualsString",
+          "lineNumber": 146,
+          "line": "if (key === 'driveToCandidate' || key === 'driveFromCandidate') {"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldEqualsString",
+          "lineNumber": 146,
+          "line": "if (key === 'driveToCandidate' || key === 'driveFromCandidate') {",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 3,
+      "priority": "P2",
+      "suggestions": []
+    }
+  ]
 }

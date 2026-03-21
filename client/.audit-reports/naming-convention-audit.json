@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:44:34.591Z",
+  "generatedAt": "2026-03-21T15:51:18.434Z",
   "totalScanned": 1165,
   "deltaMode": true,
   "baseRef": "HEAD~1",
@@ -16,13 +16,13 @@
   "files": [],
   "scanned": [
     {
-      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "repoPath": "server/src/db/models/admin/availability_setting.ts",
       "allowed": [
         {
-          "ruleId": "composableExport",
-          "lineNumber": 34,
-          "line": "export function groupedInstanceDragZoneKey(",
-          "reason": "Composables may export camelCase helpers used by other composables or components",
+          "ruleId": "functionExport",
+          "lineNumber": 31,
+          "line": "export function AvailabilitySettingFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
           "source": "pattern",
           "suppressionStatus": "suppressedByPattern"
         }
