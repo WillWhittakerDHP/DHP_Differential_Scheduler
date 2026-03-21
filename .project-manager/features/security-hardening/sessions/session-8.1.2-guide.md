@@ -19,7 +19,7 @@
 
 ### Tasks
 
-- [x] #### Task 8.1.2.1: Verify CORS rejection
+- [x] - [x] #### Task 8.1.2.1: Verify CORS rejection
 **Goal:** curl disallowed origin, confirm rejection
 **Files:** Reference API endpoint
 **Approach:** curl -H "Origin: https://evil.com" to API; verify CORS error or no Access-Control-Allow-Origin
