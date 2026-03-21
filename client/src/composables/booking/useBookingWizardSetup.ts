@@ -27,7 +27,7 @@ import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
 import { wizardKey, loadedWizardStateKey, bookingFlowReadyKey } from '@/composables/booking/injectionKeys'
-import { resetBookingWizardSettingsSingleton } from '@/composables/booking/bookingWizardSettingsSingleton'
+import { resetBookingWizardSettingsSingleton } from '@/composables/booking/useBookingWizardSettingsSingleton'
 import { useBookingFlow } from '@/composables/booking/useBookingFlow'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 

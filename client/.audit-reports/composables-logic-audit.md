@@ -12,13 +12,12 @@ Scope:
 
 ## Summary
 
-- Total composable files scanned: **284**
+- Total composable files scanned: **287**
 
 ## Top hotspots (heuristic)
 
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/composables/admin/useInstanceDragAndDrop.ts` | 29 | 0 | 2 | 9 | 2 | 0 | 1 |
 | `client/src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 18 | 0 | 0 | 17 | 0 | 0 | 0 |
 | `client/src/composables/admin/useShapeForm.ts` | 17 | 0 | 0 | 6 | 8 | 0 | 0 |
@@ -38,6 +37,7 @@ Scope:
 | `client/src/composables/useComponentEntity.ts` | 14 | 0 | 0 | 1 | 9 | 0 | 0 |
 | `client/src/composables/admin/useEntityCardSubPanels.ts` | 13 | 0 | 1 | 10 | 0 | 0 | 0 |
 | `client/src/composables/useRelationship.ts` | 13 | 0 | 0 | 1 | 9 | 0 | 0 |
+| `client/src/composables/admin/instanceDragAndDropGrouped.ts` | 12 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useCalibrationChart.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
 | `client/src/composables/admin/usePartInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
@@ -51,14 +51,6 @@ Legend:
 - **P1**: high leverage cleanup (split / side effects)
 - **P2**: polish / consistency
 
-### `client/src/composables/admin/useInstanceDragAndDrop.ts`
-
-- exports: `useInstanceDragAndDrop`
-- score: **29**
-- return keys (first return): `blockInstanceIdsMap`, `blockInstancesLists`, `groupContainers`, `groupDragHandlers`, `groupDragInstances`, `groupPanelsContainers`, `groupPanelsGroupedContainers`
-
-- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
-
 ### `client/src/composables/booking/useAvailabilityStepAccordion.ts`
 
 - exports: `useAvailabilityStepAccordion`
@@ -70,42 +62,6 @@ Legend:
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `client/src/composables/admin/useInstanceDragAndDrop.ts`
-
-- counts: vueQuery=0, watch=2, computed=2, ref=7, async=1, await=1, dom=0, console=0
-
-```
-lifecycle@5: import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
-map@40: .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
-sort@40: .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
-sort@41: .sort()
-filter@62: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
-map@64: groupedEntityIds.value = grouped.map((e) => e.id)
-async@67: return async (): Promise<void> => {
-map@70: const idToEntity = new Map(all.map((e) => [e.id, e]))
-filter@71: const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))
-map@73: .map((id) => idToEntity.get(id as GlobalEntityId))
-filter@74: .filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)
-map@76: const updates = merged.map((entity, index) => ({
-await@81: await patchOrderIndex(updates)
-ref@115: const isMounted = ref(false)
-ref@117: const dragReinitNonce = ref(0)
-watch@122: watch(
-ref@135: blockInstancesLists.value.set(blockShapeId, ref([...instances]))
-ref@136: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
-map@136: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
-computed@138: const filteredInstances = computed(() => {
-ref@167: blockInstancesLists.value.set(zoneKey, ref([...instances]))
-ref@168: blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
-map@168: blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
-computed@170: const filteredGrouped = computed(() => {
-ref@281: const panelsRefForDrag = ref(panelsEl)
-watch@335: watch(
-lifecycle@374: onMounted(() => {
-lifecycle@378: onBeforeUnmount(() => {
-lifecycle@387: onUnmounted(() => {
-```
 
 ### `client/src/composables/admin/useInstanceGrouping.ts`
 
@@ -532,6 +488,25 @@ async@272: mutationFn: async (payload) => {
 await@273: const response = await apiClient.post<FetchedRelationship>(endpoint, payload)
 async@281: mutationFn: async ({ parentId, childId }) => {
 await@287: await apiClient.delete(deleteEndpoint)
+```
+
+### `client/src/composables/admin/instanceDragAndDropGrouped.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=0, async=1, await=1, dom=0, console=0
+
+```
+map@29: .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
+sort@29: .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
+sort@30: .sort()
+filter@51: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
+map@53: groupedEntityIds.value = grouped.map((e) => e.id)
+async@56: return async (): Promise<void> => {
+map@59: const idToEntity = new Map(all.map((e) => [e.id, e]))
+filter@60: const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))
+map@62: .map((id) => idToEntity.get(id as GlobalEntityId))
+filter@63: .filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)
+map@65: const updates = merged.map((entity, index) => ({
+await@70: await patchOrderIndex(updates)
 ```
 
 ### `client/src/composables/admin/useBlockInstanceForm.ts`
@@ -1005,6 +980,21 @@ watch@152: watch(
 watch@165: watch(
 ```
 
+### `client/src/composables/admin/instanceDragAndDropShapeMapsSync.ts`
+
+- counts: vueQuery=0, watch=0, computed=2, ref=4, async=0, await=0, dom=0, console=0
+
+```
+ref@47: blockInstancesLists.value.set(blockShapeId, ref([...instances]))
+ref@48: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
+map@48: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
+computed@50: const filteredInstances = computed(() => {
+ref@79: blockInstancesLists.value.set(zoneKey, ref([...instances]))
+ref@80: blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
+map@80: blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
+computed@82: const filteredGrouped = computed(() => {
+```
+
 ### `client/src/composables/admin/useAdminCalendarSettings.ts`
 
 - counts: vueQuery=0, watch=1, computed=0, ref=2, async=2, await=2, dom=0, console=0
@@ -1093,6 +1083,21 @@ async@60: const handleEnterKey = async (event: KeyboardEvent): Promise<void> => 
 await@63: const isValid = await fieldContext.actions.validate()
 await@72: await entityCardSaveContext.handleSave()
 await@83: await fieldContext.actions.save()
+```
+
+### `client/src/composables/admin/useInstanceDragAndDrop.ts`
+
+- counts: vueQuery=0, watch=2, computed=0, ref=2, async=0, await=0, dom=0, console=0
+
+```
+lifecycle@5: import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, type Ref, type ComponentPublicInstance } from 'vue'
+ref@46: const isMounted = ref(false)
+ref@47: const dragReinitNonce = ref(0)
+watch@62: watch(
+watch@90: watch(
+lifecycle@135: onMounted(() => {
+lifecycle@139: onBeforeUnmount(() => {
+lifecycle@148: onUnmounted(() => {
 ```
 
 ### `client/src/composables/admin/useInstancesTabEventInstanceDrag.ts`
@@ -2230,16 +2235,6 @@ await@89: await saveFieldMetadata({
 await@100: await queryClient.refetchQueries({ queryKey: ['adminMetadata'] })
 ```
 
-### `client/src/composables/booking/bookingWizardSettingsSingleton.ts`
-
-- counts: vueQuery=0, watch=0, computed=1, ref=2, async=0, await=0, dom=0, console=0
-
-```
-ref@14: const isLoading = ref(false)
-ref@15: const hasSettled = ref(false)
-computed@61: wizardSettingsReady: computed(() => hasSettled.value),
-```
-
 ### `client/src/composables/booking/selectionCard/useSelectionCardStyles.ts`
 
 - counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
@@ -2258,6 +2253,16 @@ computed@30: const contentContainerClasses = computed(() => {
 computed@31: const selectedBlockId = computed({
 computed@47: const selectedBlockIds = computed({
 map@48: get: () => selectedBlocks.value.map(b => b.id),
+```
+
+### `client/src/composables/booking/useBookingWizardSettingsSingleton.ts`
+
+- counts: vueQuery=0, watch=0, computed=1, ref=2, async=0, await=0, dom=0, console=0
+
+```
+ref@14: const isLoading = ref(false)
+ref@15: const hasSettled = ref(false)
+computed@61: wizardSettingsReady: computed(() => hasSettled.value),
 ```
 
 ### `client/src/composables/booking/useInstanceComponents.ts`
@@ -2686,6 +2691,14 @@ computed@63: error: computed(() => error.value),
 ```
 computed@61: isLoading: computed(() => isLoading.value),
 computed@62: error: computed(() => error.value),
+```
+
+### `client/src/composables/admin/instanceDragAndDropFormKitBind.ts`
+
+- counts: vueQuery=0, watch=0, computed=0, ref=1, async=0, await=0, dom=0, console=0
+
+```
+ref@97: const panelsRefForDrag = ref(panelsEl)
 ```
 
 ### `client/src/composables/admin/tables/useTableModelHelpers.ts`

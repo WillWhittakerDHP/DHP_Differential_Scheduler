@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:11:14.872Z",
+  "generatedAt": "2026-03-21T18:16:27.948Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 277,
     "totalConstantFiles": 25,
     "totalConfigFiles": 41,
-    "filesWithInlineTypes": 120,
+    "filesWithInlineTypes": 121,
     "annotated": 325,
     "unannotated": 18,
     "classificationIssues": {
       "mixedTypeConstantFiles": 14,
-      "inlineTypesInComposables": 90,
+      "inlineTypesInComposables": 91,
       "configsWithLogic": 11,
       "duplicateTypeNames": 7,
       "cleanupCandidates": 0,
@@ -9323,6 +9323,16 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
+      "exportedTypes": [
+        "InstanceDragFormKitBinderDeps"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
       "exportedTypes": [
         "AppointmentsTableLookups"
@@ -10683,6 +10693,16 @@
           ],
           "primaryPurpose": "composable",
           "importedByCount": 2,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
+          "exportedTypes": [
+            "InstanceDragFormKitBinderDeps"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
