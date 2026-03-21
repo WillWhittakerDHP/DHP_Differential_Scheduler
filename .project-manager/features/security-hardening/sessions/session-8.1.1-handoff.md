@@ -25,10 +25,23 @@ Start Session  (see session guide and phase guide for scope).
 
 **Where we left off:**
 Completed Task 
+<<<<<<< Updated upstream
+=======
 
 **What you need to start:**
 - Begin Session 
 
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+CORS lockdown work for session 8.1.1 is complete; session branch merged into `phase-8.1`.
+>>>>>>> Stashed changes
+
+**What you need to start:**
+- Begin Session 
+
+<<<<<<< Updated upstream
 <!-- end excerpt session -->
 
 
@@ -136,3 +149,6 @@ Completed Task 1.3.4: Relationship API Composables. Created composables for pare
 - Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-8.1.1-guide.md` (detailed instructions and patterns)
 - Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-8.1.1-log.md`
 - Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-8.1-handoff.md` (for phase-level context)
+=======
+<!-- end excerpt session -->
+>>>>>>> Stashed changes

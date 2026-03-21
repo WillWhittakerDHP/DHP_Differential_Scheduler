@@ -29,6 +29,7 @@
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
+<<<<<<< Updated upstream
 - Completed ** ** Add CORS_ORIGIN env var, wire CORS origin in app.ts, update .env.example, verify origin restriction
 
 
@@ -73,6 +74,9 @@
 **Key Accomplishments:**
 - [Accomplishment 1]
 - [Accomplishment 2]
+=======
+- Add `CORS_ORIGIN` env var, wire CORS origin in `app.ts`, update `.env.example`, verify origin restriction
+>>>>>>> Stashed changes
 
 ---
 
