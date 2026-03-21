@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-21T19:22:31.960Z
+Generated at: 2026-03-21T19:33:39.969Z
 
 ## Summary
 
-- Total allowed: **1**
+- Total allowed: **0**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,6 +20,4 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `server/src/db/models/booking/annotation_shape.ts` | functionExport | 38 | pattern | Sequelize model factory convention: ModelNameFactory |
+- (no exceptions configured)
