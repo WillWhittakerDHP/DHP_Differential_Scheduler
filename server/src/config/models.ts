@@ -33,6 +33,7 @@ export const {
   User,
   Appointment,
   AppointmentSelectionLine,
+  AppointmentTimeSlot,
   AppointmentAttendee,
   AppointmentFeeSummary,
   AppointmentFeeEntry,

@@ -32,6 +32,7 @@ import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { AppointmentSelectionLineFactory } from "./booking/appointment_selection_line.js";
+import { AppointmentTimeSlotFactory } from "./booking/appointment_time_slot.js";
 import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
 import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
 import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
@@ -90,6 +91,7 @@ export function initializeModels(sequelize: Sequelize) {
   const User = UserFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
   const AppointmentSelectionLine = AppointmentSelectionLineFactory(sequelize);
+  const AppointmentTimeSlot = AppointmentTimeSlotFactory(sequelize);
   const AppointmentFeeSummary = AppointmentFeeSummaryFactory(sequelize);
   const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
   const ConstraintOverride = ConstraintOverrideFactory(sequelize);
@@ -339,6 +341,15 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'appointment',
   });
 
+  Appointment.hasMany(AppointmentTimeSlot, {
+    foreignKey: 'appointmentId',
+    as: 'timeSlots',
+  });
+  AppointmentTimeSlot.belongsTo(Appointment, {
+    foreignKey: 'appointmentId',
+    as: 'appointment',
+  });
+
   User.hasMany(AppointmentAttendee, { 
     foreignKey: 'user_id', 
     as: 'appointmentAttendances' 
@@ -410,6 +421,7 @@ export function initializeModels(sequelize: Sequelize) {
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
     AppointmentSelectionLine,
+    AppointmentTimeSlot,
     AppointmentAttendee,
     AppointmentFeeSummary,
     AppointmentFeeEntry,
