@@ -142,6 +142,8 @@ export function useShapesTab(): UseShapesTabReturn {
     isTernary: false,
     ternaryDefault: null,
     differentialRole: 'none',
+    includeRescheduleLink: true,
+    includeCancelLink: true,
   }))
 
   return {

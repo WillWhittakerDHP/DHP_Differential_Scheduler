@@ -9,6 +9,8 @@ const TEMPLATE_VAR_PATTERN = /\{(\w+)\}/g
 export interface TemplateResolverOptions {
   /** When true, unresolved placeholders are removed. When false (default), they stay as `{varName}`. */
   stripUnresolved?: boolean
+  /** Named placeholders are removed (replaced with empty string) regardless of context value. */
+  stripPlaceholderNames?: ReadonlySet<string>
 }
 
 export function resolveTemplate(
@@ -18,9 +20,14 @@ export function resolveTemplate(
 ): string {
   if (!template) return ''
 
-  const { stripUnresolved = false } = options
+  const { stripUnresolved = false, stripPlaceholderNames } = options
 
   return template.replace(TEMPLATE_VAR_PATTERN, (match, variableName: string) => {
+    if (stripPlaceholderNames?.has(variableName)) {
+      logger.debug(`Template variable {${variableName}} stripped per stripPlaceholderNames`)
+      return ''
+    }
+
     const value = context[variableName]
 
     if (value !== undefined && value !== null && value !== '') {

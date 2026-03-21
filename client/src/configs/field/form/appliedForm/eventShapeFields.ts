@@ -68,4 +68,20 @@ export const eventShapeFields = {
     options: [...DIFFERENTIAL_ROLE_SELECT_OPTIONS],
   },
 
+  includeRescheduleLink: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Include reschedule link in invites",
+    globalField: "includeRescheduleLink" as const,
+    expandable: false,
+  },
+
+  includeCancelLink: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Include cancel link in invites",
+    globalField: "includeCancelLink" as const,
+    expandable: false,
+  },
+
 } as const;
