@@ -1,6 +1,7 @@
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T23:23:43.993Z",
 =======
   "generatedAt": "2026-03-21T23:26:24.906Z",
@@ -8,6 +9,9 @@
 =======
   "generatedAt": "2026-03-21T23:50:51.435Z",
 >>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
+=======
+  "generatedAt": "2026-03-21T23:51:31.717Z",
+>>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
   "totalScanned": 0,
   "exceptionSummary": {
     "totalRequiresReview": 0
