@@ -18,30 +18,6 @@
 ## Completed Sessions
 
 ### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item ✅
-**Completed:** 2026-03-21
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** Drive Time Fee — Settings, Calculation, and Line Item
-
-
-
-### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item ✅
-**Completed:** 2026-03-21
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** Drive Time Fee — Settings, Calculation, and Line Item
-
-
-
-### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item ✅
-**Completed:** 2026-03-21
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** Drive Time Fee — Settings, Calculation, and Line Item
-
-
-
-### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item ✅
 
 **Completed:** 2026-03-21  
 **Tasks Completed:** 6.11.1.1–6.11.1.5 (per session guide)  
