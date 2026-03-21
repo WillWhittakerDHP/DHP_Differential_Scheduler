@@ -54,7 +54,8 @@ export function inputConfigEditor(
     }
   }
 
-  function buildInputConfig(_fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
+  function buildInputConfig(fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
+    void fieldKey
     if (formData.options !== null) {
       return {
         options: formData.options
@@ -88,6 +89,7 @@ export function inputConfigEditor(
         baseConfig.placeholder = formData.placeholder
       }
 
+      // relationshipCollection uses same base target/candidate/group fields as other relationship modes.
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
         baseConfig.targetKey = formData.targetKey

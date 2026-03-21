@@ -59,7 +59,7 @@ export interface UseThemeModeReturn {
 
 export interface UseThemeModeOptions {
   wizard?: UseBookingWizardReturn
-  /** When true, use DHP palette. Can be Ref (wizard local) or ComputedRef (from useWizardSettings/API). */
+  /** When true, use DHP palette. Can be Ref (wizard local) or ComputedRef (from useWizardSettings().flags/API). */
   useDhpColors?: Ref<boolean> | ComputedRef<boolean>
 }
 

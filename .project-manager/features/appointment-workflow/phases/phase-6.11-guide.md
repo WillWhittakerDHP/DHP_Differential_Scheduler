@@ -65,6 +65,12 @@
 
 ---
 
+## Tasks
+
+Sessions and tasks for this phase. See Sessions Breakdown below for session list and session-6.11.1-guide.md for task breakdown (6.11.1.1–6.11.1.5).
+
+---
+
 ## Sessions Breakdown
 
 - [x] ### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item  
