@@ -2,6 +2,15 @@
 
 The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until authentication is implemented. They are wired into state-changing routes now so that the security layer can be dropped in later without changing route definitions.
 
+## Inbound rate limiting (active)
+
+**Location:** `server/src/middlewares/rateLimit.ts`  
+**Applied to:** `/api/v1/internal/*` routes
+
+- **General limiter:** 100 requests per 15 minutes per IP. Excess requests receive **429 Too Many Requests** with `Retry-After` header.
+- **Headers:** `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` (standard); `X-RateLimit-*` (legacy).
+- **Auth-route limiter:** Stricter limit (10 req/15 min) for auth routes will be added in Session 8.2.2 when Feature 7 (Authentication) adds login routes.
+
 ## Planned behavior
 
 ### csrfProtection
