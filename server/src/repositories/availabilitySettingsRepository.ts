@@ -270,3 +270,8 @@ export async function saveAvailabilitySettingsData(
     await persistAvailabilityData(data, t)
   })
 }
+
+/** DELETE /business-settings/availability_settings: rewrite DB to application defaults. */
+export async function resetAvailabilitySettingsToDefault(): Promise<void> {
+  await saveAvailabilitySettingsData(defaultAvailabilitySettings)
+}

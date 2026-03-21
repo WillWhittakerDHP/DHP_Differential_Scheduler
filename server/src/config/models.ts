@@ -35,7 +35,6 @@ export const {
   AppointmentFeeSummary,
   AppointmentFeeEntry,
   ConstraintOverride,
-  BusinessSettings,
   CalendarSettings,
   WizardSettings,
   AvailabilitySetting,
