@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-21T15:54:43.071Z
+Generated at: 2026-03-21T16:00:42.864Z
 
 ## Summary
 
-- Total allowed: **1**
+- Total allowed: **0**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,6 +20,4 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-| File | Rule | Line | Source | Reason |
-| --- | --- | ---: | --- | --- |
-| `server/src/db/models/admin/availability_setting.ts` | functionExport | 31 | pattern | Sequelize model factory convention: ModelNameFactory |
+- (no exceptions configured)
