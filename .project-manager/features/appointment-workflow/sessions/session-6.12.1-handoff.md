@@ -51,6 +51,15 @@ Completed Task
 
 
 **Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 6.12.2
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
 [Minimal notes about what was completed - 2-3 sentences max]
 
 **What you need to start:**
