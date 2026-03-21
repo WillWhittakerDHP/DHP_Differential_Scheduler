@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **8**
-- Requiring review (Tier 1): **10**
+- Files with findings: **9**
+- Requiring review (Tier 1): **12**
 - Allowed (with justification): 0
 - Annotated deprecations: **0**
-- Runtime legacy accommodation: **14**
-- Tier 1 findings: 10 (annotations: 0, legacy-keyword: 0, unhelpful-default: 10)
+- Runtime legacy accommodation: **16**
+- Tier 1 findings: 12 (annotations: 0, legacy-keyword: 0, unhelpful-default: 12)
 
 ## Rules
 
@@ -84,6 +84,7 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
 | `server/src/repositories/availabilityRelationalCodec.ts` | P1 | 6 | 0 | 3 |
+| `client/src/composables/admin/useInstanceDragAndDrop.ts` | P1 | 4 | 0 | 2 |
 | `client/src/components/booking/steps/AvailabilityStep.vue` | P2 | 2 | 0 | 1 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P2 | 2 | 0 | 1 |
 | `client/src/composables/useThemeMode.ts` | P2 | 2 | 0 | 1 |
@@ -100,6 +101,13 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@143: const list = hoursByRc.get(h.rangeConstraintId) ?? []
 [LEGACY] unhelpful-default-nullish@150: const hrs = hoursByRc.get(rc.id) ?? []
 [LEGACY] unhelpful-default-nullish@202: placeId: root.defaultLocationPlaceId ?? '',
+```
+
+### `client/src/composables/admin/useInstanceDragAndDrop.ts` [P1] (score: 4)
+
+```
+[LEGACY] unhelpful-default-nullish@56: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
+[LEGACY] unhelpful-default-nullish@63: const all = blockInstancesByShape.value.get(blockShapeId) ?? []
 ```
 
 ### `client/src/components/booking/steps/AvailabilityStep.vue` [P2] (score: 2)

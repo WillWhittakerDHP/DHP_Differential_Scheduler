@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:57:16.351Z",
+  "generatedAt": "2026-03-21T15:18:54.745Z",
   "check": "Deprecation",
   "totalScanned": 1167,
   "tierModel": "tier1",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 10,
+    "totalRequiresReview": 12,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -77,6 +77,45 @@
         }
       ],
       "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__admin__useInstanceDragAndDrop.ts",
+      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 56,
+          "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 56,
+          "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 4,
       "priority": "P1"
     },
     {
