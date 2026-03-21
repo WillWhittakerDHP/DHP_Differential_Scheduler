@@ -1,55 +1,42 @@
-# Session 6.12.1 Log: Entity enhancements and annotation data layer
+# Session 6.12.1: ** Entity enhancements and annotation data layer
 
-## Session Status
 
-**Status:** Complete  
-**Phase:** 6.12  
-**Last updated:** 2026-03-21
+### Task 6.12.1.1: Event shape includeRescheduleLink/includeCancelLink + per-instance invite template stripping ✅
+**Goal:** DB migration, Sequelize model, admin toggles, templateResolver stripPlaceholderNames, invite orchestration loads EventShape per instance
 
----
+**Files Created:**
+- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
+**Files Modified:**
+- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
+- `server/src/db/models/booking/event_shape.ts` - [Description]
+- `server/src/services/invites/templateResolver.ts` - [Description]
+- `server/src/services/invites/inviteOrchestrationService.ts` - [Description]
+- `client/src/types/entities.ts` - [Description]
+- `client/src/configs/field/form/appliedForm/eventShapeFields.ts` - [Description]
+- `client/src/composables/admin/useShapesTab.ts` - [Description]
+- `client/src/utils/transformers/entityTransformers.ts` - [Description]
+**Next Task:**
+- 6.12.1.2
+
+
 
 ## Completed Tasks
 
-### Task 6.12.1.1: Event shape link toggles and per-instance invite context ✅
+### Task 6.12.1.1: Event shape includeRescheduleLink/includeCancelLink + per-instance invite template stripping ✅
+**Goal:** DB migration, Sequelize model, admin toggles, templateResolver stripPlaceholderNames, invite orchestration loads EventShape per instance
 
-**Goal:** `includeRescheduleLink` / `includeCancelLink` on event shapes; invite builder respects flags per event instance.
-
-**Outcome:** Implemented end-to-end per planning doc; verified admin persistence and invite path behavior.
-
----
-
-### Task 6.12.1.2: Block shapes entity card expansion ✅
-
-**Goal:** Reliable expansion panel behavior on the block shapes tab.
-
-**Outcome:** Aligned `v-model` / `:value` and composable sync so headers toggle on first click.
-
----
-
-### Task 6.12.1.3: Annotation instance content table ✅
-
-**Goal:** New table, backfill, and read/write alignment away from single legacy `text` / `userType` on the instance where replaced.
-
-**Outcome:** Migration and models wired; query paths resolve display text from content rows with explicit logging on backfill.
-
----
-
-### Task 6.12.1.4: Annotation shape delete 409 ✅
-
-**Goal:** Dependent instances → **409** with clear JSON; otherwise delete succeeds.
-
-**Outcome:** Pre-check or mapped FK conflict returns consistent API error shape.
-
----
-
-## Notes
-
-Testing remains deferred per project `TEST_ENABLED` policy until Phase 3.0. Manual verification: run migrations through latest revision; spot-check admin relationships and annotation delete paths.
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+**Files Created:**
+- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
+**Files Modified:**
+- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
+- `server/src/db/models/booking/event_shape.ts` - [Description]
+- `server/src/services/invites/templateResolver.ts` - [Description]
+- `server/src/services/invites/inviteOrchestrationService.ts` - [Description]
+- `client/src/types/entities.ts` - [Description]
+- `client/src/configs/field/form/appliedForm/eventShapeFields.ts` - [Description]
+- `client/src/composables/admin/useShapesTab.ts` - [Description]
+- `client/src/utils/transformers/entityTransformers.ts` - [Description]
+**Next Task:**
+- 6.12.1.2
 
 <!-- end excerpt session -->

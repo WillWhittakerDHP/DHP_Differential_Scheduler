@@ -35,6 +35,10 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
   if (entityKey === 'eventShape') {
     const roleRaw = transformed.differentialRole ?? rawEntity.differential_role
     transformed.differentialRole = normalizeEventShapeDifferentialRoleFromApi(roleRaw)
+    const rescheduleRaw = transformed.includeRescheduleLink ?? rawEntity.include_reschedule_link
+    const cancelRaw = transformed.includeCancelLink ?? rawEntity.include_cancel_link
+    transformed.includeRescheduleLink = rescheduleRaw !== false && rescheduleRaw !== 'false'
+    transformed.includeCancelLink = cancelRaw !== false && cancelRaw !== 'false'
   }
 
   return transformed as GlobalEntity<GE>

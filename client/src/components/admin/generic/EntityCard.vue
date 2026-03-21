@@ -27,6 +27,7 @@ import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useE
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
+import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
 /**
@@ -203,7 +204,10 @@ defineExpose({
   <VExpansionPanel
     v-if="props.useExpansionPanel"
     :value="entity.id"
-    :class="$attrs.class"
+    :class="[
+      $attrs.class,
+      entityKey === 'blockInstance' ? 'entity-card-expansion--instance-reorder' : undefined,
+    ]"
     @group:selected="handleExpansionChange"
     @keydown.capture="handleTitleKeydown"
   >
@@ -213,6 +217,25 @@ defineExpose({
         @keydown="handleTitleKeydown"
       >
         <div class="d-flex align-center gap-2 flex-wrap">
+          <!--
+            WHY: FormKit instance DnD uses dragHandle; native drag on desktop + title focus can clear panel draggable.
+            PATTERN: .instance-drag-handle must match useInstanceDragAndDrop dragHandle selector; @click.stop avoids expanding from the grip.
+          -->
+          <span
+            v-if="entityKey === 'blockInstance'"
+            class="instance-drag-handle d-inline-flex align-center flex-shrink-0"
+            role="img"
+            aria-label="Drag to reorder"
+            @click.stop
+          >
+            <Icon
+              icon="tabler:grip-vertical"
+              width="20"
+              height="20"
+              class="instance-drag-handle-icon"
+              aria-hidden="true"
+            />
+          </span>
           <!-- WHY: Name field should be on the left side of the title row -->
           <!-- PATTERN: Render name field first, then status buttons on the right -->
           <template v-if="titleRowFields.length > 0 && isFormReady">
@@ -383,3 +406,40 @@ defineExpose({
     </VCard>
   </VDialog>
 </template>
+
+<style scoped>
+/*
+  WHY: VExpansionPanelTitle renders .v-expansion-panel-title__overlay first, absolutely covering the button.
+       At opacity 0 it still captures pointers, so the drag handle never receives hover (cursor stays default).
+  PATTERN: pointer-events: none on that overlay only for block-instance cards that expose a reorder grip.
+*/
+:deep(.entity-card-expansion--instance-reorder .v-expansion-panel-title__overlay) {
+  pointer-events: none;
+}
+
+.instance-drag-handle {
+  position: relative;
+  z-index: 1;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  padding: 4px;
+  margin: -4px;
+  min-width: 28px;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+}
+
+.instance-drag-handle:active {
+  cursor: grabbing;
+}
+
+/* WHY: Inline SVG from Iconify uses currentColor — match Vuetify medium-emphasis text */
+.instance-drag-handle-icon {
+  display: block;
+  flex-shrink: 0;
+  cursor: grab;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+}
+</style>

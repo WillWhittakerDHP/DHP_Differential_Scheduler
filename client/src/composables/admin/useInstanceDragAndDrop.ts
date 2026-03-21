@@ -294,6 +294,7 @@ export function useInstanceDragAndDrop(
             parent: panelsRefForDrag,
             values: instanceIds,
             group: `blockInstances-${dragKey}`,
+            dragHandle: '.instance-drag-handle',
             draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
             plugins: [animations()],
             performTransfer: (arg) => {

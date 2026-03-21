@@ -12,6 +12,7 @@ import {
   PartAssignment,
   EventAssignment,
   EventInstance,
+  EventShape,
 } from '../../config/app.js'
 import type { Appointment as AppointmentType } from '../../db/models/booking/appointment.js'
 import type { EventInstance as EventInstanceType } from '../../db/models/booking/event_instance.js'
@@ -28,6 +29,19 @@ import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
 
 const logger = createLogger('InviteOrchestrationService')
 
+/** When an event shape disables a link, strip that placeholder from calendar templates (see templateResolver stripPlaceholderNames). */
+function linkStripSetForEventShape(
+  shape: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
+): Set<string> {
+  const strip = new Set<string>()
+  if (shape?.includeRescheduleLink === false) {
+    strip.add('rescheduleLink')
+  }
+  if (shape?.includeCancelLink === false) {
+    strip.add('cancelLink')
+  }
+  return strip
+}
 
 interface SingleEventResult {
   eventInstanceId: string
@@ -211,11 +225,21 @@ async function findEventInstancesForBlockInstances(
 
   const eventAssignments = await EventAssignment.findAll({
     where: { parentId: { [Op.in]: parentIds } },
-    include: [{
-      model: EventInstance,
-      as: 'eventInstance',
-      where: { active: true },
-    }],
+    include: [
+      {
+        model: EventInstance,
+        as: 'eventInstance',
+        where: { active: true },
+        include: [
+          {
+            model: EventShape,
+            as: 'eventShape',
+            attributes: ['id', 'includeRescheduleLink', 'includeCancelLink'],
+            required: true,
+          },
+        ],
+      },
+    ],
   })
 
   const seen = new Set<string>()
@@ -250,13 +274,19 @@ async function createEventForInstance(
   const instanceName = eventInstance.name
 
   try {
+    const eventWithShape = eventInstance as EventInstanceType & {
+      eventShape?: { includeRescheduleLink?: boolean; includeCancelLink?: boolean }
+    }
+    const stripPlaceholderNames = linkStripSetForEventShape(eventWithShape.eventShape)
+
     const resolved = resolveEventTemplates(
       {
         titleTemplate: eventInstance.titleTemplate,
         descriptionTemplate: eventInstance.descriptionTemplate,
         locationTemplate: eventInstance.locationTemplate,
       },
-      context
+      context,
+      stripPlaceholderNames.size > 0 ? { stripPlaceholderNames } : {}
     )
 
     const summary = resolved.summary || buildDefaultSummary(appointment)

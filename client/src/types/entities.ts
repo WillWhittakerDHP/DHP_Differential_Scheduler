@@ -68,6 +68,10 @@ export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
   ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail gracefully)
   /** DB NULL = none (normalized on API hydrate). */
   differentialRole: DifferentialRole;
+  /** When false, calendar invite templates strip `{rescheduleLink}` for instances of this shape. */
+  includeRescheduleLink: boolean;
+  /** When false, calendar invite templates strip `{cancelLink}` for instances of this shape. */
+  includeCancelLink: boolean;
   attendees?: GlobalEntityId[]; // Array of UserTypeBlock BlockInstance IDs (attendees for this event)
 }
 
