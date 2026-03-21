@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.3.1: Add validation library and middleware
+- [x] ### Session 8.3.1: Add validation library and middleware
 **Description:** Install Joi (or chosen validator), create validation middleware, wire to a sample route.
 **Tasks:** 2
 **Focus:**
