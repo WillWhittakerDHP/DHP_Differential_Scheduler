@@ -34,6 +34,17 @@ Completed Task
 
 **Where we left off:**
 Completed Task 
+<<<<<<< Updated upstream
+=======
+
+**What you need to start:**
+- Begin Session 6.12.2
+
+<!-- end excerpt session -->
+
+
+**Where we left off:** Session **6.12.1** scope is done: entity/link toggles, expansion fix, annotation content table + migration, and safe annotation shape delete semantics.
+>>>>>>> Stashed changes
 
 **What you need to start:**
 - Begin Session 6.12.2
