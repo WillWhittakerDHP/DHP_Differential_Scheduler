@@ -540,11 +540,13 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Phase 9.4: User Feedback & Error Wiring
 
+> **Cross-feature refactor:** This phase modifies Feature 14's completed artifacts (database table, routes, models, types, components, composables). Feature 14 is ✅ Complete — the rename is an intentional breaking refactor of shipped code, not new functionality. Feature 15 (Beta Feedback Response) depends on Feature 14 and must target the post-rename `user_feedback` naming. See Feature 14 "Planned Refactor" note.
+
 **Goal:** Use a single, readable feedback pipeline for alpha and beta: rename the existing beta feedback system to **user_feedback** (database, routes, types, UI) and wire **all** feedback and automatically detected errors/warnings into it so CI/CD and planning can talk about feedback and updates from one place.
 
 **Scope:**
 
-- **Rename:** `beta_feedback` → `user_feedback` (tables, routes, models, client API, types, composables, components). One shared pipeline for manual feedback (alpha + beta) and auto-reported issues.
+- **Rename (breaking refactor of Feature 14):** `beta_feedback` → `user_feedback` (tables, routes, models, client API, types, composables, components). One shared pipeline for manual feedback (alpha + beta) and auto-reported issues.
 - **Source column:** Add `source` (or `origin`) to distinguish `user` | `alpha` | `error_boundary` | `console` (or equivalent) so dashboards and CI can filter.
 - **Wiring:** Vue error boundary and any global error/logger paths POST to the same user-feedback API with appropriate category/severity and source (e.g. `source: 'error_boundary'`). Alpha flows submit with `source: 'alpha'`.
 
@@ -559,7 +561,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 | 1 | **Wizard flow Mermaid (Phase 9.1)** — Document full wizard flow and branches; review for loops, dead ends, wrong logic. | — |
 | 2 | **Alpha task database (Phase 9.2)** — Schema, seed tasks from flow + product requirements, API to list/assign/complete. | Step 1 |
 | 3 | **Guided assignment + blank runs (Phase 9.3)** — Random assignment, "Your tasks" UI, 2–3 blank runs per tester. | Step 2, Feature 7 (auth) |
-| 4 | **User feedback & error wiring (Phase 9.4)** — Rename beta_feedback → user_feedback; add source column; wire Vue error boundary and auto error reporting. Session 9.4.1. | Feature 14 (existing feedback system); can run in parallel with 9.1–9.3 |
+| 4 | **User feedback & error wiring (Phase 9.4)** — Rename beta_feedback → user_feedback (breaking refactor of Feature 14's completed code); add source column; wire Vue error boundary and auto error reporting. Session 9.4.1. | Feature 14 (completed — code is being refactored); can run in parallel with 9.1–9.3 |
 
 ### Related Documents
 
@@ -619,7 +621,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 |------|------|------------|
 | **0** | **Activate testing** — (a) Set `APP_STAGE=staging` in root `.env` (or use `npm run start:dev:testing`). (b) Re-enable `.cursor/rules/testing-headers.mdc` (`alwaysApply: true`). (c) Remove `__tests__/**` and `*.test.ts` exclusions from client and server `tsconfig.json` so test files are type-checked. | — |
 | 1 | **Coverage audit (Phase 10.1)** — Run `npx vitest --coverage` (client) and `npx jest --coverage` (server). Review against the 787-file gap list. Define and enforce coverage targets. | Step 0 |
-| 2 | **Fix & expand existing tests (Phase 10.4)** — Fill coverage gaps for the test audit's high-priority files (transformers, booking composables). Add server integration tests for newer routes (appointments, beta-feedback, admin-metadata, property-mappings, availability). | Step 1 |
+| 2 | **Fix & expand existing tests (Phase 10.4)** — Fill coverage gaps for the test audit's high-priority files (transformers, booking composables). Add server integration tests for newer routes (appointments, user-feedback (beta-feedback pre-Phase 9.4), admin-metadata, property-mappings, availability). | Step 1 |
 | 3 | **Playwright setup (Phase 10.2)** — Install Playwright, create `e2e/` directory, base fixtures, smoke tests (health check, pages load). | Step 0 |
 | 4 | **E2E critical flows (Phase 10.3)** — Booking wizard happy path, admin CRUD, error states, responsive. **Derive scenarios from Feature 9 alpha task list.** Auth flow E2E deferred until Feature 7 is built. | Step 3, partial Feature 7, Feature 9 task list |
 | 5 | **Mutation testing — Stryker (Phase 10.5)** — Install Stryker, configure for Vitest, run on transformer primitives and booking composables. Fix surviving mutants. | Step 2 |
@@ -702,7 +704,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Scope (from LAUNCH_CHECKLIST Phase 6)
 
-- **Vue error boundary** — Graceful fallback UI when a component crashes. Fallback events should feed into the beta-feedback pipeline (see Open Questions below).
+- **Vue error boundary** — Graceful fallback UI when a component crashes. Fallback events should feed into the feedback pipeline (user_feedback after Phase 9.4 rename; see Open Questions below).
 - **Loading/error state review** — Audit all views for spinners, error messages, retry buttons.
 - **Cross-browser/device testing** — Desktop (Chrome/Firefox/Safari) and mobile (iOS/Android).
 - **README update** — Deployment instructions and architecture overview.
@@ -711,7 +713,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Open Questions (Feature 12)
 
-1. **Automatic fallback telemetry:** When a Vue error boundary triggers, automatically log an entry to the beta-feedback pipeline that identifies where the fallback happened and captures available diagnostic data (no AI required) — similar to the existing dev-mode logger that fires on errors, fallbacks, and defaults. The existing feedback database table should accept these entries so they are readable by the team. This pattern may be broadly useful beyond the error boundary (e.g. silent-fallback detection, default-value usage). *(Needs design spike — scope TBD when Feature 12 is active.)*
+1. **Automatic fallback telemetry:** When a Vue error boundary triggers, automatically log an entry to the feedback pipeline (user_feedback after Phase 9.4 rename) that identifies where the fallback happened and captures available diagnostic data (no AI required) — similar to the existing dev-mode logger that fires on errors, fallbacks, and defaults. The existing feedback database table should accept these entries so they are readable by the team. This pattern may be broadly useful beyond the error boundary (e.g. silent-fallback detection, default-value usage). *(Needs design spike — scope TBD when Feature 12 is active.)*
 
 ### Related Documents
 - LAUNCH_CHECKLIST.md Phase 6
@@ -784,6 +786,10 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 **Branch:** `feature/google-apis-integration`
 **Completed:** 2026-02-10
 
+### Planned Refactor (Feature 9, Phase 9.4)
+
+> Feature 9 Phase 9.4 will rename `beta_feedback` → `user_feedback` across the full stack (database table, routes, models, types, composables, components) and add a `source` column to unify manual feedback and auto-reported errors. This is an intentional breaking refactor of Feature 14's completed artifacts. After Phase 9.4, the API surface, database table, and all client code will use `user_feedback` naming. Feature 15 (Beta Feedback Response) must target the post-rename naming.
+
 ### What Was Built
 - Floating feedback widget accessible from any page
 - Modal form with category selection (bug, feature_request, general, ux)
@@ -808,7 +814,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 **Branch:** TBD
 
 ### Dependencies
-- Feature 14 (Beta Feedback System) — complete (✅)
+- Feature 14 (Beta Feedback System) — complete (✅); **note:** Feature 9 Phase 9.4 renames `beta_feedback` → `user_feedback` across the stack. Feature 15 must target the post-rename `user_feedback` naming if Phase 9.4 has run.
 - Feature 7 (Authentication) — for user identity and email notifications
 
 ### Related Documents
