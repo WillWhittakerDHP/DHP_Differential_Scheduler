@@ -14,7 +14,7 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **1150**
+- Files scanned: **1152**
 - String literals found: **8** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **49**

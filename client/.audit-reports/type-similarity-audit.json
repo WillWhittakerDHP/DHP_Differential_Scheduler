@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T17:18:39.947Z",
+  "generatedAt": "2026-03-21T18:48:14.517Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,7 +14,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1180,
+  "fileCount": 1182,
   "totalDefinitions": 836,
   "groups": [
     {

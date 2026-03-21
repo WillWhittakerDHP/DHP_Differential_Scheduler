@@ -19,8 +19,8 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-21T17:18:39.947Z**
-- Files scanned: **1180**
+- Generated at: **2026-03-21T18:48:14.517Z**
+- Files scanned: **1182**
 - Type definitions found: **836**
 - Similarity groups: **20**
 - UNIFY candidates: **4**
