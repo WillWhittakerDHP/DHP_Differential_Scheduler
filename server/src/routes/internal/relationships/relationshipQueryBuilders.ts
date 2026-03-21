@@ -6,6 +6,7 @@ import {
   EventInstance,
   EventShape,
   AnnotationInstance,
+  AnnotationInstanceContent,
   AnnotationShape,
   BlockInstance,
 } from '../../../config/app.js'
@@ -44,6 +45,12 @@ function annotationAssignmentsInclude(): Includeable[] {
       attributes: ['id', 'text', 'userType', 'type'],
       include: [
         { model: AnnotationShape, as: 'annotationShape', attributes: ['id', 'name'] },
+        {
+          model: AnnotationInstanceContent,
+          as: 'contentRows',
+          attributes: ['id', 'text', 'userTypeBlockInstanceId'],
+          required: false,
+        },
       ],
     },
     {

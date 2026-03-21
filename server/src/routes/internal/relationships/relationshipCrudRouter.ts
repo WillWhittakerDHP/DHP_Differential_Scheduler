@@ -2,10 +2,9 @@
  * Relationship CRUD: errors sanitized in production (NODE_ENV) via relationshipErrorHandler and shared routerErrorHandler.
  */
 import { Router, Request, Response } from 'express'
-import { validateRequest } from '../../../middlewares/validateRequest.js'
-import { relationshipPostBodySchema } from '../../schemas/relationshipSchemas.js'
-import { BlockInstance } from '../../../config/app.js'
+import { BlockInstance, AnnotationAssignment } from '../../../config/app.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
+import { formatAnnotationAssignmentsForApi } from './relationshipAnnotationFormat.js'
 import { FIELD_NAMES } from '../entities/entityConstants.js'
 import { ERROR_MESSAGES, type RelationshipConfig } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
@@ -60,7 +59,12 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
       whereClause,
     })
     const data = await relationshipConfig.model.findAll(options)
-    sendSuccess(res, data)
+    const relationshipType = paramString(req, 'relationshipType')
+    const payload =
+      relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS
+        ? formatAnnotationAssignmentsForApi(data as InstanceType<typeof AnnotationAssignment>[])
+        : data
+    sendSuccess(res, payload)
   } catch (error) {
     logger.error('Error fetching relationships:', error)
     logger.error('Relationship kind:', paramString(req, 'relationshipType'))
@@ -156,7 +160,6 @@ export async function handleInstanceComponentCreate(req: Request, res: Response)
 router.post(
   '/:relationshipType',
   csrfProtection,
-  validateRequest(relationshipPostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const relationshipConfig = req.relationshipConfig
     if (!relationshipConfig) {

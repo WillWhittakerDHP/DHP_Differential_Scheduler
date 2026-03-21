@@ -7,10 +7,12 @@ import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabili
 import { useAvailabilityStepFeePreview } from '@/composables/booking/useAvailabilityStepFeePreview'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { useBooking } from '@/composables/useBooking'
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
 import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStepUI'
 import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailabilityStepSlotOverlay'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { useAvailabilityStepAccordion } from '@/composables/booking/useAvailabilityStepAccordion'
 import {
   computedAvailabilityKey,
@@ -84,6 +86,8 @@ useWizardStepSync({
 
 const confirmation = useAvailabilityConfirmationState()
 const { isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
+const { loadState: wizardSettingsLoadState } = useWizardSettings()
+const { bookingData } = useBooking()
 
 const ui = useAvailabilityStepUI({ o, confirmation })
 const overlay = useAvailabilityStepSlotOverlay({ o })
@@ -96,14 +100,21 @@ const {
 } = useAvailabilityStepFeePreview({
   wizard: o.wizard,
   propertyDetailsStepData,
+  availabilityStepData: o.stepData,
+  bookingData,
 })
 
 const logger = createLogger('AvailabilityStep')
 
 watch(
-  [overlay.showSlotsOverlay, overlay.slotGridOverlayLabel, availabilitySettingsLoading],
-  ([showing, label, loading]) => {
-    if (!loading && showing && !label) {
+  [
+    overlay.showSlotsOverlay,
+    overlay.slotGridOverlayLabel,
+    availabilitySettingsLoading,
+    wizardSettingsLoadState.isReady,
+  ],
+  ([showing, label, avLoading, wizardReady]) => {
+    if (!avLoading && wizardReady && showing && !label) {
       logger.warn(
         'Slot grid overlay is shown but differentialGraphDefaultLabel is missing in wizard settings. Set it under Admin → Business Controls → Calendar → Grid, then Save (wizard settings are persisted with that save).'
       )

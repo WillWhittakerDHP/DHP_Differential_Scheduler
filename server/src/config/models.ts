@@ -20,6 +20,7 @@ export const {
   InstanceComponent,
   AnnotationShape,
   AnnotationInstance,
+  AnnotationInstanceContent,
   AnnotationAssignment,
   EventShape,
   EventInstance,

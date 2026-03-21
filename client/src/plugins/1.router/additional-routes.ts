@@ -1,16 +1,30 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { useCookie } from '@core/composable/useCookie'
+import { parse } from 'cookie-es'
+import { destr } from 'destr'
 import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 
 const emailRouteComponent = () => import('@/pages/apps/email/index.vue')
+const redirectPlaceholderComponent = { render: () => null }
+
+function getUserRoleFromCookie(): string | undefined {
+  if (typeof document === 'undefined')
+    return undefined
+
+  const userDataCookie = parse(document.cookie).userData
+  const userData = userDataCookie
+    ? destr<Record<string, unknown> | null>(decodeURIComponent(userDataCookie))
+    : null
+
+  return typeof userData?.role === 'string' ? userData.role : undefined
+}
 
 export const redirects: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'index',
-    redirect: (to) => {
-      const userData = useCookie<Record<string, unknown> | null | undefined>('userData')
-      const userRole = userData.value?.role
+    component: redirectPlaceholderComponent,
+    beforeEnter: (to) => {
+      const userRole = getUserRoleFromCookie()
 
       if (userRole === 'admin')
         return { name: 'dashboards-crm' }

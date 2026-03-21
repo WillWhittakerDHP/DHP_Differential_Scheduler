@@ -2,7 +2,7 @@
  * WHY: Orchestration composable for BookingWizard.vue to keep component script thin (vue-architecture audit).
  * PATTERN: Encapsulates all wizard composable wiring and returns only what the template needs.
  */
-import { computed, provide, onMounted } from 'vue'
+import { computed, provide, onMounted, onBeforeUnmount } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
@@ -29,7 +29,15 @@ import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
 import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
+import {
+  prefetchBookingWizardSettings,
+  resetBookingWizardSettingsSingleton,
+} from '@/composables/booking/bookingWizardSettingsSingleton'
+import { getAvailabilitySettings } from '@/configs/availabilitySettings'
+import { createLogger } from '@/utils/logger'
 import type { UseBookingWizardReturn } from '@/types/wizard'
+
+const setupLogger = createLogger('useBookingWizardSetup')
 
 export interface UseBookingWizardSetupReturn {
   steps: typeof WIZARD_STEPS
@@ -69,6 +77,14 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     ...wizardGrouped.computed,
   }
   provide(wizardKey, wizard)
+
+  prefetchBookingWizardSettings()
+  void getAvailabilitySettings().catch((err: unknown) => {
+    setupLogger.warn('Warm-up availability settings fetch failed', { err })
+  })
+  onBeforeUnmount(() => {
+    resetBookingWizardSettingsSingleton()
+  })
 
   const steps = WIZARD_STEPS
   const stepDataRefs = useWizardStepDataRefs()
