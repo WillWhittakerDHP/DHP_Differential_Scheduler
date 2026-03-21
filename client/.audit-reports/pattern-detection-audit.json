@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:57:16.293Z",
+  "generatedAt": "2026-03-21T15:18:54.690Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -473,7 +473,7 @@
           },
           {
             "file": "client/src/composables/admin/useInstancesTab.ts",
-            "line": 163,
+            "line": 166,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
@@ -1302,7 +1302,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDragAndDropHelpers.ts",
-            "line": 44,
+            "line": 55,
             "name": "SingleClassDraggableChecker"
           }
         ]
@@ -1312,7 +1312,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDragAndDropHelpers.ts",
-            "line": 51,
+            "line": 62,
             "name": "MultiClassDraggableChecker"
           }
         ]
@@ -1322,7 +1322,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDragAndDropHelpers.ts",
-            "line": 58,
+            "line": 69,
             "name": "ExpansionPanelDraggableChecker"
           }
         ]
@@ -1692,7 +1692,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceDragAndDrop.ts",
-            "line": 22,
+            "line": 87,
             "name": "InstanceDragAndDrop"
           }
         ]
@@ -1702,7 +1702,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceFiltering.ts",
-            "line": 15,
+            "line": 18,
             "name": "InstanceFiltering"
           }
         ]
@@ -5553,7 +5553,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/useInstancesTab.ts",
-        "line": 163,
+        "line": 166,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },

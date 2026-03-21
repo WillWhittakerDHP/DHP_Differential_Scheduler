@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:57:16.555Z",
+  "generatedAt": "2026-03-21T15:18:54.946Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -1605,8 +1605,8 @@
       "file": "client/src/composables/admin/injectionKeys.ts",
       "line": 37,
       "exported": true,
-      "fingerprint": "576f47e16ae6",
-      "propertyCount": 40,
+      "fingerprint": "591d70f62991",
+      "propertyCount": 41,
       "primitiveAlias": null
     },
     {
@@ -3945,18 +3945,18 @@
       "file": "client/src/types/admin/instanceDragAndDrop.ts",
       "line": 6,
       "exported": true,
-      "fingerprint": "f99a2227b17a",
-      "propertyCount": 2,
+      "fingerprint": "264438edcd5c",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "UseInstanceDragAndDropReturn",
       "kind": "interface",
       "file": "client/src/types/admin/instanceDragAndDrop.ts",
-      "line": 11,
+      "line": 13,
       "exported": true,
-      "fingerprint": "3f07efc7a259",
-      "propertyCount": 7,
+      "fingerprint": "5ea87cb10ad0",
+      "propertyCount": 8,
       "primitiveAlias": null
     },
     {
