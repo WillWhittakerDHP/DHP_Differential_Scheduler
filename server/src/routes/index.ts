@@ -7,7 +7,6 @@ import { ExternalRouter } from "./external/index.js";
 const router = Router();
 
 const v1Router = Router();
-// WHY: Auth path must be mounted before /internal so /internal/auth/* gets stricter limit (10 req/15 min)
 v1Router.use("/internal/auth", authRateLimiter, AuthRouter);
 v1Router.use("/internal", generalRateLimiter, InternalRouter);
 v1Router.use("/external", ExternalRouter);
