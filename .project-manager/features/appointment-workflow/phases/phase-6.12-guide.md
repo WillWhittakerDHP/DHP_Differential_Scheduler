@@ -38,7 +38,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.12.1: Entity enhancements and annotation data layer
+- [x] ### Session 6.12.1: Entity enhancements and annotation data layer
 
 **Description:** Event shape — add `includeRescheduleLink` and `includeCancelLink` booleans (DB column, model, client type, field config, metadata, invite builder). Block shapes tab — fix entity card expansion. Annotations — create `annotation_instance_content` table (annotation_instance_id, user_type_block_instance_id FK, text, tooltip); dimensions dynamic (user type block instances); deprecate `AnnotationInstance.userType` and simplify `AnnotationAssignment`; migrate existing data. Annotation shape delete — handle FK `annotation_instances_type_fkey`; return 409 with actionable message instead of 500.
 
