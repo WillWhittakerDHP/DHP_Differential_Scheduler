@@ -8,7 +8,7 @@ import type { WizardSettingsData } from '@/configs/wizardSettings'
 import { getWizardSettings } from '@/configs/wizardSettings'
 import { createLogger } from '@/utils/logger'
 
-const logger = createLogger('bookingWizardSettingsSingleton')
+const logger = createLogger('useBookingWizardSettingsSingleton')
 
 const wizardData = ref<WizardSettingsData | null>(null)
 const isLoading = ref(false)

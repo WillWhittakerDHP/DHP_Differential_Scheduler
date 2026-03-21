@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T18:11:12.108Z",
-  "totalScanned": 1109,
+  "generatedAt": "2026-03-21T18:16:25.236Z",
+  "totalScanned": 1112,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,37 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "functions": [
+        {
+          "name": "useInstanceDragAndDrop",
+          "startLine": 25,
+          "endLine": 168,
+          "length": 144,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 3,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 144,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    }
+  ]
 }

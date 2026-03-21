@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T18:11:14.872Z
+Generated: 2026-03-21T18:16:27.948Z
 
 ## Summary
 
 - Type files: **277**
 - Constant files: **25**
 - Config files: **41**
-- Files with inline type exports: **120**
+- Files with inline type exports: **121**
 - Annotated: **325** | Unannotated: **18**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 14 |
-| Inline types in composables | 90 |
+| Inline types in composables | 91 |
 | Configs with factory functions | 11 |
 | Duplicate type names | 7 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -514,6 +514,7 @@ Generic types always instantiated with the same argument; consider removing the 
 ### Unreviewed
 
 - `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 2 files)
+- `client/src/composables/admin/instanceDragAndDropFormKitBind.ts`: InstanceDragFormKitBinderDeps (imported by 0 files)
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: AppointmentsTableLookups (imported by 0 files)
 - `client/src/composables/admin/useAdmin.ts`: UseAdminReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminMetadataMutations.ts`: UseAdminMetadataMutationsReturn (imported by 0 files)
