@@ -67,6 +67,9 @@ export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn
 export const resetMocksSignalKey: InjectionKey<Ref<number>> =
   Symbol('resetMocksSignal')
 
+/** True when global data, booking transform, wizard settings, and flow availability load have settled. Provider: useBookingWizardSetup. */
+export const bookingFlowReadyKey: InjectionKey<ComputedRef<boolean>> = Symbol('bookingFlowReady')
+
 /** Typed key for booking wizard context (flat contract). Provider: BookingWizard.vue. */
 export const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')
 

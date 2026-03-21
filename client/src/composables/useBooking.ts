@@ -12,8 +12,10 @@ import { createLogger } from '@/utils/logger'
 
 export interface UseBookingReturn {
   bookingData: ComputedRef<BookingData | null>
-  isLoading: boolean
-  error: unknown | null
+  /** Mirrors `useGlobal().isLoading` (TanStack global entities query). */
+  isLoading: ComputedRef<boolean>
+  /** Mirrors `useGlobal().error` for the global entities query. */
+  error: ComputedRef<Error | null>
 }
 
 const logger = createLogger('useBooking')
@@ -41,10 +43,9 @@ function createBookingInstance(): UseBookingReturn {
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
   
   
-  const { globalData } = useGlobal()
-  // Legacy/test compatibility: expose simple primitives (not refs).
-  const isLoading = false
-  const error: unknown | null = null
+  const { globalData, isLoading: globalIsLoading, error: globalError } = useGlobal()
+  const isLoading = computed(() => globalIsLoading.value)
+  const error = computed(() => globalError.value)
   
   const bookingData = computed<BookingData | null>(() => {
     const data = globalData?.value

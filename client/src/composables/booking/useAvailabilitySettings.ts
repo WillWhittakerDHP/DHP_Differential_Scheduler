@@ -1,7 +1,9 @@
 /**
  * WHY: Shared Availability Settings Composable
-
-WHY: Multiple composables fetch...
+ *
+ * NOTE (booking pipeline): Each caller gets its own `ref` + `watchEffect`. For a single shared load
+ * across the wizard, see Phase 2: dedupe via booking-scoped singleton or single-flight in
+ * `getAvailabilitySettings` (`client/src/configs/availabilitySettings/api.ts`).
  */
 import { ref, computed, watchEffect } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'

@@ -1,4 +1,4 @@
-
+import { ref } from 'vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useBooking } from '../useBooking'
 import { useGlobal } from '../useGlobal'
@@ -9,8 +9,12 @@ vi.mock('../useGlobal', () => ({
     globalData: {
       value: createAtomicBlockGlobalData(),
     },
-    isLoading: false,
-    error: null,
+    isLoading: ref(false),
+    error: ref(null),
+    getGlobalEntities: vi.fn(() => []),
+    getGlobalEntityById: vi.fn(),
+    getGlobalData: vi.fn(() => null),
+    refetch: vi.fn(),
   })),
 }))
 
@@ -54,14 +58,14 @@ describe('useBooking', () => {
   describe('loading states', () => {
     it('should expose loading state', () => {
       const { isLoading } = useBooking()
-      
-      expect(typeof isLoading).toBe('boolean')
+
+      expect(isLoading.value).toBe(false)
     })
-    
+
     it('should expose error state', () => {
       const { error } = useBooking()
-      
-      expect(error).toBeDefined()
+
+      expect(error.value).toBeNull()
     })
   })
   
@@ -87,10 +91,13 @@ describe('useBooking', () => {
   describe('error handling', () => {
     it('should handle missing globalData gracefully', () => {
       vi.mocked(useGlobal).mockReturnValue({
-        globalData: { value: null },
+        globalData: { value: undefined },
+        isLoading: ref(false),
+        error: ref(null),
         getGlobalEntities: vi.fn(() => []),
         getGlobalEntityById: vi.fn(),
         getGlobalData: vi.fn(() => null),
+        refetch: vi.fn(),
       })
       
       const { bookingData } = useBooking()
@@ -100,10 +107,13 @@ describe('useBooking', () => {
     
     it('should handle transformation errors', () => {
       vi.mocked(useGlobal).mockReturnValue({
-        globalData: { value: null },
+        globalData: { value: undefined },
+        isLoading: ref(false),
+        error: ref(null),
         getGlobalEntities: vi.fn(() => []),
         getGlobalEntityById: vi.fn(),
         getGlobalData: vi.fn(() => null),
+        refetch: vi.fn(),
       })
       
       const { bookingData } = useBooking()

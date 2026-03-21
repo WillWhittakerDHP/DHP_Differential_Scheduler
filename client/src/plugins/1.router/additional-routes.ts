@@ -2,28 +2,58 @@ import type { RouteRecordRaw } from 'vue-router'
 import { parse } from 'cookie-es'
 import { destr } from 'destr'
 import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
+import { createLogger } from '@/utils/logger'
 
 const emailRouteComponent = () => import('@/pages/apps/email/index.vue')
-const redirectPlaceholderComponent = { render: () => null }
+const logger = createLogger('additional-routes')
+
+/** Match `useCookie('userData')` while tolerating different cookie-name casing from older clients or proxies. */
+function cookieValueCaseInsensitive(
+  cookies: Record<string, string>,
+  canonicalName: string
+): string | undefined {
+  const target = canonicalName.toLowerCase()
+  for (const [key, value] of Object.entries(cookies)) {
+    if (key.toLowerCase() === target)
+      return value
+  }
+  return undefined
+}
+
+function decodeCookiePayload(raw: string): string {
+  try {
+    return decodeURIComponent(raw)
+  } catch {
+    return raw
+  }
+}
 
 function getUserRoleFromCookie(): string | undefined {
   if (typeof document === 'undefined')
     return undefined
 
-  const userDataCookie = parse(document.cookie).userData
-  const userData = userDataCookie
-    ? destr<Record<string, unknown> | null>(decodeURIComponent(userDataCookie))
-    : null
+  const raw = cookieValueCaseInsensitive(parse(document.cookie), 'userData')
+  if (raw === undefined || raw === '')
+    return undefined
 
-  return typeof userData?.role === 'string' ? userData.role : undefined
+  try {
+    const decoded = decodeCookiePayload(raw)
+    const userData = destr<unknown>(decoded)
+    if (userData === null || typeof userData !== 'object' || Array.isArray(userData))
+      return undefined
+    const role = (userData as Record<string, unknown>).role
+    return typeof role === 'string' ? role : undefined
+  } catch (err: unknown) {
+    logger.warn('Failed to parse userData cookie for index redirect', { err })
+    return undefined
+  }
 }
 
 export const redirects: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'index',
-    component: redirectPlaceholderComponent,
-    beforeEnter: (to) => {
+    redirect: (to) => {
       const userRole = getUserRoleFromCookie()
 
       if (userRole === 'admin')
