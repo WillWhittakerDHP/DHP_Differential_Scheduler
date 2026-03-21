@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:57:48.094Z",
+  "generatedAt": "2026-03-21T15:30:49.079Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -1436,7 +1436,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 18,
+      "lineCount": 21,
       "purpose": "UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn.",
       "reuseTier": "feature",
       "tags": [
