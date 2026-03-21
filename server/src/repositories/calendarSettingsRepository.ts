@@ -1,5 +1,5 @@
 /**
- * Canonical persistence for calendar settings (namespace calendar, path document).
+ * Canonical persistence for calendar_settings document (namespace calendar, path document).
  */
 import type { Transaction } from 'sequelize'
 import type { CalendarSettingsData } from '../../../shared/types/calendarSettingsDocument.js'

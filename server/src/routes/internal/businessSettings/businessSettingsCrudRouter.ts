@@ -1,13 +1,8 @@
 /**
- * CRUD for business_settings. availability_settings lives in app_setting_entries (availabilitySettingsRepository).
- * Other keys remain on business_settings. Calendar and wizard use dedicated routes.
+ * CRUD for business_settings. availability_settings is stored in app_setting_entries (see availabilitySettingsRepository).
+ * Other keys remain on business_settings. Calendar and wizard use /calendar-settings and /wizard-settings.
  */
 import { Router, Request, Response } from 'express';
-import { validateRequest } from '../../../middlewares/validateRequest.js';
-import {
-  businessSettingsPostBodySchema,
-  businessSettingsPutPatchBodySchema,
-} from '../../schemas/businessSettingsSchemas.js';
 import { BusinessSettings } from '../../../config/app.js';
 import type { AvailabilitySettingsData } from '../../../../../shared/types/availabilitySettingsDocument.js';
 import {
@@ -97,7 +92,6 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
 router.post(
   '/',
   csrfProtection,
-  validateRequest(businessSettingsPostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { setting_key, setting_value } = req.body;
@@ -142,7 +136,6 @@ router.put(
   '/:key',
   csrfProtection,
   checkOwnership('businessSetting', 'key'),
-  validateRequest(businessSettingsPutPatchBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key');
@@ -184,7 +177,6 @@ router.patch(
   '/:key',
   csrfProtection,
   checkOwnership('businessSetting', 'key'),
-  validateRequest(businessSettingsPutPatchBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key');
@@ -195,16 +187,27 @@ router.patch(
         return;
       }
       if (key === AVAILABILITY_SETTINGS_KEY) {
-        const existing = await getAvailabilitySettingsData();
-        const mergedValue = mergeSettingValues(existing, setting_value) as AvailabilitySettingsData;
+        const row = await BusinessSettings.findOne({ where: { settingKey: AVAILABILITY_SETTINGS_KEY } });
+        const existing = row?.settingValue as AvailabilitySettingsData | undefined;
+        const mergedValue = mergeSettingValues(
+          existing ?? defaultAvailabilitySettings,
+          setting_value
+        ) as AvailabilitySettingsData;
         const availabilityValidation = validateAvailabilitySettingsWithDetails(key, mergedValue);
         if (!availabilityValidation.valid) {
           sendBadRequest(res, availabilityValidation.error, availabilityValidation.details?.message as string);
           return;
         }
-        await saveAvailabilitySettingsData(mergedValue);
-        const saved = await getAvailabilitySettingsData();
-        sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: saved });
+        if (row) {
+          await row.update({ settingValue: mergedValue });
+          sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: row.settingValue });
+        } else {
+          const created = await BusinessSettings.create({
+            settingKey: AVAILABILITY_SETTINGS_KEY,
+            settingValue: mergedValue,
+          });
+          sendSuccess(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: created.settingValue });
+        }
         return;
       }
       const setting = await BusinessSettings.findOne({ where: { settingKey: key } });
@@ -235,7 +238,10 @@ router.delete(
     try {
       const key = paramString(req, 'key');
       if (key === AVAILABILITY_SETTINGS_KEY) {
-        await saveAvailabilitySettingsData(defaultAvailabilitySettings);
+        const row = await BusinessSettings.findOne({ where: { settingKey: AVAILABILITY_SETTINGS_KEY } });
+        if (row) {
+          await row.update({ settingValue: defaultAvailabilitySettings as AvailabilitySettingsData });
+        }
         res.status(HTTP_STATUS_CODES.NO_CONTENT).send();
         return;
       }

@@ -1,5 +1,5 @@
 /**
- * Registry-backed settings: one row per namespace, path `document` (phase 1).
+ * Registry-backed settings: one row per namespace with path `document` (phase 1).
  * Backfill from business_settings (availability_settings), calendar_settings, wizard_settings.
  */
 
@@ -20,7 +20,7 @@ export default {
     `)
 
     await sequelize.query(`
-      COMMENT ON TABLE public.app_setting_entries IS 'Key-value settings; phase 1 stores full document per namespace at path document';
+      COMMENT ON TABLE public.app_setting_entries IS 'Versioned key-value settings; phase 1 stores full document per namespace at path document';
     `)
 
     await sequelize.query(`

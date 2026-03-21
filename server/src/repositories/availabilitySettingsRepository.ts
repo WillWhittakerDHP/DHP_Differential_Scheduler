@@ -23,7 +23,7 @@ export async function getAvailabilitySettingsData(): Promise<AvailabilitySetting
     namespace: NAMESPACE,
     path: DOCUMENT_PATH,
   })
-  return defaultAvailabilitySettings
+  return defaultAvailabilitySettings as AvailabilitySettingsData
 }
 
 export async function saveAvailabilitySettingsData(
