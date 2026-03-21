@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:30:49.079Z",
+  "generatedAt": "2026-03-21T18:35:50.672Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,17 +36,17 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 276,
-    "totalConstantFiles": 25,
-    "totalConfigFiles": 41,
-    "filesWithInlineTypes": 120,
+    "totalTypeFiles": 268,
+    "totalConstantFiles": 23,
+    "totalConfigFiles": 34,
+    "filesWithInlineTypes": 105,
     "annotated": 325,
-    "unannotated": 17,
+    "unannotated": 0,
     "classificationIssues": {
-      "mixedTypeConstantFiles": 14,
-      "inlineTypesInComposables": 90,
-      "configsWithLogic": 11,
-      "duplicateTypeNames": 7,
+      "mixedTypeConstantFiles": 12,
+      "inlineTypesInComposables": 75,
+      "configsWithLogic": 8,
+      "duplicateTypeNames": 5,
       "cleanupCandidates": 0,
       "monomorphicGenerics": 9
     }
@@ -125,7 +125,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 15,
+      "lineCount": 16,
       "purpose": "Admin availability settings form types",
       "reuseTier": "feature",
       "tags": [
@@ -203,46 +203,18 @@
         "UseBusinessControlsFormStateParams"
       ],
       "exportKinds": {
-        "types": 1,
-        "interfaces": 1,
+        "types": 2,
+        "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 14,
+      "lineCount": 6,
       "purpose": "Business controls form state and field types",
       "reuseTier": "feature",
       "tags": [
         "form",
         "ui-state"
       ],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "client__src__types__admin__businessControlsState.ts",
-      "repoPath": "client/src/types/admin/businessControlsState.ts",
-      "name": "businessControlsState",
-      "directoryDomain": "admin/businessControlsState.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "BusinessControlsFormState",
-        "BusinessControlsSaveButtonProps",
-        "BusinessControlsState",
-        "BusinessControlsStateSource"
-      ],
-      "exportKinds": {
-        "types": 3,
-        "interfaces": 1,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 40,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
       "placement": null,
       "priority": null,
       "targetPath": null
@@ -294,32 +266,6 @@
       "lineCount": 13,
       "purpose": "Calendar entry display and management types",
       "reuseTier": "feature",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "client__src__types__admin__calendarSettings.ts",
-      "repoPath": "client/src/types/admin/calendarSettings.ts",
-      "name": "calendarSettings",
-      "directoryDomain": "admin/calendarSettings.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "UseAdminCalendarSettingsOptions",
-        "UseAdminCalendarSettingsReturn"
-      ],
-      "exportKinds": {
-        "types": 0,
-        "interfaces": 2,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 14,
-      "purpose": null,
-      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -1326,7 +1272,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 40,
+      "lineCount": 32,
       "purpose": "Grid configuration handler function types",
       "reuseTier": "feature",
       "tags": [
@@ -1436,7 +1382,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 21,
+      "lineCount": 18,
       "purpose": "UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -1880,7 +1826,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 16,
+      "lineCount": 14,
       "purpose": "PartInstanceFormData, UsePartInstanceFormOptions, UsePartInstanceFormReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -2076,7 +2022,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 11,
+      "lineCount": 14,
       "purpose": "UseSelectDomTargetsOptions, UseSelectDomTargetsReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -2185,7 +2131,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 22,
+      "lineCount": 24,
       "purpose": "UseSelectHandlersOptions, UseSelectHandlersReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -2341,14 +2287,16 @@
       "annotatedDomain": "admin",
       "domainMatch": false,
       "location": "dedicated",
-      "exports": [],
+      "exports": [
+        "UseShapesTabReturn"
+      ],
       "exportKinds": {
-        "types": 0,
+        "types": 1,
         "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 42,
+      "lineCount": 37,
       "purpose": "Shapes tab component state and action types",
       "reuseTier": "feature",
       "tags": [],
@@ -2611,37 +2559,6 @@
       "targetPath": null
     },
     {
-      "id": "client__src__types__admin__wizardSettings.ts",
-      "repoPath": "client/src/types/admin/wizardSettings.ts",
-      "name": "wizardSettings",
-      "directoryDomain": "admin/wizardSettings.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "WizardSubStepLabels",
-        "UseWizardSettingsOptions",
-        "UseWizardSettingsFlagsReturn",
-        "UseWizardSettingsLabelsReturn",
-        "UseWizardSettingsReturn",
-        "UseAdminWizardSettingsOptions",
-        "UseAdminWizardSettingsReturn"
-      ],
-      "exportKinds": {
-        "types": 0,
-        "interfaces": 7,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 52,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
       "id": "client__src__types__admin.ts",
       "repoPath": "client/src/types/admin.ts",
       "name": "admin",
@@ -2707,7 +2624,6 @@
       "location": "dedicated",
       "exports": [
         "TimeRange",
-        "TimeSlotPerspectiveKind",
         "PerspectiveKey",
         "AppointmentSlots",
         "EventFinal",
@@ -2716,12 +2632,12 @@
         "AppointmentSlot"
       ],
       "exportKinds": {
-        "types": 4,
+        "types": 3,
         "interfaces": 4,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 56,
+      "lineCount": 53,
       "purpose": "Core appointment data structure types",
       "reuseTier": "feature",
       "tags": [],
@@ -2844,15 +2760,16 @@
       "exports": [
         "UseBufferSettingsParams",
         "UseDefaultLocationParams",
+        "UseDifferentialPerspectivesParams",
         "AvailabilitySettingsFormParams"
       ],
       "exportKinds": {
-        "types": 2,
+        "types": 3,
         "interfaces": 1,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 16,
+      "lineCount": 11,
       "purpose": "Availability settings parameter types for API calls",
       "reuseTier": "feature",
       "tags": [
@@ -2997,7 +2914,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 33,
+      "lineCount": 32,
       "purpose": "UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn.",
       "reuseTier": "feature",
       "tags": [
@@ -3264,7 +3181,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 70,
+      "lineCount": 69,
       "purpose": "Availability data orchestration and coordination types",
       "reuseTier": "feature",
       "tags": [],
@@ -3344,7 +3261,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 23,
+      "lineCount": 18,
       "purpose": "Data types for the availability wizard step",
       "reuseTier": "feature",
       "tags": [],
@@ -3609,7 +3526,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 22,
+      "lineCount": 19,
       "purpose": "Data types for the confirmation wizard step",
       "reuseTier": "feature",
       "tags": [],
@@ -4876,7 +4793,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 12,
+      "lineCount": 11,
       "purpose": "Wizard filtered option list and query types",
       "reuseTier": "feature",
       "tags": [],
@@ -5565,7 +5482,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 103,
+      "lineCount": 98,
       "purpose": "Core entity type definitions (runtime helpers moved to utils/globalEntity.ts).",
       "reuseTier": "shared",
       "tags": [
@@ -6310,7 +6227,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 25,
+      "lineCount": 24,
       "purpose": "Moveable scheduling constraint and boundary types",
       "reuseTier": "feature",
       "tags": [],
@@ -6438,19 +6355,17 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "SelectOptionOrHeader",
         "SelectOptionBase",
-        "SelectOptionGroupHeader",
         "UseSelectOptionsOptions",
         "UseSelectOptionsReturn"
       ],
       "exportKinds": {
-        "types": 1,
-        "interfaces": 4,
+        "types": 0,
+        "interfaces": 3,
         "enums": 0
       },
-      "alsoExportsRuntime": true,
-      "lineCount": 43,
+      "alsoExportsRuntime": false,
+      "lineCount": 33,
       "purpose": "Generic select option and dropdown types",
       "reuseTier": "shared",
       "tags": [],
@@ -6493,9 +6408,11 @@
       "annotatedDomain": "root",
       "domainMatch": false,
       "location": "dedicated",
-      "exports": [],
+      "exports": [
+        "TernaryBoolean"
+      ],
       "exportKinds": {
-        "types": 0,
+        "types": 1,
         "interfaces": 0,
         "enums": 0
       },
@@ -6580,7 +6497,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 50,
+      "lineCount": 47,
       "purpose": "Booking data transformer types",
       "reuseTier": "shared",
       "tags": [],
@@ -6789,7 +6706,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 140,
+      "lineCount": 131,
       "purpose": "Core booking wizard state and navigation types",
       "reuseTier": "feature",
       "tags": [],
@@ -7092,33 +7009,7 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "AttendeeRequest",
-        "AdminEntryAppointmentItem"
-      ],
-      "exportKinds": {
-        "types": 0,
-        "interfaces": 2,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 24,
-      "purpose": "Shared appointment data structure types",
-      "reuseTier": "shared",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "shared__types__availabilitySettingsDocument.ts",
-      "repoPath": "shared/types/availabilitySettingsDocument.ts",
-      "name": "availabilitySettingsDocument",
-      "directoryDomain": "availabilitySettingsDocument.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "AvailabilitySettingsData"
+        "AttendeeRequest"
       ],
       "exportKinds": {
         "types": 0,
@@ -7126,9 +7017,9 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 84,
-      "purpose": null,
-      "reuseTier": "unknown",
+      "lineCount": 11,
+      "purpose": "Shared appointment data structure types",
+      "reuseTier": "shared",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -7167,7 +7058,6 @@
         "ConstraintCheckResult",
         "WorkCapacityFilter",
         "DurationRoundingConfig",
-        "DriveTimeFeeConfig",
         "ComputedAvailabilityRequest",
         "ComputedAvailabilityData",
         "SlotTimeBounds",
@@ -7176,11 +7066,11 @@
       ],
       "exportKinds": {
         "types": 12,
-        "interfaces": 18,
+        "interfaces": 17,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 400,
+      "lineCount": 374,
       "purpose": "Shared availability slot and scheduling types",
       "reuseTier": "shared",
       "tags": [],
@@ -7218,29 +7108,6 @@
       "targetPath": null
     },
     {
-      "id": "shared__types__calendarSettingsDocument.ts",
-      "repoPath": "shared/types/calendarSettingsDocument.ts",
-      "name": "calendarSettingsDocument",
-      "directoryDomain": "calendarSettingsDocument.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [],
-      "exportKinds": {
-        "types": 0,
-        "interfaces": 0,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 6,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
       "id": "shared__types__calendarTypes.ts",
       "repoPath": "shared/types/calendarTypes.ts",
       "name": "calendarTypes",
@@ -7250,18 +7117,16 @@
       "location": "dedicated",
       "exports": [
         "CalendarProvider",
-        "AdminEntryTimeoutUnit",
         "CalendarEntry",
-        "AdminEntryTimeout",
         "CalendarConfig"
       ],
       "exportKinds": {
-        "types": 2,
-        "interfaces": 3,
+        "types": 1,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 45,
+      "lineCount": 34,
       "purpose": "Shared calendar event and scheduling types",
       "reuseTier": "shared",
       "tags": [],
@@ -7340,32 +7205,6 @@
       "lineCount": 16,
       "purpose": "Core entity type definitions shared between client and server",
       "reuseTier": "shared",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "shared__types__differentialRole.ts",
-      "repoPath": "shared/types/differentialRole.ts",
-      "name": "differentialRole",
-      "directoryDomain": "differentialRole.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "DifferentialRole",
-        "DifferentialRoleStorage"
-      ],
-      "exportKinds": {
-        "types": 2,
-        "interfaces": 0,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 5,
-      "purpose": null,
-      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -7556,56 +7395,6 @@
       "placement": null,
       "priority": null,
       "targetPath": null
-    },
-    {
-      "id": "shared__types__ternary.ts",
-      "repoPath": "shared/types/ternary.ts",
-      "name": "ternary",
-      "directoryDomain": "ternary.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "TernaryBoolean"
-      ],
-      "exportKinds": {
-        "types": 1,
-        "interfaces": 0,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 4,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
-    },
-    {
-      "id": "shared__types__wizardSettingsTypes.ts",
-      "repoPath": "shared/types/wizardSettingsTypes.ts",
-      "name": "wizardSettingsTypes",
-      "directoryDomain": "wizardSettingsTypes.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "location": "dedicated",
-      "exports": [
-        "WizardSettingsData"
-      ],
-      "exportKinds": {
-        "types": 0,
-        "interfaces": 1,
-        "enums": 0
-      },
-      "alsoExportsRuntime": false,
-      "lineCount": 16,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "priority": null,
-      "targetPath": null
     }
   ],
   "constantFiles": [
@@ -7773,30 +7562,6 @@
       "derivedPattern": false
     },
     {
-      "id": "client__src__constants__availabilityStepConstants.ts",
-      "repoPath": "client/src/constants/availabilityStepConstants.ts",
-      "name": "availabilityStepConstants",
-      "directoryDomain": "availabilityStepConstants.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "constants",
-      "exports": [
-        "SLOT_GRID_WRAPPER_OVERLAY_CLASS",
-        "AVAILABILITY_SUBSTEP_UI"
-      ],
-      "constCount": 2,
-      "usesAsConst": true,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": false,
-      "lineCount": 28,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
       "id": "client__src__constants__blockShapeTypes.ts",
       "repoPath": "client/src/constants/blockShapeTypes.ts",
       "name": "blockShapeTypes",
@@ -7814,7 +7579,7 @@
         "BlockShapeType"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 8,
+      "lineCount": 7,
       "purpose": "Block shape type identifier constants",
       "reuseTier": "feature",
       "tags": [],
@@ -7839,12 +7604,12 @@
         "BookingMode"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 4,
+      "lineCount": 3,
       "purpose": "Booking mode enum constants",
       "reuseTier": "feature",
       "tags": [],
       "placement": "derived",
-      "derivedPattern": false
+      "derivedPattern": true
     },
     {
       "id": "client__src__constants__businessControlsOptions.ts",
@@ -7871,7 +7636,7 @@
         "OptionItem"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 48,
+      "lineCount": 52,
       "purpose": "Business controls form option constants",
       "reuseTier": "feature",
       "tags": [],
@@ -7899,7 +7664,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 72,
+      "lineCount": 69,
       "purpose": "Business rules threshold and config constants",
       "reuseTier": "feature",
       "tags": [],
@@ -8010,7 +7775,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 28,
+      "lineCount": 24,
       "purpose": "Entity field name and key constants",
       "reuseTier": "shared",
       "tags": [],
@@ -8250,34 +8015,9 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 36,
+      "lineCount": 26,
       "purpose": "Status button display label constants",
       "reuseTier": "shared",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__constants__systemDriveTimeBlock.ts",
-      "repoPath": "client/src/constants/systemDriveTimeBlock.ts",
-      "name": "systemDriveTimeBlock",
-      "directoryDomain": "systemDriveTimeBlock.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "constants",
-      "exports": [
-        "SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_NAME",
-        "SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_ID",
-        "SYSTEM_DRIVE_TIME_BLOCK_SHAPE_REF"
-      ],
-      "constCount": 3,
-      "usesAsConst": true,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": false,
-      "lineCount": 8,
-      "purpose": null,
-      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "derivedPattern": false
@@ -8324,7 +8064,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": true,
-      "lineCount": 121,
+      "lineCount": 125,
       "purpose": "Availability settings API payload configuration",
       "reuseTier": "feature",
       "tags": [
@@ -8410,7 +8150,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 35,
+      "lineCount": 39,
       "purpose": "Availability settings config barrel export",
       "reuseTier": "feature",
       "tags": [],
@@ -8426,19 +8166,19 @@
       "domainMatch": false,
       "category": "configs",
       "exports": [
+        "DEFAULT_CALENDAR_CONFIG",
         "DEFAULT_MINOR_EVENT_NAME"
       ],
-      "constCount": 1,
+      "constCount": 2,
       "usesAsConst": false,
       "alsoExportsTypes": true,
       "exportedTypeNames": [
         "RangeConstraint",
         "AvailabilitySettings",
-        "DifferentialPerspectivesLabels",
         "RawAvailabilitySettings"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 156,
+      "lineCount": 164,
       "purpose": "Availability settings type definitions for configs",
       "reuseTier": "feature",
       "tags": [],
@@ -8461,95 +8201,9 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 245,
+      "lineCount": 215,
       "purpose": "Business controls tab UI string constants",
       "reuseTier": "feature",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__calendarSettings__api.ts",
-      "repoPath": "client/src/configs/calendarSettings/api.ts",
-      "name": "api",
-      "directoryDomain": "calendarSettings/api.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [],
-      "constCount": 0,
-      "usesAsConst": false,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": true,
-      "lineCount": 24,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__calendarSettings__index.ts",
-      "repoPath": "client/src/configs/calendarSettings/index.ts",
-      "name": "index",
-      "directoryDomain": "calendarSettings/index.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [],
-      "constCount": 0,
-      "usesAsConst": false,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": false,
-      "lineCount": 3,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__calendarSettings__types.ts",
-      "repoPath": "client/src/configs/calendarSettings/types.ts",
-      "name": "types",
-      "directoryDomain": "calendarSettings/types.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [
-        "DEFAULT_CALENDAR_CONFIG"
-      ],
-      "constCount": 1,
-      "usesAsConst": false,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": false,
-      "lineCount": 19,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__calendarSettings__validation.ts",
-      "repoPath": "client/src/configs/calendarSettings/validation.ts",
-      "name": "validation",
-      "directoryDomain": "calendarSettings/validation.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [],
-      "constCount": 0,
-      "usesAsConst": false,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": true,
-      "lineCount": 10,
-      "purpose": null,
-      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "derivedPattern": false
@@ -8999,7 +8653,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 92,
+      "lineCount": 90,
       "purpose": "Block instance primitive form field configuration",
       "reuseTier": "feature",
       "tags": [
@@ -9049,7 +8703,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 138,
+      "lineCount": 130,
       "purpose": "Event instance form field configuration",
       "reuseTier": "feature",
       "tags": [
@@ -9074,7 +8728,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 62,
+      "lineCount": 67,
       "purpose": "Event shape form field configuration",
       "reuseTier": "feature",
       "tags": [
@@ -9183,71 +8837,6 @@
         "ui-state"
       ],
       "placement": "co-located",
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__wizardSettings__api.ts",
-      "repoPath": "client/src/configs/wizardSettings/api.ts",
-      "name": "api",
-      "directoryDomain": "wizardSettings/api.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [],
-      "constCount": 0,
-      "usesAsConst": false,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": true,
-      "lineCount": 24,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__wizardSettings__index.ts",
-      "repoPath": "client/src/configs/wizardSettings/index.ts",
-      "name": "index",
-      "directoryDomain": "wizardSettings/index.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [],
-      "constCount": 0,
-      "usesAsConst": false,
-      "alsoExportsTypes": false,
-      "exportedTypeNames": [],
-      "hasFactoryFunctions": false,
-      "lineCount": 2,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
-      "derivedPattern": false
-    },
-    {
-      "id": "client__src__configs__wizardSettings__types.ts",
-      "repoPath": "client/src/configs/wizardSettings/types.ts",
-      "name": "types",
-      "directoryDomain": "wizardSettings/types.ts",
-      "annotatedDomain": null,
-      "domainMatch": null,
-      "category": "configs",
-      "exports": [],
-      "constCount": 0,
-      "usesAsConst": false,
-      "alsoExportsTypes": true,
-      "exportedTypeNames": [
-        "WizardSettingsData"
-      ],
-      "hasFactoryFunctions": false,
-      "lineCount": 18,
-      "purpose": null,
-      "reuseTier": "unknown",
-      "tags": [],
-      "placement": null,
       "derivedPattern": false
     },
     {
@@ -9398,23 +8987,13 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/admin/useBufferSettings.ts",
-      "exportedTypes": [
-        "UseBufferSettingsReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 1,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/composables/admin/useBusinessControlsFormState.ts",
       "exportedTypes": [
         "UseBusinessControlsFormStateReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 1,
+      "importedByCount": 0,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9474,7 +9053,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 1,
+      "importedByCount": 0,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9485,38 +9064,6 @@
       "exportedConstants": [],
       "primaryPurpose": "composable",
       "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
-      "exportedTypes": [
-        "ConfirmationAndHoldsPanelEmit",
-        "ConfirmationAndHoldsPanelProps",
-        "UseConfirmationAndHoldsPanelReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/admin/useDefaultLocation.ts",
-      "exportedTypes": [
-        "UseDefaultLocationReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 1,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/admin/useDifferentialPerspectives.ts",
-      "exportedTypes": [
-        "UseDifferentialPerspectivesReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9853,43 +9400,6 @@
       "recommendation": null
     },
     {
-      "sourceFile": "client/src/composables/booking/injectionKeys.ts",
-      "exportedTypes": [
-        "AvailabilitySubStepOrchestratorState",
-        "InstancesPanelContext",
-        "ContactsFormContext",
-        "AvailabilitySubStepContext"
-      ],
-      "exportedConstants": [
-        "propertyDetailsStepDataKey",
-        "contactsStepDataKey",
-        "availabilityStepDataKey",
-        "confirmationStepDataKey",
-        "propertyDetailsStepValidKey",
-        "propertyDetailsStepValidateKey",
-        "propertyDetailsFieldErrorsKey",
-        "contactsStepValidKey",
-        "contactsStepValidateKey",
-        "availabilityStepValidKey",
-        "availabilityStepValidateKey",
-        "confirmationStepValidKey",
-        "confirmationStepValidateKey",
-        "displayedMonthKey",
-        "updateDisplayedMonthKey",
-        "appointmentDurationKey",
-        "computedAvailabilityKey",
-        "resetMocksSignalKey",
-        "wizardKey",
-        "loadedWizardStateKey",
-        "instancesPanelContextKey",
-        "contactsFormContextKey",
-        "availabilitySubStepContextKey"
-      ],
-      "primaryPurpose": "composable",
-      "importedByCount": 2,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
       "exportedTypes": [
         "UseAppointmentLoaderReturn"
@@ -9900,76 +9410,9 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
-      "exportedTypes": [
-        "AvailabilityConfirmationState",
-        "UseAvailabilityConfirmationStateReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 1,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/composables/booking/useAvailabilityDevPanel.ts",
       "exportedTypes": [
         "UseDevPanelDataReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
-      "exportedTypes": [
-        "UseAvailabilityStepAccordionParams",
-        "UseAvailabilityStepAccordionReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-      "exportedTypes": [
-        "UseAvailabilityStepFeePreviewParams",
-        "UseAvailabilityStepFeePreviewReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-      "exportedTypes": [
-        "UseAvailabilityStepSlotOverlayParams",
-        "UseAvailabilityStepSlotOverlayReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/useAvailabilityStepUI.ts",
-      "exportedTypes": [
-        "UseAvailabilityStepUIParams",
-        "UseAvailabilityStepUIReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/useAvailabilitySubSteps.ts",
-      "exportedTypes": [
-        "AvailabilitySubStepDef",
-        "UseAvailabilitySubStepsParams",
-        "UseAvailabilitySubStepsReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10001,16 +9444,6 @@
       "exportedTypes": [
         "UseDelayedModalVisibilityParams",
         "UseDelayedModalVisibilityReturn"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/composables/booking/useListForAdminEntry.ts",
-      "exportedTypes": [
-        "UseListForAdminEntryReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -10399,29 +9832,6 @@
       "recommendation": null
     },
     {
-      "sourceFile": "client/src/utils/booking/computeDriveTimeFee.ts",
-      "exportedTypes": [
-        "ComputeDriveTimeFeeResult"
-      ],
-      "exportedConstants": [
-        "DEFAULT_DRIVE_TIME_FEE_CONFIG"
-      ],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
-      "sourceFile": "client/src/utils/booking/confirmationStepData.ts",
-      "exportedTypes": [
-        "ConfirmationDriveContext",
-        "AppointmentFeeBreakdownDriveOptions"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 1,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/utils/booking/constraintColors.ts",
       "exportedTypes": [],
       "exportedConstants": [
@@ -10460,16 +9870,6 @@
       "primaryPurpose": "composable",
       "importedByCount": 0,
       "recommendation": null
-    },
-    {
-      "sourceFile": "client/src/utils/booking/systemDriveTimeBlock.ts",
-      "exportedTypes": [
-        "SystemDriveTimeBlockRef"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
     },
     {
       "sourceFile": "client/src/utils/booking/timeBasisHandler.ts",
@@ -10588,10 +9988,6 @@
         "reason": "In types/ but exports runtime values"
       },
       {
-        "repoPath": "client/src/types/selectOptions.ts",
-        "reason": "In types/ but exports runtime values"
-      },
-      {
         "repoPath": "client/src/constants/apiStatus.ts",
         "reason": "In constants/configs and exports type definitions"
       },
@@ -10629,10 +10025,6 @@
       },
       {
         "repoPath": "client/src/configs/usStates.ts",
-        "reason": "In constants/configs and exports type definitions"
-      },
-      {
-        "repoPath": "client/src/configs/wizardSettings/types.ts",
         "reason": "In constants/configs and exports type definitions"
       },
       {
@@ -10760,16 +10152,6 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/composables/admin/useBufferSettings.ts",
-          "exportedTypes": [
-            "UseBufferSettingsReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 1,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
           "sourceFile": "client/src/composables/admin/useBusinessHoursFormState.ts",
           "exportedTypes": [
             "UseBusinessHoursFormStateReturn"
@@ -10817,38 +10199,6 @@
           "exportedConstants": [],
           "primaryPurpose": "composable",
           "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/admin/useConfirmationAndHoldsPanel.ts",
-          "exportedTypes": [
-            "ConfirmationAndHoldsPanelEmit",
-            "ConfirmationAndHoldsPanelProps",
-            "UseConfirmationAndHoldsPanelReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/admin/useDefaultLocation.ts",
-          "exportedTypes": [
-            "UseDefaultLocationReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 1,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/admin/useDifferentialPerspectives.ts",
-          "exportedTypes": [
-            "UseDifferentialPerspectivesReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 1,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -11093,113 +10443,9 @@
           "recommendation": null
         },
         {
-          "sourceFile": "client/src/composables/booking/injectionKeys.ts",
-          "exportedTypes": [
-            "AvailabilitySubStepOrchestratorState",
-            "InstancesPanelContext",
-            "ContactsFormContext",
-            "AvailabilitySubStepContext"
-          ],
-          "exportedConstants": [
-            "propertyDetailsStepDataKey",
-            "contactsStepDataKey",
-            "availabilityStepDataKey",
-            "confirmationStepDataKey",
-            "propertyDetailsStepValidKey",
-            "propertyDetailsStepValidateKey",
-            "propertyDetailsFieldErrorsKey",
-            "contactsStepValidKey",
-            "contactsStepValidateKey",
-            "availabilityStepValidKey",
-            "availabilityStepValidateKey",
-            "confirmationStepValidKey",
-            "confirmationStepValidateKey",
-            "displayedMonthKey",
-            "updateDisplayedMonthKey",
-            "appointmentDurationKey",
-            "computedAvailabilityKey",
-            "resetMocksSignalKey",
-            "wizardKey",
-            "loadedWizardStateKey",
-            "instancesPanelContextKey",
-            "contactsFormContextKey",
-            "availabilitySubStepContextKey"
-          ],
-          "primaryPurpose": "composable",
-          "importedByCount": 2,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
           "sourceFile": "client/src/composables/booking/useAppointmentLoader.ts",
           "exportedTypes": [
             "UseAppointmentLoaderReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useAvailabilityConfirmationState.ts",
-          "exportedTypes": [
-            "AvailabilityConfirmationState",
-            "UseAvailabilityConfirmationStateReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 1,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useAvailabilityStepAccordion.ts",
-          "exportedTypes": [
-            "UseAvailabilityStepAccordionParams",
-            "UseAvailabilityStepAccordionReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-          "exportedTypes": [
-            "UseAvailabilityStepFeePreviewParams",
-            "UseAvailabilityStepFeePreviewReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-          "exportedTypes": [
-            "UseAvailabilityStepSlotOverlayParams",
-            "UseAvailabilityStepSlotOverlayReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useAvailabilityStepUI.ts",
-          "exportedTypes": [
-            "UseAvailabilityStepUIParams",
-            "UseAvailabilityStepUIReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useAvailabilitySubSteps.ts",
-          "exportedTypes": [
-            "AvailabilitySubStepDef",
-            "UseAvailabilitySubStepsParams",
-            "UseAvailabilitySubStepsReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -11231,16 +10477,6 @@
           "exportedTypes": [
             "UseDelayedModalVisibilityParams",
             "UseDelayedModalVisibilityReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/booking/useListForAdminEntry.ts",
-          "exportedTypes": [
-            "UseListForAdminEntryReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -11569,42 +10805,9 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
-          "sourceFile": "client/src/utils/booking/computeDriveTimeFee.ts",
-          "exportedTypes": [
-            "ComputeDriveTimeFeeResult"
-          ],
-          "exportedConstants": [
-            "DEFAULT_DRIVE_TIME_FEE_CONFIG"
-          ],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/utils/booking/confirmationStepData.ts",
-          "exportedTypes": [
-            "ConfirmationDriveContext",
-            "AppointmentFeeBreakdownDriveOptions"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 1,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
           "sourceFile": "client/src/utils/booking/devPanelsFormatters.ts",
           "exportedTypes": [
             "DevPanelsFormattersReturn"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/utils/booking/systemDriveTimeBlock.ts",
-          "exportedTypes": [
-            "SystemDriveTimeBlockRef"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -11654,7 +10857,7 @@
             "BlockShapeType"
           ],
           "hasFactoryFunctions": false,
-          "lineCount": 8,
+          "lineCount": 7,
           "purpose": "Block shape type identifier constants",
           "reuseTier": "feature",
           "tags": [],
@@ -11679,12 +10882,12 @@
             "BookingMode"
           ],
           "hasFactoryFunctions": false,
-          "lineCount": 4,
+          "lineCount": 3,
           "purpose": "Booking mode enum constants",
           "reuseTier": "feature",
           "tags": [],
           "placement": "derived",
-          "derivedPattern": false
+          "derivedPattern": true
         },
         {
           "id": "client__src__constants__entities.ts",
@@ -11815,24 +11018,12 @@
         "name": "constraints"
       },
       {
-        "repoPath": "client/src/configs/calendarSettings/api.ts",
-        "name": "api"
-      },
-      {
-        "repoPath": "client/src/configs/calendarSettings/validation.ts",
-        "name": "validation"
-      },
-      {
         "repoPath": "client/src/configs/field/display/fullFieldDisplayConfig.ts",
         "name": "fullFieldDisplayConfig"
       },
       {
         "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
         "name": "selectableDisplayConfig"
-      },
-      {
-        "repoPath": "client/src/configs/wizardSettings/api.ts",
-        "name": "api"
       }
     ],
     "duplicateTypeNames": [
@@ -11869,20 +11060,6 @@
         "files": [
           "client/src/types/component.ts",
           "shared/types/componentTypes.ts"
-        ]
-      },
-      {
-        "typeName": "InstancesPanelContext",
-        "files": [
-          "client/src/composables/booking/bookingDevPanelKeys.ts",
-          "client/src/composables/booking/injectionKeys.ts"
-        ]
-      },
-      {
-        "typeName": "ContactsFormContext",
-        "files": [
-          "client/src/composables/booking/bookingDevPanelKeys.ts",
-          "client/src/composables/booking/injectionKeys.ts"
         ]
       }
     ]
@@ -12053,30 +11230,6 @@
         "derivedPattern": false
       },
       {
-        "id": "client__src__constants__availabilityStepConstants.ts",
-        "repoPath": "client/src/constants/availabilityStepConstants.ts",
-        "name": "availabilityStepConstants",
-        "directoryDomain": "availabilityStepConstants.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "constants",
-        "exports": [
-          "SLOT_GRID_WRAPPER_OVERLAY_CLASS",
-          "AVAILABILITY_SUBSTEP_UI"
-        ],
-        "constCount": 2,
-        "usesAsConst": true,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": false,
-        "lineCount": 28,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
         "id": "client__src__constants__blockShapeTypes.ts",
         "repoPath": "client/src/constants/blockShapeTypes.ts",
         "name": "blockShapeTypes",
@@ -12094,7 +11247,7 @@
           "BlockShapeType"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 8,
+        "lineCount": 7,
         "purpose": "Block shape type identifier constants",
         "reuseTier": "feature",
         "tags": [],
@@ -12119,12 +11272,12 @@
           "BookingMode"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 4,
+        "lineCount": 3,
         "purpose": "Booking mode enum constants",
         "reuseTier": "feature",
         "tags": [],
         "placement": "derived",
-        "derivedPattern": false
+        "derivedPattern": true
       },
       {
         "id": "client__src__constants__businessControlsOptions.ts",
@@ -12151,7 +11304,7 @@
           "OptionItem"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 48,
+        "lineCount": 52,
         "purpose": "Business controls form option constants",
         "reuseTier": "feature",
         "tags": [],
@@ -12179,7 +11332,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 72,
+        "lineCount": 69,
         "purpose": "Business rules threshold and config constants",
         "reuseTier": "feature",
         "tags": [],
@@ -12290,7 +11443,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 28,
+        "lineCount": 24,
         "purpose": "Entity field name and key constants",
         "reuseTier": "shared",
         "tags": [],
@@ -12530,34 +11683,9 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 36,
+        "lineCount": 26,
         "purpose": "Status button display label constants",
         "reuseTier": "shared",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__constants__systemDriveTimeBlock.ts",
-        "repoPath": "client/src/constants/systemDriveTimeBlock.ts",
-        "name": "systemDriveTimeBlock",
-        "directoryDomain": "systemDriveTimeBlock.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "constants",
-        "exports": [
-          "SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_NAME",
-          "SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_ID",
-          "SYSTEM_DRIVE_TIME_BLOCK_SHAPE_REF"
-        ],
-        "constCount": 3,
-        "usesAsConst": true,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": false,
-        "lineCount": 8,
-        "purpose": null,
-        "reuseTier": "unknown",
         "tags": [],
         "placement": null,
         "derivedPattern": false
@@ -12606,7 +11734,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": true,
-        "lineCount": 121,
+        "lineCount": 125,
         "purpose": "Availability settings API payload configuration",
         "reuseTier": "feature",
         "tags": [
@@ -12692,7 +11820,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 35,
+        "lineCount": 39,
         "purpose": "Availability settings config barrel export",
         "reuseTier": "feature",
         "tags": [],
@@ -12708,19 +11836,19 @@
         "domainMatch": false,
         "category": "configs",
         "exports": [
+          "DEFAULT_CALENDAR_CONFIG",
           "DEFAULT_MINOR_EVENT_NAME"
         ],
-        "constCount": 1,
+        "constCount": 2,
         "usesAsConst": false,
         "alsoExportsTypes": true,
         "exportedTypeNames": [
           "RangeConstraint",
           "AvailabilitySettings",
-          "DifferentialPerspectivesLabels",
           "RawAvailabilitySettings"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 156,
+        "lineCount": 164,
         "purpose": "Availability settings type definitions for configs",
         "reuseTier": "feature",
         "tags": [],
@@ -12743,95 +11871,9 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 245,
+        "lineCount": 215,
         "purpose": "Business controls tab UI string constants",
         "reuseTier": "feature",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__calendarSettings__api.ts",
-        "repoPath": "client/src/configs/calendarSettings/api.ts",
-        "name": "api",
-        "directoryDomain": "calendarSettings/api.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [],
-        "constCount": 0,
-        "usesAsConst": false,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": true,
-        "lineCount": 24,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__calendarSettings__index.ts",
-        "repoPath": "client/src/configs/calendarSettings/index.ts",
-        "name": "index",
-        "directoryDomain": "calendarSettings/index.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [],
-        "constCount": 0,
-        "usesAsConst": false,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": false,
-        "lineCount": 3,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__calendarSettings__types.ts",
-        "repoPath": "client/src/configs/calendarSettings/types.ts",
-        "name": "types",
-        "directoryDomain": "calendarSettings/types.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [
-          "DEFAULT_CALENDAR_CONFIG"
-        ],
-        "constCount": 1,
-        "usesAsConst": false,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": false,
-        "lineCount": 19,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__calendarSettings__validation.ts",
-        "repoPath": "client/src/configs/calendarSettings/validation.ts",
-        "name": "validation",
-        "directoryDomain": "calendarSettings/validation.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [],
-        "constCount": 0,
-        "usesAsConst": false,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": true,
-        "lineCount": 10,
-        "purpose": null,
-        "reuseTier": "unknown",
         "tags": [],
         "placement": null,
         "derivedPattern": false
@@ -13281,7 +12323,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 92,
+        "lineCount": 90,
         "purpose": "Block instance primitive form field configuration",
         "reuseTier": "feature",
         "tags": [
@@ -13331,7 +12373,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 138,
+        "lineCount": 130,
         "purpose": "Event instance form field configuration",
         "reuseTier": "feature",
         "tags": [
@@ -13356,7 +12398,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 62,
+        "lineCount": 67,
         "purpose": "Event shape form field configuration",
         "reuseTier": "feature",
         "tags": [
@@ -13465,71 +12507,6 @@
           "ui-state"
         ],
         "placement": "co-located",
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__wizardSettings__api.ts",
-        "repoPath": "client/src/configs/wizardSettings/api.ts",
-        "name": "api",
-        "directoryDomain": "wizardSettings/api.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [],
-        "constCount": 0,
-        "usesAsConst": false,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": true,
-        "lineCount": 24,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__wizardSettings__index.ts",
-        "repoPath": "client/src/configs/wizardSettings/index.ts",
-        "name": "index",
-        "directoryDomain": "wizardSettings/index.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [],
-        "constCount": 0,
-        "usesAsConst": false,
-        "alsoExportsTypes": false,
-        "exportedTypeNames": [],
-        "hasFactoryFunctions": false,
-        "lineCount": 2,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
-        "derivedPattern": false
-      },
-      {
-        "id": "client__src__configs__wizardSettings__types.ts",
-        "repoPath": "client/src/configs/wizardSettings/types.ts",
-        "name": "types",
-        "directoryDomain": "wizardSettings/types.ts",
-        "annotatedDomain": null,
-        "domainMatch": null,
-        "category": "configs",
-        "exports": [],
-        "constCount": 0,
-        "usesAsConst": false,
-        "alsoExportsTypes": true,
-        "exportedTypeNames": [
-          "WizardSettingsData"
-        ],
-        "hasFactoryFunctions": false,
-        "lineCount": 18,
-        "purpose": null,
-        "reuseTier": "unknown",
-        "tags": [],
-        "placement": null,
         "derivedPattern": false
       },
       {
