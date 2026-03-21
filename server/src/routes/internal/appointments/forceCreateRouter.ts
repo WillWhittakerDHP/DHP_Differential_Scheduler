@@ -22,6 +22,13 @@ import {
   validateAppointmentLineSnapshots,
 } from './appointmentHelpers.js'
 import { stripSelectionFieldsFromPlainObject } from '../../../repositories/appointmentSelectionCodec.js'
+import {
+  stripPropertyDetailsFromPlainObject,
+  syncPropertyDetailsFromWizardBlob,
+} from '../../../repositories/appointmentPropertyDetailsSync.js'
+import { stripSelectedTimeSlotsFromPlainObject } from '../../../repositories/appointmentTimeSlotCodec.js'
+import { replaceTimeSlotsFromBody } from '../../../repositories/appointmentTimeSlotRepository.js'
+import { applyOverrideConstraintsFromBodyToPayload } from '../../../repositories/appointmentOverrideConstraintsCodec.js'
 import { syncSelectionsAndSnapshotsFromBody } from '../../../repositories/appointmentSelectionRepository.js'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
@@ -188,7 +195,12 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
       durationMinutes,
       userId
     )
+    applyOverrideConstraintsFromBodyToPayload(appointmentPayload)
     stripSelectionFieldsFromPlainObject(appointmentPayload)
+    const slotsForPersist = appointmentPayload.selectedTimeSlots
+    const propertyDetailsForPersist = appointmentPayload.propertyDetails
+    stripSelectedTimeSlotsFromPlainObject(appointmentPayload)
+    stripPropertyDetailsFromPlainObject(appointmentPayload)
 
     const sequelize = Appointment.sequelize
     if (!sequelize) {
@@ -213,6 +225,8 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
         },
         { transaction }
       )
+      await replaceTimeSlotsFromBody(created.id, slotsForPersist, transaction)
+      await syncPropertyDetailsFromWizardBlob(created.propertyVersionId, propertyDetailsForPersist, transaction)
       return [created]
     })
 

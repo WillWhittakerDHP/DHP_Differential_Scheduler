@@ -4,12 +4,11 @@ import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersionsForAppointmentId } from '../../../services/appointmentSnapshotLoader.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
+import { ERROR_MESSAGES, isValidTransition, type AppointmentStatus } from './appointmentConstants.js'
 import {
-  ERROR_MESSAGES,
-  ALLOWED_OVERRIDE_CONSTRAINTS,
-  isValidTransition,
-  type AppointmentStatus,
-} from './appointmentConstants.js'
+  parseOverrideConstraintsBody,
+  applyValidatedOverridesToAppointmentFields,
+} from '../../../repositories/appointmentOverrideConstraintsCodec.js'
 import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
@@ -27,6 +26,12 @@ import {
 } from './appointmentHelpers.js'
 import { stripSelectionFieldsFromPlainObject, bodyTouchesSelections } from '../../../repositories/appointmentSelectionCodec.js'
 import { syncSelectionsAndSnapshotsFromBody, applyMergedSelectionPatch } from '../../../repositories/appointmentSelectionRepository.js'
+import {
+  stripPropertyDetailsFromPlainObject,
+  syncPropertyDetailsFromWizardBlob,
+} from '../../../repositories/appointmentPropertyDetailsSync.js'
+import { stripSelectedTimeSlotsFromPlainObject, bodyTouchesTimeSlots } from '../../../repositories/appointmentTimeSlotCodec.js'
+import { replaceTimeSlotsFromBody } from '../../../repositories/appointmentTimeSlotRepository.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
@@ -174,23 +179,15 @@ const router = createCrudRouter({
     }
 
     // ENACTMENT(Feature 7): requireRole('admin') will gate this — only admins can set overrides
-    if (rawOverrides !== undefined) {
-      if (rawOverrides === null || (typeof rawOverrides === 'object' && Object.keys(rawOverrides as object).length === 0)) {
-        appointmentFields.overrideConstraints = null
-      } else if (typeof rawOverrides === 'object' && rawOverrides !== null) {
-        const allowedSet = new Set<string>(ALLOWED_OVERRIDE_CONSTRAINTS)
-        const validated = Object.entries(rawOverrides as Record<string, unknown>)
-          .filter(([key]) => allowedSet.has(key))
-          .reduce<Record<string, boolean>>((acc, [key, value]) => {
-            acc[key] = Boolean(value)
-            return acc
-          }, {})
-
-        appointmentFields.overrideConstraints = Object.keys(validated).length > 0 ? validated : null
-      }
+    const parsedOverrides = parseOverrideConstraintsBody(rawOverrides)
+    if (parsedOverrides !== undefined) {
+      applyValidatedOverridesToAppointmentFields(parsedOverrides, appointmentFields as Record<string, unknown>)
     }
+    delete (appointmentFields as Record<string, unknown>).overrideConstraints
 
     stripSelectionFieldsFromPlainObject(appointmentFields as Record<string, unknown>)
+    stripSelectedTimeSlotsFromPlainObject(appointmentFields as Record<string, unknown>)
+    stripPropertyDetailsFromPlainObject(appointmentFields as Record<string, unknown>)
 
     return appointmentFields
   },
@@ -198,7 +195,7 @@ const router = createCrudRouter({
     // WHY: Keeps factory pattern clean while allowing domain-specific behavior
     // PATTERN: Hook runs after record creation, handles side effects
 
-    const appointmentData = req.body as {
+    const appointmentData = req.body as Record<string, unknown> & {
       attendees?: AttendeeRequest[]
       feeBreakdown?: AppointmentFeeBreakdownPayload | null
       selectedServiceIds?: string[]
@@ -218,7 +215,9 @@ const router = createCrudRouter({
       logger.error('afterCreate: Appointment.sequelize missing — cannot persist selection lines')
     } else {
       await sequelize.transaction(async (transaction) => {
-        await syncSelectionsAndSnapshotsFromBody(record.id, appointmentData as Record<string, unknown>, transaction)
+        await syncSelectionsAndSnapshotsFromBody(record.id, appointmentData, transaction)
+        await syncPropertyDetailsFromWizardBlob(record.propertyVersionId, appointmentData.propertyDetails, transaction)
+        await replaceTimeSlotsFromBody(record.id, appointmentData.selectedTimeSlots, transaction)
       })
       await validateAppointmentLineSnapshots(record.id)
     }
@@ -289,6 +288,22 @@ const router = createCrudRouter({
           await applyMergedSelectionPatch(record.id, bodyRecord, transaction)
         })
         await validateAppointmentLineSnapshots(record.id)
+      }
+    }
+
+    const sequelize = Appointment.sequelize
+    if (sequelize) {
+      const needsPropertySync = Object.prototype.hasOwnProperty.call(bodyRecord, 'propertyDetails')
+      const needsSlotSync = bodyTouchesTimeSlots(bodyRecord)
+      if (needsPropertySync || needsSlotSync) {
+        await sequelize.transaction(async (transaction) => {
+          if (needsPropertySync) {
+            await syncPropertyDetailsFromWizardBlob(record.propertyVersionId, bodyRecord.propertyDetails, transaction)
+          }
+          if (needsSlotSync) {
+            await replaceTimeSlotsFromBody(record.id, bodyRecord.selectedTimeSlots, transaction)
+          }
+        })
       }
     }
 

@@ -2,7 +2,14 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes.js';
 import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js';
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
-import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
+import {
+  Appointment,
+  AppointmentAttendee,
+  AppointmentTimeSlot,
+  User,
+  PropertyVersion,
+  Address,
+} from '../config/app.js';
 import { UNKNOWN_ERROR_MESSAGE } from '../constants/router.js';
 import { createLogger } from '../utils/logger.js';
 
@@ -24,7 +31,7 @@ interface ServerTimeSlot extends SlotTimeBounds {
 interface AppointmentWithDetails {
   id: string;
   selectedDate: Date | string | null;  // DATEONLY field
-  selectedTimeSlots: ServerTimeSlot[] | null;  // JSONB array
+  selectedTimeSlots: ServerTimeSlot[] | null;
   status: string;
   propertyVersion?: {
     address?: {
@@ -66,8 +73,13 @@ export async function createCalendarEventForAppointment(
           as: 'attendees',
           include: [{ model: User, as: 'user' }],
         },
+        {
+          model: AppointmentTimeSlot,
+          as: 'timeSlots',
+          separate: true,
+        },
       ],
-    }) as AppointmentWithDetails | null;
+    });
     
     if (!appointment) {
       return {
@@ -77,12 +89,13 @@ export async function createCalendarEventForAppointment(
       };
     }
     
-    const eventParams = buildEventParams(appointment, calendarId);
+    const json = appointment.toJSON() as unknown as AppointmentWithDetails;
+    const eventParams = buildEventParams(json, calendarId);
     
     try {
       const createdEvent = await createEvent(eventParams);
       
-      const filtered = appointment.attendees?.filter(a => a.shouldReceiveInvitation)
+      const filtered = json.attendees?.filter((a) => a.shouldReceiveInvitation)
       const attendeesToUpdate = filtered !== undefined && filtered !== null ? filtered : []
       let attendeesUpdated = 0;
       

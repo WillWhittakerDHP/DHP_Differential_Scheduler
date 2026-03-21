@@ -33,6 +33,7 @@ export {
   User,
   Appointment,
   AppointmentSelectionLine,
+  AppointmentTimeSlot,
   AppointmentAttendee,
   AppointmentFeeSummary,
   AppointmentFeeEntry,

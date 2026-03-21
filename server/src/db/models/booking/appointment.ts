@@ -8,7 +8,14 @@ import {
   Sequelize,
 } from 'sequelize'
 import type { AppointmentSelectionLine } from './appointment_selection_line.js'
+import type { AppointmentTimeSlot } from './appointment_time_slot.js'
 import { emptyLegacySelectionFields, linesToLegacyFields } from '../../../repositories/appointmentSelectionCodec.js'
+import {
+  overrideConstraintsObjectFromBooleans,
+  stripOverrideConstraintVirtualKeysFromPlain,
+} from '../../../repositories/appointmentOverrideConstraintsCodec.js'
+import { rowsToLegacySelectedTimeSlots } from '../../../repositories/appointmentTimeSlotCodec.js'
+import { propertyDetailsApiShapeFromPropertyVersionJson } from '../../../repositories/appointmentPropertyDetailsSync.js'
 
 export interface BlockInstanceSnapshot {
   id: string
@@ -36,20 +43,23 @@ export class Appointment extends Model<
   declare userTypeId: ForeignKey<string> | null
   /** Loaded with appointmentIncludes; flattened onto JSON via toJSON (not DB columns). */
   declare selectionLines?: AppointmentSelectionLine[]
+  /** Loaded with appointmentIncludes; flattened to `selectedTimeSlots` in toJSON. */
+  declare timeSlots?: AppointmentTimeSlot[]
   declare selectedDate: Date | null
   declare selectedDateRangeEnd: Date | null
-  declare selectedTimeSlots: Array<Record<string, unknown>> | null
   declare isQuoteMode: boolean
   declare quotePdfUrl: string | null
   declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted'
   declare scheduledById: ForeignKey<string> | null
   declare heldBy: ForeignKey<string> | null
   declare heldUntil: Date | null
-  declare overrideConstraints: Record<string, boolean> | null
+  declare overrideConstraintCapacity: CreationOptional<boolean>
+  declare overrideConstraintBuffer: CreationOptional<boolean>
+  declare overrideConstraintBlackout: CreationOptional<boolean>
+  declare overrideConstraintBusinessHours: CreationOptional<boolean>
   declare submittedAt: Date | null
   declare confirmedAt: Date | null
   declare confirmedBy: ForeignKey<string> | null
-  declare propertyDetails: Record<string, unknown> | null
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>
 }
@@ -90,11 +100,6 @@ export function AppointmentFactory(sequelize: Sequelize) {
         type: DataTypes.DATEONLY,
         allowNull: true,
         field: 'selected_date_range_end',
-      },
-      selectedTimeSlots: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'selected_time_slots',
       },
       isQuoteMode: {
         type: DataTypes.BOOLEAN,
@@ -137,11 +142,29 @@ export function AppointmentFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'held_until',
       },
-      overrideConstraints: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'override_constraints',
-        comment: 'Admin constraint overrides — keys match slot computation constraints (capacity, buffer, blackout, businessHours)',
+      overrideConstraintCapacity: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'override_constraint_capacity',
+      },
+      overrideConstraintBuffer: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'override_constraint_buffer',
+      },
+      overrideConstraintBlackout: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'override_constraint_blackout',
+      },
+      overrideConstraintBusinessHours: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'override_constraint_business_hours',
       },
       submittedAt: {
         type: DataTypes.DATE,
@@ -163,11 +186,6 @@ export function AppointmentFactory(sequelize: Sequelize) {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-      },
-      propertyDetails: {
-        type: DataTypes.JSONB,
-        allowNull: true,
-        field: 'property_details',
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -203,6 +221,26 @@ export function AppointmentFactory(sequelize: Sequelize) {
     } else {
       Object.assign(plain, emptyLegacySelectionFields())
     }
+    plain.overrideConstraints = overrideConstraintsObjectFromBooleans(
+      plain as {
+        overrideConstraintCapacity?: boolean
+        overrideConstraintBuffer?: boolean
+        overrideConstraintBlackout?: boolean
+        overrideConstraintBusinessHours?: boolean
+      }
+    )
+    stripOverrideConstraintVirtualKeysFromPlain(plain)
+
+    const rawTimeSlots = plain.timeSlots
+    delete plain.timeSlots
+    plain.selectedTimeSlots =
+      Array.isArray(rawTimeSlots) && rawTimeSlots.length > 0
+        ? rowsToLegacySelectedTimeSlots(rawTimeSlots as AppointmentTimeSlot[])
+        : null
+
+    const pv = plain.propertyVersion
+    plain.propertyDetails = propertyDetailsApiShapeFromPropertyVersionJson(pv)
+
     return plain
   }
 

@@ -13,7 +13,9 @@ import {
   BlockInstance,
   ConstraintOverride,
   AppointmentSelectionLine,
+  AppointmentTimeSlot,
 } from '../../../config/app.js'
+import { loadLegacySelectedTimeSlotsForAppointment } from '../../../repositories/appointmentTimeSlotRepository.js'
 import { getCalendarSettings } from '../../../repositories/calendarSettingsRepository.js'
 import { syncSelectionsAndSnapshotsFromBody } from '../../../repositories/appointmentSelectionRepository.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
@@ -139,6 +141,11 @@ export const appointmentIncludes = [
   {
     model: AppointmentSelectionLine,
     as: 'selectionLines',
+    separate: true,
+  },
+  {
+    model: AppointmentTimeSlot,
+    as: 'timeSlots',
     separate: true,
   },
 ]
@@ -292,16 +299,17 @@ export async function getCalendarIdForAppointment(): Promise<string> {
  * create a new ConstraintOverride record for the new slot so the audit trail is preserved
  * and the new slot remains override-linked.
  */
-export async function createConstraintOverrideOnRescheduleIfNeeded(
-  updatedAppointment: { id: string; selectedDate: Date | string | null; selectedTimeSlots: Array<Record<string, unknown>> | null }
-): Promise<void> {
+export async function createConstraintOverrideOnRescheduleIfNeeded(updatedAppointment: {
+  id: string
+  selectedDate: Date | string | null
+}): Promise<void> {
   const existing = await ConstraintOverride.findOne({
     where: { [CONSTRAINT_OVERRIDE_FIELDS.APPOINTMENT_ID]: updatedAppointment.id },
     order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   })
   if (!existing) return
 
-  const slots = updatedAppointment.selectedTimeSlots
+  const slots = await loadLegacySelectedTimeSlotsForAppointment(updatedAppointment.id)
   const first = Array.isArray(slots) && slots.length > 0 ? slots[0] : null
   const startTime = first && typeof first.startTime === 'string' ? first.startTime : null
   const endTime = first && typeof first.endTime === 'string' ? first.endTime : null
