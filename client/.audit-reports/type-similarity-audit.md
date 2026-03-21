@@ -19,9 +19,9 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-03-21T04:15:59.094Z**
-- Files scanned: **1180**
-- Type definitions found: **836**
+- Generated at: **2026-03-21T14:52:04.728Z**
+- Files scanned: **1206**
+- Type definitions found: **851**
 - Similarity groups: **20**
 - UNIFY candidates: **4**
 - BRAND candidates: **3**
@@ -34,12 +34,12 @@ Each group has a recommended action:
 
 | Priority | Action | Relationship | Types | Files | Score | Signature |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
+| P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `SystemDriveTimeBlockRef`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData`, `BlockFinal`, `AppointmentFeeEntry` | 14 | 71 | `{ appointmentId: string, createdAt: string, googleEventId...` |
 | P0 | EXTEND | SUBSET | `DifferentialPerspectivesLabels`, `WizardSettingsData`, `GridConfigState`, `WizardSettingsData` | 4 | 23 | `{ differential: {, differentialGraphDefaultLabel: string,...` |
 | P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
 | P0 | EXTEND | SUBSET | `AppointmentRequest`, `AppointmentRecordWithUpdate`, `AppointmentResponse` | 2 | 19 | `{ address?: PropertyResponse, addressId: string, attendee...` |
 | P0 | UNIFY | EXACT | `CalendarSettingsData`, `CalendarSettingsData` | 2 | 17 | `{ autoConfirmEnabled?: boolean }` |
-| P0 | BRAND | EXACT | `ForceCreateViolationReport`, `ComputedSlot` | 2 | 17 | `{ violations: string[] }` |
+| P0 | BRAND | EXACT | `TimeSlotPerspectiveKind`, `DifferentialRoleStorage` | 2 | 17 | `= 'major' | 'minor' | 'moveable'` |
 | P0 | UNIFY | EXACT | `WizardSettingsData`, `WizardSettingsData` | 2 | 17 | `{ differentialGraphDefaultLabel?: string, majorLabel?: st...` |
 | P0 | BRAND | EXACT | `UseAvailabilitySettingsOptions`, `UseAdminCalendarSettingsOptions`, `UseAdminWizardSettingsOptions` | 3 | 16 | `{ enabled?: Ref<boolean> }` |
 | P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
@@ -67,7 +67,7 @@ These types are structurally identical and likely represent the same concept. Im
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `CalendarSettingsData` | interface | `client/src/configs/calendarSettings/types.ts` | 7 | yes |
-| `CalendarSettingsData` | interface | `server/src/db/models/admin/calendar_settings.ts` | 12 | yes |
+| `CalendarSettingsData` | interface | `shared/types/calendarSettingsDocument.ts` | 4 | yes |
 
 ### sim-exact-f3a7450b3718
 
@@ -77,7 +77,7 @@ These types are structurally identical and likely represent the same concept. Im
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `WizardSettingsData` | interface | `client/src/configs/wizardSettings/types.ts` | 4 | yes |
-| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 11 | yes |
+| `WizardSettingsData` | interface | `shared/types/wizardSettingsTypes.ts` | 2 | yes |
 
 ### sim-exact-38c8c2c0930a
 
@@ -103,15 +103,15 @@ These types are structurally identical and likely represent the same concept. Im
 
 These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
 
-### sim-exact-645ac1eccd58
+### sim-exact-7adcd5da4f8c
 
 - Relationship: **EXACT**, Priority: **P0**, Score: **17**
-- Structure: `{ violations: string[] }`
+- Structure: `= 'major' | 'minor' | 'moveable'`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
-| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
+| `TimeSlotPerspectiveKind` | type-alias-union | `client/src/types/appointment.ts` | 14 | yes |
+| `DifferentialRoleStorage` | type-alias-union | `shared/types/differentialRole.ts` | 5 | yes |
 
 ### sim-exact-f6dfa1db9ec1
 
@@ -122,7 +122,7 @@ These types are structurally identical but may represent different concepts. Add
 | --- | --- | --- | ---: | --- |
 | `UseAvailabilitySettingsOptions` | interface | `client/src/types/admin/availabilitySettings.ts` | 3 | yes |
 | `UseAdminCalendarSettingsOptions` | interface | `client/src/types/admin/calendarSettings.ts` | 3 | yes |
-| `UseAdminWizardSettingsOptions` | interface | `client/src/types/admin/wizardSettings.ts` | 3 | yes |
+| `UseAdminWizardSettingsOptions` | interface | `client/src/types/admin/wizardSettings.ts` | 46 | yes |
 
 ### sim-exact-0d7d919f2c4e
 
@@ -138,9 +138,9 @@ These types are structurally identical but may represent different concepts. Add
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
-### sim-subset-71fff301522c
+### sim-subset-995776b07154
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **59**
+- Relationship: **SUBSET**, Priority: **P0**, Score: **71**
 - Structure: `{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED, name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }`
 
 | Type | Kind | File | Line | Exported |
@@ -155,21 +155,24 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
 | `CoreEntity` | interface | `shared/types/coreEntityTypes.ts` | 12 | yes |
 | `PartShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 18 | yes |
+| `SystemDriveTimeBlockRef` | interface | `client/src/utils/booking/systemDriveTimeBlock.ts` | 10 | yes |
 | `BlockShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 12 | yes |
 | `BlockInstanceFormData` | interface | `client/src/types/admin/blockInstanceForm.ts` | 4 | yes |
 | `PartInstanceFormData` | interface | `client/src/types/admin/partInstanceForm.ts` | 4 | yes |
+| `BlockFinal` | interface | `client/src/types/booking/blockFinal.ts` | 3 | yes |
+| `AppointmentFeeEntry` | interface | `shared/types/appointmentFeeTypes.ts` | 42 | yes |
 
-### sim-subset-7ab923d73cfd
+### sim-subset-b7d847252893
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **23**
 - Structure: `{ differential: {, differentialGraphDefaultLabel: string, formState: {, majorAttendees: GlobalEntityId[], majorLabel: string, majorStateLabel: string, minorAttendees: GlobalEntityId[], minorLabel: string, minorStateLabel: string, minuteIncrement: number, moveableFallbackLabel: string, setMinuteIncrement: (v: number) => void, subStepLabelConfirmMoveable: string, subStepLabelOptions: string, subStepLabelPickDay: string, subStepLabelPickTime: string }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `DifferentialPerspectivesLabels` | interface | `client/src/configs/availabilitySettings/types.ts` | 108 | yes |
+| `DifferentialPerspectivesLabels` | interface | `client/src/configs/availabilitySettings/types.ts` | 112 | yes |
 | `WizardSettingsData` | interface | `client/src/configs/wizardSettings/types.ts` | 4 | yes |
 | `GridConfigState` | interface | `client/src/types/admin/gridConfigHandlers.ts` | 7 | yes |
-| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 11 | yes |
+| `WizardSettingsData` | interface | `shared/types/wizardSettingsTypes.ts` | 2 | yes |
 
 ### sim-subset-78a568e60ff2
 
@@ -205,7 +208,7 @@ One type is a structural subset of another. Consider using `extends` or intersec
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 20 | yes |
-| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 392 | yes |
+| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 405 | yes |
 
 Overlap: **50%** shared properties
 - Shared: `isAvailable`, `violations`
@@ -233,7 +236,7 @@ Overlap: **38%** shared properties
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
 | `LoadedTimeSlot` | interface | `client/src/types/booking/timeSlotMatching.ts` | 3 | yes |
-| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 382 | yes |
+| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 395 | yes |
 
 Overlap: **67%** shared properties
 - Shared: `endTime`, `startTime`
@@ -316,7 +319,7 @@ These types have high structural overlap. Review to determine if they should be 
 | --- | --- | --- | ---: | --- |
 | `UseAdminAvailabilitySettingsReturn` | interface | `client/src/types/admin/availabilitySettings.ts` | 7 | yes |
 | `UseAdminCalendarSettingsReturn` | interface | `client/src/types/admin/calendarSettings.ts` | 7 | yes |
-| `UseAdminWizardSettingsReturn` | interface | `client/src/types/admin/wizardSettings.ts` | 7 | yes |
+| `UseAdminWizardSettingsReturn` | interface | `client/src/types/admin/wizardSettings.ts` | 50 | yes |
 
 ## Notes
 

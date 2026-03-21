@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T04:15:59.094Z",
+  "generatedAt": "2026-03-21T14:52:04.728Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,11 +14,11 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1180,
-  "totalDefinitions": 836,
+  "fileCount": 1206,
+  "totalDefinitions": 851,
   "groups": [
     {
-      "groupId": "sim-subset-71fff301522c",
+      "groupId": "sim-subset-995776b07154",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -113,6 +113,15 @@
           "signature": "{ name: string, orderIndex: number }"
         },
         {
+          "name": "SystemDriveTimeBlockRef",
+          "kind": "interface",
+          "file": "client/src/utils/booking/systemDriveTimeBlock.ts",
+          "line": 10,
+          "exported": true,
+          "propertyCount": 2,
+          "signature": "{ blockInstanceId: string, blockShapeRef: string }"
+        },
+        {
           "name": "BlockShapeFormData",
           "kind": "interface",
           "file": "client/src/composables/admin/useShapeForm.ts",
@@ -138,15 +147,33 @@
           "exported": true,
           "propertyCount": 5,
           "signature": "{ active: boolean, name: string, orderIndex: number, partShapeRef: string, percentageOff?: number }"
+        },
+        {
+          "name": "BlockFinal",
+          "kind": "interface",
+          "file": "client/src/types/booking/blockFinal.ts",
+          "line": 3,
+          "exported": true,
+          "propertyCount": 11,
+          "signature": "{ allowMultiple: boolean, baseFee: number, baseTime: number, blockInstanceId: string, blockName: string, blockShapeRef: string, blockTotals: {, finalizedParts: PartFinal[], rateOverBaseFee: number, rateOverBaseTime: number, sourceBlockInstance: BookingBlockInstance }"
+        },
+        {
+          "name": "AppointmentFeeEntry",
+          "kind": "interface",
+          "file": "shared/types/appointmentFeeTypes.ts",
+          "line": 42,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ blockInstanceId: string, blockName: string, blockShapeRef: string, feeSummaryId: string, id: string, quantity: number }"
         }
       ],
       "signature": "{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED, name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }",
       "propertyCount": 13,
-      "score": 59,
+      "score": 71,
       "priority": "P0"
     },
     {
-      "groupId": "sim-subset-7ab923d73cfd",
+      "groupId": "sim-subset-b7d847252893",
       "relationship": "SUBSET",
       "action": "EXTEND",
       "members": [
@@ -154,7 +181,7 @@
           "name": "DifferentialPerspectivesLabels",
           "kind": "interface",
           "file": "client/src/configs/availabilitySettings/types.ts",
-          "line": 108,
+          "line": 112,
           "exported": true,
           "propertyCount": 10,
           "signature": "{ differentialGraphDefaultLabel?: string, majorLabel?: string, majorStateLabel?: string, minorLabel?: string, minorStateLabel?: string, moveableFallbackLabel?: string, subStepLabelConfirmMoveable?: string, subStepLabelOptions?: string, subStepLabelPickDay?: string, subStepLabelPickTime?: string }"
@@ -180,8 +207,8 @@
         {
           "name": "WizardSettingsData",
           "kind": "interface",
-          "file": "server/src/db/models/admin/wizard_settings.ts",
-          "line": 11,
+          "file": "shared/types/wizardSettingsTypes.ts",
+          "line": 2,
           "exported": true,
           "propertyCount": 13,
           "signature": "{ differentialGraphDefaultLabel?: string, majorLabel?: string, majorStateLabel?: string, minorLabel?: string, minorStateLabel?: string, moveableFallbackLabel?: string, selectTimeSlotLabel?: string, showApplyCoupon?: boolean, subStepLabelConfirmMoveable?: string, subStepLabelOptions?: string, subStepLabelPickDay?: string, subStepLabelPickTime?: string, useBrandColors?: boolean }"
@@ -321,8 +348,8 @@
         {
           "name": "CalendarSettingsData",
           "kind": "interface",
-          "file": "server/src/db/models/admin/calendar_settings.ts",
-          "line": 12,
+          "file": "shared/types/calendarSettingsDocument.ts",
+          "line": 4,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -334,31 +361,39 @@
       "priority": "P0"
     },
     {
-      "groupId": "sim-exact-645ac1eccd58",
+      "groupId": "sim-exact-7adcd5da4f8c",
       "relationship": "EXACT",
       "action": "BRAND",
       "members": [
         {
-          "name": "ForceCreateViolationReport",
-          "kind": "interface",
-          "file": "server/src/services/slotComputationService.ts",
-          "line": 49,
+          "name": "TimeSlotPerspectiveKind",
+          "kind": "type-alias-union",
+          "file": "client/src/types/appointment.ts",
+          "line": 14,
           "exported": true,
           "primitiveAlias": null,
-          "unionMembers": null
+          "unionMembers": [
+            "major",
+            "minor",
+            "moveable"
+          ]
         },
         {
-          "name": "ComputedSlot",
-          "kind": "interface",
-          "file": "shared/types/availabilityTypes.ts",
-          "line": 401,
+          "name": "DifferentialRoleStorage",
+          "kind": "type-alias-union",
+          "file": "shared/types/differentialRole.ts",
+          "line": 5,
           "exported": true,
           "primitiveAlias": null,
-          "unionMembers": null
+          "unionMembers": [
+            "major",
+            "minor",
+            "moveable"
+          ]
         }
       ],
-      "signature": "{ violations: string[] }",
-      "propertyCount": 1,
+      "signature": "= 'major' | 'minor' | 'moveable'",
+      "propertyCount": 0,
       "score": 17,
       "priority": "P0"
     },
@@ -379,8 +414,8 @@
         {
           "name": "WizardSettingsData",
           "kind": "interface",
-          "file": "server/src/db/models/admin/wizard_settings.ts",
-          "line": 11,
+          "file": "shared/types/wizardSettingsTypes.ts",
+          "line": 2,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -418,7 +453,7 @@
           "name": "UseAdminWizardSettingsOptions",
           "kind": "interface",
           "file": "client/src/types/admin/wizardSettings.ts",
-          "line": 3,
+          "line": 46,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -447,7 +482,7 @@
           "name": "SlotAvailabilityResult",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 392,
+          "line": 405,
           "exported": true,
           "propertyCount": 2,
           "signature": "{ isAvailable: boolean, violations?: string[] }"
@@ -529,7 +564,7 @@
           "name": "SlotTimeBounds",
           "kind": "interface",
           "file": "shared/types/availabilityTypes.ts",
-          "line": 382,
+          "line": 395,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ duration: number, endTime: string, startTime: string }"
@@ -576,7 +611,7 @@
           "name": "UseAdminWizardSettingsReturn",
           "kind": "interface",
           "file": "client/src/types/admin/wizardSettings.ts",
-          "line": 7,
+          "line": 50,
           "exported": true,
           "propertyCount": 7,
           "signature": "{ error: Ref<string | null>, formData: Ref<WizardSettingsData | null>, loading: Ref<boolean>, loadSettings: () => Promise<void>, saveSettings: () => Promise<void>, saving: Ref<boolean>, success: Ref<string | null> }"
@@ -1755,6 +1790,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "UseBufferSettingsReturn",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useBufferSettings.ts",
+      "line": 78,
+      "exported": true,
+      "fingerprint": "67a36e483792",
+      "propertyCount": 11,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseBusinessControlsFormStateReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useBusinessControlsFormState.ts",
@@ -1872,6 +1917,26 @@
       "exported": true,
       "fingerprint": "empty",
       "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseDefaultLocationReturn",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useDefaultLocation.ts",
+      "line": 7,
+      "exported": true,
+      "fingerprint": "2454d20450b8",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseDifferentialPerspectivesReturn",
+      "kind": "interface",
+      "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
+      "line": 12,
+      "exported": true,
+      "fingerprint": "b73a9009c275",
+      "propertyCount": 15,
       "primitiveAlias": null
     },
     {
@@ -2068,7 +2133,7 @@
       "name": "UseOverlapConstraintsPanelReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-      "line": 14,
+      "line": 15,
       "exported": true,
       "fingerprint": "90e172609bdd",
       "propertyCount": 19,
@@ -2172,36 +2237,6 @@
       "exported": true,
       "fingerprint": "f963a035e89a",
       "propertyCount": 11,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseWizardSettingsOptions",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useWizardSettings.ts",
-      "line": 7,
-      "exported": true,
-      "fingerprint": "537ac3a05669",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "WizardSubStepLabels",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useWizardSettings.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "bad27d2ea165",
-      "propertyCount": 5,
-      "primitiveAlias": null
-    },
-    {
-      "name": "UseWizardSettingsReturn",
-      "kind": "interface",
-      "file": "client/src/composables/admin/useWizardSettings.ts",
-      "line": 20,
-      "exported": true,
-      "fingerprint": "97415093fec0",
-      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
@@ -2368,17 +2403,17 @@
       "name": "UseAvailabilityStepFeePreviewParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-      "line": 12,
+      "line": 19,
       "exported": true,
-      "fingerprint": "e100fe5d10a2",
-      "propertyCount": 2,
+      "fingerprint": "770f589a4e20",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityStepFeePreviewReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-      "line": 17,
+      "line": 28,
       "exported": true,
       "fingerprint": "67231380eaa2",
       "propertyCount": 4,
@@ -3018,17 +3053,17 @@
       "name": "AvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 57,
+      "line": 59,
       "exported": true,
-      "fingerprint": "1cba25ac76ae",
-      "propertyCount": 37,
+      "fingerprint": "355ce24dc98a",
+      "propertyCount": 38,
       "primitiveAlias": null
     },
     {
       "name": "DifferentialPerspectivesLabels",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 108,
+      "line": 112,
       "exported": true,
       "fingerprint": "df7e2900ac54",
       "propertyCount": 10,
@@ -3038,10 +3073,10 @@
       "name": "RawAvailabilitySettings",
       "kind": "interface",
       "file": "client/src/configs/availabilitySettings/types.ts",
-      "line": 120,
+      "line": 124,
       "exported": true,
-      "fingerprint": "a80ab0808787",
-      "propertyCount": 27,
+      "fingerprint": "b2a34a246c82",
+      "propertyCount": 28,
       "primitiveAlias": null
     },
     {
@@ -3292,6 +3327,26 @@
       "exported": true,
       "fingerprint": "f75db4fdf124",
       "propertyCount": 7,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BusinessControlsStateSource",
+      "kind": "interface",
+      "file": "client/src/types/admin/businessControlsState.ts",
+      "line": 28,
+      "exported": true,
+      "fingerprint": "635c6ae2f16c",
+      "propertyCount": 14,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BusinessControlsSaveButtonProps",
+      "kind": "type-alias-object",
+      "file": "client/src/types/admin/businessControlsState.ts",
+      "line": 19,
+      "exported": true,
+      "fingerprint": "a58ff56c4b9f",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -4495,10 +4550,60 @@
       "primitiveAlias": null
     },
     {
+      "name": "WizardSubStepLabels",
+      "kind": "interface",
+      "file": "client/src/types/admin/wizardSettings.ts",
+      "line": 5,
+      "exported": true,
+      "fingerprint": "bad27d2ea165",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseWizardSettingsOptions",
+      "kind": "interface",
+      "file": "client/src/types/admin/wizardSettings.ts",
+      "line": 14,
+      "exported": true,
+      "fingerprint": "537ac3a05669",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseWizardSettingsFlagsReturn",
+      "kind": "interface",
+      "file": "client/src/types/admin/wizardSettings.ts",
+      "line": 20,
+      "exported": true,
+      "fingerprint": "b7c40133e102",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseWizardSettingsLabelsReturn",
+      "kind": "interface",
+      "file": "client/src/types/admin/wizardSettings.ts",
+      "line": 28,
+      "exported": true,
+      "fingerprint": "f53f649cdf3e",
+      "propertyCount": 7,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseWizardSettingsReturn",
+      "kind": "interface",
+      "file": "client/src/types/admin/wizardSettings.ts",
+      "line": 42,
+      "exported": true,
+      "fingerprint": "48b70564ec3c",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "UseAdminWizardSettingsOptions",
       "kind": "interface",
       "file": "client/src/types/admin/wizardSettings.ts",
-      "line": 3,
+      "line": 46,
       "exported": true,
       "fingerprint": "f6dfa1db9ec1",
       "propertyCount": 1,
@@ -4508,7 +4613,7 @@
       "name": "UseAdminWizardSettingsReturn",
       "kind": "interface",
       "file": "client/src/types/admin/wizardSettings.ts",
-      "line": 7,
+      "line": 50,
       "exported": true,
       "fingerprint": "c9f1da8525bb",
       "propertyCount": 7,
@@ -4558,17 +4663,17 @@
       "name": "TimeSlot",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 12,
+      "line": 15,
       "exported": true,
-      "fingerprint": "7923b0c2ee4d",
-      "propertyCount": 6,
+      "fingerprint": "0a8c3a90f757",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "EventFinal",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 25,
+      "line": 26,
       "exported": true,
       "fingerprint": "571292729b7c",
       "propertyCount": 3,
@@ -4578,7 +4683,7 @@
       "name": "SlotShape",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 31,
+      "line": 32,
       "exported": true,
       "fingerprint": "533db6e7ffee",
       "propertyCount": 5,
@@ -4588,7 +4693,7 @@
       "name": "AppointmentShape",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 39,
+      "line": 40,
       "exported": true,
       "fingerprint": "f0637d5f79b2",
       "propertyCount": 4,
@@ -4598,17 +4703,27 @@
       "name": "AppointmentSlot",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 49,
+      "line": 50,
       "exported": true,
-      "fingerprint": "289ce0187128",
-      "propertyCount": 8,
+      "fingerprint": "c64a0ee710aa",
+      "propertyCount": 10,
+      "primitiveAlias": null
+    },
+    {
+      "name": "TimeSlotPerspectiveKind",
+      "kind": "type-alias-union",
+      "file": "client/src/types/appointment.ts",
+      "line": 14,
+      "exported": true,
+      "fingerprint": "7adcd5da4f8c",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
       "name": "PerspectiveKey",
       "kind": "type-alias-union",
       "file": "client/src/types/appointment.ts",
-      "line": 21,
+      "line": 22,
       "exported": true,
       "fingerprint": "6a9e94092161",
       "propertyCount": 0,
@@ -5030,15 +5145,15 @@
       "file": "client/src/types/booking/availabilityStepData.ts",
       "line": 8,
       "exported": true,
-      "fingerprint": "2b4c2e1a3769",
-      "propertyCount": 4,
+      "fingerprint": "061a47161b73",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
       "name": "UseAvailabilityStepDataParams",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityStepData.ts",
-      "line": 14,
+      "line": 19,
       "exported": true,
       "fingerprint": "24b74f116be5",
       "propertyCount": 1,
@@ -5048,7 +5163,7 @@
       "name": "UseAvailabilityStepDataReturn",
       "kind": "interface",
       "file": "client/src/types/booking/availabilityStepData.ts",
-      "line": 18,
+      "line": 23,
       "exported": true,
       "fingerprint": "90235c23fcdc",
       "propertyCount": 2,
@@ -5228,17 +5343,17 @@
       "name": "UseConfirmationStepDataParams",
       "kind": "interface",
       "file": "client/src/types/booking/confirmationStepData.ts",
-      "line": 5,
+      "line": 6,
       "exported": true,
-      "fingerprint": "960f111659c1",
-      "propertyCount": 8,
+      "fingerprint": "9a9fbb6943dd",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {
       "name": "UseConfirmationStepDataReturn",
       "kind": "interface",
       "file": "client/src/types/booking/confirmationStepData.ts",
-      "line": 17,
+      "line": 20,
       "exported": true,
       "fingerprint": "51c6d926271e",
       "propertyCount": 2,
@@ -7105,16 +7220,6 @@
       "primitiveAlias": null
     },
     {
-      "name": "TernaryBoolean",
-      "kind": "type-alias-union",
-      "file": "client/src/types/ternary.ts",
-      "line": 1,
-      "exported": true,
-      "fingerprint": "8ea158a6f6b9",
-      "propertyCount": 0,
-      "primitiveAlias": null
-    },
-    {
       "name": "AdminObjectMap",
       "kind": "type-alias-object",
       "file": "client/src/types/transformers/adminObject.ts",
@@ -7158,7 +7263,7 @@
       "name": "BookingData",
       "kind": "type-alias-object",
       "file": "client/src/types/transformers/bookingData.ts",
-      "line": 48,
+      "line": 49,
       "exported": true,
       "fingerprint": "bd42d1d690ba",
       "propertyCount": 3,
@@ -7558,7 +7663,7 @@
       "name": "BuildSelectedTimeSlotsParams",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/availabilityStepData.ts",
-      "line": 12,
+      "line": 30,
       "exported": false,
       "fingerprint": "0428afa2c297",
       "propertyCount": 2,
@@ -7585,10 +7690,40 @@
       "primitiveAlias": null
     },
     {
+      "name": "ComputeDriveTimeFeeResult",
+      "kind": "interface",
+      "file": "client/src/utils/booking/computeDriveTimeFee.ts",
+      "line": 40,
+      "exported": true,
+      "fingerprint": "e46fd23b50c6",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "ConfirmationDriveContext",
+      "kind": "interface",
+      "file": "client/src/utils/booking/confirmationStepData.ts",
+      "line": 32,
+      "exported": true,
+      "fingerprint": "2a34a4096810",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AppointmentFeeBreakdownDriveOptions",
+      "kind": "interface",
+      "file": "client/src/utils/booking/confirmationStepData.ts",
+      "line": 211,
+      "exported": true,
+      "fingerprint": "2daf81d6c794",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
       "name": "WizardSelectionState",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 21,
+      "line": 23,
       "exported": false,
       "fingerprint": "4c5d84ec88b3",
       "propertyCount": 4,
@@ -7598,7 +7733,7 @@
       "name": "PropertyDetailsStepData",
       "kind": "type-alias-object",
       "file": "client/src/utils/booking/confirmationStepData.ts",
-      "line": 28,
+      "line": 53,
       "exported": false,
       "fingerprint": "25dc3bed168a",
       "propertyCount": 7,
@@ -7630,8 +7765,8 @@
       "file": "client/src/utils/booking/minimalSlotGenerator.ts",
       "line": 9,
       "exported": true,
-      "fingerprint": "19f7b80bc7be",
-      "propertyCount": 3,
+      "fingerprint": "eec4b34a11ba",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
@@ -7651,6 +7786,16 @@
       "line": 5,
       "exported": false,
       "fingerprint": "1be3e4275c4b",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "SystemDriveTimeBlockRef",
+      "kind": "interface",
+      "file": "client/src/utils/booking/systemDriveTimeBlock.ts",
+      "line": 10,
+      "exported": true,
+      "fingerprint": "9ded6c838c5a",
       "propertyCount": 2,
       "primitiveAlias": null
     },
@@ -7718,7 +7863,7 @@
       "name": "AddressWithGeo",
       "kind": "interface",
       "file": "client/src/utils/transformers/appointmentToWizardHelpers.ts",
-      "line": 212,
+      "line": 219,
       "exported": false,
       "fingerprint": "53a8bf4d5fc2",
       "propertyCount": 3,
@@ -7738,10 +7883,10 @@
       "name": "BlockInstanceOptionalProps",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 123,
+      "line": 130,
       "exported": false,
-      "fingerprint": "954f768275da",
-      "propertyCount": 10,
+      "fingerprint": "bddf5e91fb68",
+      "propertyCount": 11,
       "primitiveAlias": null
     },
     {
@@ -7792,36 +7937,6 @@
       "exported": true,
       "fingerprint": "6c8d4acc378d",
       "propertyCount": 3,
-      "primitiveAlias": null
-    },
-    {
-      "name": "AvailabilitySettingsData",
-      "kind": "interface",
-      "file": "server/src/db/models/admin/business_settings.ts",
-      "line": 28,
-      "exported": true,
-      "fingerprint": "2823af3267cb",
-      "propertyCount": 42,
-      "primitiveAlias": null
-    },
-    {
-      "name": "CalendarSettingsData",
-      "kind": "interface",
-      "file": "server/src/db/models/admin/calendar_settings.ts",
-      "line": 12,
-      "exported": true,
-      "fingerprint": "217bd8a1214a",
-      "propertyCount": 1,
-      "primitiveAlias": null
-    },
-    {
-      "name": "WizardSettingsData",
-      "kind": "interface",
-      "file": "server/src/db/models/admin/wizard_settings.ts",
-      "line": 11,
-      "exported": true,
-      "fingerprint": "f3a7450b3718",
-      "propertyCount": 13,
       "primitiveAlias": null
     },
     {
@@ -7952,16 +8067,6 @@
       "exported": false,
       "fingerprint": "c0c4212e5713",
       "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "BusinessSettingRecord",
-      "kind": "interface",
-      "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
-      "line": 4,
-      "exported": false,
-      "fingerprint": "d4bf383c61cb",
-      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -8138,7 +8243,7 @@
       "name": "ForceCreateSlotContext",
       "kind": "interface",
       "file": "server/src/services/computedAvailabilityService.ts",
-      "line": 504,
+      "line": 563,
       "exported": true,
       "fingerprint": "258b554585ac",
       "propertyCount": 4,
@@ -8525,6 +8630,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "BookingModeDomain",
+      "kind": "type-alias-union",
+      "file": "shared/constants/ternaryFieldMappings.ts",
+      "line": 4,
+      "exported": true,
+      "fingerprint": "91ad3444fc88",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
       "name": "AppointmentFeeSummary",
       "kind": "interface",
       "file": "shared/types/appointmentFeeTypes.ts",
@@ -8582,6 +8697,16 @@
       "exported": true,
       "fingerprint": "fa73b274f98b",
       "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AvailabilitySettingsData",
+      "kind": "interface",
+      "file": "shared/types/availabilitySettingsDocument.ts",
+      "line": 40,
+      "exported": true,
+      "fingerprint": "414fe5df27b2",
+      "propertyCount": 43,
       "primitiveAlias": null
     },
     {
@@ -8755,10 +8880,20 @@
       "primitiveAlias": null
     },
     {
+      "name": "DriveTimeFeeConfig",
+      "kind": "interface",
+      "file": "shared/types/availabilityTypes.ts",
+      "line": 297,
+      "exported": true,
+      "fingerprint": "82109f58d5d7",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "BusyTimeRange",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 298,
+      "line": 311,
       "exported": true,
       "fingerprint": "1a3d1cce7a7d",
       "propertyCount": 4,
@@ -8768,7 +8903,7 @@
       "name": "CalendarEvent",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 310,
+      "line": 323,
       "exported": true,
       "fingerprint": "4241c73d0ee0",
       "propertyCount": 5,
@@ -8778,7 +8913,7 @@
       "name": "ComputedAvailabilityRequest",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 325,
+      "line": 338,
       "exported": true,
       "fingerprint": "76babfa993e8",
       "propertyCount": 7,
@@ -8788,7 +8923,7 @@
       "name": "ComputedAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 354,
+      "line": 367,
       "exported": true,
       "fingerprint": "64cff98bd68c",
       "propertyCount": 14,
@@ -8798,7 +8933,7 @@
       "name": "SlotTimeBounds",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 382,
+      "line": 395,
       "exported": true,
       "fingerprint": "feedd2f3e18c",
       "propertyCount": 3,
@@ -8808,7 +8943,7 @@
       "name": "SlotAvailabilityResult",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 392,
+      "line": 405,
       "exported": true,
       "fingerprint": "f192f646ba33",
       "propertyCount": 2,
@@ -8818,17 +8953,17 @@
       "name": "ComputedSlot",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 401,
+      "line": 414,
       "exported": true,
-      "fingerprint": "645ac1eccd58",
-      "propertyCount": 1,
+      "fingerprint": "65b87857bb34",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
       "name": "ComputedSlotAvailabilityData",
       "kind": "interface",
       "file": "shared/types/availabilityTypes.ts",
-      "line": 409,
+      "line": 428,
       "exported": true,
       "fingerprint": "72d66187b2a2",
       "propertyCount": 15,
@@ -8965,6 +9100,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "CalendarSettingsData",
+      "kind": "interface",
+      "file": "shared/types/calendarSettingsDocument.ts",
+      "line": 4,
+      "exported": true,
+      "fingerprint": "217bd8a1214a",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "CalendarEntry",
       "kind": "interface",
       "file": "shared/types/calendarTypes.ts",
@@ -9052,6 +9197,26 @@
       "exported": true,
       "fingerprint": "2d8e80348d38",
       "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
+      "name": "DifferentialRole",
+      "kind": "type-alias-union",
+      "file": "shared/types/differentialRole.ts",
+      "line": 4,
+      "exported": true,
+      "fingerprint": "36169a24e3c4",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "DifferentialRoleStorage",
+      "kind": "type-alias-union",
+      "file": "shared/types/differentialRole.ts",
+      "line": 5,
+      "exported": true,
+      "fingerprint": "7adcd5da4f8c",
+      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -9222,6 +9387,26 @@
       "exported": true,
       "fingerprint": "5d9218a826cf",
       "propertyCount": 6,
+      "primitiveAlias": null
+    },
+    {
+      "name": "TernaryBoolean",
+      "kind": "type-alias-union",
+      "file": "shared/types/ternary.ts",
+      "line": 4,
+      "exported": true,
+      "fingerprint": "8ea158a6f6b9",
+      "propertyCount": 0,
+      "primitiveAlias": null
+    },
+    {
+      "name": "WizardSettingsData",
+      "kind": "interface",
+      "file": "shared/types/wizardSettingsTypes.ts",
+      "line": 2,
+      "exported": true,
+      "fingerprint": "f3a7450b3718",
+      "propertyCount": 13,
       "primitiveAlias": null
     },
     {

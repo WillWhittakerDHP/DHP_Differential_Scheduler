@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T04:16:00.356Z",
+  "generatedAt": "2026-03-21T14:52:04.428Z",
   "totalScanned": 111,
   "exceptionSummary": {
     "totalAllowed": 0,
@@ -32,7 +32,7 @@
       "requiresReview": [
         {
           "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 46,
+          "lineNumber": 34,
           "line": "const settingValue = req.body?.setting_value;",
           "suppressionStatus": "unsuppressed"
         }
@@ -44,7 +44,7 @@
       "requiresReview": [
         {
           "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 39,
+          "lineNumber": 34,
           "line": "const settingValue = req.body?.setting_value;",
           "suppressionStatus": "unsuppressed"
         }
