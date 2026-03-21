@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T14:42:08.186Z",
-  "totalScanned": 1090,
+  "generatedAt": "2026-03-21T14:42:29.632Z",
+  "totalScanned": 1091,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,104 +18,5 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": [
-    {
-      "repoPath": "server/src/routes/internal/businessSettings/businessSettingsValidators.ts",
-      "functions": [
-        {
-          "name": "validateAvailabilitySettings",
-          "startLine": 15,
-          "endLine": 340,
-          "length": 326,
-          "maxNesting": 5,
-          "branches": 84,
-          "params": 1,
-          "returns": 44,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3,
-              "tier": 1
-            },
-            {
-              "rule": "branches",
-              "value": 84,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 326,
-              "threshold": 50,
-              "tier": 1
-            },
-            {
-              "rule": "returns",
-              "value": 44,
-              "threshold": 4,
-              "tier": 2
-            }
-          ]
-        },
-        {
-          "name": "validateAvailabilitySettingsWithDetails",
-          "startLine": 383,
-          "endLine": 400,
-          "length": 18,
-          "maxNesting": 4,
-          "branches": 2,
-          "params": 0,
-          "returns": 2,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 4,
-              "threshold": 3,
-              "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 15,
-      "priority": "P0"
-    },
-    {
-      "repoPath": "server/src/repositories/availabilitySettingsRepository.ts",
-      "functions": [
-        {
-          "name": "persistAvailabilityData",
-          "startLine": 86,
-          "endLine": 259,
-          "length": 174,
-          "maxNesting": 5,
-          "branches": 29,
-          "params": 2,
-          "returns": 0,
-          "violations": [
-            {
-              "rule": "nesting",
-              "value": 5,
-              "threshold": 3,
-              "tier": 1
-            },
-            {
-              "rule": "branches",
-              "value": 29,
-              "threshold": 8,
-              "tier": 1
-            },
-            {
-              "rule": "length",
-              "value": 174,
-              "threshold": 50,
-              "tier": 1
-            }
-          ]
-        }
-      ],
-      "score": 10,
-      "priority": "P1"
-    }
-  ]
+  "files": []
 }
