@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:37:03.646Z",
-=======
-  "generatedAt": "2026-03-21T17:36:17.610Z",
->>>>>>> session-8.2.1
+  "generatedAt": "2026-03-21T18:53:20.681Z",
   "check": "allowlist-cleanup",
   "configPath": "client/.audit-reports/audit-global-config.json",
   "suppressionHits": {
@@ -12,10 +8,11 @@
       "type-import"
     ],
     "processed": [
-      "error-handling",
       "type-import"
     ],
-    "missingJson": []
+    "missingJson": [
+      "client/.audit-reports/error-handling-audit.json"
+    ]
   },
   "pruneSuggestions": {
     "count": 0,
