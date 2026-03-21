@@ -49,6 +49,26 @@ curl -v http://localhost:3001/api/v1/internal/auth
 # On 429: expect Retry-After header and JSON body: {"error":"Too many requests, please try again later."}
 ```
 
+## Request validation (active)
+
+**Location:** `server/src/middlewares/validateRequest.ts`  
+**Pattern:** `validateRequest(schema)` returns Express middleware that validates `req.body` against a Joi schema. On failure, responds 400 with `{ error: 'Validation failed', details: [...] }`. On success, calls `next()`.
+
+**Sample route:** `POST /api/v1/internal/auth/login` — validates `{ email, password }`; valid payload → 501 (placeholder); invalid → 400 with Joi details. Session 8.3.2 will apply validation across internal routes.
+
+### How to verify
+
+With the server running, send an invalid payload and confirm 400 with validation details:
+
+```bash
+curl -X POST http://localhost:3001/api/v1/internal/auth/login \
+  -H "Content-Type: application/json" \
+  -H "X-CSRF-Token: stub" \
+  -d '{}'
+```
+
+Expect `400` with JSON body containing `error: 'Validation failed'` and `details` array with Joi error entries. Valid payload (e.g. `{"email":"a@b.com","password":"x"}`) returns `501` (placeholder).
+
 ## Planned behavior
 
 ### csrfProtection
