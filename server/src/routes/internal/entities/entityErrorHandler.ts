@@ -31,6 +31,20 @@ export function handleDatabaseConstraintError(
     return false
   }
 
+  // Annotation shape DELETE: FK still enforced if instances reference shape (e.g. race after pre-count)
+  if (error.name === 'SequelizeForeignKeyConstraintError' && entityId) {
+    const parent = (error as { parent?: { constraint?: string } }).parent
+    const constraint = parent?.constraint
+    if (constraint === CONSTRAINT_NAMES.ANNOTATION_INSTANCES_TYPE_FKEY) {
+      res.status(409).json({
+        error: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE,
+        details: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE_DETAILS_RACE,
+        shapeId: entityId,
+      })
+      return true
+    }
+  }
+
   // Handle mutual exclusivity constraint violation
   if ('parent' in error &&
       error.parent &&

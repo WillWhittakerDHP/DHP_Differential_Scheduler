@@ -19,6 +19,7 @@ import { AnnotationInstance, AnnotationInstanceContent } from '../../../config/a
 import { resolveAnnotationTextForAssignment } from '../../../services/annotations/annotationTextResolution.js'
 import type { AnnotationWithContentPlain } from '../../../services/annotations/annotationTextResolution.js'
 import { syncAnnotationInstanceContentFromLegacyColumns } from '../../../services/annotations/annotationInstanceContentSync.js'
+import { countAnnotationInstancesForShape } from '../../../services/annotations/countAnnotationInstancesForShape.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
@@ -327,10 +328,39 @@ router.delete(
     }
     
     const entityId = paramString(req, 'id')
-    
+    const deleteEntityType = paramString(req, 'entityType')
+
     try {
+      if (
+        deleteEntityType === ENTITY_KEYS.ANNOTATION_SHAPE ||
+        deleteEntityType === 'annotationShape'
+      ) {
+        const idValidation = validateEntityId(entityId, entityConfig.displayName)
+        if (!idValidation.valid) {
+          sendBadRequest(res, idValidation.error, idValidation.details?.message as string, entityId)
+          return
+        }
+        const dependentCount = await countAnnotationInstancesForShape(entityId)
+        if (dependentCount > 0) {
+          logger.warn('Annotation shape delete blocked: instances still reference shape', {
+            shapeId: entityId,
+            dependentCount,
+          })
+          res.status(HTTP_STATUS_CODES.CONFLICT).json({
+            error: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE,
+            details: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE_DETAILS.replace(
+              '{dependentCount}',
+              String(dependentCount)
+            ),
+            shapeId: entityId,
+            dependentCount,
+          })
+          return
+        }
+      }
+
       // CRITICAL: For block instances, capture old state BEFORE delete for versioning
-      if (paramString(req, 'entityType') === ENTITY_KEYS.BLOCK_INSTANCE || paramString(req, 'entityType') === 'blockInstance') {
+      if (deleteEntityType === ENTITY_KEYS.BLOCK_INSTANCE || deleteEntityType === 'blockInstance') {
         const oldInstance = await handleBlockInstanceVersioning(entityId, false)
         
         if (!oldInstance) {

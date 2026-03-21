@@ -6,7 +6,6 @@ import { computed, provide, onMounted, onBeforeUnmount } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBookingWizard } from '@/composables/booking/useBookingWizard'
-import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { useAppointment } from '@/composables/useAppointment'
 import { useProperty } from '@/composables/useProperty'
 import { useUser } from '@/composables/useUser'
@@ -19,7 +18,6 @@ import { useWizardStepContent } from '@/composables/booking/useWizardStepContent
 import { useWizardSubmission } from '@/composables/booking/useWizardSubmission'
 import { useThemeMode } from '@/composables/useThemeMode'
 import { WIZARD_STEPS } from '@/configs/wizardSteps'
-import { useBooking } from '@/composables/useBooking'
 import { useAppointmentLoader } from '@/composables/booking/useAppointmentLoader'
 import { useWizardStepDataRefs } from '@/composables/booking/useWizardStepDataRefs'
 import { useWizardValidationErrors } from '@/composables/booking/useWizardValidationErrors'
@@ -28,16 +26,10 @@ import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDrop
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
-import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
-import {
-  prefetchBookingWizardSettings,
-  resetBookingWizardSettingsSingleton,
-} from '@/composables/booking/bookingWizardSettingsSingleton'
-import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-import { createLogger } from '@/utils/logger'
+import { wizardKey, loadedWizardStateKey, bookingFlowReadyKey } from '@/composables/booking/injectionKeys'
+import { resetBookingWizardSettingsSingleton } from '@/composables/booking/bookingWizardSettingsSingleton'
+import { useBookingFlow } from '@/composables/booking/useBookingFlow'
 import type { UseBookingWizardReturn } from '@/types/wizard'
-
-const setupLogger = createLogger('useBookingWizardSetup')
 
 export interface UseBookingWizardSetupReturn {
   steps: typeof WIZARD_STEPS
@@ -53,7 +45,7 @@ export interface UseBookingWizardSetupReturn {
   isQuoteMode: ComputedRef<boolean>
   toggleQuoteMode: () => void
   wizardMode: Ref<import('@/types/wizard').WizardMode>
-  /** From availability settings (useWizardSettings); configured in Admin Wizard tab. */
+  /** From `bookingFlow.wizardSettings.flags`; configured in Admin Wizard tab. */
   useDhpColors: ComputedRef<boolean>
   handleSubmit: ReturnType<typeof useWizardSubmission>['handleSubmit']
   isUpdateSubmit: ReturnType<typeof useWizardSubmission>['isUpdateSubmit']
@@ -70,6 +62,9 @@ export interface UseBookingWizardSetupReturn {
 }
 
 export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
+  const bookingFlow = useBookingFlow()
+  provide(bookingFlowReadyKey, bookingFlow.isBookingFlowReady)
+
   const wizardGrouped = useBookingWizard()
   const wizard: UseBookingWizardReturn = {
     ...wizardGrouped.state,
@@ -78,10 +73,6 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   }
   provide(wizardKey, wizard)
 
-  prefetchBookingWizardSettings()
-  void getAvailabilitySettings().catch((err: unknown) => {
-    setupLogger.warn('Warm-up availability settings fetch failed', { err })
-  })
   onBeforeUnmount(() => {
     resetBookingWizardSettingsSingleton()
   })
@@ -122,7 +113,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   const { loadAppointmentById } = useAppointmentLoader()
   const { create: createProperty } = useProperty()
   const { create: createUser } = useUser()
-  const { bookingData } = useBooking()
+  const { bookingData } = bookingFlow
   const { appointmentDropdownItems } = useAppointmentDropdown({ fetchAll })
 
   const { collectAppointmentData } = useAppointmentDataCollection({
@@ -190,7 +181,9 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
 
   const { getStepContent } = useWizardStepContent()
 
-  const { useDhpBrandColors } = useWizardSettings()
+  const {
+    flags: { useBrandColors: useDhpBrandColors },
+  } = bookingFlow.wizardSettings
   useThemeMode({ wizard, useDhpColors: useDhpBrandColors })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)

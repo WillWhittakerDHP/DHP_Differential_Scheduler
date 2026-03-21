@@ -66,7 +66,7 @@ These sections contain session-specific content:
 **Approach:** Create table; copy legacy text/tooltip (and related fields) into rows per user-type dimension; update create/update/read paths; gate or remove `userType` on instance where replaced by content rows.
 **Checkpoint:** Migration applies cleanly; existing annotations remain readable; no silent data loss (explicit logging on backfill gaps).
 
-- [ ] #### Task 6.12.1.4: Annotation shape delete returns 409
+- [x] #### Task 6.12.1.4: Annotation shape delete returns 409
 **Goal:** When deleting an annotation shape still referenced by instances, return **409** with an actionable JSON body instead of **500**.
 **Files:**
 - Annotation shape DELETE handler (route → service)

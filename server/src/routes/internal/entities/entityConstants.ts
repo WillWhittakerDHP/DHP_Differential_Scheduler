@@ -29,6 +29,14 @@ export const ERROR_MESSAGES = {
   MUTUAL_EXCLUSIVITY_DETAILS: 'Setting one to true requires the other to be false.',
   
   PART_ASSIGNMENT_CLEANUP_ERROR: 'Error disabling old partAssignments relationships',
+
+  /** DELETE annotation shape blocked by referencing annotation instances */
+  ANNOTATION_SHAPE_IN_USE: 'Annotation shape is in use',
+  ANNOTATION_SHAPE_IN_USE_DETAILS:
+    'Cannot delete this annotation shape because {dependentCount} annotation instance(s) still reference it. Remove or reassign those instances first.',
+  /** FK violation after pre-count (rare race): omit exact count */
+  ANNOTATION_SHAPE_IN_USE_DETAILS_RACE:
+    'Cannot delete this annotation shape because one or more annotation instances still reference it. Remove or reassign those instances first.',
 } as const
 
 /** Domain default for BookingMode (wizard); storage uses TernaryBoolean. */
@@ -63,6 +71,7 @@ export const FIELD_NAMES = {
 
 export const CONSTRAINT_NAMES = {
   STATE_CONTROL_MUTUAL_EXCLUSIVITY: 'check_state_control_mutual_exclusivity',
+  ANNOTATION_INSTANCES_TYPE_FKEY: 'annotation_instances_type_fkey',
 } as const
 
 export const ERROR_CODES = {
