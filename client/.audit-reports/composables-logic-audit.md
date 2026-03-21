@@ -18,6 +18,7 @@ Scope:
 
 | File | score | vue-query | watch | computed/ref | async/await | DOM | suggestions |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/composables/admin/useInstanceDragAndDrop.ts` | 29 | 0 | 2 | 9 | 2 | 0 | 1 |
 | `client/src/composables/admin/useInstanceGrouping.ts` | 19 | 0 | 1 | 6 | 0 | 0 | 0 |
 | `client/src/composables/booking/useWizardFilteredOptions.ts` | 18 | 0 | 0 | 17 | 0 | 0 | 0 |
 | `client/src/composables/admin/useShapeForm.ts` | 17 | 0 | 0 | 6 | 8 | 0 | 0 |
@@ -38,7 +39,6 @@ Scope:
 | `client/src/composables/useRelationship.ts` | 13 | 0 | 0 | 1 | 9 | 0 | 0 |
 | `client/src/composables/admin/useBlockInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useCalibrationChart.ts` | 12 | 0 | 0 | 9 | 0 | 0 | 0 |
-| `client/src/composables/admin/useInstanceDragAndDrop.ts` | 12 | 0 | 2 | 5 | 0 | 0 | 0 |
 | `client/src/composables/admin/usePartInstanceForm.ts` | 12 | 0 | 0 | 4 | 4 | 0 | 0 |
 | `client/src/composables/admin/useSelectHandlers.ts` | 12 | 0 | 0 | 2 | 5 | 0 | 0 |
 | `client/src/composables/booking/useAvailabilityLogic.ts` | 12 | 0 | 1 | 8 | 0 | 0 | 0 |
@@ -51,6 +51,14 @@ Legend:
 - **P1**: high leverage cleanup (split / side effects)
 - **P2**: polish / consistency
 
+### `client/src/composables/admin/useInstanceDragAndDrop.ts`
+
+- exports: `useInstanceDragAndDrop`
+- score: **29**
+- return keys (first return): `blockInstanceIdsMap`, `blockInstancesLists`, `groupContainers`, `groupDragHandlers`, `groupDragInstances`, `groupPanelsContainers`, `groupPanelsGroupedContainers`
+
+- **P1** (split_candidate): Moderate complexity score. Consider separating query/mutations from derived state and formatting.
+
 ### `client/src/composables/booking/useAvailabilityStepAccordion.ts`
 
 - exports: `useAvailabilityStepAccordion`
@@ -62,6 +70,42 @@ Legend:
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `client/src/composables/admin/useInstanceDragAndDrop.ts`
+
+- counts: vueQuery=0, watch=2, computed=2, ref=7, async=1, await=1, dom=0, console=0
+
+```
+lifecycle@5: import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
+map@34: .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
+sort@34: .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
+sort@35: .sort()
+filter@56: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
+map@58: groupedEntityIds.value = grouped.map((e) => e.id)
+async@61: return async (): Promise<void> => {
+map@64: const idToEntity = new Map(all.map((e) => [e.id, e]))
+filter@65: const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))
+map@67: .map((id) => idToEntity.get(id))
+filter@68: .filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)
+map@70: const updates = merged.map((entity, index) => ({
+await@75: await patchOrderIndex(updates)
+ref@107: const isMounted = ref(false)
+ref@109: const dragReinitNonce = ref(0)
+watch@114: watch(
+ref@127: blockInstancesLists.value.set(blockShapeId, ref([...instances]))
+ref@128: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
+map@128: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
+computed@130: const filteredInstances = computed(() => {
+ref@159: blockInstancesLists.value.set(zoneKey, ref([...instances]))
+ref@160: blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
+map@160: blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
+computed@162: const filteredGrouped = computed(() => {
+ref@270: const panelsRefForDrag = ref(panelsEl)
+watch@328: watch(
+lifecycle@367: onMounted(() => {
+lifecycle@371: onBeforeUnmount(() => {
+lifecycle@378: onUnmounted(() => {
+```
 
 ### `client/src/composables/admin/useInstanceGrouping.ts`
 
@@ -504,25 +548,6 @@ computed@72: const chartOptions = computed((): ChartOptions<'line'> => {
 computed@105: const serviceCount = computed(() => serviceFeeTotals.value.length)
 computed@106: const hasData = computed(() => serviceCount.value > 0)
 computed@108: const svgChart = computed((): SvgChartShape => buildSvgChart(chartData.value))
-```
-
-### `client/src/composables/admin/useInstanceDragAndDrop.ts`
-
-- counts: vueQuery=0, watch=2, computed=1, ref=4, async=0, await=0, dom=0, console=0
-
-```
-lifecycle@5: import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance } from 'vue'
-ref@36: const isMounted = ref(false)
-watch@41: watch(mainInstancesByShape, (instancesMap) => {
-ref@44: blockInstancesLists.value.set(blockShapeId, ref([...instances]))
-ref@45: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => i.id)))
-map@45: blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => i.id)))
-computed@47: const filteredInstances = computed(() => {
-watch@76: watch(() => [groupContainers.value, groupPanelsContainers.value], ([containers, panelsContainers]) => {
-ref@101: const panelsRefForDrag = ref(panelsEl)
-lifecycle@146: onMounted(() => {
-lifecycle@150: onBeforeUnmount(() => {
-lifecycle@157: onUnmounted(() => {
 ```
 
 ### `client/src/composables/admin/usePartInstanceForm.ts`
@@ -1395,19 +1420,6 @@ lifecycle@127: onMounted(() => {
 lifecycle@136: onBeforeUnmount(() => {
 ```
 
-### `client/src/composables/admin/useInstanceFiltering.ts`
-
-- counts: vueQuery=0, watch=0, computed=3, ref=0, async=0, await=0, dom=0, console=0
-
-```
-computed@25: const componentChildIds = computed((): Set<string> => {
-reduce@29: return relationships.reduce((acc, rel) => {
-computed@38: const mainInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
-filter@43: .filter((instance) => {
-computed@55: const groupedInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
-filter@60: .filter((instance) => {
-```
-
 ### `client/src/composables/admin/useInstanceShape.ts`
 
 - counts: vueQuery=0, watch=0, computed=6, ref=0, async=0, await=0, dom=0, console=0
@@ -1888,6 +1900,17 @@ map@43: return arr.map((k) => String(k))
 map@50: return arr.map((k) => String(k))
 ```
 
+### `client/src/composables/admin/useInstanceFiltering.ts`
+
+- counts: vueQuery=0, watch=0, computed=2, ref=0, async=0, await=0, dom=0, console=0
+
+```
+computed@23: const mainInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
+filter@27: const mainInstances = instances.filter((instance) => isAdminStandaloneSection(instance))
+computed@34: const groupedInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
+filter@38: const groupedInstances = instances.filter((instance) => !isAdminStandaloneSection(instance))
+```
+
 ### `client/src/composables/admin/useMetadataFieldOrdering.ts`
 
 - counts: vueQuery=0, watch=1, computed=0, ref=0, async=0, await=0, dom=0, console=0
@@ -2156,9 +2179,9 @@ watch@50: watch(dialogOpen, (isOpen) => {
 - counts: vueQuery=0, watch=0, computed=2, ref=1, async=0, await=0, dom=0, console=0
 
 ```
-ref@100: const eventInstanceMetadataModalOpen = ref(false)
-computed@108: const isLoadingEventInstances = computed(() => false)
-computed@145: const eventInstanceFieldsGlobalEntity = computed((): GlobalEntity<'eventInstance'> => ({
+ref@103: const eventInstanceMetadataModalOpen = ref(false)
+computed@111: const isLoadingEventInstances = computed(() => false)
+computed@148: const eventInstanceFieldsGlobalEntity = computed((): GlobalEntity<'eventInstance'> => ({
 ```
 
 ### `client/src/composables/admin/useMetadataFieldDrag.ts`
@@ -2682,7 +2705,7 @@ watch@29: watch(dialogOpen, (isOpen) => {
 - counts: vueQuery=0, watch=0, computed=0, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-filter@38: return Array.from(allPanels).filter(node => {
+filter@49: return Array.from(allPanels).filter(node => {
 ```
 
 ### `client/src/composables/admin/useEntityCardLayout.ts`
