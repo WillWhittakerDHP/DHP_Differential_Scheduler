@@ -1,7 +1,5 @@
 /**
  * Shared provide/inject shape for Business Controls tab (constraints, calendar, wizard, rules).
- * WHY: Typed InjectionKey — wizardSettings is UseWizardSettingsReturn (flags | labels).
- * PATTERN: `BusinessControlsState` is `UnwrapNestedRefs<…>` so Volar matches template props to unwrapped values (reactive() deep-unwraps Ref/ComputedRef).
  */
 import type { ComputedRef, Ref, UnwrapNestedRefs } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'

@@ -1,5 +1,4 @@
 /**
- * WHY: Coerce API payloads into global entity storage shapes (ternary_boolean strings, etc.).
  */
 import { createLogger } from '@/utils/logger'
 import { bookingModeToTernary, isTernaryBoolean } from '@shared/utils/ternaryAliasUtils'

@@ -1,7 +1,5 @@
 /**
  * System "Drive time" block instance (Phase 6.11.5).
- * WHY: Fee entries require block_instance_id; this row is not user-selectable in the wizard.
- * PATTERN: Name + stable UUID match server migration; client resolves id from booking data when present.
  */
 export const SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_NAME = 'Drive time' as const
 

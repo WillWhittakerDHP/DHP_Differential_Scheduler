@@ -781,7 +781,6 @@ describe('confirmationStepData', () => {
         blockInstanceId: SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_ID,
         blockShapeRef: SYSTEM_DRIVE_TIME_BLOCK_SHAPE_REF,
       })
-      // 60 billable min → rounded 60 → (60/60)*60 = 60
       expect(priceData.totalFee).toBe(160)
       expect(priceData.orderTotal).toBe(160)
       expect(priceData.lineItems).toHaveLength(1)
