@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T23:23:44.048Z",
   "totalScanned": 1152,
+=======
+  "generatedAt": "2026-03-21T23:26:25.118Z",
+  "totalScanned": 1151,
+>>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "totals": {

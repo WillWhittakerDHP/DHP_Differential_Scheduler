@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T23:23:43.993Z",
+=======
+  "generatedAt": "2026-03-21T23:26:24.906Z",
+>>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
   "totalScanned": 0,
   "exceptionSummary": {
     "totalRequiresReview": 0

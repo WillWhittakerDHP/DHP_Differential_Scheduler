@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T23:23:46.041Z",
+=======
+  "generatedAt": "2026-03-21T23:26:27.395Z",
+>>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
