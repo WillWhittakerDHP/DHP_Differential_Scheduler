@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:07:56.700Z",
+  "generatedAt": "2026-03-21T16:56:52.335Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -389,6 +389,7 @@
           "client/src/utils/transformers/relationshipTransformers.ts",
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
+          "server/src/config/envConfig.ts",
           "server/src/config/googleOAuth.ts",
           "server/src/repositories/calendarSettingsRepository.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
@@ -414,7 +415,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 133
+        "patternCount": 134
       },
       {
         "prefix": "update",

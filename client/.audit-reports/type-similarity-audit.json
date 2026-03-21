@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:07:55.379Z",
+  "generatedAt": "2026-03-21T16:56:53.768Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -7780,8 +7780,8 @@
       "file": "server/src/config/envConfig.ts",
       "line": 9,
       "exported": true,
-      "fingerprint": "165127931fac",
-      "propertyCount": 8,
+      "fingerprint": "4120a6eb7ab0",
+      "propertyCount": 9,
       "primitiveAlias": null
     },
     {

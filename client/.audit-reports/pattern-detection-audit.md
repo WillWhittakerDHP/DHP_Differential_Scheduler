@@ -18,7 +18,7 @@ Exception handling:
 - String literals found: **8** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **49**
-- Function patterns found: **459**
+- Function patterns found: **460**
 - Common patterns found: **68**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -126,7 +126,7 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBufferSettings` | `use*` | 1 |
 | `useBusinessControlsFormState` | `use*` | 1 |
 | `useBusinessHoursFormState` | `use*` | 1 |
-| ... | ... | (+429 more) |
+| ... | ... | (+430 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

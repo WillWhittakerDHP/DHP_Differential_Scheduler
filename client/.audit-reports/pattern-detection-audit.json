@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:07:58.378Z",
+  "generatedAt": "2026-03-21T16:56:49.904Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -386,6 +386,7 @@
           "client/src/utils/transformers/relationshipTransformers.ts",
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
+          "server/src/config/envConfig.ts",
           "server/src/config/googleOAuth.ts",
           "server/src/repositories/calendarSettingsRepository.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
@@ -411,7 +412,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 133
+        "patternCount": 134
       },
       {
         "prefix": "update",
@@ -4863,6 +4864,16 @@
             "file": "server/src/config/entityRegistry.ts",
             "line": 93,
             "name": "EntityConfig"
+          }
+        ]
+      },
+      "getCorsOrigin": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/config/envConfig.ts",
+            "line": 55,
+            "name": "CorsOrigin"
           }
         ]
       },
