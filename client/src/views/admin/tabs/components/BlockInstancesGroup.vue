@@ -140,7 +140,7 @@ function setGroupPanelsRef(el: Element | ComponentPublicInstance | null): void {
       >
         <VCardTitle class="text-body-large d-flex align-center gap-2">
           <VIcon icon="tabler-folders" size="small" />
-          Add-On Only & Components (Hidden from Main Booking List)
+          Not standalone-only (add-on only or both)
           <VChip size="small" variant="tonal" class="ml-2">
             {{ groupedInstances.length }}
           </VChip>
