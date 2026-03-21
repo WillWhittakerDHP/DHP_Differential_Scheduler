@@ -88,7 +88,7 @@ Legend: `ruleId@lineNumber: line`
 - requiring review: 3, allowed: 0
 
 ```
-fieldMapping@163: updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
-fieldMapping@207: updateAppointment: { mutateAsync: update.mutateAsync },
-fieldMapping@228: updateAppointment: { isPending: update.isPending },
+fieldMapping@154: updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
+fieldMapping@198: updateAppointment: { mutateAsync: update.mutateAsync },
+fieldMapping@219: updateAppointment: { isPending: update.isPending },
 ```

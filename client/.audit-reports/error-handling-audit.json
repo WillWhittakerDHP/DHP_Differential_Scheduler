@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T16:07:52.011Z",
+  "generatedAt": "2026-03-21T16:15:35.484Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1169,
+  "totalScanned": 1171,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,7 +26,25 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "client__src__plugins__1.router__additional-routes.ts",
+      "repoPath": "client/src/plugins/1.router/additional-routes.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "catch-without-logger",
+          "lineNumber": 26,
+          "line": "} catch {",
+          "confidence": "high",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 1,
+      "priority": "P2"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "empty-catch",
