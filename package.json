@@ -42,6 +42,7 @@
     "build:prod": "cross-env NODE_ENV=production npm --prefix server run build",
     "seed": "npm --prefix server run seed",
     "migrate": "npm --prefix server run migrate",
+    "db:reset": "npm --prefix server run db:reset",
     "test": "vitest"
   },
   "dependencies": {
