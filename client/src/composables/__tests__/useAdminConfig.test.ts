@@ -37,7 +37,6 @@ vi.mock('@/configs/adminConfig', () => ({
 describe('useAdminConfig', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // LEARNING: Clear module-level caches before each test for proper isolation
     // WHY: Cached computed refs persist across tests and can cause stale state
     _clearCache()
   })
@@ -183,9 +182,3 @@ describe('useAdminConfig', () => {
     })
   })
 })
-
-
-
-
-
-

@@ -1,5 +1,7 @@
-
 import type { ComponentPublicInstance, Ref } from 'vue'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useDragAndDropHelpers')
 
 export function getPanelsElement(
   componentRef: ComponentPublicInstance | HTMLElement | null,
@@ -22,8 +24,8 @@ export function getPanelsElement(
     }
     
     return panelsEl as HTMLElement | null
-  } catch {
-    // PATTERN: Return null on error to gracefully handle unmount scenarios
+  } catch (err) {
+    logger.warn('getPanelsElement failed', { error: err })
     return null
   }
 }
@@ -67,7 +69,6 @@ export function createExpansionPanelDraggableChecker(
     
     if (!panelElement) return false
     
-    // LEARNING: Use the same checker logic as node counting
     // PATTERN: Reuse the same checker function
     return isDraggableChecker(panelElement)
   }

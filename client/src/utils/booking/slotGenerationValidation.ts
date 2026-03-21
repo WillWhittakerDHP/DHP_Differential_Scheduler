@@ -1,18 +1,10 @@
 
-import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
+import type { SlotGenerationParams } from '@/types/booking/slotGenerationValidation'
+
+export type { SlotGenerationParamsBase, SlotGenerationParams } from '@/types/booking/slotGenerationValidation'
 
 const logger = createLogger('slotGenerationValidation')
-
-/** Base for slot generation; MinimalSlotParams extends and adds includeFlags (P2 type-similarity). */
-export interface SlotGenerationParamsBase {
-  duration: number
-  minuteIncrement: number
-  startBoundary: RFC3339DateTime
-  endBoundary: RFC3339DateTime
-}
-
-export type SlotGenerationParams = SlotGenerationParamsBase
 
 /**
  * Validate slot generation parameters

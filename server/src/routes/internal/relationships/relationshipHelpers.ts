@@ -227,7 +227,6 @@ export async function validateAttendeeAssignmentEntities(
     throw new Error(`BlockInstance with ID ${childId} does not exist`)
   }
   
-  // LEARNING: Verify that the BlockInstance is a UserTypeBlock (state control block)
   // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
   if (blockInstance.blockShapeRef) {
     const blockShape = await BlockShape.findByPk(blockInstance.blockShapeRef)
@@ -259,7 +258,6 @@ export async function updateComponentActiveStates(
 
 /**
  * WHY: Restore block instance active state when component is deleted
-LEARNING: ...
  */
 export async function restoreComponentActiveState(childId: string): Promise<void> {
   const otherComponents = await InstanceComponent.count({

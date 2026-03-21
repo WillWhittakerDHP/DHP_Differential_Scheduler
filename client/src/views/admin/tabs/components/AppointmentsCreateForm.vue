@@ -8,7 +8,7 @@ import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
-import { toISO8601Date } from '@/types/datetime'
+import { toISO8601Date } from '@/utils/datetime'
 
 /** Parent passes ref value so form can update fields (object is shared). */
 defineProps<{
@@ -26,6 +26,16 @@ const emit = defineEmits<{
   save: []
   cancel: []
 }>()
+
+function handlePatchPropertyVersionId(v: string | null): void {
+  emit('update:patch', { propertyVersionId: v ?? undefined })
+}
+function handlePatchStatus(v: string): void {
+  emit('update:patch', { status: v as AppointmentRequest['status'] })
+}
+function handlePatchSelectedDate(v: string): void {
+  emit('update:patch', { selectedDate: v != null && v !== '' ? toISO8601Date(v) : null })
+}
 </script>
 
 <template>
@@ -43,12 +53,12 @@ const emit = defineEmits<{
             :label="APPOINTMENTS_TABLE_UI.PROPERTY_LABEL"
             :return-object="false"
             required
-            @update:model-value="(v: string | null) => emit('update:patch', { propertyVersionId: v ?? undefined })"
+            @update:model-value="handlePatchPropertyVersionId"
           >
             <template #item="{ props: itemProps, item }">
               <VListItem v-bind="itemProps">
                 <VListItemTitle>
-                  {{ item.raw.address }}, {{ item.raw.city }}, {{ item.raw.state }}
+                  {{ item.address }}, {{ item.city }}, {{ item.state }}
                 </VListItemTitle>
               </VListItem>
             </template>
@@ -68,7 +78,7 @@ const emit = defineEmits<{
             <template #item="{ props: itemProps, item }">
               <VListItem v-bind="itemProps">
                 <VListItemTitle>
-                  {{ item.raw.firstName }} {{ item.raw.lastName }}
+                  {{ item.firstName }} {{ item.lastName }}
                 </VListItemTitle>
               </VListItem>
             </template>
@@ -88,7 +98,7 @@ const emit = defineEmits<{
             <template #item="{ props: itemProps, item }">
               <VListItem v-bind="itemProps">
                 <VListItemTitle>
-                  {{ item.raw.firstName }} {{ item.raw.lastName }}
+                  {{ item.firstName }} {{ item.lastName }}
                 </VListItemTitle>
               </VListItem>
             </template>
@@ -108,7 +118,7 @@ const emit = defineEmits<{
             <template #item="{ props: itemProps, item }">
               <VListItem v-bind="itemProps">
                 <VListItemTitle>
-                  {{ item.raw.firstName }} {{ item.raw.lastName }} ({{ item.raw.userRole }})
+                  {{ item.firstName }} {{ item.lastName }} ({{ item.userRole }})
                 </VListItemTitle>
               </VListItem>
             </template>
@@ -119,7 +129,7 @@ const emit = defineEmits<{
             :model-value="newAppointment.status"
             :items="APPOINTMENT_STATUSES"
             :label="APPOINTMENTS_TABLE_UI.STATUS_LABEL"
-            @update:model-value="(v: string) => emit('update:patch', { status: v as AppointmentRequest['status'] })"
+            @update:model-value="handlePatchStatus"
           />
         </VCol>
         <VCol cols="12" md="6">
@@ -134,7 +144,7 @@ const emit = defineEmits<{
             :model-value="newAppointment.selectedDate"
             type="date"
             :label="APPOINTMENTS_TABLE_UI.SELECTED_DATE_LABEL"
-            @update:model-value="(v: string) => emit('update:patch', { selectedDate: v != null && v !== '' ? toISO8601Date(v) : null })"
+            @update:model-value="handlePatchSelectedDate"
           />
         </VCol>
       </VRow>

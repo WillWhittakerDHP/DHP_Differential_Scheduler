@@ -1,90 +1,16 @@
 {
-  "generatedAt": "2026-02-23T18:12:58.425Z",
-  "totalScanned": 795,
+  "generatedAt": "2026-03-16T02:04:17.825Z",
+  "totalScanned": 1150,
+  "deltaMode": true,
+  "baseRef": "HEAD~1",
   "totals": {
-    "totalScanned": 795,
-    "totalMarkers": 5,
-    "fresh": 1,
+    "totalScanned": 1150,
+    "totalMarkers": 0,
+    "fresh": 0,
     "aging": 0,
     "stale": 0,
-    "ancient": 4,
-    "orphaned": 5
+    "ancient": 0,
+    "orphaned": 0
   },
-  "files": [
-    {
-      "repoPath": "client/src/components/admin/generic/fields/BooleanInput.vue",
-      "markers": [
-        {
-          "lineNumber": 160,
-          "marker": "TEMP",
-          "line": "// WHY: useFieldContextState returns empty string '' for temp entities, but we need to treat it as false",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/composables/booking/useDevPanelsComputed.ts",
-      "markers": [
-        {
-          "lineNumber": 112,
-          "marker": "TODO",
-          "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
-      "markers": [
-        {
-          "lineNumber": 271,
-          "marker": "TODO",
-          "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Lunch Buffer UI -->",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
-      "markers": [
-        {
-          "lineNumber": 90,
-          "marker": "TODO",
-          "line": "<!-- @audit-allow:todo-aging:orphaned - Future work: Date Range Constraint UI -->",
-          "category": "ancient",
-          "days": 999,
-          "orphaned": true
-        }
-      ],
-      "score": 7,
-      "priority": "P1"
-    },
-    {
-      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "markers": [
-        {
-          "lineNumber": 154,
-          "marker": "TODO",
-          "line": "const minorEventName = 'Minor' // TODO: Get from availabilitySettings",
-          "category": "fresh",
-          "days": 22,
-          "orphaned": true
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    }
-  ]
+  "files": []
 }

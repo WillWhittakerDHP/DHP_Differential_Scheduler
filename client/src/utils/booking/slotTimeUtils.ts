@@ -16,9 +16,6 @@ export function createTimeRange(startTime: string, duration: number): TimeRange 
   return result
 }
 
-/**
-LEARNING: Helper to add minutes to an ISO st...
- */
 export function addMinutes(startTime: string, minutes: number): string {
   const date = new Date(startTime)
   date.setUTCMinutes(date.getUTCMinutes() + minutes)

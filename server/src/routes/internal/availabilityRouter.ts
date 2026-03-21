@@ -13,6 +13,7 @@ router.post('/computed-data', csrfProtection, async (req: Request, res: Response
   try {
     const validation = validateComputedAvailabilityRequest(req.body)
     if (!validation.valid) {
+      // @audit-allow:hardcoding:fieldMapping - Response shape
       res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })
       return
     }

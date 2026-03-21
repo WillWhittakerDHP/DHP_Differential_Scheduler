@@ -3,28 +3,12 @@
 
 WHY: Entities all have the same drag-a...
  */
-import { type Ref, type ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-
-import type { OrderIndexUpdate } from '@/composables/entityCrud/useEntityCrudTypes'
+import type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useEntityDragHandlers')
-
-export type PatchOrderIndex = (updates: OrderIndexUpdate) => Promise<void>
-
-export interface UseEntityDragHandlersParams<EntityKey extends GlobalEntityKey> {
-  entityIds: Ref<string[]>
-  entityList: Ref<GlobalEntity<EntityKey>[]>
-  filteredEntities: ComputedRef<GlobalEntity<EntityKey>[]>
-  patchOrderIndex: PatchOrderIndex
-}
-
-export interface UseEntityDragHandlersReturn {
-  handleDragEnd: () => Promise<void>
-  syncArrays: () => void
-}
 
 /**
  * PATTERN: useEntityDragHandlers composable
@@ -48,7 +32,6 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
    */
   const handleDragEnd = async (): Promise<void> => {
     try {
-      // LEARNING: Use filteredEntities as source of truth for all entities in the group
       // PATTERN: Read from filteredEntities to ensure we update all entities
       const allEntities = filteredEntities.value
       
@@ -74,12 +57,12 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
       const reordered = [...draggedEntities, ...nonDraggedEntities]
       
       // PATTERN: Map over all entities and assign sequential indices
-      const normalized = reordered.map((entity, index) => ({
+      const normalized: GlobalEntity<EntityKey>[] = reordered.map((entity, index) => ({
         ...entity,
         orderIndex: index
       }))
       
-      entityList.value = normalized as typeof entityList.value
+      entityList.value = normalized
       
       // PATTERN: Map all normalized entities to updates
       const updates = normalized.map((entity, index) => ({
@@ -95,7 +78,7 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
   }
 
   const syncArrays = (): void => {
-    entityList.value = [...filteredEntities.value] as typeof entityList.value
+    entityList.value = [...filteredEntities.value]
     entityIds.value = filteredEntities.value.map(entity => entity.id)
   }
 
@@ -104,4 +87,3 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
     syncArrays
   }
 }
-

@@ -11,24 +11,41 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAdminPrimitiveMetadataMutations')
 
-export function useAdminPrimitiveMetadataMutations() {
+export interface UseAdminPrimitiveMetadataMutationsReturn {
+  saveFieldRendering: (
+    entityType: EntityMetadataType,
+    entityId: string,
+    fieldKey: string,
+    renderingUpdates: Partial<FieldMetadataEntry>,
+    existingMetadata?: FieldMetadataEntry
+  ) => Promise<unknown>
+  deleteFieldOverride: (
+    entityType: EntityMetadataType,
+    entityId: string,
+    fieldKey: string
+  ) => Promise<unknown>
+  isSaving: import('vue').Ref<boolean>
+}
+
+export function useAdminPrimitiveMetadataMutations(): UseAdminPrimitiveMetadataMutationsReturn {
   const queryClient = useQueryClient()
   const { getFieldMetadata } = useMetadataCache()
 
-  const saveFieldRenderingMutation = useMutation({
+  type SavePrimitiveFieldVariables = {
+    entityType: EntityMetadataType
+    entityId: string
+    fieldKey: string
+    renderingUpdates: Partial<FieldMetadataEntry>
+    existingMetadata: FieldMetadataEntry | undefined
+  }
+  const saveFieldRenderingMutation = useMutation<unknown, Error, SavePrimitiveFieldVariables>({
     mutationFn: async ({
       entityType,
       entityId,
       fieldKey,
       renderingUpdates,
       existingMetadata,
-    }: {
-      entityType: EntityMetadataType
-      entityId: string
-      fieldKey: string
-      renderingUpdates: Partial<FieldMetadataEntry>
-      existingMetadata: FieldMetadataEntry | undefined
-    }) => {
+    }: SavePrimitiveFieldVariables) => {
       // PATTERN: Like entity mutations accept fields (primitives + relationships) and dehydrate together
       
       // PATTERN: Get primitive metadata from GlobalData, extract fieldKey entry (declarative object access)
@@ -42,7 +59,7 @@ export function useAdminPrimitiveMetadataMutations() {
         throw new Error(
           `[useAdminPrimitiveMetadataMutations] Missing existingMetadata for ${entityType}.${fieldKey}. ` +
           `Cannot create new metadata entry without canonical fields. ` +
-          `Fields must be configured in /admin-primitive-metadata before updating rendering config.`
+          `Fields must be configured in /admin-metadata before updating rendering config.`
         )
       }
 
@@ -91,16 +108,17 @@ export function useAdminPrimitiveMetadataMutations() {
     },
   })
 
-  const deleteFieldOverrideMutation = useMutation({
+  type DeletePrimitiveFieldVariables = {
+    entityType: EntityMetadataType
+    entityId: string
+    fieldKey: string
+  }
+  const deleteFieldOverrideMutation = useMutation<void, Error, DeletePrimitiveFieldVariables>({
     mutationFn: async ({
       entityType,
       entityId,
       fieldKey,
-    }: {
-      entityType: EntityMetadataType
-      entityId: string
-      fieldKey: string
-    }) => {
+    }: DeletePrimitiveFieldVariables) => {
       const endpoint = `${getAdminPrimitiveMetadataEndpoint(entityType, entityId)}/${fieldKey}`
       await apiClient.delete(endpoint)
     },

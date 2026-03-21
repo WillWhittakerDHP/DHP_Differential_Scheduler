@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-import { onMounted, onUnmounted } from 'vue'
+import { useKeyboardToggle } from '@/composables/booking/useKeyboardToggle'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
 interface Emits {
@@ -8,23 +7,8 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-
 const isDevMode = isDevModeEnabled()
-
-const handleKeyDown = (event: KeyboardEvent): void => {
-  if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'D') {
-    event.preventDefault()
-    emit('toggle')
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', handleKeyDown)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeyDown)
-})
+useKeyboardToggle(() => emit('toggle'))
 </script>
 
 <template>
@@ -36,9 +20,7 @@ onUnmounted(() => {
     @click.stop="emit('toggle')"
   >
     <span class="button-label">slot</span>
-    <VTooltip activator="parent" location="left">
-      Debug Panel (Ctrl+Shift+D)
-    </VTooltip>
+    <VTooltip activator="parent" location="left" text="Debug Panel (Ctrl+Shift+D)" />
   </VBtn>
 </template>
 

@@ -3,20 +3,9 @@
 
 WHY: Extracts empty state message ...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
-
-export interface UseAvailabilityEmptyStateParams {
-  isEffectivelyDifferential: ComputedRef<boolean>
-  
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-  
-  appointmentSlotsCount: ComputedRef<number>
-}
-
-export interface UseAvailabilityEmptyStateReturn {
-  emptyStateMessage: ComputedRef<string | null>
-}
+import { computed } from 'vue'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
+import type { UseAvailabilityEmptyStateParams, UseAvailabilityEmptyStateReturn } from '@/types/booking/availabilityEmptyState'
 
 /**
  * WHY: useAvailabilityEmptyState composable
@@ -28,18 +17,9 @@ export function useAvailabilityEmptyState(
 ): UseAvailabilityEmptyStateReturn {
   const { isEffectivelyDifferential, startTimeType, appointmentSlotsCount } = params
   
-  const { settings: availabilitySettings } = useAvailabilitySettings()
-  const majorLabel = computed(() => {
-    const raw = availabilitySettings.value?.differentialPerspectives?.majorLabel
-    return raw !== undefined && raw !== null && raw !== '' ? raw : 'Major'
-  })
-  const minorLabel = computed(() => {
-    const raw = availabilitySettings.value?.differentialPerspectives?.minorLabel
-    return raw !== undefined && raw !== null && raw !== '' ? raw : 'Minor'
-  })
+  const { majorLabel, minorLabel } = useWizardSettings()
 
   /**
-   * LEARNING: Compute empty state message based on service type and perspective
    */
   const emptyStateMessage = computed<string | null>(() => {
     if (appointmentSlotsCount.value > 0) {

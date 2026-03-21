@@ -1,6 +1,5 @@
 /**
  * WHY: US state options for address forms
-LEARNING: Single source of truth for ...
  */
 import type { SelectOptionBase } from '@/composables/useSelectOptions'
 

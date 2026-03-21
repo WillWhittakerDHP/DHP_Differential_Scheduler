@@ -293,13 +293,6 @@ const close = () => {
 </template>
 ```
 
-**Learning Points:**
-- VDialog component usage
-- Form data management
-- Create vs edit mode handling
-- Relationship management in forms
-- Form validation
-
 ---
 
 ### Task 4.4.2: Create PartProfileDialog.vue
@@ -500,11 +493,6 @@ const close = () => {
 </template>
 ```
 
-**Learning Points:**
-- Simpler form structure
-- Number input handling
-- Multiple checkbox fields
-
 ---
 
 ### Task 4.4.3: Create BlockTypeDialog.vue
@@ -648,10 +636,6 @@ const close = () => {
 </template>
 ```
 
-**Learning Points:**
-- Simple form structure
-- Order index management
-
 ---
 
 ### Task 4.4.4: Create PartTypeDialog.vue
@@ -703,11 +687,6 @@ const save = async () => {
 }
 ```
 
-**Learning Points:**
-- Mutation patterns with Vue Query
-- Cache invalidation
-- Error handling
-
 ---
 
 ### Task 4.4.6: Add Relationship Management in BlockProfile Dialog
@@ -722,11 +701,6 @@ const save = async () => {
 5. Handle adding/removing relationships
 
 **Relationship Management:** (See Task 4.4.1 code example)
-
-**Learning Points:**
-- Relationship CRUD operations
-- Multi-select component
-- Relationship synchronization
 
 ---
 
@@ -773,11 +747,6 @@ const handleSaved = () => {
   />
 </template>
 ```
-
-**Learning Points:**
-- Dialog state management
-- Component communication
-- Data refresh patterns
 
 ---
 
@@ -833,11 +802,6 @@ const handleSaved = () => {
 - Consistent button styles
 - Proper form field spacing
 - Card elevation and borders
-
-**Learning Points:**
-- Vuexy styling patterns
-- UI polish techniques
-- User experience improvements
 
 ---
 
@@ -906,4 +870,3 @@ client-vue/src/views/admin/
 - Session 4.1 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.1-guide.md`
 - Session 4.2 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.2-guide.md`
 - Session 4.3 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.3-guide.md`
-

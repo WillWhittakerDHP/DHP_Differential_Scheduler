@@ -1,26 +1,13 @@
-
 import type { AppointmentFeeBreakdownPayload } from '@shared/types/appointmentFeeTypes'
-import type { ContactInfoBase } from '@shared/types/contactTypes'
-import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { MoveableSchedulingOptions } from './moveableScheduling'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import type { AppointmentStatus } from './appointmentStatus'
-import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
+import type { PropertyResponse } from './property'
+import type { UserResponse } from './user'
 
-export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBase {
-  id: string
-  createdAt: string
-  updatedAt: string
-}
+export type { PropertyResponse, UserResponse }
 
-export interface UserResponse extends ContactInfoBase {
-  id: string
-  userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector'
-  loginId?: string | null
-  createdAt: string
-  updatedAt: string
-}
-
+import { INVITATION_STATUS_FAILED, INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
 export interface AttendeeResponse {
@@ -29,7 +16,7 @@ export interface AttendeeResponse {
   userId: string
   userTypeBlockInstanceId?: string | null
   shouldReceiveInvitation: boolean
-  invitationStatus: 'pending' | 'sent' | 'accepted' | 'declined' | 'failed'
+  invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED
   googleEventId?: string | null
   createdAt: string
   updatedAt: string
@@ -71,6 +58,10 @@ export interface AppointmentRequest {
   attendees?: AttendeeRequest[] | null
   /** Fee breakdown for persistence (summary + per-block entries); server persists in afterCreate */
   feeBreakdown?: AppointmentFeeBreakdownPayload | null
+  /** Hold duration in minutes (1–60). Server computes heldUntil from this. Only used when status = 'held'. */
+  holdDurationMinutes?: number
+  /** Admin constraint overrides — keys match slot computation constraints. ENACTMENT(Feature 7): requireRole('admin') gates this. */
+  overrideConstraints?: Record<string, boolean> | null
 }
 
 /**
@@ -107,6 +98,20 @@ export interface AppointmentResponse {
     address?: PropertyResponse
     propertyDetails?: Array<PropertyResponse>
   }
+  /** FK → users.id — who placed the hold (populated when status = 'held') */
+  heldBy?: string | null
+  /** ISO timestamp — when the hold expires (populated when status = 'held') */
+  heldUntil?: string | null
   scheduledBy?: UserResponse
+  /** The User who placed the hold, eagerly loaded when status = 'held' */
+  heldByUser?: UserResponse
+  /** Admin constraint overrides applied to this appointment */
+  overrideConstraints?: Record<string, boolean> | null
+  /** ISO timestamp — when status transitioned to 'submitted' */
+  submittedAt?: string | null
+  /** ISO timestamp — when status transitioned to 'confirmed' */
+  confirmedAt?: string | null
+  /** FK → users.id — who confirmed (populated by Feature 7 auth) */
+  confirmedBy?: string | null
   attendees?: AttendeeResponse[]
 }

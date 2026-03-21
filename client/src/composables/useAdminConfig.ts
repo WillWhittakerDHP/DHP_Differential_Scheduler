@@ -13,6 +13,26 @@ import type { InstanceConfig } from '@/configs/adminConfig'
 import { getAdminConfig, rebuildAdminConfig, type AdminConfig } from '../configs/adminConfig'
 import { createLogger } from '@/utils/logger'
 
+export interface UseAdminConfigReturn {
+  getConfig: () => AdminConfig
+  rebuildConfig: () => void
+  getFormFieldConfig: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+    entityKey: GE,
+    fieldKey: FieldKey
+  ) => ComputedRef<FormFieldConfig<GE, FieldKey> | undefined>
+  getEntityFormFieldConfig: <GE extends GlobalEntityKey>(entityKey: GE) => ComputedRef<FormFieldConfigMap[GE]>
+  getDisplayFieldConfig: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+    entityKey: GE,
+    fieldKey: FieldKey
+  ) => ComputedRef<unknown>
+  getEntityDisplayFieldConfig: <GE extends GlobalEntityKey>(
+    entityKey: GE
+  ) => ComputedRef<Record<string, unknown>>
+  getInstanceConfig: <GE extends GlobalEntityKey>(
+    entityKey: GE
+  ) => ComputedRef<InstanceConfig[GlobalEntityKey]>
+}
+
 const logger = createLogger('useAdminConfig')
 
 const formFieldConfigCache = new Map<
@@ -41,7 +61,7 @@ export function _clearCache(): void {
 
 PATTERN: Composable that returns computed value...
  */
-export function useAdminConfig() {
+export function useAdminConfig(): UseAdminConfigReturn {
   /**
    * FIX: Cache the config reference to avoid calling getAdminConfig() on every computed access
    *      Since the config is a singleton and doesn't change, we can get it once and reuse it
@@ -74,7 +94,7 @@ export function useAdminConfig() {
   ): ComputedRef<FormFieldConfig<GE, FieldKey> | undefined> => {
     throw new Error(
       `[useAdminConfig] DEPRECATED: getFormFieldConfig(${String(entityKey)}, ${String(fieldKey)}) called. ` +
-      `Form field configs are now metadata-only. Use /admin-input-metadata and metadata.inputConfig instead. ` +
+      `Form field configs are now metadata-only. Use /admin-metadata and metadata.inputConfig instead. ` +
       `This method has been removed - update caller to use metadata instead.`
     )
   }
@@ -84,7 +104,7 @@ export function useAdminConfig() {
   ): ComputedRef<FormFieldConfigMap[GE]> => {
     throw new Error(
       `[useAdminConfig] DEPRECATED: getEntityFormFieldConfig(${String(entityKey)}) called. ` +
-      `Form field configs are now metadata-only. Use /admin-input-metadata instead. ` +
+      `Form field configs are now metadata-only. Use /admin-metadata instead. ` +
       `This method has been removed - update caller to use metadata instead.`
     )
   }
@@ -134,24 +154,20 @@ export function useAdminConfig() {
 
   const getInstanceConfig = <GE extends GlobalEntityKey>(
     entityKey: GE
-  ): ComputedRef<InstanceConfig[GE]> => {
+  ): ComputedRef<InstanceConfig[GlobalEntityKey]> => {
     const cacheKey = createCacheKey(String(entityKey))
-    
-    if (instanceConfigCache.has(cacheKey)) {
-      return instanceConfigCache.get(cacheKey)! as ComputedRef<InstanceConfig[GE]>
-    }
-    
+    const cached = instanceConfigCache.get(cacheKey)
+    if (cached) return cached
     const computedRef = computed(() => {
       try {
         const config = getConfig()
-        return (config?.instanceConfig?.[entityKey] || { titleField: 'name' }) as InstanceConfig[GE]
+        return (config?.instanceConfig?.[entityKey] || { titleField: 'name' }) as InstanceConfig[GlobalEntityKey]
       } catch (_error) {
         logger.error('Failed to get instance config', { error: _error })
-        return { titleField: 'name' } as InstanceConfig[GE]
+        return { titleField: 'name' } as InstanceConfig[GlobalEntityKey]
       }
     })
-    
-    instanceConfigCache.set(cacheKey, computedRef as ComputedRef<InstanceConfig[GlobalEntityKey]>)
+    instanceConfigCache.set(cacheKey, computedRef)
     return computedRef
   }
 

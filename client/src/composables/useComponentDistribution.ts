@@ -3,32 +3,13 @@
 
 WHY: Encapsulates distribution calcul...
  */
-import { computed, isRef, ref, watch, type Ref } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { DistributionPreview, DistributionStrategy } from '@/types/component'
+import { computed, isRef, ref, watch } from 'vue'
+import type { GlobalEntityId } from '@/types/entities'
+import type { DistributionStrategy } from '@/types/component'
+import type { UseComponentDistributionOptions, UseComponentDistributionReturn } from '@/types/componentDistribution'
 import { useComponentEntity } from './useComponentEntity'
 import { useGlobal } from './useGlobal'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
-
-export interface UseComponentDistributionOptions {
-  entityKey: GlobalEntityKey
-  composerId: Ref<GlobalEntityId> | GlobalEntityId
-  propertyKey: Ref<string> | string
-  newValue: Ref<number> | number
-  distributionStrategy: Ref<string> | string
-  manualValues?: Ref<Record<GlobalEntityId, number>> | Record<GlobalEntityId, number>
-  modalOpen?: Ref<boolean>
-}
-
-export interface UseComponentDistributionReturn {
-  /** P2 type-similarity: uses shared DistributionPreview shape. */
-  preview: Ref<DistributionPreview[]>
-  getCurrentValue: (componentId: GlobalEntityId) => number
-  getComponentName: (componentId: GlobalEntityId) => string
-  formatValue: (value: number) => string
-  updateManualPreview: () => void
-}
 
 /**
  * PATTERN: Component Distribution Composable
@@ -97,16 +78,13 @@ export function useComponentDistribution(options: UseComponentDistributionOption
   const updateManualPreview = (): void => {
   }
   
-  /**
-LEARNING: Watch distribution strategy and initialize manual values w...
-   */
   watch(distributionStrategy, (newStrategy) => {
     if (newStrategy === 'manual') {
       const globalData = getGlobalData()
       if (!globalData) return
       
       const composerIdValue = composerId.value
-      const componentIds = componentEntity.getComponents(composerIdValue).map(ac => ac.childId)
+      const componentIds = componentEntity.data.getComponents(composerIdValue).map(ac => ac.childId)
       // WHY: Functional approach avoids mutations, aligns with workspace rules
       // PATTERN: Reduce componentIds to object with current values, then merge with existing manualValues
       const newManualValues = componentIds.reduce<Record<GlobalEntityId, number>>((acc, componentId) => {
@@ -121,10 +99,6 @@ LEARNING: Watch distribution strategy and initialize manual values w...
     }
   })
   
-  /**
-LEARNING: Watch modal open state and reset when modal opens
-PATTERN:...
-   */
   if (modalOpen) {
     watch(modalOpen, (isOpen) => {
       if (isOpen) {
@@ -144,7 +118,7 @@ PATTERN:...
       const globalData = getGlobalData()
       if (!globalData) return []
       
-      const componentIds = componentEntity.getComponents(composerId.value).map(ac => ac.childId)
+      const componentIds = componentEntity.data.getComponents(composerId.value).map(ac => ac.childId)
       return componentIds.map(componentId => {
         const currentValue = getCurrentValue(componentId)
         const manualValue = manualValues.value[componentId] ?? currentValue
@@ -157,7 +131,7 @@ PATTERN:...
       })
     }
     
-    return componentEntity.calculateDistributionPreview(
+    return componentEntity.data.calculateDistributionPreview(
       composerId.value,
       propertyKey.value,
       newValue.value,
@@ -173,4 +147,3 @@ PATTERN:...
     updateManualPreview
   }
 }
-

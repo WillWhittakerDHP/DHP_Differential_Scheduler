@@ -1,6 +1,6 @@
-
 import { Response } from 'express'
 import { createLogger } from '../../utils/logger.js'
+import { isProduction } from '../../utils/envHelpers.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 
 const logger = createLogger('RouterErrorHandler')
@@ -105,10 +105,11 @@ export function handleGeneralError(
     ? errorMessage.replace('{displayName}', displayName)
     : errorMessage
   
+  const rawDetails = error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE;
   const response: ErrorResponseBody = {
     error: finalMessage,
-    details: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
-  }
+    details: isProduction() ? UNKNOWN_ERROR_MESSAGE : rawDetails,
+  };
   
   if (entityId) {
     response.id = entityId

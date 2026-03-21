@@ -15,13 +15,13 @@ Generated from `client/.audit-reports/css-audit.json`.
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `client/src/layouts/default.vue` | P2 | 6 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/fields/SelectInputs.vue` | P2 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCardFeePreview.vue` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 |
 | `client/src/components/admin/generic/fields/IconInput.vue` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 |
 | `client/src/views/admin/tabs/InstancesTab.vue` | P2 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 |
 | `client/src/components/admin/generic/fields/BaseInput.vue` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `client/src/components/admin/generic/fields/TextInput.vue` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `client/src/components/AppNotification.vue` | P2 | 2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/dev/DevPanelsContainer.vue` | P2 | 2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/common/AddressAutocomplete.vue` | P2 | 2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/ShapesTab.vue` | P2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `client/src/App.vue` | P2 | 1 | 0 | 0 | 1 | 1 | 1 | 0 | 1 | 0 | 0 |

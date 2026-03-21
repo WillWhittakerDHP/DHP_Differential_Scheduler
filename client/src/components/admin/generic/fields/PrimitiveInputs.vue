@@ -64,26 +64,26 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
 
 const fieldType = computed(() => {
   // PATTERN: Fail explicitly if fieldType is missing - no fallbacks
-  if (!props.fieldContext.displayConfig.fieldType) {
+  if (!props.fieldContext.state.displayConfig.fieldType) {
     throw new Error(
-      `[PrimitiveInputs] Missing fieldType in displayConfig for field ${String(props.fieldContext.fieldKey)}. ` +
-      `Field must be configured in /admin-input-metadata.`
+      `[PrimitiveInputs] Missing fieldType in displayConfig for field ${String(props.fieldContext.state.fieldKey)}. ` +
+      `Field must be configured in /admin-metadata.`
     )
   }
-  return props.fieldContext.displayConfig.fieldType
+  return props.fieldContext.state.displayConfig.fieldType
 })
 
 // PATTERN: Composable handles both temporary and existing entities
 const entityForMetadata = useFieldContextMetadataEntity(props.fieldContext)
 
 const fetchedMetadata = useEntityMetadata(
-  props.fieldContext.entityKey,
+  props.fieldContext.state.entityKey,
   entityForMetadata
 )
 
 const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
-  const fieldKeyStr = String(props.fieldContext.fieldKey)
+  const fieldKeyStr = String(props.fieldContext.state.fieldKey)
   const meta = metadata[fieldKeyStr]
   return meta?.renderAs
 })

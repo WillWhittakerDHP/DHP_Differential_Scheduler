@@ -10,12 +10,12 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **2**
-- Requiring review: **2**
+- Files with findings: **0**
+- Requiring review: **0**
 - Allowed (with justification): 0
 
 - P0 (silent catches): **0**
-- P1 (console-in-catch, alert-in-catch, type suppressions): **2**
+- P1 (console-in-catch, alert-in-catch, type suppressions): **0**
 - P2 (general console, catch-without-logger): **0**
 
 ## Rules
@@ -72,19 +72,5 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts` | P1 | 5 | 0 | 1 | 0 |
-| `client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts` | P1 | 5 | 0 | 1 | 0 |
 
 ## Per-file findings
-
-### `client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts` [P1] (score: 5)
-
-```
-as-any@3: const y = x as any
-```
-
-### `client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts` [P1] (score: 5)
-
-```
-as-any@3: const y = x as any
-```

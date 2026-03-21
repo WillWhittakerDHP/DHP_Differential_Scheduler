@@ -1,12 +1,12 @@
 /**
  * WHY: Contacts Step Data Composable
-
-LEARNING: Extracts contact form data mana...
  */
-import { ref, watch, computed, type Ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { ContactInfoBase } from '@shared/types/contactTypes'
+import type { ContactInfo, UseContactsStepDataOptions, UseContactsStepDataReturn } from '@/types/booking/contactsStepData'
+import type { ContactsStepData } from '@/types/wizard'
+import type { WizardStateData } from '@/types/booking/wizardStateData'
 
 const logger = createLogger('useContactsStepData')
 
@@ -18,165 +18,160 @@ function contactField(value: string | null | undefined, context: string): string
   return value
 }
 
-/** Contact form shape; extends shared base for single source of truth. */
-export type ContactInfo = ContactInfoBase
-
-export interface UseContactsStepDataOptions {
-  loadedWizardState?: Ref<WizardStateData | null>
-}
-
-export interface UseContactsStepDataReturn {
+interface ContactRefs {
   clientInfo: Ref<ContactInfo>
   agentInfo: Ref<ContactInfo>
   anotherClientInfo: Ref<ContactInfo>
-  transactionManagerInfo: Ref<ContactInfo>
-  sellerInfo: Ref<ContactInfo>
-  
   showAnotherClient: Ref<boolean>
+  transactionManagerInfo: Ref<ContactInfo>
   showTransactionManager: Ref<boolean>
+  sellerInfo: Ref<ContactInfo>
   showSeller: Ref<boolean>
-  
-  stepData: Ref<{
-    clientInfo: ContactInfo
-    agentInfo: ContactInfo
-    anotherClientInfo: ContactInfo
-    transactionManagerInfo: ContactInfo
-    sellerInfo: ContactInfo
-    showAnotherClient: boolean
-    showTransactionManager: boolean
-    showSeller: boolean
-  }>
-  
-  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
 }
 
-/**
- * WHY: Contacts Step Data Composable
+function populateContactFromAdditional(
+  additionalContacts: Array<{ firstName: string; lastName: string; email: string; role: string }>,
+  role: 'anotherClient' | 'transactionManager' | 'seller',
+  infoRef: Ref<ContactInfo>,
+  showRef: Ref<boolean>
+): void {
+  const contact = additionalContacts.find((c) => c.role === role)
+  if (!contact) return
+  infoRef.value = {
+    firstName: contactField(contact.firstName, `${role}.firstName`),
+    lastName: contactField(contact.lastName, `${role}.lastName`),
+    email: contactField(contact.email, `${role}.email`),
+  }
+  showRef.value = true
+}
 
-WHY: Extracts contact form state manageme...
- */
+function loadContactsFromWizardState(newState: WizardStateData | null, refs: ContactRefs): void {
+  if (!newState?.contacts) return
+  const contacts = newState.contacts
+
+  if (contacts.client) {
+    refs.clientInfo.value = {
+      firstName: contactField(contacts.client.firstName, 'client.firstName'),
+      lastName: contactField(contacts.client.lastName, 'client.lastName'),
+      email: contactField(contacts.client.email, 'client.email'),
+    }
+  }
+
+  if (contacts.agent) {
+    refs.agentInfo.value = {
+      firstName: contactField(contacts.agent.firstName, 'agent.firstName'),
+      lastName: contactField(contacts.agent.lastName, 'agent.lastName'),
+      email: contactField(contacts.agent.email, 'agent.email'),
+    }
+  }
+
+  if (contacts.additionalContacts && contacts.additionalContacts.length > 0) {
+    populateContactFromAdditional(
+      contacts.additionalContacts,
+      'anotherClient',
+      refs.anotherClientInfo,
+      refs.showAnotherClient
+    )
+    populateContactFromAdditional(
+      contacts.additionalContacts,
+      'transactionManager',
+      refs.transactionManagerInfo,
+      refs.showTransactionManager
+    )
+    populateContactFromAdditional(
+      contacts.additionalContacts,
+      'seller',
+      refs.sellerInfo,
+      refs.showSeller
+    )
+  }
+}
+
+function restoreContactsFromStepData(data: ContactsStepData, refs: ContactRefs): void {
+  refs.clientInfo.value = {
+    firstName: contactField(data.clientInfo.firstName, 'client.firstName'),
+    lastName: contactField(data.clientInfo.lastName, 'client.lastName'),
+    email: contactField(data.clientInfo.email, 'client.email'),
+  }
+  refs.agentInfo.value = {
+    firstName: contactField(data.agentInfo.firstName, 'agent.firstName'),
+    lastName: contactField(data.agentInfo.lastName, 'agent.lastName'),
+    email: contactField(data.agentInfo.email, 'agent.email'),
+  }
+  refs.anotherClientInfo.value = {
+    firstName: contactField(data.anotherClientInfo.firstName, 'anotherClient.firstName'),
+    lastName: contactField(data.anotherClientInfo.lastName, 'anotherClient.lastName'),
+    email: contactField(data.anotherClientInfo.email, 'anotherClient.email'),
+  }
+  refs.transactionManagerInfo.value = {
+    firstName: contactField(data.transactionManagerInfo.firstName, 'transactionManager.firstName'),
+    lastName: contactField(data.transactionManagerInfo.lastName, 'transactionManager.lastName'),
+    email: contactField(data.transactionManagerInfo.email, 'transactionManager.email'),
+  }
+  refs.sellerInfo.value = {
+    firstName: contactField(data.sellerInfo.firstName, 'seller.firstName'),
+    lastName: contactField(data.sellerInfo.lastName, 'seller.lastName'),
+    email: contactField(data.sellerInfo.email, 'seller.email'),
+  }
+  refs.showAnotherClient.value = data.showAnotherClient
+  refs.showTransactionManager.value = data.showTransactionManager
+  refs.showSeller.value = data.showSeller
+}
+
 export function useContactsStepData(
   options: UseContactsStepDataOptions = {}
 ): UseContactsStepDataReturn {
-  const { loadedWizardState } = options
-  
-  // LEARNING: Reactive state for contact information
-  // PATTERN: Refs for always-visible contacts, reactive object for optional sections
-  const clientInfo = ref<ContactInfo>({
-    firstName: '',
-    lastName: '',
-    email: '',
-  })
+  const { loadedWizardState, restoreFrom } = options
 
-  const agentInfo = ref<ContactInfo>({
-    firstName: '',
-    lastName: '',
-    email: '',
-  })
-
-  const anotherClientInfo = ref<ContactInfo>({
-    firstName: '',
-    lastName: '',
-    email: '',
-  })
-
-  const transactionManagerInfo = ref<ContactInfo>({
-    firstName: '',
-    lastName: '',
-    email: '',
-  })
-
-  const sellerInfo = ref<ContactInfo>({
-    firstName: '',
-    lastName: '',
-    email: '',
-  })
-
-  // LEARNING: Reactive state for optional section visibility
-  // PATTERN: Refs for boolean visibility flags
+  const clientInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const agentInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const anotherClientInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const transactionManagerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const sellerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const showAnotherClient = ref(false)
   const showTransactionManager = ref(false)
   const showSeller = ref(false)
+
+  const sectionMap: Record<'anotherClient' | 'transactionManager' | 'seller', { show: Ref<boolean>; info: Ref<ContactInfo> }> = {
+    anotherClient: { show: showAnotherClient, info: anotherClientInfo },
+    transactionManager: { show: showTransactionManager, info: transactionManagerInfo },
+    seller: { show: showSeller, info: sellerInfo },
+  }
 
   const toggleSection = (
     section: 'anotherClient' | 'transactionManager' | 'seller',
     show: boolean
   ): void => {
-    if (section === 'anotherClient') {
-      showAnotherClient.value = show
-      if (!show) {
-        anotherClientInfo.value = { firstName: '', lastName: '', email: '' }
-      }
-    } else if (section === 'transactionManager') {
-      showTransactionManager.value = show
-      if (!show) {
-        transactionManagerInfo.value = { firstName: '', lastName: '', email: '' }
-      }
-    } else if (section === 'seller') {
-      showSeller.value = show
-      if (!show) {
-        sellerInfo.value = { firstName: '', lastName: '', email: '' }
-      }
+    const entry = sectionMap[section]
+    entry.show.value = show
+    if (!show) {
+      entry.info.value = { firstName: '', lastName: '', email: '' }
     }
   }
 
-  /**
-   * LEARNING: Watch loaded wizard state and populate contact form fields
-   */
+  const contactRefs: ContactRefs = {
+    clientInfo,
+    agentInfo,
+    anotherClientInfo,
+    showAnotherClient,
+    transactionManagerInfo,
+    showTransactionManager,
+    sellerInfo,
+    showSeller,
+  }
+
   if (loadedWizardState) {
-    watch(loadedWizardState, (newState) => {
-      if (newState?.contacts) {
-        const contacts = newState.contacts
-        
-        if (contacts.client) {
-          clientInfo.value = {
-            firstName: contactField(contacts.client.firstName, 'client.firstName'),
-            lastName: contactField(contacts.client.lastName, 'client.lastName'),
-            email: contactField(contacts.client.email, 'client.email')
-          }
-        }
+    watch(loadedWizardState, (newState) => loadContactsFromWizardState(newState ?? null, contactRefs), {
+      immediate: true,
+    })
+  }
 
-        if (contacts.agent) {
-          agentInfo.value = {
-            firstName: contactField(contacts.agent.firstName, 'agent.firstName'),
-            lastName: contactField(contacts.agent.lastName, 'agent.lastName'),
-            email: contactField(contacts.agent.email, 'agent.email')
-          }
-        }
-        
-        // WHY: Functional approach avoids forEach with property assignments
-        // PATTERN: Find contacts by role and update refs conditionally
-        if (contacts.additionalContacts && contacts.additionalContacts.length > 0) {
-          const anotherClientContact = contacts.additionalContacts.find(c => c.role === 'anotherClient')
-          if (anotherClientContact) {
-            anotherClientInfo.value = {
-              firstName: contactField(anotherClientContact.firstName, 'anotherClient.firstName'),
-              lastName: contactField(anotherClientContact.lastName, 'anotherClient.lastName'),
-              email: contactField(anotherClientContact.email, 'anotherClient.email')
-            }
-            showAnotherClient.value = true
-          }
-
-          const transactionManagerContact = contacts.additionalContacts.find(c => c.role === 'transactionManager')
-          if (transactionManagerContact) {
-            transactionManagerInfo.value = {
-              firstName: contactField(transactionManagerContact.firstName, 'transactionManager.firstName'),
-              lastName: contactField(transactionManagerContact.lastName, 'transactionManager.lastName'),
-              email: contactField(transactionManagerContact.email, 'transactionManager.email')
-            }
-            showTransactionManager.value = true
-          }
-
-          const sellerContact = contacts.additionalContacts.find(c => c.role === 'seller')
-          if (sellerContact) {
-            sellerInfo.value = {
-              firstName: contactField(sellerContact.firstName, 'seller.firstName'),
-              lastName: contactField(sellerContact.lastName, 'seller.lastName'),
-              email: contactField(sellerContact.email, 'seller.email')
-            }
-            showSeller.value = true
-          }
-        }
+  let contactsRestored = false
+  if (restoreFrom) {
+    watch(restoreFrom, (data) => {
+      if (!contactsRestored && data) {
+        restoreContactsFromStepData(data, contactRefs)
+        contactsRestored = true
       }
     }, { immediate: true })
   }
@@ -189,7 +184,7 @@ export function useContactsStepData(
     sellerInfo: sellerInfo.value,
     showAnotherClient: showAnotherClient.value,
     showTransactionManager: showTransactionManager.value,
-    showSeller: showSeller.value
+    showSeller: showSeller.value,
   }))
 
   return {
@@ -202,7 +197,6 @@ export function useContactsStepData(
     showTransactionManager,
     showSeller,
     stepData,
-    toggleSection
+    toggleSection,
   }
 }
-

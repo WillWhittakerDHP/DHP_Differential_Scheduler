@@ -140,7 +140,7 @@ watchEffect(() => {
                   :color="index === currentStep ? 'primary' : 'default'"
                 >
                   <h5
-                    class="text-h5"
+                    class="text-headline-medium"
                     :style="index === currentStep ? { color: '#fff' } : ''"
                   >
                     {{ index + 1 }}
@@ -172,7 +172,7 @@ watchEffect(() => {
                 rounded
               >
                 <h5
-                  class="text-h5"
+                  class="text-headline-medium"
                   style="color: rgb(var(--v-theme-primary));"
                 >
                   {{ index + 1 }}

@@ -48,6 +48,9 @@ const RULE_WEIGHTS = {
   'as-keyof-typeof': 2,
   'as-typeof-index': 2,
   'as-keyof-named': 1,
+  'as-computed-ref': 2,
+  'as-ref': 2,
+  'as-writable-computed': 2,
 }
 
 function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
@@ -62,6 +65,9 @@ const RULES = [
   { ruleId: 'as-keyof-typeof', pattern: /\bas\s+keyof\s+typeof\b/g, message: 'Key type assertion — variable type does not match object key type' },
   { ruleId: 'as-typeof-index', pattern: /\bas\s+\(typeof\s+\w+\)\s*\[/g, message: 'Const array element assertion — value cast to array element type' },
   { ruleId: 'as-keyof-named', pattern: /\bas\s+keyof\s+[A-Z]\w+/g, message: 'Named type key assertion — value asserted as key of specific type' },
+  { ruleId: 'as-computed-ref', pattern: /\bas\s+ComputedRef\b/g, message: 'Assertion to ComputedRef — fix source type instead' },
+  { ruleId: 'as-ref', pattern: /\bas\s+Ref</g, message: 'Assertion to Ref — fix source type instead' },
+  { ruleId: 'as-writable-computed', pattern: /\bas\s+WritableComputedRef\b/g, message: 'Assertion to WritableComputedRef — fix source type instead' },
 ]
 
 function extractScriptContent(content, absPath) {
@@ -97,6 +103,9 @@ function inferFixHint(ruleId, line) {
   }
   if (ruleId === 'as-keyof-named') {
     return 'Type the input parameter more narrowly to match the target key type'
+  }
+  if (ruleId === 'as-computed-ref' || ruleId === 'as-ref' || ruleId === 'as-writable-computed') {
+    return 'Fix the composable return type so the assertion is unnecessary.'
   }
   return undefined
 }

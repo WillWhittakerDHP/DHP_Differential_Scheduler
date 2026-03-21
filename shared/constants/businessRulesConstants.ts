@@ -1,10 +1,12 @@
 /**
  * Shared Business Rules Constants
  *
- * LEARNING: Single source of truth for rule_type values used by client and server
  * WHY: Consolidates inline literals (required_fields, requires_agent, etc.) for audit and type safety
  * PATTERN: Exported const object; both client and server derive RuleType from it
  */
+
+/** Route path for business rules API (constants-consolidation: single source for client and server). */
+export const BUSINESS_RULES_ROUTE = '/business-rules'
 
 /** Rule type value constants (single source of truth for rule_type column and form defaults) */
 export const RULE_TYPE_VALUES = {

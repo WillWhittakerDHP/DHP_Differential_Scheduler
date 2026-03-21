@@ -1,4 +1,4 @@
-
+import type { TimeRangeBounds } from '@shared/types/availabilityTypes.js'
 import type { CachedCalendarEvent } from '../../calendarEventsCache.js'
 
 export interface CalendarEventsResponseWithMeta {
@@ -40,12 +40,10 @@ export interface CreateEventParams {
   reminderOverrides?: ReminderOverride[] | null
 }
 
-export interface CreatedEventResponse {
+export interface CreatedEventResponse extends TimeRangeBounds {
   id: string                 // Google Calendar event ID
   htmlLink: string           // Link to view event in Google Calendar
   summary: string            // Event title
-  start: string              // Start time (ISO string)
-  end: string                // End time (ISO string)
   location?: string          // Location if provided
   attendees?: Array<{
     email: string

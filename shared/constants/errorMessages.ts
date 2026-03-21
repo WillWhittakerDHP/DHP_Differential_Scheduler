@@ -1,7 +1,6 @@
 /**
  * Shared Error Message Constants
  *
- * LEARNING: Single source of truth for common error strings used by client and server
  * WHY: Eliminates duplicate "Unknown error" definitions in client/constants/errorMessages.ts
  *      and server/constants/router.ts; one definition, both sides re-export
  * PATTERN: Exported const for fallback when error type cannot be determined
@@ -11,6 +10,9 @@
 
 /** Fallback message when error type cannot be determined */
 export const UNKNOWN_ERROR_MESSAGE = 'Unknown error' as const
+
+/** Generic message shown to clients when in production to avoid leaking details */
+export const INTERNAL_SERVER_ERROR = 'Internal server error' as const
 
 /** Appointment not found (client and server) */
 export const APPOINTMENT_NOT_FOUND = 'Appointment not found' as const

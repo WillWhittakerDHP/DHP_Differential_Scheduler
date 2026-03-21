@@ -3,15 +3,27 @@
 
 PATTERN: Singleton pattern with shared reactive...
  */
+import type { Ref } from 'vue'
 import { ref } from 'vue'
 
 /**
- * LEARNING: Notification state interface
  */
 interface Notification {
   message: string
   color: 'success' | 'error' | 'warning' | 'info'
   timeout?: number
+}
+
+export interface UseNotificationReturn {
+  notification: Ref<Notification | null>
+  showNotification: Ref<boolean>
+  show: (message: string, color?: Notification['color'], timeout?: number) => void
+  success: (message: string, timeout?: number) => void
+  error: (message: string, timeout?: number) => void
+  warning: (message: string, timeout?: number) => void
+  info: (message: string, timeout?: number) => void
+  close: () => void
+  reset: () => void
 }
 
 /**
@@ -25,7 +37,7 @@ const showNotification = ref(false)
  * WHY: Notification composable
 PATTERN: Composable that returns shared reactive...
  */
-export function useNotification() {
+export function useNotification(): UseNotificationReturn {
   /**
 WHY: Sets notification state and shows snackbar
 PATTERN: Function th...
@@ -69,10 +81,6 @@ PATTERN: Function th...
     }, 300)
   }
 
-  /**
-LEARNING: Reset notification state immediately (for testing)
-WHY: Cl...
-   */
   function reset() {
     notification.value = null
     showNotification.value = false
@@ -90,4 +98,3 @@ WHY: Cl...
     reset,
   }
 }
-

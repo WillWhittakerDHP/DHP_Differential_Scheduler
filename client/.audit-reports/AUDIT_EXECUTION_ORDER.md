@@ -1,6 +1,27 @@
 # Audit Execution Order - Rationale and Recommendations
 
-## Current Order (package.json `audit:all`)
+## Tier-Grouped Execution Model
+
+Audits are grouped by tier so each runs where its **impact-to-cost ratio** is highest. Tier start/end commands run only that tier's group; `audit:all` runs all four tier scripts in sequence.
+
+| Tier | npm script | Scope | Audits |
+|------|------------|--------|--------|
+| **Task** | `audit:tier-task` | `--changed-only`, seconds | typecheck, loop-mutations, hardcoding, error-handling, naming-convention, security |
+| **Session** | `audit:tier-session` | `--changed-only`, 1–2 min | component-logic, composables-logic, function-complexity, constants-consolidation, todo-aging (+ docs, vue-architecture TS-native) |
+| **Phase** | `audit:tier-phase` | Full scan, 3–5 min | typecheck, type-similarity, duplication, unused-code, pattern-detection, import-graph, file-cohesion, deprecation, api-contract, data-flow |
+| **Feature** | `audit:tier-feature` | Ship gates, 5–10 min | test, coverage-risk-crossref, bundle-size-budget, api-versioning, dep-freshness, security, meta |
+
+**Rationale per tier:**
+- **Task**: Per-file hygiene; catch mistakes while intent is fresh. Uses `--changed-only`.
+- **Session**: Complexity/pattern creep over multiple tasks; docs and vue-architecture (TS-native) run here.
+- **Phase**: Cross-cutting structure (duplication, circular deps, dead code) after a milestone of change.
+- **Feature**: Shipping gates (coverage, bundle size, dep freshness, meta dashboard) when the feature is stable.
+
+Start audits mirror their tier's end audits to capture baselines for comparison.
+
+---
+
+## Current Order (package.json `audit:all`) — Manual / Legacy Reference
 
 ```
 Phase 0: Type Governance + Dependencies

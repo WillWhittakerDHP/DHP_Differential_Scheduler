@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-02-20T17:33:45.388Z",
+  "generatedAt": "2026-03-07T18:34:03.054Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -9,13 +9,13 @@
     },
     {
       "auditId": "component-logic",
-      "filesWithFindings": 44,
-      "totalFindings": 44
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "composables-logic",
-      "filesWithFindings": 181,
-      "totalFindings": 9
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "loop-mutation",
@@ -24,13 +24,13 @@
     },
     {
       "auditId": "hardcoding",
-      "filesWithFindings": 52,
-      "totalFindings": 82
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "function-complexity",
-      "filesWithFindings": 256,
-      "totalFindings": 256
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "pattern-detection",
@@ -54,8 +54,8 @@
     },
     {
       "auditId": "deprecation",
-      "filesWithFindings": 47,
-      "totalFindings": 104
+      "filesWithFindings": 3,
+      "totalFindings": 3
     },
     {
       "auditId": "security",
@@ -64,18 +64,18 @@
     },
     {
       "auditId": "todo-aging",
+      "filesWithFindings": 0,
+      "totalFindings": 0
+    },
+    {
+      "auditId": "import-graph",
       "filesWithFindings": 11,
       "totalFindings": 11
     },
     {
-      "auditId": "import-graph",
-      "filesWithFindings": 3,
-      "totalFindings": 3
-    },
-    {
       "auditId": "file-cohesion",
-      "filesWithFindings": 23,
-      "totalFindings": 23
+      "filesWithFindings": 16,
+      "totalFindings": 16
     },
     {
       "auditId": "api-contract",
@@ -84,13 +84,13 @@
     },
     {
       "auditId": "constants-consolidation",
-      "filesWithFindings": 4,
-      "totalFindings": 17
+      "filesWithFindings": 6,
+      "totalFindings": 8
     },
     {
       "auditId": "bundle-size-budget",
-      "filesWithFindings": 22,
-      "totalFindings": 22
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "coverage-risk-crossref",
@@ -99,33 +99,33 @@
     },
     {
       "auditId": "naming-convention",
-      "filesWithFindings": 1,
-      "totalFindings": 1
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "api-versioning",
-      "filesWithFindings": 47,
-      "totalFindings": 47
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "data-flow",
-      "filesWithFindings": 8,
-      "totalFindings": 10
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "dep-freshness",
-      "filesWithFindings": 5,
-      "totalFindings": 5
+      "filesWithFindings": 19,
+      "totalFindings": 19
     },
     {
       "auditId": "type-escape",
-      "filesWithFindings": 1,
-      "totalFindings": 1
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "type-import",
-      "filesWithFindings": 3,
-      "totalFindings": 3
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "lint",
@@ -140,571 +140,474 @@
   ],
   "hotspots": [
     {
-      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
-      "totalScore": 45,
-      "auditCount": 1,
-      "auditIds": [
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "server/src/utils/propertyTransformers.ts",
-      "totalScore": 44.5,
+      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
+      "totalScore": 29.333333333333332,
       "auditCount": 2,
       "auditIds": [
-        "function-complexity",
+        "file-cohesion",
         "constants-consolidation"
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/useSelectConfig.ts",
-      "totalScore": 42,
-      "auditCount": 5,
+      "repoPath": "client/src/composables/booking/injectionKeys.ts",
+      "totalScore": 28,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "hardcoding",
-        "function-complexity",
-        "deprecation",
         "file-cohesion"
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/useBusinessRules.ts",
-      "totalScore": 40,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
-      "totalScore": 40,
+      "repoPath": "client/src/composables/fieldContext/useFieldContext",
+      "totalScore": 24,
       "auditCount": 1,
       "auditIds": [
-        "constants-consolidation"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/propertyFeatureMatcher.ts",
-      "totalScore": 39,
-      "auditCount": 2,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/useRelationship.ts",
-      "totalScore": 37.5,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling.ts",
-      "totalScore": 37.5,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/useAdmin.ts",
-      "totalScore": 37,
-      "auditCount": 4,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation",
         "import-graph"
       ]
     },
     {
-      "repoPath": "client/src/composables/fieldContext/useFieldContextSaveHelpers.ts",
-      "totalScore": 36.5,
-      "auditCount": 2,
+      "repoPath": "client/src/composables/formFields/useFormFields",
+      "totalScore": 24,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
-      "totalScore": 36,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useRelationshipCollectionData.ts",
-      "totalScore": 36,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/google/maps/placesApiService.ts",
-      "totalScore": 36,
-      "auditCount": 2,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/common/AddressAutocomplete.vue",
-      "totalScore": 35,
-      "auditCount": 2,
-      "auditIds": [
-        "component-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/fieldContext/useFieldContextState.ts",
-      "totalScore": 34.5,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/slotComputationService.ts",
-      "totalScore": 34.5,
-      "auditCount": 3,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useSelectHandlers.ts",
-      "totalScore": 33,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/google/maps/routesApiService.ts",
-      "totalScore": 33,
-      "auditCount": 2,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "totalScore": 32,
-      "auditCount": 5,
-      "auditIds": [
-        "component-logic",
-        "hardcoding",
-        "function-complexity",
-        "todo-aging",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
-      "totalScore": 32,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useDependentInstances.ts",
-      "totalScore": 32,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/useBookingWizard.ts",
-      "totalScore": 32,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
         "import-graph"
       ]
     },
     {
-      "repoPath": "client/src/composables/booking/dev/usePanelPosition.ts",
-      "totalScore": 32,
+      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
+      "totalScore": 13.333333333333332,
       "auditCount": 2,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/componentEntity/useComponentEntityDomain.ts",
-      "totalScore": 31,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useAvailabilityLogic.ts",
-      "totalScore": 30,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/dataCollections/useDataCollectionActions.ts",
-      "totalScore": 30,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/dev/useApiDevPanelData.ts",
-      "totalScore": 29,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/useSelectOptions.ts",
-      "totalScore": 29,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/entityCrud/usePrimitiveMutation.ts",
-      "totalScore": 28.5,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useAttendeeQuickSelect.ts",
-      "totalScore": 28,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/admin/useAvailabilitySettings.ts",
-      "totalScore": 28,
-      "auditCount": 2,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "server/src/services/propertyFieldMapper.ts",
-      "totalScore": 27.666666666666664,
-      "auditCount": 3,
-      "auditIds": [
-        "function-complexity",
         "deprecation",
         "constants-consolidation"
       ]
     },
     {
-      "repoPath": "server/src/scripts/helpers/calendarParsingHelpers.ts",
-      "totalScore": 27.5,
-      "auditCount": 4,
+      "repoPath": "client/src/composables/admin/useInstancesTab",
+      "totalScore": 12,
+      "auditCount": 1,
       "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "todo-aging",
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/usePartsCollectionField",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/admin/useRelationshipCollectionField",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useBookingWizardSetup",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/booking/useMoveablePartsScheduling",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContextState",
+      "totalScore": 12,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
+      "totalScore": 11.333333333333332,
+      "auditCount": 1,
+      "auditIds": [
+        "constants-consolidation"
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/index",
+      "totalScore": 9,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/constants/entities",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/entities",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client/src/configs/field/display/selectableDisplayConfig.ts",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
         "file-cohesion"
-      ]
-    },
-    {
-      "repoPath": "client/src/components/admin/generic/EntityCard.vue",
-      "totalScore": 27,
-      "auditCount": 3,
-      "auditIds": [
-        "component-logic",
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useComputedAvailability.ts",
-      "totalScore": 27,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "hardcoding",
-        "function-complexity"
-      ]
-    },
-    {
-      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
-      "totalScore": 27,
-      "auditCount": 3,
-      "auditIds": [
-        "composables-logic",
-        "function-complexity",
-        "deprecation"
       ]
     },
     {
       "repoPath": "server/src/services/computedAvailabilityService.ts",
-      "totalScore": 27,
-      "auditCount": 3,
+      "totalScore": 6,
+      "auditCount": 1,
       "auditIds": [
-        "hardcoding",
-        "function-complexity",
         "file-cohesion"
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
-      "totalScore": 27,
-      "auditCount": 2,
+      "repoPath": "client/src/constants/businessRulesConstants.ts",
+      "totalScore": 6,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "constants-consolidation"
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/useSelectInputsAsync.ts",
-      "totalScore": 27,
-      "auditCount": 2,
+      "repoPath": "client/src/constants/entityFieldConstants.ts",
+      "totalScore": 6,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "constants-consolidation"
       ]
     },
     {
-      "repoPath": "client/src/composables/booking/useElementDimensions.ts",
-      "totalScore": 27,
-      "auditCount": 2,
+      "repoPath": "server/src/routes/internal/index.ts",
+      "totalScore": 6,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "constants-consolidation"
       ]
     },
     {
-      "repoPath": "client/src/composables/booking/useContactsValidation.ts",
-      "totalScore": 26.5,
-      "auditCount": 2,
+      "repoPath": "server:@types/supertest",
+      "totalScore": 5,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "dep-freshness"
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/useDragAndDrop.ts",
-      "totalScore": 26,
-      "auditCount": 2,
+      "repoPath": "client/src/constants/apiStatus.ts",
+      "totalScore": 4,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "file-cohesion"
       ]
     },
     {
-      "repoPath": "client/src/composables/useComponentDistribution.ts",
-      "totalScore": 26,
-      "auditCount": 2,
+      "repoPath": "client/src/constants/fieldMetadata.ts",
+      "totalScore": 4,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "file-cohesion"
       ]
     },
     {
-      "repoPath": "client/src/utils/booking/appointmentDataBuilders.ts",
-      "totalScore": 25.5,
-      "auditCount": 3,
+      "repoPath": "client/src/utils/entities/entityTypeMapping.ts",
+      "totalScore": 4,
+      "auditCount": 1,
       "auditIds": [
-        "hardcoding",
-        "function-complexity",
         "file-cohesion"
       ]
     },
     {
       "repoPath": "client/src/utils/booking/confirmationStepData.ts",
-      "totalScore": 25.5,
-      "auditCount": 3,
+      "totalScore": 3,
+      "auditCount": 1,
       "auditIds": [
-        "hardcoding",
-        "function-complexity",
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "client/src/utils/booking/partFinalizer.ts",
-      "totalScore": 25.5,
-      "auditCount": 3,
-      "auditIds": [
-        "hardcoding",
-        "function-complexity",
         "file-cohesion"
       ]
     },
     {
-      "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "totalScore": 25.5,
-      "auditCount": 2,
+      "repoPath": "client/src/utils/tablerIcons.ts",
+      "totalScore": 3,
+      "auditCount": 1,
       "auditIds": [
-        "hardcoding",
-        "function-complexity"
+        "file-cohesion"
       ]
     },
     {
-      "repoPath": "server/src/services/appointmentCalendarService.ts",
-      "totalScore": 25.5,
-      "auditCount": 2,
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "totalScore": 3,
+      "auditCount": 1,
       "auditIds": [
-        "hardcoding",
-        "function-complexity"
+        "file-cohesion"
       ]
     },
     {
-      "repoPath": "client/src/composables/booking/useAppointmentSlots.ts",
-      "totalScore": 25,
-      "auditCount": 3,
+      "repoPath": "client/src/views/admin/tabs/ShapesTab.vue",
+      "totalScore": 3,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity",
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/db/models/index.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
         "deprecation"
       ]
     },
     {
-      "repoPath": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
-      "totalScore": 25,
-      "auditCount": 2,
+      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "totalScore": 2,
+      "auditCount": 1,
       "auditIds": [
-        "composables-logic",
-        "function-complexity"
+        "deprecation"
+      ]
+    },
+    {
+      "repoPath": "client/src/components/admin/generic/entityCardConstants.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/constants/entities.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client/src/types/wizard.ts",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "client:@vue/tsconfig",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:pg",
+      "totalScore": 2,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@eslint/js",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@eslint/js",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@floating-ui/dom",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@iconify-json/tabler",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/extension-placeholder",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/extension-text-align",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/extension-underline",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/pm",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/starter-kit",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@tiptap/vue-3",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:@types/node",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "server:@types/node",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:axios",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
       ]
     }
   ],
-  "totalExceptions": 1188,
-  "previousExceptions": 1229,
+  "totalExceptions": 2,
+  "previousExceptions": 0,
   "exceptionAnalysis": {
     "totals": {
-      "structural": 1140,
-      "specific": 48,
-      "total": 1188
+      "structural": 1,
+      "specific": 1,
+      "total": 2
     },
     "perAudit": [
       {
         "auditId": "loop-mutation",
-        "structural": 533,
-        "specific": 16,
-        "total": 549,
-        "totalScanned": 677,
-        "ratio": 0.787
-      },
-      {
-        "auditId": "hardcoding",
-        "structural": 485,
-        "specific": 27,
-        "total": 512,
-        "totalScanned": 760,
-        "ratio": 0.638
-      },
-      {
-        "auditId": "error-handling",
-        "structural": 45,
+        "structural": 1,
         "specific": 0,
-        "total": 45,
-        "totalScanned": 785,
-        "ratio": 0.057
+        "total": 1,
+        "totalScanned": 1,
+        "ratio": 1
       },
       {
-        "auditId": "deprecation",
-        "structural": 3,
-        "specific": 4,
-        "total": 7,
-        "totalScanned": 787,
-        "ratio": 0.004
-      },
-      {
-        "auditId": "naming-convention",
-        "structural": 74,
+        "auditId": "constants-consolidation",
+        "structural": 0,
         "specific": 1,
-        "total": 75,
-        "totalScanned": 787,
-        "ratio": 0.094
+        "total": 1,
+        "totalScanned": 981,
+        "ratio": 0
       }
     ],
     "configFingerprints": {
-      "type-similarity": "e62360fd13200db8",
+      "type-similarity": "0aadb5da93b85ad3",
       "component-logic": "6a1df7b44b1a36ca",
-      "composables-logic": "b3112dc6256c2f83",
-      "loop-mutation": "6e055a87c5ce7411",
-      "hardcoding": "0fc58c991a89b9af",
-      "function-complexity": "2482ad8cfaa5feff",
+      "composables-logic": "216eab59f2530e20",
+      "loop-mutation": "37e877990174d293",
+      "hardcoding": "ff34d37a899251cb",
+      "function-complexity": "3976953983a29d64",
       "pattern-detection": "ac978f6f45ef7083",
-      "duplication": "7f01483f131e18ae",
-      "unused-code": "1418ff0dbae138ae",
-      "error-handling": "8890325df8430f27",
-      "deprecation": "f971ce11cc3fdaf7",
+      "duplication": "623b1e0a6babe667",
+      "unused-code": "f2cb55c49d3d48da",
+      "error-handling": "ac978f6f45ef7083",
+      "deprecation": "36ecaf41415b99be",
       "security": "44136fa355b3678a",
       "todo-aging": "ac978f6f45ef7083",
-      "import-graph": "ac978f6f45ef7083",
-      "file-cohesion": "68e87a25fb886a75",
+      "import-graph": "43f722f03b3bdbcb",
+      "file-cohesion": "3943757dacb1656a",
       "api-contract": "1a312d668b00beae",
-      "constants-consolidation": "a9d00f84872853d8",
+      "constants-consolidation": "1c92e33c337dc7b8",
       "bundle-size-budget": "ac978f6f45ef7083",
-      "naming-convention": "c78894b97b7acd15",
+      "naming-convention": "81a4734281d3aeba",
       "data-flow": "ad88896d02758326",
       "dep-freshness": "7a1119a7d6ed5be8",
-      "type-escape": "ac978f6f45ef7083",
-      "type-import": "04c0fe7f1209b4bd",
+      "type-escape": "b4acbed486c3760f",
+      "type-import": "ac978f6f45ef7083",
       "lint": "ac978f6f45ef7083",
-      "typecheck": "64796f4c14a70f8d"
+      "typecheck": "632300ece72c4d17"
     },
-    "configPatternCount": 88
+    "configPatternCount": 174
   },
   "exceptionDiff": {
-    "totalDelta": -41,
-    "structuralDelta": -27,
-    "specificDelta": -14,
-    "configsChanged": [],
-    "verdict": "improving"
+    "totalDelta": 2,
+    "structuralDelta": 1,
+    "specificDelta": 1,
+    "configsChanged": [
+      "error-handling",
+      "import-graph",
+      "constants-consolidation",
+      "type-import"
+    ],
+    "verdict": "suppression-creep"
   },
   "trend": [
     {
@@ -715,15 +618,15 @@
     },
     {
       "auditId": "component-logic",
-      "current": 44,
-      "previous": 44,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "composables-logic",
-      "current": 9,
-      "previous": 10,
-      "delta": -1
+      "current": 0,
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "loop-mutation",
@@ -733,15 +636,15 @@
     },
     {
       "auditId": "hardcoding",
-      "current": 82,
-      "previous": 82,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "function-complexity",
-      "current": 256,
-      "previous": 254,
-      "delta": 2
+      "current": 0,
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "pattern-detection",
@@ -769,9 +672,9 @@
     },
     {
       "auditId": "deprecation",
-      "current": 104,
-      "previous": 135,
-      "delta": -31
+      "current": 3,
+      "previous": 6,
+      "delta": -3
     },
     {
       "auditId": "security",
@@ -781,21 +684,21 @@
     },
     {
       "auditId": "todo-aging",
-      "current": 11,
-      "previous": 11,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "import-graph",
-      "current": 3,
-      "previous": 4,
-      "delta": -1
+      "current": 11,
+      "previous": 10,
+      "delta": 1
     },
     {
       "auditId": "file-cohesion",
-      "current": 23,
-      "previous": 25,
-      "delta": -2
+      "current": 16,
+      "previous": 15,
+      "delta": 1
     },
     {
       "auditId": "api-contract",
@@ -805,14 +708,14 @@
     },
     {
       "auditId": "constants-consolidation",
-      "current": 17,
-      "previous": 17,
-      "delta": 0
+      "current": 8,
+      "previous": 4,
+      "delta": 4
     },
     {
       "auditId": "bundle-size-budget",
-      "current": 22,
-      "previous": 22,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
@@ -823,39 +726,39 @@
     },
     {
       "auditId": "naming-convention",
-      "current": 1,
-      "previous": 1,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "api-versioning",
-      "current": 47,
-      "previous": 47,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "data-flow",
-      "current": 10,
-      "previous": 10,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "dep-freshness",
-      "current": 5,
-      "previous": 5,
-      "delta": 0
+      "current": 19,
+      "previous": 9,
+      "delta": 10
     },
     {
       "auditId": "type-escape",
-      "current": 1,
-      "previous": 1,
+      "current": 0,
+      "previous": 0,
       "delta": 0
     },
     {
       "auditId": "type-import",
-      "current": 3,
-      "previous": 2,
-      "delta": 1
+      "current": 0,
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "lint",

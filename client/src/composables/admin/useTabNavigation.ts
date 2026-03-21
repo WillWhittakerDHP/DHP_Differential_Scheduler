@@ -2,16 +2,9 @@
  * PATTERN: Composable for tab navigation state management
 PATTERN: Simple composabl...
  */
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
+import type { UseTabNavigationOptions, UseTabNavigationReturn } from '@/types/admin/tabNavigation'
 
-export interface UseTabNavigationOptions {
-  initialTab?: string
-}
-
-export interface UseTabNavigationReturn {
-  currentTab: Ref<string>
-  navigateToTab: (tab: string) => void
-}
 
 /**
  * WHY: Composable for managing tab navigation state

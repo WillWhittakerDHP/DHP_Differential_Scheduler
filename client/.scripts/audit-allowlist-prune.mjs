@@ -16,7 +16,6 @@ import {
   resolveAuditPaths,
   recordSuppressionHits,
   generateAllowlistPruneSuggestions,
-  loadAllowlistHitHistory,
 } from './shared-audit-utils.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -25,8 +24,7 @@ const AUDIT_TYPES_WITH_HITS = ['type-import', 'error-handling']
 function main() {
   const args = process.argv.slice(2)
   const requested = args.length > 0 ? args : AUDIT_TYPES_WITH_HITS
-  const clientDir = path.resolve(__dirname, '..')
-  const outDir = path.join(clientDir, '.audit-reports')
+  const _clientDir = path.resolve(__dirname, '..')
 
   for (const auditType of requested) {
     const paths = resolveAuditPaths(auditType)

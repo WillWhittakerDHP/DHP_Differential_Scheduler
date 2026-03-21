@@ -1,10 +1,6 @@
+import type { PartPricingFields } from '@/types/admin/partPricing'
 
-interface PartWithTotals {
-  baseFee?: number | null
-  baseTime?: number | null
-  rateOverBaseFee?: number | null
-  rateOverBaseTime?: number | null
-}
+type PartWithTotals = PartPricingFields
 
 interface PartsTotalsResult {
   totalBaseFee: number
@@ -17,7 +13,6 @@ interface PartsTotalsResult {
 PATTERN: Reduce to sum each prop...
  */
 export function calculatePartsTotals(parts: PartWithTotals[]): PartsTotalsResult {
-  // LEARNING: Sum each property using reduce, treating null/undefined as 0
   // PATTERN: Use reduce with fallback to 0 for null/undefined values
   const totalBaseFee = parts.reduce((sum, part) => sum + (part.baseFee ?? 0), 0)
   const totalBaseTime = parts.reduce((sum, part) => sum + (part.baseTime ?? 0), 0)

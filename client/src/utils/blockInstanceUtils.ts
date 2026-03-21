@@ -1,5 +1,6 @@
 
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { createLogger } from '@/utils/logger'

@@ -1,15 +1,30 @@
+import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 /**
  * WHY: Business Rule Form composable
 WHY: Extracts form state, rule-type config...
  */
 import { ref, computed, watch, type Ref } from 'vue'
-import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/composables/admin/useBusinessRules'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import { toGlobalEntityId } from '@/types/entities'
-import { RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import { RULE_CONDITION_VALUES, RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 
-export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>) {
-  const showRuleDialog = ref(false)
+export interface UseBusinessRuleFormReturn {
+  formData: Ref<BusinessRuleFormData>
+  editingRule: Ref<BusinessRule | null>
+  showRuleDialog: Ref<boolean>
+  ruleTypeOptions: typeof RULE_TYPE_OPTIONS
+  requiredFieldsArray: import('vue').WritableComputedRef<string>
+  requiredFieldsCondition: import('vue').WritableComputedRef<string>
+  requiresAgent: import('vue').WritableComputedRef<boolean>
+  openCreateDialog: () => void
+  openEditDialog: (rule: BusinessRule) => void
+  closeDialog: () => void
+  formatRuleType: (ruleType: RuleType) => string
+  formatRuleConfig: (rule: BusinessRule) => string
+}
+
+export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>): UseBusinessRuleFormReturn {
+  const showRuleDialog = ref<boolean>(false)
   const editingRule: Ref<BusinessRule | null> = ref(null)
 
   const formData: Ref<BusinessRuleFormData> = ref({
@@ -80,7 +95,7 @@ export function useBusinessRuleForm(selectedBlockId: Ref<GlobalEntityId | null>)
           formData.value.ruleConfig = { requiresAgent: false }
           break
         case RULE_TYPE_VALUES.CONDITIONAL_VALIDATION:
-          formData.value.ruleConfig = { field: '', dependsOn: '', condition: 'equals', value: '' }
+          formData.value.ruleConfig = { field: '', dependsOn: '', condition: RULE_CONDITION_VALUES.EQUALS, value: '' }
           break
         case RULE_TYPE_VALUES.VALIDATION_MESSAGE:
           formData.value.ruleConfig = { field: '', messageType: 'required' }

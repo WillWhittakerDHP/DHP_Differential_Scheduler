@@ -1,11 +1,17 @@
 {
-  "generatedAt": "2026-02-23T18:23:50.336Z",
+  "generatedAt": "2026-03-07T18:37:51.732Z",
   "baselineTimestamp": "2026-02-23T18:23:38.453Z",
   "breakingChanges": [],
-  "nonBreaking": [],
+  "nonBreaking": [
+    {
+      "type": "endpoint-added",
+      "endpoint": "GET /list-for-admin-entry",
+      "severity": "non-breaking"
+    }
+  ],
   "summary": {
     "breaking": 0,
-    "nonBreaking": 0,
+    "nonBreaking": 1,
     "unchanged": 49
   },
   "exceptionSummary": {

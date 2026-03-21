@@ -1,4 +1,1 @@
-
-export interface UseEntityFormRedirectOptions {
-  redirectRouteName?: string
-}
+export type { UseEntityFormRedirectOptions } from '@/types/admin/entityFormRedirectOptions'

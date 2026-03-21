@@ -13,22 +13,9 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed, ref } from 'vue'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { MetadataCache, MetadataEntityType, UseMetadataCacheReturn } from '@/types/admin/metadataCache'
 
-export interface MetadataCache {
-  global: {
-    blockShape: Record<string, FieldMetadataEntry>
-    partShape: Record<string, FieldMetadataEntry>
-    blockInstance: Record<string, FieldMetadataEntry>
-    partInstance: Record<string, FieldMetadataEntry>
-    eventShape: Record<string, FieldMetadataEntry>
-    eventInstance: Record<string, FieldMetadataEntry>
-    annotationShape: Record<string, FieldMetadataEntry>
-    annotationInstance: Record<string, FieldMetadataEntry>
-  }
-  blockShapeSpecific: Record<string, Record<string, FieldMetadataEntry>>
-}
-
-let metadataCacheInstance: ReturnType<typeof createMetadataCacheInstance> | null = null
+let metadataCacheInstance: UseMetadataCacheReturn | null = null
 
 async function fetchAllAdminMetadata(): Promise<MetadataCache> {
   const endpoint = getAdminMetadataBatchEndpoint()
@@ -36,7 +23,7 @@ async function fetchAllAdminMetadata(): Promise<MetadataCache> {
   return response.data
 }
 
-function createMetadataCacheInstance() {
+function createMetadataCacheInstance(): UseMetadataCacheReturn {
   const queryClient = useQueryClient()
   
   // PATTERN: Use ref for reactive flag, computed for enabled state
@@ -75,7 +62,7 @@ PATTERN: Enable query synchronously, Vue Q...
    * @returns Record<fieldKey, FieldMetadataEntry>
    */
   function getMetadata(
-    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
+    entityType: MetadataEntityType,
     blockShapeRef?: string | null
   ): Record<string, FieldMetadataEntry> {
     const data = metadataQuery.data.value
@@ -96,7 +83,7 @@ PATTERN: Enable query synchronously, Vue Q...
   }
   
   function getFieldMetadata(
-    entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance',
+    entityType: MetadataEntityType,
     fieldKey: string,
     blockShapeRef?: string | null
   ): FieldMetadataEntry | undefined {
@@ -106,7 +93,6 @@ PATTERN: Enable query synchronously, Vue Q...
   
   /**
 Check if metadata is loaded
-LEARNING: Computed property for reactive...
    */
   const isLoaded = computed(() => !!metadataQuery.data.value)
   
@@ -136,17 +122,14 @@ LEARNING: Computed property for reactive...
  * WHY: Metadata cache composable
 WHY: Centralizes metadata caching logic with s...
  */
-export function useMetadataCache() {
+export function useMetadataCache(): UseMetadataCacheReturn {
   if (!metadataCacheInstance) {
     metadataCacheInstance = createMetadataCacheInstance()
   }
-  
+
   return metadataCacheInstance
 }
 
-/**
-LEARNING: Allows resetting singleton ...
- */
 export function resetMetadataCache(): void {
   metadataCacheInstance = null
 }

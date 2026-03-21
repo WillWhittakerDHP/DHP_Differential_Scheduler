@@ -2,7 +2,6 @@
 import { Op } from 'sequelize'
 import type { AppointmentFeeBreakdownPayload, AppointmentFeeEntryCreate } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
-  BusinessSettings,
   BlockInstanceVersion,
   AppointmentAttendee,
   AppointmentFeeSummary,
@@ -12,57 +11,100 @@ import {
   PropertyDetails,
   User,
   BlockInstance,
+  ConstraintOverride,
 } from '../../../config/app.js'
+import { getCalendarSettings } from '../../../repositories/calendarSettingsRepository.js'
 import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
-import { DEFAULT_CALENDAR_EMAIL, AVAILABILITY_SETTINGS_KEY, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES } from './appointmentConstants.js'
+import { DEFAULT_CALENDAR_EMAIL, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES, CONSTRAINT_OVERRIDE_FIELDS } from './appointmentConstants.js'
+import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js'
+import type { CalendarSettingsData } from '../../../db/models/admin/calendar_settings.js'
+import type { AdminEntryTimeout } from '../../../../../shared/types/calendarTypes.js'
 
 const logger = createLogger('AppointmentRouter')
 
+const HOLD_DURATION_MIN_FALLBACK = 1
+const HOLD_DURATION_MAX_FALLBACK = 60
+const HOLD_DURATION_VALUE_FALLBACK = 15
+
+export interface HoldDurationBounds {
+  min: number
+  max: number
+  fallback: number
+}
+
+/** Derive bounds from calendar settings (sync; no DB). */
+function holdDurationBoundsFromCalendarData(data: CalendarSettingsData): HoldDurationBounds {
+  const minRaw = data.holdDurationMin
+  const maxRaw = data.holdDurationMax
+  const fallbackRaw = data.holdDurationFallback
+  const min = typeof minRaw === 'number' && !Number.isNaN(minRaw) ? Math.floor(minRaw) : HOLD_DURATION_MIN_FALLBACK
+  const max = typeof maxRaw === 'number' && !Number.isNaN(maxRaw) ? Math.floor(maxRaw) : HOLD_DURATION_MAX_FALLBACK
+  const fallback = typeof fallbackRaw === 'number' && !Number.isNaN(fallbackRaw) ? Math.floor(fallbackRaw) : HOLD_DURATION_VALUE_FALLBACK
+  const clampedFallback = Math.min(max, Math.max(min, fallback))
+  return { min, max, fallback: clampedFallback }
+}
+
+/** Hold duration bounds and fallback from calendar_settings. */
+export async function getHoldDurationBoundsFromSettings(): Promise<HoldDurationBounds> {
+  const data = await getCalendarSettings()
+  return holdDurationBoundsFromCalendarData(data)
+}
+
+/** Hold duration bounds and default in one read. */
+export async function getHoldDurationFromSettings(): Promise<{ bounds: HoldDurationBounds; defaultMinutes: number }> {
+  const data = await getCalendarSettings()
+  const bounds = holdDurationBoundsFromCalendarData(data)
+  const raw = data.holdDurationMinutes
+  const parsed = typeof raw === 'number' && !Number.isNaN(raw) ? Math.floor(raw) : bounds.fallback
+  const defaultMinutes = Math.min(bounds.max, Math.max(bounds.min, parsed))
+  return { bounds, defaultMinutes }
+}
+
+/** Default hold duration (minutes) from calendar_settings. */
+export async function getHoldDurationDefaultFromSettings(): Promise<number> {
+  const { defaultMinutes } = await getHoldDurationFromSettings()
+  return defaultMinutes
+}
+
+const DEFAULT_ADMIN_ENTRY_TIMEOUT: AdminEntryTimeout = { value: 30, unit: 'days' }
+
+/** Admin entry dropdown time-out from calendar_settings. */
+export async function getAdminEntryTimeoutFromSettings(): Promise<AdminEntryTimeout> {
+  const data = await getCalendarSettings()
+  const raw = data.adminEntryTimeout
+  if (raw && typeof raw.value === 'number' && !Number.isNaN(raw.value) && (raw.unit === 'days' || raw.unit === 'weeks')) {
+    const value = Math.max(1, Math.min(365, Math.floor(raw.value)))
+    return { value, unit: raw.unit }
+  }
+  return DEFAULT_ADMIN_ENTRY_TIMEOUT
+}
+
+/** Whether to auto-confirm appointments (from calendar_settings). */
+export async function getAutoConfirmEnabledFromSettings(): Promise<boolean> {
+  const data = await getCalendarSettings()
+  return data.autoConfirmEnabled === true
+}
+
+function findWriteToCalendarEmail(calendars: Array<{ email?: string; writeTo?: boolean }>): string | undefined {
+  const entry = calendars.find(e => e.writeTo && e.email?.trim())
+  return entry?.email?.trim()
+}
+
+/** Email of the calendar configured for write operations, or undefined if none. */
 export async function getWriteToCalendarFromSettings(): Promise<string | undefined> {
   try {
-    const setting = await BusinessSettings.findOne({
-      where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-    })
-    
-    if (!setting || !setting.settingValue) {
-      logger.debug('No availability_settings found, using default calendar')
+    const data = await getCalendarSettings()
+    if (!data.enabled || !Array.isArray(data.calendars)) {
+      logger.debug('Calendar integration not enabled or invalid config')
       return undefined
     }
-    
-    const settings = setting.settingValue as {
-      calendarConfig?: {
-        enabled?: boolean
-        provider?: string
-        calendars?: Array<{
-          email?: string
-          readFrom?: boolean
-          writeTo?: boolean
-        }>
-      }
+    const email = findWriteToCalendarEmail(data.calendars)
+    if (email) {
+      logger.debug('Found writeTo calendar', { email })
+      return email
     }
-    
-    const calendarConfig = settings.calendarConfig
-    if (!calendarConfig || !calendarConfig.enabled) {
-      logger.debug('Calendar integration not enabled')
-      return undefined
-    }
-    
-    if (!Array.isArray(calendarConfig.calendars)) {
-      logger.error('Invalid calendar config: calendars must be an array')
-      return undefined
-    }
-    
-    const writeToEntry = calendarConfig.calendars.find(
-      entry => entry.writeTo && entry.email && entry.email.trim() !== ''
-    )
-    
-    if (writeToEntry?.email) {
-      logger.debug('Found writeTo calendar', { email: writeToEntry.email })
-      return writeToEntry.email.trim()
-    }
-    
     logger.debug('No writeTo calendar configured')
     return undefined
   } catch (error) {
@@ -120,14 +162,51 @@ export async function createSnapshotsForAppointment(
  */
 export async function validateSnapshotIds(snapshotIds: string[]): Promise<void> {
   if (snapshotIds.length === 0) return
-  
+
   const count = await BlockInstanceVersion.count({
-    where: { id: { [Op.in]: snapshotIds } }
+    where: { id: { [Op.in]: snapshotIds } },
   })
-  
+
   if (count !== snapshotIds.length) {
     throw new Error(ERROR_MESSAGES.INVALID_SNAPSHOT_IDS)
   }
+}
+
+/** Snapshot ID arrays for service/property/option; used by applySnapshotIdsToAppointment. */
+export interface AppointmentSnapshotIds {
+  serviceIds: string[]
+  propertyIds: string[]
+  optionIds: string[]
+}
+
+/** Record that can receive snapshot IDs (e.g. Appointment instance from create). */
+export interface AppointmentRecordWithUpdate {
+  update(values: {
+    serviceSnapshotIds: string[] | null
+    propertySnapshotIds: string[] | null
+    optionSnapshotIds: string[] | null
+  }): Promise<unknown>
+}
+
+/**
+ * Create snapshots for service/property/option IDs, validate them, and update the appointment record.
+ * Shared by appointmentCrudRouter (afterCreate) and forceCreateRouter (post-create) to avoid duplication.
+ */
+export async function applySnapshotIdsToAppointment(
+  record: AppointmentRecordWithUpdate,
+  ids: AppointmentSnapshotIds
+): Promise<void> {
+  const serviceSnapshotIds = await createSnapshotsForAppointment(ids.serviceIds)
+  const propertySnapshotIds = await createSnapshotsForAppointment(ids.propertyIds)
+  const optionSnapshotIds = await createSnapshotsForAppointment(ids.optionIds)
+  await validateSnapshotIds(serviceSnapshotIds)
+  await validateSnapshotIds(propertySnapshotIds)
+  await validateSnapshotIds(optionSnapshotIds)
+  await record.update({
+    serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
+    propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
+    optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
+  })
 }
 
 /** Re-export from shared for single source of truth. */
@@ -216,4 +295,44 @@ export async function getCalendarIdForAppointment(): Promise<string> {
   }
   
   return calendarId
+}
+
+/**
+ * Task 6.8.4.2 — New override on reschedule.
+ * When an appointment that has a ConstraintOverride is rescheduled (slot changed),
+ * create a new ConstraintOverride record for the new slot so the audit trail is preserved
+ * and the new slot remains override-linked.
+ */
+export async function createConstraintOverrideOnRescheduleIfNeeded(
+  updatedAppointment: { id: string; selectedDate: Date | string | null; selectedTimeSlots: Array<Record<string, unknown>> | null }
+): Promise<void> {
+  const existing = await ConstraintOverride.findOne({
+    where: { [CONSTRAINT_OVERRIDE_FIELDS.APPOINTMENT_ID]: updatedAppointment.id },
+    order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
+  })
+  if (!existing) return
+
+  const slots = updatedAppointment.selectedTimeSlots
+  const first = Array.isArray(slots) && slots.length > 0 ? slots[0] : null
+  const startTime = first && typeof first.startTime === 'string' ? first.startTime : null
+  const endTime = first && typeof first.endTime === 'string' ? first.endTime : null
+  if (!startTime || !endTime) return
+
+  const newSlotStart = new Date(startTime)
+  const newSlotEnd = new Date(endTime)
+  if (Number.isNaN(newSlotStart.getTime()) || Number.isNaN(newSlotEnd.getTime())) return
+
+  const existingStart = existing.slotStart.getTime()
+  const existingEnd = existing.slotEnd.getTime()
+  if (newSlotStart.getTime() === existingStart && newSlotEnd.getTime() === existingEnd) return
+
+  await ConstraintOverride.create({
+    [CONSTRAINT_OVERRIDE_FIELDS.APPOINTMENT_ID]: updatedAppointment.id,
+    overriddenViolations: existing.overriddenViolations,
+    authorizedById: existing.authorizedById,
+    reason: existing.reason,
+    slotStart: newSlotStart,
+    slotEnd: newSlotEnd,
+  })
+  logger.info(`Created ConstraintOverride for rescheduled appointment ${updatedAppointment.id} (new slot)`)
 }

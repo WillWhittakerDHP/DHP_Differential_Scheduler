@@ -3,27 +3,15 @@
 
 WHY: Components should be thin UI wrapper...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useComponentEntity } from '../useComponentEntity'
 import { extractInstanceComponents, isServiceComposable } from '@/utils/instanceComponentUtils'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
+import type { UseInstanceComponentsOptions, UseInstanceComponentsReturn } from '@/types/booking/instanceComponents'
 
-export interface UseInstanceComponentsOptions {
-  service: ComputedRef<BookingBlockInstance | null>
-  
-  selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
-}
-
-export interface UseInstanceComponentsReturn {
-  isComposable: ComputedRef<boolean>
-  
-  instanceComponents: ComputedRef<ComponentItem[]>
-  
-  componentCount: ComputedRef<number>
-}
+export type { UseInstanceComponentsOptions, UseInstanceComponentsReturn } from '@/types/booking/instanceComponents'
 
 /**
  * WHY: Service Components Composable
@@ -45,9 +33,6 @@ export function useInstanceComponents(
     return getGlobalEntityById(entityKey, id) ?? null
   }
 
-  /**
-LEARNING: Only composable blocks can have option components (instanc...
-   */
   const isComposable = computed(() => {
     const blockInstance = service.value
     if (!blockInstance) return false
@@ -67,7 +52,7 @@ LEARNING: Only composable blocks can have option components (instanc...
     const blockInstance = service.value
     if (!isComposable.value || !blockInstance) return []
     
-    const instanceComponentsRelationships = componentEntity.getComponents(toGlobalEntityId(blockInstance.id))
+    const instanceComponentsRelationships = componentEntity.data.getComponents(toGlobalEntityId(blockInstance.id))
     if (!instanceComponentsRelationships || instanceComponentsRelationships.length === 0) {
       return []
     }
@@ -92,4 +77,3 @@ LEARNING: Only composable blocks can have option components (instanc...
     componentCount
   }
 }
-

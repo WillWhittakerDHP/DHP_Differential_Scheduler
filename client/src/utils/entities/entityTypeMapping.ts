@@ -1,5 +1,6 @@
 
-import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
 import type { EntityMetadataType, GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import { GLOBAL_CONFIG_IDS, NULL_UUID } from '@shared/constants/globalConfigIds'
@@ -96,4 +97,21 @@ export function getMetadataEntityId<GE extends GlobalEntityKey>(
   }
 
   return entityId
+}
+
+/** Sentinel entity for Global Config row in block instance list (no DB record). */
+export function createBlockInstanceConfigSentinel(blockShapeId: string): BlockInstanceEntity {
+  return {
+    id: toGlobalEntityId(BLOCK_INSTANCE_GLOBAL_CONFIG_ID),
+    entityKey: 'blockInstance',
+    name: 'Global Config',
+    orderIndex: 0,
+    active: true,
+    blockShapeRef: blockShapeId,
+    baseSqFt: 0,
+    icon: '',
+    allowMultiple: false,
+    isMultiFamily: false,
+    requiresAgent: false,
+  }
 }

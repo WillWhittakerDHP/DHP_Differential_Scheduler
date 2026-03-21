@@ -1,4 +1,6 @@
-
+/**
+ * Relationship CRUD: errors sanitized in production (NODE_ENV) via relationshipErrorHandler and shared routerErrorHandler.
+ */
 import { Router, Request, Response } from 'express'
 import { BlockInstance } from '../../../config/app.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'

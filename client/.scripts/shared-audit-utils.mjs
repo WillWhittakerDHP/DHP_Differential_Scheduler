@@ -260,6 +260,24 @@ export const DELTA_FINDING_EXTRACTORS = {
       line: f.line ?? f.snippet ?? '',
     }))
   },
+  'type-health'(data) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    return findings.map(f => ({
+      file: f.file,
+      lineNumber: f.lineNumber,
+      ruleId: f.ruleId,
+      line: f.snippet ?? '',
+    }))
+  },
+  'component-health'(data) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    return findings.map(f => ({
+      file: f.file,
+      lineNumber: f.lineNumber,
+      ruleId: f.ruleId,
+      line: f.snippet ?? '',
+    }))
+  },
   'error-handling'(data) {
     const files = Array.isArray(data.files) ? data.files : []
     const out = []
@@ -276,6 +294,24 @@ export const DELTA_FINDING_EXTRACTORS = {
       }
     }
     return out
+  },
+  'composable-health'(data) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    return findings.map(f => ({
+      file: f.file,
+      lineNumber: f.lineNumber,
+      ruleId: f.ruleId,
+      line: f.snippet ?? '',
+    }))
+  },
+  'data-flow-health'(data) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    return findings.map(f => ({
+      file: f.file,
+      lineNumber: f.lineNumber,
+      ruleId: f.ruleId,
+      line: f.snippet ?? '',
+    }))
   },
 }
 
@@ -408,13 +444,19 @@ export function writeAuditReports(auditType, jsonPayload, mdContent, options = {
  * @param {{ projectRoot?: string, clientSrc: string, serverSrc: string }} paths - From resolveAuditPaths
  * @returns {string[]}
  */
-export function getAuditScanDirs(_auditType, paths) {
+export function getAuditScanDirs(auditType, paths) {
   const envDirs = process.env.AUDIT_FIXTURE_DIRS
   if (envDirs && envDirs.trim()) {
     return envDirs.split(path.delimiter).map((p) => {
       const trimmed = p.trim()
       return path.isAbsolute(trimmed) ? trimmed : path.resolve(paths.projectRoot ?? process.cwd(), trimmed)
     }).filter(Boolean)
+  }
+  const config = loadRawConfig()
+  const overrides = config?.scanDirs?.overrides?.[auditType]
+  if (Array.isArray(overrides) && overrides.length > 0) {
+    const clientRoot = path.dirname(paths.clientSrc)
+    return overrides.map((dir) => path.resolve(clientRoot, dir))
   }
   return [paths.clientSrc, paths.serverSrc]
 }
@@ -689,18 +731,19 @@ export function shouldPruneDirectory(dirName) {
 /**
  * Whether testing is enabled for audits and workflow commands.
  *
- * Single source of truth: TEST_ENABLED in project root .env.
- *   TEST_ENABLED=true  → returns true (tests on)
- *   TEST_ENABLED=false or unset → returns false (tests off)
+ * Controlled by APP_STAGE or legacy TEST_ENABLED in project root .env.
+ *   APP_STAGE=staging  → returns true (tests on)
+ *   TEST_ENABLED=true → returns true (legacy)
+ *   Otherwise → returns false (tests off)
  *
- * Same env var controls workflow command prompts (TEST_CONFIG.enabled in
+ * Same logic is used by workflow command prompts (TEST_CONFIG.enabled in
  * .cursor/commands/testing/utils/test-config.ts) and audit scripts.
- * See BETA_LAUNCH_CHECKLIST Phase 3.0 / 3.0a.
+ * See LAUNCH_CHECKLIST Phase 3.0 / 3.0a.
  *
  * @returns {boolean}
  */
 export function isTestingEnabled() {
-  return process.env.TEST_ENABLED === 'true'
+  return process.env.TEST_ENABLED === 'true' || process.env.APP_STAGE === 'staging'
 }
 
 /**

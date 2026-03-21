@@ -177,7 +177,7 @@ watch(
                     size="64"
                     icon="tabler-file-alert"
                   />
-                  <div class="d-flex align-center flex-wrap justify-center gap-2 text-h5 mt-3">
+                  <div class="d-flex align-center flex-wrap justify-center gap-2 text-headline-medium mt-3">
                     <span>No Result For </span>
                     <span>"{{ searchQueryLocal }}"</span>
                   </div>

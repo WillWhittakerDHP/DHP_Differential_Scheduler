@@ -1,7 +1,6 @@
 /**
  * Shared logger types
  *
- * LEARNING: AppLogger shape shared between client and server (Phase 1.3 type-similarity UNIFY)
  * WHY: Same contract for createLogger return type; implementations stay separate (Vite vs Node env)
  * PATTERN: Types in shared; createLogger/parseLogLevel remain in client/server
  */
@@ -18,3 +17,13 @@ export type AppLogger = {
 }
 
 export type Logger = AppLogger
+
+/** Env-derived config passed to createLoggerFromConfig (client: VITE_*, server: process.env). */
+export interface LoggerEnvConfig {
+  scope: string
+  logLevel: string | undefined
+  debugScopes: string | undefined
+  logCallsite: string | undefined
+  isDev: boolean
+  callsiteSkipPatterns: string[]
+}

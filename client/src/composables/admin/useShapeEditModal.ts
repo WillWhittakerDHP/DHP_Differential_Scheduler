@@ -2,18 +2,8 @@
  * PATTERN: Composable for shape edit modal handlers
 PATTERN: Composable that manage...
  */
-import { ref, type Ref } from 'vue'
-import type { Ref as VueRef } from 'vue'
-
-export interface UseShapeEditModalOptions {
-  expandedBlockShapes: VueRef<string[]>
-}
-
-export interface UseShapeEditModalReturn {
-  shapeEditModalOpen: Ref<Map<string, boolean>>
-  toggleShapeEditModal: (blockShapeId: string) => void
-  handleExistingBlockShapeSaved: (shapeId: string) => void
-}
+import { ref } from 'vue'
+import type { UseShapeEditModalOptions, UseShapeEditModalReturn } from '@/types/admin/shapeEditModal'
 
 /**
  * WHY: Composable for managing shape edit modal
@@ -25,7 +15,6 @@ export function useShapeEditModal(
   const { expandedBlockShapes } = options
 
   /**
-   * LEARNING: Shape edit modal state per BlockShape
    */
   const shapeEditModalOpen = ref<Map<string, boolean>>(new Map())
 
@@ -36,7 +25,6 @@ export function useShapeEditModal(
 
   const handleExistingBlockShapeSaved = (shapeId: string): void => {
     shapeEditModalOpen.value.set(shapeId, false)
-    // Also collapse the card if it was expanded (for backward compatibility)
     expandedBlockShapes.value = expandedBlockShapes.value.filter(id => id !== shapeId)
   }
 

@@ -1,26 +1,11 @@
-
 import { computed, type Ref } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
-import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
-import type { ContactInfo } from './useContactsStepData'
-import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import { useStepValidation } from './useStepValidation'
 import { CONTACTS_VALIDATION_STRINGS } from '@/configs/contactsValidationStrings'
+import type { UseContactsValidationParams, UseContactsValidationReturn } from '@/types/booking/contactsValidation'
 
-export interface UseContactsValidationParams {
-  clientInfo: Ref<ContactInfo>
-  agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  transactionManagerInfo: Ref<ContactInfo>
-  sellerInfo: Ref<ContactInfo>
-  showAnotherClient: ReadonlyVueRef<boolean>
-  showTransactionManager: ReadonlyVueRef<boolean>
-  showSeller: ReadonlyVueRef<boolean>
-  requiresAgent?: ReadonlyVueRef<boolean> // Optional: if true, agent fields are required
-}
 
-export type UseContactsValidationReturn = UseStepValidationReturn
-
+import type { ValidationRule } from '@/types/formValidation'
 export function useContactsValidation(params: UseContactsValidationParams): UseContactsValidationReturn {
   const {
     clientInfo,

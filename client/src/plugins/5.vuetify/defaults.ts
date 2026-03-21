@@ -7,7 +7,7 @@ export default {
   VAlert: {
     density: 'comfortable',
     VBtn: {
-      color: undefined,
+      color: null,
     },
   },
   VAvatar: {
@@ -18,6 +18,7 @@ export default {
   },
   VBtn: {
     color: 'primary',
+    class: 'text-uppercase',
   },
   VChip: {
     label: true,
@@ -100,17 +101,6 @@ export default {
       label: true,
     },
   },
-  VRangeSlider: {
-    color: 'primary',
-    trackSize: 6,
-    thumbSize: 22,
-    density: 'comfortable',
-    thumbLabel: true,
-    hideDetails: 'auto',
-  },
-  VRating: {
-    color: 'warning',
-  },
   VProgressLinear: {
     height: 6,
     roundedBar: true,
@@ -152,12 +142,6 @@ export default {
       label: true,
     },
   },
-  VFileInput: {
-    variant: 'outlined',
-    density: 'comfortable',
-    color: 'primary',
-    hideDetails: 'auto',
-  },
   VTextarea: {
     variant: 'outlined',
     density: 'comfortable',
@@ -177,10 +161,5 @@ export default {
   },
   VNavigationDrawer: {
     touchless: true,
-  },
-  VVideo: {
-    VSlider: {
-      thumbLabel: false,
-    },
   },
 }

@@ -110,6 +110,7 @@ function main() {
   const result = {
     generatedAt: new Date().toISOString(),
     totalScanned: files.length,
+    exceptionSummary: { totalRequiresReview: warningsOnly.length },
     findings: warningsOnly,
     files,
   }

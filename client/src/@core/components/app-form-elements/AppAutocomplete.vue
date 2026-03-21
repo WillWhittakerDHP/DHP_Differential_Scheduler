@@ -5,43 +5,48 @@ defineOptions({
 })
 
 
-const elementId = computed (() => {
-  const attrs = useAttrs()
+const elementId = computed(() => {
   const _elementIdToken = attrs.id
   const _id = useId()
-
   return _elementIdToken ? `app-autocomplete-${_elementIdToken}` : _id
 })
 
-const label = computed(() => useAttrs().label as string | undefined)
+const attrs = useAttrs()
+const label = computed(() => attrs.label as string | undefined)
+const autocompleteBind = computed(() => {
+  const { class: _cls, ...rest } = attrs
+  return {
+    ...rest,
+    class: null,
+    label: undefined,
+    id: elementId.value,
+    variant: 'outlined' as const,
+    menuProps: {
+      contentClass: [
+        'app-inner-list',
+        'app-autocomplete__content',
+        'v-autocomplete__content',
+      ],
+    },
+  }
+})
+
+const wrapperClass = computed(() => (attrs.class ?? null) as string | string[] | Record<string, boolean> | null)
 </script>
 
 <template>
   <div
     class="app-autocomplete flex-grow-1"
-    :class="$attrs.class"
+    :class="wrapperClass"
   >
     <VLabel
       v-if="label"
       :for="elementId"
-      class="mb-1 text-body-2"
+      class="mb-1 text-body-medium"
       :text="label"
     />
     <VAutocomplete
-      v-bind="{
-        ...$attrs,
-        class: null,
-        label: undefined,
-        id: elementId,
-        variant: 'outlined',
-        menuProps: {
-          contentClass: [
-            'app-inner-list',
-            'app-autocomplete__content',
-            'v-autocomplete__content',
-          ],
-        },
-      }"
+      v-bind="autocompleteBind"
     >
       <template
         v-for="(_, name) in $slots"

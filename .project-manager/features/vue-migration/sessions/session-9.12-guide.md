@@ -326,14 +326,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We'll Learn
-- Verifying composables work with updated transformers
-- Using relationship transformer utilities in composables
-- Ensuring consistent naming conventions across composables
-- Testing composable functionality
-
 ### Why These Patterns Matter
 - Ensures composables work correctly with updated architecture
 - Consistent patterns improve maintainability
@@ -404,4 +396,3 @@ Before starting this session, verify:
 - `relationships.filter((rel) => rel.parent.id === id)` → `findRelationshipsByParent(id, relationships)`
 - `rel.children.map((child) => child.id)` → `extractChildIds(relationships)`
 - Manual filtering by kind → `filterRelationshipsByKind(relationships, kind)`
-

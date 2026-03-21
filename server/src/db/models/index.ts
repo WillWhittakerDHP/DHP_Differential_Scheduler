@@ -32,7 +32,10 @@ import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
 import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
+import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
 import { BusinessSettingsFactory } from "./admin/business_settings.js";
+import { CalendarSettingsFactory } from "./admin/calendar_settings.js";
+import { WizardSettingsFactory } from "./admin/wizard_settings.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
@@ -80,8 +83,11 @@ export function initializeModels(sequelize: Sequelize) {
   const Appointment = AppointmentFactory(sequelize);
   const AppointmentFeeSummary = AppointmentFeeSummaryFactory(sequelize);
   const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
+  const ConstraintOverride = ConstraintOverrideFactory(sequelize);
 
   const BusinessSettings = BusinessSettingsFactory(sequelize);
+  const CalendarSettings = CalendarSettingsFactory(sequelize);
+  const WizardSettings = WizardSettingsFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
   const AdminMetadata = AdminMetadataFactory(sequelize);
@@ -195,7 +201,6 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'annotation_instances',
   });
 
-  // LEARNING: EventAssignment uses parent_id/child_id pattern with parent_kind enum
   // WHY: Matches partAssignments pattern exactly for consistency
   // PATTERN: parent_id references either partInstance or blockInstance based on parent_kind
   
@@ -260,6 +265,9 @@ export function initializeModels(sequelize: Sequelize) {
   BlockInstance.hasMany(Appointment, { foreignKey: 'user_type_id', as: 'userTypeAppointments' });
   Appointment.belongsTo(BlockInstance, { foreignKey: 'user_type_id', as: 'userType' });
 
+  Appointment.belongsTo(User, { foreignKey: 'scheduled_by_id', as: 'scheduledBy' });
+  Appointment.belongsTo(User, { foreignKey: 'held_by', as: 'heldByUser' });
+
   Appointment.hasMany(AppointmentAttendee, { 
     foreignKey: 'appointment_id', 
     as: 'attendees' 
@@ -304,6 +312,23 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'feeSummary',
   });
 
+  Appointment.hasMany(ConstraintOverride, {
+    foreignKey: 'appointment_id',
+    as: 'constraintOverrides',
+  });
+  ConstraintOverride.belongsTo(Appointment, {
+    foreignKey: 'appointment_id',
+    as: 'appointment',
+  });
+  ConstraintOverride.belongsTo(User, {
+    foreignKey: 'authorized_by_id',
+    as: 'authorizedBy',
+  });
+  User.hasMany(ConstraintOverride, {
+    foreignKey: 'authorized_by_id',
+    as: 'constraintOverridesAuthorized',
+  });
+
   BlockInstanceVersion.hasMany(PartInstanceVersion, {
     foreignKey: 'block_instance_version_id', 
     as: 'partInstanceVersions' 
@@ -325,7 +350,8 @@ export function initializeModels(sequelize: Sequelize) {
     AppointmentAttendee,
     AppointmentFeeSummary,
     AppointmentFeeEntry,
-    BusinessSettings, BusinessRule,
+    ConstraintOverride,
+    BusinessSettings, CalendarSettings, WizardSettings, BusinessRule,
     AdminMetadata,
     BetaFeedback,
     BetaFeedbackTag,

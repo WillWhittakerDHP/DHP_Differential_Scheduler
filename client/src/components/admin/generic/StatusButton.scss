@@ -12,7 +12,6 @@
   font-size: 14px !important; // Slightly smaller to minimize visual impact
 }
 
-// LEARNING: Override state styling - less vibrant complementary background with original text/border
 // WHY: Override state should have original color text/border but complementary color background (less vibrant/opaque)
 .status-button-override {
   &[data-complementary-color="info"] {

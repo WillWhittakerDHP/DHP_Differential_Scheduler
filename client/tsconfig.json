@@ -39,6 +39,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "vite.config.ts",
     "auto-imports.d.ts",
     "components.d.ts",
     "vite-env.d.ts"
@@ -50,7 +51,6 @@
     "src/**/*.test.tsx",
     "src/**/*.spec.ts",
     "src/**/*.spec.tsx"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  ]
 }
 

@@ -3,63 +3,26 @@
 
 WHY: Components should be thin UI wrappers ...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useForm } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
-import type { GlobalFieldKey } from '@/constants/primitives'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
-import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import { useAdmin } from './useAdmin'
 import { useComponentEntity } from '../useComponentEntity'
-import type { FieldContextType } from '@/composables/fieldContext/types'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
-import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import {
+  filterByActiveChildSelect,
+  filterByAttendeeSelectBlockInstances,
+  filterByDirectMatching,
+  mergeComponentOptions,
+} from '@/utils/admin/selectFilterStrategies'
+import { createLogger } from '@/utils/logger'
+import type { UseSelectFilteringOptions, UseSelectFilteringReturn } from '@/types/admin/selectFiltering'
 
-export interface UseSelectFilteringOptions {
-  allEntities: ComputedRef<GlobalEntity<GlobalEntityKey>[]>
-  
-  selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
-  
-  currentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
-  
-  optionEntityKey: ComputedRef<GlobalEntityKey>
-  
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  
-  rawFieldValue: ReadonlyVueRef<unknown>
-  
-  /**
-Whether this is an AnnotationAssignmentSelect field
-LEARNING: Annota...
-   */
-  isAnnotationAssignmentSelect: ComputedRef<boolean>
-  
-  isAttendeeSelect: ComputedRef<boolean>
-}
+const logger = createLogger('useSelectFiltering')
 
-export interface UseSelectFilteringReturn {
-  filteredEntities: ComputedRef<GlobalEntity<GlobalEntityKey>[]>
-  
-  isActiveChildSelect: ComputedRef<boolean>
-  
-  isDirectMatchingSelect: ComputedRef<boolean>
-  
-  parentTypeEntityKey: ComputedRef<GlobalEntityKey | null>
-  
-  parentTypeRef: ComputedRef<string | null>
-  
-  parentTypeEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
-  
-  isAttendeeSelect: ComputedRef<boolean>
-}
-
-/**
- * WHY: Select Filtering Composable
-
-WHY: Moves business logic out of components...
- */
 export function useSelectFiltering(
   options: UseSelectFilteringOptions
 ): UseSelectFilteringReturn {
@@ -74,19 +37,14 @@ export function useSelectFiltering(
   } = options
 
   const adminComp = useAdmin()
-  const fieldKey = computed(() => String(fieldContext.fieldKey))
+  const fieldKey = computed(() => String(fieldContext.state.fieldKey))
 
-  /**
-LEARNING: Detect active child select pattern from config
-WHY: Config...
-   */
   const isActiveChildSelect = computed<boolean>(() => {
     const config = selectConfig.value
     if (!config) {
       return false
     }
     
-    // LEARNING: Active child select pattern: parent type entity lookup
     // PATTERN: Check config properties to detect pattern, not field name
     const hasCandidateParentKey = 'candidateParentKey' in config && !!config.candidateParentKey
     const hasCandidateParentPath = 'candidateParentPath' in config && !!config.candidateParentPath
@@ -104,7 +62,6 @@ WHY: Config...
   })
 
   /**
-   * LEARNING: Detect direct matching pattern from config
    */
   const isDirectMatchingSelect = computed<boolean>(() => {
     const config = selectConfig.value
@@ -112,7 +69,6 @@ WHY: Config...
       return false
     }
     
-    // LEARNING: Direct matching pattern: both candidateParentPath and candidateChildPath have values
     // PATTERN: Config-driven detection based on path configuration
     const hasCandidateParentPath = 'candidateParentPath' in config && config.candidateParentPath && config.candidateParentPath.length > 0
     const hasCandidateChildPath = 'candidateChildPath' in config && config.candidateChildPath && config.candidateChildPath.length > 0
@@ -131,8 +87,8 @@ WHY: Config...
     }
     
     // Fallback to hardcoded logic if config doesn't have it (backward compatibility)
-    if (fieldContext.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
-    if (fieldContext.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
+    if (fieldContext.state.entityKey === 'blockInstance') return 'blockShape' as GlobalEntityKey
+    if (fieldContext.state.entityKey === 'partInstance') return 'partShape' as GlobalEntityKey
     return null
   })
 
@@ -150,7 +106,7 @@ WHY: Config...
       typeRefKey = String(config.candidateParentPath[0])
     } else {
       // Fallback to hardcoded logic (backward compatibility)
-      typeRefKey = fieldContext.entityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
+      typeRefKey = fieldContext.state.entityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
     }
     
     if (currentEntity.value) {
@@ -160,7 +116,7 @@ WHY: Config...
       }
     }
     
-    const entityIdString = String(fieldContext.entityId)
+    const entityIdString = String(fieldContext.state.entityId)
     const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
     
     if (isTempEntity || !currentEntity.value) {
@@ -174,8 +130,8 @@ WHY: Config...
             return String(formBlockTypeRef)
           }
         }
-      } catch {
-        // PATTERN: Silently return null if form is not available
+      } catch (err) {
+        logger.warn('Could not read form value for parent type ref', { typeRefKey, err })
       }
     }
     
@@ -197,13 +153,13 @@ WHY: Config...
     if (!config || !('selectType' in config)) {
       return false
     }
-    return config.selectType === RelationshipSelectTypeEnum.AttendeeSelect
+    return String(config.selectType) === 'attendeeSelect'
   })
 
   /**
 WHY: Composables can only be called during setup, not inside compute...
    */
-  const composedEntityComposable = (String(fieldContext.fieldKey) === 'instanceComponents' && fieldContext.entityKey === 'blockInstance')
+  const composedEntityComposable = (String(fieldContext.state.fieldKey) === 'instanceComponents' && fieldContext.state.entityKey === 'blockInstance')
     ? useComponentEntity('blockInstance')
     : null
 
@@ -219,7 +175,7 @@ WHY: Composables can only be called during setup, not inside compute...
       return allEntities.value
     }
     
-    if (composedEntityComposable && fieldContext.entityId) {
+    if (composedEntityComposable && fieldContext.state.entityId) {
       // PATTERN: Read raw field value directly to avoid circular dependency (fieldValue depends on options)
       const currentFormValue = rawFieldValue.value
       const selectedComponentIdsFromForm = new Set(
@@ -230,14 +186,14 @@ WHY: Composables can only be called during setup, not inside compute...
             : []
       )
       
-      const availableComponents = composedEntityComposable.getAvailableComponents(fieldContext.entityId)
+      const availableComponents = composedEntityComposable.data.getAvailableComponents(fieldContext.state.entityId)
       
       // PATTERN: Filter available components to exclude those in form value
       const availableComponentsFiltered = availableComponents.filter(
         component => !selectedComponentIdsFromForm.has(component.id)
       )
       
-      const currentComponents = composedEntityComposable.getComponents(fieldContext.entityId)
+      const currentComponents = composedEntityComposable.data.getComponents(fieldContext.state.entityId)
       const currentComponentIdsFromQuery = new Set(currentComponents.map(ea => ea.childId))
       
       // PATTERN: Combine query cache components with form-selected components, deduplicate
@@ -249,20 +205,12 @@ WHY: Composables can only be called during setup, not inside compute...
       const selectedComponentEntities = allSelectedComponentIds.size > 0
         ? allEntities.value.filter((candidate) => allSelectedComponentIds.has(candidate.id))
         : []
-      
-      const allComponents = [...availableComponentsFiltered, ...selectedComponentEntities]
-      const uniqueComponents = allComponents.reduce((map, component) => {
-        if (!map.has(component.id)) {
-          map.set(component.id, component)
-        }
-        return map
-      }, new Map<string, typeof allComponents[0]>())
-      
-      return Array.from(uniqueComponents.values())
+
+      return mergeComponentOptions(availableComponentsFiltered, selectedComponentEntities)
     }
     
     if (isActiveChildSelect.value) {
-      const entityIdString = String(fieldContext.entityId)
+      const entityIdString = String(fieldContext.state.entityId)
       const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
       
       // Skip warning for new entities; only warn when an existing entity is missing parent type.
@@ -280,37 +228,14 @@ WHY: Composables can only be called during setup, not inside compute...
       }
       
       const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validParts'
-      
-      // PATTERN: Check if property exists, use empty array as fallback
-      const validChildrenRefs = getEntityFieldValue(parentTypeEntity.value, validChildrenKey)
-      
-      // PATTERN: Distinguish between missing property (bug) vs empty array (expected)
-      if (validChildrenRefs === undefined) {
-        return []
-      }
-      
-      if (!Array.isArray(validChildrenRefs)) {
-        return []
-      }
-      
-      if (validChildrenRefs.length === 0) {
-        return []
-      }
-      
-      const validChildrenSet = new Set(validChildrenRefs)
-      
-      const candidateTypeRefKey = optionEntityKey.value === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
-      
-      const filtered = allEntities.value.filter((candidate) => {
-        const candidateTypeRef = getEntityFieldValue(candidate, candidateTypeRefKey)
-        const matches = candidateTypeRef && validChildrenSet.has(String(candidateTypeRef))
-        return matches
-      })
-      
-      return filtered
+      return filterByActiveChildSelect(
+        allEntities.value,
+        parentTypeEntity.value,
+        validChildrenKey,
+        optionEntityKey.value
+      )
     }
     
-    // LEARNING: Direct matching pattern (e.g., dependentInstances)
     // PATTERN: Get value from current entity, filter candidates by matching their path value
     if (isDirectMatchingSelect.value) {
       const config = selectConfig.value
@@ -340,7 +265,7 @@ WHY: Composables can only be called during setup, not inside compute...
       
       // PATTERN: Check form values similar to parentTypeRef logic
       if (!currentEntityValue) {
-        const entityIdString = String(fieldContext.entityId)
+        const entityIdString = String(fieldContext.state.entityId)
         const isTempEntity = entityIdString.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
         
         if (isTempEntity || !currentEntity.value) {
@@ -353,30 +278,19 @@ WHY: Composables can only be called during setup, not inside compute...
                 currentEntityValue = String(formValue)
               }
             }
-          } catch {
+          } catch (err) {
+            logger.warn('Could not read form value for direct matching path', { parentPathKey, err })
           }
         }
       }
-      
-      // PATTERN: Return empty array when value is not available
-      if (!currentEntityValue) {
-        return []
-      }
-      
-      // PATTERN: Filter allEntities by comparing path values
-      const filtered = allEntities.value.filter((candidate) => {
-        // WHY: Can't select the same entity as a component of itself
-        // PATTERN: Check entity ID to exclude self
-        if (candidate.id === fieldContext.entityId) {
-          return false
-        }
-        
-        const candidateValue = getEntityFieldValue(candidate, String(childPathKey))
-        
-        return candidateValue && String(candidateValue) === currentEntityValue
-      })
-      
-      return filtered
+
+      if (!currentEntityValue) return []
+      return filterByDirectMatching(
+        allEntities.value,
+        currentEntityValue,
+        String(childPathKey),
+        String(fieldContext.state.entityId)
+      )
     }
     
     // PATTERN: Return all annotation instances when AnnotationAssignmentSelect is detected
@@ -386,11 +300,8 @@ WHY: Composables can only be called during setup, not inside compute...
     
     const config = selectConfig.value
     
-    // PATTERN: Filter BlockInstances by checking their BlockShape's isStateControl property
     if (isAttendeeSelect.value && optionEntityKey.value === 'blockInstance') {
       const allBlockShapes = adminComp.getEntities('blockShape')
-      
-      // PATTERN: Filter block shapes, then filter block instances by their blockShapeRef
       const stateControlBlockShapeIds = new Set(
         allBlockShapes
           .filter((bs: GlobalEntity<'blockShape'>) => {
@@ -399,18 +310,7 @@ WHY: Composables can only be called during setup, not inside compute...
           })
           .map((bs: GlobalEntity<'blockShape'>) => bs.id)
       )
-      
-      // LEARNING: Filter BlockInstances to only include those whose blockShapeRef matches a state control BlockShape
-      // WHY: Only show UserTypeBlock instances (BlockInstances belonging to state control BlockShapes)
-      // PATTERN: Check each BlockInstance's blockShapeRef against the Set of state control BlockShape IDs
-      const filtered = allEntities.value.filter((candidate) => {
-        const blockInstanceTyped = candidate as GlobalEntity<'blockInstance'>
-        const blockShapeRef = getEntityFieldValue(blockInstanceTyped, 'blockShapeRef')
-        if (!blockShapeRef) return false
-        return stateControlBlockShapeIds.has(toGlobalEntityId(String(blockShapeRef)))
-      })
-      
-      return filtered
+      return filterByAttendeeSelectBlockInstances(allEntities.value, stateControlBlockShapeIds)
     }
     
     if (config && 'filterOptions' in config && typeof config.filterOptions === 'function' && currentEntity.value) {
@@ -433,6 +333,3 @@ WHY: Composables can only be called during setup, not inside compute...
     isAttendeeSelect
   }
 }
-
-
-

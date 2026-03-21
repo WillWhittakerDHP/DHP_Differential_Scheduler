@@ -26,7 +26,7 @@ node scripts/comment-tools/audit-comments.mjs
 - `comment-audit-data.json` - Machine-readable data for programmatic use
 
 **What it shows:**
-- Total comments by type (LEARNING, WHY, PATTERN, regular, etc.)
+- Total comments by type (WHY, PATTERN, regular, etc.)
 - How many would be removed vs. kept
 - Examples of each category
 - Files with the most comments
@@ -96,7 +96,7 @@ node scripts/comment-tools/cleanup-comments.mjs
 
 ## Value Criteria
 
-### For Typed Comments (WHY/PATTERN/LEARNING)
+### For Typed Comments (WHY/PATTERN)
 
 Must be **substantial** (>20 chars) AND contain **valuable patterns**:
 - Specific transformations or conversions

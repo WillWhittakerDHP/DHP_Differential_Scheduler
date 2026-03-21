@@ -1,5 +1,5 @@
-
 import { Response } from 'express'
+import { isProduction } from '../../../utils/envHelpers.js'
 import {
   handleSequelizeValidationError as sharedHandleSequelizeValidationError,
   handleGeneralError as sharedHandleGeneralError,
@@ -48,13 +48,14 @@ function handleForeignKeyConstraintError(
 
   const parentCode = (error as { parent?: { code?: string } }).parent?.code
   if (error.name === 'SequelizeForeignKeyConstraintError' || parentCode === SEQUELIZE_ERROR_CODES.FOREIGN_KEY_CONSTRAINT) {
+    const details = isProduction() ? 'One of the referenced entities does not exist' : (error.message || 'One of the referenced entities does not exist');
     res.status(400).json({
       error: ERROR_MESSAGES.INVALID_ENTITY_REFERENCE,
-      details: error.message || 'One of the referenced entities does not exist',
+      details,
       relationshipType,
       parentId,
       childId,
-    })
+    });
     return true
   }
 

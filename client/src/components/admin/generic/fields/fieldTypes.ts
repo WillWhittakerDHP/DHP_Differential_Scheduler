@@ -1,9 +1,9 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 
 export interface FieldInputProps {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   showLabel?: boolean
 }

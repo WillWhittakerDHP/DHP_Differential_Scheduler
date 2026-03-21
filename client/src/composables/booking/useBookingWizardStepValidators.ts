@@ -1,31 +1,11 @@
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { StepValidator } from '@/composables/booking/useWizardValidation'
+import { computed } from 'vue'
 import {
   buildBookingWizardStepValidators,
   type BuildBookingWizardStepValidatorsOptions,
 } from '@/utils/booking/bookingWizardStepValidators'
+import type { StepValidator } from '@/types/booking/wizardValidation'
+import type { BookingWizardStepValidators, UseBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
-export interface BookingWizardStepValidators {
-  stepValidators: ComputedRef<Record<number, StepValidator | null>>
-}
-
-export interface UseBookingWizardStepValidatorsOptions {
-  selectedUserTypeBlock: Ref<BookingBlockInstance | null>
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-
-  propertyDetailsStepValid: Ref<boolean> | null
-  propertyDetailsStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null
-
-  availabilityStepValid: Ref<boolean> | null
-  availabilityStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null
-
-  contactsStepValid: Ref<boolean> | null
-  contactsStepValidate: Ref<(() => boolean) | null> | (() => boolean) | null
-
-  confirmationStepValid?: Ref<boolean> | null
-  confirmationStepValidate?: Ref<(() => boolean) | null> | (() => boolean) | null
-}
 
 export function useBookingWizardStepValidators(
   options: UseBookingWizardStepValidatorsOptions

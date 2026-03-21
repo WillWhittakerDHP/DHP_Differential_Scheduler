@@ -1,42 +1,41 @@
 <!--
-  LEARNING: Admin dashboard for beta feedback: stats, filters, table, detail modal
   WHY: Single place to review and triage wizard feedback
   PATTERN: Stats cards + filter bar + VDataTable + BetaFeedbackDetailModal
 -->
 <template>
   <div class="beta-feedback-dashboard">
-    <h2 class="text-h4 mb-4">Beta Feedback</h2>
+    <h2 class="text-headline-large mb-4">Beta Feedback</h2>
 
     <VRow class="mb-4">
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Total</div>
-            <div class="text-h5">{{ stats?.total ?? 0 }}</div>
+            <div class="text-body-small text-medium-emphasis">Total</div>
+            <div class="text-headline-medium">{{ stats?.total ?? 0 }}</div>
           </VCardText>
         </VCard>
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Open bugs</div>
-            <div class="text-h5">{{ openBugsCount }}</div>
+            <div class="text-body-small text-medium-emphasis">Open bugs</div>
+            <div class="text-headline-medium">{{ openBugsCount }}</div>
           </VCardText>
         </VCard>
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Feature requests</div>
-            <div class="text-h5">{{ featureRequestsCount }}</div>
+            <div class="text-body-small text-medium-emphasis">Feature requests</div>
+            <div class="text-headline-medium">{{ featureRequestsCount }}</div>
           </VCardText>
         </VCard>
       </VCol>
       <VCol cols="12" sm="6" md="3">
         <VCard variant="tonal">
           <VCardText>
-            <div class="text-caption text-medium-emphasis">Critical</div>
-            <div class="text-h5">{{ criticalCount }}</div>
+            <div class="text-body-small text-medium-emphasis">Critical</div>
+            <div class="text-headline-medium">{{ criticalCount }}</div>
           </VCardText>
         </VCard>
       </VCol>
@@ -83,7 +82,7 @@
     <VCard>
       <VDataTable
         :headers="headers"
-        :items="items"
+        :items="tableItems"
         :loading="loading"
         item-value="id"
         class="cursor-pointer"
@@ -110,26 +109,34 @@
 
     <BetaFeedbackDetailModal
       v-model="detailOpen"
-      :feedback="selectedFeedback"
+      :feedback="selectedFeedback ?? null"
       @saved="load"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import BetaFeedbackDetailModal from './BetaFeedbackDetailModal.vue';
-import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
-import type { BetaFeedback, BetaFeedbackFilters, FeedbackStatus } from '@/types/betaFeedback';
+import { useFeedbackDashboard } from '@/composables/beta/useFeedbackDashboard';
+import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback';
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers';
+import { asEmptyArray } from '@/utils/safeDefaults';
+import { createLogger } from '@/utils/logger';
 
-const { fetchAllFeedback, fetchFeedbackStats } = useBetaFeedback();
-const loading = ref(false);
-const items = ref<BetaFeedback[]>([]);
-const stats = ref<Awaited<ReturnType<typeof fetchFeedbackStats>> | null>(null);
-const detailOpen = ref(false);
-const selectedFeedback = ref<BetaFeedback | null>(null);
+const logger = createLogger('BetaFeedbackDashboard');
 
-const filters = reactive<BetaFeedbackFilters>({});
+const {
+  loading,
+  items,
+  stats,
+  detailOpen,
+  selectedFeedback,
+  filters,
+  load,
+} = useFeedbackDashboard();
+
+const tableItems = computed(() => ensureItemsArray<BetaFeedback>(items.value));
 
 const statusFilterItems: { title: string; value: FeedbackStatus }[] = [
   { title: 'New', value: 'new' },
@@ -164,7 +171,8 @@ const headers = [
 ];
 
 const openBugsCount = computed(() => {
-  return items.value.filter(
+  const list = asEmptyArray(items.value);
+  return list.filter(
     (i) => i.category === 'bug' && i.status !== 'resolved' && i.status !== 'wont_fix'
   ).length;
 });
@@ -205,7 +213,8 @@ function formatDate(iso: string): string {
       day: 'numeric',
       year: 'numeric',
     });
-  } catch {
+  } catch (err) {
+    logger.warn('formatDate failed', { iso, error: err });
     return iso;
   }
 }
@@ -219,21 +228,6 @@ function openDetail(item: BetaFeedback): void {
   detailOpen.value = true;
 }
 
-async function load(): Promise<void> {
-  loading.value = true;
-  try {
-    const [list, statsData] = await Promise.all([
-      fetchAllFeedback(filters),
-      fetchFeedbackStats(),
-    ]);
-    items.value = list;
-    stats.value = statsData;
-  } finally {
-    loading.value = false;
-  }
-}
-
-onMounted(() => load());
 </script>
 
 <style scoped>

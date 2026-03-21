@@ -3,63 +3,22 @@
 
 WHY: Moves business logic out of compone...
  */
-import { ref, type Ref } from 'vue'
-import type { FormContext } from 'vee-validate'
+import { ref } from 'vue'
 import { useEntityForm } from '../useEntityForm'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
-import { useEntityDisplay } from './useEntityDisplay'
+import { useAdminConfig } from '@/composables/useAdminConfig'
+import { entityDisplay } from '@/utils/admin/entityDisplay'
 import { getApiErrorMessage } from '../useApiErrorMessage'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntityKey } from '@/constants/entities'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
+import type { UseEntityCardActionsOptions, UseEntityCardActionsReturn } from '@/types/admin/entityCardActions'
+
 
 const logger = createLogger('useEntityCardActions')
 
-export interface UseEntityCardActionsOptions {
-  entityKey: GlobalEntityKey
-  
-  entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>
-  
-  form: Ref<FormContext | undefined>
-  
-  isNew?: boolean
-  
-  onDelete?: (id: string) => void
-  
-  onSaved?: (entity: GlobalEntity<GlobalEntityKey>) => void
-  
-  onCancelled?: () => void
-}
-
-export interface UseEntityCardActionsReturn {
-  canSave: Ref<boolean>
-  
-  hasChanges: Ref<boolean>
-  
-  showDeleteDialog: Ref<boolean>
-  
-  isNew: boolean
-  
-  handleSave: () => Promise<void>
-  
-  handleUndo: () => void
-  
-  handleDeleteClick: () => void
-  
-  handleDelete: () => Promise<void>
-  
-  handleCancelDelete: () => void
-  
-  handleCancel: () => void
-}
-
-/**
- * WHY: Entity Card Actions Composable
-
-WHY: Extracts save/reset/delete logic fr...
- */
 export function useEntityCardActions(
   options: UseEntityCardActionsOptions
 ): UseEntityCardActionsReturn {
@@ -84,7 +43,7 @@ export function useEntityCardActions(
   
   const { success, error: showError } = useNotification()
   
-  const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = useEntityDisplay()
+  const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = entityDisplay(useAdminConfig())
   
   const showDeleteDialog = ref(false)
   

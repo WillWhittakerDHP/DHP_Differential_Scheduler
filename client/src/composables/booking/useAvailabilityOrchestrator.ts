@@ -1,12 +1,7 @@
-
-import { computed, ref, watch, type Ref, type ComputedRef } from 'vue'
-import type { DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
-import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
+import { computed, ref, watch, type ComputedRef } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
-import type { UseBookingWizardReturn } from '@/types/wizard'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import { toISO8601Date } from '@/types/datetime'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
+import { toISO8601Date } from '@/utils/datetime'
+import { getTodayDate } from '@/utils/time/timeFormatting'
 import { useAvailabilityLogic } from '@/composables/booking/useAvailabilityLogic'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
 import { useAvailabilityValidation } from '@/composables/booking/useAvailabilityValidation'
@@ -18,23 +13,20 @@ import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePar
 import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
 import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
 import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
-import { useAvailabilityStepHandlers } from '@/composables/booking/useAvailabilityStepHandlers'
+import { useAvailabilityStepHandlers } from '@/utils/booking/availabilityStepHandlers'
 import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
 import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
 import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
-import { equals } from '@/utils/ternary/ternaryUtils'
+import { isDifferentialFromSelectedBlocks } from '@/composables/booking/useAvailabilityLogic'
+import { findMatchingTimeSlot } from '@/utils/booking/timeSlotMatching'
+import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
+import type {
+  UseAvailabilityOrchestratorParams,
+  UseAvailabilityOrchestratorReturn,
+} from '@/types/booking/availabilityOrchestrator'
 
-export interface UseAvailabilityOrchestratorParams {
-  wizard: UseBookingWizardReturn
-  loadedWizardState: Ref<WizardStateData | null>
-  computedAvailability: UseComputedAvailabilityReturn
-  propertyDetailsStepData: Ref<{ squareFootage?: number | null; bedrooms?: number | null; bathrooms?: number | null; foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null; additionalUnits?: number | null; [key: string]: unknown } | null>
-  displayedMonth: Ref<DisplayedMonth>
-  updateDisplayedMonth: (month: DisplayedMonth) => void
-  appointmentDurationRef: Ref<number | null>
-}
 
-export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorParams) {
+export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorParams): UseAvailabilityOrchestratorReturn {
   const {
     wizard,
     loadedWizardState,
@@ -42,29 +34,26 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     propertyDetailsStepData,
     displayedMonth,
     updateDisplayedMonth,
-    appointmentDurationRef
+    appointmentDurationRef,
+    availabilityStepData
   } = params
 
-  const { getTodayDate } = useTimeFormatting()
-
   const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
-  const timeSlotsForDefaults = computed(() => {
+  const timeSlotsForDefaults = computed<TimeSlot[] | null>(() => {
     const wrapper = timeSlotsWrapper.value
-    if (!wrapper || !('value' in wrapper)) return null as TimeSlot[] | null
-    return wrapper.value
-  }) as ComputedRef<TimeSlot[] | null>
-  const timeSlotsForLogic = computed(() => {
-    const wrapper = timeSlotsWrapper.value
-    if (!wrapper || !('value' in wrapper)) return [] as TimeSlot[]
-    return wrapper.value
-  }) as ComputedRef<TimeSlot[]>
-
-  const isEffectivelyDifferentialForDefaults = computed(() => {
-    const selectedServices = wizard.selectedServiceTypeBlocks.value
-    const isDifferential = selectedServices.some(s => equals(s.differential, 'true'))
-    if (!isDifferential) return false
-    return true
+    if (!wrapper || !('value' in wrapper)) return null
+    return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
   })
+  const timeSlotsForLogic = computed<TimeSlot[]>(() => {
+    const wrapper = timeSlotsWrapper.value
+    if (!wrapper || !('value' in wrapper)) return []
+    return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
+  })
+
+  /** Use canonical differential derivation from useAvailabilityLogic (Phase 6.4). */
+  const isEffectivelyDifferentialForDefaults = computed(() =>
+    isDifferentialFromSelectedBlocks(wizard.selectedServiceTypeBlocks.value)
+  )
 
   const {
     selectedDate,
@@ -73,7 +62,8 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   } = useAvailabilityDefaults({
     loadedWizardState,
     timeSlots: timeSlotsForDefaults,
-    isDifferentialService: isEffectivelyDifferentialForDefaults
+    isDifferentialService: isEffectivelyDifferentialForDefaults,
+    restoreFrom: availabilityStepData
   })
 
   const today = new Date()
@@ -93,7 +83,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
       selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks
     },
-    timeSlots: timeSlotsForLogic as ComputedRef<TimeSlot[]>,
+    timeSlots: timeSlotsForLogic,
     loadedWizardState
   })
 
@@ -163,6 +153,24 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   const { perspective } = usePerspectiveMapping({ startTimeType })
   const selectedButtonIndex = computed(() => appointmentSlotOrderIndex.value)
 
+  /** Index of the slot matching the loaded appointment's inspector time when rescheduling on the same day. */
+  const originalInspectionButtonIndex = computed((): number | null => {
+    if (wizard.wizardMode.value !== 'reschedule') return null
+    const loaded = loadedWizardState.value?.availability
+    const candidateDate = loaded?.candidateDate?.start
+    const candidateSlots = loaded?.candidateTimeSlots
+    if (!candidateDate || !candidateSlots?.length) return null
+    const selectedStart = selectedDate.value?.start
+    if (!selectedStart) return null
+    const selectedDay = selectedStart.includes('T') ? selectedStart.split('T')[0] : selectedStart
+    const candidateDay = candidateDate.includes('T') ? candidateDate.split('T')[0] : candidateDate
+    if (selectedDay !== candidateDay) return null
+    const inspectorTime = candidateSlots[0].time
+    const slots = appointmentSlots.value
+    const matched = findMatchingTimeSlot(inspectorTime, slots)
+    return matched?.buttonIndex ?? null
+  })
+
   const { slotColor, allowedDates, firstAvailableDate } = useAvailabilitySlotColor({
     startTimeType,
     slotsByDay: computedAvailability.slotsByDay
@@ -172,11 +180,21 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   watch(firstAvailableDate, firstDate => {
     if (!firstDate) return
     const today = getTodayDate()
-    if (selectedDate.value.start !== today) return
     if (firstDate === today) {
       firstAvailableNotice.value = null
       return
     }
+    const currentStart = selectedDate.value.start
+    const currentDay = currentStart ? (currentStart.includes('T') ? currentStart.split('T')[0] : currentStart) : null
+    // When showing notice, keep syncing to firstAvailableDate — prefetch may complete after per-day fetch,
+    // so firstAvailableDate can change from partial (e.g. tomorrow) to correct (e.g. March 15).
+    if (firstAvailableNotice.value !== null && currentDay !== firstDate) {
+      selectedDate.value = { start: toISO8601Date(firstDate), end: null }
+      const dateObj = new Date(firstDate + 'T00:00:00')
+      firstAvailableNotice.value = `Today is fully booked. Showing ${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} — the earliest date with available slots.`
+      return
+    }
+    if (currentDay !== today) return
     selectedDate.value = { start: toISO8601Date(firstDate), end: null }
     const dateObj = new Date(firstDate + 'T00:00:00')
     firstAvailableNotice.value = `Today is fully booked. Showing ${dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} — the earliest date with available slots.`
@@ -190,18 +208,35 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     isDifferentialService: isEffectivelyDifferential
   })
 
-  const moveablePartsScheduling = useMoveablePartsScheduling({ appointmentShape, selectedSlot })
+  const moveablePartsScheduling = useMoveablePartsScheduling({
+    appointmentShape,
+    selectedSlot,
+    propertyDetailsStepData,
+    slotsByDay: computedAvailability.slotsByDay,
+  })
   const {
     hasMoveableParts,
     showModal: showMoveableModal,
     moveableOptions,
+    moveableAppointmentSlots,
+    moveablePartShapeName,
+    selectedMoveableDay,
+    setSelectedMoveableDay,
+    allowedMoveableDates,
+    isLoadingMoveableDaySlots,
     selectedSlotIndex: selectedMoveableSlotIndex,
     contingencyPeriod,
     openModal: openMoveableModal,
     closeModal: closeMoveableModal,
     selectSlot: selectMoveableSlot,
-    isLoadingOptions
+    isLoadingOptions,
   } = moveablePartsScheduling
+
+  const hasMoveablePartsGated = computed(
+    () =>
+      hasMoveableParts.value &&
+      wizard.selectedServiceTypeBlocks.value.some((b) => b.preClosing === true)
+  )
 
   const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
 
@@ -217,33 +252,52 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     moveableScheduling: computed(() => confirmedMoveableScheduling.value)
   })
 
-  const { fieldErrors, isFormValid, validateForm } = useAvailabilityValidation({
+  const { fieldErrors, isFormValid: baseIsFormValid, validateForm } = useAvailabilityValidation({
     selectedDate,
     selectedSlot
   })
 
-  const { handleDateChange } = useAvailabilityUI({
+  /** Task 6.9.4.4: Gate step validity on moveable confirmation when applicable (same as previous modal gate). */
+  const isFormValid = computed(() => {
+    if (!baseIsFormValid.value) return false
+    if (hasMoveablePartsGated.value && !confirmedMoveableScheduling.value) return false
+    return true
+  })
+
+  const { handleDateChange: handleDateChangeBase } = useAvailabilityUI({
     selectedDate,
     selectedButtonIndex,
     fieldErrors
   })
+  const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
+    firstAvailableNotice.value = null
+    handleDateChangeBase(value)
+  }
+
+  const userHasChosenTimeBasisFromGraph = ref(false)
 
   const {
     handleAppointmentSlotClick,
     handleMoveableConfirm,
     handleMoveableCancel,
-    handleTimeBasisChange
+    handleTimeBasisChange: handleTimeBasisChangeBase
   } = useAvailabilityStepHandlers({
     appointmentSlotOrderIndex,
-    hasMoveableParts,
+    hasMoveableParts: hasMoveablePartsGated,
     selectedSlot,
     openMoveableModal,
     closeMoveableModal,
     moveableOptions,
+    moveableSlotsForConfirm: moveablePartsScheduling.moveableSlotsForConfirm,
     selectedMoveableSlotIndex,
     confirmedMoveableScheduling,
     startTimeType
   })
+
+  const handleTimeBasisChange = (type: 'major' | 'minor'): void => {
+    userHasChosenTimeBasisFromGraph.value = true
+    handleTimeBasisChangeBase(type)
+  }
 
   useAvailabilityDevPanel({
     selectedBlockInstances: accumulatedBlockInstances,
@@ -266,37 +320,50 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
   }
 
   return {
-    getTodayDate,
-    firstAvailableNotice,
-    selectedDateSingle,
-    vDatePickerDisplayDate,
-    setVDatePickerDisplayDate,
-    allowedDates,
-    handleDateChange,
-    fieldErrors,
-    isEffectivelyDifferential,
-    graphBars,
-    perspective,
-    handleTimeBasisChange,
-    selectedDate,
-    appointmentSlots,
-    emptyStateMessage,
-    selectedButtonIndex,
-    slotColor,
-    handleAppointmentSlotClick,
-    selectedOptionTypeBlockId,
-    showMoveableModal,
-    moveableOptions,
-    selectedMoveableSlotIndex,
-    contingencyPeriod,
-    isLoadingOptions,
-    selectMoveableSlot,
-    handleMoveableConfirm,
-    handleMoveableCancel,
-    stepData,
-    isFormValid,
-    validateForm,
+    data: {
+      firstAvailableNotice,
+      selectedDateSingle,
+      vDatePickerDisplayDate,
+      allowedDates,
+      fieldErrors,
+      isEffectivelyDifferential,
+      hasMoveablePartsGated,
+      userHasChosenTimeBasisFromGraph,
+      graphBars,
+      perspective,
+      selectedDate,
+      appointmentSlots,
+      emptyStateMessage,
+      selectedButtonIndex,
+      originalInspectionButtonIndex,
+      selectedOptionTypeBlockId,
+      showMoveableModal,
+      moveableOptions,
+      moveableAppointmentSlots,
+      moveablePartShapeName,
+      selectedMoveableDay,
+      setSelectedMoveableDay,
+      allowedMoveableDates,
+      isLoadingMoveableDaySlots,
+      selectedMoveableSlotIndex,
+      contingencyPeriod,
+      isLoadingOptions,
+      stepData,
+      isFormValid,
+      slotColor,
+    },
+    actions: {
+      getTodayDate,
+      setVDatePickerDisplayDate,
+      handleDateChange,
+      handleTimeBasisChange,
+      handleAppointmentSlotClick,
+      selectMoveableSlot,
+      handleMoveableConfirm,
+      handleMoveableCancel,
+      validateForm,
+      clearFirstAvailableNotice,
+    },
     wizard,
-    clearFirstAvailableNotice
   }
 }

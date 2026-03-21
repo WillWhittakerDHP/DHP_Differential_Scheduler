@@ -104,15 +104,6 @@
 
 ---
 
-## Learning Objectives
-
-- Understand centralized data flow patterns
-- Learn globalData cache management
-- Understand query invalidation strategies
-- Learn field configuration patterns
-
----
-
 ## Success Criteria
 
 - ✅ All composables read from globalData

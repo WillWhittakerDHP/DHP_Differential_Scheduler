@@ -4,48 +4,88 @@
 
 # Bundle Size Budget Audit (Generated)
 
-Generated at: 2026-02-23T18:55:19.069Z
-Build timestamp: 2026-02-23T17:23:45.993Z
+Generated at: 2026-03-07T18:37:51.529Z
+Build timestamp: 2026-03-05T00:34:41.848Z
 
 ## Summary
 
-- Chunks scanned: **21**
-- Total JS (gzip): **393.7 KB**
-- Total CSS (gzip): **91.8 KB**
+- Chunks scanned: **61**
+- Total JS (gzip): **425.2 KB**
+- Total CSS (gzip): **115.5 KB**
 - Largest chunk: **109.5 KB**
-- Entry point: **28.6 KB**
+- Entry point: **0.0 KB**
 
 ## Budgets
 
 | Budget | Limit (KB) | Actual (KB) | Pass | % of budget |
 | --- | ---: | ---: | --- | ---: |
-| totalJsKb | 800 | 393.7 | Yes | 49% |
-| totalCssKb | 200 | 91.8 | Yes | 46% |
+| totalJsKb | 800 | 425.2 | Yes | 53% |
+| totalCssKb | 200 | 115.5 | Yes | 58% |
 | largestChunkKb | 250 | 109.5 | Yes | 44% |
-| entryPointKb | 150 | 28.6 | Yes | 19% |
+| entryPointKb | 150 | 0.0 | Yes | 0% |
 
 ## Chunks
 
 | File | Type | Size (KB) | Gzip (KB) | Entry |
 | --- | --- | ---: | ---: | --- |
-| `assets/AdminPanel-B_LZhKf4.css` | css | 35.4 | 6.3 |  |
-| `assets/AdminPanel-DLQF0qiJ.js` | js | 423.7 | 109.3 |  |
-| `assets/BetaFeedbackView-Bv8zFrvO.js` | js | 10.2 | 3.0 |  |
-| `assets/BetaFeedbackView-X1676Je3.css` | css | 0.1 | 0.1 |  |
-| `assets/BookingWizardView-8JiL63Qa.css` | css | 22.0 | 3.9 |  |
-| `assets/BookingWizardView-BjvgfNg8.js` | js | 167.3 | 46.1 |  |
-| `assets/EntityCard-B6JWAjvk.js` | js | 0.4 | 0.2 |  |
+| `assets/AddressAutocomplete.vue_vue_type_script_setup_true_lang-Dk9z87dB.js` | js | 8.3 | 3.1 |  |
+| `assets/AdminPanel-BFkMM7v_.js` | js | 5.8 | 2.3 |  |
+| `assets/AdminPanel-DlvIg0BA.css` | css | 0.0 | 0.1 |  |
+| `assets/AvailabilityStep-D9SiNMmN.js` | js | 51.0 | 15.7 |  |
+| `assets/AvailabilityStep-DDmuoWPv.css` | css | 13.4 | 2.4 |  |
+| `assets/BetaFeedbackView-1UZAge82.css` | css | 0.1 | 0.1 |  |
+| `assets/BetaFeedbackView-DG2Bqx9q.js` | js | 9.5 | 3.2 |  |
+| `assets/BookingWizardView-BmT8-bVA.js` | js | 58.9 | 18.4 |  |
+| `assets/BookingWizardView-Bmryo114.css` | css | 7.1 | 1.5 |  |
+| `assets/BusinessControlsTab-J06W35pL.js` | js | 96.8 | 22.2 |  |
+| `assets/BusinessControlsTab-bu_Eg08f.css` | css | 0.4 | 0.2 |  |
+| `assets/CancelConfirmView-CWjVTii7.css` | css | 0.1 | 0.1 |  |
+| `assets/CancelConfirmView-Dm-wsZk-.js` | js | 3.4 | 1.5 |  |
+| `assets/ConfirmationStep-DyS9UXIt.js` | js | 7.4 | 2.3 |  |
+| `assets/ConfirmationStep-n2Bh0ymk.css` | css | 0.5 | 0.3 |  |
+| `assets/ContactsStep-DzPhLh5L.js` | js | 14.9 | 3.3 |  |
+| `assets/ContactsStep-uvBumCKy.css` | css | 0.0 | 0.0 |  |
+| `assets/DataManagementTab-B-VnYE-K.js` | js | 46.0 | 10.1 |  |
+| `assets/DataManagementTab-B4RDlzqH.css` | css | 1.6 | 0.5 |  |
+| `assets/EntityCard-h68Al1j3.js` | js | 0.6 | 0.3 |  |
+| `assets/InstancesTab-CbimXIL2.css` | css | 1.7 | 0.6 |  |
+| `assets/InstancesTab-DqinOJrp.js` | js | 43.7 | 12.7 |  |
+| `assets/PropertyDetailsStep-C5fGuVY1.css` | css | 0.2 | 0.1 |  |
+| `assets/PropertyDetailsStep-a9pzd01e.js` | js | 27.3 | 7.7 |  |
+| `assets/RequiredConfirmationModal.vue_vue_type_script_setup_true_lang-DHJqflB9.js` | js | 2.4 | 1.1 |  |
+| `assets/SelectionCardGroup-BrSs8BwK.js` | js | 16.5 | 5.2 |  |
+| `assets/SelectionCardGroup-BsJM67m6.css` | css | 3.6 | 0.9 |  |
+| `assets/ServiceSelectionStep-YmVW5ur6.js` | js | 8.1 | 2.8 |  |
+| `assets/ServiceSelectionStep-loLURZbB.css` | css | 0.4 | 0.2 |  |
+| `assets/ShapesTab-CxEOd20Q.js` | js | 19.6 | 5.2 |  |
+| `assets/ShapesTab-aIBb-zm0.css` | css | 0.8 | 0.3 |  |
+| `assets/WizardTextField.vue_vue_type_script_setup_true_lang-zffRcfXy.js` | js | 0.6 | 0.4 |  |
+| `assets/appointmentStatus-kJqMVDZ6.js` | js | 0.5 | 0.2 |  |
+| `assets/appointmentsTableConstants-CTDSvluL.js` | js | 2.8 | 1.2 |  |
 | `assets/axios-C0Zqfgkc.js` | js | 35.8 | 14.3 |  |
-| `assets/dependencyCleanup-rF8Rl5Jb.js` | js | 0.6 | 0.4 |  |
-| `assets/index-B1IH1aXA.css` | css | 126.3 | 14.9 |  |
-| `assets/index-DdNYZZGA.js` | js | 97.8 | 28.6 | Yes |
-| `assets/pinia-B5X-hN8x.js` | js | 3.7 | 1.8 |  |
-| `assets/timeFormatting-I7Ly4XHi.js` | js | 37.7 | 13.6 |  |
-| `assets/useBetaFeedback-tl9cCPdS.js` | js | 0.7 | 0.4 |  |
-| `assets/vee-validate-CAZXNrDj.js` | js | 27.9 | 10.1 |  |
-| `assets/vue-JsoSmu5X.js` | js | 77.8 | 30.8 |  |
-| `assets/vue-query-Bwll3ySA.js` | js | 37.0 | 10.9 |  |
-| `assets/vue-router-BAniQuVs.js` | js | 24.9 | 9.8 |  |
-| `assets/vuetify-CA15CqLa.css` | css | 514.6 | 66.6 |  |
-| `assets/vuetify-DxIkWGut.js` | js | 349.7 | 109.5 |  |
-| `assets/vueuse-BcYULufa.js` | js | 11.6 | 5.0 |  |
+| `assets/betaFeedback-D0AF5Osh.js` | js | 0.7 | 0.4 |  |
+| `assets/datetime-BDwq2N5d.js` | js | 4.2 | 1.5 |  |
+| `assets/errorMessages-C9lYqY4p.js` | js | 0.2 | 0.1 |  |
+| `assets/eventAttendeeUtils-AVpyJQ9C.js` | js | 0.3 | 0.2 |  |
+| `assets/iconify-j2tpkn_2.js` | js | 18.1 | 7.0 |  |
+| `assets/index-BpkLYJu-.js` | js | 103.1 | 30.4 |  |
+| `assets/index-mgF-7Swp.css` | css | 126.5 | 15.1 |  |
+| `assets/injectionKeys-c2H2okYd.js` | js | 0.1 | 0.1 |  |
+| `assets/instanceComponentUtils-CqPJMEwn.js` | js | 1.2 | 0.6 |  |
+| `assets/partsTotals-C8R03hxC.js` | js | 0.3 | 0.1 |  |
+| `assets/pinia-CYQbIG1u.js` | js | 3.7 | 1.8 |  |
+| `assets/timeFormatting-C_kauy9Y.js` | js | 0.5 | 0.3 |  |
+| `assets/useBusiness-D6AdKoZy.js` | js | 1.1 | 0.5 |  |
+| `assets/useComponentEntity-Cl5__akC.js` | js | 4.0 | 1.5 |  |
+| `assets/useEntityTabState-CRtiYR9K.css` | css | 31.2 | 5.4 |  |
+| `assets/useEntityTabState-CikyS5En.js` | js | 246.7 | 70.0 |  |
+| `assets/useStepValidation-w0d56RZJ.js` | js | 2.9 | 1.2 |  |
+| `assets/useTabNavigation-CLLvO-bf.js` | js | 0.1 | 0.1 |  |
+| `assets/useWizardStepSync-CMY3IR-G.js` | js | 0.5 | 0.3 |  |
+| `assets/vee-validate-BUN0ESPl.js` | js | 27.9 | 10.1 |  |
+| `assets/vue-CXDTPvUa.js` | js | 77.8 | 30.8 |  |
+| `assets/vue-query-Dropo6Se.js` | js | 37.0 | 10.9 |  |
+| `assets/vue-router-Cp3krIFy.js` | js | 25.0 | 9.8 |  |
+| `assets/vuetify-Dcrvl_Q0.css` | css | 620.7 | 87.6 |  |
+| `assets/vuetify-ZxuFsui1.js` | js | 348.4 | 109.5 |  |
+| `assets/vueuse-ByYQHvxe.js` | js | 11.6 | 5.0 |  |

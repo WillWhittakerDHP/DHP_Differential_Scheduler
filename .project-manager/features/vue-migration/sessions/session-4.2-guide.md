@@ -116,11 +116,6 @@ const groupedProfiles = computed(() => {
 </template>
 ```
 
-**Learning Points:**
-- VExpansionPanels for grouping
-- Computed properties for reactive data transformation
-- Integration with composables
-
 ---
 
 ### Task 4.2.2: Implement BlockProfile Grouping by BlockType
@@ -189,11 +184,6 @@ const groupedProfiles = computed(() => {
     }))
 })
 ```
-
-**Learning Points:**
-- Map data structure for grouping
-- Computed property with complex logic
-- Search filtering across nested data
 
 ---
 
@@ -283,11 +273,6 @@ const isExpanded = ref(false)
   </VCard>
 </template>
 ```
-
-**Learning Points:**
-- Component props and TypeScript types
-- Vuexy VCard layout patterns
-- Action buttons with icons
 
 ---
 
@@ -393,11 +378,6 @@ const removePartProfile = async (partProfileId: string) => {
 </template>
 ```
 
-**Learning Points:**
-- Relationship filtering and lookup
-- VList for nested items
-- Relationship CRUD operations
-
 ---
 
 ### Task 4.2.5: Integrate Composables
@@ -427,10 +407,6 @@ const {
 
 // Use in computed properties and methods
 ```
-
-**Learning Points:**
-- Composable integration patterns
-- Loading and error state handling
 
 ---
 
@@ -480,10 +456,6 @@ if (searchTerm.value) {
     )
 }
 ```
-
-**Learning Points:**
-- Search input with Vuexy components
-- Multi-field search filtering
 
 ---
 
@@ -574,4 +546,3 @@ client-vue/src/views/admin/
 - Project Plan: `.cursor/project-manager/PROJECT_PLAN.md`
 - Plan Details: `plan.plan.md`
 - Session 4.1 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-4.1-guide.md`
-

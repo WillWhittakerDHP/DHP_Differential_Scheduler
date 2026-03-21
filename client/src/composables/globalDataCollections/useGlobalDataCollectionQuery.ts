@@ -1,13 +1,14 @@
 import { computed, type ComputedRef } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { findById } from '@/utils/collections/findById'
+import type { WithId } from '@/types/collectionTypes'
 import type {
   GlobalDataCollectionByIdQueryResult,
   GlobalDataCollectionQueryResult,
   GlobalDataCollectionSelector,
-} from './types'
+} from '@/types/dataCollections/globalDataCollectionTypes'
 
-type GlobalDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
+type GlobalDataCollectionQueryOptions<CollectionItem extends WithId> = {
   selectCollection: GlobalDataCollectionSelector<CollectionItem>
 } & { readonly __brand?: 'GlobalDataCollectionQueryOptions' }
 
@@ -16,7 +17,7 @@ type GlobalDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
  *
  * WHY: Keeping "query" concerns separate makes CRUD composables smaller and easier to reuse.
  */
-export function useGlobalDataCollectionQuery<CollectionItem extends { id: string }>(
+export function useGlobalDataCollectionQuery<CollectionItem extends WithId>(
   options: GlobalDataCollectionQueryOptions<CollectionItem>
 ): {
   list: ComputedRef<CollectionItem[]>

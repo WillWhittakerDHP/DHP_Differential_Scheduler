@@ -58,7 +58,6 @@
     }
   }
 
-  // LEARNING: Active state styling for selected card
   &.active {
     border-color: rgb(var(--v-theme-primary));
     background-color: rgba(var(--v-theme-primary), 0.08);

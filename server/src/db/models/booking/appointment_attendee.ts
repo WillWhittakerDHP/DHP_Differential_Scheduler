@@ -7,6 +7,7 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
+import { INVITATION_STATUS_FAILED, INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js';
 
 import { Appointment } from './appointment';
 import { User } from '../participantModels/Users';
@@ -18,7 +19,6 @@ import { BlockInstance } from './block_instance';
  * Junction table linking appointments to actual Users with their roles.
  * Replaces hardcoded clientId/agentId with flexible attendee model.
  * 
- * LEARNING: Junction table pattern for flexible appointment attendees
  * WHY: Enables N attendees per appointment, proper calendar invitations, role tracking
  * 
  * Key relationships:
@@ -38,7 +38,7 @@ export class AppointmentAttendee extends Model<
   declare userId: ForeignKey<string>;
   declare userTypeBlockInstanceId: ForeignKey<string> | null;
   declare shouldReceiveInvitation: CreationOptional<boolean>;
-  declare invitationStatus: CreationOptional<'pending' | 'sent' | 'accepted' | 'declined' | 'failed'>;
+  declare invitationStatus: CreationOptional<'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED>;
   declare googleEventId: string | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -94,7 +94,7 @@ export function AppointmentAttendeeFactory(sequelize: Sequelize) {
         comment: 'Whether this attendee should receive calendar invitation',
       },
       invitationStatus: {
-        type: DataTypes.ENUM('pending', 'sent', 'accepted', 'declined', 'failed'),
+        type: DataTypes.ENUM('pending', INVITATION_STATUS_SENT, 'accepted', 'declined', INVITATION_STATUS_FAILED),
         allowNull: false,
         defaultValue: 'pending',
         field: 'invitation_status',

@@ -78,7 +78,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
       patchFormElements(element as HTMLFormElement)
     }
     
-    // LEARNING: Use map to transform NodeList to array functionally
     // WHY: Functional approach - transform array without mutations
     // PATTERN: Map to transform NodeList to array of HTMLFormElement, return directly
     const nestedForms = element.querySelectorAll?.('form.dynamic-form-inputs')
@@ -122,7 +121,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
 
 const app = createApp(App)
 
-// LEARNING: Pinia is Vue's official state management library
 const pinia = createPinia()
 setPiniaInstance(pinia)
 app.use(pinia)
@@ -138,7 +136,6 @@ const queryClient = new QueryClient({
 setQueryClient(queryClient)
 
 const logger = createLogger('main')
-
 
 app.use(router)
 
@@ -176,6 +173,9 @@ const vuetify = createVuetify({
     VVideo,
   },
   defaults: vuetifyDefaults,
+  display: {
+    thresholds: { md: 960, lg: 1280, xl: 1920, xxl: 2560 },
+  },
   icons,
   theme: optionTheme,
 })
@@ -206,4 +206,3 @@ const prefetchGlobalData = async () => {
     app.mount('#app')
   }
 })()
-

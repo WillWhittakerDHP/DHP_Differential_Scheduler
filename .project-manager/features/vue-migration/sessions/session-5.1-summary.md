@@ -154,15 +154,6 @@ client-vue/src/components/booking/
 
 ---
 
-## Learning Points
-
-1. **Custom Stepper Pattern**: Vuetify doesn't have vertical stepper, so custom VList-based stepper was created
-2. **Dynamic Component Rendering**: Using `<component :is>` with component references for step switching
-3. **Vue Composition API**: Simple reactive state with `ref()` for step management
-4. **Responsive Design**: VRow/VCol with breakpoints for mobile/desktop layouts
-5. **Hardcoded Data Pattern**: Static UI shell requires all data to be hardcoded (Phase 5 requirement)
-6. **Visual Design Matching**: Careful attention to typography, spacing, and colors to match Jose's design
-
 ---
 
 ## Framework Differences (React vs Vue)
@@ -210,4 +201,3 @@ client-vue/src/components/booking/
 - Phase Guide: `.cursor/project-manager/features/vue-migration/phases/phase-5-guide.md`
 - Project Plan: `.cursor/project-manager/PROJECT_PLAN.md`
 - Jose's Reference: `WillWhittakerDHP/Stuff-From_Jose` - `src/views/pages/wizard-examples/scheduler/StepPriceDetails.js`
-

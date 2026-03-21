@@ -6,7 +6,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">Distribute Changes to Components</span>
+        <span class="text-headline-medium">Distribute Changes to Components</span>
         <VBtn
           icon
           variant="text"
@@ -40,33 +40,14 @@
               <th v-if="selectedStrategy === 'manual'">Manual Value</th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              v-for="item in preview"
-              :key="item.componentId"
-            >
-              <td>{{ getComponentName(item.componentId) }}</td>
-              <td>{{ formatValue(item.currentValue) }}</td>
-              <td>{{ formatValue(item.newValue) }}</td>
-              <td>
-                <VChip
-                  :color="item.change >= 0 ? 'success' : 'error'"
-                  size="small"
-                >
-                  {{ item.change >= 0 ? '+' : '' }}{{ formatValue(item.change) }}
-                </VChip>
-              </td>
-              <td v-if="selectedStrategy === 'manual'">
-                <VTextField
-                  v-model.number="manualValues[item.componentId]"
-                  type="number"
-                  density="compact"
-                  variant="outlined"
-                  @update:model-value="updateManualPreview"
-                />
-              </td>
-            </tr>
-          </tbody>
+          <ComponentDistributionTableBody
+            :preview="preview"
+            :selected-strategy="selectedStrategy"
+            :manual-values="manualValues"
+            :get-component-name="getComponentName"
+            :format-value="formatValue"
+            :set-manual-value="setManualValue"
+          />
         </VTable>
 
         <VAlert
@@ -106,7 +87,9 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import { DISTRIBUTION_STRATEGIES } from '@/constants/component'
+import ComponentDistributionTableBody from './ComponentDistributionTableBody.vue'
 import { useComponentDistribution } from '@/composables/useComponentDistribution'
+import { useComponentDistributionConfirm } from '@/composables/admin/useComponentDistributionConfirm'
 
 interface Props {
   modelValue: boolean
@@ -126,7 +109,6 @@ const emit = defineEmits<Emits>()
 
 const selectedStrategy = ref<DistributionStrategy>('proportional')
 const manualValues = ref<Record<GlobalEntityId, number>>({})
-const isDistributing = ref(false)
 
 const strategyItems = [
   { title: 'Proportional', value: DISTRIBUTION_STRATEGIES.PROPORTIONAL },
@@ -157,39 +139,23 @@ const {
   updateManualPreview
 } = componentDistributionComposable
 
+function setManualValue(componentId: GlobalEntityId, value: number) {
+  manualValues.value[componentId] = value
+  updateManualPreview()
+}
+
 function updateModelValue(value: boolean) {
   emit('update:modelValue', value)
 }
 
-async function handleConfirm() {
-  isDistributing.value = true
-  
-  try {
-    if (selectedStrategy.value === 'manual') {
-      // WHY: Functional approach avoids mutations, aligns with workspace rules
-      // PATTERN: Reduce array to nested object structure
-      const distributionValues = preview.value.reduce<Record<GlobalEntityId, Record<string, unknown>>>(
-        (acc, item) => {
-          const existing = acc[item.componentId]
-          acc[item.componentId] = existing !== undefined && existing !== null ? existing : {}
-          acc[item.componentId][props.propertyKey] = item.newValue
-          return acc
-        },
-        {}
-      )
+const { handleConfirm, isDistributing } = useComponentDistributionConfirm({
+  preview,
+  selectedStrategy,
+  getPropertyKey: () => props.propertyKey,
+  onConfirm: (strategy, distributionValues) => emit('confirm', strategy, distributionValues),
+  onClose: () => updateModelValue(false),
+})
 
-      emit('confirm', selectedStrategy.value, distributionValues)
-    } else {
-      emit('confirm', selectedStrategy.value, undefined)
-    }
-    updateModelValue(false)
-  } finally {
-    isDistributing.value = false
-  }
-}
-
-// LEARNING: Watchers are now handled in useComponentDistribution composable
 // WHY: Strategy change and modal open watchers moved to composable
 // PATTERN: Composable handles all state management
 </script>
-

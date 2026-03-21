@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Route-level view for beta feedback dashboard
   WHY: Wrapper for BetaFeedbackDashboard; matches BookingWizardView pattern
   PATTERN: Thin view component that renders feature component
 -->

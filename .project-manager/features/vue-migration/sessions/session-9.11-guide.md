@@ -354,14 +354,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We'll Learn
-- Using shared utilities in transformers
-- Maintaining transformer-specific logic while reducing duplication
-- Verifying transformer output matches expected format
-- Ensuring consistent naming conventions across transformers
-
 ### Why These Patterns Matter
 - Reduces code duplication
 - Improves maintainability
@@ -434,4 +426,3 @@ Before starting this session, verify:
 **Admin Transformer:**
 - `relationships.filter((rel: GlobalRelationship) => rel.parent && rel.parent.id === entity.id)` → `findRelationshipsByParent()`
 - `parentRelationships.flatMap((rel: GlobalRelationship) => rel.children ? rel.children.map((child) => child.id) : [])` → `extractChildIds()`
-

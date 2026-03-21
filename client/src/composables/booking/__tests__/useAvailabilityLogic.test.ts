@@ -4,7 +4,7 @@ import { ref, computed } from 'vue'
 import { useAvailabilityLogic } from '../useAvailabilityLogic'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { TimeSlot } from '@/types/appointment'
-import { isRFC3339DateTime } from '@/types/datetime'
+import { isRFC3339DateTime } from '@/utils/datetime'
 
 function createBookingBlockInstance(
   id: string,

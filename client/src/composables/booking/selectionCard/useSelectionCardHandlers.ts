@@ -3,31 +3,11 @@
 
 WHY: Moves selection handling, nest...
  */
-import { type ComputedRef } from 'vue'
-import type { SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
-import { isNestedComponentsClick, toggleSelectionModelValue, updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
+import { watch } from 'vue'
+import { isNestedComponentsClick, updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
+import type { UseSelectionCardHandlersParams, UseSelectionCardHandlersReturn } from '@/types/booking/selectionCard/selectionCardHandlers'
 
-export interface UseSelectionCardHandlersParams {
-  item: ComputedRef<SelectionCardItem>
-  modelValue: ComputedRef<string | null | string[]>
-  nestedChildSelections: ComputedRef<string[]>
-  activeStatePlugin: ComputedRef<StatePlugin | null>
-  isSelected: ComputedRef<boolean>
-  emit: {
-    (e: 'update:modelValue', value: string | null | string[]): void
-    (e: 'update:nestedChildSelections', childIds: string[]): void
-    (e: 'toggle-expansion'): void
-  }
-  isExpanded: ComputedRef<boolean | undefined>
-  localExpanded: { value: boolean }
-}
-
-export interface UseSelectionCardHandlersReturn {
-  handleSelection: () => void
-  handleNestedChildUpdate: (childId: string, selected: boolean) => void
-  handleParentClick: (e: Event) => void
-  toggleExpansion: () => void
-}
+export type { UseSelectionCardHandlersParams, UseSelectionCardHandlersReturn } from '@/types/booking/selectionCard/selectionCardHandlers'
 
 /**
  * WHY: useSelectionCardHandlers composable
@@ -37,35 +17,32 @@ WHY: Extracts handler logic from co...
 export function useSelectionCardHandlers(params: UseSelectionCardHandlersParams): UseSelectionCardHandlersReturn {
   const {
     item,
-    modelValue,
+    modelValue: _modelValue,
     nestedChildSelections,
     activeStatePlugin,
     isSelected,
     emit,
     isExpanded,
-    localExpanded
+    localExpanded,
+    hasChildren,
   } = params
 
+  if (hasChildren) {
+    watch(isSelected, (newValue) => {
+      if (newValue && hasChildren.value && isExpanded.value === undefined) {
+        localExpanded.value = true
+      }
+    }, { immediate: true })
+  }
+
   /**
-   * PATTERN: Use state plugin to update selection state, fallback to emit
+   * PATTERN: Use state plugin to update selection state
    */
   const handleSelection = (): void => {
     const plugin = activeStatePlugin.value
-    if (plugin) {
-      const newValue = !isSelected.value
-      plugin.setValue(item.value, newValue)
-      return
-    }
-    
-    // Fallback to emit for backward compatibility
-    emit(
-      'update:modelValue',
-      toggleSelectionModelValue({
-        itemId: item.value.id,
-        modelValue: modelValue.value,
-        isSelected: isSelected.value,
-      })
-    )
+    if (!plugin) return
+    const newValue = !isSelected.value
+    plugin.setValue(item.value, newValue)
   }
 
   const handleNestedChildUpdate = (childId: string, selected: boolean): void => {

@@ -4,6 +4,19 @@ import { ref, computed } from 'vue'
 import { useMoveablePartsScheduling } from '../useMoveablePartsScheduling'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 
+vi.mock('@/services/calendarApiService', () => ({
+  fetchComputedAvailabilityData: async () => ({
+    slotsByDay: {},
+    calendarEvents: [],
+    constraints: [],
+    minuteIncrement: 15,
+    timezone: undefined,
+    durationRounding: undefined,
+    outOfOfficeEvents: [],
+    _meta: { dateRange: { start: '', end: '' }, generatedAt: '', cacheStatus: { events: 'miss' as const } }
+  })
+}))
+
 vi.mock('@/configs/availabilitySettings', () => ({
   getAvailabilitySettings: async () => ({
     businessHours: {
@@ -80,23 +93,33 @@ function createAppointmentSlot(options: {
   }
 }
 
+const propertyDetailsStepData = ref<{ candidatePlaceId?: string } | null>(null)
+
 describe('useMoveablePartsScheduling', () => {
   let appointmentShape: ReturnType<typeof computed<AppointmentShape | null>>
   let selectedSlot: ReturnType<typeof computed<AppointmentSlot | null>>
+
+  const slotsByDay = ref(new Map())
 
   beforeEach(() => {
     appointmentShape = computed(() => createAppointmentShape())
     selectedSlot = computed(() => createAppointmentSlot())
   })
 
+  function schedulingParams() {
+    return {
+      appointmentShape,
+      selectedSlot,
+      propertyDetailsStepData,
+      slotsByDay
+    }
+  }
+
   describe('hasMoveableParts detection', () => {
     it('should detect moveable parts when totalMoveableDuration > 0', () => {
       appointmentShape = computed(() => createAppointmentShape({ totalMoveableDuration: 30 }))
       
-      const { hasMoveableParts } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { hasMoveableParts } = useMoveablePartsScheduling(schedulingParams())
 
       expect(hasMoveableParts.value).toBe(true)
     })
@@ -104,10 +127,7 @@ describe('useMoveablePartsScheduling', () => {
     it('should not detect moveable parts when totalMoveableDuration is 0', () => {
       appointmentShape = computed(() => createAppointmentShape({ totalMoveableDuration: 0 }))
       
-      const { hasMoveableParts } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { hasMoveableParts } = useMoveablePartsScheduling(schedulingParams())
 
       expect(hasMoveableParts.value).toBe(false)
     })
@@ -115,10 +135,7 @@ describe('useMoveablePartsScheduling', () => {
     it('should not detect moveable parts when shape is null', () => {
       appointmentShape = computed(() => null)
       
-      const { hasMoveableParts } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { hasMoveableParts } = useMoveablePartsScheduling(schedulingParams())
 
       expect(hasMoveableParts.value).toBe(false)
     })
@@ -126,29 +143,20 @@ describe('useMoveablePartsScheduling', () => {
 
   describe('modal state management', () => {
     it('should initialize with modal closed', () => {
-      const { showModal } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { showModal } = useMoveablePartsScheduling(schedulingParams())
 
       expect(showModal.value).toBe(false)
     })
 
     it('should open modal when openModal is called', () => {
-      const { showModal, openModal } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { showModal, openModal } = useMoveablePartsScheduling(schedulingParams())
 
       openModal()
       expect(showModal.value).toBe(true)
     })
 
     it('should close modal when closeModal is called', () => {
-      const { showModal, openModal, closeModal } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { showModal, openModal, closeModal } = useMoveablePartsScheduling(schedulingParams())
 
       openModal()
       expect(showModal.value).toBe(true)
@@ -160,10 +168,7 @@ describe('useMoveablePartsScheduling', () => {
 
   describe('contingency period', () => {
     it('should initialize with default contingency period', () => {
-      const { contingencyPeriod } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { contingencyPeriod } = useMoveablePartsScheduling(schedulingParams())
 
       expect(contingencyPeriod.value.hasContingency).toBe(false)
       expect(contingencyPeriod.value.endDate).toBeNull()
@@ -171,10 +176,7 @@ describe('useMoveablePartsScheduling', () => {
     })
 
     it('should reset contingency period when resetContingency is called', () => {
-      const { contingencyPeriod, resetContingency } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { contingencyPeriod, resetContingency } = useMoveablePartsScheduling(schedulingParams())
 
       contingencyPeriod.value.hasContingency = true
       contingencyPeriod.value.endDate = '2026-01-20'
@@ -190,29 +192,20 @@ describe('useMoveablePartsScheduling', () => {
 
   describe('slot selection', () => {
     it('should initialize with no selected slot', () => {
-      const { selectedSlotIndex } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { selectedSlotIndex } = useMoveablePartsScheduling(schedulingParams())
 
       expect(selectedSlotIndex.value).toBeNull()
     })
 
     it('should select slot when selectSlot is called', () => {
-      const { selectedSlotIndex, selectSlot } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { selectedSlotIndex, selectSlot } = useMoveablePartsScheduling(schedulingParams())
 
       selectSlot(2)
       expect(selectedSlotIndex.value).toBe(2)
     })
 
     it('should update selected slot index', () => {
-      const { selectedSlotIndex, selectSlot } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { selectedSlotIndex, selectSlot } = useMoveablePartsScheduling(schedulingParams())
 
       selectSlot(0)
       expect(selectedSlotIndex.value).toBe(0)
@@ -226,10 +219,7 @@ describe('useMoveablePartsScheduling', () => {
     it('should return moveable duration from shape', () => {
       appointmentShape = computed(() => createAppointmentShape({ totalMoveableDuration: 45 }))
       
-      const { moveableDuration } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { moveableDuration } = useMoveablePartsScheduling(schedulingParams())
 
       expect(moveableDuration.value).toBe(45)
     })
@@ -237,10 +227,7 @@ describe('useMoveablePartsScheduling', () => {
     it('should return 0 when shape is null', () => {
       appointmentShape = computed(() => null)
       
-      const { moveableDuration } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { moveableDuration } = useMoveablePartsScheduling(schedulingParams())
 
       expect(moveableDuration.value).toBe(0)
     })
@@ -250,10 +237,7 @@ describe('useMoveablePartsScheduling', () => {
     it('should return null when no moveable parts', async () => {
       appointmentShape = computed(() => createAppointmentShape({ totalMoveableDuration: 0 }))
       
-      const { moveableOptions } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { moveableOptions } = useMoveablePartsScheduling(schedulingParams())
 
       // Wait for async calculation
       await new Promise(resolve => setTimeout(resolve, 100))
@@ -265,10 +249,7 @@ describe('useMoveablePartsScheduling', () => {
       appointmentShape = computed(() => createAppointmentShape({ totalMoveableDuration: 30 }))
       selectedSlot = computed(() => null)
       
-      const { moveableOptions } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { moveableOptions } = useMoveablePartsScheduling(schedulingParams())
 
       // Wait for async calculation
       await new Promise(resolve => setTimeout(resolve, 100))
@@ -282,10 +263,7 @@ describe('useMoveablePartsScheduling', () => {
         totalOnSiteEndTime: '2026-01-15T11:00:00Z'
       }))
       
-      const { moveableOptions, isLoadingOptions } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { moveableOptions, isLoadingOptions } = useMoveablePartsScheduling(schedulingParams())
 
       // Wait for async calculation
       await new Promise(resolve => setTimeout(resolve, 200))
@@ -305,10 +283,7 @@ describe('useMoveablePartsScheduling', () => {
     it('should return null when no slot is selected', async () => {
       appointmentShape = computed(() => createAppointmentShape({ totalMoveableDuration: 30 }))
       
-      const { selectedMoveableSlot } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { selectedMoveableSlot } = useMoveablePartsScheduling(schedulingParams())
 
       await new Promise(resolve => setTimeout(resolve, 100))
 
@@ -321,10 +296,7 @@ describe('useMoveablePartsScheduling', () => {
         totalOnSiteEndTime: '2026-01-15T11:00:00Z'
       }))
       
-      const { selectedMoveableSlot, selectSlot, moveableOptions } = useMoveablePartsScheduling({
-        appointmentShape,
-        selectedSlot
-      })
+      const { selectedMoveableSlot, selectSlot, moveableOptions } = useMoveablePartsScheduling(schedulingParams())
 
       // Wait for async calculation
       await new Promise(resolve => setTimeout(resolve, 200))

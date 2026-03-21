@@ -3,6 +3,9 @@ import type { BookingData, BookingBlockInstance } from '@/utils/transformers/glo
 import { getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { createLogger } from '@/utils/logger'
+import type { CascadeFilterParamsBase } from '@/types/booking/cascadeFilterPipeline'
+
+export type { CascadeFilterParamsBase } from '@/types/booking/cascadeFilterPipeline'
 
 const logger = createLogger('cascadeFilterPipeline')
 
@@ -10,14 +13,6 @@ const logger = createLogger('cascadeFilterPipeline')
 type CascadeStepResult =
   | { success: true; instances: BookingBlockInstance[] }
   | { success: false; error: string; instances: BookingBlockInstance[] }
-
-/** Base shared with PipelineParams (P2 type-similarity). */
-export interface CascadeFilterParamsBase {
-  bookingData: BookingData | null
-  parentInstances: BookingBlockInstance | BookingBlockInstance[] | null
-  currentSelection: BookingBlockInstance[]
-  relationshipName: string
-}
 
 type CascadeFilterParams = CascadeFilterParamsBase
 
@@ -82,7 +77,10 @@ function filterByShape(
 ): BookingBlockInstance[] {
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
   if (!shapeId) return []
-  return instances.filter(instance => instance.blockShapeRef === shapeId)
+  const shapeIdNorm = String(shapeId)
+  return instances.filter(
+    instance => String(instance.blockShapeRef) === shapeIdNorm
+  )
 }
 
 interface FallbackParams {
@@ -140,11 +138,14 @@ export function cascadeShapePipeline(params: PipelineParams): {
   }
 
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
+
   if (!shapeId) {
     if (relationshipName === 'availability options') {
       logger.warn('Option block shape [type: option] not found')
     } else if (relationshipName === 'property types') {
       logger.warn('Property block shape [type: property] not found')
+    } else if (relationshipName === 'coupons') {
+      logger.warn('Coupon block shape [type: coupon] not found')
     }
     return { instances: [], error: cascadeResult.success ? null : cascadeResult.error }
   }

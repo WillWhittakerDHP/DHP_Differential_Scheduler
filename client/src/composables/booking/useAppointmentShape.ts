@@ -1,10 +1,8 @@
 /**
  * WHY: useAppointmentShape Composable
 
-LEARNING: Single-responsibility composab...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import type { AppointmentShape } from '@/types/appointment'
 import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
@@ -15,21 +13,13 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { createLogger } from '@/utils/logger'
+import type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/types/booking/appointmentShape'
 
 const logger = createLogger('useAppointmentShape')
-
-export interface UseAppointmentShapeParams {
-  blockInstances: ComputedRef<BookingBlockInstance[]>
-}
-
-export interface UseAppointmentShapeReturn {
-  appointmentShape: ComputedRef<AppointmentShape | null>
-}
 
 /**
  * WHY: useAppointmentShape composable
 
-LEARNING: Builds AppointmentShape from b...
  */
 export function useAppointmentShape(
   params: UseAppointmentShapeParams
@@ -67,7 +57,6 @@ export function useAppointmentShape(
       const attendeeAssignmentsRelationships = (rawAttendeeAssignments !== undefined && rawAttendeeAssignments !== null ? rawAttendeeAssignments : []) as GlobalRelationship[]
       
       // PATTERN: Map over event shapes, attach attendees array from attendeeAssignments relationships
-      // LEARNING: GlobalRelationship format uses parent/children objects, not parent_id/child_id
       // WHY: Relationships are transformed to nested format with parent and children arrays
       // PATTERN: Use rel.parent.id and rel.children.map(child => child.id) for GlobalRelationship format
       if (attendeeAssignmentsRelationships.length > 0) {

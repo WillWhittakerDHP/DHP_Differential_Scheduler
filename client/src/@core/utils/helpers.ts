@@ -17,7 +17,6 @@ export const isObject = (obj: unknown): obj is Record<string, unknown> =>
   obj !== null && !!obj && typeof obj === 'object' && !Array.isArray(obj)
 
 /**
- * LEARNING: Prefer useLocalTime.isTodayLocal() at UI boundaries for UTC/RFC3339 consistency.
  */
 export const isToday = (date: Date) => {
   const today = new Date()

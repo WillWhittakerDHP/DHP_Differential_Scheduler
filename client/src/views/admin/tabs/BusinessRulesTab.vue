@@ -1,35 +1,29 @@
 <!--
-  LEARNING: Business Rules Tab Component
   WHY: Allows admin to configure validation rules per block instance (services, dwelling adjustments)
-  PATTERN: Composes useBusinessRules, useBusinessRuleForm, RuleFormDialog, RulesList; constants for copy.
+  PATTERN: Thin component; all logic in useBusinessRulesTab; RuleFormDialog, RulesList for UI.
 -->
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { useBusinessRules, type BusinessRule } from '@/composables/admin/useBusinessRules'
-import { useBusinessRuleForm } from '@/composables/admin/useBusinessRuleForm'
-import { useGlobal } from '@/composables/useGlobal'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { provide } from 'vue'
+import { useBusinessRulesTab } from '@/composables/admin/useBusinessRulesTab'
+import { ruleFormDialogContextKey } from '@/composables/admin/injectionKeys'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'
+import type { BusinessRuleFormData } from '@/types/admin/businessRules'
 import RulesList from './RulesList.vue'
 import RuleFormDialog from './RuleFormDialog.vue'
 
+const tab = useBusinessRulesTab()
 const {
   rules,
   loading,
   saving,
   error,
   success,
-  fetchRules,
-  createRule,
-  updateRule,
-  deleteRule,
-  toggleRuleActive,
-} = useBusinessRules()
-
-const { getGlobalEntities } = useGlobal()
-
-const selectedBlockId = ref<GlobalEntityId | null>(null)
-
+  selectedBlockId,
+  availableBlockInstances,
+  availableValidationMessages,
+  filteredRules,
+  selectedBlockTitle,
+} = tab.data
 const {
   formData,
   editingRule,
@@ -38,82 +32,46 @@ const {
   requiredFieldsArray,
   requiredFieldsCondition,
   requiresAgent,
+} = tab.form
+const {
   openCreateDialog,
   openEditDialog,
   closeDialog,
   formatRuleType,
   formatRuleConfig,
-} = useBusinessRuleForm(selectedBlockId)
+  saveRule,
+  handleDeleteRule,
+  handleToggleActive,
+  setRequiredFieldsArray,
+  setRequiredFieldsCondition,
+  setRequiresAgent,
+} = tab.actions
 
-const availableBlockInstances = computed(() => {
-  const blockInstances = getGlobalEntities('blockInstance')
-  return blockInstances.map((bi) => ({
-    id: bi.id,
-    title: bi.name ?? `Block ${bi.id}`,
-    value: bi.id,
-  }))
+function updateFormField<F extends keyof BusinessRuleFormData>(
+  field: F,
+  value: BusinessRuleFormData[F]
+): void {
+  formData.value = { ...formData.value, [field]: value }
+}
+
+provide(ruleFormDialogContextKey, {
+  showRuleDialog,
+  formData,
+  editingRule,
+  ruleTypeOptions,
+  availableBlockInstances,
+  availableValidationMessages,
+  requiredFieldsArray,
+  requiredFieldsCondition,
+  requiresAgent,
+  saving,
+  updateFormField,
+  setRequiredFieldsArray,
+  setRequiredFieldsCondition,
+  setRequiresAgent,
+  saveRule,
+  closeDialog,
 })
-
-const availableValidationMessages = computed(() => {
-  const annotationInstances = getGlobalEntities('annotationInstance')
-  return annotationInstances.map((ai) => ({
-    id: ai.id,
-    title: ai.name ?? `Annotation ${ai.id}`,
-    value: ai.id,
-  }))
-})
-
-watch(
-  selectedBlockId,
-  async (newBlockId) => {
-    if (newBlockId) {
-      await fetchRules({ blockInstanceId: newBlockId })
-    } else {
-      rules.value = []
-    }
-  },
-  { immediate: true }
-)
-
-const filteredRules = computed(() => {
-  if (!selectedBlockId.value) return []
-  return rules.value.filter((rule) => rule.blockInstanceId === selectedBlockId.value)
-})
-
-const saveRule = async (): Promise<void> => {
-  if (editingRule.value) {
-    const result = await updateRule(editingRule.value.id, formData.value)
-    if (result) closeDialog()
-  } else {
-    const result = await createRule(formData.value)
-    if (result) closeDialog()
-  }
-}
-
-const handleDeleteRule = async (rule: BusinessRule): Promise<void> => {
-  const title = ruleTypeOptions.find((o) => o.value === rule.ruleType)?.title
-  if (confirm(`Delete business rule for ${title ?? rule.ruleType}?`)) {
-    await deleteRule(rule.id)
-  }
-}
-
-const handleToggleActive = (rule: BusinessRule): void => {
-  toggleRuleActive(rule.id, !rule.active)
-}
-
-const selectedBlockTitle = computed(() =>
-  availableBlockInstances.value.find((b) => b.value === selectedBlockId.value)?.title
-)
-
-function setRequiredFieldsArray(v: string): void {
-  requiredFieldsArray.value = v
-}
-function setRequiredFieldsCondition(v: string): void {
-  requiredFieldsCondition.value = v
-}
-function setRequiresAgent(v: boolean): void {
-  requiresAgent.value = v
-}
 </script>
 
 <template>
@@ -145,8 +103,8 @@ function setRequiresAgent(v: boolean): void {
       </VAlert>
 
       <div class="mb-6">
-        <div class="text-h6 mb-3">{{ BUSINESS_RULES_UI.TITLE }}</div>
-        <div class="text-body-2 mb-4 text-medium-emphasis">
+        <div class="text-headline-small mb-3">{{ BUSINESS_RULES_UI.TITLE }}</div>
+        <div class="text-body-medium mb-4 text-medium-emphasis">
           {{ BUSINESS_RULES_UI.DESCRIPTION }}
         </div>
 
@@ -163,7 +121,7 @@ function setRequiresAgent(v: boolean): void {
 
       <div v-if="selectedBlockId">
         <div class="d-flex justify-space-between align-center mb-4">
-          <div class="text-subtitle-1">
+          <div class="text-body-large">
             Rules for {{ selectedBlockTitle }}
           </div>
           <VBtn
@@ -187,8 +145,8 @@ function setRequiresAgent(v: boolean): void {
         />
 
         <VCard v-if="filteredRules.length === 0" class="pa-8 text-center">
-          <div class="text-h6 mb-2">{{ BUSINESS_RULES_UI.NO_RULES_TITLE }}</div>
-          <div class="text-body-2 text-medium-emphasis mb-4">
+          <div class="text-headline-small mb-2">{{ BUSINESS_RULES_UI.NO_RULES_TITLE }}</div>
+          <div class="text-body-medium text-medium-emphasis mb-4">
             {{ BUSINESS_RULES_UI.NO_RULES_MESSAGE }}
           </div>
           <VBtn color="primary" @click="openCreateDialog">
@@ -198,30 +156,14 @@ function setRequiresAgent(v: boolean): void {
       </div>
 
       <VCard v-else class="pa-8 text-center">
-        <div class="text-h6 mb-2">{{ BUSINESS_RULES_UI.SELECT_BLOCK_TITLE }}</div>
-        <div class="text-body-2 text-medium-emphasis">
+        <div class="text-headline-small mb-2">{{ BUSINESS_RULES_UI.SELECT_BLOCK_TITLE }}</div>
+        <div class="text-body-medium text-medium-emphasis">
           {{ BUSINESS_RULES_UI.SELECT_BLOCK_MESSAGE }}
         </div>
       </VCard>
     </div>
 
-    <RuleFormDialog
-      v-model="showRuleDialog"
-      v-model:form-data="formData"
-      :editing-rule="editingRule"
-      :rule-type-options="ruleTypeOptions"
-      :available-block-instances="availableBlockInstances"
-      :available-validation-messages="availableValidationMessages"
-      :required-fields-array="requiredFieldsArray"
-      :required-fields-condition="requiredFieldsCondition"
-      :requires-agent="requiresAgent"
-      :saving="saving"
-      @update:required-fields-array="setRequiredFieldsArray"
-      @update:required-fields-condition="setRequiredFieldsCondition"
-      @update:requires-agent="setRequiresAgent"
-      @save="saveRule"
-      @close="closeDialog"
-    />
+    <RuleFormDialog />
   </div>
 </template>
 

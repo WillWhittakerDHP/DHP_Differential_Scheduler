@@ -8,8 +8,9 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
+import type { PropertyMatchType } from '../../../services/propertyMatchConstants.js'
 
-export type FeatureMatchType = 'exists' | 'contains' | 'equals' | 'greater_than';
+export type FeatureMatchType = PropertyMatchType | 'greater_than';
 
 export class PropertyFeatureMapping extends Model<
   InferAttributes<PropertyFeatureMapping>,

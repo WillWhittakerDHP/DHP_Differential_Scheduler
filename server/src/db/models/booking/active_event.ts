@@ -18,7 +18,6 @@ import type { EventInstance } from './event_instance.js';
  * Through-table for many-to-many relationship between PartShape/BlockShape and EventInstance.
  * Enables shapes to have multiple event instances with ordering and ternary value configuration.
  * 
- * LEARNING: Assignment relationship pattern enables:
  * - Many-to-many relationships (one shape can have many event instances, one event instance can be used by many shapes)
  * - Additional metadata on the relationship (orderIndex, ternaryValue)
  * - Shape-level configuration (all instances of a shape inherit the same event configuration)

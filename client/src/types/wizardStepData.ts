@@ -3,11 +3,18 @@
  */
 export type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
 
+import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
+
 export interface SummaryData {
   serviceType: string
   propertyType: string
   address: string
   squareFootage: string
+  appointmentDate?: string
+  appointmentTimes?: string
+  moveablePartShapeName?: string
+  moveableCompletion?: string
+  moveableDeadline?: string
 }
 
 export interface PriceData {
@@ -21,11 +28,8 @@ export interface PriceData {
   finalTotal: number
   baseFeeTotal?: number
   overageFeeTotal?: number
-  lineItemFees?: {
-    baseFee: number
-    overageFee: number
-    totalFee: number
-  }
+  /** Shared fee shape; aligns with FeeEntryBase for type-similarity EXTEND. */
+  lineItemFees?: FeeEntryBase
   lineItems?: Array<{
     label: string
     amount: number

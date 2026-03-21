@@ -3,13 +3,10 @@
 
 PATTERN: Composable that manages refr...
  */
-import { ref, watch, inject, type Ref } from 'vue'
+import { ref, watch, inject } from 'vue'
+import { resetMocksSignalKey } from '@/composables/booking/injectionKeys'
+import type { UseMockCalendarRefreshReturn } from '@/types/booking/mockCalendarRefresh'
 
-export interface UseMockCalendarRefreshReturn {
-  mockRefreshKey: Ref<number>
-  
-  resetMocks: () => void
-}
 
 /**
  * WHY: useMockCalendarRefresh composable
@@ -26,7 +23,7 @@ export function useMockCalendarRefresh(): UseMockCalendarRefreshReturn {
   }
 
   // PATTERN: Watch signal ref and call resetMocks when it changes
-  const resetMocksSignal = inject<Ref<number>>('resetMocksSignal', ref(0))
+  const resetMocksSignal = inject(resetMocksSignalKey, ref(0))
   watch(resetMocksSignal, () => {
     resetMocks()
   })

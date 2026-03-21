@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Global Notification Component
   WHY: Provides app-wide snackbar notifications
   PATTERN: VSnackbar component that reads from useNotification composable
   COMPARISON: React uses Ant Design message. Vue uses VSnackbar
@@ -16,7 +15,6 @@ PATTERN: useNotification composable with singlet...
 const { notification, showNotification, close } = useNotification()
 
 /**
- * LEARNING: Computed message for proper reactivity tracking
  */
 const message = computed(() => asEmptyString(notification.value?.message))
 const color = computed(() => notification.value?.color || 'info')
@@ -25,20 +23,18 @@ const timeout = computed(() => notification.value?.timeout || 4000)
 
 <template>
   <!--
-    LEARNING: VSnackbar component for notifications
-    WHY: Provides toast-style notifications at the bottom of the screen
-    PATTERN: VSnackbar with default slot for message (not text prop) to avoid slot invocation warning
-    WHY: Using default slot instead of text prop ensures slot is invoked within render function for proper reactivity tracking
+    WHY: Use text prop (not default slot) so content is rendered inside VSnackbar's render function.
+    PATTERN: Avoids "Slot default invoked outside of the render function" when overlay/transition invokes slots.
   -->
   <VSnackbar
     v-if="notification"
     v-model="showNotification"
+    :text="message"
     :color="color"
     :timeout="timeout"
     location="bottom"
     @update:model-value="(value) => !value && close()"
   >
-    {{ message }}
     <template #actions>
       <VBtn
         icon="tabler-x"
@@ -52,4 +48,3 @@ const timeout = computed(() => notification.value?.timeout || 4000)
 
 <style scoped>
 </style>
-

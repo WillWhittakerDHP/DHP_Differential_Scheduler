@@ -1,41 +1,17 @@
 /**
  * WHY: Field Location Composable
 
-LEARNING: Vue composable wrapper for FieldLoc...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { SubPanelRecord } from '@/constants/fieldMetadata'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import {
   getFieldLocation,
   groupFieldsByLocation,
   type FieldLocation,
-  type FieldLocationContext
+  type FieldLocationContext,
 } from '@/utils/forms/fieldLocationDispatcher'
-
-export interface UseFieldLocationOptions<GE extends GlobalEntityKey> {
-  fieldKeys: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
-  
-  fieldMetadata: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
-  
-  isExpanded: Ref<boolean> | ComputedRef<boolean>
-}
-
-export interface UseFieldLocationReturn<GE extends GlobalEntityKey> {
-  getFieldLocation: (fieldKey: GlobalFieldKey<GE>) => FieldLocation
-  
-  fieldsByLocation: ComputedRef<{
-    titleRow: GlobalFieldKey<GE>[]
-    directInline: GlobalFieldKey<GE>[]
-    directStacked: GlobalFieldKey<GE>[]
-    subPanels: SubPanelRecord<GlobalFieldKey<GE>[]>
-    hidden: GlobalFieldKey<GE>[]
-  }>
-  
-  titleRowFields: ComputedRef<GlobalFieldKey<GE>[]>
-}
+import type { UseFieldLocationOptions, UseFieldLocationReturn } from '@/types/admin/fieldLocation'
 
 /**
  * WHY: Field Location Composable

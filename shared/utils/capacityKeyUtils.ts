@@ -1,7 +1,6 @@
 /**
  * Shared Capacity Key Utilities
  * 
- * LEARNING: Single source of truth for capacity key building logic shared between client and server
  * WHY: Ensures key format consistency between producer (server) and consumer (client)
  * PATTERN: Shared utilities alongside shared types
  * 
@@ -16,7 +15,6 @@ import { TIME_BASIS_TYPES } from '../constants/constraintConstants.js'
 
 /**
  * Capacity key parts structure
- * LEARNING: Structured representation of capacity key before stringification
  * WHY: Allows type-safe key building before converting to string
  * PATTERN: Interface with type, date, and optional direction
  */
@@ -28,7 +26,6 @@ export interface CapacityKeyParts {
 
 /**
  * Extract date string (YYYY-MM-DD) from RFC3339 datetime
- * LEARNING: Utility to extract date portion from datetime string
  * WHY: Capacity keys use date-only strings, not full datetime
  * PATTERN: Simple string manipulation
  * 
@@ -41,7 +38,6 @@ export function extractDateFromRFC3339(rfc3339DateTime: string): string {
 
 /**
  * Build capacity key parts for a constraint and date
- * LEARNING: Centralized key generation eliminates duplication
  * WHY: Single source of truth for capacity key format
  * PATTERN: Pure function that generates structured key parts
  * 
@@ -59,7 +55,6 @@ export function buildCapacityKey(constraint: CapacityConstraint, date: string): 
 
 /**
  * Convert capacity key parts to string for Map usage
- * LEARNING: Single conversion point for key stringification
  * WHY: Ensures consistent string format across all usage
  * PATTERN: Convert structured parts to string only when needed for Map keys
  * 

@@ -1,24 +1,36 @@
 /**
 PATTERN: Composable that transforms GlobalData to Admin...
  */
+import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useGlobal } from '../useGlobal'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import { GlobalEntityKey } from '@/constants/entities'
 import { adminTransformer } from '@/utils/transformers/globalToAdminTransformer'
-import type { AdminObject } from '@/utils/transformers/globalToAdminTransformer'
+import type { AdminObject, AdminObjectMap } from '@/utils/transformers/globalToAdminTransformer'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
+export interface UseAdminReturn {
+  getEntity: <GE extends GlobalEntityKey>(entityKey: GE, entityId: GlobalEntityId) => AdminObject<GE> | undefined
+  getEntities: <GE extends GlobalEntityKey>(entityKey: GE) => AdminObject<GE>[]
+  getEntitiesByKey: <GE extends GlobalEntityKey>(entityKey: GE) => AdminObject<GE>[]
+  getEntityMap: <GE extends GlobalEntityKey>(entityKey: GE) => Map<GlobalEntityId, AdminObject<GE>>
+  getMetadata: <GE extends GlobalEntityKey>(entityKey: GE, entity: AdminObject<GE> | GlobalEntity<GE>) => Record<string, FieldMetadataEntry>
+  ensureMetadataLoaded: () => void
+  isMetadataLoaded: ComputedRef<boolean>
+  adminData: ComputedRef<AdminObjectMap>
+}
+
 let instanceCount = 0
 let callCount = 0
 const instanceCallSites: Array<{ count: number; stack: string }> = []
 
-let adminInstance: ReturnType<typeof createAdminInstance> | null = null
+let adminInstance: UseAdminReturn | null = null
 
 function getCallSiteInfo(): { caller: string; stack: string } {
   const stack = asEmptyString(new Error().stack)
@@ -30,15 +42,13 @@ function getCallSiteInfo(): { caller: string; stack: string } {
   }
 }
 
-function createAdminInstance() {
+function createAdminInstance(): UseAdminReturn {
   instanceCount++
   const callSite = getCallSiteInfo()
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
 
-
   const { globalData } = useGlobal()
 
-  // LEARNING: Use metadata cache composable for lazy-loaded admin metadata
   // PATTERN: Separate cache key ['adminMetadata'] from globalData
   const metadataCache = useMetadataCache()
 
@@ -128,7 +138,6 @@ function createAdminInstance() {
       blockShapeRef = blockInstanceEntity.blockShapeRef || null
     }
 
-    // LEARNING: Delegate to metadata cache composable
     // PATTERN: Single source of truth for metadata access
     return metadataCache.getMetadata(entityType, blockShapeRef)
   }
@@ -158,7 +167,7 @@ function createAdminInstance() {
 /**
 PATTERN: Singleton pattern - creates instance on first ...
  */
-export function useAdmin() {
+export function useAdmin(): UseAdminReturn {
   callCount++
 
   if (!adminInstance) {

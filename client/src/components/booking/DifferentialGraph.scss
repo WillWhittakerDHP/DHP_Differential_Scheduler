@@ -1,19 +1,14 @@
+// WHY: Fill container width so graph and bars scale with their div; bars keep relative proportions.
 .differential-graph {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 328px; // LEARNING: Explicitly match calendar's fixed width (~328px)
-  max-width: 328px; // Prevent any expansion
-  box-sizing: border-box; // Ensure padding/borders included in width
-  align-self: flex-start; // Align to start, don't stretch beyond content
-  margin: 0; // Remove any default margins
-  padding: 0; // Remove any default padding
-
-  @media (max-width: 599px) {
-    width: 100%;
-    max-width: 100%;
-  }
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
   h5 {
     margin: 0;
@@ -115,11 +110,12 @@
   box-sizing: border-box; // Include border in width calculation
 }
 
+// WHY: Width from --minor-bar-width (duration ratio) so bottom bar is always shorter than or equal to top bar.
 .minor-bar {
-  width: 50%;
-  max-width: 50%; // Ensure it doesn't exceed half of parent
+  width: var(--minor-bar-width, 50%);
+  max-width: 100%;
   margin-left: auto; // Right-justify
-  box-sizing: border-box; // Include border in width calculation
+  box-sizing: border-box;
 }
 
 // WHY: Makes bars interactive with hover and focus states
@@ -147,7 +143,6 @@
   }
 }
 
-// LEARNING: Bar states - Selected/Active border colors
 .major-bar.selected {
   border-color: rgb(var(--v-theme-primary));
 }
@@ -168,39 +163,4 @@
 .major-bar.selected,
 .minor-bar.selected {
   box-shadow: 0 2px 4px rgba(var(--v-theme-on-surface), 0.2);
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(var(--v-theme-surface), 0.9);
-  z-index: 10;
-  pointer-events: none; // Allow clicks to pass through to bars
-
-  .overlay-text {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: rgb(var(--v-theme-on-surface));
-    text-align: center;
-    padding: 1rem;
-
-    @media (max-width: 599px) {
-      font-size: 1.25rem;
-    }
-  }
-}
-
-.differential-graph.has-overlay {
-  filter: grayscale(0.5);
-  opacity: 0.6;
-
-  .time-bar {
-    pointer-events: auto; // Ensure bars are still clickable
-  }
 }

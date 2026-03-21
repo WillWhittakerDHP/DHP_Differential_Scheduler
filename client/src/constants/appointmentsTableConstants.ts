@@ -7,6 +7,8 @@ export const APPOINTMENTS_TABLE_HEADERS = [
   { title: 'Scheduled By', key: 'scheduledById', sortable: true },
   { title: 'Date', key: 'selectedDate', sortable: true },
   { title: 'Status', key: 'status', sortable: true },
+  { title: 'Submitted', key: 'submittedAt', sortable: true },
+  { title: 'Confirmed', key: 'confirmedAt', sortable: true },
   { title: 'Actions', key: 'actions', sortable: false },
 ] as const
 
@@ -53,4 +55,19 @@ export const APPOINTMENTS_TABLE_UI = {
   EMAIL: 'Email',
   PHONE: 'Phone',
   ROLE: 'Role',
+  OVERRIDE_CONSTRAINTS: 'Override',
+  OVERRIDE_TOOLTIP: 'Override requires admin authentication (Feature 7)',
+  CONFIRM: 'Confirm',
+  CONFIRM_TOOLTIP: 'Confirm this submitted appointment',
+  CONFIRM_DIALOG_TITLE: 'Confirm Appointment',
+  CONFIRM_DIALOG_MESSAGE: 'Are you sure you want to confirm this appointment?',
+  CONFIRM_SUCCESS: 'Appointment confirmed successfully',
+  CONFIRM_ERROR: 'Failed to confirm appointment',
+  COPY_QUOTE_LINK: 'Copy quote link',
+  COPY_QUOTE_LINK_TOOLTIP: 'Copy link for client to view quote',
+  LINK_COPIED: 'Link copied',
+  MARK_CANCELLED: 'Mark cancelled',
+  MARK_CANCELLED_TOOLTIP: 'Soft delete: set status to cancelled (record kept for audit)',
+  MARK_CANCELLED_SUCCESS: 'Appointment marked as cancelled',
+  MARK_CANCELLED_ERROR: 'Failed to mark appointment as cancelled',
 } as const

@@ -35,5 +35,37 @@ export function validateComputedAvailabilityRequest(
     }
   }
 
+  if (
+    req.appointmentId !== undefined
+    && req.appointmentId !== null
+    && typeof req.appointmentId !== 'string'
+  ) {
+    return {
+      valid: false,
+      error: 'appointmentId must be a string when provided',
+    }
+  }
+
+  if (
+    req.reschedulingAppointmentId !== undefined
+    && req.reschedulingAppointmentId !== null
+    && typeof req.reschedulingAppointmentId !== 'string'
+  ) {
+    return {
+      valid: false,
+      error: 'reschedulingAppointmentId must be a string when provided',
+    }
+  }
+
+  if (req.allowedExceptions !== undefined && req.allowedExceptions !== null) {
+    if (!Array.isArray(req.allowedExceptions)) {
+      return { valid: false, error: 'allowedExceptions must be an array when provided' }
+    }
+    const invalid = req.allowedExceptions.some((v) => typeof v !== 'string')
+    if (invalid) {
+      return { valid: false, error: 'allowedExceptions must contain only strings' }
+    }
+  }
+
   return { valid: true }
 }

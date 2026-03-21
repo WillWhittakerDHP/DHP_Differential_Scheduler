@@ -3,27 +3,11 @@
 
 PATTERN: Composable that provides icon mapp...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { mapSelectionCardItemsWithIconAndDescription } from '@/utils/booking/selectionCardItemDisplay'
-
-export interface UseInstanceDisplayOptions {
-  instances: ComputedRef<BookingBlockInstance[]>
-  
-  selectedUserTypeBlock?: ComputedRef<BookingBlockInstance | null>
-  
-}
-
-export interface UseInstanceDisplayReturn {
-  instancesWithDisplay: ComputedRef<BookingBlockInstance[]>
-}
+import type { UseInstanceDisplayOptions, UseInstanceDisplayReturn } from '@/types/booking/instanceDisplay'
 
 
-/**
- * PATTERN: Instance Display Composable
-
-PATTERN: Composable with computed propertie...
- */
 export function useInstanceDisplay(
   options: UseInstanceDisplayOptions
 ): UseInstanceDisplayReturn {

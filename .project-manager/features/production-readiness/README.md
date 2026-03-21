@@ -4,7 +4,7 @@
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD
-**Depends On:** BETA_LAUNCH_CHECKLIST.md Phase 5
+**Depends On:** LAUNCH_CHECKLIST.md Phase 5
 
 ---
 
@@ -24,7 +24,7 @@ Monitoring, logging, error tracking, database backups, uptime monitoring, produc
 ## Related Documents
 
 - **Feature Guide (full spec):** `feature-production-readiness-guide.md`
-- **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 5
+- **Checklist (todo layer):** `../../../LAUNCH_CHECKLIST.md` — Phase 5
 
 ---
 

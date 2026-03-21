@@ -1,24 +1,16 @@
 /**
  * Shared Calendar Types
  *
- * LEARNING: Types shared between client and server for calendar configuration
- * WHY: Single source of truth for CalendarConfig/CalendarEntry, prevents type drift
- * PATTERN: Shared types directory for cross-cutting concerns (Phase 1.2 type-similarity remediation)
  */
 
 /**
  * Calendar provider type
- * LEARNING: Identifies which calendar service is configured
  * WHY: Drives API integration (Google, Outlook) or disabled state
- * PATTERN: Enum-like string literal union type
  */
 export type CalendarProvider = 'google' | 'outlook' | 'none'
 
 /**
  * Calendar entry with read/write permissions
- * LEARNING: Individual calendar configuration with explicit permissions
- * WHY: Allows admin to configure which calendars are read vs written to
- * PATTERN: Interface with email, optional label, and permission flags
  */
 export interface CalendarEntry {
   email: string
@@ -28,13 +20,31 @@ export interface CalendarEntry {
 }
 
 /**
+ * Admin entry dropdown time-out: only show appointments where scheduling began within last X (days/weeks)
+ * or quote in quote status for last X. Session 6.8.6 — Business Controls → Confirmation & Holds.
+ */
+export type AdminEntryTimeoutUnit = 'days' | 'weeks'
+
+export interface AdminEntryTimeout {
+  value: number
+  unit: AdminEntryTimeoutUnit
+}
+
+/**
  * Calendar configuration
- * LEARNING: Configuration for which calendars to check for free-busy data and where to create events
- * WHY: Allows admin to configure multiple calendar sources with explicit read/write permissions
- * PATTERN: Dynamic array of calendar entries
  */
 export interface CalendarConfig {
   enabled: boolean
   provider: CalendarProvider
   calendars: CalendarEntry[]
+  /** Default minutes a slot is held before expiring. Clamped by holdDurationMin/Max. Admin-adjustable under Calendar subtab. */
+  holdDurationMinutes?: number
+  /** Min allowed hold duration (minutes). From admin settings; fallback 1 if missing. */
+  holdDurationMin?: number
+  /** Max allowed hold duration (minutes). From admin settings; fallback 60 if missing. */
+  holdDurationMax?: number
+  /** Default when holdDurationMinutes is missing/invalid. From admin settings; fallback 15 if missing. */
+  holdDurationFallback?: number
+  /** Admin entry dropdown time-out (X days/weeks). Session 6.8.6. */
+  adminEntryTimeout?: AdminEntryTimeout
 }

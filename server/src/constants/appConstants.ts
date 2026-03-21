@@ -1,3 +1,4 @@
+import { APP_STAGE, type AppStageValue } from '@shared/constants/appStageConstants.js'
 
 export const API_MESSAGES = {
   SERVER_NAME: 'API Server',
@@ -29,5 +30,7 @@ export const NODE_ENV = {
   TEST: 'test',
   PRODUCTION: 'production',
 } as const
+
+export { APP_STAGE, type AppStageValue }
 
 export const AVAILABILITY_SETTINGS_KEY = 'availability_settings' as const

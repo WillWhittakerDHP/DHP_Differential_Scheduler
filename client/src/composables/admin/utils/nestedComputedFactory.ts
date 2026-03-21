@@ -2,15 +2,8 @@
 PATTERN: ...
  */
 import { computed, type WritableComputedRef } from 'vue'
+import type { CreateNestedComputedOptions } from '@/types/admin/nestedComputedFactory'
 
-export interface CreateNestedComputedOptions<TValue, TParent> {
-  getValue: () => TValue | undefined
-  getDefault: () => TValue
-  getCurrentParent: () => TParent | undefined
-  ensureParent: (current: TParent | undefined) => TParent
-  updateWithValue: (ensuredParent: TParent, value: TValue) => TParent
-  setParent: (parent: TParent) => void
-}
 
 export function createNestedComputed<TValue, TParent>(
   options: CreateNestedComputedOptions<TValue, TParent>

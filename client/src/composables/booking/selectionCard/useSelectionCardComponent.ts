@@ -3,21 +3,11 @@
 
 WHY: Moves dynamic component rende...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
+import { computed } from 'vue'
 import { buildSelectionComponentProps, getSelectionComponentName } from '@/utils/booking/selectionCardComponent'
-import type { UseSelectionCardStylesParamsBase } from './useSelectionCardStyles'
+import type { UseSelectionCardComponentParams, UseSelectionCardComponentReturn } from '@/types/booking/selectionCard/selectionCardComponent'
 
-/** Extends shared styles params base (P2 type-similarity). */
-export interface UseSelectionCardComponentParams extends UseSelectionCardStylesParamsBase {
-  item: ComputedRef<SelectionCardItem>
-  controlClasses: ComputedRef<Record<string, boolean>>
-}
-
-export interface UseSelectionCardComponentReturn {
-  selectionComponentName: ComputedRef<string>
-  selectionComponentProps: ComputedRef<Record<string, unknown>>
-}
+export type { UseSelectionCardComponentParams, UseSelectionCardComponentReturn } from '@/types/booking/selectionCard/selectionCardComponent'
 
 /**
  * WHY: useSelectionCardComponent composable

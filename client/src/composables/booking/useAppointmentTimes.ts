@@ -3,26 +3,14 @@
 
 PATTERN: Composable that provides reacti...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { AppointmentSlots, TimeSlot, TimeRange } from '@/types/appointment'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed, unref } from 'vue'
 import { calculateAppointmentSlots, normalizeAppointmentSlotsByOrderIndex } from '@/utils/booking/appointmentTimeCalculations'
 import { transformToMajorPerspective, transformToMinorPerspective } from '@/utils/differentialScheduling'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { TimeSlot, TimeRange } from '@/types/appointment'
+import type { UseAppointmentTimesParams, UseAppointmentTimesReturn } from '@/types/booking/appointmentTimes'
 
-export interface UseAppointmentTimesParams {
-  blockInstances: ComputedRef<BookingBlockInstance[]> | BookingBlockInstance[]
-  baseStartTime?: ComputedRef<string | null> | string | null
-  isDifferentialService: ComputedRef<boolean> | boolean
-}
-
-export interface UseAppointmentTimesReturn {
-  appointmentSlots: ComputedRef<AppointmentSlots>
-  majorTimeSlots: ComputedRef<TimeSlot[]>  // Major time slots
-  minorTimeSlots: ComputedRef<TimeSlot[]>  // Minor time slots
-  getMajorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get major time slot
-  getMinorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null  // Get minor time slot
-}
+export type { UseAppointmentTimesParams, UseAppointmentTimesReturn } from '@/types/booking/appointmentTimes'
 
 /**
  * PATTERN: useAppointmentTimes composable
@@ -36,29 +24,14 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     isDifferentialService
   } = params
 
-  // LEARNING: Convert inputs to computed refs for consistency
   // WHY: Allows both refs and plain values as input
   // PATTERN: Check if value is ComputedRef, wrap if needed
   const blockInstancesRef = computed(() => {
     return 'value' in blockInstances ? blockInstances.value : blockInstances
   })
 
-  const baseStartTimeRef = computed(() => {
-    if (!baseStartTime) return null
-    // PATTERN: Check if it's an object before using 'in' operator
-    if (typeof baseStartTime === 'object' && baseStartTime !== null && 'value' in baseStartTime) {
-      return (baseStartTime as ComputedRef<string | null>).value
-    }
-    return baseStartTime as string | null
-  })
-
-  const isDifferentialServiceRef = computed(() => {
-    // PATTERN: Check if it's an object before using 'in' operator
-    if (typeof isDifferentialService === 'object' && isDifferentialService !== null && 'value' in isDifferentialService) {
-      return (isDifferentialService as ComputedRef<boolean>).value
-    }
-    return isDifferentialService as boolean
-  })
+  const baseStartTimeRef = computed(() => unref(baseStartTime ?? null))
+  const isDifferentialServiceRef = computed(() => unref(isDifferentialService))
 
   // PATTERN: Get settings for rounding configuration
   const { settings } = useAvailabilitySettings()
@@ -81,7 +54,6 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
   })
 
   /**
-   * LEARNING: Transform AppointmentSlots to major perspective
    */
   const majorTimeSlots = computed(() => {
     const slots = appointmentSlots.value
@@ -157,4 +129,3 @@ export function useAppointmentTimes(params: UseAppointmentTimesParams): UseAppoi
     getMinorTimeSlot
   }
 }
-

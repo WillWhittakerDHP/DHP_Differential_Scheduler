@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Main Admin Panel with Tabbed Interface
   WHY: Provides unified admin interface with tab navigation for Instances and Types management
   PATTERN: VTabs + VWindow pattern for tab navigation in Vuexy
   COMPARISON: React uses Ant Design Tabs. Vue uses Vuetify VTabs with VWindow
@@ -13,7 +12,6 @@ const InstancesTab = defineAsyncComponent(() => import('./tabs/InstancesTab.vue'
 const ShapesTab = defineAsyncComponent(() => import('./tabs/ShapesTab.vue'))
 const DataManagementTab = defineAsyncComponent(() => import('./tabs/DataManagementTab.vue'))
 const BusinessControlsTab = defineAsyncComponent(() => import('./tabs/BusinessControlsTab.vue'))
-const PropertyMappingsTab = defineAsyncComponent(() => import('./tabs/PropertyMappingsTab.vue'))
 
 /**
  * PATTERN: Initialize route-specific composables in view component setup
@@ -22,7 +20,6 @@ PERFORMANC...
 useAdmin()
 
 /**
- * LEARNING: Reactive tab state management
  */
 const currentTab = ref('instances')
 
@@ -31,8 +28,14 @@ provide('adminCurrentTab', currentTab)
 
 <template>
   <div class="admin-panel">
+    <VRow class="mb-2" density="compact" align="center">
+      <VCol cols="auto">
+        <VBtn variant="text" size="small" :to="{ name: 'admin-booking-entry' }">
+          Open booking wizard
+        </VBtn>
+      </VCol>
+    </VRow>
     <!--
-      LEARNING: VTabs component for tab navigation
       WHY: Provides tabbed interface with Vuexy styling
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
@@ -41,16 +44,13 @@ provide('adminCurrentTab', currentTab)
       <VTab value="shapes">Shapes</VTab>
       <VTab value="data">APPOINTMENTS</VTab>
       <VTab value="business">CONTROLS</VTab>
-      <VTab value="property-mappings">MLS Mappings</VTab>
     </VTabs>
     
     <!--
-      LEARNING: VWindow component for tab content container
       WHY: Manages which tab content is visible based on currentTab value
       PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
     -->
     <!--
-      LEARNING: Add explicit keys to VWindowItem components
       WHY: Helps Vue track components during transitions and prevents undefined VNode errors
       PATTERN: Use stable keys matching the value prop for proper component tracking
     -->
@@ -67,9 +67,6 @@ provide('adminCurrentTab', currentTab)
       <VWindowItem key="business" value="business">
         <BusinessControlsTab />
       </VWindowItem>
-      <VWindowItem key="property-mappings" value="property-mappings">
-        <PropertyMappingsTab />
-      </VWindowItem>
     </VWindow>
   </div>
 </template>
@@ -79,5 +76,3 @@ provide('adminCurrentTab', currentTab)
   padding: 1rem;
 }
 </style>
-
-

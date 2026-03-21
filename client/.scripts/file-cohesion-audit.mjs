@@ -270,6 +270,7 @@ function main() {
   const out = {
     generatedAt: new Date().toISOString(),
     totalScanned: allFiles.length,
+    exceptionSummary: { totalRequiresReview: scanned.length },
     tierModel: 'tier1',
     tier1Rules: TIER1_RULES,
     thresholds,

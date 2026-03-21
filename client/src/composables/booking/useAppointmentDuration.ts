@@ -3,17 +3,10 @@
 
 PATTERN: Composable that uses shared ...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
+import type { UseAppointmentDurationParams, UseAppointmentDurationReturn } from '@/types/booking/appointmentDuration'
 
-export interface UseAppointmentDurationParams {
-  accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
-}
-
-export interface UseAppointmentDurationReturn {
-  appointmentDuration: ComputedRef<number | null>
-}
 
 /**
  * WHY: useAppointmentDuration composable

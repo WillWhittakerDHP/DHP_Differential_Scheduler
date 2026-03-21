@@ -2,6 +2,7 @@
 PATTERN: Constants module (matches Maps pa...
  */
 import { OAUTH_ERROR_MESSAGES } from '../../../constants/appConstants.js'
+import { UNKNOWN_ERROR_MESSAGE } from '../../../../../shared/constants/errorMessages.js'
 import {
   DEFAULT_RETRY_CONFIG,
   type RetryConfig
@@ -57,5 +58,5 @@ export const CALENDAR_INTERNAL_MESSAGES = {
   PERMISSION_DENIED: 'Permission denied',
   REQUEST_TIMED_OUT: 'Request timed out',
   NETWORK_ERROR: (code: string) => `Network error: ${code}`,
-  UNKNOWN: 'Unknown error',
+  UNKNOWN: UNKNOWN_ERROR_MESSAGE,
 } as const

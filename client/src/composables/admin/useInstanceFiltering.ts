@@ -1,8 +1,8 @@
-
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
+import type { UseInstanceFilteringOptions, UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
 
 const DEFAULT_BOOKING_MODE = DEFAULT_VALUES.BOOKING_MODE
 
@@ -10,16 +10,6 @@ function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChil
   return componentChildIds.has(instance.id)
 }
 
-
-import type { UseInstanceBlockInstancesByShapeOptions } from './useInstanceComposableOptions'
-
-export type UseInstanceFilteringOptions = UseInstanceBlockInstancesByShapeOptions
-
-export interface UseInstanceFilteringReturn {
-  mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  groupedInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  groupedPanelValue: (blockShapeId: string) => string
-}
 
 export function useInstanceFiltering(
   options: UseInstanceFilteringOptions

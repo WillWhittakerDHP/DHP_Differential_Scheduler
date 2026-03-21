@@ -1,90 +1,309 @@
 {
   "$comment": "Central audit configuration — global exclusions and all audit allowlists. Single source of truth for allowlists (allowlists.<auditType>). Per-audit configs hold only non-allowlist options (e.g. priorities). loadGlobalExclusions() and loadCentralAllowlist(auditType) in shared-audit-utils.mjs.",
-  "$docs": "To enable testing: set TEST_ENABLED=true in project root .env. See BETA_LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
+  "$docs": "To enable testing: set TEST_ENABLED=true in project root .env. See LAUNCH_CHECKLIST.md Phase 3.0 and 3.0a.",
   "globalExclusions": [
-    { "pattern": "**/__tests__/**", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
-    { "pattern": "**/*.test.*", "reason": "Test files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
-    { "pattern": "**/*.spec.*", "reason": "Spec files excluded until Phase 3.0 (BETA_LAUNCH_CHECKLIST.md)", "testFile": true },
-    { "pattern": "**/*.mjs", "reason": "ESM scripts — not application TypeScript source" },
-    { "pattern": "**/@core/**", "reason": "Core library files — third-party/framework code" },
-    { "pattern": "**/@layouts/**", "reason": "Layout library files — third-party/framework code" },
-    { "pattern": "**/node_modules/**", "reason": "Dependencies — not project source code" },
-    { "pattern": "**/dist/**", "reason": "Build output — not source code" },
-    { "pattern": "**/assets/**", "reason": "Build output assets — not source code; exclude from refactor targets" },
-    { "pattern": "**/.git/**", "reason": "Git internals" },
-    { "pattern": "**/.scripts/**", "reason": "Audit scripts themselves — not application code" },
-    { "pattern": "**/.audit-reports/**", "reason": "Audit output artifacts" },
-    { "pattern": "**/migrations/**", "reason": "One-time migration scripts — intentionally permissive patterns" },
-    { "pattern": "**/*seed*", "reason": "Seed scripts — intentionally hardcoded test data" }
+    {
+      "pattern": "**/__tests__/**",
+      "reason": "Test files excluded until Phase 3.0 (LAUNCH_CHECKLIST.md)",
+      "testFile": true
+    },
+    {
+      "pattern": "**/*.test.*",
+      "reason": "Test files excluded until Phase 3.0 (LAUNCH_CHECKLIST.md)",
+      "testFile": true
+    },
+    {
+      "pattern": "**/*.spec.*",
+      "reason": "Spec files excluded until Phase 3.0 (LAUNCH_CHECKLIST.md)",
+      "testFile": true
+    },
+    {
+      "pattern": "**/*.mjs",
+      "reason": "ESM scripts — not application TypeScript source"
+    },
+    {
+      "pattern": "**/@core/**",
+      "reason": "Core library files — third-party/framework code"
+    },
+    {
+      "pattern": "**/@layouts/**",
+      "reason": "Layout library files — third-party/framework code"
+    },
+    {
+      "pattern": "**/node_modules/**",
+      "reason": "Dependencies — not project source code"
+    },
+    {
+      "pattern": "**/dist/**",
+      "reason": "Build output — not source code"
+    },
+    {
+      "pattern": "**/assets/**",
+      "reason": "Build output assets — not source code; exclude from refactor targets"
+    },
+    {
+      "pattern": "**/.git/**",
+      "reason": "Git internals"
+    },
+    {
+      "pattern": "**/.scripts/**",
+      "reason": "Audit scripts themselves — not application code"
+    },
+    {
+      "pattern": "**/.audit-reports/**",
+      "reason": "Audit output artifacts"
+    },
+    {
+      "pattern": "**/migrations/**",
+      "reason": "One-time migration scripts — intentionally permissive patterns"
+    },
+    {
+      "pattern": "**/*seed*",
+      "reason": "Seed scripts — intentionally hardcoded test data"
+    }
   ],
   "scanExtensions": {
-    "default": [".ts", ".js", ".vue"],
+    "default": [
+      ".ts",
+      ".js",
+      ".vue"
+    ],
     "overrides": {
-      "type-import": [".ts", ".js", ".tsx", ".vue"],
-      "type-escape": [".ts", ".js", ".tsx", ".vue"],
-      "composables-logic": [".ts", ".js"],
-      "constants-consolidation": [".ts", ".js"],
-      "data-flow": [".ts"],
-      "security": [".ts", ".js"],
-      "branded-id": [".ts", ".vue"],
-      "component-logic": [".vue"],
-      "css": [".vue", ".ts"],
-      "test": [".ts", ".tsx", ".js", ".jsx", ".vue"],
-      "api-contract": [".ts", ".js"]
+      "type-import": [
+        ".ts",
+        ".js",
+        ".tsx",
+        ".vue"
+      ],
+      "type-escape": [
+        ".ts",
+        ".js",
+        ".tsx",
+        ".vue"
+      ],
+      "type-health": [
+        ".ts",
+        ".js",
+        ".vue"
+      ],
+      "composables-logic": [
+        ".ts",
+        ".js"
+      ],
+      "constants-consolidation": [
+        ".ts",
+        ".js"
+      ],
+      "data-flow": [
+        ".ts"
+      ],
+      "security": [
+        ".ts",
+        ".js"
+      ],
+      "branded-id": [
+        ".ts",
+        ".vue"
+      ],
+      "component-health": [
+        ".vue"
+      ],
+      "component-logic": [
+        ".vue"
+      ],
+      "composable-health": [
+        ".ts"
+      ],
+      "css": [
+        ".vue",
+        ".ts"
+      ],
+      "test": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".vue"
+      ],
+      "api-contract": [
+        ".ts",
+        ".js"
+      ],
+      "data-flow-health": [
+        ".ts",
+        ".vue"
+      ]
+    }
+  },
+  "scanDirs": {
+    "overrides": {
+      "composable-health": [
+        "src/composables"
+      ],
+      "data-flow-health": [
+        "src/composables",
+        "src/components",
+        "src/views",
+        "src/layouts",
+        "src/utils/api",
+        "src/services"
+      ]
     }
   },
   "auditExclusions": {
     "unused-code": [
-      { "pattern": "**/types/**", "reason": "Type definition files — not checked for unused exports" },
-      { "pattern": "**/*.d.ts", "reason": "Declaration files — ambient types, not application code" }
+      {
+        "pattern": "**/types/**",
+        "reason": "Type definition files — not checked for unused exports"
+      },
+      {
+        "pattern": "**/*.d.ts",
+        "reason": "Declaration files — ambient types, not application code"
+      }
     ],
     "error-handling": [
-      { "pattern": "**/logger.*", "reason": "Logger implementation excluded from error-handling audit" }
+      {
+        "pattern": "**/logger.*",
+        "reason": "Logger implementation excluded from error-handling audit"
+      }
     ],
     "duplication": [
-      { "pattern": "server/src/db/models/**/*.js", "reason": "TypeScript-generated helpers — duplication expected" }
+      {
+        "pattern": "server/src/db/models/**/*.js",
+        "reason": "TypeScript-generated helpers — duplication expected"
+      }
     ],
     "branded-id": [
-      { "pattern": "**/*.d.ts", "reason": "Declaration files — ambient types, not application code" }
+      {
+        "pattern": "**/*.d.ts",
+        "reason": "Declaration files — ambient types, not application code"
+      }
     ]
   },
   "allowlists": {
     "type-escape": {
       "patterns": [],
-      "specific": []
-    },
-    "type-import": {
-      "patterns": [],
       "specific": [
         {
-          "file": "client/src/views/admin/AdminPanel.vue",
-          "ruleId": "value-import-from-type-only-file",
-          "reason": "Vue SFC default export (component) from PropertyMappingsTab.vue; script-setup has no literal export default"
+          "file": "client/fixtures/audits/type-escape/as-any/tp/has-as-any.ts",
+          "ruleId": "as-any",
+          "reason": "Golden fixture for type-escape audit"
+        },
+        {
+          "file": "client/fixtures/audits/type-escape/as-any/tp/unnecessary-as-any.ts",
+          "ruleId": "as-any",
+          "reason": "Golden fixture for type-escape audit"
+        },
+        {
+          "file": "client/src/components/admin/BlockInstanceCreateModal.vue",
+          "ruleIds": [
+            "as-ref"
+          ],
+          "reason": "EntityCard ref typed for useBlockInstanceCreate; composable expects Ref<{ handleSave } | null> (pre-typecheck triage)"
+        },
+        {
+          "file": "client/src/components/admin/generic/fields/BooleanInput.vue",
+          "ruleIds": [
+            "as-computed-ref"
+          ],
+          "reason": "entityForMetadata passed to useStatusButtonToggle; composable expects ComputedRef (pre-typecheck triage)"
         }
       ]
     },
-    "error-handling": {
+    "type-health": {
       "patterns": [
         {
-          "glob": "server/src/scripts/run-migrations.mjs",
-          "ruleIds": ["*"],
-          "reason": "CLI script; console output intentional for migration progress"
+          "glob": "**",
+          "ruleIds": [
+            "writable-computed-ref-usage"
+          ],
+          "reason": "Info-only audit signal; two-way binding reviewed per-composable"
         },
         {
-          "glob": "server/src/routes/**/*.ts",
-          "ruleIds": ["catch-without-logger"],
-          "reason": "Router catch blocks delegate to handleRouteError which logs via routerErrorHandler"
+          "glob": "**",
+          "ruleIds": [
+            "re-export-only-file"
+          ],
+          "reason": "Info-only audit signal; re-export barrel is intentional API surface"
+        },
+        {
+          "glob": "**",
+          "ruleIds": [
+            "excessive-union"
+          ],
+          "reason": "Low-fan-in union types triage; reduce incrementally (pre-typecheck actionable-zero)"
+        },
+        {
+          "glob": "**",
+          "ruleIds": [
+            "triple-intersection"
+          ],
+          "reason": "Composable return intersections triage (pre-typecheck actionable-zero)"
+        },
+        {
+          "glob": "**",
+          "ruleIds": [
+            "record-string-unknown"
+          ],
+          "reason": "FormContext/composable generic containers; intentional (pre-typecheck actionable-zero)"
         }
       ],
       "specific": [
-        { "file": "client/src/types/datetime.ts", "ruleIds": ["console-in-catch", "catch-without-logger"], "reason": "JSDoc example only; no executable catch in this file" }
+        {
+          "file": "client/src/constants/primitives.ts",
+          "ruleIds": [
+            "excessive-union"
+          ],
+          "reason": "ValidAdminValue is canonical admin value union; high fan-in intentional (pre-typecheck triage)"
+        },
+        {
+          "file": "client/src/types/admin.ts",
+          "ruleIds": [
+            "excessive-union"
+          ],
+          "reason": "DisplayFieldType is canonical display type union; high fan-in intentional (pre-typecheck triage)"
+        },
+        {
+          "file": "client/src/types/betaFeedback.ts",
+          "ruleIds": [
+            "excessive-union"
+          ],
+          "reason": "FeedbackStatus/FeedbackCategory are domain enums; high fan-in intentional (pre-typecheck triage)"
+        },
+        {
+          "file": "client/src/types/forms/fieldComponent.ts",
+          "ruleIds": [
+            "excessive-union"
+          ],
+          "reason": "FieldComponent is component registry union; high fan-in intentional (pre-typecheck triage)"
+        },
+        {
+          "file": "client/src/types/wizard.ts",
+          "ruleIds": [
+            "triple-intersection"
+          ],
+          "reason": "UseBookingWizardReturn is wizard composable return; intersection intentional (pre-typecheck triage)"
+        }
       ]
+    },
+    "type-import": {
+      "patterns": [],
+      "specific": []
+    },
+    "error-handling": {
+      "patterns": [],
+      "specific": []
     },
     "deprecation": {
       "patterns": [
         {
           "glob": "**",
-          "ruleIds": ["jsdoc-deprecated", "comment-deprecated", "paren-deprecated", "block-deprecated", "legacy-marker", "compat-marker"],
+          "ruleIds": [
+            "jsdoc-deprecated",
+            "comment-deprecated",
+            "paren-deprecated",
+            "block-deprecated"
+          ],
           "reason": "Deprecation tracked; removal in future sprint"
         }
       ],
@@ -109,257 +328,2225 @@
           "ruleId": "unhelpful-default-or",
           "reason": "Comment/docs only; no runtime || '' in code"
         },
-        { "file": "client/src/utils/booking/confirmationStepData.ts", "ruleIds": ["chaining-fallback", "unhelpful-default-nullish"], "reason": "Intentional optional chaining and empty-array default for optional wizard arrays" },
-        { "file": "client/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" },
-        { "file": "server/src/utils/safeDefaults.ts", "ruleIds": ["unhelpful-default-nullish", "unhelpful-default-or"], "reason": "Centralized safe defaults; fallback is logged" }
+        {
+          "file": "client/src/utils/booking/confirmationStepData.ts",
+          "ruleIds": [
+            "chaining-fallback",
+            "unhelpful-default-nullish"
+          ],
+          "reason": "Intentional optional chaining and empty-array default for optional wizard arrays"
+        },
+        {
+          "file": "client/src/utils/safeDefaults.ts",
+          "ruleIds": [
+            "unhelpful-default-nullish",
+            "unhelpful-default-or"
+          ],
+          "reason": "Centralized safe defaults; fallback is logged"
+        },
+        {
+          "file": "server/src/utils/safeDefaults.ts",
+          "ruleIds": [
+            "unhelpful-default-nullish",
+            "unhelpful-default-or"
+          ],
+          "reason": "Centralized safe defaults; fallback is logged"
+        },
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "ruleId": "unhelpful-default-or",
+          "reason": "Constants file; intentional default (hotspot triage allowlist)"
+        }
       ]
     },
     "import-hygiene": {
       "patterns": [
         {
           "glob": "client/src/plugins/5.vuetify/**",
-          "ruleIds": ["*"],
+          "ruleIds": [
+            "*"
+          ],
           "reason": "Vuetify plugin barrel is default-export only; config modules (defaults, icons, theme) are intentionally imported directly"
         },
         {
           "glob": "server/src/**/security.js",
-          "ruleIds": ["*"],
+          "ruleIds": [
+            "*"
+          ],
           "reason": "Server middlewares barrel does not re-export security; direct import is intentional"
         },
         {
           "glob": "server/src/**/oauthCallbackRouter.js",
-          "ruleIds": ["*"],
+          "ruleIds": [
+            "*"
+          ],
           "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter is intentional"
         },
         {
           "glob": "server/src/**/calendarRouteConstants.js",
-          "ruleIds": ["*"],
+          "ruleIds": [
+            "*"
+          ],
           "reason": "Server routes/external barrel composes router; direct import of calendarRouteConstants is intentional"
         }
       ],
       "specific": [
-        { "file": "client/src/main.ts", "ruleId": "*", "reason": "Vuetify plugin barrel is default-export only; main.ts intentionally imports defaults, icons, theme directly" },
-        { "file": "client/src/composables/useThemeMode.ts", "ruleId": "*", "reason": "Vuetify plugin barrel is default-export only; theme config imported directly" },
-        { "file": "server/src/api/api.routes.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/app.ts", "ruleId": "*", "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter intentional" },
-        { "file": "server/src/config/googleOAuthTokenPersistence.ts", "ruleId": "*", "reason": "Server routes/external; direct import of calendarRouteConstants intentional" },
-        { "file": "server/src/routes/external/calendarRoutes.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/external/mapsDebugRoutes.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/helpers/createCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/availabilityRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/dev/devStatusRouter.ts", "ruleId": "*", "reason": "Server routes/external; direct import of calendarRouteConstants intentional" },
-        { "file": "server/src/routes/internal/entities/entityBulkRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/entities/entityCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/properties/propertyCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/properties/propertyTypesRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" },
-        { "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts", "ruleId": "*", "reason": "Server middlewares barrel does not re-export security; direct import intentional" }
+        {
+          "file": "client/src/main.ts",
+          "ruleId": "*",
+          "reason": "Vuetify plugin barrel is default-export only; main.ts intentionally imports defaults, icons, theme directly"
+        },
+        {
+          "file": "client/src/composables/useThemeMode.ts",
+          "ruleId": "*",
+          "reason": "Vuetify plugin barrel is default-export only; theme config imported directly"
+        },
+        {
+          "file": "server/src/api/api.routes.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/app.ts",
+          "ruleId": "*",
+          "reason": "Server routes/external barrel composes router; direct import of oauthCallbackRouter intentional"
+        },
+        {
+          "file": "server/src/config/googleOAuthTokenPersistence.ts",
+          "ruleId": "*",
+          "reason": "Server routes/external; direct import of calendarRouteConstants intentional"
+        },
+        {
+          "file": "server/src/routes/external/calendarRoutes.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/external/mapsDebugRoutes.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/helpers/createCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/admin-metadata/adminMetadataCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/availabilityRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/dev/devStatusRouter.ts",
+          "ruleId": "*",
+          "reason": "Server routes/external; direct import of calendarRouteConstants intentional"
+        },
+        {
+          "file": "server/src/routes/internal/entities/entityBulkRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/entities/entityCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyTypesRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipAnnotationAssignmentRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipCrudRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        },
+        {
+          "file": "server/src/routes/internal/relationships/relationshipInstanceComponentRouter.ts",
+          "ruleId": "*",
+          "reason": "Server middlewares barrel does not re-export security; direct import intentional"
+        }
       ]
     },
     "api-contract": {
       "patterns": [
-        { "glob": "server/src/**", "ruleIds": ["orphan-server-route"], "reason": "Server-only routes with no client caller; documented acceptable mismatch" }
+        {
+          "glob": "server/src/**",
+          "ruleIds": [
+            "orphan-server-route"
+          ],
+          "reason": "Server-only routes with no client caller; documented acceptable mismatch"
+        }
       ],
       "specific": []
     },
     "naming-convention": {
       "patterns": [
-        { "glob": "server/src/db/models/**/*.ts", "ruleIds": ["functionExport"], "reason": "Sequelize model factory convention: ModelNameFactory" },
-        { "glob": "client/src/composables/**/*.ts", "ruleIds": ["composableExport"], "reason": "Composables may export camelCase helpers used by other composables or components" },
-        { "glob": "client/src/composables/**/index.ts", "ruleIds": ["composableFileName"], "reason": "Barrel/composable package; index is conventional" },
-        { "glob": "client/src/composables/**/types.ts", "ruleIds": ["composableFileName"], "reason": "Barrel/composable package; types file is conventional" },
-        { "glob": "client/src/composables/**/nestedComputedFactory.ts", "ruleIds": ["composableFileName"], "reason": "Composable utility; factory name is intentional" }
+        {
+          "glob": "server/src/db/models/**/*.ts",
+          "ruleIds": [
+            "functionExport"
+          ],
+          "reason": "Sequelize model factory convention: ModelNameFactory"
+        },
+        {
+          "glob": "client/src/composables/**/*.ts",
+          "ruleIds": [
+            "composableExport"
+          ],
+          "reason": "Composables may export camelCase helpers used by other composables or components"
+        },
+        {
+          "glob": "client/src/composables/**/index.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Barrel/composable package; index is conventional"
+        },
+        {
+          "glob": "client/src/composables/**/types.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Barrel/composable package; types file is conventional"
+        },
+        {
+          "glob": "client/src/composables/**/nestedComputedFactory.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Composable utility; factory name is intentional"
+        }
       ],
       "specific": [
-        { "file": "server/src/types/express.d.ts", "ruleId": "typesFileName", "reason": "Express type augmentation; standard filename for declaration merging" }
+        {
+          "file": "server/src/types/express.d.ts",
+          "ruleId": "typesFileName",
+          "reason": "Express type augmentation; standard filename for declaration merging"
+        },
+        {
+          "file": "client/src/layouts/blank.vue",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Layout files follow Vuetify/framework convention (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/layouts/default.vue",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Layout files follow Vuetify/framework convention (hotspot triage allowlist)"
+        }
       ]
     },
     "function-complexity": {
       "patterns": [
-        { "glob": "**/configs/**/*.ts", "ruleIds": ["*"], "reason": "Config files are data-heavy by design" },
-        { "glob": "**/configs/**/*.vue", "ruleIds": ["*"], "reason": "Config components excluded" },
-        { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are data definitions" }
+        {
+          "glob": "**/configs/**/*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Config files are data-heavy by design"
+        },
+        {
+          "glob": "**/configs/**/*.vue",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Config components excluded"
+        },
+        {
+          "glob": "**/constants/**/*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Constants files are data definitions"
+        }
       ],
+      "specific": [
+        {
+          "file": "client/src/composables/usePartInstanceData.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Borderline; length from many small computed declarations, not deep nesting (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/booking/useSelectionCardState.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Borderline; mostly watch/computed wiring, no single deep function (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityStepUI.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Step UI orchestrator; branch count from step state and label mapping (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilitySubSteps.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Sub-step visibility/orchestration; branch count from step visibility logic (hotspot triage allowlist)"
+        }
+      ]
+    },
+    "todo-aging": {
+      "patterns": [],
       "specific": []
     },
-    "todo-aging": { "patterns": [], "specific": [] },
     "data-flow": {
       "patterns": [
-        { "glob": "**/dev/**", "ruleIds": ["*"], "reason": "Dev-only routes" }
+        {
+          "glob": "**/dev/**",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Dev-only routes"
+        }
       ],
       "specific": []
     },
-    "import-graph": { "patterns": [], "specific": [] },
+    "import-graph": {
+      "patterns": [
+        {
+          "glob": "**/__tests__/**",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Composable test wrapper; re-invokes composable under test (Wave 4 test policy)"
+        },
+        {
+          "glob": "**/*.test.*",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Composable test wrapper (Wave 4 test policy)"
+        }
+      ],
+      "specific": [
+        {
+          "file": "client/src/composables/usePartInstanceData.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/useSelectOptions.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/constants/entities.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Canonical entity key constants; high fan-in intentional (pre-typecheck actionable-zero allowlist)"
+        },
+        {
+          "file": "client/src/composables/useAppointment.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)"
+        },
+        {
+          "file": "client/src/composables/useProperty.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)"
+        },
+        {
+          "file": "client/src/composables/useUser.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Thin entity CRUD wrapper; depth accepted (Wave 4 Batch B)"
+        },
+        {
+          "file": "client/src/composables/admin/useBusinessRulesTab.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Tab orchestrator; depth accepted (Wave 4 Batch D)"
+        },
+        {
+          "file": "client/src/composables/admin/useEntityCardSaveAndActions.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Entity card actions thin wrapper; depth accepted (Wave 4 Batch D)"
+        },
+        {
+          "file": "client/src/composables/admin/usePartInstanceCollection.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Structural collection composable; depth accepted (Wave 4 Batch D)"
+        },
+        {
+          "file": "client/src/composables/admin/useRelationshipCollection.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Relationship collection composable; depth accepted (Wave 4 Batch D)"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Booking orchestrator; depth accepted (Wave 4 Batch D)"
+        },
+        {
+          "file": "client/src/composables/booking/useDevPanelsAppointmentData.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Dev panels data wrapper; depth accepted (Wave 4 Batch D)"
+        },
+        {
+          "file": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)"
+        },
+        {
+          "file": "client/src/composables/admin/tables/usePropertiesTableModel.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)"
+        },
+        {
+          "file": "client/src/composables/admin/tables/useUsersTableModel.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)"
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentLoader.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Table/loader over entity CRUD; depth accepted (remaining repairs Batch 2)"
+        },
+        {
+          "file": "client/src/composables/admin/useEntityCardFormSetup.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Entity card form setup; depth accepted (remaining repairs Batch 4)"
+        }
+      ]
+    },
     "file-cohesion": {
       "patterns": [],
       "specific": [
-        { "file": "client/src/components/admin/generic/EntityCard.vue", "ruleId": "oversized", "reason": "Orchestrator component; further extraction in progress (Plan C)" },
-        { "file": "client/src/views/admin/tabs/ShapesTab.vue", "ruleId": "oversized", "reason": "Tab orchestrator; subcomponent extraction deferred to follow-up" },
-        { "file": "client/src/views/admin/tabs/InstancesTab.vue", "ruleId": "oversized", "reason": "Tab orchestrator; subcomponent extraction deferred to follow-up" },
-        { "file": "client/src/configs/availabilitySettings.ts", "ruleId": "oversized", "reason": "Canonical config; split by domain deferred to follow-up" },
-        { "file": "client/src/vite-env.d.ts", "ruleId": "high-exports", "reason": "Vite/TypeScript ambient declarations; intentional multi-export" }
+        {
+          "file": "client/src/components/admin/generic/EntityCard.vue",
+          "ruleId": "oversized",
+          "reason": "Orchestrator component; further extraction in progress (Plan C)"
+        },
+        {
+          "file": "client/src/vite-env.d.ts",
+          "ruleId": "high-exports",
+          "reason": "Vite/TypeScript ambient declarations; intentional multi-export"
+        }
       ]
+    },
+    "component-health": {
+      "patterns": [
+        {
+          "glob": "**/*.vue",
+          "ruleIds": [
+            "deep-slot-wrapper"
+          ],
+          "reason": "Vuetify grid/card wrappers require structural nesting around slots; depth is a framework constraint"
+        },
+        {
+          "glob": "**/components/beta/*.vue",
+          "ruleIds": [
+            "emit-relay"
+          ],
+          "reason": "Standard Vue v-model passthrough and click relay in thin wrapper components"
+        },
+        {
+          "glob": "**/views/admin/tabs/components/*Panel.vue",
+          "ruleIds": [
+            "constant-prop-value"
+          ],
+          "reason": "saveButtonProps shared from BusinessControlsTab form state; intentional synchronized save behavior"
+        }
+      ],
+      "specific": [
+        {
+          "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+          "ruleIds": [
+            "component-coupling"
+          ],
+          "reason": "Tab orchestrator; importing panel children is its purpose"
+        },
+        {
+          "file": "client/src/views/admin/tabs/InstancesTab.vue",
+          "ruleIds": [
+            "component-coupling"
+          ],
+          "reason": "Tab orchestrator; importing sub-components is its purpose"
+        },
+        {
+          "file": "client/src/components/admin/generic/fields/PrimitiveInputs.vue",
+          "ruleIds": [
+            "component-coupling"
+          ],
+          "reason": "Field type switcher; must import each input type"
+        },
+        {
+          "file": "client/src/layouts/components/DefaultLayoutWithVerticalNav.vue",
+          "ruleIds": [
+            "component-coupling"
+          ],
+          "reason": "Layout wrapper; imports navbar/footer/customizer by design"
+        },
+        {
+          "file": "client/src/layouts/components/DefaultLayoutWithHorizontalNav.vue",
+          "ruleIds": [
+            "component-coupling"
+          ],
+          "reason": "Layout wrapper; imports navbar/footer/customizer by design"
+        },
+        {
+          "file": "client/src/components/admin/generic/CardButton.vue",
+          "ruleIds": [
+            "excessive-prop-count"
+          ],
+          "reason": "Standard button component; individual props follow Vuetify convention"
+        },
+        {
+          "file": "client/src/components/common/AddressAutocomplete.vue",
+          "ruleIds": [
+            "excessive-prop-count",
+            "excessive-emit-count"
+          ],
+          "reason": "Reusable form component; props/events are its public API surface"
+        },
+        {
+          "file": "client/src/components/booking/AppointmentSlotGrid.vue",
+          "ruleIds": [
+            "excessive-prop-count",
+            "constant-prop-value"
+          ],
+          "reason": "Reusable grid component; props and color default are configuration surface"
+        },
+        {
+          "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+          "ruleIds": [
+            "component-coupling"
+          ],
+          "reason": "Availability step orchestrator; imports slot grid and step-specific UI by design"
+        },
+        {
+          "file": "client/src/components/booking/steps/PropertyAddressSection.vue",
+          "ruleIds": [
+            "excessive-prop-count"
+          ],
+          "reason": "Address section form; props are typed API for address/place/validation"
+        },
+        {
+          "file": "client/src/components/booking/steps/PropertyDetailsSection.vue",
+          "ruleIds": [
+            "excessive-prop-count"
+          ],
+          "reason": "Property details section; props are typed API for property type and form"
+        },
+        {
+          "file": "client/src/components/booking/MoveablePartsModal.vue",
+          "ruleIds": [
+            "excessive-prop-count"
+          ],
+          "reason": "Modal shell; props are step/content API for moveable scheduling"
+        },
+        {
+          "file": "client/src/components/booking/modals/RequiredConfirmationModal.vue",
+          "ruleIds": [
+            "unused-named-slot"
+          ],
+          "reason": "Actions slot has default content; parents may override with name=actions"
+        },
+        {
+          "file": "client/src/components/booking/steps/ConfirmationStep.vue",
+          "ruleIds": [
+            "oversized-template"
+          ],
+          "reason": "Confirmation summary step; template extraction deferred"
+        },
+        {
+          "file": "client/src/components/booking/steps/ContactFormSection.vue",
+          "ruleIds": [
+            "oversized-template"
+          ],
+          "reason": "Contact form section; template extraction deferred"
+        },
+        {
+          "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
+          "ruleIds": [
+            "excessive-prop-count"
+          ],
+          "reason": "Admin generic component; barely over threshold (9), props are typed API"
+        },
+        {
+          "file": "client/src/components/admin/generic/fields/FieldRenderer.vue",
+          "ruleIds": [
+            "constant-prop-value"
+          ],
+          "reason": "fieldContext from parent getFieldContext; all parents pass same getter by design"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/AppointmentActionsCell.vue",
+          "ruleIds": [
+            "excessive-emit-count"
+          ],
+          "reason": "Table cell actions; one emit per action; intentional API"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/AppointmentConfirmationPanel.vue",
+          "ruleIds": [
+            "excessive-emit-count"
+          ],
+          "reason": "Form panel; v-model and event surface; intentional"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/AppointmentsCreateForm.vue",
+          "ruleIds": [
+            "excessive-emit-count"
+          ],
+          "reason": "Create form; patch and field events; intentional"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/CalendarIntegrationPanel.vue",
+          "ruleIds": [
+            "excessive-emit-count"
+          ],
+          "reason": "Calendar form panel; event surface; intentional"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/PlacesTimezonePanel.vue",
+          "ruleIds": [
+            "excessive-emit-count"
+          ],
+          "reason": "Places/timezone form panel; event surface; intentional"
+        },
+        {
+          "file": "client/src/components/booking/steps/AvailabilitySubStepContent.vue",
+          "ruleIds": [
+            "component-coupling",
+            "template-directive-depth"
+          ],
+          "reason": "Step content switcher; imports step-specific components by design; template depth from v-if step index (extract deferred)"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+          "ruleIds": [
+            "oversized-template"
+          ],
+          "reason": "Panel form; template extraction deferred"
+        }
+      ],
+      "linePatterns": []
     },
     "component-logic": {
       "patterns": [
-        { "glob": "**/*.vue", "ruleIds": ["provideInject"], "reason": "Importing provide/inject doesn't indicate complexity - only usage does" },
-        { "glob": "**/components/**/fields/*.vue", "ruleIds": ["computed"], "reason": "Field components often use computed wrappers for props - legitimate Vue pattern" }
+        {
+          "glob": "**/*.vue",
+          "ruleIds": [
+            "provideInject"
+          ],
+          "reason": "Importing provide/inject doesn't indicate complexity - only usage does"
+        },
+        {
+          "glob": "**/components/**/fields/*.vue",
+          "ruleIds": [
+            "computed"
+          ],
+          "reason": "Field components often use computed wrappers for props - legitimate Vue pattern"
+        }
       ],
       "specific": []
     },
-    "composables-logic": {
+    "composable-health": {
       "patterns": [
-        { "glob": "**/composables/**/*Mutations.ts", "ruleIds": ["vueQuery", "async", "await"], "reason": "Mutation composables necessarily use Vue Query and async/await - this is the correct pattern" },
-        { "glob": "**/composables/**/*Query.ts", "ruleIds": ["vueQuery"], "reason": "Query composables necessarily use Vue Query - this is the correct pattern" },
-        { "glob": "**/composables/**/*Actions.ts", "ruleIds": ["async", "await"], "reason": "Action composables necessarily use async/await - this is the correct pattern" }
+        {
+          "glob": "**",
+          "ruleIds": [
+            "watcher-no-scope-dispose"
+          ],
+          "reason": "Watchers in setup() are auto-disposed; onScopeDispose only needed for EffectScope usage"
+        },
+        {
+          "glob": "**",
+          "ruleIds": [
+            "re-export-barrel"
+          ],
+          "reason": "Re-export barrels are intentional API surface for composables"
+        }
       ],
       "specific": [
-        { "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts", "ruleIds": ["vueQuery", "async", "await", "computed"], "reason": "CRUD mutations - many async and Vue Query calls intentional" },
-        { "file": "client/src/composables/admin/useRelationshipCollectionData.ts", "ruleIds": ["computed", "ref"], "reason": "Data-heavy admin collection - many computeds intentional" },
-        { "file": "client/src/composables/booking/dev/usePanelPosition.ts", "ruleIds": ["DOM"], "reason": "Dev panel positioning - DOM measurement intentional" },
-        { "file": "client/src/composables/dataCollections/useDataCollectionActions.ts", "ruleIds": ["vueQuery", "async", "await"], "reason": "Data collection actions - async and Vue Query intentional" }
+        {
+          "file": "client/src/composables/admin/useMetadataCache.ts",
+          "ruleIds": [
+            "module-level-ref"
+          ],
+          "reason": "Singleton metadata load gate; intentional module-level ref"
+        },
+        {
+          "file": "client/src/composables/admin/useShapeForm.ts",
+          "ruleIds": [
+            "module-level-ref"
+          ],
+          "reason": "Intentional module-level submit state"
+        },
+        {
+          "file": "client/src/composables/useMapsSessionToken.ts",
+          "ruleIds": [
+            "module-level-ref"
+          ],
+          "reason": "Singleton session token; intentional shared ref"
+        },
+        {
+          "file": "client/src/composables/useNotification.ts",
+          "ruleIds": [
+            "module-level-ref"
+          ],
+          "reason": "Singleton notification state; intentional module-level ref"
+        },
+        {
+          "file": "client/src/composables/booking/useAppointmentShape.ts",
+          "ruleIds": [
+            "spread-return"
+          ],
+          "reason": "Extends eventShape with attendees; intentional composition"
+        },
+        {
+          "file": "client/src/composables/booking/useStepValidation.ts",
+          "ruleIds": [
+            "spread-return"
+          ],
+          "reason": "Merges ruleErrors and customErrors; intentional composition"
+        },
+        {
+          "file": "client/src/composables/entityCrud/useEntityCrud.ts",
+          "ruleIds": [
+            "spread-return"
+          ],
+          "reason": "Builds return object from reducer; intentional"
+        },
+        {
+          "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
+          "ruleIds": [
+            "spread-return"
+          ],
+          "reason": "Entity merge pattern; intentional"
+        },
+        {
+          "file": "client/src/composables/admin/usePartInstanceCollection.ts",
+          "ruleIds": [
+            "excessive-composable-imports"
+          ],
+          "reason": "Structural collection composable; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+          "ruleIds": [
+            "excessive-composable-imports"
+          ],
+          "reason": "Orchestrator composable; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/admin/useBufferSettings.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 11 props; form state cohesion"
+        },
+        {
+          "file": "client/src/composables/admin/useBusinessRuleForm.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 12 props; form cohesion"
+        },
+        {
+          "file": "client/src/composables/admin/useBusinessRules.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 11 props; CRUD cohesion"
+        },
+        {
+          "file": "client/src/composables/admin/useEntityCardActions.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/admin/useEntityCardFormSetup.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/admin/useEntityCardSubPanels.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/admin/usePartsCollectionField.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 12 props; collection field API"
+        },
+        {
+          "file": "client/src/composables/admin/useRelationshipCollectionField.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 12 props; collection field API"
+        },
+        {
+          "file": "client/src/composables/admin/useSelectConfig.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/admin/useShapesTabModals.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 11 props"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityLogic.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 11 props"
+        },
+        {
+          "file": "client/src/composables/booking/useContactsStepData.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 12 props"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 11 props"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardNavigation.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardStepDataRefs.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 13 props; step refs cohesion"
+        },
+        {
+          "file": "client/src/composables/dev/useApiDevPanelData.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 12 props"
+        },
+        {
+          "file": "client/src/composables/entityCrud/useEntityCrud.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 13 props; CRUD cohesion"
+        },
+        {
+          "file": "client/src/composables/formFields/useFormFields.ts",
+          "ruleIds": [
+            "oversized-return",
+            "excessive-composable-imports"
+          ],
+          "reason": "Borderline 12 props; 6 composable imports; consumers/approach documented in composable"
+        },
+        {
+          "file": "client/src/composables/useAddressAutocomplete.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 13 props"
+        },
+        {
+          "file": "client/src/composables/useAppointment.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 10 props"
+        },
+        {
+          "file": "client/src/composables/useFormValidation.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 13 props"
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContext.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Field context 20 props; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContextState.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Field context state 24 props; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/admin/useInstancesTab.ts",
+          "ruleIds": [
+            "oversized-return",
+            "excessive-composable-imports"
+          ],
+          "reason": "Tab orchestrator 17 props, 13 composable imports; explicit return type added; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Panel form state 19 props; cohesion; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/admin/useShapesTab.ts",
+          "ruleIds": [
+            "oversized-return",
+            "excessive-composable-imports"
+          ],
+          "reason": "Shapes tab 55 props, 11 composable imports; explicit return type added; decompose deferred"
+        },
+        {
+          "file": "client/src/composables/booking/useBookingWizardSetup.ts",
+          "ruleIds": [
+            "oversized-return",
+            "excessive-composable-imports"
+          ],
+          "reason": "Wizard setup orchestrator 24 props, 21 composable imports; decompose deferred"
+        },
+        {
+          "file": "client/src/utils/admin/capacityConstraintsHandlers.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Handler bag 14 props; extracted from CapacityConstraintsPanel per vue-architecture"
+        },
+        {
+          "file": "client/src/composables/admin/usePropertyCreateForm.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Form bindings 22 props; extracted from PropertyCreateForm per vue-architecture"
+        },
+        {
+          "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
+          "ruleIds": [
+            "oversized-return"
+          ],
+          "reason": "Borderline 13 props; perspectives form state cohesion"
+        }
+      ],
+      "linePatterns": []
+    },
+    "data-flow-health": {
+      "patterns": [
+        {
+          "glob": "**/admin/generic/fields/*.vue",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "EntityCard provide/inject architecture — correct pattern to avoid prop-drilling through FieldRenderer"
+        },
+        {
+          "glob": "**/composables/admin/useFieldInputSetup.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "EntityCard provide/inject consumer — intentional depth"
+        },
+        {
+          "glob": "**/booking/steps/*.vue",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Wizard provide/inject architecture — step components consume wizard-provided state at depth"
+        },
+        {
+          "glob": "**/booking/plugins/wizardStatePlugin.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Wizard plugin consumes provided state at depth — intentional"
+        },
+        {
+          "glob": "**/admin/dev/ApiDevPanel.vue",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Dev panel consumes provided availability data — intentional depth"
+        },
+        {
+          "glob": "**/booking/useWizardNumberUpdate.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Wizard composable consumes provided state at depth — intentional"
+        },
+        {
+          "glob": "**/views/admin/tabs/**/*.vue",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Admin tab provide/inject for adminCurrentTab — intentional depth"
+        },
+        {
+          "glob": "**/booking/dev/*.vue",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Booking dev panel provide/inject (InstancesPanel, DevPanelsContainer) — intentional depth"
+        },
+        {
+          "glob": "**/*.vue",
+          "ruleIds": [
+            "bidirectional-data-channel"
+          ],
+          "reason": "Info-severity signal — intentional dual-channel access patterns in component architecture"
+        }
+      ],
+      "specific": [
+        {
+          "file": "client/src/composables/admin/useEventInstancesSection.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "Context required via prop only (InstancesTab → EventInstancesSection); no inject — data-flow-health fix"
+        },
+        {
+          "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
+          "ruleIds": [
+            "provide-inject-depth"
+          ],
+          "reason": "State required via prop only (BusinessControlsConstraintsSection → OverlapConstraintsPanel); no inject — data-flow-health fix"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardStepDataRefs.ts",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "All 13 provides consumed via dynamic key params in useWizardStepSync — static analysis limitation"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardStepSync.ts",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Injects use dynamic key params (stepDataKey etc) — static analysis cannot match to useWizardStepDataRefs provides"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardDateAvailability.ts",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Provides consumed in AvailabilityStep.vue; key 'month' may be regex edge case"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardDevMode.ts",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Provides/injects for dev panel and reset mocks — consumed via symbol or dynamic keys"
+        },
+        {
+          "file": "client/src/composables/booking/useDevPanelButtonsInject.ts",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Inject devPanelButtons — provided by wizard dev mode"
+        },
+        {
+          "file": "client/src/composables/booking/useMockCalendarRefresh.ts",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Inject key false positive (variable/symbol) — consumes resetMocksSignal"
+        },
+        {
+          "file": "client/src/components/booking/steps/AvailabilityStep.vue",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Injects use variable keys (updateDisplayedMonthKey etc) — consumed from useWizardDateAvailability"
+        },
+        {
+          "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",
+          "ruleIds": [
+            "orphaned-injection-key"
+          ],
+          "reason": "Inject adminCurrentTab — symbol/key from constant; static analysis reports empty key"
+        },
+        {
+          "file": "client/src/composables/admin/usePropertyMappingsTab.ts",
+          "ruleIds": [
+            "transformer-bypass"
+          ],
+          "reason": "Simple admin-only GET endpoints with locally-typed 1:1 API responses — transformer would be a no-op"
+        },
+        {
+          "file": "client/src/composables/useGlobal.ts",
+          "ruleIds": [
+            "query-data-passthrough"
+          ],
+          "reason": "Data IS transformed in queryFn via globalTransformer — direct ref exposure is standard Vue Query pattern"
+        },
+        {
+          "file": "client/src/composables/admin/useMetadataCache.ts",
+          "ruleIds": [
+            "query-data-passthrough"
+          ],
+          "reason": "Internal cache accessor — navigates into typed query data, not exposing raw API response"
+        },
+        {
+          "file": "client/src/composables/admin/useSelectFiltering.ts",
+          "ruleIds": [
+            "query-data-passthrough"
+          ],
+          "reason": "Composed entity composable.data getters — typed API surface, not raw query exposure"
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContextState.ts",
+          "ruleIds": [
+            "query-data-passthrough"
+          ],
+          "reason": "Composed entity composable.data getters — typed API surface, not raw query exposure"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardNumberUpdate.ts",
+          "ruleIds": [
+            "bidirectional-data-channel"
+          ],
+          "reason": "Composable requires runtime wizard context via inject; intentional use of wizardKey within BookingWizard scope"
+        },
+        {
+          "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
+          "ruleIds": [
+            "bidirectional-data-channel"
+          ],
+          "reason": "Wizard state plugin requires runtime wizard context via inject; intentional use of wizardKey within BookingWizard scope"
+        }
+      ],
+      "linePatterns": []
+    },
+    "composables-logic": {
+      "patterns": [
+        {
+          "glob": "**/composables/**/*Mutations.ts",
+          "ruleIds": [
+            "vueQuery",
+            "async",
+            "await"
+          ],
+          "reason": "Mutation composables necessarily use Vue Query and async/await - this is the correct pattern"
+        },
+        {
+          "glob": "**/composables/**/*Query.ts",
+          "ruleIds": [
+            "vueQuery"
+          ],
+          "reason": "Query composables necessarily use Vue Query - this is the correct pattern"
+        },
+        {
+          "glob": "**/composables/**/*Actions.ts",
+          "ruleIds": [
+            "async",
+            "await"
+          ],
+          "reason": "Action composables necessarily use async/await - this is the correct pattern"
+        }
+      ],
+      "specific": [
+        {
+          "file": "client/src/composables/entityCrud/useEntityCrudMutations.ts",
+          "ruleIds": [
+            "vueQuery",
+            "async",
+            "await",
+            "computed"
+          ],
+          "reason": "CRUD mutations - many async and Vue Query calls intentional"
+        },
+        {
+          "file": "client/src/composables/admin/useRelationshipCollectionData.ts",
+          "ruleIds": [
+            "computed",
+            "ref"
+          ],
+          "reason": "Data-heavy admin collection - many computeds intentional"
+        },
+        {
+          "file": "client/src/composables/booking/dev/usePanelPosition.ts",
+          "ruleIds": [
+            "dom"
+          ],
+          "reason": "Dev panel positioning - uses useDisplay where possible; remaining DOM (refs, requestAnimationFrame) intentional"
+        },
+        {
+          "file": "client/src/composables/dataCollections/useDataCollectionActions.ts",
+          "ruleIds": [
+            "vueQuery",
+            "async",
+            "await"
+          ],
+          "reason": "Data collection actions - async and Vue Query intentional"
+        },
+        {
+          "file": "client/src/composables/booking/useKeyboardToggle.ts",
+          "ruleIds": [
+            "dom"
+          ],
+          "reason": "Global keyboard shortcuts require window-level event listeners; SSR-guarded"
+        },
+        {
+          "file": "client/src/composables/useGlobal.ts",
+          "ruleIds": [
+            "dom"
+          ],
+          "reason": "Dev-only debug tooling attached to window via utility; SSR-guarded"
+        },
+        {
+          "file": "client/src/composables/admin/useFormElementPatching.ts",
+          "ruleIds": [
+            "dom"
+          ],
+          "reason": "Form element autocomplete patching requires document.querySelector and MutationObserver; SSR-guarded"
+        },
+        {
+          "file": "client/src/composables/booking/useElementDimensions.ts",
+          "ruleIds": [
+            "dom"
+          ],
+          "reason": "ResizeObserver and typeof window SSR guard only; getContentWidth in util"
+        },
+        {
+          "file": "client/src/composables/admin/useBusinessRules.ts",
+          "ruleIds": [
+            "async",
+            "await"
+          ],
+          "reason": "CRUD actions delegate to withAsyncOperation and businessRulesApi; async/await count is structural, not complexity"
+        }
       ]
     },
     "unused-code": {
       "patterns": [
-        { "glob": "src/constants/**/*.ts", "ruleIds": ["unused-export"], "reason": "Constants files may export unused values for future use" },
-        { "glob": "**/index.ts", "ruleIds": ["unused-export"], "reason": "Barrel files re-export for API surface" },
-        { "glob": "**/composables/**/*.ts", "ruleIds": ["unused-export"], "reason": "Composable return types / public API for consumers" }
+        {
+          "glob": "src/constants/**/*.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Constants files may export unused values for future use"
+        },
+        {
+          "glob": "**/index.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Barrel files re-export for API surface"
+        }
       ],
-      "specific": [
-        { "file": "client/src/utils/booking/cascadeFilterPipeline.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API or future use" },
-        { "file": "server/src/constants/metadataDefaults.mjs", "ruleIds": ["unused-export"], "reason": "Reserved for metadata config" },
-        { "file": "client/src/utils/transformers/annotationTransformers.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API or tests" },
-        { "file": "client/src/utils/differentialScheduling.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
-        { "file": "server/src/config/entityRegistry.ts", "ruleIds": ["unused-export"], "reason": "Reserved for config" },
-        { "file": "server/src/routes/internal/relationships/relationshipHelpers.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
-        { "file": "server/src/services/addressGeocodingCache.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" },
-        { "file": "server/src/utils/userTypeMapping.ts", "ruleIds": ["unused-export"], "reason": "Reserved for API" }
-      ]
+      "specific": []
     },
     "type-similarity": {
       "patterns": [
-        { "glob": "**/express.d.ts", "ruleIds": ["*"], "reason": "Declaration file; leave as-is" }
+        {
+          "glob": "**/express.d.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Declaration file; leave as-is"
+        }
       ],
-      "specific": []
+      "specific": [
+        {
+          "groupId": "sim-exact-primitive:string",
+          "reason": "Resolved: all three types branded in shared/types/primitiveBrands.ts and availabilityTypes.ts"
+        },
+        {
+          "groupId": "sim-subset-b78a9bb66e8d",
+          "reason": "Resolved: ParsedProperty extends PropertyAddressBase, PropertyDetailsBase"
+        },
+        {
+          "groupId": "sim-subset-d2c1ba0c030a",
+          "reason": "Resolved: PropertyRequest and PropertyResponse both extend PropertyAddressBase, PropertyDetailsBase"
+        },
+        {
+          "groupId": "sim-subset-b988c17b5b76",
+          "reason": "Resolved: BetaFeedbackFiltersBase uses Partial Pick semantics; intentional separation"
+        },
+        {
+          "groupId": "sim-subset-1bd9faaba835",
+          "reason": "Resolved: UserRequest and UserResponse extend ContactInfoBase"
+        },
+        {
+          "groupId": "sim-subset-7f254dbfa49b",
+          "reason": "Resolved: UseBusinessControlsFormStateParams uses Pick of UseAdminAvailabilitySettingsReturn"
+        },
+        {
+          "groupId": "sim-subset-481e0eb925e6",
+          "reason": "Skip: { id, name } mega-cluster; types serve different domains (UI items, API responses, server models); CoreEntity covers meaningful subset"
+        },
+        {
+          "groupId": "sim-subset-d190de321156",
+          "reason": "Resolved: CoreEntity + BookingPartInstance extend; remainder (ComponentItem, form data, API responses) are coincidental overlap — allowlist"
+        },
+        {
+          "groupId": "sim-subset-73571281c541",
+          "reason": "Skip: CapacityConstraint / IncomeCapacityFilter / WorkCapacityFilter — intentional hierarchy in shared/types/availabilityTypes.ts"
+        },
+        {
+          "groupId": "sim-subset-621667d868fa",
+          "reason": "Skip: PropertyValidationData / WizardStateData / PropertyDetailsStepData — 42-property wizard transformer types; different composition levels"
+        },
+        {
+          "groupId": "sim-subset-33a274ccbdab",
+          "reason": "Skip: UseEntityCardComputedReturn / UseEntityCardFormSetupReturn — different lifecycle stages of entity card; 40% overlap"
+        },
+        {
+          "groupId": "sim-subset-62e00d8a384e",
+          "reason": "Skip: UseAppointmentDropdownReturn / DevPanelButtonsContext — coincidental dev panel overlap"
+        },
+        {
+          "groupId": "sim-subset-70cbe2c3a7b8",
+          "reason": "Skip: EntityCardSharedProps / UseEntityCardSaveHandlersParams — different composition levels"
+        },
+        {
+          "groupId": "sim-subset-a832c686555e",
+          "reason": "Skip: BetaFeedbackSubmission / BrowserContext — different domains (feedback vs browser)"
+        },
+        {
+          "groupId": "sim-subset-c98cbdede5bd",
+          "reason": "Skip: BusinessRuleCore / BusinessRulesQueryFilters — query filters use Pick semantics of core"
+        },
+        {
+          "groupId": "sim-subset-d247c076f958",
+          "reason": "Skip: UsePartInstanceBulkEditReturn / PartInstanceCollectionModel — return type vs model; different composition levels"
+        },
+        {
+          "groupId": "sim-subset-b2d0f4be007d",
+          "reason": "Skip: PropertyFormData uses Ref wrappers; WizardStateData is a 42-property transformer output; PropertyAddressBase already exists for the non-reactive case"
+        },
+        {
+          "groupId": "sim-subset-bbdc63598db4",
+          "reason": "Skip: AddressAutocomplete Props vs DefaultLocation; 18% coincidental overlap (label, placeId); no semantic relationship"
+        },
+        {
+          "groupId": "sim-subset-d6ef704fb332",
+          "reason": "Skip: LoadedTimeSlot vs SlotTimeBounds; 2-3 fields, different optionality, different contexts (client matching vs shared availability)"
+        },
+        {
+          "groupId": "sim-subset-99e5f061a37a",
+          "reason": "Skip: FieldRenderer Props vs FieldInputProps; Vue component Props are self-contained by convention"
+        },
+        {
+          "groupId": "sim-subset-a7b7f79a0ee6",
+          "reason": "Skip: UseMoveablePartsSchedulingParams is private, 2 fields; explicit listing clearer than Pick"
+        },
+        {
+          "groupId": "sim-subset-18631ccb7f7c",
+          "reason": "Skip: NormalizedAppointmentForInvites vs AppointmentWithRelations; different optionality (attendees required vs optional); private same-file types with transformation semantics"
+        },
+        {
+          "groupId": "sim-exact-feedd2f3e18c",
+          "reason": "Resolved: SelectedTimeSlot is now type alias of SlotTimeBounds"
+        },
+        {
+          "groupId": "sim-subset-8cd35ec90e48",
+          "reason": "Resolved: SelectedTimeSlot extends SlotTimeBounds; LoadedTimeSlot different context"
+        },
+        {
+          "groupId": "sim-subset-c79656af8d10",
+          "reason": "Resolved: SlotAvailabilityResult extracted; ComputedSlot and SlotDisplayItem extend it"
+        },
+        {
+          "groupId": "sim-exact-b4a044f08323",
+          "reason": "Resolved: FieldKeyboardGuardReturn removed; use UseFieldKeyboardGuardReturn from types"
+        },
+        {
+          "groupId": "sim-high_overlap-f9a4deb61b84",
+          "reason": "Resolved: FieldKeyboardGuardOptions unified into UseFieldKeyboardGuardOptions"
+        },
+        {
+          "groupId": "sim-exact-c34a7234220d",
+          "reason": "Resolved: GroupedByKeyItem removed; use SelectGroup everywhere"
+        },
+        {
+          "groupId": "sim-exact-baa832bb53d1",
+          "reason": "Resolved: PartPricingFields extracted; PartInstanceBulkEditData and PartWithTotals extend it"
+        }
+      ]
     },
     "constants-consolidation": {
       "patterns": [],
       "specific": [
-        { "file": "server/src/db/config/database.mjs", "ruleId": "hoist", "lineRange": [1, 35], "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention" }
+        {
+          "file": "server/src/db/config/database.mjs",
+          "ruleId": "hoist",
+          "lineRange": [
+            1,
+            35
+          ],
+          "reason": "Sequelize CLI config requires literal object keys (development, test, production) per framework convention"
+        },
+        {
+          "file": "client/src/composables/booking/useSelectionCardState.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Inline 'local' is Vue selection card plugin type; different semantic domain from server constant (hotspot triage allowlist)"
+        },
+        {
+          "file": "server/src/routes/internal/index.ts",
+          "ruleId": "hoist",
+          "reason": "Express route mount path '/business-rules'; server cannot import client constant — separate concern from client BUSINESS_RULES_API_BASE"
+        }
       ]
     },
-    "lint": { "patterns": [], "specific": [] },
+    "lint": {
+      "patterns": [],
+      "specific": []
+    },
     "loop-mutation": {
       "patterns": [
-        { "glob": "**/*.vue", "ruleIds": ["assignProp"], "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns" },
-        { "glob": "**/composables/**/*.ts", "ruleIds": ["assignProp", "push"], "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern" },
-        { "glob": "**/views/**/*.vue", "ruleIds": ["assignProp"], "reason": "Vue views use ref.value assignments for reactive state - legitimate Vue pattern" },
-        { "glob": "**/components/**/*.vue", "ruleIds": ["assignProp"], "reason": "Vue components use ref.value assignments for reactive state - legitimate Vue pattern" },
-        { "glob": "server/src/routes/**/*.ts", "ruleIds": ["*"], "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations" },
-        { "glob": "server/src/routes/**/*.js", "ruleIds": ["*"], "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations" },
-        { "glob": "server/src/scripts/**/*.ts", "ruleIds": ["*"], "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks" },
-        { "glob": "server/src/scripts/**/*.js", "ruleIds": ["*"], "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks" },
-        { "glob": "server/src/scripts/**/*.mjs", "ruleIds": ["*"], "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks" }
+        {
+          "glob": "**/*.vue",
+          "ruleIds": [
+            "assignProp"
+          ],
+          "reason": "Vue component files use ref.value assignments and template directives - legitimate reactive patterns"
+        },
+        {
+          "glob": "**/composables/**/*.ts",
+          "ruleIds": [
+            "assignProp",
+            "push"
+          ],
+          "reason": "Vue composables legitimately mutate reactive state (ref.value = ...) - this is the Vue reactive pattern"
+        },
+        {
+          "glob": "**/views/**/*.vue",
+          "ruleIds": [
+            "assignProp"
+          ],
+          "reason": "Vue views use ref.value assignments for reactive state - legitimate Vue pattern"
+        },
+        {
+          "glob": "**/components/**/*.vue",
+          "ruleIds": [
+            "assignProp"
+          ],
+          "reason": "Vue components use ref.value assignments for reactive state - legitimate Vue pattern"
+        },
+        {
+          "glob": "server/src/routes/**/*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations"
+        },
+        {
+          "glob": "server/src/routes/**/*.js",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Server routes legitimately mutate request/response objects and database records - required for DB operations"
+        },
+        {
+          "glob": "server/src/scripts/**/*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
+        },
+        {
+          "glob": "server/src/scripts/**/*.js",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
+        },
+        {
+          "glob": "server/src/scripts/**/*.mjs",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "One-time scripts and migration scripts - mutations acceptable for data transformation tasks"
+        }
       ],
       "specific": [
-        { "file": "client/src/types/admin/adminEntity.ts", "ruleIds": ["assignProp"], "reason": "Class constructor and toPlainObject intentionally assign to this; stateful entity pattern" },
-        { "file": "client/src/utils/forms/formElementPatching.ts", "ruleIds": ["assignProp", "push"], "reason": "DOM form patching requires imperative mutation of form elements" },
-        { "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts", "ruleIds": ["assignProp", "assignIndex"], "reason": "Read-only filter callback and type-guard filter; not loop mutation" },
-        { "file": "client/src/utils/transformers/globalToBookingTransformer.ts", "ruleIds": ["assignProp"], "reason": "Read-only filter callback; no mutation" }
+        {
+          "file": "client/src/utils/transformers/fetchToGlobalTransformer.ts",
+          "ruleIds": [
+            "assignProp",
+            "assignIndex"
+          ],
+          "reason": "Read-only filter callback and type-guard filter; not loop mutation"
+        },
+        {
+          "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
+          "ruleIds": [
+            "assignProp"
+          ],
+          "reason": "Read-only filter callback; no mutation"
+        }
       ],
       "linePatterns": [
-        { "ruleId": "assignIndex", "pattern": "const\\s*\\[\\s*[^\\]]*\\]\\s*=\\s*await\\s*Promise\\.all", "reason": "Destructuring Promise.all result; not loop mutation" }
+        {
+          "ruleId": "assignIndex",
+          "pattern": "const\\s*\\[\\s*[^\\]]*\\]\\s*=\\s*await\\s*Promise\\.all",
+          "reason": "Destructuring Promise.all result; not loop mutation"
+        }
       ]
     },
     "duplication": {
       "patterns": [
-        { "glob": "**/configs/field/form/selectableFieldConfig.ts", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
-        { "glob": "**/configs/field/display/selectableDisplayConfig.ts", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
-        { "glob": "**/configs/field/form/appliedForm/**", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
-        { "glob": "**/configs/field/display/appliedDisplay/**", "ruleIds": ["*"], "reason": "Config files with intentional duplication - similar structures for different entity types" },
-        { "glob": "**/types/entity/formFields.ts", "ruleIds": ["*"], "reason": "Type definition files - duplication between types and configs is intentional" }
-      ],
-      "specific": []
-    },
-    "pattern-detection": { "patterns": [], "specific": [] },
-    "css": {
-      "patterns": [
-        { "glob": "**/dev/**", "ruleIds": ["inline-style-static", "inline-style-dynamic"], "reason": "Dev panels use inline styles for quick debugging layouts" },
-        { "glob": "**/TheCustomizer.vue", "ruleIds": ["inline-style-static", "inline-style-dynamic"], "reason": "Template/theme customizer component; inline styles are part of its purpose" }
+        {
+          "glob": "**/configs/field/form/selectableFieldConfig.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Config files with intentional duplication - similar structures for different entity types"
+        },
+        {
+          "glob": "**/configs/field/display/selectableDisplayConfig.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Config files with intentional duplication - similar structures for different entity types"
+        },
+        {
+          "glob": "**/configs/field/form/appliedForm/**",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Config files with intentional duplication - similar structures for different entity types"
+        },
+        {
+          "glob": "**/configs/field/display/appliedDisplay/**",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Config files with intentional duplication - similar structures for different entity types"
+        },
+        {
+          "glob": "**/types/entity/formFields.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Type definition files - duplication between types and configs is intentional"
+        },
+        {
+          "glob": "server/src/db/models/booking/active_*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Active/assignment model pairs share column schemas by design; Sequelize factory convention"
+        },
+        {
+          "glob": "server/src/db/models/booking/*_assignment.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Active/assignment model pairs share column schemas by design; Sequelize factory convention"
+        },
+        {
+          "glob": "server/src/db/models/booking/booking_cascade.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Cascade/dependent model pair shares column schemas by design"
+        },
+        {
+          "glob": "server/src/db/models/booking/dependent_instance.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Cascade/dependent model pair shares column schemas by design"
+        },
+        {
+          "glob": "server/src/db/models/booking/pricing_cascade.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Pricing cascade shares part-like columns by design"
+        },
+        {
+          "glob": "server/src/db/models/admin/valid_*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Valid-entity model pairs share column schemas by design"
+        },
+        {
+          "glob": "server/src/db/models/admin/adminMetadata.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Metadata model tiers share column schemas by design; three variants for entity/primitive/relationship"
+        },
+        {
+          "glob": "server/src/db/models/admin/adminPrimitiveMetadata.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Metadata model tiers share column schemas by design"
+        },
+        {
+          "glob": "server/src/db/models/admin/adminRelationshipMetadata.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Metadata model tiers share column schemas by design"
+        },
+        {
+          "glob": "**/utils/logger.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Client/server logger adapters are thin env-specific wrappers over shared/utils/loggerCore; overlap is structural"
+        },
+        {
+          "glob": "server/src/config/app.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Barrel re-exports from models.ts; name list overlap is inherent"
+        }
       ],
       "specific": [
-        { "file": "client/src/utils/booking/constraintColors.ts", "ruleId": "css-in-ts", "reason": "Semantic color config for constraint/calendar visualization; hex map is data, not style." },
-        { "file": "client/src/composables/useSelectOptions.ts", "ruleId": "css-in-ts", "reason": "Entity key to entityKey mapping config; not style/CSS." },
-        { "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue", "ruleId": "inline-style-dynamic", "reason": "Legend swatch color from chart dataset; dynamic per service." },
-        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "inline-style-dynamic", "reason": "Config-driven minHeight from selection config." },
-        { "file": "client/src/components/booking/AppointmentSlotGrid.vue", "ruleId": "inline-style-dynamic", "reason": "Dynamic grid columns (useResponsiveGrid) and constraint violation colors (constraintColors map)." },
-        { "file": "client/src/utils/colors/complementaryColors.ts", "ruleId": "css-in-ts", "reason": "Semantic Vuetify color-name mapping for status override; not style/CSS." },
-        { "file": "client/src/App.vue", "ruleId": "unscoped-style", "reason": "App root and wizard dev panel require global selectors." },
-        { "file": "client/src/App.vue", "ruleId": "inline-style-static", "reason": "Runtime theme primary injection for VApp." },
-        { "file": "client/src/App.vue", "ruleId": "inline-style-dynamic", "reason": "Runtime theme primary injection for VApp." },
-        { "file": "client/src/components/admin/generic/StatusButton.vue", "ruleId": "inline-style-dynamic", "reason": "Computed chip style for disabled state (cursor, z-index, opacity)." },
-        { "file": "client/src/components/admin/generic/StatusButton.vue", "ruleId": "inline-style-static", "reason": "Computed chip style for disabled state (cursor, z-index, opacity)." },
-        { "file": "client/src/components/booking/AppointmentSlotGrid.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/components/admin/dev/ApiDevPanel.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/components/admin/generic/StatusButton.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/components/booking/DifferentialGraph.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/components/booking/modals/PropertyConfirmationModal.vue", "ruleId": "empty-style-block", "reason": "Empty block kept for future styles or sidecar; no content." },
-        { "file": "client/src/components/booking/steps/PropertyDetailsStep.vue", "ruleId": "empty-style-block", "reason": "Empty block kept for future styles or sidecar; no content." },
-        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/components/booking/BookingWizard.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/components/booking/steps/AvailabilityCalendarSection.vue", "ruleId": "empty-style-block", "reason": "Styles in sidecar .scss (src=); block is intentionally empty." },
-        { "file": "client/src/layouts/Default.vue", "ruleId": "unscoped-style", "reason": "Imports global layout stylesheet; scoping would break @layouts styles." },
-        { "file": "client/src/components/booking/BookingWizard.vue", "ruleId": "inline-style-static", "reason": "Step accessibility state (cursor, opacity) from computed per step." },
-        { "file": "client/src/components/booking/BookingWizard.vue", "ruleId": "inline-style-dynamic", "reason": "Step accessibility state (cursor, opacity) from computed per step." },
-        { "file": "client/src/components/admin/generic/CardButton.vue", "ruleId": "inline-style-static", "reason": "Dynamic z-index for overlay stacking." },
-        { "file": "client/src/components/admin/generic/CardButton.vue", "ruleId": "inline-style-dynamic", "reason": "Dynamic z-index for overlay stacking." },
-        { "file": "client/src/components/booking/IndependentSelectCard.vue", "ruleId": "inline-style-static", "reason": "Config-driven minHeight from mergedConfig.appearance." },
-        { "file": "client/src/components/booking/IndependentSelectCard.vue", "ruleId": "inline-style-dynamic", "reason": "Config-driven minHeight from mergedConfig.appearance." },
-        { "file": "client/src/components/booking/AppointmentSlotGrid.vue", "ruleId": "inline-style-static", "reason": "Dynamic grid columns and constraint violation colors (same as inline-dynamic)." },
-        { "file": "client/src/components/booking/SelectionCard.vue", "ruleId": "inline-style-static", "reason": "Config-driven minHeight from selection config (same as inline-dynamic)." },
-        { "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue", "ruleId": "inline-style-static", "reason": "Legend swatch color from chart dataset (same as inline-dynamic)." }
+        {
+          "file": "client/src/views/admin/tabs/ShapesTab.vue",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Destructures useShapesTabCreation/useShapesTabModals return — proper composable usage, not duplication"
+        },
+        {
+          "file": "client/src/views/admin/tabs/BusinessControlsTab.vue",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Destructures useBusinessControlsFormState return — proper composable usage, not duplication"
+        }
+      ]
+    },
+    "pattern-detection": {
+      "patterns": [],
+      "specific": []
+    },
+    "css": {
+      "patterns": [
+        {
+          "glob": "**/dev/**",
+          "ruleIds": [
+            "inline-style-static",
+            "inline-style-dynamic"
+          ],
+          "reason": "Dev panels use inline styles for quick debugging layouts"
+        },
+        {
+          "glob": "**/TheCustomizer.vue",
+          "ruleIds": [
+            "inline-style-static",
+            "inline-style-dynamic"
+          ],
+          "reason": "Template/theme customizer component; inline styles are part of its purpose"
+        }
+      ],
+      "specific": [
+        {
+          "file": "client/src/utils/booking/constraintColors.ts",
+          "ruleId": "css-in-ts",
+          "reason": "Semantic color config for constraint/calendar visualization; hex map is data, not style."
+        },
+        {
+          "file": "client/src/composables/useSelectOptions.ts",
+          "ruleId": "css-in-ts",
+          "reason": "Entity key to entityKey mapping config; not style/CSS."
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Legend swatch color from chart dataset; dynamic per service."
+        },
+        {
+          "file": "client/src/components/booking/SelectionCard.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Config-driven minHeight from selection config."
+        },
+        {
+          "file": "client/src/components/booking/AppointmentSlotGrid.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Dynamic grid columns (useResponsiveGrid) and constraint violation colors (constraintColors map)."
+        },
+        {
+          "file": "client/src/utils/colors/complementaryColors.ts",
+          "ruleId": "css-in-ts",
+          "reason": "Semantic Vuetify color-name mapping for status override; not style/CSS."
+        },
+        {
+          "file": "client/src/App.vue",
+          "ruleId": "unscoped-style",
+          "reason": "App root and wizard dev panel require global selectors."
+        },
+        {
+          "file": "client/src/App.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Runtime theme primary injection for VApp."
+        },
+        {
+          "file": "client/src/App.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Runtime theme primary injection for VApp."
+        },
+        {
+          "file": "client/src/components/admin/generic/StatusButton.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Computed chip style for disabled state (cursor, z-index, opacity)."
+        },
+        {
+          "file": "client/src/components/admin/generic/StatusButton.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Computed chip style for disabled state (cursor, z-index, opacity)."
+        },
+        {
+          "file": "client/src/components/booking/AppointmentSlotGrid.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/components/admin/dev/ApiDevPanel.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/components/admin/generic/StatusButton.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/components/booking/DifferentialGraph.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/components/booking/modals/PropertyConfirmationModal.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Empty block kept for future styles or sidecar; no content."
+        },
+        {
+          "file": "client/src/components/booking/steps/PropertyDetailsStep.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Empty block kept for future styles or sidecar; no content."
+        },
+        {
+          "file": "client/src/components/booking/SelectionCard.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/components/booking/BookingWizard.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/components/booking/steps/AvailabilityCalendarSection.vue",
+          "ruleId": "empty-style-block",
+          "reason": "Styles in sidecar .scss (src=); block is intentionally empty."
+        },
+        {
+          "file": "client/src/layouts/Default.vue",
+          "ruleId": "unscoped-style",
+          "reason": "Imports global layout stylesheet; scoping would break @layouts styles."
+        },
+        {
+          "file": "client/src/components/booking/BookingWizard.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Step accessibility state (cursor, opacity) from computed per step."
+        },
+        {
+          "file": "client/src/components/booking/BookingWizard.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Step accessibility state (cursor, opacity) from computed per step."
+        },
+        {
+          "file": "client/src/components/admin/generic/CardButton.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Dynamic z-index for overlay stacking."
+        },
+        {
+          "file": "client/src/components/admin/generic/CardButton.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Dynamic z-index for overlay stacking."
+        },
+        {
+          "file": "client/src/components/booking/IndependentSelectCard.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Config-driven minHeight from mergedConfig.appearance."
+        },
+        {
+          "file": "client/src/components/booking/IndependentSelectCard.vue",
+          "ruleId": "inline-style-dynamic",
+          "reason": "Config-driven minHeight from mergedConfig.appearance."
+        },
+        {
+          "file": "client/src/components/booking/AppointmentSlotGrid.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Dynamic grid columns and constraint violation colors (same as inline-dynamic)."
+        },
+        {
+          "file": "client/src/components/booking/SelectionCard.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Config-driven minHeight from selection config (same as inline-dynamic)."
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue",
+          "ruleId": "inline-style-static",
+          "reason": "Legend swatch color from chart dataset (same as inline-dynamic)."
+        }
       ]
     },
     "hardcoding": {
       "patterns": [
-        { "glob": "**/constants/**/*.ts", "ruleIds": ["*"], "reason": "Constants files are the canonical source for hardcoded values - this is by design" },
-        { "glob": "**/configs/**/*.ts", "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"], "reason": "Config files are intentional sources of hardcoded values - canonical source of truth" },
-        { "glob": "**/configs/**/*.js", "ruleIds": ["magicLabel", "caseString", "fieldEqualsString"], "reason": "Config files are intentional sources of hardcoded values - canonical source of truth" },
-        { "glob": "**/*Display*.ts", "ruleIds": ["magicLabel", "caseString"], "reason": "Display config files define labels and case literals by design" },
-        { "glob": "**/*Display*.vue", "ruleIds": ["magicLabel", "caseString"], "reason": "Display components use label strings and case literals by design" },
-        { "glob": "**/*.vue", "ruleIds": ["entityKeyString"], "reason": "Vue slot names and template attributes legitimately use entity keys as strings" },
-        { "glob": "**/utils/logger.ts", "ruleIds": ["caseString"], "reason": "Log level strings are standard and intentional - part of logger API" },
-        { "glob": "**/types/**/*.ts", "ruleIds": ["entityKeyString", "caseString"], "reason": "Type definitions legitimately use string literals for type unions" },
-        { "glob": "**/transformers/**/*.ts", "ruleIds": ["entityKeyString"], "reason": "API transformers necessarily reference entity keys for type-safe mapping" },
-        { "glob": "server/**/*Constants.ts", "ruleIds": ["magicLabel"], "reason": "Canonical server constants files; string values are the source of truth" }
+        {
+          "glob": "**/constants/**/*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Constants files are the canonical source for hardcoded values - this is by design"
+        },
+        {
+          "glob": "**/configs/**/*.ts",
+          "ruleIds": [
+            "magicLabel",
+            "caseString",
+            "fieldEqualsString"
+          ],
+          "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
+        },
+        {
+          "glob": "**/configs/**/*.js",
+          "ruleIds": [
+            "magicLabel",
+            "caseString",
+            "fieldEqualsString"
+          ],
+          "reason": "Config files are intentional sources of hardcoded values - canonical source of truth"
+        },
+        {
+          "glob": "**/*Display*.ts",
+          "ruleIds": [
+            "magicLabel",
+            "caseString"
+          ],
+          "reason": "Display config files define labels and case literals by design"
+        },
+        {
+          "glob": "**/*Display*.vue",
+          "ruleIds": [
+            "magicLabel",
+            "caseString"
+          ],
+          "reason": "Display components use label strings and case literals by design"
+        },
+        {
+          "glob": "**/*.vue",
+          "ruleIds": [
+            "entityKeyString"
+          ],
+          "reason": "Vue slot names and template attributes legitimately use entity keys as strings"
+        },
+        {
+          "glob": "**/utils/logger.ts",
+          "ruleIds": [
+            "caseString"
+          ],
+          "reason": "Log level strings are standard and intentional - part of logger API"
+        },
+        {
+          "glob": "**/types/**/*.ts",
+          "ruleIds": [
+            "entityKeyString",
+            "caseString"
+          ],
+          "reason": "Type definitions legitimately use string literals for type unions"
+        },
+        {
+          "glob": "**/transformers/**/*.ts",
+          "ruleIds": [
+            "entityKeyString"
+          ],
+          "reason": "API transformers necessarily reference entity keys for type-safe mapping"
+        },
+        {
+          "glob": "server/**/*Constants.ts",
+          "ruleIds": [
+            "magicLabel"
+          ],
+          "reason": "Canonical server constants files; string values are the source of truth"
+        }
       ],
       "specific": [
-        { "file": "server/src/services/brightMls/brightMlsApiClient.ts", "ruleIds": ["magicLabel"], "reason": "Bright MLS API field names and client-specific strings (external API contract)" },
-        { "file": "client/src/components/booking/types/selectionCardTypes.ts", "ruleId": "magicLabel", "reason": "UI component type unions for selection config" }
+        {
+          "file": "server/src/services/brightMls/brightMlsApiClient.ts",
+          "ruleIds": [
+            "magicLabel"
+          ],
+          "reason": "Bright MLS API field names and client-specific strings (external API contract)"
+        },
+        {
+          "file": "client/src/components/booking/types/selectionCardTypes.ts",
+          "ruleId": "magicLabel",
+          "reason": "UI component type unions for selection config"
+        },
+        {
+          "file": "client/src/views/admin/tabs/components/FeeCalibrationPanel.vue",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Vue :style bindings (legend-swatch backgroundColor, chart); template shape not API mapping"
+        },
+        {
+          "file": "client/src/components/booking/IndependentSelectCard.vue",
+          "ruleId": "fieldMapping",
+          "lineRange": [
+            119,
+            121
+          ],
+          "reason": "Vue :style binding from config (minHeight); template shape"
+        },
+        {
+          "file": "client/src/components/booking/SelectionCard.vue",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Vue :style binding from config (minHeight); template shape not field mapping"
+        },
+        {
+          "file": "client/src/composables/booking/useTimeSlotCalculations.ts",
+          "ruleId": "fieldMapping",
+          "reason": "Property projection/plucking (.map to { name, differentialRole }); not casing mapping (hotspot triage allowlist)"
+        },
+        {
+          "file": "server/src/services/invites/inviteOrchestrationService.ts",
+          "ruleId": "fieldMapping",
+          "reason": "Sequelize idiomatic { where: { id } }; not a casing conversion target (hotspot triage allowlist)"
+        },
+        {
+          "file": "server/src/services/slotComputationService.ts",
+          "ruleId": "fieldMapping",
+          "reason": "Object destructuring { start, end } from event; not casing mapping (hotspot triage allowlist)"
+        },
+        {
+          "file": "client/src/composables/admin/useInstanceBulkEdit.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Standard bulk update shape { id, ...data }; not config-driven field mapping"
+        },
+        {
+          "file": "client/src/composables/layout/useNavSearch.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "withQuery route/query param; stable API contract not config-driven"
+        },
+        {
+          "file": "client/src/utils/transformers/globalToAdminTransformer.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Relationship flatMap parentId/childId; conventional shape not hardcoded mapping"
+        },
+        {
+          "file": "client/src/composables/admin/useBusinessRuleForm.ts",
+          "ruleIds": [
+            "switchTypeLike"
+          ],
+          "reason": "Switch on ruleType already uses RULE_TYPE_VALUES constants; type-based dispatch"
+        },
+        {
+          "file": "client/src/utils/booking/appointmentDataBuilders.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Attendee request shape uses constants (USER_ROLE_*, APPOINTMENT_ATTENDEE_ROLES); not config-driven mapping"
+        },
+        {
+          "file": "server/src/scripts/importCalendarData.ts",
+          "ruleIds": [
+            "fieldMapping",
+            "inlineLabelMap"
+          ],
+          "reason": "CLI script; Sequelize where: { email }; doc string"
+        },
+        {
+          "file": "client/src/utils/booking/perspectiveResolver.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Perspective/API shape; conventional keys"
+        },
+        {
+          "file": "client/src/utils/differentialScheduling.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Scheduling payload shape"
+        },
+        {
+          "file": "server/src/services/invites/inviteAttendeeHelpers.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Invite/attendee API shape"
+        },
+        {
+          "file": "client/src/composables/booking/useKeyboardToggle.ts",
+          "ruleIds": [
+            "fieldMapping",
+            "fieldEqualsString"
+          ],
+          "reason": "Toggle/event shape"
+        },
+        {
+          "file": "client/src/configs/availabilitySettings/api.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Config module; API/availability shape"
+        },
+        {
+          "file": "client/src/utils/booking/availabilityStepData.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Step data shape"
+        },
+        {
+          "file": "client/src/utils/booking/partFinalizer.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Finalizer payload shape"
+        },
+        {
+          "file": "client/src/utils/logger.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Logger config object { debugScopes, isDev }; not API mapping"
+        },
+        {
+          "file": "server/src/utils/logger.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Same; logger config"
+        },
+        {
+          "file": "server/src/routes/internal/beta-feedback/betaFeedbackCrudRouter.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "PATCH body shape (status, resolutionNotes)"
+        },
+        {
+          "file": "server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts",
+          "ruleIds": [
+            "fieldEqualsString"
+          ],
+          "reason": "Route/validator field"
+        },
+        {
+          "file": "server/src/scripts/helpers/calendarImportHelpers.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Script helper; import shape"
+        },
+        {
+          "file": "server/src/services/appointmentCalendarService.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Calendar service payload"
+        },
+        {
+          "file": "server/src/services/rateLimiter.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Rate limit config/response shape"
+        },
+        {
+          "file": "server/src/services/slotConstraintCheckers.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Constraint check shape"
+        },
+        {
+          "file": "server/src/db/models/booking/event_instance.ts",
+          "ruleIds": [
+            "inlineLabelMap"
+          ],
+          "reason": "Sequelize model comment; doc only"
+        },
+        {
+          "file": "server/src/routes/internal/properties/propertyValidators.ts",
+          "ruleIds": [
+            "switchTypeLike"
+          ],
+          "reason": "Validator key dispatch; switch (key)"
+        },
+        {
+          "file": "server/src/services/propertyFeatureMatcher.ts",
+          "ruleIds": [
+            "switchTypeLike"
+          ],
+          "reason": "Match type dispatch; switch (matchType)"
+        }
       ],
       "linePatterns": [
-        { "ruleId": "switchTypeLike", "pattern": "switch\\s*\\(\\s*\\w+\\.type\\s*\\)", "reason": "Exhaustive dispatch on discriminated union (.type); not config-driven branching" },
-        { "ruleId": "fieldMapping", "pattern": "logger\\.(debug|info|warn|error)\\s*\\(", "reason": "Logger metadata object; not API/DB field mapping" },
-        { "ruleId": "fieldMapping", "pattern": "return\\s*\\{\\s*[a-zA-Z_$][a-zA-Z0-9_$]*\\s*:", "reason": "Simple return shape; not API/DB mapping" },
-        { "ruleId": "fieldMapping", "pattern": "\\b(entityKey|fieldKey|wrappedKeys|year|month|status|entityId|itemId)\\s*:", "reason": "Metadata/context object; not API/DB field mapping" }
+        {
+          "ruleId": "switchTypeLike",
+          "pattern": "switch\\s*\\(\\s*\\w+\\.type\\s*\\)",
+          "reason": "Exhaustive dispatch on discriminated union (.type); not config-driven branching"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "pattern": "logger\\.(debug|info|warn|error)\\s*\\(",
+          "reason": "Logger metadata object; not API/DB field mapping"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "pattern": "return\\s*\\{\\s*[a-zA-Z_$][a-zA-Z0-9_$]*\\s*:",
+          "reason": "Simple return shape; not API/DB mapping"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "pattern": "\\b(entityKey|fieldKey|wrappedKeys|year|month|status|entityId|itemId)\\s*:",
+          "reason": "Metadata/context object; not API/DB field mapping"
+        }
       ]
     },
     "typecheck": {
       "patterns": [
-        { "glob": "**/types/**/*.ts", "ruleIds": ["TS6133"], "reason": "Type definition files may have unused types kept for reference" },
-        { "glob": "**/constants/**/*.ts", "ruleIds": ["TS6133"], "reason": "Constants files may have unused exports kept for future use" },
-        { "glob": "**/configs/**/*.ts", "ruleIds": ["TS6133"], "reason": "Config files may have unused values kept for reference" }
+        {
+          "glob": "**/types/**/*.ts",
+          "ruleIds": [
+            "TS6133"
+          ],
+          "reason": "Type definition files may have unused types kept for reference"
+        },
+        {
+          "glob": "**/constants/**/*.ts",
+          "ruleIds": [
+            "TS6133"
+          ],
+          "reason": "Constants files may have unused exports kept for future use"
+        },
+        {
+          "glob": "**/configs/**/*.ts",
+          "ruleIds": [
+            "TS6133"
+          ],
+          "reason": "Config files may have unused values kept for reference"
+        }
       ],
-      "specific": [
-        { "file": "src/utils/entityDefaults.ts", "ruleId": "TS6133", "lineRange": [1, 50], "reason": "ENTITY_REQUIRED_DEFAULTS kept for reference despite being deprecated" }
-      ]
+      "specific": []
     }
   },
   "neverPermissibleCategories": {
@@ -375,7 +2562,11 @@
         "P2: Refactor when convenient; still not permissible to allowlist"
       ],
       "instructionsForJson": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
-      "ruleIds": ["legacy-keyword", "legacy-marker", "compat-marker"],
+      "ruleIds": [
+        "legacy-keyword",
+        "legacy-marker",
+        "compat-marker"
+      ],
       "findingScore": 10
     }
   }

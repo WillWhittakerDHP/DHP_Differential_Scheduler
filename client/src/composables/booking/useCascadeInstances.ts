@@ -3,24 +3,11 @@
 
 WHY: Generic composable for resolving bo...
  */
-import { computed, type ComputedRef, type Ref } from 'vue'
-import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { UseCascadeInstancesOptions, UseCascadeInstancesReturn } from '@/types/booking/cascadeInstances'
 
-export interface UseCascadeInstancesOptions {
-  parentInstance: ComputedRef<BookingBlockInstance | null> | Ref<BookingBlockInstance | null>
-  
-  bookingData: Ref<BookingData | null>
-  
-  targetBlockShapeName?: string
-}
-
-export interface UseCascadeInstancesReturn {
-  cascadeInstanceIds: ComputedRef<string[]>
-  
-  cascadeInstances: ComputedRef<BookingBlockInstance[]>
-  
-  hasCascades: ComputedRef<boolean>
-}
+export type { UseCascadeInstancesOptions, UseCascadeInstancesReturn } from '@/types/booking/cascadeInstances'
 
 export function useCascadeInstances(
   options: UseCascadeInstancesOptions

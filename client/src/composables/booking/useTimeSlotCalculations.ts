@@ -3,55 +3,27 @@
 
 WHY: Moves duration calculations and...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { TimeSlot, AppointmentShape } from '@/types/appointment'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
-import { useLocalTime } from '@/composables/useLocalTime'
-import { toRFC3339DateTime } from '@/types/datetime'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { formatDuration } from '@/utils/time/timeFormatting'
+import { localTime } from '@/utils/time/localTime'
+import { toRFC3339DateTime } from '@/utils/datetime'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
+import type {
+  UseTimeSlotCalculationsParams,
+  UseTimeSlotCalculationsReturn,
+} from '@/types/booking/timeSlotCalculations'
+
+export type {
+  DifferentialTimeBlocks,
+  UseTimeSlotCalculationsParams,
+  UseTimeSlotCalculationsReturn,
+} from '@/types/booking/timeSlotCalculations'
 
 const logger = createLogger('useTimeSlotCalculations')
 
-interface TimeBlock {
-  label: string
-  duration: string
-  timeBlock: string | null
-}
-
-/**
- * Time on site blocks structure
- * NOTE: Property names 'major' and 'minor' kept for backward compatibility, but represent major/minor perspectives
- */
-export interface DifferentialTimeBlocks {
-  major: TimeBlock  // Major perspective (inspector)
-  minor: TimeBlock | null  // Minor perspective (client)
-}
-
-interface UseTimeSlotCalculationsParams {
-  wizard: {
-    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  }
-  appointmentShape: ComputedRef<AppointmentShape | null>
-  majorTimeSlot: Ref<TimeSlot | null>
-  minorTimeSlot: Ref<TimeSlot | null>
-  isDifferentialService: ComputedRef<boolean>
-}
-
-interface UseTimeSlotCalculationsReturn {
-  majorDuration: ComputedRef<number>
-  minorDuration: ComputedRef<number>
-  differentialTimeBlocks: ComputedRef<DifferentialTimeBlocks>
-}
-
-/**
- * WHY: useTimeSlotCalculations composable
-
-WHY: Extracts calculation logic from...
- */
 export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): UseTimeSlotCalculationsReturn {
   const {
     appointmentShape,
@@ -60,27 +32,8 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     isDifferentialService
   } = params
 
-  const { formatDuration } = useTimeFormatting()
-  const { formatTimeRangeForDisplay } = useLocalTime()
-  
-  const { settings: availabilitySettings } = useAvailabilitySettings()
-  
-  const majorLabel = computed(() => {
-    const label = availabilitySettings.value?.differentialPerspectives?.majorLabel
-    if (label === undefined || label === null || label === '') {
-      logger.debug('Time slot: missing majorLabel in settings, using default', { scope: 'differentialPerspectives' })
-      return 'Inspector'
-    }
-    return label
-  })
-  const minorLabel = computed(() => {
-    const label = availabilitySettings.value?.differentialPerspectives?.minorLabel
-    if (label === undefined || label === null || label === '') {
-      logger.debug('Time slot: missing minorLabel in settings, using default', { scope: 'differentialPerspectives' })
-      return 'Client Formal Presentation'
-    }
-    return label
-  })
+  const { formatTimeRangeForDisplay } = localTime()
+  const { majorLabel, minorLabel } = useWizardSettings()
 
   const majorDuration = computed(() => {
     const shape = appointmentShape.value
@@ -135,11 +88,9 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     const majorStart = new Date(majorTimeSlot.value.startTime)
     const majorEnd = new Date(majorStart.getTime() + majorDuration.value * 60 * 1000)
     
-    // LEARNING: Format time block range
     // WHY: Displays time range in readable format
     // PATTERN: Format start and end times, combine with arrow
     const formatTimeBlock = (start: Date, end: Date): string => {
-      // LEARNING: Use composable for UI-boundary formatting
       // WHY: All local time conversions must go through useLocalTime composable
       const startTime = toRFC3339DateTime(start)
       const endTime = toRFC3339DateTime(end)
@@ -160,7 +111,6 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
       const minorEnd = new Date(minorStart.getTime() + minorDuration.value * 60 * 1000)
       minorTimeBlock = formatTimeBlock(minorStart, minorEnd)
     } else if (isDifferentialService.value) {
-      // LEARNING: Use major end time as minor start time
       // PATTERN: Calculate minor end from major end + presentation duration
       const minorStart = majorEnd
       const minorEnd = new Date(minorStart.getTime() + minorDuration.value * 60 * 1000)
@@ -187,4 +137,3 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     differentialTimeBlocks
   }
 }
-

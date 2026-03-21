@@ -3,29 +3,13 @@
 
 WHY: Components should be thin UI wrappers - s...
  */
-import { computed, type ComputedRef } from 'vue'
-import { useComponentEntity } from '../useComponentEntity'
+import { computed } from 'vue'
+import { useComponentEntity, type UseComponentEntityReturn } from '../useComponentEntity'
 import { useAdmin } from './useAdmin'
-import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityStatusOptions, UseEntityStatusReturn } from '@/types/admin/entityStatus'
 
-export interface UseEntityStatusOptions {
-  entityKey: GlobalEntityKey
-  
-  entity: ComputedRef<GlobalEntity<GlobalEntityKey>>
-}
+type ComponentEntityData = UseComponentEntityReturn<'blockInstance'>['data']
 
-export interface UseEntityStatusReturn {
-  isComposer: ComputedRef<boolean>
-  
-  isComponent: ComputedRef<boolean>
-  
-  isComposable: ComputedRef<boolean>
-  
-  componentCount: ComputedRef<number>
-  
-  composerName: ComputedRef<string | null>
-}
 
 /**
  * WHY: Entity Status Composable
@@ -42,18 +26,18 @@ export function useEntityStatus(
   const componentEntityComposable = entityKey === 'blockInstance'
     ? useComponentEntity('blockInstance')
     : null
-  
-  const {
-    getComponents,
-    isComponent: isComponentMethod,
-    getComposerId,
-    canBeComposed
-  } = componentEntityComposable || {
-    getComponents: () => [],
-    isComponentMethod: () => false,
-    getComposerId: () => null,
-    canBeComposed: () => false
+
+  const fallbackData = {
+    getComponents: (): ReturnType<ComponentEntityData['getComponents']> => [],
+    isComponent: () => false,
+    getComposerId: () => null as ReturnType<ComponentEntityData['getComposerId']>,
+    canBeComposed: () => false,
   }
+  const data = componentEntityComposable?.data ?? fallbackData
+  const getComponents = data.getComponents
+  const isComponentMethod = data.isComponent
+  const getComposerId = data.getComposerId
+  const canBeComposed = data.canBeComposed
 
   const isComposer = computed(() => {
     if (entityKey !== 'blockInstance' || !componentEntityComposable) return false

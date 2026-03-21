@@ -146,4 +146,13 @@ export const eventInstanceFields = {
     globalField: "active" as const,
     expandable: false,
   },
+
+  /** Virtual field: visibility in metadata controls whether scheduled-by is included in event instance display/export. Value from appointment at invite time. */
+  scheduledBy: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Input,
+    placeholder: 'Scheduled by (from appointment at invite time)',
+    globalField: 'scheduledBy' as const,
+    expandable: false,
+  },
 } as const;

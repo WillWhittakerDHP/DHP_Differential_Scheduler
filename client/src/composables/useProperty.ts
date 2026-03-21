@@ -1,7 +1,6 @@
 /**
  * WHY: useProperty Composable
 
-LEARNING: Vue composable for property CRUD opera...
  */
 import { computed, type ComputedRef } from 'vue'
 import { getPropertyByIdEndpoint, getPropertyEndpoint } from '@/utils/api'
@@ -73,4 +72,3 @@ export function useProperty(): UsePropertyReturn {
     fetchById,
   }
 }
-

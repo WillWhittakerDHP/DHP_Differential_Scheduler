@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Block Instance Create Modal Component
   WHY: Unified modal for creating and duplicating block instances
   PATTERN: VDialog with EntityCard inside, following InstanceBulkEditModal pattern
   COMPARISON: Similar to InstanceBulkEditModal but for create/duplicate operations
@@ -12,7 +11,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-h5">{{ modalTitle }}</span>
+        <span class="text-headline-medium">{{ modalTitle }}</span>
         <VBtn
           icon
           variant="text"
@@ -23,7 +22,6 @@
       </VCardTitle>
 
       <VCardText class="pa-6">
-        <!-- LEARNING: EntityCard for create/duplicate form -->
         <!-- WHY: Uses EntityCard for consistency, but prevents auto-save on blur -->
         <!-- PATTERN: Set isNew=true, disableAutoSave=true, useExpansionPanel=false -->
         <div class="create-modal-entity-card">
@@ -64,13 +62,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
+import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { generateIncrementedName } from '@/utils/blockInstanceUtils'
 import { useAdmin } from '@/composables/admin/useAdmin'
+import { useBlockInstanceCreate } from '@/composables/admin/useBlockInstanceCreate'
 
 interface Props {
   modelValue?: boolean
@@ -91,7 +91,10 @@ const emit = defineEmits<Emits>()
 const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
 const admin = useAdmin()
 
-const tempEntityId = ref<string>(`new-${Date.now()}`)
+const { tempEntityId, handleCreate } = useBlockInstanceCreate({
+  modelValue: () => props.modelValue,
+  entityCardRef: entityCardRef as Ref<{ handleSave: () => Promise<void> } | null>,
+})
 
 const modalTitle = computed(() => {
   return props.sourceEntity ? 'Duplicate Block Instance' : 'Create Block Instance'
@@ -125,12 +128,6 @@ const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   }
 })
 
-watch(() => props.modelValue, (isOpen) => {
-  if (isOpen) {
-    tempEntityId.value = `new-${Date.now()}`
-  }
-})
-
 const canSave = computed(() => {
   if (!entityCardRef.value?.form) {
     return false
@@ -147,14 +144,6 @@ function updateModelValue(value: boolean) {
 function handleEntityCardSaved(entity: GlobalEntity<GlobalEntityKey>): void {
   emit('created', entity as GlobalEntity<'blockInstance'>)
   updateModelValue(false)
-}
-
-async function handleCreate(): Promise<void> {
-  if (!entityCardRef.value) {
-    return
-  }
-  
-  await entityCardRef.value.handleSave()
 }
 
 function handleCancel(): void {

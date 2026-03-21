@@ -1,12 +1,11 @@
 <!--
-  LEARNING: Entity Card Fee Preview Widget
   WHY: Shows fee vs sqft for this block instance so admins can see cost in context while editing
   PATTERN: usePartsTotals for data; compact SVG line + sqft input and cost output; same formula as confirmation step
 -->
 <template>
   <div v-if="showPreview" class="entity-card-fee-preview">
     <VCard variant="outlined" density="compact" class="fee-preview-card">
-      <VCardTitle class="text-caption d-flex align-center gap-1 py-2">
+      <VCardTitle class="text-body-small d-flex align-center gap-1 py-2">
         <VIcon icon="tabler-chart-line" size="small" />
         Fee at square footage
       </VCardTitle>
@@ -47,7 +46,7 @@
         </div>
         <div class="d-flex align-center flex-wrap gap-3 mt-2">
           <div class="d-flex align-center gap-2">
-            <label for="fee-preview-sqft" class="text-caption text-medium-emphasis">Sq ft</label>
+            <label for="fee-preview-sqft" class="text-body-small text-medium-emphasis">Sq ft</label>
             <VTextField
               id="fee-preview-sqft"
               v-model.number="sqftInput"
@@ -61,8 +60,8 @@
             />
           </div>
           <div class="d-flex align-center gap-1">
-            <span class="text-caption text-medium-emphasis">Cost:</span>
-            <span class="text-body-2 font-weight-medium">{{ formatCurrency(computedCost) }}</span>
+            <span class="text-body-small text-medium-emphasis">Cost:</span>
+            <span class="text-body-medium font-weight-medium">{{ formatCurrency(computedCost) }}</span>
           </div>
         </div>
       </VCardText>
@@ -71,65 +70,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { usePartsTotals } from '@/composables/admin/usePartsTotals'
+import { useFeePreview } from '@/composables/admin/useFeePreview'
+import type { EntityCardSharedProps } from './entityCardConstants'
 
-const SQFT_RANGE = [0, 1000, 2000, 3000, 4000, 5000] as const
 const CHART_WIDTH = 280
 const CHART_HEIGHT = 90
 const PAD = { left: 32, right: 12, top: 8, bottom: 20 }
-const PLOT_WIDTH = CHART_WIDTH - PAD.left - PAD.right
-const PLOT_HEIGHT = CHART_HEIGHT - PAD.top - PAD.bottom
-const LINE_COLOR = 'rgb(var(--v-theme-primary))'
-
-import type { EntityCardSharedProps } from './entityCardConstants'
 
 type Props = EntityCardSharedProps
-
 const props = defineProps<Props>()
 
-const {
-  canHaveParts,
+const { canHaveParts, totalBaseFee, totalRateOverBaseFee } = usePartsTotals(props.entityKey, props.entityId)
+const showPreview = computed(() => props.entityKey === 'blockInstance' && canHaveParts.value)
+const { sqftInput, computedCost, svgLine } = useFeePreview({
   totalBaseFee,
   totalRateOverBaseFee,
-} = usePartsTotals(props.entityKey, props.entityId)
-
-const showPreview = computed(
-  () => props.entityKey === 'blockInstance' && canHaveParts.value
-)
-
-const sqftInput = ref(2000)
-
-watch(sqftInput, (val) => {
-  const n = typeof val === 'number' ? val : Number(val)
-  if (!Number.isNaN(n) && n < 0) {
-    sqftInput.value = 0
-  }
-})
-
-const computedCost = computed(() => {
-  const base = totalBaseFee.value
-  const rate = totalRateOverBaseFee.value
-  const sqft = Math.max(0, Number(sqftInput.value) || 0)
-  return base + rate * sqft
-})
-
-const svgLine = computed(() => {
-  if (!showPreview.value) {
-    return { points: '', color: LINE_COLOR }
-  }
-  const base = totalBaseFee.value
-  const rate = totalRateOverBaseFee.value
-  const values = SQFT_RANGE.map(sqft => base + rate * sqft)
-  const yMax = Math.max(1, ...values)
-  const yScale = (v: number) =>
-    PAD.top + PLOT_HEIGHT - (v / yMax) * PLOT_HEIGHT
-  const xScale = (i: number) =>
-    PAD.left + (i / Math.max(1, SQFT_RANGE.length - 1)) * PLOT_WIDTH
-  const points = values
-    .map((val, i) => `${xScale(i)},${yScale(val)}`)
-    .join(' ')
-  return { points, color: LINE_COLOR }
+  showPreview,
 })
 
 function formatCurrency(amount: number): string {

@@ -1,6 +1,7 @@
-import type { GlobalDataCollectionCrudComposableReturn, GlobalDataCollectionCrudConfig } from './types'
+import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { GlobalDataCollectionCrudComposableReturn, GlobalDataCollectionCrudConfig } from '@/types/dataCollections/globalDataCollectionTypes'
+import { useDataCollectionActions } from '@/composables/dataCollections/useDataCollectionActions'
 import { useGlobalDataCollectionQuery } from './useGlobalDataCollectionQuery'
-import { useGlobalDataCollectionActions } from './useGlobalDataCollectionActions'
 
 /**
  * PATTERN: Facade composable for GlobalData-backed collections
@@ -16,11 +17,12 @@ export function useGlobalDataCollectionCrud<
     selectCollection: config.selectCollection,
   })
 
-  const { create, update, patch, remove } = useGlobalDataCollectionActions<
+  const { create, update, patch, remove } = useDataCollectionActions<
     CollectionItem,
     CreatePayload,
-    UpdatePayload
-  >(config)
+    UpdatePayload,
+    GlobalData
+  >(config, ['globalData'] as const, true)
 
   return {
     create,

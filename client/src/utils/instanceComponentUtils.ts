@@ -52,7 +52,6 @@ export function extractInstanceComponents(params: {
 /**
  * WHY: Check if a service is composable
 
-LEARNING: Pure function that checks if...
  */
 export function isServiceComposable(params: {
   serviceId: string
@@ -73,4 +72,3 @@ export function isServiceComposable(params: {
   const blockShapeWithComposable = blockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
   return blockShapeWithComposable.composable === true
 }
-

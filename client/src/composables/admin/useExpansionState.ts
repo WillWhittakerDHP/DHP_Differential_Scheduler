@@ -1,15 +1,9 @@
 /**
  * WHY: Expansion State Composable
 
-LEARNING: Extracts expansion state logic fro...
  */
-import { ref, type Ref } from 'vue'
-
-export interface UseExpansionStateReturn {
-  expandedEntities: Ref<string[]>
-  
-  isPanelExpanded: (entityId: string) => boolean
-}
+import { ref } from 'vue'
+import type { UseExpansionStateReturn } from '@/types/admin/expansionState'
 
 /**
  * WHY: Expansion State Composable
@@ -18,7 +12,6 @@ WHY: Moves business logic out of components ...
  */
 export function useExpansionState(): UseExpansionStateReturn {
   /**
-   * LEARNING: Reactive expanded entities state
    */
   const expandedEntities = ref<string[]>([])
 
@@ -31,4 +24,3 @@ export function useExpansionState(): UseExpansionStateReturn {
     isPanelExpanded
   }
 }
-

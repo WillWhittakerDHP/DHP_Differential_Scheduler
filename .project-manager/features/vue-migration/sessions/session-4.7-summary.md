@@ -99,7 +99,7 @@
 
 2. **Entity Types** ✅
    - Added pooledMembers and isPoolMaster fields
-   - Extended BaseGlobalEntity interface
+   - Extended GlobalEntityBase interface
    - Location: `client-vue/src/types/entities.ts`
 
 3. **Display Configs** ✅
@@ -248,15 +248,6 @@ client-vue/src/
 
 ---
 
-## Learning Points
-
-1. **Computed View Pattern**: Calculating aggregated values at query time ensures data consistency
-2. **Hierarchical Structures**: Recursive traversal enables complex pooling configurations
-3. **Property Aggregation**: Different property types need different aggregation strategies
-4. **Type Safety**: Proper type narrowing and assertions prevent runtime errors
-5. **Vue Query Integration**: Caching and invalidation patterns for pool data
-6. **Distribution Strategies**: Multiple strategies for distributing changes from masters to members
-
 ---
 
 ## Next Steps
@@ -293,4 +284,3 @@ client-vue/src/
 - Phase Handoff: `project-manager/features/vue-migration/phases/phase-4-handoff.md`
 - Entity Pooling Plan: `.cursor/plans/entity-pooling-system-1bc9f8e5.plan.md`
 - Project Plan: `project-manager/PROJECT_PLAN.md`
-

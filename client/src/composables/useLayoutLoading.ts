@@ -3,16 +3,8 @@
 
 WHY: Moves loading indicator watcher logic ou...
  */
-import { ref, watch, type Ref } from 'vue'
-import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
-
-export interface UseLayoutLoadingOptions {
-  refLoadingIndicator: Ref<LoadingIndicatorInstance | null>
-}
-
-export interface UseLayoutLoadingReturn {
-  isFallbackStateActive: Ref<boolean>
-}
+import { ref, watch } from 'vue'
+import type { UseLayoutLoadingOptions, UseLayoutLoadingReturn } from '@/types/layoutLoading'
 
 /**
  * WHY: Layout Loading Composable
@@ -26,10 +18,6 @@ export function useLayoutLoading(
   
   const isFallbackStateActive = ref(false)
 
-  /**
-LEARNING: Watch fallback state and loading indicator ref
-WHY: Calls ...
-   */
   watch([isFallbackStateActive, refLoadingIndicator], () => {
     if (isFallbackStateActive.value && refLoadingIndicator.value)
       refLoadingIndicator.value.fallbackHandle()
@@ -42,4 +30,3 @@ WHY: Calls ...
     isFallbackStateActive
   }
 }
-

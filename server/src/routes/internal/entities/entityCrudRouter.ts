@@ -82,7 +82,6 @@ router.post(
     }
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
       
@@ -109,7 +108,6 @@ router.put(
     const entityId = paramString(req, 'id')
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType'))
       
@@ -138,7 +136,6 @@ router.put(
         await handlePartInstanceCleanup(entityId)
       }
       
-    // Note: Keeping custom response format for backward compatibility
       const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, { 
         message: `${successMessage} successfully`,
@@ -176,14 +173,25 @@ router.patch(
     try {
       // WHY: Support both {key, value} format and direct field updates
       // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
-      let updateData
+      let updateData: Record<string, unknown>
       if (fieldKey && newValue !== undefined) {
         updateData = { [fieldKey]: newValue }
       } else {
         updateData = req.body
       }
-      
-      const sanitizedData = sanitizeEntityDataForUpdate(updateData, paramString(req, 'entityType'))
+
+      // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
+      const entityType = paramString(req, 'entityType')
+      if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {
+        if (updateData.canHaveParts === true) {
+          updateData = { ...updateData, isStateControl: false }
+        }
+        if (updateData.isStateControl === true) {
+          updateData = { ...updateData, canHaveParts: false }
+        }
+      }
+
+      const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType)
       
       // WHY: Standard PATCH pattern - log essentials, not entire entity state
       // PATTERN: Log before update to track what's being changed
@@ -252,8 +260,7 @@ router.delete(
         sendNotFound(res, errorMessage, entityId)
         return
       }
-      
-      // Note: Keeping custom response format for backward compatibility (different from standard 204)
+
       const successMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, { 
         message: `${successMessage} successfully`,

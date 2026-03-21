@@ -2,43 +2,9 @@
  * WHY: Wizard state field configuration
 WHY: Wizard state plugin has repeated s...
  */
-import type { ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { WizardStateField, WizardFieldConfig } from '@/types/wizardStateFieldConfig'
 
-/**
- * WHY: Type-safe access to wizard methods and state
- */
-export type WizardInstance = {
-  selectedUserTypeBlock: ComputedRef<BookingBlockInstance | null>
-  selectedServiceTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  selectedPropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  selectedOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
-  selectedLineItemBlocks: ComputedRef<BookingBlockInstance[]>
-  selectUserTypeBlock: (block: BookingBlockInstance | null) => void
-  toggleServiceTypeBlock: (block: BookingBlockInstance) => void
-  togglePropertyTypeBlock: (block: BookingBlockInstance) => void
-  toggleOptionTypeBlock: (block: BookingBlockInstance) => void
-  toggleLineItemBlock: (block: BookingBlockInstance) => void
-}
-
-/**
- * WHY: Wizard state field type
-WHY: Type-safe field names for wizard state
- */
-export type WizardStateField = 'userTypeBlock' | 'services' | 'propertyTypeBlocks' | 'optionTypeBlocks' | 'lineItemBlocks'
-
-/**
- * LEARNING: Field configuration for wizard state fields
- */
-export interface WizardFieldConfig {
-  isArray: boolean
-  singleSelectUI: boolean
-  getSelectedArray: (wizard: WizardInstance) => BookingBlockInstance[]
-  getSelectedValue: (wizard: WizardInstance) => BookingBlockInstance | null
-  toggleInArray: (wizard: WizardInstance, block: BookingBlockInstance) => void
-  setSelectedValue: (wizard: WizardInstance, block: BookingBlockInstance | null) => void
-  watchSource: (wizard: WizardInstance) => ComputedRef<BookingBlockInstance[] | BookingBlockInstance | null>
-}
+export type { WizardInstance, WizardStateField, WizardFieldConfig } from '@/types/wizardStateFieldConfig'
 
 /**
  * WHY: Eliminates switch statements, makes field logic extensible

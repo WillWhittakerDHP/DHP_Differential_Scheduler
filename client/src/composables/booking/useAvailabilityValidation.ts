@@ -1,15 +1,10 @@
-
 import { computed } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
-import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
-import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
+import { useStepValidation } from './useStepValidation'
+import type { UseAvailabilityValidationParams, UseAvailabilityValidationReturn } from '@/types/booking/availabilityValidation'
 
-/** Same shape as shared base (P2 type-similarity). */
-export type UseAvailabilityValidationParams = AvailabilityStepParamsBase
 
-export type UseAvailabilityValidationReturn = UseStepValidationReturn
-
+import type { ValidationRule } from '@/types/formValidation'
 export function useAvailabilityValidation(
   params: UseAvailabilityValidationParams
 ): UseAvailabilityValidationReturn {

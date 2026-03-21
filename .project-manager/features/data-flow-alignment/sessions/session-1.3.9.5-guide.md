@@ -19,25 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current wizard step components and their state usage
-- Understand SelectionCardGroup config patterns
-- Understand wizard state plugin usage
-- Review checkbox vs radio selection patterns
-
-**During Session:**
-- Learn how to update component configs for checkbox mode
-- Learn how to update modelValue bindings for arrays
-- Learn how to update validation for arrays
-- Learn how to update computed properties for arrays
-
-**After Session:**
-- Understand multi-select UI patterns in wizard steps
-- Understand array-based validation patterns
-- Understand stepper subtitle updates for multiple selections
-
 ---
 
 ## Objectives
@@ -243,4 +224,3 @@
 ---
 
 **Next Sub-Session:** Session 1.3.9.6 - Transformer and Duration Calculation Updates
-

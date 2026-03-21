@@ -128,14 +128,6 @@ Successfully renamed all discriminator fields from "type" to "kind" throughout t
 
 ---
 
-## Learning Checkpoints
-
-### What We Learned
-- Discriminator fields (`kind`) are distinct from entity type keys (`EntityType`)
-- Virtual fields in Sequelize models allow computed values without database columns
-- Backward compatibility can be maintained during gradual migrations
-- Null safety is critical when accessing reactive data that may not be loaded yet
-
 ### Why These Patterns Matter
 - Clear naming prevents confusion between entity structure (Shape), runtime instances (Instance), and discriminators (Kind)
 - Type safety ensures compile-time error detection
@@ -163,4 +155,3 @@ Successfully renamed all discriminator fields from "type" to "kind" throughout t
 ## Session Status
 
 ✅ **Complete** - All discriminator field renames completed successfully. Codebase is ready for Session 9.4.
-

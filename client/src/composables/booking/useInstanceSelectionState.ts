@@ -3,36 +3,10 @@
 
 PATTERN: Composable that provides ...
  */
-import { computed, watch, nextTick, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import { computed, watch, nextTick } from 'vue'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
-
-export interface GenericWizardInstance {
-  selectedUserTypeBlock: Ref<BookingBlockInstance | null>
-  availableUserTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  availableServices: Ref<BookingBlockInstance[]>
-  selectUserTypeBlock: (userTypeBlock: BookingBlockInstance | null, skipCascade?: boolean) => void
-  toggleServiceTypeBlock: (service: BookingBlockInstance, skipCascade?: boolean) => void
-}
-
-export interface UseInstanceSelectionStateParams {
-  availableInstances: ComputedRef<BookingBlockInstance[]>
-  
-  selectedInstances: ComputedRef<BookingBlockInstance[]> | Ref<BookingBlockInstance[]>
-  
-  toggleSelection?: (instance: BookingBlockInstance, skipCascade?: boolean) => void
-  
-  loadedWizardState?: Ref<WizardStateData | null> | null
-}
-
-export interface UseInstanceSelectionStateReturn {
-  selectedId: ComputedRef<string | null>
-  
-  selectedIds: ComputedRef<string[]>
-}
+import type { UseInstanceSelectionStateParams, UseInstanceSelectionStateReturn } from '@/types/booking/instanceSelectionState'
 
 /**
  * PATTERN: useInstanceSelectionState composable
@@ -91,7 +65,6 @@ export function useInstanceSelectionState(
   })
 
   /**
-   * LEARNING: Watch loaded wizard state for initial population
    */
   if (loadedWizardState) {
     watch(loadedWizardState, (newState) => {
@@ -107,4 +80,3 @@ export function useInstanceSelectionState(
     selectedIds
   }
 }
-
