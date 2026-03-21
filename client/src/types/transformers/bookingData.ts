@@ -1,7 +1,22 @@
 import type { CoreEntity } from '@shared/types/coreEntityTypes'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { AnnotationUiSlot } from '@shared/constants/annotationSlots'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
+
+/** One annotation assignment row eligible for wizard slot resolution (from global batch + edges). */
+export type BookingAnnotationUiCandidate = {
+  orderIndex: number
+  uiSlot: AnnotationUiSlot
+  assignmentUserTypeFilter: GlobalEntityId | null
+  text: string
+  contentRows?: ReadonlyArray<{ text: string; userTypeBlockInstanceId: string | null }>
+}
+
+export type BookingBlockAnnotationUi = {
+  candidates: BookingAnnotationUiCandidate[]
+}
 
 export type BookingPartInstance = CoreEntity & {
   entityKey: 'partInstance'
@@ -44,6 +59,7 @@ export type BookingBlockInstance = CoreEntity & {
   number?: number | null
   isMultiFamily: boolean
   requiresAgent: boolean
+  annotationUi?: BookingBlockAnnotationUi
   [key: string]: unknown
 }
 

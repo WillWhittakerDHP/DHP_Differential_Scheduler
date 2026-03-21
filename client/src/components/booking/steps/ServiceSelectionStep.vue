@@ -105,6 +105,7 @@ const isDevMode = isDevModeEnabled()
       v-model="selectedUserTypeBlockId"
       :items="wizardStateSelector"
       :config="rowSelectionConfig"
+      :selected-user-type-block-instance-id="null"
       class="mb-8 mb-sm-6"
     />
     
@@ -134,6 +135,7 @@ const isDevMode = isDevModeEnabled()
           v-model="selectedServiceIds"
           :items="baseServicesWithIcons"
           :config="stackSelectionConfig"
+          :selected-user-type-block-instance-id="wizard.selectedUserTypeBlock.value?.id ?? null"
           class="service-cards"
         />
       </VCol>

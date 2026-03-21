@@ -101,6 +101,9 @@ export interface AnnotationShapeEntity extends GlobalEntityBase<"annotationShape
 
 export interface AnnotationInstanceEntity extends GlobalEntityBase<"annotationInstance"> {
   type: string; // Foreign key to AnnotationShape.id
+  text?: string
+  /** From batch when server exposes content rows for wizard resolution (task 6.12.2.2). */
+  contentRows?: ReadonlyArray<{ text: string; userTypeBlockInstanceId: string | null }>
 }
 
 /** Inline annotation type to avoid circular import with annotations.ts */

@@ -1,4 +1,5 @@
 /**
+ * WHY: Mirror server `annotationTextResolution` for booking wizard (per-user-type copy from content rows).
  */
 
 export interface AnnotationContentRowPlain {

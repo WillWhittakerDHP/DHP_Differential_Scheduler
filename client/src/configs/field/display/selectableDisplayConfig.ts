@@ -1,6 +1,7 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
 import {
+  ENTITY_KEY_ANNOTATION_INSTANCE,
   ENTITY_KEY_ANNOTATION_SHAPE,
   ENTITY_KEY_BLOCK_INSTANCE,
   ENTITY_KEY_BLOCK_SHAPE,
@@ -230,6 +231,41 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         
         meta: {
           visible: true
+        },
+      },
+
+      annotationAssignments: {
+        targetMode: "relationship",
+        targetKey: "annotationAssignments",
+        globalField: "annotationAssignments",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_ANNOTATION_INSTANCE,
+        selectedChildPath: ["annotationAssignments"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        candidateParentPath: ["blockShapeRef"],
+        candidateChildKey: ENTITY_KEY_ANNOTATION_INSTANCE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.AnnotationAssignmentSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+
+        label: "Annotation Assignments",
+        placeholder: "No annotations selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "list",
+        emptyStateText: "No annotations assigned",
+        maxDisplayItems: 15,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
         },
       },
 

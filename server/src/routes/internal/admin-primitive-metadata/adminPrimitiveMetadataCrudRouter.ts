@@ -70,14 +70,20 @@ router.post(
       visibility,
       layout,
       displayOrder,
-      renderAs: providedRenderAs,
       statusButtonColor = null,
       panel = 'none',
       bulkEdit = false,
       inputConfig = null,
     } = req.body
 
-    const renderAs = providedRenderAs || computeRenderAs(dataType, inputConfig, fieldKey)
+    const inputConfigRecord =
+      inputConfig !== null &&
+      inputConfig !== undefined &&
+      typeof inputConfig === 'object' &&
+      !Array.isArray(inputConfig)
+        ? (inputConfig as Record<string, unknown>)
+        : null
+    const renderAs = computeRenderAs(dataType, inputConfigRecord, fieldKey)
 
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {

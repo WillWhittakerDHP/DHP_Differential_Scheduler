@@ -8,9 +8,12 @@ interface Props {
   cascadeError: string | null
   availableOptionTypeBlocks: BookingBlockInstance[]
   selectedOptionTypeBlockId: string | null
+  selectedUserTypeBlockInstanceId?: string | null
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  selectedUserTypeBlockInstanceId: null,
+})
 
 const availabilityOptionsConfig: SelectionCardConfig = {
   selectionType: 'radio',
@@ -60,6 +63,7 @@ function handleSelectedOptionTypeUpdate(value: string | string[] | null): void {
       :model-value="selectedOptionTypeBlockId"
       :items="availableOptionTypeBlocks"
       :config="availabilityOptionsConfig"
+      :selected-user-type-block-instance-id="selectedUserTypeBlockInstanceId"
       class="availability-cards"
       @update:model-value="handleSelectedOptionTypeUpdate"
     />

@@ -4,6 +4,7 @@ import { watch, type ComputedRef, type Ref } from 'vue'
 import type { FieldComponent } from '@/types/forms/fieldComponent'
 import type { Component } from 'vue'
 import type { AppLogger } from '@/utils/logger'
+import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 
 type FieldContextLike = { state?: { fieldKey?: unknown; entityKey?: unknown; entityId?: string } } | undefined
 
@@ -39,7 +40,17 @@ export function useFieldRendererErrorWatch(params: UseFieldRendererErrorWatchPar
       if (reason === 'notConfigured' && fieldKey.value == null && entityKey.value == null) return
       const componentMapEntry = componentMap[componentType?.type]
       const hasComponent = componentMapEntry !== null && componentMapEntry !== undefined
-      const metadataEntry = fieldComponent.fieldMetadataEntry.value
+      const metadataEntry = fieldComponent.fieldMetadataEntry.value as
+        | { renderAs?: string; dataType?: string; inputConfig?: Record<string, unknown> | null }
+        | undefined
+      const derivedRenderAs =
+        metadataEntry && fieldKey.value != null
+          ? computeRenderAs(
+              metadataEntry.dataType,
+              metadataEntry.inputConfig ?? null,
+              String(fieldKey.value)
+            )
+          : undefined
       logger.error('Unknown input type detected', {
         componentType: componentType?.type,
         reason,
@@ -48,9 +59,10 @@ export function useFieldRendererErrorWatch(params: UseFieldRendererErrorWatchPar
         entityKey: entityKey.value,
         entityId: fieldContext.value?.state?.entityId,
         fieldMetadataEntry: metadataEntry,
-        renderAs: (metadataEntry as { renderAs?: string })?.renderAs,
-        dataType: (metadataEntry as { dataType?: string })?.dataType,
-        inputConfig: (metadataEntry as { inputConfig?: unknown })?.inputConfig,
+        storedRenderAs: metadataEntry?.renderAs,
+        derivedRenderAs,
+        dataType: metadataEntry?.dataType,
+        inputConfig: metadataEntry?.inputConfig,
         fieldContext: {
           entityKey: fieldContext.value?.state?.entityKey,
           entityId: fieldContext.value?.state?.entityId,
@@ -63,7 +75,7 @@ export function useFieldRendererErrorWatch(params: UseFieldRendererErrorWatchPar
           reason === 'notConfigured'
             ? 'Add field metadata at /admin-metadata'
             : reason === 'invalidRenderAs'
-              ? `Check renderAs value in metadata. Expected: text, number, statusButton, iconSelect, select, multiselect, reference. Found: ${(metadataEntry as { renderAs?: string })?.renderAs ?? 'undefined'}`
+              ? `Rendering uses computeRenderAs(dataType, inputConfig, fieldKey), not stored renderAs alone. derived=${String(derivedRenderAs)} stored=${String(metadataEntry?.renderAs)}`
               : 'Unknown error - check field metadata configuration',
       })
     },

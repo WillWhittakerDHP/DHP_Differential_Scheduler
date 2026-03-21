@@ -12,12 +12,12 @@ import { handleRouteError } from './adminMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminMetadataValidators.js'
 import {
   determineMetadataType,
-  getDefaultRenderAs,
   getDefaultPanel,
   resolveBlockInstanceMetadata,
   buildMetadataWhereClause,
   buildBatchMetadataResult,
 } from './adminMetadataHelpers.js'
+import { computeRenderAs } from '../../../../../shared/utils/metadataRenderAsUtils.js'
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess, sendCreated, sendNoContent, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
@@ -97,7 +97,6 @@ router.post(
       visibility,
       layout,
       displayOrder,
-      renderAs,
       statusButtonColor = null,
       panel,
       bulkEdit = false,
@@ -126,8 +125,14 @@ router.post(
     }
 
     const metadataType = determineMetadataType(fieldKey)
-    const defaultRenderAs = getDefaultRenderAs(metadataType)
-    const finalRenderAs = renderAs || defaultRenderAs
+    const inputConfigRecord =
+      inputConfig !== null &&
+      inputConfig !== undefined &&
+      typeof inputConfig === 'object' &&
+      !Array.isArray(inputConfig)
+        ? (inputConfig as Record<string, unknown>)
+        : null
+    const finalRenderAs = computeRenderAs(dataType, inputConfigRecord, fieldKey)
 
     const defaultPanel = getDefaultPanel(metadataType)
     const finalPanel = panel || defaultPanel
