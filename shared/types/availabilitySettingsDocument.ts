@@ -1,5 +1,6 @@
 /**
  * Canonical wire/assembled shape for availability settings (admin + booking).
+ * Nested enums/config types live in availabilityTypes.ts.
  */
 import type {
   ConstraintEnforcement,
@@ -15,6 +16,7 @@ import type {
   DriveTimeConfig,
   DefaultLocation,
   DurationRoundingConfig,
+  DriveTimeFeeConfig,
 } from './availabilityTypes.js'
 
 export type {
@@ -31,8 +33,10 @@ export type {
   DriveTimeConfig,
   DefaultLocation,
   DurationRoundingConfig,
+  DriveTimeFeeConfig,
 }
 
+/** Availability-only config (calendar and wizard display live in calendar / wizard settings). */
 export interface AvailabilitySettingsData {
   businessHours: {
     0: { start: string; end: string }
@@ -72,9 +76,11 @@ export interface AvailabilitySettingsData {
   }
   timezone?: string
   durationRounding?: DurationRoundingConfig
+  /** Computation only; display labels live in wizard_settings. */
   differentialPerspectives?: {
     majorAttendees?: string[]
     minorAttendees?: string[]
   }
   defaultLocation?: DefaultLocation
+  driveTimeFee?: DriveTimeFeeConfig
 }

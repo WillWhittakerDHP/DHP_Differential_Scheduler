@@ -1,3 +1,4 @@
+/** Singleton wizard display config (stored as one JSON document). */
 export interface WizardSettingsData {
   showApplyCoupon?: boolean
   useBrandColors?: boolean
