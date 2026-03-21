@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:52:04.588Z",
+  "generatedAt": "2026-03-21T14:53:19.140Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -390,10 +390,11 @@
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
           "server/src/config/googleOAuth.ts",
+          "server/src/repositories/availabilitySettingsRepository.ts",
           "server/src/repositories/calendarSettingsRepository.ts",
+          "server/src/repositories/wizardSettingsRepository.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
@@ -414,7 +415,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 133
+        "patternCount": 134
       },
       {
         "prefix": "update",
