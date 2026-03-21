@@ -77,7 +77,6 @@ async function handleSave(): Promise<void> {
   if (currentMainTab.value === 'constraints') {
     await availability.saveSettings()
   } else if (currentMainTab.value === 'calendar') {
-    /* Calendar tab includes availability-only fields (e.g. drive-time fees); persist both. */
     await calendar.saveSettings()
     await availability.saveSettings()
   } else if (currentMainTab.value === 'wizard') {

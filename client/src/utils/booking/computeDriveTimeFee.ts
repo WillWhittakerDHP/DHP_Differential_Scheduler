@@ -1,7 +1,6 @@
 /**
  * Pure drive-time **billing** fee from admin settings (Phase 6.11).
  * WHY: Separates pricing math from UI/composables; matches phase guide formula (nearest rounding).
- * PATTERN: Named utility with explicit return type — not mixed with overlap buffer minutes.
  */
 import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
 
