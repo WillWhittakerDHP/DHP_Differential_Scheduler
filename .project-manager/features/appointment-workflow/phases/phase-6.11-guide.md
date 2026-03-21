@@ -13,7 +13,7 @@
 **Description:** Add a new fee line item **"Drive time"** driven by admin-configurable settings. Admin defines: (1) **Complimentary drive time (minutes)** — drive under this threshold is free; (2) **Driving rate per hour ($)** — used for billable drive; (3) **Rounding (minutes)** — round billable drive to the nearest N minutes. The fee pipeline accepts optional drive context (total drive to + from for the selected slot), computes the drive time fee, appends the line item to the fee breakdown, and includes it in the order total. When the appointment fee breakdown is persisted, drive time is stored as a fee entry that references a **virtual (system) block instance** so the existing schema (every entry has a `block_instance_id`) is preserved.
 
 **Duration:** 1 session (6.11.1)  
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
@@ -73,7 +73,7 @@ Sessions and tasks for this phase. See Sessions Breakdown below for session list
 
 ## Sessions Breakdown
 
-- [x] ### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item  
+- [ ] ### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item  
 **Description:** Implement admin settings (types, API, UI), calculation helper, exposure of selected-slot drive minutes in the wizard, extension of `buildConfirmationPriceData` with optional drive context and "Drive time" line item, and persistence of drive time in fee breakdown via the virtual block instance.  
 **See:** `sessions/session-6.11.1-guide.md`
 

@@ -14,7 +14,7 @@
 **Session ID:** 6.11.1  
 **Session Name:** Drive Time Fee — Settings, Calculation, and Line Item  
 **Description:** Implement admin settings, calculation helper, drive data flow, fee pipeline extension, and persistence via virtual block instance.  
-**Status:** Not Started  
+**Status:** In Progress  
 
 Use `/session-start 6.11.1` to load context and plan tasks. Work through tasks 6.11.1.1–6.11.1.5 in order.
 
