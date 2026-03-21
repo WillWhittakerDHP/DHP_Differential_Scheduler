@@ -36,8 +36,6 @@ startServer()
 
 app.use(morgan('dev'))
 app.use(helmet())
-// WHY: cors with a string always sets Access-Control-Allow-Origin; with an array it omits the header
-// for disallowed origins (isOriginAllowed check). Ensures evil.com receives no CORS header.
 const corsOrigin = getCorsOrigin()
 app.use(cors({ origin: Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin] }))
 app.use(express.json())
