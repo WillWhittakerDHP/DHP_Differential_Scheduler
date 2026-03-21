@@ -12,19 +12,18 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-21T15:51:17.126Z**
+- Generated at: **2026-03-21T15:54:53.509Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **1**
-- **Errors requiring review: 1**
+- Exit code: **0**
+- **Errors requiring review: 0**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **1**
+- Pools: **0**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| P1 | `TS2345-ts2345-arg-optional-nullishpropertiesof` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -35,11 +34,3 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
-
-### `server/src/repositories/availabilitySettingsRepository.ts`
-
-- errors: 1, unsafeCasts: 0, suppressions: 0
-
-```
-TS2345@90:7 Argument of type '{ minuteIncrement: number; durationRoundingEnabled: boolean; }' is not assignable to parameter of type 'Optional<InferCreationAttributes<AvailabilitySetting, { omit: never; }>, NullishPropertiesOf<InferCreationAttributes<AvailabilitySetting, { omit: never; }>>>'.
-```
