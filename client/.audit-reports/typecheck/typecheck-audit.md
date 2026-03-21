@@ -12,7 +12,7 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-21T15:27:31.915Z**
+- Generated at: **2026-03-16T01:10:32.637Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
 - Exit code: **1**

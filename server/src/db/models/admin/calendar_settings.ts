@@ -1,4 +1,6 @@
 /**
+ * WHY: Singleton table for calendar integration config (provider, calendars, hold duration, auto-confirm).
+ * PATTERN: One row; GET returns setting_value; PUT upserts.
  */
 import {
   Model,

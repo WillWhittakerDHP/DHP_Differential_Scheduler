@@ -1,6 +1,6 @@
 # Allowlist prune suggestions (Phase A)
 
-Generated: 2026-03-21T18:29:20.197Z. Entries with zero hits in last 5 runs.
+Generated: 2026-03-16T00:36:11.600Z. Entries with zero hits in last 5 runs.
 
 | Audit type | Entry key | Recommendation | Reason |
 | --- | --- | --- | --- |

@@ -1,4 +1,6 @@
 /**
+ * WHY: Singleton table for wizard display config (coupon visibility, brand colors, labels).
+ * PATTERN: One row; GET returns setting_value; PUT upserts.
  */
 import {
   Model,
