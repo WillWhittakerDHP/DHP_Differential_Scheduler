@@ -15,6 +15,7 @@ export interface EnvConfig {
   DB_USER: string;
   DB_PASSWORD: string;
   DB_PORT: number;
+  CORS_ORIGIN: string;
 }
 
 const envFile = `./.env.${process.env.NODE_ENV || NODE_ENV.DEVELOPMENT}`;
@@ -34,6 +35,7 @@ const schema = Joi.object({
   DB_USER: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
   DB_PORT: Joi.number().default(5432),
+  CORS_ORIGIN: Joi.string().default("http://localhost:3002"),
 }).unknown(true);
 
 const { error, value } = schema.validate(process.env);
@@ -45,3 +47,15 @@ if (error) {
 }
 
 export const envConfig: EnvConfig = value as EnvConfig;
+
+/**
+ * Resolves CORS_ORIGIN for cors() middleware.
+ * Returns string if single origin, string[] if comma-separated.
+ */
+export function getCorsOrigin(): string | string[] {
+  const raw = envConfig.CORS_ORIGIN;
+  if (raw.includes(",")) {
+    return raw.split(",").map((s) => s.trim()).filter(Boolean);
+  }
+  return raw;
+}
