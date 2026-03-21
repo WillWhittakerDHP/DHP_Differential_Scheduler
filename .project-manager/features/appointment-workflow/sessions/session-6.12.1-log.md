@@ -22,6 +22,14 @@
 
 ## Completed Tasks
 
+### Task 6.12.1.1: Task 6.12.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.12.1.2
+
+
+
 ### Task 6.12.1.1: Event shape includeRescheduleLink/includeCancelLink + per-instance invite template stripping ✅
 **Goal:** DB migration, Sequelize model, admin toggles, templateResolver stripPlaceholderNames, invite orchestration loads EventShape per instance
 
@@ -40,3 +48,9 @@
 - 6.12.1.2
 
 <!-- end excerpt session -->
+### Task 6.12.1.1: Task 6.12.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.12.1.2
+

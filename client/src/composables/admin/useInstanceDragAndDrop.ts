@@ -3,7 +3,12 @@
 PATTERN: Composable that man...
  */
 import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'
-import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
+import {
+  animations,
+  handleEnd as formkitHandleEnd,
+  performTransfer as formkitPerformTransfer,
+  tearDown as formkitTearDown,
+} from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { rawBookingModeIsStandaloneOnly } from '@shared/utils/ternaryAliasUtils'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
@@ -11,6 +16,7 @@ import { useEntityDragHandlers } from './useEntityDragHandlers'
 import { useEntityTabState } from './useEntityTabState'
 import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
 import { createLogger } from '@/utils/logger'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
 import type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
@@ -64,7 +70,7 @@ function createGroupedZoneDragEndHandler(params: {
       const idToEntity = new Map(all.map((e) => [e.id, e]))
       const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))
       const groupedOrdered = groupedEntityIds.value
-        .map((id) => idToEntity.get(id))
+        .map((id) => idToEntity.get(id as GlobalEntityId))
         .filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)
       const merged = [...mainOrderedStable, ...groupedOrdered]
       const updates = merged.map((entity, index) => ({
@@ -104,6 +110,8 @@ export function useInstanceDragAndDrop(
   const groupDragHandlers = ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>(new Map())
 
   const groupDragInstances = ref<Map<string, ReturnType<typeof dragAndDrop>>>(new Map())
+  /** Last FormKit parent `.v-expansion-panels` element per zone — for tearDown before rebind / unmount. */
+  const formKitParentElByZone = ref<Map<string, HTMLElement>>(new Map())
   const isMounted = ref(false)
   /** Bumps when standalone/grouped list membership changes so FormKit can re-bind after v-if remounts. */
   const dragReinitNonce = ref(0)
@@ -216,6 +224,11 @@ export function useInstanceDragAndDrop(
   )
 
   function tearDownZoneDrag(dragKey: string): void {
+    const el = formKitParentElByZone.value.get(dragKey)
+    if (el) {
+      formkitTearDown(el)
+      formKitParentElByZone.value.delete(dragKey)
+    }
     groupDragInstances.value.delete(dragKey)
     shapeDragBoundNonce.value.delete(dragKey)
   }
@@ -256,9 +269,6 @@ export function useInstanceDragAndDrop(
         )
         if (!panelsEl || !(panelsEl instanceof HTMLElement)) {
           tearDownZoneDrag(dragKey)
-          // #region agent log
-          fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})
-          // #endregion
           return
         }
 
@@ -267,6 +277,7 @@ export function useInstanceDragAndDrop(
         //      dragReinitNonce is unchanged; FormKit would stay bound to detached nodes.
         void layoutNonce
 
+        /* WHY: @formkit/drag-and-drop/vue getEl() does not resolve Ref<Component> (only Ref<HTMLElement> or broken $el on Ref); use HTMLElement ref so init runs synchronously. */
         const panelsRefForDrag = ref(panelsEl)
 
         const instanceIdsArray = instanceIds.value
@@ -279,15 +290,13 @@ export function useInstanceDragAndDrop(
         const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
 
         if (enabledNodesCount !== instanceIdsArray.length) {
-          // #region agent log
-          fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})
-          // #endregion
           return
         }
 
         groupDragInstances.value.delete(dragKey)
 
         tearDownZoneDrag(dragKey)
+        formKitParentElByZone.value.set(dragKey, panelsEl)
         groupDragInstances.value.set(
           dragKey,
           dragAndDrop({
@@ -307,9 +316,6 @@ export function useInstanceDragAndDrop(
           })
         )
         shapeDragBoundNonce.value.set(dragKey, layoutNonce)
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})
-        // #endregion
       } catch (error) {
         logger.debug('Failed to initialize drag and drop for group', { error, dragKey })
       }
@@ -371,8 +377,10 @@ export function useInstanceDragAndDrop(
 
   onBeforeUnmount(() => {
     isMounted.value = false
-    groupDragInstances.value.forEach(_instance => {
+    formKitParentElByZone.value.forEach((el) => {
+      formkitTearDown(el)
     })
+    formKitParentElByZone.value.clear()
     groupDragInstances.value.clear()
   })
 
@@ -383,6 +391,7 @@ export function useInstanceDragAndDrop(
     blockInstancesLists.value.clear()
     blockInstanceIdsMap.value.clear()
     groupDragHandlers.value.clear()
+    formKitParentElByZone.value.clear()
   })
 
   return {

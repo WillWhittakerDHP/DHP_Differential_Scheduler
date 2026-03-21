@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { useCookie } from '@core/composable/useCookie'
 import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 
 const emailRouteComponent = () => import('@/pages/apps/email/index.vue')

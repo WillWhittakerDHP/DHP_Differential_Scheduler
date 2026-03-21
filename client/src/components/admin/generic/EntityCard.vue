@@ -214,28 +214,14 @@ defineExpose({
     <template #title>
       <div
         class="d-flex flex-column gap-2 flex-grow-1"
+        :class="{ 'entity-card-title--reorder-indent': entityKey === 'blockInstance' }"
         @keydown="handleTitleKeydown"
       >
         <div class="d-flex align-center gap-2 flex-wrap">
           <!--
-            WHY: FormKit instance DnD uses dragHandle; native drag on desktop + title focus can clear panel draggable.
-            PATTERN: .instance-drag-handle must match useInstanceDragAndDrop dragHandle selector; @click.stop avoids expanding from the grip.
+            WHY: Native HTML5 drag does not start from descendants of <button> (VExpansionPanelTitle).
+            PATTERN: .instance-drag-handle lives in the panel default slot (sibling of title), positioned over the title rail — see below.
           -->
-          <span
-            v-if="entityKey === 'blockInstance'"
-            class="instance-drag-handle d-inline-flex align-center flex-shrink-0"
-            role="img"
-            aria-label="Drag to reorder"
-            @click.stop
-          >
-            <Icon
-              icon="tabler:grip-vertical"
-              width="20"
-              height="20"
-              class="instance-drag-handle-icon"
-              aria-hidden="true"
-            />
-          </span>
           <!-- WHY: Name field should be on the left side of the title row -->
           <!-- PATTERN: Render name field first, then status buttons on the right -->
           <template v-if="titleRowFields.length > 0 && isFormReady">
@@ -315,6 +301,25 @@ defineExpose({
         />
       </div>
     </template>
+    <!--
+      WHY: Sibling of VExpansionPanelTitle (not inside its <button>) so the panel’s native draggable + FormKit dragHandle work on desktop.
+      PATTERN: Absolutely positioned over the title area; matches useInstanceDragAndDrop dragHandle selector inside .v-expansion-panel.
+    -->
+    <span
+      v-if="entityKey === 'blockInstance'"
+      class="instance-drag-handle instance-drag-handle--floated"
+      role="img"
+      aria-label="Drag to reorder"
+      @click.stop
+    >
+      <Icon
+        icon="tabler:grip-vertical"
+        width="20"
+        height="20"
+        class="instance-drag-handle-icon"
+        aria-hidden="true"
+      />
+    </span>
   </VExpansionPanel>
 
   <!--
@@ -417,18 +422,34 @@ defineExpose({
   pointer-events: none;
 }
 
-.instance-drag-handle {
+/* WHY: Floated grip sits over the title rail — indent title content so it does not sit under the icon */
+.entity-card-title--reorder-indent {
+  padding-inline-start: 2.5rem;
+}
+
+.entity-card-expansion--instance-reorder {
   position: relative;
-  z-index: 1;
+}
+
+.instance-drag-handle {
   cursor: grab;
   touch-action: none;
   user-select: none;
-  padding: 4px;
-  margin: -4px;
-  min-width: 28px;
-  min-height: 28px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px;
+  z-index: 2;
+}
+
+.instance-drag-handle--floated {
+  position: absolute;
+  left: 10px;
+  /* WHY: Align with expansion title row (~min-height 48px / 2) */
+  top: calc(var(--v-expansion-panel-title-min-height, 48px) / 2);
+  transform: translateY(-50%);
 }
 
 .instance-drag-handle:active {
