@@ -39,7 +39,7 @@
 
 ## In Progress Sessions
 
-_(None — next work is phase wrap or follow-up sessions if added.)_
+_(None.)_
 
 ---
 
