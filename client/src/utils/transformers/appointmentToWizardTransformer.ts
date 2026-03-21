@@ -109,6 +109,8 @@ function extractAvailability(appointment: AppointmentResponse) {
   return {
     candidateDate,
     candidateTimeSlots,
+    moveableScheduling: null,
+    totalDriveMinutes: null,
   }
 }
 

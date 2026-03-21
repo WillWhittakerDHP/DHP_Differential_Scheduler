@@ -1,6 +1,6 @@
 /**
- * CRUD for business_settings. availability_settings lives in app_setting_entries (availabilitySettingsRepository).
- * Other keys remain on business_settings. Calendar and wizard use dedicated routes.
+ * CRUD for business_settings. availability_settings is stored in relational tables (availabilitySettingsRepository).
+ * Other keys remain on business_settings. Calendar and wizard use /calendar-settings and /wizard-settings.
  */
 import { Router, Request, Response } from 'express';
 import { BusinessSettings } from '../../../config/app.js';

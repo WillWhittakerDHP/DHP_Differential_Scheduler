@@ -6,7 +6,9 @@ WHY: Generic composable for resolving ...
 import { computed } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { rawBookingModeAllowsDependentLineItems } from '@shared/utils/ternaryAliasUtils'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { convertToTernaryBoolean, convertTernaryToBookingMode } from '@/utils/transformers/transformerPrimitives'
 import { findRelationshipsByParent, extractChildIds } from '@/utils/transformers/relationshipTransformers'
 import { useGlobal } from '@/composables/useGlobal'
 import { asEmptyString } from '@/utils/safeDefaults'
@@ -71,8 +73,11 @@ export function useDependentInstances(
           baseSqFt: entity.baseSqFt ?? 0,
           icon: icon || entity.icon,
           active: entity.active ?? true,
-          bookingMode: entity.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE,
-          differential: entity.differential === 'true' ? 'true' as const : 'false' as const,
+          bookingMode: convertTernaryToBookingMode(
+            entity.bookingMode ?? DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
+          ),
+          agentPermissions: convertToTernaryBoolean(entity.agentPermissions, 'false'),
+          differential: convertToTernaryBoolean(entity.differential, 'false'),
           preClosing: entity.preClosing ?? false,
           orderIndex: entity.orderIndex ?? 0,
           blockShape: asEmptyString(blockShape || blockShapeEntity?.name),
@@ -88,7 +93,9 @@ export function useDependentInstances(
       }
     }
     
-    const eligibleInstances = instances.filter(instance => instance.bookingMode !== DEFAULT_VALUES.BOOKING_MODE)
+    const eligibleInstances = instances.filter((instance) =>
+      rawBookingModeAllowsDependentLineItems(instance.bookingMode)
+    )
     
     return eligibleInstances.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })

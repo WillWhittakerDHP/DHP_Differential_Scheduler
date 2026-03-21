@@ -23,6 +23,7 @@ export type {
   DriveTimeConfig,
   DefaultLocation,
   DurationRoundingConfig,
+  DriveTimeFeeConfig,
 } from '../../../../../shared/types/availabilitySettingsDocument.js'
 
 export class BusinessSettings extends Model<

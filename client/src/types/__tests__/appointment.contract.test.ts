@@ -71,17 +71,15 @@ describe('appointment contract', () => {
       expect(tr.duration).toBe(60)
     })
 
-    it('TimeSlot extends TimeRange with slot flags', () => {
+    it('TimeSlot extends TimeRange with slotKind', () => {
       const slot: TimeSlot = {
         startTime: '2025-01-01T09:00:00Z',
         endTime: '2025-01-01T10:00:00Z',
         duration: 60,
-        major: true,
-        minor: false,
-        moveable: false,
+        slotKind: 'major',
         isAvailable: true,
       }
-      expect(slot.major).toBe(true)
+      expect(slot.slotKind).toBe('major')
       expect(slot.isAvailable).toBe(true)
     })
   })

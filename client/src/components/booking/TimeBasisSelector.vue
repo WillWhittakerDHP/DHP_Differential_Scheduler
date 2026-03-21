@@ -7,7 +7,8 @@ import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 const props = defineProps<TimeBasisHandlerProps>()
 const emit = defineEmits<TimeBasisHandlerEmits>()
 
-const { majorLabel, minorLabel } = useWizardSettings()
+const { labels } = useWizardSettings()
+const { majorLabel, minorLabel } = labels
 
 // FIX: Use shared time basis handler from composable
 const { handleTimeBasisClick } = timeBasisHandler(props, emit)

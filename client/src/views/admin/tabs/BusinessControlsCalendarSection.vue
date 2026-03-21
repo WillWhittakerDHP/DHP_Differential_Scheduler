@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
-import { BUSINESS_CONTROLS_STATE_KEY } from './businessControlsStateKey'
+import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from './businessControlsStateKey'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
@@ -13,7 +13,9 @@ import AppointmentConfirmationPanel from './components/AppointmentConfirmationPa
 import PlacesTimezonePanel from './components/PlacesTimezonePanel.vue'
 import GridConfigPanel from './components/GridConfigPanel.vue'
 
-const state = inject(BUSINESS_CONTROLS_STATE_KEY)
+const _injectedState = inject(BUSINESS_CONTROLS_STATE_KEY)
+if (!_injectedState) throw new Error('BusinessControlsCalendarSection must be used inside BusinessControlsTab')
+const state: BusinessControlsState = _injectedState
 const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'integration' })
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS

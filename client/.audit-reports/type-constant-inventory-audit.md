@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T13:53:34.635Z
+Generated: 2026-03-21T14:14:51.253Z
 
 ## Summary
 
-- Type files: **273**
-- Constant files: **24**
+- Type files: **276**
+- Constant files: **25**
 - Config files: **41**
-- Files with inline type exports: **115**
-- Annotated: **325** | Unannotated: **13**
+- Files with inline type exports: **120**
+- Annotated: **325** | Unannotated: **17**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 14 |
-| Inline types in composables | 85 |
+| Inline types in composables | 90 |
 | Configs with factory functions | 11 |
 | Duplicate type names | 7 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -133,6 +133,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/admin/statusButtonToggle.ts` | dedicated | UseStatusButtonToggleOptions, UseStatusButtonToggleReturn | no | UseStatusButtonToggleOptions, UseStatusButtonToggleReturn. | feature |
 | `client/src/types/admin/tabNavigation.ts` | dedicated | UseTabNavigationOptions, UseTabNavigationReturn | no | UseTabNavigationOptions, UseTabNavigationReturn. | feature |
 
+### Domain: admin/businessControlsState.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/admin/businessControlsState.ts` | dedicated | BusinessControlsFormState, BusinessControlsSaveButtonProps, BusinessControlsState, BusinessControlsStateSource | no | (none) | unknown |
+
 ### Domain: admin/calendarSettings.ts
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -157,7 +163,13 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/admin/wizardSettings.ts` | dedicated | UseAdminWizardSettingsOptions, UseAdminWizardSettingsReturn | no | (none) | unknown |
+| `client/src/types/admin/wizardSettings.ts` | dedicated | WizardSubStepLabels, UseWizardSettingsOptions, UseWizardSettingsFlagsReturn, UseWizardSettingsLabelsReturn, UseWizardSettingsReturn… | no | (none) | unknown |
+
+### Domain: availabilitySettingsDocument.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/availabilitySettingsDocument.ts` | dedicated | AvailabilitySettingsData | no | (none) | unknown |
 
 ### Domain: availabilitySettingsDocument.ts
 
@@ -293,6 +305,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/dev/devPanelTabs.ts` | dedicated | DevPanelTab, UseDevPanelTabsReturn | no | Dev panel tab configuration and navigation types | feature |
 | `client/src/components/admin/dev/devPanelTypes.ts` | colocated | DevPanelVisibleProps | no | Dev panel visibility props and component types. | feature |
 
+### Domain: differentialRole.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/differentialRole.ts` | dedicated | DifferentialRole, DifferentialRoleStorage | no | (none) | unknown |
+
 ### Domain: entity
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -341,7 +359,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/addressAutocomplete.ts` | dedicated | SelectionResult, UseAddressAutocompleteEmit, UseAddressAutocompleteOptions, UseAddressAutocompleteReturn | no | Address autocomplete input and suggestion types | shared |
 | `client/src/types/admin.ts` | dedicated | DisplayFieldType | no | Top-level admin domain type re-exports and interfaces | feature |
 | `client/src/types/annotations.ts` | dedicated | AnnotationShape, AnnotationInstance, AnnotationMetadata, AnnotationWithMetadata, AnnotationMap… | no | Annotation entity data structure types | shared |
-| `client/src/types/appointment.ts` | dedicated | TimeRange, PerspectiveKey, AppointmentSlots, EventFinal, SlotShape… | no | Core appointment data structure types | feature |
+| `client/src/types/appointment.ts` | dedicated | TimeRange, TimeSlotPerspectiveKind, PerspectiveKey, AppointmentSlots, EventFinal… | no | Core appointment data structure types | feature |
 | `client/src/types/appointmentApi.ts` | dedicated | AttendeeResponse, AppointmentRequest, AppointmentResponse | no | Appointment API request and response types | feature |
 | `client/src/types/appointmentStatus.ts` | dedicated | AppointmentStatus | no | Appointment status enum and transition types | feature |
 | `client/src/types/autocomplete.ts` | dedicated | AutocompleteValue | no | Autocomplete input component types | shared |
@@ -371,7 +389,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/propertyForm.ts` | dedicated | PropertySource, PropertyFormData | yes | Property form field definition and validation types | feature |
 | `client/src/types/selectOptions.ts` | dedicated | SelectOptionOrHeader, SelectOptionBase, SelectOptionGroupHeader, UseSelectOptionsOptions, UseSelectOptionsReturn | yes | Generic select option and dropdown types | shared |
 | `client/src/types/shapeFieldMetadata.ts` | dedicated | ShapeFieldMetadata, ShapeLayoutConfig, ComposedFieldConfig | no | Shape field metadata configuration types | shared |
-| `client/src/types/ternary.ts` | dedicated | TernaryBoolean | no | Ternary logic value types for three-state fields | shared |
+| `client/src/types/ternary.ts` | dedicated |  | no | Ternary logic value types for three-state fields | shared |
 | `client/src/types/transformers/adminObject.ts` | dedicated | AdminObject, AdminObjectMap | no | Admin object transformer input/output types | shared |
 | `client/src/types/transformers/appointmentToWizardHelpers.ts` | dedicated | VersionBlockInstance, AppointmentVersionsResponse | no | Appointment-to-wizard data mapping helper types | shared |
 | `client/src/types/transformers/bookingData.ts` | dedicated | BookingPartInstance, BookingBlockShape, BookingBlockInstance, BookingData | no | Booking data transformer types | shared |
@@ -401,6 +419,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `shared/types/primitiveBrands.ts` | dedicated | ISO8601Date, GlobalEntityId | no | Branded primitive types for type-safe entity IDs and keys | shared |
 | `shared/types/propertyEnrichmentTypes.ts` | dedicated |  | no | Property enrichment data from external sources | shared |
 | `shared/types/propertyTypes.ts` | dedicated | PropertyAddressBase, PropertyDetailsBase | no | Shared property entity data types | shared |
+
+### Domain: ternary.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/ternary.ts` | dedicated | TernaryBoolean | no | (none) | unknown |
 
 ### Domain: utils/booking
 
@@ -442,6 +466,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/relationships.ts` | 1 | 1 | no |
 | constants | `client/src/constants/scheduling.ts` | 3 | 0 | no |
 | constants | `client/src/constants/statusButtonLabels.ts` | 1 | 0 | no |
+| constants | `client/src/constants/systemDriveTimeBlock.ts` | 3 | 0 | no |
 | configs | `client/src/configs/adminConfig.ts` | 0 | 3 | yes |
 | configs | `client/src/configs/availabilitySettings/api.ts` | 0 | 0 | yes |
 | configs | `client/src/configs/availabilitySettings/businessHours.ts` | 0 | 0 | yes |
@@ -499,12 +524,15 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useBlockInstanceCreate.ts`: UseBlockInstanceCreateOptions (imported by 0 files)
 - `client/src/composables/admin/useBlockInstanceList.ts`: UseBlockInstanceListReturn (imported by 0 files)
 - `client/src/composables/admin/useBooleanInputClick.ts`: UseBooleanInputClickParams (imported by 0 files)
+- `client/src/composables/admin/useBufferSettings.ts`: UseBufferSettingsReturn (imported by 1 files)
 - `client/src/composables/admin/useBusinessHoursFormState.ts`: UseBusinessHoursFormStateReturn (imported by 1 files)
 - `client/src/composables/admin/useBusinessRuleForm.ts`: UseBusinessRuleFormReturn (imported by 0 files)
 - `client/src/composables/admin/useBusinessRulesTab.ts`: UseBusinessRulesTabReturn (imported by 0 files)
 - `client/src/composables/admin/useCalendarHoldFormState.ts`: UseCalendarHoldFormStateReturn (imported by 1 files)
 - `client/src/composables/admin/useComponentDistributionConfirm.ts`: UseComponentDistributionConfirmOptions (imported by 0 files)
 - `client/src/composables/admin/useConfirmationAndHoldsPanel.ts`: ConfirmationAndHoldsPanelEmit, ConfirmationAndHoldsPanelProps, UseConfirmationAndHoldsPanelReturn (imported by 0 files)
+- `client/src/composables/admin/useDefaultLocation.ts`: UseDefaultLocationReturn (imported by 1 files)
+- `client/src/composables/admin/useDifferentialPerspectives.ts`: UseDifferentialPerspectivesReturn (imported by 1 files)
 - `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions, UseEntityCardSubPanelsReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityMetadata.ts`: UseEntityMetadataReturn (imported by 0 files)
 - `client/src/composables/admin/useEventInstancesSection.ts`: UseEventInstancesSectionReturn (imported by 0 files)
@@ -522,7 +550,6 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useSelectEnumOptions.ts`: UseSelectEnumOptionsReturn (imported by 0 files)
 - `client/src/composables/admin/useShapeForm.ts`: ShapeFormEntityKey, ShapeFormData, BlockShapeFormData, PartShapeFormData (imported by 0 files)
 - `client/src/composables/admin/useShapesTabModals.ts`: UseShapesTabModalsReturn (imported by 1 files)
-- `client/src/composables/admin/useWizardSettings.ts`: UseWizardSettingsOptions, WizardSubStepLabels, UseWizardSettingsReturn (imported by 0 files)
 - `client/src/composables/beta/useFeedbackSubmit.ts`: UseFeedbackSubmitOptions, UseFeedbackSubmitReturn (imported by 0 files)
 - `client/src/composables/booking/bookingDevPanelKeys.ts`: InstancesPanelContext, ContactsFormContext (imported by 0 files)
 - `client/src/composables/booking/bookingKeys.ts`:  (imported by 0 files)
@@ -570,7 +597,10 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/utils/admin/shapesTabDeletion.ts`: UseShapesTabDeletionReturn (imported by 0 files)
 - `client/src/utils/beta/betaFeedback.ts`: BetaFeedbackReturn (imported by 0 files)
 - `client/src/utils/beta/captureBrowserContext.ts`: BrowserContext (imported by 0 files)
+- `client/src/utils/booking/computeDriveTimeFee.ts`: ComputeDriveTimeFeeResult (imported by 0 files)
+- `client/src/utils/booking/confirmationStepData.ts`: ConfirmationDriveContext, AppointmentFeeBreakdownDriveOptions (imported by 1 files)
 - `client/src/utils/booking/devPanelsFormatters.ts`: DevPanelsFormattersReturn (imported by 0 files)
+- `client/src/utils/booking/systemDriveTimeBlock.ts`: SystemDriveTimeBlockRef (imported by 0 files)
 - `client/src/utils/booking/timeBasisHandler.ts`: TimeBasisHandlerProps, TimeBasisHandlerEmits, TimeBasisHandlerReturn (imported by 0 files)
 - `client/src/utils/time/localTime.ts`: LocalTimeReturn (imported by 0 files)
 

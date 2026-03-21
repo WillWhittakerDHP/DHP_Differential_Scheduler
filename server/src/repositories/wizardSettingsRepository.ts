@@ -1,62 +1,95 @@
 /**
- * Canonical persistence for wizard display settings (namespace wizard, path document).
+ * Relational wizard settings (column per field).
  */
 import type { Transaction } from 'sequelize'
 import type { WizardSettingsData } from '../../../shared/types/wizardSettingsTypes.js'
-import { AppSettingEntry } from '../config/app.js'
-import { createLogger } from '../utils/logger.js'
-
-const NAMESPACE = 'wizard' as const
-const DOCUMENT_PATH = 'document' as const
+import { WizardSettings } from '../config/app.js'
+import { sequelize } from '../config/database.js'
 
 const DEFAULT: WizardSettingsData = {
   showApplyCoupon: false,
   useBrandColors: false,
 }
 
-const logger = createLogger('WizardSettingsRepository')
-
 export async function getWizardSettingsData(): Promise<WizardSettingsData> {
-  const row = await AppSettingEntry.findOne({
-    where: { namespace: NAMESPACE, path: DOCUMENT_PATH },
-  })
-  if (row?.valueJsonb && typeof row.valueJsonb === 'object') {
-    return { ...DEFAULT, ...(row.valueJsonb as WizardSettingsData) }
+  const row = await WizardSettings.findOne()
+  if (!row) {
+    return { ...DEFAULT }
   }
-  logger.warn('wizard document missing in app_setting_entries; using defaults', {
-    namespace: NAMESPACE,
-    path: DOCUMENT_PATH,
-  })
-  return { ...DEFAULT }
+  return {
+    ...DEFAULT,
+    showApplyCoupon: row.showApplyCoupon,
+    useBrandColors: row.useBrandColors,
+    ...(row.majorLabel != null ? { majorLabel: row.majorLabel } : {}),
+    ...(row.minorLabel != null ? { minorLabel: row.minorLabel } : {}),
+    ...(row.moveableFallbackLabel != null ? { moveableFallbackLabel: row.moveableFallbackLabel } : {}),
+    ...(row.differentialGraphDefaultLabel != null
+      ? { differentialGraphDefaultLabel: row.differentialGraphDefaultLabel }
+      : {}),
+    ...(row.majorStateLabel != null ? { majorStateLabel: row.majorStateLabel } : {}),
+    ...(row.minorStateLabel != null ? { minorStateLabel: row.minorStateLabel } : {}),
+    ...(row.selectTimeSlotLabel != null ? { selectTimeSlotLabel: row.selectTimeSlotLabel } : {}),
+    ...(row.subStepLabelPickDay != null ? { subStepLabelPickDay: row.subStepLabelPickDay } : {}),
+    ...(row.subStepLabelOptions != null ? { subStepLabelOptions: row.subStepLabelOptions } : {}),
+    ...(row.subStepLabelPickTime != null ? { subStepLabelPickTime: row.subStepLabelPickTime } : {}),
+    ...(row.subStepLabelConfirmMoveable != null
+      ? { subStepLabelConfirmMoveable: row.subStepLabelConfirmMoveable }
+      : {}),
+  }
+}
+
+async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<WizardSettingsData> {
+  const merged = { ...DEFAULT, ...data }
+  let row = await WizardSettings.findOne({ transaction: t })
+  if (!row) {
+    row = await WizardSettings.create(
+      {
+        showApplyCoupon: merged.showApplyCoupon ?? false,
+        useBrandColors: merged.useBrandColors ?? false,
+        majorLabel: merged.majorLabel ?? null,
+        minorLabel: merged.minorLabel ?? null,
+        moveableFallbackLabel: merged.moveableFallbackLabel ?? null,
+        differentialGraphDefaultLabel: merged.differentialGraphDefaultLabel ?? null,
+        majorStateLabel: merged.majorStateLabel ?? null,
+        minorStateLabel: merged.minorStateLabel ?? null,
+        selectTimeSlotLabel: merged.selectTimeSlotLabel ?? null,
+        subStepLabelPickDay: merged.subStepLabelPickDay ?? null,
+        subStepLabelOptions: merged.subStepLabelOptions ?? null,
+        subStepLabelPickTime: merged.subStepLabelPickTime ?? null,
+        subStepLabelConfirmMoveable: merged.subStepLabelConfirmMoveable ?? null,
+      },
+      { transaction: t }
+    )
+  } else {
+    await row.update(
+      {
+        showApplyCoupon: merged.showApplyCoupon ?? false,
+        useBrandColors: merged.useBrandColors ?? false,
+        majorLabel: merged.majorLabel ?? null,
+        minorLabel: merged.minorLabel ?? null,
+        moveableFallbackLabel: merged.moveableFallbackLabel ?? null,
+        differentialGraphDefaultLabel: merged.differentialGraphDefaultLabel ?? null,
+        majorStateLabel: merged.majorStateLabel ?? null,
+        minorStateLabel: merged.minorStateLabel ?? null,
+        selectTimeSlotLabel: merged.selectTimeSlotLabel ?? null,
+        subStepLabelPickDay: merged.subStepLabelPickDay ?? null,
+        subStepLabelOptions: merged.subStepLabelOptions ?? null,
+        subStepLabelPickTime: merged.subStepLabelPickTime ?? null,
+        subStepLabelConfirmMoveable: merged.subStepLabelConfirmMoveable ?? null,
+        updatedAt: new Date(),
+      },
+      { transaction: t }
+    )
+  }
+  return merged
 }
 
 export async function saveWizardSettingsData(
   data: WizardSettingsData,
   options?: { transaction?: Transaction }
 ): Promise<WizardSettingsData> {
-  const t = options?.transaction
-  const merged = { ...DEFAULT, ...data }
-  const existing = await AppSettingEntry.findOne({
-    where: { namespace: NAMESPACE, path: DOCUMENT_PATH },
-    transaction: t,
-  })
-  const now = new Date()
-  if (existing) {
-    await existing.update(
-      { valueJsonb: merged, schemaVersion: 1, updatedAt: now },
-      { transaction: t }
-    )
-    return merged
+  if (options?.transaction) {
+    return persistWizard(data, options.transaction)
   }
-  await AppSettingEntry.create(
-    {
-      namespace: NAMESPACE,
-      path: DOCUMENT_PATH,
-      valueJsonb: merged,
-      schemaVersion: 1,
-      updatedAt: now,
-    },
-    { transaction: t }
-  )
-  return merged
+  return sequelize.transaction(async (t) => persistWizard(data, t))
 }

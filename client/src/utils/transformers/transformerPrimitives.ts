@@ -1,6 +1,8 @@
 
 import { createLogger } from '@/utils/logger'
+import { ternaryToBookingMode, bookingModeToTernary } from '@shared/utils/ternaryAliasUtils'
 import type { TernaryBoolean } from '@/types/ternary'
+import type { BookingMode } from '@/constants/bookingMode'
 
 const logger = createLogger('transformerPrimitives')
 
@@ -80,13 +82,23 @@ export function safeArray<ItemType>(value: readonly ItemType[] | ItemType[] | nu
 }
 
 export function convertToTernaryBoolean(
-  value: TernaryBoolean | boolean | undefined,
+  value: TernaryBoolean | undefined | null,
   defaultValue: TernaryBoolean = 'false'
 ): TernaryBoolean {
-  if (value === true) return 'true'
-  if (value === false) return 'false'
   if (value === 'true' || value === 'false' || value === 'override') return value
   return defaultValue
+}
+
+/** Maps stored `booking_mode` (ternary) to domain `BookingMode` for booking transforms. */
+export function convertTernaryToBookingMode(
+  value: TernaryBoolean | undefined | null,
+  defaultVal: BookingMode = 'standalone'
+): BookingMode {
+  return ternaryToBookingMode(value ?? undefined, defaultVal)
+}
+
+export function convertBookingModeToTernary(value: BookingMode | undefined | null): TernaryBoolean {
+  return bookingModeToTernary(value)
 }
 
 export function safeId(value: unknown): string | null {

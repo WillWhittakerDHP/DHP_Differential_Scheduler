@@ -60,6 +60,8 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       allowMultiple: false,
       requiresUnitNumber: false,
       differential: undefined as TernaryBoolean | undefined,
+      bookingMode: undefined as TernaryBoolean | undefined,
+      agentPermissions: undefined as TernaryBoolean | undefined,
       isMultiFamily: false,
       requiresAgent: false
     }
@@ -82,6 +84,8 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       allowMultiple: false,
       requiresUnitNumber: false,
       differential: undefined,
+      bookingMode: undefined,
+      agentPermissions: undefined,
       isMultiFamily: false,
       requiresAgent: false
     } satisfies GlobalEntity<'blockInstance'>

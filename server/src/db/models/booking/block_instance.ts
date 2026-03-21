@@ -21,7 +21,8 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare bookingMode: typeof DEFAULT_VALUES.BOOKING_MODE | 'addOn' | 'both';
+  declare bookingMode: 'true' | 'false' | 'override';
+  declare agentPermissions: 'true' | 'false' | 'override';
   declare composite: boolean;
   declare differential: 'true' | 'false' | 'override';
   declare preClosing: boolean;
@@ -69,10 +70,16 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         defaultValue: true,
       },
       bookingMode: {
-        type: DataTypes.ENUM(DEFAULT_VALUES.BOOKING_MODE, 'addOn', 'both'),
+        type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
-        defaultValue: DEFAULT_VALUES.BOOKING_MODE,
+        defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
         field: FIELD_NAMES.BOOKING_MODE_SNAKE,
+      },
+      agentPermissions: {
+        type: DataTypes.ENUM('true', 'false', 'override'),
+        allowNull: false,
+        defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
+        field: FIELD_NAMES.AGENT_PERMISSIONS_SNAKE,
       },
       composite: {
         type: DataTypes.BOOLEAN,

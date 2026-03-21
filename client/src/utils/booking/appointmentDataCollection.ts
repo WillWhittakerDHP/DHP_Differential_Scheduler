@@ -14,6 +14,10 @@ import {
 import { createLogger } from '@/utils/logger'
 import type { AppointmentRequest } from '@/types/appointment'
 import type { UseAppointmentDataCollectionParams, UseAppointmentDataCollectionReturn } from '@/types/booking/appointmentDataCollection'
+import { useBooking } from '@/composables/useBooking'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { ConfirmationDriveContext } from '@/utils/booking/confirmationStepData'
+import { resolveSystemDriveTimeBlockForFees } from '@/utils/booking/systemDriveTimeBlock'
 
 const logger = createLogger('useAppointmentDataCollection')
 
@@ -28,6 +32,9 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
     createUser,
     showError,
   } = params
+
+  const { bookingData } = useBooking()
+  const { settings: availabilitySettings } = useAvailabilitySettings()
 
   const collectAppointmentData = async (): Promise<AppointmentRequest | null> => {
     if (wizard.selectedServiceTypeBlocks.value.length === 0) {
@@ -79,6 +86,20 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const squareFootage = propertyStep.squareFootage ?? propertyStep.propertySize ?? null
       const aduCount = propertyStep.additionalUnits ?? null
 
+      const rawDrive = availability.totalDriveMinutes
+      const driveContext: ConfirmationDriveContext | null =
+        rawDrive != null && Number.isFinite(rawDrive)
+          ? { totalDriveMinutes: Math.max(0, rawDrive) }
+          : null
+      const feeDriveOptions =
+        driveContext != null
+          ? {
+              driveContext,
+              driveTimeFeeSettings: availabilitySettings.value?.driveTimeFee ?? null,
+              driveTimeSystemBlock: resolveSystemDriveTimeBlockForFees(bookingData.value),
+            }
+          : null
+
       return buildAppointmentRequest({
         propertyVersionId,
         wizard: wizardBlocks,
@@ -88,6 +109,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         quantities,
         squareFootage,
         aduCount,
+        feeDriveOptions,
       })
     } catch (error) {
       logger.error('Failed to collect appointment data', { error })

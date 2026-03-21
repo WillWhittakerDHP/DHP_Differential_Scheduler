@@ -54,6 +54,7 @@ export function inputConfigEditor(
     }
   }
 
+  /** fieldKey reserved for future per-field branching (e.g. relationshipCollection). */
   function buildInputConfig(_fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
     if (formData.options !== null) {
       return {
@@ -87,7 +88,6 @@ export function inputConfigEditor(
       if (formData.placeholder) {
         baseConfig.placeholder = formData.placeholder
       }
-
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
         baseConfig.targetKey = formData.targetKey

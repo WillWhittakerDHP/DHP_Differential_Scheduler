@@ -31,6 +31,7 @@ export type BookingBlockInstance = CoreEntity & {
   baseSqFt: number
   icon: string
   bookingMode: BookingMode
+  agentPermissions: TernaryBoolean
   differential: TernaryBoolean
   preClosing: boolean
   orderIndex: number

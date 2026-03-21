@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T13:53:32.997Z",
+  "generatedAt": "2026-03-21T14:14:49.729Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1015,
+  "totalScanned": 1029,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 3,
+    "totalRequiresReview": 19,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -58,6 +58,162 @@
   ],
   "consolidationGroups": [
     {
+      "id": "inline-orphan-differentialRole",
+      "classification": "HOIST",
+      "description": "Value 'differentialRole' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
+          "export": null,
+          "line": 66,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-bookingMode",
+      "classification": "HOIST",
+      "description": "Value 'bookingMode' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "client/src/constants/entityFieldConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 1,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
+          "export": null,
+          "line": 60,
+          "inline": true
+        }
+      ],
+      "score": 20,
+      "priority": "P0",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-agentPermissions",
+      "classification": "HOIST",
+      "description": "Value 'agentPermissions' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "client/src/constants/entityFieldConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 1,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
+          "export": null,
+          "line": 64,
+          "inline": true
+        }
+      ],
+      "score": 20,
+      "priority": "P0",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-standalone",
+      "classification": "HOIST",
+      "description": "Value 'standalone' defined in constants but used inline in 2 locations",
+      "locations": [
+        {
+          "file": "client/src/constants/entityFieldConstants.ts",
+          "export": "DEFAULT_VALUES",
+          "line": 16,
+          "inline": false
+        },
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "DEFAULT_VALUES",
+          "line": 35,
+          "inline": false
+        },
+        {
+          "file": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
+          "export": null,
+          "line": 34,
+          "inline": true
+        },
+        {
+          "file": "client/src/utils/transformers/transformerPrimitives.ts",
+          "export": null,
+          "line": 95,
+          "inline": true
+        }
+      ],
+      "score": 24,
+      "priority": "P0",
+      "suggestion": "Create shared constant in server/src/constants/ and import everywhere. Consider consolidating into server/src/constants/errors.ts or server/src/constants/common.ts"
+    },
+    {
+      "id": "inline-orphan-availability-settings",
+      "classification": "HOIST",
+      "description": "Value 'availability_settings' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/constants/appConstants.ts",
+          "export": "AVAILABILITY_SETTINGS_KEY",
+          "line": 36,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/admin/availability_setting.ts",
+          "export": null,
+          "line": 102,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/constants/appConstants.ts"
+    },
+    {
+      "id": "inline-orphan-differential-role",
+      "classification": "HOIST",
+      "description": "Value 'differential_role' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/entities/entityConstants.ts",
+          "export": "FIELD_NAMES",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/booking/event_shape.ts",
+          "export": null,
+          "line": 84,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
       "id": "inline-orphan-setting-value-is-required",
       "classification": "HOIST",
       "description": "Value 'setting_value is required' defined in constants but used inline in 2 locations",
@@ -87,6 +243,174 @@
     }
   ],
   "files": [
+    {
+      "id": "server__src__routes__internal__entities__entityConstants.ts",
+      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
+      "score": 31.333333333333336,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: FIELD_NAMES",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: FIELD_NAMES",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: FIELD_NAMES",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 35,
+          "line": "export: DEFAULT_VALUES",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: FIELD_NAMES",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__constants__entityFieldConstants.ts",
+      "repoPath": "client/src/constants/entityFieldConstants.ts",
+      "score": 19.333333333333336,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 1,
+          "line": "export: FIELD_NAMES",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 1,
+          "line": "export: FIELD_NAMES",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 16,
+          "line": "export: DEFAULT_VALUES",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__transformers__apiEntityFieldNormalization.ts",
+      "repoPath": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
+      "score": 19.333333333333336,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 60,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 64,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 34,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__configs__field__form__appliedForm__eventShapeFields.ts",
+      "repoPath": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 66,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__transformers__transformerPrimitives.ts",
+      "repoPath": "client/src/utils/transformers/transformerPrimitives.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 95,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__constants__appConstants.ts",
+      "repoPath": "server/src/constants/appConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 36,
+          "line": "export: AVAILABILITY_SETTINGS_KEY",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__admin__availability_setting.ts",
+      "repoPath": "server/src/db/models/admin/availability_setting.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 102,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__db__models__booking__event_shape.ts",
+      "repoPath": "server/src/db/models/booking/event_shape.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 84,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
     {
       "id": "server__src__routes__internal__businessSettings__businessSettingsConstants.ts",
       "repoPath": "server/src/routes/internal/businessSettings/businessSettingsConstants.ts",

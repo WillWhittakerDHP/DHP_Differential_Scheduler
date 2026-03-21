@@ -19,6 +19,15 @@ describe('entityConstants contract', () => {
     it('BOOKING_MODE equals bookingMode', () => {
       expect(FIELD_NAMES.BOOKING_MODE).toBe('bookingMode')
     })
+    it('AGENT_PERMISSIONS equals agentPermissions', () => {
+      expect(FIELD_NAMES.AGENT_PERMISSIONS).toBe('agentPermissions')
+    })
+    it('DIFFERENTIAL_ROLE equals differentialRole', () => {
+      expect(FIELD_NAMES.DIFFERENTIAL_ROLE).toBe('differentialRole')
+    })
+    it('DIFFERENTIAL_ROLE_SNAKE equals differential_role', () => {
+      expect(FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE).toBe('differential_role')
+    })
     it('ID equals id', () => {
       expect(FIELD_NAMES.ID).toBe('id')
     })
@@ -36,6 +45,9 @@ describe('entityConstants contract', () => {
   describe('DEFAULT_VALUES', () => {
     it('BOOKING_MODE equals standalone', () => {
       expect(DEFAULT_VALUES.BOOKING_MODE).toBe('standalone')
+    })
+    it('BOOKING_MODE_STORAGE equals false', () => {
+      expect(DEFAULT_VALUES.BOOKING_MODE_STORAGE).toBe('false')
     })
   })
 

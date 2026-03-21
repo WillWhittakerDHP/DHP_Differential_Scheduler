@@ -33,6 +33,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // WHY: Match vite.config.ts so tests resolve shared package imports (e.g. safeDefaults → loggerCore).
+      '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
     },
   },
 })

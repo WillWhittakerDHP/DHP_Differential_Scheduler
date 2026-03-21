@@ -1,5 +1,5 @@
 /**
- * Singleton CRUD for calendar settings. Persisted in app_setting_entries (namespace calendar, path document).
+ * Singleton CRUD for calendar settings. Relational storage + calendar_setting_calendars.
  */
 import { Router, Request, Response } from 'express';
 import type { CalendarSettingsData } from '../../../../../shared/types/calendarSettingsDocument.js';

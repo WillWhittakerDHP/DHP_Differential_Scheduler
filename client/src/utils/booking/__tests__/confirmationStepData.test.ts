@@ -28,7 +28,13 @@ import {
   calculateBlockInstanceFee,
   buildConfirmationSummaryData,
   buildConfirmationPriceData,
+  buildAppointmentFeeBreakdown,
+  type ConfirmationDriveContext,
 } from '../confirmationStepData'
+import {
+  SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_ID,
+  SYSTEM_DRIVE_TIME_BLOCK_SHAPE_REF,
+} from '@/constants/systemDriveTimeBlock'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 function createBlockInstance(
@@ -756,6 +762,76 @@ describe('confirmationStepData', () => {
       expect(priceData.lineItems?.[0].amount).toBe(0)
       expect(priceData.lineItems?.[1].isFree).toBe(false)
       expect(priceData.lineItems?.[1].amount).toBe(15)
+    })
+
+    it('should append Drive time line and add fee when driveContext and settings are set', () => {
+      const wizard = {
+        selectedServices: [createBlockInstance('s1', 'Service', [100])],
+        selectedPropertyTypeBlocks: [],
+        selectedOptionTypeBlocks: [],
+        selectedLineItemBlocks: [],
+      }
+      const driveContext: ConfirmationDriveContext = { totalDriveMinutes: 60 }
+      const driveTimeFee = {
+        complimentaryDriveMinutes: 0,
+        drivingRatePerHour: 60,
+        driveTimeRoundingMinutes: 15,
+      }
+      const priceData = buildConfirmationPriceData(wizard, null, null, driveContext, driveTimeFee, {
+        blockInstanceId: SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_ID,
+        blockShapeRef: SYSTEM_DRIVE_TIME_BLOCK_SHAPE_REF,
+      })
+      // 60 billable min → rounded 60 → (60/60)*60 = 60
+      expect(priceData.totalFee).toBe(160)
+      expect(priceData.orderTotal).toBe(160)
+      expect(priceData.lineItems).toHaveLength(1)
+      expect(priceData.lineItems?.[0].label).toBe('Drive time')
+      expect(priceData.lineItems?.[0].amount).toBe(60)
+      expect(priceData.lineItems?.[0].isFree).toBe(false)
+    })
+
+    it('buildAppointmentFeeBreakdown appends Drive time fee entry for persistence', () => {
+      const wizard = {
+        selectedServices: [createBlockInstance('s1', 'Service', [100])],
+        selectedPropertyTypeBlocks: [],
+        selectedOptionTypeBlocks: [],
+        selectedLineItemBlocks: [],
+      }
+      const sys = { blockInstanceId: 'drive-block-id', blockShapeRef: 'drive-shape-ref' }
+      const payload = buildAppointmentFeeBreakdown(wizard, null, null, {
+        driveContext: { totalDriveMinutes: 60 },
+        driveTimeFeeSettings: {
+          complimentaryDriveMinutes: 0,
+          drivingRatePerHour: 60,
+          driveTimeRoundingMinutes: 15,
+        },
+        driveTimeSystemBlock: sys,
+      })
+      const driveEntry = payload.entries.find((e) => e.blockInstanceId === sys.blockInstanceId)
+      expect(driveEntry?.blockName).toBe('Drive time')
+      expect(driveEntry?.totalFee).toBe(60)
+      expect(driveEntry?.baseFee).toBe(60)
+      expect(driveEntry?.overageFee).toBe(0)
+      expect(driveEntry?.quantity).toBe(1)
+      expect(payload.summary.totalFee).toBe(160)
+    })
+
+    it('should not append Drive time row when driveContext is absent', () => {
+      const wizard = {
+        selectedServices: [createBlockInstance('s1', 'Service', [100])],
+        selectedPropertyTypeBlocks: [],
+        selectedOptionTypeBlocks: [],
+        selectedLineItemBlocks: [],
+      }
+      const priceData = buildConfirmationPriceData(
+        wizard,
+        null,
+        null,
+        null,
+        { complimentaryDriveMinutes: 0, drivingRatePerHour: 99, driveTimeRoundingMinutes: 15 }
+      )
+      expect(priceData.totalFee).toBe(100)
+      expect(priceData.lineItems).toHaveLength(0)
     })
   })
 })
