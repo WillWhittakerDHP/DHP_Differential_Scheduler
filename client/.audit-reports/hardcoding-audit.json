@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:01:19.778Z",
+  "generatedAt": "2026-03-21T16:27:11.501Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 0,
+  "totalScanned": 1,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -57,5 +57,58 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": []
+  "files": [
+    {
+      "id": "server__src__app.ts",
+      "repoPath": "server/src/app.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/app.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 1
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 26,
+          "line": "logger.info('Database initialized successfully')"
+        },
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 42,
+          "line": "app.use(cors({ origin: Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin] }))"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 42,
+          "line": "app.use(cors({ origin: Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin] }))",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 3,
+      "priority": "P2",
+      "suggestions": []
+    }
+  ]
 }
