@@ -73,7 +73,7 @@ Sessions and tasks for this phase. See Sessions Breakdown below for session list
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item  
+- [x] ### Session 6.11.1: Drive Time Fee — Settings, Calculation, and Line Item  
 **Description:** Implement admin settings (types, API, UI), calculation helper, exposure of selected-slot drive minutes in the wizard, extension of `buildConfirmationPriceData` with optional drive context and "Drive time" line item, and persistence of drive time in fee breakdown via the virtual block instance.  
 **See:** `sessions/session-6.11.1-guide.md`
 
