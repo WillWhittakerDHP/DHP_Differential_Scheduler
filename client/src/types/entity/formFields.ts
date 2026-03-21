@@ -63,7 +63,7 @@ export type RelationshipFieldType<
 export type VirtualFieldType<
   GE extends GlobalEntityKey = GlobalEntityKey,
 > = {
-  targetMode: "property";
+  targetMode: "primitive";
   targetKey: "blockShape" | "partShape";
   globalField: GlobalFieldKey<GE>;
 

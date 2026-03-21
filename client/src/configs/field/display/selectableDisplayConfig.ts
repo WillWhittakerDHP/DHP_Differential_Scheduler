@@ -74,7 +74,7 @@ type RelationshipDisplayType<
 type VirtualDisplayType<
   GE extends GlobalEntityKey = GlobalEntityKey,
 > = {
-  targetMode: "property";
+  targetMode: "primitive";
   targetKey: typeof ENTITY_KEY_BLOCK_SHAPE | typeof ENTITY_KEY_PART_SHAPE;
   globalField: GlobalFieldKey<GE>;
 
@@ -128,7 +128,7 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
   return {
     [ENTITY_KEY_BLOCK_INSTANCE]: {
       blockShapeRef: {
-        targetMode: "property",
+        targetMode: "primitive",
         targetKey: ENTITY_KEY_BLOCK_SHAPE,
         globalField: "blockShapeRef",
 
@@ -414,7 +414,7 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
     
     [ENTITY_KEY_PART_INSTANCE]: {
       partShapeRef: {
-        targetMode: "property",
+        targetMode: "primitive",
         targetKey: ENTITY_KEY_PART_SHAPE,
         globalField: "partShapeRef",
 

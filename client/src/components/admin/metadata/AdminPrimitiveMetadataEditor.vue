@@ -111,7 +111,7 @@
                 
                 <!-- Input Config (for select/multiselect/reference/relationshipCollection) -->
                 <template v-if="hasSelectRenderAs(fieldKey)">
-                  <!-- Select Mode (for relationship/property selects) -->
+                  <!-- Select Mode (for relationship/primitive selects) -->
                   <VSelect
                     :model-value="getInputConfigData(fieldKey).selectMode"
                     :items="selectModeOptions"

@@ -3,6 +3,11 @@
  * WHY: Shared by admin_metadata, admin_primitive_metadata, and admin_relationship_metadata; API keeps inputConfig.
  */
 
+import {
+  assertSelectInputConfigNotPropertyTargetMode,
+  unwrapLegacyRelationshipSelect,
+} from '@shared/utils/selectInputConfigCodec.js'
+
 export interface AdminMetadataIcColumns {
   icTargetMode: string | null
   icSelectMode: string | null
@@ -24,15 +29,6 @@ export interface SelectOptionRowInput {
   displayOrder: number
   label: string
   valuePayload: string | null
-}
-
-function unwrapInputConfig(raw: Record<string, unknown>): Record<string, unknown> {
-  if ('targetMode' in raw) return raw
-  const wrapped = raw.relationshipSelect
-  if (wrapped !== null && wrapped !== undefined && typeof wrapped === 'object' && 'targetMode' in wrapped) {
-    return wrapped as Record<string, unknown>
-  }
-  return raw
 }
 
 function asStringArray(v: unknown): string[] | null {
@@ -74,6 +70,8 @@ export function encodeInputConfig(
     return { columns: empty, options: [] }
   }
 
+  assertSelectInputConfigNotPropertyTargetMode(inputConfig)
+
   const rawOpts = inputConfig.options
   if (Array.isArray(rawOpts)) {
     const options: SelectOptionRowInput[] = rawOpts
@@ -87,7 +85,7 @@ export function encodeInputConfig(
     return { columns: empty, options }
   }
 
-  const cfg = unwrapInputConfig(inputConfig)
+  const cfg = unwrapLegacyRelationshipSelect(inputConfig as Record<string, unknown>)
   return {
     columns: {
       icTargetMode: strOrNull(cfg.targetMode),
