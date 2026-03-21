@@ -89,9 +89,7 @@ export function inputConfigEditor(
       }
 
       const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
-      // relationshipCollection uses default config; no overrides needed
       if (renderAs === 'relationshipCollection') {
-        // no-op
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
