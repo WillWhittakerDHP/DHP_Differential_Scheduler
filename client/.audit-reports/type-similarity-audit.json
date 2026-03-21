@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T14:52:04.728Z",
+  "generatedAt": "2026-03-21T14:53:19.278Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -3333,7 +3333,7 @@
       "name": "BusinessControlsStateSource",
       "kind": "interface",
       "file": "client/src/types/admin/businessControlsState.ts",
-      "line": 28,
+      "line": 26,
       "exported": true,
       "fingerprint": "635c6ae2f16c",
       "propertyCount": 14,
@@ -3343,7 +3343,7 @@
       "name": "BusinessControlsSaveButtonProps",
       "kind": "type-alias-object",
       "file": "client/src/types/admin/businessControlsState.ts",
-      "line": 19,
+      "line": 17,
       "exported": true,
       "fingerprint": "a58ff56c4b9f",
       "propertyCount": 4,
@@ -7693,7 +7693,7 @@
       "name": "ComputeDriveTimeFeeResult",
       "kind": "interface",
       "file": "client/src/utils/booking/computeDriveTimeFee.ts",
-      "line": 40,
+      "line": 39,
       "exported": true,
       "fingerprint": "e46fd23b50c6",
       "propertyCount": 3,
