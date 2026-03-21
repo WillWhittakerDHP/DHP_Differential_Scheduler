@@ -17,6 +17,7 @@ import { PricingCascadeFactory } from "./booking/pricing_cascade.js";
 import { PartAssignmentFactory } from "./booking/part_assignment.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
 import { AnnotationInstanceFactory } from "./booking/annotation_instance.js";
+import { AnnotationInstanceContentFactory } from "./booking/annotation_instance_content.js";
 import { AnnotationAssignmentFactory } from "./booking/annotation_assignment.js";
 import { AnnotationShapeFactory } from "./booking/annotation_shape.js";
 import { EventShapeFactory } from "./booking/event_shape.js";
@@ -75,6 +76,7 @@ export function initializeModels(sequelize: Sequelize) {
 
   const AnnotationShape = AnnotationShapeFactory(sequelize);
   const AnnotationInstance = AnnotationInstanceFactory(sequelize);
+  const AnnotationInstanceContent = AnnotationInstanceContentFactory(sequelize);
   const AnnotationAssignment = AnnotationAssignmentFactory(sequelize);
 
   const EventShape = EventShapeFactory(sequelize);
@@ -203,6 +205,20 @@ export function initializeModels(sequelize: Sequelize) {
   });
 
   AnnotationAssignment.belongsTo(BlockInstance, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'userTypeBlockInstance',
+  });
+
+  AnnotationInstance.hasMany(AnnotationInstanceContent, {
+    foreignKey: 'annotation_instance_id',
+    as: 'contentRows',
+    onDelete: 'CASCADE',
+  });
+  AnnotationInstanceContent.belongsTo(AnnotationInstance, {
+    foreignKey: 'annotation_instance_id',
+    as: 'annotationInstance',
+  });
+  AnnotationInstanceContent.belongsTo(BlockInstance, {
     foreignKey: 'user_type_block_instance_id',
     as: 'userTypeBlockInstance',
   });
@@ -401,7 +417,7 @@ export function initializeModels(sequelize: Sequelize) {
     BlockInstanceVersion, PartInstanceVersion,
     ValidCascade, ValidPart, ValidAnnotation, ValidEvent, ValidPricingCascade, DependentInstance,
     BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
-    AnnotationShape, AnnotationInstance, AnnotationAssignment,
+    AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
     AppointmentAttendee,

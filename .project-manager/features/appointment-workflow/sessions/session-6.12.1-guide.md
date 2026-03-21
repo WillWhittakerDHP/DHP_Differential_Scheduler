@@ -57,6 +57,23 @@ These sections contain session-specific content:
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
+- [x] #### Task 6.12.1.3: Annotation instance content table and migration
+**Goal:** Add `annotation_instance_content` (FK to `annotation_instances` and `user_type_block_instance_id`), backfill from existing `annotation_instances` / `userType` usage; deprecate or narrow `AnnotationInstance.userType` and simplify `AnnotationAssignment` per phase guide.
+**Files:**
+- `server/src/db/migrations/` (new migration + backfill)
+- Sequelize models for `annotation_instances`, `annotation_assignments`, new content table
+- Server annotation routes/repositories/services and shared or client annotation types as consumed today
+**Approach:** Create table; copy legacy text/tooltip (and related fields) into rows per user-type dimension; update create/update/read paths; gate or remove `userType` on instance where replaced by content rows.
+**Checkpoint:** Migration applies cleanly; existing annotations remain readable; no silent data loss (explicit logging on backfill gaps).
+
+- [ ] #### Task 6.12.1.4: Annotation shape delete returns 409
+**Goal:** When deleting an annotation shape still referenced by instances, return **409** with an actionable JSON body instead of **500**.
+**Files:**
+- Annotation shape DELETE handler (route → service)
+- Optional repository pre-check or Sequelize FK error mapping
+**Approach:** Pre-count dependents or catch FK violation; respond with consistent API error shape used elsewhere.
+**Checkpoint:** In-use shape → 409 + message; unused shape → delete succeeds.
+
 ---
 
 ## Session Workflow

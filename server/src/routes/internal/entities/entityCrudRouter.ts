@@ -13,6 +13,11 @@ import { validateEntityId } from './entityValidators.js'
 import { sanitizeEntityDataForCreate, sanitizeEntityDataForUpdate } from './entitySanitizers.js'
 import { buildFetchOptions, handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
+import { AnnotationInstance, AnnotationInstanceContent } from '../../../config/app.js'
+import { resolveAnnotationTextForAssignment } from '../../../services/annotations/annotationTextResolution.js'
+import type { AnnotationWithContentPlain } from '../../../services/annotations/annotationTextResolution.js'
+import { syncAnnotationInstanceContentFromLegacyColumns } from '../../../services/annotations/annotationInstanceContentSync.js'
+import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
@@ -37,9 +42,36 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
     // WHY: Consistent pattern with relationships - annotations fetched separately, then attached during hydration
     // PATTERN: Entities fetched without associations, annotations attached in frontend transformer
     
-    const options = buildFetchOptions(entityConfig.model)
-    const data = await fetchAll(entityConfig.model, options)
-    
+    const entityTypeParam = paramString(req, 'entityType')
+    const base = buildFetchOptions(entityConfig.model)
+    const fetchOpts = {
+      attributes: base.attributes,
+      order: base.order,
+      includes:
+        entityTypeParam === ENTITY_KEYS.ANNOTATION_INSTANCE
+          ? [
+              {
+                model: AnnotationInstanceContent,
+                as: 'contentRows',
+                attributes: ['id', 'text', 'userTypeBlockInstanceId'],
+                required: false,
+              },
+            ]
+          : undefined,
+    }
+    const data = await fetchAll(entityConfig.model, fetchOpts)
+
+    if (entityTypeParam === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+      const formatted = (data as InstanceType<typeof AnnotationInstance>[]).map((row) => {
+        const plain = row.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
+        plain.text = resolveAnnotationTextForAssignment(plain, null)
+        delete plain.contentRows
+        return plain
+      })
+      sendSuccess(res, formatted)
+      return
+    }
+
     sendSuccess(res, data)
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.FETCH_ENTITIES.replace('{displayName}', entityConfig.displayName)
@@ -56,14 +88,40 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
   
   try {
     const id = paramString(req, 'id')
+    const entityTypeParam = paramString(req, 'entityType')
+
+    if (entityTypeParam === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+      const record = await AnnotationInstance.findByPk(id, {
+        attributes: getModelAttributes(AnnotationInstance),
+        include: [
+          {
+            model: AnnotationInstanceContent,
+            as: 'contentRows',
+            attributes: ['id', 'text', 'userTypeBlockInstanceId'],
+            required: false,
+          },
+        ],
+      })
+      if (!record) {
+        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
+        sendNotFound(res, errorMessage, id)
+        return
+      }
+      const plain = record.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
+      plain.text = resolveAnnotationTextForAssignment(plain, null)
+      delete plain.contentRows
+      sendSuccess(res, plain)
+      return
+    }
+
     const record = await fetchById(entityConfig.model, id)
-    
+
     if (!record) {
       const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
       sendNotFound(res, errorMessage, id)
       return
     }
-    
+
     sendSuccess(res, record)
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.FETCH_ENTITY.replace('{displayName}', entityConfig.displayName)
@@ -86,6 +144,10 @@ router.post(
       const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
       
       const created = await createRecord(entityConfig.model, sanitizedData)
+      const createdEntityType = paramString(req, 'entityType')
+      if (createdEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        await syncAnnotationInstanceContentFromLegacyColumns(created as InstanceType<typeof AnnotationInstance>)
+      }
       sendCreated(res, created)
     } catch (error) {
       const errorMessage = ERROR_MESSAGES.CREATE_ENTITY.replace('{displayName}', entityConfig.displayName)
@@ -130,16 +192,26 @@ router.put(
         sendNotFound(res, errorMessage, entityId)
         return
       }
-      
+
+      const putEntityType = paramString(req, 'entityType')
+      if (putEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        const inst = await AnnotationInstance.findByPk(entityId, {
+          attributes: getModelAttributes(AnnotationInstance),
+        })
+        if (inst) {
+          await syncAnnotationInstanceContentFromLegacyColumns(inst)
+        }
+      }
+
       // PATTERN: After successful update, find and disable old relationships
-      if (paramString(req, 'entityType') === ENTITY_KEYS.PART_INSTANCE || paramString(req, 'entityType') === 'partInstance') {
+      if (putEntityType === ENTITY_KEYS.PART_INSTANCE || putEntityType === 'partInstance') {
         await handlePartInstanceCleanup(entityId)
       }
-      
+
       const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
-      sendSuccess(res, { 
+      sendSuccess(res, {
         message: `${successMessage} successfully`,
-        updated: updatedCount 
+        updated: updatedCount,
       })
     } catch (error) {
       const errorMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName)
@@ -208,18 +280,28 @@ router.patch(
       // WHY: Standard REST PATCH pattern - one database query, let ORM handle validation
       // PATTERN: Call update, check result, handle errors
       const updatedCount = await patchRecord(entityConfig.model, entityId, sanitizedData)
-      
+
       if (updatedCount === 0) {
         const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
         sendNotFound(res, errorMessage, entityId)
         return
       }
-      
+
+      const patchedEntityType = paramString(req, 'entityType')
+      if (patchedEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        const inst = await AnnotationInstance.findByPk(entityId, {
+          attributes: getModelAttributes(AnnotationInstance),
+        })
+        if (inst) {
+          await syncAnnotationInstanceContentFromLegacyColumns(inst)
+        }
+      }
+
       // PATTERN: After successful update, find and disable old relationships
-      if (paramString(req, 'entityType') === ENTITY_KEYS.PART_INSTANCE || paramString(req, 'entityType') === 'partInstance') {
+      if (patchedEntityType === ENTITY_KEYS.PART_INSTANCE || patchedEntityType === 'partInstance') {
         await handlePartInstanceCleanup(entityId)
       }
-      
+
       sendSuccess(res, { updated: updatedCount })
     } catch (error) {
       const errorMessage = ERROR_MESSAGES.PATCH_ENTITY.replace('{displayName}', entityConfig.displayName)
