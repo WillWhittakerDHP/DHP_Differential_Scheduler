@@ -13,7 +13,11 @@
 **Last Completed:** Task 
 **Next Session:** Session 6.12.2
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 **Git Branch:** `session-6.12.1`
+=======
+**Git Branch:** `phase-6.12`
+>>>>>>> Stashed changes
 =======
 **Git Branch:** `phase-6.12`
 >>>>>>> Stashed changes
@@ -21,12 +25,13 @@
 
 ## Next Action
 
-Start **Session 6.12.2** using `phase-6.12-guide.md` (UI slots constant, `ui_slot` on shapes, transformer, `useAnnotationContent`, wizard wiring).
+Start Session 6.12.2 (see session guide and phase guide for scope).
 
 ## Transition Context
 
 **Where we left off:**
 Completed Task 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 =======
 
@@ -158,5 +163,19 @@ Completed Task 1.3.4: Relationship API Composables. Created composables for pare
 - Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-6.12.1-log.md`
 - Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-6.12-handoff.md` (for phase-level context)
 =======
+<!-- end excerpt session -->
+>>>>>>> Stashed changes
+=======
+
+**What you need to start:**
+- Begin Session 6.12.2
+
+<!-- end excerpt session -->
+
+
+**Where we left off:** Session **6.12.1** deliverables are in place; run migrations on each environment through the latest revision; spot-check admin relationships and annotation shape delete.
+
+**What you need to start:** Read the phase guide **Session 6.12.2** block and shared `ANNOTATION_UI_SLOTS` / registry reference before implementing.
+
 <!-- end excerpt session -->
 >>>>>>> Stashed changes

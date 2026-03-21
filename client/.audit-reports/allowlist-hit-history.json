@@ -1,26 +1,6 @@
 {
   "runs": [
     {
-      "timestamp": "2026-03-15T17:59:03.983Z",
-      "auditType": "error-handling",
-      "hits": {}
-    },
-    {
-      "timestamp": "2026-03-15T17:59:03.985Z",
-      "auditType": "type-import",
-      "hits": {}
-    },
-    {
-      "timestamp": "2026-03-15T18:02:44.944Z",
-      "auditType": "error-handling",
-      "hits": {}
-    },
-    {
-      "timestamp": "2026-03-15T18:02:44.946Z",
-      "auditType": "type-import",
-      "hits": {}
-    },
-    {
       "timestamp": "2026-03-15T18:12:23.691Z",
       "auditType": "error-handling",
       "hits": {}
@@ -497,6 +477,26 @@
     },
     {
       "timestamp": "2026-03-21T18:37:22.088Z",
+      "auditType": "type-import",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-21T19:02:16.331Z",
+      "auditType": "error-handling",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-21T19:02:16.332Z",
+      "auditType": "type-import",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-21T19:07:07.052Z",
+      "auditType": "error-handling",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-21T19:07:07.053Z",
       "auditType": "type-import",
       "hits": {}
     }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:37:06.301Z",
+  "generatedAt": "2026-03-21T19:02:16.211Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,14 +36,14 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 277,
+    "totalTypeFiles": 278,
     "totalConstantFiles": 25,
     "totalConfigFiles": 41,
     "filesWithInlineTypes": 121,
     "annotated": 325,
-    "unannotated": 18,
+    "unannotated": 19,
     "classificationIssues": {
-      "mixedTypeConstantFiles": 14,
+      "mixedTypeConstantFiles": 15,
       "inlineTypesInComposables": 91,
       "configsWithLogic": 11,
       "duplicateTypeNames": 7,
@@ -7587,6 +7587,37 @@
       "targetPath": null
     },
     {
+      "id": "shared__types__selectInputConfig.ts",
+      "repoPath": "shared/types/selectInputConfig.ts",
+      "name": "selectInputConfig",
+      "directoryDomain": "selectInputConfig.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "SelectInputConfigPassthroughKey",
+        "SelectInputConfigPassthrough",
+        "SelectInputStaticOptionsCore",
+        "SelectInputRelationshipCore",
+        "SelectInputPrimitiveCore",
+        "SelectInputConfig",
+        "ParsedSelectInputConfig"
+      ],
+      "exportKinds": {
+        "types": 7,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": true,
+      "lineCount": 56,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
       "id": "shared__types__ternary.ts",
       "repoPath": "shared/types/ternary.ts",
       "name": "ternary",
@@ -10629,6 +10660,10 @@
       },
       {
         "repoPath": "client/src/types/selectOptions.ts",
+        "reason": "In types/ but exports runtime values"
+      },
+      {
+        "repoPath": "shared/types/selectInputConfig.ts",
         "reason": "In types/ but exports runtime values"
       },
       {

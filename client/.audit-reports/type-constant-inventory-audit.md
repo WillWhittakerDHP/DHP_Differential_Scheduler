@@ -4,19 +4,19 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T18:37:06.301Z
+Generated: 2026-03-21T19:02:16.211Z
 
 ## Summary
 
-- Type files: **277**
+- Type files: **278**
 - Constant files: **25**
 - Config files: **41**
 - Files with inline type exports: **121**
-- Annotated: **325** | Unannotated: **18**
+- Annotated: **325** | Unannotated: **19**
 
 | Classification Issue | Count |
 | --- | ---: |
-| Mixed type+constant files | 14 |
+| Mixed type+constant files | 15 |
 | Inline types in composables | 91 |
 | Configs with factory functions | 11 |
 | Duplicate type names | 7 |
@@ -419,6 +419,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `shared/types/primitiveBrands.ts` | dedicated | ISO8601Date, GlobalEntityId | no | Branded primitive types for type-safe entity IDs and keys | shared |
 | `shared/types/propertyEnrichmentTypes.ts` | dedicated |  | no | Property enrichment data from external sources | shared |
 | `shared/types/propertyTypes.ts` | dedicated | PropertyAddressBase, PropertyDetailsBase | no | Shared property entity data types | shared |
+
+### Domain: selectInputConfig.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/selectInputConfig.ts` | dedicated | SelectInputConfigPassthroughKey, SelectInputConfigPassthrough, SelectInputStaticOptionsCore, SelectInputRelationshipCore, SelectInputPrimitiveCore… | yes | (none) | unknown |
 
 ### Domain: ternary.ts
 

@@ -306,21 +306,21 @@ computed@138: const selectedBlockTitle = computed(() =>
 - counts: vueQuery=0, watch=0, computed=12, ref=0, async=0, await=0, dom=0, console=0
 
 ```
-computed@40: const isMetadataLoaded = computed(() => admin.isMetadataLoaded.value)
-computed@44: const entity = computed(() => {
-computed@68: const fieldMetadataEntry = computed(() => {
-computed@77: const isEnumSelect = computed(() => {
-filter@98: .filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)
-map@99: .map((option) => ({
-computed@121: const isOptionsSelect = computed(() => {
-map@131: return config.options.map((option) => ({
-computed@140: const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.state.entityKey> | VirtualFieldType<typeof fieldContext.state.entityKey> | undefined => {
-computed@200: const isAnnotationAssignmentSelect = computed(() => {
-computed@212: const isAttendeeSelect = computed(() => {
-computed@224: const isMultiple = computed(() =>
-computed@236: const chipsProps = computed(() => {
-computed@248: const optionEntityKey = computed(() =>
-computed@258: const optionLabelKey = computed(() => resolveOptionLabelKey())
+computed@44: const isMetadataLoaded = computed(() => admin.isMetadataLoaded.value)
+computed@48: const entity = computed(() => {
+computed@72: const fieldMetadataEntry = computed(() => {
+computed@81: const isEnumSelect = computed(() => {
+filter@102: .filter((option): option is Record<string, unknown> => typeof option === 'object' && option !== null)
+map@103: .map((option) => ({
+computed@125: const isOptionsSelect = computed(() => {
+map@135: return config.options.map((option) => ({
+computed@144: const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.state.entityKey> | VirtualFieldType<typeof fieldContext.state.entityKey> | undefined => {
+computed@218: const isAnnotationAssignmentSelect = computed(() => {
+computed@230: const isAttendeeSelect = computed(() => {
+computed@242: const isMultiple = computed(() =>
+computed@254: const chipsProps = computed(() => {
+computed@266: const optionEntityKey = computed(() =>
+computed@276: const optionLabelKey = computed(() => resolveOptionLabelKey())
 ```
 
 ### `client/src/composables/admin/useWizardSettings.ts`

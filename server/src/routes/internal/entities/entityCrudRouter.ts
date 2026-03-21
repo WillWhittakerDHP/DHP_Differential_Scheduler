@@ -22,11 +22,33 @@ import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
+import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const logger = createLogger('EntityRouter')
+
+function applyAnnotationShapeUiSlotNormalization(
+  res: Response,
+  entityType: string,
+  data: Record<string, unknown>
+): boolean {
+  if (entityType !== ENTITY_KEYS.ANNOTATION_SHAPE && entityType !== 'annotationShape') {
+    return true
+  }
+  const normalized = normalizeAnnotationShapeWritePayload(data)
+  if (!normalized.ok) {
+    sendBadRequest(res, 'Invalid annotation shape uiSlot', normalized.message)
+    return false
+  }
+  const next = normalized.data
+  for (const key of Object.keys(data)) {
+    delete data[key]
+  }
+  Object.assign(data, next)
+  return true
+}
 
 const router = Router()
 
@@ -142,8 +164,14 @@ router.post(
     
     try {
       // PATTERN: Convert empty strings for known enum fields to their default values
-      const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
-      
+      const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType')) as Record<
+        string,
+        unknown
+      >
+      if (!applyAnnotationShapeUiSlotNormalization(res, paramString(req, 'entityType'), sanitizedData)) {
+        return
+      }
+
       const created = await createRecord(entityConfig.model, sanitizedData)
       const createdEntityType = paramString(req, 'entityType')
       if (createdEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
@@ -172,8 +200,14 @@ router.put(
     
     try {
       // PATTERN: Convert empty strings for known enum fields to their default values
-      const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType'))
-      
+      const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType')) as Record<
+        string,
+        unknown
+      >
+      if (!applyAnnotationShapeUiSlotNormalization(res, paramString(req, 'entityType'), sanitizedData)) {
+        return
+      }
+
       // CRITICAL: For block instances, capture old state BEFORE update for versioning
       if (paramString(req, 'entityType') === ENTITY_KEYS.BLOCK_INSTANCE || paramString(req, 'entityType') === 'blockInstance') {
         const oldInstance = await handleBlockInstanceVersioning(entityId, true)
@@ -264,8 +298,11 @@ router.patch(
         }
       }
 
-      const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType)
-      
+      const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType) as Record<string, unknown>
+      if (!applyAnnotationShapeUiSlotNormalization(res, entityType, sanitizedData)) {
+        return
+      }
+
       // WHY: Standard PATCH pattern - log essentials, not entire entity state
       // PATTERN: Log before update to track what's being changed
       logger.info(`PATCH: ${entityConfig.displayName} ${entityId}`, {
