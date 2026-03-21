@@ -413,6 +413,12 @@ export interface SlotAvailabilityResult {
  */
 export interface ComputedSlot extends SlotTimeBounds, SlotAvailabilityResult {
   violations: string[]  // required for server slot e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
+  /**
+   * Billable drive context for fee preview (default location ↔ candidate property), in minutes.
+   * WHY: Same names as overlap buffer vocabulary but here they are **route** legs for the inspection address.
+   */
+  driveToCandidate?: number
+  driveFromCandidate?: number
 }
 
 /**
