@@ -4,9 +4,15 @@
 WHY: Moves data aggregation and busi...
  */
 import { computed } from 'vue'
-import { buildConfirmationPriceData, buildConfirmationSummaryData } from '@/utils/booking/confirmationStepData'
+import {
+  buildConfirmationPriceData,
+  buildConfirmationSummaryData,
+  type ConfirmationDriveContext,
+} from '@/utils/booking/confirmationStepData'
 import type { PriceData, SummaryData } from '@/types/wizardStepData'
 import type { UseConfirmationStepDataParams, UseConfirmationStepDataReturn } from '@/types/booking/confirmationStepData'
+import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import { resolveSystemDriveTimeBlockForFees } from '@/utils/booking/systemDriveTimeBlock'
 
 /**
  * WHY: useConfirmationStepData composable
@@ -19,7 +25,10 @@ export function useConfirmationStepData(
     wizard,
     propertyDetailsStepData,
     availabilityStepData,
+    bookingData: bookingDataRef,
   } = params
+
+  const { settings: availabilitySettings } = useAvailabilitySettings()
 
   /**
    */
@@ -48,13 +57,27 @@ WHY: Op...
     // WHY: Overage fees depend on square footage, use propertySize as fallback if squareFootage not available
     // PATTERN: Use squareFootage if available, otherwise fallback to propertySize, otherwise null
     const squareFootage = stepDataValue?.squareFootage ?? stepDataValue?.propertySize ?? null
-    
-    return buildConfirmationPriceData({
-      selectedServices: wizard.selectedServiceTypeBlocks.value,
-      selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
-      selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
-      selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,
-    }, squareFootage, aduCount)
+
+    const availability = availabilityStepData?.value
+    const rawDrive = availability?.totalDriveMinutes
+    const driveContext: ConfirmationDriveContext | null =
+      rawDrive != null && Number.isFinite(rawDrive)
+        ? { totalDriveMinutes: Math.max(0, rawDrive) }
+        : null
+
+    return buildConfirmationPriceData(
+      {
+        selectedServices: wizard.selectedServiceTypeBlocks.value,
+        selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
+        selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
+        selectedLineItemBlocks: wizard.selectedLineItemBlocks.value,
+      },
+      squareFootage,
+      aduCount,
+      driveContext,
+      availabilitySettings.value?.driveTimeFee ?? null,
+      resolveSystemDriveTimeBlockForFees(bookingDataRef?.value ?? undefined)
+    )
   })
 
   // PATTERN: Remove dev-mode debug watches - use proper logging if needed

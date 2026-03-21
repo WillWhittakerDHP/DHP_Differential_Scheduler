@@ -14,7 +14,8 @@ import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import {
-  calculateSlotShape
+  calculateSlotShape,
+  enrichBlockFinalsWithDifferentialRoles,
 } from './partFinalizer'
 import {
   createBlockFinals,
@@ -111,13 +112,15 @@ export function buildAppointmentShape(
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
-  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
-  const nonZeroedParts = nonZeroedBlockFinals.flatMap(blockFinal => blockFinal.finalizedParts)
+  let nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
+  const nonZeroedPartsBeforeEnrich = nonZeroedBlockFinals.flatMap(
+    (blockFinal) => blockFinal.finalizedParts
+  )
 
   const eventAssignmentsByPartShape =
     eventInstances && eventAssignmentsRelationships && partShapeById
       ? buildEventAssignmentsByPartShape(
-          nonZeroedParts,
+          nonZeroedPartsBeforeEnrich,
           partShapeById,
           eventAssignmentsRelationships,
           eventInstances,
@@ -132,6 +135,20 @@ export function buildAppointmentShape(
     logger.debug('buildAppointmentShape: eventShapes missing, using []')
     resolvedEventShapes = []
   }
+
+  if (
+    Object.keys(eventAssignmentsByPartShape).length > 0 &&
+    resolvedEventShapes.length > 0
+  ) {
+    nonZeroedBlockFinals = enrichBlockFinalsWithDifferentialRoles(
+      nonZeroedBlockFinals,
+      eventAssignmentsByPartShape,
+      resolvedEventShapes
+    )
+  }
+
+  const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)
+
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,

@@ -78,11 +78,11 @@ export function EventShapeFactory(sequelize: Sequelize) {
         comment: 'Default ternary value to use when value cannot be determined (null means fail gracefully)',
       },
       differentialRole: {
-        type: DataTypes.STRING(12),
+        type: DataTypes.ENUM('major', 'minor', 'moveable'),
         allowNull: true,
         defaultValue: null,
         field: 'differential_role',
-        comment: 'Direct role declaration: major, minor, moveable, or null',
+        comment: 'Direct role declaration: major, minor, moveable, or null (none)',
       },
       createdAt: {
         type: DataTypes.DATE,

@@ -102,9 +102,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       startTime: s.startTime,
       endTime: s.endTime,
       duration: s.duration,
-      major: false,
-      minor: false,
-      moveable: false,
+      slotKind: 'major',
       isAvailable: s.isAvailable,
       flexibleViolations: s.violations
     }))

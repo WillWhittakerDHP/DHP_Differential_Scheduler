@@ -1,6 +1,6 @@
 <!--
   WHY: Wizard-specific settings consolidated in one tab (task 6.10.5).
-  PATTERN: Injects BUSINESS_CONTROLS_STATE_KEY; uses state.wizardSettings and state.differential (sub-step labels).
+  PATTERN: Injects BUSINESS_CONTROLS_STATE_KEY; uses state.wizardSettings.flags and state.differential (sub-step labels).
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
@@ -15,11 +15,11 @@ const handlers = state ? useGridConfigHandlers(state as GridConfigState) : null
 const differential = state?.differential
 
 function handleShowApplyCoupon(value: boolean | null): void {
-  state?.wizardSettings?.setShowApplyCoupon(value === true)
+  state?.wizardSettings?.flags.setShowApplyCoupon(value === true)
 }
 
 function handleUseBrandColors(value: boolean | null): void {
-  state?.wizardSettings?.setUseBrandColors(value === true)
+  state?.wizardSettings?.flags.setUseBrandColors(value === true)
 }
 </script>
 
@@ -32,7 +32,7 @@ function handleUseBrandColors(value: boolean | null): void {
 
     <VSwitch
       v-if="state?.wizardSettings"
-      :model-value="state.wizardSettings.showApplyCoupon"
+      :model-value="state.wizardSettings.flags.showApplyCoupon"
       @update:model-value="handleShowApplyCoupon"
       :label="UI_STRINGS.calendar.showApplyCouponLabel"
       :hint="UI_STRINGS.calendar.showApplyCouponHint"
@@ -41,7 +41,7 @@ function handleUseBrandColors(value: boolean | null): void {
     />
     <VSwitch
       v-if="state?.wizardSettings"
-      :model-value="state.wizardSettings.useBrandColors"
+      :model-value="state.wizardSettings.flags.useBrandColors"
       @update:model-value="handleUseBrandColors"
       :label="UI_STRINGS.calendar.useBrandColorsLabel"
       :hint="UI_STRINGS.calendar.useBrandColorsHint"
@@ -93,7 +93,6 @@ function handleUseBrandColors(value: boolean | null): void {
     <div class="d-flex gap-2 mt-4">
       <VBtn
         v-if="state?.wizardSaveButtonProps"
-        type="submit"
         v-bind="state.wizardSaveButtonProps"
       >
         {{ UI_STRINGS.buttons.saveSettings }}

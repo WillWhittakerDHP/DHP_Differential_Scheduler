@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T02:03:01.666Z",
+  "generatedAt": "2026-03-21T15:27:32.801Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1150,
+  "fileCount": 1167,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -387,10 +387,11 @@
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
           "server/src/config/googleOAuth.ts",
+          "server/src/repositories/availabilitySettingsRepository.ts",
           "server/src/repositories/calendarSettingsRepository.ts",
+          "server/src/repositories/wizardSettingsRepository.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
@@ -411,7 +412,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 133
+        "patternCount": 134
       },
       {
         "prefix": "update",
@@ -472,7 +473,7 @@
           },
           {
             "file": "client/src/composables/admin/useInstancesTab.ts",
-            "line": 163,
+            "line": 166,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
@@ -490,7 +491,7 @@
           },
           {
             "file": "client/src/types/entities.ts",
-            "line": 84,
+            "line": 87,
             "context": "status-check",
             "code": "status: 'confirmed' | 'tentative';"
           },
@@ -991,7 +992,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useAdminAvailabilitySettings.ts",
-            "line": 34,
+            "line": 35,
             "name": "AdminAvailabilitySettings"
           }
         ]
@@ -1121,7 +1122,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useBufferSettings.ts",
-            "line": 79,
+            "line": 93,
             "name": "BufferSettings"
           }
         ]
@@ -1251,7 +1252,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDefaultLocation.ts",
-            "line": 8,
+            "line": 15,
             "name": "DefaultLocation"
           }
         ]
@@ -1271,7 +1272,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
-            "line": 13,
+            "line": 29,
             "name": "DifferentialPerspectives"
           }
         ]
@@ -1301,7 +1302,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDragAndDropHelpers.ts",
-            "line": 44,
+            "line": 55,
             "name": "SingleClassDraggableChecker"
           }
         ]
@@ -1311,7 +1312,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDragAndDropHelpers.ts",
-            "line": 51,
+            "line": 62,
             "name": "MultiClassDraggableChecker"
           }
         ]
@@ -1321,7 +1322,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useDragAndDropHelpers.ts",
-            "line": 58,
+            "line": 69,
             "name": "ExpansionPanelDraggableChecker"
           }
         ]
@@ -1691,7 +1692,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceDragAndDrop.ts",
-            "line": 22,
+            "line": 92,
             "name": "InstanceDragAndDrop"
           }
         ]
@@ -1701,7 +1702,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceFiltering.ts",
-            "line": 14,
+            "line": 18,
             "name": "InstanceFiltering"
           }
         ]
@@ -1831,7 +1832,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useOverlapConstraintsPanel.ts",
-            "line": 37,
+            "line": 38,
             "name": "OverlapConstraintsPanel"
           }
         ]
@@ -2161,7 +2162,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useWizardSettings.ts",
-            "line": 41,
+            "line": 115,
             "name": "WizardSettings"
           }
         ]
@@ -2481,7 +2482,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityStepData.ts",
-            "line": 20,
+            "line": 24,
             "name": "AvailabilityStepData"
           }
         ]
@@ -2491,7 +2492,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityStepFeePreview.ts",
-            "line": 25,
+            "line": 36,
             "name": "AvailabilityStepFeePreview"
           }
         ]
@@ -2631,7 +2632,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useConfirmationStepData.ts",
-            "line": 15,
+            "line": 21,
             "name": "ConfirmationStepData"
           }
         ]
@@ -2681,7 +2682,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useDependentInstances.ts",
-            "line": 20,
+            "line": 22,
             "name": "DependentInstances"
           }
         ]
@@ -3071,7 +3072,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
-            "line": 13,
+            "line": 14,
             "name": "WizardFilteredOptions"
           }
         ]
@@ -3696,7 +3697,7 @@
           },
           {
             "file": "server/src/repositories/calendarSettingsRepository.ts",
-            "line": 19,
+            "line": 22,
             "name": "CalendarSettings"
           }
         ]
@@ -4316,7 +4317,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/appointmentDataCollection.ts",
-            "line": 21,
+            "line": 25,
             "name": "AppointmentDataCollection"
           }
         ]
@@ -4326,7 +4327,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-            "line": 33,
+            "line": 34,
             "name": "MinimalAppointmentShapeForDuration"
           }
         ]
@@ -4396,7 +4397,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/partFinalizer.ts",
-            "line": 40,
+            "line": 41,
             "name": "PartFinals"
           }
         ]
@@ -4701,7 +4702,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 8,
+            "line": 9,
             "name": "AllUserTypeBlockIds"
           }
         ]
@@ -4711,7 +4712,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 32,
+            "line": 33,
             "name": "EventShapeByRole"
           }
         ]
@@ -4721,7 +4722,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 43,
+            "line": 44,
             "name": "MajorEventShape"
           }
         ]
@@ -4731,7 +4732,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 60,
+            "line": 61,
             "name": "MinorEventShape"
           }
         ]
@@ -4893,6 +4894,26 @@
             "file": "server/src/config/googleOAuth.ts",
             "line": 69,
             "name": "Credentials"
+          }
+        ]
+      },
+      "getAvailabilitySettingsData": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/repositories/availabilitySettingsRepository.ts",
+            "line": 49,
+            "name": "AvailabilitySettingsData"
+          }
+        ]
+      },
+      "getWizardSettingsData": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/repositories/wizardSettingsRepository.ts",
+            "line": 14,
+            "name": "WizardSettingsData"
           }
         ]
       },
@@ -5096,16 +5117,6 @@
           }
         ]
       },
-      "getSettingWithDefault": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
-            "line": 25,
-            "name": "SettingWithDefault"
-          }
-        ]
-      },
       "getPropertyDetailsFromVersion": {
         "prefix": "get",
         "locations": [
@@ -5291,7 +5302,7 @@
         "locations": [
           {
             "file": "server/src/services/computedAvailabilityService.ts",
-            "line": 516,
+            "line": 575,
             "name": "ForceCreateSlotContext"
           }
         ]
@@ -5542,7 +5553,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/useInstancesTab.ts",
-        "line": 163,
+        "line": 166,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
@@ -5689,7 +5700,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/types/entities.ts",
-        "line": 84,
+        "line": 87,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed' | 'tentative';"
       },
@@ -5703,16 +5714,9 @@
       {
         "type": "status-workflow",
         "file": "client/src/utils/booking/appointmentDataBuilders.ts",
-        "line": 150,
+        "line": 170,
         "pattern": "AppointmentStatus workflow",
         "code": "const status: AppointmentStatus = wizard.isQuoteMode ? 'quoted' : 'submitted'"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/db/models/admin/calendar_settings.ts",
-        "line": 14,
-        "pattern": "AppointmentStatus workflow",
-        "code": "/** When true, appointments created with status 'submitted' are auto-transitioned to 'confirmed'. */"
       },
       {
         "type": "status-workflow",

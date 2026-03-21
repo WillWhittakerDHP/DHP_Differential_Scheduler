@@ -45,7 +45,7 @@ export interface UseBookingWizardSetupReturn {
   isQuoteMode: ComputedRef<boolean>
   toggleQuoteMode: () => void
   wizardMode: Ref<import('@/types/wizard').WizardMode>
-  /** From availability settings (useWizardSettings); configured in Admin Wizard tab. */
+  /** From availability settings (useWizardSettings().flags); configured in Admin Wizard tab. */
   useDhpColors: ComputedRef<boolean>
   handleSubmit: ReturnType<typeof useWizardSubmission>['handleSubmit']
   isUpdateSubmit: ReturnType<typeof useWizardSubmission>['isUpdateSubmit']
@@ -174,7 +174,9 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
 
   const { getStepContent } = useWizardStepContent()
 
-  const { useDhpBrandColors } = useWizardSettings()
+  const {
+    flags: { useBrandColors: useDhpBrandColors },
+  } = useWizardSettings()
   useThemeMode({ wizard, useDhpColors: useDhpBrandColors })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)

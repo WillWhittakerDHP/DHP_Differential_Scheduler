@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T02:03:01.594Z",
+  "generatedAt": "2026-03-21T15:27:33.446Z",
   "clientEndpoints": 0,
   "serverEndpoints": 72,
   "endpointKeys": [
@@ -87,6 +87,10 @@
     {
       "name": "AdminEntryAppointmentItem",
       "file": "shared/types/appointmentTypes.ts"
+    },
+    {
+      "name": "AvailabilitySettingsData",
+      "file": "shared/types/availabilitySettingsDocument.ts"
     },
     {
       "name": "RFC3339DateTime",
@@ -205,6 +209,10 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "DriveTimeFeeConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "BusyTimeRange",
       "file": "shared/types/availabilityTypes.ts"
     },
@@ -257,6 +265,10 @@
       "file": "shared/types/businessRulesTypes.ts"
     },
     {
+      "name": "CalendarSettingsData",
+      "file": "shared/types/calendarSettingsDocument.ts"
+    },
+    {
       "name": "CalendarProvider",
       "file": "shared/types/calendarTypes.ts"
     },
@@ -291,6 +303,14 @@
     {
       "name": "CoreEntity",
       "file": "shared/types/coreEntityTypes.ts"
+    },
+    {
+      "name": "DifferentialRole",
+      "file": "shared/types/differentialRole.ts"
+    },
+    {
+      "name": "DifferentialRoleStorage",
+      "file": "shared/types/differentialRole.ts"
     },
     {
       "name": "IdentifiableById",
@@ -371,6 +391,14 @@
     {
       "name": "PropertyDetailsBase",
       "file": "shared/types/propertyTypes.ts"
+    },
+    {
+      "name": "TernaryBoolean",
+      "file": "shared/types/ternary.ts"
+    },
+    {
+      "name": "WizardSettingsData",
+      "file": "shared/types/wizardSettingsTypes.ts"
     }
   ],
   "score": 0,

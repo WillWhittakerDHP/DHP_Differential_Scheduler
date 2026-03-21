@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T02:05:54.353Z",
+  "generatedAt": "2026-03-21T15:27:31.915Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,19 +10,72 @@
       "cwd": "server"
     }
   },
-  "exitCode": 0,
+  "exitCode": 1,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 1,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "file": "src/composables/admin/useInstanceDragAndDrop.ts",
+      "line": 67,
+      "col": 37,
+      "code": "TS2345",
+      "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+      "raw": "src/composables/admin/useInstanceDragAndDrop.ts(67,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+      "scope": "client",
+      "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts"
+    }
+  ],
   "allowedErrors": [],
-  "pools": [],
-  "files": []
+  "pools": [
+    {
+      "poolId": "TS2345-ts2345-arg-string-globalentityid",
+      "groupKey": "TS2345::arg:string=>GlobalEntityId",
+      "errorCount": 1,
+      "fileCount": 1,
+      "severityScore": 10,
+      "blastRadiusScore": 2,
+      "repetitionScore": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "totalScore": 13,
+      "sample": [
+        {
+          "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts",
+          "line": 67,
+          "col": 37,
+          "code": "TS2345",
+          "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'."
+        }
+      ],
+      "priority": "P1"
+    }
+  ],
+  "files": [
+    {
+      "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts",
+      "errorCount": 1,
+      "unsafeCastHits": 0,
+      "suppressionHits": 0,
+      "errors": [
+        {
+          "file": "src/composables/admin/useInstanceDragAndDrop.ts",
+          "line": 67,
+          "col": 37,
+          "code": "TS2345",
+          "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+          "raw": "src/composables/admin/useInstanceDragAndDrop.ts(67,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+          "scope": "client",
+          "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts"
+        }
+      ]
+    }
+  ]
 }

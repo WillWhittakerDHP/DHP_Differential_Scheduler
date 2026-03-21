@@ -15,6 +15,16 @@ export const STATUS_BUTTON_LABELS: Record<
     false: 'Flat',
     override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS
   },
+  bookingMode: {
+    true: 'Add-On Only',
+    false: 'Standalone Only',
+    override: 'Standalone or Add-On'
+  },
+  agentPermissions: {
+    true: 'Agents Only',
+    false: 'Clients Only',
+    override: 'Admin Override'
+  },
   allowMultiple: { true: 'Allow Multiple', false: 'Single' },
   requiresUnitNumber: { true: 'Unit Number', false: 'No Unit Number' },
   composable: { true: 'Composable', false: 'Fixed' },

@@ -1,6 +1,7 @@
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   BOOKING_MODE: 'bookingMode',
+  AGENT_PERMISSIONS: 'agentPermissions',
   ID: 'id',
   ENTITY_KEY: 'entityKey',
   CREATED_AT: 'createdAt',
@@ -13,7 +14,10 @@ export const TEMPORARY_ID_PATTERNS = {
 } as const
 
 export const DEFAULT_VALUES = {
+  /** Domain default for BookingBlockInstance / wizard. */
   BOOKING_MODE: 'standalone' as const,
+  /** API/storage default for blockInstance.bookingMode (ternary_boolean). */
+  DEFAULT_TERNARY_BOOKING_MODE: 'false' as const,
 } as const
 
 /** Status labels for entity active/inactive (display and form defaults). */

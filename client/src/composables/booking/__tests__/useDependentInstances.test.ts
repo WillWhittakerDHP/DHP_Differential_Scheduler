@@ -63,7 +63,9 @@ function createBlockInstance(
     icon: options.icon || 'icon-test',
     active: true,
     bookingMode: options.bookingMode ?? 'standalone',
-    differential: false,
+    agentPermissions: 'false',
+    differential: 'false',
+    preClosing: false,
     orderIndex: options.orderIndex ?? 0,
     blockShape: 'Test Shape',
     blockShapeRef: 'shape-1',
@@ -71,6 +73,8 @@ function createBlockInstance(
     partInstances: [],
     allowMultiple: false,
     requiresUnitNumber: null,
+    isMultiFamily: false,
+    requiresAgent: false,
   }
 }
 
@@ -212,7 +216,7 @@ describe('useDependentInstances', () => {
             name: 'Dependent Instance 1',
             orderIndex: 0,
             active: true,
-            bookingMode: 'addOn',
+            bookingMode: 'true',
             description: 'Child description',
             icon: 'child-icon',
           }
@@ -243,9 +247,9 @@ describe('useDependentInstances', () => {
       
       mockGetGlobalEntityById.mockImplementation((entityKey: string, id: string) => {
         const entities: Record<string, object> = {
-          'child-1': { id: 'child-1', name: 'Third', orderIndex: 2 },
-          'child-2': { id: 'child-2', name: 'First', orderIndex: 0 },
-          'child-3': { id: 'child-3', name: 'Second', orderIndex: 1 },
+          'child-1': { id: 'child-1', name: 'Third', orderIndex: 2, bookingMode: 'true', blockShapeRef: 'shape-1' },
+          'child-2': { id: 'child-2', name: 'First', orderIndex: 0, bookingMode: 'true', blockShapeRef: 'shape-1' },
+          'child-3': { id: 'child-3', name: 'Second', orderIndex: 1, bookingMode: 'true', blockShapeRef: 'shape-1' },
         }
         return entities[id] || null
       })
@@ -274,7 +278,7 @@ describe('useDependentInstances', () => {
       
       mockGetGlobalEntityById.mockImplementation((entityKey: string, id: string) => {
         if (id === 'child-1') {
-          return { id: 'child-1', name: 'Found Child', orderIndex: 0 }
+          return { id: 'child-1', name: 'Found Child', orderIndex: 0, bookingMode: 'true', blockShapeRef: 'shape-1' }
         }
         return null // missing-child not found
       })
@@ -303,6 +307,8 @@ describe('useDependentInstances', () => {
         id: 'child-1',
         name: 'Child',
         orderIndex: null, // null orderIndex
+        bookingMode: 'true',
+        blockShapeRef: 'shape-1',
       })
       
       const { dependentInstances } = useDependentInstances({
@@ -341,6 +347,8 @@ describe('useDependentInstances', () => {
         id: 'child-1',
         name: 'Child',
         orderIndex: 0,
+        bookingMode: 'true',
+        blockShapeRef: 'shape-1',
       })
       
       const { hasDependentInstances } = useDependentInstances({
@@ -365,7 +373,7 @@ describe('useDependentInstances', () => {
       })
       
       mockGetGlobalEntityById.mockImplementation((entityKey: string, id: string) => {
-        return { id, name: `Entity ${id}`, orderIndex: 0 }
+        return { id, name: `Entity ${id}`, orderIndex: 0, bookingMode: 'true', blockShapeRef: 'shape-1' }
       })
       
       const { dependentInstanceIds, dependentInstances } = useDependentInstances({
@@ -404,6 +412,8 @@ describe('useDependentInstances', () => {
         id: 'child-1',
         name: 'Child',
         orderIndex: 0,
+        bookingMode: 'true',
+        blockShapeRef: 'shape-1',
       })
       
       const { dependentInstanceIds } = useDependentInstances({

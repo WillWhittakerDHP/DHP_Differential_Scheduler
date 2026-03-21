@@ -76,7 +76,7 @@ function createDriveTimeComputed<TValue>(
   })
 }
 
-export function useBufferSettings(params: UseBufferSettingsParams): {
+export interface UseBufferSettingsReturn {
   buffersAppointmentMinutes: WritableComputedRef<number>
   buffersAppointmentPlacement: WritableComputedRef<'off' | 'before' | 'after' | 'both'>
   buffersAppointmentEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
@@ -88,7 +88,9 @@ export function useBufferSettings(params: UseBufferSettingsParams): {
   buffersDriveFromCandidateApplyTo: WritableComputedRef<DriveTimeApplyTo>
   rangeConstraintsLeadTimeMinutes: WritableComputedRef<number>
   overlapSourcesOutOfOfficeEnforcement: WritableComputedRef<ConstraintEnforcement>
-} {
+}
+
+export function useBufferSettings(params: UseBufferSettingsParams): UseBufferSettingsReturn {
   const { formData } = params
 
   const ensureBuffers = (current: Buffers | undefined): Buffers => asEmptyObject(current)

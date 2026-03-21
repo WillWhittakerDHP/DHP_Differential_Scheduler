@@ -29,6 +29,18 @@
 
 ---
 
+## Architecture
+
+Feature 6 spans the Vue client (booking wizard, admin business controls), the Node server (appointments, availability, fees), and shared TypeScript types. The booking wizard is the primary UX surface; wizard **mode** (`new` | `quote` | `reschedule`) and (after Feature 7) **user role** drive theming, submit actions, and gated admin tools. Fee and time logic live in client composables and `client/src/utils/booking/` with API-backed settings. Vertical slices are tracked per **phase** under `.project-manager/features/appointment-workflow/phases/` with sessions and tasks beneath them.
+
+---
+
+## Implementation Plan
+
+Deliver phases incrementally using the tier workflow: `/phase-start` / `/session-start` / `/task-start` for branches and planning artifacts; phase guides list sessions and success criteria. Completed work (e.g. 6.1–6.3) stays documented in guides and logs; in-flight phases (6.4+) follow session breakdowns in each `phase-6.x-guide.md`. Auth-dependent phases (6.7, 6.8) unblock when Feature 7 is available. Keep PROJECT_PLAN and handoff sections updated at session end.
+
+---
+
 ## Wizard mode and user context
 
 **Wizard mode** — A single state (`initial` | `quote` | `reschedule`) that drives theme, submit button label, submit action (create vs update), and reschedule-specific behavior (e.g. `reschedulingAppointmentId`, original-slot UI). Replaces or extends the current single `isQuoteMode` boolean so that “Send quote,” “Update appointment,” and “Submit” (new booking) are driven from one place. Reschedule flow sets mode to `reschedule` when loading an appointment for reschedule; submit shows “Update appointment” and calls the update path.
@@ -61,7 +73,10 @@
 | 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time → confirm moveable details (optional); responsive expandable panels on narrow screens. Sessions 6.9.1 (sub-step model & wide layout, optional 5th in model + placeholder), 6.9.2 (narrow expandable cards & state), 6.9.3 (a11y & focus), 6.9.4 (moveable content in 5th, remove modal, deprecate). |
 | 6.10 | Fee Preview & Coupon Visibility | Not Started | Add new block shapes button on admin Shapes tab (6.10.1); fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (Shapes tab button), 6.10.2 (admin toggle + settings), 6.10.3 (availability-step fee bar + popover). |
-| 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
+| 6.11 | Drive Time Fee Line Item | In Progress | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
+| 6.12 | Annotation Content Layer and Entity Enhancements | Not Started | Event shape link toggles; annotation_instance_content; UI slots registry; wizard pipeline for selection cards and grid overlay. Sessions 6.12.1–6.12.2. |
+| 6.13 | Wizard Theme Tokens & Brand Palettes | Not Started | OKLCH/HSL-derived palettes; quote/reschedule/brand alignment; single pipeline for theme.ts, useThemeMode, BookingWizard.scss. To be sessioned from phase guide. |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | Not Started | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Session 6.14.1. |
 
 ---
 
@@ -181,6 +196,33 @@
 - Confirmation step and availability-step fee popover show Drive time row when applicable
 - Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
 **See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
+
+- [ ] ### Phase 6.12: Annotation Content Layer and Entity Enhancements
+**Description:** Entity enhancements (event shape reschedule/cancel link toggles; block shapes tab expansion fix); annotation data layer (`annotation_instance_content`, deprecate WithMetadata); annotation shape delete 409 handling; annotation UI slots registry and wizard pipeline (SelectionCard, grid overlay). See phase guide for session 6.12.1 and 6.12.2 breakdown.
+**Sessions:** 2 (6.12.1, 6.12.2)
+**Success Criteria:**
+- As defined in `phases/phase-6.12-guide.md` (event toggles, content table, UI slots, wizard wiring, lint/app start)
+**See:** `phases/phase-6.12-guide.md`
+
+- [ ] ### Phase 6.13: Wizard Theme Tokens & Brand Palettes
+**Description:** Perceptual color pipeline (OKLCH or HSL) so primary, secondary, warning, darken-1, on-*, inactive, and optional tertiary/semantic roles share consistent chroma and lightness; distinct quote/reschedule variants when admin **Brand colors** (DHP) is on; unify duplicated hex across `theme.ts`, `useThemeMode`, and `BookingWizard.scss`. Full analysis in `phases/phase-6.13-planning.md`.
+**Sessions:** TBD — set in `phases/phase-6.13-guide.md` after scoping.
+**Success Criteria:**
+- Single source generates wizard/Vuetify CSS variables for brand and non-brand paths
+- Quote and reschedule remain visually coherent with brand toggle on
+- No regressions to admin `useBrandColors` toggle or wizard modes
+- Lint and app start pass
+**See:** `phases/phase-6.13-guide.md`, `phases/phase-6.13-planning.md`
+
+- [ ] ### Phase 6.14: Organization Defaults & Resolved Numeric Policy
+**Description:** Organization-level defaults model (canonical defaults object + optional overrides, merge at read time) for admin numeric policy scattered across Business Controls. Covers time grid & rounding, drive-time billing, holds & admin entry timeout, and optional constraint baselines.
+**Sessions:** 6.14.1 (see `sessions/session-6.14.1-planning.md`)
+**Success Criteria:**
+- Shared `OrganizationDefaults` (or equivalent) types and JSON-serializable shape
+- Resolver used (or wired with documented follow-up) for minuteIncrement, duration rounding, driveTimeFee where booking reads them
+- Admin surface for org defaults; persistence strategy documented; tests for merge edge cases
+- Lint/app start pass; no silent misconfiguration fallbacks per project standards
+**See:** `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`
 
 ---
 

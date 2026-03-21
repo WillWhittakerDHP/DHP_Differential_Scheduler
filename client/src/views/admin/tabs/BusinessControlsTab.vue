@@ -73,10 +73,15 @@ const loading = computed(() => availability.loading.value || calendar.loading.va
 const error = computed(() => availability.error.value ?? calendar.error.value ?? wizard.error.value)
 const success = computed(() => availability.success.value ?? calendar.success.value ?? wizard.success.value)
 
-function handleSave(): void {
-  if (currentMainTab.value === 'constraints') void availability.saveSettings()
-  else if (currentMainTab.value === 'calendar') void calendar.saveSettings()
-  else if (currentMainTab.value === 'wizard') void wizard.saveSettings()
+async function handleSave(): Promise<void> {
+  if (currentMainTab.value === 'constraints') {
+    await availability.saveSettings()
+  } else if (currentMainTab.value === 'calendar') {
+    await calendar.saveSettings()
+    await availability.saveSettings()
+  } else if (currentMainTab.value === 'wizard') {
+    await wizard.saveSettings()
+  }
 }
 
 function clearAllErrors(): void {
@@ -101,6 +106,7 @@ const differential = useDifferentialPerspectives({
 
 const businessControlsState = reactive({
   formState,
+  availabilityFormData: availability.formData,
   wizardSettings,
   capacity,
   buffers,

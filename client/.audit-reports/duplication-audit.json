@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T02:03:02.268Z",
+  "generatedAt": "2026-03-21T15:27:32.509Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 743,
+  "fileCount": 762,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -390,10 +390,11 @@
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
           "server/src/config/googleOAuth.ts",
+          "server/src/repositories/availabilitySettingsRepository.ts",
           "server/src/repositories/calendarSettingsRepository.ts",
+          "server/src/repositories/wizardSettingsRepository.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
@@ -414,7 +415,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 133
+        "patternCount": 134
       },
       {
         "prefix": "update",
@@ -464,39 +465,6 @@
   },
   "duplicateComposableExports": [],
   "groups": [
-    {
-      "groupId": "dup-23e58d4b1c3c",
-      "hash": "23e58d4b1c3c",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/business_settings.ts",
-          "startLine": 102,
-          "endLine": 122,
-          "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-          "target": "server/src/db/models/admin/business_settings.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 38,
-          "endLine": 58,
-          "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-          "target": "server/src/db/models/admin/calendar_settings.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 48,
-          "endLine": 68,
-          "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-          "target": "server/src/db/models/admin/wizard_settings.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
     {
       "groupId": "dup-07637ee7e645",
       "hash": "07637ee7e645",
@@ -732,6 +700,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-2d892e16dfba",
+      "hash": "2d892e16dfba",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 40,
+          "endLine": 53,
+          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 413,
+          "endLine": 426,
+          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-2f98b2b8a160",
       "hash": "2f98b2b8a160",
       "uniqueFiles": 2,
@@ -778,6 +772,32 @@
           "endLine": 105,
           "windowText": "isSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-30a4f4a1cf3e",
+      "hash": "30a4f4a1cf3e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 35,
+          "endLine": 46,
+          "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 408,
+          "endLine": 419,
+          "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1070,6 +1090,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-555429af8150",
+      "hash": "555429af8150",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 37,
+          "endLine": 48,
+          "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 410,
+          "endLine": 421,
+          "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-58c3f9ebb247",
       "hash": "58c3f9ebb247",
       "uniqueFiles": 2,
@@ -1148,32 +1194,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-84bc927b7e6d",
-      "hash": "84bc927b7e6d",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 33,
-          "endLine": 57,
-          "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
-          "target": "server/src/db/models/admin/calendar_settings.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 43,
-          "endLine": 67,
-          "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
-          "target": "server/src/db/models/admin/wizard_settings.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-851efbc758f3",
       "hash": "851efbc758f3",
       "uniqueFiles": 2,
@@ -1246,6 +1266,32 @@
           "endLine": 46,
           "windowText": "Symbol('confirmationStepData')\nexport const propertyDetailsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('propertyDetailsStepValid')\nexport const propertyDetailsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =\nSymbol('propertyDetailsStepValidate')\nexport const propertyDetailsFieldErrorsKey: InjectionKey<Ref<Record<string, string>>> =\nSymbol('propertyDetailsFieldErrors')\nexport const contactsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('contactsStepValid')\nexport const contactsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-8ba260796e5f",
+      "hash": "8ba260796e5f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 34,
+          "endLine": 45,
+          "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 407,
+          "endLine": 418,
+          "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1356,32 +1402,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-a6d29c1ae79d",
-      "hash": "a6d29c1ae79d",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 32,
-          "endLine": 52,
-          "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
-          "target": "server/src/db/models/admin/calendar_settings.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 42,
-          "endLine": 62,
-          "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
-          "target": "server/src/db/models/admin/wizard_settings.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-aced634baeb9",
       "hash": "aced634baeb9",
       "uniqueFiles": 2,
@@ -1454,6 +1474,32 @@
           "endLine": 67,
           "windowText": "Symbol('confirmationStepValidate')\nexport const displayedMonthKey: InjectionKey<Ref<DisplayedMonth>> =\nSymbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b89d74fde0fc",
+      "hash": "b89d74fde0fc",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 36,
+          "endLine": 47,
+          "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 409,
+          "endLine": 420,
+          "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1610,6 +1656,32 @@
           "endLine": 63,
           "windowText": "export const confirmationStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('confirmationStepValid')\nexport const confirmationStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =\nSymbol('confirmationStepValidate')\nexport const displayedMonthKey: InjectionKey<Ref<DisplayedMonth>> =\nSymbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-f1bd893174b7",
+      "hash": "f1bd893174b7",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 41,
+          "endLine": 54,
+          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 414,
+          "endLine": 427,
+          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,

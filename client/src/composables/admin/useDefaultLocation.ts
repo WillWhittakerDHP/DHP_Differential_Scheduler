@@ -5,12 +5,14 @@ import { asEmptyString } from '@/utils/safeDefaults'
 
 export type { UseDefaultLocationParams }
 
-export function useDefaultLocation(params: UseDefaultLocationParams): {
+export interface UseDefaultLocationReturn {
   defaultLocationAddress: WritableComputedRef<string>
   defaultLocationLabel: WritableComputedRef<string>
   defaultLocationCoordinates: WritableComputedRef<Coordinates | undefined>
   defaultLocationPlaceId: WritableComputedRef<string>
-} {
+}
+
+export function useDefaultLocation(params: UseDefaultLocationParams): UseDefaultLocationReturn {
   const { formData } = params
 
   const defaultLocationAddress = computed({

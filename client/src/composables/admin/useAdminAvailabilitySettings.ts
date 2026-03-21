@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import { DEFAULT_DRIVE_TIME_FEE_CONFIG } from '@/utils/booking/computeDriveTimeFee'
 import {
   getAvailabilitySettings,
   invalidateAvailabilitySettingsCache,
@@ -51,6 +52,9 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
           increment: settings.minuteIncrement || 15,
           method: 'roundUp' as const,
         }
+      }
+      if (!settings.driveTimeFee) {
+        settings.driveTimeFee = { ...DEFAULT_DRIVE_TIME_FEE_CONFIG }
       }
       formData.value = settings
     } catch (err: unknown) {

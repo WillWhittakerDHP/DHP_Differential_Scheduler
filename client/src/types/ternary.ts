@@ -1,1 +1,1 @@
-export type TernaryBoolean = 'true' | 'false' | 'override'
+export type { TernaryBoolean } from '@shared/types/ternary'

@@ -141,7 +141,7 @@ export function useShapesTab(): UseShapesTabReturn {
     active: true,
     isTernary: false,
     ternaryDefault: null,
-    differentialRole: null,
+    differentialRole: 'none',
   }))
 
   return {

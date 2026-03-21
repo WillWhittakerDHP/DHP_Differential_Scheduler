@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-16T02:03:02.145Z",
+  "generatedAt": "2026-03-21T15:27:33.326Z",
   "check": "Deprecation",
-  "totalScanned": 1150,
+  "totalScanned": 1167,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 5,
+    "totalRequiresReview": 12,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -27,13 +27,105 @@
   },
   "files": [
     {
+      "id": "server__src__repositories__availabilityRelationalCodec.ts",
+      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 143,
+          "line": "const list = hoursByRc.get(h.rangeConstraintId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 150,
+          "line": "const hrs = hoursByRc.get(rc.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 202,
+          "line": "placeId: root.defaultLocationPlaceId ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 143,
+          "line": "const list = hoursByRc.get(h.rangeConstraintId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 150,
+          "line": "const hrs = hoursByRc.get(rc.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 202,
+          "line": "placeId: root.defaultLocationPlaceId ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "client__src__composables__admin__useInstanceDragAndDrop.ts",
+      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 61,
+          "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 68,
+          "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 61,
+          "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 68,
+          "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
       "id": "client__src__components__booking__steps__AvailabilityStep.vue",
       "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 174,
+          "lineNumber": 178,
           "line": "return o.emptyStateMessage.value ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -42,7 +134,7 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 174,
+          "lineNumber": 178,
           "line": "return o.emptyStateMessage.value ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -119,6 +211,112 @@
           "ruleId": "unhelpful-default-nullish",
           "lineNumber": 17,
           "line": "return import.meta.env?.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__booking__partFinalizer.ts",
+      "repoPath": "client/src/utils/booking/partFinalizer.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 202,
+          "line": "const events = assignments[partShapeName] ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 202,
+          "line": "const events = assignments[partShapeName] ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__repositories__calendarSettingsRepository.ts",
+      "repoPath": "server/src/repositories/calendarSettingsRepository.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 36,
+          "line": "const entries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 71,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 72,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 86,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 87,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 36,
+          "line": "const entries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 71,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 72,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 86,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 87,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
