@@ -13,7 +13,7 @@
 **Description:** Add a new fee line item **"Drive time"** driven by admin-configurable settings. Admin defines: (1) **Complimentary drive time (minutes)** — drive under this threshold is free; (2) **Driving rate per hour ($)** — used for billable drive; (3) **Rounding (minutes)** — round billable drive to the nearest N minutes. The fee pipeline accepts optional drive context (total drive to + from for the selected slot), computes the drive time fee, appends the line item to the fee breakdown, and includes it in the order total. When the appointment fee breakdown is persisted, drive time is stored as a fee entry that references a **virtual (system) block instance** so the existing schema (every entry has a `block_instance_id`) is preserved.
 
 **Duration:** 1 session (6.11.1)  
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
