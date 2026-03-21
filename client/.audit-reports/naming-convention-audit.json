@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:36:57.457Z",
+  "generatedAt": "2026-03-21T19:00:47.730Z",
   "totalScanned": 1150,
-=======
-  "generatedAt": "2026-03-21T17:35:24.563Z",
-  "totalScanned": 1149,
->>>>>>> session-8.2.1
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {

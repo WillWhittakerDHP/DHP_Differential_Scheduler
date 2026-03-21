@@ -12,22 +12,19 @@ Exception handling:
 
 ## Summary
 
-<<<<<<< HEAD
-- Generated at: **2026-03-21T18:36:51.499Z**
-=======
-- Generated at: **2026-03-21T17:35:01.580Z**
->>>>>>> session-8.2.1
+- Generated at: **2026-03-21T19:01:56.676Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 12**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS1185-ts1185-merge-conflict-marker-encountered` | 88 | 12 | 2 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -38,3 +35,29 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `server/src/middlewares/rateLimit.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS1185@14:1 Merge conflict marker encountered.
+TS1185@16:1 Merge conflict marker encountered.
+TS1185@17:1 Merge conflict marker encountered.
+TS1185@27:1 Merge conflict marker encountered.
+TS1185@37:1 Merge conflict marker encountered.
+TS1185@38:1 Merge conflict marker encountered.
+```
+
+### `server/src/routes/index.ts`
+
+- errors: 6, unsafeCasts: 0, suppressions: 0
+
+```
+TS1185@2:1 Merge conflict marker encountered.
+TS1185@5:1 Merge conflict marker encountered.
+TS1185@7:1 Merge conflict marker encountered.
+TS1185@14:1 Merge conflict marker encountered.
+TS1185@16:1 Merge conflict marker encountered.
+TS1185@17:1 Merge conflict marker encountered.
+```

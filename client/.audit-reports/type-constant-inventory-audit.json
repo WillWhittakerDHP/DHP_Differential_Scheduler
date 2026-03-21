@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:41:37.763Z",
-=======
-  "generatedAt": "2026-03-21T17:53:30.676Z",
->>>>>>> session-8.2.1
+  "generatedAt": "2026-03-21T19:00:39.264Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
