@@ -1,18 +1,33 @@
 {
-  "generatedAt": "2026-03-21T19:07:05.199Z",
-  "totalScanned": 1192,
+  "generatedAt": "2026-03-21T19:22:31.959Z",
+  "totalScanned": 1193,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
+    "totalAllowed": 1,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 0,
+      "pattern": 1,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": []
+  "scanned": [
+    {
+      "repoPath": "server/src/db/models/booking/annotation_shape.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 38,
+          "line": "export function AnnotationShapeFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    }
+  ]
 }
