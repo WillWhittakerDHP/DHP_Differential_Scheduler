@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-16T01:07:07.854Z
+Generated at: 2026-03-21T15:34:00.474Z
 
 ## Summary
 
-- Total allowed: **0**
+- Total allowed: **1**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,4 +20,6 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-- (no exceptions configured)
+| File | Rule | Line | Source | Reason |
+| --- | --- | ---: | --- | --- |
+| `client/src/composables/admin/useInstanceDragAndDrop.ts` | composableExport | 28 | pattern | Composables may export camelCase helpers used by other co... |

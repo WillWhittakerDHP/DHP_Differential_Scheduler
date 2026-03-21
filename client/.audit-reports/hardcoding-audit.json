@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T01:07:06.794Z",
+  "generatedAt": "2026-03-21T15:33:59.887Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 0,
+  "totalScanned": 2,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -57,5 +57,100 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": []
+  "files": [
+    {
+      "id": "client__src__composables__admin__useInstanceDragAndDrop.ts",
+      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 3,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 5
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 0,
+        "inlineLabelMap": 3,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 77,
+          "line": "logger.error('Failed to patch order index after grouped-zone drag', { error: _error, blockShapeId })"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})"
+        },
+        {
+          "ruleId": "magicLabel",
+          "lineNumber": 314,
+          "line": "logger.debug('Failed to initialize drag and drop for group', { error, dragKey })"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-panels-null',location:'useInstanceDragAndDrop.ts:tryBind',message:'panelsEl missing teardown',data:{dragKey},timestamp:Date.now()})}).catch(()=>{})",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'dual-zone',hypothesisId:'H-count-mismatch',location:'useInstanceDragAndDrop.ts:tryBind',message:'draggable count vs ids',data:{dragKey,enabledNodesCount,idsLen:instanceIdsArray.length},timestamp:Date.now()})}).catch(()=>{})",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "inlineLabelMap",
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0be11e'},body:JSON.stringify({sessionId:'0be11e',runId:'post-stale',hypothesisId:'H-ok',location:'useInstanceDragAndDrop.ts:tryBind',message:'drag bound',data:{dragKey,idsLen:instanceIdsArray.length,enabledNodesCount},timestamp:Date.now()})}).catch(()=>{})",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P2",
+      "suggestions": []
+    }
+  ]
 }

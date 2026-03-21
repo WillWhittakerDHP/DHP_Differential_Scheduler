@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T01:07:07.314Z",
+  "generatedAt": "2026-03-21T15:34:00.193Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,12 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1147,
+  "totalScanned": 1164,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,7 +26,35 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "client__src__composables__admin__useInstanceDragAndDrop.ts",
+      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "silent-catch-promise",
+          "lineNumber": 260,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'applic...",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "silent-catch-promise",
+          "lineNumber": 283,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'applic...",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "silent-catch-promise",
+          "lineNumber": 311,
+          "line": "fetch('http://127.0.0.1:7243/ingest/5ff73cac-8a24-4887-b0ff-95e393d137d4',{method:'POST',headers:{'Content-Type':'applic...",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 30,
+      "priority": "P0"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "empty-catch",
