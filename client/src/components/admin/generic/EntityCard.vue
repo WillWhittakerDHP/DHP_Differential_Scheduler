@@ -16,7 +16,7 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
@@ -27,6 +27,7 @@ import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useE
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
+import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
@@ -46,13 +47,16 @@ interface Props<GE extends GlobalEntityKey> {
   isNew?: boolean
   disableAutoSave?: boolean
   fieldMetadata?: Record<string, FieldMetadataEntry>
+  /** Set when this card is a child inside RelationshipCollection; true if parent block shape is state control (user type). */
+  parentBlockShapeIsStateControl?: boolean
 }
 
 const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   expanded: true,
   isNew: false,
   disableAutoSave: false,
-  useExpansionPanel: true
+  useExpansionPanel: true,
+  parentBlockShapeIsStateControl: false,
 })
 
 interface Emits {
@@ -110,10 +114,34 @@ const formForTemplate = computed(() => form.value!)
 
 // WHY: Reduces component complexity by moving metadata logic to composable
 // PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
-const { composedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
+const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   entityKey: props.entityKey,
   entity: props.entity,
   filteredMetadata: props.fieldMetadata
+})
+
+/**
+ * WHY: Per-user annotation editor syncs `text` + `contentRows`; hide primitive `text` via metadata (field location dispatcher), not a parallel filter composable.
+ */
+const composedFieldMetadata = computed(() => {
+  const base = baseComposedFieldMetadata.value
+  if (props.entityKey !== 'annotationInstance') {
+    return base
+  }
+  if (props.parentBlockShapeIsStateControl) {
+    return base
+  }
+  if (listSortedUserTypeBlockInstances(admin).length === 0) {
+    return base
+  }
+  const textEntry = base.text
+  if (!textEntry) {
+    return base
+  }
+  return {
+    ...base,
+    text: { ...textEntry, visibility: FIELD_VISIBILITY.HIDDEN },
+  }
 })
 
 const {
@@ -299,6 +327,7 @@ defineExpose({
           :fields-missing-contexts="fieldsMissingContexts"
           :is-form-ready="isFormReady"
           :is-new="props.isNew"
+          :parent-block-shape-is-state-control="props.parentBlockShapeIsStateControl"
           :handle-save="handleSave"
           :handle-undo="handleUndo"
           :handle-duplicate="handleDuplicate"
@@ -411,6 +440,7 @@ defineExpose({
       :fields-missing-contexts="fieldsMissingContexts"
       :is-form-ready="isFormReady"
       :is-new="props.isNew"
+      :parent-block-shape-is-state-control="props.parentBlockShapeIsStateControl"
       :handle-save="handleSave"
       :handle-undo="handleUndo"
       :handle-duplicate="handleDuplicate"

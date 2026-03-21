@@ -18,7 +18,11 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance, AnnotationInstanceContent } from '../../../config/app.js'
 import { resolveAnnotationTextForAssignment } from '../../../services/annotations/annotationTextResolution.js'
 import type { AnnotationWithContentPlain } from '../../../services/annotations/annotationTextResolution.js'
-import { syncAnnotationInstanceContentFromLegacyColumns } from '../../../services/annotations/annotationInstanceContentSync.js'
+import {
+  syncAnnotationInstanceContentFromLegacyColumns,
+  syncAnnotationInstanceContentRows,
+  type AnnotationContentRowInput,
+} from '../../../services/annotations/annotationInstanceContentSync.js'
 import { countAnnotationInstancesForShape } from '../../../services/annotations/countAnnotationInstancesForShape.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -30,6 +34,35 @@ import { csrfProtection, checkOwnership } from '../../../middlewares/security.js
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const logger = createLogger('EntityRouter')
+
+function pullAnnotationContentRowsFromBody(body: Record<string, unknown>): {
+  rows: AnnotationContentRowInput[] | undefined
+  rest: Record<string, unknown>
+} {
+  const rest = { ...body }
+  const raw = rest.contentRows
+  delete rest.contentRows
+  if (raw === undefined) {
+    return { rows: undefined, rest }
+  }
+  if (!Array.isArray(raw)) {
+    return { rows: undefined, rest }
+  }
+  const rows: AnnotationContentRowInput[] = []
+  for (const item of raw) {
+    if (item === null || typeof item !== 'object') continue
+    const o = item as Record<string, unknown>
+    const idRaw = o.userTypeBlockInstanceId
+    const userTypeBlockInstanceId =
+      idRaw === null || idRaw === undefined || idRaw === '' ? null : String(idRaw)
+    const textVal = o.text
+    rows.push({
+      userTypeBlockInstanceId,
+      text: typeof textVal === 'string' ? textVal : '',
+    })
+  }
+  return { rows, rest }
+}
 
 function applyAnnotationShapeUiSlotNormalization(
   res: Response,
@@ -90,7 +123,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
       const formatted = (data as InstanceType<typeof AnnotationInstance>[]).map((row) => {
         const plain = row.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
         plain.text = resolveAnnotationTextForAssignment(plain, null)
-        delete plain.contentRows
         return plain
       })
       sendSuccess(res, formatted)
@@ -134,7 +166,6 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
       }
       const plain = record.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
       plain.text = resolveAnnotationTextForAssignment(plain, null)
-      delete plain.contentRows
       sendSuccess(res, plain)
       return
     }
@@ -166,19 +197,32 @@ router.post(
     }
     
     try {
+      const createEntityType = paramString(req, 'entityType')
+      let bodyForCreate: Record<string, unknown> = { ...(req.body as Record<string, unknown>) }
+      let annotationCreateContentRows: AnnotationContentRowInput[] | undefined
+      if (createEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        const pulled = pullAnnotationContentRowsFromBody(bodyForCreate)
+        annotationCreateContentRows = pulled.rows
+        bodyForCreate = pulled.rest
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
-      const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType')) as Record<
+      const sanitizedData = sanitizeEntityDataForCreate(bodyForCreate, createEntityType) as Record<
         string,
         unknown
       >
-      if (!applyAnnotationShapeUiSlotNormalization(res, paramString(req, 'entityType'), sanitizedData)) {
+      if (!applyAnnotationShapeUiSlotNormalization(res, createEntityType, sanitizedData)) {
         return
       }
 
       const created = await createRecord(entityConfig.model, sanitizedData)
-      const createdEntityType = paramString(req, 'entityType')
-      if (createdEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
-        await syncAnnotationInstanceContentFromLegacyColumns(created as InstanceType<typeof AnnotationInstance>)
+      if (createEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        const createdInst = created as InstanceType<typeof AnnotationInstance>
+        if (annotationCreateContentRows !== undefined) {
+          await syncAnnotationInstanceContentRows(createdInst.id, annotationCreateContentRows)
+        } else {
+          await syncAnnotationInstanceContentFromLegacyColumns(createdInst)
+        }
       }
       sendCreated(res, created)
     } catch (error) {
@@ -203,17 +247,26 @@ router.put(
     const entityId = paramString(req, 'id')
     
     try {
+      const putEntityTypeEarly = paramString(req, 'entityType')
+      let bodyForPut: Record<string, unknown> = { ...(req.body as Record<string, unknown>) }
+      let annotationPutContentRows: AnnotationContentRowInput[] | undefined
+      if (putEntityTypeEarly === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        const pulled = pullAnnotationContentRowsFromBody(bodyForPut)
+        annotationPutContentRows = pulled.rows
+        bodyForPut = pulled.rest
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
-      const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType')) as Record<
+      const sanitizedData = sanitizeEntityDataForUpdate(bodyForPut, putEntityTypeEarly) as Record<
         string,
         unknown
       >
-      if (!applyAnnotationShapeUiSlotNormalization(res, paramString(req, 'entityType'), sanitizedData)) {
+      if (!applyAnnotationShapeUiSlotNormalization(res, putEntityTypeEarly, sanitizedData)) {
         return
       }
 
       // CRITICAL: For block instances, capture old state BEFORE update for versioning
-      if (paramString(req, 'entityType') === ENTITY_KEYS.BLOCK_INSTANCE || paramString(req, 'entityType') === 'blockInstance') {
+      if (putEntityTypeEarly === ENTITY_KEYS.BLOCK_INSTANCE || putEntityTypeEarly === 'blockInstance') {
         const oldInstance = await handleBlockInstanceVersioning(entityId, true)
         
         if (!oldInstance) {
@@ -232,18 +285,21 @@ router.put(
         return
       }
 
-      const putEntityType = paramString(req, 'entityType')
-      if (putEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
-        const inst = await AnnotationInstance.findByPk(entityId, {
-          attributes: getModelAttributes(AnnotationInstance),
-        })
-        if (inst) {
-          await syncAnnotationInstanceContentFromLegacyColumns(inst)
+      if (putEntityTypeEarly === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        if (annotationPutContentRows !== undefined) {
+          await syncAnnotationInstanceContentRows(entityId, annotationPutContentRows)
+        } else {
+          const inst = await AnnotationInstance.findByPk(entityId, {
+            attributes: getModelAttributes(AnnotationInstance),
+          })
+          if (inst) {
+            await syncAnnotationInstanceContentFromLegacyColumns(inst)
+          }
         }
       }
 
       // PATTERN: After successful update, find and disable old relationships
-      if (putEntityType === ENTITY_KEYS.PART_INSTANCE || putEntityType === 'partInstance') {
+      if (putEntityTypeEarly === ENTITY_KEYS.PART_INSTANCE || putEntityTypeEarly === 'partInstance') {
         await handlePartInstanceCleanup(entityId)
       }
 
@@ -289,11 +345,18 @@ router.patch(
       if (fieldKey && newValue !== undefined) {
         updateData = { [fieldKey]: newValue }
       } else {
-        updateData = req.body
+        updateData = { ...(req.body as Record<string, unknown>) }
+      }
+
+      const entityType = paramString(req, 'entityType')
+      let annotationPatchContentRows: AnnotationContentRowInput[] | undefined
+      if (entityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
+        const pulled = pullAnnotationContentRowsFromBody(updateData)
+        annotationPatchContentRows = pulled.rows
+        updateData = pulled.rest
       }
 
       // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
-      const entityType = paramString(req, 'entityType')
       if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {
         if (updateData.canHaveParts === true) {
           updateData = { ...updateData, isStateControl: false }
@@ -332,11 +395,15 @@ router.patch(
 
       const patchedEntityType = paramString(req, 'entityType')
       if (patchedEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
-        const inst = await AnnotationInstance.findByPk(entityId, {
-          attributes: getModelAttributes(AnnotationInstance),
-        })
-        if (inst) {
-          await syncAnnotationInstanceContentFromLegacyColumns(inst)
+        if (annotationPatchContentRows !== undefined) {
+          await syncAnnotationInstanceContentRows(entityId, annotationPatchContentRows)
+        } else {
+          const inst = await AnnotationInstance.findByPk(entityId, {
+            attributes: getModelAttributes(AnnotationInstance),
+          })
+          if (inst) {
+            await syncAnnotationInstanceContentFromLegacyColumns(inst)
+          }
         }
       }
 
