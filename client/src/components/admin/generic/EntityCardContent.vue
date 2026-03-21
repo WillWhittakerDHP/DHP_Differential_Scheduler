@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
+import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -24,6 +25,8 @@ interface Props extends EntityCardSharedProps {
   fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[]
   isFormReady: boolean
   isNew: boolean
+  /** True when parent RelationshipCollection is under a state-control block shape (hide per–user-type annotation UI). */
+  parentBlockShapeIsStateControl?: boolean
   handleSave: () => Promise<void>
   handleUndo: () => void
   handleDuplicate?: () => Promise<void>
@@ -100,6 +103,12 @@ defineProps<Props>()
       Field "{{ String(fieldKey) }}" is missing context
     </VAlert>
   </div>
+
+  <AnnotationContentEditor
+    v-if="entityKey === 'annotationInstance' && !parentBlockShapeIsStateControl"
+    :entity="entity"
+    :form="form"
+  />
 
   <EntityCardSubPanels
     :entity-key="entityKey"
