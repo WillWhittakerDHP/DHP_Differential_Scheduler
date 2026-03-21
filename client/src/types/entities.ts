@@ -94,7 +94,10 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   scheduledBy?: string | null;
 }
 
-export type AnnotationShapeEntity = GlobalEntityBase<"annotationShape">
+export interface AnnotationShapeEntity extends GlobalEntityBase<"annotationShape"> {
+  /** Wizard slot from ANNOTATION_UI_SLOT_REGISTRY, or null/omitted when unset. */
+  uiSlot?: string | null
+}
 
 export interface AnnotationInstanceEntity extends GlobalEntityBase<"annotationInstance"> {
   type: string; // Foreign key to AnnotationShape.id

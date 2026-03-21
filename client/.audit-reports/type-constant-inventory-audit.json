@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:37:06.301Z",
+  "generatedAt": "2026-03-21T19:02:16.211Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,15 +36,15 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 277,
+    "totalTypeFiles": 278,
     "totalConstantFiles": 25,
     "totalConfigFiles": 41,
-    "filesWithInlineTypes": 120,
+    "filesWithInlineTypes": 121,
     "annotated": 325,
-    "unannotated": 18,
+    "unannotated": 19,
     "classificationIssues": {
-      "mixedTypeConstantFiles": 14,
-      "inlineTypesInComposables": 90,
+      "mixedTypeConstantFiles": 15,
+      "inlineTypesInComposables": 91,
       "configsWithLogic": 11,
       "duplicateTypeNames": 7,
       "cleanupCandidates": 0,
@@ -7120,16 +7120,17 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
+        "AppointmentSelectedTimeSlotPayload",
         "AttendeeRequest",
         "AdminEntryAppointmentItem"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 30,
       "purpose": "Shared appointment data structure types",
       "reuseTier": "shared",
       "tags": [],
@@ -7580,6 +7581,37 @@
       "lineCount": 29,
       "purpose": "Shared property entity data types",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__selectInputConfig.ts",
+      "repoPath": "shared/types/selectInputConfig.ts",
+      "name": "selectInputConfig",
+      "directoryDomain": "selectInputConfig.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "SelectInputConfigPassthroughKey",
+        "SelectInputConfigPassthrough",
+        "SelectInputStaticOptionsCore",
+        "SelectInputRelationshipCore",
+        "SelectInputPrimitiveCore",
+        "SelectInputConfig",
+        "ParsedSelectInputConfig"
+      ],
+      "exportKinds": {
+        "types": 7,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": true,
+      "lineCount": 56,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -9323,6 +9355,16 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
+      "exportedTypes": [
+        "InstanceDragFormKitBinderDeps"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
       "exportedTypes": [
         "AppointmentsTableLookups"
@@ -10621,6 +10663,10 @@
         "reason": "In types/ but exports runtime values"
       },
       {
+        "repoPath": "shared/types/selectInputConfig.ts",
+        "reason": "In types/ but exports runtime values"
+      },
+      {
         "repoPath": "client/src/constants/apiStatus.ts",
         "reason": "In constants/configs and exports type definitions"
       },
@@ -10683,6 +10729,16 @@
           ],
           "primaryPurpose": "composable",
           "importedByCount": 2,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
+          "exportedTypes": [
+            "InstanceDragFormKitBinderDeps"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {

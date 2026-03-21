@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:11:42.782Z",
+  "generatedAt": "2026-03-21T19:07:04.161Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,7 +10,7 @@
       "cwd": "server"
     }
   },
-  "exitCode": 1,
+  "exitCode": 0,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
