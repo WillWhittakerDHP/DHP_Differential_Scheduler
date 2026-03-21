@@ -12,10 +12,10 @@ import {
   RANGE_CONSTRAINT_TYPES,
   TIME_BASIS_TYPES,
 } from '../../../shared/constants/constraintConstants.js'
-import type { 
+import type {
   AvailabilitySettingsData,
   RangeConstraint as DbRangeConstraint,
-} from '../db/models/admin/business_settings'
+} from '../../../shared/types/availabilitySettingsDocument.js'
 
 /**
  * Require enforcement to be defined

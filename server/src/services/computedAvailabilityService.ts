@@ -13,12 +13,11 @@ import type {
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange, attachDriveTimesToEvents } from './slotComputationService.js'
 import type { EventWithDrive } from './slotConstraintCheckers.js'
-import { AppointmentAttendee, ConstraintOverride, BusinessSettings } from '../config/app.js'
-import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
-import type { CalendarSettingsData } from '../db/models/admin/calendar_settings.js'
+import { AppointmentAttendee, ConstraintOverride } from '../config/app.js'
+import type { AvailabilitySettingsData } from '../../../shared/types/availabilitySettingsDocument.js'
+import type { CalendarSettingsData } from '../../../shared/types/calendarSettingsDocument.js'
 import { getCalendarSettings } from '../repositories/calendarSettingsRepository.js'
-import { AVAILABILITY_SETTINGS_KEY } from '../constants/appConstants.js'
-import { defaultAvailabilitySettings } from '../routes/internal/businessSettings/businessSettingsConstants.js'
+import { getAvailabilitySettingsData } from '../repositories/availabilitySettingsRepository.js'
 import {
   extractConstraints,
 } from './constraintExtractor.js'
@@ -212,10 +211,7 @@ async function calculateDriveTimesForPlaceIds(
 }
 
 async function fetchAvailabilitySettings(): Promise<AvailabilitySettingsData> {
-  const row = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-  })
-  return (row?.settingValue ?? defaultAvailabilitySettings) as AvailabilitySettingsData
+  return getAvailabilitySettingsData()
 }
 
 async function fetchAndDedupeCalendarEvents(

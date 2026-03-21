@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-03-22T03:09:11.553Z",
-  "totalScanned": 1169,
+  "generatedAt": "2026-03-21T13:53:03.168Z",
+  "totalScanned": 1153,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "totals": {
-    "totalScanned": 1169,
+    "totalScanned": 1153,
     "totalMarkers": 0,
     "fresh": 0,
     "aging": 0,
