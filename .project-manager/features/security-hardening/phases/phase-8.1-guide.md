@@ -37,6 +37,13 @@
 - .env.example: document CORS_ORIGIN
 - Manual verification: curl with disallowed origin returns CORS error
 
+- [ ] ### Session 8.1.2: CORS verification and .env.example polish
+**Description:** CORS verification and .env.example polish.
+**Tasks:** TBD
+**Focus:**
+- Verify CORS rejects disallowed origins in dev and production
+- Polish .env.example documentation for CORS_ORIGIN
+
 ---
 
 ## Dependencies
