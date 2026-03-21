@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.2.1: General rate limiter for internal API routes
+- [x] ### Session 8.2.1: General rate limiter for internal API routes
 **Description:** Install express-rate-limit, create general limiter (100 req/15 min per IP), mount on `/api/v1/internal/*`.
 **Tasks:** 2–3
 **Focus:**
