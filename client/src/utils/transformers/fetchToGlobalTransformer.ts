@@ -118,7 +118,8 @@ function transformApiRelationship(
     relationshipKey === 'eventAssignments' && raw.parentKind
       ? (raw.parentKind as GlobalEntityKey)
       : undefined
-  const userTypeBlockBlockInstanceId = raw.userTypeBlockBlockInstanceId
+  const userTypeBlockBlockInstanceId =
+    raw.userTypeBlockBlockInstanceId ?? raw.userTypeBlockInstanceId
 
   const idResolved = safeId(raw.id)
   if (idResolved === undefined) {

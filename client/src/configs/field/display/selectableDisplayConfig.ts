@@ -1,6 +1,12 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
-import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'
+import {
+  ENTITY_KEY_ANNOTATION_SHAPE,
+  ENTITY_KEY_BLOCK_INSTANCE,
+  ENTITY_KEY_BLOCK_SHAPE,
+  ENTITY_KEY_PART_INSTANCE,
+  ENTITY_KEY_PART_SHAPE,
+} from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
@@ -365,6 +371,41 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         sortBy: "name",
         sortDirection: "asc",
         
+        meta: {
+          visible: true
+        },
+      },
+
+      validAnnotations: {
+        targetMode: "relationship",
+        targetKey: "validAnnotations",
+        globalField: "validAnnotations",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        selectedChildKey: ENTITY_KEY_ANNOTATION_SHAPE,
+        selectedChildPath: ["validAnnotations"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        candidateParentPath: [],
+        candidateChildKey: ENTITY_KEY_ANNOTATION_SHAPE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.ValidAnnotationSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+
+        label: "Valid Annotation Shapes",
+        placeholder: "No annotation shapes selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "badges",
+        emptyStateText: "No valid annotation shapes defined",
+        maxDisplayItems: 12,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
         meta: {
           visible: true
         },

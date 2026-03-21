@@ -16,13 +16,15 @@ import { getForceCreateSlotContext } from '../../../services/computedAvailabilit
 import { computeViolationsForSlot } from '../../../services/slotComputationService.js'
 import {
   appointmentIncludes,
-  applySnapshotIdsToAppointment,
   createAttendeeRecords,
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
   getCalendarIdForAppointment,
   getAutoConfirmEnabledFromSettings,
+  validateAppointmentLineSnapshots,
 } from './appointmentHelpers.js'
+import { stripSelectionFieldsFromPlainObject } from '../../../repositories/appointmentSelectionCodec.js'
+import { syncSelectionsAndSnapshotsFromBody } from '../../../repositories/appointmentSelectionRepository.js'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
@@ -188,6 +190,7 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
       durationMinutes,
       userId
     )
+    stripSelectionFieldsFromPlainObject(appointmentPayload)
 
     const sequelize = Appointment.sequelize
     if (!sequelize) {
@@ -217,16 +220,8 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
 
     const record = appointment!
 
-    const idsOrEmpty = (key: 'selectedServiceIds' | 'selectedPropertyIds' | 'selectedOptionIds'): string[] => {
-      const raw = appointmentBody[key]
-      if (raw === undefined || raw === null) return []
-      return Array.isArray(raw) ? raw : []
-    }
-    await applySnapshotIdsToAppointment(record, {
-      serviceIds: idsOrEmpty('selectedServiceIds'),
-      propertyIds: idsOrEmpty('selectedPropertyIds'),
-      optionIds: idsOrEmpty('selectedOptionIds'),
-    })
+    await syncSelectionsAndSnapshotsFromBody(record.id, appointmentBody as Record<string, unknown>)
+    await validateAppointmentLineSnapshots(record.id)
 
     const rawAttendees = appointmentBody.attendees
     const attendeesData = Array.isArray(rawAttendees) ? rawAttendees : []

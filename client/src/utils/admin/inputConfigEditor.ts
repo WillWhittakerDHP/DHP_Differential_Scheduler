@@ -113,8 +113,24 @@ export function inputConfigEditor(
   function updateInputConfigField(fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown): void {
     const currentData = getInputConfigData(fieldKey)
     const updatedData = { ...currentData, [fieldName]: value }
-    const newConfig = buildInputConfig(fieldKey, updatedData)
-    updateFieldRendering(fieldKey, { inputConfig: newConfig })
+    const built = buildInputConfig(fieldKey, updatedData)
+    const rawExisting = getEffectiveFieldMetadata(fieldKey)?.inputConfig
+    const existing =
+      rawExisting !== null && rawExisting !== undefined && typeof rawExisting === 'object' && !Array.isArray(rawExisting)
+        ? { ...(rawExisting as Record<string, unknown>) }
+        : {}
+
+    // buildInputConfig only returns the subset the form edits; merge so we never drop relationship keys (selectType, paths, etc.).
+    let next: Record<string, unknown> | null
+    if (built === null) {
+      next = Object.keys(existing).length > 0 ? existing : null
+    } else if (Object.keys(built).length === 1 && 'options' in built) {
+      next = { ...existing, options: built.options as unknown }
+    } else {
+      next = { ...existing, ...built }
+    }
+
+    updateFieldRendering(fieldKey, { inputConfig: next })
   }
 
   return {

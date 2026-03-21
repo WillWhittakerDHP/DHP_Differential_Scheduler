@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-16T01:24:07.902Z",
-  "totalScanned": 282,
+  "generatedAt": "2026-03-21T18:09:29.501Z",
+  "totalScanned": 284,
   "ruleset": [
     {
       "ruleId": "module-level-ref",
@@ -77,28 +77,65 @@
   "findings": [
     {
       "file": "client/src/composables/admin/useWizardSettings.ts",
-      "lineNumber": 100,
-      "ruleId": "oversized-return",
-      "snippet": "Return surface has 12 properties",
-      "message": "Return surface has 12 properties; decompose into focused composables",
-      "fixHint": "Decompose into focused composables that each return a smaller, cohesive API surface",
-      "isExported": true,
-      "composableName": "useWizardSettings",
-      "consumerCount": 12
+      "lineNumber": 46,
+      "ruleId": "module-level-ref",
+      "snippet": "const isLoading = ref(true)",
+      "message": "Module-level reactive state; verify singleton intent or move into composable body",
+      "fixHint": "If singleton is intentional, add @audit-allow comment. Otherwise move ref() inside the composable function.",
+      "isExported": false,
+      "consumerCount": 0
+    },
+    {
+      "file": "client/src/composables/admin/useWizardSettings.ts",
+      "lineNumber": 47,
+      "ruleId": "module-level-ref",
+      "snippet": "const hasSettled = ref(false)",
+      "message": "Module-level reactive state; verify singleton intent or move into composable body",
+      "fixHint": "If singleton is intentional, add @audit-allow comment. Otherwise move ref() inside the composable function.",
+      "isExported": false,
+      "consumerCount": 0
+    },
+    {
+      "file": "client/src/composables/booking/bookingWizardSettingsSingleton.ts",
+      "lineNumber": 14,
+      "ruleId": "module-level-ref",
+      "snippet": "const isLoading = ref(false)",
+      "message": "Module-level reactive state; verify singleton intent or move into composable body",
+      "fixHint": "If singleton is intentional, add @audit-allow comment. Otherwise move ref() inside the composable function.",
+      "isExported": false,
+      "consumerCount": 0
+    },
+    {
+      "file": "client/src/composables/booking/bookingWizardSettingsSingleton.ts",
+      "lineNumber": 15,
+      "ruleId": "module-level-ref",
+      "snippet": "const hasSettled = ref(false)",
+      "message": "Module-level reactive state; verify singleton intent or move into composable body",
+      "fixHint": "If singleton is intentional, add @audit-allow comment. Otherwise move ref() inside the composable function.",
+      "isExported": false,
+      "consumerCount": 0
     }
   ],
   "files": [
     {
       "file": "client/src/composables/admin/useWizardSettings.ts",
-      "score": 2,
+      "score": 0,
+      "priority": "P2"
+    },
+    {
+      "file": "client/src/composables/booking/bookingWizardSettingsSingleton.ts",
+      "score": 0,
       "priority": "P2"
     }
   ],
   "repairWaves": {
-    "local": [],
+    "local": [
+      0,
+      1,
+      2,
+      3
+    ],
     "lowFanIn": [],
-    "highFanIn": [
-      0
-    ]
+    "highFanIn": []
   }
 }

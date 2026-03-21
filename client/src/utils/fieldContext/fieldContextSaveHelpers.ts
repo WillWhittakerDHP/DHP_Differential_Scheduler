@@ -21,6 +21,64 @@ export type { SaveComponentEntityParams, SaveRelationshipFieldParams, SaveRegula
 
 const logger = createLogger('fieldContextSaveHelpers')
 
+/** Matches server `ERROR_MESSAGES.RELATIONSHIP_ALREADY_EXISTS` (relationshipErrorHandler). */
+const RELATIONSHIP_ALREADY_EXISTS_ERROR = 'Relationship already exists'
+
+function relationshipIdFromItem(item: unknown): string | null {
+  if (item === null || item === undefined) {
+    return null
+  }
+  if (typeof item === 'string') {
+    const t = item.trim()
+    return t === '' ? null : t
+  }
+  if (typeof item === 'object' && item !== null && 'id' in item) {
+    const raw = (item as { id: unknown }).id
+    if (typeof raw === 'string') {
+      const t = raw.trim()
+      return t === '' ? null : t
+    }
+  }
+  return null
+}
+
+function relationshipIdsFromFieldValue(value: unknown): string[] {
+  if (value === undefined || value === null) {
+    return []
+  }
+  if (Array.isArray(value)) {
+    return value.map(relationshipIdFromItem).filter((id): id is string => id !== null)
+  }
+  const one = relationshipIdFromItem(value)
+  return one !== null ? [one] : []
+}
+
+function dedupeIdsPreserveOrder(ids: string[]): string[] {
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const id of ids) {
+    if (seen.has(id)) {
+      continue
+    }
+    seen.add(id)
+    out.push(id)
+  }
+  return out
+}
+
+function isRelationshipAlreadyExistsConflict(error: unknown): boolean {
+  const ax = error as AxiosError<{ error?: string }>
+  if (ax.response?.status !== 409) {
+    return false
+  }
+  const data = ax.response.data
+  if (data && typeof data === 'object' && 'error' in data) {
+    const msg = String((data as { error: unknown }).error)
+    return msg === RELATIONSHIP_ALREADY_EXISTS_ERROR || msg.toLowerCase().includes('already exists')
+  }
+  return false
+}
+
 export async function saveComponentEntityField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: SaveComponentEntityParams<GE, FieldKey>
 ): Promise<void> {
@@ -87,19 +145,11 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   const currentValue = Object.prototype.hasOwnProperty.call(entityRecord, fieldKeyString)
     ? entityRecord[fieldKeyString]
     : undefined
-  const oldValues = Array.isArray(currentValue)
-    ? currentValue.map((v) => String(v))
-    : currentValue
-      ? [String(currentValue)]
-      : []
+  const oldValues = relationshipIdsFromFieldValue(currentValue)
 
   const rawValue = state.value.value
   const plainValue = toRaw(rawValue)
-  const newValues = Array.isArray(plainValue)
-    ? plainValue.map((v: unknown) => String(v).trim()).filter((s) => s !== '')
-    : plainValue
-      ? [String(plainValue).trim()].filter((s) => s !== '')
-      : []
+  const newValues = dedupeIdsPreserveOrder(relationshipIdsFromFieldValue(plainValue))
 
   const parentId = String(state.entityId)
   const { toAdd, toRemove } = calculateArrayDiff(oldValues, newValues)
@@ -110,7 +160,15 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
         parentId: toGlobalEntityId(parentId),
         childId: toGlobalEntityId(childId),
       }
-      return apiClient.post(relationshipEndpoint, payload).then(() => void 0)
+      return apiClient
+        .post(relationshipEndpoint, payload)
+        .then(() => void 0)
+        .catch((error: unknown) => {
+          if (isRelationshipAlreadyExistsConflict(error)) {
+            return
+          }
+          throw error
+        })
     }),
     ...toRemove.map((childId) => {
       const deleteEndpoint = getRelationshipByParentChildEndpoint(relationshipKey, parentId, childId)

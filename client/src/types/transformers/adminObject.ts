@@ -5,6 +5,7 @@ import type { GlobalEntity } from '@/types/entities'
 export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
   validCascades?: GlobalEntityId[]
   validParts?: GlobalEntityId[]
+  validAnnotations?: GlobalEntityId[]
   validEvents?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
   pricingCascades?: GlobalEntityId[]
