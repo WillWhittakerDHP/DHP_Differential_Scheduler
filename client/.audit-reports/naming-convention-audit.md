@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-21T15:34:00.474Z
+Generated at: 2026-03-21T15:39:08.068Z
 
 ## Summary
 
-- Total allowed: **1**
+- Total allowed: **2**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -23,3 +23,4 @@ Review periodically to ensure exceptions are still valid.
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
 | `client/src/composables/admin/useInstanceDragAndDrop.ts` | composableExport | 28 | pattern | Composables may export camelCase helpers used by other co... |
+| `server/src/db/models/booking/event_shape.ts` | functionExport | 41 | pattern | Sequelize model factory convention: ModelNameFactory |
