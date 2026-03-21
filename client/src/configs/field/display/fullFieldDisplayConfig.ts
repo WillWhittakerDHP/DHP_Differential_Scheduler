@@ -83,7 +83,7 @@ function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
           }
           if (mode === "relationship") {
             config.relationshipDisplay = selectConfig;
-          } else if (mode === "property") {
+          } else if (mode === "primitive") {
             config.typeDisplay = selectConfig;
           } else {
             throw new Error(`❌ Unknown select mode: ${mode}`);
