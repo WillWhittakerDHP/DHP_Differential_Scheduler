@@ -38,6 +38,7 @@ export {
   BusinessSettings,
   CalendarSettings,
   WizardSettings,
+  AppSettingEntry,
   BusinessRule,
   AdminMetadata,
   BetaFeedback,

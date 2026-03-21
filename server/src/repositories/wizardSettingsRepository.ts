@@ -1,46 +1,39 @@
 /**
- * Canonical persistence for calendar_settings document (namespace calendar, path document).
+ * Canonical persistence for wizard display settings (namespace wizard, path document).
  */
 import type { Transaction } from 'sequelize'
-import type { CalendarSettingsData } from '../../../shared/types/calendarSettingsDocument.js'
+import type { WizardSettingsData } from '../../../shared/types/wizardSettingsTypes.js'
 import { AppSettingEntry } from '../config/app.js'
 import { createLogger } from '../utils/logger.js'
 
-const NAMESPACE = 'calendar' as const
+const NAMESPACE = 'wizard' as const
 const DOCUMENT_PATH = 'document' as const
 
-const DEFAULT: CalendarSettingsData = {
-  enabled: false,
-  provider: 'none',
-  calendars: [],
-  holdDurationMinutes: 15,
-  holdDurationMin: 1,
-  holdDurationMax: 60,
-  holdDurationFallback: 15,
-  adminEntryTimeout: { value: 30, unit: 'days' },
-  autoConfirmEnabled: false,
+const DEFAULT: WizardSettingsData = {
+  showApplyCoupon: false,
+  useBrandColors: false,
 }
 
-const logger = createLogger('CalendarSettingsRepository')
+const logger = createLogger('WizardSettingsRepository')
 
-export async function getCalendarSettings(): Promise<CalendarSettingsData> {
+export async function getWizardSettingsData(): Promise<WizardSettingsData> {
   const row = await AppSettingEntry.findOne({
     where: { namespace: NAMESPACE, path: DOCUMENT_PATH },
   })
   if (row?.valueJsonb && typeof row.valueJsonb === 'object') {
-    return { ...DEFAULT, ...(row.valueJsonb as CalendarSettingsData) }
+    return { ...DEFAULT, ...(row.valueJsonb as WizardSettingsData) }
   }
-  logger.warn('calendar document missing in app_setting_entries; using defaults', {
+  logger.warn('wizard document missing in app_setting_entries; using defaults', {
     namespace: NAMESPACE,
     path: DOCUMENT_PATH,
   })
   return { ...DEFAULT }
 }
 
-export async function saveCalendarSettingsData(
-  data: CalendarSettingsData,
+export async function saveWizardSettingsData(
+  data: WizardSettingsData,
   options?: { transaction?: Transaction }
-): Promise<CalendarSettingsData> {
+): Promise<WizardSettingsData> {
   const t = options?.transaction
   const merged = { ...DEFAULT, ...data }
   const existing = await AppSettingEntry.findOne({

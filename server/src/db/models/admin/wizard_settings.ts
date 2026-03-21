@@ -9,21 +9,8 @@ import {
   Sequelize,
 } from 'sequelize';
 
-export interface WizardSettingsData {
-  showApplyCoupon?: boolean;
-  useBrandColors?: boolean;
-  majorLabel?: string;
-  minorLabel?: string;
-  moveableFallbackLabel?: string;
-  differentialGraphDefaultLabel?: string;
-  majorStateLabel?: string;
-  minorStateLabel?: string;
-  selectTimeSlotLabel?: string;
-  subStepLabelPickDay?: string;
-  subStepLabelOptions?: string;
-  subStepLabelPickTime?: string;
-  subStepLabelConfirmMoveable?: string;
-}
+import type { WizardSettingsData } from '../../../../../shared/types/wizardSettingsTypes.js'
+export type { WizardSettingsData } from '../../../../../shared/types/wizardSettingsTypes.js'
 
 export class WizardSettings extends Model<
   InferAttributes<WizardSettings>,

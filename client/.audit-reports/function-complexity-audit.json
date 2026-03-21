@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T04:20:04.142Z",
-  "totalScanned": 1074,
+  "generatedAt": "2026-03-21T13:40:25.922Z",
+  "totalScanned": 1082,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,85 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "server/src/services/computedAvailabilityService.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 114,
+          "endLine": 154,
+          "length": 41,
+          "maxNesting": 5,
+          "branches": 5,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 3,
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "name": "if",
+          "startLine": 157,
+          "endLine": 200,
+          "length": 44,
+          "maxNesting": 5,
+          "branches": 5,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 3,
+              "tier": 1
+            }
+          ]
+        },
+        {
+          "name": "computeAvailabilityData",
+          "startLine": 429,
+          "endLine": 560,
+          "length": 132,
+          "maxNesting": 1,
+          "branches": 6,
+          "params": 0,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 132,
+              "threshold": 50,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "getForceCreateSlotContext",
+          "startLine": 575,
+          "endLine": 633,
+          "length": 59,
+          "maxNesting": 1,
+          "branches": 3,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 59,
+              "threshold": 50,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    }
+  ]
 }

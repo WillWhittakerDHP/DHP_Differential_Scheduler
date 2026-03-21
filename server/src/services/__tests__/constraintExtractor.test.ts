@@ -25,7 +25,7 @@ import {
   validateOverlapConstraint,
   validateCapacityConstraint,
 } from './constraintValidationHelpers'
-import type { AvailabilitySettingsData } from '../../db/models/admin/business_settings'
+import type { AvailabilitySettingsData } from '../../../../shared/types/availabilitySettingsDocument.js'
 import type {
   RangeConstraint,
   OverlapConstraint,
