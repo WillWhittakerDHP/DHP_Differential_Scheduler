@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:27:08.902Z",
+  "generatedAt": "2026-03-21T15:27:31.915Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -24,11 +24,11 @@
   "errors": [
     {
       "file": "src/composables/admin/useInstanceDragAndDrop.ts",
-      "line": 72,
+      "line": 67,
       "col": 37,
       "code": "TS2345",
       "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
-      "raw": "src/composables/admin/useInstanceDragAndDrop.ts(72,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+      "raw": "src/composables/admin/useInstanceDragAndDrop.ts(67,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
       "scope": "client",
       "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts"
     }
@@ -49,7 +49,7 @@
       "sample": [
         {
           "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts",
-          "line": 72,
+          "line": 67,
           "col": 37,
           "code": "TS2345",
           "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'."
@@ -67,11 +67,11 @@
       "errors": [
         {
           "file": "src/composables/admin/useInstanceDragAndDrop.ts",
-          "line": 72,
+          "line": 67,
           "col": 37,
           "code": "TS2345",
           "message": "Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
-          "raw": "src/composables/admin/useInstanceDragAndDrop.ts(72,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
+          "raw": "src/composables/admin/useInstanceDragAndDrop.ts(67,37): error TS2345: Argument of type 'string' is not assignable to parameter of type 'GlobalEntityId'.",
           "scope": "client",
           "repoPath": "src/composables/admin/useInstanceDragAndDrop.ts"
         }
