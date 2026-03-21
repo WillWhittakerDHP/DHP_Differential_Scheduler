@@ -10,10 +10,11 @@ export { APPOINTMENT_STATUSES, VALID_STATUS_TRANSITIONS, getValidNextStatuses } 
 /** Extends shared SlotTimeBounds for single source of truth. */
 export type TimeRange = SlotTimeBounds
 
+/** Minimal-slot generator / calendar row perspective (mutually exclusive). */
+export type TimeSlotPerspectiveKind = 'major' | 'minor' | 'moveable'
+
 export interface TimeSlot extends TimeRange {
-  major: boolean
-  minor: boolean
-  moveable: boolean
+  slotKind: TimeSlotPerspectiveKind
   isAvailable: boolean  // true = available, false = busy/unavailable (required)
   hasFlexibleViolations?: boolean  // true if slot violates flexible constraints
   flexibleViolations?: string[]    // array of constraint types that were violated (e.g., ['businessHours', 'capacity.daily'])
@@ -62,6 +63,9 @@ export interface AppointmentSlot {
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
   totalTimeRange: TimeRange | null          // From shape.slotShape.roundedDuration + startTime (uses rounded for display)
   eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange
+  /** From computed slot: default location → candidate and candidate → default (minutes). */
+  driveToCandidate?: number
+  driveFromCandidate?: number
 }
 
 export type AppointmentSlots = AppointmentSlot[]

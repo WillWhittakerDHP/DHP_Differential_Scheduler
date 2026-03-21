@@ -5,7 +5,7 @@ import { ref, watch } from 'vue'
 import apiClient from '@/utils/api'
 import { createLogger } from '@/utils/logger'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
+import { DEFAULT_DRIVE_TIME_FEE_CONFIG } from '@/utils/booking/computeDriveTimeFee'
 import {
   getAvailabilitySettings,
   invalidateAvailabilitySettingsCache,
@@ -16,13 +16,6 @@ import { localTime } from '@/utils/time/localTime'
 import type { UseAdminAvailabilitySettingsReturn, UseAvailabilitySettingsOptions } from '@/types/admin/availabilitySettings'
 
 const logger = createLogger('useAdminAvailabilitySettings')
-
-/** Defaults when API has not yet stored drive-time fee block (task 6.11.1.1). */
-const DEFAULT_DRIVE_TIME_FEE: DriveTimeFeeConfig = {
-  complimentaryDriveMinutes: 0,
-  drivingRatePerHour: 0,
-  driveTimeRoundingMinutes: 15,
-}
 
 export function calculateMaxBusinessHours(businessHours: AvailabilitySettings['businessHours']): number {
   const { rfc3339ToBusinessHoursHHmm } = localTime()
@@ -61,7 +54,7 @@ export function useAdminAvailabilitySettings(options?: UseAvailabilitySettingsOp
         }
       }
       if (!settings.driveTimeFee) {
-        settings.driveTimeFee = { ...DEFAULT_DRIVE_TIME_FEE }
+        settings.driveTimeFee = { ...DEFAULT_DRIVE_TIME_FEE_CONFIG }
       }
       formData.value = settings
     } catch (err: unknown) {

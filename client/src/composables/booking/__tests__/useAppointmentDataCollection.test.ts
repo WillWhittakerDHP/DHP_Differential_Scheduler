@@ -1,9 +1,33 @@
-
-import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { ref, computed } from 'vue'
-import { useAppointmentDataCollection } from '../useAppointmentDataCollection'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+
+vi.mock('@/composables/useBooking', () => ({
+  useBooking: () => ({ bookingData: ref(null) }),
+}))
+
+vi.mock('@/composables/booking/useAvailabilitySettings', () => ({
+  useAvailabilitySettings: () => ({
+    settings: computed(() => null),
+  }),
+}))
+import { useAppointmentDataCollection } from '@/utils/booking/appointmentDataCollection'
+import { USER_ROLE_AGENT, USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData } from '../useAppointmentDataCollection'
+import type { PropertyDetailsStepData, ContactsStepData } from '@/types/wizard'
+import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
+
+/** Minimal valid availability for collect tests (matches AvailabilityStepData). */
+function createTestAvailabilityStepData(
+  overrides: Partial<AvailabilityStepData> = {}
+): AvailabilityStepData {
+  return {
+    candidateDate: { start: '2024-01-15', end: null },
+    candidateTimeSlots: null,
+    moveableScheduling: null,
+    totalDriveMinutes: null,
+    ...overrides,
+  }
+}
 
 function createBookingBlockInstance(
   id: string,
@@ -43,6 +67,7 @@ describe('useAppointmentDataCollection', () => {
     selectedServiceTypeBlocks: ReturnType<typeof ref>
     selectedPropertyTypeBlocks: ReturnType<typeof ref>
     selectedOptionTypeBlocks: ReturnType<typeof ref>
+    selectedCouponBlocks: ReturnType<typeof ref>
     selectedLineItemBlocks: ReturnType<typeof ref>
     selectedUserTypeBlock: ReturnType<typeof ref>
     isQuoteMode: ReturnType<typeof ref> | ReturnType<typeof computed<boolean>>
@@ -62,6 +87,7 @@ describe('useAppointmentDataCollection', () => {
       selectedServiceTypeBlocks: ref([]),
       selectedPropertyTypeBlocks: ref([]),
       selectedOptionTypeBlocks: ref([]),
+      selectedCouponBlocks: ref([]),
       selectedLineItemBlocks: ref([]),
       selectedUserTypeBlock: ref(null),
       isQuoteMode: computed(() => wizardModeRef.value === 'quote'),
@@ -231,10 +257,17 @@ describe('useAppointmentDataCollection', () => {
         showSeller: false,
       })
       
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: [{ time: '2024-01-15T09:00:00', duration: 60 }],
-      })
+      availabilityStepData = ref(
+        createTestAvailabilityStepData({
+          candidateTimeSlots: [
+            {
+              startTime: '2024-01-15T09:00:00',
+              endTime: '2024-01-15T10:00:00',
+              duration: 60,
+            },
+          ],
+        })
+      )
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -254,9 +287,11 @@ describe('useAppointmentDataCollection', () => {
       expect(result?.selectedServiceIds).toEqual(['service-1'])
       expect(result?.selectedDate).toBe('2024-01-15')
       expect(result?.isQuoteMode).toBe(false)
-      expect(result?.status).toBe('started')
-      expect(result?.clientId).toBe('user-client')
-      expect(result?.agentId).toBe('user-agent')
+      expect(result?.status).toBe('submitted')
+      expect(result?.attendees).toEqual([
+        expect.objectContaining({ userId: 'user-client', role: USER_ROLE_CLIENT }),
+        expect.objectContaining({ userId: 'user-agent', role: USER_ROLE_AGENT }),
+      ])
       expect(createProperty.mutateAsync).toHaveBeenCalled()
       expect(createUser.mutateAsync).toHaveBeenCalledTimes(2) // Client and agent
     })
@@ -288,10 +323,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -311,12 +343,16 @@ describe('useAppointmentDataCollection', () => {
         city: 'City',
         state: 'State',
         zipCode: '12345',
+        placeId: null,
+        latitude: null,
+        longitude: null,
         mlsNumber: 'MLS123',
         squareFootage: 1500,
         bedrooms: 3,
         bathrooms: 2,
         foundationAccess: 'basement',
         additionalUnits: 1,
+        source: undefined,
       })
     })
 
@@ -347,10 +383,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: true,
         showSeller: true,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -402,10 +435,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -424,7 +454,7 @@ describe('useAppointmentDataCollection', () => {
       expect(result?.optionQuantities).toEqual({ 'option-1': 1 })
     })
 
-    it('should create snapshots of selected block instances', async () => {
+    it('should include selected block ids and fee breakdown in request payload', async () => {
       const service1 = createBookingBlockInstance('service-1')
       const property1 = createBookingBlockInstance('property-1')
       const option1 = createBookingBlockInstance('option-1')
@@ -458,10 +488,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -475,15 +502,10 @@ describe('useAppointmentDataCollection', () => {
       
       const result = await collectAppointmentData()
       
-      expect(result?.serviceSnapshots).not.toBeNull()
-      expect(result?.serviceSnapshots?.['service-1']).toBeDefined()
-      expect(result?.serviceSnapshots?.['service-1'].id).toBe('service-1')
-      
-      expect(result?.propertySnapshots).not.toBeNull()
-      expect(result?.propertySnapshots?.['property-1']).toBeDefined()
-      
-      expect(result?.optionSnapshots).not.toBeNull()
-      expect(result?.optionSnapshots?.['option-1']).toBeDefined()
+      expect(result?.selectedServiceIds).toEqual(['service-1'])
+      expect(result?.selectedPropertyIds).toEqual(['property-1'])
+      expect(result?.selectedOptionIds).toEqual(['option-1'])
+      expect(result?.feeBreakdown).toBeDefined()
     })
 
     it('should set status to quoted when in quote mode', async () => {
@@ -515,10 +537,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,
@@ -563,10 +582,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       createProperty.mutateAsync.mockRejectedValueOnce(new Error('Property creation failed'))
       
@@ -613,10 +629,7 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: null },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(createTestAvailabilityStepData())
       
       createProperty.mutateAsync.mockResolvedValueOnce({ propertyVersionId: 'version-1', id: 'property-1' })
       
@@ -666,10 +679,11 @@ describe('useAppointmentDataCollection', () => {
         showTransactionManager: false,
         showSeller: false,
       })
-      availabilityStepData = ref({
-        selectedDate: { start: '2024-01-15', end: '2024-01-20' },
-        selectedTimeSlots: null,
-      })
+      availabilityStepData = ref(
+        createTestAvailabilityStepData({
+          candidateDate: { start: '2024-01-15', end: '2024-01-20' },
+        })
+      )
       
       const { collectAppointmentData } = useAppointmentDataCollection({
         wizard,

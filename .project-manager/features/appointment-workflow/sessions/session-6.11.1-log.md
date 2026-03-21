@@ -11,6 +11,14 @@
 
 ## Completed Tasks
 
+### Task 6.11.1.5: Task 6.11.1.5 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.11.1.6
+
+
+
 ### Task 6.11.1.2: Task 6.11.1.2 ✅
 **Goal:** Task completed
 
@@ -31,4 +39,23 @@
 
 **Next Task:**
 - 6.11.1.3
+
+### Task 6.11.1.3: Expose selected-slot drive minutes in wizard ✅
+**Goal:** Task completed — availability step exposes `totalDriveMinutes`; `driveContext` wired to `buildConfirmationPriceData` (fee line item → 6.11.1.4).
+
+**Next Task:**
+- 6.11.1.4
+
+### Task 6.11.1.4: Fee pipeline — drive line item & totals ✅
+**Goal:** Task completed — `buildConfirmationPriceData` computes drive fee, appends **Drive time** row, updates totals; settings from `useAvailabilitySettings`.
+
+**Next Task:**
+- 6.11.1.5
+
+
+### Task 6.11.1.5: Task 6.11.1.5 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.11.1.6
 

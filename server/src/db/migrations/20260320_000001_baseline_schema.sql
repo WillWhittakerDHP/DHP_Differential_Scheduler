@@ -58,17 +58,6 @@ CREATE TYPE public.block_shape_type AS ENUM (
 
 
 --
--- Name: booking_mode_enum; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.booking_mode_enum AS ENUM (
-    'standalone',
-    'addOn',
-    'both'
-);
-
-
---
 -- Name: change_type_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -418,6 +407,17 @@ CREATE TYPE public.ternary_boolean AS ENUM (
     'true',
     'false',
     'override'
+);
+
+
+--
+-- Name: differential_role_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.differential_role_enum AS ENUM (
+    'major',
+    'minor',
+    'moveable'
 );
 
 
@@ -1125,7 +1125,7 @@ CREATE TABLE public.block_instances (
     differential public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
     allow_multiple boolean DEFAULT false NOT NULL,
     requires_unit_number boolean DEFAULT false NOT NULL,
-    booking_mode public.booking_mode_enum DEFAULT 'standalone'::public.booking_mode_enum NOT NULL,
+    booking_mode public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
     is_multi_family boolean DEFAULT false NOT NULL,
     requires_agent boolean DEFAULT false NOT NULL,
     pre_closing boolean DEFAULT false NOT NULL,
@@ -1643,7 +1643,7 @@ CREATE TABLE public.event_shapes (
     active boolean DEFAULT true NOT NULL,
     is_ternary boolean DEFAULT false NOT NULL,
     ternary_default character varying(10),
-    differential_role character varying(12) DEFAULT NULL::character varying,
+    differential_role public.differential_role_enum,
     CONSTRAINT check_ternary_default_valid CHECK (((ternary_default IS NULL) OR ((ternary_default)::text = ANY ((ARRAY['true'::character varying, 'false'::character varying, 'override'::character varying])::text[]))))
 );
 

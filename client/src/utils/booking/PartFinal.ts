@@ -7,7 +7,7 @@ export type { PartFinal } from '@/types/booking/partFinal'
 
 
 
-/** Placeholder values until eventAssignments-derived major/minor/moveable are wired. */
+/** Defaults before enrichBlockFinalsWithDifferentialRoles (buildAppointmentShape). */
 const PART_FINAL_DEFAULT_MAJOR = 'false' as const
 const PART_FINAL_DEFAULT_MINOR = 'false' as const
 const PART_FINAL_DEFAULT_MOVEABLE = false

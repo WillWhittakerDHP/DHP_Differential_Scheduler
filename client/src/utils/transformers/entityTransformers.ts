@@ -4,6 +4,12 @@ PATTERN: Utility functions for entity transformatio...
  */
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
+import {
+  normalizeBlockInstanceAgentPermissionsFromApi,
+  normalizeBlockInstanceBookingModeFromApi,
+  normalizeBlockInstanceDifferentialFromApi,
+  normalizeEventShapeDifferentialRoleFromApi,
+} from './apiEntityFieldNormalization'
 
 export function transformApiEntity<GE extends GlobalEntityKey>(
   rawEntity: Record<string, unknown>,
@@ -16,6 +22,21 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     entityKey,
     ...Object.fromEntries(entries),
   }
+
+  if (entityKey === 'blockInstance') {
+    const bookingRaw = transformed.bookingMode ?? rawEntity.booking_mode
+    transformed.bookingMode = normalizeBlockInstanceBookingModeFromApi(bookingRaw)
+    const agentRaw = transformed.agentPermissions ?? rawEntity.agent_permissions
+    transformed.agentPermissions = normalizeBlockInstanceAgentPermissionsFromApi(agentRaw)
+    const diffRaw = transformed.differential ?? rawEntity.differential
+    transformed.differential = normalizeBlockInstanceDifferentialFromApi(diffRaw)
+  }
+
+  if (entityKey === 'eventShape') {
+    const roleRaw = transformed.differentialRole ?? rawEntity.differential_role
+    transformed.differentialRole = normalizeEventShapeDifferentialRoleFromApi(roleRaw)
+  }
+
   return transformed as GlobalEntity<GE>
 }
 

@@ -1,13 +1,13 @@
 /**
 PATTERN: Pure slot ...
  */
-import type { TimeSlot } from '@/types/appointment'
+import type { TimeSlot, TimeSlotPerspectiveKind } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { validateSlotGenerationParams, type SlotGenerationParamsBase } from './slotGenerationValidation'
 
 /** Extends shared base (P2 type-similarity). */
 export interface MinimalSlotParams extends SlotGenerationParamsBase {
-  includeFlags: { major: boolean; minor: boolean; moveable: boolean }
+  slotKind: TimeSlotPerspectiveKind
 }
 
 function generateDaysInRange(start: Date, end: Date): Date[] {
@@ -46,7 +46,7 @@ function generateSlotsForDay(
   endBoundaryDate: Date,
   duration: number,
   minuteIncrement: number,
-  includeFlags: { major: boolean; minor: boolean; moveable: boolean },
+  slotKind: TimeSlotPerspectiveKind,
   accumulatedSlots: TimeSlot[]
 ): TimeSlot[] {
   if (slotStart >= slotEndBoundary) return accumulatedSlots
@@ -70,9 +70,7 @@ function generateSlotsForDay(
             startTime: slotStart.toISOString() as RFC3339DateTime,
             endTime: slotEnd.toISOString() as RFC3339DateTime,
             duration,
-            major: includeFlags.major,
-            minor: includeFlags.minor,
-            moveable: includeFlags.moveable,
+            slotKind,
             isAvailable: true,
           },
         ]
@@ -95,7 +93,7 @@ function generateSlotsForDay(
     endBoundaryDate,
     duration,
     minuteIncrement,
-    includeFlags,
+    slotKind,
     newSlots
   )
 }
@@ -172,7 +170,7 @@ export function generateSlotsInRange(params: MinimalSlotParams): TimeSlot[] {
       endBoundaryDate,
       params.duration,
       params.minuteIncrement,
-      params.includeFlags,
+      params.slotKind,
       []
     )
   })

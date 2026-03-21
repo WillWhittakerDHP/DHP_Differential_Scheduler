@@ -46,6 +46,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
           isAvailable: serverSlot.isAvailable,
           flexibleViolations: serverSlot.violations,
           hasFlexibleViolations: serverSlot.violations.length > 0,
+          driveToCandidate: serverSlot.driveToCandidate,
+          driveFromCandidate: serverSlot.driveFromCandidate,
         }
       })
     } catch (error) {

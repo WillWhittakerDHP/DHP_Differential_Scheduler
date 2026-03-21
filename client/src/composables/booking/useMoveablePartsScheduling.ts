@@ -45,7 +45,7 @@ export function computeMoveableSlots(params: ComputeMoveableSlotsParams): Moveab
     endBoundary: outerBoundary,
     duration,
     minuteIncrement,
-    includeFlags: { major: false, minor: false, moveable: true },
+    slotKind: 'moveable',
   })
   return slots.map((slot) => ({
     startTime: slot.startTime,
