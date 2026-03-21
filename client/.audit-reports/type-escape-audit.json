@@ -1,25 +1,10 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-21T18:09:29.790Z",
-  "totalScanned": 45,
+  "generatedAt": "2026-03-21T18:29:06.660Z",
+  "totalScanned": 0,
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "findings": [
-    {
-      "file": "client/src/utils/admin/inputConfigEditor.ts",
-      "lineNumber": 118,
-      "ruleId": "as-unknown",
-      "snippet": "next = { ...existing, options: built.options as unknown }",
-      "message": "Single as unknown",
-      "confidence": "low"
-    }
-  ],
+  "findings": [],
   "functionTypeOffenders": [],
-  "files": [
-    {
-      "file": "client/src/utils/admin/inputConfigEditor.ts",
-      "score": 2,
-      "priority": "P2"
-    }
-  ]
+  "files": []
 }
