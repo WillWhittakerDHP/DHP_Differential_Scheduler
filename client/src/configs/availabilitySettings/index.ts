@@ -22,6 +22,7 @@ export {
   type BusinessHoursConfig,
   type DateRangeConfig,
   type BufferConfig,
+  type DriveTimeFeeConfig,
   type DayHours,
 } from './types'
 

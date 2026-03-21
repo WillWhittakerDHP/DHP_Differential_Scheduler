@@ -26,7 +26,9 @@ export function useAvailabilityStepFeePreview(
   params: UseAvailabilityStepFeePreviewParams
 ): UseAvailabilityStepFeePreviewReturn {
   const { wizard, propertyDetailsStepData } = params
-  const { showApplyCoupon } = useWizardSettings()
+  const {
+    flags: { showApplyCoupon },
+  } = useWizardSettings()
 
   const availabilityStepPriceData = computed<PriceData>(() => {
     const stepDataValue = propertyDetailsStepData?.value

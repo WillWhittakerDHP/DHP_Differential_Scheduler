@@ -316,6 +316,26 @@ export function validateAvailabilitySettings(data: unknown): data is Availabilit
     }
   }
 
+  // Validate driveTimeFee (billing) if present — separate from buffers.driveToCandidate
+  const driveTimeFee = d.driveTimeFee as Record<string, unknown> | undefined
+  if (driveTimeFee !== undefined) {
+    if (typeof driveTimeFee !== 'object' || driveTimeFee === null) {
+      return false
+    }
+    const c = driveTimeFee.complimentaryDriveMinutes
+    const r = driveTimeFee.drivingRatePerHour
+    const round = driveTimeFee.driveTimeRoundingMinutes
+    if (typeof c !== 'number' || c < 0 || !Number.isFinite(c)) {
+      return false
+    }
+    if (typeof r !== 'number' || r < 0 || !Number.isFinite(r)) {
+      return false
+    }
+    if (typeof round !== 'number' || round <= 0 || !Number.isFinite(round)) {
+      return false
+    }
+  }
+
   return true
 }
 

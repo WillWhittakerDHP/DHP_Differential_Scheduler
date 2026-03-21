@@ -3,6 +3,7 @@
  * OverlapConstraintsPanel receives businessControlsState from BusinessControlsConstraintsSection.
  */
 import { computed } from 'vue'
+import type { DriveTimeApplyTo } from '@/configs/availabilitySettings'
 import type { BusinessControlsState } from '@/views/admin/tabs/businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import {
@@ -67,7 +68,7 @@ export function useOverlapConstraintsPanel(state: NonNullable<BusinessControlsSt
     state.buffers.buffersDriveToCandidateMinutes = Number(v)
   }
   function handleBuffersDriveToCandidateApplyTo(v: string): void {
-    state.buffers.buffersDriveToCandidateApplyTo = v
+    state.buffers.buffersDriveToCandidateApplyTo = v as DriveTimeApplyTo
   }
   function handleBuffersDriveToCandidateEnforcement(v: 'off' | 'flexible' | 'hard'): void {
     state.buffers.buffersDriveToCandidateEnforcement = v
@@ -76,7 +77,7 @@ export function useOverlapConstraintsPanel(state: NonNullable<BusinessControlsSt
     state.buffers.buffersDriveFromCandidateMinutes = Number(v)
   }
   function handleBuffersDriveFromCandidateApplyTo(v: string): void {
-    state.buffers.buffersDriveFromCandidateApplyTo = v
+    state.buffers.buffersDriveFromCandidateApplyTo = v as DriveTimeApplyTo
   }
   function handleBuffersDriveFromCandidateEnforcement(v: 'off' | 'flexible' | 'hard'): void {
     state.buffers.buffersDriveFromCandidateEnforcement = v

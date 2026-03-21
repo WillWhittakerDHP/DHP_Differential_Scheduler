@@ -21,8 +21,9 @@ import type {
   DriveTimeConfig,
   DefaultLocation,
   DurationRoundingConfig,
+  DriveTimeFeeConfig,
 } from '../../../../../shared/types/availabilityTypes.js'
-export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation, DurationRoundingConfig }
+export type { ConstraintEnforcement, RollingWeekDirection, WorkCapacityFilter, RollingWeekCapacityFilter, IncomeCapacityFilter, RollingWeekIncomeCapacityFilter, RangeConstraintType, RangeConstraint, BufferConfig, DriveTimeApplyTo, DriveTimeConfig, DefaultLocation, DurationRoundingConfig, DriveTimeFeeConfig }
 
 /** Availability-only config (calendar and wizard display live in calendar_settings / wizard_settings). */
 export interface AvailabilitySettingsData {
@@ -70,6 +71,7 @@ export interface AvailabilitySettingsData {
     minorAttendees?: string[];
   };
   defaultLocation?: DefaultLocation;
+  driveTimeFee?: DriveTimeFeeConfig;
 }
 
 export class BusinessSettings extends Model<

@@ -76,7 +76,9 @@ function onCouponSelect(id: string | null): void {
 // "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
 const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
 
-const { showApplyCoupon } = useWizardSettings()
+const {
+  flags: { showApplyCoupon },
+} = useWizardSettings()
 const showCouponRow = computed(
   () =>
     showApplyCoupon.value &&

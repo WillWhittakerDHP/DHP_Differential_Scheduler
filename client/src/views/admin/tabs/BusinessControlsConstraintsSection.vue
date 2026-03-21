@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { inject } from 'vue'
-import { BUSINESS_CONTROLS_STATE_KEY } from './businessControlsStateKey'
+import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from './businessControlsStateKey'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { DAY_NAMES } from '@/constants/availabilitySettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
@@ -13,7 +13,9 @@ import CapacityConstraintsPanel from './components/CapacityConstraintsPanel.vue'
 import OverlapConstraintsPanel from './components/OverlapConstraintsPanel.vue'
 import DurationRoundingPanel from './components/DurationRoundingPanel.vue'
 
-const state = inject(BUSINESS_CONTROLS_STATE_KEY)
+const _injectedState = inject(BUSINESS_CONTROLS_STATE_KEY)
+if (!_injectedState) throw new Error('BusinessControlsConstraintsSection must be used inside BusinessControlsTab')
+const state: BusinessControlsState = _injectedState
 const { currentTab: currentSubTab } = useTabNavigation({ initialTab: 'range' })
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS

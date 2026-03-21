@@ -2,10 +2,21 @@
 
 **Phase:** 6.11 — Drive Time Fee Line Item  
 **Session:** 6.11.1 — Settings, Calculation, and Line Item  
-**Status:** Not Started  
+**Status:** In Progress  
 **Branch:** TBD (e.g. `appointment-workflow-phase-6.11-session-6.11.1`)
 
 **Depends on:** Existing fee pipeline (`buildConfirmationPriceData`, `buildAppointmentFeeBreakdown`), availability/business settings API, and Confirmation step fee display. Phase 6.10 (fee bar/popover) is optional; drive time line will appear there once implemented.
+
+---
+
+## Quick Start
+
+**Session ID:** 6.11.1  
+**Session Name:** Drive Time Fee — Settings, Calculation, and Line Item  
+**Description:** Implement admin settings, calculation helper, drive data flow, fee pipeline extension, and persistence via virtual block instance.  
+**Status:** Not Started  
+
+Use `/session-start 6.11.1` to load context and plan tasks. Work through tasks 6.11.1.1–6.11.1.5 in order.
 
 ---
 
@@ -87,6 +98,14 @@ Implement the full drive time fee flow: (1) Admin settings — complimentary dri
 - Seed/migration or admin: ensure one "Drive time" block instance (and lineItem block shape) exists per scope; document how it is identified and excluded from selection.
 
 **Checkpoint:** After booking with non-zero drive time, stored fee breakdown includes one entry for "Drive time" with the correct amount and the system block’s id; no schema change; UI and stored breakdown match.
+
+---
+
+## Session Workflow
+
+**Before Starting:** Use `/session-start 6.11.1` to load context, plan tasks, and identify files. Work on one task at a time; document decisions inline. Pause after each task for checkpoint before continuing.
+
+**During Session:** Complete tasks 6.11.1.1–6.11.1.5 in order. After each task, run quality checks and update progress. End with `/session-end 6.11.1` when all tasks complete.
 
 ---
 

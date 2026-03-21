@@ -1,12 +1,13 @@
 <!-- Extracted from OverlapConstraintsPanel for component-health (allowlist repair). -->
 <script setup lang="ts">
 import { inject } from 'vue'
-import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
+import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { ENFORCEMENT_OPTIONS } from '@/constants/businessControlsOptions'
 
-const state = inject(BUSINESS_CONTROLS_STATE_KEY)
-if (!state) throw new Error('OverlapRuleSection must be used inside BusinessControlsTab')
+const _injectedState = inject(BUSINESS_CONTROLS_STATE_KEY)
+if (!_injectedState) throw new Error('OverlapRuleSection must be used inside BusinessControlsTab')
+const state: BusinessControlsState = _injectedState
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 const enforcementOptions = ENFORCEMENT_OPTIONS

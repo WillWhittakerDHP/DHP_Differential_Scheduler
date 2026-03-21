@@ -30,10 +30,10 @@ export function useAvailabilityStepUI(
   params: UseAvailabilityStepUIParams
 ): UseAvailabilityStepUIReturn {
   const { o, confirmation } = params
-  const wizardSettings = useWizardSettings()
+  const { labels: wizardLabels } = useWizardSettings()
 
   const subStepLabels = computed(() => {
-    const base = wizardSettings.subStepLabels.value
+    const base = wizardLabels.subStepLabels.value
     const raw4 = base[4]
     const moveableLabel = raw4?.replace(/\bmoveable\b/gi, o.moveablePartShapeName.value) ??
       `Schedule ${o.moveablePartShapeName.value}`
@@ -60,8 +60,8 @@ export function useAvailabilityStepUI(
     if (stepIndex === 2) {
       if (!o.userHasChosenTimeBasisFromGraph?.value) return null
       const pers = o.perspective.value
-      if (pers === 'major') return `${wizardSettings.majorLabel.value} times`
-      if (pers === 'minor') return `${wizardSettings.minorLabel.value} times`
+      if (pers === 'major') return `${wizardLabels.majorLabel.value} times`
+      if (pers === 'minor') return `${wizardLabels.minorLabel.value} times`
       return null
     }
     if (stepIndex === 3) {
