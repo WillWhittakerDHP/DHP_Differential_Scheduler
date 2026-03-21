@@ -11,6 +11,25 @@ The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** 
 - **Headers:** `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` (standard); `X-RateLimit-*` (legacy).
 - **Auth-route limiter:** Stricter limit (10 req/15 min) for auth routes will be added in Session 8.2.2 when Feature 7 (Authentication) adds login routes.
 
+### How to verify
+
+With the server running (e.g. `npm run start:dev`), exhaust the limit and confirm 429. Use any GET under `/api/v1/internal/` (e.g. `/api/v1/internal/entities`):
+
+```bash
+# Send 101 requests; the 101st should return 429 with Retry-After
+for i in $(seq 1 101); do
+  curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3001/api/v1/internal/entities
+done
+```
+
+Expect the first 100 responses to be `200` and the 101st to be `429`. To inspect the 429 response and headers:
+
+```bash
+# After exhausting the limit, one more request shows 429
+curl -v http://localhost:3001/api/v1/internal/entities
+# On 429: expect Retry-After header and JSON body: {"error":"Too many requests, please try again later."}
+```
+
 ## Planned behavior
 
 ### csrfProtection
