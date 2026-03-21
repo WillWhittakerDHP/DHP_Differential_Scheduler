@@ -14,6 +14,7 @@
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --coverage --detectOpenHandles --forceExit",
     "backup:properties": "npm run compile && node dist/scripts/backup-properties.js",
     "migrate": "node src/scripts/run-migrations.mjs",
+    "db:reset": "node scripts/db-reset.mjs",
     "migrate:status": "npx sequelize-cli db:migrate:status --config src/db/config/database.mjs --migrations-path src/db/migrations",
     "migrate:undo": "dotenv -e .env npx sequelize-cli db:migrate:undo --config src/db/config/database.mjs --migrations-path src/db/migrations",
     "migrate:undo:all": "dotenv -e .env npx sequelize-cli db:migrate:undo:all --config src/db/config/database.mjs --migrations-path src/db/migrations",
