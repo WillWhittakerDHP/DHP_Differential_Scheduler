@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:48:08.917Z",
-=======
-  "generatedAt": "2026-03-21T17:18:46.049Z",
->>>>>>> session-8.2.1
+  "generatedAt": "2026-03-21T18:54:16.663Z",
   "clientEndpoints": 0,
   "serverEndpoints": 73,
   "endpointKeys": [

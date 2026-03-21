@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:48:09.039Z",
-=======
-  "generatedAt": "2026-03-21T17:18:42.693Z",
->>>>>>> session-8.2.1
+  "generatedAt": "2026-03-21T18:54:21.447Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",

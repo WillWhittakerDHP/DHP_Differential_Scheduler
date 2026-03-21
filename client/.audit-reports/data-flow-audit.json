@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:48:09.152Z",
+  "generatedAt": "2026-03-21T18:54:16.750Z",
   "totalScanned": 112,
-=======
-  "generatedAt": "2026-03-21T17:18:46.685Z",
-  "totalScanned": 111,
->>>>>>> session-8.2.1
   "exceptionSummary": {
     "totalAllowed": 0,
     "totalRequiresReview": 2,

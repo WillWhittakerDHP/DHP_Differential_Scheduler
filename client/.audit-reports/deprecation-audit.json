@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T18:48:10.315Z",
-=======
-  "generatedAt": "2026-03-21T17:18:45.405Z",
->>>>>>> session-8.2.1
+  "generatedAt": "2026-03-21T18:54:23.274Z",
   "check": "Deprecation",
   "totalScanned": 1152,
   "tierModel": "tier1",
