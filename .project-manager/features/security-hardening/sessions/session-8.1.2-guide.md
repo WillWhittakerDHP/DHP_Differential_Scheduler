@@ -25,7 +25,7 @@
 **Approach:** curl -H "Origin: https://evil.com" to API; verify CORS error or no Access-Control-Allow-Origin
 **Checkpoint:** Disallowed origin rejected; allowed origin (localhost) succeeds
 
-- [ ] #### Task 8.1.2.2: Polish .env.example
+- [x] #### Task 8.1.2.2: Polish .env.example
 **Goal:** Expand CORS_ORIGIN doc with dev/production examples
 **Files:** server/.env.example
 **Approach:** Add commented examples for localhost (dev) and Render URL (production); document comma-separated format
