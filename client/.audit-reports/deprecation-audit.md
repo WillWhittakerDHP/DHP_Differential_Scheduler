@@ -106,8 +106,8 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 ### `client/src/composables/admin/useInstanceDragAndDrop.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-nullish@56: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
-[LEGACY] unhelpful-default-nullish@63: const all = blockInstancesByShape.value.get(blockShapeId) ?? []
+[LEGACY] unhelpful-default-nullish@61: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
+[LEGACY] unhelpful-default-nullish@68: const all = blockInstancesByShape.value.get(blockShapeId) ?? []
 ```
 
 ### `client/src/components/booking/steps/AvailabilityStep.vue` [P2] (score: 2)
