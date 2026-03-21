@@ -34,11 +34,33 @@ export function useInstanceDragAndDrop(
 
   const groupDragInstances = ref<Map<string, ReturnType<typeof dragAndDrop>>>(new Map())
   const isMounted = ref(false)
+  /** Bumps when standalone-list membership changes so FormKit can re-bind after v-if remounts. */
+  const dragReinitNonce = ref(0)
+  /** Per shape: nonce of the last successful FormKit bind (avoid re-init on unrelated map deep updates). */
+  const shapeDragBoundNonce = ref<Map<string, number>>(new Map())
+  let lastStandaloneMembershipSignature = ''
+
+  function standaloneListMembershipSignature(
+    instancesMap: Map<string, GlobalEntity<'blockInstance'>[]>
+  ): string {
+    return Array.from(instancesMap.entries())
+      .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
+      .sort()
+      .join('|')
+  }
 
   /**
    * PATTERN: Watch blockInstancesByShape and create handlers/arrays for each group (similar to ShapesTab pattern)
    */
   watch(mainInstancesByShape, (instancesMap) => {
+    const nextSig = standaloneListMembershipSignature(instancesMap)
+    if (nextSig !== lastStandaloneMembershipSignature) {
+      lastStandaloneMembershipSignature = nextSig
+      groupDragInstances.value.clear()
+      shapeDragBoundNonce.value = new Map()
+      dragReinitNonce.value += 1
+    }
+
     instancesMap.forEach((instances, blockShapeId) => {
       if (!blockInstancesLists.value.has(blockShapeId)) {
         blockInstancesLists.value.set(blockShapeId, ref([...instances]))
@@ -68,12 +90,23 @@ export function useInstanceDragAndDrop(
         }
       }
     })
+
+    const idsMap = blockInstanceIdsMap.value
+    idsMap.forEach((_idsRef, blockShapeId) => {
+      const ids = _idsRef.value
+      if (ids.length === 0) {
+        groupDragInstances.value.delete(blockShapeId)
+        shapeDragBoundNonce.value.delete(blockShapeId)
+      }
+    })
   }, { immediate: true, deep: true })
 
   /**
    * PATTERN: Watch containers and panels containers, set up drag-and-drop manually (similar to useDragAndDrop pattern)
    */
-  watch(() => [groupContainers.value, groupPanelsContainers.value], ([containers, panelsContainers]) => {
+  watch(
+    () => [groupContainers.value, groupPanelsContainers.value, dragReinitNonce.value] as const,
+    ([containers, panelsContainers]) => {
     if (!isMounted.value) return
     
     if (!containers || !(containers instanceof Map)) return
@@ -81,8 +114,6 @@ export function useInstanceDragAndDrop(
     
     containers.forEach((container, blockShapeId) => {
       if (!container || !(container instanceof HTMLElement)) return
-      
-      if (groupDragInstances.value.has(blockShapeId)) return
       
       const instancesList = blockInstancesLists.value.get(blockShapeId)
       const instanceIds = blockInstanceIdsMap.value.get(blockShapeId)
@@ -95,15 +126,23 @@ export function useInstanceDragAndDrop(
         if (!isMounted.value) return
         
         try {
-          const panelsEl = getPanelsElement(isRef(panelsRef) ? panelsRef.value : panelsRef, container)
+          const panelsEl = getPanelsElement(
+            isRef(panelsRef) ? panelsRef.value : panelsRef,
+            null,
+            undefined,
+            false
+          )
           if (!panelsEl || !(panelsEl instanceof HTMLElement)) return
           
-          const panelsRefForDrag = ref(panelsEl)
-          
-          const existingInstance = groupDragInstances.value.get(blockShapeId)
-          if (existingInstance) {
-            groupDragInstances.value.delete(blockShapeId)
+          const layoutNonce = dragReinitNonce.value
+          if (
+            groupDragInstances.value.has(blockShapeId) &&
+            shapeDragBoundNonce.value.get(blockShapeId) === layoutNonce
+          ) {
+            return
           }
+          
+          const panelsRefForDrag = ref(panelsEl)
           
           // PATTERN: Check values array length before initializing drag-and-drop
           const instanceIdsArray = instanceIds.value
@@ -119,6 +158,8 @@ export function useInstanceDragAndDrop(
             // PATTERN: Skip initialization and let watcher retry on next update
             return
           }
+          
+          groupDragInstances.value.delete(blockShapeId)
           
           groupDragInstances.value.set(blockShapeId, dragAndDrop({
             parent: panelsRefForDrag,
@@ -136,12 +177,15 @@ export function useInstanceDragAndDrop(
               dragHandlers.handleDragEnd()
             },
           }))
+          shapeDragBoundNonce.value.set(blockShapeId, layoutNonce)
         } catch (error) {
           logger.debug('Failed to initialize drag and drop for group', { error, blockShapeId })
         }
       })
     })
-  }, { immediate: true, deep: true })
+  },
+  { immediate: true, deep: true, flush: 'post' }
+  )
 
   onMounted(() => {
     isMounted.value = true
