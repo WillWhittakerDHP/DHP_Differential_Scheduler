@@ -27,7 +27,7 @@ Differential scheduling allows the inspector and client to arrive at different t
 
 ## Related Documents
 
-- **Feature Plan**: `feature-plan.md`
+- **Feature Guide**: `feature-calendar-appointment-availability-guide.md`
 - **USER_STORY.md**: `../../USER_STORY.md` (user story requirements)
 - **Vue Migration Completion**: `../vue-migration/vue-migration-completion-summary.md`
 

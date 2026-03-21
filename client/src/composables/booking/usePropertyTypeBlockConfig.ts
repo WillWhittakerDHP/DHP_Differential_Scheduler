@@ -1,58 +1,16 @@
 /**
- * usePropertyTypeBlockConfig Composable
- * 
- * LEARNING: Extracts property type block selection config construction logic from PropertyDetailsStep component
- * WHY: Moves complex config construction logic to composable
- * PATTERN: Composable that provides computed config for SelectionCardGroup
- */
+ * WHY: usePropertyTypeBlockConfig Composable
 
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
-import type { ComponentItem } from './usePropertyDetailsLogic'
+WHY: Moves complex config constru...
+ */
+import { computed } from 'vue'
+import { APP_STAGE } from '@shared/constants/appStageConstants'
+import type { SelectionCardConfig, SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
+import type { ComponentItem } from '@/types/booking/propertyDetailsLogic'
+import type { UsePropertyTypeBlockConfigParams, UsePropertyTypeBlockConfigReturn } from '@/types/booking/propertyTypeBlockConfig'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
-export interface UsePropertyTypeBlockConfigParams {
-  selectedPropertyTypeBlocks: Ref<unknown[]>
-  propertyTypeBlocksStatePlugin: unknown | null
-  availablePropertyTypeBlocks?: Ref<unknown[]>
-}
 
-export interface SelectionCardConfig {
-  selectionType: 'checkbox' | 'radio'
-  selectionComponent: 'VCheckbox' | 'VRadio'
-  selectionGroup: 'none' | 'v-radio-group'
-  stateSource: 'wizard' | 'local'
-  layout: 'row' | 'stack'
-  controlPosition: 'top' | 'bottom' | 'left' | 'right'
-  gridColumns: { cols?: string | number; sm?: string | number; md?: string | number; lg?: string | number; xl?: string | number }
-  appearance: {
-    showIcon: boolean
-    showDescription: boolean
-    showBorder: boolean
-    cardPadding: string
-    minHeight: string
-  }
-  expansion: {
-    enabled: boolean
-    componentData: (item: SelectionCardItem) => {
-      composite: boolean
-      visibleComponents: Array<{ id: string; name: string; description?: string; icon?: string }>
-    } | null
-  }
-  statePlugins?: unknown[]
-}
-
-export interface UsePropertyTypeBlockConfigReturn {
-  rowSelectionConfig: ComputedRef<SelectionCardConfig>
-}
-
-/**
- * usePropertyTypeBlockConfig composable
- * 
- * LEARNING: Provides computed config for property type block selection cards
- * WHY: Extracts config construction logic from component to composable
- * PATTERN: Computed that returns config object with reactive dependencies
- */
 export function usePropertyTypeBlockConfig(
   params: UsePropertyTypeBlockConfigParams
 ): UsePropertyTypeBlockConfigReturn {
@@ -63,8 +21,6 @@ export function usePropertyTypeBlockConfig(
   } = params
 
   /**
-   * LEARNING: Computed property for row selection config
-   * WHY: Ensures config re-evaluates when wizard state changes (e.g., when loading appointments)
    * PATTERN: Shared config object matching user types configuration with enhanced config properties and wizard state plugin
    */
   const rowSelectionConfig = computed(() => {
@@ -87,7 +43,7 @@ export function usePropertyTypeBlockConfig(
         showDescription: true,
         showBorder: true,
         cardPadding: 'pa-6',
-        minHeight: '200px'
+        minHeight: 'auto'
       },
       expansion: {
         enabled: true,
@@ -111,13 +67,13 @@ export function usePropertyTypeBlockConfig(
     if (propertyTypeBlocksStatePlugin) {
       return {
         ...baseConfig,
-        statePlugins: [propertyTypeBlocksStatePlugin]
+        statePlugins: [propertyTypeBlocksStatePlugin as StatePlugin]
       }
     }
     
     return {
       ...baseConfig,
-      stateSource: 'local' as const
+      stateSource: APP_STAGE.LOCAL
     }
   })
 

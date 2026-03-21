@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
-import { useAbility } from '@casl/vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const ability = useAbility()
+import { useCookie } from '@/@core/composable/useCookie'
+import { useLogout } from '@/composables/layout/useLogout'
 
 type UserDataCookie = {
   avatar?: string
@@ -14,19 +11,7 @@ type UserDataCookie = {
 }
 
 const userData = useCookie<UserDataCookie | null>('userData')
-
-const logout = async () => {
-  useCookie('accessToken').value = null
-
-  userData.value = null
-
-  await router.push('/login')
-
-  // ℹ️ We had to remove abilities in then block because if we don't nav menu items mutation is visible while redirecting user to login page
-  useCookie('userAbilityRules').value = null
-
-  ability.update([])
-}
+const logout = useLogout()
 
 const userProfileList = [
   { type: 'divider' },
@@ -100,7 +85,7 @@ const userProfileList = [
               </VListItemAction>
 
               <div>
-                <h6 class="text-h6 font-weight-medium">
+                <h6 class="text-headline-small font-weight-medium">
                   {{ userData.fullName || userData.username }}
                 </h6>
                 <VListItemSubtitle class="text-capitalize text-disabled">

@@ -1,36 +1,41 @@
-/**
- * Relationship Annotation Assignment Router
- * 
- * LEARNING: Special router for annotation assignment operations
- * WHY: Annotation assignments have special endpoint (PATCH by blockInstanceId/annotationId)
- * PATTERN: Express router with annotation assignment-specific endpoints
- */
-
 import { Router, Request, Response } from 'express'
+import Joi from 'joi'
 import { AnnotationAssignment } from '../../../config/app.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { ERROR_MESSAGES } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { createLogger } from '../../../utils/logger.js'
+import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 
 const logger = createLogger('RelationshipRouter')
 
+const patchParamsSchema = Joi.object({
+  blockInstanceId: Joi.string().required(),
+  annotationId: Joi.string().required(),
+}).unknown(true)
+
+const patchBodySchema = Joi.object({
+  userTypeBlockInstanceId: Joi.string().allow('').optional(),
+}).unknown(true)
+
 const router = Router()
 
-/**
- * PATCH /relationships/annotationAssignments/:blockInstanceId/:annotationId
- * Update an annotation assignment
- * 
- * LEARNING: Updates annotation assignment userTypeBlockInstanceId
- * WHY: Enables annotation assignment updates via API
- * PATTERN: Find assignment by blockInstanceId/annotationId, update field, save, return JSON
- * NOTE: This endpoint is specific to annotationAssignments for parent/child ID-based updates
- */
 router.patch('/:blockInstanceId/:annotationId', csrfProtection, async (req: Request, res: Response): Promise<void> => {
-  const { blockInstanceId, annotationId } = req.params
-  const { userTypeBlockInstanceId } = req.body
-  
+  const paramsValidation = patchParamsSchema.validate(req.params, { abortEarly: false })
+  if (paramsValidation.error) {
+    sendBadRequest(res, paramsValidation.error.message)
+    return
+  }
+  const { blockInstanceId, annotationId } = paramsValidation.value
+
+  const bodyValidation = patchBodySchema.validate(req.body, { abortEarly: false })
+  if (bodyValidation.error) {
+    sendBadRequest(res, bodyValidation.error.message)
+    return
+  }
+  const { userTypeBlockInstanceId } = bodyValidation.value
+
   try {
     const assignment = await AnnotationAssignment.findOne({
       where: {

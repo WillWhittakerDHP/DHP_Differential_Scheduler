@@ -1,21 +1,21 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
     <AppTextarea
-      :id="`field-${String(fieldContext.fieldKey)}`"
-      :name="String(fieldContext.fieldKey)"
+      :id="`field-${String(fieldContext.state.fieldKey)}`"
+      :name="String(fieldContext.state.fieldKey)"
       :model-value="fieldValue"
-      :label="fieldContext.displayConfig.label"
-      :placeholder="fieldContext.displayConfig.placeholder"
-      :disabled="fieldContext.displayConfig.disabled"
-      :readonly="fieldContext.displayConfig.readOnly"
-      :error="!!fieldContext.error?.value"
-      :error-messages="fieldContext.error?.value"
+      :label="fieldContext.state.displayConfig.label"
+      :placeholder="fieldContext.state.displayConfig.placeholder"
+      :disabled="fieldContext.state.displayConfig.disabled"
+      :readonly="fieldContext.state.displayConfig.readOnly"
+      :error="!!fieldContext.state.error?.value"
+      :error-messages="fieldContext.state.error?.value"
       rows="4"
       :autocomplete="AUTCOMPLETE_OFF"
       @update:model-value="handleChange"
@@ -28,19 +28,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: TextAreaInput renders multi-line text input
- * 
- * WHY: Textarea fields need multi-line input
- * 
- * PATTERN: Wrapper component pattern - wraps Vuexy App component with field context
- * 
- * COMPARISON: React uses Ant Design Input.TextArea. Vue uses Vuexy AppTextarea.
- *             Both provide multi-line text input.
- * 
- * MIGRATION: Migrated from VTextarea to AppTextarea following SelectInputs.vue pattern.
- *            App components handle labels internally.
+ * PATTERN: Wrapper component pattern - wraps Vuexy App component with field context...
  */
-
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import BaseInput from './BaseInput.vue'
 import AppTextarea from '@/@core/components/app-form-elements/AppTextarea.vue'

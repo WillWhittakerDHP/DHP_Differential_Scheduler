@@ -10,7 +10,6 @@ interface FileData {
 const fileData = ref<FileData[]>([])
 const { open, onChange } = useFileDialog({ accept: 'image/*' })
 
-// Snackbar state for error messages
 const snackbar = ref(false)
 const snackbarMessage = ref('')
 
@@ -67,7 +66,7 @@ useDropZone(dropZoneRef, onDrop)
           >
             <VIcon icon="tabler-upload" />
           </IconBtn>
-          <h4 class="text-h4">
+          <h4 class="text-headline-large">
             Drag and drop your image here.
           </h4>
           <span class="text-disabled">or</span>

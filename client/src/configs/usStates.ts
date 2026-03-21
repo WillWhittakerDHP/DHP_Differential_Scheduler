@@ -1,10 +1,6 @@
 /**
- * US state options for address forms
- * LEARNING: Single source of truth for state dropdowns (wizard, admin, etc.)
- * WHY: Reusable across PropertyDetailsStep, BusinessControlsTab, and future address forms
- * P2 type-similarity: extends SelectOptionBase (same shape).
+ * WHY: US state options for address forms
  */
-
 import type { SelectOptionBase } from '@/composables/useSelectOptions'
 
 export type USStateOption = SelectOptionBase

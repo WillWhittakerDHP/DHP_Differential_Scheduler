@@ -1,10 +1,8 @@
-export type FieldsByLayout<FieldKey extends string = string> = {
-  inline: FieldKey[]
-  stacked: FieldKey[]
-  hidden: FieldKey[]
-}
+import type { FieldsByLayout } from '@/types/forms/layoutFieldCategorization'
 
-export function filterFieldsInConfigOrder<FieldKey extends string>(
+export type { FieldsByLayout } from '@/types/forms/layoutFieldCategorization'
+
+export function filterFieldsInConfigOrder<FieldKey extends string | number>(
   allFields: readonly FieldKey[],
   config: readonly FieldKey[]
 ): FieldKey[] {
@@ -15,8 +13,6 @@ export function filterFieldsInConfigOrder<FieldKey extends string>(
 /**
  * Split a list of fields into inline/stacked/hidden using layout configs.
  * 
- * LEARNING: Field visibility comes from metadata, not config
- * WHY: Metadata is the single source of truth for which fields should render
  * PATTERN: Fields not in inlineFields or stackedFields are categorized as hidden
  */
 export function categorizeFieldsByLayout(

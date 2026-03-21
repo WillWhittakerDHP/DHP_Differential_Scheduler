@@ -1,25 +1,17 @@
 /**
- * useMockCalendarRefresh Composable
- * 
- * LEARNING: Manages mock calendar refresh key and reset functionality
- * WHY: Extracts mock calendar refresh management from AvailabilityStep component
- * PATTERN: Composable that manages refresh state and watches parent signal
+ * PATTERN: useMockCalendarRefresh Composable
+
+PATTERN: Composable that manages refr...
  */
+import { ref, watch, inject } from 'vue'
+import { resetMocksSignalKey } from '@/composables/booking/injectionKeys'
+import type { UseMockCalendarRefreshReturn } from '@/types/booking/mockCalendarRefresh'
 
-import { ref, watch, inject, type Ref } from 'vue'
-
-export interface UseMockCalendarRefreshReturn {
-  mockRefreshKey: Ref<number>
-  
-  resetMocks: () => void
-}
 
 /**
- * useMockCalendarRefresh composable
- * 
- * LEARNING: Manages mock calendar refresh key and reset functionality
- * WHY: Extracts refresh management logic from component to composable
- * PATTERN: Composable that manages state and watches parent signal
+ * WHY: useMockCalendarRefresh composable
+
+WHY: Extracts refresh management logi...
  */
 export function useMockCalendarRefresh(): UseMockCalendarRefreshReturn {
   // PATTERN: Incrementing ref forces computed properties to recalculate
@@ -31,7 +23,7 @@ export function useMockCalendarRefresh(): UseMockCalendarRefreshReturn {
   }
 
   // PATTERN: Watch signal ref and call resetMocks when it changes
-  const resetMocksSignal = inject<Ref<number>>('resetMocksSignal', ref(0))
+  const resetMocksSignal = inject(resetMocksSignalKey, ref(0))
   watch(resetMocksSignal, () => {
     resetMocks()
   })

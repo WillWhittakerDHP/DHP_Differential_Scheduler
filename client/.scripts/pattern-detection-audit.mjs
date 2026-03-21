@@ -10,9 +10,11 @@ import {
 /**
  * Pattern Detection Audit Script
  *
- * Goal: Produce a deterministic inventory of code patterns (string literals, types, enums,
- * config locations, function patterns) to help identify duplication opportunities and
+ * Goal: Produce a deterministic inventory of code patterns (string literals, config
+ * locations, function patterns) to help identify duplication opportunities and
  * maintain consistency across the codebase.
+ * Type and constant cataloging has moved to type-constant-inventory-audit; run
+ * `npm run audit:type-constant-inventory` for the full inventory.
  *
  * Scope:
  * - Included: client/src (ts, js, vue files) and server/src (ts, mjs files)
@@ -92,47 +94,10 @@ function scanFile(filePath, allFiles, projectRoot) {
       })
     }
     
-    // Scan for type definitions
+    // Type and enum cataloging moved to type-constant-inventory-audit.mjs
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i]
       const trimmed = line.trim()
-      
-      // export type X = ...
-      const typeExportMatch = trimmed.match(/export\s+type\s+(\w+)\s*=/)
-      if (typeExportMatch) {
-        patterns.typeDefinitions.push({
-          name: typeExportMatch[1],
-          file: repoPath,
-          line: i + 1,
-          definition: trimmed.substring(0, 100),
-        })
-      }
-      
-      // export interface X ...
-      const interfaceExportMatch = trimmed.match(/export\s+interface\s+(\w+)/)
-      if (interfaceExportMatch) {
-        patterns.typeDefinitions.push({
-          name: interfaceExportMatch[1],
-          file: repoPath,
-          line: i + 1,
-          definition: trimmed.substring(0, 100),
-          isInterface: true,
-        })
-      }
-      
-      // const X = [...] as const (enum-like pattern)
-      const enumLikeMatch = trimmed.match(/export\s+const\s+(\w+)\s*=\s*\[([^\]]+)\]\s*as\s+const/)
-      if (enumLikeMatch) {
-        const enumName = enumLikeMatch[1]
-        const values = enumLikeMatch[2].split(',').map(v => v.trim().replace(/['"]/g, ''))
-        patterns.enumPatterns.push({
-          name: enumName,
-          file: repoPath,
-          line: i + 1,
-          values: values,
-          definition: trimmed.substring(0, 150),
-        })
-      }
       
       // Status workflow patterns
       if (trimmed.includes("'submitted'") || trimmed.includes("'confirmed'") || trimmed.includes("'started'")) {
@@ -198,24 +163,6 @@ function aggregatePatterns(filePatterns) {
       const entry = aggregated.stringLiterals.get(sl.value)
       entry.count++
       entry.locations.push({ file: repoPath, line: sl.line, context: sl.context, code: sl.code })
-    }
-    
-    // Aggregate type definitions
-    for (const td of patterns.typeDefinitions) {
-      if (!aggregated.typeDefinitions.has(td.name)) {
-        aggregated.typeDefinitions.set(td.name, { definition: td.definition, isInterface: td.isInterface || false, locations: [] })
-      }
-      const entry = aggregated.typeDefinitions.get(td.name)
-      entry.locations.push({ file: repoPath, line: td.line })
-    }
-    
-    // Aggregate enum patterns
-    for (const ep of patterns.enumPatterns) {
-      if (!aggregated.enumPatterns.has(ep.name)) {
-        aggregated.enumPatterns.set(ep.name, { values: ep.values, definition: ep.definition, locations: [] })
-      }
-      const entry = aggregated.enumPatterns.get(ep.name)
-      entry.locations.push({ file: repoPath, line: ep.line })
     }
     
     // Aggregate config locations
@@ -370,8 +317,7 @@ function renderMarkdownReport(data) {
   lines.push('')
   lines.push(`- Files scanned: **${fileCount}**`)
   lines.push(`- String literals found: **${Object.keys(aggregated.stringLiterals || {}).length}** (showing those with ${MIN_STRING_LITERAL_OCCURRENCES}+ occurrences)`)
-  lines.push(`- Type definitions found: **${Object.keys(aggregated.typeDefinitions || {}).length}**`)
-  lines.push(`- Enum patterns found: **${Object.keys(aggregated.enumPatterns || {}).length}**`)
+  lines.push('- Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)')
   lines.push(`- Config locations found: **${aggregated.configLocations.length}**`)
   lines.push(`- Function patterns found: **${Object.keys(aggregated.functionPatterns || {}).length}**`)
   lines.push(`- Common patterns found: **${aggregated.commonPatterns.length}**`)
@@ -401,42 +347,12 @@ function renderMarkdownReport(data) {
     lines.push('')
   }
   
-  // Type Definitions Section
-  lines.push('## Type Definitions')
+  // Type/constant cataloging moved to type-constant-inventory-audit
+  lines.push('## Types and Constants')
   lines.push('')
-  lines.push('| Type Name | Kind | Definition Location |')
-  lines.push('| --- | --- | --- |')
-  const types = Object.entries(aggregated.typeDefinitions || {})
-    .sort((a, b) => a[0].localeCompare(b[0]))
-  for (const [name, entry] of types.slice(0, 100)) {
-    const kind = entry.isInterface ? 'interface' : 'type'
-    const location = entry.locations[0]
-    lines.push(`| \`${name}\` | ${kind} | \`${location.file}:${location.line}\` |`)
-  }
-  if (types.length > 100) {
-    lines.push(`| ... | ... | (+${types.length - 100} more) |`)
-  }
+  lines.push('Type and constant cataloging has moved to **type-constant-inventory-audit**.')
+  lines.push('Run `npm run audit:type-constant-inventory` for the full inventory.')
   lines.push('')
-  
-  // Enum Patterns Section
-  lines.push('## Enum-like Patterns (const X = [...] as const)')
-  lines.push('')
-  if (Object.keys(aggregated.enumPatterns || {}).length === 0) {
-    lines.push('_No enum-like patterns found._')
-    lines.push('')
-  } else {
-    lines.push('| Enum Name | Values | Definition Location |')
-    lines.push('| --- | --- | --- |')
-    const enums = Object.entries(aggregated.enumPatterns || {})
-      .sort((a, b) => a[0].localeCompare(b[0]))
-    for (const [name, entry] of enums) {
-      const values = entry.values.slice(0, 5).map(v => `\`${v}\``).join(', ')
-      const moreValues = entry.values.length > 5 ? ` (+${entry.values.length - 5} more)` : ''
-      const location = entry.locations[0]
-      lines.push(`| \`${name}\` | ${values}${moreValues} | \`${location.file}:${location.line}\` |`)
-    }
-    lines.push('')
-  }
   
   // Config Locations Section
   lines.push('## Config File Locations')
@@ -581,7 +497,7 @@ function main() {
   const serverCount = absFiles.filter(f => f.startsWith(paths.serverSrc)).length
   console.log(`Wrote:\n- ${toRepoPath(outJson, paths.projectRoot)}\n- ${toRepoPath(outMd, paths.projectRoot)}`)
   console.log(`Files scanned: ${absFiles.length} (${clientCount} client, ${serverCount} server)`)
-  console.log(`Patterns found: ${Object.keys(aggregated.stringLiterals || {}).length} string literals, ${Object.keys(aggregated.typeDefinitions || {}).length} types, ${Object.keys(aggregated.enumPatterns || {}).length} enums, ${aggregated.configLocations.length} config files, ${Object.keys(aggregated.functionPatterns || {}).length} function patterns`)
+  console.log(`Patterns found: ${Object.keys(aggregated.stringLiterals || {}).length} string literals, ${aggregated.configLocations.length} config files, ${Object.keys(aggregated.functionPatterns || {}).length} function patterns (types/enums: see audit:type-constant-inventory)`)
   process.exitCode = 0
 }
 

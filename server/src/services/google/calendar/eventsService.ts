@@ -1,10 +1,3 @@
-/**
- * Google Calendar Events Service
- * 
- * LEARNING: Service for Google Calendar events API operations
- * WHY: Centralized events operations with caching, rate limiting, retry, and fallback
- * PATTERN: Service layer with infrastructure integration
- */
 
 import { google } from 'googleapis'
 import { oauth2Client } from '../../../config/googleOAuth.js'
@@ -18,39 +11,22 @@ import { MAX_EVENTS_RESULTS } from './calendarConstants.js'
 
 const logger = createLogger('EventsService')
 
-/**
- * Get full calendar events with locations
- * 
- * LEARNING: Fetches full event details (not just free-busy) to extract locations
- * WHY: Required for drive time calculations between appointments
- * PATTERN: Retry for transient errors, fallback to cache on failure
- * 
- * @param calendarEmail - Calendar email address
- * @param timeMin - Start time for event query
- * @param timeMax - End time for event query
- * @returns Array of calendar events with locations (may be from cache if API fails)
- */
 export async function getCalendarEvents(
   calendarEmail: string,
   timeMin: Date | string,
   timeMax: Date | string
 ): Promise<CalendarEventsResponseWithMeta> {
-  // Normalize time inputs
   const timeMinDate = typeof timeMin === 'string' ? new Date(timeMin) : timeMin
   const timeMaxDate = typeof timeMax === 'string' ? new Date(timeMax) : timeMax
   
-  // Clamp timeMin to now — past events are irrelevant for availability
-  // WHY: Original timeMinDate is kept for cache key stability; effectiveTimeMin is sent to Google
   const now = new Date()
   const effectiveTimeMin = timeMinDate < now ? now : timeMinDate
   
-  // Check cache first (using original date range for stable cache key)
   const cachedData = getCachedEvents(calendarEmail, timeMinDate, timeMaxDate)
   if (cachedData) {
     return { events: cachedData, _meta: { source: 'cache' } }
   }
   
-  // Define the API operation
   const fetchFromApi = async () => {
     return await withRateLimit('google-calendar', async () => {
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client })
@@ -79,7 +55,6 @@ export async function getCalendarEvents(
     })
   }
   
-  // Execute with retry and fallback
   const result = await withFallback(
     () => withRetry(fetchFromApi, { maxRetries: 2 }),
     () => getCachedEvents(calendarEmail, timeMinDate, timeMaxDate),

@@ -6,15 +6,9 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import { RelationshipSelectModeEnum } from '@/types/entity/formDataEnums'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
+import type { SelectConfigLike, OptionsSelectConfigLike } from '@/types/admin/selectTypeResolver'
 
-export type SelectConfigLike =
-  | RelationshipFieldType<GlobalEntityKey>
-  | VirtualFieldType<GlobalEntityKey>
-
-export interface OptionsSelectConfigLike {
-  options: Array<{ value: string | null; label: string }>
-  selectMode?: RelationshipSelectModeEnum
-}
+export type { SelectConfigLike, OptionsSelectConfigLike } from '@/types/admin/selectTypeResolver'
 
 /**
  * Unwrap legacy inputConfig wrapped in relationshipSelect key; return as-is if already direct.
@@ -33,9 +27,6 @@ export function unwrapInputConfig(
   return inputConfig
 }
 
-/**
- * Return relationship or property select config from unwrapped inputConfig; throws if invalid.
- */
 export function getSelectConfigFromUnwrapped(
   inputConfig: Record<string, unknown>,
   entityKey: string,
@@ -56,9 +47,6 @@ export function getSelectConfigFromUnwrapped(
   )
 }
 
-/**
- * Resolve whether select is multiple from config; throws if selectMode missing when config exists.
- */
 export function resolveSelectMultiple(
   isEnumSelect: boolean,
   optionsConfig: OptionsSelectConfigLike | undefined,
@@ -80,9 +68,6 @@ export function resolveSelectMultiple(
   return selectConfig.selectMode === RelationshipSelectModeEnum.Multiple
 }
 
-/**
- * Resolve option entity key from config; throws if required keys missing.
- */
 export function resolveOptionEntityKey(
   isEnumSelect: boolean,
   isOptionsSelect: boolean,

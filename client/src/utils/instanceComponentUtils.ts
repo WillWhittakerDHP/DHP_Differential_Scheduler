@@ -1,11 +1,3 @@
-/**
- * Service Component Utilities
- * 
- * LEARNING: Shared utility functions for extracting components from services
- * WHY: Avoids code duplication between composables and components
- * PATTERN: Pure utility functions that can be used in both composables and components
- */
-
 import { getIcon } from './iconMapper'
 import type { GlobalEntity } from '@/types/entities'
 import type { ComponentItem } from '@/components/booking/types/selectionCardTypes'
@@ -58,11 +50,8 @@ export function extractInstanceComponents(params: {
 }
 
 /**
- * Check if a service is composable
- * 
- * LEARNING: Pure function that checks if a service's blockShape is composable
- * WHY: Can be used in both composables and components
- * PATTERN: Takes all required data as parameters, returns boolean
+ * WHY: Check if a service is composable
+
  */
 export function isServiceComposable(params: {
   serviceId: string
@@ -83,4 +72,3 @@ export function isServiceComposable(params: {
   const blockShapeWithComposable = blockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
   return blockShapeWithComposable.composable === true
 }
-

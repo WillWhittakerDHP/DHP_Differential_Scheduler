@@ -1,8 +1,3 @@
-/**
- * LEARNING: Admin Relationship Metadata Model
- * WHY: Dedicated model for relationship field metadata (parallel to AdminInputMetadata)
- * PATTERN: Similar structure to AdminInputMetadata but keyed by relationship_key instead of field_key
- */
 
 import {
   Model,

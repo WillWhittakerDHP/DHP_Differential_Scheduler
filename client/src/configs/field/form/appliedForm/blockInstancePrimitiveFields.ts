@@ -1,8 +1,3 @@
-/**
- * LEARNING: BlockInstance Primitive Fields - Field definitions for blockInstance entity
- * WHY: Defines which fields are primitive (text, number, boolean) for blockInstance
- * PATTERN: Spreads baseEntityFields and adds entity-specific fields
- */
 
 import { DEFAULT_VALUES, ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -82,6 +77,14 @@ export const blockInstancePrimitiveFields = {
     primitiveMode: PrimitiveModeEnum.Toggle,
     placeholder: "Differential",
     globalField: "differential" as const,
+    expandable: false,
+  },
+
+  preClosing: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Pre-closing",
+    globalField: "preClosing" as const,
     expandable: false,
   },
 

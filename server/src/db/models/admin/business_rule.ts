@@ -17,20 +17,6 @@ import type {
 } from '../../../../../shared/types/businessRulesTypes.js'
 import { RULE_TYPE_VALUES } from '../../../../../shared/constants/businessRulesConstants.js'
 
-/**
- * Business Rule Model
- * 
- * LEARNING: Stores admin-configurable validation rules as typed JSONB configs
- * WHY: Replaces hardcoded validation logic (isMultiFamily, requiresAgent) with database-driven rules
- * PATTERN: One-to-many relationship (block_instance → business_rules) with rule_type determining config schema
- * Type similarity UNIFY: rule config types imported from shared (Phase 1.2).
- */
-
-/**
- * Rule type enumeration
- * LEARNING: Derived from shared RULE_TYPE_VALUES for single source of truth
- * WHY: No inline literals; aligns with client and constants consolidation audit
- */
 export type RuleType = (typeof RULE_TYPE_VALUES)[keyof typeof RULE_TYPE_VALUES]
 
 export type {
@@ -41,12 +27,6 @@ export type {
   ValidationMessageRuleConfig,
 }
 
-/**
- * Business Rule Model Class
- * LEARNING: Sequelize model for business_rules table
- * WHY: Provides TypeScript types and database interaction
- * PATTERN: Model with typed JSONB field (ruleConfig type depends on ruleType)
- */
 export class BusinessRule extends Model<
   InferAttributes<BusinessRule>,
   InferCreationAttributes<BusinessRule>

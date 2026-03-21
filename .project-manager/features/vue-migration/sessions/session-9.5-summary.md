@@ -97,15 +97,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We Learned
-- Database schema evolution patterns with boolean field additions
-- Systematic field renaming (`visibility` → `visible`) across codebase
-- Entity kind unification strategies (combining `base_service` and `additional_service`)
-- Migration patterns for column renames and additions
-- Type safety maintenance during schema changes
-
 ### Why These Patterns Matter
 - Boolean fields (`active`, `dependent`, `visible`) provide flexible filtering and display control
 - Consistent naming (`visible` instead of `visibility`) improves code maintainability

@@ -1,10 +1,6 @@
 /**
- * Constraint validation helpers for tests
- *
- * WHY: Validators are only used in tests; moving them here removes unused exports from constraintExtractor.
- * PATTERN: Test helper module with shared validation logic.
+WHY: Validators are only used in...
  */
-
 import type {
   RangeConstraint,
   OverlapConstraint,

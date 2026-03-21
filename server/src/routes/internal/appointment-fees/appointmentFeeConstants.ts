@@ -1,10 +1,3 @@
-/**
- * Appointment Fee Summary Router Constants
- *
- * LEARNING: Error messages for read-only appointment fee summary routes
- * WHY: Follows CrudErrorMessages for createCrudRouter; mutations disabled but messages required by interface
- * PATTERN: Const object with FETCH_* / NOT_FOUND / CREATE / UPDATE / DELETE
- */
 
 export const FEE_ERROR_MESSAGES = {
   FETCH_ALL: 'Failed to fetch appointment fee summaries',

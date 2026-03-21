@@ -1,285 +1,93 @@
 <script setup lang="ts">
-/**
- * BookingWizard Component
- * 
- * LEARNING: Multi-step wizard component with horizontal stepper
- * WHY: Provides guided step-by-step booking flow matching Jose's design
- * PATTERN: Horizontal stepper at top, step content below, navigation buttons at bottom
- * COMPARISON: React uses MUI Stepper. Vue uses custom VList-based horizontal stepper
- */
-
-import { computed, provide, ref } from 'vue'
-import { useBookingWizard } from '@/composables/useBookingWizard'
-import { useAppointment } from '@/composables/useAppointment'
-import { useProperty } from '@/composables/useProperty'
-import { useUser } from '@/composables/useUser'
+// PATTERN: Thin component; orchestration in useBookingWizardSetup (vue-architecture audit).
+import { computed } from 'vue'
+import { useBookingWizardSetup } from '@/composables/booking/useBookingWizardSetup'
+import { buildQuoteLink } from '@/utils/booking/buildClientLinks'
 import { useNotification } from '@/composables/useNotification'
-import { useWizardNavigation } from '@/composables/booking/useWizardNavigation'
-import { useWizardValidation } from '@/composables/booking/useWizardValidation'
-import { useBookingWizardStepValidators } from '@/composables/booking/useBookingWizardStepValidators'
-import { useAppointmentDataCollection } from '@/composables/booking/useAppointmentDataCollection'
-import { useWizardDisplay } from '@/composables/booking/useWizardDisplay'
-import { useWizardStepContent } from '@/composables/booking/useWizardStepContent'
-import { useWizardSubmission } from '@/composables/booking/useWizardSubmission'
-import { useThemeMode } from '@/composables/useThemeMode'
-import { WIZARD_STEPS } from '@/configs/wizardSteps'
-import { useBooking } from '@/composables/useBooking'
-import { useAppointmentLoader } from '@/composables/booking/useAppointmentLoader'
-import { useWizardStepDataRefs } from '@/composables/booking/useWizardStepDataRefs'
-import { useWizardValidationErrors } from '@/composables/booking/useWizardValidationErrors'
-import { useWizardAppointmentManagement } from '@/composables/booking/useWizardAppointmentManagement'
-import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDropdown'
-import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
-import { isDevModeEnabled } from '@/utils/env/devMode'
-import { useDateRangeDecider, type DisplayedMonth } from '@/composables/booking/useDateRangeDecider'
-import { useComputedAvailability } from '@/composables/booking/useComputedAvailability'
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 
-const wizard = useBookingWizard()
-provide('wizard', wizard)
-
-const steps = WIZARD_STEPS
-
-// WHY: Encapsulates step data and validation state refs creation and provide/inject setup
-// PATTERN: Single refs object to avoid duplicating the list when passing to composables
-const stepDataRefs = useWizardStepDataRefs()
-
-// LEARNING: Use wizard validation composable
-// PATTERN: Composable provides validation function
-const { stepValidators } = useBookingWizardStepValidators({
-  selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-  selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
-  propertyDetailsStepValid: stepDataRefs.propertyDetailsStepValid,
-  propertyDetailsStepValidate: stepDataRefs.propertyDetailsStepValidate,
-  availabilityStepValid: stepDataRefs.availabilityStepValid,
-  availabilityStepValidate: stepDataRefs.availabilityStepValidate,
-  contactsStepValid: stepDataRefs.contactsStepValid,
-  contactsStepValidate: stepDataRefs.contactsStepValidate,
-  confirmationStepValid: stepDataRefs.confirmationStepValid,
-  confirmationStepValidate: stepDataRefs.confirmationStepValidate,
-})
-
-const { validateStep } = useWizardValidation({
-  stepValidators: stepValidators, // Pass computed ref directly so validation uses current values
-})
-
-// NOTE: Define showError explicitly to avoid temporal dead zone issues
-const notificationComposable = useNotification()
-const showError = notificationComposable.error
-const success = notificationComposable.success
-
-// LEARNING: Use wizard navigation composable
-// PATTERN: Composable provides navigation functions and state
 const {
+  steps,
   activeStep,
-  completedSteps,
+  completedSteps: _completedSteps,
   isLastStep,
-  handleNext: baseHandleNext,
+  handleNext,
   handlePrev,
-  handleStepClick: baseHandleStepClick,
-  getStepState,
-  isStepAccessible
-} = useWizardNavigation({
-  steps,
-  validateStep,
-  showError
-})
-
-const { handleNext } = useWizardValidationErrors({
-  activeStep,
-  validateStep,
-  baseHandleNext,
-  showError,
-  propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
-  propertyDetailsStepValidate: stepDataRefs.propertyDetailsStepValidate,
-  propertyDetailsFieldErrors: stepDataRefs.propertyDetailsFieldErrors,
-  contactsStepValidate: stepDataRefs.contactsStepValidate,
-  availabilityStepValidate: stepDataRefs.availabilityStepValidate,
-  selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
-})
-
-// WHY: Navigation composable handles validation, just pass through
-const handleStepClick = baseHandleStepClick
-
-// PATTERN: useMutation from useAppointment composable
-const { create, update, fetchAll, fetchRandom } = useAppointment()
-const { loadAppointmentById } = useAppointmentLoader()
-const { create: createProperty } = useProperty()
-const { create: createUser } = useUser()
-
-// WHY: Needed to transform appointment to wizard state
-// PATTERN: Use useBooking composable to get scheduler data
-const { bookingData } = useBooking()
-
-// WHY: Encapsulates appointment dropdown formatting logic
-const { appointmentDropdownItems } = useAppointmentDropdown({
-  fetchAll,
-})
-
-// LEARNING: Use appointment data collection composable
-// PATTERN: Composable provides data collection function
-const { collectAppointmentData } = useAppointmentDataCollection({
-  wizard: {
-    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
-    selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
-    selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
-    selectedLineItemBlocks: wizard.selectedLineItemBlocks,
-    selectedUserTypeBlock: wizard.selectedUserTypeBlock,
-    isQuoteMode: wizard.isQuoteMode
-  },
-  propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
-  contactsStepData: stepDataRefs.contactsStepData,
-  availabilityStepData: stepDataRefs.availabilityStepData,
-  createProperty,
-  createUser,
-  showError
-})
-
-// NOTE: Must be called before useWizardDisplay since it provides loadedWizardState
-const {
-  loadedWizardState,
-  loadedAppointmentId,
-  selectedAppointmentId,
-  isLoadingAppointment,
-  handleLoadAppointment,
-  handleUpdateAppointment,
-  handleResetWizard,
-} = useWizardAppointmentManagement({
-  ...stepDataRefs,
-  wizard,
-  bookingData,
-  loadAppointmentById,
-  fetchRandom,
-  collectAppointmentData,
-  updateAppointment: {
-    mutateAsync: update.mutateAsync,
-    isPending: update.isPending,
-  },
-  activeStep,
-  completedSteps,
-  showError,
-  success,
-})
-
-// LEARNING: Use wizard display composable
-// PATTERN: Composable provides reactive computed properties for display
-const {
+  handleStepClick,
+  isStepAccessible,
   stepSubtitles,
-} = useWizardDisplay({
-  steps,
-  selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
-  loadedWizardState
-})
-
-// LEARNING: Use wizard step content composable
-// PATTERN: Composable provides step content component mapping
-const { getStepContent } = useWizardStepContent()
-
-// LEARNING: Use theme mode composable for quote mode theme switching
-// PATTERN: Composable watches isQuoteMode and updates theme colors automatically
-// NOTE: Pass wizard instance directly since we have it in scope
-useThemeMode(wizard)
-
-// LEARNING: Computed property for quote mode state
-// PATTERN: Computed property that reads from wizard state
-const isQuoteMode = computed(() => wizard.isQuoteMode.value)
-
-const toggleQuoteMode = (): void => {
-  wizard.isQuoteMode.value = !wizard.isQuoteMode.value
-}
-
-// LEARNING: Use wizard submission composable
-// PATTERN: Composable provides submission function
-const { handleSubmit } = useWizardSubmission({
-  collectAppointmentData,
-  createAppointment: create,
-  activeStep,
-  completedSteps,
-  showError,
-  success
-})
-
-provide('loadedWizardState', loadedWizardState)
-
-// LEARNING: Initialize displayed month for API orchestrator
-// WHY: Tracks which month is displayed in calendar widget, triggers API prefetching
-// PATTERN: Defaults to current month, Step 3 can update via inject
-const now = new Date()
-const displayedMonth = ref<DisplayedMonth>({
-  year: now.getUTCFullYear(),
-  month: now.getUTCMonth()
-})
-
-// Allow Step 3 to update displayedMonth via provide/inject
-provide('displayedMonth', displayedMonth)
-provide('updateDisplayedMonth', (month: DisplayedMonth) => {
-  displayedMonth.value = month
-})
-
-// LEARNING: Create date range decider for displayed month
-// WHY: Single source of truth for date range used by all API composables
-const dateRange = useDateRangeDecider(displayedMonth)
-
-// LEARNING: Create appointment duration ref for computed availability
-// WHY: Duration is computed in AvailabilityStep, but needs to flow back to parent for accurate capacity calculations
-// PATTERN: Provide/inject pattern allows child to update parent ref reactively
-const appointmentDurationRef = ref<number | null>(null)
-provide('appointmentDuration', appointmentDurationRef)
-
-// Selected date (YYYY-MM-DD) for per-day slot fallback fetch; derived from step data updated by AvailabilityStep
-const selectedDateForSlots = computed(() => {
-  const start = stepDataRefs.availabilityStepData.value?.candidateDate?.start
-  return start ? (start.includes('T') ? start.split('T')[0] : start) : null
-})
-
-// LEARNING: Fetch server-computed availability data in parent component
-// WHY: Data persists across step navigation, 14-day prefetch + per-day fallback when date not in cache
-const computedAvailability = useComputedAvailability({
-  propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
-  dateRange,
-  activeStep,
-  duration: appointmentDurationRef,
-  selectedDate: selectedDateForSlots,
-})
-
-// Provide computed availability data for all steps
-provide('computedAvailability', computedAvailability)
-
-// WHY: Encapsulates dev mode state and handlers, provides reset mocks signal
-const isDevMode = isDevModeEnabled()
-// LEARNING: Dev mode composable called for side effects, handleResetMocks not currently used
-// WHY: Composable may set up watchers or other side effects
-// PATTERN: Call composable without destructuring unused return values
-useWizardDevMode({
-  wizard,
+  getStepContent,
+  isQuoteMode,
+  toggleQuoteMode,
+  wizardMode,
+  useDhpColors,
+  handleSubmit,
+  isUpdateSubmit,
   isDevMode,
-  selectedAppointmentId,
-  appointmentDropdownItems,
-  loadedAppointmentId,
-  isLoadingAppointment,
   fetchAll,
+  create,
+  update,
+  isLoadingAppointment,
   handleLoadAppointment,
-  handleUpdateAppointment,
-  handleResetWizard,
-  updateAppointment: {
-    isPending: update.isPending,
-  },
+  loadedAppointmentId,
+  stepItemClass,
+  stepItemStyle,
+} = useBookingWizardSetup()
+
+const { success, error: showError } = useNotification()
+
+/** When viewing an existing quote, show Copy quote link instead of Submit. */
+const showCopyQuoteLink = computed(
+  () => isQuoteMode.value && !!loadedAppointmentId.value && isLastStep.value
+)
+
+const submitButtonLabel = computed(() => {
+  if (!isLastStep.value) return 'Next'
+  if (create.isPending.value || update.isPending.value) return isUpdateSubmit.value ? 'Updating...' : 'Creating...'
+  return isUpdateSubmit.value ? 'Update appointment' : 'Submit'
 })
+
+async function handleCopyQuoteLink(): Promise<void> {
+  const id = loadedAppointmentId.value
+  if (!id) return
+  try {
+    const url = buildQuoteLink(id)
+    await window.navigator.clipboard.writeText(url)
+    success(APPOINTMENTS_TABLE_UI.LINK_COPIED)
+  } catch (err) {
+    showError(err instanceof Error ? err.message : 'Failed to copy link')
+  }
+}
 </script>
 
 <template>
-  <VCard class="booking-wizard" :class="{ 'quote-mode-active': isQuoteMode }">
+  <VCard
+    class="booking-wizard"
+    :class="{
+      'quote-mode-active': isQuoteMode && !useDhpColors,
+      'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
+      'dhp-colors-active': useDhpColors,
+    }"
+  >
     
     <VContainer fluid class="pa-0">
-      <VRow no-gutters class="wizard-layout">
+      <VRow density="compact" class="wizard-layout">
         <!-- Stepper Header (Top) -->
         <VCol cols="12" class="stepper-column">
-          <VCardText class="stepper-header" :class="{ 'quote-mode-active': isQuoteMode }">
+          <VCardText
+            class="stepper-header"
+            :class="{
+              'quote-mode-active': isQuoteMode && !useDhpColors,
+              'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
+              'dhp-colors-active': useDhpColors,
+            }"
+          >
             <VList class="horizontal-stepper" density="compact">
               <VListItem
                 v-for="(step, index) in steps"
                 :key="index"
-                :class="['stepper-item', getStepState(index), { 'step-disabled': !isStepAccessible(index) }]"
-                :style="{ cursor: isStepAccessible(index) ? 'pointer' : 'not-allowed', opacity: isStepAccessible(index) ? 1 : 0.5 }"
+                :class="stepItemClass(index)"
+                :style="stepItemStyle(index)"
                 @click="isStepAccessible(index) ? handleStepClick(index) : null"
               >
                 <template #prepend>
@@ -294,7 +102,6 @@ useWizardDevMode({
                   </VAvatar>
                 </template>
                 
-                <!-- LEARNING: Hide step titles/subtitles in devMode -->
                 <!-- WHY: Shows only avatars during development for cleaner UI -->
                 <!-- PATTERN: Conditional rendering based on devMode flag -->
                 <VListItemTitle v-if="!isDevMode" class="stepper-title">
@@ -306,11 +113,9 @@ useWizardDevMode({
               </VListItem>
             </VList>
             
-            <!-- LEARNING: Quote Mode Button -->
-            <!-- WHY: Allows users to toggle quote mode -->
+            <!-- WHY: Quote mode toggle; brand colors are configured in Admin → Business Controls → Wizard -->
             <!-- PATTERN: VBtn with toggle state -->
-            <VRow class="mt-4 align-center justify-center" no-gutters>
-              <!-- Quote Mode Button -->
+            <VRow class="mt-4 align-center justify-center" density="compact">
               <VCol cols="auto">
                 <VBtn
                   color="primary"
@@ -321,6 +126,18 @@ useWizardDevMode({
                   class="quote-mode-button"
                 >
                   {{ isQuoteMode ? 'I want to book' : 'I want a quote' }}
+                </VBtn>
+              </VCol>
+              <VCol v-if="isDevMode" cols="auto" class="ml-2">
+                <VBtn
+                  color="secondary"
+                  variant="outlined"
+                  size="small"
+                  prepend-icon="tabler-file-upload"
+                  :loading="fetchAll.isLoading.value || isLoadingAppointment"
+                  @click="handleLoadAppointment('random')"
+                >
+                  Load Random Appointment
                 </VBtn>
               </VCol>
             </VRow>
@@ -344,16 +161,44 @@ useWizardDevMode({
                 Previous
               </VBtn>
               
-              <VBtn
-                :color="isLastStep ? 'success' : 'primary'"
-                :prepend-icon="isLastStep ? 'tabler-check' : undefined"
-                :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"
-                :loading="isLastStep && create.isPending.value"
-                :disabled="isLastStep && create.isPending.value"
-                @click="isLastStep ? handleSubmit() : handleNext()"
-              >
-                {{ isLastStep ? (create.isPending.value ? 'Creating...' : 'Submit') : 'Next' }}
-              </VBtn>
+              <div class="d-flex gap-3">
+                <!-- ENACTMENT(Feature 7): Enable when authentication is implemented -->
+                <VTooltip v-if="isLastStep" location="top">
+                  <template #activator="{ props: tooltipProps }">
+                    <div v-bind="tooltipProps">
+                      <VBtn
+                        variant="outlined"
+                        color="warning"
+                        prepend-icon="tabler-clock-pause"
+                        disabled
+                      >
+                        Hold Slot
+                      </VBtn>
+                    </div>
+                  </template>
+                  <span>Hold requires authentication (Feature 7)</span>
+                </VTooltip>
+
+                <VBtn
+                  v-if="showCopyQuoteLink"
+                  color="primary"
+                  prepend-icon="tabler-link"
+                  @click="handleCopyQuoteLink"
+                >
+                  {{ APPOINTMENTS_TABLE_UI.COPY_QUOTE_LINK }}
+                </VBtn>
+                <VBtn
+                  v-else
+                  :color="isLastStep ? 'success' : 'primary'"
+                  :prepend-icon="isLastStep ? 'tabler-check' : undefined"
+                  :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"
+                  :loading="isLastStep && (create.isPending.value || update.isPending.value)"
+                  :disabled="isLastStep && (create.isPending.value || update.isPending.value)"
+                  @click="isLastStep ? handleSubmit() : handleNext()"
+                >
+                  {{ submitButtonLabel }}
+                </VBtn>
+              </div>
             </div>
           </VCardText>
         </VCol>
@@ -363,4 +208,3 @@ useWizardDevMode({
 </template>
 
 <style scoped lang="scss" src="./BookingWizard.scss"></style>
-

@@ -111,7 +111,7 @@
 ### Checkpoint 2026-02-20
 **Phases Completed:** (none yet)
 **Status:** On track
-**Notes:** Feature start — branch created from feature/google-apis-integration; workflow docs generated from feature-plan.md
+**Notes:** Feature start — branch created from feature/google-apis-integration; workflow docs generated from feature guide.
 **Git Branch:** `feature/booking-calculations`
 **Git Commit:** 1a029b2e
 
@@ -127,6 +127,16 @@
 
 **Documentation:**
 - Feature Change Doc: `.cursor/workflow-manager/features/[name]/feature-[name]-change.md`
+
+---
+
+## Feature Checkpoints
+
+### Checkpoint 2026-02-20
+**Status:** [On track / Behind / Ahead]
+**Notes:** [Checkpoint notes]
+**Git Branch:** `feature/booking-calculations`
+**Git Commit:** [Commit hash]
 
 ---
 

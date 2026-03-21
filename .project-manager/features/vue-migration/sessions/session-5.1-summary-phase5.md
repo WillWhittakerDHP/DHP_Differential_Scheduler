@@ -218,13 +218,6 @@ None - Session completed without issues.
 
 ---
 
-## Learning Points
-
-1. **Git Tag Archive Pattern**: Using git tags for permanent codebase archives (immutable, versioned)
-2. **Comprehensive Documentation**: Documenting complete state before removal ensures nothing is lost
-3. **Backup Verification**: Creating checklist ensures all critical data is preserved
-4. **Prerequisites Verification**: Double-checking all prerequisites before proceeding prevents issues
-
 ---
 
 ## Framework Differences (N/A)
@@ -278,4 +271,3 @@ This session was about archiving and documentation, not framework migration.
 
 **Session Status:** ✅ Complete  
 **Next Session:** 5.2 - Remove React Codebase and Update Configuration
-

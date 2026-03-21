@@ -1,33 +1,18 @@
 /**
- * useSelectionCardComponent Composable
- * 
- * LEARNING: Extracts selection component name and props logic from SelectionCard component
- * WHY: Moves dynamic component rendering logic to composable
- * PATTERN: Composable that provides component name and props
+ * WHY: useSelectionCardComponent Composable
+
+WHY: Moves dynamic component rende...
  */
-
-import { computed, type ComputedRef } from 'vue'
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
+import { computed } from 'vue'
 import { buildSelectionComponentProps, getSelectionComponentName } from '@/utils/booking/selectionCardComponent'
-import type { UseSelectionCardStylesParamsBase } from './useSelectionCardStyles'
+import type { UseSelectionCardComponentParams, UseSelectionCardComponentReturn } from '@/types/booking/selectionCard/selectionCardComponent'
 
-/** Extends shared styles params base (P2 type-similarity). */
-export interface UseSelectionCardComponentParams extends UseSelectionCardStylesParamsBase {
-  item: ComputedRef<SelectionCardItem>
-  controlClasses: ComputedRef<Record<string, boolean>>
-}
-
-export interface UseSelectionCardComponentReturn {
-  selectionComponentName: ComputedRef<string>
-  selectionComponentProps: ComputedRef<Record<string, unknown>>
-}
+export type { UseSelectionCardComponentParams, UseSelectionCardComponentReturn } from '@/types/booking/selectionCard/selectionCardComponent'
 
 /**
- * useSelectionCardComponent composable
- * 
- * LEARNING: Provides selection component name and props
- * WHY: Extracts component rendering logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
+ * WHY: useSelectionCardComponent composable
+
+WHY: Extracts component rendering ...
  */
 export function useSelectionCardComponent(params: UseSelectionCardComponentParams): UseSelectionCardComponentReturn {
   const {
@@ -37,20 +22,10 @@ export function useSelectionCardComponent(params: UseSelectionCardComponentParam
     controlClasses
   } = params
 
-  /**
-   * LEARNING: Selection component name based on config
-   * WHY: Allows dynamic component rendering
-   * PATTERN: Computed property that returns component name
-   */
   const selectionComponentName = computed(() => {
     return getSelectionComponentName(configWithDefaults.value)
   })
 
-  /**
-   * LEARNING: Selection component props
-   * WHY: Props to pass to dynamic selection component
-   * PATTERN: Computed object with component-specific props
-   */
   const selectionComponentProps = computed(() => {
     return buildSelectionComponentProps({
       itemId: item.value.id,

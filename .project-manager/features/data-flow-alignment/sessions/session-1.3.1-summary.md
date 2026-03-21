@@ -272,7 +272,7 @@ const isQuote = wizard.isQuoteMode.value
 
 ---
 
-## Key Learnings
+## Key Takeaways
 
 ### Architecture Insights
 1. **State was already correctly architected** - User type and quote mode were already at wizard level
@@ -309,7 +309,7 @@ const isQuote = wizard.isQuoteMode.value
 - **Session Guide**: `session-1.3.1-guide.md`
 - **Phase Guide**: `../phases/phase-1.3-guide.md`
 - **Phase Handoff**: `../phases/phase-1.3-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 
 ---
 

@@ -1,17 +1,10 @@
-/**
- * Google Maps API Helper Functions
- * 
- * LEARNING: Utility functions for Google Maps API operations
- * WHY: Reusable helper functions for data transformation and utilities
- * PATTERN: Pure helper functions
- */
 
 import { createLogger } from '../../../utils/logger.js'
 import { OAUTH_ERROR_MESSAGES } from '../../../constants/appConstants.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
 import { getGoogleMapsApiKey } from '../shared/googleApiConfig.js'
 import { GOOGLE_MAPS_API_BASE } from '../shared/googleApiConfig.js'
-import {
+import type {
   AddressComponents,
   AutocompletePrediction,
   Coordinates,
@@ -42,8 +35,6 @@ interface RawFindPlaceCandidate {
 
 /**
  * Validate HTTP response and throw MapsApiError on failure
- * LEARNING: Centralized HTTP error handling for Google API calls
- * WHY: Eliminates duplicated response.ok checks across services
  */
 export function validateHttpResponse(response: Response): void {
   if (!response.ok) {
@@ -57,8 +48,6 @@ export function validateHttpResponse(response: Response): void {
 
 /**
  * Validate Google API response status and throw MapsApiError for known failure statuses
- * LEARNING: Centralized API-level error handling
- * WHY: Eliminates duplicated status-checking branching across Places API functions
  *
  * @param data - Raw API response with status and optional error_message
  * @param options - throwOnZeroResults: if true, also throw for ZERO_RESULTS (used by geocode)
@@ -101,9 +90,6 @@ export function validateGoogleApiResponse(
   }
 }
 
-/**
- * Build Places Autocomplete API URL
- */
 export function buildAutocompleteUrl(input: string, apiKey: string, sessionToken?: string): string {
   const params = new URLSearchParams({
     input: input.trim(),
@@ -115,9 +101,6 @@ export function buildAutocompleteUrl(input: string, apiKey: string, sessionToken
   return `${GOOGLE_MAPS_API_BASE}/place/autocomplete/json?${params.toString()}`
 }
 
-/**
- * Transform raw Google Autocomplete predictions to our format
- */
 function optionalText(value: string | undefined | null): string {
   return value !== undefined && value !== null && value !== '' ? value : ''
 }
@@ -137,9 +120,6 @@ export function transformPredictions(
   })
 }
 
-/**
- * Build Place Details API URL
- */
 export function buildPlaceDetailsUrl(
   placeId: string,
   apiKey: string,
@@ -154,9 +134,6 @@ export function buildPlaceDetailsUrl(
   return `${GOOGLE_MAPS_API_BASE}/place/details/json?${params.toString()}`
 }
 
-/**
- * Transform raw Place Details result to PlaceDetails
- */
 export function transformPlaceResult(
   result: RawPlaceDetailsResult,
   placeId: string
@@ -183,9 +160,6 @@ export function transformPlaceResult(
   }
 }
 
-/**
- * Build Find Place from Text API URL
- */
 function buildFindPlaceUrl(address: string, apiKey: string): string {
   const params = new URLSearchParams({
     input: address.trim(),
@@ -198,10 +172,6 @@ function buildFindPlaceUrl(address: string, apiKey: string): string {
 
 const geocodeLogger = createLogger('PlacesGeocode')
 
-/**
- * Execute Find Place API call and extract placeId
- * Returns null on any error (network, auth, not found) - does not throw
- */
 export async function executeGeocodeApiCall(address: string): Promise<string | null> {
   try {
     const apiKey = getGoogleMapsApiKey()
@@ -231,15 +201,6 @@ export async function executeGeocodeApiCall(address: string): Promise<string | n
   }
 }
 
-/**
- * Parse address components from Google Places API response
- * LEARNING: Maps Google's address_components to our structured format
- * WHY: Provides normalized address fields for storage
- * PATTERN: Functional approach - map over components
- * 
- * @param components - Array of address components from Google Places API
- * @returns Parsed address components
- */
 function parseAddressComponents(components: Array<{
   types: string[]
   long_name: string
@@ -259,24 +220,15 @@ function parseAddressComponents(components: Array<{
 }
 
 /**
- * Convert our location format to Routes API waypoint format
- * 
- * LEARNING: Routes API has specific waypoint format
- * WHY: Different from Places API, uses nested structure
- * PATTERN: Priority: placeId > coordinates > address
- * 
- * @param location - Our location format
- * @returns Routes API waypoint format
- * @throws MapsApiError if location has no valid fields
+ * WHY: Convert our location format to Routes API waypoint format
+
  */
 export function toRoutesWaypoint(location: RouteLocation): object {
   if (location.placeId) {
-    // Best accuracy - uses exact place identifier
     return { placeId: location.placeId }
   }
   
   if (location.coordinates) {
-    // Good accuracy - uses lat/lng
     return {
       location: {
         latLng: {
@@ -288,7 +240,6 @@ export function toRoutesWaypoint(location: RouteLocation): object {
   }
   
   if (location.address) {
-    // Fallback - requires geocoding
     return { address: location.address }
   }
   
@@ -298,14 +249,10 @@ export function toRoutesWaypoint(location: RouteLocation): object {
 /**
  * Generate a session token for billing optimization
  * 
- * LEARNING: Session tokens group autocomplete + details into one billing session
- * WHY: Google charges per session, not per request, when using tokens
- * PATTERN: Generate UUID v4 for session token
  * 
  * @returns UUID v4 string for session token
  */
 export function generateSessionToken(): string {
-  // Simple UUID v4 generation
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = Math.random() * 16 | 0
     const v = c === 'x' ? r : (r & 0x3 | 0x8)

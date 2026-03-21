@@ -223,12 +223,6 @@ const isLastStep = computed(() => activeStep.value === steps.length - 1)
 </style>
 ```
 
-**Learning Points:**
-- VStepper component structure and props
-- Dynamic component rendering with `<component :is>`
-- Step navigation logic
-- Responsive layout with VRow/VCol
-
 **Note:** Check Vuetify 3 VStepper API - may need to adjust component structure based on actual Vuetify version. If VStepper doesn't support vertical mode or has different API, may need to use custom stepper implementation.
 
 ---
@@ -269,11 +263,6 @@ If VStepper doesn't work, use VList or custom structure:
   </VList>
 </template>
 ```
-
-**Learning Points:**
-- Vuetify component API research
-- Custom component patterns
-- Matching design requirements
 
 ---
 
@@ -550,14 +539,6 @@ const priceData = {
 </style>
 ```
 
-**Learning Points:**
-- VTable structure and styling
-- VCard with multiple sections
-- VTypography for text styling
-- VChip for badges
-- Responsive grid layout
-- Matching exact design from Jose's component
-
 ---
 
 ### Task 5.1.4: Match Jose's Visual Design
@@ -631,12 +612,6 @@ const handleSubmit = () => {
 }
 </script>
 ```
-
-**Learning Points:**
-- Conditional button styling
-- Icon positioning (prepend vs append)
-- Disabled state handling
-- Click handlers
 
 ---
 
@@ -730,5 +705,3 @@ client-vue/src/components/booking/
 - Project Plan: `.cursor/project-manager/PROJECT_PLAN.md`
 - Plan Details: `phase-5-booking-wizard-integration.plan.md`
 - Jose's Reference: `WillWhittakerDHP/Stuff-From_Jose` - `src/views/pages/wizard-examples/scheduler/StepPriceDetails.js`
-
-

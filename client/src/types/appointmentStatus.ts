@@ -1,7 +1,7 @@
 /**
- * Appointment status workflow type and constants.
+ * Appointment status workflow type.
  * WHY: Shared by appointment.ts and appointmentApi.ts to avoid circular dependency.
- * See docs/appointment-status-workflow.md for future implementation notes.
+ * Runtime constants and helpers live in constants/appointmentStatus.ts.
  */
 
 export type AppointmentStatus =
@@ -13,14 +13,3 @@ export type AppointmentStatus =
   | 'confirmed'
   | 'cancelled'
   | 'deleted'
-
-export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
-  'started',
-  'held',
-  'rescheduling',
-  'quoted',
-  'submitted',
-  'confirmed',
-  'cancelled',
-  'deleted',
-]

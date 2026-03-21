@@ -1,33 +1,13 @@
-/**
- * Slot Generation Validation Utility
- * 
- * LEARNING: Shared validation for slot generation parameters
- * WHY: Eliminates duplicate validation logic across multiple slot generation functions
- * PATTERN: Pure validation functions that throw descriptive errors
- * 
- * P2-5: Created to consolidate slot generation validation from multiple locations
- */
 
-import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
+import type { SlotGenerationParams } from '@/types/booking/slotGenerationValidation'
+
+export type { SlotGenerationParamsBase, SlotGenerationParams } from '@/types/booking/slotGenerationValidation'
 
 const logger = createLogger('slotGenerationValidation')
 
-/** Base for slot generation; MinimalSlotParams extends and adds includeFlags (P2 type-similarity). */
-export interface SlotGenerationParamsBase {
-  duration: number
-  minuteIncrement: number
-  startBoundary: RFC3339DateTime
-  endBoundary: RFC3339DateTime
-}
-
-export type SlotGenerationParams = SlotGenerationParamsBase
-
 /**
  * Validate slot generation parameters
- * LEARNING: Comprehensive validation for all slot generation parameters
- * WHY: Prevents invalid slot generation, infinite loops, and runtime errors
- * PATTERN: Validate all parameters, throw descriptive errors with parameter values
  * 
  * @param params - Slot generation parameters to validate
  * @throws Error if any parameter is invalid

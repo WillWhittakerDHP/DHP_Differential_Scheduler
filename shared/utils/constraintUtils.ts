@@ -1,7 +1,6 @@
 /**
  * Shared Constraint Utilities
  * 
- * LEARNING: Centralized constraint filtering and grouping utilities
  * WHY: Eliminates duplication across client and server constraint handling
  * PATTERN: Pure utility functions for constraint manipulation
  */
@@ -15,7 +14,6 @@ import type {
 
 /**
  * Filter active constraints
- * LEARNING: Centralized filtering logic for all constraint types
  * WHY: Eliminates duplicate filter operations across codebase
  * PATTERN: Single function that handles all constraint filtering rules
  * 
@@ -32,7 +30,6 @@ export function filterActiveConstraints(constraints: Constraint[]): Constraint[]
 
 /**
  * Group constraints by category
- * LEARNING: Type-safe grouping of unified constraint array
  * WHY: Enables category-specific processing while maintaining type safety
  * PATTERN: Switch statement on category field for discriminated union narrowing
  * 
@@ -67,7 +64,6 @@ export function groupConstraintsByCategory(constraints: Constraint[]): {
 
 /**
  * Merge violations with existing flexible violations
- * LEARNING: Centralized violation merging ensures consistency
  * WHY: Single source of truth for violation handling
  * PATTERN: Pure function that merges and formats violations
  * 
@@ -86,4 +82,56 @@ export function mergeViolations(
     hasFlexibleViolations: allViolations.length > 0,
     flexibleViolations: allViolations.length > 0 ? allViolations : undefined
   }
+}
+
+/**
+ * Violation keys that a single constraint can produce (for relaxation matching).
+ * WHY: Matches keys from slot constraint checkers (range.leadTime, capacity.daily, etc.)
+ * PATTERN: One key per constraint type; overlap uses prefix match in caller.
+ */
+function getViolationKeysForConstraint(constraint: Constraint): string[] {
+  switch (constraint.category) {
+    case 'range':
+      return [`range.${constraint.type}`]
+    case 'capacity':
+      return [
+        `capacity.${constraint.type}`,
+        ...(constraint.maxIncome != null ? [`capacity.income.${constraint.type}`] : []),
+      ]
+    case 'overlap':
+      return [] // Overlap keys are per-event; relax all overlap if any overlap.* in allowedExceptions
+    default:
+      return []
+  }
+}
+
+/**
+ * Returns a copy of constraints with any constraint whose violation key is in
+ * allowedExceptions set to enforcement: 'off'. Used for override-aware reschedule.
+ *
+ * WHY: Server verifies allowedExceptions against stored override; only then relaxes.
+ * PATTERN: Pure function, no mutation; same key shape as slot constraint checkers.
+ *
+ * @param constraints - Full constraint array (range, overlap, capacity)
+ * @param allowedExceptions - Violation keys the override authorizes (e.g. from constraint_override.overridden_violations)
+ * @returns New array of constraints with matching ones relaxed
+ */
+export function relaxConstraintsForExceptions(
+  constraints: Constraint[],
+  allowedExceptions: string[]
+): Constraint[] {
+  if (allowedExceptions.length === 0) return constraints
+  const allowedSet = new Set(allowedExceptions)
+  const hasOverlapException = allowedExceptions.some((k) => k.startsWith('overlap.'))
+
+  return constraints.map((constraint) => {
+    if (constraint.category === 'overlap') {
+      if (!hasOverlapException) return constraint
+      return { ...constraint, enforcement: 'off' as const }
+    }
+    const keys = getViolationKeysForConstraint(constraint)
+    const shouldRelax = keys.some((k) => allowedSet.has(k))
+    if (!shouldRelax) return constraint
+    return { ...constraint, enforcement: 'off' as const }
+  })
 }

@@ -1,31 +1,29 @@
 /**
- * useWizardStepContent Composable
- * 
- * LEARNING: Extracts step content component mapping logic from BookingWizard component
- * WHY: Moves component mapping logic to composable
- * PATTERN: Composable that provides step content component mapping
+ * WHY: useWizardStepContent Composable - step-to-component mapping for booking wizard.
  */
-
 import type { Component } from 'vue'
-import { getBookingWizardStepContent } from '@/utils/booking/wizardStepContent'
+import { defineAsyncComponent } from 'vue'
+import type { UseWizardStepContentReturn } from '@/types/booking/wizardStepContent'
 
-export interface UseWizardStepContentReturn {
-  getStepContent: (step: number) => Component | null
+
+export function getBookingWizardStepContent(step: number): Component | null {
+  switch (step) {
+    case 0:
+      return defineAsyncComponent(() => import('@/components/booking/steps/ServiceSelectionStep.vue'))
+    case 1:
+      return defineAsyncComponent(() => import('@/components/booking/steps/PropertyDetailsStep.vue'))
+    case 2:
+      return defineAsyncComponent(() => import('@/components/booking/steps/AvailabilityStep.vue'))
+    case 3:
+      return defineAsyncComponent(() => import('@/components/booking/steps/ContactsStep.vue'))
+    case 4:
+      return defineAsyncComponent(() => import('@/components/booking/steps/ConfirmationStep.vue'))
+    default:
+      return null
+  }
 }
 
-/**
- * useWizardStepContent composable
- * 
- * LEARNING: Provides step content component mapping
- * WHY: Extracts component mapping logic from component to composable
- * PATTERN: Composable that returns mapping function
- */
 export function useWizardStepContent(): UseWizardStepContentReturn {
-  /**
-   * LEARNING: Dynamic component rendering based on active step
-   * WHY: Shows appropriate step component based on current step
-   * PATTERN: Switch statement returning component for each step
-   */
   const getStepContent = (step: number): Component | null => {
     return getBookingWizardStepContent(step)
   }

@@ -1,16 +1,15 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: When readonly, display as icon with text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - icon display is clearer -->
     <!-- PATTERN: Conditional rendering based on readOnly state -->
     <div
-      v-if="fieldContext.displayConfig.readOnly"
+      v-if="fieldContext.state.displayConfig.readOnly"
       class="readonly-icon-display"
       :class="{ 'readonly-icon-empty': !iconValue || iconValue === '' }"
     >
@@ -21,10 +20,9 @@
         height="24"
         class="mr-2"
       />
-      <span>{{ iconValue || fieldContext.displayConfig.placeholder || 'No icon selected' }}</span>
+      <span>{{ iconValue || fieldContext.state.displayConfig.placeholder || 'No icon selected' }}</span>
     </div>
     
-    <!-- LEARNING: Editable icon input with preview and picker button -->
     <!-- WHY: Users need to see selected icon and easily open picker -->
     <!-- PATTERN: Input field with icon preview and button to open dialog -->
     <div
@@ -32,14 +30,14 @@
       class="icon-input-wrapper"
     >
       <VTextField
-        :id="`field-${String(fieldContext.fieldKey)}`"
-        :name="String(fieldContext.fieldKey)"
+        :id="`field-${String(fieldContext.state.fieldKey)}`"
+        :name="String(fieldContext.state.fieldKey)"
         :model-value="displayValue"
-        :label="fieldContext.displayConfig.label"
-        :placeholder="fieldContext.displayConfig.placeholder"
-        :disabled="fieldContext.displayConfig.disabled"
-        :error="!!fieldContext.error?.value"
-        :error-messages="fieldContext.error?.value"
+        :label="fieldContext.state.displayConfig.label"
+        :placeholder="fieldContext.state.displayConfig.placeholder"
+        :disabled="fieldContext.state.displayConfig.disabled"
+        :error="!!fieldContext.state.error?.value"
+        :error-messages="fieldContext.state.error?.value"
         :autocomplete="AUTCOMPLETE_OFF"
         class="icon-input-field"
         readonly
@@ -72,7 +70,7 @@
             icon
             variant="text"
             size="small"
-            :disabled="fieldContext.displayConfig.disabled"
+            :disabled="fieldContext.state.displayConfig.disabled"
             @click.stop="openPicker"
           >
             <Icon icon="tabler-color-picker" width="20" height="20" />
@@ -83,7 +81,7 @@
       <!-- Hidden input for actual form value -->
       <input
         type="hidden"
-        :name="String(fieldContext.fieldKey)"
+        :name="String(fieldContext.state.fieldKey)"
         :value="iconValue || ''"
       />
     </div>
@@ -99,15 +97,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: IconInput renders icon selection input with visual preview
- * 
- * WHY: Icon fields need visual selection, not just text input
- * 
- * PATTERN: Wrapper component pattern - wraps input with icon picker dialog
- * 
- * COMPARISON: Similar to DateInput pattern - readonly input with picker dialog
+ * WHY: PATTERN: Wrapper component pattern - wraps input with icon picker dialog...
  */
-
 import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
@@ -128,7 +119,6 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
 
 const { fieldContext } = props
 
-// LEARNING: Use unified field value composable
 const fieldValue = useFieldValue(fieldContext)
 
 const iconValue = computed((): string => {
@@ -141,18 +131,17 @@ const displayValue = computed(() => {
   return iconValue.value.replace('tabler-', '')
 })
 
-// LEARNING: Dialog visibility state
 // PATTERN: ref for boolean dialog state
 const showPicker = ref(false)
 
 const openPicker = () => {
-  if (!fieldContext.displayConfig.disabled) {
+  if (!fieldContext.state.displayConfig.disabled) {
     showPicker.value = true
   }
 }
 
 const handleIconSelect = (icon: string) => {
-  fieldContext.setValue(icon)
+  fieldContext.actions.setValue(icon)
   showPicker.value = false
   
   // PATTERN: Match TextInput/NumberInput behavior - new entities use handleSave, not field-level save
@@ -160,9 +149,9 @@ const handleIconSelect = (icon: string) => {
     return
   }
   
-  fieldContext.validate().then((isValid) => {
+  fieldContext.actions.validate().then((isValid) => {
     if (isValid) {
-      fieldContext.save().catch(() => {
+      fieldContext.actions.save().catch(() => {
       })
     }
   })
@@ -192,9 +181,6 @@ const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
   cursor: pointer;
 }
 
-/* LEARNING: Hide the actual text input value, show only icon visually */
-/* WHY: Users should see icon, not the string value */
-/* PATTERN: Use CSS to hide input text while keeping it for form submission */
 .icon-input-field :deep(input) {
   color: transparent;
   caret-color: transparent;
@@ -228,4 +214,3 @@ const { handleFocus, handleBlur, handleKeydown } = useFieldInputHandlers({
   font-style: italic;
 }
 </style>
-

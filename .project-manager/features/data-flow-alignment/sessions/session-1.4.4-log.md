@@ -55,7 +55,7 @@
 - ✅ Updated `useUser.ts` to use `refetchQueries` instead of `invalidateQueries`
 - ✅ Updated `useFieldContext.ts` relationship update to use `refetchQueries` for `['globalData']`
 - ✅ Made all `onSuccess` callbacks `async` to support `await refetchQueries`
-- ✅ Added learning comments explaining the change
+- ✅ Added WHY/PATTERN comments explaining the change
 
 **Key Changes:**
 - Changed all `invalidateQueries(['globalData'])` to `refetchQueries(['globalData'])` in business entity composables

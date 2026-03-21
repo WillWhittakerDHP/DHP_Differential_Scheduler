@@ -13,10 +13,6 @@ const elementId = computed (() => {
   return _elementIdToken ? `app-select-${_elementIdToken}` : _id
 })
 
-/**
- * WHY: Multi-select dropdowns should stay open when selecting items for better UX
- * PATTERN: Set closeOnContentClick: false for multiple selects, true for single selects
- */
 const menuProps = computed(() => {
   const defaultContentClass = [
     'app-inner-list',
@@ -25,12 +21,8 @@ const menuProps = computed(() => {
     attrs.multiple !== undefined ? 'v-list-select-multiple' : ''
   ].filter(Boolean)
   
-  // PATTERN: Set closeOnContentClick based on multiple prop
-  const isMultiple = attrs.multiple !== undefined
-  
   const defaultMenuProps = {
     contentClass: defaultContentClass,
-    closeOnContentClick: !isMultiple // LEARNING: Keep open for multi-select, close for single-select
   }
   
   const userMenuProps = (attrs['menu-props'] || attrs.menuProps) as Record<string, unknown> | undefined
@@ -55,21 +47,22 @@ const menuProps = computed(() => {
   
   return defaultMenuProps
 })
+
+const selectBind = computed(() => {
+  const { class: _cls, ...rest } = attrs
+  return { ...rest, class: null, variant: 'outlined' as const, id: elementId.value, menuProps: menuProps.value }
+})
+
+const wrapperClass = computed(() => (attrs.class ?? null) as string | string[] | Record<string, boolean> | null)
 </script>
 
 <template>
   <div
     class="app-select flex-grow-1"
-    :class="$attrs.class"
+    :class="wrapperClass"
   >
     <VSelect
-      v-bind="{
-        ...$attrs,
-        class: null,
-        variant: 'outlined',
-        id: elementId,
-        menuProps: menuProps,
-      }"
+      v-bind="selectBind"
     >
       <template
         v-for="(_, name) in $slots"

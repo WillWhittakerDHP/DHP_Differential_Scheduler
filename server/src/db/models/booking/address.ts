@@ -7,13 +7,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * Address Model
- * 
- * LEARNING: Address model stores stable address information from client input
- * WHY: Addresses are normalized separately from property details for reuse and stability
- * PATTERN: Minimal structure with address components, no property-specific details
- */
 export class Address extends Model<
   InferAttributes<Address>,
   InferCreationAttributes<Address>

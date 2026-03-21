@@ -36,7 +36,6 @@ import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventShapeEntity } from '@/types/entities'
 
-// Mock event shape entities with attendees
 const MAJOR_ATTENDEE_ID = 'major-attendee-id'
 const MINOR_ATTENDEE_ID = 'minor-attendee-id'
 
@@ -52,7 +51,6 @@ const mockMinorEventShape: EventShapeEntity = {
   attendees: [MINOR_ATTENDEE_ID],
 }
 
-// Mock availability settings with attendee configuration
 const mockAvailabilitySettings: AvailabilitySettings = {
   differentialPerspectives: {
     majorAttendees: [MAJOR_ATTENDEE_ID],
@@ -71,7 +69,6 @@ function createAppointmentSlot(params: {
   totalEndTime?: RFC3339DateTime
   totalDuration?: number
 }): AppointmentSlot {
-  // Build eventFinals array based on provided params
   const eventFinals: EventFinal[] = []
   
   if (params.majorStartTime) {
@@ -101,7 +98,6 @@ function createAppointmentSlot(params: {
     }
   }
 
-  // Build eventTimeRanges based on event shape names
   const eventTimeRanges: Record<string, TimeRange | null> = {}
   
   if (params.majorStartTime && params.majorEndTime) {
@@ -120,7 +116,6 @@ function createAppointmentSlot(params: {
     }
   }
 
-  // Build totalTimeRange
   const totalTimeRange: TimeRange | null = params.totalStartTime && params.totalEndTime ? {
     startTime: params.totalStartTime,
     endTime: params.totalEndTime,
@@ -270,7 +265,6 @@ describe('availabilityStepData', () => {
       const result = buildSelectedTimeSlots({
         selectedDateStart: '2026-01-15',
         selectedSlot: slot,
-        // No availabilitySettings - should fallback to totalTimeRange
       })
       
       expect(result).toEqual([
@@ -283,7 +277,6 @@ describe('availabilityStepData', () => {
     })
 
     it('should fallback to totalTimeRange when no eventTimeRanges match', () => {
-      // Create slot with eventTimeRanges that don't match the settings
       const slot: AppointmentSlot = {
         buttonIndex: 0,
         isAvailable: true,
@@ -318,7 +311,6 @@ describe('availabilityStepData', () => {
         availabilitySettings: mockAvailabilitySettings,
       })
       
-      // Should fallback to totalTimeRange
       expect(result).toEqual([
         { 
           startTime: '2026-01-15T14:00:00.000Z' as RFC3339DateTime,

@@ -1,51 +1,23 @@
 /**
- * Shared Availability Settings Composable
- * 
- * LEARNING: Provides shared availability settings to avoid redundant fetching
- * WHY: Multiple composables fetch the same settings, causing redundant API calls
- * PATTERN: Composable that can be used with provide/inject or passed as parameter
- * 
- * P2-1: Created to reduce redundant settings fetching across composables
- * 
- * Usage:
- * 1. In parent component (e.g., BookingWizard):
- *    const settings = useAvailabilitySettings()
- *    provide('availabilitySettings', settings)
- * 
- * 2. In child composables:
- *    const settings = inject<ReturnType<typeof useAvailabilitySettings>>('availabilitySettings')
- *    // Or pass as parameter if composable supports it
- * 
- * NOTE: getAvailabilitySettings() already has caching, but this provides
- * a reactive shared instance that can be provided/injected for better coordination.
- */
+ * WHY: Shared Availability Settings Composable
 
-import { ref, computed, watchEffect, type Ref, type ComputedRef } from 'vue'
+WHY: Multiple composables fetch...
+ */
+import { ref, computed, watchEffect } from 'vue'
 import { getAvailabilitySettings, type AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
+import type { UseBookingAvailabilitySettingsReturn } from '@/types/booking/availabilitySettings'
+
 
 const logger = createLogger('useAvailabilitySettings')
 
-export interface UseAvailabilitySettingsReturn {
-  settings: ComputedRef<AvailabilitySettings | null>
-  isLoading: Ref<boolean>
-  error: Ref<Error | null>
-  hasError: ComputedRef<boolean>
-  refresh: () => Promise<void>
-}
-
 /**
- * Shared availability settings composable
- * LEARNING: Provides reactive availability settings with loading and error states
- * WHY: Allows multiple composables to share the same settings instance
- * PATTERN: Composable that fetches settings once and provides reactive access
- * 
- * @param initialSettings - Optional initial settings (if already fetched)
- * @returns Reactive settings with loading/error states
+ * WHY: Shared availability settings composable
+WHY: Allows multiple composables...
  */
 export function useAvailabilitySettings(
   initialSettings?: AvailabilitySettings | null
-): UseAvailabilitySettingsReturn {
+): UseBookingAvailabilitySettingsReturn {
   const settings = ref<AvailabilitySettings | null>(initialSettings || null)
   const isLoading = ref(false)
   const error = ref<Error | null>(null)
@@ -69,12 +41,6 @@ export function useAvailabilitySettings(
     }
   })
 
-  /**
-   * Refresh settings manually
-   * LEARNING: Allows manual refresh of settings
-   * WHY: Useful when admin updates settings and we need to refresh
-   * PATTERN: Async function that fetches fresh settings
-   */
   const refresh = async (): Promise<void> => {
     try {
       isLoading.value = true

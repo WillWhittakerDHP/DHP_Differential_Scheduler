@@ -237,7 +237,7 @@
 
 - **Phase Handoff**: `phases/phase-1.3-handoff.md`
 - **Phase Guide**: `phases/phase-1.3-guide.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.2 Handoff**: `phases/phase-1.2-handoff.md`
 - **Phase 1.4 Handoff**: `phases/phase-1.4-handoff.md`
 

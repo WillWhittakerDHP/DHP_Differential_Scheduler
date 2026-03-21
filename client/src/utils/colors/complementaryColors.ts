@@ -1,24 +1,5 @@
 /**
- * LEARNING: Complementary Color Mapping Utility
- * WHY: Provides complementary color mappings for status button override states
- * PATTERN: Maps Vuetify color names to their complementary colors
- * 
- * Complementary color pairs (opposite on color wheel):
- * - Orange -> Blue
- * - Yellow -> Purple
- * - Green -> Red
- * - Blue -> Orange
- * - Red -> Green
- * - Purple -> Yellow
- * - Indigo (primary) -> Orange (secondary)
- * - Grey -> Grey (neutral, no complement)
- * - Brown -> Blue (complementary to brown/orange)
- */
-
-/**
- * LEARNING: Map color name to its complementary color
  * WHY: Override state should use complementary color for visual distinction
- * PATTERN: Simple mapping object for color pairs
  */
 export const COMPLEMENTARY_COLOR_MAP: Record<string, string> = {
   'secondary': 'info',      // Orange -> Blue

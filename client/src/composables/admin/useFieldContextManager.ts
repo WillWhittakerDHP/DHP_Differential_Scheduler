@@ -1,39 +1,13 @@
 /**
- * LEARNING: Field Context Manager
- * WHY: Encapsulates field context retrieval with warnings for missing contexts
- * PATTERN: Composable for managing field context access and tracking missing contexts
- * 
- * Used by:
- * - EntityCard.vue
+ * PATTERN: Composable for managing field context access and tracking missing contex...
  */
-
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
+import type { UseFieldContextManagerOptions, UseFieldContextManagerReturn } from '@/types/admin/fieldContextManager'
 
-export interface UseFieldContextManagerOptions {
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  fieldsByLocation: ComputedRef<{
-    directInline: GlobalFieldKey<GlobalEntityKey>[]
-    directStacked: GlobalFieldKey<GlobalEntityKey>[]
-    subPanels: {
-      parts: GlobalFieldKey<GlobalEntityKey>[]
-      relationships: GlobalFieldKey<GlobalEntityKey>[]
-      annotations: GlobalFieldKey<GlobalEntityKey>[]
-      events: GlobalFieldKey<GlobalEntityKey>[]
-    }
-  }>
-  isMetadataLoading: ComputedRef<boolean>
-  isMetadataReady: ComputedRef<boolean>
-  fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-}
-
-export interface UseFieldContextManagerReturn {
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-  fieldsMissingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-}
 
 export function useFieldContextManager(
   options: UseFieldContextManagerOptions
@@ -48,12 +22,7 @@ export function useFieldContextManager(
 
   const { warning: showWarning } = useNotification()
 
-  /**
-   * LEARNING: Wrapped getFieldContext with warnings for missing contexts
-   * WHY: Fail visibly - warn when fields don't have contexts instead of silently hiding them
-   * PATTERN: Wrap original function to add error handling and notifications
-   */
-  function getFieldContext(fieldKey: GlobalFieldKey<GlobalEntityKey>): FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined {
+  function getFieldContext(fieldKey: GlobalFieldKey<GlobalEntityKey>): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined {
     const context = originalGetFieldContext(fieldKey)
 
     const isPending =
@@ -62,17 +31,12 @@ export function useFieldContextManager(
 
     // PATTERN: Gate warnings on isMetadataReady and !isPending
     if (!context && !isPending && isMetadataReady.value) {
-      showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-input-metadata or /admin-relationship-metadata.`, 6000)
+      showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-metadata.`, 6000)
     }
 
     return context
   }
 
-  /**
-   * LEARNING: Track fields missing contexts for UI display
-   * WHY: Show which fields are missing contexts in the UI
-   * PATTERN: Computed property that filters fields by location and missing contexts
-   */
   const fieldsMissingContexts = computed(() => {
     const locations = fieldsByLocation.value
     const allCategorizedFields = [

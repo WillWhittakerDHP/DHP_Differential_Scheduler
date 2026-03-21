@@ -1,12 +1,6 @@
-/**
- * Block Instance Utilities
- * 
- * LEARNING: Generic utilities for working with block instances
- * WHY: Replaces hardcoded block shape name references with dynamic filtering
- * PATTERN: Generic functions that accept block shape IDs or filter by properties
- */
 
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { createLogger } from '@/utils/logger'
@@ -77,16 +71,6 @@ export function getBlockShapeIdByType(
   return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
 }
 
-/**
- * LEARNING: Generate incremented name for duplicated block instance
- * WHY: Ensures unique names when duplicating instances
- * PATTERN: Extract base name, check for number suffix, find next available number
- * 
- * @param currentName - Current name of the source entity
- * @param blockShapeRef - BlockShape ID to filter instances
- * @param getEntitiesByKey - Function to get all block instances
- * @returns Incremented name like "Name 1", "Name 2", etc.
- */
 export function generateIncrementedName(
   currentName: string,
   blockShapeRef: string,

@@ -1,96 +1,52 @@
 /**
- * useAvailabilityDefaults Composable
- * 
- * LEARNING: Handles default date selection and loaded appointment state matching
- * WHY: Extracts defaulting logic and watchers from AvailabilityStep component
- * PATTERN: Composable that manages selectedDate state and auto-selection logic
- * 
- * Features:
- * - Auto-select first available date when time slots load
- * - Match loaded time slots from appointment
- * - Watch loaded wizard state and populate selectedDate
- * - Manage selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
+ * PATTERN: useAvailabilityDefaults Composable
+
+PATTERN: Composable that manages sel...
  */
-
-import { ref, computed, watch, type Ref, type ComputedRef } from 'vue'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
-import { matchLoadedTimeSlots } from '@/utils/booking/timeSlotMatching'
+import { ref, computed, watch } from 'vue'
+import { getFirstAvailabilityDate, getTodayDate } from '@/utils/time/timeFormatting'
+import { matchLoadedTimeSlots } from '@/composables/booking/useTimeSlotMatching'
+import { findMatchingTimeSlot } from '@/utils/booking/timeSlotMatching'
+import { toISO8601Date } from '@/utils/datetime'
 import type { TimeSlot } from '@/types/appointment'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import { toISO8601Date } from '@/types/datetime'
-
-export interface UseAvailabilityDefaultsOptions {
-  loadedWizardState: Ref<WizardStateData | null>
-  
-  timeSlots: ComputedRef<TimeSlot[] | null>
-  
-  isDifferentialService: ComputedRef<boolean>
-}
-
-export interface UseAvailabilityDefaultsReturn {
-  /**
-   * Selected date state
-   * LEARNING: Uses ISO 8601 date format (YYYY-MM-DD) for date-only values
-   */
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-  
-  appointmentSlotOrderIndex: Ref<number | null>
-}
+import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
+import type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
 
 /**
- * useAvailabilityDefaults composable
- * LEARNING: Provides default date selection and state management for availability step
- * WHY: Centralizes defaulting logic and state management
- * PATTERN: Composable that manages state and sets up watchers
- * 
- * Features:
- * - Auto-selects first available date when time slots load (if no date selected)
- * - Matches loaded time slots from appointment to available slots
- * - Watches loaded wizard state and populates selectedDate
- * - Manages selectedDate, startTimeType, majorTimeSlot, minorTimeSlot state
+ * WHY: useAvailabilityDefaults composable
+WHY: Centralizes defaulting logic and...
  */
 export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions): UseAvailabilityDefaultsReturn {
-  const { loadedWizardState, timeSlots, isDifferentialService } = options
-  const { getFirstAvailabilityDate, getTodayDate } = useTimeFormatting()
+  const { loadedWizardState, timeSlots, isDifferentialService, restoreFrom } = options
 
   /**
-   * Selected date state
-   * LEARNING: Tracks user selections for date
-   * WHY: Need reactive state for date selection
-   * PATTERN: ref for date object with start/end
-   * FIX: Initialize with today's date to break circular dependency (no date → no time slots → can't select date)
-   *      Date is managed by user selection, not loaded from appointments
+Selected date state
+WHY: Need reactive state for date selection
+FIX: Restore from parent availabilityStepData when returning to step (wizard persistence).
    */
-  const selectedDate = ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>({ 
-    start: toISO8601Date(getTodayDate()), 
-    end: null 
-  })
+  const getInitialDate = (): { start: ISO8601Date | null; end: ISO8601Date | null } => {
+    const restored = restoreFrom?.value?.candidateDate
+    if (restored?.start) {
+      const start = restored.start.includes('T') ? restored.start.split('T')[0] : restored.start
+      return { start: start as ISO8601Date, end: (restored.end as ISO8601Date | null) ?? null }
+    }
+    return { start: toISO8601Date(getTodayDate()), end: null }
+  }
+  const selectedDate = ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>(getInitialDate())
 
   /**
    * Start time type state
-   * LEARNING: Tracks whether to show major or minor time slots
-   * WHY: Differential services need separate major/minor views, non-differential always uses 'nonDifferential'
-   * PATTERN: ref for string literal union type - 'nonDifferential' for non-differential services, 'major' | 'minor' for differential
    * NOTE: Defaults to 'major' so step 3 starts in major view
    */
   const startTimeType = ref<'major' | 'minor' | 'nonDifferential'>('major')
 
   /**
-   * Per-date slot selection storage
-   * LEARNING: Stores slot selections keyed by date string (ISO 8601)
-   * WHY: Each day should remember its own slot selection independently
-   * PATTERN: Internal map backing a writable computed for a clean public interface
+Per-date slot selection storage
    */
   const slotSelectionsByDate = ref<Record<string, number>>({})
 
   /**
    * Appointment slot order index (writable computed)
-   * LEARNING: Reads/writes the slot selection for the current selectedDate
-   * WHY: Consumers still see a simple Ref<number | null> but selections are per-date
-   * PATTERN: Writable computed backed by a keyed record -- WritableComputedRef satisfies Ref<T>
    */
   const appointmentSlotOrderIndex = computed({
     get: (): number | null => {
@@ -111,14 +67,38 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   })
 
   /**
+   * Restore slot selection from parent when returning to step (wizard persistence).
+   * Runs when restoreFrom has candidateTimeSlots and timeSlots are available.
+   */
+  let slotRestored = false
+  watch(
+    [() => restoreFrom?.value, timeSlots, selectedDate],
+    ([restoreVal, slots, date]) => {
+      const data = restoreVal as { candidateTimeSlots?: Array<{ startTime: string }> } | null | undefined
+      const slotList = (slots as TimeSlot[] | null) ?? []
+      const dateStart = (date as { start: string | null })?.start
+      if (!slotRestored && data?.candidateTimeSlots?.length && slotList.length && dateStart) {
+        const firstSlot = data.candidateTimeSlots[0]
+        const matched = findMatchingTimeSlot(firstSlot.startTime, slotList)
+        if (matched) {
+          const buttonIndex = slotList.indexOf(matched)
+          if (buttonIndex >= 0) {
+            slotSelectionsByDate.value = { ...slotSelectionsByDate.value, [dateStart]: buttonIndex }
+            slotRestored = true
+          }
+        }
+      }
+    },
+    { immediate: true }
+  )
+
+  /**
    * Watch loaded wizard state and reset selectedDate to today
-   * LEARNING: When loading dummy appointments for testing, always use today's date
-   * WHY: Dummy appointments shouldn't affect date selection - we're testing time slot calculations, not past dates
-   * PATTERN: Reset selectedDate to today whenever an appointment is loaded
-   * NOTE: This ensures we always calculate slots for today/future, not past dates
+   * NOTE: This ensures we always calculate slots for today/future, not past dates.
+   * Skip when restoring from parent (wizard persistence) so we don't overwrite restored date.
    */
   watch(loadedWizardState, () => {
-    // PATTERN: Reset selectedDate to today whenever loadedWizardState changes
+    if (restoreFrom?.value?.candidateDate?.start) return
     const today = toISO8601Date(getTodayDate())
     if (selectedDate.value.start !== today) {
       selectedDate.value = {
@@ -129,25 +109,20 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }, { immediate: true })
 
   /**
-   * Watch both loaded wizard state and time slots to populate order index selections
-   * LEARNING: Enables validation to pass when appointment is loaded with time slots
-   * WHY: When appointment is loaded, match time slots from appointment to available slots and store orderIndex
-   * PATTERN: Use helper function to match loaded time slots, then find orderIndex
-   * NOTE: For now, we still use TimeSlot matching but will need to update to orderIndex-based matching
-   * TODO: Update to use orderIndex-based matching when AppointmentSlots are available
+   * Watch both loaded wizard state and time slots to populate order index selections.
+   * NOTE: TimeSlot matching is used; orderIndex-based matching is deferred until AppointmentSlots support it.
    */
   watch([loadedWizardState, timeSlots], ([newState, availableSlots]) => {
-    if (newState?.availability?.candidateTimeSlots && 
+    if (newState?.availability?.candidateTimeSlots &&
         newState.availability.candidateTimeSlots.length > 0 &&
-        availableSlots && 
+        availableSlots &&
         availableSlots.length > 0) {
-      // Temporary: Use TimeSlot matching for now, will be updated to orderIndex matching
       // WHY: Transform selectedTimeSlots from { time, duration } format to { startTime, endTime } format
       const tempMajorSlot = ref<TimeSlot | null>(null)
       const tempMinorSlot = ref<TimeSlot | null>(null)
       const transformedSlots = newState.availability.candidateTimeSlots.map(slot => ({
-        startTime: slot.time,
-        endTime: undefined // endTime is optional in LoadedTimeSlot
+        startTime: slot.time as RFC3339DateTime,
+        endTime: undefined
       }))
       matchLoadedTimeSlots(
         transformedSlots,
@@ -160,9 +135,6 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
 
   /**
    * Watch time slots and update selected date to today or first future availability
-   * LEARNING: Auto-select today if it has slots, otherwise earliest future date
-   * WHY: Always prefer today for testing time slot calculations, never use past dates
-   * PATTERN: Watch timeSlots, prefer today over past dates
    * NOTE: Uses immediate: true to handle initial state
    *       The loadedWizardState watcher runs first and sets date to today, so this only runs if date is null
    */
@@ -190,11 +162,7 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
   }, { immediate: true })
 
   /**
-   * Watch isDifferentialService (now represents effective differential state) to auto-select startTimeType
-   * LEARNING: Auto-selects 'nonDifferential' for non-differential services, 'major' for differential services
-   * WHY: Ensures valid state is always selected and time slots are visible immediately. Step 3 starts in major view.
-   * PATTERN: Watch isDifferentialService (which now represents effective differential state), set startTimeType accordingly
-   * NOTE: isDifferentialService parameter now represents effective differential state (considering overrides)
+Watch isDifferentialService (now represents effective differential s...
    */
   watch(isDifferentialService, (isEffectivelyDifferential) => {
     if (!isEffectivelyDifferential) {
@@ -212,4 +180,3 @@ export function useAvailabilityDefaults(options: UseAvailabilityDefaultsOptions)
     appointmentSlotOrderIndex,
   }
 }
-

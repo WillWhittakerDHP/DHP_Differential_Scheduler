@@ -1,36 +1,30 @@
-/**
- * Centralized safe defaults for null/undefined; fallback use is logged.
- */
-
+import { buildCallsiteFrame } from '@shared/utils/loggerCore'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('safeDefaults')
 
-/**
- * Return the value or empty array when null/undefined; log when fallback is used.
- */
-export function asEmptyArray<T>(x: T[] | null | undefined): T[] {
-  if (x != null) return x
-  logger.debug('asEmptyArray fallback', { received: x })
+const FALLBACK_SKIP_PATTERNS = ['safeDefaults.ts', 'loggerCore', 'logger.ts', 'main.ts']
+
+function getCallerCallsite(): string {
+  return buildCallsiteFrame(FALLBACK_SKIP_PATTERNS, new Error().stack)
+}
+
+export function asEmptyArray<T>(x: readonly T[] | null | undefined): T[] {
+  if (x != null) return [...x]
+  logger.warn('asEmptyArray fallback (misalignment)', { received: x, callsite: getCallerCallsite() })
   return []
 }
 
-/**
- * Return the value or empty string when null/undefined; log when fallback is used.
- */
 export function asEmptyString(x: string | null | undefined): string {
   if (x != null) return x
-  logger.debug('asEmptyString fallback', { received: x })
+  logger.warn('asEmptyString fallback (misalignment)', { received: x, callsite: getCallerCallsite() })
   return ''
 }
 
-/**
- * Return the value or empty object when null/undefined; log when fallback is used.
- */
-export function asEmptyObject<K extends string, V>(
-  x: Record<K, V> | null | undefined
-): Record<K, V> {
+export function asEmptyObject<ObjectType extends object>(
+  x: ObjectType | null | undefined
+): ObjectType {
   if (x != null) return x
-  logger.debug('asEmptyObject fallback', { received: x })
-  return {} as Record<K, V>
+  logger.warn('asEmptyObject fallback (misalignment)', { received: x, callsite: getCallerCallsite() })
+  return {} as ObjectType
 }

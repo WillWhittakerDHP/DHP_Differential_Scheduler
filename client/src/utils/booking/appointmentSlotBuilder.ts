@@ -1,11 +1,6 @@
 /**
- * Appointment Slot Builder
- *
- * LEARNING: Pure utility functions for building AppointmentShape and AppointmentSlot
- * WHY: Separates time-independent structure (shape) from time-applied data (slot)
- * PATTERN: Pure functions, no side effects, no reactivity
+PATTERN: Pure functions, no side effects, no re...
  */
-
 import { createLogger } from '@/utils/logger'
 import type {
   AppointmentShape,
@@ -17,9 +12,7 @@ const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import {
   calculateSlotShape
 } from './partFinalizer'
@@ -35,18 +28,23 @@ export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShape
 export { derivePerspective } from './perspectiveResolver'
 
 /**
- * Look up EventInstance[] for a partShape by name
- * LEARNING: Finds PartInstances with the given partShape name, then filters eventAssignments relationships
- * WHY: Events are configured at instance level (PartInstance → EventInstance), need to look up by PartInstance
- * PATTERN: Find PartInstances by partShape name, filter relationships where parent.id === partInstanceId, map to EventInstance[]
- * 
- * @param partShapeName - Part shape name (e.g., "Client Presentation")
- * @param partShapeById - Map of partShape ID → partShape entity
- * @param eventAssignmentsRelationships - Array of eventAssignments relationships (PartInstance → EventInstance)
- * @param eventInstances - Array of all EventInstance objects
- * @param blockInstances - Array of block instances containing PartInstances
- * @returns Array of EventInstance objects for this partShape (aggregated from all PartInstances with this partShape)
+ * Build a minimal AppointmentShape for a single duration (e.g. moveable completion grid).
  */
+export function createMinimalAppointmentShapeForDuration(durationMinutes: number): AppointmentShape {
+  return {
+    finalizedBlocks: [],
+    finalizedParts: [],
+    slotShape: {
+      rawDuration: durationMinutes,
+      roundedDuration: durationMinutes,
+      eventFinals: [],
+      rawDifferentialOffset: 0,
+      roundedDifferentialOffset: 0,
+    },
+    eventAssignmentsByPartShape: {},
+  }
+}
+
 function lookupEventsForPartShape(
   partShapeName: string,
   partShapeById: Map<string, GlobalEntity<'partShape'>>,
@@ -81,10 +79,6 @@ function lookupEventsForPartShape(
     .filter((ei): ei is EventInstance => ei !== undefined)
 }
 
-/**
- * Build eventAssignmentsByPartShape from nonZeroedParts and relationships.
- * LEARNING: Extracted to keep buildAppointmentShape under complexity thresholds.
- */
 function buildEventAssignmentsByPartShape(
   nonZeroedParts: { partShape: string }[],
   partShapeById: Map<string, GlobalEntity<'partShape'>>,
@@ -108,23 +102,6 @@ function buildEventAssignmentsByPartShape(
   return Object.fromEntries(entries)
 }
 
-/**
- * Build AppointmentShape from block instances
- * 
- * Calculates durations and stores finalized parts (no times).
- * This is calculated once and reused for each available start time.
- * 
- * LEARNING: Events are appointment-level features, stored on AppointmentShape
- * WHY: Events are configured at instance level (PartInstance → EventInstance), parts determine which events apply
- * PATTERN: Look up EventInstance[] for each unique partShape (aggregated from PartInstances) and store on AppointmentShape
- * 
- * @param blockInstances - Array of block instances to build shape from
- * @param settings - Optional availability settings for rounding configuration
- * @param eventInstances - Array of EventInstance objects
- * @param eventShapes - Array of EventShape objects
- * @param eventAssignmentsRelationships - Array of eventAssignments relationships
- * @param partShapeById - Map of partShape ID → partShape entity
- */
 export function buildAppointmentShape(
   blockInstances: BookingBlockInstance[],
   settings?: AvailabilitySettings | null,
@@ -132,7 +109,6 @@ export function buildAppointmentShape(
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
-  globalData?: GlobalData
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
   const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
@@ -160,8 +136,7 @@ export function buildAppointmentShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
     resolvedEventShapes,
-    globalData,
-    settings ?? null
+    settings ?? null,
   )
 
   return {
@@ -191,8 +166,6 @@ export function applyShapeToTime(
   buttonIndex: number,
   fallbackDuration?: number,
   isAvailable: boolean = true,
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
 ): AppointmentSlot {
   const effectiveSlotShape = shape.slotShape.roundedDuration > 0
     ? shape.slotShape
@@ -203,35 +176,14 @@ export function applyShapeToTime(
   
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
-  const differentialPerspectives = globalData && availabilitySettings?.differentialPerspectives
-    ? availabilitySettings.differentialPerspectives
-    : null
-  let majorAttendeeIds: GlobalEntityId[]
-  let minorAttendeeIds: GlobalEntityId[]
-  if (differentialPerspectives) {
-    const rawMajor = differentialPerspectives.majorAttendees
-    const rawMinor = differentialPerspectives.minorAttendees
-    if (rawMajor === undefined || rawMajor === null) {
-      logger.debug('applyShapeToTime: majorAttendees missing, using []')
-    }
-    if (rawMinor === undefined || rawMinor === null) {
-      logger.debug('applyShapeToTime: minorAttendees missing, using []')
-    }
-    majorAttendeeIds = rawMajor !== undefined && rawMajor !== null ? rawMajor : []
-    minorAttendeeIds = rawMinor !== undefined && rawMinor !== null ? rawMinor : []
-  } else {
-    majorAttendeeIds = []
-    minorAttendeeIds = []
-  }
-  const resolved =
-    differentialPerspectives && effectiveSlotShape.eventFinals.length > 0
-      ? resolveEventShapes(majorAttendeeIds, minorAttendeeIds, effectiveSlotShape.eventFinals)
-      : {
-          majorEventShape: null,
-          minorEventShape: null,
-          majorEventName: null,
-          minorEventName: null
-        }
+  const resolved = effectiveSlotShape.eventFinals.length > 0
+    ? resolveEventShapes(effectiveSlotShape.eventFinals)
+    : {
+        majorEventShape: null,
+        minorEventShape: null,
+        majorEventName: null,
+        minorEventName: null
+      }
 
   const majorTimeRange =
     resolved.majorEventName != null

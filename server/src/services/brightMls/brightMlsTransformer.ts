@@ -1,10 +1,3 @@
-/**
- * Bright MLS Transformer
- *
- * LEARNING: Maps RESO Property response to PropertyEnrichmentResponse
- * WHY: Single transformation pipeline for booking wizard enrichment
- * PATTERN: Built-in mapping + optional DB field/feature mappers
- */
 
 import type {
   BrightMlsPropertyResponse,
@@ -15,9 +8,6 @@ import { matchFeaturesToBlocks } from '../propertyFeatureMatcher.js';
 import type { PropertyFieldMapping } from '../../db/models/mappings/property_field_mapping.js';
 import type { PropertyFeatureMapping } from '../../db/models/mappings/property_feature_mapping.js';
 
-/**
- * Transform Bright MLS RESO response to PropertyEnrichmentResponse
- */
 export function transformToPropertyEnrichment(
   response: BrightMlsPropertyResponse,
   fieldMappings: PropertyFieldMapping[],

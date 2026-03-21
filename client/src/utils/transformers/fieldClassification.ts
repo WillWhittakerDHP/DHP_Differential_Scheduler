@@ -1,22 +1,11 @@
-/**
- * Field Classification for Dehydrate
- *
- * LEARNING: Determines which fields are used vs unused and their default values for API payloads.
- * WHY: Centralizes metadata + schema logic so dehydrateEntity stays simple.
- * PATTERN: Schema defaults override metadata; flat guard clauses for default selection.
- */
 
 import { ENTITY_SCHEMA_DEFAULTS } from '@/constants/entitySchemaDefaults'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { safeArray } from './transformerPrimitives'
+import type { DehydrateFieldSets } from '@/types/transformers/fieldClassification'
 
-export type DehydrateFieldSets = {
-  requiredFields: Set<string>
-  nullableBooleanFields: Set<string>
-  nonNullableBooleanFields: Set<string>
-  requiredNumberFields: Set<string>
-}
+export type { DehydrateFieldSets } from '@/types/transformers/fieldClassification'
 
 function isReferenceField(
   frontendKey: string,
@@ -30,10 +19,6 @@ function isReferenceField(
   )
 }
 
-/**
- * Build field classification sets for dehydrateEntity from entity type and metadata.
- * PATTERN: Schema defaults override metadata; used to coerce empty strings and defaults.
- */
 export function buildFieldClassificationSets(
   entityType: string,
   metadata: Record<string, FieldMetadataEntry>
@@ -91,10 +76,6 @@ export function buildFieldClassificationSets(
   }
 }
 
-/**
- * Transform a single field entry for dehydrate (frontend → API).
- * PATTERN: Flat guard clauses; returns [key, value] or null to filter.
- */
 export function transformFieldForDehydrate(
   [frontendKey, value]: [string, unknown],
   fieldSets: DehydrateFieldSets,

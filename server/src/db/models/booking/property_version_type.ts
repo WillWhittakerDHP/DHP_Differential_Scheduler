@@ -15,9 +15,7 @@ import { BLOCK_SHAPE_NAMES } from '../../../routes/internal/properties/propertyC
  * Junction table linking property_versions to block_instances (property types).
  * Enables properties to have multiple associated types from the block_shape (BLOCK_SHAPE_NAMES.PROPERTIES).
  *
- * LEARNING: Property types are stored as block_instances with block_shape BLOCK_SHAPE_NAMES.PROPERTIES
  * WHY: Consistent pattern with services, dwelling adjustments, and other block_instance types
- * PATTERN: Junction table with database-level validation via trigger
  * 
  * Constraint: block_instance_id must reference a block_instance with block_shape BLOCK_SHAPE_NAMES.PROPERTIES
  * This is enforced at both database level (trigger) and application level (API validation).
@@ -101,4 +99,3 @@ export function PropertyVersionTypeFactory(sequelize: Sequelize) {
 
   return PropertyVersionType;
 }
-

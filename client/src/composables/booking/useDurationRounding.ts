@@ -1,41 +1,24 @@
 /**
- * useDurationRounding Composable
- * 
- * LEARNING: Provides reactive duration rounding based on availability settings
- * WHY: Centralizes rounding logic with reactive settings integration
- * PATTERN: Composable that reads from availability settings and provides rounding function
- */
+ * PATTERN: useDurationRounding Composable
 
-import { computed, type ComputedRef } from 'vue'
+PATTERN: Composable that reads from avai...
+ */
+import { computed } from 'vue'
 import { roundDuration as roundDurationUtil, type DurationRoundingConfig } from '@/utils/booking/durationRounding'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import type { UseDurationRoundingReturn } from '@/types/booking/durationRounding'
 
-export interface UseDurationRoundingReturn {
-  roundDuration: (duration: number) => number
-  
-  /**
-   * Whether rounding is currently enabled
-   * LEARNING: Reactive computed property indicating rounding state
-   * WHY: Allows components to conditionally display rounding information
-   */
-  isRoundingEnabled: ComputedRef<boolean>
-  
-  roundingConfig: ComputedRef<DurationRoundingConfig | null>
-}
+export type { UseDurationRoundingReturn } from '@/types/booking/durationRounding'
 
 /**
- * useDurationRounding composable
- * 
- * LEARNING: Provides reactive duration rounding based on availability settings
- * WHY: Extracts rounding logic to composable, ensures reactivity with settings changes
- * PATTERN: Composable that uses useAvailabilitySettings and provides rounding function
+ * WHY: useDurationRounding composable
+
+WHY: Extracts rounding logic to composab...
  */
 export function useDurationRounding(): UseDurationRoundingReturn {
   const { settings } = useAvailabilitySettings()
   
   /**
-   * LEARNING: Get current rounding configuration
-   * WHY: Provides reactive access to rounding config
    * PATTERN: Computed property that extracts config from settings
    */
   const roundingConfig = computed<DurationRoundingConfig | null>(() => {
@@ -58,22 +41,12 @@ export function useDurationRounding(): UseDurationRoundingReturn {
   })
   
   /**
-   * LEARNING: Check if rounding is enabled
-   * WHY: Provides reactive boolean for conditional logic
    * PATTERN: Computed property that checks config enabled state
    */
   const isRoundingEnabled = computed<boolean>(() => {
     return roundingConfig.value?.enabled ?? false
   })
   
-  /**
-   * LEARNING: Round duration using current settings
-   * WHY: Provides reactive rounding function that updates when settings change
-   * PATTERN: Function that calls utility with current settings value
-   * 
-   * @param duration - Duration in minutes to round
-   * @returns Rounded duration if rounding enabled, original duration if disabled
-   */
   const roundDuration = (duration: number): number => {
     return roundDurationUtil(duration, settings.value)
   }

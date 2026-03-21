@@ -1,11 +1,3 @@
-/**
- * Property CRUD Router
- * 
- * LEARNING: Refactored to use response helpers and security middleware
- * WHY: Multi-table transaction POST requires custom logic, but benefits from standardization
- * PATTERN: Express router with RESTful endpoints, security middleware on state-changing routes
- */
-
 import { Router, Request, Response } from 'express'
 import { PropertyVersion, PropertyDetails, Address } from '../../../config/app.js'
 import { transformPropertyVersion } from '../../../utils/propertyTransformers.js'
@@ -19,14 +11,6 @@ import { csrfProtection, checkOwnership } from '../../../middlewares/security.js
 
 const router = Router()
 
-/**
- * GET /properties
- * List all properties
- * 
- * LEARNING: Fetches all property versions with associations
- * WHY: Provides complete property data including address and details
- * PATTERN: Sequelize findAll with includes, transform to API format
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersions = await PropertyVersion.findAll({
@@ -43,14 +27,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /properties/:id
- * Get single property by ID
- * 
- * LEARNING: Fetches single property version with associations
- * WHY: Provides complete property data for a specific property
- * PATTERN: Sequelize findByPk with includes, transform to API format
- */
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))
@@ -67,14 +43,6 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * POST /properties
- * Create a new property (Address → PropertyVersion → PropertyDetails)
- * 
- * LEARNING: Creates three-table structure in single transaction
- * WHY: Ensures data integrity, all or nothing creation
- * PATTERN: Find or create Address, create PropertyVersion, create PropertyDetails
- */
 router.post(
   '/',
   csrfProtection, // Security middleware: CSRF protection
@@ -145,14 +113,6 @@ router.post(
   }
 )
 
-/**
- * PUT /properties/:id
- * Update a property (full update)
- * 
- * LEARNING: Updates property details with full replacement
- * WHY: Allows complete property update in single request
- * PATTERN: Load property, update propertyDetails, reload with associations
- */
 router.put(
   '/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -205,14 +165,6 @@ router.put(
   }
 )
 
-/**
- * PATCH /properties/:id
- * Partial update a property
- * 
- * LEARNING: Updates property details with partial data
- * WHY: Allows selective property update without full replacement
- * PATTERN: Load property, update propertyDetails with partial data, reload with associations
- */
 router.patch(
   '/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -254,14 +206,6 @@ router.patch(
   }
 )
 
-/**
- * DELETE /properties/:id
- * Delete a property
- * 
- * LEARNING: Deletes property version (cascades to property details)
- * WHY: Removes property from system
- * PATTERN: Find by ID, destroy if found, return 204 on success
- */
 router.delete(
   '/:id',
   csrfProtection, // Security middleware: CSRF protection

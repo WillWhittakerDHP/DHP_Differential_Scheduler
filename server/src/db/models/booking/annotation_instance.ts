@@ -13,22 +13,18 @@ import {
  * that can be associated with block instances. Annotation instances can be user-type-specific
  * (matching state control block instances) or generic (null userType).
  * 
- * LEARNING: Separating annotation instances into their own entity enables:
  * - Shared annotation instances across multiple block instances
  * - User-type-specific annotation instances (different text for same block based on user type)
  * - Centralized annotation instance management (update once, affects all block instances using it)
  * 
- * WHY: Instead of storing annotation instances directly on block instances, we use a many-to-many
  * relationship through ActiveAnnotation. This allows:
  * - Reusability: Same annotation instance can be used by multiple blocks
  * - Flexibility: Blocks can have multiple annotation instances (ordered, with user-type filtering)
  * - Maintainability: Update annotation instance text once, all blocks using it get the update
  * 
  * PATTERN: Instance-level entity model matching block_instances/part_instances pattern
- * COMPARISON: AnnotationShape is shape-level (definitions), AnnotationInstance is instance-level (concrete entities)
  * 
- * NOTE: The userType field on this model is kept for backward compatibility but is being
- * phased out in favor of user_type_block_instance_id in the annotation_assignments table.
+ * NOTE: The userType field is being phased out in favor of user_type_block_instance_id in the annotation_assignments table.
  */
 export class AnnotationInstance extends Model<
   InferAttributes<AnnotationInstance>,

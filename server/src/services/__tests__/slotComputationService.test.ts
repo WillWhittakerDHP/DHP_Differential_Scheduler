@@ -83,10 +83,6 @@ describe('slotComputationService', () => {
     })
 
     it('drive-from buffer is anchored at event end, not at OOO end', () => {
-      // Event 10:00–12:00 UTC, driveFrom 20 min → buffer 12:00–12:20 UTC
-      // OOO 12:00–13:30 UTC (does not extend the buffer)
-      // Slot 12:00–13:00 should be unavailable (overlaps buffer 12:00–12:20 and/or OOO)
-      // Slot 12:20–13:20 should be available (no overlap with buffer; buffer ends at 12:20)
       const dateRange = { start: '2026-02-10T00:00:00.000Z', end: '2026-02-11T00:00:00.000Z' }
       const hours = businessHoursAllDays()
       const constraints: Constraint[] = [

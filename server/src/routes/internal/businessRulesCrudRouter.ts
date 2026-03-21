@@ -1,11 +1,3 @@
-/**
- * Business Rules CRUD Router
- * 
- * LEARNING: Refactored to use CRUD router factory pattern with custom query filtering
- * WHY: Eliminates boilerplate, ensures consistent patterns, wires in security middleware
- * PATTERN: Factory-generated router with custom GET / override for query filtering and extra route
- */
-
 import { Request, Response } from 'express'
 import { BusinessRule } from '../../config/app.js'
 import { createCrudRouter } from '../helpers/createCrudRouter.js'
@@ -16,7 +8,6 @@ import { validateRequiredFields, validateRuleType } from './businessRulesValidat
 import { sendSuccess } from '../helpers/routerResponseHelpers.js'
 import type { ValidationResult } from '../helpers/routerValidators.js'
 
-// Create base CRUD router using factory with custom GET / handler for query filtering
 const router = createCrudRouter({
   model: BusinessRule,
   resourceName: 'business rule',
@@ -58,7 +49,6 @@ const router = createCrudRouter({
         return requiredFieldsValidation
       }
       
-      // Validate rule type
       const ruleTypeValidation = validateRuleType(ruleType)
       if (!ruleTypeValidation.valid) {
         return ruleTypeValidation
@@ -82,14 +72,6 @@ const router = createCrudRouter({
   },
 })
 
-/**
- * GET /business-rules
- * List all business rules with optional filtering
- * 
- * LEARNING: Fetches all business rules with query parameter filtering
- * WHY: Provides flexible querying of business rules
- * PATTERN: Build where clause from query params, fetch with ordering
- */
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { blockInstanceId, ruleType, active } = req.query
@@ -110,14 +92,6 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /business-rules/block/:blockInstanceId
- * Get all active business rules for a specific block instance
- * 
- * LEARNING: Extra route for block-specific business rules
- * WHY: Provides block-specific business rules for validation
- * PATTERN: Fetch with block instance filter and active filter, order by rule type
- */
 router.get('/block/:blockInstanceId', async (req: Request, res: Response): Promise<void> => {
   try {
     const { blockInstanceId } = req.params

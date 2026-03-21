@@ -1,10 +1,3 @@
-/**
- * Property Router Error Handler
- * 
- * LEARNING: Centralized error handling utilities for property router operations
- * WHY: Eliminates console.error calls, provides consistent error responses, improves maintainability
- * PATTERN: Uses shared router error handlers with domain-specific constraint handling
- */
 
 import { Response } from 'express'
 import {
@@ -14,17 +7,6 @@ import {
 } from '../../helpers/routerErrorHandler.js'
 import { ERROR_MESSAGES } from './propertyConstants.js'
 
-/**
- * Handle Sequelize validation errors
- * LEARNING: Wrapper around shared error handler with property-specific error message
- * WHY: Provides consistent error responses for validation failures
- * PATTERN: Delegates to shared handler with property-specific error message
- * 
- * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
- * @param res - Express response object
- * @param defaultMessage - Default error message if error type cannot be determined
- * @returns true if error was handled, false otherwise
- */
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response,
@@ -33,17 +15,6 @@ export function handleSequelizeValidationError(
   return sharedHandleSequelizeValidationError(error, res, defaultMessage)
 }
 
-/**
- * Handle database constraint violations
- * LEARNING: Domain-specific constraint error handling for property operations
- * WHY: Provides consistent error responses for constraint violations
- * PATTERN: Check error message for specific constraint violations, return appropriate response
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param entityId - Optional entity ID (not used for properties, but matches shared handler signature)
- * @returns true if error was handled, false otherwise
- */
 export function handleDatabaseConstraintError(
   error: unknown,
   res: Response,
@@ -73,17 +44,6 @@ export function handleDatabaseConstraintError(
   return false
 }
 
-/**
- * Handle general errors with logging
- * LEARNING: Wrapper around shared error handler
- * WHY: Eliminates console.error calls, provides consistent error responses
- * PATTERN: Delegates to shared handler
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return
- * @param context - Additional context for logging (e.g., operation name)
- */
 export function handleGeneralError(
   error: unknown,
   res: Response,
@@ -93,17 +53,6 @@ export function handleGeneralError(
   sharedHandleGeneralError(error, res, errorMessage, context)
 }
 
-/**
- * Handle route errors with comprehensive error handling
- * LEARNING: Wrapper around shared error handler with property-specific constraint handling
- * WHY: Provides consistent error handling across all routes
- * PATTERN: Delegates to shared handler with domain-specific constraint handler
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return
- * @param context - Additional context for logging (e.g., operation name)
- */
 export function handleRouteError(
   error: unknown,
   res: Response,

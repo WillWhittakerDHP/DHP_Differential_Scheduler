@@ -8,16 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * ValidCascade Model
- * 
- * Represents valid cascade relationships between block shapes.
- * Cascade relationships are vertical hierarchy relationships (different shapes, e.g., user_shape → service).
- * 
- * LEARNING: Cascade relationships enable hierarchical filtering
- * WHY: Block shapes need to define which other block shapes can cascade from them
- * PATTERN: Through table for many-to-many cascade relationships between block shapes
- */
 export class ValidCascade extends Model<
   InferAttributes<ValidCascade>,
   InferCreationAttributes<ValidCascade>

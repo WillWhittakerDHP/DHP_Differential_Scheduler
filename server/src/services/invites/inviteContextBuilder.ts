@@ -1,0 +1,93 @@
+/** Base URL for client-facing links (reschedule, cancel). Use APP_BASE_URL or VITE_APP_BASE_URL. */
+function getAppBaseUrl(): string {
+  const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''
+  return base.replace(/\/$/, '')
+}
+
+/** Build full reschedule URL. Matches client buildClientLinks. */
+function buildRescheduleUrl(appointmentId: string): string {
+  const base = getAppBaseUrl()
+  const path = `/booking?mode=reschedule&appointmentId=${encodeURIComponent(appointmentId)}`
+  return base ? `${base}${path}` : path
+}
+
+/** Build full cancel URL. Matches client buildClientLinks. */
+function buildCancelUrl(appointmentId: string): string {
+  const base = getAppBaseUrl()
+  const path = `/cancel?appointmentId=${encodeURIComponent(appointmentId)}`
+  return base ? `${base}${path}` : path
+}
+
+export interface InviteAppointmentData {
+  id: string
+  selectedDate: Date | string | null
+  selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null
+  status: string
+  propertyVersion?: {
+    address?: {
+      streetAddress: string
+      city: string
+      state: string
+      zipCode: string
+    }
+  } | null
+}
+
+export function buildInviteContext(
+  appointment: InviteAppointmentData,
+  serviceName?: string
+): Record<string, string> {
+  const context: Record<string, string> = {}
+
+  context.appointmentId = appointment.id
+  context.status = appointment.status
+  context.rescheduleLink = buildRescheduleUrl(appointment.id)
+  context.cancelLink = buildCancelUrl(appointment.id)
+
+  const address = appointment.propertyVersion?.address
+  if (address) {
+    context.streetAddress = address.streetAddress
+    context.city = address.city
+    context.state = address.state
+    context.zipCode = address.zipCode
+    context.fullAddress = [
+      address.streetAddress,
+      address.city,
+      address.state,
+      address.zipCode,
+    ]
+      .filter(Boolean)
+      .join(', ')
+  }
+
+  if (appointment.selectedDate) {
+    const dateObj =
+      typeof appointment.selectedDate === 'string'
+        ? new Date(appointment.selectedDate + 'T00:00:00')
+        : appointment.selectedDate
+
+    context.appointmentDate = dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
+  const firstSlot = appointment.selectedTimeSlots?.[0]
+  if (firstSlot?.startTime) {
+    const startDate = new Date(firstSlot.startTime)
+    context.appointmentTime = startDate.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+  }
+
+  if (serviceName) {
+    context.service = serviceName
+  }
+
+  return context
+}
+
+export { EVENT_TEMPLATE_VARIABLES as AVAILABLE_TEMPLATE_VARIABLES } from '../../../../shared/constants/templateVariables.js'

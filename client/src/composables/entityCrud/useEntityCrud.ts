@@ -1,31 +1,59 @@
+import type { ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { useComponentEntity } from '@/composables/useComponentEntity'
 import { createLogger } from '@/utils/logger'
-import { useEntityCrudQuery } from './useEntityCrudQuery'
-import { useEntityCrudActions } from './useEntityCrudActions'
+import { useGlobal } from '@/composables/useGlobal'
+import { useEntityCrudMutations } from './useEntityCrudMutations'
+import type { OrderIndexUpdate, BulkUpdate } from '@/types/entityCrud/entityCrudTypes'
+
+export interface UseEntityCrudReturn<GlobalEntityTypeKey extends GlobalEntityKey> {
+  entities: ComputedRef<GlobalEntity<GlobalEntityTypeKey>[]>
+  isLoading: ComputedRef<boolean>
+  error: ComputedRef<unknown | undefined>
+  create: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>) => Promise<GlobalEntity<GlobalEntityTypeKey>>
+  update: (entity: Partial<GlobalEntity<GlobalEntityTypeKey>>, id: GlobalEntityId) => Promise<unknown>
+  updateWithComponentCheck: (
+    entity: Partial<GlobalEntity<GlobalEntityTypeKey>>,
+    id: GlobalEntityId,
+    onComputedPropertyChange?: (propertyKey: string, newValue: unknown) => void
+  ) => Promise<unknown>
+  remove: (id: GlobalEntityId) => Promise<{ deletedId: string }>
+  patchOrderIndex: (updates: OrderIndexUpdate) => Promise<void>
+  patchBulk: (updates: BulkUpdate<GlobalEntityTypeKey>) => Promise<void>
+  refetch: () => Promise<void>
+  isComposer: (id: GlobalEntityId) => boolean
+  isComputedProperty: (propertyKey: string) => boolean
+}
 
 /**
- * Entity CRUD composable (facade).
- *
- * PATTERN: query/state/actions separation
- * - state: computed `entities` read from globalData cache
- * - actions: mutations that refetch `['globalData']`
- * - domain helpers: composer + computed-property detection
- *
- * NOTE: This is a mechanical extraction from legacy `src/composables/useEntity.ts` to reduce file size.
+ * PATTERN: Entity CRUD composable (facade)
+ * Inlines former useEntityCrudQuery (entities from globalData), useEntityCrudState (isLoading, error, refetch), and useEntityCrudActions (mutations).
  */
-export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entityKey: GlobalEntityTypeKey) {
+export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entityKey: GlobalEntityTypeKey): UseEntityCrudReturn<GlobalEntityTypeKey> {
   const logger = createLogger('useEntityCrud')
   const queryClient = useQueryClient()
+  const { globalData } = useGlobal()
 
-  const { entities } = useEntityCrudQuery(entityKey)
-  const actions = useEntityCrudActions({ entityKey, logger })
+  const entities = computed((): GlobalEntity<GlobalEntityTypeKey>[] => {
+    const data = globalData?.value
+    if (!data || !data.entities || !data.entities[entityKey]) {
+      return []
+    }
+    return data.entities[entityKey] as GlobalEntity<GlobalEntityTypeKey>[]
+  })
 
-  const composedEntity = useComponentEntity(entityKey)
+  const isLoading = computed((): boolean => false)
+  const error = computed((): unknown | undefined => undefined)
+
+  const refetch = async (): Promise<void> => {
+    await queryClient.refetchQueries({ queryKey: ['globalData'] })
+  }
+
+  const actions = useEntityCrudMutations({ entityKey, logger })
 
   function isComposer(entityId: GlobalEntityId): boolean {
     const currentGlobalData = queryClient.getQueryData<GlobalData>(['globalData'])
@@ -68,8 +96,8 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
 
   return {
     entities,
-    isLoading: actions.isLoading,
-    error: actions.error,
+    isLoading,
+    error,
 
     create: actions.create,
     update: actions.update,
@@ -77,12 +105,9 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
     remove: actions.remove,
     patchOrderIndex: actions.patchOrderIndex,
     patchBulk: actions.patchBulk,
-    refetch: actions.refetch,
+    refetch,
 
     isComposer,
     isComputedProperty,
-    composedEntity,
   }
 }
-
-

@@ -1,17 +1,5 @@
-
-import { ref, watch, type Ref } from 'vue'
-
-export interface UseLoadingIndicatorReturn {
-  bufferValue: Ref<number>
-  progressValue: Ref<number>
-  isFallbackState: Ref<boolean>
-  showProgress: Ref<boolean>
-  fallbackHandle: () => void
-  resolveHandle: () => void
-}
-
-/** Subset of return type used by layout/blank for ref template; single source of truth. */
-export type LoadingIndicatorInstance = Pick<UseLoadingIndicatorReturn, 'fallbackHandle' | 'resolveHandle'>
+import { ref, watch } from 'vue'
+import type { UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)
@@ -21,9 +9,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const interval = ref<ReturnType<typeof setInterval>>()
 
   /**
-   * LEARNING: Start buffer animation
-   * WHY: Incrementally increases progress and buffer values to simulate loading
-   * PATTERN: Set interval that updates progress and buffer values randomly
    */
   function startBuffer(): void {
     clearInterval(interval.value)
@@ -33,11 +18,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
     }, 800)
   }
 
-  /**
-   * LEARNING: Watch progress and fallback state
-   * WHY: Adjusts progress when fallback state is active and progress is high
-   * PATTERN: Watch both progressValue and isFallbackState, start buffer animation
-   */
   watch([progressValue, isFallbackState], () => {
     if (progressValue.value > 80 && isFallbackState.value)
       progressValue.value = 82
@@ -46,8 +26,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   })
 
   /**
-   * LEARNING: Fallback handler
-   * WHY: Shows loading indicator and starts progress animation
    * PATTERN: Set showProgress to true, reset progress, set fallback state, start buffer
    */
   const fallbackHandle = (): void => {
@@ -58,9 +36,8 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   }
 
   /**
-   * LEARNING: Resolve handler
-   * WHY: Hides loading indicator and resets progress state
-   * PATTERN: Set fallback state to false, complete progress, clear interval, reset values
+WHY: Hides loading indicator and resets progress state
+PATTERN: Set ...
    */
   const resolveHandle = (): void => {
     isFallbackState.value = false
@@ -83,4 +60,3 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
     resolveHandle
   }
 }
-

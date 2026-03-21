@@ -1,15 +1,3 @@
-/**
- * Server-Side Constraint Extractor
- * 
- * LEARNING: Ported constraint extraction logic from client to server
- * WHY: Server orchestrator needs to extract constraints from AvailabilitySettings
- * PATTERN: Pure functions that extract and transform settings into constraint structures
- * 
- * Phase 2: Server-Side Computed Availability Data Refactor
- * - Ported from client/src/utils/booking/constraintExtractors.ts
- * - Uses shared types from @shared/types/availabilityTypes
- */
-
 import type {
   RangeConstraint,
   OverlapConstraint,
@@ -31,9 +19,6 @@ import type {
 
 /**
  * Require enforcement to be defined
- * LEARNING: Centralized enforcement validation eliminates duplication
- * WHY: Ensures consistent error messages and reduces repetition
- * PATTERN: Helper function that throws if enforcement is undefined
  * 
  * @param enforcement - Enforcement value to validate
  * @param label - Label for error message (e.g., "appointment buffer", "driveToCandidate buffer", "daily constraint")
@@ -51,7 +36,8 @@ function convertBusinessHoursConstraint(dbConstraint: DbRangeConstraint): RangeC
     Array.from({ length: 7 }, (_, day) => {
       const dayHours = config.hours[day as 0 | 1 | 2 | 3 | 4 | 5 | 6]
       return dayHours
-        ? [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
+        ? // @audit-allow:hardcoding:fieldMapping - Config entry tuple shape
+          [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
         : null
     }).filter((entry): entry is readonly [number, { start: RFC3339DateTime; end: RFC3339DateTime }] => entry !== null)
   ) as BusinessHoursConfig['hours']
@@ -95,12 +81,6 @@ function convertRangeConstraint(dbConstraint: DbRangeConstraint): RangeConstrain
   return RANGE_CONVERTER_MAP[dbConstraint.type](dbConstraint)
 }
 
-/**
- * Extract range constraints from availability settings
- * LEARNING: Extracts businessHours, leadTime, and dateRange constraints
- * WHY: Consolidates time-based restrictions into unified structure
- * PATTERN: Pure function that transforms settings into constraint array
- */
 function extractRangeConstraints(
   settings: AvailabilitySettingsData
 ): RangeConstraint[] {
@@ -120,18 +100,6 @@ function extractRangeConstraints(
     .map(convertRangeConstraint)
 }
 
-/**
- * Extract overlap constraints (buffers) from availability settings
- * LEARNING: Extracts appointment, driveToCandidate, driveFromCandidate, and lunch buffers
- * WHY: Consolidates buffer checking into single pathway
- * PATTERN: Pure function that transforms settings into constraint array
- */
-/**
- * Helper to extract a single drive time constraint
- * LEARNING: Consolidates driveToCandidate/driveFromCandidate extraction logic
- * WHY: Eliminates duplication between driveToCandidate and driveFromCandidate blocks
- * PATTERN: Pure function that extracts constraint if valid
- */
 function extractDriveTimeConstraint(
   settings: AvailabilitySettingsData,
   type: 'driveToCandidate' | 'driveFromCandidate',
@@ -186,9 +154,6 @@ function extractOverlapConstraints(
 
 /**
  * Extract capacity constraints from availability settings
- * LEARNING: Extracts daily, calendarWeek, and rollingWeek capacity filters; merges hours and income per time basis
- * WHY: One constraint per time basis carries both maxHours (from maxWorkHours) and maxIncome (from maxIncome) when configured
- * PATTERN: Pure function; if only income is set, maxHours uses Infinity so hours check never blocks
  */
 function extractCapacityConstraints(
   settings: AvailabilitySettingsData
@@ -236,9 +201,6 @@ function extractCapacityConstraints(
 
 /**
  * Extract all constraints from availability settings
- * LEARNING: Unified extraction function that combines all constraint types
- * WHY: Enables single extraction call and unified constraint array
- * PATTERN: Spreads results from individual extractors into single array
  * 
  * @param settings - Availability settings data
  * @returns Unified array of all constraints

@@ -1,22 +1,9 @@
 /**
- * Calendar Events Cache Service
- * 
- * LEARNING: TTL-based caching for Google Calendar full event responses with locations
- * WHY: Reduces API calls and provides event location data for drive time calculations
- * PATTERN: Memory-efficient cache with TTL-based expiration, following freeBusyCache pattern
- * 
- * CRITICAL: Cache reduces API calls and enables location-based features (drive time buffers)
- * Type similarity BRAND: CachedCalendarEvent is CalendarEvent with a type brand (Phase 2).
- */
 
+PATTERN: Memory-efficient cache with TTL-...
+ */
 import type { CalendarEvent } from '../../../shared/types/availabilityTypes.js'
 
-/**
- * Cached calendar event: same shape as CalendarEvent but branded so typecheck distinguishes cache vs API.
- * LEARNING: Brand allows functions to accept only cached events or only fresh API events
- * WHY: Prevents mixing cache and API event types by mistake
- * PATTERN: Type-level brand; no runtime property
- */
 export type CachedCalendarEvent = CalendarEvent & { readonly __brand: 'Cached' }
 
 export interface EventsCacheEntry {
@@ -25,76 +12,38 @@ export interface EventsCacheEntry {
   ttl: number; // Time to live in milliseconds
 }
 
-/**
- * Cache storage
- * LEARNING: Map-based cache with TTL entries
- * WHY: Simple, memory-efficient cache implementation
- */
 const cache: Map<string, EventsCacheEntry> = new Map();
 
-/**
- * Default TTL values in milliseconds
- * LEARNING: Different TTLs for near-term vs future dates
- * WHY: Near-term dates change more frequently, need shorter cache
- */
 const DEFAULT_TTL_NEAR_TERM = 5 * 60 * 1000; // 5 minutes for next 7 days
 const DEFAULT_TTL_FUTURE = 15 * 60 * 1000; // 15 minutes for dates beyond 7 days
 
-/**
- * Configuration from environment
- */
 const CACHE_TTL_MINUTES = parseInt(process.env.GOOGLE_CALENDAR_CACHE_TTL_MINUTES || '5', 10);
 const _DEFAULT_TTL = CACHE_TTL_MINUTES * 60 * 1000; // Convert minutes to milliseconds (reserved for future use)
 
-/**
- * Generate cache key from calendar email and time range
- * LEARNING: Normalized cache key for consistent lookups
- * WHY: Same calendar + time range should always produce same key
- * @param calendarEmail Calendar email address
- * @param timeMin Start time (ISO string or Date)
- * @param timeMax End time (ISO string or Date)
- * @returns Cache key string
- */
 function generateCacheKey(
   calendarEmail: string,
   timeMin: string | Date,
   timeMax: string | Date
 ): string {
-  // Normalize calendar email (lowercase and trim)
   const normalizedEmail = calendarEmail.toLowerCase().trim();
   
-  // Normalize time strings
   const normalizedTimeMin = typeof timeMin === 'string' ? timeMin : timeMin.toISOString();
   const normalizedTimeMax = typeof timeMax === 'string' ? timeMax : timeMax.toISOString();
   
   return `events:${normalizedEmail}:${normalizedTimeMin}:${normalizedTimeMax}`;
 }
 
-/**
- * Determine TTL based on date range
- * LEARNING: Shorter TTL for near-term dates, longer for future dates
- * WHY: Near-term calendar data changes more frequently
- * @param timeMin Start time
- * @param timeMax End time
- * @returns TTL in milliseconds
- */
 function getTTL(timeMin: string | Date, timeMax: string | Date): number {
   const now = Date.now();
   const minTime = typeof timeMin === 'string' ? new Date(timeMin).getTime() : timeMin.getTime();
   const maxTime = typeof timeMax === 'string' ? new Date(timeMax).getTime() : timeMax.getTime();
   
-  // Check if any part of the range is within next 7 days
   const sevenDaysFromNow = now + (7 * 24 * 60 * 60 * 1000);
   const isNearTerm = minTime < sevenDaysFromNow || maxTime < sevenDaysFromNow;
   
   return isNearTerm ? DEFAULT_TTL_NEAR_TERM : DEFAULT_TTL_FUTURE;
 }
 
-/**
- * Clean expired cache entries
- * LEARNING: Remove entries that have exceeded their TTL
- * WHY: Prevent memory leaks and ensure fresh data
- */
 function cleanExpiredEntries(): void {
   const now = Date.now();
   for (const [key, entry] of cache.entries()) {
@@ -105,15 +54,6 @@ function cleanExpiredEntries(): void {
   }
 }
 
-/**
- * Get cached calendar events
- * LEARNING: Check cache before making API call
- * WHY: Reduces API calls and improves performance
- * @param calendarEmail Calendar email address
- * @param timeMin Start time
- * @param timeMax End time
- * @returns Cached events if available and not expired, null otherwise
- */
 export function getCachedEvents(
   calendarEmail: string,
   timeMin: string | Date,
@@ -132,7 +72,6 @@ export function getCachedEvents(
   const age = now - entry.timestamp;
   
   if (age > entry.ttl) {
-    // Entry expired, remove it
     cache.delete(key);
     return null;
   }
@@ -140,15 +79,6 @@ export function getCachedEvents(
   return entry.data;
 }
 
-/**
- * Cache calendar events
- * LEARNING: Store API response in cache with TTL
- * WHY: Enable future cache hits for same queries
- * @param calendarEmail Calendar email address
- * @param timeMin Start time
- * @param timeMax End time
- * @param events Events data to cache
- */
 export function cacheEvents(
   calendarEmail: string,
   timeMin: string | Date,
@@ -164,29 +94,19 @@ export function cacheEvents(
     ttl
   });
   
-  // Clean expired entries periodically (every 10th cache write)
   if (cache.size % 10 === 0) {
     cleanExpiredEntries();
   }
 }
 
-/**
- * Invalidate cache for specific calendar
- * LEARNING: Remove cache entries when calendar data changes
- * WHY: Ensure fresh data after events are created/modified
- * @param calendarEmail Calendar email address to invalidate
- * @param timeRange Optional time range to invalidate (if not provided, invalidates all)
- */
 export function invalidateEventsCache(
   calendarEmail?: string,
   timeRange?: { timeMin: string | Date; timeMax: string | Date }
 ): void {
   if (calendarEmail && timeRange) {
-    // Invalidate specific time range
     const key = generateCacheKey(calendarEmail, timeRange.timeMin, timeRange.timeMax);
     cache.delete(key);
   } else if (calendarEmail) {
-    // Invalidate all entries for this calendar
     const normalizedEmail = calendarEmail.toLowerCase().trim();
     for (const key of cache.keys()) {
       if (key.includes(normalizedEmail)) {
@@ -194,28 +114,14 @@ export function invalidateEventsCache(
       }
     }
   } else {
-    // Invalidate all entries
     cache.clear();
   }
 }
 
-/**
- * Clear all cache entries
- * LEARNING: Useful for testing or manual cache clearing
- * WHY: Allows complete cache reset
- * 
- * IMPORTANT: Cache should be cleared when deploying changes that modify CachedCalendarEvent structure
- * (e.g., Session 2.2.3: Changed from location:string to placeId:string)
- */
 export function clearEventsCache(): void {
   cache.clear();
 }
 
-/**
- * Get cache statistics
- * LEARNING: Useful for monitoring cache performance
- * @returns Cache statistics
- */
 export function getEventsCacheStats() {
   cleanExpiredEntries();
   
@@ -226,12 +132,6 @@ export function getEventsCacheStats() {
   };
 }
 
-/**
- * Get all cached entries (for debugging)
- * LEARNING: Returns all cache entries for inspection
- * WHY: Useful for dev panel to display cache contents
- * @returns Map of cache keys to entries
- */
 export function getAllCachedEntries(): Map<string, EventsCacheEntry> {
   cleanExpiredEntries();
   return new Map(cache);

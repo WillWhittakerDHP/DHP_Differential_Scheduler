@@ -382,7 +382,7 @@
 - `project-manager/features/data-flow-alignment/sessions/session-1.3.1-summary.md` - Added naming convention changes section
 - `README.md` - Added note about database naming
 - `project-manager/features/data-flow-alignment/README.md` - Added reference to naming conventions
-- `project-manager/features/data-flow-alignment/feature-plan.md` - Added note about naming conventions
+- Feature guide - Added note about naming conventions
 
 **Naming Convention Changes (Completed in separate thread):**
 - `useSchedulerComp()` → `useBooking()` (removed `-Comp` suffix, renamed to "booking")
@@ -487,7 +487,7 @@
 ## Related Documents
 
 - **Phase Guide**: `phase-1.3-guide.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.2 Handoff**: `phase-1.2-handoff.md`
 
 ---

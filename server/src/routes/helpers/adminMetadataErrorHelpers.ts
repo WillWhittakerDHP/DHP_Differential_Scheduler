@@ -1,10 +1,3 @@
-/**
- * Shared admin metadata error handling
- *
- * LEARNING: Single implementation for admin-metadata, admin-primitive-metadata, admin-relationship-metadata
- * WHY: All three routers use identical error handling; dedupe for maintainability
- * PATTERN: Re-export wrappers around shared router error handlers
- */
 
 import type { Response } from 'express'
 import {

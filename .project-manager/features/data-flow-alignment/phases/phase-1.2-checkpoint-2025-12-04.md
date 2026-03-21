@@ -35,7 +35,7 @@
 - ✅ `phase-1.2-handoff.md` - Phase handoff document with current status
 
 **Updated Documents:**
-- ✅ `feature-plan.md` - Updated Phase 1.2 status to "In Progress"
+- ✅ Feature guide - Updated Phase 1.2 status to "In Progress"
 - ✅ `README.md` - Updated feature status and phase list
 
 ---

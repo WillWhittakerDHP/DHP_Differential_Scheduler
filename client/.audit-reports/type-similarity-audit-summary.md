@@ -9,43 +9,32 @@ Generated from `client/.audit-reports/type-similarity-audit.json`.
 
 ## Quick Stats
 
-- File count: **810**
-- Total definitions: **656**
-- Groups: **20**
+- File count: **1138**
+- Total definitions: **787**
+- Groups: **9**
 
 ## Action table
 
 | Action | Count | Meaning |
 | --- | ---: | --- |
 | UNIFY | 0 | Merge duplicate shapes |
-| BRAND | 3 | Nominal typing |
-| EXTEND | 16 | Extend shared base |
-| REVIEW | 1 | Manual review |
+| BRAND | 0 | Nominal typing |
+| EXTEND | 9 | Extend shared base |
+| REVIEW | 0 | Manual review |
 
 ## Index (ranked)
 
 | Priority | Action | Relationship | Types | Files | Score |
 | --- | --- | --- | --- | ---: | ---: |
-| P0 | EXTEND | SUBSET | ComponentItem, ComponentItem, BlockInsta... | 0 | 101 |
-| P0 | EXTEND | SUBSET | CalendarEvent, TimeRangeBounds, Calendar... | 0 | 35 |
-| P0 | BRAND | EXACT | BusinessDataCollectionCrudConfig, Busine... | 0 | 26 |
-| P0 | EXTEND | SUBSET | PropertyRequest, PartialPropertyDetails,... | 0 | 23 |
-| P0 | EXTEND | SUBSET | SelectedTimeSlot, LoadedTimeSlot, Server... | 0 | 21 |
-| P0 | BRAND | EXACT | PartialPropertyDetails, PropertyDetailsB... | 0 | 17 |
-| P0 | BRAND | EXACT | RFC3339DateTime, ISO8601Date, GlobalEnti... | 0 | 16 |
-| P0 | EXTEND | SUBSET | PriceData, FeeEntryBase... | 0 | 15 |
-| P0 | EXTEND | SUBSET | CapacityConstraint, IncomeCapacityFilter... | 0 | 14 |
-| P0 | EXTEND | SUBSET | SlotDisplayData, ComputedSlot... | 0 | 13 |
-| P0 | EXTEND | SUBSET | Props, DefaultLocation... | 0 | 13 |
-| P0 | EXTEND | SUBSET | PropertyFormData, WizardStateData, Prope... | 0 | 12 |
-| P0 | EXTEND | SUBSET | DevPanelButtons, UseAppointmentDropdownR... | 0 | 12 |
-| P1 | REVIEW | HIGH_OVERLAP | WizardState, WizardBlocksForBuilders... | 0 | 9 |
-| P1 | EXTEND | SUBSET | Props, ContingencyPeriod... | 0 | 8 |
-| P1 | EXTEND | SUBSET | Props, TimeBasisHandlerProps... | 0 | 8 |
-| P1 | EXTEND | SUBSET | Props, FieldInputProps... | 0 | 8 |
-| P1 | EXTEND | SUBSET | UseAppointmentSlotsReturn, UseMoveablePa... | 0 | 8 |
-| P1 | EXTEND | SUBSET | FieldsByLocation, FieldsByLocation... | 0 | 8 |
-| P1 | EXTEND | SUBSET | RelationshipFieldType, DependencyImpact... | 0 | 8 |
+| P0 | EXTEND | SUBSET | ComponentItem, BlockInstanceResponse, Se... | 0 | 59 |
+| P0 | EXTEND | SUBSET | UseAdminMetadataMutationsReturn, SaveFie... | 0 | 22 |
+| P0 | EXTEND | SUBSET | MoveableSlot, SlotAvailabilityResult... | 0 | 15 |
+| P0 | EXTEND | SUBSET | LoadedTimeSlot, SlotTimeBounds... | 0 | 15 |
+| P0 | EXTEND | SUBSET | UseShapesTabModalsReturn, UseMetadataMod... | 0 | 14 |
+| P1 | EXTEND | SUBSET | UseAdminRelationshipMetadataMutationsRet... | 0 | 10 |
+| P1 | EXTEND | SUBSET | UserRequest, UserResponse... | 0 | 10 |
+| P1 | EXTEND | SUBSET | UseBookingWizardReturnGrouped, UseBookin... | 0 | 10 |
+| P1 | EXTEND | SUBSET | ContactsFormContext, ContactRefs... | 0 | 8 |
 
 ## Notes
 

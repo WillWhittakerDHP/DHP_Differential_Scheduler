@@ -1,11 +1,6 @@
 /**
- * Beta Feedback CRUD Router
- *
- * LEARNING: CRUD router factory with custom GET all (filtering) and tag handling on create
- * WHY: Consistent patterns with other internal routers; support for tags and filtering
- * PATTERN: createCrudRouter with customGetAllHandler, validateRequest, sanitizeInput, afterCreate
+WHY: Consistent patterns with other internal r...
  */
-
 import { Request, Response } from 'express';
 import { BetaFeedback, BetaFeedbackTag } from '../../../config/app.js';
 import { createCrudRouter } from '../../helpers/createCrudRouter.js';

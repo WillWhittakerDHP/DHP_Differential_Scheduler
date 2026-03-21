@@ -1,14 +1,3 @@
-/**
- * ESLint Configuration for Vue App
- * 
- * LEARNING: ESLint 9 flat config format for Vue 3 + TypeScript
- * WHY: Prevents accidental imports from React app during migration
- * PATTERN: Flat config with Vue, TypeScript, and import restrictions
- * 
- * This configuration blocks imports from the React app (client/) directory
- * to prevent migration violations and ensure clean separation during Vue migration.
- */
-
 import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
@@ -28,7 +17,7 @@ export default tseslint.config(
     },
   },
   
-  // LEARNING: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
+  // WHY: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
   // PATTERN: Separate config block for Vue files with proper parser setup
   {
     files: ['**/*.vue'],
@@ -140,10 +129,6 @@ export default tseslint.config(
       ],
       '@typescript-eslint/no-empty-object-type': 'warn',
       
-      /**
-       * WHY: // WHY: detect-object-injection flags legitimate TypeScript/Vue dynamic property access patterns
-       * PATTERN: // PATTERN: Disable this rule as it doesn't provide value for our codebase patterns
-       */
       'security/detect-object-injection': 'off',
       //      We keep this as 'warn' to catch potential issues, but will add disable comments
       'security/detect-non-literal-regexp': 'warn',
@@ -244,18 +229,19 @@ export default tseslint.config(
     },
   },
   
+  // PATTERN: Align with client/.audit-reports/audit-global-config.json globalExclusions
+  // so we do not lint test files, core/library code (@core, @layouts), or build output.
   {
     ignores: [
-      'node_modules/**',
       'dist/**',
-      '**/*.d.ts',
+      'fixtures/**',
+      'src/@core/**',
+      'src/@layouts/**',
       'src/**/__tests__/**',
       'src/**/*.test.ts',
       'src/**/*.test.tsx',
       'src/**/*.spec.ts',
       'src/**/*.spec.tsx',
-      '.scripts/**',
-      '.audit-reports/**',
     ],
   },
-)
+);

@@ -1,9 +1,6 @@
 /**
  * useFieldContextMetadataEntity Composable
  * 
- * LEARNING: Extracts entity lookup logic for metadata fetching from field context
- * WHY: Eliminates duplication of entity lookup logic across BooleanInput, PrimitiveInputs, and FieldRenderer
- * PATTERN: Handles both temporary entities (new-* IDs) and existing entities from admin store
  * 
  * ARCHITECTURAL DECISION: Centralizes entity construction for metadata lookup
  * - Handles temporary entity construction from form values
@@ -16,43 +13,46 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntity } from '@/types/entities'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import { useAdmin } from '@/composables/useAdmin'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
+import { useAdmin } from '@/composables/admin/useAdmin'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useFieldContextMetadataEntity')
 
 export function useFieldContextMetadataEntity<
   GlobalEntityTypeKey extends GlobalEntityKey,
   GlobalFieldTypeKey extends GlobalFieldKey<GlobalEntityTypeKey>
 >(
-  fieldContext: FieldContextType<GlobalEntityTypeKey, GlobalFieldTypeKey>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityTypeKey, GlobalFieldTypeKey>
 ): ComputedRef<GlobalEntity<GlobalEntityTypeKey> | null> {
   const admin = useAdmin()
 
   return computed(() => {
-    if (!fieldContext.entityKey || !fieldContext.entityId) {
+    if (!fieldContext.state.entityKey || !fieldContext.state.entityId) {
       return null
     }
 
-    const entityIdStr = String(fieldContext.entityId)
+    const entityIdStr = String(fieldContext.state.entityId)
     const isTemporaryEntity = entityIdStr.startsWith(TEMPORARY_ID_PATTERNS.NEW_PREFIX)
 
     // PATTERN: Build minimal entity object with id, entityKey, and shape references needed for metadata
     if (isTemporaryEntity) {
-      const rawValues = fieldContext.formInstance?.values
+      const rawValues = fieldContext.state.formInstance?.values
       const formValues = rawValues !== undefined && rawValues !== null ? rawValues : {}
 
       // PATTERN: Include id, entityKey, and shape references from form values
       const entity: Record<string, unknown> = {
-        id: fieldContext.entityId,
-        entityKey: fieldContext.entityKey,
+        id: fieldContext.state.entityId,
+        entityKey: fieldContext.state.entityKey,
       }
 
       // PATTERN: Copy shape reference fields from form values if they exist
-      if (fieldContext.entityKey === 'blockInstance' && formValues.blockShapeRef) {
+      if (fieldContext.state.entityKey === 'blockInstance' && formValues.blockShapeRef) {
         entity.blockShapeRef = formValues.blockShapeRef
       }
 
       // PATTERN: Copy shape reference fields from form values if they exist
-      if (fieldContext.entityKey === 'partInstance' && formValues.partShapeRef) {
+      if (fieldContext.state.entityKey === 'partInstance' && formValues.partShapeRef) {
         entity.partShapeRef = formValues.partShapeRef
       }
 
@@ -62,9 +62,10 @@ export function useFieldContextMetadataEntity<
 
     // PATTERN: Try store lookup, return null if not found
     try {
-      const entity = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+      const entity = admin.getEntity(fieldContext.state.entityKey, fieldContext.state.entityId)
       return entity ?? null
-    } catch {
+    } catch (err) {
+      logger.warn('getEntity failed for metadata', { entityKey: fieldContext.state.entityKey, entityId: fieldContext.state.entityId, error: err })
       return null
     }
   })

@@ -157,8 +157,6 @@ const isStepAccessible = (index: number): boolean => {
 
 ---
 
-## Learning Checkpoints
-
 ### What Did We Learn?
 
 1. **Step Completion Tracking**
@@ -401,4 +399,3 @@ const isStepAccessible = (index: number): boolean => {
 ---
 
 **Last Updated:** 2025-12-28 (Session End)
-

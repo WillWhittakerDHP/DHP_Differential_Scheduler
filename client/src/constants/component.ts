@@ -3,11 +3,9 @@ import type { ComponentStrategy, DistributionStrategy } from '../types/component
 export const COMPONENT_RELATIONSHIP_KEY = 'instanceComponents' as const;
 
 /**
- * Component strategy constants
- * 
- * LEARNING: Component strategies define how properties are mathematically combined
- * WHY: Different properties need different combination methods (sum for numbers, merge for arrays, etc.)
- * PATTERN: Strategy constants for property component
+ * PATTERN: Component strategy constants
+
+PATTERN: Strategy constants for property c...
  */
 export const COMPONENT_STRATEGIES: Record<string, ComponentStrategy> = {
   SUM: 'sum',
@@ -18,11 +16,9 @@ export const COMPONENT_STRATEGIES: Record<string, ComponentStrategy> = {
 } as const;
 
 /**
- * Distribution strategy constants
- * 
- * LEARNING: Distribution strategies define how changes to parents are distributed to components
- * WHY: Users need control over how parent changes propagate to components
- * PATTERN: Strategy constants for change distribution
+ * PATTERN: Distribution strategy constants
+
+PATTERN: Strategy constants for change ...
  */
 export const DISTRIBUTION_STRATEGIES: Record<string, DistributionStrategy> = {
   PROPORTIONAL: 'proportional',

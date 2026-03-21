@@ -1,19 +1,9 @@
-/**
- * LEARNING: EventShape Field Definitions
- * WHY: Defines which fields are primitive for EventShape (configuration data, not entity)
- * PATTERN: Similar to entity field configs but for configuration data
- * NOTE: orderIndex is hidden (managed via drag-and-drop UI, not editable field)
- */
 
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
+import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
 
-/**
- * LEARNING: EventShape Field Definitions (Configuration Data)
- * WHY: Defines field types for EventShape - used for metadata seed data and type information
- * PATTERN: Similar structure to entity field configs but for configuration data
- * NOTE: These are NOT entities, so they don't use PrimitiveFormField<GlobalEntityKey>
- */
 export const eventShapeFields = {
   id: {
     primitiveType: PrimitiveTypeEnum.String,
@@ -65,7 +55,21 @@ export const eventShapeFields = {
       { value: null, label: 'None (Fail Gracefully)' },
       { value: 'true', label: 'True' },
       { value: 'false', label: 'False' },
-      { value: 'override', label: 'Override' },
+      { value: 'override', label: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS },
+    ],
+  },
+
+  differentialRole: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Differential Role",
+    globalField: "differentialRole" as const,
+    expandable: false,
+    options: [
+      { value: null, label: BUSINESS_RULES_UI.VALIDATION_NONE },
+      { value: 'major', label: 'Major' },
+      { value: 'minor', label: 'Minor' },
+      { value: 'moveable', label: 'Moveable' },
     ],
   },
 

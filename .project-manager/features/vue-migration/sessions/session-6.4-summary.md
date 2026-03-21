@@ -238,19 +238,3 @@ Both models follow the existing pattern:
 - Phase Guide: `project-manager/features/vue-migration/phases/phase-6-guide.md`
 
 ---
-
-## Learning Checkpoint
-
-**What:** Created database schema and models for user-specific descriptions system.
-
-**Why:** Enables shared, reusable descriptions with user-type filtering, allowing different text for the same block based on user type (buyer, agent, owner).
-
-**How:** 
-- Description entity stores reusable description text with optional user-type filter
-- BlockInstanceDescription through-table links blocks to descriptions with ordering and default flags
-- Many-to-many relationship enables one description to be used by multiple blocks
-
-**When:** Descriptions will be fetched and displayed in the booking wizard based on selected user type (Session 6.7).
-
-**Where:** Database layer (models, migrations, seeds) and constants (entity/relationship definitions).
-

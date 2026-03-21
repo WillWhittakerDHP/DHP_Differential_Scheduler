@@ -63,12 +63,6 @@
 - Only recalculates when globalData.value changes (not reference changes)
 - Uses adminTransformer.transformGlobalToAdmin() to attach relationships
 
-**Learning Points:**
-- Singleton pattern in Vue composables
-- Computed property caching behavior
-- Transformation layer between GlobalData and AdminObjectMap
-- Relationship attachment via transformer
-
 ---
 
 ### Task 4.5.2: Enhance useEntity Composable
@@ -87,12 +81,6 @@
 - Enhanced 404 error handling invalidates cache when entity not found
 - Better error messages include entity context and IDs
 - Development logging helps debug mutation issues
-
-**Learning Points:**
-- Field-level mutations vs full entity updates
-- Cache invalidation strategies
-- Error handling patterns in Vue Query mutations
-- Development logging best practices
 
 ---
 
@@ -113,12 +101,6 @@
 - Delegates all CRUD operations to EntityCard
 - Supports both grouped and non-grouped display modes
 
-**Learning Points:**
-- Generic component patterns
-- Component composition
-- Backward compatibility in refactoring
-- Conditional component rendering
-
 ---
 
 ### Task 4.5.4: Integrate Data Flow Verification
@@ -136,12 +118,6 @@
 - UI updates reactively when data changes
 - Entity lookups are efficient
 - Error handling provides useful feedback
-
-**Learning Points:**
-- Data flow verification
-- Reactive system testing
-- Performance considerations
-- Error handling validation
 
 ---
 
@@ -195,5 +171,3 @@
 - Phase Guide: `project-manager/features/vue-migration/phases/phase-4-guide.md`
 - Session 4.4 Guide: `project-manager/features/vue-migration/sessions/session-4.4-guide.md`
 - Project Plan: `project-manager/PROJECT_PLAN.md`
-
-

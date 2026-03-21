@@ -33,10 +33,18 @@ async function runMigrations() {
     await sequelize.authenticate()
     console.log('✅ Database connection established')
 
+    // Ensure SequelizeMeta exists (first run on a fresh database)
+    await sequelize.query(`
+      CREATE TABLE IF NOT EXISTS public."SequelizeMeta" (
+        name VARCHAR(255) NOT NULL PRIMARY KEY
+      )
+    `)
+    // Restore search_path in case a migration reset it
+    await sequelize.query('SET search_path = public')
+
     const migrationsPath = join(__dirname, '../db/migrations')
     const files = await readdir(migrationsPath)
     
-    // Filter for migration files (.js and .mjs), exclude README.md and .sql files
     const targetMigrations = files
       .filter(f => (f.endsWith('.mjs') || f.endsWith('.js')) && f !== 'README.md' && !f.endsWith('.sql'))
       .sort()
@@ -44,9 +52,8 @@ async function runMigrations() {
     console.log(`\n📋 Found ${targetMigrations.length} migration files:`)
     targetMigrations.forEach(f => console.log(`   - ${f}`))
 
-    // Check which ones have already run (get all executed migrations)
     const executedMigrationsResult = await sequelize.query(
-      'SELECT name FROM "SequelizeMeta" ORDER BY name',
+      'SELECT name FROM public."SequelizeMeta" ORDER BY name',
       {
         type: Sequelize.QueryTypes.SELECT
       }
@@ -84,9 +91,11 @@ async function runMigrations() {
         const queryInterface = sequelize.getQueryInterface()
         await migration.default.up(queryInterface, Sequelize)
 
-        // Record migration in SequelizeMeta
+        // Restore search_path in case the migration reset it
+        await sequelize.query('SET search_path = public')
+
         await sequelize.query(
-          'INSERT INTO "SequelizeMeta" (name) VALUES (:name)',
+          'INSERT INTO public."SequelizeMeta" (name) VALUES (:name)',
           {
             replacements: { name: migrationFile },
             type: Sequelize.QueryTypes.INSERT

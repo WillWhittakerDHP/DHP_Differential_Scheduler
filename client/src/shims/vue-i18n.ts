@@ -1,21 +1,8 @@
 import { ref, type Ref } from 'vue'
-
-/**
- * Minimal `vue-i18n` shim
- *
- * WHY: This codebase references `useI18n()` and `<i18n-t>` from the Vuexy template,
- * but `vue-i18n` is not currently installed as a dependency.
- *
- * PATTERN: Provide the smallest surface area needed for typecheck/build while we
- * decide whether to add full `vue-i18n` support later.
- *
- * IMPORTANT:
- * - This does NOT provide real translation; it only tracks `locale`.
- * - If/when we add `vue-i18n`, remove the tsconfig/vite alias and this shim.
- */
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 
 type UseI18nOptions = {
-  useScope?: 'global' | 'local'
+  useScope?: 'global' | typeof APP_STAGE.LOCAL
 }
 
 const globalLocale = ref('en')

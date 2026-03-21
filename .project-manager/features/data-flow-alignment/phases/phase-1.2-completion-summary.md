@@ -193,7 +193,7 @@ Phase 1.2 successfully completed all objectives for fixing data flow issues in t
 
 - **Phase Guide**: `phase-1.2-guide.md`
 - **Phase Handoff**: `phase-1.2-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.1 Handoff**: `phase-1.1-handoff.md`
 
 ---

@@ -21,7 +21,7 @@ const props = defineProps({
   },
   autofocus: Boolean,
   counter: [Boolean, Number, String] as PropType<true | number | string>,
-  counterValue: Function as PropType<(value: string) => number>,
+  counterValue: Object as PropType<(value: string) => number>,
   prefix: String,
   placeholder: String,
   persistentPlaceholder: Boolean,
@@ -55,7 +55,9 @@ interface Emit {
 const configStore = useConfigStore()
 const attrs = useAttrs()
 
-const [rootAttrs, compAttrs] = filterInputAttrs(attrs)
+const filteredAttrs = filterInputAttrs(attrs)
+const rootAttrs = filteredAttrs[0] ?? {}
+const compAttrs = filteredAttrs[1] ?? {}
 const inputProps = ref(VInput.filterProps(props))
 const fieldProps = ref(VField.filterProps(props))
 
@@ -133,7 +135,7 @@ const elementId = computed (() => {
     <!-- v-input -->
     <VLabel
       v-if="fieldProps.label"
-      class="mb-1 text-body-2"
+      class="mb-1 text-body-medium"
       :for="elementId"
       :text="String(fieldProps.label || '')"
     />
@@ -211,7 +213,6 @@ const elementId = computed (() => {
 <style lang="scss">
 @use "@core/scss/template/mixins" as templateMixins;
 
-/* stylelint-disable no-descending-specificity */
 @use "flatpickr/dist/flatpickr.css";
 @use "@core/scss/base/mixins";
 
@@ -510,7 +511,6 @@ input[altinputclass="inlinePicker"] {
   }
 
   .flatpickr-prev-month {
-    /* stylelint-disable-next-line liberty/use-logical-spec */
     right: 3.65rem;
     left: unset !important;
   }

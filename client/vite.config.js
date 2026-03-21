@@ -1,10 +1,3 @@
-/**
- * Vite Configuration
- *
- * LEARNING: Vite config for Vue 3 + TypeScript + Vuetify
- * WHY: Configures build tool, path aliases, and plugins
- * PATTERN: Vite config with Vue plugin and path resolution
- */
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vuetify from 'vite-plugin-vuetify';
@@ -79,9 +72,6 @@ export default defineConfig({
                     }
                     if (id.includes('node_modules/axios/')) {
                         return 'axios';
-                    }
-                    if (id.includes('node_modules/date-fns/')) {
-                        return 'date-fns';
                     }
                     if (id.includes('node_modules/@tanstack/vue-query')) {
                         return 'vue-query';

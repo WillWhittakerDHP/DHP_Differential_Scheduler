@@ -1,18 +1,13 @@
 /**
- * Date utilities for booking (UTC-only)
- *
- * LEARNING: parseUTCDate moved from slotPipeline for use after server-side slot computation
- * WHY: useAvailabilityLogic and others need UTC date parsing without slot pipeline dependency
+ * WHY: Date utilities for booking (UTC-only)
+WHY: useAvailabilityLogic and othe...
  */
-
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('dateUtils')
 
 /**
- * Parse date string or Date in UTC
- * LEARNING: Parses dates in UTC timezone, not local
- * WHY: All business logic should use UTC to avoid timezone issues
+ * WHY: Parse date string or Date in UTC
  */
 export function parseUTCDate(dateInput: string | Date): Date | null {
   let dateString: string

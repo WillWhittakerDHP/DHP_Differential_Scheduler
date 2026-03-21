@@ -1,18 +1,8 @@
-/**
- * CRUD Router Types
- *
- * LEARNING: Shared types for the CRUD router factory and route handlers
- * WHY: Single source of truth for config and handler signatures; enables handler extraction
- * PATTERN: Config interface for orchestration; context interface for handler factories
- */
 
 import type { Request, Response, RequestHandler } from 'express'
 import type { Model, ModelStatic, Includeable, Order } from 'sequelize'
 import type { ValidationResult } from './routerValidators.js'
 
-/**
- * Error messages configuration for CRUD operations
- */
 export interface CrudErrorMessages {
   FETCH_ALL: string
   FETCH_ONE: string
@@ -23,10 +13,6 @@ export interface CrudErrorMessages {
   DELETE: string
 }
 
-/**
- * Context passed to route handler factories (subset of full config).
- * Excludes feature flags and custom override handlers (orchestrator concerns).
- */
 export interface CrudHandlerContext<T extends Model> {
   model: ModelStatic<T>
   resourceName: string
@@ -45,9 +31,6 @@ export interface CrudHandlerContext<T extends Model> {
   constraintHandler?: (error: unknown, res: Response, entityId?: string) => boolean
 }
 
-/**
- * CRUD Router Configuration
- */
 export interface CrudRouterConfig<T extends Model> {
   /** Sequelize model for CRUD operations */
   model: ModelStatic<T>
@@ -86,7 +69,4 @@ export interface CrudRouterConfig<T extends Model> {
   getByIdMiddleware?: RequestHandler[]
 }
 
-/**
- * Express route handler signature used by CRUD route handler factories
- */
 export type RouteHandler = (req: Request, res: Response) => Promise<void>

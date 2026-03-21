@@ -279,8 +279,6 @@ describe('appointmentSlotBuilder', () => {
       
       const result = applyShapeToTime(shape, '2026-01-15T10:00:00Z', 0, undefined, true)
       
-      // Note: This test may need adjustment based on actual event configuration
-      // The validation logic ensures end times match when both ranges exist
     })
 
     it('should ensure event time ranges end at same time when both major and minor exist', () => {
@@ -325,7 +323,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'major', undefined, undefined)
-      // When no globalData/settings, derivePerspective falls back to totalTimeRange
       expect(result).toEqual(slot.totalTimeRange)
     })
 
@@ -386,7 +383,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'minor', undefined, undefined)
-      // When no globalData/settings, minor perspective returns null
       expect(result).toBeNull()
     })
 
@@ -417,7 +413,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'minor', undefined, undefined)
-      // When no globalData/settings, minor returns null
       expect(result).toBeNull()
     })
 
@@ -448,7 +443,6 @@ describe('appointmentSlotBuilder', () => {
       }
       
       const result = derivePerspective(slot, 'nonDifferential', undefined, undefined)
-      // When no globalData/settings, nonDifferential falls back to totalTimeRange
       expect(result).toEqual(slot.totalTimeRange)
     })
   })

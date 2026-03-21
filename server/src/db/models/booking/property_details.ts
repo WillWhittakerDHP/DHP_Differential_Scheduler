@@ -10,11 +10,8 @@ import {
 import { DEFAULT_VALUES } from '../../../routes/internal/properties/propertyConstants.js';
 
 /**
- * PropertyDetails Model
- * 
- * LEARNING: PropertyDetails stores versioned property details from API or manual input
- * WHY: Allows disambiguation (different sources, different values), manual overrides without mutating API data
- * PATTERN: Versioned data structure with source tracking, foreign key to PropertyVersion
+
+PATTERN: Versioned data structure with source tra...
  */
 export class PropertyDetails extends Model<
   InferAttributes<PropertyDetails>,

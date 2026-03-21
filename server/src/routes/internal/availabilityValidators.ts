@@ -1,10 +1,3 @@
-/**
- * Availability Router Validation Utilities
- * 
- * LEARNING: Extracted validation logic for availability operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure validation functions that return validation results
- */
 
 import type { ValidationResult } from '../helpers/routerValidators.js'
 import { ERROR_MESSAGES } from './availabilityConstants.js'
@@ -12,9 +5,6 @@ import type { ComputedAvailabilityRequest } from '../../../../shared/types/avail
 
 /**
  * Validate computed availability request
- * LEARNING: Extracted request validation logic
- * WHY: Reusable validation for availability computation requests
- * PATTERN: Check required fields, return validation result
  * 
  * @param request - Request object to validate
  * @returns ValidationResult indicating if request is valid
@@ -31,7 +21,6 @@ export function validateComputedAvailabilityRequest(
 
   const req = request as ComputedAvailabilityRequest
 
-  // Validate dateRange
   if (!req.dateRange || !req.dateRange.start || !req.dateRange.end) {
     return {
       valid: false,
@@ -39,11 +28,42 @@ export function validateComputedAvailabilityRequest(
     }
   }
 
-  // Validate duration
   if (typeof req.duration !== 'number' || req.duration <= 0) {
     return {
       valid: false,
       error: ERROR_MESSAGES.INVALID_DURATION,
+    }
+  }
+
+  if (
+    req.appointmentId !== undefined
+    && req.appointmentId !== null
+    && typeof req.appointmentId !== 'string'
+  ) {
+    return {
+      valid: false,
+      error: 'appointmentId must be a string when provided',
+    }
+  }
+
+  if (
+    req.reschedulingAppointmentId !== undefined
+    && req.reschedulingAppointmentId !== null
+    && typeof req.reschedulingAppointmentId !== 'string'
+  ) {
+    return {
+      valid: false,
+      error: 'reschedulingAppointmentId must be a string when provided',
+    }
+  }
+
+  if (req.allowedExceptions !== undefined && req.allowedExceptions !== null) {
+    if (!Array.isArray(req.allowedExceptions)) {
+      return { valid: false, error: 'allowedExceptions must be an array when provided' }
+    }
+    const invalid = req.allowedExceptions.some((v) => typeof v !== 'string')
+    if (invalid) {
+      return { valid: false, error: 'allowedExceptions must contain only strings' }
     }
   }
 

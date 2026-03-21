@@ -61,15 +61,27 @@ function main() {
   }
 
   const contract = loadContract(contractJson)
-  const currentFindings = contract.findings || []
-  const current = buildEndpointSet(currentFindings)
+  // Current API surface from contract's full endpoint list (endpointKeys), not findings, so versioning does not depend on allowlist or issue count.
+  let current
+  const contractEndpointKeys = contract.endpointKeys
+  if (Array.isArray(contractEndpointKeys) && contractEndpointKeys.length > 0) {
+    current = { set: new Set(contractEndpointKeys), byKey: new Map(contractEndpointKeys.map((k) => [k, { endpoint: k }])) }
+  } else {
+    if (contractEndpointKeys === undefined) {
+      console.warn('api-versioning: contract.endpointKeys missing (old api-contract output). Falling back to findings. Re-run audit:api-contract to refresh.')
+    }
+    const currentFindings = contract.findings || []
+    current = buildEndpointSet(currentFindings)
+  }
+
   const baseline = loadBaseline(baselineJson)
 
   if (accept) {
+    const endpointKeysToPersist = Array.isArray(contractEndpointKeys) && contractEndpointKeys.length > 0 ? contractEndpointKeys : [...current.set]
     const baselineData = {
       generatedAt: new Date().toISOString(),
-      findings: currentFindings.map(f => ({ method: f.method, url: f.url, type: f.type, severity: f.severity, serverFile: f.serverFile, clientFile: f.clientFile })),
-      endpointKeys: [...current.set],
+      findings: (contract.findings || []).map(f => ({ method: f.method, url: f.url, type: f.type, severity: f.severity, serverFile: f.serverFile, clientFile: f.clientFile })),
+      endpointKeys: endpointKeysToPersist,
     }
     fs.writeFileSync(baselineJson, JSON.stringify(baselineData, null, 2))
     console.log('Baseline updated:', toRepoPath(baselineJson, paths.projectRoot))

@@ -1,13 +1,5 @@
-/**
- * Appointment Calendar Service
- * 
- * LEARNING: Integrates appointment creation with Google Calendar
- * WHY: Automatically creates calendar events and sends invitations when appointments are booked
- * PATTERN: Service layer that bridges appointment data with Google Calendar API
- * 
- * SESSION: 2.1.3b - Appointment Attendees Architecture
- */
-
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes.js';
+import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js';
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
 import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
@@ -16,9 +8,6 @@ import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('AppointmentCalendarService');
 
-/**
- * Result of calendar event creation
- */
 interface CalendarEventResult {
   success: boolean;
   eventId?: string;
@@ -27,27 +16,11 @@ interface CalendarEventResult {
   attendeesUpdated: number;
 }
 
-/**
- * Time slot structure from appointment
- * 
- * LEARNING: Requires RFC3339 format - no legacy fallback
- * WHY: Explicit failure over silent fallback prevents wrong calendar times
- * PATTERN: Client must send full RFC3339 datetime strings
- * 
- * SESSION: 2.1.3b - Removed legacy format support
- */
-/** Server-side time slot shape; branded to distinguish from client SelectedTimeSlot. */
-interface ServerTimeSlot {
-  startTime: string;   // RFC3339 format, e.g., "2026-02-01T21:00:00.000Z"
-  endTime: string;     // RFC3339 format
-  duration?: number;   // Optional - in minutes (can be calculated from start/end)
+/** Server slot shape aligned with shared SlotTimeBounds (RFC3339 start/end, duration in minutes). */
+interface ServerTimeSlot extends SlotTimeBounds {
   readonly __brand?: 'ServerTimeSlot'
 }
 
-/**
- * Appointment data needed for calendar event creation
- * LEARNING: Uses actual Appointment model field names
- */
 interface AppointmentWithDetails {
   id: string;
   selectedDate: Date | string | null;  // DATEONLY field
@@ -74,16 +47,6 @@ interface AppointmentWithDetails {
   }>;
 }
 
-/**
- * Create a Google Calendar event for an appointment
- * 
- * LEARNING: Transforms appointment data into Google Calendar event format
- * WHY: Calendar events need specific format with attendees, times, location
- * 
- * @param appointmentId - The appointment ID to create event for
- * @param calendarId - The calendar to create the event on (default: primary)
- * @returns Result with event details or error
- */
 export async function createCalendarEventForAppointment(
   appointmentId: string,
   calendarId: string = 'primary'
@@ -91,7 +54,6 @@ export async function createCalendarEventForAppointment(
   logger.info(`Creating calendar event for appointment ${appointmentId}`);
   
   try {
-    // Fetch appointment with all needed relationships
     const appointment = await Appointment.findByPk(appointmentId, {
       include: [
         {
@@ -115,16 +77,11 @@ export async function createCalendarEventForAppointment(
       };
     }
     
-    // Build event parameters including calendarId
     const eventParams = buildEventParams(appointment, calendarId);
     
-    // Create the calendar event
-    // LEARNING: createEvent returns CreatedEventResponse directly (not wrapped in success/error)
-    // WHY: Service layer handles errors via try/catch
     try {
       const createdEvent = await createEvent(eventParams);
       
-      // Update attendee records with event ID and status
       const filtered = appointment.attendees?.filter(a => a.shouldReceiveInvitation)
       const attendeesToUpdate = filtered !== undefined && filtered !== null ? filtered : []
       let attendeesUpdated = 0;
@@ -132,9 +89,9 @@ export async function createCalendarEventForAppointment(
       for (const attendee of attendeesToUpdate) {
         try {
           await AppointmentAttendee.update(
-            {
+              {
               googleEventId: createdEvent.id,
-              invitationStatus: 'sent',
+              invitationStatus: INVITATION_STATUS_SENT,
             },
             { where: { id: attendee.id } }
           );
@@ -171,25 +128,15 @@ export async function createCalendarEventForAppointment(
   }
 }
 
-/**
- * Build event parameters from appointment data
- * 
- * LEARNING: Transforms appointment model to Google Calendar event format
- */
 function buildEventParams(appointment: AppointmentWithDetails, calendarId: string): CreateEventParams {
-  // Build event summary (title)
   const summary = buildEventSummary(appointment);
   
-  // Build location from address
   const location = buildEventLocation(appointment);
   
-  // Build description
   const description = buildEventDescription(appointment);
   
-  // Calculate start and end times
   const { start, end } = calculateEventTimes(appointment);
   
-  // Build attendees list
   const attendees = buildAttendeesList(appointment);
   
   return {
@@ -204,9 +151,6 @@ function buildEventParams(appointment: AppointmentWithDetails, calendarId: strin
   };
 }
 
-/**
- * Build event summary (title)
- */
 function buildEventSummary(appointment: AppointmentWithDetails): string {
   const address = appointment.propertyVersion?.address;
   
@@ -217,9 +161,6 @@ function buildEventSummary(appointment: AppointmentWithDetails): string {
   return `Inspection Appointment`;
 }
 
-/**
- * Build event location string
- */
 function buildEventLocation(appointment: AppointmentWithDetails): string | undefined {
   const address = appointment.propertyVersion?.address;
   
@@ -237,9 +178,6 @@ function buildEventLocation(appointment: AppointmentWithDetails): string | undef
   return parts.join(', ');
 }
 
-/**
- * Build event description
- */
 function buildEventDescription(appointment: AppointmentWithDetails): string {
   const lines: string[] = [
     'Home Inspection Appointment',
@@ -253,13 +191,7 @@ function buildEventDescription(appointment: AppointmentWithDetails): string {
 }
 
 /**
- * Calculate event start and end times
- * 
- * LEARNING: Extracts RFC3339 times from selectedTimeSlots
- * WHY: Google Calendar API expects ISO 8601 datetime strings
- * PATTERN: Explicit failure over silent fallback - missing data should fail loudly
- * 
- * SESSION: 2.1.3b - Removed legacy fallback; now requires proper RFC3339 format
+
  */
 function calculateEventTimes(appointment: AppointmentWithDetails): { start: string; end: string } {
   const firstSlot = appointment.selectedTimeSlots?.[0];
@@ -283,7 +215,6 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
   
   logger.debug(`Using RFC3339 format: start=${firstSlot.startTime}, end=${firstSlot.endTime}`);
   
-  // Validate the dates
   const startDate = new Date(firstSlot.startTime);
   const endDate = new Date(firstSlot.endTime);
   
@@ -298,12 +229,6 @@ function calculateEventTimes(appointment: AppointmentWithDetails): { start: stri
   };
 }
 
-/**
- * Build attendees list for calendar event
- * 
- * LEARNING: Filters attendees who should receive invitations
- * WHY: Some attendees may not need calendar invites (e.g., internal tracking only)
- */
 function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[] {
   const attendees: EventAttendee[] = [];
   
@@ -312,12 +237,10 @@ function buildAttendeesList(appointment: AppointmentWithDetails): EventAttendee[
   }
   
   for (const attendee of appointment.attendees) {
-    // Skip if shouldn't receive invitation
     if (!attendee.shouldReceiveInvitation) {
       continue;
     }
     
-    // Skip if no user or email
     if (!attendee.user?.email) {
       logger.warn(`Attendee ${attendee.id} has no email, skipping`);
       continue;

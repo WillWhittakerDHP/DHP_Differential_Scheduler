@@ -8,16 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * PartInstanceVersion Model
- * 
- * LEARNING: Immutable version records for part instances
- * WHY: Preserves historical part instance data as children of block instance versions
- * PATTERN: Part instances are versioned only when parent block instance is versioned (lazy cascade)
- * 
- * CRITICAL: FK to block_instance_versions (not block_instances) - part versions belong to block versions
- * WHY: Part instances are children of blocks in snapshot structure
- */
 export class PartInstanceVersion extends Model<
   InferAttributes<PartInstanceVersion>,
   InferCreationAttributes<PartInstanceVersion>

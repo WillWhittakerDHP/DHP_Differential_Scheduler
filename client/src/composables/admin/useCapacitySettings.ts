@@ -1,23 +1,16 @@
-/**
- * Composable for capacity settings (max work hours per day, calendar week, rolling week)
- * WHY: Extracts capacity logic from BusinessControlsTab to reduce script size and complexity
- * PATTERN: Uses shared nestedComputedFactory; formData is single source of truth
- */
-import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { Ref, WritableComputedRef } from 'vue'
+import type { AvailabilitySettings, RollingWeekDirection } from '@/configs/availabilitySettings'
 import {
   createNestedComputed,
   createEnsureNested
 } from '@/composables/admin/utils/nestedComputedFactory'
+import { ROLLING_WEEK_DIRECTION_VALUES } from '@/constants/businessControlsOptions'
+import type { UseCapacitySettingsParams } from '@/types/admin/capacitySettings'
+
 
 type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
 type MaxIncome = NonNullable<AvailabilitySettings['maxIncome']>
 type CapacityFilterKey = 'day' | 'calendarWeek' | 'rollingWeek'
-
-export interface UseCapacitySettingsParams {
-  formData: Ref<AvailabilitySettings | null>
-  maxBusinessHours: ComputedRef<number>
-}
 
 function createMaxWorkHoursComputed<F extends CapacityFilterKey, P extends keyof NonNullable<MaxWorkHours[F]>>(
   formData: Ref<AvailabilitySettings | null>,
@@ -83,22 +76,28 @@ function createMaxIncomeComputed<F extends CapacityFilterKey, P extends keyof No
   })
 }
 
-export function useCapacitySettings(params: UseCapacitySettingsParams): {
-  maxWorkHoursDayMaxHours: WritableComputedRef<number>
-  maxWorkHoursDayEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxWorkHoursCalendarWeekMaxHours: WritableComputedRef<number>
-  maxWorkHoursCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxWorkHoursRollingWeekMaxHours: WritableComputedRef<number>
-  maxWorkHoursRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxWorkHoursRollingWeekDirection: WritableComputedRef<'past' | 'centered' | 'future'>
-  maxIncomeDayMaxIncome: WritableComputedRef<number>
-  maxIncomeDayEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxIncomeCalendarWeekMaxIncome: WritableComputedRef<number>
-  maxIncomeCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxIncomeRollingWeekMaxIncome: WritableComputedRef<number>
-  maxIncomeRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
-  maxIncomeRollingWeekDirection: WritableComputedRef<'past' | 'centered' | 'future'>
-} {
+export interface UseCapacitySettingsReturn {
+  maxWorkHours: {
+    maxWorkHoursDayMaxHours: WritableComputedRef<number>
+    maxWorkHoursDayEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+    maxWorkHoursCalendarWeekMaxHours: WritableComputedRef<number>
+    maxWorkHoursCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+    maxWorkHoursRollingWeekMaxHours: WritableComputedRef<number>
+    maxWorkHoursRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+    maxWorkHoursRollingWeekDirection: WritableComputedRef<RollingWeekDirection>
+  }
+  maxIncome: {
+    maxIncomeDayMaxIncome: WritableComputedRef<number>
+    maxIncomeDayEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+    maxIncomeCalendarWeekMaxIncome: WritableComputedRef<number>
+    maxIncomeCalendarWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+    maxIncomeRollingWeekMaxIncome: WritableComputedRef<number>
+    maxIncomeRollingWeekEnforcement: WritableComputedRef<'off' | 'flexible' | 'hard'>
+    maxIncomeRollingWeekDirection: WritableComputedRef<RollingWeekDirection>
+  }
+}
+
+export function useCapacitySettings(params: UseCapacitySettingsParams): UseCapacitySettingsReturn {
   const { formData, maxBusinessHours } = params
 
   const ensureMaxWorkHours = (current: MaxWorkHours | undefined): MaxWorkHours =>
@@ -128,7 +127,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     () => ({
       maxHours: maxBusinessHours.value * 7,
       enforcement: 'off' as const,
-      direction: 'past' as const
+      direction: ROLLING_WEEK_DIRECTION_VALUES.PAST
     }),
     (parent) => {
       if (parent.rollingWeek && !parent.rollingWeek.direction) {
@@ -136,7 +135,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
           ...parent,
           rollingWeek: {
             ...parent.rollingWeek,
-            direction: 'past' as const
+            direction: ROLLING_WEEK_DIRECTION_VALUES.PAST
           }
         }
       }
@@ -192,7 +191,7 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     formData,
     'rollingWeek',
     'direction',
-    () => 'past' as const,
+    () => ROLLING_WEEK_DIRECTION_VALUES.PAST,
     ensureRollingWeekLimit
   )
 
@@ -213,13 +212,13 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     () => ({
       maxIncome: 0,
       enforcement: 'off' as const,
-      direction: 'past' as const
+      direction: ROLLING_WEEK_DIRECTION_VALUES.PAST
     }),
     (parent) => {
       if (parent.rollingWeek && !parent.rollingWeek.direction) {
         return {
           ...parent,
-          rollingWeek: { ...parent.rollingWeek, direction: 'past' as const }
+          rollingWeek: { ...parent.rollingWeek, direction: ROLLING_WEEK_DIRECTION_VALUES.PAST }
         }
       }
       return parent
@@ -272,24 +271,28 @@ export function useCapacitySettings(params: UseCapacitySettingsParams): {
     formData,
     'rollingWeek',
     'direction',
-    () => 'past' as const,
+    () => ROLLING_WEEK_DIRECTION_VALUES.PAST,
     ensureIncomeRollingWeek
   )
 
   return {
-    maxWorkHoursDayMaxHours,
-    maxWorkHoursDayEnforcement,
-    maxWorkHoursCalendarWeekMaxHours,
-    maxWorkHoursCalendarWeekEnforcement,
-    maxWorkHoursRollingWeekMaxHours,
-    maxWorkHoursRollingWeekEnforcement,
-    maxWorkHoursRollingWeekDirection,
-    maxIncomeDayMaxIncome,
-    maxIncomeDayEnforcement,
-    maxIncomeCalendarWeekMaxIncome,
-    maxIncomeCalendarWeekEnforcement,
-    maxIncomeRollingWeekMaxIncome,
-    maxIncomeRollingWeekEnforcement,
-    maxIncomeRollingWeekDirection
+    maxWorkHours: {
+      maxWorkHoursDayMaxHours,
+      maxWorkHoursDayEnforcement,
+      maxWorkHoursCalendarWeekMaxHours,
+      maxWorkHoursCalendarWeekEnforcement,
+      maxWorkHoursRollingWeekMaxHours,
+      maxWorkHoursRollingWeekEnforcement,
+      maxWorkHoursRollingWeekDirection
+    },
+    maxIncome: {
+      maxIncomeDayMaxIncome,
+      maxIncomeDayEnforcement,
+      maxIncomeCalendarWeekMaxIncome,
+      maxIncomeCalendarWeekEnforcement,
+      maxIncomeRollingWeekMaxIncome,
+      maxIncomeRollingWeekEnforcement,
+      maxIncomeRollingWeekDirection
+    }
   }
 }

@@ -1,12 +1,10 @@
 <!--
-  LEARNING: RelationshipCollection component - generic collection component for parts, annotations, events
   WHY: Unified component pattern for all relationship collections
   PATTERN: Generic rendering of EntityCard with collectionType prop for customization
 -->
 <template>
   <div v-if="shouldShow && parentEntity" :class="collectionClass">
     <!--
-      LEARNING: Bulk Edit Modal (optional, only for parts)
       WHY: Modal for bulk editing entities - only parts collection supports this currently
       PATTERN: Conditional rendering based on collectionType and bulkEditMode availability
     -->
@@ -22,7 +20,6 @@
     />
     
     <!--
-      LEARNING: Render existing children for each valid shape
       WHY: Shows all valid shapes with EntityCard for both existing and new children
       PATTERN: Loop through validShapes, use EntityCard with appropriate props
       FIX: VExpansionPanels must be OUTSIDE v-for to avoid group context issues
@@ -65,12 +62,11 @@
             <div class="d-flex align-center gap-2 flex-grow-1">
               <VIcon icon="tabler-plus" size="small" class="text-primary" />
               <span>{{ getShapeName(shape.id) }}</span>
-              <span class="text-caption text-medium-emphasis ml-2">{{ placeholderText }}</span>
+              <span class="text-body-small text-medium-emphasis ml-2">{{ placeholderText }}</span>
             </div>
           </template>
           
           <template #text>
-            <!-- LEARNING: EntityCard with isNew=true for creation -->
             <!-- WHY: Same component handles both create and edit - config drives fields -->
             <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
             <EntityCard
@@ -88,7 +84,6 @@
     </VExpansionPanels>
     
     <!--
-      LEARNING: Empty state when no valid shapes exist
       WHY: Provides feedback when parent type has no valid options configured
       PATTERN: Conditional rendering with v-if
     -->
@@ -105,35 +100,24 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: RelationshipCollection component - generic for all collection types
- * 
- * WHY: Renders relationship collections (parts, annotations, events) within a parent entity
- *      Uses EntityCard directly, matching the pattern used by InstancesTab
- * 
- * PATTERN: Generic rendering of EntityCard component, exposes bulk edit state to parent (when applicable)
- */
+ * PATTERN: Uses EntityCard directly, matching the pattern used by InstancesTab
 
+PAT...
+ */
 import { computed, defineAsyncComponent } from 'vue'
 
 const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useRelationshipCollectionField } from '@/composables/admin/useRelationshipCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalEntity } from '@/types/entities'
-import { useRelationshipCrud } from '@/composables/useRelationship'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useNotification } from '@/composables/useNotification'
-import { createLogger } from '@/utils/logger'
-
-const logger = createLogger('RelationshipCollection')
 
 type CollectionType = 'parts' | 'annotations' | 'events'
 
 interface Props {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   collectionType?: CollectionType
   bulkEditModalComponent?: unknown
   nameGenerator?: (
@@ -149,14 +133,14 @@ const props = withDefaults(defineProps<Props>(), {
   collectionType: 'parts'
 })
 
-
 const fieldConfig = useRelationshipCollectionField(props.fieldContext)
 
-const { parentEntity, childEntityKey, relationshipKey } = fieldConfig
+const { parentContext, childEntityKey, relationshipKey: _relationshipKey } = fieldConfig
+const parentEntity = parentContext.parentEntity
 
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType
-  const fieldKey = String(props.fieldContext.fieldKey)
+  const fieldKey = String(props.fieldContext.state.fieldKey)
   if (fieldKey.includes('annotation')) return 'annotations'
   if (fieldKey.includes('event')) return 'events'
   return 'parts' // default
@@ -178,16 +162,15 @@ const {
   getNewChildEntity,
   handleNewChildSaved,
   handleNewChildCancelled,
+  handleDeleteChildById,
   expandedChildren,
   isPanelExpanded,
   bulkEditMode,
   bulkEditData,
   toggleBulkEditMode,
   handleBulkEditModalUpdate,
-  handleBulkEditConfirm
+  handleBulkEditConfirm,
 } = collectionModel
-
-const effectiveParentEntity = parentEntity
 
 const collectionClass = computed(() => {
   return `${effectiveCollectionType.value}-collection-list`
@@ -224,48 +207,9 @@ const isBulkEditModalOpen = computed(() => {
   return bulkEditMode?.value ?? false
 })
 
-const queryClient = useQueryClient()
-const { error: notifyError } = useNotification()
-const relationshipCrud = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
-const { relationships, remove: removeRelationship } = relationshipCrud
-
-const handleDeleteChildById = async (id: string) => {
-  const entity = existingChildren.value.find(child => child.id === id)
-  if (!entity) {
-    logger.warn('Could not find entity with id', { id })
-    return
-  }
-  await handleDeleteChild(entity)
-}
-
-const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>) => {
-  if (!effectiveParentEntity.value) return
-  
-  try {
-    const relationship = relationships.value?.find(
-      rel => rel.parentId === effectiveParentEntity.value!.id &&
-             rel.childId === entity.id
-    )
-    
-    if (relationship) {
-      await removeRelationship(effectiveParentEntity.value.id, entity.id)
-      
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: [props.fieldContext.entityKey] }),
-        queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
-        queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
-        queryClient.invalidateQueries({ queryKey: ['globalData'] }),
-      ])
-    }
-  } catch (_error) {
-    notifyError(`Failed to remove ${childEntityKey.value}`)
-  }
-}
-
 /**
- * LEARNING: Expose bulk edit state and functions to parent (when applicable)
- * WHY: Parent component (EntityCardSubPanels) needs to render bulk edit button in panel title
- * PATTERN: defineExpose to expose reactive state and functions
+ * WHY: Expose bulk edit state and functions to parent (when applicable)
+PATTERN...
  */
 defineExpose({
   bulkEditMode,

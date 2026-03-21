@@ -1,11 +1,8 @@
 /**
- * Parts Totals Composable for Admin
- * LEARNING: Calculates totals from parts for a blockInstance entity
- * WHY: Provides reactive totals calculation for display in entity cards
- * PATTERN: Composable that determines if entity can have parts and calculates totals
+ * PATTERN: Parts Totals Composable for Admin
+PATTERN: Composable that determines if...
  */
-
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
@@ -14,27 +11,11 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { createLogger } from '@/utils/logger'
+import type { UsePartsTotalsReturn } from '@/types/admin/partsTotals'
 
 const logger = createLogger('usePartsTotals')
 
-export interface UsePartsTotalsReturn {
-  canHaveParts: ComputedRef<boolean>
-  totalBaseFee: ComputedRef<number>
-  totalBaseTime: ComputedRef<number>
-  totalRateOverBaseFee: ComputedRef<number>
-  totalRateOverBaseTime: ComputedRef<number>
-}
 
-/**
- * Calculate parts totals for an entity
- * LEARNING: Determines if entity can have parts and calculates totals
- * WHY: Provides reactive totals for display in entity cards
- * PATTERN: Check entity type and blockShape canHaveParts property, then calculate totals
- * 
- * @param entityKey - The entity type key
- * @param entityId - The entity ID
- * @returns Computed properties for canHaveParts flag and all totals
- */
 export function usePartsTotals(
   entityKey: GlobalEntityKey,
   entityId: string
@@ -43,11 +24,6 @@ export function usePartsTotals(
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   const { entities: partInstances } = useEntityCrud('partInstance')
 
-  /**
-   * LEARNING: Check if entity can have parts
-   * WHY: Only blockInstance entities with canHaveParts blockShape can have parts
-   * PATTERN: Check entity type, get blockShape, check canHaveParts property
-   */
   const canHaveParts = computed((): boolean => {
     if (entityKey !== 'blockInstance') {
       return false
@@ -68,11 +44,6 @@ export function usePartsTotals(
     return blockShapeEntity.canHaveParts === true
   })
 
-  /**
-   * LEARNING: Get part instances for this blockInstance
-   * WHY: Need part instances to calculate totals
-   * PATTERN: Filter partAssignments relationships by parent_id, resolve to partInstance entities
-   */
   const partInstancesForEntity = computed((): GlobalEntity<'partInstance'>[] => {
     if (!canHaveParts.value) {
       return []
@@ -109,9 +80,7 @@ export function usePartsTotals(
   })
 
   /**
-   * LEARNING: Calculate totals using shared utility
    * WHY: Uses same calculation logic as wizard for consistency
-   * PATTERN: Call calculatePartsTotals with part instances
    */
   const totals = computed(() => {
     if (!canHaveParts.value || partInstancesForEntity.value.length === 0) {

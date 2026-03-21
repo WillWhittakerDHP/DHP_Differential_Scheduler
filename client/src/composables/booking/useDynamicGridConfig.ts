@@ -1,40 +1,23 @@
 /**
- * useDynamicGridConfig Composable
- * 
- * LEARNING: Extracts dynamic grid column calculation logic from ServiceSelectionStep component
- * WHY: Moves grid configuration logic out of component into reusable composable
- * PATTERN: Composable that calculates grid columns based on item count
- */
+ * WHY: useDynamicGridConfig Composable
 
-import { computed, type ComputedRef } from 'vue'
+WHY: Moves grid configuration logic out...
+ */
+import { computed } from 'vue'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
+import type { UseDynamicGridConfigOptions, UseDynamicGridConfigReturn } from '@/types/booking/dynamicGridConfig'
 
-export interface UseDynamicGridConfigOptions {
-  baseConfig: ComputedRef<SelectionCardConfig>
-  
-  itemCount: ComputedRef<number>
-}
-
-export interface UseDynamicGridConfigReturn {
-  dynamicConfig: ComputedRef<SelectionCardConfig>
-}
 
 /**
- * LEARNING: Dynamic grid config composable
- * WHY: Extracts grid column calculation logic from component to composable
- * PATTERN: Composable that merges base config with dynamic grid columns
+ * WHY: Dynamic grid config composable
+WHY: Extracts grid column calculation log...
  */
 export function useDynamicGridConfig(
   options: UseDynamicGridConfigOptions
 ): UseDynamicGridConfigReturn {
   const { baseConfig, itemCount } = options
 
-  /**
-   * LEARNING: Override grid columns dynamically based on item count
-   * WHY: Cards should fit on one row when there are fewer than 5 items
-   * PATTERN: Merge base config with dynamic grid columns
-   */
   const dynamicConfig = computed<SelectionCardConfig>(() => {
     const base = baseConfig.value
     const count = itemCount.value

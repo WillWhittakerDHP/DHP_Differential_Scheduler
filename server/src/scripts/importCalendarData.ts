@@ -1,11 +1,7 @@
 /**
- * Calendar Data Import Script
- * 
- * LEARNING: Imports clients and properties from Google Calendar events
- * WHY: Enables bulk import of calendar data into the scheduling system
- * PATTERN: Orchestrator pattern with focused helper functions
- */
 
+PATTERN: Orchestrator pattern with focused ...
+ */
 import 'dotenv/config';
 import { Address, PropertyVersion, User, sequelize, initializeDatabase } from '../config/app.js';
 import { USER_ROLE_CLIENT } from '../constants/userRoles.js';
@@ -30,30 +26,16 @@ import {
 
 const logger = createLogger('CalendarImport');
 
-/**
- * Default organizer email fallback
- * LEARNING: Named constant replaces hardcoded email
- * WHY: Eliminates hardcoding audit finding
- */
 const DEFAULT_ORGANIZER_EMAIL = 'will@districthomepro.com';
 
-/**
- * Interface for Address with eager-loaded propertyVersions
- * LEARNING: Proper typing for Sequelize associations
- * WHY: Replaces unsafe type cast with type-safe interface
- */
+/** Usage message for calendar import script (avoids inline hardcoded label in logger). */
+const IMPORT_CALENDAR_USAGE_PIPE =
+  '  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar';
+
 interface AddressWithVersions extends InstanceType<typeof Address> {
   propertyVersions?: InstanceType<typeof PropertyVersion>[];
 }
 
-/**
- * Upsert user from parsed client data
- * LEARNING: Creates or updates user record with client role
- * WHY: Normalizes client data into User model
- * 
- * @param client - Parsed client data
- * @returns User ID
- */
 async function upsertUser(client: ParsedClient): Promise<string> {
   const [user, created] = await User.findOrCreate({
     where: { email: client.email },
@@ -78,10 +60,6 @@ async function upsertUser(client: ParsedClient): Promise<string> {
   return user.id;
 }
 
-/**
- * Upsert property using normalized structure (Address → PropertyVersion → PropertyDetails).
- * Delegates to calendarImportHelpers for each step to keep nesting and length low.
- */
 async function upsertProperty(property: ParsedProperty): Promise<string> {
   return await PropertyVersion.sequelize!.transaction(async (transaction) => {
     const addressRecord = await findOrCreateAddress({
@@ -102,16 +80,6 @@ async function upsertProperty(property: ParsedProperty): Promise<string> {
   });
 }
 
-/**
- * Process clients from a single event
- * LEARNING: Extracted helper to reduce processEvents complexity
- * WHY: Separates client processing logic from main loop
- * 
- * @param event - Calendar event
- * @param organizerEmail - Organizer email to exclude
- * @param processedClients - Set of already processed client emails
- * @param stats - Statistics object to update
- */
 async function processEventClients(
   event: CalendarEvent,
   organizerEmail: string,
@@ -125,7 +93,9 @@ async function processEventClients(
   
   for (const client of clients) {
     if (!processedClients.has(client.email)) {
-      const existingUser = await User.findOne({ where: { email: client.email } });
+      const existingUser = await User.findOne({
+        where: { email: client.email },
+      });
       await upsertUser(client);
       
       if (existingUser) {
@@ -138,15 +108,6 @@ async function processEventClients(
   }
 }
 
-/**
- * Process property from a single event
- * LEARNING: Extracted helper to reduce processEvents complexity
- * WHY: Separates property processing logic from main loop
- * 
- * @param event - Calendar event
- * @param processedProperties - Set of already processed property keys
- * @param stats - Statistics object to update
- */
 async function processEventProperty(
   event: CalendarEvent,
   processedProperties: Set<string>,
@@ -167,7 +128,6 @@ async function processEventProperty(
     return;
   }
   
-  // Check for existing PropertyVersion by looking up Address first
   const existingAddress = await Address.findOne({
     where: {
       address: property.address,
@@ -194,15 +154,6 @@ async function processEventProperty(
   processedProperties.add(propertyKey);
 }
 
-/**
- * Process all calendar events and import clients/properties
- * LEARNING: Orchestrates event processing with extracted helpers
- * WHY: Reduced complexity through helper extraction
- * 
- * @param events - Array of calendar events
- * @param organizerEmail - Organizer email to exclude from clients
- * @returns Statistics object with import/update counts
- */
 async function processEvents(events: CalendarEvent[], organizerEmail: string): Promise<{
   clientsImported: number;
   propertiesImported: number;
@@ -227,9 +178,6 @@ async function processEvents(events: CalendarEvent[], organizerEmail: string): P
   return stats;
 }
 
-/**
- * Main calendar import function (thin orchestrator).
- */
 async function importCalendarData(events?: CalendarEvent[]): Promise<void> {
   try {
     logger.info('📅 Starting calendar data import...');
@@ -244,7 +192,7 @@ async function importCalendarData(events?: CalendarEvent[]): Promise<void> {
     } else if (process.stdin.isTTY) {
       logger.warn('⚠️  No events provided.');
       logger.info('📖 Usage options:');
-      logger.info('  1. Pipe JSON events: echo \'[{"summary":"...","location":"..."}]\' | npm run import:calendar');
+      logger.info(IMPORT_CALENDAR_USAGE_PIPE);
       logger.info('  2. Use AI assistant with MCP to fetch and import events');
       logger.info('  3. Call importCalendarData([events]) programmatically');
       return;

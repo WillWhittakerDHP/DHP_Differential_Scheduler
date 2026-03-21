@@ -1,17 +1,8 @@
 /**
- * Fetch to Business Transformer
- * 
- * LEARNING: Fetches and manages business data (appointments, properties, users)
- * WHY: Business data changes frequently and needs separate cache from config data
- * PATTERN: Parallel fetch pattern similar to fetchToGlobalTransformer
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- * ARCHITECTURAL DECISION: Business entities use separate ['businessData'] cache key
- * - Keeps business data changes from invalidating static configuration data
- * - Allows granular cache management for frequently changing data
- * - Mirrors globalData architecture for consistency
- */
+ * PATTERN: Fetch to Business Transformer
 
+PATTERN: Parallel fetch pattern similar t...
+ */
 import apiClient, {
   getAppointmentEndpoint,
   getPropertyEndpoint,
@@ -20,38 +11,19 @@ import apiClient, {
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
+import type { BusinessData } from '@/types/transformers/businessData'
 import { createLogger } from '@/utils/logger'
+
+export type { BusinessData } from '@/types/transformers/businessData'
 
 const logger = createLogger('fetchToBusinessTransformer')
 
 /**
- * BusinessData type - unified cache for business entities
- * 
- * LEARNING: Mirrors GlobalData pattern for configuration data
- * WHY: Consistent architecture makes codebase easier to understand
- * PATTERN: Single cache key for related business entities
- */
-export type BusinessData = {
-  appointments: AppointmentResponse[]
-  properties: PropertyResponse[]
-  users: UserResponse[]
-}
+ * PATTERN: Business Transformer Class
 
-/**
- * Business Transformer Class
- * 
- * LEARNING: Fetches all business entities in parallel
- * WHY: Centralizes business data fetching logic
- * PATTERN: Class-based transformer matching GlobalTransformer structure
+PATTERN: Class-based transformer matching Gl...
  */
 export class BusinessTransformer {
-  /**
-   * Fetch all business entities
-   * 
-   * LEARNING: Fetches appointments, properties, and users in parallel
-   * WHY: Parallel fetching improves load time
-   * PATTERN: Promise.all() for parallel execution
-   */
   async fetchAll(): Promise<BusinessData> {
     try {
       const [appointmentsResponse, propertiesResponse, usersResponse] = await Promise.all([

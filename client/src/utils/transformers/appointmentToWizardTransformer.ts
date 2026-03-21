@@ -1,16 +1,10 @@
 /**
- * Appointment to Wizard Transformer
- * 
- * LEARNING: Transforms appointment API response to wizard state format
- * WHY: Enables loading existing appointments into wizard for testing/editing
- * PATTERN: Transformer function that maps appointment data to wizard state
- * 
- * Phase 1.2.3: Created for mock data loading functionality
- */
+ * WHY: Appointment to Wizard Transformer
 
+ */
 import type { AppointmentResponse } from '@/types/appointment'
-import type { BookingBlockInstance } from './globalToBookingTransformer'
-import type { BookingData } from './globalToBookingTransformer'
+import type { BookingBlockInstance, BookingData } from '@/types/transformers/bookingData'
+import type { WizardStateData } from '@/types/booking/wizardStateData'
 import { getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import { safeArray, extractOptionalString, extractOptionalNumber, extractOptionalBoolean } from './transformerPrimitives'
@@ -29,62 +23,7 @@ import {
 
 const logger = createLogger('appointmentToWizardTransformer')
 
-/**
- * Wizard state data structure
- * LEARNING: Represents all wizard state that can be populated from appointment
- * WHY: Type-safe structure for loading appointment data into wizard
- */
-export interface WizardStateData {
-  userTypeBlock: BookingBlockInstance | null
-  services: BookingBlockInstance[] // Multi-select array - replaces baseService
-  propertyTypeBlocks: BookingBlockInstance[] // Multi-select array - replaces propertyTypeBlock
-  optionTypeBlocks: BookingBlockInstance[]
-  lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn")
-  
-  propertyDetails: {
-    address: string
-    unit: string
-    city: string
-    state: string
-    zipCode: string
-    candidatePlaceId?: string  // Candidate placeId (from confirmed appointment, loaded into wizard for editing)
-    candidateCoordinates?: { lat: number; lng: number }  // Candidate coordinates (from confirmed appointment, loaded into wizard)
-    propertySize: number | null
-    numberOfUnits: number | null
-    mlsNumber: string
-    squareFootage: number | null
-    bedrooms: number | null
-    bathrooms: number | null
-    foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-    additionalUnits: number | null
-  }
-  
-  contacts: {
-    client: {
-      firstName: string
-      lastName: string
-      email: string
-    }
-    agent: {
-      firstName: string
-      lastName: string
-      email: string
-    }
-    additionalContacts: Array<{
-      firstName: string
-      lastName: string
-      email: string
-      role: 'anotherClient' | 'transactionManager' | 'seller'
-    }>
-  }
-  
-  availability: {
-    candidateDate: { start: string | null; end: string | null }  // Candidate date (from confirmed appointment, loaded into wizard)
-    candidateTimeSlots: Array<{ time: string; duration: number }> | null  // Candidate time slots (from confirmed appointment, loaded into wizard)
-  }
-  
-  isQuoteMode: boolean
-}
+export type { WizardStateData } from '@/types/booking/wizardStateData'
 
 function normalizePropertyDetails(propertyDetails: unknown): unknown {
   if (Array.isArray(propertyDetails) && propertyDetails.length > 0) {
@@ -93,11 +32,6 @@ function normalizePropertyDetails(propertyDetails: unknown): unknown {
   return propertyDetails ?? null
 }
 
-/**
- * Extract property details from appointment property version
- * LEARNING: Orchestrator that delegates to focused helpers
- * WHY: Reduces branch count and keeps each helper under complexity limit
- */
 function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVersion']) {
   const address = propertyVersion?.address
   const details = normalizePropertyDetails(propertyVersion?.propertyDetails)
@@ -108,12 +42,6 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
   }
 }
 
-/**
- * Extract contacts from appointment attendees
- * LEARNING: Helper to extract client, agent, and additional contacts
- * WHY: Separates contact extraction logic from main transformer
- * PATTERN: Find client/agent by role, filter others, map to contact format
- */
 function extractContacts(attendees: AppointmentResponse['attendees']) {
   const attendeesList = safeArray(attendees)
   const clientAttendee = attendeesList.find(
@@ -161,12 +89,6 @@ function extractContacts(attendees: AppointmentResponse['attendees']) {
   }
 }
 
-/**
- * Extract availability from appointment
- * LEARNING: Helper to extract selected date and time slots
- * WHY: Separates availability extraction logic from main transformer
- * PATTERN: Map time slots to wizard format { time, duration }
- */
 function extractAvailability(appointment: AppointmentResponse) {
   const candidateDate = {
     start: appointment.selectedDate ?? null,
@@ -262,14 +184,7 @@ function resolveBlockCategories(
 }
 
 /**
- * Transform appointment response to wizard state data
- * LEARNING: Main transformer function that maps appointment to wizard state
- * WHY: Enables loading appointment data into wizard for testing
- * PATTERN: Orchestrator that calls helper functions to extract and transform data
- *
- * @param appointment - Appointment response from API (includes relationships)
- * @param bookingData - Scheduler data containing block instances
- * @returns Wizard state data ready to populate wizard
+ * WHY: Transform appointment response to wizard state data
  */
 export async function transformAppointmentToWizard(
   appointment: AppointmentResponse,

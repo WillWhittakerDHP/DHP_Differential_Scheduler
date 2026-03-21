@@ -1,7 +1,8 @@
 
 import { describe, it, expect } from 'vitest'
 import { bookingTransformer } from '../globalToBookingTransformer'
-import type { GlobalData, GlobalRelationship } from '../fetchToGlobalTransformer'
+import type { GlobalData } from '../fetchToGlobalTransformer'
+import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 
 

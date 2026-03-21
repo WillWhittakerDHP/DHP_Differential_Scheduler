@@ -1,10 +1,3 @@
-/**
- * Relationship Router Constants
- * 
- * LEARNING: Centralized constants for relationship router operations
- * WHY: Eliminates magic strings, improves maintainability, enables type safety
- * PATTERN: Const objects with categorized constants
- */
 
 import {
   ValidCascade,
@@ -23,17 +16,6 @@ import {
 } from '../../../config/app.js'
 import { Model, ModelStatic } from 'sequelize'
 
-/**
- * Relationship kind configuration
- * LEARNING: RelationshipKind represents the type of relationship (validCascades, validParts, etc.)
- * WHY: Clear naming - "kind" distinguishes relationship types from entity structure types
- * PATTERN: Type alias for relationship discriminator values
- * 
- * Three-dimensional relationship model:
- * - Cascade: Vertical hierarchy (different shapes, e.g., user_shape → service)
- * - Constituent: Block → Part relationships (math dimension)
- * - Component: Lateral component relationships (same shape, e.g., service → service)
- */
 export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' | 'validPricingCascades' | 'dependentInstances' | 'bookingCascades' | 'pricingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
 
 export interface RelationshipConfig {
@@ -43,12 +25,6 @@ export interface RelationshipConfig {
   childEntity: string
 }
 
-/**
- * Relationship registry
- * LEARNING: Registry pattern for relationship type configuration
- * WHY: Centralized configuration for all relationship types
- * PATTERN: Record mapping relationship kinds to their configuration
- */
 export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
   validCascades: {
     model: ValidCascade,
@@ -130,14 +106,7 @@ export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig>
   }
 }
 
-/**
- * Error messages for relationship operations
- * LEARNING: Centralized error messages for consistent API responses
- * WHY: Single source of truth for error messages, easier to maintain and translate
- * PATTERN: Const object with error message values organized by operation type
- */
 export const ERROR_MESSAGES = {
-  // Relationship CRUD operations
   FETCH_RELATIONSHIPS: 'Failed to fetch relationships',
   CREATE_RELATIONSHIP: 'Error creating relationship',
   UPDATE_INSTANCE_COMPONENT: 'Error updating instance component',
@@ -145,7 +114,6 @@ export const ERROR_MESSAGES = {
   DELETE_RELATIONSHIP: 'Error deleting relationship',
   DELETE_INSTANCE_COMPONENT: 'Error deleting instance component',
   
-  // Validation errors
   UNKNOWN_RELATIONSHIP_KIND: 'Unknown relationship kind',
   RELATIONSHIP_CONFIG_MISSING: 'Relationship configuration missing',
   MODEL_NOT_AVAILABLE: 'Model not available',
@@ -172,12 +140,6 @@ export const ERROR_MESSAGES = {
   PRICING_CASCADE_SHAPE_NOT_VALID: 'No valid pricing cascade exists between the parent and child part shapes. Configure validPricingCascades on the part shapes first.',
 } as const
 
-/**
- * Sequelize error codes
- * LEARNING: Centralized Sequelize error codes
- * WHY: Single source of truth for error code checking
- * PATTERN: Const object with error codes
- */
 export const SEQUELIZE_ERROR_CODES = {
   UNIQUE_CONSTRAINT: '23505',
   FOREIGN_KEY_CONSTRAINT: '23503',

@@ -90,15 +90,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: IconPicker component provides visual icon selection dialog
- * 
- * WHY: Users need to see icons visually to select them, not just type names
- * 
- * PATTERN: Dialog component with searchable grid of icons
- * 
- * COMPARISON: Based on vuexy's icons page pattern with dialog wrapper
+ * WHY: Based on vuexy's icons page pattern with dialog wrapper
  */
-
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useIconPickerState } from '@/composables/admin/useIconPickerState'
@@ -120,7 +113,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Use icon picker state composable for state management
 // PATTERN: Composable handles icon selection state and prop syncing
 const iconPickerState = useIconPickerState({
   dialogOpen: computed(() => props.modelValue),
@@ -210,4 +202,3 @@ const handleClose = () => {
   text-overflow: ellipsis;
 }
 </style>
-

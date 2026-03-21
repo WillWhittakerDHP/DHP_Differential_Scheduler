@@ -1,34 +1,17 @@
 /**
- * Entity Tab State Composable
- * 
- * LEARNING: Generic array syncing watchers for any entity type
- * WHY: All entities need the same array syncing behavior for drag-and-drop
- * PATTERN: Generic composable that watches filtered lists and syncs arrays
- * 
- * This composable handles:
- * - Syncing reactive arrays with filtered results for drag-and-drop
+ * PATTERN: Entity Tab State Composable
+
+PATTERN: Generic composable that watches fi...
  */
-
-import { watch, type Ref } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
+import { watch } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityTabStateOptions, UseEntityTabStateReturn } from '@/types/admin/entityTabState'
 
-export interface UseEntityTabStateOptions<EntityKey extends GlobalEntityKey> {
-  filteredEntities: Ref<GlobalEntity<EntityKey>[]>
-  
-  dragHandlers: {
-    syncArrays: () => void
-  }
-}
-
-export type UseEntityTabStateReturn = Record<string, never>
 
 /**
- * Entity Tab State Composable
- * 
- * LEARNING: Sets up watchers to sync arrays with filtered results
- * WHY: Extracts watcher logic from component to reusable generic composable
- * PATTERN: Generic composable that sets up watchers during initialization
+ * WHY: Entity Tab State Composable
+
+WHY: Extracts watcher logic from component ...
  */
 export function useEntityTabState<EntityKey extends GlobalEntityKey>(
   options: UseEntityTabStateOptions<EntityKey>
@@ -38,11 +21,6 @@ export function useEntityTabState<EntityKey extends GlobalEntityKey>(
     dragHandlers
   } = options
   
-  /**
-   * LEARNING: Sync reactive arrays with filtered results
-   * WHY: Keep drag-and-drop arrays in sync with filtered/sorted results
-   * PATTERN: Watch computed and update ref arrays via drag handlers
-   */
   watch(filteredEntities, () => {
     dragHandlers.syncArrays()
   }, { immediate: true })

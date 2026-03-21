@@ -1,7 +1,3 @@
-/**
- * Entity API endpoint builders
- * WHY: Single place for entity CRUD and batch endpoints; reduces api.ts export count
- */
 
 export function getEntityEndpoint(entityKey: string): string {
   return `/entities/${entityKey}`

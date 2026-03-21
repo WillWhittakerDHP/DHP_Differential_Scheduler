@@ -5,13 +5,6 @@ import type { ComponentConfig as SharedComponentConfig, ComponentStrategy as Sha
 export type ComponentStrategy = SharedComponentStrategy
 export type ComponentConfig = SharedComponentConfig
 
-/**
- * Distribution strategy for parent changes
- *
- * LEARNING: When editing computed properties on parent, need to distribute changes
- * WHY: User needs control over how changes propagate to components
- * PATTERN: Three strategies: proportional (by current values), equal (split evenly), manual (user specifies)
- */
 export type DistributionStrategy = 'proportional' | 'equal' | 'manual'
 
 export interface FetchedInstanceComponent {
@@ -25,11 +18,8 @@ export interface FetchedInstanceComponent {
 }
 
 /**
- * InstanceComponent (frontend format)
- * LEARNING: Frontend uses camelCase for consistency
- * WHY: JavaScript/TypeScript convention is camelCase
- * PATTERN: Transform from API format to frontend format
- * P2 type-similarity: extends CreateRelationshipPayloadBase (parentId, childId).
+ * PATTERN: InstanceComponent (frontend format)
+PATTERN: Transform from API format t...
  */
 export interface InstanceComponent extends CreateRelationshipPayloadBase {
   id: GlobalEntityId

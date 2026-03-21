@@ -1,0 +1,129 @@
+{
+  "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
+  "generatedAt": "2026-03-16T02:03:01.954Z",
+  "totalScanned": 439,
+  "inputAudits": {
+    "importGraph": {
+      "available": true,
+      "path": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/import-graph-audit.json",
+      "reason": null
+    },
+    "apiContract": {
+      "available": true,
+      "path": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/api-contract-audit.json",
+      "reason": null
+    },
+    "typeInventory": {
+      "available": true,
+      "path": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/type-constant-inventory-audit.json",
+      "reason": null
+    }
+  },
+  "skippedRules": [],
+  "ruleset": [
+    {
+      "ruleId": "untyped-inject",
+      "label": "Untyped Inject",
+      "severity": "P1",
+      "weight": 2,
+      "phase": "A",
+      "description": "String-keyed inject() creates invisible, untyped dependency; use InjectionKey.",
+      "recommendedFix": "Create const MyKey: InjectionKey<MyType> = Symbol(\"MyKey\") and use inject(MyKey)."
+    },
+    {
+      "ruleId": "query-data-passthrough",
+      "label": "Query Data Passthrough",
+      "severity": "P2",
+      "weight": 1,
+      "phase": "A",
+      "description": "useQuery .data exposed without transformation.",
+      "recommendedFix": "Wrap query data in computed(() => transform(data)) with explicit typing."
+    },
+    {
+      "ruleId": "direct-api-in-component",
+      "label": "Direct API in Component",
+      "severity": "P1",
+      "weight": 2,
+      "phase": "A",
+      "description": ".vue file imports from utils/api or services layer directly.",
+      "recommendedFix": "Route API access through a composable for proper data flow."
+    },
+    {
+      "ruleId": "mutation-without-type-params",
+      "label": "Mutation Without Type Params",
+      "severity": "P2",
+      "weight": 1,
+      "phase": "A",
+      "description": "useMutation() without type parameters leaves variables and response as unknown.",
+      "recommendedFix": "Add <TData, TError, TVariables> type parameters to useMutation."
+    },
+    {
+      "ruleId": "reactive-state-shadow",
+      "label": "Reactive State Shadow",
+      "severity": "info",
+      "weight": 0,
+      "phase": "A",
+      "description": "File imports store state AND creates local reactive state; possible dual source of truth.",
+      "recommendedFix": "Verify single source of truth; remove redundant local state or store import."
+    },
+    {
+      "ruleId": "provide-inject-depth",
+      "label": "Provide/Inject Depth",
+      "severity": "P1",
+      "weight": 2,
+      "phase": "B",
+      "description": "Provide/inject chain spans 3+ component levels.",
+      "recommendedFix": "Consider direct composable access or intermediate provide relay."
+    },
+    {
+      "ruleId": "type-boundary-gap",
+      "label": "Type Boundary Gap",
+      "severity": "P1",
+      "weight": 2,
+      "phase": "B",
+      "description": "Type used in composable but not at component boundary.",
+      "recommendedFix": "Import the type at the component level for proper type flow."
+    },
+    {
+      "ruleId": "transformer-bypass",
+      "label": "Transformer Bypass",
+      "severity": "P2",
+      "weight": 1,
+      "phase": "B",
+      "description": "API data reaches component without passing through transformer layer.",
+      "recommendedFix": "Add a transformation step between API response and component consumption."
+    },
+    {
+      "ruleId": "orphaned-injection-key",
+      "label": "Orphaned Injection Key",
+      "severity": "P2",
+      "weight": 1,
+      "phase": "B",
+      "description": "Provide key with no matching inject or vice versa.",
+      "recommendedFix": "Remove dead provide/inject channel or add the missing counterpart."
+    },
+    {
+      "ruleId": "bidirectional-data-channel",
+      "label": "Bidirectional Data Channel",
+      "severity": "info",
+      "weight": 0,
+      "phase": "B",
+      "description": "Same data accessible via both inject and direct composable import.",
+      "recommendedFix": "Consolidate to single channel to avoid ambiguity."
+    }
+  ],
+  "findings": [],
+  "flowMaps": {
+    "provideSites": 30,
+    "injectSites": 53,
+    "matchedPairs": 18,
+    "unmatchedProvides": 12,
+    "unmatchedInjects": 8
+  },
+  "files": [],
+  "repairWaves": {
+    "contained": [],
+    "moderate": [],
+    "systemic": []
+  }
+}

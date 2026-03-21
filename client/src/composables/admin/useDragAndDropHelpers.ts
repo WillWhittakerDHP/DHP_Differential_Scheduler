@@ -1,10 +1,7 @@
-/**
- * DOM helpers for drag-and-drop
- * WHY: Extracts DOM manipulation logic from components
- * PATTERN: Pure helper functions for DOM operations
- */
-
 import type { ComponentPublicInstance, Ref } from 'vue'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useDragAndDropHelpers')
 
 export function getPanelsElement(
   componentRef: ComponentPublicInstance | HTMLElement | null,
@@ -27,22 +24,12 @@ export function getPanelsElement(
     }
     
     return panelsEl as HTMLElement | null
-  } catch {
-    // PATTERN: Return null on error to gracefully handle unmount scenarios
+  } catch (err) {
+    logger.warn('getPanelsElement failed', { error: err })
     return null
   }
 }
 
-/**
- * Count draggable DOM nodes matching the specified criteria
- * WHY: Prevents "number of enabled nodes does not match number of values" error
- *      when drag-and-drop initializes before DOM nodes are rendered
- * PATTERN: Count draggable nodes and ensure they match values array length
- * 
- * @param panelsEl - The panels container element
- * @param isDraggable - Function that returns true if a node should be counted as draggable
- * @returns The count of enabled draggable nodes
- */
 export function countDraggableNodes(
   panelsEl: HTMLElement,
   isDraggable: (node: Element) => boolean
@@ -68,14 +55,6 @@ export function createMultiClassDraggableChecker(draggableClasses: string[]): (n
   }
 }
 
-/**
- * LEARNING: Shared draggable checker function for expansion panels
- * WHY: Eliminates duplication between useDragAndDrop and useInstanceDragAndDrop
- * PATTERN: Extract common draggable logic to shared utility
- * 
- * @param isDraggableChecker - Function to check if a panel element is draggable
- * @returns Function that checks if a child element's panel is draggable
- */
 export function createExpansionPanelDraggableChecker(
   isDraggableChecker: (element: HTMLElement) => boolean
 ): (child: unknown) => boolean {
@@ -90,7 +69,6 @@ export function createExpansionPanelDraggableChecker(
     
     if (!panelElement) return false
     
-    // LEARNING: Use the same checker logic as node counting
     // PATTERN: Reuse the same checker function
     return isDraggableChecker(panelElement)
   }

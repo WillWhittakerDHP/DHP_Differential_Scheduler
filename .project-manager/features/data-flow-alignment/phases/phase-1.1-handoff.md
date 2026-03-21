@@ -120,7 +120,7 @@ Set up appointment, property, and user databases with mock data. Create API endp
 ## Related Documents
 
 - **Session Summary**: `project-manager/features/data-flow-alignment/sessions/session-1.1-summary.md`
-- **Feature Plan**: `project-manager/features/data-flow-alignment/feature-plan.md`
+- **Feature Guide**: `project-manager/features/data-flow-alignment/feature-data-flow-alignment-guide.md`
 - **Next Phase**: Phase 1.2 - Booking Wizard Data Flow Fixes
 
 ---

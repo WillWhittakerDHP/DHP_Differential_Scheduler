@@ -1,38 +1,11 @@
-/**
- * useContactsValidation Composable
- * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
- */
-
 import { computed, type Ref } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
-import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
-import type { ContactInfo } from './useContactsStepData'
-import type { ReadonlyVueRef } from '@/types/vueRefTypes'
+import { useStepValidation } from './useStepValidation'
 import { CONTACTS_VALIDATION_STRINGS } from '@/configs/contactsValidationStrings'
+import type { UseContactsValidationParams, UseContactsValidationReturn } from '@/types/booking/contactsValidation'
 
-export interface UseContactsValidationParams {
-  clientInfo: Ref<ContactInfo>
-  agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  transactionManagerInfo: Ref<ContactInfo>
-  sellerInfo: Ref<ContactInfo>
-  showAnotherClient: ReadonlyVueRef<boolean>
-  showTransactionManager: ReadonlyVueRef<boolean>
-  showSeller: ReadonlyVueRef<boolean>
-  requiresAgent?: ReadonlyVueRef<boolean> // Optional: if true, agent fields are required
-}
 
-export type UseContactsValidationReturn = UseStepValidationReturn
-
-/**
- * useContactsValidation composable
- * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
- */
+import type { ValidationRule } from '@/types/formValidation'
 export function useContactsValidation(params: UseContactsValidationParams): UseContactsValidationReturn {
   const {
     clientInfo,
@@ -48,11 +21,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
 
   const { required, email } = useFormValidation()
 
-  /**
-   * WHY: Agent fields conditionally required based on selected services (some require agent, others don't)
-   * PATTERN: requiresAgent parameter determines if agent validation rules apply
-   * LEARNING: Centralized validation strings from config reduce hardcoding
-   */
   const validationRules: Record<string, ValidationRule[]> = {
     clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
@@ -90,10 +58,6 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     sellerEmail: computed(() => sellerInfo.value.email)
   }
 
-  /**
-   * WHY: Validation rules only apply to visible/required fields (reactive rules based on flags)
-   * PATTERN: Computed property dynamically builds rules object based on requiresAgent
-   */
   const reactiveRules = computed(() => {
     const rules: Record<string, ValidationRule[]> = {
       clientFirstName: validationRules.clientFirstName,

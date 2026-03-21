@@ -1,10 +1,3 @@
-/**
- * Property Router Helper Functions
- * 
- * LEARNING: Extracted helper functions for property operations
- * WHY: Improves code reusability, eliminates unsafe casts, improves type safety
- * PATTERN: Pure helper functions with proper type guards
- */
 
 import type { Transaction } from 'sequelize'
 import { Address, PropertyVersion, PropertyDetails, PropertyVersionType, BlockInstance, BlockShape } from '../../../config/app.js'
@@ -21,15 +14,6 @@ export type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
   block_shape?: { name: string } | null
 }
 
-/**
- * Type guard for PropertyVersion with associations
- * LEARNING: Type guard to safely access Sequelize associations
- * WHY: Replaces unsafe casts with type-safe checks
- * PATTERN: Type predicate function that narrows type based on runtime check
- *
- * @param propertyVersion - PropertyVersion instance
- * @returns true if propertyVersion has propertyDetails association
- */
 function isPropertyVersionWithAssociations(
   propertyVersion: unknown
 ): propertyVersion is PropertyVersionWithAssociations {
@@ -40,30 +24,12 @@ function isPropertyVersionWithAssociations(
   )
 }
 
-/**
- * Type guard for BlockInstance with block_shape association
- * LEARNING: Type guard to safely access Sequelize associations
- * WHY: Replaces unsafe casts with type-safe checks
- * PATTERN: Type predicate function that narrows type based on runtime check
- *
- * @param blockInstance - BlockInstance instance
- * @returns true if blockInstance has block_shape association
- */
 export function isBlockInstanceWithShape(
   blockInstance: unknown
 ): blockInstance is BlockInstanceWithShape {
   return typeof blockInstance === 'object' && blockInstance !== null && 'block_shape' in blockInstance
 }
 
-/**
- * Extract propertyDetails from PropertyVersion association
- * LEARNING: Type-safe extraction of Sequelize association data
- * WHY: Replaces unsafe cast pattern with proper type handling
- * PATTERN: Type guard + safe property access
- *
- * @param propertyVersion - PropertyVersion with associations
- * @returns PropertyDetails or null
- */
 export function getPropertyDetailsFromVersion(
   propertyVersion: unknown
 ): InstanceType<typeof PropertyDetails> | null {
@@ -78,15 +44,6 @@ export function getPropertyDetailsFromVersion(
   return details ?? null
 }
 
-/**
- * Find or create an address record
- * LEARNING: Extracted address find-or-create logic
- * WHY: Reusable address management, ensures address uniqueness
- * PATTERN: Check existence first, create if not found
- * 
- * @param addressData - Address data object
- * @returns Address instance (existing or newly created)
- */
 export async function findOrCreateAddress(addressData: {
   address: string
   unit?: string | null
@@ -123,16 +80,6 @@ export async function findOrCreateAddress(addressData: {
   })
 }
 
-/**
- * Get property version with associations loaded
- * LEARNING: Common pattern for loading property with includes
- * WHY: Reusable property loading logic, ensures consistent includes
- * PATTERN: Sequelize findByPk with include options
- * 
- * @param propertyVersionId - Property version ID
- * @param transaction - Optional Sequelize transaction
- * @returns PropertyVersion with associations or null
- */
 export async function getPropertyWithAssociations(
   propertyVersionId: string,
   transaction?: Transaction
@@ -146,15 +93,6 @@ export async function getPropertyWithAssociations(
   })
 }
 
-/**
- * Build property type response with block instance included
- * LEARNING: Common pattern for property type responses
- * WHY: Reusable response building logic, ensures consistent includes
- * PATTERN: Sequelize findByPk with include options
- * 
- * @param propertyTypeId - Property type ID
- * @returns PropertyVersionType with blockInstance association or null
- */
 export async function buildPropertyTypeResponse(
   propertyTypeId: string
 ): Promise<InstanceType<typeof PropertyVersionType> | null> {
@@ -163,15 +101,6 @@ export async function buildPropertyTypeResponse(
   })
 }
 
-/**
- * Get block instance with block_shape association
- * LEARNING: Common pattern for loading block instance with shape
- * WHY: Reusable block instance loading logic, ensures consistent includes
- * PATTERN: Sequelize findByPk with include options
- * 
- * @param blockInstanceId - Block instance ID
- * @returns BlockInstance with block_shape association or null
- */
 export async function getBlockInstanceWithShape(
   blockInstanceId: string
 ): Promise<BlockInstanceWithShape | null> {
@@ -180,16 +109,6 @@ export async function getBlockInstanceWithShape(
   })
 }
 
-/**
- * Create property types in bulk within a transaction
- * LEARNING: Extracted bulk creation logic for property types
- * WHY: Reduces complexity in route handler, improves testability
- * PATTERN: Transaction wrapper with bulk create operation
- * 
- * @param propertyVersionId - Property version ID
- * @param blockInstanceIds - Array of block instance IDs
- * @param transaction - Sequelize transaction
- */
 export async function createPropertyTypesBulk(
   propertyVersionId: string,
   blockInstanceIds: string[],
@@ -212,15 +131,6 @@ export async function createPropertyTypesBulk(
   }
 }
 
-/**
- * Get all property types for a property version with associations
- * LEARNING: Common pattern for fetching property types with block instances
- * WHY: Reusable property type fetching logic, ensures consistent includes
- * PATTERN: Sequelize findAll with includes, ordered by orderIndex
- * 
- * @param propertyVersionId - Property version ID
- * @returns Array of PropertyVersionType with blockInstance associations
- */
 export async function getPropertyTypesWithAssociations(
   propertyVersionId: string
 ): Promise<InstanceType<typeof PropertyVersionType>[]> {

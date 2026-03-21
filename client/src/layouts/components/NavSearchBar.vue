@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { ref, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import Shepherd from 'shepherd.js'
-import { withQuery } from 'ufo'
 import type { RouteLocationRaw } from 'vue-router'
 import { useConfigStore } from '@core/stores/config'
-import api from '@/utils/api'
+import { useNavSearch, type SearchResultsGroup } from '@/composables/layout/useNavSearch'
 
 /** Base shape for a single suggestion item (P3 type-similarity); SearchResults.children use same shape. */
 interface SuggestionItemBase {
@@ -15,12 +15,6 @@ interface SuggestionItemBase {
 
 /** Single suggestion (e.g. noDataSuggestions item). */
 type Suggestion = SuggestionItemBase
-
-/** Grouped results: title + array of suggestion items. */
-interface SearchResults {
-  title: string
-  children: SuggestionItemBase[]
-}
 
 defineOptions({
   inheritAttrs: false,
@@ -34,8 +28,6 @@ interface SuggestionGroup {
 }
 
 const isAppSearchBarVisible = ref(false)
-const isLoading = ref(false)
-
 
 const suggestionGroups: SuggestionGroup[] = [
   {
@@ -94,24 +86,8 @@ const noDataSuggestions: Suggestion[] = [
   },
 ]
 
-const searchQuery = ref('')
-
 const router = useRouter()
-const searchResult = ref<SearchResults[]>([])
-
-const fetchResults = async () => {
-  isLoading.value = true
-
-  const response = await api.get<SearchResults[]>(withQuery('/app-bar/search', { q: searchQuery.value }))
-
-  searchResult.value = response.data
-
-  setTimeout(() => {
-    isLoading.value = false
-  }, 500)
-}
-
-watch(searchQuery, fetchResults)
+const { searchQuery, searchResult, isLoading } = useNavSearch()
 
 const closeSearchBar = () => {
   isAppSearchBarVisible.value = false
@@ -151,7 +127,7 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
   <!-- 👉 App Bar Search -->
   <LazyAppBarSearch
     v-model:is-dialog-visible="isAppSearchBarVisible"
-    :search-results="searchResult"
+    :search-results="searchResult ?? []"
     :is-loading="isLoading"
     @search="searchQuery = $event"
   >
@@ -199,7 +175,7 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
         <h6
           v-for="suggestion in noDataSuggestions"
           :key="suggestion.title"
-          class="app-bar-search-suggestion text-h6 font-weight-regular cursor-pointer py-2 px-4"
+          class="app-bar-search-suggestion text-headline-small font-weight-regular cursor-pointer py-2 px-4"
           @click="redirectToSuggestedPage(suggestion)"
         >
           <VIcon
@@ -213,7 +189,7 @@ const LazyAppBarSearch = defineAsyncComponent(() => import('@core/components/App
     </template>
 
     <!-- search result -->
-    <template #searchResult="{ item }: { item: SearchResults }">
+    <template #searchResult="{ item }: { item: SearchResultsGroup }">
       <VListSubheader class="text-disabled custom-letter-spacing font-weight-regular ps-4">
         {{ item.title }}
       </VListSubheader>

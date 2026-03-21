@@ -8,16 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * ValidEvent Model
- * 
- * Represents valid event relationships between part shapes and event shapes.
- * Event relationships are Part → Event relationships (similar to Block → Part).
- * 
- * LEARNING: Event relationships enable part-event composition
- * WHY: Part shapes need to define which event shapes are valid for them
- * PATTERN: Through table for many-to-many event relationships between part shapes and event shapes
- */
 export class ValidEvent extends Model<
   InferAttributes<ValidEvent>,
   InferCreationAttributes<ValidEvent>

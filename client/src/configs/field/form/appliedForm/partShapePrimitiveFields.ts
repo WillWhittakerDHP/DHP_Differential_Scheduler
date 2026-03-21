@@ -1,8 +1,3 @@
-/**
- * LEARNING: PartShape Primitive Fields - Field definitions for partShape entity
- * WHY: Defines which fields are primitive (text, number, boolean) for partShape
- * PATTERN: Spreads baseEntityFields and adds entity-specific fields
- */
 
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'

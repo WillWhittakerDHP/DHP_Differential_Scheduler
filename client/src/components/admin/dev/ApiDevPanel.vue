@@ -1,21 +1,13 @@
 <script setup lang="ts">
-/**
- * API Dev Panel Component
- * 
- * LEARNING: Dev mode panel for viewing API status, caches, and live data
- * WHY: Provides visibility into OAuth, rate limits, API calls, and cached responses for debugging
- * PATTERN: Tabbed interface matching slot dev panel styling, unified API debugging
- * 
- * REFACTORED: Extracted sub-components, composables, and utilities to reduce complexity
- */
 
-import { ref, watch, inject } from 'vue'
+import { ref, inject } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
 import { useDevPanelTabs } from '@/composables/dev/useDevPanelTabs'
 import { useApiDevPanelData } from '@/composables/dev/useApiDevPanelData'
-import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
+import { useApiDevPanelVisibility } from '@/composables/admin/useApiDevPanelVisibility'
+import { computedAvailabilityKey } from '@/composables/booking/injectionKeys'
 import DevPanelButtons from '@/components/dev/DevPanelButtons.vue'
 import ApiDevPanelStatusTab from './ApiDevPanelStatusTab.vue'
 import ApiDevPanelDriveTimeTab from './ApiDevPanelDriveTimeTab.vue'
@@ -36,25 +28,17 @@ const isDevMode = isDevModeEnabled()
 const panelRef = ref<HTMLElement | null>(null)
 void panelRef.value // ref used by template
 
-// Phase 7: Inject computed availability data for display
-const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
+const computedAvailability = inject(computedAvailabilityKey, null)
 
-// API base URL for external routes
-// LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
-// WHY: Addresses deprecation audit finding
 const rawApiBase = import.meta.env.VITE_API_BASE_URL
 const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBase !== '' ? rawApiBase : ''
 
-// API status tracking from shared state
 const { apiStatus } = useApiCallStatus()
 
-// Local time formatting
-const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
+const { formatDateTimeForDisplay, formatTimeForDisplay } = localTime()
 
-// Tab management
 const { activeTab } = useDevPanelTabs()
 
-// API data management
 const {
   oauthStatus,
   eventsCache,
@@ -68,16 +52,12 @@ const {
   fetchAll,
 } = useApiDevPanelData(API_BASE_URL)
 
-// Fetch dev status only when panel becomes visible (not on mount)
-// WHY: Prevents unnecessary API calls when panel is hidden, improves page load performance
-watch(() => props.visible, (isVisible) => {
-  if (isVisible && isDevMode) {
-    // Only fetch if data hasn't been loaded yet (lazy loading)
-    if (!oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps) {
-      fetchDevStatus()
-    }
-  }
-}, { immediate: false })
+useApiDevPanelVisibility({
+  visible: () => props.visible,
+  isDevMode,
+  shouldFetch: () => !oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps,
+  fetch: fetchDevStatus,
+})
 </script>
 
 <template>
@@ -90,7 +70,7 @@ watch(() => props.visible, (isVisible) => {
       color="info"
     >
       <VCardTitle class="d-flex justify-space-between align-center pa-3">
-        <span class="text-h6">API Dev Panel</span>
+        <span class="text-headline-small">API Dev Panel</span>
         <VBtn
           icon="mdi-close"
           variant="text"

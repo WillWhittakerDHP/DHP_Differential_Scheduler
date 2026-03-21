@@ -1,17 +1,3 @@
-/**
- * Field Location Dispatcher
- * 
- * LEARNING: Single source of truth for WHERE fields render based on metadata
- * WHY: Consolidates scattered location logic (visibility, panel, layout, expansion state) into one place
- * PATTERN: Pure function that determines field location from metadata + context
- * 
- * This utility handles:
- * - Visibility-based location assignment (titleRow → titleRow, expandedDirect → form body, etc.)
- * - Panel assignment (parts, relationships, annotations)
- * - Layout assignment (inline vs stacked)
- * - Expansion state checks (expandedDirect/expandedPanel fields only render when expanded)
- */
-
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -27,19 +13,12 @@ import {
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import { sortFieldsByDisplayOrder } from './fieldSorting'
+import type { FieldLocation, FieldLocationContext } from '@/types/forms/fieldLocationDispatcher'
 
-/**
- * LEARNING: Valid panel values for expandedPanel visibility
- * WHY: Derived from SUB_PANEL_KEYS so add/remove panels in one place
- * PATTERN: Set for O(1) lookup
- */
+export type { FieldLocation, FieldLocationContext } from '@/types/forms/fieldLocationDispatcher'
+
 const VALID_PANELS = new Set<SubPanelKey>(SUB_PANEL_KEYS)
 
-/**
- * LEARNING: Determine panel type from field key
- * WHY: Panel is automatically determined from field key, not manually configured
- * PATTERN: Check RELATIONSHIP_KEYS to determine panel for relationship fields
- */
 export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelKey {
   if (fieldKey in RELATIONSHIP_KEYS) {
     // PATTERN: Use RELATIONSHIP_KEYS.frontendKey for comparison
@@ -61,39 +40,6 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
   return 'none'
 }
 
-/**
- * Field location types with reasons
- * WHY: Provides clear location assignment with explanation for debugging
- * PATTERN: Discriminated union for type safety
- */
-export type FieldLocation =
-  | { type: 'titleRow'; reason: 'titleRow' | 'staticAsTitle' } // Renders in title row area
-  | { type: 'directInline'; reason: 'expandedDirect' } // Renders in form body, inline layout
-  | { type: 'directStacked'; reason: 'expandedDirect' } // Renders in form body, stacked layout
-  | { type: 'subPanel'; panel: SubPanelKey; reason: 'expandedPanel' }
-  | { type: 'hidden'; reason: 'hidden' | 'notConfigured' | 'notExpanded' }
-
-/**
- * Context for field location determination
- * WHY: Location depends on component state (expansion, etc.)
- * PATTERN: Pure function takes context as parameter
- */
-export interface FieldLocationContext {
-  isExpanded: boolean
-}
-
-/**
- * Field Location Dispatcher
- * 
- * LEARNING: Determines WHERE a field should render based on metadata and context
- * WHY: Single source of truth for location assignment - all logic in one place
- * PATTERN: Pure function that returns location type with reason
- * 
- * Logic Flow:
- * 1. Check visibility first (titleRow → titleRow, hidden → hidden, etc.)
- * 2. For expandedDirect: Check expansion state, then layout (inline/stacked)
- * 3. For expandedPanel: Check expansion state, then panel assignment
- */
 export function getFieldLocation<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined,
@@ -111,7 +57,6 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
 
   switch (visibility) {
     case FIELD_VISIBILITY.TITLE_ROW:
-      // LEARNING: Title row fields render in title row regardless of expansion state
       // PATTERN: Return titleRow location immediately
       return { type: 'titleRow', reason: 'titleRow' }
     
@@ -170,11 +115,6 @@ export function getFieldLocation<GE extends GlobalEntityKey>(
   }
 }
 
-/**
- * Group fields by location
- * WHY: Helper function to organize fields for rendering
- * PATTERN: Pure function that groups field keys by their location
- */
 export function groupFieldsByLocation<GE extends GlobalEntityKey>(
   fieldKeys: GlobalFieldKey<GE>[],
   fieldMetadata: Record<string, FieldMetadataEntry>,

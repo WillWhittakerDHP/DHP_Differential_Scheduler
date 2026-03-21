@@ -1,0 +1,18 @@
+# Phase B spike: minimal ast-grep rule for empty catch (error-handling).
+# Matches catch_clause whose body block has no statements.
+# Used only for CUSTOM_RULE_SPIKE.md evaluation; not part of production audit.
+id: empty-catch
+language: TypeScript
+severity: error
+message: Empty catch block (Phase B spike rule)
+rule:
+  all:
+    - kind: catch_clause
+    - not:
+        has:
+          kind: expression_statement
+          stopBy: end
+    - not:
+        has:
+          kind: throw_statement
+          stopBy: end

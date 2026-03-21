@@ -1,10 +1,3 @@
-/**
- * Relationship Types
- * 
- * LEARNING: Type definitions for entity relationships
- * WHY: Type-safe relationship structures
- * PATTERN: Types derived from relationship constants
- */
 
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from './entities'
@@ -28,10 +21,8 @@ export interface FetchedRelationship<
 }
 
 /**
- * Global relationship structure (frontend format)
- * LEARNING: Groups relationships by parent with children array
- * WHY: Easier to work with in UI (parent -> children[])
- * PATTERN: Transformed from flat API format to grouped format
+ * PATTERN: Global relationship structure (frontend format)
+PATTERN: Transformed fro...
  */
 export type GlobalRelationship<
   P extends GlobalEntityKey = GlobalEntityKey,
@@ -42,20 +33,9 @@ export type GlobalRelationship<
   children: GlobalEntity<C>[]
 }
 
-/**
- * Base for relationship payload and instance component (P2 type-similarity).
- * LEARNING: Shared parent/child IDs shape
- */
 export interface CreateRelationshipPayloadBase {
   parentId: GlobalEntityId
   childId: GlobalEntityId
 }
 
-/**
- * Relationship creation payload
- * LEARNING: Payload for creating new relationships
- * WHY: Type-safe relationship creation
- * PATTERN: Simple object with parent and child IDs
- */
 export type CreateRelationshipPayload = CreateRelationshipPayloadBase
-

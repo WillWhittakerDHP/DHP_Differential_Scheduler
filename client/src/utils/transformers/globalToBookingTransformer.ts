@@ -1,22 +1,19 @@
 /**
- * Global to Booking Transformer
- *
- * LEARNING: Transforms GlobalData into booking-optimized format
- * WHY: Provides lightweight data structure for booking views
- * PATTERN: Plain objects with embedded relationships
+ * WHY: Global to Booking Transformer
  */
-
-import type { BlockInstanceLike } from '@shared/types/blockInstanceTypes'
-import type { GlobalData, GlobalRelationship } from './fetchToGlobalTransformer'
+import type { GlobalData } from '@/types/transformers/globalData'
+import type { GlobalRelationship } from '@/types/relationships'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
-import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
+import type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import { safeArray, safeString, convertToTernaryBoolean } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
+
+export type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
 
 /** Entity-like shape for active/disabled check without full Record<string, unknown>. */
 function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null | undefined): boolean {
@@ -26,65 +23,10 @@ function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null 
   return !disabled && active
 }
 
-export type BookingPartInstance = {
-  id: string
-  entityKey: 'partInstance'
-  name: string
-  active: boolean
-  partShape: string // Denormalized: partShape name instead of ID
-  baseTime: number
-  rateOverBaseTime: number
-  baseFee: number
-  rateOverBaseFee: number
-  orderIndex: number
-  zeroOutPart: boolean
-  /** Child part instance IDs from pricing cascade (downstream parts that contribute to this part's pricing). */
-  activePartIds: string[]
-}
-
-export type BookingBlockShape = {
-  id: string
-  name: string
-  type: BlockShapeType // Semantic type identifier for stable filtering
-  canHaveParts: boolean
-  isStateControl: boolean
-  composable: boolean
-}
-
-/** Index signature allows assignment to SelectionCardItem[] where items are blocks. */
-export type BookingBlockInstance = BlockInstanceLike & {
-  entityKey: 'blockInstance'
-  baseSqFt: number
-  icon: string
-  bookingMode: BookingMode // Controls where instance appears in booking flows
-  differential: TernaryBoolean // Whether this service supports differential scheduling (inspector and client have different arrival times). 'override' means differential is disabled.
-  orderIndex: number
-  blockShape: string // Denormalized: blockShape name instead of ID (kept for backward compatibility)
-  blockShapeRef: string // Block shape ID reference for filtering
-  activeBlockIds: string[] // Child block IDs for cascading filters
-  partInstances: BookingPartInstance[] // Embedded part instances
-  allowMultiple: boolean // Whether this block instance can be multiplied by ADU count or number
-  requiresUnitNumber: boolean | null // If true, property requires a unit number (nullable by design)
-  number?: number | null // Optional quantity multiplier for allowMultiple instances
-  isMultiFamily: boolean // If true, property type is multi-family (requires numberOfUnits field)
-  requiresAgent: boolean // If true, service requires agent and client contact information
-  [key: string]: unknown
-}
-
-export type BookingData = {
-  blockInstances: BookingBlockInstance[] // Main booking blocks (standalone, both) - excludes addOn
-  lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn") - separate for line item selection
-  blockShapes: BookingBlockShape[] // Block shapes for property-based filtering
-}
-
 function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
   return blockInstance.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE
 }
 
-/**
- * Shared filter, map, and sort for block instances (main blocks vs line items).
- * PATTERN: DRY - single implementation for booking blocks and line item blocks.
- */
 function filterAndSortBlockInstances(
   blockInstances: GlobalEntity<'blockInstance'>[],
   componentIds: Set<string>,
@@ -122,10 +64,6 @@ function filterAndSortBlockInstances(
   })
 }
 
-/**
- * Resolve part instance IDs from composite block's component relationships.
- * LEARNING: For composite instances, get part IDs via instanceComponents + partAssignments.
- */
 function resolveComponentPartIds(
   blockInstanceId: string,
   instanceComponentsRelationships: GlobalRelationship[],
@@ -148,10 +86,6 @@ function resolveComponentPartIds(
   })
 }
 
-/**
- * Resolve part instance IDs for a block (own parts + component parts if composite).
- * LEARNING: For composite instances, merge own parts with component parts.
- */
 function resolvePartInstanceIds(
   blockInstance: GlobalEntity<'blockInstance'>,
   partAssignmentsRelationships: GlobalRelationship[],
@@ -191,6 +125,7 @@ type BlockInstanceOptionalProps = {
   icon?: string
   bookingMode?: BookingMode
   differential?: TernaryBoolean | boolean
+  preClosing?: boolean
   number?: number | null
   allowMultiple?: boolean
   requiresUnitNumber?: boolean | null
@@ -207,6 +142,7 @@ function extractBlockInstanceProps(
     icon: b.icon,
     bookingMode: b.bookingMode,
     differential: b.differential,
+    preClosing: b.preClosing,
     number: b.number,
     allowMultiple: b.allowMultiple,
     requiresUnitNumber: b.requiresUnitNumber,
@@ -233,6 +169,7 @@ function buildBookingBlockInstance(
     icon: safeString(props.icon, 'blockInstance.icon'),
     bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as BookingMode,
     differential,
+    preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,
     blockShape,
     blockShapeRef,
@@ -246,10 +183,6 @@ function buildBookingBlockInstance(
   }
 }
 
-/**
- * Transform a single block instance with embedded part instances
- * LEARNING: Denormalizes blockShape and embeds part instances; each part may have activePartIds from pricing cascade.
- */
 function transformBlockInstance(
   blockInstance: GlobalEntity<'blockInstance'>,
   partAssignmentsRelationships: GlobalRelationship[],
@@ -324,10 +257,13 @@ function transformPartInstance(
     baseFee?: number
     rateOverBaseFee?: number
     zeroOutPart?: boolean
+    percentageOff?: number
+    percentage_off?: number
   }
 
   const pricingRels = findRelationshipsByParent(partInstance.id, pricingCascadesRelationships)
   const activePartIds = extractChildIds(pricingRels)
+  const percentageOff = partInstanceWithProps.percentageOff ?? partInstanceWithProps.percentage_off
 
   return {
     id: partInstance.id,
@@ -342,13 +278,10 @@ function transformPartInstance(
     orderIndex: partInstance.orderIndex,
     zeroOutPart: partInstanceWithProps.zeroOutPart ?? false,
     activePartIds,
+    ...(percentageOff !== undefined && percentageOff !== null && { percentageOff }),
   }
 }
 
-/**
- * Transform GlobalData to booking-optimized format.
- * LEARNING: Creates lightweight plain objects with embedded relationships.
- */
 export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const { entities, relationships } = globalData
   const blockShapes = safeArray(entities.blockShape) as GlobalEntity<'blockShape'>[]
@@ -425,4 +358,3 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
 export const bookingTransformer = {
   transformGlobalToBooking,
 }
-

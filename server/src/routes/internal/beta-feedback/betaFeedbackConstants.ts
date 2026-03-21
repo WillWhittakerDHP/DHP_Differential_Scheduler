@@ -1,10 +1,3 @@
-/**
- * Beta Feedback Router Constants
- *
- * LEARNING: Centralized constants for beta feedback operations
- * WHY: Single source of truth for error messages and valid enum values
- * PATTERN: Const objects with categorized constants
- */
 
 import type { FeedbackCategory, FeedbackSeverity, FeedbackStatus } from '../../../db/models/beta/beta_feedback.js';
 

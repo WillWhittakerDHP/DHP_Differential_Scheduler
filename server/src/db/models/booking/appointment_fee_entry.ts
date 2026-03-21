@@ -1,12 +1,8 @@
 /**
  * AppointmentFeeEntry Model
  *
- * LEARNING: One row per block instance per appointment; many:1 with fee summary
- * WHY: Enables per-block revenue analytics, invoicing, dispute resolution
- * PATTERN: Mirrors part_instance_version — child of summary, soft refs to block_instance/block_shape (no FK)
  *
  * CRITICAL: block_instance_id and block_shape_ref have NO FK constraints
- * WHY: Allows admin to delete block instances/shapes without breaking fee history
  */
 
 import {

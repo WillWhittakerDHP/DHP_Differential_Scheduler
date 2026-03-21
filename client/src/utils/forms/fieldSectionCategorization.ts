@@ -6,40 +6,18 @@ import {
   type SubPanelRecord
 } from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { StatusButtonField } from '@/types/forms/fieldSectionCategorization'
 
-/**
- * LEARNING: NO DEFAULTS - removed DEFAULT_PANEL_ASSIGNMENTS
- * WHY: fieldMetadata: null means not configured - don't create fake defaults
- * PATTERN: Fields must be explicitly configured in fieldMetadata to render
- */
-
-/**
- * LEARNING: Status button field configuration
- * WHY: Extracted from config for rendering clickable status badges
- * PATTERN: Contains field key, label, and color for VChip rendering
- */
-export interface StatusButtonField {
-  key: GlobalFieldKey<GlobalEntityKey>
-  label: string
-  color: string
-  order: number
-}
+export type { StatusButtonField } from '@/types/forms/fieldSectionCategorization'
 
 interface CategorizedFields {
-  /**
-   * LEARNING: Fields with panel: 'none' - rendered directly in card content
-   * WHY: Fields without a panel assignment render in the main card area
-   * PATTERN: Organized by layout (inline vs stacked) from metadata
-   */
   directFields: {
     inline: GlobalFieldKey<GlobalEntityKey>[]
     stacked: GlobalFieldKey<GlobalEntityKey>[]
   }
   subPanelFields: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
   /**
-   * LEARNING: Status button fields extracted from config
    * WHY: Boolean fields with renderAs: 'statusButton' should render as clickable VChips
-   * PATTERN: Rendered in panel title, clickable to toggle value
    */
   statusButtonFields: StatusButtonField[]
 }
@@ -53,15 +31,6 @@ interface CategorizeFieldsOptions {
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
-/**
- * LEARNING: Pure categorization utility (no Vue dependencies)
- * WHY: Keeps rendering components thin; logic stays reusable and testable
- * PATTERN: Order-aware bucketing with metadata from fieldMetadata (database) EXCLUSIVELY
- * 
- * LEARNING: Reads from fieldMetadata in BlockShape/PartShape directly
- * WHY: Single source of truth for field configuration - NO FALLBACKS
- * PATTERN: fieldMetadata is REQUIRED - if missing, fields will not render (fail fast, fail visible)
- */
 export function categorizeFieldsBySection(
   fieldKeys: GlobalFieldKey<GlobalEntityKey>[],
   options?: CategorizeFieldsOptions
@@ -92,13 +61,8 @@ export function categorizeFieldsBySection(
     }
   }
 
-  // PATTERN: All field configuration comes from fieldMetadata, period
-
   /**
-   * LEARNING: Collect status button fields from fieldMetadata ONLY
-   * WHY: Status buttons configured in fieldMetadata, no fallback
-   * PATTERN: Extract fields with renderAs: 'statusButton' from fieldMetadata
-   * NOTE: No visibility filtering - categorization is pure, visibility handled elsewhere
+   * PATTERN: // PATTERN: All field configuration comes from fieldMetadata, period
    */
   const statusButtonFieldsWithOrder = Object.entries(fieldMetadata)
     .filter(([_fieldKey, meta]) => {

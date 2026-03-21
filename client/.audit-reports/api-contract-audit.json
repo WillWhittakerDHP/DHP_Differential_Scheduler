@@ -1,7 +1,60 @@
 {
-  "generatedAt": "2026-02-20T17:32:55.642Z",
+  "generatedAt": "2026-03-16T02:03:01.594Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 66,
+  "serverEndpoints": 72,
+  "endpointKeys": [
+    "GET /events-cache",
+    "GET /rate-limit",
+    "POST /events",
+    "GET /",
+    "GET /callback",
+    "GET /status",
+    "GET /test-url",
+    "GET /drive-time-cache",
+    "POST /clear-drive-time-cache",
+    "GET /autocomplete",
+    "GET /place-details",
+    "GET /session-token",
+    "GET /property-enrichment",
+    "POST /",
+    "GET /batch",
+    "GET /:entityType/:entityId",
+    "POST /:entityType/:entityId",
+    "DELETE /:entityType/:entityId/:fieldKey",
+    "DELETE /:entityType/:entityId/:relationshipKey",
+    "GET /:id/versions",
+    "GET /list-for-admin-entry",
+    "POST /computed-data",
+    "GET /stats",
+    "GET /block/:blockInstanceId",
+    "GET /:key",
+    "PUT /:key",
+    "PATCH /:key",
+    "DELETE /:key",
+    "PUT /",
+    "PATCH /:entityType/order_index",
+    "PATCH /:entityType/bulk",
+    "GET /config",
+    "GET /:entityType",
+    "GET /:entityType/:id",
+    "POST /:entityType",
+    "PUT /:entityType/:id",
+    "PATCH /:entityType/:id",
+    "DELETE /:entityType/:id",
+    "GET /:id",
+    "PUT /:id",
+    "PATCH /:id",
+    "DELETE /:id",
+    "GET /:id/types",
+    "POST /:id/types",
+    "PATCH /:id/types/:typeId",
+    "DELETE /:id/types/:typeId",
+    "PUT /:id/types",
+    "PATCH /:blockInstanceId/:annotationId",
+    "GET /:relationshipType",
+    "POST /:relationshipType",
+    "DELETE /:relationshipType/:parentId/:childId"
+  ],
   "sharedTypes": [
     {
       "name": "AppointmentFeeSummary",
@@ -29,6 +82,10 @@
     },
     {
       "name": "AttendeeRequest",
+      "file": "shared/types/appointmentTypes.ts"
+    },
+    {
+      "name": "AdminEntryAppointmentItem",
       "file": "shared/types/appointmentTypes.ts"
     },
     {
@@ -168,16 +225,16 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "SlotAvailabilityResult",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "ComputedSlot",
       "file": "shared/types/availabilityTypes.ts"
     },
     {
       "name": "ComputedSlotAvailabilityData",
       "file": "shared/types/availabilityTypes.ts"
-    },
-    {
-      "name": "BlockInstanceLike",
-      "file": "shared/types/blockInstanceTypes.ts"
     },
     {
       "name": "RequiredFieldsRuleConfig",
@@ -208,6 +265,14 @@
       "file": "shared/types/calendarTypes.ts"
     },
     {
+      "name": "AdminEntryTimeoutUnit",
+      "file": "shared/types/calendarTypes.ts"
+    },
+    {
+      "name": "AdminEntryTimeout",
+      "file": "shared/types/calendarTypes.ts"
+    },
+    {
       "name": "CalendarConfig",
       "file": "shared/types/calendarTypes.ts"
     },
@@ -224,6 +289,10 @@
       "file": "shared/types/contactTypes.ts"
     },
     {
+      "name": "CoreEntity",
+      "file": "shared/types/coreEntityTypes.ts"
+    },
+    {
       "name": "IdentifiableById",
       "file": "shared/types/identifiable.ts"
     },
@@ -237,6 +306,10 @@
     },
     {
       "name": "Logger",
+      "file": "shared/types/loggerTypes.ts"
+    },
+    {
+      "name": "LoggerEnvConfig",
       "file": "shared/types/loggerTypes.ts"
     },
     {

@@ -1,38 +1,15 @@
 /**
- * LEARNING: Wizard Dev Mode Management
- * WHY: Encapsulates dev mode logic and dev panel buttons injection
- * PATTERN: Composable for managing dev mode state and handlers
- * 
- * Used by:
- * - BookingWizard.vue
+ * PATTERN: Composable for managing dev mode state and handlers; provides shared DevPanelButtonsContext (audit: duplication).
  */
+import { ref, provide, inject } from 'vue'
+import type { Ref } from 'vue'
+import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
+import type {
+  UseWizardDevModeOptions,
+  UseWizardDevModeReturn,
+} from '@/types/booking/wizardDevMode'
+import { resetMocksSignalKey } from '@/composables/booking/injectionKeys'
 
-import { ref, provide, inject, type Ref, type ComputedRef } from 'vue'
-import type { AppointmentResponse } from '@/types/appointment'
-import { useBookingWizard } from '@/composables/useBookingWizard'
-import type { WizardDevOptionsBase } from '@/types/wizardDevOptions'
-
-/** Extends shared base; adds dev mode state and handlers (TYPE_SIMILARITY 1.14). */
-export interface UseWizardDevModeOptions extends WizardDevOptionsBase {
-  isDevMode: boolean
-  selectedAppointmentId: Ref<string | null>
-  appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-  loadedAppointmentId: Ref<string | null>
-  isLoadingAppointment: Ref<boolean>
-  fetchAll: WizardDevOptionsBase['fetchAll'] & { isLoading: Ref<boolean> }
-  handleLoadAppointment: (id: string | null) => Promise<void>
-  handleUpdateAppointment: () => Promise<void>
-  handleResetWizard: () => void
-  updateAppointment: {
-    isPending: Ref<boolean>
-  }
-  wizard: ReturnType<typeof useBookingWizard>
-}
-
-export interface UseWizardDevModeReturn {
-  resetMocksSignal: Ref<number>
-  handleResetMocks: () => void
-}
 
 export function useWizardDevMode(
   options: UseWizardDevModeOptions
@@ -53,33 +30,14 @@ export function useWizardDevMode(
 
   // PATTERN: Incrementing ref that AvailabilityStep watches
   const resetMocksSignal = ref(0)
-  provide('resetMocksSignal', resetMocksSignal)
+  provide(resetMocksSignalKey, resetMocksSignal)
 
-  /**
-   * LEARNING: Handle resetting mock calendar data
-   * WHY: Allows developers to regenerate mock busy periods for testing
-   * PATTERN: Provide reset function that AvailabilityStep can call via inject
-   */
   const handleResetMocks = (): void => {
     resetMocksSignal.value++
   }
 
-  // PATTERN: Inject app-level ref and update it with button functions and state
   if (isDevMode) {
-    const appDevPanelButtons = inject<Ref<{
-      selectedAppointmentId: Ref<string | null>
-      appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-      loadedAppointmentId: Ref<string | null>
-      isLoadingAppointment: Ref<boolean>
-      fetchAll: { isLoading: Ref<boolean>; data: Ref<AppointmentResponse[]> }
-      handleLoadAppointment: (id: string | null) => Promise<void>
-      handleUpdateAppointment: () => Promise<void>
-      handleResetWizard: () => void
-      handleResetMocks: () => void
-      updateAppointment: { isPending: Ref<boolean> }
-      wizard: ReturnType<typeof useBookingWizard> | null
-    } | null>>('devPanelButtons')
-
+    const appDevPanelButtons = inject<Ref<DevPanelButtonsContext | null>>('devPanelButtons')
     if (appDevPanelButtons) {
       appDevPanelButtons.value = {
         selectedAppointmentId,
@@ -92,7 +50,7 @@ export function useWizardDevMode(
         handleResetWizard,
         handleResetMocks,
         updateAppointment,
-        wizard
+        wizard,
       }
     }
   }

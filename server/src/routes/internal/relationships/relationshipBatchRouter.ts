@@ -1,10 +1,3 @@
-/**
- * Relationship Batch Router
- * 
- * LEARNING: Batch endpoint that fetches all relationship types in a single request
- * WHY: Reduces N+10 HTTP requests to 1 request, improving initial load performance
- * PATTERN: Fetch all relationship types in parallel, return structured response
- */
 
 import { Router, Request, Response } from 'express'
 import { RELATIONSHIP_REGISTRY, type RelationshipKind } from './relationshipConstants.js'
@@ -25,19 +18,10 @@ function buildBatchWhereClause(
   return 'disabled' in modelAttributes ? { disabled: false } : {}
 }
 
-/**
- * GET /relationships/batch
- * Get all relationships of all types in batch format
- * 
- * LEARNING: Batch endpoint that returns all relationship types in structured format
- * WHY: Provides complete relationship data in a single request, reducing network overhead
- * PATTERN: Fetch all relationship types in parallel, transform to structured result
- */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('GET /relationships/batch')
 
-    // LEARNING: Fetch all relationship types in parallel using Promise.all
     // WHY: Consistent parallel fetching pattern, maximizes performance
     // PATTERN: Map relationship keys to fetch promises, await all in parallel
     const relationshipPromises = (Object.keys(RELATIONSHIP_REGISTRY) as RelationshipKind[]).map(async (relationshipKey) => {
@@ -54,7 +38,6 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
 
     const relationshipResults = await Promise.all(relationshipPromises)
 
-    // LEARNING: Transform parallel results into structured response object
     // WHY: Matches expected batch response format with relationship keys as top-level properties
     // PATTERN: Reduce array of results to object keyed by relationshipKey
     const result = relationshipResults.reduce((acc, { relationshipKey, data }) => {

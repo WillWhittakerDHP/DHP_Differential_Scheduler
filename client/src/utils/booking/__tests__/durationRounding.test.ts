@@ -1,10 +1,3 @@
-/**
- * Unit tests for durationRounding utility
- * 
- * LEARNING: Tests for configurable duration rounding functionality
- * WHY: Ensures rounding works correctly with different settings configurations
- * PATTERN: Test all rounding methods and edge cases
- */
 
 import { describe, it, expect } from 'vitest'
 import { roundDuration, type DurationRoundingConfig } from '../durationRounding'

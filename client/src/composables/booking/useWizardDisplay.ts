@@ -1,37 +1,17 @@
 /**
- * useWizardDisplay Composable
- * 
- * LEARNING: Extracts display-related computed properties from BookingWizard component
- * WHY: Moves step subtitle generation and loaded data display logic to composable
- * PATTERN: Composable that provides computed properties for wizard display
- */
+ * WHY: useWizardDisplay Composable
 
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+WHY: Moves step subtitle generation and loa...
+ */
+import { computed } from 'vue'
 import type { WizardStepConfig } from '@/configs/wizardSteps'
+import type {
+  UseWizardDisplayParams,
+  UseWizardDisplayReturn,
+} from '@/types/booking/wizardDisplay'
 
 export type { WizardStepConfig }
 
-export interface UseWizardDisplayParams {
-  steps: WizardStepConfig[]
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  loadedWizardState: Ref<WizardStateData | null> | null
-}
-
-export interface UseWizardDisplayReturn {
-  stepSubtitles: ComputedRef<string[]>
-  loadedServiceName: ComputedRef<string | null>
-  loadedPropertyAddress: ComputedRef<string | null>
-}
-
-/**
- * useWizardDisplay composable
- * 
- * LEARNING: Provides computed properties for wizard display
- * WHY: Extracts display logic from component to composable
- * PATTERN: Composable that returns reactive computed properties
- */
 export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDisplayReturn {
   const {
     steps,
@@ -39,12 +19,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     loadedWizardState
   } = params
 
-  /**
-   * LEARNING: Computed property for step subtitles with dynamic service name
-   * WHY: Shows selected service name(s) in stepper subtitle when services are selected
-   * PATTERN: Computed array that updates step subtitles reactively
-   * Session 1.3.9.5: Updated to show first service name or count for multiple selections
-   */
   const stepSubtitles = computed(() => {
     const baseSubtitles = steps.map(step => step.subtitle)
     
@@ -60,12 +34,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     return baseSubtitles
   })
 
-  /**
-   * LEARNING: Computed property for loaded service name
-   * WHY: Displays service type in mock data loading bar
-   * PATTERN: Extract from loadedWizardState or wizard.selectedServices
-   * Session 1.3.9.5: Updated to use array - show first service name or count
-   */
   const loadedServiceName = computed(() => {
     const loadedServices = loadedWizardState?.value?.services
     if (loadedServices && loadedServices.length > 0) {
@@ -83,11 +51,6 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     return null
   })
 
-  /**
-   * LEARNING: Computed property for loaded property address
-   * WHY: Displays property address in mock data loading bar
-   * PATTERN: Extract from loadedWizardState propertyDetails
-   */
   const loadedPropertyAddress = computed(() => {
     if (!loadedWizardState?.value?.propertyDetails) return null
     
@@ -107,4 +70,3 @@ export function useWizardDisplay(params: UseWizardDisplayParams): UseWizardDispl
     loadedPropertyAddress
   }
 }
-

@@ -1,10 +1,3 @@
-/**
- * Google Routes API Service
- * 
- * LEARNING: Service for Google Routes API operations (route matrix, drive time)
- * WHY: Centralized Routes API operations with rate limiting and error handling
- * PATTERN: Service layer with shared utilities
- */
 
 import { createLogger } from '../../../utils/logger.js'
 import { withRateLimit } from '../shared/googleApiRateLimiter.js'
@@ -52,24 +45,11 @@ function toDriveTimeResult(durationSeconds: number, distanceMeters: number, sour
   }
 }
 
-/**
- * Calculate route matrix using Google Routes API
- * 
- * LEARNING: Routes API computeRouteMatrix calculates drive times between multiple locations
- * WHY: More accurate than Distance Matrix API (legacy), especially with Place IDs
- * PATTERN: POST request with origins/destinations arrays
- * 
- * @param origins - Array of origin locations
- * @param destinations - Array of destination locations
- * @param useTraffic - Whether to use real-time traffic (default: true, triggers Pro SKU)
- * @returns Array of route results for each origin-destination pair
- */
 export async function calculateRouteMatrix(
   origins: RouteLocation[],
   destinations: RouteLocation[],
   useTraffic: boolean = true
 ): Promise<RouteMatrixResult[]> {
-  // Validate inputs
   if (!origins.length) {
     throw new MapsApiError('invalid', 'At least one origin is required')
   }
@@ -77,7 +57,6 @@ export async function calculateRouteMatrix(
     throw new MapsApiError('invalid', 'At least one destination is required')
   }
   
-  // Check element limit (origins × destinations ≤ 625)
   const elementCount = origins.length * destinations.length
   if (elementCount > 625) {
     throw new MapsApiError('invalid', `Element count ${elementCount} exceeds maximum 625`)
@@ -86,7 +65,6 @@ export async function calculateRouteMatrix(
   return await withRateLimit('google-maps', async () => {
     const apiKey = getGoogleMapsApiKey()
     
-    // Build request body
     const requestBody = {
       origins: origins.map(origin => ({
         waypoint: toRoutesWaypoint(origin)
@@ -131,7 +109,6 @@ export async function calculateRouteMatrix(
       
       const data = await response.json()
       
-      // Routes API returns an array of results
       if (!Array.isArray(data)) {
         logger.error('Unexpected response format', { data })
         throw new MapsApiError('invalid', 'Unexpected response format from Routes API')
@@ -151,7 +128,6 @@ export async function calculateRouteMatrix(
         throw error
       }
       
-      // Network or parsing error
       logger.error('Route matrix error', { error })
       throw new MapsApiError(
         'network',
@@ -162,21 +138,6 @@ export async function calculateRouteMatrix(
   })
 }
 
-/**
- * Calculate drive time between two locations (convenience function)
- * 
- * LEARNING: Simple wrapper for single origin-destination calculation with fallback support
- * WHY: Most common use case is point-to-point drive time
- * PATTERN: Returns fallback value when API fails or location data missing
- * 
- * Session 2.2.3: Added fallback support and retry logic
- * 
- * @param origin - Origin location
- * @param destination - Destination location
- * @param useTraffic - Whether to use real-time traffic
- * @param fallbackMinutes - Optional fallback minutes to use if API fails or location missing
- * @returns Drive time result with source metadata, or null if route not found and no fallback
- */
 export async function calculateDriveTime(
   origin: RouteLocation,
   destination: RouteLocation,
@@ -198,7 +159,6 @@ export async function calculateDriveTime(
   const cached = getCachedDriveTime(origin, destination)
   if (cached) return toDriveTimeResult(cached.durationSeconds, cached.distanceMeters, 'cached')
   
-  // Attempt API call with retry for transient errors
   try {
     const results = await withRetry(
       () => calculateRouteMatrix([origin], [destination], useTraffic),

@@ -7,14 +7,14 @@
 
 Generated from `client/.audit-reports/bundle-size-budget-audit.json`.
 
-- Chunks: **22**
-- Total JS (gzip): **388.5 KB**
-- Total CSS (gzip): **91.5 KB**
+- Chunks: **57**
+- Total JS (gzip): **417.0 KB**
+- Total CSS (gzip): **115.1 KB**
 - Budget violations: **0**
 
 | Budget | Limit (KB) | Actual (KB) | Pass |
 | --- | ---: | ---: | --- |
-| totalJsKb | 800 | 388.5 | Yes |
-| totalCssKb | 200 | 91.5 | Yes |
-| largestChunkKb | 250 | 106.7 | Yes |
-| entryPointKb | 150 | 28.6 | Yes |
+| totalJsKb | 800 | 417.0 | Yes |
+| totalCssKb | 200 | 115.1 | Yes |
+| largestChunkKb | 250 | 109.5 | Yes |
+| entryPointKb | 150 | 0.0 | Yes |

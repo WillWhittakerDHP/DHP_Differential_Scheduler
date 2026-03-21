@@ -1,0 +1,13 @@
+/**
+ * Returns a computed label from an array of items with a name property.
+ */
+import { computed, type ComputedRef, type Ref } from 'vue'
+
+export function usePropertyTypesLabel(
+  selectedPropertyTypes: Ref<{ name: string }[]>
+): { propertyTypesLabel: ComputedRef<string> } {
+  const propertyTypesLabel = computed(() =>
+    selectedPropertyTypes.value.map((pt) => pt.name).join(', ')
+  )
+  return { propertyTypesLabel }
+}

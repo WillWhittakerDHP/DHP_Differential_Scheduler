@@ -1,16 +1,7 @@
-/**
- * Select DOM Association Utilities
- *
- * WHY: Vuetify/AppSelect may render native <select> asynchronously and not forward `name` attributes.
- * PATTERN: Keep DOM access here (utilities), not in composables/components.
- */
-
 import { patchFormElements } from '@/utils/patchFormElements'
+import type { SelectDomTarget } from '@/types/forms/selectDomAssociation'
 
-export interface SelectDomTarget {
-  appSelectId: string
-  expectedName: string
-}
+export type { SelectDomTarget } from '@/types/forms/selectDomAssociation'
 
 function findNearestForm(element: Element | null): HTMLFormElement | null {
   if (!element) return null

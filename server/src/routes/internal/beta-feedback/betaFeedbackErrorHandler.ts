@@ -1,10 +1,3 @@
-/**
- * Beta Feedback Router Error Handler
- *
- * LEARNING: Thin wrappers around shared router error handlers
- * WHY: Consistent error responses; no domain-specific constraints needed
- * PATTERN: Delegates to shared handleRouteError
- */
 
 import { Response } from 'express';
 import {

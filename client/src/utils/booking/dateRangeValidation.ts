@@ -1,12 +1,3 @@
-/**
- * Date Range Validation Utility
- * 
- * LEARNING: Shared utility for validating date ranges across the codebase
- * WHY: Eliminates duplicate validation logic and ensures consistent validation
- * PATTERN: Pure validation functions that return validated date ranges or null
- * 
- * P2-3: Created to consolidate date range validation from multiple locations
- */
 
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { createLogger } from '@/utils/logger'
@@ -14,13 +5,7 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('dateRangeValidation')
 
 /**
- * Validate date range and return normalized RFC3339 datetime range
- * LEARNING: Validates date range structure and returns normalized UTC datetime strings
- * WHY: Ensures consistent date range validation across all composables
- * PATTERN: Validate structure → Parse dates → Validate dates → Return normalized range
- * 
- * @param dateRange - Date range with start and end (can be null)
- * @returns Normalized RFC3339 datetime range or null if invalid
+ * WHY: Validate date range and return normalized RFC3339 datetime range
  */
 export function validateDateRange(
   dateRange: { start: string | null; end: string | null } | null
@@ -49,15 +34,6 @@ export function validateDateRange(
   }
 }
 
-/**
- * Check if date range is valid (basic structure check)
- * LEARNING: Quick validation check without parsing dates
- * WHY: Useful for early returns before expensive date parsing
- * PATTERN: Check structure only, don't parse dates
- * 
- * @param dateRange - Date range to check
- * @returns true if dateRange has valid structure, false otherwise
- */
 export function hasValidDateRangeStructure(
   dateRange: { start: string | null; end: string | null } | null
 ): boolean {

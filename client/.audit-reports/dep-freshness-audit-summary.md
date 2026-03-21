@@ -7,7 +7,11 @@
 
 Generated from `client/.audit-reports/dep-freshness-audit.json`.
 
-- Major behind: **0**
-- Minor behind: **1**
-- Patch behind: **4**
-- Total scanned: **5**
+- Major behind: **1**
+- Minor behind: **2**
+- Patch behind: **6**
+- Total scanned: **9**
+
+## Major behind (first 15)
+
+- `@types/supertest` (server): 6.0.3 → 7.2.0

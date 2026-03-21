@@ -309,10 +309,14 @@ function main() {
   })
   const score = calculateScore(findings)
 
+  // Full API surface for api-versioning: server route keys in same format as api-versioning-audit (METHOD /path)
+  const endpointKeys = [...new Set(serverEndpoints.map((e) => `${e.method || 'GET'} ${(e.url || '').trim()}`.trim()))]
+
   const result = {
     generatedAt: new Date().toISOString(),
     clientEndpoints: clientEndpoints.length,
     serverEndpoints: serverEndpoints.length,
+    endpointKeys,
     sharedTypes,
     ...(delta.enabled ? { deltaMode: true, baseRef: delta.baseRef } : {}),
     score,

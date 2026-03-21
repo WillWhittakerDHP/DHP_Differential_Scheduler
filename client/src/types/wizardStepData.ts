@@ -1,37 +1,22 @@
 /**
- * LEARNING: Shared wizard step data types
- * WHY: Re-export from canonical source to prevent format mismatches
- * PATTERN: Single source of truth for type definitions
- *
- * SESSION: 2.1.3b - Fixed duplicate interface causing timezone issues
- *
- * Used by:
- * - ConfirmationStep.vue
- * - useConfirmationStepData.ts
- * - AvailabilityStep.vue
- * - useAvailabilityStepData.ts
+ * WHY: The canonical source uses RFC3339 startTime/endTime format
  */
-
-// LEARNING: Re-export AvailabilityStepData from canonical source
-// WHY: The canonical source uses RFC3339 startTime/endTime format
-// PATTERN: Avoid duplicate interface definitions
 export type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
 
-/**
- * Summary data for confirmation step display.
- * LEARNING: Aggregated service/property/address/sqft for confirmation
- */
+import type { FeeEntryBase } from '@shared/types/appointmentFeeTypes'
+
 export interface SummaryData {
   serviceType: string
   propertyType: string
   address: string
   squareFootage: string
+  appointmentDate?: string
+  appointmentTimes?: string
+  moveablePartShapeName?: string
+  moveableCompletion?: string
+  moveableDeadline?: string
 }
 
-/**
- * Price data structure for confirmation step.
- * LEARNING: Calculated fees and pricing breakdown (base vs overage, order totals)
- */
 export interface PriceData {
   totalFee: number
   currency: string
@@ -43,11 +28,8 @@ export interface PriceData {
   finalTotal: number
   baseFeeTotal?: number
   overageFeeTotal?: number
-  lineItemFees?: {
-    baseFee: number
-    overageFee: number
-    totalFee: number
-  }
+  /** Shared fee shape; aligns with FeeEntryBase for type-similarity EXTEND. */
+  lineItemFees?: FeeEntryBase
   lineItems?: Array<{
     label: string
     amount: number

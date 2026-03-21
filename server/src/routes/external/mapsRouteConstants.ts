@@ -1,8 +1,3 @@
-/**
- * Maps Route Constants
- *
- * WHY: Centralized strings for maps routes, eliminates magic strings
- */
 
 export const MAPS_ROUTE_MESSAGES = {
   MISSING_INPUT: 'Missing required parameter: input',

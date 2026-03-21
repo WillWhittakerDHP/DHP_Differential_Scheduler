@@ -1,8 +1,3 @@
-/**
- * LEARNING: PartInstance Display Configs - Display configs for partInstance fields
- * WHY: Defines labels, placeholders, and layout for partInstance fields
- * PATTERN: Spreads baseEntityDisplays and adds entity-specific configs
- */
 
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'

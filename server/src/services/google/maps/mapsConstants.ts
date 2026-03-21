@@ -1,25 +1,8 @@
-/**
- * Google Maps API Constants
- * 
- * LEARNING: Centralized constants for Google Maps API operations
- * WHY: Single source of truth for Maps API constants, eliminates magic strings
- * PATTERN: Constants module
- */
 
 import { DEFAULT_RETRY_CONFIG, type RetryConfig } from '../shared/googleApiRetry.js'
 
-/**
- * Default retry configuration for Maps API operations
- * LEARNING: Exponential backoff retry configuration
- * WHY: Handles transient errors (rate limits, network issues) automatically
- */
 export const MAPS_RETRY_CONFIG: RetryConfig = DEFAULT_RETRY_CONFIG
 
-/**
- * Google Places/Find Place API status strings
- * LEARNING: Single source of truth for API response status values
- * WHY: Eliminates magic strings, improves maintainability
- */
 export const GOOGLE_API_STATUS = {
   OK: 'OK',
   REQUEST_DENIED: 'REQUEST_DENIED',
@@ -29,11 +12,6 @@ export const GOOGLE_API_STATUS = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-/**
- * Error messages for Maps API operations
- * LEARNING: User-friendly error messages
- * WHY: Consistent error messaging across Maps API operations
- */
 export const ERROR_MESSAGES = {
   AUTH: 'Address lookup service is not configured.',
   RATE_LIMIT: 'Too many requests. Please try again in a moment.',

@@ -1,33 +1,20 @@
 <script setup lang="ts">
-/**
- * AppointmentSlotGrid Component
- * 
- * LEARNING: Responsive appointment slot button grid with dynamic column calculation
- * WHY: Encapsulates grid layout logic, ResizeObserver, and responsive behavior
- * PATTERN: Self-contained component with props/events for parent communication
- * 
- * Features:
- * - Dynamic column calculation based on available width
- * - ResizeObserver for responsive behavior
- * - Touch-friendly button sizing
- * - Configurable min/max columns and button sizing
- * - Support for AppointmentSlots with dual-time display (major/minor perspectives)
- * - Emits orderIndex along with TimeSlot for proper selection tracking
- */
 
-import { computed, ref } from 'vue'
-import type { TimeRange, AppointmentSlots } from '@/types/appointment'
-import { useTimeFormatting } from '@/composables/useTimeFormatting'
+import { ref, toRef } from 'vue'
+import type { AppointmentSlots } from '@/types/appointment'
+import { formatTimeRange } from '@/utils/time/timeFormatting'
 import { useResponsiveGrid } from '@/composables/booking/useResponsiveGrid'
-import { derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
-import { useGlobal } from '@/composables/useGlobal'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
+import {
+  useSlotGridDisplay,
+  type SlotDisplayItem,
+} from '@/composables/booking/useSlotGridDisplay'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { getColorForViolation, formatViolationTooltip } from '@/utils/booking/constraintColors'
 
 interface Props {
   appointmentSlots: AppointmentSlots // AppointmentSlots structure
   selectedButtonIndex?: number | null // Selection by buttonIndex
+  originalInspectionButtonIndex?: number | null // Reschedule: buttonIndex of slot matching loaded appointment's inspector time
   timeBasis?: 'major' | 'minor' | 'nonDifferential' // Time perspective for differential scheduling
   color?: 'primary' | 'secondary'
   variant?: 'flat' | 'outlined'
@@ -40,11 +27,11 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   selectedButtonIndex: null,
+  originalInspectionButtonIndex: null,
   timeBasis: 'nonDifferential',
   color: 'primary',
   variant: 'outlined',
   loading: false,
-  minColumns: 1, // LEARNING: Minimum of 1 column allows grid to shrink to single column when space is tight
   maxColumns: 8,
   buttonMinWidth: 140, // Increased from 80 to accommodate "10:00 AM - 10:30 AM" format
   gap: 10
@@ -56,7 +43,6 @@ const emit = defineEmits<{
 
 const gridRef = ref<HTMLElement | null>(null)
 
-// LEARNING: Use responsive grid composable
 // PATTERN: Composable provides column calculations and ResizeObserver management
 const {
   buttonGridColumns
@@ -68,69 +54,23 @@ const {
   gap: props.gap
 })
 
-// LEARNING: Use time formatting composable for time operations
 // WHY: Moves time formatting logic out of component to prevent recursion
 // PATTERN: Composable provides pure utility functions
-const { formatTimeRange } = useTimeFormatting()
 
-const { getGlobalData } = useGlobal()
-const { settings: availabilitySettings } = useAvailabilitySettings()
 const isDevMode = isDevModeEnabled()
 
-// LEARNING: Constraint colors and formatting utilities imported from shared module
-// WHY: Centralized constants and utilities used across components
-
-interface SlotDisplayData {
-  buttonIndex: number
-  displayTime: TimeRange | null
-  isAvailable: boolean
-  violations?: string[]
-}
-
-/**
- * LEARNING: Compute display slots from AppointmentSlots
- * WHY: Derives perspective directly using timeBasis prop for reactivity
- * PATTERN: Map over appointmentSlots, call derivePerspective with current timeBasis
- * NOTE: Directly uses timeBasis prop to ensure reactivity when perspective changes
- * LEARNING: Availability doesn't change with perspective - only display time changes
- * WHY: Slots are the same regardless of perspective, only the label/time shown changes
- */
-const displaySlots = computed(() => {
-  const currentPerspective = props.timeBasis
-  const globalData = getGlobalData()
-  
-  const slots = props.appointmentSlots.map(appointmentSlot => {
-    const displayTime = derivePerspective(
-      appointmentSlot, 
-      currentPerspective,
-      globalData || undefined,
-      availabilitySettings.value || null
-    )
-    
-    // LEARNING: Include violations for dev mode dot display
-    // WHY: Dots are now integrated into buttons, not overlay
-    const violations = !appointmentSlot.isAvailable && appointmentSlot.flexibleViolations
-      ? appointmentSlot.flexibleViolations
-      : undefined
-    
-    return {
-      buttonIndex: appointmentSlot.buttonIndex,
-      displayTime,
-      isAvailable: appointmentSlot.isAvailable,
-      violations
-    }
-  })
-  
-  return slots
+const displaySlots = useSlotGridDisplay({
+  appointmentSlots: toRef(props, 'appointmentSlots'),
+  timeBasis: toRef(props, 'timeBasis'),
 })
 
-const handleAppointmentSlotClick = (slotData: SlotDisplayData): void => {
+const handleAppointmentSlotClick = (slotData: { buttonIndex: number }): void => {
   emit('slot-click', slotData.buttonIndex)
 }
 
 // WHY: Centralizes formatting logic
 // PATTERN: Method that formats the conversion
-const formatSlotTime = (slotData: SlotDisplayData): string => {
+const formatSlotTime = (slotData: SlotDisplayItem): string => {
   if (!slotData.displayTime) {
     // PATTERN: Fallback to 'Unavailable' only if truly no time can be determined
     return 'Unavailable'
@@ -141,7 +81,6 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
 </script>
 
 <template>
-  <!-- LEARNING: Dynamic button grid with computed column count -->
   <!-- WHY: Adapts to available width for optimal button layout -->
   <!-- PATTERN: CSS Grid with dynamic grid-template-columns via inline style -->
   <div
@@ -157,15 +96,16 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
       size="small"
       :class="['appointment-slot-btn', { 
         'appointment-slot-btn--inactive': selectedButtonIndex !== null && selectedButtonIndex !== slotData.buttonIndex,
-        'appointment-slot-btn--busy': !slotData.isAvailable
+        'appointment-slot-btn--busy': !slotData.isAvailable,
+        'appointment-slot-btn--original-inspection': slotData.buttonIndex === originalInspectionButtonIndex
       }]"
       :disabled="loading || !slotData.isAvailable"
+      :title="slotData.buttonIndex === originalInspectionButtonIndex ? 'Current appointment time' : undefined"
       @click="handleAppointmentSlotClick(slotData)"
     >
       <span class="slot-button-content">
         {{ formatSlotTime(slotData) }}
       </span>
-      <!-- LEARNING: Constraint dots positioned in top right corner -->
       <!-- WHY: More reliable than overlay, works correctly with scrolling -->
       <!-- PATTERN: Show dots only in dev mode, only on unavailable slots with violations -->
       <span
@@ -192,4 +132,3 @@ const formatSlotTime = (slotData: SlotDisplayData): string => {
 </template>
 
 <style scoped lang="scss" src="./AppointmentSlotGrid.scss"></style>
-

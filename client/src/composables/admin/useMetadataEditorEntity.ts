@@ -1,15 +1,3 @@
-/**
- * useMetadataEditorEntity Composable
- * 
- * LEARNING: Extracts entity construction logic for metadata editor (always global config)
- * WHY: Centralizes sentinel UUID handling and blockShapeRef inclusion for metadata editor
- * PATTERN: Always uses sentinel UUIDs for global configs
- * 
- * ARCHITECTURAL DECISION: Separates metadata editor entity logic from component
- * - Handles sentinel UUID construction for global configs
- * - Handles blockShapeRef inclusion for BlockShape-specific instance metadata
- * - Returns computed entity reference for useEntityMetadata
- */
 
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'

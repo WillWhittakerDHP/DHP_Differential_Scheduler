@@ -1,10 +1,3 @@
-/**
- * Beta Feedback Tag Model
- *
- * LEARNING: Tags for beta feedback entries (e.g., booking-wizard, mobile)
- * WHY: Flexible grouping and filtering for feedback analysis
- * PATTERN: Many-to-one with BetaFeedback, CASCADE delete
- */
 
 import {
   Model,

@@ -143,25 +143,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We Learned
-
-1. **Multi-Select Pattern:**
-   - Checkbox mode requires array-based v-model binding
-   - Computed property with getter/setter enables two-way binding
-   - Direct state assignment is simpler than toggle pattern for array updates
-
-2. **State Synchronization:**
-   - Direct assignment to wizard state array is more efficient
-   - Mapping IDs to objects ensures type safety
-   - Maintains consistency between UI and wizard state
-
-3. **Component Integration:**
-   - `SelectionCardGroup` handles both radio and checkbox modes
-   - Visual feedback provided through existing styling patterns
-   - Empty states improve user experience
-
 ### Framework Patterns
 
 **Vue Computed Properties:**
@@ -223,4 +204,3 @@
 - Phase Guide: `project-manager/features/vue-migration/phases/phase-6-guide.md`
 - Phase Handoff: `project-manager/features/vue-migration/phases/phase-6-handoff.md`
 - Session 6.1 Summary: `project-manager/features/vue-migration/sessions/session-6.1-summary.md`
-

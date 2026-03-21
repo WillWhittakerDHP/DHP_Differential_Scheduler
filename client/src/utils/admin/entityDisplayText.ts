@@ -1,10 +1,5 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 
-/**
- * LEARNING: Config-driven entity type names
- * WHY: Eliminates entityKey branching (if/else chains) - single source of truth
- * PATTERN: Record mapping entityKey to display name
- */
 const ENTITY_TYPE_NAMES: Record<GlobalEntityKey, string> = {
   blockShape: 'BlockShape',
   partShape: 'PartShape',
@@ -16,11 +11,6 @@ const ENTITY_TYPE_NAMES: Record<GlobalEntityKey, string> = {
   annotationInstance: 'AnnotationInstance',
 }
 
-/**
- * LEARNING: Config-driven entity type labels (plural forms for admin UI)
- * WHY: Provides plural labels for admin panels (e.g., "Block Shapes" vs "Block Shape")
- * PATTERN: Record mapping entityKey to plural display label
- */
 const ENTITY_TYPE_LABELS: Record<GlobalEntityKey, string> = {
   blockShape: 'Block Shapes',
   partShape: 'Part Shapes',

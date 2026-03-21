@@ -1,20 +1,9 @@
 <script setup lang="ts">
 /**
- * SelectionCard Component
- * 
- * LEARNING: Component that handles parent card rendering with dependent options
- * WHY: Simplified architecture - dependent options render inside card border as checkbox list
- * PATTERN: Self-contained component that renders parent card and dependent options within border
- * 
- * Features:
- * - Renders parent card with radio/checkbox selection
- * - Renders dependent options as checkbox list inside card border (when expanded)
- * - Auto-expands when parent is selected
- * - Manages its own expansion state
- * - Handles selection (radio/checkbox for parent, multi-select checkboxes for dependent options)
- */
 
-import { ref, computed, watch } from 'vue'
+WHY: Simplified architecture - dependent option...
+ */
+import { ref, computed } from 'vue'
 import CardButton from '@/components/admin/generic/CardButton.vue'
 import { Icon } from '@iconify/vue'
 import DependentInstanceCheckboxList from './DependentInstanceCheckboxList.vue'
@@ -22,7 +11,7 @@ import type {
   SelectionCardItem, 
   SelectionCardConfig
 } from './types/selectionCardTypes'
-import { useSelectionCard } from '@/composables/useSelectionCard'
+import { useSelectionCard } from '@/composables/booking/useSelectionCard'
 import { useSelectionCardConfig } from '@/composables/booking/useSelectionCardConfig'
 import { useSelectionCardState } from '@/composables/booking/useSelectionCardState'
 import { useSelectionCardHandlers } from '@/composables/booking/useSelectionCardHandlers'
@@ -57,13 +46,11 @@ const isExpandedState = computed(() => {
   return props.isExpanded !== undefined ? props.isExpanded : localExpanded.value
 })
 
-// LEARNING: Use selection card config composable
 // PATTERN: Composable provides config with defaults
 const { configWithDefaults } = useSelectionCardConfig({
   config: computed(() => props.config)
 })
 
-// LEARNING: Use selection card state composable
 // PATTERN: Composable provides selection state management
 const {
   activeStatePlugin,
@@ -77,8 +64,6 @@ const {
   }
 })
 
-
-// LEARNING: Use selection card styles composable
 // PATTERN: Composable provides computed class strings
 const {
   cardClasses,
@@ -89,7 +74,6 @@ const {
   isSelected
 })
 
-// LEARNING: Use selection card component composable
 // PATTERN: Composable provides component name and props
 const {
   selectionComponentName,
@@ -102,9 +86,8 @@ const {
 })
 
 /**
- * LEARNING: Use selection card composable for core logic
- * WHY: Moves data transformation logic out of component to prevent recursion
- * PATTERN: Composable handles visibleChildren filtering and core selection logic
+ * WHY: Use selection card composable for core logic
+PATTERN: Composable handles...
  */
 const selectionCardComposable = useSelectionCard({
   item: computed(() => props.item),
@@ -121,8 +104,7 @@ const {
   hasChildren
 } = selectionCardComposable
 
-// LEARNING: Use selection card handlers composable
-// PATTERN: Composable provides handler functions
+// PATTERN: Composable provides handler functions (includes watch for auto-expand when selected)
 const {
   handleSelection,
   handleParentClick,
@@ -135,38 +117,21 @@ const {
   isSelected,
   emit,
   isExpanded: computed(() => props.isExpanded),
-  localExpanded
+  localExpanded,
+  hasChildren,
 })
-
-
-/**
- * LEARNING: Auto-expand when parent card is selected
- * WHY: Dependent options should appear automatically when parent is selected
- * PATTERN: Watch isSelected and trigger expansion (only for uncontrolled state)
- * NOTE: When used in SelectionCardGroup, expansion is controlled and auto-expand
- *       is handled by useSelectionCardGroupState composable
- */
-watch(isSelected, (newValue) => {
-  if (newValue && hasChildren.value && props.isExpanded === undefined) {
-    localExpanded.value = true
-  }
-}, { immediate: true })
 
 const handleNumberUpdate = (value: string | number | null) => {
   const numValue = typeof value === 'string' ? (value === '' ? null : parseInt(value, 10)) : value
   const finalValue = numValue === null || isNaN(numValue as number) ? null : numValue
-  
+
   emit('update:number', { itemId: props.item.id, number: finalValue })
 }
 </script>
 
 <template>
-  <!-- LEARNING: SelectionCard with explicit state management -->
   <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configurability -->
-  <!-- PATTERN: SelectionCard wrapper contains parent card with dependent options inside border -->
-  <!-- Refactor: Dependent options now render inside card border as checkbox list -->
   <div class="selection-card-wrapper">
-    <!-- LEARNING: Parent Card with dynamic selection component -->
     <!-- WHY: Selection component is rendered dynamically based on config -->
     <!-- PATTERN: VLabel wraps card content, selection component rendered inside -->
       <VLabel
@@ -174,7 +139,6 @@ const handleNumberUpdate = (value: string | number | null) => {
         :style="{ minHeight: configWithDefaults.appearance.minHeight }"
         @click="handleParentClick"
       >
-      <!-- LEARNING: Dynamic selection component -->
       <!-- WHY: Allows VRadio, VCheckbox, or custom components based on config -->
       <!-- PATTERN: Use component :is with computed component name and props -->
       <component
@@ -196,26 +160,20 @@ const handleNumberUpdate = (value: string | number | null) => {
       
       <!-- Card content -->
       <div :class="[contentContainerClasses, 'selection-card-content']">
-        <slot name="icon" :item="item">
-          <Icon
-            v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
-            :icon="item.icon"
-            width="40"
-            height="40"
-            class="mb-2 selection-card-icon"
-          />
-        </slot>
-        
-        <slot name="title" :item="item">
-          <h6 class="text-h6 mb-2">
-            {{ item.name }}
-          </h6>
-        </slot>
-        
-        
+        <Icon
+          v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
+          :icon="item.icon"
+          width="40"
+          height="40"
+          class="mb-2 selection-card-icon"
+        />
+
+        <h6 class="text-headline-small mb-2">
+          {{ item.name }}
+        </h6>
+
         <slot :item="item" />
         
-        <!-- LEARNING: Number input for allowMultiple items -->
         <!-- WHY: When allowMultiple is true, show number input to specify quantity -->
         <!-- PATTERN: Conditional rendering based on item.allowMultiple, only when selected -->
         <VTextField
@@ -231,7 +189,6 @@ const handleNumberUpdate = (value: string | number | null) => {
           @click.stop
         />
         
-        <!-- LEARNING: Dependent instance options rendered INSIDE card border -->
         <!-- WHY: Checkbox list appears within the card, not outside -->
         <!-- PATTERN: Render DependentInstanceCheckboxList when expanded and has children -->
         <DependentInstanceCheckboxList
@@ -246,4 +203,3 @@ const handleNumberUpdate = (value: string | number | null) => {
 </template>
 
 <style scoped lang="scss" src="./SelectionCard.scss"></style>
-

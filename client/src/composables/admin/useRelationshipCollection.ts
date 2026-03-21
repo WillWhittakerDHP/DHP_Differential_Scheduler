@@ -1,89 +1,23 @@
 /**
- * useRelationshipCollection Composable
- *
- * LEARNING: Generic collection-level composable for any relationship collection type
- * WHY: Moves relationship creation, invalidation, and state management out of SFCs
- * PATTERN: Composable owns all non-UI state and handlers; SFC becomes template wiring
- * 
- * Supports:
- * - Parts (BlockInstance → PartInstance via partAssignments)
- * - Annotations (BlockInstance → AnnotationInstance via annotationAssignments)
- * - Events (BlockShape/PartShape → EventInstance via eventAssignments)
+ * WHY: useRelationshipCollection Composable
  */
-
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useNotification } from '@/composables/useNotification'
-import {
-  useRelationshipCollectionData,
-  type UseRelationshipCollectionDataReturnBase,
-} from './useRelationshipCollectionData'
+import { useRelationshipCollectionData } from './useRelationshipCollectionData'
 import { useRelationshipCollectionField } from './useRelationshipCollectionField'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createLogger } from '@/utils/logger'
+import type { RelationshipCollectionModel, UseRelationshipCollectionOptions } from '@/types/admin/relationshipCollection'
 
 const logger = createLogger('useRelationshipCollection')
 
-/**
- * Name generation function type
- * LEARNING: Allows collection-specific name generation logic
- * WHY: Different collection types may have different naming patterns
- */
-export type NameGenerator = (
-  parentName: string,
-  shapeName: string,
-  parentId: string,
-  shapeId: string,
-  existingChildren: GlobalEntity<GlobalEntityKey>[]
-) => string
-
-/** Extends shared data return base (P2 type-similarity). */
-export interface RelationshipCollectionModel extends UseRelationshipCollectionDataReturnBase {
-  parentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
-  shouldShow: ComputedRef<boolean>
-  optionsFieldKey: ComputedRef<string>
-  expandedPlaceholders: Ref<string[]>
-  getNewChildEntity: (shapeId: string) => GlobalEntity<GlobalEntityKey>
-  handleNewChildSaved: (shapeId: string, createdEntity: GlobalEntity<GlobalEntityKey>) => Promise<void>
-  handleNewChildCancelled: (shapeId: string) => void
-  expandedChildren: Ref<string[]>
-  isPanelExpanded: (childId: string) => boolean
-  bulkEditMode?: Ref<boolean>
-  bulkEditData?: Ref<Record<string, unknown>>
-  toggleBulkEditMode?: () => void
-  applyBulkEdit?: () => Promise<void>
-  handleBulkEditModalUpdate?: (value: boolean) => void
-  handleBulkEditConfirm?: (data: Record<string, unknown>) => void
-}
-
-export interface UseRelationshipCollectionOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  nameGenerator?: NameGenerator
-  enableBulkEdit?: boolean
-  bulkEditComposable?: (collectionModel: RelationshipCollectionModel) => {
-    bulkEditMode: Ref<boolean>
-    bulkEditData: Ref<Record<string, unknown>>
-    toggleBulkEditMode: () => void
-    applyBulkEdit: () => Promise<void>
-    handleBulkEditModalUpdate: (value: boolean) => void
-    handleBulkEditConfirm: (data: Record<string, unknown>) => void
-  }
-}
-
-/**
- * useRelationshipCollection
- *
- * LEARNING: Generic collection-level composable for any relationship type
- * WHY: Provides unified pattern for parts, annotations, and events
- * PATTERN: Composable owns all non-UI state and handlers
- */
 export function useRelationshipCollection(
   options: UseRelationshipCollectionOptions
 ): RelationshipCollectionModel {
@@ -97,11 +31,9 @@ export function useRelationshipCollection(
     childEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentEntity: parentEntityFromField,
-    parentTypeEntityKey,
-    parentTypeRef
-    // LEARNING: shapeRefProperty removed - not used in this composable
+    parentContext,
   } = fieldConfig
+  const { parentEntity: parentEntityFromField, parentTypeEntityKey, parentTypeRef } = parentContext
   
   // WHY: Pattern: partInstance → partShape, annotationInstance → annotationShape, eventInstance → eventShape
   // PATTERN: Replace 'Instance' with 'Shape' in entity key
@@ -121,20 +53,20 @@ export function useRelationshipCollection(
     return `${firstLower}Ref`
   })
   
-  const parentEntityId = computed(() => fieldContext.entityId)
+  const parentEntityId = computed(() => fieldContext.state.entityId)
   
-  // PATTERN: Add type assertion since we know it should be non-null at runtime
+  // PATTERN: Options accept childEntityKey | null; implementation casts to GlobalEntityKey
   const collectionData = useRelationshipCollectionData({
     parentEntityId,
-    parentEntityKey: computed(() => fieldContext.entityKey),
+    parentEntityKey: computed(() => fieldContext.state.entityKey),
     childEntityKey,
     shapeEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentTypeEntityKey: parentTypeEntityKey as ComputedRef<GlobalEntityKey>,
+    parentTypeEntityKey,
     parentTypeRef,
     shapeRefProperty: shapeRefProperty.value
-  })
+  } as import('@/types/admin/relationshipCollectionData').UseRelationshipCollectionDataOptions)
   
   const {
     validShapes,
@@ -149,24 +81,20 @@ export function useRelationshipCollection(
     return validShapes.value.length > 0
   })
   
-  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
+  const { create: createRelationship, remove: removeRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
   
   const expandedPlaceholders = ref<string[]>([])
   
   /**
-   * LEARNING: Get temporary entity for new child creation
-   * WHY: EntityCard needs an entity object to work with, even for new entities
-   * PATTERN: Create temporary entity with `new-{shapeId}` ID prefix
-   * 
-   * LEARNING: Shape reference property must be set explicitly
-   * WHY: Required fields like eventShapeRef/partShapeRef must be included even if not form fields
-   * PATTERN: Set shape reference property explicitly, matching usePartInstanceCollection pattern
+
+PATTERN: Set shape reference property explicitly, matching usePartI...
    */
   const getNewChildEntity = (shapeId: string): GlobalEntity<GlobalEntityKey> => {
     let defaults: Record<string, unknown>
     try {
       defaults = getDefaultEntityValues(childEntityKey.value)
-    } catch {
+    } catch (err) {
+      logger.warn('getDefaultEntityValues failed, using fallback', { childEntityKey: childEntityKey.value, error: err })
       defaults = { orderIndex: 0 }
     }
     
@@ -188,12 +116,15 @@ export function useRelationshipCollection(
     if (nameGenerator) {
       const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
       const shapeName = getShapeName(shapeId)
+      const children = existingChildren.value.filter(
+        (c): c is GlobalEntity<GlobalEntityKey> => c != null
+      )
       const name = nameGenerator(
         parentName,
         shapeName,
         parentEntity.value.id,
         shapeId,
-        existingChildren.value
+        children
       )
       return {
         ...baseEntity,
@@ -210,13 +141,7 @@ export function useRelationshipCollection(
   }
   
   /**
-   * LEARNING: Handle EntityCard save for new child
-   * WHY: After EntityCard creates the entity, we need to create the relationship
-   * PATTERN: EntityCard handles entity creation, we handle relationship + cleanup
    * 
-   * LEARNING: Ensure entity is in cache before creating relationship
-   * WHY: Relationship optimistic update requires child entity to exist in cache
-   * PATTERN: Wait for globalData refetch or manually ensure entity is in cache
    */
   const handleNewChildSaved = async (
     shapeId: string,
@@ -254,7 +179,7 @@ export function useRelationshipCollection(
       })
       
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: [fieldContext.entityKey] }),
+        queryClient.invalidateQueries({ queryKey: [fieldContext.state.entityKey] }),
         queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
         queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
@@ -265,21 +190,38 @@ export function useRelationshipCollection(
         expandedPlaceholders.value.splice(index, 1)
       }
     } catch (error) {
-      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}:`, error)
-      notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}`)
+      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.state.entityKey}:`, error)
+      notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.state.entityKey}`)
     }
   }
   
   /**
-   * LEARNING: Handle EntityCard cancel for new child
-   * WHY: Just collapse the placeholder - no cleanup needed
-   * PATTERN: Simple collapse of expansion panel
    */
   const handleNewChildCancelled = (shapeId: string): void => {
     const index = expandedPlaceholders.value.indexOf(shapeId)
     if (index !== -1) {
       expandedPlaceholders.value.splice(index, 1)
     }
+  }
+
+  const handleDeleteChildById = async (id: string): Promise<void> => {
+    if (!parentEntity.value) return
+    try {
+      await removeRelationship(toGlobalEntityId(parentEntity.value.id), toGlobalEntityId(id))
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [fieldContext.state.entityKey] }),
+        queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
+        queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
+        queryClient.invalidateQueries({ queryKey: ['globalData'] }),
+      ])
+    } catch (error) {
+      logger.error(`Failed to remove child ${id} from ${fieldContext.state.entityKey}:`, error)
+      notifyError(`Failed to remove child`)
+    }
+  }
+
+  const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>): Promise<void> => {
+    await handleDeleteChildById(String(entity.id))
   }
   
   const expandedChildren = ref<string[]>([])
@@ -290,8 +232,10 @@ export function useRelationshipCollection(
     existingChildren,
     getChildForShape,
     getShapeName,
-    
-    parentEntity,
+
+    parentEntity: parentEntity as import('vue').ComputedRef<
+      GlobalEntity<GlobalEntityKey> | undefined
+    >,
     shouldShow,
     
     optionsFieldKey,
@@ -300,7 +244,9 @@ export function useRelationshipCollection(
     getNewChildEntity,
     handleNewChildSaved,
     handleNewChildCancelled,
-    
+    handleDeleteChildById,
+    handleDeleteChild,
+
     expandedChildren,
     isPanelExpanded,
   }

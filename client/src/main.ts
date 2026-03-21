@@ -1,11 +1,3 @@
-/**
- * Main Application Entry Point
- * 
- * LEARNING: Vue 3 app initialization with Vuexy plugin system
- * WHY: Sets up Vue app with Pinia, Vue Query, Vue Router, and Vuetify using Vuexy's plugin registration
- * PATTERN: Create app, register plugins via Vuexy system, mount to DOM
- * COMPARISON: React uses ReactDOM.render. Vue uses createApp().mount()
- */
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -81,17 +73,11 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
-  /**
-   * LEARNING: Extract form patching logic to pure function
-   * WHY: Separates DOM mutation logic from iteration logic
-   * PATTERN: Pure function that handles single element, returns forms to patch
-   */
   const patchElementForms = (element: HTMLElement): HTMLFormElement[] => {
     if (element.tagName === 'FORM' && element.classList.contains('dynamic-form-inputs')) {
       patchFormElements(element as HTMLFormElement)
     }
     
-    // LEARNING: Use map to transform NodeList to array functionally
     // WHY: Functional approach - transform array without mutations
     // PATTERN: Map to transform NodeList to array of HTMLFormElement, return directly
     const nestedForms = element.querySelectorAll?.('form.dynamic-form-inputs')
@@ -135,7 +121,6 @@ if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') 
 
 const app = createApp(App)
 
-// LEARNING: Pinia is Vue's official state management library
 const pinia = createPinia()
 setPiniaInstance(pinia)
 app.use(pinia)
@@ -152,22 +137,14 @@ setQueryClient(queryClient)
 
 const logger = createLogger('main')
 
-// PATTERN: Register plugins directly (more explicit than auto-discovery)
-// WHY: Direct registration is clearer, easier to debug, and follows Vue best practices
-// LEARNING: Vue plugins are registered with app.use() - no need for auto-discovery magic
-
-// 1. Router
 app.use(router)
 
-// 2. Vue Query
 app.use(VueQueryPlugin, {
   queryClient: queryClient,
 })
 
-// 3. Layouts (requires Pinia, so must come after)
 app.use(createLayouts(layoutConfig as PartialDeep<typeof layoutConfig, NonNullable<unknown>>))
 
-// 4. Vuetify (requires layouts for cookieRef, so must come after layouts)
 const cookieThemeValues = {
   defaultTheme: resolveVuetifyTheme(themeConfig.app.theme),
   themes: {
@@ -196,6 +173,9 @@ const vuetify = createVuetify({
     VVideo,
   },
   defaults: vuetifyDefaults,
+  display: {
+    thresholds: { md: 960, lg: 1280, xl: 1920, xxl: 2560 },
+  },
   icons,
   theme: optionTheme,
 })
@@ -216,19 +196,13 @@ const prefetchGlobalData = async () => {
   }
 }
 
-// WHY: Prefetch data before mounting to prevent race condition
-// PATTERN: Prefetch completes before components mount, ensuring cache is populated
-// LEARNING: This prevents duplicate API calls - components will read from cache instead of triggering new queries
 // FIX: Changed from mount-then-prefetch to prefetch-then-mount to eliminate race condition
-// PATTERN: Use async IIFE to handle async prefetch before mount
 (async () => {
   try {
     await prefetchGlobalData()
     app.mount('#app')
   } catch (error) {
     logger.error('Failed to prefetch global data, mounting app anyway', { error })
-    // Mount app even if prefetch fails - components will fetch data themselves via useGlobal()
     app.mount('#app')
   }
 })()
-

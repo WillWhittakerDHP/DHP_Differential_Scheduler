@@ -1,34 +1,15 @@
 /**
- * Selection Card Composable (booking domain)
- *
- * WHY: This composable is booking-specific (it imports booking selection card types), so it lives under
- * `src/composables/booking/` to keep domains isolated.
+ * WHY: Selection Card Composable (booking domain)
+WHY: This composable is booki...
  */
-
-import { computed, isRef, ref, type Ref, type ComputedRef } from 'vue'
+import { computed, isRef, ref } from 'vue'
 import type { SelectionCardItem, SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'
 import { getVisibleSelectionCardChildren, shouldSelectionCardExpand } from '@/utils/booking/selectionCardChildren'
 import { updateNestedChildSelections } from '@/utils/booking/selectionCardHandlers'
+import type { UseSelectionCardOptions, UseSelectionCardReturn, UseSelectionCardGroupOptions, UseSelectionCardGroupReturn } from '@/types/booking/selectionCard/selectionCard'
 
-export interface UseSelectionCardOptions {
-  item: Ref<SelectionCardItem> | SelectionCardItem
-  modelValue: Ref<string | null | string[]>
-  config: Ref<SelectionCardConfig> | SelectionCardConfig
-  nestedChildSelections?: Ref<string[]>
-  isExpanded?: Ref<boolean>
-}
-
-export interface UseSelectionCardReturn {
-  isSelected: Ref<boolean>
-  visibleChildren: Ref<SelectionCardItem[]>
-  hasChildren: Ref<boolean>
-
-  handleSelection: () => void
-  toggleExpansion: () => void
-  isNestedChildSelected: (childId: string) => boolean
-  handleNestedChildUpdate: (childId: string, selected: boolean) => void
-}
+export type { UseSelectionCardOptions, UseSelectionCardReturn, UseSelectionCardGroupOptions, UseSelectionCardGroupReturn } from '@/types/booking/selectionCard/selectionCard'
 
 export function useSelectionCard(options: UseSelectionCardOptions): UseSelectionCardReturn {
   const {
@@ -105,18 +86,6 @@ export function useSelectionCard(options: UseSelectionCardOptions): UseSelection
     isNestedChildSelected,
     handleNestedChildUpdate,
   }
-}
-
-export interface UseSelectionCardGroupOptions {
-  items: Ref<SelectionCardItem[]> | SelectionCardItem[]
-  modelValue: Ref<string | string[] | null> | ComputedRef<string | string[] | null>
-  config?: Ref<SelectionCardConfig> | SelectionCardConfig
-}
-
-export interface UseSelectionCardGroupReturn {
-  shouldExpand: (item: SelectionCardItem) => boolean
-  toggleCardExpansion: (itemId: string) => void
-  handleNestedSelection: (itemId: string, componentIds: string[]) => void
 }
 
 export function useSelectionCardGroup(options: UseSelectionCardGroupOptions): UseSelectionCardGroupReturn {

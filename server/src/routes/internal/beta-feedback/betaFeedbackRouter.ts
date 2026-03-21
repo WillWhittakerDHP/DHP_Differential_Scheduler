@@ -1,10 +1,3 @@
-/**
- * Beta Feedback Router - Main orchestrator
- *
- * LEARNING: Mounts stats route first so GET /stats is not matched by GET /:id
- * WHY: Express matches routes in order; /stats must be registered before /:id
- * PATTERN: Router with specific route first, then CRUD router
- */
 
 import { Router, Request, Response } from 'express';
 import { BetaFeedback } from '../../../config/app.js';

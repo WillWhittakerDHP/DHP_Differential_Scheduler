@@ -1,11 +1,3 @@
-/**
- * Compose Property Value Types and Utilities
- *
- * LEARNING: Our component-composition strategies only operate on a narrow set of "composable" value shapes.
- * WHY: `composeProperty()` is intentionally limited (sum/merge/every/first) and should not accept arbitrary objects.
- * PATTERN: Use a shared type + type guard to keep call sites type-safe without unsafe casts.
- */
-
 import type { ComponentStrategy } from '@/types/component'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -26,15 +18,9 @@ function isComposablePropertyValue(value: unknown): value is ComposablePropertyV
 }
 
 /**
- * Compose a single property using the specified strategy
- * 
- * LEARNING: Different properties need different component strategies
- * WHY: Numeric values sum, arrays merge, booleans use AND, strings use first
- * PATTERN: Strategy pattern for property component
- * 
- * @param values - Array of property values from components
- * @param strategy - Component strategy to use
- * @returns Composed value
+ * PATTERN: Compose a single property using the specified strategy
+
+PATTERN: Strateg...
  */
 function composeProperty<T extends string | number | boolean | unknown[]>(
   values: T[],
@@ -70,18 +56,6 @@ function composeProperty<T extends string | number | boolean | unknown[]>(
   }
 }
 
-/**
- * Compose properties from component entities
- * 
- * LEARNING: Shared logic for composing properties from components
- * WHY: DRY - this logic is duplicated between componentAggregator and relationshipTransformers
- * PATTERN: Extract property composition logic into shared utility
- * 
- * @param components - Array of component entities
- * @param entityKind - Entity type key
- * @param blockShapes - Array of blockShape entities (for baseSqFt filtering)
- * @returns Partial entity with composed properties
- */
 export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   components: GlobalEntity<GE>[],
   entityKind: GE,
@@ -109,7 +83,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       return acc
     }
     
-    // LEARNING: Strategy determined from actual value types, not configuration
     // PATTERN: Check value type to determine appropriate composition strategy
     const firstValue = composableValues[0]
     let strategy: ComponentStrategy
@@ -123,7 +96,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       strategy = 'first'
     }
     
-    // LEARNING: Filter out baseSqFt from state control blockInstances when summing
     // WHY: State control blockShapes (isStateControl: true) should not contribute to square footage accumulation
     // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with isStateControl: true blockShapes
     if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
@@ -141,7 +113,6 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
         const blockShapeTyped = blockShape as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
         const isStateControl = blockShapeTyped.isStateControl === true
         
-        // LEARNING: Exclude if isStateControl is true (state control mode)
         // WHY: State control blockShapes don't contribute to baseSqFt accumulation
         // PATTERN: Check isStateControl property
         return !isStateControl
@@ -163,5 +134,3 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   
   return composed as Partial<GlobalEntity<GE>>
 }
-
-

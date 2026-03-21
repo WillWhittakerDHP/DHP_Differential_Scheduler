@@ -208,7 +208,7 @@
 **Documentation:**
 - `project-manager/features/data-flow-alignment/phases/phase-1.3-guide.md` - Added Session 1.3.6
 - `project-manager/features/data-flow-alignment/phases/phase-1.3-handoff.md` - Added Session 1.3.6 status
-- `project-manager/features/data-flow-alignment/feature-plan.md` - Updated Phase 1.3 status
+- Feature guide - Updated Phase 1.3 status
 
 ---
 

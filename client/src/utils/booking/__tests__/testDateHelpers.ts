@@ -1,31 +1,8 @@
-/**
- * Test Date Helpers
- * 
- * LEARNING: Dynamic date generation for tests
- * WHY: Avoids hardcoded dates that become stale and break tests
- * PATTERN: Generate dates relative to current time or a configurable base date
- * 
- * All dates are generated in UTC and returned as RFC3339DateTime strings
- */
 
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
-/**
- * Base date for test date generation (defaults to "today")
- * LEARNING: Can be overridden for consistent test runs
- * WHY: Allows tests to use a fixed base date when needed
- * PATTERN: Set once at test setup, use throughout test file
- */
 let testBaseDate: Date = new Date()
 
-/**
- * Set the base date for test date generation
- * LEARNING: Allows tests to use a consistent base date
- * WHY: Useful for snapshot tests or when you need deterministic dates
- * PATTERN: Call at the start of a test suite
- * 
- * @param date - Base date to use (defaults to current date)
- */
 export function setTestBaseDate(date: Date = new Date()): void {
   testBaseDate = new Date(date)
 }
@@ -34,16 +11,6 @@ export function getTestBaseDate(): Date {
   return new Date(testBaseDate)
 }
 
-/**
- * Find the next occurrence of a specific day of week
- * LEARNING: Calculates next occurrence of day relative to base date
- * WHY: Tests often need "next Monday", "next Thursday", etc.
- * PATTERN: Use for business day calculations
- * 
- * @param dayOfWeek - Day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
- * @param baseDate - Optional base date (defaults to testBaseDate)
- * @returns Date object for the next occurrence of the day
- */
 function getNextDayOfWeek(dayOfWeek: number, baseDate: Date = testBaseDate): Date {
   const date = new Date(baseDate)
   const currentDay = date.getUTCDay()

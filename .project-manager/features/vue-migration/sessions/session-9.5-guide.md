@@ -250,7 +250,7 @@ if (entityKind === 'service') {
 
 **Code Pattern:**
 ```typescript
-export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
+export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   // ... existing fields
   active: boolean; // NEW
   dependent: boolean; // NEW
@@ -401,14 +401,6 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
 
 ---
 
-## Learning Checkpoints
-
-### What We'll Learn
-- Database schema evolution patterns
-- Boolean field management in Sequelize
-- Entity kind unification strategies
-- Relationship model updates
-
 ### Why These Patterns Matter
 - Boolean fields provide flexible filtering and display control
 - Unified entity kinds simplify codebase and reduce complexity
@@ -435,4 +427,3 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
 
 ### Issue 4: Foreign Key Constraints
 **Solution:** Ensure foreign key constraints are updated if table structures change significantly
-

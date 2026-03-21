@@ -1,10 +1,3 @@
-/**
- * Entity Bulk Operations Router
- * 
- * LEARNING: Extracted bulk operations for entities
- * WHY: Separates bulk operations from CRUD operations, improves maintainability
- * PATTERN: Express router with bulk operation endpoints
- */
 
 import { Router, Request, Response } from 'express'
 import { bulkPatch } from '../../helpers/dataController.js'
@@ -19,19 +12,8 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
 
 const router = Router()
 
-// Register param handler for entityType parameter
-// LEARNING: router.param() must be registered on the router that defines routes with :entityType
-// WHY: Express param callbacks only fire for params on routes defined on that specific router
 router.param('entityType', entityTypeParamHandler)
 
-/**
- * PATCH /entities/:entityType/order_index
- * Bulk update order indices for entities
- * 
- * LEARNING: Bulk update order indices for efficient reordering
- * WHY: More efficient than individual PATCH requests (1 request vs N requests)
- * PATTERN: Transform payload, bulk update, return count
- */
 router.patch('/:entityType/order_index', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
@@ -49,18 +31,6 @@ router.patch('/:entityType/order_index', csrfProtection, async (req: Request, re
   }
 })
 
-/**
- * PATCH /entities/:entityType/bulk
- * Bulk update multiple entities with partial field updates
- * 
- * LEARNING: Bulk partial update endpoint for efficient multi-entity updates
- * WHY: More efficient than individual PATCH requests (1 request vs N requests)
- * PATTERN: Similar to order_index bulk endpoint but handles versioning for block instances
- * 
- * Request body: Array of { id: string, ...fields } objects
- * 
- * NOTE: Route parameter uses "entityType" for URL stability, but internally we use "entityKind" for clarity
- */
 router.patch('/:entityType/bulk', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {

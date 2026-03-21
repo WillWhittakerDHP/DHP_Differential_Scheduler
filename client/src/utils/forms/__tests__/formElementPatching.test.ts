@@ -6,7 +6,7 @@ import {
   patchFormFromVFormRef,
   setupFormMutationObserver,
   tryPatchFormImmediatelyBySelector,
-} from '@/utils/forms/formElementPatching'
+} from '@/composables/admin/useFormElementPatching'
 
 describe('formElementPatching utilities', () => {
   it('tryPatchFormImmediatelyBySelector patches an existing form', () => {

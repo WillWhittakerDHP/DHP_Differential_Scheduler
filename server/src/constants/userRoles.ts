@@ -1,9 +1,3 @@
-/**
- * User and attendee role constants (server re-export from shared)
- *
- * WHY: Single source of truth for user/attendee role strings used in API and DB
- * PATTERN: Re-export from shared/constants/roleConstants.ts
- */
 
 export {
   USER_ROLE_CLIENT,

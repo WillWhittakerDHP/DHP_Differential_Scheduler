@@ -45,10 +45,6 @@ import { Appointment, AppointmentFeeSummary } from '../../config/app.js';
 
 const logger = createLogger('AvailabilitiesDbUtils');
 
-/**
- * Pure helper: sum all slot durations across appointments (minutes).
- * Accepts any array of objects with optional selectedTimeSlots (array of { duration?: number } or record).
- */
 function sumDurationsFromAppointments(
   appointments: Array<{ selectedTimeSlots?: Array<{ duration?: number } | Record<string, unknown>> | null }>
 ): number {
@@ -66,9 +62,6 @@ function sumDurationsFromAppointments(
 
 /**
  * Helper Function: Sum Work Hours for Day
- * LEARNING: Calculates total scheduled work hours for a specific date
- * WHY: Used to enforce maximum work hours per day limit
- * PATTERN: Query appointments for the date and sum durations from selectedTimeSlots
  * 
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Queries database appointments directly (not Google Calendar events)
@@ -116,9 +109,6 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
 
 /**
  * Helper Function: Sum Work Hours for Date Range
- * LEARNING: Calculates total scheduled work hours for a date range (inclusive)
- * WHY: Used for calendar week and rolling week capacity calculations
- * PATTERN: Query appointments in date range and sum durations from selectedTimeSlots
  * 
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Queries database appointments directly (not Google Calendar events)
@@ -160,9 +150,6 @@ async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise
   }
 }
 
-/**
- * Get Monday 00:00 and Sunday 23:59:59 UTC for the calendar week containing the date.
- */
 function getCalendarWeekRange(date: Date): { start: Date; end: Date } {
   const dayOfWeek = date.getUTCDay();
   const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -193,9 +180,6 @@ function getCalendarWeekRange(date: Date): { start: Date; end: Date } {
 
 /**
  * Helper Function: Sum Work Hours for Calendar Week
- * LEARNING: Calculates total scheduled work hours for the calendar week (Monday-Sunday) containing the date
- * WHY: Used for calendar week capacity filter
- * PATTERN: Calculate Monday and Sunday of the week, then query date range
  *
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Delegates to sumWorkHoursForDateRange which queries database appointments (not Google Calendar events)
@@ -221,10 +205,8 @@ export async function sumWorkHoursForCalendarWeek(date: Date): Promise<number> {
 }
 
 import type { RollingWeekDirection } from '../../../../shared/types/availabilityTypes.js'
+import { ROLLING_WEEK_DIRECTION } from './availabilityConstants.js'
 
-/**
- * Get start and end dates for a rolling 7-day window (UTC).
- */
 function getRollingWeekRange(
   date: Date,
   direction: RollingWeekDirection
@@ -234,23 +216,23 @@ function getRollingWeekRange(
   const d = date.getUTCDate();
 
   switch (direction) {
-    case 'past':
+    case ROLLING_WEEK_DIRECTION.PAST:
       return {
         start: new Date(Date.UTC(y, m, d - 6, 0, 0, 0, 0)),
         end: new Date(Date.UTC(y, m, d, 23, 59, 59, 999)),
       };
-    case 'centered':
+    case ROLLING_WEEK_DIRECTION.CENTERED:
       return {
         start: new Date(Date.UTC(y, m, d - 3, 0, 0, 0, 0)),
         end: new Date(Date.UTC(y, m, d + 3, 23, 59, 59, 999)),
       };
-    case 'future':
+    case ROLLING_WEEK_DIRECTION.FUTURE:
       return {
         start: new Date(Date.UTC(y, m, d, 0, 0, 0, 0)),
         end: new Date(Date.UTC(y, m, d + 6, 23, 59, 59, 999)),
       };
     default:
-      logger.warn(`Invalid rolling week direction: ${direction}, defaulting to 'past'`);
+      logger.warn(`Invalid rolling week direction: ${direction}, defaulting to ${ROLLING_WEEK_DIRECTION.PAST}`);
       return {
         start: new Date(Date.UTC(y, m, d - 6, 0, 0, 0, 0)),
         end: new Date(Date.UTC(y, m, d, 23, 59, 59, 999)),
@@ -260,9 +242,6 @@ function getRollingWeekRange(
 
 /**
  * Helper Function: Sum Work Hours for Rolling Week
- * LEARNING: Calculates total scheduled work hours for a rolling 7-day window based on direction
- * WHY: Used for rolling week capacity filter with configurable direction
- * PATTERN: Calculate date range based on direction, then query date range
  *
  * ASYNCHRONOUS WORKFLOW SUPPORT:
  * - Delegates to sumWorkHoursForDateRange which queries database appointments (not Google Calendar events)
@@ -271,7 +250,7 @@ function getRollingWeekRange(
  * - See: client/src/types/appointment.ts for AppointmentStatus union type definition
  *
  * @param date - Reference date for rolling week calculation
- * @param direction - Direction of rolling week ('past', 'centered', or 'future')
+ * @param direction - Direction of rolling week (see ROLLING_WEEK_DIRECTION)
  * @returns Total work hours in the rolling 7-day window
  */
 export async function sumWorkHoursForRollingWeek(
@@ -293,8 +272,6 @@ export async function sumWorkHoursForRollingWeek(
 
 /**
  * Sum income (total_fee) from appointment_fee_summaries for a given date.
- * LEARNING: Same pattern as sumWorkHoursForDay but JOINs fee summaries; only counts submitted/confirmed
- * WHY: Used for daily income capacity constraint
  */
 export async function sumIncomeForDay(date: Date): Promise<number> {
   try {
@@ -321,7 +298,6 @@ export async function sumIncomeForDay(date: Date): Promise<number> {
 
 /**
  * Sum income for a date range (inclusive).
- * LEARNING: Same pattern as sumWorkHoursForDateRange; used for calendar/rolling week income
  */
 async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<number> {
   try {
@@ -348,9 +324,6 @@ async function sumIncomeForDateRange(startDate: Date, endDate: Date): Promise<nu
   }
 }
 
-/**
- * Sum income for the calendar week (Monday–Sunday) containing the date.
- */
 export async function sumIncomeForCalendarWeek(date: Date): Promise<number> {
   try {
     const { start, end } = getCalendarWeekRange(date);
@@ -363,9 +336,6 @@ export async function sumIncomeForCalendarWeek(date: Date): Promise<number> {
   }
 }
 
-/**
- * Sum income for the rolling 7-day window (direction: past | centered | future).
- */
 export async function sumIncomeForRollingWeek(date: Date, direction: RollingWeekDirection): Promise<number> {
   try {
     const { start, end } = getRollingWeekRange(date, direction);
@@ -377,4 +347,3 @@ export async function sumIncomeForRollingWeek(date: Date, direction: RollingWeek
     return 0;
   }
 }
-

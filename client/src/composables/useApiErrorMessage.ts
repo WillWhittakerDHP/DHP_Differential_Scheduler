@@ -1,15 +1,3 @@
-/**
- * useApiErrorMessage Composable
- * 
- * LEARNING: Extracts API error message parsing logic from components
- * WHY: Eliminates duplication of AxiosError handling across MetadataEditModal, useEntityCardActions, and usePrimitiveMutation
- * PATTERN: Provides reusable helper function for extracting meaningful error messages from API errors
- * 
- * ARCHITECTURAL DECISION: Centralizes error message extraction
- * - Handles AxiosError response data extraction
- * - Handles generic Error instances
- * - Provides fallback error messages
- */
 
 export function getApiErrorMessage(error: unknown, fallbackMessage?: string): string {
   const resolvedFallback = fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'

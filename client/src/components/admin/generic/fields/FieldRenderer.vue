@@ -1,17 +1,11 @@
 <template>
   <div v-if="effectiveFieldContext">
-    <!-- LEARNING: Use componentType directly with component map for cleaner template -->
-    <!-- WHY: Single source of truth, easier to add new component types, more performant -->
-    <!-- PATTERN: Dynamic component rendering based on componentType discriminated union -->
-    <!-- LEARNING: Use computed to determine if component exists in map -->
-    <!-- WHY: Ensures consistent logic between template and watch -->
-    <!-- PATTERN: Use computed property for component map lookup -->
     <component
       v-if="hasValidComponent"
       :is="componentToRender"
       :field-context="effectiveFieldContext"
-      :show-label="componentsWithLabel.includes(fieldComponent.componentType.value.type) ? showLabel : undefined"
-      :collection-type="fieldComponent.componentType.value.type === 'relationshipCollection' ? collectionType : undefined"
+      :show-label="fieldShowLabel"
+      :collection-type="fieldCollectionType"
     />
     
     <!-- Unknown Input Type -->
@@ -19,13 +13,12 @@
       <div class="font-weight-bold mb-2">
         Unknown input type for: {{ String(fieldKey) }} ({{ entityKey }})
       </div>
-      <div v-if="fieldComponent.fieldMetadataEntry" class="mt-2 text-caption">
+      <div v-if="fieldComponent.fieldMetadataEntry" class="mt-2 text-body-small">
         Metadata found but invalid renderAs value. Check console for details.
       </div>
-      <div v-else class="mt-2 text-caption">
-        No metadata found for this field. Check /admin-input-metadata or /admin-relationship-metadata. See console for details.
+      <div v-else class="mt-2 text-body-small">
+        No metadata found for this field. Check /admin-metadata. See console for details.
       </div>
-      <!-- LEARNING: Log error when error UI renders -->
       <!-- WHY: Ensures we log even if watchEffect doesn't catch it -->
       <!-- PATTERN: Use onMounted/onUpdated or computed to log when this div renders -->
     </div>
@@ -37,33 +30,24 @@
     class="mb-4"
   >
     Missing field context. This field must be configured in
-    <code>/admin-input-metadata</code> or <code>/admin-relationship-metadata</code> before rendering.
+    <code>/admin-metadata</code> before rendering.
   </VAlert>
 </template>
 
 <script setup lang="ts">
 /**
- * LEARNING: FieldRenderer determines which input component to render based on field component dispatcher
- * 
- * WHY: Different field types need different input components (primitive vs select)
- *      Component type is determined from fieldComponentDispatcher, parallel to fieldLocationDispatcher
- * 
- * PATTERN: Factory pattern - uses getFieldComponent() dispatcher to determine component type and renders appropriate input component
- * 
- * COMPARISON: Parallel to field location dispatcher pattern - getFieldLocation() determines WHERE,
- *             getFieldComponent() determines WHAT component to render
  */
-
-import { computed, toRef, watch, type Component, type ComputedRef } from 'vue'
+import { computed, toRef, type Component, type ComputedRef } from 'vue'
 import PrimitiveInputs from './PrimitiveInputs.vue'
 import SelectInputs from './SelectInputs.vue'
 import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldComponent } from '@/composables/admin/useFieldComponent'
+import { useFieldRendererErrorWatch } from '@/composables/admin/useFieldRendererErrorWatch'
 import { useFieldRendererComponent } from '@/composables/admin/useFieldRendererComponent'
 import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -74,18 +58,13 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('FieldRenderer')
 
 interface Props {
-  fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  fieldContext?: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
   showLabel?: boolean
   /**
-   * LEARNING: Optional pre-loaded field metadata
-   * WHY: Avoids duplicate metadata loads when parent component already has metadata
-   * PATTERN: Pass metadata from EntityCard to avoid re-loading in FieldRenderer
    */
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /**
-   * LEARNING: Optional override for readOnly state
-   * WHY: Allows parent components to dynamically control read-only state (e.g., make name field readonly when card is collapsed)
-   * PATTERN: Overrides fieldContext.displayConfig.readOnly when provided
+WHY: Allows parent co...
    */
   readOnly?: boolean
 }
@@ -104,7 +83,6 @@ const effectiveFieldContext = computed(() => {
     return undefined
   }
   
-  // LEARNING: Read readOnly prop value to establish dependency tracking
   // WHY: Accessing readOnlyProp.value in computed ensures Vue tracks the dependency
   // PATTERN: Read prop value in computed to establish reactivity dependency
   const readOnlyValue = readOnlyProp.value
@@ -114,50 +92,40 @@ const effectiveFieldContext = computed(() => {
   }
   
   // WHY: Vue tracks object references - creating new objects ensures reactivity
-  // PATTERN: Create new displayConfig object with readOnly override, then new fieldContext object
+  // PATTERN: Create new displayConfig object with readOnly override, then new fieldContext object (grouped format)
   // FIX: Preserve Refs when spreading - don't unwrap value Ref
-  const originalDisplayConfig = fieldContext.value.displayConfig
+  const originalDisplayConfig = fieldContext.value.state.displayConfig
   const newDisplayConfig: typeof originalDisplayConfig = {
     ...originalDisplayConfig,
     readOnly: readOnlyValue
   }
   
-  // PATTERN: Copy all properties - value Ref should be preserved by spread
+  // PATTERN: Copy state with new displayConfig, preserve actions
   return {
-    ...fieldContext.value,
-    displayConfig: newDisplayConfig
+    state: { ...fieldContext.value.state, displayConfig: newDisplayConfig },
+    actions: fieldContext.value.actions
   }
 })
 
-const fieldKey = computed(() => effectiveFieldContext.value?.fieldKey)
-const entityKey = computed(() => effectiveFieldContext.value?.entityKey)
+const fieldKey = computed(() => effectiveFieldContext.value?.state.fieldKey)
+const entityKey = computed(() => effectiveFieldContext.value?.state.entityKey)
 
-// LEARNING: Use unified field value composable
 // PATTERN: Only call composables if fieldContext exists
 if (fieldContext.value) {
   useFieldValue(fieldContext.value)
 }
 
 /**
- * LEARNING: Use field component composable
- * WHY: Extracts component type determination logic from component to composable
- * PATTERN: Composable provides type checking computed properties via fieldComponentDispatcher
- * LEARNING: Use composable for entity lookup
- * WHY: Extracts entity lookup logic to reusable composable
- * PATTERN: Composable handles both temporary and existing entities
+ * WHY: Composables must be called at setup time, but fieldContext can be undefined
+ * PATTERN: Guard composable call, use computed wrapper to handle effectiveFieldCont...
  */
-// LEARNING: Call composable at setup time with fieldContext (guarded by conditional)
-// WHY: Composables must be called at setup time, but fieldContext can be undefined
-// PATTERN: Guard composable call, use computed wrapper to handle effectiveFieldContext changes
-// NOTE: This pattern is necessary because fieldContext can be undefined, but composable requires non-null value
-// FIX: Call composable unconditionally by providing a fallback - composable handles missing entityKey/entityId
 let entityForMetadataLookup: ComputedRef<GlobalEntity<GlobalEntityKey> | null>
 if (fieldContext.value) {
   entityForMetadataLookup = useFieldContextMetadataEntity(fieldContext.value)
 } else {
   // WHY: Ensures type consistency between fallback and actual composable return
   // PATTERN: Use same ComputedRef type as composable
-  entityForMetadataLookup = computed(() => null) as ComputedRef<GlobalEntity<GlobalEntityKey> | null>
+  entityForMetadataLookup = computed<GlobalEntity<GlobalEntityKey> | null>(() => null)
 }
 // WHY: effectiveFieldContext can be undefined even when fieldContext exists (due to readOnly override)
 const entityForMetadata = computed(() => {
@@ -174,14 +142,12 @@ const fieldMetadataRef = computed(() => {
   return raw !== undefined && raw !== null ? raw : {}
 })
 
-
 const fieldComponent = useFieldComponent({
   entityKey,
   fieldKey,
   entity: entityForMetadata,
   fieldMetadata: fieldMetadataRef
 })
-
 
 const collectionType = computed(() => {
   const key = String(fieldKey.value)
@@ -201,7 +167,13 @@ const componentMap: Record<FieldComponent['type'], Component | null> = {
 
 const componentsWithLabel: Array<FieldComponent['type']> = ['icon', 'primitive', 'select']
 
-// LEARNING: Use field renderer component composable
+const fieldShowLabel = computed(() =>
+  componentsWithLabel.includes(fieldComponent.componentType.value.type) ? props.showLabel : undefined
+)
+const fieldCollectionType = computed(() =>
+  fieldComponent.componentType.value.type === 'relationshipCollection' ? collectionType.value : undefined
+)
+
 // PATTERN: Composable provides component to render and validation computed properties
 const {
   componentToRender,
@@ -213,48 +185,16 @@ const {
   hasFieldContext: computed(() => !!effectiveFieldContext.value)
 })
 
-watch(
+useFieldRendererErrorWatch({
   shouldShowError,
-  (showError) => {
-    if (!showError || !effectiveFieldContext.value) {
-      return
-    }
-    
-    const componentType = fieldComponent.componentType.value
-    const componentMapEntry = componentMap[componentType?.type]
-    const hasComponent = componentMapEntry !== null && componentMapEntry !== undefined
-    const metadataEntry = fieldComponent.fieldMetadataEntry.value
-    const reason = 'reason' in componentType ? componentType.reason : 'unknown'
-    
-    // PATTERN: Structured error logging with all relevant context
-    logger.error('Unknown input type detected', {
-      componentType: componentType.type,
-      reason: reason,
-      fullComponentType: componentType,
-      fieldKey: fieldKey.value,
-      entityKey: entityKey.value,
-      entityId: fieldContext.value?.entityId,
-      fieldMetadataEntry: metadataEntry,
-      renderAs: metadataEntry?.renderAs,
-      dataType: metadataEntry?.dataType,
-      inputConfig: metadataEntry?.inputConfig,
-      fieldContext: {
-        entityKey: fieldContext.value?.entityKey,
-        entityId: fieldContext.value?.entityId,
-        fieldKey: fieldContext.value?.fieldKey
-      },
-      componentMapHasEntry: hasComponent,
-      componentMapEntry,
-      componentMapKeys: Object.keys(componentMap),
-      suggestedFix: reason === 'notConfigured' 
-        ? 'Add field metadata at /admin-input-metadata or /admin-relationship-metadata'
-        : reason === 'invalidRenderAs'
-        ? `Check renderAs value in metadata. Expected: text, number, statusButton, iconSelect, select, multiselect, reference. Found: ${metadataEntry?.renderAs !== undefined && metadataEntry?.renderAs !== null ? metadataEntry.renderAs : 'undefined'}`
-        : 'Unknown error - check field metadata configuration'
-    })
-  },
-  { immediate: true }
-)
+  effectiveFieldContext,
+  fieldComponent,
+  fieldKey,
+  entityKey,
+  fieldContext,
+  componentMap,
+  logger
+})
 </script>
 
 <style scoped>

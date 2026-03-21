@@ -1,19 +1,18 @@
 /**
  * Entity schema default field sets for dehydrate/serialization.
  * WHY: Metadata may incorrectly mark fields as not required; database schema is source of truth.
- * PATTERN: Used by fetchToGlobalTransformer.dehydrateEntity to coerce empty strings and defaults.
  */
 
 export const ENTITY_SCHEMA_DEFAULTS = {
   REQUIRED_BOOLEANS: {
     partInstance: ['active', 'zeroOutPart'],
-    blockInstance: ['active', 'composite', 'differential', 'allowMultiple'],
+    blockInstance: ['active', 'composite', 'differential', 'preClosing', 'allowMultiple', 'requiresUnitNumber'],
     blockShape: ['composable', 'canHaveParts', 'isStateControl'],
     partShape: [],
   },
   NULLABLE_BOOLEANS: {
     partInstance: [] as string[],
-    blockInstance: ['requiresUnitNumber'],
+    blockInstance: [],
     blockShape: [],
     partShape: [],
   },

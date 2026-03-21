@@ -1,31 +1,24 @@
 <!--
-  LEARNING: Entity Card Content Component
   WHY: Extracts shared form content from EntityCard to eliminate template duplication
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
+import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FormContext } from 'vee-validate'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { ComputedRef } from 'vue'
 import type { EntityCardSharedProps } from './entityCardConstants'
 
-interface FieldsByLocation {
-  directInline: GlobalFieldKey<GlobalEntityKey>[]
-  directStacked: GlobalFieldKey<GlobalEntityKey>[]
-  subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
-}
-
 interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>
   form: FormContext
-  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   composedFieldMetadata: Record<string, FieldMetadataEntry>
   fieldsByLocation: FieldsByLocation
   fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[]
@@ -45,7 +38,6 @@ defineProps<Props>()
 </script>
 
 <template>
-  <!-- LEARNING: Warning for fields missing contexts -->
   <!-- WHY: Fail visibly - show which fields are missing contexts -->
   <!-- PATTERN: VAlert component for error display -->
   <VAlert
@@ -60,12 +52,11 @@ defineProps<Props>()
         {{ String(fieldKey) }}
       </li>
     </ul>
-    <div class="text-caption mt-2">
-      This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-input-metadata.
+    <div class="text-body-small mt-2">
+      This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-metadata.
     </div>
   </VAlert>
 
-  <!-- LEARNING: Direct fields (panel: 'none') rendered in card content -->
   <!-- WHY: Fields without panel assignment render in main card area -->
   <!-- PATTERN: Organized by layout (inline vs stacked) from metadata -->
   <VRow v-if="fieldsByLocation.directInline.length > 0" class="mb-4">
@@ -121,7 +112,6 @@ defineProps<Props>()
   />
   
   <!--
-    LEARNING: Action buttons for form operations
     WHY: Provides Undo, Save, and Delete/Cancel actions
     PATTERN: Buttons at bottom of form fields with proper spacing
     NOTE: Shows Cancel instead of Delete when in new entity mode

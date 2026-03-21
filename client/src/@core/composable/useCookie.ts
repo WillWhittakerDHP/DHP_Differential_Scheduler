@@ -17,8 +17,6 @@ export interface CookieOptions<T = unknown> extends _CookieOptions {
 export type CookieRef<T> = Ref<T>
 
 /**
- * LEARNING: Defaults must be generic because `decode` returns `T`.
- * WHY: Cookie values are strings at rest; decoding is caller-defined (and typed as `T`).
  * NOTE: The `as T` cast is unavoidable here because runtime decoding can't prove `T`.
  */
 function createCookieDefaults<T>(): CookieOptions<T> {

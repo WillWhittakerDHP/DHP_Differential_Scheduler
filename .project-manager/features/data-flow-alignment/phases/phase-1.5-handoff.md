@@ -176,7 +176,7 @@ Phase 1.4 completed all admin panel data flow fixes, established dual-cache arch
 
 - **Phase Guide**: `phase-1.5-guide.md`
 - **Phase Log**: `phase-1.5-log.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.4 Handoff**: `phase-1.4-handoff.md`
 - **Cache Architecture**: `../docs/CACHE_ARCHITECTURE.md`
 

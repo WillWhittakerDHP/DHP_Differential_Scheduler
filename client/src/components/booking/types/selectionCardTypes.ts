@@ -1,9 +1,7 @@
-/**
- * WHY: SelectionCard Type Definitions
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 
-LEARNING: Centralized type definitions for SelectionCard component system
-WHY: Ensures type consistency across SelectionCard, SelectionCardGroup, and state plugins
-PATTERN: Shared types for configuration-first architecture
+/**
+WHY: Ens...
  */
 export interface ComponentItem {
   id: string
@@ -30,40 +28,31 @@ export interface GridColumns {
 }
 
 /**
- * State plugin interface
- * LEARNING: Pluggable state management for SelectionCard
- * WHY: Allows SelectionCard to work with different state sources (wizard, local, custom)
- * PATTERN: Plugin pattern for extensible state management
+ * WHY: State plugin interface
  */
 export interface StatePlugin {
   name: string
   /**
-   * Get the current value for an item
-   * LEARNING: Returns whether item is selected (for radio) or selection state (for checkbox)
-   * WHY: Allows plugin to determine selection state from any source
+Get the current value for an item
+WHY: Allows plugin to determine se...
    */
   getValue: (item: SelectionCardItem) => boolean | string | null
   
   /**
-   * Set the value for an item
-   * LEARNING: Updates selection state via plugin's state source
-   * WHY: Allows plugin to update state in its source (wizard, local ref, etc.)
+Set the value for an item
+WHY: Allows plugin to update state in its ...
    */
   setValue: (item: SelectionCardItem, value: boolean | string | null) => void
   
   /**
-   * Reactive source to watch for changes
-   * LEARNING: Returns a reactive value that SelectionCard can watch
-   * WHY: Enables SelectionCard to react to external state changes
+Reactive source to watch for changes
+WHY: Enables SelectionCard to r...
    */
   watchSource: () => { value: unknown } | null
 }
 
 /**
- * Selection card configuration interface
- * LEARNING: Complete configuration for SelectionCard behavior and appearance
- * WHY: Configuration-first approach allows flexible card behavior without component changes
- * PATTERN: Comprehensive config object with defaults for backward compatibility
+WHY: Configuration-first approach...
  */
 export interface SelectionCardConfig {
   selectionType: 'radio' | 'checkbox' | 'none'
@@ -71,16 +60,12 @@ export interface SelectionCardConfig {
   selectionGroup: 'VRadioGroup' | 'VCheckboxGroup' | 'none'
   
   /**
-   * State source type
-   * LEARNING: Where selection state is stored (wizard, local, custom)
-   * WHY: Determines which state plugin to use
+State source type
    */
-  stateSource?: 'wizard' | 'local' | 'custom'
+  stateSource?: 'wizard' | (typeof APP_STAGE)['LOCAL'] | 'custom'
   
   /**
-   * State plugins for reactive updates
-   * LEARNING: Array of plugins that manage state
-   * WHY: Allows multiple state sources or custom state management
+State plugins for reactive updates
    */
   statePlugins?: StatePlugin[]
   
@@ -107,4 +92,3 @@ export interface SelectionCardConfig {
     nestedConfig?: Partial<SelectionCardConfig>
   }
 }
-

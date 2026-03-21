@@ -16,21 +16,24 @@ Exception handling:
 
 ## Summary
 
-- Total files scanned: **107**
+- Total files scanned: **111**
 - **Requiring review: 34**
-- Allowed (with justification): 60 (inline: 0, pattern: 9, specific: 51)
+- Allowed (with justification): 59 (inline: 0, pattern: 9, specific: 50)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | priority | large-style | empty | unscoped | inline-static | inline-dynamic | !important | :deep | magic-color | css-in-ts |
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `client/src/layouts/default.vue` | 6 | P2 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/components/admin/generic/fields/SelectInputs.vue` | 5 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | 4 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 0 | 0 |
 | `client/src/components/admin/generic/EntityCardFeePreview.vue` | 3 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 |
 | `client/src/components/admin/generic/fields/IconInput.vue` | 3 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 |
 | `client/src/views/admin/tabs/InstancesTab.vue` | 3 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 |
 | `client/src/components/admin/generic/fields/BaseInput.vue` | 2 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `client/src/components/admin/generic/fields/TextInput.vue` | 2 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 |
+| `client/src/components/AppNotification.vue` | 2 | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/booking/dev/DevPanelsContainer.vue` | 2 | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `client/src/components/common/AddressAutocomplete.vue` | 2 | P2 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `client/src/views/admin/tabs/ShapesTab.vue` | 2 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 |
 | `client/src/App.vue` | 1 | P2 | 0 | 0 | 1 | 1 | 1 | 0 | 1 | 0 | 0 |
 | `client/src/components/admin/BlockInstanceCreateModal.vue` | 1 | P2 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
@@ -50,38 +53,35 @@ Review periodically to ensure exceptions are still valid.
 
 | File | Rule | Line | Source | Reason |
 | --- | --- | ---: | --- | --- |
-| `client/src/App.vue` | unscoped-style | 130 | specific | App root and wizard dev panel require global selectors. |
+| `client/src/App.vue` | unscoped-style | 103 | specific | App root and wizard dev panel require global selectors. |
 | `client/src/App.vue` | inline-style-static | 10 | specific | Runtime theme primary injection for VApp. |
 | `client/src/App.vue` | inline-style-dynamic | 10 | specific | Runtime theme primary injection for VApp. |
-| `client/src/components/booking/IndependentSelectCard.vue` | inline-style-static | 135 | specific | Config-driven minHeight from mergedConfig.appearance. |
-| `client/src/components/booking/IndependentSelectCard.vue` | inline-style-dynamic | 135 | specific | Config-driven minHeight from mergedConfig.appearance. |
+| `client/src/components/booking/IndependentSelectCard.vue` | inline-style-static | 120 | specific | Config-driven minHeight from mergedConfig.appearance. |
+| `client/src/components/booking/IndependentSelectCard.vue` | inline-style-dynamic | 120 | specific | Config-driven minHeight from mergedConfig.appearance. |
 
 
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
 
+### `client/src/layouts/default.vue`
+
+- requiring review: 1, allowed: 0
+
+```
+unscoped-style@47: <style lang="scss">
+```
+
 ### `client/src/components/admin/generic/fields/SelectInputs.vue`
 
 - requiring review: 5, allowed: 0
 
 ```
-deep-selector@379: .select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {
-deep-selector@383: .select-field--multiple.v-select--chips :deep(.v-field__input) {
-deep-selector@394: .select-field--multiple.v-select--chips :deep(.v-chip) {
-deep-selector@408: .select-field--multiple.v-select--chips :deep(.v-chip__close) {
-deep-selector@414: .select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {
-```
-
-### `client/src/components/booking/dev/DevPanelsContainer.vue`
-
-- requiring review: 4, allowed: 0
-
-```
-deep-selector@664: :deep(*) {
-deep-selector@668: :deep(.v-card-text),
-deep-selector@669: :deep(.v-window-item) {
-deep-selector@682: :deep(.flexible-tabs) {
+deep-selector@328: .select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {
+deep-selector@332: .select-field--multiple.v-select--chips :deep(.v-field__input) {
+deep-selector@340: .select-field--multiple.v-select--chips :deep(.v-chip) {
+deep-selector@351: .select-field--multiple.v-select--chips :deep(.v-chip__close) {
+deep-selector@357: .select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {
 ```
 
 ### `client/src/components/admin/generic/EntityCardFeePreview.vue`
@@ -89,9 +89,9 @@ deep-selector@682: :deep(.flexible-tabs) {
 - requiring review: 3, allowed: 0
 
 ```
-deep-selector@164: .fee-preview-sqft-input :deep(input[type="number"]) {
-deep-selector@168: .fee-preview-sqft-input :deep(input[type="number"]::-webkit-outer-spin-button),
-deep-selector@169: .fee-preview-sqft-input :deep(input[type="number"]::-webkit-inner-spin-button) {
+deep-selector@123: .fee-preview-sqft-input :deep(input[type="number"]) {
+deep-selector@127: .fee-preview-sqft-input :deep(input[type="number"]::-webkit-outer-spin-button),
+deep-selector@128: .fee-preview-sqft-input :deep(input[type="number"]::-webkit-inner-spin-button) {
 ```
 
 ### `client/src/components/admin/generic/fields/IconInput.vue`
@@ -99,9 +99,9 @@ deep-selector@169: .fee-preview-sqft-input :deep(input[type="number"]::-webkit-i
 - requiring review: 3, allowed: 0
 
 ```
-deep-selector@191: .icon-input-field :deep(.v-field__input) {
-deep-selector@198: .icon-input-field :deep(input) {
-deep-selector@203: .icon-input-field :deep(input::placeholder) {
+deep-selector@184: .icon-input-field :deep(.v-field__input) {
+deep-selector@188: .icon-input-field :deep(input) {
+deep-selector@193: .icon-input-field :deep(input::placeholder) {
 ```
 
 ### `client/src/views/admin/tabs/InstancesTab.vue`
@@ -109,9 +109,9 @@ deep-selector@203: .icon-input-field :deep(input::placeholder) {
 - requiring review: 3, allowed: 0
 
 ```
-deep-selector@868: .instances-tabs-container :deep(.v-tab) {
-deep-selector@872: .instances-tabs-container :deep(.v-tabs) {
-deep-selector@876: .instances-tabs-container :deep(.v-slide-group__content) {
+deep-selector@853: .instances-tabs-container :deep(.v-tab) {
+deep-selector@857: .instances-tabs-container :deep(.v-tabs) {
+deep-selector@861: .instances-tabs-container :deep(.v-slide-group__content) {
 ```
 
 ### `client/src/components/admin/generic/fields/BaseInput.vue`
@@ -119,8 +119,8 @@ deep-selector@876: .instances-tabs-container :deep(.v-slide-group__content) {
 - requiring review: 2, allowed: 0
 
 ```
-deep-selector@106: :deep(.title-row-field) .field-wrapper {
-deep-selector@110: :deep(.title-row-field) .field-content {
+deep-selector@97: :deep(.title-row-field) .field-wrapper {
+deep-selector@101: :deep(.title-row-field) .field-content {
 ```
 
 ### `client/src/components/admin/generic/fields/TextInput.vue`
@@ -128,8 +128,32 @@ deep-selector@110: :deep(.title-row-field) .field-content {
 - requiring review: 2, allowed: 0
 
 ```
-deep-selector@204: :deep(.title-row-field) .text-input-field {
-deep-selector@238: :deep(.title-row-field) .readonly-text {
+deep-selector@184: :deep(.title-row-field) .text-input-field {
+deep-selector@208: :deep(.title-row-field) .readonly-text {
+```
+
+### `client/src/components/AppNotification.vue`
+
+- requiring review: 1, allowed: 0
+
+```
+empty-style-block@53: <style> block is empty; remove or add styles
+```
+
+### `client/src/components/booking/dev/DevPanelsContainer.vue`
+
+- requiring review: 1, allowed: 0
+
+```
+empty-style-block@194: <style> block is empty; remove or add styles
+```
+
+### `client/src/components/common/AddressAutocomplete.vue`
+
+- requiring review: 1, allowed: 0
+
+```
+empty-style-block@130: <style> block is empty; remove or add styles
 ```
 
 ### `client/src/views/admin/tabs/ShapesTab.vue`
@@ -137,8 +161,8 @@ deep-selector@238: :deep(.title-row-field) .readonly-text {
 - requiring review: 2, allowed: 0
 
 ```
-deep-selector@998: .title-field-input :deep(.v-field__input) {
-deep-selector@1003: .title-field-input :deep(.v-field) {
+deep-selector@700: .title-field-input :deep(.v-field__input) {
+deep-selector@705: .title-field-input :deep(.v-field) {
 ```
 
 ### `client/src/App.vue`
@@ -146,7 +170,7 @@ deep-selector@1003: .title-field-input :deep(.v-field) {
 - requiring review: 1, allowed: 3
 
 ```
-deep-selector@151: :deep(.v-btn__content) {
+deep-selector@122: :deep(.v-btn__content) {
 ```
 
 ### `client/src/components/admin/BlockInstanceCreateModal.vue`
@@ -154,7 +178,7 @@ deep-selector@151: :deep(.v-btn__content) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@185: .create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
+deep-selector@156: .create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
 ```
 
 ### `client/src/components/admin/InstanceBulkEditModal.vue`
@@ -162,7 +186,7 @@ deep-selector@185: .create-modal-entity-card :deep(.d-flex.align-center.justify-
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@210: .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
+deep-selector@186: .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
 ```
 
 ### `client/src/components/admin/PartInstanceBulkEditModal.vue`
@@ -170,7 +194,7 @@ deep-selector@210: .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@239: .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
+deep-selector@207: .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {
 ```
 
 ### `client/src/components/beta/BetaFeedbackDashboard.vue`
@@ -178,7 +202,7 @@ deep-selector@239: .bulk-edit-entity-card :deep(.d-flex.align-center.justify-end
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@240: .cursor-pointer :deep(tbody tr) {
+deep-selector@226: .cursor-pointer :deep(tbody tr) {
 ```
 
 ### `client/src/components/booking/DependentInstanceCheckboxList.vue`
@@ -186,7 +210,7 @@ deep-selector@240: .cursor-pointer :deep(tbody tr) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@105: :deep(.v-checkbox) {
+deep-selector@86: :deep(.v-checkbox) {
 ```
 
 ### `client/src/components/booking/dev/DevPanelToggle.vue`
@@ -194,7 +218,7 @@ deep-selector@105: :deep(.v-checkbox) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@66: :deep(.v-btn__content) {
+deep-selector@43: :deep(.v-btn__content) {
 ```
 
 ### `client/src/components/booking/IndependentSelectCard.vue`
@@ -202,7 +226,7 @@ deep-selector@66: :deep(.v-btn__content) {
 - requiring review: 1, allowed: 2
 
 ```
-deep-selector@211: :deep(.v-selection-control__wrapper) {
+deep-selector@191: :deep(.v-selection-control__wrapper) {
 ```
 
 ### `client/src/components/booking/SelectionCardGroup.vue`
@@ -210,7 +234,7 @@ deep-selector@211: :deep(.v-selection-control__wrapper) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@320: :deep(.v-col) {
+deep-selector@305: :deep(.v-col) {
 ```
 
 ### `client/src/components/booking/steps/ConfirmationStep.vue`
@@ -218,5 +242,5 @@ deep-selector@320: :deep(.v-col) {
 - requiring review: 1, allowed: 0
 
 ```
-deep-selector@251: :deep(.summary-table) {
+deep-selector@246: :deep(.summary-table) {
 ```

@@ -1,17 +1,6 @@
-/**
- * Canonical GlobalEntityId from shared; conversion helpers at boundaries.
- */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
-export function toGlobalEntityId(value: string): GlobalEntityId {
-  return value as GlobalEntityId
-}
-
-export function toGlobalEntityIdOrNull(
-  value: string | null | undefined
-): GlobalEntityId | null {
-  return value != null ? (value as GlobalEntityId) : null
-}
+export type { GlobalEntityId }
 
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
@@ -19,7 +8,7 @@ import type { BookingMode } from "@/constants/bookingMode";
 import type { TernaryBoolean } from "./ternary";
 
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
-interface BaseGlobalEntity<GE extends GlobalEntityKey> {
+interface GlobalEntityBase<GE extends GlobalEntityKey> {
   id: GlobalEntityId;
   entityKey: GE;
   name: string;
@@ -31,7 +20,7 @@ interface BaseGlobalEntity<GE extends GlobalEntityKey> {
   [key: string]: unknown;
 }
 
-export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
+export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   blockShapeRef: string;
   baseSqFt: number;
   active: boolean;
@@ -42,11 +31,12 @@ export interface BlockInstanceEntity extends BaseGlobalEntity<"blockInstance"> {
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber?: boolean | null;
   differential?: TernaryBoolean;
+  preClosing?: boolean;
   isMultiFamily: boolean;
   requiresAgent: boolean;
 }
 
-export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
+export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
   type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'property', 'option'
   composable: boolean;
   canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
@@ -56,7 +46,7 @@ export interface BlockShapeEntity extends BaseGlobalEntity<"blockShape"> {
   validAnnotations?: GlobalEntityId[];
 }
 
-export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
+export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
   partShapeRef: string;
   baseTime: number;
   rateOverBaseTime: number;
@@ -67,26 +57,39 @@ export interface PartInstanceEntity extends BaseGlobalEntity<"partInstance"> {
   eventAssignments?: GlobalEntityId[];
 }
 
-export interface PartShapeEntity extends BaseGlobalEntity<"partShape"> {
+export interface PartShapeEntity extends GlobalEntityBase<"partShape"> {
   validEvents?: GlobalEntityId[];
 }
 
-export interface EventShapeEntity extends BaseGlobalEntity<"eventShape"> {
+export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
   isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
   ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail gracefully)
+  differentialRole: 'major' | 'minor' | 'moveable' | null;
   attendees?: GlobalEntityId[]; // Array of UserTypeBlock BlockInstance IDs (attendees for this event)
 }
 
-export interface EventInstanceEntity extends BaseGlobalEntity<"eventInstance"> {
+export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   eventShapeRef: string;
   titleTemplate: string | null;
   descriptionTemplate: string | null;
   locationTemplate: string | null;
+  visibility: 'default' | 'public' | 'private' | 'confidential';
+  transparency: 'opaque' | 'transparent';
+  guestsCanModify: boolean;
+  guestsCanInviteOthers: boolean;
+  guestsCanSeeOtherGuests: boolean;
+  addConferenceLink: boolean;
+  sendUpdates: 'all' | 'externalOnly' | 'none';
+  colorId: string | null;
+  status: 'confirmed' | 'tentative';
+  reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
+  /** Virtual: visibility in metadata controls inclusion in display/export; value from appointment at invite time */
+  scheduledBy?: string | null;
 }
 
-export type AnnotationShapeEntity = BaseGlobalEntity<"annotationShape">
+export type AnnotationShapeEntity = GlobalEntityBase<"annotationShape">
 
-export interface AnnotationInstanceEntity extends BaseGlobalEntity<"annotationInstance"> {
+export interface AnnotationInstanceEntity extends GlobalEntityBase<"annotationInstance"> {
   type: string; // Foreign key to AnnotationShape.id
 }
 

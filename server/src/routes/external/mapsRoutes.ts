@@ -1,14 +1,5 @@
-/**
- * Maps Routes
- *
- * LEARNING: API endpoints for Google Maps operations (Places, Routes)
- * WHY: Proxy Google Maps API calls through server to hide API key
- *
- * SESSION: 2.2.1 - Address Autocomplete (Places API)
- * SESSION: 2.2.2 - Drive Time Calculations (Routes API)
- */
-
 import { Router, Request, Response } from 'express'
+import Joi from 'joi'
 import {
   getAutocompleteSuggestions,
   getPlaceDetails,
@@ -18,6 +9,16 @@ import { MapsApiError } from '../../services/google/maps/mapsErrorHandler.js'
 import { createLogger } from '../../utils/logger.js'
 import { MapsDebugRouter } from './mapsDebugRoutes.js'
 import { MAPS_ROUTE_MESSAGES } from './mapsRouteConstants.js'
+
+const autocompleteQuerySchema = Joi.object({
+  input: Joi.string().required(),
+  sessionToken: Joi.string().optional(),
+}).unknown(true)
+
+const placeDetailsQuerySchema = Joi.object({
+  placeId: Joi.string().required(),
+  sessionToken: Joi.string().optional(),
+}).unknown(true)
 
 const logger = createLogger('MapsRoutes')
 
@@ -62,14 +63,15 @@ function withMapsErrorHandling(handler: AsyncRouteHandler): AsyncRouteHandler {
 router.get(
   '/autocomplete',
   withMapsErrorHandling(async (req: Request, res: Response): Promise<void> => {
-    const { input, sessionToken } = req.query
-    if (!input || typeof input !== 'string') {
+    const validation = autocompleteQuerySchema.validate(req.query, { abortEarly: false })
+    if (validation.error) {
       res.status(400).json({ error: MAPS_ROUTE_MESSAGES.MISSING_INPUT, type: 'invalid' })
       return
     }
+    const { input, sessionToken } = validation.value
     const predictions = await getAutocompleteSuggestions(
       input,
-      sessionToken as string | undefined
+      sessionToken
     )
     res.json({ predictions })
   })
@@ -78,14 +80,15 @@ router.get(
 router.get(
   '/place-details',
   withMapsErrorHandling(async (req: Request, res: Response): Promise<void> => {
-    const { placeId, sessionToken } = req.query
-    if (!placeId || typeof placeId !== 'string') {
+    const validation = placeDetailsQuerySchema.validate(req.query, { abortEarly: false })
+    if (validation.error) {
       res.status(400).json({ error: MAPS_ROUTE_MESSAGES.MISSING_PLACE_ID, type: 'invalid' })
       return
     }
+    const { placeId, sessionToken } = validation.value
     const details = await getPlaceDetails(
       placeId,
-      sessionToken as string | undefined
+      sessionToken
     )
     res.json(details)
   })

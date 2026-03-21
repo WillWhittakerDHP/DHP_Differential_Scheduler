@@ -1,23 +1,20 @@
 <!--
-  LEARNING: Generic Entity Card Component
   WHY: Reusable card component for all entity types (blockShape, partShape, blockInstance, partInstance)
   PATTERN: Generic component that accepts entityKey and entity, handles all CRUD operations
   COMPARISON: React uses GenericInstance. Vue uses EntityCard with DynamicFormFields.
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { computed, provide, watch, nextTick } from 'vue'
+import { computed, provide } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { useEntityCardForm } from '@/composables/admin/useEntityCardForm'
-import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
-import { useEntityDisplay } from '@/composables/admin/useEntityDisplay'
+import { useEntityCardSaveAndActions } from '@/composables/admin/useEntityCardSaveAndActions'
+import { entityDisplay } from '@/utils/admin/entityDisplay'
 import { useEntityStatus } from '@/composables/admin/useEntityStatus'
 import { useAdminConfig } from '@/composables/useAdminConfig'
-import { useAdmin } from '@/composables/useAdmin'
-import { useFormFields } from '@/composables/useFormFields'
-import { useEntityCardComputed } from '@/composables/admin/useEntityCardComputed'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
-import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
+import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -25,72 +22,28 @@ import FieldRenderer from './fields/FieldRenderer.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
-import { useEntityCardSaveState } from '@/composables/admin/useEntityCardSaveState'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
-import { useConditionalFieldVisibility } from '@/composables/admin/useConditionalFieldVisibility'
-import { useFieldContextManager } from '@/composables/admin/useFieldContextManager'
-import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, KEY_ENTER } from './entityCardConstants'
+import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useEntityCardFieldContextAndVisibility'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
+import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
 /**
- * LEARNING: Disable automatic attribute inheritance
- * WHY: Component has multiple root nodes (div and VDialog), so Vue can't automatically inherit attributes
  *      Since we explicitly declare all props, we don't need automatic inheritance
- * PATTERN: Set inheritAttrs to false to suppress warnings about non-prop attributes
  */
 defineOptions({
   inheritAttrs: false
 })
 
-/**
- * LEARNING: Generic props interface that works for all entity types
- * WHY: Type-safe prop definition that accepts any entity type
- * PATTERN: Generic component with entityKey and entity props
- */
 interface Props<GE extends GlobalEntityKey> {
   entityKey: GE
-  /**
-   * LEARNING: Entity can be existing entity OR initial values for new entity
-   * WHY: Unified component for both create and edit operations
-   * PATTERN: When isNew=true, entity contains initial values; when isNew=false, entity is existing entity
-   */
   entity: GlobalEntity<GE>
-  /**
-   * LEARNING: Expanded state prop
-   * WHY: Controls whether the card is expanded, which determines if titleField is editable
-   * PATTERN: Optional prop defaults to true (standalone cards are always expanded)
-   */
   expanded?: boolean
-  /**
-   * LEARNING: Whether EntityCard should wrap itself in VExpansionPanel
-   * WHY: When true (default), EntityCard is self-contained with its own expand/collapse. When false (modals), renders without wrapper
-   * PATTERN: Optional prop defaults to true for self-contained behavior
-   */
   useExpansionPanel?: boolean
-  /**
-   * LEARNING: Optional form instance prop
-   * WHY: Allows parent component (like VExpansionPanels) to provide a shared form instance for titleField synchronization
-   * PATTERN: Optional prop - if not provided, EntityCard creates its own form instance
-   */
   form?: FormContext
-  /**
-   * LEARNING: New entity mode flag
-   * WHY: When true, this card is for creating a new entity (not editing existing)
-   * PATTERN: Changes Save behavior to create, shows Cancel instead of Delete
-   */
   isNew?: boolean
-  /**
-   * LEARNING: Disable auto-save on field blur prop
-   * WHY: Prevents field blur from triggering auto-save (e.g., in bulk edit modals with template entities)
-   * PATTERN: When true, field components won't auto-save on blur
-   */
   disableAutoSave?: boolean
-  /**
-   * LEARNING: Optional filtered field metadata
-   * WHY: Allows parent components to pass filtered metadata (e.g., bulk edit modals showing only bulkEdit fields)
-   * PATTERN: If provided, use this instead of fetching metadata
-   */
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
@@ -101,11 +54,6 @@ const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   useExpansionPanel: true
 })
 
-/**
- * LEARNING: Component emits for parent communication
- * WHY: Allows parent component to handle delete, save, and cancel actions
- * PATTERN: defineEmits with TypeScript interface
- */
 interface Emits {
   (e: 'delete', id: string): void
   (e: 'saved', entity: GlobalEntity<GlobalEntityKey>): void
@@ -115,103 +63,37 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-
 /**
- * LEARNING: Expansion state management
- * WHY: Title field should be read-only when collapsed, editable when expanded
- * PATTERN: Use composable for expansion state management
  */
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
+const { handleTitleKeydown } = entityCardTitleKeydown()
 
 /**
- * LEARNING: Stop Space/Enter from reaching VExpansionPanelTitle's button when focus is in an editable field
- * WHY: Title slot is rendered inside a <button>; the button handles keydown in capture phase, so we run in capture on VExpansionPanel to intercept first
- * PATTERN: Intercept in capture, stop original so button never sees it, then re-dispatch a non-bubbling keydown on the editable so the input still inserts the character
+ * WHY: Use entity display composable for display name and messages
+WHY: Moves d...
  */
-function handleTitleKeydown(event: KeyboardEvent): void {
-  if (!event.isTrusted) {
-    return
-  }
-  const target = event.target as Element | null
-  const key = event.key
-  if (key !== ' ' && key !== 'Spacebar' && key !== KEY_ENTER && event.keyCode !== 32 && event.keyCode !== 13) {
-    return
-  }
-  const editable = target?.closest?.('input, textarea, select, [contenteditable="true"]')
-  if (!editable) {
-    return
-  }
-  event.stopPropagation()
-  event.preventDefault()
-  const synthetic = new KeyboardEvent('keydown', {
-    key: event.key,
-    code: event.code,
-    keyCode: event.keyCode,
-    which: event.which,
-    bubbles: false,
-    cancelable: true
-  })
-  editable.dispatchEvent(synthetic)
-  if (synthetic.defaultPrevented || !('value' in editable) || !('setSelectionRange' in editable)) {
-    return
-  }
-  // Use shape-compatible type to avoid DOM global reference (lint no-undef in non-DOM env)
-  interface InputLikeElement extends Element {
-    value: string
-    selectionStart: number | null
-    selectionEnd: number | null
-    setSelectionRange(start: number, end: number): void
-  }
-  function isInputLike(el: Element): el is InputLikeElement {
-    return 'value' in el && 'setSelectionRange' in el
-  }
-  if (!isInputLike(editable)) return
-  const start = editable.selectionStart ?? editable.value.length
-  const end = editable.selectionEnd ?? start
-  const char = event.key === KEY_ENTER ? '\n' : ' '
-  const before = editable.value.slice(0, start)
-  const after = editable.value.slice(end)
-  editable.value = before + char + after
-  editable.setSelectionRange(start + char.length, start + char.length)
-  editable.dispatchEvent(new Event('input', { bubbles: true }))
-}
-
-/**
- * LEARNING: Use entity display composable for display name and messages
- * WHY: Moves display logic out of component into reusable composable
- * PATTERN: Composable handles entity name, success message, and delete title
- */
-const entityDisplayComposable = useEntityDisplay()
+const entityDisplayComposable = entityDisplay(useAdminConfig())
 const {
   getEntityDeleteTitle
 } = entityDisplayComposable
 
 /**
- * LEARNING: Use entity status composable for component status checks
- * WHY: Moves component status logic out of component into reusable composable
- * PATTERN: Composable handles composer, component, and composable detection
+ * WHY: Use entity status composable for component status checks
+WHY: Moves comp...
  */
 void useEntityStatus({
   entityKey: props.entityKey,
   entity: computed(() => props.entity)
 })
 
-
 const adminConfig = useAdminConfig()
 const admin = useAdmin()
 
-/**
- * LEARNING: Scoped logger for EntityCard debugging
- * WHY: Provides structured logging for debugging form state, metadata loading, and save operations
- * PATTERN: Use createLogger with scope name, enable via VITE_DEBUG_SCOPES=EntityCard
- */
 const logger = createLogger('EntityCard')
 
 /**
- * LEARNING: Form owned by composable only
- * WHY: EntityCard does not create form; useEntityCardForm creates or uses provided form and runs store sync
  * PATTERN: Single form owner in composable; component only consumes and passes form ref down
  */
 const { form } = useEntityCardForm({
@@ -225,7 +107,6 @@ const { form } = useEntityCardForm({
 /** Form instance for template binding; children require FormContext, not Ref. */
 const formForTemplate = computed(() => form.value!)
 
-// LEARNING: Use metadata composable to extract metadata-related computed properties
 // WHY: Reduces component complexity by moving metadata logic to composable
 // PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
 const { composedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
@@ -234,196 +115,59 @@ const { composedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   filteredMetadata: props.fieldMetadata
 })
 
-// LEARNING: Use computed properties composable to extract computed logic
-// WHY: Reduces component complexity by moving computed properties to composable
-// PATTERN: Composable provides fieldKeys, isMetadataReady, entityName, isComposable
-const entityCardComputed = useEntityCardComputed({
+const {
+  formFields,
+  fieldKeys: _fieldKeys,
+  isMetadataReady,
+  entityName,
+  isComposable,
+  finalFieldKeys: _finalFieldKeys,
+  fieldLocation,
+  inlineFieldsConfig: _inlineFieldsConfig,
+  stackedFieldsConfig: _stackedFieldsConfig,
+  isFormReady,
+} = useEntityCardFormSetup({
   entityKey: props.entityKey,
   entity: props.entity,
   composedFieldMetadata,
-  isMetadataLoading
-})
-
-// PATTERN: Destructure computed properties from composable
-const { fieldKeys, isMetadataReady, entityName, isComposable } = entityCardComputed
-
-// LEARNING: Use field configuration composable to extract field configuration computed properties
-// WHY: Reduces component complexity by moving field configuration logic to composable
-// PATTERN: Composable provides finalFieldKeys, fieldLocation, inlineFieldsConfig, stackedFieldsConfig
-const {
-  finalFieldKeys,
-  fieldLocation,
-  inlineFieldsConfig,
-  stackedFieldsConfig
-} = useEntityCardFieldConfiguration({
-  entityKey: props.entityKey,
-  fieldKeys,
-  composedFieldMetadata,
-  isExpanded,
-  filteredMetadata: props.fieldMetadata
-})
-
-const formFields = useFormFields({
-  entityKey: props.entityKey,
-  entityId: computed(() => props.entity.id),
-  form,
-  fieldKeys: finalFieldKeys,
-  fieldMetadata: composedFieldMetadata,
-  inlineFieldsConfig,
-  stackedFieldsConfig,
-  adminConfig
-})
-
-watch(() => formFields.fieldsNeedingContexts.value, (fieldsNeedingContexts) => {
-  if (fieldsNeedingContexts.length > 0) {
-    logger.debug('Fields needing contexts', { 
-      entityKey: props.entityKey, 
-      entityId: props.entity.id,
-      fieldsNeedingContexts: fieldsNeedingContexts.map(String)
-    })
-  }
-})
-
-const isFormReady = computed(() => formFields.isFormReady.value)
-
-/**
- * LEARNING: Field context management with warnings
- * WHY: Encapsulates field context retrieval with warnings for missing contexts
- * PATTERN: Use composable for managing field context access
- */
-const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
-  getFieldContext: formFields.getFieldContext,
-  fieldsByLocation: fieldLocation.fieldsByLocation,
   isMetadataLoading,
-  isMetadataReady,
-  fieldsNeedingContexts: formFields.fieldsNeedingContexts,
-})
-
-// LEARNING: isComposable is now provided by useEntityCardComputed composable
-// WHY: Extracted to composable to reduce component complexity
-
-/**
- * LEARNING: Conditional field visibility filtering
- * WHY: Some fields should only show under certain conditions (e.g., composite when composable=true)
- * PATTERN: Use composable for filtering fieldsByLocation based on business rules
- */
-const { filteredFieldsByLocation } = useConditionalFieldVisibility({
-  fieldsByLocation: fieldLocation.fieldsByLocation,
-  entityKey: props.entityKey,
-  isComposable,
-  form: form.value!,
-})
-
-// LEARNING: entityName is now provided by useEntityCardComputed composable
-// WHY: Extracted to composable to reduce component complexity
-
-/**
- * LEARNING: Use entity card actions composable for save/reset/delete handlers
- * WHY: Extracts action handlers from component to composable
- * PATTERN: Composable wraps useEntityForm + useEntityCrud and provides action handlers
- */
-const entityCardActions = useEntityCardActions({
-  entityKey: props.entityKey,
-  entity: computed(() => props.entity),
+  isExpanded,
+  filteredMetadata: props.fieldMetadata,
   form,
-  isNew: props.isNew,
-  onDelete: (id: string) => {
-    emit('delete', id)
-  },
-  onSaved: (entity: GlobalEntity<GlobalEntityKey>) => {
-    emit('saved', entity)
-  },
-  onCancelled: () => {
-    emit('cancelled')
-  }
+  adminConfig,
 })
+
+const { getFieldContext, fieldsMissingContexts, filteredFieldsByLocation } =
+  useEntityCardFieldContextAndVisibility({
+    formFields,
+    fieldLocation,
+    isMetadataLoading,
+    isMetadataReady,
+    entityKey: props.entityKey,
+    isComposable,
+    form: form.value!,
+    logger,
+  })
 
 const {
-  canSave: _canSave,
-  hasChanges: _hasChanges,
+  handleSave,
+  handleUndo,
   showDeleteDialog,
-  isNew: _isNew, // Already have props.isNew
-  handleSave: _handleSave,
-  handleUndo: _handleUndo,
   handleDeleteClick,
   handleDelete,
   handleCancelDelete,
-  handleCancel
-} = entityCardActions
-
-/**
- * LEARNING: Unified save state management
- * WHY: Tracks both form field changes AND status button changes
- * PATTERN: Composable that combines form dirty state with status button change tracking
- */
-const unifiedSaveState = useEntityCardSaveState({
-  form: form.value!,
+  handleCancel,
+  handleDuplicate,
+  unifiedSaveState,
+} = useEntityCardSaveAndActions({
   entityKey: props.entityKey,
-  entityId: props.entity.id,
-  getEntityValues: () => {
-    // PATTERN: Get entity from store (has latest saved values) or fall back to props.entity
-    const savedEntity = props.isNew ? props.entity : (admin.getEntity(props.entityKey, props.entity.id) || props.entity)
-    return savedEntity as Record<string, unknown>
-  }
+  entity: props.entity,
+  isNew: props.isNew,
+  form,
+  admin,
+  emit,
+  logger,
 })
-
-/** Reset form with saved entity from store; throws if entity not found (reduces handleSave nesting). */
-function resetFormWithSavedEntity(): void {
-  const savedEntity = admin.getEntity(props.entityKey, props.entity.id)
-  if (!savedEntity) {
-    logger.error('Saved entity not found after save', { entityKey: props.entityKey, entityId: props.entity.id })
-    throw new Error(`Saved entity not found after save: ${props.entityKey} ${props.entity.id}`)
-  }
-  form.value!.resetForm({ values: { ...savedEntity } })
-  form.value!.setValues({ ...savedEntity })
-  logger.debug('Form reset after save', { entityId: props.entity.id })
-}
-
-/**
- * LEARNING: Wrapped save handler that resets unified save state and form after save
- * WHY: After successful save, we need to reset both form and status button change tracking
- *      Also need to reset form with updated entity values from store
- * PATTERN: Wrap original handleSave, reset form with store entity, then reset save state
- */
-const handleSave = async (): Promise<void> => {
-  logger.debug('Save triggered', { 
-    entityKey: props.entityKey, 
-    entityId: props.entity.id,
-    isDirty: form.value!.meta.value.dirty,
-    formValues: Object.keys(form.value!.values !== undefined && form.value!.values !== null ? form.value!.values : {})
-  })
-  await _handleSave()
-  await nextTick()
-  if (!props.isNew) {
-    resetFormWithSavedEntity()
-  }
-  unifiedSaveState.resetSaveState()
-}
-
-/**
- * LEARNING: Wrapped undo handler that resets unified save state
- * WHY: Undo should reset both form and status button changes
- * PATTERN: Wrap original handleUndo, call resetSaveState
- */
-const handleUndo = (): void => {
-  _handleUndo()
-  unifiedSaveState.resetSaveState()
-}
-
-/**
- * LEARNING: Duplicate handler that emits duplicate event for parent to handle
- * WHY: Allows parent (InstancesTab) to show inline creation card with pre-filled values
- * PATTERN: Emit event instead of creating immediately - same pattern as create flow
- */
-const handleDuplicate = async (): Promise<void> => {
-  if (props.entityKey !== 'blockInstance') {
-    return
-  }
-
-  const currentEntity = props.entity as GlobalEntity<'blockInstance'>
-  
-  emit('duplicate', currentEntity)
-}
 
 provide(ENTITY_CARD_SAVE_KEY, {
   handleSave,
@@ -433,27 +177,17 @@ provide(ENTITY_CARD_SAVE_KEY, {
 
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
-// PATTERN: Call function directly in template when value doesn't need reactivity
-
-/**
- * LEARNING: Title row fields from composable - NO filtering
- * WHY: Composable returns all title row fields - component renders based on metadata directly
- * PATTERN: Use composable's titleRowFields - read metadata in template to determine rendering
- */
 const titleRowFields = fieldLocation.titleRowFields
 
-
 /**
- * LEARNING: Expose methods and state for parent components (minimal API)
- * WHY: EntityCard is now self-contained, but some parent components may need form access
- * PATTERN: Expose only what's needed for external access (form, readiness state)
+ * WHY: Expose methods and state for parent components (minimal API)
+PATTERN: Ex...
  */
 defineExpose({
   getFieldContext,
   getNameFieldContext: () => getFieldContext('name'),
   form,
   handleSave,
-  // LEARNING: Expose readiness state for parent components (if needed for other purposes)
   // PATTERN: Expose computed properties for external access
   isMetadataReady,
   isFormReady: formFields.isFormReady
@@ -462,7 +196,6 @@ defineExpose({
 
 <template>
   <!--
-    LEARNING: Self-contained EntityCard with optional VExpansionPanel wrapper
     WHY: EntityCard owns its rendering - title row, expand/collapse, and content
     PATTERN: When useExpansionPanel=true, wraps in VExpansionPanel. When false (modals), renders content directly.
     NOTE: When used inside parent VExpansionPanels, EntityCard renders as VExpansionPanel. When standalone, renders content directly.
@@ -480,11 +213,9 @@ defineExpose({
         @keydown="handleTitleKeydown"
       >
         <div class="d-flex align-center gap-2 flex-wrap">
-          <!-- LEARNING: Render name field left-justified in panel title -->
           <!-- WHY: Name field should be on the left side of the title row -->
           <!-- PATTERN: Render name field first, then status buttons on the right -->
           <template v-if="titleRowFields.length > 0 && isFormReady">
-            <!-- LEARNING: staticAsTitle fields render first, left-justified -->
             <!-- WHY: Name field should be on the left side of the title row, always first -->
             <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
             <div class="flex-grow-1 d-flex align-center gap-2">
@@ -503,7 +234,6 @@ defineExpose({
               </template>
             </div>
             
-            <!-- LEARNING: Other titleRow fields render after, right-justified -->
             <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
             <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
             <div class="d-flex align-center gap-2 ms-auto">
@@ -524,7 +254,6 @@ defineExpose({
           <span v-else class="flex-grow-1">{{ entityName }}</span>
         </div>
         
-        <!-- LEARNING: Parts totals displayed in title row below name and status buttons -->
         <!-- WHY: Shows parts totals at top of card when entity can have parts -->
         <!-- PATTERN: Component renders conditionally based on canHaveParts flag -->
         <EntityCardPartsTotals
@@ -535,7 +264,6 @@ defineExpose({
     </template>
     
     <template #text>
-      <!-- LEARNING: VExpansionPanel already provides card styling, so use div instead of nested VCard -->
       <!-- WHY: VExpansionPanel has card-like appearance, adding VCard inside creates "card within card" visual issue -->
       <!-- PATTERN: Use div wrapper when useExpansionPanel=true, VCard wrapper when useExpansionPanel=false -->
       <div class="entity-card-content pa-4">
@@ -567,19 +295,16 @@ defineExpose({
   </VExpansionPanel>
 
   <!--
-    LEARNING: Render content directly when useExpansionPanel=false (modals)
     WHY: Modals don't need VExpansionPanel wrapper, just render content directly
     PATTERN: Conditional rendering based on useExpansionPanel prop
   -->
   <div v-else class="entity-card-content">
-    <!-- LEARNING: Title row fields render at top when not using expansion panel -->
     <!-- WHY: TitleRow fields should still be visible even without expansion panel -->
     <div
       v-if="titleRowFields.length > 0 && isFormReady"
       class="d-flex align-center gap-2 mb-4 flex-wrap"
       @keydown="handleTitleKeydown"
     >
-      <!-- LEARNING: staticAsTitle fields render first, left-justified -->
       <!-- WHY: Name field should be on the left side of the title row, always first -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
       <div class="flex-grow-1 d-flex align-center gap-2">
@@ -598,7 +323,6 @@ defineExpose({
         </template>
       </div>
       
-      <!-- LEARNING: Other titleRow fields render after, right-justified -->
       <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
       <div class="d-flex align-center gap-2 ms-auto">
@@ -641,15 +365,13 @@ defineExpose({
       :unified-save-state="unifiedSaveState"
     />
   </div>
-
   <!--
-    LEARNING: Delete Confirmation Dialog
     WHY: Provides confirmation before deleting entity
     PATTERN: VDialog with confirmation message
   -->
   <VDialog v-model="showDeleteDialog" max-width="400px">
     <VCard>
-      <VCardTitle class="text-h6">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
+      <VCardTitle class="text-headline-small">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
       <VCardText>
         Are you sure you want to delete "{{ entityName }}"? This action cannot be undone.
       </VCardText>
@@ -661,5 +383,3 @@ defineExpose({
     </VCard>
   </VDialog>
 </template>
-
-

@@ -1,39 +1,9 @@
-/**
- * usePricingCascadeInstances Composable
- *
- * Resolves cascaded part instances from a parent part instance's pricing cascade
- * (activePartIds). Use when the wizard or confirmation step needs to show which
- * downstream parts contribute to a part's pricing.
- */
-
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed } from 'vue'
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
+import type { UsePricingCascadeInstancesOptions, UsePricingCascadeInstancesReturn } from '@/types/booking/pricingCascadeInstances'
 
-export interface UsePricingCascadeInstancesOptions {
-  parentPartInstance: ComputedRef<BookingPartInstance | null> | Ref<BookingPartInstance | null>
-  allPartInstances: ComputedRef<BookingPartInstance[]> | Ref<BookingPartInstance[]>
-}
+export type { UsePricingCascadeInstancesOptions, UsePricingCascadeInstancesReturn } from '@/types/booking/pricingCascadeInstances'
 
-export interface UsePricingCascadeInstancesReturn {
-  cascadePartInstanceIds: ComputedRef<string[]>
-  cascadePartInstances: ComputedRef<BookingPartInstance[]>
-  hasCascades: ComputedRef<boolean>
-}
-
-/**
- * usePricingCascadeInstances composable
- *
- * LEARNING: Part-level cascade resolution for pricing (partInstance -> partInstance).
- * WHY: Service parts can pull in property part pricing; this exposes the cascaded parts.
- *
- * @example
- * ```ts
- * const { cascadePartInstances, hasCascades } = usePricingCascadeInstances({
- *   parentPartInstance: computed(() => selectedPart.value),
- *   allPartInstances: computed(() => allPartsFromWizard.value),
- * })
- * ```
- */
 export function usePricingCascadeInstances(
   options: UsePricingCascadeInstancesOptions
 ): UsePricingCascadeInstancesReturn {

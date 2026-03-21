@@ -1,7 +1,5 @@
 /**
  * Composable for buffer settings (appointment, drive time) and lead time constraint
- * WHY: Extracts buffer and range-constraint logic from BusinessControlsTab
- * PATTERN: Uses shared nestedComputedFactory; formData is single source of truth
  */
 import { computed, type Ref, type WritableComputedRef } from 'vue'
 import type {
@@ -231,10 +229,7 @@ export function useBufferSettings(params: UseBufferSettingsParams): {
   })
 
   /**
-   * LEARNING: WritableComputedRef for overlapSources.outOfOffice.enforcement
-   * WHY: Follows the same reactive pattern as other settings but uses a simpler computed
-   *      since overlapSources only has one level of nesting
-   * PATTERN: Writable computed backed by formData.overlapSources.outOfOffice.enforcement
+WHY: Follows the same reactive pattern as other settings but uses a ...
    */
   const overlapSourcesOutOfOfficeEnforcement = computed<ConstraintEnforcement>({
     get: (): ConstraintEnforcement => {

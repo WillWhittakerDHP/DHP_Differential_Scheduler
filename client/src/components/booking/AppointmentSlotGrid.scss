@@ -5,18 +5,18 @@
   min-width: 0; // Allow grid to shrink below content size
   box-sizing: border-box; // Include padding in width calculation
   margin-bottom: 0; // Override default margin to align with container spacing
-  position: relative; // LEARNING: Enable absolute positioning for constraint overlay
+  position: relative;
   // PATTERN: Use fixed column width (140px), buttons will size to content with min-width constraint
   grid-template-columns: repeat(var(--grid-columns, 1), 140px);
   grid-auto-rows: max-content; // Allow height to collapse to button content
-  align-content: start; // LEARNING: Keep grid height bound to its items
-  justify-content: start; // LEARNING: Align grid to start if there's extra space
+  align-content: start;
+  justify-content: start;
   gap: 8px;
   padding: 0 10px; // 20px total horizontal padding
   // PATTERN: Fixed max-height with overflow-y: auto for consistent scrolling behavior
   max-height: 350px;
   overflow-y: auto;
-  overflow-x: hidden; // LEARNING: Ensure horizontal overflow is hidden
+  overflow-x: hidden;
   scroll-behavior: smooth;
   // PATTERN: Explicit width constraints to ensure proper filling
   flex: 0 1 auto; // Allow grid to shrink/grow within flex container
@@ -49,15 +49,15 @@
   .appointment-slot-btn {
     min-height: 44px; // Touch-friendly minimum size
     min-width: 140px; // Minimum width for longer time ranges like "10:00 AM - 10:30 AM"
-    width: 100%; // LEARNING: Changed from max-content to 100%
+    width: 100%;
     max-width: 100%; // Prevent overflow beyond grid cell
     padding: 0.5rem 1rem !important; // Explicit padding to prevent text overflow
     white-space: nowrap; // Prevent text wrapping
-    overflow: visible; // LEARNING: Allow dots to be visible
+    overflow: visible;
     text-overflow: ellipsis; // Fallback if text is still too long
-    box-sizing: border-box; // LEARNING: Ensure padding included in width
-    position: relative; // LEARNING: Enable relative positioning for dots
-    pointer-events: auto; // LEARNING: Ensure button allows pointer events to pass through to dots
+    box-sizing: border-box;
+    position: relative;
+    pointer-events: auto;
 
     .slot-button-content {
       display: flex;
@@ -73,19 +73,19 @@
       display: flex;
       gap: 4px;
       flex-shrink: 0;
-      z-index: 10; // LEARNING: Higher z-index to ensure tooltips appear above button
-      pointer-events: auto; // LEARNING: Ensure dots can receive pointer events
+      z-index: 10;
+      pointer-events: auto;
     }
 
     .constraint-dot {
-      width: 12px; // LEARNING: Increased from 8px for better hover target
-      height: 12px; // LEARNING: Increased from 8px for better hover target
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       border: 1px solid rgba(var(--v-theme-surface), 0.8);
       box-shadow: 0 1px 3px rgba(var(--v-theme-on-surface), 0.3);
       flex-shrink: 0;
-      cursor: help; // LEARNING: Indicate tooltip availability
-      pointer-events: auto; // LEARNING: Ensure dot can receive pointer events
+      cursor: help;
+      pointer-events: auto;
     }
 
     @media (min-width: 600px) {
@@ -93,7 +93,6 @@
       padding: 0.625rem 1.25rem !important; // Slightly more padding on larger screens
     }
 
-    // LEARNING: Active state (default, available, not selected)
     // PATTERN: Use light tinted background with primary/secondary color
     &[color="primary"]:not(.appointment-slot-btn--busy):not(.appointment-slot-btn--inactive):not(.v-btn--variant-flat) {
       background-color: rgba(var(--v-theme-primary), 0.1) !important;
@@ -107,7 +106,6 @@
       color: rgb(var(--v-theme-on-surface)) !important;
     }
 
-    // LEARNING: Selected state (when button is selected - uses flat variant)
     // PATTERN: Override Vuetify flat variant to ensure proper contrast
     &.v-btn--variant-flat:not(.appointment-slot-btn--busy) {
       &[color="primary"] {
@@ -138,7 +136,6 @@
       }
     }
 
-    // LEARNING: Busy slot styling (unavailable due to calendar conflicts)
     // WHY: Gray background clearly indicates unavailable state
     // PATTERN: Use gray surface colors with reduced opacity
     &--busy {
@@ -147,6 +144,15 @@
       border-color: rgba(var(--v-theme-on-surface), 0.2) !important;
       color: rgba(var(--v-theme-on-surface), 0.5) !important;
       opacity: 1 !important; // Remove opacity override, use color opacity instead
+    }
+
+    // WHY: Reschedule mode — slot matching loaded appointment's current time; distinct but still selectable
+    // PATTERN: Stronger border and tint so user sees "Current appointment time" at a glance
+    &--original-inspection:not(.appointment-slot-btn--busy) {
+      border-width: 2px !important;
+      border-style: solid;
+      box-shadow: 0 0 0 1px rgba(var(--v-theme-primary), 0.3);
+      font-weight: 600;
     }
   }
 }

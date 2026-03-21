@@ -1,15 +1,3 @@
-/**
- * Capacity Computer Service
- * 
- * LEARNING: Pre-computes scheduled hours for all capacity constraints in a date range
- * WHY: Eliminates N individual client API calls by computing all capacity hours server-side
- * PATTERN: Batch computation of capacity hours for entire date range
- * 
- * Phase 3: Server-Side Computed Availability Data Refactor
- * - Pre-computes capacity hours for all dates in requested range
- * - Returns Record<string, number> keyed by capacity key string
- * - Reuses existing availabilitiesDbUtils functions
- */
 
 import type { CapacityConstraint } from '../../../shared/types/availabilityTypes.js'
 import { TIME_BASIS_TYPES } from '../../../shared/constants/constraintConstants.js'
@@ -27,22 +15,13 @@ import {
   sumIncomeForRollingWeek,
 } from '../utils/availabilities/availabiltiesDbUtils.js'
 import { getUniqueDatesInRange } from '../utils/availabilities/availabilityPrimitives.js'
+import { ROLLING_WEEK_DIRECTION } from '../utils/availabilities/availabilityConstants.js'
 
 export interface ScheduledCapacityResult {
   scheduledHoursByKey: Record<string, number>
   scheduledIncomeByKey: Record<string, number>
 }
 
-/**
- * Pre-compute scheduled hours and income for all capacity constraints in a date range
- * LEARNING: Batch computation of capacity hours and income; income uses same key shape as hours
- * WHY: Server can efficiently compute all capacity data in one pass; income for threshold gate
- * PATTERN: Generate all unique capacity keys, fetch hours and income per key, return both maps
- *
- * @param dateRange - Date range to compute capacity for
- * @param capacityConstraints - Array of capacity constraints to compute
- * @returns scheduledHoursByKey and scheduledIncomeByKey
- */
 export async function computeScheduledHoursForRange(
   dateRange: { start: string; end: string },
   capacityConstraints: CapacityConstraint[]
@@ -88,8 +67,8 @@ export async function computeScheduledHoursForRange(
           income = await sumIncomeForCalendarWeek(dateObj)
           break
         case TIME_BASIS_TYPES.ROLLING_WEEK:
-          hours = await sumWorkHoursForRollingWeek(dateObj, keyParts.direction || 'past')
-          income = await sumIncomeForRollingWeek(dateObj, keyParts.direction || 'past')
+          hours = await sumWorkHoursForRollingWeek(dateObj, keyParts.direction || ROLLING_WEEK_DIRECTION.PAST)
+          income = await sumIncomeForRollingWeek(dateObj, keyParts.direction || ROLLING_WEEK_DIRECTION.PAST)
           break
       }
 

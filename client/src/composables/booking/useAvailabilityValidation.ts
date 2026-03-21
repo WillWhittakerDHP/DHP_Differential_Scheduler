@@ -1,27 +1,10 @@
-/**
- * useAvailabilityValidation Composable
- * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
- */
-
 import { computed } from 'vue'
 import { useFormValidation } from '@/composables/useFormValidation'
-import type { ValidationRule } from '@/composables/useFormValidation'
-import { useStepValidation, type UseStepValidationReturn } from './useStepValidation'
-import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
+import { useStepValidation } from './useStepValidation'
+import type { UseAvailabilityValidationParams, UseAvailabilityValidationReturn } from '@/types/booking/availabilityValidation'
 
-/** Same shape as shared base (P2 type-similarity). */
-export type UseAvailabilityValidationParams = AvailabilityStepParamsBase
 
-export type UseAvailabilityValidationReturn = UseStepValidationReturn
-
-/**
- * useAvailabilityValidation composable
- * 
- * LEARNING: Thin wrapper around generic useStepValidation
- * WHY: Provides step-specific validation rules using generic pattern
- */
+import type { ValidationRule } from '@/types/formValidation'
 export function useAvailabilityValidation(
   params: UseAvailabilityValidationParams
 ): UseAvailabilityValidationReturn {

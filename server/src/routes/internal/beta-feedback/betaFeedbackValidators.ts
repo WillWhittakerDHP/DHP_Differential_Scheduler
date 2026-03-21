@@ -1,10 +1,3 @@
-/**
- * Beta Feedback Validators
- *
- * LEARNING: Request validation for beta feedback create/update
- * WHY: Ensures required fields and enum values before hitting the database
- * PATTERN: Pure functions returning ValidationResult
- */
 
 import type { ValidationResult } from '../../helpers/routerValidators.js';
 import {

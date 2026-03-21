@@ -1,19 +1,8 @@
-/**
- * Google API Retry Utilities
- * 
- * LEARNING: Generalized retry logic for Google API operations
- * WHY: Handles transient errors (rate limits, network issues) automatically
- * PATTERN: Exponential backoff with jitter to prevent thundering herd
- */
 
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('GoogleApiRetry')
 
-/**
- * Retry configuration
- * LEARNING: Configurable retry behavior
- */
 export interface RetryConfig {
   maxRetries: number
   initialDelayMs: number
@@ -21,10 +10,6 @@ export interface RetryConfig {
   backoffMultiplier: number
 }
 
-/**
- * Default retry configuration
- * LEARNING: Sensible defaults for retry behavior
- */
 export const DEFAULT_RETRY_CONFIG: RetryConfig = {
   maxRetries: 3,
   initialDelayMs: 1000,      // Start with 1 second
@@ -32,33 +17,18 @@ export const DEFAULT_RETRY_CONFIG: RetryConfig = {
   backoffMultiplier: 2,      // Double each time
 }
 
-/**
- * Error type that indicates if an error is retryable
- * LEARNING: Interface for errors that can be retried
- */
 interface RetryableError {
   retryable: boolean
   type?: string
   message: string
 }
 
-/**
- * Calculate delay for exponential backoff with jitter
- * LEARNING: Exponential backoff with jitter prevents thundering herd
- * WHY: Spreads out retry attempts to reduce load spikes
- * 
- * @param attempt - Current retry attempt (0-based)
- * @param config - Retry configuration
- * @returns Delay in milliseconds
- */
 function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
-  // Calculate base delay with exponential backoff
   const baseDelay = Math.min(
     config.initialDelayMs * Math.pow(config.backoffMultiplier, attempt),
     config.maxDelayMs
   )
   
-  // Add jitter (±25%) to prevent thundering herd
   const jitter = baseDelay * 0.25 * (Math.random() * 2 - 1)
   
   return Math.round(baseDelay + jitter)
@@ -66,9 +36,6 @@ function calculateBackoffDelay(attempt: number, config: RetryConfig): number {
 
 /**
  * Execute operation with exponential backoff retry for transient errors
- * LEARNING: Generic retry wrapper for Google API operations
- * WHY: Handles transient errors automatically without code duplication
- * PATTERN: Only retries retryable errors, throws immediately for permanent errors
  * 
  * @param operation - Async function to execute
  * @param isRetryable - Function to check if error is retryable
@@ -90,7 +57,6 @@ export async function withRetry<T>(
     } catch (error: unknown) {
       lastError = error
       
-      // Check if error is retryable
       if (!isRetryable(error)) {
         const rawType = (error as RetryableError)?.type
         const errorType = rawType !== undefined && rawType !== null && rawType !== '' ? rawType : 'unknown'
@@ -98,13 +64,11 @@ export async function withRetry<T>(
         throw error
       }
       
-      // Don't retry if we've exhausted all attempts
       if (attempt >= retryConfig.maxRetries) {
         logger.error('All retries exhausted', { maxRetries: retryConfig.maxRetries })
         throw error
       }
       
-      // Calculate and wait for backoff delay
       const delay = calculateBackoffDelay(attempt, retryConfig)
       const rawTypeRetry = (error as RetryableError)?.type
       const errorType = rawTypeRetry !== undefined && rawTypeRetry !== null && rawTypeRetry !== '' ? rawTypeRetry : 'unknown'
@@ -119,6 +83,5 @@ export async function withRetry<T>(
     }
   }
   
-  // Should never reach here, but TypeScript needs this
   throw lastError || new Error('Retry failed')
 }

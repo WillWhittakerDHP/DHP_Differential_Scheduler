@@ -1,50 +1,35 @@
-/**
- * Perspective Resolver
- *
- * LEARNING: Shared logic for resolving major/minor event shapes and deriving display time ranges.
- * WHY: applyShapeToTime and derivePerspective duplicated this logic; single place reduces complexity.
- * PATTERN: Pure functions; no slot shape building, only perspective/time derivation.
- */
 
 import type { TimeRange, AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { EventShapeEntity } from '@/types/entities'
-import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
-import { asEmptyArray } from '@/utils/safeDefaults'
+import { createLogger } from '@/utils/logger'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
+import type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
 
-export interface ResolvedEventShapes {
-  majorEventShape: EventShapeEntity | null
-  minorEventShape: EventShapeEntity | null
-  majorEventName: string | null
-  minorEventName: string | null
-}
+export type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
 
-/**
- * Resolve major and minor event shapes from slot shape and availability settings.
- * LEARNING: Single place for the duplicated logic previously in applyShapeToTime and derivePerspective.
- * WHY: Eliminates duplication and reduces nesting in callers.
- */
+const logger = createLogger('perspectiveResolver')
+
 export function resolveEventShapes(
-  majorAttendeeIds: GlobalEntityId[],
-  minorAttendeeIds: GlobalEntityId[],
   eventFinals: SlotShape['eventFinals']
 ): ResolvedEventShapes {
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
-  const majorEventShape =
-    majorAttendeeIds.length > 0 ? getMajorEventShape(eventShapeEntities, majorAttendeeIds) : null
-  const eventShapesExcludingMajor = majorEventShape
-    ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-    : eventShapeEntities
-  const minorEventShape =
-    minorAttendeeIds.length > 0
-      ? getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
-      : null
+  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  if (!majorEventShape) {
+    logger.error('resolveEventShapes: no event shape with differentialRole=major', {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
+
+  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  if (!minorEventShape) {
+    logger.error('resolveEventShapes: no event shape with differentialRole=minor', {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
 
   return {
     majorEventShape,
@@ -54,11 +39,6 @@ export function resolveEventShapes(
   }
 }
 
-/**
- * Adjust minor time range to end at major end time using roundedDifferentialOffset.
- * LEARNING: Differential display: minor starts after offset, ends with major.
- * WHY: Extracted from applyShapeToTime to share and reduce complexity.
- */
 export function adjustMinorTimeRange(
   startTime: string,
   eventTimeRanges: Record<string, TimeRange | null>,
@@ -96,32 +76,20 @@ export function adjustMinorTimeRange(
   }
 }
 
-/**
- * Derive the display TimeRange for a slot given a perspective (major / minor / nonDifferential).
- * LEARNING: Single place for perspective-to-time mapping; uses resolveEventShapes.
- * WHY: Used by useAppointmentSlots and AppointmentSlotGrid for display.
- */
 export function derivePerspective(
   slot: AppointmentSlot,
   perspective: 'major' | 'minor' | 'nonDifferential',
-  globalData?: GlobalData,
-  availabilitySettings?: AvailabilitySettings | null
 ): TimeRange | null {
-  const differentialPerspectives = availabilitySettings?.differentialPerspectives
   const eventFinals = slot.shape.slotShape.eventFinals
 
-  if (!globalData || !eventFinals?.length || !differentialPerspectives) {
+  if (!eventFinals?.length) {
     if (perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL || perspective === EVENT_PERSPECTIVE_KEYS.MAJOR) {
       return slot.totalTimeRange
     }
     return null
   }
 
-  const majorAttendeeIds = asEmptyArray(differentialPerspectives.majorAttendees)
-  const minorAttendeeIds = asEmptyArray(differentialPerspectives.minorAttendees)
   const { majorEventShape, minorEventShape, majorEventName, minorEventName } = resolveEventShapes(
-    majorAttendeeIds,
-    minorAttendeeIds,
     eventFinals
   )
 

@@ -202,7 +202,7 @@ interface SelectionCardItem {
 - **Plan**: `@/Users/districthomepro/.cursor/plans/expandable_card_buttons_with_component_options_ff8d8f2c.plan.md`
 - **Phase Guide**: `../phases/phase-1.2-guide.md`
 - **Phase Handoff**: `../phases/phase-1.2-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 
 ---
 

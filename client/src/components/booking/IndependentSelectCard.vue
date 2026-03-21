@@ -1,19 +1,4 @@
 <script setup lang="ts">
-/**
- * IndependentSelectCard Component
- * 
- * LEARNING: Standalone card for child/dependent selections
- * WHY: Simpler than nested rendering - independent component with its own state
- * PATTERN: Checkbox-based multi-select, no expansion logic needed
- * 
- * Use cases:
- * - Dependent instance options within a parent card
- * - Child selections in any nested context
- * - Add-on services, property options, etc.
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- */
-
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectionCardItem, SelectionCardConfig } from './types/selectionCardTypes'
@@ -127,7 +112,6 @@ const contentClasses = computed(() => {
 </script>
 
 <template>
-  <!-- LEARNING: Independent select card for dependent options -->
   <!-- WHY: Simpler component without nested rendering complexity -->
   <!-- PATTERN: Checkbox-based card with customizable appearance -->
   <VCard
@@ -136,7 +120,6 @@ const contentClasses = computed(() => {
     variant="outlined"
     @click="handleClick"
   >
-    <!-- LEARNING: Checkbox on the left for consistent multi-select UX -->
     <VCheckbox
       v-if="mergedConfig.controlPosition === 'left'"
       :model-value="modelValue"
@@ -157,14 +140,10 @@ const contentClasses = computed(() => {
     
     <!-- Content -->
     <div :class="contentClasses">
-      <!-- Title slot or default -->
-      <slot name="title" :item="item">
-        <span class="text-body-1 font-weight-medium">
-          {{ item.name }}
-        </span>
-      </slot>
-      
-      
+      <span class="text-body-large font-weight-medium">
+        {{ item.name }}
+      </span>
+
       <!-- Default slot for additional content -->
       <slot :item="item" />
     </div>
@@ -182,11 +161,6 @@ const contentClasses = computed(() => {
 </template>
 
 <style scoped lang="scss">
-/**
- * LEARNING: Independent select card styling
- * WHY: Clean, consistent appearance for dependent options
- * PATTERN: Uses Vuetify tokens for theme consistency
- */
 .independent-select-card {
   transition: all 0.2s ease-in-out;
   
@@ -213,4 +187,3 @@ const contentClasses = computed(() => {
   }
 }
 </style>
-

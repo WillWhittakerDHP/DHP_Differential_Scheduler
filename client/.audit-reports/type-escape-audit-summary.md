@@ -11,21 +11,19 @@ Generated from `client/.audit-reports/type-escape-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Total scanned | 787 |
-| Findings | 1 |
-| Files with findings | 1 |
+| Total scanned | 9 |
+| Findings | 0 |
+| Files with findings | 0 |
 
 ## By rule
 
 | Rule | Count |
 | --- | ---: |
-| as-unknown-as | 1 |
 
-## Top 1 files
+## Top 0 files
 
 | File | Priority | Score |
 | --- | --- | ---: |
-| `undefined` | P2 | 4 |
 
 ## Notes
 

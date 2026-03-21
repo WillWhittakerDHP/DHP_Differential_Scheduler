@@ -76,7 +76,7 @@ Feature planning complete. Research phase initiated. Three-phase approach define
 
 - Feature Guide: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md`
 - Feature Log: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-log.md`
-- Feature Plan: `project-manager/features/admin-ui-overhaul/feature-plan.md`
+- Feature Guide: `project-manager/features/admin-ui-overhaul/feature-admin-ui-overhaul-guide.md`
 - Next Feature Guide: `project-manager/features/[next-name]/feature-[next-name]-guide.md` (if applicable)
 
 

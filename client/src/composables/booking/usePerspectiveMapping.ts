@@ -1,28 +1,17 @@
 /**
- * usePerspectiveMapping Composable
- * 
- * LEARNING: Maps startTimeType (UI labels) to PerspectiveKey (logic names)
- * WHY: Extracts perspective mapping logic from AvailabilityStep component
- * PATTERN: Composable that provides computed property for perspective mapping
+ * PATTERN: usePerspectiveMapping Composable
+
+PATTERN: Composable that provides comp...
  */
-
-import { computed, type ComputedRef, type Ref } from 'vue'
+import { computed } from 'vue'
 import type { PerspectiveKey } from '@/types/appointment'
+import type { UsePerspectiveMappingParams, UsePerspectiveMappingReturn } from '@/types/booking/perspectiveMapping'
 
-export interface UsePerspectiveMappingParams {
-  startTimeType: Ref<'major' | 'minor' | 'nonDifferential'>
-}
-
-export interface UsePerspectiveMappingReturn {
-  perspective: ComputedRef<PerspectiveKey>
-}
 
 /**
- * usePerspectiveMapping composable
- * 
- * LEARNING: Maps startTimeType to PerspectiveKey
- * WHY: Extracts mapping logic from component to composable
- * PATTERN: Composable that returns reactive computed property
+ * WHY: usePerspectiveMapping composable
+
+WHY: Extracts mapping logic from compo...
  */
 export function usePerspectiveMapping(
   params: UsePerspectiveMappingParams
@@ -30,8 +19,6 @@ export function usePerspectiveMapping(
   const { startTimeType } = params
 
   /**
-   * LEARNING: Map startTimeType to PerspectiveKey
-   * WHY: startTimeType uses UI labels, PerspectiveKey uses logic names
    * PATTERN: Direct mapping since both use same terminology
    */
   const perspective = computed<PerspectiveKey>(() => {

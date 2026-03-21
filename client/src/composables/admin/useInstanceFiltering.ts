@@ -1,41 +1,16 @@
-/**
- * Composable for instance filtering and grouping logic
- * WHY: Extracts filtering and grouping logic from InstancesTab
- * PATTERN: Computed properties and helper functions for instance filtering
- */
-
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { useGlobal } from '@/composables/useGlobal'
+import type { UseInstanceFilteringOptions, UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
 
 const DEFAULT_BOOKING_MODE = DEFAULT_VALUES.BOOKING_MODE
 
-/**
- * Check if instance is a component child
- * WHY: Component children should be grouped separately
- * PATTERN: Check if instance ID is in componentChildIds set
- */
 function isComponentChild(instance: GlobalEntity<'blockInstance'>, componentChildIds: Set<string>): boolean {
   return componentChildIds.has(instance.id)
 }
 
 
-import type { UseInstanceBlockInstancesByShapeOptions } from './useInstanceComposableOptions'
-
-export type UseInstanceFilteringOptions = UseInstanceBlockInstancesByShapeOptions
-
-export interface UseInstanceFilteringReturn {
-  mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  groupedInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  groupedPanelValue: (blockShapeId: string) => string
-}
-
-/**
- * Composable for filtering instances into main vs grouped
- * WHY: Makes it visually obvious which instances are not shown in booking main lists
- * PATTERN: Main list stays draggable; grouped list lives in a collapsible section
- */
 export function useInstanceFiltering(
   options: UseInstanceFilteringOptions
 ): UseInstanceFilteringReturn {
@@ -44,9 +19,7 @@ export function useInstanceFiltering(
   const { globalData } = useGlobal()
 
   /**
-   * LEARNING: Component-child detection (instanceComponents relationship)
    * WHY: Instances used only as components should be visually grouped and clearly marked as "not in booking main lists".
-   * PATTERN: Build a Set of all child blockInstance IDs from instanceComponents relationships.
    */
   const componentChildIds = computed((): Set<string> => {
     const raw = globalData.value?.relationships?.instanceComponents
@@ -61,13 +34,6 @@ export function useInstanceFiltering(
     }, new Set<string>())
   })
 
-  /**
-   * Split instances into main vs grouped (components/addOn)
-   * WHY: Makes it visually obvious which instances are not shown in booking main lists
-   * PATTERN: Main list stays draggable; grouped list lives in a collapsible section
-   * LEARNING: Main instances include standalone and both (preserves orderIndex order from useInstanceGrouping)
-   *           Grouped instances include addOn OR component children (preserves orderIndex order from useInstanceGrouping)
-   */
   const mainInstancesByShape = computed((): Map<string, GlobalEntity<'blockInstance'>[]> => {
     const result = new Map<string, GlobalEntity<'blockInstance'>[]>()
 

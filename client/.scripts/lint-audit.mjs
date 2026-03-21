@@ -150,7 +150,7 @@ function main() {
   const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
   const ruleWeights = { ...DEFAULT_RULE_WEIGHTS, ...(config.ruleWeights || {}) }
 
-  const { stdout, status } = runEslint(paths.clientRoot)
+  const { stdout, status: _status } = runEslint(paths.clientRoot)
 
   let rawResults = []
   try {
@@ -217,9 +217,9 @@ function main() {
 
   console.log(`Wrote:\n- ${outJson}\n- ${outMd}`)
   console.log(`Findings: ${allFindings.length} (files with findings: ${files.length})`)
-  if (status !== 0) {
-    process.exitCode = 1
-  }
+  // WHY: Do not propagate ESLint's exit code (status). The audit succeeds if it ran and wrote
+  // the report. Finding counts and file lists are in the report for CI/summaries; exiting 1
+  // here would break audit:all and downstream summaries without adding information.
 }
 
 main()

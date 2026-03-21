@@ -3,9 +3,10 @@ import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
-import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { useCrudDataTableModel } from './useCrudDataTableModel'
 import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
 
+import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
 export interface UsersTableModel extends CrudDataTableModel<
   UserResponse,
   UserRequest,
@@ -16,7 +17,7 @@ export function useUsersTableModel(): UsersTableModel {
   const { success, error } = useNotification()
   const { fetchAll, create, update, remove } = useUser()
 
-  const model = useCrudDataTableModel<UserResponse, UserRequest, Partial<UserRequest>>({
+  const crud = useCrudDataTableModel<UserResponse, UserRequest, Partial<UserRequest>>({
     entityLabel: 'User',
     itemsSource: createItemsSource(fetchAll.data),
     isLoadingSource: computed(() => fetchAll.isLoading.value),
@@ -26,7 +27,14 @@ export function useUsersTableModel(): UsersTableModel {
     deleteItem: async (id) => remove.mutateAsync(id),
     notifySuccess: (message) => success(message),
     notifyError: (message) => error(message),
-    getCreateDefaults: () => ({ userRole: USER_ROLE_CLIENT }) as UserRequest,
+    getCreateDefaults: () => ({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      userRole: USER_ROLE_CLIENT,
+      loginId: undefined,
+    }) as UserRequest,
     validateCreate: (payload) => {
       if (!payload.firstName || !payload.lastName || !payload.email) {
         return 'First name, last name, and email are required'
@@ -44,9 +52,12 @@ export function useUsersTableModel(): UsersTableModel {
   })
 
   return {
-    ...model,
+    ...crud.data,
+    ...crud.editState,
+    ...crud.dialogs,
+    ...crud.actions,
     formatNullValue,
-  }
+  } as UsersTableModel
 }
 
 

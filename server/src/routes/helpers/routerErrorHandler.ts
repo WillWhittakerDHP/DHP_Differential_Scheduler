@@ -1,13 +1,6 @@
-/**
- * Shared Router Error Handler
- * 
- * LEARNING: Centralized error handling utilities for all router operations
- * WHY: Eliminates duplication, provides consistent error responses across all routers
- * PATTERN: Generic error handlers that work for any router with optional domain-specific extensions
- */
-
 import { Response } from 'express'
 import { createLogger } from '../../utils/logger.js'
+import { isProduction } from '../../utils/envHelpers.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 
 const logger = createLogger('RouterErrorHandler')
@@ -26,19 +19,6 @@ interface ErrorResponseBody {
   id?: string
 }
 
-/**
- * Handle Sequelize validation errors
- * LEARNING: Extracted Sequelize error handling logic
- * WHY: Provides consistent error responses for validation failures across all routers
- * PATTERN: Check error type, extract field errors, return structured response
- * 
- * @param error - Error object (may be SequelizeValidationError or SequelizeUniqueConstraintError)
- * @param res - Express response object
- * @param errorMessage - Error message to return (supports {displayName} placeholder)
- * @param displayName - Optional display name for entity-specific messages (replaces {displayName} in errorMessage)
- * @param entityId - Optional entity ID for error context
- * @returns true if error was handled, false otherwise
- */
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response,
@@ -50,12 +30,10 @@ export function handleSequelizeValidationError(
     return false
   }
 
-  // Replace {displayName} placeholder if displayName is provided
   const finalErrorMessage = displayName 
     ? errorMessage.replace('{displayName}', displayName)
     : errorMessage
 
-  // Handle SequelizeUniqueConstraintError
   if (error.name === 'SequelizeUniqueConstraintError') {
     const validationError = error as SequelizeValidationErrorShape
     const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field'
@@ -74,11 +52,9 @@ export function handleSequelizeValidationError(
     return true
   }
 
-  // Handle SequelizeValidationError
   if (error.name === 'SequelizeValidationError') {
     const validationError = error as SequelizeValidationErrorShape
     
-    // Extract field errors from errors array
     if (validationError.errors && Array.isArray(validationError.errors) && validationError.errors.length > 0) {
       const fieldErrors = validationError.errors.map((err: { path?: string; message?: string }) => {
         const fieldName = err.path || 'field'
@@ -99,7 +75,6 @@ export function handleSequelizeValidationError(
       return true
     }
     
-    // Fallback to error message
     const response: ErrorResponseBody = {
       error: finalErrorMessage,
       details: error.message,
@@ -116,19 +91,6 @@ export function handleSequelizeValidationError(
   return false
 }
 
-/**
- * Handle general errors with logging
- * LEARNING: Centralized error logging and response generation
- * WHY: Eliminates console.error calls, provides consistent error responses
- * PATTERN: Log error with context, return structured error response
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return (supports {displayName} placeholder)
- * @param context - Additional context for logging (e.g., operation name)
- * @param displayName - Optional display name (replaces {displayName} in errorMessage)
- * @param entityId - Optional entity ID for error context
- */
 export function handleGeneralError(
   error: unknown,
   res: Response,
@@ -143,10 +105,11 @@ export function handleGeneralError(
     ? errorMessage.replace('{displayName}', displayName)
     : errorMessage
   
+  const rawDetails = error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE;
   const response: ErrorResponseBody = {
     error: finalMessage,
-    details: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
-  }
+    details: isProduction() ? UNKNOWN_ERROR_MESSAGE : rawDetails,
+  };
   
   if (entityId) {
     response.id = entityId
@@ -155,20 +118,6 @@ export function handleGeneralError(
   res.status(500).json(response)
 }
 
-/**
- * Handle route errors with comprehensive error handling
- * LEARNING: Unified error handler that tries all error handling strategies
- * WHY: Provides consistent error handling across all routes
- * PATTERN: Try Sequelize errors first, then constraint errors (if provided), then general errors
- * 
- * @param error - Error object
- * @param res - Express response object
- * @param errorMessage - Error message to return (supports {displayName} placeholder)
- * @param context - Additional context for logging (e.g., operation name)
- * @param displayName - Optional display name (replaces {displayName} in errorMessage)
- * @param entityId - Optional entity ID for error context
- * @param constraintHandler - Optional domain-specific constraint handler function
- */
 export function handleRouteError(
   error: unknown,
   res: Response,
@@ -178,7 +127,6 @@ export function handleRouteError(
   entityId?: string,
   constraintHandler?: (error: unknown, res: Response, entityId?: string) => boolean
 ): void {
-  // Try Sequelize validation errors first
   if (handleSequelizeValidationError(error, res, errorMessage, displayName, entityId)) {
     return
   }
@@ -188,6 +136,5 @@ export function handleRouteError(
     return
   }
 
-  // Fallback to general error handling
   handleGeneralError(error, res, errorMessage, context, displayName, entityId)
 }

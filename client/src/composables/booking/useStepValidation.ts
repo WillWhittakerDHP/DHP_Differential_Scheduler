@@ -1,33 +1,15 @@
+import type { ValidationRule } from '@/types/formValidation'
 /**
- * useStepValidation Composable
- *
- * LEARNING: Generic step validation with config-driven rules
- * WHY: Eliminates validation duplication across wizard steps
- * PATTERN: Accepts dynamic validation rules and custom validators. Uses pure collectErrors for DRY validation.
+ * PATTERN: useStepValidation Composable
+PATTERN: Accepts dynamic validation rules a...
  */
+import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import type {
+  CustomValidator,
+  UseStepValidationParams,
+  UseStepValidationReturn,
+} from '@/types/booking/stepValidation'
 
-import { computed, ref, type Ref, type ComputedRef } from 'vue'
-import type { ValidationRule } from '@/composables/useFormValidation'
-
-export type CustomValidator = () => true | string
-
-export interface UseStepValidationParams {
-  formData: Record<string, Ref<unknown>>
-  validationRules: ComputedRef<Record<string, ValidationRule[]>> | Record<string, ValidationRule[]>
-  customValidators?: Record<string, CustomValidator>
-}
-
-export interface UseStepValidationReturn {
-  validationRules: ComputedRef<Record<string, ValidationRule[]>>
-  fieldErrors: Ref<Record<string, string>>
-  isFormValid: ComputedRef<boolean>
-  validateForm: () => boolean
-}
-
-/**
- * Pure function: collect all validation errors from rules and custom validators.
- * Single source of truth for validation logic; no mutations.
- */
 export function collectErrors(
   rules: Record<string, ValidationRule[]>,
   formDataValues: Record<string, unknown>,
@@ -58,10 +40,8 @@ function getFormValues(formData: Record<string, Ref<unknown>>): Record<string, u
 }
 
 /**
- * Generic step validation composable
- *
- * LEARNING: Config-driven validation for any wizard step
- * WHY: Eliminates repeated validation patterns; collectErrors is pure and testable
+ * WHY: Generic step validation composable
+WHY: Eliminates repeated validation p...
  */
 export function useStepValidation(params: UseStepValidationParams): UseStepValidationReturn {
   const { formData, validationRules: rulesInput, customValidators = {} } = params

@@ -1,12 +1,3 @@
-/**
- * Client-side Maps API Service
- *
- * LEARNING: Service layer for Google Maps API calls via server proxy
- * WHY: Centralized API calls, error handling, response transformation
- * PATTERN: Service layer between components and server endpoints
- *
- * Session 2.2.1: Created for Address Autocomplete
- */
 
 import axios, { AxiosError } from 'axios'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
@@ -29,12 +20,8 @@ export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErr
 const logger = createLogger('mapsApiService')
 const { recordApiCall } = useApiCallStatus()
 
-// Use environment variable or default to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
-/**
- * Maps API error class
- */
 export class MapsApiError extends Error {
   constructor(
     public type: MapsApiErrorType,
@@ -46,9 +33,6 @@ export class MapsApiError extends Error {
   }
 }
 
-/**
- * Get user-friendly error message based on error type
- */
 export function getErrorMessage(type: MapsApiErrorType): string {
   return MAPS_ERROR_MESSAGES[type] ?? MAPS_ERROR_MESSAGES.unknown
 }
@@ -56,9 +40,6 @@ export function getErrorMessage(type: MapsApiErrorType): string {
 /**
  * Generate a new session token for billing optimization
  * 
- * LEARNING: Session tokens group autocomplete + details into one billing session
- * WHY: Reduces cost when user selects from suggestions
- * PATTERN: Get token from server (maintains consistent token format)
  * 
  * @returns Session token string
  */
@@ -69,29 +50,15 @@ export async function getSessionToken(): Promise<string> {
     )
     return response.data.sessionToken
   } catch (_error) {
-    // Generate client-side as fallback
     logger.warn('[getSessionToken] Failed to get token from server, generating locally')
     return crypto.randomUUID()
   }
 }
 
-/**
- * Fetch address autocomplete suggestions
- * 
- * LEARNING: Main function for getting address suggestions as user types
- * WHY: Provides real-time address suggestions for better UX
- * PATTERN: Debounce should be handled by caller, this just makes the request
- * 
- * @param input User's input text (minimum 3 characters)
- * @param sessionToken Optional session token for billing optimization
- * @returns Array of autocomplete predictions
- * @throws MapsApiError on failure
- */
 export async function fetchAutocompleteSuggestions(
   input: string,
   sessionToken?: string
 ): Promise<AutocompletePrediction[]> {
-  // Don't call API if input is too short
   if (!input || input.trim().length < 3) {
     logger.debug('[fetchAutocompleteSuggestions] Input too short, returning empty')
     return []
@@ -100,7 +67,7 @@ export async function fetchAutocompleteSuggestions(
   logger.debug('[fetchAutocompleteSuggestions] Fetching for:', input)
   
   try {
-    // Build URL with query params
+    // @audit-allow:hardcoding:fieldMapping - URLSearchParams query shape
     const params = new URLSearchParams({ input: input.trim() })
     if (sessionToken) {
       params.append('sessionToken', sessionToken)
@@ -112,7 +79,6 @@ export async function fetchAutocompleteSuggestions(
     
     logger.debug('[fetchAutocompleteSuggestions] Got', response.data.predictions.length, 'suggestions')
     
-    // Record successful Places API call
     recordApiCall('places', 'hit')
     
     return response.data.predictions
@@ -121,25 +87,12 @@ export async function fetchAutocompleteSuggestions(
     const apiError = handleApiError(error)
     logger.error('[fetchAutocompleteSuggestions] Error:', apiError.type, apiError.message)
     
-    // Record failed Places API call
     recordApiCall('places', 'error')
     
     throw apiError
   }
 }
 
-/**
- * Fetch place details including coordinates
- * 
- * LEARNING: Get full address and coordinates after user selects a suggestion
- * WHY: Need coordinates for distance calculations
- * PATTERN: Session token ends the billing session on this call
- * 
- * @param placeId Google Place ID from autocomplete selection
- * @param sessionToken Optional session token (ends the session for billing)
- * @returns Place details with coordinates
- * @throws MapsApiError on failure
- */
 export async function fetchPlaceDetails(
   placeId: string,
   sessionToken?: string
@@ -151,7 +104,6 @@ export async function fetchPlaceDetails(
   logger.debug('[fetchPlaceDetails] Fetching details for:', placeId)
   
   try {
-    // Build URL with query params
     const params = new URLSearchParams({ placeId })
     if (sessionToken) {
       params.append('sessionToken', sessionToken)
@@ -163,7 +115,6 @@ export async function fetchPlaceDetails(
     
     logger.debug('[fetchPlaceDetails] Got details:', response.data.formattedAddress)
     
-    // Record successful Places API call
     recordApiCall('places', 'hit')
     
     return response.data
@@ -172,16 +123,12 @@ export async function fetchPlaceDetails(
     const apiError = handleApiError(error)
     logger.error('[fetchPlaceDetails] Error:', apiError.type, apiError.message)
     
-    // Record failed Places API call
     recordApiCall('places', 'error')
     
     throw apiError
   }
 }
 
-/**
- * Map Axios error to MapsApiError
- */
 function mapAxiosErrorToMapsError(
   axiosError: AxiosError<{ error?: string; type?: string; retryable?: boolean }>
 ): MapsApiError {
@@ -232,16 +179,6 @@ function handleApiError(error: unknown): MapsApiError {
   )
 }
 
-// =============================================================================
-// ROUTES API - Session 2.2.2
-// =============================================================================
-
-/**
- * Drive time result from Routes API
- * LEARNING: Contains duration and distance for a route with source metadata
- * WHY: Indicates whether time is calculated (from API), estimated (fallback), or cached
- * Session 2.2.3: Added 'estimated' source type for fallback values
- */
 export interface DriveTimeResult {
   durationMinutes: number
   durationSeconds: number
@@ -252,6 +189,4 @@ export interface DriveTimeResult {
   }
 }
 
-// Phase 9: Removed fetchDriveTime and fetchRouteMatrix
-// WHY: Drive times are now calculated server-side via fetchComputedAvailabilityData
 

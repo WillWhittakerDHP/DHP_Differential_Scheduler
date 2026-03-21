@@ -1,9 +1,6 @@
 /**
  * useAvailability Composable
  *
- * LEARNING: Gutted after server-side slot computation; slot data now comes from useComputedAvailability -> slotsByDay
- * WHY: AvailabilityStep no longer uses this; server returns pre-computed slots per day
- * PATTERN: Returns empty time slots; kept for tests/callers that still reference the composable
  *
  * Phase 5/6: Server-Side Slot Computation — slot generation and constraint checks moved to server
  */
@@ -15,16 +12,19 @@ import { hasValidDateRangeStructure, validateDateRange } from '@/utils/booking/d
 import type { PropertyDetails } from '@/types/availability'
 import type { ComputedSlotAvailabilityData } from '@shared/types/availabilityTypes'
 
-/**
- * useAvailability (gutted)
- * Returns empty time slots; availability is now provided via useComputedAvailability().slotsByDay
- */
+export interface UseAvailabilityReturn {
+  timeSlots: import('vue').ComputedRef<TimeSlot[]>
+  error: import('vue').ComputedRef<Error | null>
+  hasError: import('vue').ComputedRef<boolean>
+  isLoading: import('vue').ComputedRef<boolean>
+}
+
 export function useAvailability(
   _blockInstances: BookingBlockInstance[] | Ref<BookingBlockInstance[]> | ComputedRef<BookingBlockInstance[]>,
   dateRange: { start: string | null; end: string | null } | null | Ref<{ start: string | null; end: string | null } | null> | ComputedRef<{ start: string | null; end: string | null } | null>,
   _propertyDetails?: PropertyDetails | null | Ref<PropertyDetails | null> | ComputedRef<PropertyDetails | null>,
   _prefetchedData?: Ref<ComputedSlotAvailabilityData | null> | ComputedRef<ComputedSlotAvailabilityData | null>
-) {
+): UseAvailabilityReturn {
   const timeSlots = ref<TimeSlot[]>([])
   const error = ref<Error | null>(null)
   const isLoading = ref(false)
@@ -49,7 +49,6 @@ export function useAvailability(
         timeSlots.value = []
         return
       }
-      // Phase 6: No client-side slot generation; slots come from server (slotsByDay)
       timeSlots.value = []
       error.value = null
       isLoading.value = false

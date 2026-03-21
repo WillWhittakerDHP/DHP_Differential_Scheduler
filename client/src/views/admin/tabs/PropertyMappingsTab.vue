@@ -1,75 +1,38 @@
 <!--
-  LEARNING: Property Mappings Admin Tab
   WHY: Admin UI for Bright MLS field and feature mappings
   PATTERN: Two sub-tabs (Field Mappings, Block Mappings) with CRUD tables
 -->
 <script setup lang="ts">
 import { ref, computed, inject, type Ref } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
-import apiClient from '@/utils/api'
-import {
-  getPropertyFieldMappingsEndpoint,
-  getPropertyFeatureMappingsEndpoint
-} from '@/utils/api'
-const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
-const isTabActive = computed(() => adminCurrentTab?.value === 'property-mappings')
+import { usePropertyMappingsTab } from '@/composables/admin/usePropertyMappingsTab'
+import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
+
+const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))
+
+/** When provided (e.g. when embedded under Controls > Rules), overrides tab-active check so queries run when this section is visible. */
+const props = withDefaults(
+  defineProps<{ enabledOverride?: boolean }>(),
+  { enabledOverride: undefined }
+)
+
+const isTabActive = computed(() =>
+  props.enabledOverride !== undefined ? props.enabledOverride : adminCurrentTab?.value === 'property-mappings'
+)
 
 const currentSubTab = ref<'field' | 'block'>('field')
 
-interface PropertyFieldMappingRow {
-  id: string
-  dataSource: string
-  sourceField: string
-  targetField: string
-  valueMapping: Record<string, unknown> | null
-  fallbackValue: string | null
-  active: boolean
-  notes: string | null
-  createdAt: string
-  updatedAt: string
-}
-
-interface PropertyFeatureMappingRow {
-  id: string
-  dataSource: string
-  sourceField: string
-  matchType: string
-  matchValue: string | null
-  blockInstanceId: string
-  blockInstance?: { id: string; name: string }
-  active: boolean
-  priority: number
-  notes: string | null
-  createdAt: string
-  updatedAt: string
-}
-
 const {
-  data: fieldMappings,
-  isLoading: fieldMappingsLoading
-} = useQuery({
-  queryKey: ['property-field-mappings'],
-  queryFn: async () => {
-    const res = await apiClient.get<PropertyFieldMappingRow[]>(getPropertyFieldMappingsEndpoint())
-    return res.data
-  },
-  enabled: isTabActive
-})
-
-const {
-  data: featureMappings,
-  isLoading: featureMappingsLoading
-} = useQuery({
-  queryKey: ['property-feature-mappings'],
-  queryFn: async () => {
-    const res = await apiClient.get<PropertyFeatureMappingRow[]>(getPropertyFeatureMappingsEndpoint())
-    return res.data
-  },
-  enabled: isTabActive
-})
+  fieldMappings,
+  fieldMappingsLoading,
+  featureMappings,
+  featureMappingsLoading,
+} = usePropertyMappingsTab(isTabActive)
 
 const showFieldDialog = ref(false)
 const showBlockDialog = ref(false)
+
+const fieldTableItems = computed(() => ensureItemsArray(fieldMappings.value))
+const featureTableItems = computed(() => ensureItemsArray(featureMappings.value))
 </script>
 
 <template>
@@ -81,11 +44,11 @@ const showBlockDialog = ref(false)
 
     <VWindow v-model="currentSubTab">
       <VWindowItem value="field">
-        <p class="text-body-2 text-medium-emphasis mb-4">
+        <p class="text-body-medium text-medium-emphasis mb-4">
           Map RESO source fields (e.g. FoundationDetails) to property_details target fields (foundationAccess, additionalUnits).
         </p>
         <VDataTable
-          :items="fieldMappings ?? []"
+          :items="fieldTableItems"
           :headers="[
             { title: 'Source Field', key: 'sourceField', sortable: true },
             { title: 'Target Field', key: 'targetField', sortable: true },
@@ -109,11 +72,11 @@ const showBlockDialog = ref(false)
       </VWindowItem>
 
       <VWindowItem value="block">
-        <p class="text-body-2 text-medium-emphasis mb-4">
+        <p class="text-body-medium text-medium-emphasis mb-4">
           Map RESO features (e.g. PoolFeatures, PatioAndPorchFeatures) to block instances for suggested selections.
         </p>
         <VDataTable
-          :items="featureMappings ?? []"
+          :items="featureTableItems"
           :headers="[
             { title: 'Source Field', key: 'sourceField', sortable: true },
             { title: 'Match Type', key: 'matchType' },

@@ -8,16 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * ValidPart Model
- * 
- * Represents valid part relationships between block shapes and part shapes.
- * Part relationships are Block → Part relationships (math dimension).
- * 
- * LEARNING: Part relationships enable block-part composition
- * WHY: Block shapes need to define which part shapes can be parts of them
- * PATTERN: Through table for many-to-many part relationships between block shapes and part shapes
- */
 export class ValidPart extends Model<
   InferAttributes<ValidPart>,
   InferCreationAttributes<ValidPart>

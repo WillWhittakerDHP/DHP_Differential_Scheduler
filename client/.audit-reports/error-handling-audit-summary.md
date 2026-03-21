@@ -7,13 +7,35 @@
 
 Generated from `client/.audit-reports/error-handling-audit.json`.
 
-- Requiring review: **0**
-- Allowed exceptions: **45**
+- Requiring review: **1**
+- Allowed exceptions: **0**
 
-## Top 0 files (ranked by score)
+## Delta (vs previous run)
+
+| Baseline state | Count |
+| --- | ---: |
+| New | 1 |
+| Regressed | 0 |
+| Unchanged | 0 |
+| Resolved | 0 |
+
+### By rule
+
+| Rule | New | Unchanged | Resolved | Regressed |
+| --- | ---: | ---: | ---: | ---: |
+| catch-without-logger | 1 | 0 | 0 | 0 |
+
+### New findings
+
+| File | Line | Rule | Snippet |
+| --- | ---: | --- | --- |
+| `client/src/composables/booking/useMoveableAvailabilityData.ts` | 123 | catch-without-logger | } catch { |
+
+## Top 1 files (ranked by score)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
+| `client/src/composables/booking/useMoveableAvailabilityData.ts` | P2 | 1 | 0 | 0 | 1 |
 
 ## Notes
 

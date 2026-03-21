@@ -1,15 +1,6 @@
-/**
- * Maps API Error Message Constants
- *
- * LEARNING: Centralized user-facing error messages for Maps/Places API
- * WHY: Eliminates hardcoding, single source of truth
- */
 
 import type { MapsApiErrorType } from '@shared/types/mapsTypes'
 
-/**
- * Google API status values used in Maps/Places responses (client mirror of server mapsConstants)
- */
 export const GOOGLE_API_STATUS = {
   OK: 'OK',
   NOT_FOUND: 'NOT_FOUND',

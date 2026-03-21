@@ -1,41 +1,20 @@
 /**
- * Entity Card Form Owner Composable
- *
- * LEARNING: Single place that owns form creation for the entity-card flow
- * WHY: Keeps form creation and store sync in composables so .vue files only consume
- * PATTERN: When form not provided, creates form, sets initial values, and runs store sync
- *
- * Use this in EntityCard (or any future UI) so form logic stays out of components.
+ * WHY: Entity Card Form Owner Composable
+WHY: Keeps form creation and store syn...
  */
-
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed, type Ref } from 'vue'
 import { useForm, type FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
-import { toGlobalEntityId } from '@/types/entities'
-import { useAdmin } from '@/composables/useAdmin'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardStoreSync } from '@/composables/admin/useEntityCardStoreSync'
 import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
+import type { UseEntityCardFormOptions, UseEntityCardFormReturn } from '@/types/admin/entityCardForm'
+
 
 const logger = createLogger('useEntityCardForm')
 
-export interface UseEntityCardFormOptions<GE extends GlobalEntityKey = GlobalEntityKey> {
-  entityKey: GE
-  entity: Ref<GlobalEntity<GE>> | GlobalEntity<GE>
-  entityId: Ref<string> | ComputedRef<string>
-  isNew: boolean
-  /** When parent provides form (e.g. shared expansion panel), use it instead of creating */
-  form?: FormContext
-}
-
-export interface UseEntityCardFormReturn {
-  form: Ref<FormContext | undefined>
-}
-
-/**
- * Owns form for entity-card flow: create + setValues + store sync when no form provided.
- * Returns a ref so useFormFields and useEntityCardActions receive stable form reference.
- */
 export function useEntityCardForm<GE extends GlobalEntityKey = GlobalEntityKey>(
   options: UseEntityCardFormOptions<GE>
 ): UseEntityCardFormReturn {
@@ -46,7 +25,7 @@ export function useEntityCardForm<GE extends GlobalEntityKey = GlobalEntityKey>(
 
   let form: Ref<FormContext | undefined>
   if (providedForm) {
-    form = computed(() => providedForm) as Ref<FormContext | undefined>
+    form = computed(() => providedForm)
   } else {
     const entity = entityRef.value
     const formInstance = useForm({
@@ -80,7 +59,7 @@ export function useEntityCardForm<GE extends GlobalEntityKey = GlobalEntityKey>(
         initialEntity,
       })
     }
-    form = computed(() => formInstance as FormContext) as Ref<FormContext | undefined>
+    form = computed(() => formInstance as FormContext)
   }
 
   return { form }

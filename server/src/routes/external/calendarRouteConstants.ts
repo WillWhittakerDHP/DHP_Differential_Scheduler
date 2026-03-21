@@ -1,8 +1,3 @@
-/**
- * Calendar Route Constants
- *
- * WHY: Centralized strings for calendar routes, eliminates magic strings
- */
 
 export const CALENDAR_ROUTE_MESSAGES = {
   MISSING_CALENDAR_ID: 'Invalid request: calendarId is required',

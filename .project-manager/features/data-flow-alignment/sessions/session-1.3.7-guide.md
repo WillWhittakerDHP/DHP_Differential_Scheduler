@@ -19,25 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current useAvailability API query implementation
-- Understand part instances structure and baseTime calculations
-- Understand differential scheduling requirements from USER_STORY.md
-- Review calendar availability integration patterns (currently dummy data)
-
-**During Session:**
-- Learn how to implement client-side time slot calculations
-- Learn how to calculate durations from part instances
-- Learn how to implement differential scheduling algorithms
-- Learn how to integrate calendar availability (dummy data for now)
-
-**After Session:**
-- Understand client-side availability calculation patterns
-- Understand differential scheduling calculation logic
-- Understand how to refactor API-dependent composables to client-side calculations
-
 ---
 
 ## Objectives
@@ -286,33 +267,6 @@
 
 ---
 
-## Learning Checkpoints
-
-**After Task 1.3.7.1 (Remove API Logic):**
-- How is API query logic removed?
-- What parameters does useAvailability now accept?
-
-**After Task 1.3.7.2 (Calculation Utilities):**
-- How are durations calculated from part instances?
-- How are time slots generated?
-
-**After Task 1.3.7.3 (Differential Calculations):**
-- How is inspector start time calculated?
-- How is client start time calculated?
-- How are differential time slots generated?
-
-**After Task 1.3.7.4 (Refactor Composable):**
-- How does useAvailability now work?
-- How are calculations made reactive?
-
-**After Task 1.3.7.5 (Integration):**
-- How does AvailabilityStep use the refactored useAvailability?
-- Are there any integration issues?
-
-**After Task 1.3.7.6 (Testing):**
-- Do all tests pass?
-- Are edge cases handled correctly?
-
 ---
 
 ### Task 1.3.7.7: Complete Session 1.3.6 Testing and Verification
@@ -368,7 +322,7 @@
 
 - **Phase Guide**: `../phases/phase-1.3-guide.md`
 - **Phase Handoff**: `../phases/phase-1.3-handoff.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **USER_STORY.md**: `../../../../USER_STORY.md`
 - **Scope Analysis**: `task-1.3.6.8-scope-analysis.md`
 - **Previous Session**: `session-1.3.6-guide.md`
@@ -377,4 +331,3 @@
 
 **Session Status:** Not Started  
 **Next Session:** Phase 1.4 - Admin Panel Data Flow Fixes (after Phase 1.3 completion)
-

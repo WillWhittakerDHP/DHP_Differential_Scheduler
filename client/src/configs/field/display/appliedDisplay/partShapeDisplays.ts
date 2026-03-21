@@ -1,8 +1,3 @@
-/**
- * LEARNING: PartShape Display Configs - Display configs for partShape fields
- * WHY: Defines labels, placeholders, and layout for partShape fields
- * PATTERN: Spreads baseEntityDisplays and adds entity-specific configs
- */
 
 import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'

@@ -1,19 +1,7 @@
-/**
- * LEARNING: EventInstance Field Definitions
- * WHY: Defines which fields are primitive for EventInstance (configuration data, not entity)
- * PATTERN: Similar to entity field configs but for configuration data
- * NOTE: orderIndex is hidden (managed via drag-and-drop UI, not editable field)
- */
 
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
 
-/**
- * LEARNING: EventInstance Field Definitions (Configuration Data)
- * WHY: Defines field types for EventInstance - used for metadata seed data and type information
- * PATTERN: Similar structure to entity field configs but for configuration data
- * NOTE: These are NOT entities, so they don't use PrimitiveFormField<GlobalEntityKey>
- */
 export const eventInstanceFields = {
   id: {
     primitiveType: PrimitiveTypeEnum.String,
@@ -63,6 +51,86 @@ export const eventInstanceFields = {
     expandable: false,
   },
 
+  visibility: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Event visibility",
+    globalField: "visibility" as const,
+    expandable: false,
+  },
+
+  transparency: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Free or busy",
+    globalField: "transparency" as const,
+    expandable: false,
+  },
+
+  guestsCanModify: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Guests can modify",
+    globalField: "guestsCanModify" as const,
+    expandable: false,
+  },
+
+  guestsCanInviteOthers: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Guests can invite others",
+    globalField: "guestsCanInviteOthers" as const,
+    expandable: false,
+  },
+
+  guestsCanSeeOtherGuests: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Guests can see other guests",
+    globalField: "guestsCanSeeOtherGuests" as const,
+    expandable: false,
+  },
+
+  addConferenceLink: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Add Google Meet link",
+    globalField: "addConferenceLink" as const,
+    expandable: false,
+  },
+
+  sendUpdates: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Send email invitations",
+    globalField: "sendUpdates" as const,
+    expandable: false,
+  },
+
+  colorId: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Event color",
+    globalField: "colorId" as const,
+    expandable: false,
+  },
+
+  status: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: "Event status",
+    globalField: "status" as const,
+    expandable: false,
+  },
+
+  reminderOverrides: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Input,
+    placeholder: "Reminder overrides (JSON)",
+    globalField: "reminderOverrides" as const,
+    expandable: false,
+  },
+
   orderIndex: {
     primitiveType: PrimitiveTypeEnum.Number,
     primitiveMode: PrimitiveModeEnum.Hidden,
@@ -76,6 +144,15 @@ export const eventInstanceFields = {
     primitiveMode: PrimitiveModeEnum.Toggle,
     placeholder: ENTITY_STATUS.ACTIVE,
     globalField: "active" as const,
+    expandable: false,
+  },
+
+  /** Virtual field: visibility in metadata controls whether scheduled-by is included in event instance display/export. Value from appointment at invite time. */
+  scheduledBy: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Input,
+    placeholder: 'Scheduled by (from appointment at invite time)',
+    globalField: 'scheduledBy' as const,
     expandable: false,
   },
 } as const;

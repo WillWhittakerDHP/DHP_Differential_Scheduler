@@ -1,4 +1,4 @@
-import type { GlobalRelationship } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'

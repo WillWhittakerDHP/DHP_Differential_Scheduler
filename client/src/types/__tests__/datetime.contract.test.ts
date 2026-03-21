@@ -14,7 +14,7 @@ import {
   toRFC3339DateTime,
   toDayOfWeek,
   getDayOfWeek,
-} from '@/types/datetime'
+} from '@/utils/datetime'
 
 describe('datetime contract', () => {
   describe('ISO8601Date', () => {

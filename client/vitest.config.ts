@@ -1,13 +1,10 @@
-
+import type { Plugin } from 'vite'
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath } from 'node:url'
 
-// WHY: @vitejs/plugin-vue types are built against vite 7.x, but vitest bundles vite 5.x internally.
-// The runtime plugin works fine — only the type signatures clash across major versions.
 export default defineConfig({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  plugins: [vue() as any],
+  plugins: [vue() as Plugin],
   test: {
     globals: true,
     environment: 'jsdom',

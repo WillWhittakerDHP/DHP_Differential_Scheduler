@@ -72,9 +72,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: Use part instance form composable
- * WHY: Extracts form management logic from component to composable
- * PATTERN: Composable provides form state, entity loading, and submission logic
+ * WHY: Use part instance form composable
+WHY: Extracts form management logic fr...
  */
 import { usePartInstanceForm } from '@/composables/admin/usePartInstanceForm'
 

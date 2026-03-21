@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express'
+import Joi from 'joi'
 import { getAuthUrl, getTokens, setCredentials, getCredentials, saveTokensToFile, hasCredentials } from '../../config/googleOAuth.js'
 import { createLogger } from '../../utils/logger.js'
 import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js'
@@ -6,23 +7,9 @@ import { GOOGLE_OAUTH_MESSAGES, NODE_ENV } from './googleOauthConstants.js'
 
 const logger = createLogger('GoogleOAuthRoutes');
 
-/**
- * Google OAuth Routes
- * 
- * LEARNING: Routes for Google OAuth 2.0 authentication flow
- * WHY: Provides HTTP endpoints for OAuth authentication
- * PATTERN: Express router with OAuth flow handling
- * 
- * SESSION: 2.1.3b - Added file-based token persistence for development
- * NOTE: Tokens are saved to .google-tokens.json (gitignored) for persistence
- */
 
 const router = Router();
 
-/**
- * GET /api/v1/external/oauth
- * Initiate OAuth flow - redirects to Google consent screen
- */
 router.get('/', (_req: Request, res: Response) => {
   try {
     const authUrl = getAuthUrl();
@@ -37,19 +24,23 @@ router.get('/', (_req: Request, res: Response) => {
   }
 });
 
-/**
- * GET /api/v1/external/oauth/callback
- * Handle OAuth callback - exchanges authorization code for tokens
- * 
- * Query parameters:
- * - code: Authorization code from Google
- * - error: Error code if authorization failed
- */
+const callbackQuerySchema = Joi.object({
+  code: Joi.string().optional(),
+  error: Joi.string().optional(),
+}).unknown(true);
+
 router.get('/callback', async (req: Request, res: Response) => {
   try {
-    const { code, error } = req.query;
-    
-    // Handle authorization errors
+    const validation = callbackQuerySchema.validate(req.query, { abortEarly: false });
+    if (validation.error) {
+      res.status(400).json({
+        error: GOOGLE_OAUTH_MESSAGES.INVALID_REQUEST,
+        message: validation.error.message,
+      });
+      return;
+    }
+    const { code, error } = validation.value;
+
     if (error) {
       logger.error('OAuth error:', error);
       res.status(400).json({
@@ -58,8 +49,7 @@ router.get('/callback', async (req: Request, res: Response) => {
       });
       return;
     }
-    
-    // Validate authorization code
+
     if (!code || typeof code !== 'string') {
       res.status(400).json({
         error: GOOGLE_OAUTH_MESSAGES.INVALID_REQUEST,
@@ -67,20 +57,15 @@ router.get('/callback', async (req: Request, res: Response) => {
       });
       return;
     }
-    
-    // Exchange code for tokens
+
     const tokens = await getTokens(code);
-    
-    // Set credentials on OAuth client
+
     setCredentials(tokens);
     
-    // Save tokens to file for persistence across restarts
-    // SESSION: 2.1.3b - Persist tokens across server restarts
     saveTokensToFile(tokens);
     
     logger.info('OAuth authentication successful');
     
-    // Return success response
     res.json({
       success: true,
       message: GOOGLE_OAUTH_MESSAGES.AUTH_SUCCESS,
@@ -99,13 +84,8 @@ router.get('/callback', async (req: Request, res: Response) => {
   }
 });
 
-/**
- * GET /api/v1/external/oauth/status
- * Check OAuth authentication status
- */
 router.get('/status', (_req: Request, res: Response): void => {
   try {
-    // Check OAuth client credentials (loaded from file on startup)
     let credentials;
     let authenticated = false;
     
@@ -115,7 +95,6 @@ router.get('/status', (_req: Request, res: Response): void => {
     } catch (credError: unknown) {
       const credMessage = credError instanceof Error ? credError.message : String(credError);
       logger.error('Error getting credentials:', credError);
-      // Return unauthenticated status if credentials check fails
       res.json({
         authenticated: false,
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
@@ -155,12 +134,6 @@ router.get('/status', (_req: Request, res: Response): void => {
   }
 });
 
-/**
- * GET /api/v1/external/oauth/test-url
- * Get OAuth authorization URL as JSON (for testing/debugging)
- * LEARNING: Returns URL without redirecting, useful for debugging
- * WHY: Allows copying URL directly to browser to test OAuth flow
- */
 router.get('/test-url', (_req: Request, res: Response) => {
   try {
     const authUrl = getAuthUrl();

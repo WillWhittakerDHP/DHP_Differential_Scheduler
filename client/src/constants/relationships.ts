@@ -1,30 +1,6 @@
-/**
- * Relationship Constants
- * 
- * LEARNING: Relationship configurations define parent-child entity relationships
- * WHY: Type-safe relationship definitions with parent/child entity types
- * PATTERN: Const object with relationship metadata
- * COMPARISON: React uses same structure. Vue uses same constants.
- * 
- * Three-dimensional relationship model:
- * - Cascade: Vertical hierarchy (different shapes, e.g., user_shape → service)
- * - Constituent: Block → Part relationships (math dimension)
- * - Component: Lateral component relationships (same shape, e.g., service → service)
- * 
- * NOTE: Renamed for clearer domain terminology:
- * - activeCascades → bookingCascades (Booking Cascade) (2026-01-08)
- * - activeComponents → instanceComponents → instanceComponents (Instance Components) (2026-01-07)
- * - validIndependentComponents → additionalServiceOptions → dependentInstanceOptions → dependentInstances (2026-01-20, final naming)
- */
 
 import type { GlobalEntityKey } from './entities'
 
-/**
- * Relationship configurations
- * LEARNING: Each relationship defines parent and child entity types
- * WHY: Type safety and relationship metadata
- * PATTERN: Const object with relationship keys and metadata
- */
 export const RELATIONSHIP_KEYS = {
   validCascades: {
     backendName: 'valid_cascades',
@@ -107,9 +83,6 @@ export const RELATIONSHIP_KEYS = {
 } as const
 
 /**
- * Relationship key type
- * LEARNING: Derived from RELATIONSHIP_KEYS object keys
- * WHY: Type-safe relationship key references
- * PATTERN: keyof typeof pattern for type extraction
+PATTERN: keyof typeof pattern for type extraction
  */
 export type GlobalRelationshipKey = keyof typeof RELATIONSHIP_KEYS

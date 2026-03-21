@@ -1,11 +1,3 @@
-/**
- * Entity CRUD Router
- * 
- * LEARNING: Refactored to use response helpers and security middleware while preserving :entityType/:id pattern
- * WHY: Uses dynamic model selection via req.entityConfig, can't use factory directly but benefits from standardization
- * PATTERN: Express router with RESTful endpoints, security middleware on state-changing routes
- */
-
 import { Router, Request, Response } from 'express'
 import { 
   fetchAll, 
@@ -32,19 +24,8 @@ const logger = createLogger('EntityRouter')
 
 const router = Router()
 
-// Register param handler for entityType parameter
-// LEARNING: router.param() must be registered on the router that defines routes with :entityType
-// WHY: Express param callbacks only fire for params on routes defined on that specific router
 router.param('entityType', entityTypeParamHandler)
 
-/**
- * GET /entities/:entityType
- * List all entities of a given type
- * 
- * LEARNING: Fetches all entities with appropriate ordering
- * WHY: Provides complete entity data with consistent ordering
- * PATTERN: Build options functionally, fetch with options
- */
 router.get('/:entityType', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
@@ -66,14 +47,6 @@ router.get('/:entityType', async (req: Request, res: Response): Promise<void> =>
   }
 })
 
-/**
- * GET /entities/:entityType/:id
- * Get single entity by ID
- * 
- * LEARNING: Fetches single entity by ID
- * WHY: Provides complete entity data for a specific entity
- * PATTERN: Fetch by ID, return 404 if not found
- */
 router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
@@ -98,14 +71,6 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
   }
 })
 
-/**
- * POST /entities/:entityType
- * Create a new entity
- * 
- * LEARNING: Creates entity with data sanitization
- * WHY: Ensures enum fields are properly handled, prevents database errors
- * PATTERN: Sanitize data, create record, handle validation errors
- */
 router.post(
   '/:entityType',
   csrfProtection, // Security middleware: CSRF protection
@@ -117,7 +82,6 @@ router.post(
     }
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
       
@@ -130,14 +94,6 @@ router.post(
   }
 )
 
-/**
- * PUT /entities/:entityType/:id
- * Update an entity (full update)
- * 
- * LEARNING: Updates entity with versioning and cleanup logic
- * WHY: Ensures data integrity, preserves historical data, maintains relationships
- * PATTERN: Version block instances, sanitize data, update record, cleanup part assignments
- */
 router.put(
   '/:entityType/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -152,7 +108,6 @@ router.put(
     const entityId = paramString(req, 'id')
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType'))
       
@@ -181,7 +136,6 @@ router.put(
         await handlePartInstanceCleanup(entityId)
       }
       
-    // Note: Keeping custom response format for backward compatibility
       const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, { 
         message: `${successMessage} successfully`,
@@ -194,14 +148,6 @@ router.put(
   }
 )
 
-/**
- * PATCH /entities/:entityType/:id
- * Partial update an entity
- * 
- * LEARNING: Updates entity with versioning and cleanup logic
- * WHY: Ensures data integrity, preserves historical data, maintains relationships
- * PATTERN: Validate ID, version block instances, sanitize data, update record, cleanup part assignments
- */
 router.patch(
   '/:entityType/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -227,15 +173,25 @@ router.patch(
     try {
       // WHY: Support both {key, value} format and direct field updates
       // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
-      let updateData
+      let updateData: Record<string, unknown>
       if (fieldKey && newValue !== undefined) {
         updateData = { [fieldKey]: newValue }
       } else {
         updateData = req.body
       }
-      
-      // Sanitize update data
-      const sanitizedData = sanitizeEntityDataForUpdate(updateData, paramString(req, 'entityType'))
+
+      // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
+      const entityType = paramString(req, 'entityType')
+      if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {
+        if (updateData.canHaveParts === true) {
+          updateData = { ...updateData, isStateControl: false }
+        }
+        if (updateData.isStateControl === true) {
+          updateData = { ...updateData, canHaveParts: false }
+        }
+      }
+
+      const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType)
       
       // WHY: Standard PATCH pattern - log essentials, not entire entity state
       // PATTERN: Log before update to track what's being changed
@@ -272,14 +228,6 @@ router.patch(
   }
 )
 
-/**
- * DELETE /entities/:entityType/:id
- * Delete an entity
- * 
- * LEARNING: Deletes entity with versioning logic
- * WHY: Ensures data integrity, preserves historical data
- * PATTERN: Version block instances, delete record, return 404 if not found
- */
 router.delete(
   '/:entityType/:id',
   csrfProtection, // Security middleware: CSRF protection
@@ -312,8 +260,7 @@ router.delete(
         sendNotFound(res, errorMessage, entityId)
         return
       }
-      
-      // Note: Keeping custom response format for backward compatibility (different from standard 204)
+
       const successMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, { 
         message: `${successMessage} successfully`,

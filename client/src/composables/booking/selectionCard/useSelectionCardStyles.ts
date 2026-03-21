@@ -1,40 +1,18 @@
 /**
- * useSelectionCardStyles Composable
- * 
- * LEARNING: Extracts CSS class computation logic from SelectionCard component
- * WHY: Moves class calculation logic to composable
- * PATTERN: Composable that provides computed class strings
- */
+ * WHY: useSelectionCardStyles Composable
 
-import { computed, type ComputedRef } from 'vue'
-import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
+WHY: Moves class calculation logic to...
+ */
+import { computed } from 'vue'
 import {
   buildSelectionCardClasses,
   buildSelectionContentContainerClasses,
   buildSelectionControlClasses,
 } from '@/utils/booking/selectionCardStyles'
+import type { UseSelectionCardStylesParams, UseSelectionCardStylesReturn } from '@/types/booking/selectionCard/selectionCardStyles'
 
-/** Base shared with UseSelectionCardComponentParams (P2 type-similarity). */
-export interface UseSelectionCardStylesParamsBase {
-  configWithDefaults: ComputedRef<SelectionCardConfig>
-  isSelected: ComputedRef<boolean>
-}
+export type { UseSelectionCardStylesParams, UseSelectionCardStylesParamsBase, UseSelectionCardStylesReturn } from '@/types/booking/selectionCard/selectionCardStyles'
 
-export type UseSelectionCardStylesParams = UseSelectionCardStylesParamsBase
-
-export interface UseSelectionCardStylesReturn {
-  cardClasses: ComputedRef<string>
-  controlClasses: ComputedRef<Record<string, boolean>>
-  contentContainerClasses: ComputedRef<string>
-}
-
-/**
- * useSelectionCardStyles composable
- * 
- * LEARNING: Provides CSS class computations
- * WHY: Extracts class calculation logic from component to composable
- * PATTERN: Composable that returns reactive computed class strings
- */
 export function useSelectionCardStyles(params: UseSelectionCardStylesParams): UseSelectionCardStylesReturn {
   const {
     configWithDefaults,

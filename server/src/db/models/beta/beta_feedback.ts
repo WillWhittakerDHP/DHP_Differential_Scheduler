@@ -1,11 +1,6 @@
 /**
- * Beta Feedback Model
- *
- * LEARNING: Stores beta tester feedback and incident reports from the booking wizard
- * WHY: Lightweight in-app feedback loop for triage and AI-readable analysis
- * PATTERN: Factory pattern, snake_case DB columns, UUID primary key
+PATTERN: Factory pattern, snake_case DB columns, UUI...
  */
-
 import {
   Model,
   DataTypes,

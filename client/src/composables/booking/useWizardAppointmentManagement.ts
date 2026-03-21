@@ -1,28 +1,25 @@
 /**
- * LEARNING: Wizard Appointment Management
- * WHY: Encapsulates appointment loading, updating, and wizard reset logic
  * PATTERN: Composable for managing appointment operations and wizard state
- *
- * Used by:
- * - BookingWizard.vue
+Used by:...
  */
-
-import { ref, type Ref } from 'vue'
+import { ref, onMounted, type Ref } from 'vue'
+import { useRoute } from 'vue-router'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { createLogger } from '@/utils/logger'
 import { transformAppointmentToWizard } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
-import type { BookingData } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturn, WizardStepDataAndValidationRefs } from '@/types/wizard'
-import type { AppointmentRequest } from '@/types/appointment'
+import type { UseBookingWizardReturn } from '@/types/wizard'
 import { APPOINTMENT_NOT_FOUND, ERROR_UPDATE_APPOINTMENT } from '@/constants/errorMessages'
+import type {
+  UseWizardAppointmentManagementOptions,
+  UseWizardAppointmentManagementReturn,
+} from '@/types/booking/wizardAppointmentManagement'
 
 const logger = createLogger('useWizardAppointmentManagement')
 
-/**
- * Apply transformed wizard state to wizard refs and step data refs in one place.
- * WHY: Groups all state assignments so failure handling can be consistent.
- */
+/** Persistence key for draft-first: reload restores wizard when this id is set (quote/reschedule or future draft). */
+const PERSIST_KEY_APPOINTMENT_ID = 'booking-wizard-appointment-id'
+
 function applyWizardState(
   wizard: UseBookingWizardReturn,
   wizardState: WizardStateData,
@@ -35,7 +32,7 @@ function applyWizardState(
   wizard.selectedServiceTypeBlocks.value = [...wizardState.services]
   wizard.selectedPropertyTypeBlocks.value = [...wizardState.propertyTypeBlocks]
   wizard.selectedOptionTypeBlocks.value = [...wizardState.optionTypeBlocks]
-  wizard.isQuoteMode.value = wizardState.isQuoteMode
+  wizard.setWizardMode(wizardState.isQuoteMode ? 'quote' : 'new')
   stepDataRefs.propertyDetailsStepData.value = wizardState.propertyDetails
   stepDataRefs.contactsStepData.value = {
     clientInfo: wizardState.contacts.client,
@@ -49,35 +46,10 @@ function applyWizardState(
   }
 }
 
-export interface UseWizardAppointmentManagementOptions extends WizardStepDataAndValidationRefs {
-  wizard: UseBookingWizardReturn
-  bookingData: Ref<BookingData | null>
-  loadAppointmentById: (id: string) => Promise<AppointmentResponse | null>
-  fetchRandom: () => Promise<AppointmentResponse | null>
-  collectAppointmentData: () => Promise<AppointmentRequest | null>
-  updateAppointment: {
-    mutateAsync: (params: { id: string; data: AppointmentRequest }) => Promise<unknown>
-    isPending: Ref<boolean>
-  }
-  activeStep: Ref<number>
-  completedSteps: Ref<Set<number>>
-  showError: (message: string) => void
-  success: (message: string) => void
-}
-
-export interface UseWizardAppointmentManagementReturn {
-  loadedWizardState: Ref<WizardStateData | null>
-  loadedAppointmentId: Ref<string | null>
-  selectedAppointmentId: Ref<string | null>
-  isLoadingAppointment: Ref<boolean>
-  handleLoadAppointment: (appointmentIdOrRandom: string | null) => Promise<void>
-  handleUpdateAppointment: () => Promise<void>
-  handleResetWizard: () => void
-}
-
 export function useWizardAppointmentManagement(
   options: UseWizardAppointmentManagementOptions
 ): UseWizardAppointmentManagementReturn {
+  const route = useRoute()
   const {
     wizard,
     bookingData,
@@ -101,20 +73,21 @@ export function useWizardAppointmentManagement(
     success,
   } = options
 
-  // LEARNING: State for loading appointment data
   // WHY: Tracks loaded wizard state for populating form fields
-  // PATTERN: Reactive refs for appointment tracking
+  // PATTERN: Reactive refs for appointment tracking. currentAppointmentId is the neutral entity identity (same ref as loadedAppointmentId).
   const loadedWizardState = ref<WizardStateData | null>(null)
   const loadedAppointmentId = ref<string | null>(null)
+  const currentAppointmentId = loadedAppointmentId
   const selectedAppointmentId = ref<string | null>(null)
   const isLoadingAppointment = ref(false)
 
   /**
-   * LEARNING: Handle loading appointment into wizard
-   * WHY: Enables testing time slot creation by loading existing appointments
-   * PATTERN: Load appointment, transform to wizard state, populate wizard refs
+   * Load appointment by id or 'random'. Optional mode override for URL entry (reschedule/quote).
    */
-  const handleLoadAppointment = async (appointmentIdOrRandom: string | null): Promise<void> => {
+  const handleLoadAppointment = async (
+    appointmentIdOrRandom: string | null,
+    options?: { mode?: 'reschedule' | 'quote' }
+  ): Promise<void> => {
     if (!appointmentIdOrRandom) return
     
     isLoadingAppointment.value = true
@@ -129,7 +102,6 @@ export function useWizardAppointmentManagement(
         }
         selectedAppointmentId.value = appointment.id
       } else {
-        // LEARNING: Load appointment using composable with cache refresh
         // PATTERN: Composable handles cache refresh and returns appointment from cache
         try {
           appointment = await loadAppointmentById(appointmentIdOrRandom)
@@ -163,11 +135,20 @@ export function useWizardAppointmentManagement(
       loadedWizardState.value = wizardState
       loadedAppointmentId.value = appointment.id
 
+      if (appointmentIdOrRandom !== 'random' && typeof localStorage !== 'undefined') {
+        localStorage.setItem(PERSIST_KEY_APPOINTMENT_ID, appointment.id)
+      }
+
+      // WHEN: Loading by id (not 'random') — use mode from URL entry or default to reschedule
+      if (appointmentIdOrRandom !== 'random') {
+        wizard.setWizardMode(options?.mode ?? 'reschedule')
+      }
+
       // WHY: Since appointment data is already loaded, skip step 2 and go directly to step 3 (Availability)
       // PATTERN: Mark intermediate steps as completed and navigate directly to target step
       completedSteps.value.add(1) // Property Details (step 2)
       activeStep.value = 2
-      
+
       success('Appointment loaded successfully')
       selectedAppointmentId.value = null
     } catch (error) {
@@ -180,9 +161,6 @@ export function useWizardAppointmentManagement(
   }
 
   /**
-   * LEARNING: Handle updating appointment from wizard state
-   * WHY: Saves current wizard state back to the loaded appointment
-   * PATTERN: Collect wizard data, update appointment via API
    */
   const handleUpdateAppointment = async (): Promise<void> => {
     if (!loadedAppointmentId.value) {
@@ -210,17 +188,19 @@ export function useWizardAppointmentManagement(
   }
 
   /**
-   * LEARNING: Handle resetting wizard state
-   * WHY: Clears all wizard state and loaded appointment tracking
-   * PATTERN: Clear all wizard refs and reset loaded state
+WHY: Clears all wizard state and loaded appointment tracking
+PATTERN...
    */
   const handleResetWizard = (): void => {
     wizard.selectUserTypeBlock(null)
     wizard.selectedServiceTypeBlocks.value = []
     wizard.selectedPropertyTypeBlocks.value = []
     wizard.selectedOptionTypeBlocks.value = []
-    wizard.isQuoteMode.value = false
-    
+    wizard.setWizardMode('new')
+
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(PERSIST_KEY_APPOINTMENT_ID)
+    }
     loadedWizardState.value = null
     loadedAppointmentId.value = null
     selectedAppointmentId.value = null
@@ -242,9 +222,30 @@ export function useWizardAppointmentManagement(
     success('Wizard reset successfully')
   }
 
+  // PATTERN: On mount, restore wizard from URL query (reschedule/quote links) or persisted appointment id
+  onMounted(() => {
+    const queryMode = route.query.mode as string | undefined
+    const queryAppointmentId = route.query.appointmentId as string | undefined
+
+    const isValidMode = (m: string): m is 'reschedule' | 'quote' =>
+      m === 'reschedule' || m === 'quote'
+
+    if (queryMode && queryAppointmentId && isValidMode(queryMode)) {
+      void handleLoadAppointment(queryAppointmentId, { mode: queryMode })
+      return
+    }
+
+    if (typeof localStorage === 'undefined') return
+    const persistedId = localStorage.getItem(PERSIST_KEY_APPOINTMENT_ID)
+    if (persistedId && !loadedAppointmentId.value) {
+      void handleLoadAppointment(persistedId)
+    }
+  })
+
   return {
     loadedWizardState,
     loadedAppointmentId,
+    currentAppointmentId,
     selectedAppointmentId,
     isLoadingAppointment,
     handleLoadAppointment,

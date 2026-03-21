@@ -1,10 +1,3 @@
-/**
- * Entity Config Router
- * 
- * LEARNING: Extracted config endpoint for entities
- * WHY: Separates config operations from CRUD operations, improves maintainability
- * PATTERN: Express router with config endpoint
- */
 
 import { Router, Request, Response } from 'express'
 import { ENTITY_KEYS_ARRAY } from './entityConstants.js'
@@ -13,14 +6,6 @@ import { handleRouteError } from './entityErrorHandler.js'
 
 const router = Router()
 
-/**
- * GET /entities/config
- * Get entity configuration
- * 
- * LEARNING: Returns entity keys and configuration metadata
- * WHY: Provides client with available entity types and version info
- * PATTERN: Return entity keys array with version metadata
- */
 router.get('/config', async (req: Request, res: Response): Promise<void> => {
   try {
     res.json({

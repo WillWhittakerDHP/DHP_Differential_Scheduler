@@ -1,18 +1,3 @@
-/**
- * Computed Availability Service
- * 
- * LEARNING: Orchestrates all API calls and data processing to return pre-computed availability data
- * WHY: Eliminates multiple client-side API calls and constraint extraction
- * PATTERN: Single service that coordinates multiple data sources
- * 
- * Phase 4: Server-Side Computed Availability Data Refactor
- * - Fetches settings from database
- * - Extracts constraints server-side
- * - Fetches calendar events (Events API only - derives busy periods from events)
- * - Calculates drive times
- * - Pre-computes capacity hours
- * - Returns ComputedSlotAvailabilityData (slotsByDay, constraints, events, _meta)
- */
 
 import type {
   ComputedSlotAvailabilityData,
@@ -22,15 +7,22 @@ import type {
   BusinessHoursConfig,
   Constraint,
   RangeConstraint,
+  OverlapConstraint,
+  CapacityConstraint,
 } from '../../../shared/types/availabilityTypes.js'
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
-import { computeSlotsForDateRange } from './slotComputationService.js'
-import { BusinessSettings } from '../config/app.js'
+import { computeSlotsForDateRange, attachDriveTimesToEvents } from './slotComputationService.js'
+import type { EventWithDrive } from './slotConstraintCheckers.js'
+import { AppointmentAttendee, ConstraintOverride, BusinessSettings } from '../config/app.js'
 import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
+import type { CalendarSettingsData } from '../db/models/admin/calendar_settings.js'
+import { getCalendarSettings } from '../repositories/calendarSettingsRepository.js'
+import { AVAILABILITY_SETTINGS_KEY } from '../constants/appConstants.js'
+import { defaultAvailabilitySettings } from '../routes/internal/businessSettings/businessSettingsConstants.js'
 import {
   extractConstraints,
 } from './constraintExtractor.js'
-import { groupConstraintsByCategory } from '../../../shared/utils/constraintUtils.js'
+import { groupConstraintsByCategory, relaxConstraintsForExceptions } from '../../../shared/utils/constraintUtils.js'
 import { getCalendarEvents } from './google/calendar/eventsService.js'
 import { calculateRouteMatrix } from './google/maps/routesApiService.js'
 import { MapsApiError } from './google/maps/mapsErrorHandler.js'
@@ -38,7 +30,6 @@ import { getCachedDriveTime, cacheDriveTime } from './driveTimeCache.js'
 import { withRetry } from './google/shared/googleApiRetry.js'
 import type { RouteLocation } from './google/maps/mapsTypes.js'
 import { computeScheduledHoursForRange } from './capacityComputer.js'
-import { AVAILABILITY_SETTINGS_KEY } from '../routes/internal/appointments/appointmentConstants.js'
 import { partitionByEventType } from '../utils/availabilities/availabilityPrimitives.js'
 import { createLogger } from '../utils/logger.js'
 
@@ -47,46 +38,24 @@ const logger = createLogger('ComputedAvailabilityService')
 const CACHE_STATUS_HIT = 'hit' as const
 const CACHE_STATUS_MISS = 'miss' as const
 
-/**
- * Extract calendar emails configured for reading (readFrom: true)
- * LEARNING: Returns emails from calendars marked for availability checking
- * WHY: Events API calls need array of email strings for calendars to check
- * PATTERN: Filter calendars by readFrom flag, return email array
- * 
- * @param calendarConfig - CalendarConfig object (optional)
- * @returns Array of calendar email strings where readFrom is true
- */
-function getReadFromCalendars(calendarConfig?: AvailabilitySettingsData['calendarConfig']): string[] {
-  if (!calendarConfig || !calendarConfig.enabled || !Array.isArray(calendarConfig.calendars)) {
+function getReadFromCalendars(calendarSettings: CalendarSettingsData): string[] {
+  if (!calendarSettings.enabled || !Array.isArray(calendarSettings.calendars)) {
     return []
   }
-  
-  return calendarConfig.calendars
-    .filter(entry => entry.readFrom && entry.email && entry.email.trim() !== '')
-    .map(entry => entry.email.trim())
+  return calendarSettings.calendars
+    .filter((entry) => entry.readFrom && entry.email && entry.email.trim() !== '')
+    .map((entry) => entry.email.trim())
 }
 
-/**
- * Calculate drive times for all unique placeIds in events
- * LEARNING: Pre-computes drive times between candidate location and each event location (event->candidate and candidate->event)
- * WHY: Eliminates client-side drive time API calls, reduces Routes API calls from 2N to 2 (batched), skips entirely until candidate placeId exists
- * PATTERN: Gate on candidate placeId, check cache per pair, batch uncached pairs into Nx1 and 1xN matrix calls
- *
- * @param calendarEvents - Regular calendar events (with placeId)
- * @param candidatePlaceId - Candidate/customer placeId - if not provided, skips all drive time calculations (lazy loading)
- * @returns Record mapping event placeId strings to drive time minutes (empty if no candidate placeId)
- */
 async function calculateDriveTimesForPlaceIds(
   calendarEvents: CalendarEvent[],
   candidatePlaceId: string | undefined
 ): Promise<Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>> {
-  // Gate: Skip drive time calculations if no candidate placeId exists
   if (!candidatePlaceId) {
     logger.debug('Skipping drive time calculation: no candidate placeId provided')
     return {}
   }
 
-  // Collect unique placeIds from events
   const uniquePlaceIds = [...new Set(
     calendarEvents
       .map(event => event.placeId)
@@ -114,10 +83,12 @@ async function calculateDriveTimesForPlaceIds(
         const nextEntry = {
           ...(existingResult !== undefined && existingResult !== null ? existingResult : {}),
           ...(cachedTo
-            ? { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
+            ? // @audit-allow:hardcoding:fieldMapping - API drive-time payload shape
+              { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
             : {}),
           ...(cachedFrom
-            ? { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
+            ? // @audit-allow:hardcoding:fieldMapping - API drive-time payload shape
+              { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
             : {}),
         }
         return {
@@ -241,13 +212,10 @@ async function calculateDriveTimesForPlaceIds(
 }
 
 async function fetchAvailabilitySettings(): Promise<AvailabilitySettingsData> {
-  const setting = await BusinessSettings.findOne({
+  const row = await BusinessSettings.findOne({
     where: { settingKey: AVAILABILITY_SETTINGS_KEY },
   })
-  if (!setting) {
-    throw new Error(`Settings not found for key: ${AVAILABILITY_SETTINGS_KEY}`)
-  }
-  return setting.settingValue
+  return (row?.settingValue ?? defaultAvailabilitySettings) as AvailabilitySettingsData
 }
 
 async function fetchAndDedupeCalendarEvents(
@@ -315,7 +283,8 @@ function buildComputedAvailabilityResponse(
   regularEvents: CalendarEvent[],
   outOfOfficeEvents: CalendarEvent[],
   eventsResponses: Awaited<ReturnType<typeof getCalendarEvents>>[],
-  request: ComputedAvailabilityRequest
+  request: ComputedAvailabilityRequest,
+  allowedExceptionsApplied?: boolean
 ): ComputedSlotAvailabilityData {
   return {
     slotsByDay,
@@ -335,21 +304,77 @@ function buildComputedAvailabilityResponse(
           ? CACHE_STATUS_HIT
           : CACHE_STATUS_MISS,
       },
+      ...(allowedExceptionsApplied !== undefined ? { allowedExceptionsApplied } : {}),
     },
   }
 }
 
+async function resolveReschedulingGoogleEventIds(appointmentId: string): Promise<Set<string>> {
+  const attendees = await AppointmentAttendee.findAll({
+    where: { appointmentId },
+    attributes: ['googleEventId'],
+  })
+
+  return new Set(
+    attendees
+      .map((attendee) => attendee.googleEventId)
+      .filter((eventId): eventId is string => typeof eventId === 'string' && eventId.trim().length > 0)
+  )
+}
+
+/** Exclude the given appointment's calendar event(s) from overlap checks (e.g. when editing that appointment). */
+async function excludeAppointmentFromOverlap(
+  regularEvents: CalendarEvent[],
+  appointmentId?: string
+): Promise<CalendarEvent[]> {
+  if (!appointmentId) {
+    return regularEvents
+  }
+
+  const eventIdsToExclude = await resolveReschedulingGoogleEventIds(appointmentId)
+  if (eventIdsToExclude.size === 0) {
+    logger.warn('No Google event ids found for appointment; overlap exclusion skipped', {
+      appointmentId,
+    })
+    return regularEvents
+  }
+
+  return regularEvents.filter((event) => !eventIdsToExclude.has(event.id))
+}
+
 /**
- * Compute availability data for a date range
- *
- * dataSource controls which external APIs are called:
- * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity computation
- * - 'mock': Settings + constraints only — no Google API calls; useful for dev without credentials
- * - 'none': Minimal response — settings metadata only, empty slots/events
- *
- * @param request - ComputedAvailabilityRequest with date range, candidatePlaceId, duration, and dataSource
- * @returns ComputedSlotAvailabilityData with slotsByDay and metadata
+ * When both allowedExceptions and appointmentId are present, loads ConstraintOverride,
+ * verifies every allowed key is in overriddenViolations, and returns relaxed constraints
+ * and a flag. Otherwise returns original constraints and false.
  */
+async function resolveAllowedExceptions(
+  constraints: Constraint[],
+  allowedExceptions: string[] | undefined,
+  appointmentId: string | undefined
+): Promise<{ constraintsForSlots: Constraint[]; allowedExceptionsApplied: boolean }> {
+  const hasExceptions = allowedExceptions != null && allowedExceptions.length > 0
+  if (!hasExceptions || !appointmentId) {
+    return { constraintsForSlots: constraints, allowedExceptionsApplied: false }
+  }
+
+  const override = await ConstraintOverride.findOne({
+    where: { appointmentId },
+    attributes: ['overriddenViolations'],
+  })
+  if (!override?.overriddenViolations?.length) {
+    return { constraintsForSlots: constraints, allowedExceptionsApplied: false }
+  }
+
+  const allowedSet = new Set(override.overriddenViolations)
+  const allAllowed = allowedExceptions.every((key) => allowedSet.has(key))
+  if (!allAllowed) {
+    return { constraintsForSlots: constraints, allowedExceptionsApplied: false }
+  }
+
+  const relaxed = relaxConstraintsForExceptions(constraints, allowedExceptions)
+  return { constraintsForSlots: relaxed, allowedExceptionsApplied: true }
+}
+
 export async function computeAvailabilityData(
   request: ComputedAvailabilityRequest
 ): Promise<ComputedSlotAvailabilityData> {
@@ -357,6 +382,7 @@ export async function computeAvailabilityData(
   const dataSource = request.dataSource ?? 'real'
 
   const settings = await fetchAvailabilitySettings()
+  const calendarSettings = await getCalendarSettings()
 
   if (dataSource === 'none') {
     logger.info(`[dataSource=none] Returning empty response with settings metadata`)
@@ -375,10 +401,10 @@ export async function computeAvailabilityData(
 
   const useRealApis = dataSource === 'real'
 
-  const calendarEmails = getReadFromCalendars(settings.calendarConfig)
+  const calendarEmails = getReadFromCalendars(calendarSettings)
   const calendarEnabled = useRealApis
     && calendarEmails.length > 0
-    && (settings.calendarConfig?.enabled ?? false)
+    && (calendarSettings.enabled ?? false)
 
   const { events: allCalendarEvents, responses: eventsResponses } =
     await fetchAndDedupeCalendarEvents(
@@ -390,8 +416,18 @@ export async function computeAvailabilityData(
   const { regularEvents, outOfOfficeEvents } =
     partitionByEventType(allCalendarEvents)
 
+  const effectiveAppointmentId =
+    request.appointmentId ?? request.reschedulingAppointmentId
+  if (request.reschedulingAppointmentId != null && request.appointmentId == null) {
+    logger.debug('reschedulingAppointmentId is deprecated; use appointmentId')
+  }
+  const overlapRegularEvents = await excludeAppointmentFromOverlap(
+    regularEvents,
+    effectiveAppointmentId
+  )
+
   const driveTimesByPlaceId = useRealApis
-    ? await calculateDriveTimesForPlaceIds(regularEvents, request.candidatePlaceId)
+    ? await calculateDriveTimesForPlaceIds(overlapRegularEvents, request.candidatePlaceId)
     : {}
 
   if (!useRealApis) {
@@ -409,7 +445,14 @@ export async function computeAvailabilityData(
     scheduledIncomeByKey
   )
 
-  const businessHoursConstraint = enrichedConstraints.find(
+  const { constraintsForSlots, allowedExceptionsApplied } =
+    await resolveAllowedExceptions(
+      enrichedConstraints,
+      request.allowedExceptions,
+      effectiveAppointmentId
+    )
+
+  const businessHoursConstraint = constraintsForSlots.find(
     (c) =>
       c.category === 'range' &&
       c.type === RANGE_CONSTRAINT_TYPES.BUSINESS_HOURS
@@ -429,8 +472,8 @@ export async function computeAvailabilityData(
         request.dateRange,
         request.duration,
         settings.minuteIncrement,
-        enrichedConstraints,
-        regularEvents,
+        constraintsForSlots,
+        overlapRegularEvents,
         effectiveOutOfOfficeEvents,
         driveTimesByPlaceId,
         businessHoursConfig,
@@ -442,16 +485,90 @@ export async function computeAvailabilityData(
 
   const computedData = buildComputedAvailabilityResponse(
     slotsByDay,
-    enrichedConstraints,
+    constraintsForSlots,
     settings,
     regularEvents,
     outOfOfficeEvents,
     eventsResponses,
-    request
+    request,
+    allowedExceptionsApplied
   )
 
   const duration = Date.now() - startTime
   logger.info(`[dataSource=${dataSource}] Computed slot availability in ${duration}ms`)
 
   return computedData
+}
+
+/** Context for force-create: constraints and events for a single slot (used by computeViolationsForSlot). */
+export interface ForceCreateSlotContext {
+  rangeConstraints: RangeConstraint[]
+  overlapConstraints: OverlapConstraint[]
+  capacityConstraints: CapacityConstraint[]
+  eventsWithDrive: EventWithDrive[]
+}
+
+/**
+ * Prepares constraint and event context for a single slot (admin force-create).
+ * Fetches settings, calendar events, drive times, enriches capacity, and returns
+ * grouped constraints + eventsWithDrive for computeViolationsForSlot.
+ */
+export async function getForceCreateSlotContext(
+  slotStart: Date,
+  slotEnd: Date,
+  durationMinutes: number,
+  candidatePlaceId?: string
+): Promise<ForceCreateSlotContext> {
+  const settings = await fetchAvailabilitySettings()
+  const calendarSettings = await getCalendarSettings()
+  const constraints = extractConstraints(settings)
+  const dayStart = new Date(slotStart)
+  dayStart.setUTCHours(0, 0, 0, 0)
+  const dayEnd = new Date(slotEnd)
+  dayEnd.setUTCHours(23, 59, 59, 999)
+  const dateRange = {
+    start: dayStart.toISOString(),
+    end: dayEnd.toISOString(),
+  }
+  const calendarEmails = getReadFromCalendars(calendarSettings)
+  const calendarEnabled =
+    calendarEmails.length > 0 && (calendarSettings.enabled ?? false)
+  const { events: allCalendarEvents } = await fetchAndDedupeCalendarEvents(
+    calendarEmails,
+    dateRange,
+    calendarEnabled
+  )
+  const { regularEvents, outOfOfficeEvents } = partitionByEventType(allCalendarEvents)
+  const driveTimesByPlaceId = calendarEnabled
+    ? await calculateDriveTimesForPlaceIds(allCalendarEvents, candidatePlaceId)
+    : {}
+  const { capacity } = groupConstraintsByCategory(constraints)
+  const { scheduledHoursByKey, scheduledIncomeByKey } =
+    await computeScheduledHoursForRange(dateRange, capacity)
+  const enrichedConstraints = enrichCapacityConstraintsWithHours(
+    constraints,
+    scheduledHoursByKey,
+    scheduledIncomeByKey
+  )
+  const { range: rangeConstraints, overlap: overlapConstraints, capacity: capacityConstraints } =
+    groupConstraintsByCategory(enrichedConstraints)
+  const rawOooEnforcement = settings.overlapSources?.outOfOffice?.enforcement
+  const oooEnforcement =
+    rawOooEnforcement !== undefined && rawOooEnforcement !== null ? rawOooEnforcement : 'hard'
+  const effectiveOooEnforcement: 'flexible' | 'hard' =
+    oooEnforcement === 'flexible' ? 'flexible' : 'hard'
+  const effectiveOutOfOffice = oooEnforcement === 'off' ? [] : outOfOfficeEvents
+  const eventsWithDrive = attachDriveTimesToEvents(
+    regularEvents,
+    effectiveOutOfOffice,
+    driveTimesByPlaceId,
+    true,
+    effectiveOooEnforcement
+  )
+  return {
+    rangeConstraints,
+    overlapConstraints,
+    capacityConstraints,
+    eventsWithDrive,
+  }
 }

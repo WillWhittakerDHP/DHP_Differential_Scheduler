@@ -7,22 +7,6 @@
 
 ## Summary
 
-- Files scanned: **787**
+- Files scanned: **1066**
 - value-import-from-type-only-file: **0**
-- type-used-as-value: **3**
-
-## type-used-as-value
-
-| File | Line | Symbol |
-| --- | ---: | --- |
-| `client/src/configs/usStates.ts` | 5 | SelectOptionBase |
-| `client/src/types/component.ts` | 32 | CreateRelationshipPayloadBase |
-| `server/src/scripts/helpers/calendarImportHelpers.ts` | 17 | ParsedProperty |
-
-## Files by finding count (score)
-
-| File | Score |
-| --- | ---: |
-| `client/src/configs/usStates.ts` | 2 |
-| `client/src/types/component.ts` | 2 |
-| `server/src/scripts/helpers/calendarImportHelpers.ts` | 2 |
+- type-used-as-value: **0**

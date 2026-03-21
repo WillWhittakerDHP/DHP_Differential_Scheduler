@@ -1,12 +1,11 @@
-/**
- * Business Rules client constants
- * WHY: Single source for API paths and user-facing messages; mirrors server message intent (client cannot import server).
- */
 
-import { RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES } from '@shared/constants/businessRulesConstants'
+import {
+  RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES,
+  BUSINESS_RULES_ROUTE,
+} from '@shared/constants/businessRulesConstants'
 
-/** Base path for business rules API (relative to apiClient baseURL) */
-export const BUSINESS_RULES_API_BASE = '/internal/business-rules'
+/** Base path for business rules API (relative to apiClient baseURL). Re-export from shared. */
+export const BUSINESS_RULES_API_BASE = BUSINESS_RULES_ROUTE
 
 export const BUSINESS_RULES_MESSAGES = {
   FAILED_TO_LOAD: 'Failed to load business rules',
@@ -24,6 +23,11 @@ export const BUSINESS_RULES_MESSAGES = {
 
 /** Rule type value constants (re-exported from shared for switch/case and form defaults) */
 export const RULE_TYPE_VALUES = SHARED_RULE_TYPE_VALUES
+
+/** Condition/operator values for conditional validation configs. */
+export const RULE_CONDITION_VALUES = {
+  EQUALS: 'equals',
+} as const
 
 /** Rule type options for selects (title, value, description) */
 export const RULE_TYPE_OPTIONS = [

@@ -1,7 +1,3 @@
-/**
- * Property API endpoint builders
- * WHY: Single place for property CRUD endpoints; reduces api.ts export count
- */
 
 export function getPropertyEndpoint(): string {
   return '/properties'

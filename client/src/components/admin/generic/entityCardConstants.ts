@@ -1,10 +1,3 @@
-/**
- * EntityCard Constants
- * 
- * LEARNING: Shared constants for EntityCard component
- * WHY: Symbols and constants that need to be shared between EntityCard and child components
- * PATTERN: Separate constants file for symbols used in provide/inject
- */
 
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -14,15 +7,17 @@ export interface EntityCardSharedProps {
   entityKey: GlobalEntityKey
 }
 
-/** Keyboard key for Enter (used in title keydown handler to avoid hardcoding magic strings) */
+/** Keyboard key constants (DOM KeyboardEvent.key values; avoid hardcoding in keydown handlers). */
 export const KEY_ENTER = 'Enter'
+export const KEY_SPACE = ' '
+export const KEY_SPACEBAR = 'Spacebar'
+export const KEY_TAB = 'Tab'
 
-/**
- * Symbol key for EntityCard save context injection
- * LEARNING: Used for provide/inject to pass handleSave and isNew to child input components
- * WHY: Allows input components to trigger full form save on Enter key when creating new entities
- * PATTERN: Symbol ensures unique injection key
- */
+/** Key codes for keyboard events (KeyboardEvent.keyCode). */
+export const KEY_CODE_ENTER = 13
+export const KEY_CODE_SPACE = 32
+export const KEY_CODE_TAB = 9
+
 export const ENTITY_CARD_SAVE_KEY = Symbol('entityCardSave')
 
 export interface EntityCardSaveContext {
@@ -31,10 +26,4 @@ export interface EntityCardSaveContext {
   disableAutoSave?: boolean
 }
 
-/**
- * Symbol key for EntityCard auto-save disable flag
- * LEARNING: Used for provide/inject to pass disableAutoSave flag to child input components
- * WHY: Allows parent to disable field blur auto-save (e.g., in bulk edit modals)
- * PATTERN: Symbol ensures unique injection key
- */
 export const ENTITY_CARD_DISABLE_AUTOSAVE_KEY = Symbol('entityCardDisableAutoSave')

@@ -1,19 +1,8 @@
-/**
- * Vuetify Plugin - Load Order: 5
- * 
- * LEARNING: Vuetify UI framework integration
- * WHY: Provides Vue.js Material Design component library
- * PATTERN: Export default function that registers Vuetify with app
- * 
- * DEPENDENCY: Uses @layouts/stores/config (cookieRef) which requires Pinia
- * LOAD ORDER: Must load after Layouts (4.layouts) which initializes the layout store
- */
 
 import { deepMerge } from '@antfu/utils'
 import type { App } from 'vue'
 import { createVuetify } from 'vuetify'
 import { VBtn } from 'vuetify/components/VBtn'
-import { VVideo } from 'vuetify/labs/VVideo'
 import defaults from './defaults'
 import { icons } from './icons'
 import { staticPrimaryColor, staticPrimaryDarkenColor, themes } from './theme'
@@ -49,13 +38,12 @@ export default function (app: App) {
     aliases: {
       IconBtn: VBtn,
     },
-    components: {
-      VVideo,
-    },
     defaults,
+    display: {
+      thresholds: { md: 960, lg: 1280, xl: 1920, xxl: 2560 },
+    },
     icons,
     theme: optionTheme,
-    // Locale adapter removed since i18n is disabled in themeConfig
   })
 
   app.use(vuetify)

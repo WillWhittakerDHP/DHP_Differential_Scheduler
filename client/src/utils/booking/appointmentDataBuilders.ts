@@ -1,44 +1,22 @@
-/**
- * Builders for appointment request payload from wizard step data.
- * WHY: Reduces complexity in useAppointmentDataCollection and centralizes field mapping.
- */
 
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { PropertyRequest } from '@/types/property'
-import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { buildAppointmentFeeBreakdown } from '@/utils/booking/confirmationStepData'
-import { toISO8601Date } from '@/types/datetime'
-import type { ISO8601Date } from '@shared/types/primitiveBrands'
+import { toISO8601Date } from '@/utils/datetime'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { ContactsStepData } from '@/types/wizard'
 import type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
+import type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, AvailabilityPayload, BlockQuantities } from '@/types/booking/appointmentDataBuilders'
+
+export type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, AvailabilityPayload, BlockQuantities } from '@/types/booking/appointmentDataBuilders'
 
 /** Attendee roles used in specs; centralize to satisfy hardcoding audit. */
 export const APPOINTMENT_ATTENDEE_ROLES = {
   transactionManager: 'transaction_manager' as const,
   seller: 'seller' as const,
-}
-
-export interface AttendeeSpecInput {
-  info: { firstName: string; lastName: string; email: string }
-  role: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | typeof APPOINTMENT_ATTENDEE_ROLES.transactionManager | typeof APPOINTMENT_ATTENDEE_ROLES.seller
-  shouldCreate: boolean
-}
-
-export interface CreateUserMutate {
-  mutateAsync: (data: UserRequest) => Promise<{ id: string }>
-}
-
-export interface WizardBlocksForBuilders {
-  selectedServiceTypeBlocks: BookingBlockInstance[]
-  selectedPropertyTypeBlocks: BookingBlockInstance[]
-  selectedOptionTypeBlocks: BookingBlockInstance[]
-  selectedLineItemBlocks: BookingBlockInstance[]
-  selectedUserTypeBlock: { id: string } | null
-  isQuoteMode: boolean
 }
 
 export function buildPropertyRequest(step: PropertyDetailsStepData): PropertyRequest {
@@ -117,12 +95,6 @@ export async function buildAttendeesFromContacts(
   return results.filter((r): r is AttendeeRequest => r !== null)
 }
 
-export interface AvailabilityPayload {
-  selectedDate: ISO8601Date | null
-  selectedDateRangeEnd: ISO8601Date | null
-  selectedTimeSlots: AppointmentRequest['selectedTimeSlots']
-}
-
 export function buildAvailabilityPayload(availability: AvailabilityStepData): AvailabilityPayload {
   const startRaw = availability.candidateDate.start
   const endRaw = availability.candidateDate.end
@@ -136,12 +108,6 @@ export function buildAvailabilityPayload(availability: AvailabilityStepData): Av
       }))
     : null
   return { selectedDate, selectedDateRangeEnd, selectedTimeSlots }
-}
-
-export interface BlockQuantities {
-  serviceQuantities: Record<string, number>
-  propertyQuantities: Record<string, number>
-  optionTypeBlockQuantities: Record<string, number>
 }
 
 function reduceBlockQuantities(blocks: BookingBlockInstance[]): Record<string, number> {

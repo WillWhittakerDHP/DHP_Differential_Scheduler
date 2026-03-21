@@ -1,0 +1,3 @@
+# Phase B spike: ast-grep config for empty-catch rule only.
+ruleDirs:
+  - .ast-grep/rules

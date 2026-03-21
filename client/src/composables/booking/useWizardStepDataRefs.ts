@@ -1,16 +1,25 @@
 /**
- * LEARNING: Wizard Step Data Refs Management
- * WHY: Encapsulates step data and validation state refs creation and provide/inject setup
- * PATTERN: Composable for managing step data refs and validation state refs
- * 
- * Used by:
- * - BookingWizard.vue
+ * WHY: Encapsulates step data and validation state refs creation and provide/in...
  */
-
 import { ref, provide } from 'vue'
-import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, ConfirmationStepData, WizardStepDataAndValidationRefs } from '@/types/wizard'
+import type { PropertyDetailsStepData, ContactsStepData, AvailabilityStepData, ConfirmationStepData } from '@/types/wizard'
+import type { UseWizardStepDataRefsReturn } from '@/types/booking/wizardStepDataRefs'
+import {
+  propertyDetailsStepDataKey,
+  contactsStepDataKey,
+  availabilityStepDataKey,
+  confirmationStepDataKey,
+  propertyDetailsStepValidKey,
+  propertyDetailsStepValidateKey,
+  propertyDetailsFieldErrorsKey,
+  contactsStepValidKey,
+  contactsStepValidateKey,
+  availabilityStepValidKey,
+  availabilityStepValidateKey,
+  confirmationStepValidKey,
+  confirmationStepValidateKey,
+} from '@/composables/booking/injectionKeys'
 
-export type UseWizardStepDataRefsReturn = WizardStepDataAndValidationRefs
 
 export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {
   const propertyDetailsStepData = ref<PropertyDetailsStepData | null>(null)
@@ -28,20 +37,20 @@ export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {
   const confirmationStepValid = ref<boolean>(true)
   const confirmationStepValidate = ref<(() => boolean) | null>(() => true)
 
-  provide('propertyDetailsStepData', propertyDetailsStepData)
-  provide('contactsStepData', contactsStepData)
-  provide('availabilityStepData', availabilityStepData)
-  provide('confirmationStepData', confirmationStepData)
+  provide(propertyDetailsStepDataKey, propertyDetailsStepData)
+  provide(contactsStepDataKey, contactsStepData)
+  provide(availabilityStepDataKey, availabilityStepData)
+  provide(confirmationStepDataKey, confirmationStepData)
 
-  provide('propertyDetailsStepValid', propertyDetailsStepValid)
-  provide('propertyDetailsStepValidate', propertyDetailsStepValidate)
-  provide('propertyDetailsFieldErrors', propertyDetailsFieldErrors)
-  provide('contactsStepValid', contactsStepValid)
-  provide('contactsStepValidate', contactsStepValidate)
-  provide('availabilityStepValid', availabilityStepValid)
-  provide('availabilityStepValidate', availabilityStepValidate)
-  provide('confirmationStepValid', confirmationStepValid)
-  provide('confirmationStepValidate', confirmationStepValidate)
+  provide(propertyDetailsStepValidKey, propertyDetailsStepValid)
+  provide(propertyDetailsStepValidateKey, propertyDetailsStepValidate)
+  provide(propertyDetailsFieldErrorsKey, propertyDetailsFieldErrors)
+  provide(contactsStepValidKey, contactsStepValid)
+  provide(contactsStepValidateKey, contactsStepValidate)
+  provide(availabilityStepValidKey, availabilityStepValid)
+  provide(availabilityStepValidateKey, availabilityStepValidate)
+  provide(confirmationStepValidKey, confirmationStepValid)
+  provide(confirmationStepValidateKey, confirmationStepValidate)
 
   return {
     propertyDetailsStepData,

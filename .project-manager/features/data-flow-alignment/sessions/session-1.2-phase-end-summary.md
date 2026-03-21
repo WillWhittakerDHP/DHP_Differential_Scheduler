@@ -137,7 +137,7 @@ cd client-vue && npm run lint
 
 - **Phase Handoff**: `phases/phase-1.2-handoff.md`
 - **Completion Summary**: `phases/phase-1.2-completion-summary.md`
-- **Feature Plan**: `../feature-plan.md`
+- **Feature Guide**: `../feature-data-flow-alignment-guide.md`
 - **Phase 1.1 Handoff**: `phases/phase-1.1-handoff.md`
 
 ---

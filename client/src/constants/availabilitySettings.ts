@@ -1,8 +1,3 @@
-/**
- * Constants for availability settings UI
- * WHY: Centralizes UI constants used in BusinessControlsTab
- * PATTERN: Export constants that are used across components
- */
 
 export const DAY_NAMES = [
   'Sunday',
@@ -21,10 +16,7 @@ export const TIME_INCREMENT_OPTIONS = [
 ] as const
 
 /**
- * Timezone options for availability calculations
- * LEARNING: Common IANA timezone strings for US timezones
- * WHY: Provides admin with timezone selector dropdown
- * PATTERN: Array of objects with value and title for VSelect
+ * WHY: Timezone options for availability calculations
  */
 export const TIMEZONE_OPTIONS = [
   { title: 'Eastern Time (America/New_York)', value: 'America/New_York' },

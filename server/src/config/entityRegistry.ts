@@ -5,27 +5,10 @@ import type { ComponentConfig, ComponentStrategy } from '../../../shared/types/c
 
 const logger = createLogger('EntityRegistry');
 
-/**
- * Supported entity types that map to frontend PROPERTY_KEYS
- * These strings MUST match the keys used in client/src/global/constants/propertyConstants.ts
- * 
- * Session Event Refactor: Added eventShape and eventInstance to entity registry
- * WHY: Enables admin CRUD operations for event shapes and instances
- * PATTERN: Follows annotation pattern but includes in registry for admin UI
- * 
- * Session Annotation/Event Entity Refactor: Added annotationShape and annotationInstance to entity registry
- * WHY: Annotations are now core entities, not configuration data
- * PATTERN: All entity types (including annotations/events) use unified entity endpoints
- */
 export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'blockShape' | 'eventShape' | 'eventInstance' | 'annotationShape' | 'annotationInstance';
 
 export type { ComponentConfig, ComponentStrategy };
 
-/**
- * Entity configuration structure
- * WHY: Uses Model without generics for generic model references
- * PATTERN: Sequelize ModelStatic<Model> is the standard type for unknown model types
- */
 export interface EntityConfig {
   model: ModelStatic<Model>;
   tableName: string;

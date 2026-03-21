@@ -1,10 +1,3 @@
-/**
- * Admin Metadata CRUD Router
- * 
- * LEARNING: Extracted CRUD operations for admin metadata
- * WHY: Separates CRUD operations from router setup, improves maintainability
- * PATTERN: Express router with RESTful endpoints
- */
 
 import { Router, Request, Response } from 'express'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
@@ -32,14 +25,6 @@ const logger = createLogger('AdminMetadataRouter')
 
 const router = Router()
 
-/**
- * GET /admin-metadata/batch
- * Get all metadata in batch format
- * 
- * LEARNING: Batch endpoint that returns all metadata in structured format
- * WHY: Provides complete metadata in a single request
- * PATTERN: Fetch all, transform to structured result
- */
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   try {
     logger.debug('GET /admin-metadata/batch')
@@ -58,14 +43,6 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
   }
 })
 
-/**
- * GET /admin-metadata/:entityType/:entityId
- * Get metadata for a specific entity
- * 
- * LEARNING: Fetches metadata for a specific entity type and ID
- * WHY: Provides entity-specific metadata
- * PATTERN: Validate entity type, fetch metadata, return JSON
- */
 router.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
@@ -76,7 +53,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
       blockShapeRef: blockShapeRef || null,
     })
 
-    // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
       sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
@@ -97,14 +73,6 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
   }
 })
 
-/**
- * POST /admin-metadata/:entityType/:entityId
- * Create or update metadata for an entity
- * 
- * LEARNING: Backend determines metadataType by checking if fieldKey is in RELATIONSHIP_KEYS
- * WHY: Matches entity pattern - backend routes based on field type
- * PATTERN: Frontend sends fieldKey, backend checks RELATIONSHIP_KEYS to set metadataType
- */
 router.post(
   '/:entityType/:entityId',
   csrfProtection, // Security middleware: CSRF protection
@@ -128,7 +96,6 @@ router.post(
       blockShapeRef = null,
     } = req.body
 
-    // Validate entity type
     const entityTypeValidation = validateEntityType(entityType)
     if (!entityTypeValidation.valid) {
       sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
@@ -149,7 +116,6 @@ router.post(
       return
     }
 
-    // Determine metadata type and defaults
     const metadataType = determineMetadataType(fieldKey)
     const defaultRenderAs = getDefaultRenderAs(metadataType)
     const finalRenderAs = renderAs || defaultRenderAs
@@ -157,21 +123,18 @@ router.post(
     const defaultPanel = getDefaultPanel(metadataType)
     const finalPanel = panel || defaultPanel
 
-    // Validate renderAs
     const renderAsValidation = validateRenderAs(finalRenderAs)
     if (!renderAsValidation.valid) {
       sendBadRequest(res, renderAsValidation.error, renderAsValidation.details?.message as string)
       return
     }
 
-    // Validate inputConfig
     const inputConfigValidation = validateInputConfig(finalRenderAs, inputConfig)
     if (!inputConfigValidation.valid) {
       sendBadRequest(res, inputConfigValidation.error, inputConfigValidation.details?.message as string)
       return
     }
 
-    // Resolve entity ID and blockShapeRef for blockInstance
     const { finalEntityId, finalBlockShapeRef } = resolveBlockInstanceMetadata(
       entityType,
       entityId,
@@ -184,7 +147,6 @@ router.post(
       finalEntityId,
     })
 
-    // Build where clause and find existing
     const existingWhere = buildMetadataWhereClause(
       entityType,
       finalEntityId,
@@ -242,14 +204,6 @@ router.post(
   }
 )
 
-/**
- * DELETE /admin-metadata/:entityType/:entityId/:fieldKey
- * Delete metadata for an entity
- * 
- * LEARNING: Deletes metadata record for a specific entity and field
- * WHY: Enables metadata deletion via API
- * PATTERN: Validate entity type, find metadata, delete, return 204
- */
 router.delete(
   '/:entityType/:entityId/:fieldKey',
   csrfProtection, // Security middleware: CSRF protection
@@ -260,24 +214,20 @@ router.delete(
       const fieldKey = paramString(req, 'fieldKey')
       const blockShapeRef = req.query.blockShapeRef as string | undefined
 
-      // Validate entity type
       const entityTypeValidation = validateEntityType(entityType)
       if (!entityTypeValidation.valid) {
         sendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)
         return
       }
 
-    // Determine metadata type
     const metadataType = determineMetadataType(fieldKey)
 
-    // Resolve entity ID and blockShapeRef for blockInstance
     const { finalEntityId, finalBlockShapeRef } = resolveBlockInstanceMetadata(
       entityType,
       entityId,
       blockShapeRef
     )
 
-    // Build where clause and find metadata
     const whereClause = buildMetadataWhereClause(
       entityType,
       finalEntityId,

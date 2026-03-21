@@ -22,12 +22,6 @@ export function buildSelectionCardGridColumnProps(config: SelectionCardConfig): 
   return result
 }
 
-/**
- * Calculate grid columns based on item count
- * LEARNING: Returns grid columns that fit all items on one row if count < 5, otherwise wraps
- * WHY: Allows cards to fit on one row when there are fewer than 5 items
- * PATTERN: Dynamic grid calculation based on item count
- */
 export function calculateGridColumnsForItemCount(itemCount: number): GridColumns {
   if (itemCount < 5) {
     const colsPerCard = Math.floor(12 / itemCount)

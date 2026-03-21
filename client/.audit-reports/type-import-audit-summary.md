@@ -11,18 +11,15 @@ Generated from `client/.audit-reports/type-import-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 787 |
+| Files scanned | 1066 |
 | value-import-from-type-only-file | 0 |
-| type-used-as-value | 3 |
-| Files with findings | 3 |
+| type-used-as-value | 0 |
+| Files with findings | 0 |
 
-## Top 3 files (by score)
+## Top 0 files (by score)
 
 | File | Score |
 | --- | ---: |
-| `client/src/configs/usStates.ts` | 2 |
-| `client/src/types/component.ts` | 2 |
-| `server/src/scripts/helpers/calendarImportHelpers.ts` | 2 |
 
 ## Notes
 

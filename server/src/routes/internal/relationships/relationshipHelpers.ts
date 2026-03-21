@@ -1,10 +1,3 @@
-/**
- * Relationship Router Helper Functions
- * 
- * LEARNING: Extracted helper functions for relationship operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure functions for complex logic
- */
 
 import {
   BlockInstance,
@@ -19,9 +12,6 @@ import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { type RelationshipKind, ERROR_MESSAGES } from './relationshipConstants.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 
-/**
- * Map annotation assignment API fields to model-specific field names
- */
 export function mapAnnotationAssignmentsFields(
   parentId: string,
   childId: string
@@ -32,9 +22,6 @@ export function mapAnnotationAssignmentsFields(
   }
 }
 
-/**
- * Map attendee assignment API fields to model-specific field names
- */
 export function mapAttendeeAssignmentsFields(
   parentId: string,
   childId: string
@@ -45,9 +32,6 @@ export function mapAttendeeAssignmentsFields(
   }
 }
 
-/**
- * Map event assignment API fields; resolves parent kind (partInstance vs blockInstance)
- */
 async function mapEventAssignmentsFields(
   parentId: string,
   childId: string
@@ -63,18 +47,6 @@ async function mapEventAssignmentsFields(
   throw new Error(`Parent ID ${parentId} is not a valid PartInstance or BlockInstance for eventAssignments`)
 }
 
-/**
- * Helper function to map generic parent_id/child_id to model-specific field names
- *
- * LEARNING: Different relationship models use different field names
- * WHY: Models have domain-specific field names (blockInstanceId vs parent_id)
- * PATTERN: Dispatcher that delegates to kind-specific mappers
- *
- * @param relationshipKind - Relationship kind
- * @param parentId - Parent ID
- * @param childId - Child ID
- * @returns Record with model-specific field names
- */
 export async function mapRelationshipFields(
   relationshipKind: RelationshipKind,
   parentId: string,
@@ -92,10 +64,6 @@ export async function mapRelationshipFields(
   }
 }
 
-/**
- * Get child instance IDs for a given parent in the component graph
- * LEARNING: Extracted for BFS; single place for InstanceComponent query
- */
 async function getComponentChildIds(instanceId: string): Promise<string[]> {
   const parents = await InstanceComponent.findAll({
     attributes: getModelAttributes(InstanceComponent),
@@ -107,17 +75,6 @@ async function getComponentChildIds(instanceId: string): Promise<string[]> {
   return parents.map(parent => parent.childId)
 }
 
-/**
- * Helper function to check for circular references in component relationships
- *
- * LEARNING: Circular reference detection prevents infinite loops
- * WHY: Components can themselves be parents, but we must prevent cycles
- * PATTERN: BFS using getComponentChildIds; max nesting kept low
- *
- * @param parentId - Parent ID to check
- * @param childId - Child ID to check
- * @returns true if circular reference would be created
- */
 export async function hasCircularReference(
   parentId: string,
   childId: string
@@ -147,9 +104,6 @@ export async function hasCircularReference(
 
 /**
  * Validate block instances exist and have block shapes
- * LEARNING: Validates block instances exist and have associated block shapes
- * WHY: Ensures entities exist before creating relationships
- * PATTERN: Fetch entities with associations, validate existence
  * 
  * @param parentId - Parent block instance ID
  * @param childId - Child block instance ID
@@ -200,10 +154,8 @@ const NOT_COMPOSABLE_MSG = (name: string): string =>
   `BlockShape '${name}' is not composable. Components are only allowed for BlockInstances with composable BlockShapes.`
 
 /**
- * Validate block shapes are composable
- * LEARNING: Validates block shapes allow component relationships
- * WHY: Components are only allowed for composable block shapes
- * PATTERN: Early returns with clear error messages
+ * WHY: Validate block shapes are composable
+WHY: Components are only allowed fo...
  */
 export function validateBlockShapesComposable(
   parentBlockShape: InstanceType<typeof BlockShape>,
@@ -222,8 +174,6 @@ export function validateBlockShapesComposable(
 
 /**
  * Validate pricing cascade against shape-level validPricingCascades rules.
- * LEARNING: Instance-level pricingCascades must match a partShape->partShape validPricingCascade.
- * WHY: Ensures only allowed part-shape pairs can form pricing cascade relationships.
  *
  * @param parentPartInstanceId - Parent part instance ID
  * @param childPartInstanceId - Child part instance ID
@@ -258,9 +208,6 @@ export async function validatePricingCascadeAgainstShapeRules(
 
 /**
  * Validate attendee assignment entities
- * LEARNING: Validates event shape and block instance exist for attendee assignments
- * WHY: Ensures entities exist and block instance is a UserTypeBlock
- * PATTERN: Fetch entities, validate existence and type
  * 
  * @param parentId - Event shape ID
  * @param childId - Block instance ID
@@ -280,7 +227,6 @@ export async function validateAttendeeAssignmentEntities(
     throw new Error(`BlockInstance with ID ${childId} does not exist`)
   }
   
-  // LEARNING: Verify that the BlockInstance is a UserTypeBlock (state control block)
   // PATTERN: Check blockShape.isStateControl === true, but handle gracefully if blockShapeRef is missing
   if (blockInstance.blockShapeRef) {
     const blockShape = await BlockShape.findByPk(blockInstance.blockShapeRef)
@@ -293,15 +239,6 @@ export async function validateAttendeeAssignmentEntities(
   }
 }
 
-/**
- * Update block instance active state for component relationships
- * LEARNING: Updates active state when component relationships are created
- * WHY: Child components should be inactive, parent should be active
- * PATTERN: Update active property based on component relationship
- * 
- * @param parentId - Parent block instance ID
- * @param childId - Child block instance ID
- */
 export async function updateComponentActiveStates(
   parentId: string,
   childId: string
@@ -320,10 +257,7 @@ export async function updateComponentActiveStates(
 }
 
 /**
- * Restore block instance active state when component is deleted
- * LEARNING: Restores active state when component relationship is deleted
- * WHY: Child should become active if no longer in any component relationships
- * PATTERN: Early return when child still has components; single path to restore
+ * WHY: Restore block instance active state when component is deleted
  */
 export async function restoreComponentActiveState(childId: string): Promise<void> {
   const otherComponents = await InstanceComponent.count({

@@ -1,6 +1,6 @@
 # Session 1.5.1 Guide: Business Rules Database Infrastructure
 
-**Purpose:** Session-level guide with task breakdown and learning goals
+**Purpose:** Session-level guide with task breakdown
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
@@ -18,14 +18,6 @@
 
 **Duration:** 3-4 hours  
 **Status:** Not Started
-
-### Learning Goals
-
-- Database schema design for configurable business rules
-- Relationship modeling between business rules and block instances  
-- Leveraging existing annotation infrastructure for validation messages
-- Following established patterns (requiresUnitNumber flag, BusinessSettings JSONB)
-- Understanding rule_type enumeration and typed JSONB configs
 
 ---
 
@@ -506,7 +498,7 @@ WHERE EXISTS (
 
 - **Phase 1.5 Guide:** `phase-1.5-guide.md`
 - **Phase 1.5 Handoff:** `phase-1.5-handoff.md`
-- **Feature Plan:** `../feature-plan.md`
+- **Feature Guide:** `../feature-data-flow-alignment-guide.md`
 - **Business Settings Model:** `server/src/db/models/admin/business_settings.ts`
 - **Annotation Infrastructure:** `server/src/db/models/booking/annotation_*.ts`
 

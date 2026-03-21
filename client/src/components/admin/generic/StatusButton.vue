@@ -27,19 +27,20 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: Reusable StatusButton component
- * WHY: Ensures all status buttons use the same event handling and styling
  * PATTERN: Uses Vue's emit pattern (like CardButton) instead of function props
- * 
- * Supports ternary boolean values:
- * - 'true': success color, flat variant
- * - 'false': default color, outlined variant
- * - 'override': warning color, flat variant with icon indicator
- */
 
+Sup...
+ */
 import { computed } from 'vue'
 import type { TernaryBoolean } from '@/types/ternary'
 import { getComplementaryColor } from '@/utils/colors/complementaryColors'
+import {
+  KEY_ENTER,
+  KEY_SPACE,
+  KEY_SPACEBAR,
+  KEY_CODE_ENTER,
+  KEY_CODE_SPACE,
+} from './entityCardConstants'
 
 interface Props {
   label: string
@@ -59,7 +60,6 @@ const chipStyle = computed(() => {
   return 'cursor: pointer; position: relative; z-index: 10; pointer-events: auto'
 })
 
-// LEARNING: Determine if value is ternary override state
 // WHY: Override state needs special visual indicator
 const isOverride = computed(() => {
   return props.isActive === 'override'
@@ -70,13 +70,11 @@ const complementaryColor = computed(() => {
   return getComplementaryColor(props.color)
 })
 
-// LEARNING: Determine chip color based on state
 // WHY: Different states need different colors for visual distinction
 const chipColor = computed(() => {
   return props.color
 })
 
-// LEARNING: Determine chip variant based on state
 const chipVariant = computed(() => {
   if (props.isActive === false || props.isActive === 'false') {
     return 'outlined'
@@ -85,8 +83,6 @@ const chipVariant = computed(() => {
 })
 
 /**
- * LEARNING: Component emits for click events
- * WHY: Parent components need to handle button clicks
  * PATTERN: defineEmits with TypeScript interface (same as CardButton)
  */
 interface Emits {
@@ -101,15 +97,13 @@ const handleClick = (event: Event) => {
     return
   }
   // WHY: Standard Vue pattern - parent handles the logic
-  // PATTERN: Emit event, parent handles async operations
+  // PATTERN: Emit event; parent performs the operation
   emit('click', event)
 }
 
-// LEARNING: ARIA role="switch" requires Space and Enter to toggle
-// WHY: Keyboard users must be able to activate the switch without a mouse
 const handleKeydown = (event: KeyboardEvent) => {
-  const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 32
-  const isEnter = event.key === 'Enter' || event.keyCode === 13
+  const isSpace = event.key === KEY_SPACE || event.key === KEY_SPACEBAR || event.keyCode === KEY_CODE_SPACE
+  const isEnter = event.key === KEY_ENTER || event.keyCode === KEY_CODE_ENTER
   if (isSpace || isEnter) {
     event.preventDefault()
     event.stopPropagation()
@@ -123,4 +117,3 @@ const handleKeydown = (event: KeyboardEvent) => {
 </script>
 
 <style scoped lang="scss" src="./StatusButton.scss"></style>
-

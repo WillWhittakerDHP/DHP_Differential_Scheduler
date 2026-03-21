@@ -1,23 +1,15 @@
 /**
- * Business Data Collection CRUD Composable
- * 
- * LEARNING: Facade composable for BusinessData-backed collections
- * WHY: Provides unified CRUD operations for business entities
- * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionCrud.ts
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- */
+ * WHY: Business Data Collection CRUD Composable
 
-import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from './types'
+ */
+import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
+import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from '@/types/dataCollections/businessDataCollectionTypes'
+import { BUSINESS_DATA_QUERY_KEY } from '@/composables/useBusiness'
+import { useDataCollectionActions } from '@/composables/dataCollections/useDataCollectionActions'
 import { useBusinessDataCollectionQuery } from './useBusinessDataCollectionQuery'
-import { useBusinessDataCollectionActions } from './useBusinessDataCollectionActions'
 
 /**
- * Facade composable for BusinessData-backed collections.
- *
- * PATTERN: query/state/actions separation
- * - query: `useBusinessDataCollectionQuery` (read from businessData cache)
- * - actions: `useBusinessDataCollectionActions` (mutations that refetch ['businessData'])
+ * PATTERN: Facade composable for BusinessData-backed collections
  */
 export function useBusinessDataCollectionCrud<
   CollectionItem extends { id: string },
@@ -30,11 +22,12 @@ export function useBusinessDataCollectionCrud<
     selectCollection: config.selectCollection,
   })
 
-  const { create, update, patch, remove } = useBusinessDataCollectionActions<
+  const { create, update, patch, remove } = useDataCollectionActions<
     CollectionItem,
     CreatePayload,
-    UpdatePayload
-  >(config)
+    UpdatePayload,
+    BusinessData
+  >(config, BUSINESS_DATA_QUERY_KEY, true)
 
   return {
     create,
@@ -45,4 +38,3 @@ export function useBusinessDataCollectionCrud<
     fetchById,
   }
 }
-

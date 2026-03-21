@@ -1,76 +1,24 @@
 /**
- * Entity Card Actions Composable
- * 
- * LEARNING: Extracts action handlers (save/reset/delete) from EntityCard component
- * WHY: Moves business logic out of component into reusable composable
- * PATTERN: Composable that wraps useEntityForm + useEntityCrud and provides action handlers
- * 
- * This composable handles:
- * - Form validation and save operations
- * - Form reset operations
- * - Delete operations with confirmation
- * - Success/error notifications
- */
+ * WHY: Entity Card Actions Composable
 
-import { ref, type Ref } from 'vue'
-import type { FormContext } from 'vee-validate'
+WHY: Moves business logic out of compone...
+ */
+import { ref } from 'vue'
 import { useEntityForm } from '../useEntityForm'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
-import { useEntityDisplay } from './useEntityDisplay'
+import { useAdminConfig } from '@/composables/useAdminConfig'
+import { entityDisplay } from '@/utils/admin/entityDisplay'
 import { getApiErrorMessage } from '../useApiErrorMessage'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntityKey } from '@/constants/entities'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { ValidAdminValue } from '@/constants/primitives'
+import type { UseEntityCardActionsOptions, UseEntityCardActionsReturn } from '@/types/admin/entityCardActions'
+
 
 const logger = createLogger('useEntityCardActions')
 
-export interface UseEntityCardActionsOptions {
-  entityKey: GlobalEntityKey
-  
-  entity: Ref<GlobalEntity<GlobalEntityKey>> | GlobalEntity<GlobalEntityKey>
-  
-  form: Ref<FormContext | undefined>
-  
-  isNew?: boolean
-  
-  onDelete?: (id: string) => void
-  
-  onSaved?: (entity: GlobalEntity<GlobalEntityKey>) => void
-  
-  onCancelled?: () => void
-}
-
-export interface UseEntityCardActionsReturn {
-  canSave: Ref<boolean>
-  
-  hasChanges: Ref<boolean>
-  
-  showDeleteDialog: Ref<boolean>
-  
-  isNew: boolean
-  
-  handleSave: () => Promise<void>
-  
-  handleUndo: () => void
-  
-  handleDeleteClick: () => void
-  
-  handleDelete: () => Promise<void>
-  
-  handleCancelDelete: () => void
-  
-  handleCancel: () => void
-}
-
-/**
- * Entity Card Actions Composable
- * 
- * LEARNING: Provides action handlers for EntityCard component
- * WHY: Extracts save/reset/delete logic from component to composable
- * PATTERN: Composable that wraps useEntityForm + useEntityCrud
- */
 export function useEntityCardActions(
   options: UseEntityCardActionsOptions
 ): UseEntityCardActionsReturn {
@@ -95,7 +43,7 @@ export function useEntityCardActions(
   
   const { success, error: showError } = useNotification()
   
-  const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = useEntityDisplay()
+  const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = entityDisplay(useAdminConfig())
   
   const showDeleteDialog = ref(false)
   
@@ -114,11 +62,6 @@ export function useEntityCardActions(
     save: _saveForm
   } = entityFormComposable
   
-  /**
-   * LEARNING: Save handler - handles both create and update
-   * WHY: Validates form and creates or updates entity in database
-   * PATTERN: Check isNew flag to determine operation type
-   */
   const handleSave = async (): Promise<void> => {
     try {
       // Use composable validate method
@@ -153,29 +96,17 @@ export function useEntityCardActions(
     }
   }
   
-  /**
-   * LEARNING: Reset/undo handler
-   * WHY: Resets form to original entity values
-   * PATTERN: Use composable reset method
-   */
   const handleUndo = (): void => {
     resetForm()
   }
   
   /**
-   * LEARNING: Delete click handler
-   * WHY: Opens delete confirmation dialog
    * PATTERN: Function that updates reactive state
    */
   const handleDeleteClick = (): void => {
     showDeleteDialog.value = true
   }
   
-  /**
-   * LEARNING: Delete confirmation handler
-   * WHY: Deletes entity from the database and emits delete event
-   * PATTERN: Async function that calls remove mutation and emits event
-   */
   const handleDelete = async (): Promise<void> => {
     try {
       const entityVal = entity.value as { id: string }
@@ -192,19 +123,12 @@ export function useEntityCardActions(
   }
   
   /**
-   * LEARNING: Cancel delete handler
-   * WHY: Closes delete confirmation dialog without deleting
    * PATTERN: Function that resets reactive state
    */
   const handleCancelDelete = (): void => {
     showDeleteDialog.value = false
   }
   
-  /**
-   * LEARNING: Cancel creation handler
-   * WHY: Allows user to cancel new entity creation
-   * PATTERN: Emit cancelled event so parent can remove the blank card
-   */
   const handleCancel = (): void => {
     onCancelled?.()
   }

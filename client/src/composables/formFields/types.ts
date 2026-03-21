@@ -3,7 +3,7 @@ import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
@@ -14,11 +14,6 @@ export interface UseFormFieldsOptionsBase {
   entityId: Ref<GlobalEntityId>
   form: Ref<FormContext | undefined>
   fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  /**
-   * LEARNING: Metadata is the source of truth for field rendering (labels/required/renderAs/inputConfig)
-   * WHY: Removes reliance on legacy adminConfig formFieldConfig for rendering decisions
-   * PATTERN: Pass the already-fetched metadata (EntityCard fetches it once) to avoid duplicate queries
-   */
   fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
   adminConfig?: ReturnType<typeof useAdminConfig>
 }
@@ -39,12 +34,12 @@ export interface UseFormFieldsStandardLayoutReturn {
 }
 
 export interface UseFormFieldsReturn extends UseFormFieldsStandardLayoutReturn {
-  fieldContextCache: Ref<Map<string, FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
+  fieldContextCache: Ref<Map<string, FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
   isFormReady: ComputedRef<boolean>
   fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
   getFieldContext: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
     fieldKey: FieldKey
-  ) => FieldContextType<GE, FieldKey> | undefined
+  ) => FieldContextTypeGrouped<GE, FieldKey> | undefined
 
   getBlockShapeProperties: () => { composable: boolean; canHaveParts: boolean }
   shouldShowPartInstances: Ref<boolean>

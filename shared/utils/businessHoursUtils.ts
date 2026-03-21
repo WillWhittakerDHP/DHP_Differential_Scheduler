@@ -1,7 +1,6 @@
 /**
  * Shared Business Hours Utilities
  *
- * LEARNING: Parse business hours RFC3339 reference dates (e.g. 2000-01-01T12:00:00.000Z)
  * WHY: Business hours can span UTC midnight (e.g. 7 AM–9 PM Eastern = 12:00–02:00 UTC next day);
  *      extracting only hours/minutes loses the date offset and breaks slot generation.
  * PATTERN: UTC-only, no timezone conversion; preserve dayOffset from reference date.

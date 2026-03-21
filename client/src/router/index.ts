@@ -1,27 +1,13 @@
-/**
- * Vue Router Configuration
- * 
- * LEARNING: Vue Router setup for SPA routing
- * WHY: Enables client-side routing without page reloads
- * PATTERN: Define routes and create router instance
- * COMPARISON: React uses React Router. Vue uses Vue Router
- */
 
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
 import { getQueryClient } from '@/plugins/3.vue-query'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
-import type { MetadataCache } from '@/composables/admin/useMetadataCache'
 import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 
+import type { MetadataCache } from '@/types/admin/metadataCache'
 const logger = createLogger('Router Guard')
 
-/**
- * Route definitions
- * LEARNING: Route records define path-to-component mappings
- * WHY: Centralized route configuration
- * PATTERN: Array of route objects with path, name, and component
- */
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -39,9 +25,19 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/admin/AdminPanel.vue'),
   },
   {
+    path: '/admin/booking',
+    name: 'admin-booking-entry',
+    component: () => import('@/views/admin/AdminBookingEntryView.vue'),
+  },
+  {
     path: '/beta-feedback',
     name: 'beta-feedback',
     component: () => import('@/views/beta/BetaFeedbackView.vue'),
+  },
+  {
+    path: '/cancel',
+    name: 'cancel-appointment',
+    component: () => import('@/views/booking/CancelConfirmView.vue'),
   },
 ]
 

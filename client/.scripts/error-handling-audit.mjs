@@ -4,12 +4,23 @@ import {
   loadCentralAllowlist,
   listAuditFiles,
   resolveAuditPaths,
+  getAuditScanDirs,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
   categorizeMatches,
   summarizeExceptions,
   parseChangedOnlyFlag,
+  runTwoPhaseFilter,
+  createSuppressionHitTracker,
+  enrichFinding,
+  CONFIDENCE_LEVELS,
 } from './shared-audit-utils.mjs'
+import {
+  createSourceFileFromContent,
+  extractVueScriptWithLineOffset,
+  forEachDescendant,
+  loadTsMorph,
+} from './shared-ast-facade.mjs'
 
 /**
  * Error Handling Audit Script (merged from fallback-audit + error-logging-audit)
@@ -207,30 +218,51 @@ function checkConsoleWithoutLogger(content, repoPath) {
   if (repoPath === 'server/src/config/app.ts') {
     return null
   }
-  
+
+  // Phase B: Drop when file is under server/src/scripts/ or is CLI entry (no default export + process.argv)
+  const normalizedPath = repoPath.replace(/\\/g, '/')
+  if (normalizedPath.includes('server/src/scripts/')) {
+    return null
+  }
+  const noDefaultExport = !/export\s+default\b/.test(content)
+  const hasProcessArgv = /\bprocess\.argv\b/.test(content)
+  if (noDefaultExport && hasProcessArgv) {
+    return null
+  }
+
   // Check if file uses console.*
   const hasConsoleUsage = /\bconsole\.(log|warn|error|debug|info)\s*\(/.test(content)
   if (!hasConsoleUsage) {
     return null
   }
-  
+
   // Check if file imports createLogger
-  // Pattern matches: import { createLogger } from '...' or import { createLogger } from "..."
-  // Also matches: import createLogger from '...' or const { createLogger } = require('...')
   const hasLoggerImport = /import\s+(?:\{[^}]*createLogger[^}]*\}|\*\s+as\s+createLogger|createLogger)\s+from/.test(content) ||
                           /import\s+createLogger\s+from/.test(content) ||
                           /const\s+\{\s*createLogger\s*\}\s*=\s*require/.test(content) ||
                           /require\s*\([^)]*['"]logger['"]/.test(content)
-  
+
   if (!hasLoggerImport) {
-    return {
-      ruleId: 'console-no-logger',
-      lineNumber: 1, // File-level finding, use line 1 as placeholder
-      line: 'Raw console.* used without logger utility -- use createLogger() from utils/logger instead.',
-    }
+    return enrichFinding(
+      {
+        ruleId: 'console-no-logger',
+        lineNumber: 1,
+        line: 'Raw console.* used without logger utility -- use createLogger() from utils/logger instead.',
+      },
+      { confidence: CONFIDENCE_LEVELS.MEDIUM }
+    )
   }
-  
+
   return null
+}
+
+/** Phase B: confidence for console-general — high if logger imported and used elsewhere, else medium */
+function getConsoleGeneralConfidence(content) {
+  const hasLoggerImport = /import\s+(?:\{[^}]*createLogger[^}]*\}|createLogger)\s+from/.test(content) ||
+    /import\s+createLogger\s+from/.test(content) ||
+    /\buseLogger\b/.test(content)
+  const hasLoggerUsage = /\blogger\.(log|warn|error|debug|info)\s*\(/.test(content) || /\bcreateLogger\s*\(/.test(content)
+  return hasLoggerImport && hasLoggerUsage ? CONFIDENCE_LEVELS.HIGH : CONFIDENCE_LEVELS.MEDIUM
 }
 
 function toRepoPath(absPath, projectRoot) {
@@ -248,6 +280,122 @@ function extractVueScriptBlocks(vueContent) {
     blocks.push(match[1] || '')
   }
   return blocks
+}
+
+/**
+ * Strip single-line and multi-line comments from source text for "comment-only" detection.
+ */
+function stripComments(text) {
+  return text
+    .replace(/\/\/[^\n]*/g, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/**
+ * Phase B: Return true if catch-without-logger finding should be dropped (rethrow, handleError(err), or return error).
+ * @param {object} kind - SyntaxKind enum (sk.SyntaxKind from loadTsMorph)
+ */
+function shouldDropCatchWithoutLoggerFinding(block, catchClause, kind) {
+  const catchParamName = catchClause.getVariableDeclaration?.()?.getName?.() ?? catchClause.getVariableDeclaration?.()?.getText?.() ?? null
+  let hasRethrow = false
+  let hasErrorHandlerCall = false
+  let hasReturnError = false
+  forEachDescendant(block, (desc) => {
+    if (desc.getKind() === kind.ThrowStatement) {
+      hasRethrow = true
+      return false
+    }
+    if (desc.getKind() === kind.CallExpression) {
+      const args = desc.getArguments?.() ?? []
+      const firstArg = args[0]
+      if (firstArg && catchParamName && firstArg.getText?.()?.trim() === catchParamName) {
+        hasErrorHandlerCall = true
+        return false
+      }
+    }
+    if (desc.getKind() === kind.ReturnStatement) {
+      const expr = desc.getExpression?.()
+      if (expr && expr.getKind() === kind.ObjectLiteralExpression) {
+        const props = expr.getProperties?.() ?? []
+        const hasErrorProp = props.some((p) => p.getName?.() === 'error' || p.getText?.().startsWith('error'))
+        if (hasErrorProp) {
+          hasReturnError = true
+          return false
+        }
+      }
+    }
+  })
+  return hasRethrow || hasErrorHandlerCall || hasReturnError
+}
+
+/**
+ * AST: find TryStatement/CatchClause and evaluate catch block (empty, comment-only, console, alert, logger).
+ * Returns matches with ruleId, lineNumber, line for: empty-catch, catch-comment-only, console-in-catch, alert-in-catch, catch-without-logger.
+ * Phase B: Drops catch-without-logger when block rethrows, calls handleError(err), or returns { error }.
+ */
+async function collectCatchFindingsFromAst(sourceFile, getLine, getLineText, sk) {
+  const kind = sk.SyntaxKind
+  const findings = []
+
+  for (const node of sourceFile.getDescendants?.() ?? []) {
+    if (node.getKind() !== kind.TryStatement) continue
+    const catchClause = node.getCatchClause?.()
+    if (!catchClause) continue
+
+    const block = catchClause.getBlock?.()
+    if (!block) continue
+
+    const catchLineNum = getLine(catchClause)
+    const catchLineText = getLineText(catchLineNum) ?? ''
+
+    const statements = block.getStatements?.() ?? []
+    if (statements.length === 0) {
+      findings.push({ ruleId: 'empty-catch', lineNumber: catchLineNum, line: catchLineText.trim().slice(0, 120) })
+      continue
+    }
+
+    const blockText = block.getText?.() ?? ''
+    const withoutComments = stripComments(blockText)
+    const onlyBracesOrEmpty = /^[\s{}]*$/.test(withoutComments)
+    if (onlyBracesOrEmpty) {
+      findings.push({ ruleId: 'catch-comment-only', lineNumber: catchLineNum, line: catchLineText.trim().slice(0, 120) })
+    }
+
+    let hasConsole = false
+    let hasAlert = false
+    let hasLogger = false
+    forEachDescendant(block, (desc) => {
+      if (desc.getKind() !== kind.CallExpression) return
+      const expr = desc.getExpression?.()
+      if (!expr) return
+      if (expr.getKind() === kind.PropertyAccessExpression) {
+        const name = expr.getName?.()
+        const obj = expr.getExpression?.()
+        const objText = obj?.getText?.() ?? ''
+        if (objText === 'console' && ['log', 'warn', 'error', 'debug', 'info'].includes(name)) hasConsole = true
+        if (objText === 'logger' && ['error', 'warn', 'info', 'debug'].includes(name)) hasLogger = true
+      }
+      if (expr.getKind() === kind.Identifier && expr.getText?.() === 'alert') hasAlert = true
+    })
+    if (hasConsole) {
+      findings.push({ ruleId: 'console-in-catch', lineNumber: getLine(block), line: catchLineText.trim().slice(0, 120) })
+    }
+    if (hasAlert) {
+      findings.push({ ruleId: 'alert-in-catch', lineNumber: getLine(block), line: catchLineText.trim().slice(0, 120) })
+    }
+    if (!hasLogger && !onlyBracesOrEmpty) {
+      if (!shouldDropCatchWithoutLoggerFinding(block, catchClause, kind)) {
+        findings.push(enrichFinding(
+          { ruleId: 'catch-without-logger', lineNumber: catchLineNum, line: catchLineText.trim().slice(0, 120) },
+          { confidence: CONFIDENCE_LEVELS.HIGH }
+        ))
+      }
+    }
+  }
+
+  return findings
 }
 
 /**
@@ -300,7 +448,12 @@ function detectCatchBlocks(lines) {
   return catchContextMap
 }
 
-function scanFile(filePath, _configAllowlist, projectRoot) {
+const CATCH_RULE_IDS = new Set(['empty-catch', 'catch-comment-only', 'console-in-catch', 'alert-in-catch', 'catch-without-logger'])
+
+function scanFile(filePath, _configAllowlist, projectRoot, options = {}) {
+  const { catchFindingsFromAst = [], usedAstForCatch = false } = options
+  const useAstCatch = usedAstForCatch || catchFindingsFromAst.length > 0
+
   const repoPath = toRepoPath(filePath, projectRoot)
   let content = fs.readFileSync(filePath, 'utf-8')
 
@@ -311,8 +464,8 @@ function scanFile(filePath, _configAllowlist, projectRoot) {
   }
 
   const lines = content.split('\n')
-  const catchContextMap = detectCatchBlocks(lines)
-  const matches = []
+  const catchContextMap = useAstCatch ? new Map() : detectCatchBlocks(lines)
+  const matches = useAstCatch ? [...catchFindingsFromAst] : []
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
@@ -323,20 +476,17 @@ function scanFile(filePath, _configAllowlist, projectRoot) {
     const ctx = catchContextMap.get(i) || { inCatchBlock: false }
 
     for (const rule of RULES) {
-      // Special handling for catch-comment-only: only report once per catch block
+      if (useAstCatch && CATCH_RULE_IDS.has(rule.id)) continue
+
       if (rule.id === 'catch-comment-only') {
         if (ctx.inCatchBlock && ctx.catchBlockLines &&
             ctx.catchBlockLines.length > 0 &&
             ctx.catchBlockLines.every(cl => /^\s*(\/\/.*)?$/.test(cl))) {
-          // Only report on the first line of the catch block
           const isFirstLine = !catchContextMap.has(i - 1) || !catchContextMap.get(i - 1).inCatchBlock
-          if (isFirstLine) {
-            matches.push({ ruleId: rule.id, lineNumber, line: trimmed })
-          }
+          if (isFirstLine) matches.push({ ruleId: rule.id, lineNumber, line: trimmed })
         }
         continue
       }
-      // Special handling for catch-without-logger: only report once per catch block
       if (rule.id === 'catch-without-logger') {
         if (ctx.inCatchBlock && ctx.catchBlockLines?.length) {
           const hasLoggerCall = ctx.catchBlockLines.some(cl => /logger\.(error|warn|info|debug)\s*\(/.test(cl))
@@ -356,11 +506,8 @@ function scanFile(filePath, _configAllowlist, projectRoot) {
     }
   }
 
-  // File-level check: console usage without logger import
   const fileLevelFinding = checkConsoleWithoutLogger(content, repoPath)
-  if (fileLevelFinding) {
-    matches.push(fileLevelFinding)
-  }
+  if (fileLevelFinding) matches.push(fileLevelFinding)
 
   return { matches, content }
 }
@@ -463,7 +610,7 @@ function renderMarkdownReport(filesWithFindings, exceptionSummary) {
   return lines.join('\n')
 }
 
-function main() {
+async function main() {
   const paths = resolveAuditPaths(AUDIT_TYPE)
 
   const configAllowlist = loadCentralAllowlist(AUDIT_TYPE)
@@ -475,25 +622,62 @@ function main() {
     priorityConfig = JSON.parse(configRaw)
   } catch { /* defaults */ }
 
-  const absFiles = listAuditFiles(AUDIT_TYPE, [paths.clientSrc, paths.serverSrc])
+  const { SyntaxKind } = await loadTsMorph()
+  const sk = { SyntaxKind }
+
+  const scanDirs = getAuditScanDirs(AUDIT_TYPE, paths)
+  const absFiles = listAuditFiles(AUDIT_TYPE, scanDirs)
   const scanned = []
+  const suppressionHitTracker = createSuppressionHitTracker()
 
   for (const abs of absFiles) {
     const repoPath = toRepoPath(abs, paths.projectRoot)
     if (delta.enabled && !delta.changedFiles.has(repoPath)) continue
 
-    const { matches, content } = scanFile(abs, configAllowlist, paths.projectRoot)
+    let catchFindingsFromAst = []
+    const useAst = /\.(ts|tsx|vue|js|mjs)$/i.test(abs)
+    if (useAst) {
+      let content = fs.readFileSync(abs, 'utf-8')
+      let scriptContent = content
+      let lineOffset = 0
+      if (abs.endsWith('.vue')) {
+        const extracted = extractVueScriptWithLineOffset(content)
+        if (extracted) {
+          scriptContent = extracted.scriptContent
+          lineOffset = extracted.startLineInFile
+        }
+      }
+      if (scriptContent.trim().length > 0) {
+        const virtualPath = abs.endsWith('.vue') ? abs.replace(/\.vue$/, '.vue.ts') : abs
+        const { sourceFile, getLine } = await createSourceFileFromContent(virtualPath, scriptContent, { lineOffset })
+        const getLineText = (lineNum) => content.split('\n')[lineNum - 1] ?? ''
+        const detectorCatch = await collectCatchFindingsFromAst(sourceFile, getLine, getLineText, sk)
+        const { passed: validatedCatch } = runTwoPhaseFilter(detectorCatch, () => true)
+        catchFindingsFromAst = validatedCatch
+      }
+    }
+
+    const { matches, content } = scanFile(abs, configAllowlist, paths.projectRoot, {
+      catchFindingsFromAst,
+      usedAstForCatch: useAst,
+    })
     if (matches.length === 0) continue
 
-    const { allowed, requiresReview } = categorizeMatches(matches, repoPath, content, AUDIT_TYPE, configAllowlist)
-    const fileScore = calculateScore(requiresReview)
+    const { allowed, requiresReview } = categorizeMatches(matches, repoPath, content, AUDIT_TYPE, configAllowlist, suppressionHitTracker)
+    const enrichedReview = requiresReview.map((m) => {
+      if (m.ruleId === 'console-general') {
+        return enrichFinding(m, { confidence: getConsoleGeneralConfidence(content) })
+      }
+      return m
+    })
+    const fileScore = calculateScore(enrichedReview)
     const filePriority = assignPriority(fileScore, priorityConfig)
 
     scanned.push({
       id: toStableId(repoPath),
       repoPath,
       allowed,
-      requiresReview,
+      requiresReview: enrichedReview,
       score: fileScore,
       priority: filePriority,
     })
@@ -522,6 +706,7 @@ function main() {
     exceptionSummary,
     files: filesWithFindings,
     ruleset,
+    suppressionHits: suppressionHitTracker.getCounts(),
   }
 
   const { outJson, outMd } = writeAuditReports(AUDIT_TYPE, out, renderMarkdownReport(filesWithFindings, exceptionSummary))
@@ -531,4 +716,7 @@ function main() {
   process.exitCode = 0
 }
 
-main()
+main().catch((err) => {
+  console.error(err)
+  process.exitCode = 1
+})

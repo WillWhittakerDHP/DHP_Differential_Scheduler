@@ -14,11 +14,6 @@
     <!-- Field Content -->
     <div class="field-content">
       <slot />
-      
-      <!-- Right Actions (e.g., mode toggle buttons) -->
-      <div v-if="$slots.rightActions" class="field-right-actions">
-        <slot name="rightActions" />
-      </div>
     </div>
     
     <!-- Error Message -->
@@ -30,16 +25,10 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: BaseInput provides consistent input presentation
- * 
- * WHY: Inputs need consistent labels, errors, help text, and styling
- * 
  * PATTERN: Wrapper component pattern - provides consistent UI structure
- * 
- * COMPARISON: React uses JSX with className. Vue uses template with class binding.
- *             Both provide same functionality but different syntax.
- */
 
+          ...
+ */
 import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -56,13 +45,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showLabel: true,
+  showLabel: false,
   showError: true,
   showHelp: true,
   isDisabled: false
 })
 
-// LEARNING: Computed properties provide reactive derived state
 // PATTERN: Use computed for derived state
 const hasError = computed(() => !!props.error)
 const fieldId = computed(() => `field-${props.fieldKey}`)
@@ -100,9 +88,6 @@ const fieldId = computed(() => `field-${props.fieldKey}`)
   gap: 8px;
 }
 
-/* LEARNING: Title row fields should not have margin and should allow content sizing */
-/* WHY: Name fields in title row should fit their text content, not be constrained */
-/* PATTERN: Use CSS selector to detect when field is in title row context */
 :deep(.title-row-field) .field-wrapper {
   margin-bottom: 0;
 }
@@ -131,4 +116,3 @@ const fieldId = computed(() => `field-${props.fieldKey}`)
   pointer-events: none;
 }
 </style>
-

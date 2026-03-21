@@ -1,46 +1,18 @@
 /**
- * Instance Grouping Composable
- * 
- * LEARNING: Extracts instance grouping and metadata logic from InstancesTab component
- * WHY: Components should be thin UI wrappers - grouping logic belongs in composables
- * PATTERN: Composable that provides grouped instances and BlockShape metadata
- * 
- * This composable handles:
- * - BlockInstance grouping by BlockShape
- * - BlockShape metadata (composable, state control, valid cascades)
- * - Instance counts per group
- * NOTE: Expansion state moved to useExpansionState composable (matches ShapesTab pattern)
+ * WHY: Instance Grouping Composable
+
+WHY: Components should be thin UI wrappers...
  */
-
-import { computed, watch, type ComputedRef, type Ref } from 'vue'
+import { computed, watch } from 'vue'
 import { useGlobal } from '../useGlobal'
-import { useAdmin } from '../useAdmin'
+import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
-
-export interface UseInstanceGroupingOptions {
-  activeTab?: Ref<string>
-}
-
-export interface UseInstanceGroupingReturn {
-  sortedBlockShapes: ComputedRef<GlobalEntity<'blockShape'>[]>
-  
-  blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  
-  blockInstancesCountByShape: ComputedRef<Map<string, number>>
-  
-  blockShapeComposable: ComputedRef<Map<string, boolean>>
-  
-  blockShapeStateControl: ComputedRef<Map<string, boolean>>
-  
-  blockShapeValidCascades: ComputedRef<Map<string, string[]>>
-}
+import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
 /**
- * Instance Grouping Composable
- * 
- * LEARNING: Provides instance grouping logic extracted from InstancesTab component
- * WHY: Moves business logic out of components into reusable composable
- * PATTERN: Composable with computed properties for grouping and metadata
+ * WHY: Instance Grouping Composable
+
+WHY: Moves business logic out of component...
  */
 export function useInstanceGrouping(
   options: UseInstanceGroupingOptions = {}
@@ -51,9 +23,6 @@ export function useInstanceGrouping(
   const { getEntities } = useAdmin()
 
   /**
-   * LEARNING: Computed property for BlockShapes sorted by orderIndex
-   * WHY: Provides sorted list of BlockShapes for tab generation
-   * PATTERN: Computed property that sorts entities
    * NOTE: Uses getEntities() to ensure entities have relationships attached
    */
   const sortedBlockShapes = computed(() => {
@@ -61,11 +30,7 @@ export function useInstanceGrouping(
     return [...blockShapes].sort((a, b) => a.orderIndex - b.orderIndex)
   })
 
-
   /**
-   * LEARNING: Computed property for BlockInstances grouped by BlockShape
-   * WHY: Groups BlockInstances by BlockShape for display in tabs
-   * PATTERN: Computed property with Map data structure
    * NOTE: Uses getEntities() to ensure entities have relationships attached (e.g., instanceComponents)
    */
   const blockInstancesByShape = computed(() => {
@@ -84,9 +49,6 @@ export function useInstanceGrouping(
   })
 
   /**
-   * LEARNING: Computed map for BlockInstances count per BlockShape
-   * WHY: Provides reactive count for each BlockShape without calling functions in template
-   * PATTERN: Computed Map that derives from blockInstancesByShape
    */
   const blockInstancesCountByShape = computed(() => {
     // WHY: Functional approach avoids forEach with Map mutations
@@ -97,11 +59,6 @@ export function useInstanceGrouping(
     }, new Map<string, number>())
   })
 
-  /**
-   * LEARNING: Computed property for BlockShape composable flags
-   * WHY: Caches composable status per BlockShape to avoid reactive access during render
-   * PATTERN: Computed Map that only recomputes when BlockShapes change
-   */
   const blockShapeComposable = computed(() => {
     const blockShapes = getEntities('blockShape')
     
@@ -113,11 +70,6 @@ export function useInstanceGrouping(
     }, new Map<string, boolean>())
   })
 
-  /**
-   * LEARNING: Computed property for BlockShape state control flags
-   * WHY: Caches state control status per BlockShape to avoid reactive access during render
-   * PATTERN: Computed Map that only recomputes when BlockShapes change
-   */
   const blockShapeStateControl = computed(() => {
     const blockShapes = getEntities('blockShape')
     
@@ -130,9 +82,6 @@ export function useInstanceGrouping(
   })
 
   /**
-   * LEARNING: Computed property for BlockShape valid cascades
-   * WHY: Caches valid cascades per BlockShape to avoid reactive access during render
-   * PATTERN: Computed Map that only recomputes when globalData or BlockShapes change
    */
   const blockShapeValidCascades = computed(() => {
     const globalData = getGlobalData()
@@ -163,9 +112,6 @@ export function useInstanceGrouping(
   })
 
   /**
-   * LEARNING: Watcher for sortedBlockShapes (matches ShapesTab pattern of minimal watchers)
-   * WHY: Handles active tab initialization
-   * PATTERN: Single watcher for side effects (updating activeTab), not reactive data access
    */
   watch(sortedBlockShapes, (shapes) => {
     if (activeTab && shapes.length > 0) {
@@ -184,4 +130,3 @@ export function useInstanceGrouping(
     blockShapeValidCascades
   }
 }
-

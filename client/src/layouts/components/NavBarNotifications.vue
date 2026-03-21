@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import type { Notification } from '@layouts/types'
+import { useNotificationActions } from '@/composables/layout/useNotificationActions'
 
 import avatar3 from '@images/avatars/avatar-3.png'
 import avatar4 from '@images/avatars/avatar-4.png'
@@ -50,29 +52,7 @@ const notifications = ref<Notification[]>([
   },
 ])
 
-const removeNotification = (notificationId: number) => {
-  // WHY: Functional approach avoids forEach with splice mutations
-  // PATTERN: Filter out the notification with matching ID
-  notifications.value = notifications.value.filter(item => item.id !== notificationId)
-}
-
-const markRead = (notificationId: number[]) => {
-  // WHY: Functional approach avoids forEach with property mutations
-  // PATTERN: Map notifications and update isSeen for matching IDs
-  const idsSet = new Set(notificationId)
-  notifications.value = notifications.value.map(item => 
-    idsSet.has(item.id) ? { ...item, isSeen: true } : item
-  )
-}
-
-const markUnRead = (notificationId: number[]) => {
-  // WHY: Functional approach avoids forEach with property mutations
-  // PATTERN: Map notifications and update isSeen for matching IDs
-  const idsSet = new Set(notificationId)
-  notifications.value = notifications.value.map(item => 
-    idsSet.has(item.id) ? { ...item, isSeen: false } : item
-  )
-}
+const { removeNotification, markRead, markUnRead } = useNotificationActions(notifications)
 
 const handleNotificationClick = (notification: Notification) => {
   if (!notification.isSeen)

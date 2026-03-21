@@ -1,72 +1,41 @@
-/**
- * Business Settings Router Helper Functions
- * 
- * LEARNING: Extracted helper functions for business settings operations
- * WHY: Improves code reusability, testability, and maintainability
- * PATTERN: Pure functions for complex logic
- */
-
 import { AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js'
 
-/** Minimal shape for BusinessSettings-like records (settingKey, settingValue). */
+/** Minimal shape for BusinessSettings-like records (settingKey, settingValue, optional autoConfirmEnabled). */
 interface BusinessSettingRecord {
   settingKey: string
   settingValue: unknown
+  autoConfirmEnabled?: boolean
 }
 
 /**
- * Transform setting to response format
- * LEARNING: Transforms BusinessSettings model to API response format
- * WHY: Provides consistent format for settings responses
- * PATTERN: Map model to response format
- *
- * @param setting - BusinessSettings model instance
- * @returns Response format object
+ * WHY: Transform setting to response format
  */
-export function transformSettingToResponse(setting: BusinessSettingRecord): { setting_key: string; setting_value: unknown } {
-  return {
+export function transformSettingToResponse(setting: BusinessSettingRecord): { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } {
+  const out: { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } = {
     setting_key: setting.settingKey,
     setting_value: setting.settingValue,
   }
+  if (typeof setting.autoConfirmEnabled === 'boolean') {
+    out.auto_confirm_enabled = setting.autoConfirmEnabled
+  }
+  return out
 }
 
-/**
- * Get setting with default fallback for availability settings
- * LEARNING: Gets setting or returns default for availability settings
- * WHY: Provides default values when availability settings don't exist
- * PATTERN: Check if setting exists, return default if not
- *
- * @param setting - BusinessSettings model instance or null
- * @param key - Setting key
- * @returns Setting response or default for availability settings, or null
- */
+/** Sync: return setting or default for availability_settings; availability is read from business_settings by the router. */
 export function getSettingWithDefault(
   setting: BusinessSettingRecord | null,
   key: string
-): { setting_key: string; setting_value: unknown } | null {
-  if (!setting) {
-    if (key === AVAILABILITY_SETTINGS_KEY) {
-      return {
-        setting_key: AVAILABILITY_SETTINGS_KEY,
-        setting_value: defaultAvailabilitySettings,
-      }
+): { setting_key: string; setting_value: unknown; auto_confirm_enabled?: boolean } | null {
+  if (key === AVAILABILITY_SETTINGS_KEY) {
+    return {
+      setting_key: AVAILABILITY_SETTINGS_KEY,
+      setting_value: defaultAvailabilitySettings,
     }
-    return null
   }
-
+  if (!setting) return null
   return transformSettingToResponse(setting)
 }
 
-/**
- * Merge setting values for PATCH operation
- * LEARNING: Merges existing setting value with new value
- * WHY: Enables partial updates for settings
- * PATTERN: Spread existing value, then new value
- *
- * @param existingValue - Existing setting value
- * @param newValue - New setting value to merge
- * @returns Merged setting value
- */
 export function mergeSettingValues(existingValue: unknown, newValue: unknown): unknown {
   const existing = (typeof existingValue === 'object' && existingValue !== null ? existingValue : {}) as Record<string, unknown>
   const next = (typeof newValue === 'object' && newValue !== null ? newValue : {}) as Record<string, unknown>

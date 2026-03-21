@@ -1,38 +1,49 @@
 /**
- * LEARNING: Admin Relationship Metadata Mutations Composable
- * WHY: Provides mutations for saving/deleting admin relationship metadata
- * PATTERN: Vue Query mutations with proper cache invalidation
- * 
- * This composable handles:
- * - Saving relationship field rendering configuration (POST with full entry)
- * - Deleting relationship field overrides (DELETE)
- * - Invalidating Vue Query cache after mutations
- */
+ * WHY: Admin Relationship Metadata Mutations Composable
 
+This composable handle...
+ */
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import apiClient, { getAdminRelationshipMetadataEndpoint } from '@/utils/api'
 import type { EntityMetadataType, FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { buildMetadataEntry } from '@/utils/admin/buildMetadataEntry'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 
-export function useAdminRelationshipMetadataMutations() {
+export interface UseAdminRelationshipMetadataMutationsReturn {
+  saveRelationshipFieldRendering: (
+    entityType: EntityMetadataType,
+    entityId: string,
+    relationshipKey: string,
+    renderingUpdates: Partial<FieldMetadataEntry>,
+    existingMetadata?: FieldMetadataEntry
+  ) => Promise<unknown>
+  deleteRelationshipFieldOverride: (
+    entityType: EntityMetadataType,
+    entityId: string,
+    relationshipKey: string
+  ) => Promise<unknown>
+  isSaving: import('vue').Ref<boolean>
+}
+
+export function useAdminRelationshipMetadataMutations(): UseAdminRelationshipMetadataMutationsReturn {
   const queryClient = useQueryClient()
   const { getFieldMetadata } = useMetadataCache()
 
-  const saveRelationshipFieldRenderingMutation = useMutation({
+  type SaveRelationshipFieldVariables = {
+    entityType: EntityMetadataType
+    entityId: string
+    relationshipKey: string
+    renderingUpdates: Partial<FieldMetadataEntry>
+    existingMetadata: FieldMetadataEntry | undefined
+  }
+  const saveRelationshipFieldRenderingMutation = useMutation<unknown, Error, SaveRelationshipFieldVariables>({
     mutationFn: async ({
       entityType,
       entityId,
       relationshipKey,
       renderingUpdates,
       existingMetadata,
-    }: {
-      entityType: EntityMetadataType
-      entityId: string
-      relationshipKey: string
-      renderingUpdates: Partial<FieldMetadataEntry>
-      existingMetadata: FieldMetadataEntry | undefined
-    }) => {
+    }: SaveRelationshipFieldVariables) => {
       // PATTERN: Like entity mutations accept fields (primitives + relationships) and dehydrate together
       
       // PATTERN: Get relationship metadata from GlobalData, extract relationshipKey entry (declarative object access)
@@ -84,16 +95,17 @@ export function useAdminRelationshipMetadataMutations() {
     },
   })
 
-  const deleteRelationshipFieldOverrideMutation = useMutation({
+  type DeleteRelationshipFieldVariables = {
+    entityType: EntityMetadataType
+    entityId: string
+    relationshipKey: string
+  }
+  const deleteRelationshipFieldOverrideMutation = useMutation<void, Error, DeleteRelationshipFieldVariables>({
     mutationFn: async ({
       entityType,
       entityId,
       relationshipKey,
-    }: {
-      entityType: EntityMetadataType
-      entityId: string
-      relationshipKey: string
-    }) => {
+    }: DeleteRelationshipFieldVariables) => {
       const endpoint = `${getAdminRelationshipMetadataEndpoint(entityType, entityId)}/${relationshipKey}`
       await apiClient.delete(endpoint)
     },

@@ -1,10 +1,3 @@
-/**
- * LEARNING: Admin Relationship Metadata Composer Utility
- * WHY: Fetches and merges admin relationship metadata
- * PATTERN: Parallel to adminInputMetadataComposer but for relationship fields
- * NOTE: Instance entities fall back to global configs if no instance-specific metadata exists
- *       All entity types have completely independent metadata (no inheritance between shapes and instances)
- */
 
 import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';

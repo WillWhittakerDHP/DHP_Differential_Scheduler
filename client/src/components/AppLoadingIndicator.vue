@@ -1,8 +1,7 @@
 <script setup lang="ts">
 /**
- * LEARNING: Use loading indicator composable
- * WHY: Extracts loading indicator logic from component to composable
- * PATTERN: Composable handles all progress state and handlers
+ * WHY: Use loading indicator composable
+WHY: Extracts loading indicator logic f...
  */
 import { useLoadingIndicator } from '@/composables/useLoadingIndicator'
 

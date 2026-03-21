@@ -1,14 +1,8 @@
 /**
- * LEARNING: Unified Entity Metadata Composable
- * WHY: Single composable for all entity types
- * PATTERN: Uses entity type mapping utility to eliminate special casing
- * 
- * This composable replaces useFormFieldMetadata and removes all special casing
- * for different entity types. It works uniformly for blockShape, partShape,
- * blockInstance, and partInstance entities.
- * NOTE: All entity types have completely independent metadata (no inheritance between shapes and instances)
+ * WHY: Unified Entity Metadata Composable
+WHY: Single composable for all entity...
  */
-
+import type { ComputedRef } from 'vue'
 import { computed, unref, type MaybeRef } from 'vue'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
@@ -16,13 +10,19 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
+export interface UseEntityMetadataReturn<_GE extends GlobalEntityKey> {
+  fieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
+  isLoading: ComputedRef<boolean>
+  error: ComputedRef<unknown>
+  refetch: () => Promise<void>
+}
+
 export function useEntityMetadata<GE extends GlobalEntityKey>(
   entityKey: GE,
   entity: MaybeRef<GlobalEntity<GE> | null>
-) {
+): UseEntityMetadataReturn<GE> {
   const entityValue = computed(() => unref(entity))
   
-  // LEARNING: Access metadata cache directly for reactive tracking
   // PATTERN: Access metadataQuery.data directly in computed so Vue tracks the dependency
   const metadataCache = useMetadataCache()
   
@@ -66,16 +66,13 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
     fieldMetadata,
     
     /**
-     * Loading state from metadata cache
-     * LEARNING: Metadata is lazy-loaded, so loading state is available
-     * WHY: Reflects actual loading state from metadata query
+Loading state from metadata cache
      */
     isLoading: computed(() => metadataCache.isLoading.value),
     
     /**
-     * Error from metadata cache
-     * LEARNING: Metadata query can have errors
-     * WHY: Reflects actual error state from metadata query
+Error from metadata cache
+WHY: Reflects actual error state from meta...
      */
     error: computed(() => metadataCache.error.value),
     

@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- LEARNING: Check renderAs from metadata to determine which input to render -->
-    <!-- WHY: renderAs is the source of truth for rendering - component dispatcher already determined this is primitive -->
-    <!-- PATTERN: Use renderAs to determine TextInput vs BooleanInput, fieldType for other types -->
-    <!-- Text Input (renderAs: 'text' or fieldType: 'text') -->
     <TextInput
       v-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
       :field-context="fieldContext"
@@ -48,16 +44,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: PrimitiveInputs component renders primitive input components
- * 
- * WHY: Different field types need different input components
- * 
- * PATTERN: Factory pattern - determines field type and renders appropriate input component
- * 
- * COMPARISON: React uses switch statements in render functions. Vue uses v-if directives
- *             in templates. Both provide same functionality.
+ * WHY: PATTERN: Factory pattern - determines field type and renders appropriate...
  */
-
 import { computed } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
@@ -76,26 +64,26 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
 
 const fieldType = computed(() => {
   // PATTERN: Fail explicitly if fieldType is missing - no fallbacks
-  if (!props.fieldContext.displayConfig.fieldType) {
+  if (!props.fieldContext.state.displayConfig.fieldType) {
     throw new Error(
-      `[PrimitiveInputs] Missing fieldType in displayConfig for field ${String(props.fieldContext.fieldKey)}. ` +
-      `Field must be configured in /admin-input-metadata.`
+      `[PrimitiveInputs] Missing fieldType in displayConfig for field ${String(props.fieldContext.state.fieldKey)}. ` +
+      `Field must be configured in /admin-metadata.`
     )
   }
-  return props.fieldContext.displayConfig.fieldType
+  return props.fieldContext.state.displayConfig.fieldType
 })
 
 // PATTERN: Composable handles both temporary and existing entities
 const entityForMetadata = useFieldContextMetadataEntity(props.fieldContext)
 
 const fetchedMetadata = useEntityMetadata(
-  props.fieldContext.entityKey,
+  props.fieldContext.state.entityKey,
   entityForMetadata
 )
 
 const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
-  const fieldKeyStr = String(props.fieldContext.fieldKey)
+  const fieldKeyStr = String(props.fieldContext.state.fieldKey)
   const meta = metadata[fieldKeyStr]
   return meta?.renderAs
 })

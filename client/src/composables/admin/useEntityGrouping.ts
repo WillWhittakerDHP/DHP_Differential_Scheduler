@@ -1,37 +1,20 @@
 /**
- * useEntityGrouping Composable
- * 
- * LEARNING: Generic grouping logic for entities grouped by another entity type
- * WHY: Entities can be grouped by other entities (e.g., blockInstances by blockShape)
- * PATTERN: Generic composable that groups entities by a grouping key
- */
+ * PATTERN: useEntityGrouping Composable
 
-import { computed, type ComputedRef } from 'vue'
+PATTERN: Generic composable that groups en...
+ */
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityGroupingParams, UseEntityGroupingReturn } from '@/types/admin/entityGrouping'
 
-export interface UseEntityGroupingParams<
-  EntityKey extends GlobalEntityKey,
-  GroupKey extends GlobalEntityKey
-> {
-  entityKey: EntityKey
-  
-  groupKey: GroupKey
-  
-  groupBy: (entity: GlobalEntity<EntityKey>) => string
-}
-
-export interface UseEntityGroupingReturn<EntityKey extends GlobalEntityKey> {
-  entitiesByGroup: ComputedRef<Map<string, GlobalEntity<EntityKey>[]>>
-}
+export type { UseEntityGroupingParams, UseEntityGroupingReturn } from '@/types/admin/entityGrouping'
 
 /**
- * useEntityGrouping composable
- * 
- * LEARNING: Provides grouped entity arrays
- * WHY: Extracts grouping logic from component to reusable generic composable
- * PATTERN: Generic composable that groups entities by another entity type
+ * WHY: useEntityGrouping composable
+
+WHY: Extracts grouping logic from componen...
  */
 export function useEntityGrouping<
   EntityKey extends GlobalEntityKey,
@@ -43,9 +26,6 @@ export function useEntityGrouping<
   const { getGlobalEntities } = useGlobal()
 
   /**
-   * LEARNING: Computed property for entities grouped by group key
-   * WHY: Groups entities by another entity type for display in tabs
-   * PATTERN: Computed property with Map data structure
    * NOTE: Must copy arrays before sorting because getGlobalEntities returns readonly Vue Query proxy
    */
   const entitiesByGroup = computed(() => {

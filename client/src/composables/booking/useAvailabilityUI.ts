@@ -1,44 +1,19 @@
 /**
- * useAvailabilityUI Composable
- * 
- * LEARNING: Extracts UI-specific logic from AvailabilityStep component
- * WHY: Moves responsive layout and date handling logic to composable
- * PATTERN: Composable that provides UI state management and handlers
- * 
- * NOTE: Appointment slot selection logic has moved to useAppointmentSlots composable.
- * This composable now only handles responsive layout and date validation.
- */
+ * WHY: useAvailabilityUI Composable
 
-import { computed, type Ref, type ComputedRef } from 'vue'
+WHY: Moves responsive layout and date hand...
+ */
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
+import { toISO8601Date } from '@/utils/datetime'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import { toISO8601Date } from '@/types/datetime'
-
-export interface UseAvailabilityUIParams {
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  selectedButtonIndex: Ref<number | null>
-  fieldErrors: Ref<Record<string, string>>
-}
-
-export interface UseAvailabilityUIReturn {
-  shouldShowGridInline: ComputedRef<boolean> // LEARNING: Renamed from shouldMoveGridBelow - true when grid should be inline (side-by-side)
-  handleDateChange: (value: string | Date | string[] | Date[] | null) => void
-}
+import type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
 /**
- * useAvailabilityUI composable
- * 
- * LEARNING: Provides UI state management and handlers for availability step
- * WHY: Extracts responsive layout and date handling logic from component to composable
- * PATTERN: Composable that returns reactive computed properties and handler functions
- * 
- * NOTE: Appointment slot selection is now handled by useAppointmentSlots composable.
- * This composable focuses on responsive layout and date validation.
- * 
- * LEARNING: Uses Vuetify's useDisplay() composable for responsive breakpoints
- * WHY: Trusts Vuetify's breakpoint system instead of custom viewport calculations
- * PATTERN: Mobile-first responsive design - stack below sm breakpoint (600px)
+ * WHY: useAvailabilityUI composable
+
+WHY: Extracts responsive layout and date h...
  */
 export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabilityUIReturn {
   const {
@@ -48,15 +23,10 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
   const { dateNotInPast } = useFormValidation()
   
   /**
-   * LEARNING: Use Vuetify's display composable for responsive breakpoints
-   * WHY: Leverages Vuetify's built-in breakpoint system
    */
   const { width, smAndUp } = useDisplay()
 
   /**
-   * LEARNING: Computed property to determine if grid should be inline (side-by-side with calendar)
-   * WHY: Check if there's actually enough space for calendar + grid side-by-side
-   * PATTERN: Calculate minimum width needed and compare to viewport width
    */
   const shouldShowGridInline = computed(() => {
     // Calendar has fixed width ~328px, grid needs at least 1 column (140px) + padding
@@ -70,13 +40,10 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
   })
 
   /**
-   * LEARNING: Handler for date change from calendar
-   * WHY: Validates date selection and clears errors when valid
-   * PATTERN: Function that validates and updates error state
-   * NOTE: VDatePicker may return Date object, string, or array - handle all cases
+PATTERN: Function that validates and updates error state
+NOTE: VDate...
    */
   const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
-    // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
     // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
     // PATTERN: Convert Date to ISO 8601 string, handle array (take first), handle null
     let dateString: ISO8601Date | null = null

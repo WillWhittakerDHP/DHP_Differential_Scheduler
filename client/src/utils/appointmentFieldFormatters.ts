@@ -1,20 +1,16 @@
 /**
- * LEARNING: Appointment field formatters
- * WHY: Field formatting logic is hardcoded in useAppointmentsTableModel with repeated field checks
- * PATTERN: Config-driven formatter map that can be extended without modifying the composable
- * 
- * Used by:
- * - useAppointmentsTableModel.ts
+ * WHY: Appointment field formatters
+WHY: Field formatting logic is hardcoded in...
  */
-
-import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
+import { formatNullValue } from '@/utils/formatting/nullDisplay'
 
-const { formatDateOnlyForDisplay, formatDateForDisplay } = useLocalTime()
+const { formatDateOnlyForDisplay, formatDateForDisplay } = localTime()
 
 type FieldFormatter = (
   appointment: AppointmentResponse,
@@ -22,12 +18,6 @@ type FieldFormatter = (
   properties: PropertyResponse[],
   users: UserResponse[]
 ) => string
-
-function formatNullValue(value: unknown): string {
-  if (value === null || value === undefined) return '—'
-  if (typeof value === 'object') return JSON.stringify(value)
-  return String(value)
-}
 
 function formatPropertyField(
   appointment: AppointmentResponse,
@@ -50,14 +40,19 @@ function formatPropertyField(
   return String(value)
 }
 
+/** Display name (firstName lastName) when user in list; else role; else id. Matches client/agent pattern. */
 function formatScheduledByField(
   value: unknown,
   users: UserResponse[]
 ): string {
   if (!value) return formatNullValue(value)
-  
+
   const user = users.find(u => u.id === value)
-  return user ? user.userRole : String(value)
+  if (!user) return String(value)
+  if (user.firstName != null || user.lastName != null) {
+    return [user.firstName, user.lastName].filter(Boolean).join(' ').trim() || user.userRole || String(value)
+  }
+  return user.userRole || String(value)
 }
 
 function formatDateField(value: unknown): string {
@@ -80,9 +75,7 @@ function formatClientField(
   _properties: PropertyResponse[],
   users: UserResponse[]
 ): string {
-  const clientAttendee = appointment.attendees?.find(a => 
-    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT
-  )
+  const clientAttendee = getClientAttendee(appointment)
   if (clientAttendee?.user) {
     return `${clientAttendee.user.firstName} ${clientAttendee.user.lastName}`
   }
@@ -99,9 +92,7 @@ function formatAgentField(
   _properties: PropertyResponse[],
   users: UserResponse[]
 ): string {
-  const agentAttendee = appointment.attendees?.find(a => 
-    a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?.userRole === USER_ROLE_AGENT
-  )
+  const agentAttendee = getAgentAttendee(appointment)
   if (agentAttendee?.user) {
     return `${agentAttendee.user.firstName} ${agentAttendee.user.lastName}`
   }
@@ -113,14 +104,12 @@ function formatAgentField(
 }
 
 /**
- * LEARNING: Config-driven field formatter map
- * WHY: Eliminates repeated field === "..." checks, makes formatters extensible
- * PATTERN: Map field names to formatter functions
+ * WHY: Config-driven field formatter map
+WHY: Eliminates repeated field === ".....
  */
 const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   propertyVersionId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   propertyId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
-  // Extract from attendees array
   client: (appointment, value, properties, users) => formatClientField(appointment, value, properties, users),
   agent: (appointment, value, properties, users) => formatAgentField(appointment, value, properties, users),
   scheduledById: (_appointment, value, _properties, users) => formatScheduledByField(value, users),

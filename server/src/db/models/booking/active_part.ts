@@ -8,16 +8,6 @@ import {
   Sequelize,
 } from 'sequelize';
 
-/**
- * PartAssignment Model
- * 
- * Represents part assignment relationships between block instances and part instances.
- * Part relationships are Block → Part relationships (math dimension).
- * 
- * LEARNING: Part assignment relationships enable runtime block-part composition
- * WHY: Block instances need to define which part instances are parts of them at runtime
- * PATTERN: Through table for many-to-many part relationships between block instances and part instances
- */
 export class PartAssignment extends Model<
   InferAttributes<PartAssignment>,
   InferCreationAttributes<PartAssignment>

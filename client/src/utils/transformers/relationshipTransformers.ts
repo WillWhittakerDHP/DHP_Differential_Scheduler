@@ -1,9 +1,6 @@
 /**
  * Relationship Transformers
  * 
- * LEARNING: Common utilities for relationship transformation and component operations
- * WHY: DRY principle - shared logic for all relationship operations
- * PATTERN: Utility functions for relationship finding, filtering, and component operations
  * 
  * ARCHITECTURAL NOTE: Components are part of relationship transformation
  * because components are a relationship type. This integrates component logic
@@ -22,15 +19,8 @@ import { safeArray } from './transformerPrimitives'
 import { groupByParentId } from './transformerCollections'
 
 /**
- * Transform FetchedRelationship[] to GlobalRelationship[] format
- * LEARNING: Groups flat relationships by parent and creates nested structure
- * WHY: Converts API response format to frontend format expected by transformers
- * PATTERN: Transform API relationships to GlobalRelationship format with parent/children structure
- * 
- * @param fetchedRelationships - Array of FetchedRelationship objects from API
- * @param relationshipKey - Relationship type key
- * @param entities - Map of entities by type for lookup
- * @returns Array of GlobalRelationship objects
+ * WHY: Transform FetchedRelationship[] to GlobalRelationship[] format
+WHY: Conv...
  */
 export function transformApiRelationships(
   fetchedRelationships: FetchedRelationship[],
@@ -74,15 +64,7 @@ export function transformApiRelationships(
 }
 
 /**
- * Find relationships where entity is parent
- * 
- * LEARNING: Common pattern for finding relationships by parent ID
- * WHY: Used across multiple transformers (admin, scheduler)
- * PATTERN: Filter relationships where parent.id matches
- * 
- * @param parentId - Parent entity ID
- * @param relationships - Array of GlobalRelationship objects
- * @returns Array of relationships where entity is parent
+
  */
 export function findRelationshipsByParent(
   parentId: string,
@@ -99,10 +81,6 @@ export function extractChildIds(relationships: GlobalRelationship[]): string[] {
   )
 }
 
-/**
- * WHY: Components are a relationship type, so component logic belongs here
- * PATTERN: These functions work with GlobalRelationship[] instead of ActiveComponent[]
- */
 export function getComponentsRecursive(
   composerId: string,
   entityKind: GlobalEntityKey,
@@ -143,22 +121,6 @@ export function getComponentsRecursive(
   return recursiveComponents
 }
 
-
-/**
- * Compose properties from components using relationships
- * 
- * LEARNING: Computed view pattern - always recalculate from components
- * WHY: Ensures data consistency, no stored composed values
- * PATTERN: Property-specific component based on config rules (component strategies combine properties)
- * 
- * ARCHITECTURAL CHANGE: Now works with GlobalRelationship[] instead of ActiveComponent[]
- * 
- * @param composerId - Composer entity ID
- * @param entityKind - Entity type key
- * @param relationships - GlobalRelationship[] for instanceComponents
- * @param entities - Entity map from GlobalData
- * @returns Partial entity with composed properties
- */
 function composePropertiesFromRelationships<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
@@ -203,7 +165,6 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
     return null
   }
   
-  // LEARNING: Type assertion needed because entities array is union type
   // PATTERN: Assert to specific entity type when we know the entityKind
   const composer = composerEntity as GlobalEntity<GE>
   
@@ -233,19 +194,6 @@ export function getComposedEntityFromRelationships<GE extends GlobalEntityKey>(
   return composedEntity
 }
 
-/**
- * Compose part instances from composed block instances
- * 
- * LEARNING: When composing block instances, compose all part instances from all composed blocks
- * WHY: Composer should show all part instances from all component blocks
- * PATTERN: Merge partAssignments relationships from all composed blocks
- * 
- * ARCHITECTURAL CHANGE: Now works with GlobalRelationship[] instead of ActiveComponent[]
- * 
- * @param composedBlockIds - Array of composed block instance IDs
- * @param relationships - GlobalRelationship[] for partAssignments
- * @returns Array of part instance IDs
- */
 export function composePartInstances(
   composedBlockIds: string[],
   relationships: GlobalRelationship[]
@@ -268,4 +216,3 @@ export function composePartInstances(
   // PATTERN: Use Set constructor with array to build Set functionally, then convert back to array
   return Array.from(new Set(partInstanceIds))
 }
-

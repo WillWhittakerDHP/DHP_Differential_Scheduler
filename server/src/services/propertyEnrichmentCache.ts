@@ -1,11 +1,6 @@
 /**
- * Property Enrichment Cache
- *
- * LEARNING: TTL-based caching for Bright MLS / RESO property enrichment
- * WHY: MLS data is stable; reduces API calls and costs
- * PATTERN: Same pattern as driveTimeCache.ts
+PATTERN: Same pattern as driveTimeCache.ts
  */
-
 import type { PropertyEnrichmentResponse } from '../types/brightMls.js';
 import { createLogger } from '../utils/logger.js';
 
@@ -24,9 +19,6 @@ const CACHE_TTL_MINUTES = parseInt(
 );
 const TTL = CACHE_TTL_MINUTES * 60 * 1000;
 
-/**
- * Normalize address for cache key
- */
 export function normalizeAddressForCache(address: string): string {
   return address
     .toLowerCase()

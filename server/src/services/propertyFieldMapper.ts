@@ -1,35 +1,20 @@
-/**
- * Property Field Mapper
- *
- * LEARNING: Maps RESO response fields to PropertyDetails using DB-configured mappings
- * WHY: Admin-configurable field mappings (foundationAccess, additionalUnits)
- * PATTERN: Load active mappings, apply value_mapping and fallback_value
- */
 
-import type { BrightMlsPropertyResponse } from '../types/brightMls.js';
-import type { PropertyFieldMapping } from '../db/models/mappings/property_field_mapping.js';
-import { mapFoundationType } from '../config/brightMlsFoundationMapping.js';
-import { asEmptyString } from '../utils/safeDefaults.js';
+import type { PropertyDetailsBase } from '../../../shared/types/propertyTypes.js'
+import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
+import type { PropertyFieldMapping } from '../db/models/mappings/property_field_mapping.js'
+import { mapFoundationType } from '../config/brightMlsFoundationMapping.js'
+import { PATCH_PROPERTY_FIELD_KEY } from '../routes/internal/properties/propertyConstants.js'
+import { asEmptyString } from '../utils/safeDefaults.js'
 
-export interface PartialPropertyDetails {
-  mlsNumber?: string | null;
-  squareFootage?: number | null;
-  bedrooms?: number | null;
-  bathrooms?: number | null;
-  foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null;
-  additionalUnits?: number | null;
-}
+/** TYPE_SIMILARITY: Extend shared PropertyDetailsBase as single source of truth. */
+export type PartialPropertyDetails = PropertyDetailsBase
 
-/**
- * Map RESO response to Partial<PropertyDetails> using DB mappings and built-in defaults
- */
 export function mapFieldsToModel(
   response: BrightMlsPropertyResponse,
   mappings: PropertyFieldMapping[]
 ): PartialPropertyDetails {
   const result: PartialPropertyDetails = {};
 
-  // Built-in mappings (always applied first)
   result.mlsNumber =
     response.ListingId ?? response.ListingKey ?? null;
   if (result.mlsNumber && typeof result.mlsNumber !== 'string') {
@@ -60,7 +45,6 @@ export function mapFieldsToModel(
 
   result.foundationAccess = mapFoundationType(response.FoundationDetails);
 
-  // additionalUnits from UnitTypes/OtherStructures - simple count or ADU detection
   const unitTypes = toArray(response.UnitTypes);
   const otherStructs = toArray(response.OtherStructures);
   const aduKeywords = ['adu', 'accessory', 'in-law', 'guest', 'unit'];
@@ -69,7 +53,6 @@ export function mapFieldsToModel(
   );
   result.additionalUnits = hasAdu ? 1 : unitTypes.length > 0 ? unitTypes.length : null;
 
-  // Apply DB mappings (override built-in when mapping exists)
   for (const m of mappings) {
     if (!m.active) continue;
 
@@ -84,9 +67,9 @@ export function mapFieldsToModel(
       mapped = m.fallbackValue ?? raw;
     }
 
-    if (m.targetField === 'foundationAccess') {
+    if (m.targetField === PATCH_PROPERTY_FIELD_KEY.FOUNDATION_ACCESS) {
       result.foundationAccess = mapped as 'basement' | 'crawlspace' | 'slab' | null;
-    } else if (m.targetField === 'additionalUnits') {
+    } else if (m.targetField === PATCH_PROPERTY_FIELD_KEY.ADDITIONAL_UNITS) {
       result.additionalUnits =
         mapped != null ? Math.round(Number(mapped)) : null;
     }

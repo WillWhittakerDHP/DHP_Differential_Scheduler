@@ -1,10 +1,3 @@
-/**
- * Availability Step Param Bases (P2 type-similarity)
- *
- * LEARNING: Shared param shapes for availability step composables.
- * WHY: UseAvailabilityStepDataParams and UseAvailabilityValidationParams share selectedDate/selectedSlot.
- */
-
 import type { Ref } from 'vue'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'

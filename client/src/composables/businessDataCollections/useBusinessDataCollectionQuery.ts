@@ -1,33 +1,24 @@
-/**
- * Business Data Collection Query Composable
- * 
- * LEARNING: Read-only query helpers for BusinessData-backed collections
- * WHY: Separates query concerns from mutation logic
- * PATTERN: Mirrors globalDataCollections/useGlobalDataCollectionQuery.ts
- * 
- * Session 1.4.7: Created as part of data flow consolidation
- */
 
 import { computed, type ComputedRef } from 'vue'
 import { useBusiness } from '@/composables/useBusiness'
 import { findById } from '@/utils/collections/findById'
+import type { WithId } from '@/types/collectionTypes'
 import type {
   BusinessDataCollectionByIdQueryResult,
   BusinessDataCollectionQueryResult,
   BusinessDataCollectionSelector,
-} from './types'
+} from '@/types/dataCollections/businessDataCollectionTypes'
 
-type BusinessDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
+type BusinessDataCollectionQueryOptions<CollectionItem extends WithId> = {
   selectCollection: BusinessDataCollectionSelector<CollectionItem>
-}
+} & { readonly __brand?: 'BusinessDataCollectionQueryOptions' }
 
 /**
  * Read-only query helpers for BusinessData-backed collections (appointments/users/properties).
  *
- * LEARNING: These collections are stored on `businessData` (Vue Query cache) and are not fetched per-collection.
  * WHY: Keeping "query" concerns separate makes CRUD composables smaller and easier to reuse.
  */
-export function useBusinessDataCollectionQuery<CollectionItem extends { id: string }>(
+export function useBusinessDataCollectionQuery<CollectionItem extends WithId>(
   options: BusinessDataCollectionQueryOptions<CollectionItem>
 ): {
   list: ComputedRef<CollectionItem[]>

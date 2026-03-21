@@ -1,30 +1,16 @@
 /**
- * Composable for status button fields computation
- * WHY: Extracts status button fields computation logic from ShapesTab
- * PATTERN: Composable that computes status button fields from metadata
+ * PATTERN: Composable for status button fields computation
+PATTERN: Composable that...
  */
-
-import { computed, type ComputedRef } from 'vue'
-import { categorizeFieldsBySection, type StatusButtonField } from '@/utils/forms/fieldSectionCategorization'
+import { computed } from 'vue'
+import { categorizeFieldsBySection } from '@/utils/forms/fieldSectionCategorization'
 import { useEntityMetadata } from './useEntityMetadata'
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { UseStatusButtonFieldsOptions, UseStatusButtonFieldsReturn } from '@/types/admin/statusButtonFields'
 
-export interface UseStatusButtonFieldsOptions<GE extends GlobalEntityKey> {
-  entityKey: GE
-  anyEntityForMetadata: ComputedRef<GlobalEntity<GE> | null>
-}
+export type { UseStatusButtonFieldsOptions, UseStatusButtonFieldsReturn } from '@/types/admin/statusButtonFields'
 
-export interface UseStatusButtonFieldsReturn<GE extends GlobalEntityKey> {
-  statusButtonFields: ComputedRef<Array<Omit<StatusButtonField, 'key'> & { key: GlobalFieldKey<GE> }>>
-}
-
-/**
- * Composable for computing status button fields
- * WHY: Centralizes status button fields computation logic
- * PATTERN: Returns computed property for status button fields
- */
 export function useStatusButtonFields<GE extends GlobalEntityKey>(
   options: UseStatusButtonFieldsOptions<GE>
 ): UseStatusButtonFieldsReturn<GE> {

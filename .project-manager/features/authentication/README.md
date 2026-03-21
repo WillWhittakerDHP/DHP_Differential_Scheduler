@@ -1,10 +1,10 @@
-# Feature 10: Authentication
+# Feature 7: Authentication
 
-**Feature Number:** 10
+**Feature Number:** 7
 **Status:** 📋 Planning
 **Created:** 2026-02-18
 **Branch:** TBD
-**Depends On:** BETA_LAUNCH_CHECKLIST.md Phase 2A
+**Depends On:** LAUNCH_CHECKLIST.md Phase 2A
 
 ---
 
@@ -40,8 +40,8 @@ Pluggable authentication using a Strategy Pattern: Magic Link for beta/developme
 
 ## Related Documents
 
-- **Feature Plan (full spec):** `feature-plan.md`
-- **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 2A
+- **Feature Guide (full spec):** `feature-authentication-guide.md`
+- **Checklist (todo layer):** `../../../LAUNCH_CHECKLIST.md` — Phase 2A
 
 ---
 

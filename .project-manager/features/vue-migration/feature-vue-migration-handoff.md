@@ -35,7 +35,7 @@ Vue.js migration has achieved structural completion. All major systems are in pl
 **What you need to start next features:**
 - Review `PROJECT_PLAN.md` for detailed feature plans
 - Review `vue-migration-completion-summary.md` for what was accomplished
-- Review individual feature plans in `project-manager/features/[feature-name]/feature-plan.md`
+- Review individual feature guides in `project-manager/features/[feature-name]/feature-{feature-name}-guide.md`
 - Understand that remaining work is feature development, not migration work
 
 **Plan Changes Affecting Downstream Features:**
@@ -155,12 +155,12 @@ All remaining work has been organized into focused features:
 - **Phase 9 Progress**: `project-manager/features/vue-migration/phases/phase-9-progress-summary.md`
 - **Data Flow Plan**: `align-data-flows.plan.md`
 
-**Next Feature Plans:**
-- Feature 1: `project-manager/features/data-flow-alignment/feature-plan.md`
-- Feature 2: `project-manager/features/ui-polish/feature-plan.md`
-- Feature 3: `project-manager/features/booking-calculations/feature-plan.md`
-- Feature 4: `project-manager/features/calendar-appointment-availability/feature-plan.md`
-- Feature 5: `project-manager/features/google-apis-integration/feature-plan.md`
+**Next Feature Guides:**
+- Feature 1: `project-manager/features/data-flow-alignment/feature-data-flow-alignment-guide.md`
+- Feature 2 (now Feature 16): `project-manager/features/ui-polish/feature-ui-polish-guide.md`
+- Feature 3: `project-manager/features/booking-calculations/feature-booking-calculations-guide.md`
+- Feature 4: `project-manager/features/calendar-appointment-availability/feature-calendar-appointment-availability-guide.md`
+- Feature 5: `project-manager/features/feature-2-google-apis-integration/feature-feature-2-google-apis-integration-guide.md`
 
 ---
 

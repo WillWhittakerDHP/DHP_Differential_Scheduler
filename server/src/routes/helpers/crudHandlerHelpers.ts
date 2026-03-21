@@ -1,7 +1,3 @@
-/**
- * Shared helpers for CRUD route handlers.
- * WHY: Reduces crudRouteHandlers.ts size and nesting; keeps handlers thin.
- */
 
 import type { Request, Response } from 'express'
 import type { Model } from 'sequelize'
@@ -13,8 +9,7 @@ import type { ValidationResult } from './routerValidators.js'
 export type MutationMethod = 'update' | 'patch'
 
 /**
- * Execute an optional async hook; returns false if response was already sent (caller should return).
- * WHY: Centralizes the "if (hook) { await hook(...); if (res.headersSent) return }" pattern.
+ * WHY: Execute an optional async hook; returns false if response was already se...
  */
 export async function executeOptionalHook(
   hook: ((...args: unknown[]) => Promise<void>) | undefined,
@@ -26,10 +21,6 @@ export async function executeOptionalHook(
   return !res.headersSent
 }
 
-/**
- * If validation is invalid, send bad request and return false; otherwise return true.
- * WHY: Centralizes validation-detail extraction and sendBadRequest so handlers stay flat.
- */
 export function handleValidationResult(
   validation: ValidationResult,
   res: Response,
@@ -44,10 +35,6 @@ export function handleValidationResult(
   return false
 }
 
-/**
- * Apply optional transform or return value unchanged.
- * WHY: Replaces repeated "transform ? transform(value) : value" in handlers.
- */
 export function applyOptionalTransform<T, R = T>(
   value: T,
   transform?: (value: T) => R

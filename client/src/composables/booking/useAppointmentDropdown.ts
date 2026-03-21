@@ -1,22 +1,11 @@
 /**
- * LEARNING: Appointment Dropdown Items
  * WHY: Encapsulates appointment dropdown formatting logic
- * PATTERN: Composable for formatting appointments array to dropdown items
- * 
- * Used by:
- * - BookingWizard.vue
+PATTERN: Composable f...
  */
-
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
-import type { WizardDevOptionsBase } from '@/types/wizardDevOptions'
+import type { UseAppointmentDropdownOptions, UseAppointmentDropdownReturn } from '@/types/booking/appointmentDropdown'
 
-/** Extends shared base for single source of truth (TYPE_SIMILARITY 1.14). */
-export type UseAppointmentDropdownOptions = WizardDevOptionsBase
-
-export interface UseAppointmentDropdownReturn {
-  appointmentDropdownItems: ComputedRef<Array<{ text: string; value: string }>>
-}
 
 export function useAppointmentDropdown(
   options: UseAppointmentDropdownOptions

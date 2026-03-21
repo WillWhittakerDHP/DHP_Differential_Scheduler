@@ -97,11 +97,6 @@
 </style>
 ```
 
-**Learning Points:**
-- Placeholder component structure
-- Consistent styling with other steps
-- Clear indication it's a placeholder
-
 ---
 
 ### Task 5.2.2: Create PropertyDetailsStep.vue Placeholder
@@ -153,10 +148,6 @@
 }
 </style>
 ```
-
-**Learning Points:**
-- Consistent placeholder pattern
-- Clear messaging about future implementation
 
 ---
 
@@ -210,10 +201,6 @@
 </style>
 ```
 
-**Learning Points:**
-- Consistent placeholder pattern
-- Clear messaging about future implementation
-
 ---
 
 ### Task 5.2.4: Create ContactsStep.vue Placeholder
@@ -266,10 +253,6 @@
 </style>
 ```
 
-**Learning Points:**
-- Consistent placeholder pattern
-- Clear messaging about future implementation
-
 ---
 
 ### Task 5.2.5: Update BookingWizard.vue to Render Placeholder Steps
@@ -312,11 +295,6 @@ const getStepContent = (step: number) => {
 }
 </script>
 ```
-
-**Learning Points:**
-- Dynamic component rendering
-- Component imports
-- Step content switching
 
 ---
 
@@ -376,11 +354,6 @@ import BookingWizard from '@/components/booking/BookingWizard.vue'
 </template>
 ```
 
-**Learning Points:**
-- Route component structure
-- Layout patterns in Vuexy
-- Component composition
-
 ---
 
 ### Task 5.2.7: Add /booking Route to Router Configuration
@@ -423,11 +396,6 @@ const router = createRouter({
 
 export default router
 ```
-
-**Learning Points:**
-- Vue Router route configuration
-- Lazy loading components
-- Route naming
 
 ---
 
@@ -541,5 +509,3 @@ client-vue/src/
 - Plan Details: `phase-5-booking-wizard-integration.plan.md`
 - Session 5.1 Guide: `.cursor/project-manager/features/vue-migration/sessions/session-5.1-guide.md`
 - Phase 6 Guide: `.cursor/project-manager/features/vue-migration/phases/phase-6-guide.md` (for future reference)
-
-

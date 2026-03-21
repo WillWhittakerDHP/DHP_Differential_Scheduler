@@ -1,81 +1,17 @@
 /**
- * useInstanceSelectionState Composable
- * 
- * LEARNING: Generic v-model bridges for any block instance selection
- * WHY: Not service-specific - works with any block shape selection (user type, service, property, option)
- * PATTERN: Composable that provides computed properties with getter/setter for two-way binding
- * 
- * Features:
- * - V-model bridge for single-select (user type, availability option)
- * - V-model bridge for multi-select (services, property type blocks)
- * - Watch loaded wizard state to sync selections
- * 
- * Session: Generic SelectionCard Refactor (2026-01-09)
- * NOTE: Renamed from useServiceSelectionState to useInstanceSelectionState for generic usage
- */
+ * PATTERN: useInstanceSelectionState Composable
 
-import { computed, watch, nextTick, type Ref, type ComputedRef } from 'vue'
-import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+PATTERN: Composable that provides ...
+ */
+import { computed, watch, nextTick } from 'vue'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
+import type { UseInstanceSelectionStateParams, UseInstanceSelectionStateReturn } from '@/types/booking/instanceSelectionState'
 
 /**
- * Generic wizard instance interface
- * LEARNING: Subset of wizard methods needed for selection state management
- */
-export interface GenericWizardInstance {
-  selectedUserTypeBlock: Ref<BookingBlockInstance | null>
-  availableUserTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  availableServices: Ref<BookingBlockInstance[]>
-  selectUserTypeBlock: (userTypeBlock: BookingBlockInstance | null, skipCascade?: boolean) => void
-  toggleServiceTypeBlock: (service: BookingBlockInstance, skipCascade?: boolean) => void
-}
+ * PATTERN: useInstanceSelectionState composable
 
-export interface UseInstanceSelectionStateParams {
-  availableInstances: ComputedRef<BookingBlockInstance[]>
-  
-  selectedInstances: ComputedRef<BookingBlockInstance[]> | Ref<BookingBlockInstance[]>
-  
-  toggleSelection?: (instance: BookingBlockInstance, skipCascade?: boolean) => void
-  
-  loadedWizardState?: Ref<WizardStateData | null> | null
-}
-
-export interface UseInstanceSelectionStateReturn {
-  selectedId: ComputedRef<string | null>
-  
-  selectedIds: ComputedRef<string[]>
-}
-
-/**
- * useInstanceSelectionState composable
- * 
- * LEARNING: Generic v-model bridges for any block instance selection
- * WHY: Decoupled from service-specific naming for broader reuse
- * PATTERN: Composable that provides computed properties with getter/setter
- * 
- * @example
- * ```ts
- * // Single-select for user types
- * const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
- *   wizard,
- *   availableInstances: computed(() => wizard.availableUserTypeBlocks.value),
- *   selectedInstances: computed(() => wizard.selectedUserTypeBlock.value ? [wizard.selectedUserTypeBlock.value] : []),
- *   selectionMode: 'single',
- *   toggleSelection: (ut) => wizard.selectUserTypeBlock(ut)
- * })
- * 
- * // Multi-select for services
- * const { selectedIds: selectedServiceIds } = useInstanceSelectionState({
- *   wizard,
- *   availableInstances: computed(() => wizard.availableServices.value),
- *   selectedInstances: computed(() => wizard.selectedServiceTypeBlocks.value),
- *   selectionMode: 'multi',
- *   toggleSelection: (s) => wizard.toggleServiceTypeBlock(s)
- * })
- * ```
+PATTERN: Composable that provides ...
  */
 export function useInstanceSelectionState(
   params: UseInstanceSelectionStateParams
@@ -88,9 +24,7 @@ export function useInstanceSelectionState(
   } = params
 
   /**
-   * LEARNING: V-model bridge for single-select
    * WHY: Enables v-model binding with VRadio while syncing with wizard state
-   * PATTERN: Computed with getter/setter for two-way binding
    */
   const selectedId = computed<string | null>({
     get: () => {
@@ -110,9 +44,7 @@ export function useInstanceSelectionState(
   })
 
   /**
-   * LEARNING: V-model bridge for multi-select
    * WHY: Enables v-model binding with VCheckbox while syncing with wizard state
-   * PATTERN: Computed with getter/setter for two-way binding with arrays
    */
   const selectedIds = computed<string[]>({
     get: () => {
@@ -133,9 +65,6 @@ export function useInstanceSelectionState(
   })
 
   /**
-   * LEARNING: Watch loaded wizard state for initial population
-   * WHY: Ensures selections are properly set when loading appointment data
-   * PATTERN: Watch with immediate for initial sync
    */
   if (loadedWizardState) {
     watch(loadedWizardState, (newState) => {
@@ -151,4 +80,3 @@ export function useInstanceSelectionState(
     selectedIds
   }
 }
-

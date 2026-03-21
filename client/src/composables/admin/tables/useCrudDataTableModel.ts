@@ -1,81 +1,22 @@
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref } from 'vue'
+import type {
+  CrudDataTableModelGrouped,
+  CrudDataTableModelOptions,
+} from '@/types/admin/tables/crudDataTableModel'
+import { createLogger } from '@/utils/logger'
+import { ensureItemsArray } from './useTableModelHelpers'
 
-/**
- * useCrudDataTableModel
- *
- * LEARNING: Extracts the repeated "editable CRUD table" state machine out of `.vue` files.
- * WHY: Our admin tables repeat the same pattern (edit row, create row, confirm delete, save/cancel).
- * PATTERN: Generic composable with table-item and request payload typing.
- */
-
-export interface CrudDataTableModelOptions<
-  TableItem extends { id: string },
-  CreatePayload extends object,
-  UpdatePayload extends object
-> {
-  /** Human-friendly entity label for notifications (e.g., "Appointment") */
-  entityLabel: string
-
-  /** Source items (usually a Vue Query `fetchAll.data`) */
-  itemsSource: ComputedRef<TableItem[]>
-
-  /** Loading/error sources (usually Vue Query flags) */
-  isLoadingSource: ComputedRef<boolean>
-  errorSource: ComputedRef<unknown>
-
-  /** Create/update/delete operations */
-  createItem: (payload: CreatePayload) => Promise<unknown>
-  updateItem: (id: string, payload: UpdatePayload) => Promise<unknown>
-  deleteItem: (id: string) => Promise<unknown>
-
-  /** Notifications */
-  notifySuccess: (message: string) => void
-  notifyError: (message: string) => void
-
-  /** Create-mode defaults + validation */
-  getCreateDefaults: () => CreatePayload
-  validateCreate: (payload: CreatePayload) => string | null
-
-  /** Edit-mode mapping */
-  mapItemToEditPayload: (item: TableItem) => UpdatePayload
-}
-
-export interface CrudDataTableModel<
-  TableItem extends { id: string },
-  CreatePayload extends object,
-  UpdatePayload extends object
-> {
-  items: ComputedRef<TableItem[]>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<unknown>
-
-  editingId: Ref<string | null>
-  editedData: Ref<Partial<UpdatePayload>>
-
-  isCreating: Ref<boolean>
-  newItem: Ref<CreatePayload>
-
-  showDeleteDialog: Ref<boolean>
-  deletingId: Ref<string | null>
-
-  startEdit: (item: TableItem) => void
-  cancelEdit: () => void
-  saveEdit: () => Promise<void>
-
-  startCreate: () => void
-  cancelCreate: () => void
-  saveCreate: () => Promise<void>
-
-  openDeleteDialog: (id: string) => void
-  cancelDelete: () => void
-  confirmDelete: () => Promise<void>
-}
+const logger = createLogger('useCrudDataTableModel')
 
 export function useCrudDataTableModel<
   TableItem extends { id: string },
   CreatePayload extends object,
   UpdatePayload extends object
->(options: CrudDataTableModelOptions<TableItem, CreatePayload, UpdatePayload>): CrudDataTableModel<TableItem, CreatePayload, UpdatePayload> {
+>(options: CrudDataTableModelOptions<TableItem, CreatePayload, UpdatePayload>): CrudDataTableModelGrouped<
+  TableItem,
+  CreatePayload,
+  UpdatePayload
+> {
   const {
     entityLabel,
     itemsSource,
@@ -91,15 +32,15 @@ export function useCrudDataTableModel<
     mapItemToEditPayload,
   } = options
 
-  const items = computed<TableItem[]>(() => itemsSource.value)
+  const items = computed<TableItem[]>(() => ensureItemsArray<TableItem>(itemsSource.value))
   const isLoading = computed<boolean>(() => isLoadingSource.value)
   const error = computed<unknown>(() => errorSource.value)
 
   const editingId = ref<string | null>(null)
-  const editedData = ref<Partial<UpdatePayload>>({}) as Ref<Partial<UpdatePayload>>
+  const editedData = ref<Partial<UpdatePayload>>({})
 
   const isCreating = ref<boolean>(false)
-  const newItem = ref<CreatePayload>(getCreateDefaults()) as Ref<CreatePayload>
+  const newItem = ref<CreatePayload>(getCreateDefaults())
 
   const showDeleteDialog = ref<boolean>(false)
   const deletingId = ref<string | null>(null)
@@ -121,7 +62,8 @@ export function useCrudDataTableModel<
       await updateItem(editingId.value, editedData.value as UpdatePayload)
       notifySuccess(`${entityLabel} updated successfully`)
       cancelEdit()
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to update', { error, entityLabel, editingId: editingId.value })
       notifyError(`Failed to update ${entityLabel.toLowerCase()}`)
     }
   }
@@ -147,7 +89,8 @@ export function useCrudDataTableModel<
       await createItem(newItem.value)
       notifySuccess(`${entityLabel} created successfully`)
       cancelCreate()
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to create', { error, entityLabel })
       notifyError(`Failed to create ${entityLabel.toLowerCase()}`)
     }
   }
@@ -169,31 +112,26 @@ export function useCrudDataTableModel<
       await deleteItem(deletingId.value)
       notifySuccess(`${entityLabel} deleted successfully`)
       cancelDelete()
-    } catch (_error) {
+    } catch (error) {
+      logger.error('Failed to delete', { error, entityLabel, deletingId: deletingId.value })
       notifyError(`Failed to delete ${entityLabel.toLowerCase()}`)
     }
   }
 
   return {
-    items,
-    isLoading,
-    error,
-    editingId,
-    editedData,
-    isCreating,
-    newItem,
-    showDeleteDialog,
-    deletingId,
-    startEdit,
-    cancelEdit,
-    saveEdit,
-    startCreate,
-    cancelCreate,
-    saveCreate,
-    openDeleteDialog,
-    cancelDelete,
-    confirmDelete,
-  }
+    data: { items, isLoading, error },
+    editState: { editingId, editedData, isCreating, newItem },
+    dialogs: { showDeleteDialog, deletingId },
+    actions: {
+      startEdit,
+      cancelEdit,
+      saveEdit,
+      startCreate,
+      cancelCreate,
+      saveCreate,
+      openDeleteDialog,
+      cancelDelete,
+      confirmDelete,
+    },
+  } as CrudDataTableModelGrouped<TableItem, CreatePayload, UpdatePayload>
 }
-
-

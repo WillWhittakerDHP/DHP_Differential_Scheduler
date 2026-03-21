@@ -210,8 +210,8 @@ The database structure and API endpoints are now in place. Phase 1.2 will:
 
 ## Related Documents
 
-- **Feature Plan**: `project-manager/features/data-flow-alignment/feature-plan.md`
-- **Phase 1.1 Details**: See Phase 1.1 section in feature-plan.md
+- **Feature Guide**: `project-manager/features/data-flow-alignment/feature-data-flow-alignment-guide.md`
+- **Phase 1.1 Details**: See Phase 1.1 section in feature guide
 - **Next Phase**: Phase 1.2 - Booking Wizard Data Flow Fixes
 
 ---

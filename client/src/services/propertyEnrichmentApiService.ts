@@ -1,11 +1,6 @@
 /**
- * Property Enrichment API Service
- *
- * LEARNING: Client service for Bright MLS / RESO property enrichment via server proxy
- * WHY: Server holds credentials; client receives transformed property data
- * PATTERN: Same pattern as mapsApiService.ts
+PATTERN: Same pattern as mapsApiService.ts
  */
-
 import axios from 'axios'
 import { createLogger } from '@/utils/logger'
 import type { PropertyEnrichmentResponse } from '@shared/types/propertyEnrichmentTypes'
@@ -16,15 +11,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001
 
 export type { PropertyEnrichmentResponse }
 
-/**
- * Fetch property enrichment data by address
- *
- * @param address Full address string
- * @param city Optional city override
- * @param state Optional state override
- * @param zipCode Optional zip code override
- * @returns Enrichment data or null if not found / not configured
- */
 export async function fetchPropertyEnrichment(
   address: string,
   city?: string,
@@ -35,6 +21,7 @@ export async function fetchPropertyEnrichment(
     return null
   }
 
+  // @audit-allow:hardcoding:fieldMapping - URLSearchParams query shape
   const params = new URLSearchParams({ address: address.trim() })
   if (city?.trim()) params.set('city', city.trim())
   if (state?.trim()) params.set('state', state.trim())

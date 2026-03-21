@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-02-19T22:25:21.179Z",
+  "generatedAt": "2026-02-25T14:28:27.271Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
-      "totalFindings": 46,
-      "filesWithFindings": 46,
-      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 46"
+      "totalFindings": 4,
+      "filesWithFindings": 4,
+      "detail": "Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): 4"
     },
     {
       "auditId": "dep-freshness",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Outdated: 0 (major: 0, minor: 0, patch: 0)"
+      "totalFindings": 1,
+      "filesWithFindings": 1,
+      "detail": "Outdated: 1 (major: 1, minor: 0, patch: 0)"
     },
     {
       "auditId": "import-hygiene",
@@ -21,9 +21,9 @@
     },
     {
       "auditId": "import-graph",
-      "totalFindings": 0,
-      "filesWithFindings": 0,
-      "detail": "Cycles: 0, Fan-out violations: 0, Fan-in violations: 0"
+      "totalFindings": 1,
+      "filesWithFindings": 1,
+      "detail": "Cycles: 0, Fan-out violations: 0, Fan-in violations: 1"
     },
     {
       "auditId": "api-contract",
@@ -44,19 +44,36 @@
       "detail": "Value-from-type-only: 0, Type-used-as-value: 0"
     }
   ],
-  "hotspots": [],
+  "hotspots": [
+    {
+      "repoPath": "client/src/constants/entities",
+      "totalScore": 6,
+      "auditCount": 1,
+      "auditIds": [
+        "import-graph"
+      ]
+    },
+    {
+      "repoPath": "client:vuetify",
+      "totalScore": 5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    }
+  ],
   "trend": [
     {
       "auditId": "type-similarity",
-      "current": 46,
-      "previous": 46,
-      "delta": 0
+      "current": 4,
+      "previous": 20,
+      "delta": -16
     },
     {
       "auditId": "dep-freshness",
-      "current": 0,
-      "previous": 11,
-      "delta": -11
+      "current": 1,
+      "previous": 1,
+      "delta": 0
     },
     {
       "auditId": "import-hygiene",
@@ -66,8 +83,8 @@
     },
     {
       "auditId": "import-graph",
-      "current": 0,
-      "previous": 0,
+      "current": 1,
+      "previous": 1,
       "delta": 0
     },
     {
@@ -79,8 +96,8 @@
     {
       "auditId": "type-escape",
       "current": 0,
-      "previous": 13,
-      "delta": -13
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "type-import",

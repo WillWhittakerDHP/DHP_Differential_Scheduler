@@ -15,11 +15,9 @@ import {
  * Dependent instance relationships define which block instances are valid as 
  * dependent options within the booking wizard for a specific parent block instance.
  * 
- * LEARNING: Dependent instance relationships enable instance-specific nested selection
  * WHY: Block instances need to define which other block instances are valid as dependent options
  *      This is instance-specific (many-to-many) rather than shape-level
  *      Works for any block shape: services, property types, availability options, etc.
- * PATTERN: Through table for many-to-many dependent relationships between block instances
  * 
  * NOTE: Renamed from DependentInstanceOption to DependentInstance for clearer terminology (2026-01-20)
  * PREVIOUS: AdditionalServiceOption → DependentInstanceOption → DependentInstance

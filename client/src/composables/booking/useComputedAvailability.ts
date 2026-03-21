@@ -1,20 +1,6 @@
-/**
- * useComputedAvailability Composable
- *
- * Fetches and caches server-computed slots (slotsByDay) with three fetch strategies:
- * 1. 14-day prefetch: On mount and when placeId/duration changes, fetches today+14 days
- * 2. Month-wide prefetch: When displayed month changes to a month not in cache, fetches full month
- * 3. Per-day fallback: When user selects a date not in cache, fetches that day ±1
- *
- * All strategies merge into the same Map<string, ComputedSlot[]> cache.
- *
- * Phase 4: Server-Side Slot Computation
- */
-
-import { ref, watch, computed, type Ref, type ComputedRef } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import type {
   Constraint,
@@ -24,6 +10,8 @@ import type {
 } from '@shared/types/availabilityTypes'
 import { fetchComputedAvailabilityData } from '@/services/calendarApiService'
 import { createLogger } from '@/utils/logger'
+import type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
+
 
 const logger = createLogger('useComputedAvailability')
 
@@ -39,40 +27,23 @@ function getPrefetchDateRange(): { start: RFC3339DateTime; end: RFC3339DateTime 
   }
 }
 
-export interface UseComputedAvailabilityParams {
-  propertyDetailsStepData: Ref<PropertyDetailsStepData | null>
-  dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
-  activeStep: Ref<number>
-  duration?: Ref<number | null>
-  /** When user picks a day; if not in cache, we fetch that day ±1 and merge */
-  selectedDate?: Ref<string | null>
-  /**
-   * Controls which external APIs the server calls:
-   * - 'real' (default): Full pipeline — Calendar Events API, Routes API, capacity
-   * - 'mock': Settings + constraints only — no Google API calls (dev without credentials)
-   * - 'none': Minimal response — settings metadata only, empty slots/events (pure UI dev)
-   */
-  dataSource?: Ref<'real' | 'mock' | 'none'>
-}
-
-export interface UseComputedAvailabilityReturn {
-  calendarEvents: Ref<CalendarEvent[]>
-  /** Cached slots by date key (YYYY-MM-DD); merge from each fetch */
-  slotsByDay: Ref<Map<string, ComputedSlot[]>>
-  constraints: Ref<Constraint[]>
-  computedData: ComputedRef<ComputedSlotAvailabilityData | null>
-  isLoading: Ref<boolean>
-  error: Ref<Error | null>
-}
-
 export function useComputedAvailability(
   params: UseComputedAvailabilityParams
 ): UseComputedAvailabilityReturn {
-  const { propertyDetailsStepData, dateRange, activeStep, duration, selectedDate, dataSource } = params
+  const {
+    propertyDetailsStepData,
+    dateRange,
+    activeStep,
+    duration,
+    selectedDate,
+    dataSource,
+    appointmentId,
+  } = params
 
   const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
 
   const canFetchAvailability = computed(() => !!dateRange.value?.start && !!dateRange.value?.end)
+  const appointmentIdForRequest = computed(() => appointmentId?.value ?? null)
 
   const calendarEvents = ref<CalendarEvent[]>([])
   const slotsByDay = ref<Map<string, ComputedSlot[]>>(new Map())
@@ -102,6 +73,7 @@ export function useComputedAvailability(
     label: string
   ): Promise<void> => {
     const currentPlaceId = placeId.value
+    const currentAppointmentId = appointmentIdForRequest.value
     const rawDuration = duration?.value
     const currentDuration = rawDuration !== undefined && rawDuration !== null ? rawDuration : 60
 
@@ -112,8 +84,10 @@ export function useComputedAvailability(
       logger.debug(`[useComputedAvailability] ${label}:`, range.start, 'to', range.end)
 
       const data = await fetchComputedAvailabilityData({
+        // @audit-allow:hardcoding:fieldMapping - Request payload shape
         dateRange: { start: range.start, end: range.end },
         candidatePlaceId: currentPlaceId ?? undefined,
+        appointmentId: currentAppointmentId ?? undefined,
         duration: currentDuration,
         dataSource: dataSource?.value ?? 'real',
       })
@@ -146,21 +120,28 @@ export function useComputedAvailability(
   }
 
   const lastPlaceId = ref<string | undefined>(undefined)
+  const lastAppointmentId = ref<string | undefined>(undefined)
   const lastDuration = ref<number>(60)
 
   /** Prefetch: 14 days from today; clear cache when placeId or duration changes */
   watch(
-    [activeStep, placeId, duration],
+    [activeStep, placeId, duration, appointmentIdForRequest],
     () => {
       if (!canFetchAvailability.value) return
 
       const pid = placeId.value
+      const aptId = appointmentIdForRequest.value ?? undefined
       const rawDur = duration?.value
       const dur = rawDur !== undefined && rawDur !== null ? rawDur : 60
-      if (lastPlaceId.value !== pid || lastDuration.value !== dur) {
+      if (
+        lastPlaceId.value !== pid
+        || lastDuration.value !== dur
+        || lastAppointmentId.value !== aptId
+      ) {
         clearSlotsCache()
         lastPlaceId.value = pid
         lastDuration.value = dur
+        lastAppointmentId.value = aptId
       }
 
       fetchWithRange(getPrefetchDateRange(), 'prefetch')
@@ -168,12 +149,6 @@ export function useComputedAvailability(
     { immediate: true }
   )
 
-  /**
-   * Month-wide prefetch: when displayed month changes, fetch the full month if
-   * the end of that month is not already cached. This covers months beyond the
-   * initial 14-day window so the calendar can show slot availability indicators
-   * before the user clicks a specific date.
-   */
   watch(
     dateRange,
     (newRange) => {

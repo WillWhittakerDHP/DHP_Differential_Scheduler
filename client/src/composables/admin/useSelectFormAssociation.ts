@@ -1,25 +1,7 @@
-import { nextTick, onMounted, watch, type ComputedRef } from 'vue'
-import { patchSelectDomTargets, type SelectDomTarget } from '@/utils/forms/selectDomAssociation'
+import { nextTick, onMounted, watch } from 'vue'
+import { patchSelectDomTargets } from '@/utils/forms/selectDomAssociation'
+import type { UseSelectFormAssociationOptions } from '@/types/admin/selectFormAssociation'
 
-/**
- * useSelectFormAssociation
- *
- * LEARNING: Some select components (Vuetify/VSelect wrapped by AppSelect) render DOM asynchronously and
- * may not forward `name` attributes down to the underlying native <select>.
- *
- * WHY:
- * - Forms/validation tools and (unfortunately) browser extensions can depend on correct form-control wiring.
- * - We want DOM work out of SFCs: components should stay as UI shells.
- *
- * PATTERN:
- * - Watch a set of known wrapper IDs (AppSelect assigns id `app-select-${attrs.id}`)
- * - After render (`nextTick`), find the underlying <select> and ensure it has the expected `name`
- * - Patch the nearest <form> using our centralized `patchFormElements` utility
- */
-
-export interface UseSelectFormAssociationOptions {
-  targets: ComputedRef<SelectDomTarget[]>
-}
 
 export function useSelectFormAssociation(options: UseSelectFormAssociationOptions): void {
   const { targets } = options

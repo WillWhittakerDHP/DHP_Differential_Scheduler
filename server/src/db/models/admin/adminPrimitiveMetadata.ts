@@ -1,10 +1,3 @@
-/**
- * LEARNING: Admin Primitive Metadata Model
- * WHY: Unified model for admin primitive metadata (renamed from AdminInputMetadata)
- *      Aligns with entity data pattern: primitives + relationships
- * PATTERN: Single table stores both canonical and layout properties for primitive fields
- *          Matches displayConfig.primitives pattern from regular entity data
- */
 
 import {
   Model,

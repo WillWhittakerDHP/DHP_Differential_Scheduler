@@ -1,20 +1,12 @@
 /**
- * Transformer Collections
- *
- * LEARNING: Generic entity lookup, grouping, and immutable sort for transformers.
- * WHY: DRY - replaces duplicated Map accumulation, Set building, and sort patterns.
- * PATTERN: Pure functions; reuses existing @/utils/collections where applicable.
+ * WHY: Transformer Collections
  */
-
+import type { WithId } from '@/types/collectionTypes'
 import { findById as findByIdBase } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 
-/** Entity shape used by findById/findByIds. Accepts { id: string } for compatibility with BookingBlockInstance and API responses. */
-type WithId = { id: string }
+export type { WithId }
 
-/**
- * Find a single entity by ID. Returns null for null/undefined id or when not found.
- */
 export function findById<EntityType extends WithId>(
   items: readonly EntityType[],
   id: string | null | undefined
@@ -24,10 +16,6 @@ export function findById<EntityType extends WithId>(
   return found ?? null
 }
 
-/**
- * Find multiple entities by IDs, preserving order of the requested ids.
- * Missing IDs are skipped; returns only resolved entities.
- */
 export function findByIds<EntityType extends WithId>(
   items: readonly EntityType[],
   ids: string[] | null | undefined
@@ -37,10 +25,6 @@ export function findByIds<EntityType extends WithId>(
   return resolved
 }
 
-/**
- * Group relationships by parent ID into a Map<parentId, childId[]>. Generic so it works
- * with both snake_case (parent_id, child_id) and camelCase (parentId, childId) sources.
- */
 export function groupByParentId<Item>(
   items: readonly Item[],
   getParentId: (item: Item) => string,
@@ -56,9 +40,6 @@ export function groupByParentId<Item>(
   }, new Map<string, string[]>())
 }
 
-/**
- * Immutable sort: returns a new array. Use instead of mutating [...arr].sort() at call sites.
- */
 export function immutableSort<ItemType>(
   items: readonly ItemType[],
   compareFn: (a: ItemType, b: ItemType) => number
@@ -66,10 +47,6 @@ export function immutableSort<ItemType>(
   return [...items].sort(compareFn)
 }
 
-/**
- * Collect unique IDs from multiple sources (arrays or Sets) into a single Set.
- * Replaces for...of loops that build a Set from multiple id arrays.
- */
 export function collectIds(...sources: (readonly string[] | Set<string>)[]): Set<string> {
   const result = new Set<string>()
   for (const src of sources) {

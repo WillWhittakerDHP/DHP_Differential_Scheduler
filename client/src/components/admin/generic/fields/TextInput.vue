@@ -1,13 +1,12 @@
 <template>
   <BaseInput
     v-if="resolvedFieldContext"
-    :field-key="String(resolvedFieldContext.fieldKey)"
-    :display-config="resolvedFieldContext.displayConfig"
-    :error="resolvedFieldContext.error?.value"
+    :field-key="String(resolvedFieldContext.state.fieldKey)"
+    :display-config="resolvedFieldContext.state.displayConfig"
+    :error="resolvedFieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="resolvedFieldContext.isDisabled.value"
+    :is-disabled="resolvedFieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: When readonly, display as plain text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - plain text is clearer -->
     <!-- PATTERN: Use computed to reactively track readOnly state for v-if -->
     <span
@@ -15,27 +14,26 @@
       class="readonly-text"
       :class="{ 'readonly-text-empty': !fieldValue || fieldValue === '' }"
     >
-      {{ fieldValue || resolvedFieldContext?.displayConfig.placeholder || '' }}
+      {{ fieldValue || resolvedFieldContext?.state.displayConfig.placeholder || '' }}
     </span>
     
-    <!-- LEARNING: Conditionally render textarea for long content when editable -->
     <!-- WHY: Long text is better displayed in multi-line textarea -->
     <!-- PATTERN: Check content length and newlines to determine if textarea is needed -->
     <AppTextarea
       v-else-if="shouldUseTextarea && resolvedFieldContext"
-      :id="`field-${String(resolvedFieldContext.fieldKey)}`"
-      :name="String(resolvedFieldContext.fieldKey)"
+      :id="`field-${String(resolvedFieldContext.state.fieldKey)}`"
+      :name="String(resolvedFieldContext.state.fieldKey)"
       :model-value="fieldValue"
-      :label="resolvedFieldContext.displayConfig.label"
-      :placeholder="resolvedFieldContext.displayConfig.placeholder"
-      :disabled="resolvedFieldContext.displayConfig.disabled"
-      :readonly="resolvedFieldContext.displayConfig.readOnly"
-      :error="!!resolvedFieldContext.error?.value"
-      :error-messages="resolvedFieldContext.error?.value"
+      :label="resolvedFieldContext.state.displayConfig.label"
+      :placeholder="resolvedFieldContext.state.displayConfig.placeholder"
+      :disabled="resolvedFieldContext.state.displayConfig.disabled"
+      :readonly="resolvedFieldContext.state.displayConfig.readOnly"
+      :error="!!resolvedFieldContext.state.error?.value"
+      :error-messages="resolvedFieldContext.state.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
       :auto-grow="true"
       :rows="1"
-      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.fieldKey === 'name'"
+      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.state.fieldKey === 'name'"
       class="text-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
@@ -44,17 +42,17 @@
     />
     <AppTextField
       v-else-if="resolvedFieldContext"
-      :id="`field-${String(resolvedFieldContext.fieldKey)}`"
-      :name="String(resolvedFieldContext.fieldKey)"
+      :id="`field-${String(resolvedFieldContext.state.fieldKey)}`"
+      :name="String(resolvedFieldContext.state.fieldKey)"
       :model-value="fieldValue"
-      :label="resolvedFieldContext.displayConfig.label"
-      :placeholder="resolvedFieldContext.displayConfig.placeholder"
-      :disabled="resolvedFieldContext.displayConfig.disabled"
-      :readonly="resolvedFieldContext.displayConfig.readOnly"
-      :error="!!resolvedFieldContext.error?.value"
-      :error-messages="resolvedFieldContext.error?.value"
+      :label="resolvedFieldContext.state.displayConfig.label"
+      :placeholder="resolvedFieldContext.state.displayConfig.placeholder"
+      :disabled="resolvedFieldContext.state.displayConfig.disabled"
+      :readonly="resolvedFieldContext.state.displayConfig.readOnly"
+      :error="!!resolvedFieldContext.state.error?.value"
+      :error-messages="resolvedFieldContext.state.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
-      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.fieldKey === 'name'"
+      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.state.fieldKey === 'name'"
       class="text-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
@@ -66,19 +64,8 @@
 
 <script setup lang="ts">
 /**
- * LEARNING: TextInput renders single-line text input or textarea based on content length
- * 
- * WHY: Text fields are the most common input type. Auto-converts to textarea for long content.
- * 
- * PATTERN: Wrapper component pattern - wraps Vuexy App components with field context
- * 
- * COMPARISON: React uses Ant Design Input. Vue uses Vuexy AppTextField/AppTextarea.
- *             Both provide same functionality but different APIs.
- * 
- * MIGRATION: Migrated from VTextField/VTextarea to AppTextField/AppTextarea following
- *            SelectInputs.vue pattern. App components handle labels internally.
+ * PATTERN: Wrapper component pattern - wraps Vuexy App components with field contex...
  */
-
 import { computed, inject, toRef } from 'vue'
 import { useDisplay } from 'vuetify'
 import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
@@ -96,7 +83,6 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 
-// LEARNING: Use toRef to maintain reactivity when accessing props
 // WHY: Vue 3 best practice - destructuring props breaks reactivity, use toRef instead
 const fieldContextRef = toRef(props, 'fieldContext')
 
@@ -117,7 +103,6 @@ const fieldValue = computed(() => {
     return '' as ValidAdminValue
   }
   
-  // LEARNING: Access value using useFieldValue composable which handles Ref unwrapping
   // WHY: useFieldValue is designed to handle Vue's Ref unwrapping when fieldContext is passed as prop
   // PATTERN: Use useFieldValue composable which properly handles both Ref and unwrapped cases
   // NOTE: This is the correct way to access field values - it handles all edge cases
@@ -125,17 +110,15 @@ const fieldValue = computed(() => {
   return val as ValidAdminValue
 })
 
-// LEARNING: Computed property to reactively track readOnly state
 const isReadOnly = computed(() => {
   // PATTERN: Access resolvedFieldContext.value, then nested properties, to establish reactivity dependency
   const context = resolvedFieldContext.value
   if (!context) return false
-  const displayConfig = context.displayConfig
+  const displayConfig = context.state.displayConfig
   const readOnly = displayConfig.readOnly
   return readOnly === true
 })
 
-// LEARNING: Use Vuetify's display composable for responsive behavior
 const { width } = useDisplay()
 
 const shouldUseTextarea = computed(() => {
@@ -159,7 +142,7 @@ const shouldUseTextarea = computed(() => {
 const handleChange = (value: string) => {
   const context = resolvedFieldContext.value
   if (!context) return
-  context.setValue(value)
+  context.actions.setValue(value)
 }
 
 // FIX: Use shared field input handlers from composable (includes keyboard guard)
@@ -180,35 +163,23 @@ const handlers = computed(() => {
   })
 })
 
-// LEARNING: Access handlers through computed to ensure reactivity (Enter is handled inside handleKeydown)
 const handleFocus = () => handlers.value.handleFocus()
 const handleBlur = () => handlers.value.handleBlur()
 const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)
 </script>
 
 <style scoped>
-/* LEARNING: Responsive text input field styling */
-/* WHY: Fields should fit content and wrap appropriately on different screen sizes */
-/* PATTERN: Use CSS to make fields responsive and fit content */
-/* LEARNING: Minimum width matches name field, but can grow larger */
-/* WHY: Ensures consistency - all text/number fields are at least as wide as name field */
-/*      But allows growth for longer content (names, numbers, etc.) */
 .text-input-field {
   width: 100%;
   min-width: 200px; /* Minimum width to match typical name field width */
 }
 
-/* LEARNING: Title row fields should size based on content */
-/* WHY: Name fields in title row should fit their text content, not be constrained to fixed width */
-/* PATTERN: Use CSS selector to detect when field is in title row context */
 :deep(.title-row-field) .text-input-field {
   width: auto;
   min-width: 150px;
   max-width: 100%;
 }
 
-/* LEARNING: On mobile, make fields stack and take full width */
-/* WHY: Better UX on small screens */
 @media (max-width: 600px) {
   .text-input-field {
     width: 100%;
@@ -216,11 +187,6 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   }
 }
 
-/* LEARNING: Readonly text display styling */
-/* WHY: Plain text looks better than disabled input for readonly fields */
-/* PATTERN: Use text styling that matches input appearance */
-/* LEARNING: Minimum width matches name field for consistency */
-/* WHY: Readonly text should match editable field width */
 .readonly-text {
   display: inline-block;
   width: 100%;
@@ -232,17 +198,12 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   font-size: 16px;
 }
 
-/* LEARNING: Title row readonly text should size based on content */
-/* WHY: Name fields in title row should fit their text content */
-/* PATTERN: Use CSS selector to detect when field is in title row context */
 :deep(.title-row-field) .readonly-text {
   width: auto;
   min-width: 150px;
   max-width: 100%;
 }
 
-/* LEARNING: On mobile, allow readonly text to shrink */
-/* WHY: Better UX on small screens */
 @media (max-width: 600px) {
   .readonly-text {
     min-width: 0; /* Allow shrinking on mobile */
@@ -254,4 +215,3 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   font-style: italic;
 }
 </style>
-

@@ -1,17 +1,4 @@
-/**
- * Entity Constants (Server-side)
- * 
- * LEARNING: Entity keys used in entity router and validation
- * WHY: Eliminates hardcoded entity key strings, enables type-safe entity key checks
- * PATTERN: Const object with entity key values
- */
 
-/**
- * Entity key constants
- * LEARNING: Use these constants instead of hardcoded strings
- * WHY: Type-safe, maintainable, single source of truth
- * PATTERN: Const object with entity key values
- */
 export const ENTITY_KEYS = {
   BLOCK_INSTANCE: 'blockInstance',
   BLOCK_SHAPE: 'blockShape',
@@ -24,19 +11,10 @@ export const ENTITY_KEYS = {
 } as const
 
 /**
- * Entity key type
- * LEARNING: Derived from ENTITY_KEYS values
- * WHY: Type-safe entity key references
- * PATTERN: typeof pattern for type extraction
+PATTERN: typeof pattern for type extraction
  */
 export type EntityKey = typeof ENTITY_KEYS[keyof typeof ENTITY_KEYS]
 
-/**
- * Array of all entity keys
- * LEARNING: Used for validation and config endpoints
- * WHY: Single source of truth for entity key list
- * PATTERN: Array derived from ENTITY_KEYS object
- */
 export const ENTITY_KEYS_ARRAY: EntityKey[] = [
   ENTITY_KEYS.BLOCK_INSTANCE,
   ENTITY_KEYS.BLOCK_SHAPE,

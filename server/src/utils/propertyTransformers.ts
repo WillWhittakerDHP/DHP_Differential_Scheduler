@@ -1,20 +1,7 @@
-/**
- * Property Transformer Utilities
- *
- * LEARNING: Config-driven field mappings for property transformation
- * WHY: Eliminates hardcoded field names in property transformation logic
- * PATTERN: Const object with field mappings, utility function for transformation
- */
-
+import { PATCH_PROPERTY_FIELD_KEY } from '../routes/internal/properties/propertyConstants.js'
 import { normalizeToSingle } from './arrayNormalize.js'
 
-/**
- * Property field mappings
- * LEARNING: Maps database field names to API response field names
- * WHY: Single source of truth for field mappings, enables easier maintenance
- * PATTERN: Const object with field name mappings
- */
-const PROPERTY_FIELD_MAPPINGS = {
+const ADDRESS_AND_META_KEYS = {
   ADDRESS: 'address',
   UNIT: 'unit',
   CITY: 'city',
@@ -23,23 +10,15 @@ const PROPERTY_FIELD_MAPPINGS = {
   PLACE_ID: 'placeId',
   LATITUDE: 'latitude',
   LONGITUDE: 'longitude',
-  MLS_NUMBER: 'mlsNumber',
-  SQUARE_FOOTAGE: 'squareFootage',
-  BEDROOMS: 'bedrooms',
-  BATHROOMS: 'bathrooms',
-  FOUNDATION_ACCESS: 'foundationAccess',
-  ADDITIONAL_UNITS: 'additionalUnits',
-  SOURCE: 'source',
   PROPERTY_VERSION_ID: 'propertyVersionId',
   ADDRESS_ID: 'addressId',
 } as const
 
-/**
- * Transform PropertyVersion with relationships to flat property object
- * LEARNING: Combines Address, PropertyVersion, and PropertyDetails into single response
- * WHY: Maintains backward compatibility with existing API consumers
- * PATTERN: Pure function that transforms nested structure to flat object
- */
+const PROPERTY_FIELD_MAPPINGS = {
+  ...ADDRESS_AND_META_KEYS,
+  ...PATCH_PROPERTY_FIELD_KEY,
+} as const
+
 export function transformPropertyVersion(propertyVersion: unknown): Record<string, unknown> {
   const pv = propertyVersion as Record<string, unknown> & {
     id?: string

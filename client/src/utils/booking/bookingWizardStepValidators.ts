@@ -1,22 +1,10 @@
-import type { StepValidator } from '@/composables/booking/useWizardValidation'
+import type { BuildBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
-export type BuildBookingWizardStepValidatorsOptions = {
-  hasServiceSelection: boolean
-  propertyDetailsStepValidate: (() => boolean) | null
-  propertyDetailsStepValid: boolean | null
-  availabilityStepValidate: (() => boolean) | null
-  availabilityStepValid: boolean | null
-  contactsStepValidate: (() => boolean) | null
-  contactsStepValid: boolean | null
-  confirmationStepValidate?: (() => boolean) | null
-  confirmationStepValid?: boolean | null
-}
+import type { StepValidator } from '@/types/booking/wizardValidation'
+export type { BuildBookingWizardStepValidatorsOptions } from '@/types/booking/bookingWizardStepValidators'
 
 /**
- * Build the step validator map for BookingWizard.
- *
- * LEARNING: Keep the mapping pure so the composable only wires refs/computed.
- * NOTE: Step indices match `configs/wizardSteps.ts`.
+ * WHY: Build the step validator map for BookingWizard
  */
 export function buildBookingWizardStepValidators(
   options: BuildBookingWizardStepValidatorsOptions

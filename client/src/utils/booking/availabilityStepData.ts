@@ -1,38 +1,20 @@
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
-import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
 import type { EventShapeEntity } from '@/types/entities'
-import { getMajorEventShape, getMinorEventShape } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import { createLogger } from '@/utils/logger'
 
-export interface SelectedTimeSlot {
-  startTime: RFC3339DateTime  // Explicit RFC3339 start
-  endTime: RFC3339DateTime    // Explicit RFC3339 end
-  duration?: number            // Optional (can calculate: (endTime - startTime) / 60000)
-}
+export type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
 
-export interface AvailabilityStepData {
-  candidateDate: { start: string | null; end: string | null }  // Candidate date selection (not yet saved)
-  candidateTimeSlots: SelectedTimeSlot[] | null  // Candidate time slot selections (not yet saved)
-  moveableScheduling?: MoveableSchedulingOptions | null
-}
+const logger = createLogger('availabilityStepData')
 
 type BuildSelectedTimeSlotsParams = {
   selectedDateStart: string | null
   selectedSlot: AppointmentSlot | null
-  availabilitySettings?: AvailabilitySettings | null
 }
 
-/**
- * Build selected time slots from appointment slot using dynamic event name lookup
- * 
- * LEARNING: Uses availabilitySettings.differentialPerspectives to find event shapes by attendee
- * WHY: Event shapes have dynamic names (e.g., 'OnSite', 'ClientPresent'), not hardcoded 'Major'/'Minor'
- * PATTERN: Same attendee-based lookup used in appointmentSlotBuilder and other booking utilities
- * 
- * SESSION: 2.1.3b - Fixed hardcoded event names causing calendar time mismatch
- */
 export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): SelectedTimeSlot[] | null {
   if (!params.selectedSlot || !params.selectedDateStart) {
     return null
@@ -41,18 +23,15 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
   const slots: SelectedTimeSlot[] = []
   const eventTimeRanges = params.selectedSlot.eventTimeRanges
 
-  // LEARNING: Get event shapes from the slot's shape (already computed by appointmentSlotBuilder)
-  // WHY: EventFinals contain the event shapes with their names and attendees
   const eventFinals = asEmptyArray(params.selectedSlot.shape?.slotShape?.eventFinals)
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
-  // LEARNING: Use attendee-based lookup to find major/minor event shapes
-  // WHY: Event names are configurable (e.g., 'OnSite', 'ClientPresent'), not hardcoded
-  const majorAttendeeIds = asEmptyArray(params.availabilitySettings?.differentialPerspectives?.majorAttendees)
-  const minorAttendeeIds = asEmptyArray(params.availabilitySettings?.differentialPerspectives?.minorAttendees)
-
-  // Find major event shape and its time range
-  const majorEventShape = getMajorEventShape(eventShapeEntities, majorAttendeeIds)
+  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  if (!majorEventShape) {
+    logger.error('buildSelectedTimeSlots: no event shape with differentialRole=major', {
+      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    })
+  }
   const majorEventName = majorEventShape?.name
   const majorTimeRange = majorEventName ? eventTimeRanges?.[majorEventName] : null
 
@@ -64,11 +43,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
     })
   }
 
-  // Find minor event shape and its time range (only if different from major)
-  const eventShapesExcludingMajor = majorEventShape
-    ? eventShapeEntities.filter(es => es.id !== majorEventShape.id)
-    : eventShapeEntities
-  const minorEventShape = getMinorEventShape(eventShapesExcludingMajor, minorAttendeeIds)
+  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
   const minorEventName = minorEventShape?.name
   const minorTimeRange = minorEventName ? eventTimeRanges?.[minorEventName] : null
 
@@ -80,8 +55,8 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
     })
   }
 
-  // FALLBACK: If no attendee-based match, use totalTimeRange (for non-differential or missing config)
   if (slots.length === 0 && params.selectedSlot.totalTimeRange) {
+    logger.error('buildSelectedTimeSlots: no role-based time ranges found, using totalTimeRange')
     slots.push({
       startTime: params.selectedSlot.totalTimeRange.startTime,
       endTime: params.selectedSlot.totalTimeRange.endTime,
@@ -106,5 +81,3 @@ export function buildAvailabilityStepData(params: {
     moveableScheduling: params.moveableScheduling ?? null,
   }
 }
-
-

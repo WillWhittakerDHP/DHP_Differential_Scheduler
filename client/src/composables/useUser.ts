@@ -1,17 +1,7 @@
 /**
- * useUser Composable
- * 
- * LEARNING: Vue composable for user CRUD operations
- * WHY: Provides reactive user mutations with error handling
- * PATTERN: Vue Query useMutation for data mutations
- * 
- * Session 1.4.7: Refactored to use BusinessData cache
- * ARCHITECTURAL DECISION: Business entities use ['businessData'] cache key
- * - Keeps business data changes from invalidating static configuration data
- * - Uses optimistic updates + refetchQueries for cache consistency
- * - Mirrors globalData architecture for consistency
- */
 
+S...
+ */
 import { computed, type ComputedRef } from 'vue'
 import { getUserByIdEndpoint, getUserEndpoint } from '@/utils/api'
 import type { UserRequest, UserResponse } from '@/types/user'
@@ -26,13 +16,8 @@ type UpdateByIdPayload = {
 }
 
 /**
- * useUser composable
- * 
- * LEARNING: Provides user CRUD operations from BusinessData cache
- * WHY: Centralizes user API logic with reactive state management
- * PATTERN: Uses useBusinessDataCollectionCrud for standardized CRUD operations
- * 
- * Session 1.4.7: Refactored to use BusinessData cache with optimistic + refetchQueries pattern
+
+WHY: Centralizes user API logic with reactive state ...
  */
 type UseUserReturn = {
   create: UseMutationReturnType<UserResponse, unknown, UserRequest, unknown>
@@ -86,4 +71,3 @@ export function useUser(): UseUserReturn {
     fetchById,
   }
 }
-

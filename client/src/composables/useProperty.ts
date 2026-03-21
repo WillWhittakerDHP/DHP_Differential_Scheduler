@@ -1,17 +1,7 @@
 /**
- * useProperty Composable
- * 
- * LEARNING: Vue composable for property CRUD operations
- * WHY: Provides reactive property mutations with error handling
- * PATTERN: Vue Query useMutation for data mutations
- * 
- * Session 1.4.7: Refactored to use BusinessData cache
- * ARCHITECTURAL DECISION: Business entities use ['businessData'] cache key
- * - Keeps business data changes from invalidating static configuration data
- * - Uses optimistic updates + refetchQueries for cache consistency
- * - Mirrors globalData architecture for consistency
- */
+ * WHY: useProperty Composable
 
+ */
 import { computed, type ComputedRef } from 'vue'
 import { getPropertyByIdEndpoint, getPropertyEndpoint } from '@/utils/api'
 import type { PropertyRequest, PropertyResponse } from '@/types/property'
@@ -26,13 +16,9 @@ type UpdateByIdPayload = {
 }
 
 /**
- * useProperty composable
- * 
- * LEARNING: Provides property CRUD operations from BusinessData cache
- * WHY: Centralizes property API logic with reactive state management
- * PATTERN: Uses useBusinessDataCollectionCrud for standardized CRUD operations
- * 
- * Session 1.4.7: Refactored to use BusinessData cache with optimistic + refetchQueries pattern
+ * WHY: useProperty composable
+
+WHY: Centralizes property API logic with reactiv...
  */
 type UsePropertyReturn = {
   create: UseMutationReturnType<PropertyResponse, unknown, PropertyRequest, unknown>
@@ -86,4 +72,3 @@ export function useProperty(): UsePropertyReturn {
     fetchById,
   }
 }
-

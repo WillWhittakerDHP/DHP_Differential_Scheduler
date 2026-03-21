@@ -1,13 +1,7 @@
 /**
- * Client-side Calendar API Service
- * 
- * LEARNING: Service layer for Google Calendar API calls via server
- * WHY: Centralized API calls, authentication checks, response transformation
- * PATTERN: Service layer between composables and server endpoints
- * 
- * Session 2.1.2: Created for Calendar Availability Integration
- */
 
+PATTERN: Service layer between composa...
+ */
 import axios, { AxiosError } from 'axios'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
 import { createLogger } from '@/utils/logger'
@@ -20,7 +14,6 @@ import type {
 const logger = createLogger('calendarApiService')
 const { recordApiCall } = useApiCallStatus()
 
-// Use environment variable or default to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
 /** Error types for calendar API operations (internal use). */
@@ -32,9 +25,6 @@ type CalendarApiErrorType =
   | 'calendar_not_found'
   | 'unknown'
 
-/**
- * Calendar API error with type information
- */
 export class CalendarApiError extends Error {
   constructor(
     public type: CalendarApiErrorType,
@@ -46,20 +36,11 @@ export class CalendarApiError extends Error {
   }
 }
 
-// Phase 9: Removed getErrorMessage, checkOAuthStatus, getOAuthUrl - no current callers; OAuth status via dev panel / internal status
 
-/**
- * Handle API errors and convert to CalendarApiError
- * 
- * LEARNING: Map various error types to specific CalendarApiError
- * WHY: Different errors need different handling and user messages
- * PATTERN: Error type detection and translation
- */
 function handleApiError(error: unknown): CalendarApiError {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<{ error?: string; authUrl?: string }>
     
-    // Check for authentication error
     if (axiosError.response?.status === 401) {
       return new CalendarApiError(
         'not_authenticated',
@@ -68,7 +49,6 @@ function handleApiError(error: unknown): CalendarApiError {
       )
     }
     
-    // Check for rate limit
     if (axiosError.response?.status === 429) {
       return new CalendarApiError(
         'rate_limit',
@@ -76,7 +56,6 @@ function handleApiError(error: unknown): CalendarApiError {
       )
     }
     
-    // Check for not found (calendar doesn't exist or no access)
     if (axiosError.response?.status === 404) {
       return new CalendarApiError(
         'calendar_not_found',
@@ -84,7 +63,6 @@ function handleApiError(error: unknown): CalendarApiError {
       )
     }
     
-    // Check for network error (no response)
     if (!axiosError.response) {
       return new CalendarApiError(
         'network_error',
@@ -92,35 +70,19 @@ function handleApiError(error: unknown): CalendarApiError {
       )
     }
     
-    // Default to invalid response for other errors
     const rawMessage = axiosError.response?.data?.error
     const message = rawMessage !== undefined && rawMessage !== null && rawMessage !== '' ? rawMessage : 'Invalid response from server'
     return new CalendarApiError('invalid_response', message)
   }
   
-  // Unknown error type
   return new CalendarApiError(
     'unknown',
     error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
   )
 }
 
-/**
- * Calendar event with location data
- * LEARNING: Structure matches server CachedCalendarEvent
- * WHY: Used for drive time calculations between appointments
- * PATTERN: Uses placeId as primary location identifier (address only at UI boundary)
- */
-export interface CalendarEvent {
-  id: string
-  start: string
-  end: string
-  placeId?: string        // Google Place ID for drive time calculation (primary location identifier)
-  summary: string | null   // Event title for context/debugging
-}
+export type { CalendarEvent } from '@shared/types/availabilityTypes'
 
-// Phase 9: Removed fetchCalendarEvents
-// WHY: Calendar events are now fetched server-side via fetchComputedAvailabilityData
 
 /**
  * Fetch computed slot availability from server

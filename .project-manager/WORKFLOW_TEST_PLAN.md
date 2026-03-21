@@ -8,7 +8,7 @@
 
 ## Test Objectives
 
-1. Verify `/feature-start` creates `feature-plan.md` before any phase docs
+1. Verify `/feature-start` creates `feature guide` before any phase docs
 2. Verify `/feature-start` creates `README.md` before any phase docs
 3. Verify phase planning only allowed after feature docs complete
 4. Verify validation prevents premature phase planning
@@ -29,7 +29,7 @@
 4. Attempt phase planning
 
 **Expected Results:**
-- ✅ `project-manager/features/test-feature-1/feature-plan.md` created FIRST
+- ✅ `project-manager/features/test-feature-1/feature-test-feature-1-guide.md` created FIRST
 - ✅ `project-manager/features/test-feature-1/README.md` created SECOND
 - ✅ Both files have required content sections
 - ✅ Phase planning allowed after feature docs complete
@@ -43,13 +43,13 @@
 
 ---
 
-### Test Case 2: Premature Phase Planning (Missing feature-plan.md)
+### Test Case 2: Premature Phase Planning (Missing feature guide)
 
-**Objective:** Verify validation blocks phase planning when `feature-plan.md` is missing
+**Objective:** Verify validation blocks phase planning when `feature guide` is missing
 
 **Steps:**
 1. Create feature directory: `project-manager/features/test-feature-2/`
-2. Create only `README.md` (do NOT create `feature-plan.md`)
+2. Create only `README.md` (do NOT create `feature guide`)
 3. Call `/phase-create 1.1 "Test phase"`
 4. Observe system response
 
@@ -59,9 +59,9 @@
   ```
   Error: Feature-level planning document missing
   
-  The feature-plan.md file must be created before phase planning can begin.
+  The feature guide file must be created before phase planning can begin.
   
-  Required path: project-manager/features/test-feature-2/feature-plan.md
+  Required path: project-manager/features/test-feature-2/feature-test-feature-2-guide.md
   
   Please complete the feature planning first using /feature-create or /feature-start.
   ```
@@ -81,7 +81,7 @@
 
 **Steps:**
 1. Create feature directory: `project-manager/features/test-feature-3/`
-2. Create only `feature-plan.md` (do NOT create `README.md`)
+2. Create only feature guide (feature-{name}-guide.md) (do NOT create `README.md`)
 3. Call `/plan-phase 1.1 "Test phase"`
 4. Observe system response
 
@@ -107,11 +107,11 @@
 
 ### Test Case 4: Incomplete Feature Plan (Missing Sections)
 
-**Objective:** Verify validation blocks phase planning when `feature-plan.md` is incomplete
+**Objective:** Verify validation blocks phase planning when `feature guide` is incomplete
 
 **Steps:**
 1. Create feature directory: `project-manager/features/test-feature-4/`
-2. Create `feature-plan.md` with only Overview section (missing Phase breakdown, Success criteria)
+2. Create `feature guide` with only Overview section (missing Phase breakdown, Success criteria)
 3. Create `README.md` with all required sections
 4. Call `/phase-create 1.1 "Test phase"`
 5. Observe system response
@@ -122,7 +122,7 @@
   ```
   Error: Feature plan incomplete
   
-  The feature-plan.md file exists but is missing required sections:
+  The feature guide file exists but is missing required sections:
   - Phase breakdown section
   - Success criteria section
   
@@ -142,7 +142,7 @@
 
 **Steps:**
 1. Create feature directory: `project-manager/features/test-feature-5/`
-2. Create `feature-plan.md` with all required sections
+2. Create `feature guide` with all required sections
 3. Create `README.md` with only Status section (missing Description, Objectives)
 4. Call `/plan-phase 1.1 "Test phase"`
 5. Observe system response
@@ -173,7 +173,7 @@
 
 **Steps:**
 1. Call `/feature-start test-feature-6 "Complete test feature"`
-2. Complete `feature-plan.md` with all required sections:
+2. Complete `feature guide` with all required sections:
    - Overview
    - Phase breakdown
    - Success criteria
@@ -207,7 +207,7 @@
 1. Call `/feature-start test-feature-7 "Feature requiring research"`
 2. Complete research phase (30+ questions)
 3. Document research findings in feature guide/log
-4. Update `feature-plan.md` with research insights
+4. Update `feature guide` with research insights
 5. Attempt phase planning before research complete
 6. Complete research phase
 7. Attempt phase planning after research complete
@@ -253,7 +253,7 @@ After tests:
 
 All tests pass if:
 
-1. ✅ `/feature-start` always creates `feature-plan.md` before phase docs
+1. ✅ `/feature-start` always creates `feature guide` before phase docs
 2. ✅ `/feature-start` always creates `README.md` before phase docs
 3. ✅ Phase planning commands validate feature docs before proceeding
 4. ✅ Validation blocks phase creation when feature docs incomplete

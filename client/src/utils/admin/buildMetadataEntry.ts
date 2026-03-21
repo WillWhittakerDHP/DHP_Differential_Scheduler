@@ -1,24 +1,10 @@
-/**
- * LEARNING: Shared utility for building metadata entries
- * WHY: Eliminates duplication between primitive and relationship metadata mutations
- * PATTERN: Generic function that handles both fieldKey and relationshipKey cases
- */
 
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { BuildMetadataEntryOptions } from '@/types/admin/buildMetadataEntry'
 
-export interface BuildMetadataEntryOptions {
-  key: string
-  renderingUpdates: Partial<FieldMetadataEntry>
-  existingMetadata: FieldMetadataEntry
-  isRelationship?: boolean
-}
+export type { BuildMetadataEntryOptions } from '@/types/admin/buildMetadataEntry'
 
 /**
- * Build a full metadata entry from updates and existing metadata
- * LEARNING: Merges rendering updates with existing canonical fields
- * WHY: Ensures canonical fields are preserved while allowing rendering updates
- * PATTERN: Use existing values as fallback, no defaults
- * NOTE: Returns Record<string, unknown> to allow dynamic key (fieldKey or relationshipKey)
+PATTERN: ...
  */
 export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<string, unknown> {
   const { renderingUpdates, existingMetadata } = options
@@ -29,7 +15,6 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     isRequired: existingMetadata.isRequired,
   }
 
-  // LEARNING: inputConfig is stored in direct format (not wrapped)
   // PATTERN: Return inputConfig as-is, no wrapping needed
   const getInputConfig = (): Record<string, unknown> | null => {
     return renderingUpdates.inputConfig !== undefined 

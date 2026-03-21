@@ -1,8 +1,3 @@
-/**
- * Composable for default location (address, label, coordinates, placeId)
- * WHY: Extracts default location bindings from BusinessControlsTab for reuse
- * PATTERN: Writable computeds that ensure defaultLocation exists on set
- */
 import { computed, type WritableComputedRef } from 'vue'
 import type { Coordinates } from '@/configs/availabilitySettings'
 import type { UseDefaultLocationParams } from '@/types/availabilitySettingsParams'

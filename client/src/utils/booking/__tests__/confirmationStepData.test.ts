@@ -146,7 +146,6 @@ describe('confirmationStepData', () => {
     })
 
     it('should calculate overage fee with square footage', () => {
-      // Two parts: baseFees [100, 0] and rateOverBaseFees [0.5, 0.25] so overage = (0.5 + 0.25) * 2000
       const block = createBlockInstance('block-1', 'Block 1', [100, 0], false, [0.5, 0.25])
       
       const fee = calculateBlockInstanceFee(block, 2000)
