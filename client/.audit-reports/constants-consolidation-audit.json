@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T18:41:25.494Z",
+=======
+  "generatedAt": "2026-03-21T17:53:00.821Z",
+>>>>>>> session-8.2.1
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +15,11 @@
       "**/*.spec.*"
     ]
   },
+<<<<<<< HEAD
   "totalScanned": 1014,
+=======
+  "totalScanned": 1013,
+>>>>>>> session-8.2.1
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,

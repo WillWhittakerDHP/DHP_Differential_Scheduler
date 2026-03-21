@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T18:36:51.499Z",
+=======
+  "generatedAt": "2026-03-21T17:35:01.580Z",
+>>>>>>> session-8.2.1
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",

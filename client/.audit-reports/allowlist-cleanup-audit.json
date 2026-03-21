@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T18:37:03.646Z",
+=======
+  "generatedAt": "2026-03-21T17:36:17.610Z",
+>>>>>>> session-8.2.1
   "check": "allowlist-cleanup",
   "configPath": "client/.audit-reports/audit-global-config.json",
   "suppressionHits": {

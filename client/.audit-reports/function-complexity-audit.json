@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T18:41:10.966Z",
   "totalScanned": 1076,
+=======
+  "generatedAt": "2026-03-21T17:52:45.419Z",
+  "totalScanned": 1075,
+>>>>>>> session-8.2.1
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +23,43 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
+      "functions": [
+        {
+          "name": "inputConfigEditor",
+          "startLine": 25,
+          "endLine": 119,
+          "length": 95,
+          "maxNesting": 3,
+          "branches": 13,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 95,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    }
+  ]
 }

@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T18:37:03.032Z",
+=======
+  "generatedAt": "2026-03-21T17:35:56.838Z",
+>>>>>>> session-8.2.1
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"

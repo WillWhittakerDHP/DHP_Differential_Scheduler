@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T18:36:55.590Z",
+=======
+  "generatedAt": "2026-03-21T17:35:16.480Z",
+>>>>>>> session-8.2.1
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +17,11 @@
       "client/src/@layouts/**"
     ]
   },
+<<<<<<< HEAD
   "totalScanned": 1149,
+=======
+  "totalScanned": 1148,
+>>>>>>> session-8.2.1
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
