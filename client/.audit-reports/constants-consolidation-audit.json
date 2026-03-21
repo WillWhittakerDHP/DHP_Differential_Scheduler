@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:30:43.282Z",
+  "generatedAt": "2026-03-21T18:09:28.469Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1028,
+  "totalScanned": 1047,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 19,
+    "totalRequiresReview": 24,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -65,7 +65,7 @@
         {
           "file": "server/src/routes/internal/entities/entityConstants.ts",
           "export": "FIELD_NAMES",
-          "line": 50,
+          "line": 58,
           "inline": false
         },
         {
@@ -78,6 +78,28 @@
       "score": 12,
       "priority": "P1",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-Relationship-already-exists",
+      "classification": "HOIST",
+      "description": "Value 'Relationship already exists' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/relationships/relationshipConstants.ts",
+          "export": "ERROR_MESSAGES",
+          "line": 109,
+          "inline": false
+        },
+        {
+          "file": "client/src/utils/fieldContext/fieldContextSaveHelpers.ts",
+          "export": null,
+          "line": 25,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/relationships/relationshipConstants.ts"
     },
     {
       "id": "inline-orphan-bookingMode",
@@ -93,7 +115,7 @@
         {
           "file": "server/src/routes/internal/entities/entityConstants.ts",
           "export": "FIELD_NAMES",
-          "line": 50,
+          "line": 58,
           "inline": false
         },
         {
@@ -121,7 +143,7 @@
         {
           "file": "server/src/routes/internal/entities/entityConstants.ts",
           "export": "FIELD_NAMES",
-          "line": 50,
+          "line": 58,
           "inline": false
         },
         {
@@ -149,7 +171,7 @@
         {
           "file": "server/src/routes/internal/entities/entityConstants.ts",
           "export": "DEFAULT_VALUES",
-          "line": 35,
+          "line": 43,
           "inline": false
         },
         {
@@ -183,7 +205,7 @@
         {
           "file": "server/src/db/models/admin/availability_setting.ts",
           "export": null,
-          "line": 102,
+          "line": 123,
           "inline": true
         }
       ],
@@ -199,19 +221,47 @@
         {
           "file": "server/src/routes/internal/entities/entityConstants.ts",
           "export": "FIELD_NAMES",
-          "line": 50,
+          "line": 58,
           "inline": false
         },
         {
           "file": "server/src/db/models/booking/event_shape.ts",
           "export": null,
-          "line": 84,
+          "line": 86,
           "inline": true
         }
       ],
       "score": 12,
       "priority": "P1",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/entities/entityConstants.ts"
+    },
+    {
+      "id": "inline-orphan-appointmentId",
+      "classification": "HOIST",
+      "description": "Value 'appointmentId' defined in constants but used inline in 2 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
+          "export": "CONSTRAINT_OVERRIDE_FIELDS",
+          "line": 79,
+          "inline": false
+        },
+        {
+          "file": "server/src/db/models/index.ts",
+          "export": null,
+          "line": 350,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/index.ts",
+          "export": null,
+          "line": 354,
+          "inline": true
+        }
+      ],
+      "score": 16,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/appointments/appointmentConstants.ts"
     },
     {
       "id": "inline-orphan-setting-value-is-required",
@@ -252,31 +302,31 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 50,
+          "lineNumber": 58,
           "line": "export: FIELD_NAMES",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 50,
+          "lineNumber": 58,
           "line": "export: FIELD_NAMES",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 50,
+          "lineNumber": 58,
           "line": "export: FIELD_NAMES",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 35,
+          "lineNumber": 43,
           "line": "export: DEFAULT_VALUES",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 50,
+          "lineNumber": 58,
           "line": "export: FIELD_NAMES",
           "suppressionStatus": "unsuppressed"
         }
@@ -337,6 +387,27 @@
       ]
     },
     {
+      "id": "server__src__db__models__index.ts",
+      "repoPath": "server/src/db/models/index.ts",
+      "score": 10.666666666666666,
+      "priority": "P1",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 350,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 354,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
       "id": "client__src__configs__field__form__appliedForm__eventShapeFields.ts",
       "repoPath": "client/src/configs/field/form/appliedForm/eventShapeFields.ts",
       "score": 6,
@@ -346,6 +417,21 @@
         {
           "ruleId": "hoist",
           "lineNumber": 66,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "client__src__utils__fieldContext__fieldContextSaveHelpers.ts",
+      "repoPath": "client/src/utils/fieldContext/fieldContextSaveHelpers.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 25,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
@@ -390,7 +476,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 102,
+          "lineNumber": 123,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
@@ -405,8 +491,38 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 84,
+          "lineNumber": 86,
           "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipConstants.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipConstants.ts",
+      "score": 6,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 109,
+          "line": "export: ERROR_MESSAGES",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__appointments__appointmentConstants.ts",
+      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "score": 5.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 79,
+          "line": "export: CONSTRAINT_OVERRIDE_FIELDS",
           "suppressionStatus": "unsuppressed"
         }
       ]

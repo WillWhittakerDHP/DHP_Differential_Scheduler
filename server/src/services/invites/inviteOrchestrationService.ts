@@ -4,16 +4,13 @@ import { createEvent } from '../google/calendar/eventCreationService.js'
 import type { CreateEventParams } from '../google/calendar/calendarTypes.js'
 import {
   Appointment,
-  AppointmentAttendee,
-  User,
-  PropertyVersion,
-  Address,
   BlockInstance,
   PartAssignment,
   EventAssignment,
   EventInstance,
   EventShape,
 } from '../../config/app.js'
+import { appointmentIncludes } from '../../routes/internal/appointments/appointmentHelpers.js'
 import type { Appointment as AppointmentType } from '../../db/models/booking/appointment.js'
 import type { EventInstance as EventInstanceType } from '../../db/models/booking/event_instance.js'
 import { resolveEventTemplates } from './templateResolver.js'
@@ -82,16 +79,18 @@ function asArrayOrLogEmpty<T>(value: T[] | null | undefined, appointmentId: stri
 }
 
 function normalizeAppointmentForInvites(raw: AppointmentWithRelations): NormalizedAppointmentForInvites {
+  const j = raw.toJSON() as Record<string, unknown>
+  const id = String(j.id)
   return {
-    id: raw.id,
-    selectedDate: raw.selectedDate,
-    selectedTimeSlots: raw.selectedTimeSlots,
-    status: raw.status,
+    id,
+    selectedDate: (j.selectedDate as Date | null) ?? null,
+    selectedTimeSlots: (j.selectedTimeSlots as Array<Record<string, unknown>> | null) ?? null,
+    status: j.status as NormalizedAppointmentForInvites['status'],
     propertyVersion: raw.propertyVersion,
-    selectedServiceIds: asArrayOrLogEmpty(raw.selectedServiceIds, raw.id, 'selectedServiceIds'),
-    selectedPropertyIds: asArrayOrLogEmpty(raw.selectedPropertyIds, raw.id, 'selectedPropertyIds'),
-    selectedOptionIds: asArrayOrLogEmpty(raw.selectedOptionIds, raw.id, 'selectedOptionIds'),
-    attendees: asArrayOrLogEmpty(raw.attendees, raw.id, 'attendees'),
+    selectedServiceIds: asArrayOrLogEmpty(j.selectedServiceIds as string[] | null | undefined, id, 'selectedServiceIds'),
+    selectedPropertyIds: asArrayOrLogEmpty(j.selectedPropertyIds as string[] | null | undefined, id, 'selectedPropertyIds'),
+    selectedOptionIds: asArrayOrLogEmpty(j.selectedOptionIds as string[] | null | undefined, id, 'selectedOptionIds'),
+    attendees: asArrayOrLogEmpty(raw.attendees, id, 'attendees'),
   }
 }
 
@@ -162,21 +161,7 @@ export async function createInvitesForAppointment(
 
 async function fetchAppointmentWithRelations(appointmentId: string): Promise<AppointmentWithRelations | null> {
   return Appointment.findByPk(appointmentId, {
-    include: [
-      {
-        model: PropertyVersion,
-        as: 'propertyVersion',
-        include: [{ model: Address, as: 'address' }],
-      },
-      {
-        model: AppointmentAttendee,
-        as: 'attendees',
-        include: [
-          { model: User, as: 'user' },
-          { model: BlockInstance, as: 'userTypeBlockInstance' },
-        ],
-      },
-    ],
+    include: appointmentIncludes,
   })
 }
 
@@ -215,7 +200,7 @@ async function findEventInstancesForBlockInstances(
   if (blockInstanceIds.length === 0) return []
 
   const partAssignments = await PartAssignment.findAll({
-    where: { parentId: { [Op.in]: blockInstanceIds } },
+    where: { parentId: { [Op.in]: blockInstanceIds }, disabled: false },
     attributes: ['childId'],
   })
   const partInstanceIds = partAssignments.map(pa => pa.childId)
@@ -224,7 +209,7 @@ async function findEventInstancesForBlockInstances(
   if (parentIds.length === 0) return []
 
   const eventAssignments = await EventAssignment.findAll({
-    where: { parentId: { [Op.in]: parentIds } },
+    where: { parentId: { [Op.in]: parentIds }, disabled: false },
     include: [
       {
         model: EventInstance,

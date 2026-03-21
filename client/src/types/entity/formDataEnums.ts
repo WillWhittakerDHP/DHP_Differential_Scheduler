@@ -36,6 +36,7 @@ enum RelationshipSelectTypeEnum {
   PartShapeSelect = "partShapeSelect",
   ValidCascadeSelect = "validCascadeSelect",
   ValidPartSelect = "validPartSelect",
+  ValidAnnotationSelect = "validAnnotationSelect",
   ValidEventSelect = "validEventSelect",
   DependentInstanceSelect = "dependentInstanceSelect",
   BookingCascadeSelect = "bookingCascadeSelect",

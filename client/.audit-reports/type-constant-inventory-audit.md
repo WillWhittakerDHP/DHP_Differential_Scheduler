@@ -4,15 +4,15 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T15:30:49.079Z
+Generated: 2026-03-21T18:09:30.206Z
 
 ## Summary
 
-- Type files: **276**
+- Type files: **277**
 - Constant files: **25**
 - Config files: **41**
 - Files with inline type exports: **120**
-- Annotated: **325** | Unannotated: **17**
+- Annotated: **325** | Unannotated: **18**
 
 | Classification Issue | Count |
 | --- | ---: |
@@ -163,7 +163,7 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/admin/wizardSettings.ts` | dedicated | WizardSubStepLabels, UseWizardSettingsOptions, UseWizardSettingsFlagsReturn, UseWizardSettingsLabelsReturn, UseWizardSettingsReturn… | no | (none) | unknown |
+| `client/src/types/admin/wizardSettings.ts` | dedicated | WizardSubStepLabels, UseWizardSettingsOptions, UseWizardSettingsFlagsReturn, UseWizardSettingsLabelsReturn, UseWizardSettingsLoadState… | no | (none) | unknown |
 
 ### Domain: availabilitySettingsDocument.ts
 
@@ -249,6 +249,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/booking/wizardSubmission.ts` | dedicated | UseWizardSubmissionParams, UseWizardSubmissionReturn | no | Wizard submission payload and API request types | feature |
 | `client/src/types/booking/wizardValidation.ts` | dedicated | StepValidator, UseWizardValidationReturn, UseWizardValidationParams | no | Wizard-level validation orchestration types | feature |
 | `client/src/types/booking/wizardValidationErrors.ts` | dedicated | UseWizardValidationErrorsOptions, UseWizardValidationErrorsReturn | no | Wizard validation error display and tracking types | feature |
+
+### Domain: booking/bookingFlow.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `client/src/types/booking/bookingFlow.ts` | dedicated | BookingFlowPhase, BookingFlowReadiness, UseBookingFlowReturn | no | (none) | unknown |
 
 ### Domain: booking/dev
 

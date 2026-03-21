@@ -36,6 +36,7 @@ export class EventAssignment extends Model<
   declare childKind: CreationOptional<string>;
   declare parentId: ForeignKey<string>;
   declare childId: ForeignKey<string>;
+  declare disabled: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -82,6 +83,11 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
           key: 'id',
         },
         comment: 'Foreign key to event_instances table',
+      },
+      disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T15:30:42.059Z",
-  "totalScanned": 1090,
+  "generatedAt": "2026-03-21T18:09:27.622Z",
+  "totalScanned": 1109,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,228 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/composables/admin/useFieldComponent.ts",
+      "functions": [
+        {
+          "name": "for",
+          "startLine": 19,
+          "endLine": 112,
+          "length": 94,
+          "maxNesting": 4,
+          "branches": 13,
+          "params": 0,
+          "returns": 13,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 13,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 94,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 13,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminMetadata",
+          "startLine": 15,
+          "endLine": 99,
+          "length": 85,
+          "maxNesting": 5,
+          "branches": 11,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 5,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 11,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 85,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useMetadataCache.ts",
+      "functions": [
+        {
+          "name": "createMetadataCacheInstance",
+          "startLine": 27,
+          "endLine": 117,
+          "length": 91,
+          "maxNesting": 2,
+          "branches": 9,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 91,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/admin/inputConfigEditor.ts",
+      "functions": [
+        {
+          "name": "inputConfigEditor",
+          "startLine": 25,
+          "endLine": 130,
+          "length": 106,
+          "maxNesting": 3,
+          "branches": 17,
+          "params": 0,
+          "returns": 7,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 17,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 106,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 7,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminPrimitiveMetadata",
+          "startLine": 31,
+          "endLine": 77,
+          "length": 47,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminRelationshipMetadata",
+          "startLine": 36,
+          "endLine": 82,
+          "length": 47,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    }
+  ]
 }

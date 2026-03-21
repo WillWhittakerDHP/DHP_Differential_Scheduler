@@ -31,6 +31,7 @@ import { PropertyDetailsFactory } from "./booking/property_details.js";
 import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
+import { AppointmentSelectionLineFactory } from "./booking/appointment_selection_line.js";
 import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
 import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
 import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
@@ -47,6 +48,11 @@ import { AvailabilityDifferentialAttendeeFactory } from "./admin/availability_di
 import { CalendarSettingCalendarFactory } from "./admin/calendar_setting_calendar.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
+import { AdminMetadataSelectOptionFactory } from "./admin/adminMetadataSelectOption.js";
+import { AdminPrimitiveMetadataFactory } from "./admin/adminPrimitiveMetadata.js";
+import { AdminPrimitiveMetadataSelectOptionFactory } from "./admin/adminPrimitiveMetadataSelectOption.js";
+import { AdminRelationshipMetadataFactory } from "./admin/adminRelationshipMetadata.js";
+import { AdminRelationshipMetadataSelectOptionFactory } from "./admin/adminRelationshipMetadataSelectOption.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
 import { BetaFeedbackTagFactory } from "./beta/beta_feedback_tag.js";
 import { PropertyFieldMappingFactory } from "./mappings/property_field_mapping.js";
@@ -91,6 +97,7 @@ export function initializeModels(sequelize: Sequelize) {
   const PropertyVersionType = PropertyVersionTypeFactory(sequelize);
   const User = UserFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
+  const AppointmentSelectionLine = AppointmentSelectionLineFactory(sequelize);
   const AppointmentFeeSummary = AppointmentFeeSummaryFactory(sequelize);
   const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
   const ConstraintOverride = ConstraintOverrideFactory(sequelize);
@@ -109,6 +116,36 @@ export function initializeModels(sequelize: Sequelize) {
   const BusinessRule = BusinessRuleFactory(sequelize);
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
   const AdminMetadata = AdminMetadataFactory(sequelize);
+  const AdminMetadataSelectOption = AdminMetadataSelectOptionFactory(sequelize);
+
+  AdminMetadata.hasMany(AdminMetadataSelectOption, {
+    foreignKey: "adminMetadataId",
+    as: "selectOptions",
+  });
+  AdminMetadataSelectOption.belongsTo(AdminMetadata, {
+    foreignKey: "adminMetadataId",
+  });
+
+  const AdminPrimitiveMetadata = AdminPrimitiveMetadataFactory(sequelize);
+  const AdminRelationshipMetadata = AdminRelationshipMetadataFactory(sequelize);
+  const AdminPrimitiveMetadataSelectOption = AdminPrimitiveMetadataSelectOptionFactory(sequelize);
+  const AdminRelationshipMetadataSelectOption = AdminRelationshipMetadataSelectOptionFactory(sequelize);
+
+  AdminPrimitiveMetadata.hasMany(AdminPrimitiveMetadataSelectOption, {
+    foreignKey: "primitiveMetadataId",
+    as: "selectOptions",
+  });
+  AdminPrimitiveMetadataSelectOption.belongsTo(AdminPrimitiveMetadata, {
+    foreignKey: "primitiveMetadataId",
+  });
+
+  AdminRelationshipMetadata.hasMany(AdminRelationshipMetadataSelectOption, {
+    foreignKey: "relationshipMetadataId",
+    as: "selectOptions",
+  });
+  AdminRelationshipMetadataSelectOption.belongsTo(AdminRelationshipMetadata, {
+    foreignKey: "relationshipMetadataId",
+  });
 
   const BetaFeedback = BetaFeedbackFactory(sequelize);
   const BetaFeedbackTag = BetaFeedbackTagFactory(sequelize);
@@ -309,6 +346,15 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'appointment' 
   });
 
+  Appointment.hasMany(AppointmentSelectionLine, {
+    foreignKey: 'appointmentId',
+    as: 'selectionLines',
+  });
+  AppointmentSelectionLine.belongsTo(Appointment, {
+    foreignKey: 'appointmentId',
+    as: 'appointment',
+  });
+
   User.hasMany(AppointmentAttendee, { 
     foreignKey: 'user_id', 
     as: 'appointmentAttendances' 
@@ -420,6 +466,7 @@ export function initializeModels(sequelize: Sequelize) {
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
+    AppointmentSelectionLine,
     AppointmentAttendee,
     AppointmentFeeSummary,
     AppointmentFeeEntry,
@@ -437,6 +484,11 @@ export function initializeModels(sequelize: Sequelize) {
     CalendarSettingCalendar,
     BusinessRule,
     AdminMetadata,
+    AdminMetadataSelectOption,
+    AdminPrimitiveMetadata,
+    AdminPrimitiveMetadataSelectOption,
+    AdminRelationshipMetadata,
+    AdminRelationshipMetadataSelectOption,
     BetaFeedback,
     BetaFeedbackTag,
     PropertyFieldMapping,

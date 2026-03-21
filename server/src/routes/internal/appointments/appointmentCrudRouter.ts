@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { Appointment, AppointmentAttendee } from '../../../config/app.js'
 import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
-import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
+import { loadAllAppointmentVersionsForAppointmentId } from '../../../services/appointmentSnapshotLoader.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
 import {
   ERROR_MESSAGES,
@@ -14,7 +14,6 @@ import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import {
   appointmentIncludes,
-  applySnapshotIdsToAppointment,
   createAttendeeRecords,
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
@@ -22,9 +21,12 @@ import {
   getHoldDurationFromSettings,
   getAutoConfirmEnabledFromSettings,
   createConstraintOverrideOnRescheduleIfNeeded,
+  validateAppointmentLineSnapshots,
   type HoldDurationBounds,
   type AttendeeRequest,
 } from './appointmentHelpers.js'
+import { stripSelectionFieldsFromPlainObject, bodyTouchesSelections } from '../../../repositories/appointmentSelectionCodec.js'
+import { syncSelectionsAndSnapshotsFromBody, applyMergedSelectionPatch } from '../../../repositories/appointmentSelectionRepository.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
@@ -188,6 +190,8 @@ const router = createCrudRouter({
       }
     }
 
+    stripSelectionFieldsFromPlainObject(appointmentFields as Record<string, unknown>)
+
     return appointmentFields
   },
   afterCreate: async (record, req, res) => {
@@ -209,20 +213,15 @@ const router = createCrudRouter({
       }
       return raw
     })()
-    const idsOrEmpty = (key: 'selectedServiceIds' | 'selectedPropertyIds' | 'selectedOptionIds'): string[] => {
-      const raw = appointmentData[key]
-      if (raw === undefined || raw === null) {
-        logger.debug(`afterCreate: ${key} missing, using []`)
-        return []
-      }
-      return raw
+    const sequelize = Appointment.sequelize
+    if (!sequelize) {
+      logger.error('afterCreate: Appointment.sequelize missing — cannot persist selection lines')
+    } else {
+      await sequelize.transaction(async (transaction) => {
+        await syncSelectionsAndSnapshotsFromBody(record.id, appointmentData as Record<string, unknown>, transaction)
+      })
+      await validateAppointmentLineSnapshots(record.id)
     }
-
-    await applySnapshotIdsToAppointment(record, {
-      serviceIds: idsOrEmpty('selectedServiceIds'),
-      propertyIds: idsOrEmpty('selectedPropertyIds'),
-      optionIds: idsOrEmpty('selectedOptionIds'),
-    })
 
     await createAttendeeRecords(record.id, attendeesData)
 
@@ -282,6 +281,17 @@ const router = createCrudRouter({
     res.status(HTTP_STATUS_CODES.CREATED).json(appointmentWithRelations)
   },
   afterUpdate: async (record, req, res) => {
+    const bodyRecord = req.body as Record<string, unknown>
+    if (bodyTouchesSelections(bodyRecord)) {
+      const sequelize = Appointment.sequelize
+      if (sequelize) {
+        await sequelize.transaction(async (transaction) => {
+          await applyMergedSelectionPatch(record.id, bodyRecord, transaction)
+        })
+        await validateAppointmentLineSnapshots(record.id)
+      }
+    }
+
     const newStatus = req.body?.status as string | undefined
     const oldStatus = req.body?._currentStatus as string | undefined
 
@@ -327,12 +337,12 @@ const router = createCrudRouter({
     const appointmentWithRelations = await Appointment.findByPk(record.id, {
       include: appointmentIncludes,
     })
-    
+
     if (!appointmentWithRelations) {
       sendNotFound(res, ERROR_MESSAGES.APPOINTMENT_NOT_FOUND, record.id)
       return
     }
-    
+
     res.json(appointmentWithRelations)
   },
 })
@@ -350,11 +360,7 @@ router.get('/:id/versions', checkOwnership('appointment', 'id'), async (req: Req
       return
     }
     
-    const { services, properties, options } = await loadAllAppointmentVersions({
-      serviceSnapshotIds: appointment.serviceSnapshotIds,
-      propertySnapshotIds: appointment.propertySnapshotIds,
-      optionSnapshotIds: appointment.optionSnapshotIds,
-    })
+    const { services, properties, options } = await loadAllAppointmentVersionsForAppointmentId(id)
     
     res.json({
       services,

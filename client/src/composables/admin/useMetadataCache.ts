@@ -14,6 +14,7 @@ import { computed, ref } from 'vue'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { MetadataCache, MetadataEntityType, UseMetadataCacheReturn } from '@/types/admin/metadataCache'
+import { resolveBlockInstanceMetadataFromCache } from '@/utils/admin/resolveBlockInstanceMetadata'
 
 let metadataCacheInstance: UseMetadataCacheReturn | null = null
 
@@ -71,13 +72,10 @@ PATTERN: Enable query synchronously, Vue Q...
       return {}
     }
     
-    if (entityType === 'blockInstance' && blockShapeRef) {
-      const blockShapeSpecific = data.blockShapeSpecific[blockShapeRef]
-      if (blockShapeSpecific && Object.keys(blockShapeSpecific).length > 0) {
-        return blockShapeSpecific as Record<string, FieldMetadataEntry>
-      }
+    if (entityType === 'blockInstance') {
+      return resolveBlockInstanceMetadataFromCache(data, blockShapeRef ?? null)
     }
-    
+
     const raw = data.global[entityType]
     return (raw !== undefined && raw !== null ? raw : {}) as Record<string, FieldMetadataEntry>
   }

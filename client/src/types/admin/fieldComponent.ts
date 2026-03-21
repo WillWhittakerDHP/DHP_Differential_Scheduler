@@ -9,7 +9,9 @@ export interface UseFieldComponentOptions {
   entityKey: Ref<GlobalEntityKey | undefined> | ComputedRef<GlobalEntityKey | undefined> | GlobalEntityKey | undefined
   fieldKey: Ref<GlobalFieldKey<GlobalEntityKey> | undefined> | ComputedRef<GlobalFieldKey<GlobalEntityKey> | undefined> | GlobalFieldKey<GlobalEntityKey> | undefined
   entity?: Ref<GlobalEntity<GlobalEntityKey> | null> | ComputedRef<GlobalEntity<GlobalEntityKey> | null> | GlobalEntity<GlobalEntityKey> | null
-  fieldMetadata?: ComputedRef<Record<string, FieldMetadataEntry>> | Ref<Record<string, FieldMetadataEntry>>
+  fieldMetadata?:
+    | ComputedRef<Record<string, FieldMetadataEntry> | undefined>
+    | Ref<Record<string, FieldMetadataEntry> | undefined>
 }
 
 export interface UseFieldComponentReturn {

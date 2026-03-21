@@ -1,14 +1,28 @@
 
 import { Router, Request, Response } from 'express'
 import { AdminPrimitiveMetadata } from '../../../db/models/admin/adminPrimitiveMetadata.js'
+import { sequelize } from '../../../config/database.js'
 import { getAdminPrimitiveMetadata } from '../../../utils/adminPrimitiveMetadataComposer.js'
+import { primitiveMetadataToHttpPayload } from '../../../utils/adminPrimitiveRelationshipAssembly.js'
+import {
+  replaceSelectOptionsForPrimitiveMetadata,
+  splitInputConfigForPersistence,
+} from '../../../utils/adminMetadataInputConfigPersist.js'
 import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminPrimitiveMetadataConstants.js'
 
 type PrimitiveEntityType = (typeof VALID_ENTITY_TYPES)[number]
 import { handleRouteError } from './adminPrimitiveMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminPrimitiveMetadataValidators.js'
 import { computeRenderAs, transformMetadataToRecord } from './adminPrimitiveMetadataHelpers.js'
-import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent } from '../../helpers/routerResponseHelpers.js'
+import {
+  sendSuccess,
+  sendCreated,
+  sendNotFound,
+  sendBadRequest,
+  sendNoContent,
+  sendError,
+} from '../../helpers/routerResponseHelpers.js'
+import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 
@@ -59,7 +73,7 @@ router.post(
       bulkEdit = false,
       inputConfig = null,
     } = req.body
-    
+
     const renderAs = providedRenderAs || computeRenderAs(dataType, inputConfig, fieldKey)
 
     const entityTypeValidation = validateEntityType(entityType)
@@ -102,41 +116,70 @@ router.post(
       },
     })
 
+    const { icFields, options } = splitInputConfigForPersistence(inputConfig)
+
     if (existing) {
-      await existing.update({
-        dataType,
-        label,
-        isRequired,
-        visibility,
-        layout,
-        displayOrder,
-        renderAs,
-        statusButtonColor,
-        panel,
-        bulkEdit,
-        inputConfig,
+      await sequelize.transaction(async (transaction) => {
+        await existing.update(
+          {
+            dataType,
+            label,
+            isRequired,
+            visibility,
+            layout,
+            displayOrder,
+            renderAs,
+            statusButtonColor,
+            panel,
+            bulkEdit,
+            ...icFields,
+          },
+          { transaction }
+        )
+        await replaceSelectOptionsForPrimitiveMetadata(existing.id, options, transaction)
       })
-
-      sendSuccess(res, existing)
+      const reloaded = await AdminPrimitiveMetadata.findOne({
+        where: {
+          entityType: entityType as PrimitiveEntityType,
+          entityId: entityId,
+          fieldKey: fieldKey,
+        },
+      })
+      if (!reloaded) {
+        sendError(res, 'Primitive metadata row missing after update', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        return
+      }
+      sendSuccess(res, await primitiveMetadataToHttpPayload(reloaded))
     } else {
-      const metadata = await AdminPrimitiveMetadata.create({
-        entityType: entityType as PrimitiveEntityType,
-        entityId: entityId,
-        fieldKey,
-        dataType,
-        label,
-        isRequired,
-        visibility,
-        layout,
-        displayOrder,
-        renderAs,
-        statusButtonColor,
-        panel,
-        bulkEdit,
-        inputConfig,
+      let created: AdminPrimitiveMetadata | null = null
+      await sequelize.transaction(async (transaction) => {
+        const row = await AdminPrimitiveMetadata.create(
+          {
+            entityType: entityType as PrimitiveEntityType,
+            entityId: entityId,
+            fieldKey,
+            dataType,
+            label,
+            isRequired,
+            visibility,
+            layout,
+            displayOrder,
+            renderAs,
+            statusButtonColor,
+            panel,
+            bulkEdit,
+            ...icFields,
+          },
+          { transaction }
+        )
+        await replaceSelectOptionsForPrimitiveMetadata(row.id, options, transaction)
+        created = row
       })
-
-      sendCreated(res, metadata)
+      if (!created) {
+        sendError(res, 'Primitive metadata create failed', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        return
+      }
+      sendCreated(res, await primitiveMetadataToHttpPayload(created))
     }
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.CREATE_UPDATE_METADATA, 'creating/updating primitive metadata')

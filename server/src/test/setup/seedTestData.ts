@@ -144,20 +144,14 @@ export async function seedAppointmentTestData() {
   
   const appointment1 = await Appointment.create({
     id: 'appointment-1',
-    propertyVersionId, // Use PropertyVersion ID (new structure)
+    propertyVersionId,
     userTypeId: null,
-    selectedServiceIds: null,
-    selectedPropertyIds: null,
-    selectedOptionIds: null,
     selectedDate: new Date('2026-01-15'),
     selectedDateRangeEnd: null,
     selectedTimeSlots: [{ startTime: '2026-01-15T15:00:00.000Z', endTime: '2026-01-15T17:00:00.000Z', duration: 120 }],
     isQuoteMode: false,
     quotePdfUrl: null,
-    status: 'draft',
-    clientId: null,
-    agentId: null,
-    additionalContacts: null,
+    status: 'started',
     propertyDetails: null,
   })
   

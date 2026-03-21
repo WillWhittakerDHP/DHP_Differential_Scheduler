@@ -137,9 +137,12 @@ const entityForMetadata = computed(() => {
 
 // PATTERN: Let parent component (EntityCard) handle warnings - it has access to metadata loading state
 
-const fieldMetadataRef = computed(() => {
+const fieldMetadataRef = computed((): Record<string, FieldMetadataEntry> | undefined => {
   const raw = props.fieldMetadata
-  return raw !== undefined && raw !== null ? raw : {}
+  if (raw === undefined || raw === null) {
+    return undefined
+  }
+  return raw
 })
 
 const fieldComponent = useFieldComponent({

@@ -12,13 +12,23 @@ import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { type RelationshipKind, ERROR_MESSAGES } from './relationshipConstants.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 
+export type MapRelationshipFieldOptions = {
+  userTypeBlockInstanceId?: string | null
+}
+
 export function mapAnnotationAssignmentsFields(
   parentId: string,
-  childId: string
-): Record<string, string> {
+  childId: string,
+  userTypeBlockInstanceId?: string | null
+): Record<string, unknown> {
+  const userType =
+    userTypeBlockInstanceId === undefined || userTypeBlockInstanceId === ''
+      ? null
+      : userTypeBlockInstanceId
   return {
     blockInstanceId: parentId,
     annotationId: childId,
+    userTypeBlockInstanceId: userType,
   }
 }
 
@@ -50,11 +60,12 @@ async function mapEventAssignmentsFields(
 export async function mapRelationshipFields(
   relationshipKind: RelationshipKind,
   parentId: string,
-  childId: string
-): Promise<Record<string, string>> {
+  childId: string,
+  options?: MapRelationshipFieldOptions
+): Promise<Record<string, unknown>> {
   switch (relationshipKind) {
     case RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS:
-      return mapAnnotationAssignmentsFields(parentId, childId)
+      return mapAnnotationAssignmentsFields(parentId, childId, options?.userTypeBlockInstanceId)
     case RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS:
       return mapAttendeeAssignmentsFields(parentId, childId)
     case RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS:

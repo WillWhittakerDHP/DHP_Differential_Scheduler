@@ -8,6 +8,7 @@ import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
 import { ERROR_MESSAGES } from './relationshipConstants.js'
+import { whereActiveRelationships } from './relationshipDisabledHelpers.js'
 
 const logger = createLogger('RelationshipBatchRouter')
 
@@ -16,8 +17,7 @@ const router = Router()
 function buildBatchWhereClause(
   relationshipConfig: typeof RELATIONSHIP_REGISTRY[RelationshipKind]
 ): Record<string, unknown> {
-  const modelAttributes = relationshipConfig.model.getAttributes()
-  return 'disabled' in modelAttributes ? { disabled: false } : {}
+  return whereActiveRelationships(relationshipConfig.model, {})
 }
 
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {

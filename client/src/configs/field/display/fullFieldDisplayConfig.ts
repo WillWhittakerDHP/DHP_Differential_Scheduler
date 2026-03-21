@@ -10,6 +10,7 @@ import { blockInstanceDisplays } from './appliedDisplay/blockInstanceDisplays'
 import { blockShapeDisplays } from './appliedDisplay/blockShapeDisplays'
 import { partInstanceDisplays } from './appliedDisplay/partInstanceDisplays'
 import { partShapeDisplays } from './appliedDisplay/partShapeDisplays'
+import { eventShapeDisplays } from './appliedDisplay/eventShapeDisplays'
 import { buildSelectableDisplayType, type SelectableDisplayType } from './selectableDisplayConfig'
 import { asEmptyObject } from '@/utils/safeDefaults'
 
@@ -40,7 +41,11 @@ export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
       partShapeDisplays,
       selectableDisplayConfig.partShape
     ),
-    eventShape: {},
+    eventShape: buildAllPerEntityDisplayConfig(
+      "eventShape",
+      eventShapeDisplays,
+      selectableDisplayConfig.eventShape
+    ),
     eventInstance: {},
     annotationShape: {},
     annotationInstance: {},
