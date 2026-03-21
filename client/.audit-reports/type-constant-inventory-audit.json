@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:28:19.001Z",
+  "generatedAt": "2026-03-21T18:29:07.107Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -39,12 +39,12 @@
     "totalTypeFiles": 277,
     "totalConstantFiles": 25,
     "totalConfigFiles": 41,
-    "filesWithInlineTypes": 121,
+    "filesWithInlineTypes": 120,
     "annotated": 325,
     "unannotated": 18,
     "classificationIssues": {
       "mixedTypeConstantFiles": 14,
-      "inlineTypesInComposables": 91,
+      "inlineTypesInComposables": 90,
       "configsWithLogic": 11,
       "duplicateTypeNames": 7,
       "cleanupCandidates": 0,
@@ -7120,17 +7120,16 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "AppointmentSelectedTimeSlotPayload",
         "AttendeeRequest",
         "AdminEntryAppointmentItem"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 3,
+        "interfaces": 2,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 30,
+      "lineCount": 24,
       "purpose": "Shared appointment data structure types",
       "reuseTier": "shared",
       "tags": [],
@@ -9324,16 +9323,6 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
-      "sourceFile": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
-      "exportedTypes": [
-        "InstanceDragFormKitBinderDeps"
-      ],
-      "exportedConstants": [],
-      "primaryPurpose": "composable",
-      "importedByCount": 0,
-      "recommendation": "Consider extracting to a dedicated type file"
-    },
-    {
       "sourceFile": "client/src/composables/admin/tables/useAppointmentsTableModel.ts",
       "exportedTypes": [
         "AppointmentsTableLookups"
@@ -10694,16 +10683,6 @@
           ],
           "primaryPurpose": "composable",
           "importedByCount": 2,
-          "recommendation": "Consider extracting to a dedicated type file"
-        },
-        {
-          "sourceFile": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
-          "exportedTypes": [
-            "InstanceDragFormKitBinderDeps"
-          ],
-          "exportedConstants": [],
-          "primaryPurpose": "composable",
-          "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
