@@ -45,3 +45,11 @@
 ## Notes
 
 Testing remains deferred per project `TEST_ENABLED` policy until Phase 3.0. Manual verification: run migrations through latest revision; spot-check admin relationships and annotation delete paths.
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+<!-- end excerpt session -->

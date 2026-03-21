@@ -70,3 +70,5 @@ Work one task at a time; run server migrations on dev DB after schema changes; k
 ### Ending the session
 
 Update this guide’s task checkboxes, append the session log with completed tasks, refresh the handoff for **6.12.2**, then run `/session-end 6.12.1` (and `--continue-past-verification` after manual checks when prompted).
+
+<!-- end excerpt session -->
