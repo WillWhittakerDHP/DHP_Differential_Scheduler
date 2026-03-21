@@ -10,13 +10,13 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **1**
-- Requiring review: **1**
+- Files with findings: **0**
+- Requiring review: **0**
 - Allowed (with justification): 0
 
 - P0 (silent catches): **0**
 - P1 (console-in-catch, alert-in-catch, type suppressions): **0**
-- P2 (general console, catch-without-logger): **1**
+- P2 (general console, catch-without-logger): **0**
 
 ## Rules
 
@@ -72,12 +72,5 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/src/plugins/1.router/additional-routes.ts` | P2 | 1 | 0 | 0 | 1 |
 
 ## Per-file findings
-
-### `client/src/plugins/1.router/additional-routes.ts` [P2] (score: 1)
-
-```
-catch-without-logger@26: } catch {
-```

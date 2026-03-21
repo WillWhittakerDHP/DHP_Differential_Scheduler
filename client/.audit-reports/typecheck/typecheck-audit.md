@@ -12,10 +12,10 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-21T16:22:55.735Z**
+- Generated at: **2026-03-21T18:11:42.782Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
+- Exit code: **1**
 - **Errors requiring review: 0**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
 - Pools: **0**
