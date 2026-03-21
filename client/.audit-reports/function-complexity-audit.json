@@ -1,11 +1,16 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   "generatedAt": "2026-03-21T23:23:44.071Z",
   "totalScanned": 1076,
 =======
   "generatedAt": "2026-03-21T23:26:25.071Z",
   "totalScanned": 1075,
 >>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
+=======
+  "generatedAt": "2026-03-21T23:50:51.527Z",
+  "totalScanned": 1076,
+>>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
