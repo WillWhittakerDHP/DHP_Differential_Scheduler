@@ -40,10 +40,10 @@
 ## Sessions Breakdown
 
 - [ ] ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar)
-
-**Description:** Full scope, deliverables, and success criteria in `sessions/session-6.14.1-planning.md`.
-
-**See:** `sessions/session-6.14.1-planning.md` (verbose planning context)
+**Description:** Canonical defaults object + merge at read for numeric policy (minuteIncrement, durationRounding, driveTimeFee, holds, adminEntryTimeout, lead time, buffers, capacity baselines). Deliverables: shared `OrganizationDefaults` types, resolver, persistence strategy, admin tab, tests. Full scope: `sessions/session-6.14.1-planning.md`.
+**Tasks:** Types; merge/resolve; persistence; admin UI; unit tests; wire booking read paths (or documented follow-up).
+**Focus:**
+- Single resolver for client + server; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
 
 ---
 
