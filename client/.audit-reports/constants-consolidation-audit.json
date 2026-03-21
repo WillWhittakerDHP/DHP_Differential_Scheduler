@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T13:53:32.997Z",
+  "generatedAt": "2026-03-21T04:20:04.967Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +11,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1015,
+  "totalScanned": 1012,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
@@ -71,13 +71,13 @@
         {
           "file": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
           "export": null,
-          "line": 36,
+          "line": 48,
           "inline": true
         },
         {
           "file": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
           "export": null,
-          "line": 36,
+          "line": 41,
           "inline": true
         }
       ],
@@ -111,7 +111,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 36,
+          "lineNumber": 48,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
@@ -126,7 +126,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 36,
+          "lineNumber": 41,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

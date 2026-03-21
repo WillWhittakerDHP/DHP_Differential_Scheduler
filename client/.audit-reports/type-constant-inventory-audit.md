@@ -4,15 +4,15 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T13:53:34.635Z
+Generated: 2026-03-21T04:20:10.124Z
 
 ## Summary
 
-- Type files: **273**
+- Type files: **270**
 - Constant files: **24**
 - Config files: **41**
 - Files with inline type exports: **115**
-- Annotated: **325** | Unannotated: **13**
+- Annotated: **325** | Unannotated: **10**
 
 | Classification Issue | Count |
 | --- | ---: |
@@ -159,12 +159,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/wizardSettings.ts` | dedicated | UseAdminWizardSettingsOptions, UseAdminWizardSettingsReturn | no | (none) | unknown |
 
-### Domain: availabilitySettingsDocument.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `shared/types/availabilitySettingsDocument.ts` | dedicated | AvailabilitySettingsData | no | (none) | unknown |
-
 ### Domain: booking
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -262,12 +256,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/booking/selectionCard/selectionCardState.ts` | dedicated | UseSelectionCardStateParams, UseSelectionCardStateReturn | no | State management types for selection card interaction | feature |
 | `client/src/types/booking/selectionCard/selectionCardStyles.ts` | dedicated | UseSelectionCardStylesParams, UseSelectionCardStylesParamsBase, UseSelectionCardStylesReturn | no | Style and theming types for selection card display | feature |
 | `client/src/components/booking/types/selectionCardTypes.ts` | colocated | ComponentItem, SelectionCardItem, GridColumns, StatePlugin, SelectionCardConfig | no | Selection card configuration, appearance, and feature-flag types. | feature |
-
-### Domain: calendarSettingsDocument.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `shared/types/calendarSettingsDocument.ts` | dedicated |  | no | (none) | unknown |
 
 ### Domain: componentEntity
 
@@ -407,12 +395,6 @@ Generic types always instantiated with the same argument; consider removing the 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/utils/booking/bookingFinalTypes.ts` | colocated |  | no | Re-export barrel for BlockFinal type from booking/blockFinal. | feature |
-
-### Domain: wizardSettingsTypes.ts
-
-| File | Location | Exports | Also runtime? | Purpose | Tier |
-| --- | --- | --- | --- | --- | --- |
-| `shared/types/wizardSettingsTypes.ts` | dedicated | WizardSettingsData | no | (none) | unknown |
 
 ## Constants vs Configs Boundary
 
