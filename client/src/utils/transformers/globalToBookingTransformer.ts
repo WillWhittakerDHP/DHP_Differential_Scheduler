@@ -17,8 +17,16 @@ import {
   convertTernaryToBookingMode,
 } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
+import { buildBookingBlockAnnotationUi } from './buildBookingBlockAnnotationUi'
 
-export type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
+export type {
+  BookingAnnotationUiCandidate,
+  BookingBlockAnnotationUi,
+  BookingBlockInstance,
+  BookingBlockShape,
+  BookingData,
+  BookingPartInstance,
+} from '@/types/transformers/bookingData'
 
 /** Entity-like shape for active/disabled check without full Record<string, unknown>. */
 function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null | undefined): boolean {
@@ -364,9 +372,16 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     (a, b) => a.name.localeCompare(b.name)
   )
 
+  function withAnnotationUi(blocks: BookingBlockInstance[]): BookingBlockInstance[] {
+    return blocks.map((b) => {
+      const ui = buildBookingBlockAnnotationUi(b.id, globalData)
+      return ui !== undefined ? { ...b, annotationUi: ui } : b
+    })
+  }
+
   return {
-    blockInstances: bookingBlockInstances,
-    lineItemBlocks,
+    blockInstances: withAnnotationUi(bookingBlockInstances),
+    lineItemBlocks: withAnnotationUi(lineItemBlocks),
     blockShapes: bookingBlockShapes,
   }
 }

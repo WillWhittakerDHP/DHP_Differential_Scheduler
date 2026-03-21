@@ -6,6 +6,7 @@ import {
   type SubPanelRecord
 } from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 import type { StatusButtonField } from '@/types/forms/fieldSectionCategorization'
 
 export type { StatusButtonField } from '@/types/forms/fieldSectionCategorization'
@@ -65,8 +66,8 @@ export function categorizeFieldsBySection(
    * PATTERN: // PATTERN: All field configuration comes from fieldMetadata, period
    */
   const statusButtonFieldsWithOrder = Object.entries(fieldMetadata)
-    .filter(([_fieldKey, meta]) => {
-      return meta.renderAs === 'statusButton'
+    .filter(([fieldKey, meta]) => {
+      return computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKey) === 'statusButton'
     })
     .map(([fieldKey, meta]) => ({
       key: fieldKey as GlobalFieldKey<GlobalEntityKey>,
@@ -89,7 +90,7 @@ export function categorizeFieldsBySection(
       panel: meta.panel,
       layout: meta.layout,
       displayOrder: meta.displayOrder,
-      isStatusButton: meta.renderAs === 'statusButton'
+      isStatusButton: computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKey) === 'statusButton'
     })),
     statusButtonsFound: statusButtonFieldsWithOrder.map(f => ({
       key: String(f.key),

@@ -20,13 +20,24 @@ import { asEmptyString } from '@/utils/safeDefaults'
 import { buildFieldClassificationSets, transformFieldForDehydrate } from './fieldClassification'
 import { safeArray, safeString, safeId } from './transformerPrimitives'
 import { groupByParentId, immutableSort } from './transformerCollections'
-import type { GlobalData } from '@/types/transformers/globalData'
+import type { AnnotationAssignmentEdge, GlobalData } from '@/types/transformers/globalData'
 
 export type { GlobalData } from '@/types/transformers/globalData'
 
 const logger = createLogger('fetchToGlobalTransformer')
 
 const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
+
+function buildAnnotationAssignmentEdges(fetched: FetchedRelationship[]): AnnotationAssignmentEdge[] {
+  return fetched
+    .filter((r) => r.kind === 'annotationAssignments' && !r.disabled)
+    .map((r) => ({
+      blockInstanceId: r.parentId,
+      annotationInstanceId: r.childId,
+      userTypeBlockInstanceId: r.userTypeBlockBlockInstanceId ?? null,
+      orderIndex: typeof r.orderIndex === 'number' ? r.orderIndex : 0,
+    }))
+}
 
 function applyAnnotationInstanceNameFallback(
   entities: GlobalEntity<'annotationInstance'>[]
@@ -125,6 +136,9 @@ function transformApiRelationship(
   if (idResolved === undefined) {
     logger.debug('transformApiRelationship: id missing after safeId', { rawId: raw.id })
   }
+  const orderRaw = raw.orderIndex ?? raw.order_index
+  const orderIndex = typeof orderRaw === 'number' ? orderRaw : undefined
+
   return {
     id: toGlobalEntityId(asEmptyString(idResolved)),
     kind: relationshipKey,
@@ -133,6 +147,7 @@ function transformApiRelationship(
     parentId: toGlobalEntityId(parentId),
     childId: toGlobalEntityId(childId),
     disabled: Boolean(raw.disabled ?? false),
+    ...(orderIndex !== undefined && { orderIndex }),
     ...(userTypeBlockBlockInstanceId !== undefined &&
       (userTypeBlockBlockInstanceId === null ||
         typeof userTypeBlockBlockInstanceId === 'string') && {
@@ -233,10 +248,13 @@ export class GlobalTransformer {
         transformApiRelationships(staged.fetchedRelationships, relType, entities),
       ])
     ) as Record<GlobalRelationshipKey, GlobalRelationship[]>
-    
+
+    const annotationAssignmentEdges = buildAnnotationAssignmentEdges(staged.fetchedRelationships)
+
     return {
       entities,
       relationships,
+      annotationAssignmentEdges,
     }
   }
 

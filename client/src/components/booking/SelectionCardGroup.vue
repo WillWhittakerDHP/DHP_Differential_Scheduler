@@ -14,10 +14,13 @@ interface Props {
   items: SelectionCardItem[]
   modelValue: string | string[] | null
   config?: SelectionCardConfig
+  /** Passed to each SelectionCard for annotation slot resolution (task 6.12.2.2). */
+  selectedUserTypeBlockInstanceId?: string | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  config: undefined
+  config: undefined,
+  selectedUserTypeBlockInstanceId: null,
 })
 
 interface Emits {
@@ -115,6 +118,7 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
             :model-value="modelValue"
             :nested-child-selections="nestedSelections[item.id] || []"
             :is-expanded="!!expansionStates[item.id]"
+            :selected-user-type-block-instance-id="selectedUserTypeBlockInstanceId"
             @update:model-value="emit('update:modelValue', $event)"
             @update:nested-child-selections="handleNestedSelection(item.id, $event)"
             @update:number="handleNumberUpdate"
@@ -139,6 +143,7 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
             :model-value="modelValue"
             :nested-child-selections="nestedSelections[item.id] || []"
             :is-expanded="!!expansionStates[item.id]"
+            :selected-user-type-block-instance-id="selectedUserTypeBlockInstanceId"
             @update:model-value="emit('update:modelValue', $event)"
             @update:nested-child-selections="handleNestedSelection(item.id, $event)"
             @update:number="handleNumberUpdate"
@@ -167,6 +172,7 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
           :model-value="modelValue"
           :nested-child-selections="nestedSelections[item.id] || []"
           :is-expanded="!!expansionStates[item.id]"
+          :selected-user-type-block-instance-id="selectedUserTypeBlockInstanceId"
           @update:model-value="emit('update:modelValue', $event)"
           @update:nested-child-selections="handleNestedSelection(item.id, $event)"
           @toggle-expansion="toggleCardExpansion(item.id)"
@@ -185,6 +191,7 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
           :model-value="modelValue"
           :nested-child-selections="nestedSelections[item.id] || []"
           :is-expanded="!!expansionStates[item.id]"
+          :selected-user-type-block-instance-id="selectedUserTypeBlockInstanceId"
           @update:model-value="emit('update:modelValue', $event)"
           @update:nested-child-selections="handleNestedSelection(item.id, $event)"
           @toggle-expansion="toggleCardExpansion(item.id)"

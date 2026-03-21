@@ -48,6 +48,7 @@
  */
 import { computed } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import TextInput from './TextInput.vue'
@@ -85,7 +86,10 @@ const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
   const fieldKeyStr = String(props.fieldContext.state.fieldKey)
   const meta = metadata[fieldKeyStr]
-  return meta?.renderAs
+  if (!meta) {
+    return undefined
+  }
+  return computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKeyStr)
 })
 </script>
 

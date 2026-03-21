@@ -17,10 +17,6 @@ export function determineMetadataType(fieldKey: string): 'relationship' | 'primi
   return isRelationshipKey(fieldKey) ? 'relationship' : 'primitive'
 }
 
-export function getDefaultRenderAs(metadataType: 'relationship' | 'primitive'): string {
-  return metadataType === 'relationship' ? 'reference' : 'text'
-}
-
 export function getDefaultPanel(metadataType: 'relationship' | 'primitive'): string {
   return metadataType === 'relationship' ? 'relationships' : 'none'
 }

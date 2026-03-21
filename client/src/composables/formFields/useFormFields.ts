@@ -16,6 +16,7 @@ import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { useNotification } from '@/composables/useNotification'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useFormFields')
@@ -92,11 +93,15 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     return combinedKeys.filter((fieldKey) => !fieldContextCache.value.has(String(fieldKey)))
   })
 
-  const getFieldTypeFromMetadata = (meta: FieldMetadataEntry): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['state']['displayConfig']['fieldType'] => {
-    if (meta.renderAs === 'multiselect') return 'multiselect'
-    if (meta.renderAs === 'select' || meta.renderAs === 'reference') return 'select'
-    if (meta.dataType === 'boolean') return 'boolean'
-    if (meta.dataType === 'number') return 'number'
+  const getFieldTypeFromMetadata = (
+    meta: FieldMetadataEntry,
+    fieldKey: string
+  ): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['state']['displayConfig']['fieldType'] => {
+    const effective = computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKey)
+    if (effective === 'multiselect') return 'multiselect'
+    if (effective === 'select' || effective === 'reference') return 'select'
+    if (effective === 'number') return 'number'
+    if (meta.dataType === 'boolean' || meta.dataType === 'ternary') return 'boolean'
     return 'text'
   }
 
@@ -138,7 +143,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     return {
       label: displayLabel,
       placeholder: (meta as { placeholder?: string }).placeholder ?? undefined,
-      fieldType: getFieldTypeFromMetadata(meta),
+      fieldType: getFieldTypeFromMetadata(meta, fieldKey),
       required: meta.isRequired === true,
       disabled: (meta as { disabled?: boolean }).disabled === true,
       readOnly: (meta as { readOnly?: boolean }).readOnly === true,

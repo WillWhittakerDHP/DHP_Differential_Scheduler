@@ -10,17 +10,9 @@
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 6.12.2
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-**Git Branch:** `session-6.12.1`
-=======
-**Git Branch:** `phase-6.12`
->>>>>>> Stashed changes
-=======
-**Git Branch:** `phase-6.12`
->>>>>>> Stashed changes
+**Last Completed:** Task 6.12.1.4  
+**Next Session:** Session 6.12.2  
+**Git Branch:** `session-6.12.1` (or `phase-6.12` after merge into phase — use your current branch)  
 **Last Updated:** 2026-03-21
 
 ## Next Action
@@ -29,95 +21,24 @@ Start Session 6.12.2 (see session guide and phase guide for scope).
 
 ## Transition Context
 
-**Where we left off:**
-Completed Task 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+**Where we left off:** Session **6.12.1** scope is done: entity/link toggles, expansion fix, annotation content table + migration, and safe annotation shape delete semantics.
 
 **What you need to start:** Read the phase guide **Session 6.12.2** block and shared `ANNOTATION_UI_SLOTS` / registry reference before implementing.
 
 <!-- end excerpt session -->
-
-
-**Where we left off:** Session **6.12.1** deliverables are in place; run migrations on each environment through the latest revision; spot-check admin relationships and annotation shape delete.
->>>>>>> Stashed changes
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<<<<<<< Updated upstream
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-<<<<<<< Updated upstream
-=======
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:** Session **6.12.1** scope is done: entity/link toggles, expansion fix, annotation content table + migration, and safe annotation shape delete semantics.
->>>>>>> Stashed changes
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-[Minimal notes about what was completed - 2-3 sentences max]
-
-**What you need to start:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about files to review]
-- [Brief bullet point about any blockers or considerations]
-
-**Minimal Future Considerations:**
-- [Only include if critical for next session - keep minimal]
 
 ---
 
 ## Document Structure Guidelines
 
 ### Keep Minimal:
+
 - Transition context only (where we left off, what's next)
 - Format/template for handoff entries
 - Critical context for starting next session
 
 ### Move to Session Guide:
+
 - Explicit instructions
 - Editing advice
 - Architectural notes
@@ -127,6 +48,7 @@ Completed Task
 - Pattern explanations
 
 ### File Size Target:
+
 - 100-200 lines maximum
 - Focus on transition, not history
 - Remove completed task details after they're no longer needed
@@ -159,23 +81,6 @@ Completed Task 1.3.4: Relationship API Composables. Created composables for pare
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-6.12.1-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-6.12.1-log.md`
-- Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-6.12-handoff.md` (for phase-level context)
-=======
-<!-- end excerpt session -->
->>>>>>> Stashed changes
-=======
-
-**What you need to start:**
-- Begin Session 6.12.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:** Session **6.12.1** deliverables are in place; run migrations on each environment through the latest revision; spot-check admin relationships and annotation shape delete.
-
-**What you need to start:** Read the phase guide **Session 6.12.2** block and shared `ANNOTATION_UI_SLOTS` / registry reference before implementing.
-
-<!-- end excerpt session -->
->>>>>>> Stashed changes
+- Session Guide: `.project-manager/features/appointment-workflow/sessions/session-6.12.1-guide.md`
+- Session Log: `.project-manager/features/appointment-workflow/sessions/session-6.12.1-log.md`
+- Phase Handoff: `.project-manager/features/appointment-workflow/phases/phase-6.12-handoff.md`

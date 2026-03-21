@@ -55,7 +55,7 @@
                 :color="getEffectiveFieldMetadata(fieldKey)?.statusButtonColor || 'default'"
                 size="small"
                 variant="flat"
-                v-if="getEffectiveFieldMetadata(fieldKey)?.renderAs === 'statusButton'"
+                v-if="derivedRenderAs(fieldKey) === 'statusButton'"
               >
                 Status Button
               </VChip>
@@ -237,7 +237,6 @@ function getEffectiveFieldMetadata(fieldKey: string) {
 }
 
 const { computeRenderAs, updateFieldRendering } = metadataFieldUpdates({
-  getEffectiveFieldMetadata,
   pendingChanges,
 })
 
@@ -246,13 +245,21 @@ const { getInputConfigData, updateInputConfigField } = inputConfigEditor({
   updateFieldRendering,
 })
 
+function derivedRenderAs(fieldKey: string): FieldMetadataEntry['renderAs'] | undefined {
+  const meta = getEffectiveFieldMetadata(fieldKey)
+  if (!meta) return undefined
+  return computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKey)
+}
+
 function hasSelectRenderAs(fieldKey: string): boolean {
-  const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
-  if (!renderAs) return false
-  return renderAs === FIELD_RENDER_AS.SELECT ||
-         renderAs === FIELD_RENDER_AS.MULTISELECT ||
-         renderAs === FIELD_RENDER_AS.REFERENCE ||
-         renderAs === FIELD_RENDER_AS.RELATIONSHIP_COLLECTION
+  const r = derivedRenderAs(fieldKey)
+  if (!r) return false
+  return (
+    r === FIELD_RENDER_AS.SELECT ||
+    r === FIELD_RENDER_AS.MULTISELECT ||
+    r === FIELD_RENDER_AS.REFERENCE ||
+    r === FIELD_RENDER_AS.RELATIONSHIP_COLLECTION
+  )
 }
 
 const { draggableFieldKeys, handleDragEnd } = useMetadataFieldOrdering({
@@ -274,8 +281,6 @@ const { handleSave } = usePrimitiveMetadataSave({
   getEntityId: () => entityId.value,
   getPendingChanges: () => pendingChanges,
   getFieldMetadata,
-  getEffectiveFieldMetadata,
-  computeRenderAs,
   clearPendingState,
   saveFieldMetadata,
   getBlockShapeRef: () => props.blockShapeRef,

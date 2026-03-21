@@ -30,21 +30,32 @@ const {
   partShapeMetadataModalOpen,
   partInstanceMetadataModalOpen,
   annotationShapeMetadataModalOpen,
+  annotationInstanceMetadataModalOpen,
   eventShapeMetadataModalOpen,
+  eventInstanceMetadataModalOpen,
   toggleBlockShapeMetadataModal,
   togglePartShapeMetadataModal,
   togglePartInstanceMetadataModal,
   handlePartInstanceMetadataSaved,
   toggleAnnotationShapeMetadataModal,
+  toggleAnnotationInstanceMetadataModal,
+  handleAnnotationInstanceMetadataSaved,
   toggleEventShapeMetadataModal,
+  toggleEventInstanceMetadataModal,
+  handleEventInstanceMetadataSaved,
+  isCreatingBlockShape,
   isCreatingPartShape,
   isCreatingAnnotationShape,
   isCreatingEventShape,
+  newBlockShapeInitialValues,
   newPartShapeInitialValues,
   newAnnotationShapeName,
   newEventShapeName,
   isCreatingAnnotationShapeLoading,
   isCreatingEventShapeLoading,
+  createBlockShape,
+  handleBlockShapeCreated,
+  handleBlockShapeCancelled,
   createPartShape,
   startCreatingAnnotationShape,
   handlePartShapeCreated,
@@ -64,6 +75,8 @@ const {
   isLoadingAnnotationShapes,
   isLoadingEventShapes,
   partInstanceConfigEntity,
+  annotationInstanceConfigEntity,
+  eventInstanceConfigEntity,
   annotationShapeFieldsEntity,
   eventShapeFieldsEntity,
 } = useShapesTab()
@@ -72,7 +85,7 @@ const {
 <template>
   <div class="shapes-tab">
     <!--
-      WHY: Provides tabbed interface to switch between PartShapes and AnnotationShapes
+      WHY: Tabbed Block / Part / Annotation / Event shapes with aligned actions (Shape Fields, Instance Fields where applicable, Create)
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
     <VTabs v-model="activeTab" class="mb-4">
@@ -114,6 +127,13 @@ const {
             >
               Shape Fields
             </VBtn>
+            <VBtn
+              color="primary"
+              prepend-icon="tabler-plus"
+              @click="createBlockShape"
+            >
+              Create Block Shape
+            </VBtn>
           </div>
         </div>
         
@@ -123,11 +143,18 @@ const {
         -->
         <div ref="_blockShapesContainer" class="drag-drop-container">
           <VExpansionPanels
-            v-if="blockShapesList.length > 0"
+            v-if="isCreatingBlockShape || blockShapesList.length > 0"
             ref="_blockShapesPanelsContainer"
             v-model="expandedShapes"
             multiple
           >
+            <ShapeCreationForm
+              v-if="isCreatingBlockShape"
+              entity-key="blockShape"
+              :entity="newBlockShapeInitialValues!"
+              @saved="handleBlockShapeCreated"
+              @cancelled="handleBlockShapeCancelled"
+            />
             <ShapeCardList
               entity-key="blockShape"
               :items="blockShapesList"
@@ -145,7 +172,7 @@ const {
             variant="tonal"
             class="mt-4"
           >
-            No BlockShapes found. BlockShapes are created automatically when BlockInstances are created.
+            No BlockShapes found. Create one to get started.
           </VAlert>
         </div>
       </VWindowItem>
@@ -259,6 +286,14 @@ const {
               Shape Fields
             </VBtn>
             <VBtn
+              :variant="annotationInstanceMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="annotationInstanceMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="toggleAnnotationInstanceMetadataModal"
+            >
+              Instance Fields
+            </VBtn>
+            <VBtn
               color="primary"
               prepend-icon="tabler-plus"
               @click="startCreatingAnnotationShape"
@@ -368,6 +403,14 @@ const {
               @click="toggleEventShapeMetadataModal"
             >
               Shape Fields
+            </VBtn>
+            <VBtn
+              :variant="eventInstanceMetadataModalOpen ? 'flat' : 'outlined'"
+              :color="eventInstanceMetadataModalOpen ? 'primary' : 'default'"
+              prepend-icon="tabler-settings"
+              @click="toggleEventInstanceMetadataModal"
+            >
+              Instance Fields
             </VBtn>
             <VBtn
               color="primary"
@@ -510,6 +553,14 @@ const {
       @saved="() => annotationShapeMetadataModalOpen = false"
     />
     
+    <MetadataEditModal
+      v-model="annotationInstanceMetadataModalOpen"
+      entity-key="annotationInstance"
+      :entity="annotationInstanceConfigEntity"
+      entity-name="Annotation Instance Fields (Global)"
+      @saved="handleAnnotationInstanceMetadataSaved"
+    />
+    
     <!--
       WHY: Single modal for configuring all EventShape field definitions globally
       PATTERN: Global config modal triggered from section header, uses sentinel UUID
@@ -519,6 +570,15 @@ const {
       entity-key="eventShape"
       :entity="eventShapeFieldsEntity"
       entity-name="Event Shape Fields (Global)"
+      @saved="() => eventShapeMetadataModalOpen = false"
+    />
+    
+    <MetadataEditModal
+      v-model="eventInstanceMetadataModalOpen"
+      entity-key="eventInstance"
+      :entity="eventInstanceConfigEntity"
+      entity-name="Event Instance Fields (Global)"
+      @saved="handleEventInstanceMetadataSaved"
     />
   </div>
 </template>

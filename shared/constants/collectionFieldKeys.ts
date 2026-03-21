@@ -1,0 +1,10 @@
+/**
+ * Relationship fieldKeys that render as RelationshipCollection (add/remove from a pool).
+ *
+ * WHY: `computeRenderAs` uses this set so collection fields stay aligned across UI routing
+ * and persisted metadata. Rendering does not trust stored `renderAs` alone.
+ */
+export const RELATIONSHIP_COLLECTION_FIELD_KEYS: ReadonlySet<string> = new Set([
+  'partAssignments',
+  'annotationAssignments',
+])
