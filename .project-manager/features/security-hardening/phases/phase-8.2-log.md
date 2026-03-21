@@ -17,17 +17,12 @@
 
 ## Completed Sessions
 
-<<<<<<< HEAD
 ### Session 8.2.2: Auth-route limiter and verification ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** Auth-route limiter and verification
+- Auth-route limiter (10 req/15 min) on `/api/v1/internal/auth/*`; placeholder router; SECURITY_STUBS updated
 
-
-
-=======
->>>>>>> session-8.2.1
 ### Session 8.2.1: General rate limiter for internal API routes ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
@@ -99,9 +94,9 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** [List all session IDs]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
+**Sessions Completed:** 8.2.1, 8.2.2
+**Total Tasks Completed:** 0
+**Success Criteria Met:** Yes - All success criteria met
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -110,3 +105,4 @@
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
+<!-- end excerpt phase -->
