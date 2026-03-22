@@ -1,139 +1,35 @@
-# Session 6.12.1: ** Entity enhancements and annotation data layer
+# Session 6.12.1: Entity enhancements and annotation data layer
 
+## Session Status
 
-### Task 6.12.1.1: Event shape includeRescheduleLink/includeCancelLink + per-instance invite template stripping ✅
-**Goal:** DB migration, Sequelize model, admin toggles, templateResolver stripPlaceholderNames, invite orchestration loads EventShape per instance
+**Status:** Complete  
+**Phase:** 6.12  
+**Last updated:** 2026-03-22
 
-**Files Created:**
-- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
-**Files Modified:**
-- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
-- `server/src/db/models/booking/event_shape.ts` - [Description]
-- `server/src/services/invites/templateResolver.ts` - [Description]
-- `server/src/services/invites/inviteOrchestrationService.ts` - [Description]
-- `client/src/types/entities.ts` - [Description]
-- `client/src/configs/field/form/appliedForm/eventShapeFields.ts` - [Description]
-- `client/src/composables/admin/useShapesTab.ts` - [Description]
-- `client/src/utils/transformers/entityTransformers.ts` - [Description]
-**Next Task:**
-- 6.12.1.2
-
-
+---
 
 ## Completed Tasks
 
-### Task 6.12.1.4: Task 6.12.1.4 ✅
-**Goal:** Task completed
+### Task 6.12.1.1: Event shape link toggles and per-instance invite context ✅
 
-**Next Task:**
-- 6.12.1.5
+**Goal:** `includeRescheduleLink` / `includeCancelLink` on event shapes; invite template context respects flags per event instance.
 
+### Task 6.12.1.2: Block shapes entity card expansion ✅
 
+**Goal:** Reliable `VExpansionPanels` / `EntityCard` behavior on the block shapes tab.
 
-### Task 6.12.1.3: Task 6.12.1.3 ✅
-**Goal:** Task completed
+### Task 6.12.1.3: Annotation instance content table ✅
 
-**Next Task:**
-- 6.12.1.4
+**Goal:** `annotation_instance_content`, backfill, read/write alignment from legacy instance text / `userType` where applicable.
 
+### Task 6.12.1.4: Annotation shape delete → 409 ✅
 
+**Goal:** Dependent instances → **409** with actionable JSON; clean delete when unused.
 
-### Task 6.12.1.2: Task 6.12.1.2 ✅
-**Goal:** Task completed
+---
 
-**Next Task:**
-- 6.12.1.3
+## Test Status
 
-
-
-### Task 6.12.1.1: Task 6.12.1.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.12.1.2
-
-
-
-### Task 6.12.1.1: Event shape includeRescheduleLink/includeCancelLink + per-instance invite template stripping ✅
-**Goal:** DB migration, Sequelize model, admin toggles, templateResolver stripPlaceholderNames, invite orchestration loads EventShape per instance
-
-**Files Created:**
-- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
-**Files Modified:**
-- `server/src/db/migrations/20260327_000008_event_shape_invite_link_toggles.mjs` - [Description]
-- `server/src/db/models/booking/event_shape.ts` - [Description]
-- `server/src/services/invites/templateResolver.ts` - [Description]
-- `server/src/services/invites/inviteOrchestrationService.ts` - [Description]
-- `client/src/types/entities.ts` - [Description]
-- `client/src/configs/field/form/appliedForm/eventShapeFields.ts` - [Description]
-- `client/src/composables/admin/useShapesTab.ts` - [Description]
-- `client/src/utils/transformers/entityTransformers.ts` - [Description]
-**Next Task:**
-- 6.12.1.2
+**Note:** Tests deferred per project policy (`TEST_ENABLED` / Phase 3.0). Manual verification: migrations, admin relationships, annotation delete path.
 
 <!-- end excerpt session -->
-### Task 6.12.1.1: Task 6.12.1.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.12.1.2
-
-
-### Task 6.12.1.2: Task 6.12.1.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.12.1.3
-
-
-### Task 6.12.1.3: Task 6.12.1.3 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.12.1.4
-
-
-### Task 6.12.1.4: Task 6.12.1.4 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.12.1.5
-
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-<<<<<<< Updated upstream
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-=======
-<!-- end excerpt session -->
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
-
-
-## Test Status
-
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
