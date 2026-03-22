@@ -108,8 +108,6 @@ const {
 
 const logger = createLogger('AvailabilityStep')
 
-// WHY: Read .value inside one getter so deps are obvious (ComputedRefs, not "maybe already unwrapped").
-// isBookingFlowReady exists after the inject() guard above; immediate run may see false until booking flow finishes loading.
 watch(
   () => ({
     showingSlotsOverlay: overlay.showSlotsOverlay.value,

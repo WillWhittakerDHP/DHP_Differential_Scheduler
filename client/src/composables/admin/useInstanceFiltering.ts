@@ -12,7 +12,6 @@ function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): bool
 }
 
 /**
- * WHY: Admin Instances tab grouping is visual only. Split uses the same bookingMode semantics as
  *     `rawBookingModeIsStandaloneOnly` (shared with booking transforms), not wizard “main vs line item” lists.
  */
 export function useInstanceFiltering(

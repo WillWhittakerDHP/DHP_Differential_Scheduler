@@ -1,6 +1,5 @@
 /**
  * Maps metadata input configuration between API shape (inputConfig object) and normalized ic_* columns.
- * WHY: Shared by admin_metadata, admin_primitive_metadata, and admin_relationship_metadata; API keeps inputConfig.
  */
 
 import {

@@ -1,5 +1,4 @@
 /**
- * WHY: Per-shape `admin_metadata` rows are partial overrides; global `blockInstance` rows
  * (e.g. annotationAssignments) must remain visible when a shape has its own field entries.
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'

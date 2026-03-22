@@ -1,6 +1,4 @@
 /**
- * WHY: Explicit pipeline — global entities → pure booking transform → wizard + availability settings.
- * PATTERN: Composes existing singletons; does not call HTTP inside `transformGlobalToBooking`.
  */
 import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'

@@ -1,5 +1,4 @@
 /**
- * PATTERN: Pure helpers + grouped-zone drag-end persistence for block instances.
  * WHY: Keeps useInstanceDragAndDrop thin so composable-logic audit stays within thresholds.
  */
 import type { ComputedRef, Ref } from 'vue'

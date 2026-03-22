@@ -50,7 +50,6 @@ export function useFieldComponent(
   )
 
   // PATTERN: Parent may omit fieldMetadata (undefined) so we fetch from useEntityMetadata.
-  // WHY: Defaulting omitted prop to {} in FieldRenderer would skip fetch and yield undefined entries.
   const fieldMetadata = computed(() => {
     if (providedFieldMetadata !== undefined) {
       const v = providedFieldMetadata.value
