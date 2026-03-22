@@ -18,9 +18,7 @@ import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSet
 import type { GlobalEntity } from '@/types/entities'
 import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
-import EntityCardPrimaryTitleRow, {
-  type EntityCardPrimaryTitleRowModel,
-} from './EntityCardPrimaryTitleRow.vue'
+import EntityCardPrimaryTitleRow from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
@@ -29,7 +27,7 @@ import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useE
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
-import { toGlobalEntityId } from '@/utils/globalEntity'
+import { useEntityCardPrimaryTitleModels } from '@/composables/admin/useEntityCardPrimaryTitleModels'
 import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
@@ -211,69 +209,17 @@ provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = fieldLocation.titleRowFields
 
-/** WHY: Title stays the annotation template name; `text` is body copy and must not replace it. */
-const annotationInstanceShapeTitle = computed((): string => {
-  if (props.entityKey !== 'annotationInstance') return ''
-  const ann = props.entity as GlobalEntity<'annotationInstance'>
-  if (ann.type == null || String(ann.type) === '') return ''
-  const shape = admin.getEntity('annotationShape', toGlobalEntityId(String(ann.type)))
-  const n = shape?.name
-  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
-})
-
-/** WHY: Event shape name in title row; eventShapeRef UUID stays hidden in metadata. */
-const eventInstanceShapeTitle = computed((): string => {
-  if (props.entityKey !== 'eventInstance') return ''
-  const ei = props.entity as GlobalEntity<'eventInstance'>
-  if (ei.eventShapeRef == null || String(ei.eventShapeRef) === '') return ''
-  const shape = admin.getEntity('eventShape', toGlobalEntityId(String(ei.eventShapeRef)))
-  const n = shape?.name
-  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
-})
-
-const expansionFallbackTitle = computed(() => {
-  if (props.entityKey === 'annotationInstance' && annotationInstanceShapeTitle.value !== '') {
-    return annotationInstanceShapeTitle.value
-  }
-  return entityName.value
-})
-
-function fieldTreatsAsStaticTitle(fieldKey: string): boolean {
-  const vis = composedFieldMetadata.value[String(fieldKey)]?.visibility
-  if (vis !== FIELD_VISIBILITY.STATIC_AS_TITLE) return false
-  if (props.entityKey === 'annotationInstance' && fieldKey === 'text') {
-    return false
-  }
-  return true
-}
-
-const primaryTitleRowExpansion = computed((): EntityCardPrimaryTitleRowModel => ({
-  titleRowFields: titleRowFields.value,
-  isFormReady: isFormReady.value,
-  isExpanded: isExpanded.value,
-  annotationInstanceShapeTitle: annotationInstanceShapeTitle.value,
-  eventInstanceShapeTitle: eventInstanceShapeTitle.value,
-  expansionFallbackTitle: expansionFallbackTitle.value,
-  composedFieldMetadata: composedFieldMetadata.value,
-  fieldTreatsAsStaticTitle,
+const { primaryTitleRowExpansion, primaryTitleRowModal, expansionFallbackTitle } = useEntityCardPrimaryTitleModels({
+  entityKey: computed(() => props.entityKey),
+  entity: computed(() => props.entity),
+  entityName,
+  titleRowFields,
+  isFormReady,
+  isExpanded,
+  composedFieldMetadata,
   getFieldContext,
-  readOnlyStaticWhenCollapsed: true,
-  fallbackWhenNotReady: true,
-}))
-
-const primaryTitleRowModal = computed((): EntityCardPrimaryTitleRowModel => ({
-  titleRowFields: titleRowFields.value,
-  isFormReady: isFormReady.value,
-  isExpanded: isExpanded.value,
-  annotationInstanceShapeTitle: annotationInstanceShapeTitle.value,
-  eventInstanceShapeTitle: eventInstanceShapeTitle.value,
-  expansionFallbackTitle: expansionFallbackTitle.value,
-  composedFieldMetadata: composedFieldMetadata.value,
-  fieldTreatsAsStaticTitle,
-  getFieldContext,
-  readOnlyStaticWhenCollapsed: false,
-  fallbackWhenNotReady: false,
-}))
+  admin,
+})
 
 /**
  * WHY: Expose methods and state for parent components (minimal API)
