@@ -1,13 +1,22 @@
 {
-  "generatedAt": "2026-03-07T18:37:53.869Z",
-  "totalScanned": 19,
+  "generatedAt": "2026-03-22T13:21:28.363Z",
+  "totalScanned": 33,
   "byBehind": {
-    "major-behind": 1,
-    "minor-behind": 2,
-    "patch-behind": 16,
+    "major-behind": 3,
+    "minor-behind": 11,
+    "patch-behind": 19,
     "current": 0
   },
   "packages": [
+    {
+      "package": "@ast-grep/cli",
+      "dependent": "client",
+      "current": "0.41.0",
+      "wanted": "0.41.1",
+      "latest": "0.42.0",
+      "behind": "minor-behind",
+      "score": 2
+    },
     {
       "package": "@eslint/js",
       "dependent": "client",
@@ -30,17 +39,26 @@
       "package": "@iconify-json/tabler",
       "dependent": "client",
       "current": "1.2.27",
-      "wanted": "1.2.30",
-      "latest": "1.2.30",
+      "wanted": "1.2.31",
+      "latest": "1.2.31",
       "behind": "patch-behind",
       "score": 0.5
+    },
+    {
+      "package": "@tanstack/vue-query",
+      "dependent": "client",
+      "current": "5.92.9",
+      "wanted": "5.94.5",
+      "latest": "5.94.5",
+      "behind": "minor-behind",
+      "score": 2
     },
     {
       "package": "@tiptap/extension-placeholder",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -48,8 +66,8 @@
       "package": "@tiptap/extension-text-align",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -57,8 +75,8 @@
       "package": "@tiptap/extension-underline",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -66,8 +84,8 @@
       "package": "@tiptap/pm",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -75,8 +93,8 @@
       "package": "@tiptap/starter-kit",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -84,8 +102,8 @@
       "package": "@tiptap/vue-3",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -93,8 +111,17 @@
       "package": "@types/node",
       "dependent": "client",
       "current": "25.3.0",
-      "wanted": "25.3.5",
-      "latest": "25.3.5",
+      "wanted": "25.5.0",
+      "latest": "25.5.0",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
+      "package": "@vitejs/plugin-vue",
+      "dependent": "client",
+      "current": "6.0.4",
+      "wanted": "6.0.5",
+      "latest": "6.0.5",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -117,6 +144,42 @@
       "score": 0.5
     },
     {
+      "package": "sass",
+      "dependent": "client",
+      "current": "1.97.3",
+      "wanted": "1.98.0",
+      "latest": "1.98.0",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
+      "package": "type-fest",
+      "dependent": "client",
+      "current": "5.4.4",
+      "wanted": "5.5.0",
+      "latest": "5.5.0",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
+      "package": "typescript-eslint",
+      "dependent": "client",
+      "current": "8.56.1",
+      "wanted": "8.57.1",
+      "latest": "8.57.1",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
+      "package": "vite",
+      "dependent": "client",
+      "current": "7.3.1",
+      "wanted": "7.3.1",
+      "latest": "8.0.1",
+      "behind": "major-behind",
+      "score": 5
+    },
+    {
       "package": "vite-svg-loader",
       "dependent": "client",
       "current": "5.1.0",
@@ -126,11 +189,38 @@
       "score": 0.5
     },
     {
+      "package": "vue",
+      "dependent": "client",
+      "current": "3.5.29",
+      "wanted": "3.5.30",
+      "latest": "3.5.30",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
+    {
+      "package": "vue-router",
+      "dependent": "client",
+      "current": "5.0.3",
+      "wanted": "5.0.4",
+      "latest": "5.0.4",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
+    {
+      "package": "vue-tsc",
+      "dependent": "client",
+      "current": "3.2.5",
+      "wanted": "3.2.6",
+      "latest": "3.2.6",
+      "behind": "patch-behind",
+      "score": 0.5
+    },
+    {
       "package": "vuetify",
       "dependent": "client",
       "current": "4.0.0",
-      "wanted": "4.0.1",
-      "latest": "4.0.1",
+      "wanted": "4.0.3",
+      "latest": "4.0.3",
       "behind": "patch-behind",
       "score": 0.5
     },
@@ -147,10 +237,10 @@
       "package": "@types/node",
       "dependent": "server",
       "current": "25.3.0",
-      "wanted": "25.3.5",
-      "latest": "25.3.5",
-      "behind": "patch-behind",
-      "score": 0.5
+      "wanted": "25.5.0",
+      "latest": "25.5.0",
+      "behind": "minor-behind",
+      "score": 2
     },
     {
       "package": "@types/supertest",
@@ -162,6 +252,24 @@
       "score": 5
     },
     {
+      "package": "@typescript-eslint/eslint-plugin",
+      "dependent": "server",
+      "current": "8.56.1",
+      "wanted": "8.57.1",
+      "latest": "8.57.1",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
+      "package": "@typescript-eslint/parser",
+      "dependent": "server",
+      "current": "8.56.1",
+      "wanted": "8.57.1",
+      "latest": "8.57.1",
+      "behind": "minor-behind",
+      "score": 2
+    },
+    {
       "package": "eslint",
       "dependent": "server",
       "current": "9.39.3",
@@ -171,6 +279,15 @@
       "score": 0.5
     },
     {
+      "package": "express-rate-limit",
+      "dependent": "server",
+      "current": "",
+      "wanted": "7.5.1",
+      "latest": "8.3.1",
+      "behind": "major-behind",
+      "score": 5
+    },
+    {
       "package": "pg",
       "dependent": "server",
       "current": "8.18.0",
@@ -178,6 +295,15 @@
       "latest": "8.20.0",
       "behind": "minor-behind",
       "score": 2
+    },
+    {
+      "package": "sequelize",
+      "dependent": "server",
+      "current": "6.37.7",
+      "wanted": "6.37.8",
+      "latest": "6.37.8",
+      "behind": "patch-behind",
+      "score": 0.5
     }
   ],
   "files": [
@@ -191,6 +317,94 @@
       "wanted": "6.0.3",
       "latest": "7.2.0",
       "behind": "major-behind"
+    },
+    {
+      "repoPath": "server:express-rate-limit",
+      "score": 5,
+      "priority": "P0",
+      "package": "express-rate-limit",
+      "dependent": "server",
+      "current": "",
+      "wanted": "7.5.1",
+      "latest": "8.3.1",
+      "behind": "major-behind"
+    },
+    {
+      "repoPath": "client:vite",
+      "score": 5,
+      "priority": "P0",
+      "package": "vite",
+      "dependent": "client",
+      "current": "7.3.1",
+      "wanted": "7.3.1",
+      "latest": "8.0.1",
+      "behind": "major-behind"
+    },
+    {
+      "repoPath": "client:@ast-grep/cli",
+      "score": 2,
+      "priority": "P1",
+      "package": "@ast-grep/cli",
+      "dependent": "client",
+      "current": "0.41.0",
+      "wanted": "0.41.1",
+      "latest": "0.42.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "client:@tanstack/vue-query",
+      "score": 2,
+      "priority": "P1",
+      "package": "@tanstack/vue-query",
+      "dependent": "client",
+      "current": "5.92.9",
+      "wanted": "5.94.5",
+      "latest": "5.94.5",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "client:@types/node",
+      "score": 2,
+      "priority": "P1",
+      "package": "@types/node",
+      "dependent": "client",
+      "current": "25.3.0",
+      "wanted": "25.5.0",
+      "latest": "25.5.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "server:@types/node",
+      "score": 2,
+      "priority": "P1",
+      "package": "@types/node",
+      "dependent": "server",
+      "current": "25.3.0",
+      "wanted": "25.5.0",
+      "latest": "25.5.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "server:@typescript-eslint/eslint-plugin",
+      "score": 2,
+      "priority": "P1",
+      "package": "@typescript-eslint/eslint-plugin",
+      "dependent": "server",
+      "current": "8.56.1",
+      "wanted": "8.57.1",
+      "latest": "8.57.1",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "server:@typescript-eslint/parser",
+      "score": 2,
+      "priority": "P1",
+      "package": "@typescript-eslint/parser",
+      "dependent": "server",
+      "current": "8.56.1",
+      "wanted": "8.57.1",
+      "latest": "8.57.1",
+      "behind": "minor-behind"
     },
     {
       "repoPath": "client:@vue/tsconfig",
@@ -212,6 +426,39 @@
       "current": "8.18.0",
       "wanted": "8.20.0",
       "latest": "8.20.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "client:sass",
+      "score": 2,
+      "priority": "P1",
+      "package": "sass",
+      "dependent": "client",
+      "current": "1.97.3",
+      "wanted": "1.98.0",
+      "latest": "1.98.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "client:type-fest",
+      "score": 2,
+      "priority": "P1",
+      "package": "type-fest",
+      "dependent": "client",
+      "current": "5.4.4",
+      "wanted": "5.5.0",
+      "latest": "5.5.0",
+      "behind": "minor-behind"
+    },
+    {
+      "repoPath": "client:typescript-eslint",
+      "score": 2,
+      "priority": "P1",
+      "package": "typescript-eslint",
+      "dependent": "client",
+      "current": "8.56.1",
+      "wanted": "8.57.1",
+      "latest": "8.57.1",
       "behind": "minor-behind"
     },
     {
@@ -254,8 +501,8 @@
       "package": "@iconify-json/tabler",
       "dependent": "client",
       "current": "1.2.27",
-      "wanted": "1.2.30",
-      "latest": "1.2.30",
+      "wanted": "1.2.31",
+      "latest": "1.2.31",
       "behind": "patch-behind"
     },
     {
@@ -265,8 +512,8 @@
       "package": "@tiptap/extension-placeholder",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind"
     },
     {
@@ -276,8 +523,8 @@
       "package": "@tiptap/extension-text-align",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind"
     },
     {
@@ -287,8 +534,8 @@
       "package": "@tiptap/extension-underline",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind"
     },
     {
@@ -298,8 +545,8 @@
       "package": "@tiptap/pm",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind"
     },
     {
@@ -309,8 +556,8 @@
       "package": "@tiptap/starter-kit",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind"
     },
     {
@@ -320,30 +567,19 @@
       "package": "@tiptap/vue-3",
       "dependent": "client",
       "current": "3.20.0",
-      "wanted": "3.20.1",
-      "latest": "3.20.1",
+      "wanted": "3.20.4",
+      "latest": "3.20.4",
       "behind": "patch-behind"
     },
     {
-      "repoPath": "client:@types/node",
+      "repoPath": "client:@vitejs/plugin-vue",
       "score": 0.5,
       "priority": "P2",
-      "package": "@types/node",
+      "package": "@vitejs/plugin-vue",
       "dependent": "client",
-      "current": "25.3.0",
-      "wanted": "25.3.5",
-      "latest": "25.3.5",
-      "behind": "patch-behind"
-    },
-    {
-      "repoPath": "server:@types/node",
-      "score": 0.5,
-      "priority": "P2",
-      "package": "@types/node",
-      "dependent": "server",
-      "current": "25.3.0",
-      "wanted": "25.3.5",
-      "latest": "25.3.5",
+      "current": "6.0.4",
+      "wanted": "6.0.5",
+      "latest": "6.0.5",
       "behind": "patch-behind"
     },
     {
@@ -369,6 +605,17 @@
       "behind": "patch-behind"
     },
     {
+      "repoPath": "server:sequelize",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "sequelize",
+      "dependent": "server",
+      "current": "6.37.7",
+      "wanted": "6.37.8",
+      "latest": "6.37.8",
+      "behind": "patch-behind"
+    },
+    {
       "repoPath": "client:vite-svg-loader",
       "score": 0.5,
       "priority": "P2",
@@ -380,20 +627,53 @@
       "behind": "patch-behind"
     },
     {
+      "repoPath": "client:vue",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "vue",
+      "dependent": "client",
+      "current": "3.5.29",
+      "wanted": "3.5.30",
+      "latest": "3.5.30",
+      "behind": "patch-behind"
+    },
+    {
+      "repoPath": "client:vue-router",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "vue-router",
+      "dependent": "client",
+      "current": "5.0.3",
+      "wanted": "5.0.4",
+      "latest": "5.0.4",
+      "behind": "patch-behind"
+    },
+    {
+      "repoPath": "client:vue-tsc",
+      "score": 0.5,
+      "priority": "P2",
+      "package": "vue-tsc",
+      "dependent": "client",
+      "current": "3.2.5",
+      "wanted": "3.2.6",
+      "latest": "3.2.6",
+      "behind": "patch-behind"
+    },
+    {
       "repoPath": "client:vuetify",
       "score": 0.5,
       "priority": "P2",
       "package": "vuetify",
       "dependent": "client",
       "current": "4.0.0",
-      "wanted": "4.0.1",
-      "latest": "4.0.1",
+      "wanted": "4.0.3",
+      "latest": "4.0.3",
       "behind": "patch-behind"
     }
   ],
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 19,
+    "totalRequiresReview": 33,
     "bySource": {
       "inline": 0,
       "pattern": 0,
