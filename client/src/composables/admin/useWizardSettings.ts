@@ -1,7 +1,6 @@
 /**
  * Wizard display settings: Admin (read/write via bindings) or booking (read-only singleton GET /wizard-settings).
  *
- * PATTERN: Grouped { flags, labels, loadState } return; booking uses useBookingWizardSettingsSingleton (one fetch).
  */
 import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
 import { getWizardSettings } from '@/configs/wizardSettings'

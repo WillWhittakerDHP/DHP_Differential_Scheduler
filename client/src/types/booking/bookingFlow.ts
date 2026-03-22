@@ -16,7 +16,6 @@ export interface BookingFlowReadiness {
 
 /**
  * Orchestrates structural booking data (`useBooking`) with wizard and availability settings loads.
- * WHY: Keeps `transformGlobalToBooking` pure; one place documents fetch + readiness for the public wizard.
  *
  * NOTE: Other components may still call `useAvailabilitySettings()` separately (separate Vue state).
  * `availabilitySettled` / `isBookingFlowReady` reflect only this composable’s availability instance.

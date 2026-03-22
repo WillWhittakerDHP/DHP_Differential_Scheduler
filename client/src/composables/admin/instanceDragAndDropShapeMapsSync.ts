@@ -1,5 +1,4 @@
 /**
- * PATTERN: Orchestration for syncing per-shape block instance refs/handlers when source maps change.
  * WHY: Vue composables (useEntityDragHandlers) must run in setup; this module holds the branching logic only.
  */
 import { computed, ref, type ComputedRef, type Ref } from 'vue'

@@ -1,0 +1,174 @@
+<template>
+  <BaseInput
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
+    :show-label="showLabel"
+    :is-disabled="fieldContext.state.isDisabled.value"
+  >
+    <!--
+      WHY: BaseInput `.field-content` is `display: flex` (row). Multiple slot roots become
+      side-by-side siblings — long help text steals width and crams the matrix. One wrapper
+      = one flex child, full-width column stack.
+    -->
+    <div class="differential-role-field-stack">
+      <!-- WHY: Scheduling role overrides are easy to confuse with part-level event instance picks. -->
+      <p class="text-body-2 text-medium-emphasis mb-0">
+        {{ displayConfig.helpText ?? defaultHelpText }}
+      </p>
+
+      <VAlert
+        v-if="matrixRows.length === 0"
+        type="info"
+        variant="tonal"
+        density="compact"
+        class="mb-0"
+      >
+        No active event shapes exist yet. Create event shapes in the Shapes tab to configure role overrides here.
+      </VAlert>
+
+      <div
+        v-else
+        class="differential-role-matrix"
+      >
+        <VRow
+          v-for="row in matrixRows"
+          :key="row.eventShapeId"
+          class="align-center differential-role-matrix__row"
+          dense
+        >
+          <VCol
+            cols="12"
+            md="5"
+            lg="4"
+          >
+            <div class="text-body-2 font-weight-medium">
+              {{ row.name }}
+            </div>
+            <div class="text-caption text-medium-emphasis">
+              Template: {{ row.templateRole }}
+            </div>
+          </VCol>
+          <VCol
+            cols="12"
+            md="7"
+            lg="8"
+          >
+            <VSelect
+              :model-value="selectValueForRow(row)"
+              :items="roleSelectItems"
+              item-title="title"
+              item-value="value"
+              density="comfortable"
+              variant="outlined"
+              hide-details="auto"
+              class="differential-role-matrix__select"
+              :disabled="fieldContext.state.isDisabled.value || fieldContext.state.displayConfig.readOnly"
+              @update:model-value="(v: unknown) => onRowRoleUpdate(row.eventShapeId, v)"
+            />
+          </VCol>
+        </VRow>
+      </div>
+    </div>
+  </BaseInput>
+</template>
+
+<script setup lang="ts">
+/**
+ * PATTERN: Same field-context contract as IconInput / SelectInputs (grouped context + setValue).
+ */
+import { computed } from 'vue'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { DifferentialEventRoleOverridesMap, GlobalFieldKey } from '@/constants/primitives'
+import { useAdmin } from '@/composables/admin/useAdmin'
+import { buildDifferentialRoleMatrixRows } from '@/utils/admin/differentialRoleMatrixRows'
+import type { BlockInstanceEntity, EventShapeEntity } from '@/types/entities'
+import type { DifferentialRole } from '@shared/types/differentialRole'
+import { sanitizeDifferentialEventRoleOverridesInput } from '@shared/utils/differentialRoleUtils'
+import BaseInput from './BaseInput.vue'
+
+const INHERIT_SENTINEL = '__inherit__' as const
+
+interface RoleSelectItem {
+  title: string
+  value: typeof INHERIT_SENTINEL | DifferentialRole
+}
+
+const props = defineProps<{
+  fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
+  showLabel?: boolean
+}>()
+
+const admin = useAdmin()
+
+const defaultHelpText =
+  'Each active event shape has a row. Overrides apply when that shape participates in scheduling for this instance ' +
+  '(via part assignments and each part shape’s valid events). Choose Inherit to use the event shape template.'
+
+const displayConfig = computed(() => props.fieldContext.state.displayConfig)
+
+const blockInstance = computed((): BlockInstanceEntity | undefined => {
+  const id = props.fieldContext.state.entityId
+  return admin.getEntity('blockInstance', id) as BlockInstanceEntity | undefined
+})
+
+const matrixRows = computed(() =>
+  buildDifferentialRoleMatrixRows(
+    blockInstance.value,
+    admin.getEntitiesByKey('eventShape') as EventShapeEntity[]
+  )
+)
+
+const roleSelectItems = computed((): RoleSelectItem[] => [
+  { title: 'Inherit (use event shape template)', value: INHERIT_SENTINEL },
+  { title: 'Major', value: 'major' },
+  { title: 'Minor', value: 'minor' },
+  { title: 'Movable', value: 'moveable' },
+  { title: 'None', value: 'none' },
+])
+
+const overridesMap = computed((): DifferentialEventRoleOverridesMap => {
+  const raw = props.fieldContext.state.value.value
+  const sanitized = sanitizeDifferentialEventRoleOverridesInput(raw)
+  return sanitized
+})
+
+function selectValueForRow(row: { eventShapeId: GlobalEntityId }): RoleSelectItem['value'] {
+  const o = overridesMap.value[row.eventShapeId]
+  return o === undefined ? INHERIT_SENTINEL : o
+}
+
+function onRowRoleUpdate(eventShapeId: GlobalEntityId, raw: unknown): void {
+  const selected = raw as RoleSelectItem['value'] | null
+  const next: Record<string, DifferentialRole> = { ...overridesMap.value }
+  if (selected === null || selected === INHERIT_SENTINEL) {
+    delete next[eventShapeId]
+  } else {
+    next[eventShapeId] = selected
+  }
+  props.fieldContext.actions.setValue(next)
+}
+</script>
+
+<style scoped>
+.differential-role-field-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 100%;
+}
+
+.differential-role-matrix__row + .differential-role-matrix__row {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+.differential-role-matrix__select {
+  max-width: 100%;
+}
+</style>

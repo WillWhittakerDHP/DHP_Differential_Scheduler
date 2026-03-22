@@ -1,5 +1,4 @@
 /**
- * PATTERN: FormKit drag-and-drop bind/teardown per expansion-panels zone.
  * WHY: Isolates DOM/FormKit wiring from useInstanceDragAndDrop orchestration.
  */
 import { nextTick, ref, isRef, type Ref, type ComponentPublicInstance } from 'vue'

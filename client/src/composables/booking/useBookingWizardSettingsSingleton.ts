@@ -1,7 +1,6 @@
 /**
  * Single flight for GET /wizard-settings in the public booking app.
  * WHY: Many composables called useWizardSettings() and each spawned a separate fetch + null-first paint.
- * PATTERN: Module refs + deduped promise; reset on BookingWizard unmount so a return visit refetches.
  */
 import { computed, type ComputedRef, type Ref, ref } from 'vue'
 import type { WizardSettingsData } from '@/configs/wizardSettings'

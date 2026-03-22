@@ -1,12 +1,10 @@
 /**
- * PATTERN: Central helpers for relationship models that use `disabled` for soft-delete and active-only queries.
  */
 import type { Model, ModelStatic } from 'sequelize'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 
 /**
  * POST is idempotent for these kinds: find by create payload first, then create if missing.
- * WHY: Avoids unique-constraint errors when the client diffs stale relationship arrays.
  */
 const IDEMPOTENT_RELATIONSHIP_POST_KINDS: ReadonlySet<string> = new Set([
   RELATIONSHIP_TYPES.VALID_CASCADES,

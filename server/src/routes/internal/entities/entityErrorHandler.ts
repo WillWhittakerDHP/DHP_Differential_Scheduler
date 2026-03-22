@@ -31,7 +31,6 @@ export function handleDatabaseConstraintError(
     return false
   }
 
-  // Annotation shape DELETE: FK still enforced if instances reference shape (e.g. race after pre-count)
   if (error.name === 'SequelizeForeignKeyConstraintError' && entityId) {
     const parent = (error as { parent?: { constraint?: string } }).parent
     const constraint = parent?.constraint
