@@ -905,13 +905,6 @@
           "reason": "Property details section; props are typed API for property type and form"
         },
         {
-          "file": "client/src/components/booking/MoveablePartsModal.vue",
-          "ruleIds": [
-            "excessive-prop-count"
-          ],
-          "reason": "Modal shell; props are step/content API for moveable scheduling"
-        },
-        {
           "file": "client/src/components/booking/modals/RequiredConfirmationModal.vue",
           "ruleIds": [
             "unused-named-slot"
@@ -1063,6 +1056,13 @@
             "module-level-ref"
           ],
           "reason": "Singleton notification state; intentional module-level ref"
+        },
+        {
+          "file": "client/src/composables/booking/useBookingWizardSettingsSingleton.ts",
+          "ruleIds": [
+            "module-level-ref"
+          ],
+          "reason": "Single-flight wizard settings fetch; intentional module-level refs"
         },
         {
           "file": "client/src/composables/booking/useAppointmentShape.ts",
@@ -1410,6 +1410,13 @@
             "provide-inject-depth"
           ],
           "reason": "State required via prop only (BusinessControlsConstraintsSection → OverlapConstraintsPanel); no inject — data-flow-health fix"
+        },
+        {
+          "file": "client/src/composables/booking/useWizardDevMode.ts",
+          "ruleIds": [
+            "bidirectional-data-channel"
+          ],
+          "reason": "Typed InjectionKey imported from injectionKeys; inject is the only consumer API — not duplicate composable data channel"
         },
         {
           "file": "client/src/composables/booking/useWizardStepDataRefs.ts",
@@ -2362,6 +2369,20 @@
             "fieldMapping"
           ],
           "reason": "Attendee request shape uses constants (USER_ROLE_*, APPOINTMENT_ATTENDEE_ROLES); not config-driven mapping"
+        },
+        {
+          "file": "server/src/repositories/availabilityRelationalCodec.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Relational row to AvailabilitySettingsData assembly; object literals mirror shared document types (not ad hoc casing maps)"
+        },
+        {
+          "file": "server/src/utils/adminMetadataEntryAssembly.ts",
+          "ruleIds": [
+            "fieldMapping"
+          ],
+          "reason": "Sequelize where: { adminMetadataId }; ORM shape matches schema (same intent as inviteOrchestrationService allowlist)"
         },
         {
           "file": "server/src/scripts/importCalendarData.ts",

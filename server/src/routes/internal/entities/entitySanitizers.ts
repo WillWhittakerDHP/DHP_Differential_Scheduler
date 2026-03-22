@@ -5,9 +5,6 @@ import {
 import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
-const DIFFERENTIAL_EVENT_ROLE_OVERRIDES_CAMEL = 'differentialEventRoleOverrides'
-const DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE = 'differential_event_role_overrides'
-
 export function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
   
@@ -27,14 +24,14 @@ export function sanitizeBookingModeFields(data: Record<string, unknown>): Record
     sanitized[FIELD_NAMES.AGENT_PERMISSIONS_SNAKE] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
   }
 
-  if (DIFFERENTIAL_EVENT_ROLE_OVERRIDES_CAMEL in sanitized) {
-    sanitized[DIFFERENTIAL_EVENT_ROLE_OVERRIDES_CAMEL] = sanitizeDifferentialEventRoleOverridesInput(
-      sanitized[DIFFERENTIAL_EVENT_ROLE_OVERRIDES_CAMEL]
+  if (FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES in sanitized) {
+    sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES] = sanitizeDifferentialEventRoleOverridesInput(
+      sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES]
     )
   }
-  if (DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE in sanitized) {
-    sanitized[DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE] = sanitizeDifferentialEventRoleOverridesInput(
-      sanitized[DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE]
+  if (FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE in sanitized) {
+    sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE] = sanitizeDifferentialEventRoleOverridesInput(
+      sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE]
     )
   }
 

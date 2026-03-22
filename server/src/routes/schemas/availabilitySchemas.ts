@@ -15,7 +15,6 @@ export const computedAvailabilityRequestSchema = Joi.object({
   dateRange: dateRangeSchema.required(),
   candidatePlaceId: Joi.string().optional(),
   appointmentId: Joi.string().optional(),
-  reschedulingAppointmentId: Joi.string().optional(),
   allowedExceptions: Joi.array().items(Joi.string()).optional(),
   duration: Joi.number().min(1).required(),
   dataSource: Joi.string().valid('real', 'mock', 'none').optional(),

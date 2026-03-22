@@ -15,6 +15,7 @@ import type { TernaryBoolean } from '@/types/ternary'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
 import { roundDuration } from '@/utils/booking/durationRounding'
+import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 
 const logger = createLogger('partFinalizer')
 
@@ -250,7 +251,7 @@ function resolvePartShapeDifferentialFlags(
   shapeById: Map<string, EventShape>,
   overrides?: Record<string, DifferentialRole> | null
 ): { major: TernaryBoolean; minor: TernaryBoolean; moveable: boolean } {
-  const events = assignments[partShapeName] ?? []
+  const events = nilToEmptyArray(assignments[partShapeName])
   let major: TernaryBoolean = 'false'
   let minor: TernaryBoolean = 'false'
   let moveable = false

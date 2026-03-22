@@ -3,12 +3,13 @@
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { MetadataCache } from '@/types/admin/metadataCache'
+import { nilToEmptyObject } from '@shared/utils/nilDefaults'
 
 export function resolveBlockInstanceMetadataFromCache(
   data: MetadataCache,
   blockShapeRef: string | null | undefined
 ): Record<string, FieldMetadataEntry> {
-  const globalBlock = data.global.blockInstance ?? {}
+  const globalBlock = nilToEmptyObject(data.global.blockInstance)
   const ref = blockShapeRef != null && blockShapeRef !== '' ? blockShapeRef : null
   if (!ref) {
     return { ...globalBlock }

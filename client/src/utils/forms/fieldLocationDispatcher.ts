@@ -44,7 +44,7 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
   }
 
   /** Primitive: per–event-shape role matrix on block instances; belongs in Events, not Relationships. */
-  if (fieldKey === 'differentialEventRoleOverrides') {
+  if (fieldKey === FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES) {
     return 'events'
   }
 

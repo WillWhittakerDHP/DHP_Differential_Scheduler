@@ -22,6 +22,7 @@ import {
 import { createLogger } from '../../utils/logger.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
+import { EMPTY_STRING, nilToEmptyString } from '@shared/utils/nilDefaults.js'
 
 const logger = createLogger('InviteOrchestrationService')
 
@@ -373,7 +374,7 @@ function buildDefaultSummary(appointment: NormalizedAppointmentForInvites): stri
   const address = appointment.propertyVersion?.address as
     | { streetAddress?: string; address?: string }
     | undefined
-  const street = address ? address.streetAddress ?? address.address ?? '' : ''
+  const street = address ? nilToEmptyString(address.streetAddress ?? address.address) : EMPTY_STRING
   return street ? `Inspection: ${street}` : DEFAULT_EVENT_SUMMARY_FALLBACK
 }
 
@@ -393,7 +394,7 @@ function buildDefaultLocation(appointment: NormalizedAppointmentForInvites): str
     | undefined
   if (!address) return ''
 
-  const street = address.streetAddress ?? address.address ?? ''
+  const street = nilToEmptyString(address.streetAddress ?? address.address)
   return [street, address.city, address.state, address.zipCode].filter(Boolean).join(', ')
 }
 

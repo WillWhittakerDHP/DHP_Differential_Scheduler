@@ -1,9 +1,9 @@
 /**
- * Map appointment_selection_lines <-> legacy flat API fields (arrays + quantity maps).
+ * Map appointment_selection_lines <-> denormalized flat API fields (arrays + quantity maps).
  */
 import type { AppointmentSelectionLine, AppointmentSelectionLineKind } from '../db/models/booking/appointment_selection_line.js'
 
-/** Keys persisted on child rows but exposed on appointment JSON for backward compatibility. */
+/** Keys persisted on child rows and mirrored on appointment JSON for API responses. */
 export const APPOINTMENT_SELECTION_ATTRIBUTE_KEYS = [
   'selectedServiceIds',
   'serviceQuantities',
@@ -16,7 +16,7 @@ export const APPOINTMENT_SELECTION_ATTRIBUTE_KEYS = [
   'optionSnapshotIds',
 ] as const
 
-export type LegacyAppointmentSelectionFields = {
+export type AppointmentSelectionFlatFields = {
   selectedServiceIds: string[] | null
   serviceQuantities: Record<string, number> | null
   selectedPropertyIds: string[] | null
@@ -28,7 +28,7 @@ export type LegacyAppointmentSelectionFields = {
   optionSnapshotIds: string[] | null
 }
 
-export function emptyLegacySelectionFields(): LegacyAppointmentSelectionFields {
+export function emptyFlatSelectionFields(): AppointmentSelectionFlatFields {
   return {
     selectedServiceIds: null,
     serviceQuantities: null,
@@ -55,7 +55,7 @@ function compareLines(a: AppointmentSelectionLine, b: AppointmentSelectionLine):
   return a.sortOrder - b.sortOrder
 }
 
-export function linesToLegacyFields(lines: AppointmentSelectionLine[]): LegacyAppointmentSelectionFields {
+export function linesToFlatSelectionFields(lines: AppointmentSelectionLine[]): AppointmentSelectionFlatFields {
   const sorted = [...lines].sort(compareLines)
   const byKind: Record<AppointmentSelectionLineKind, AppointmentSelectionLine[]> = {
     service: [],
@@ -133,7 +133,7 @@ function coerceQuantityMap(value: unknown): Record<string, number> | null {
 }
 
 /** Build line rows for bulkCreate from request-style body (create/patch). */
-export function legacyBodyToLineCreates(
+export function flatSelectionBodyToLineCreates(
   appointmentId: string,
   body: Record<string, unknown>
 ): Array<{
@@ -177,10 +177,10 @@ export function legacyBodyToLineCreates(
   return rows
 }
 
-export function mergeLegacySelectionPatch(
-  existing: LegacyAppointmentSelectionFields,
+export function mergeFlatSelectionPatch(
+  existing: AppointmentSelectionFlatFields,
   patch: Record<string, unknown>
-): LegacyAppointmentSelectionFields {
+): AppointmentSelectionFlatFields {
   const next = { ...existing }
   if ('selectedServiceIds' in patch) {
     next.selectedServiceIds = coerceIdArray(patch.selectedServiceIds).length > 0 ? coerceIdArray(patch.selectedServiceIds) : null
@@ -213,13 +213,13 @@ export function stripSelectionFieldsFromPlainObject(obj: Record<string, unknown>
   }
 }
 
-export function legacyFieldsToBody(legacy: LegacyAppointmentSelectionFields): Record<string, unknown> {
+export function flatSelectionFieldsToBody(fields: AppointmentSelectionFlatFields): Record<string, unknown> {
   return {
-    selectedServiceIds: legacy.selectedServiceIds,
-    serviceQuantities: legacy.serviceQuantities,
-    selectedPropertyIds: legacy.selectedPropertyIds,
-    propertyQuantities: legacy.propertyQuantities,
-    selectedOptionIds: legacy.selectedOptionIds,
-    optionQuantities: legacy.optionQuantities,
+    selectedServiceIds: fields.selectedServiceIds,
+    serviceQuantities: fields.serviceQuantities,
+    selectedPropertyIds: fields.selectedPropertyIds,
+    propertyQuantities: fields.propertyQuantities,
+    selectedOptionIds: fields.selectedOptionIds,
+    optionQuantities: fields.optionQuantities,
   }
 }

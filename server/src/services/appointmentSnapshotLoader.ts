@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
 import { BlockInstanceVersion, PartInstanceVersion, AppointmentSelectionLine } from '../config/app.js';
-import { linesToLegacyFields } from '../repositories/appointmentSelectionCodec.js';
+import { linesToFlatSelectionFields } from '../repositories/appointmentSelectionCodec.js'
 import type { BlockInstanceSnapshot } from '../db/models/booking/appointment.js';
 import { createLogger } from '../utils/logger.js';
 import { asEmptyString } from '../utils/safeDefaults.js';
@@ -122,10 +122,10 @@ export async function loadAllAppointmentVersionsForAppointmentId(
   options: BlockInstanceSnapshot[];
 }> {
   const lines = await AppointmentSelectionLine.findAll({ where: { appointmentId } })
-  const legacy = linesToLegacyFields(lines)
+  const flat = linesToFlatSelectionFields(lines)
   return loadAllAppointmentVersions({
-    serviceSnapshotIds: legacy.serviceSnapshotIds,
-    propertySnapshotIds: legacy.propertySnapshotIds,
-    optionSnapshotIds: legacy.optionSnapshotIds,
+    serviceSnapshotIds: flat.serviceSnapshotIds,
+    propertySnapshotIds: flat.propertySnapshotIds,
+    optionSnapshotIds: flat.optionSnapshotIds,
   })
 }

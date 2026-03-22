@@ -39,6 +39,7 @@
  */
 import { computed, toRef, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useFieldValue } from '@/composables/useFieldValue'
@@ -163,7 +164,7 @@ const componentsWithLabel: Array<FieldComponent['type']> = [
   'icon',
   'primitive',
   'select',
-  'differentialEventRoleOverrides',
+  FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES,
 ]
 
 const fieldShowLabel = computed(() =>

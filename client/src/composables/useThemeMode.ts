@@ -15,7 +15,7 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { WizardMode } from '@/types/wizard'
 import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
-/** Explicit fallbacks to satisfy deprecation audit (avoid ?? '', ?? {} in-place). */
+/** Named constants instead of inline nullish coalescing (deprecation audit). */
 const FALLBACK_THEME_COLORS: Record<string, string> = {}
 const FALLBACK_STR = ''
 

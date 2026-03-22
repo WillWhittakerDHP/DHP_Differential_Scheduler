@@ -3,6 +3,7 @@ import { isAnnotationUiSlot, type AnnotationUiSlot } from '@shared/constants/ann
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/types/transformers/globalData'
 import type { BookingAnnotationUiCandidate, BookingBlockAnnotationUi } from '@/types/transformers/bookingData'
+import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 
 function normalizeContentRows(
   raw: unknown
@@ -32,7 +33,7 @@ export function buildBookingBlockAnnotationUi(
   blockInstanceId: string,
   data: GlobalData
 ): BookingBlockAnnotationUi | undefined {
-  const edges = (data.annotationAssignmentEdges ?? []).filter(
+  const edges = nilToEmptyArray(data.annotationAssignmentEdges).filter(
     (e) => String(e.blockInstanceId) === blockInstanceId
   )
   if (edges.length === 0) {

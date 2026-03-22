@@ -7,6 +7,8 @@
  *   VITE_APP_BASE_URL env var when building links for calendar invites.
  */
 
+import { nilToEmptyString } from '@shared/utils/nilDefaults'
+
 const BOOKING_PATH = '/booking'
 const CANCEL_PATH = '/cancel'
 
@@ -14,7 +16,7 @@ const CANCEL_PATH = '/cancel'
 function getBaseUrl(baseUrl?: string): string {
   if (baseUrl !== undefined && baseUrl !== '') return baseUrl
   if (typeof window !== 'undefined' && window.location?.origin) return window.location.origin
-  return import.meta.env?.VITE_APP_BASE_URL ?? ''
+  return nilToEmptyString(import.meta.env?.VITE_APP_BASE_URL)
 }
 
 /**

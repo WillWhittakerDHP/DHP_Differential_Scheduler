@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import type { ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
@@ -69,7 +70,7 @@ export function useFieldContextEntityDerived<GE extends GlobalEntityKey, FieldKe
     const propertyName = actualPropertyName.value
 
     const missingDefault = (): ValidAdminValue => {
-      if (entityKey === 'blockInstance' && propertyName === 'differentialEventRoleOverrides') {
+      if (entityKey === 'blockInstance' && propertyName === FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES) {
         return {}
       }
       return ''

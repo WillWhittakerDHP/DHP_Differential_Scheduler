@@ -11,6 +11,7 @@ import { toISO8601Date } from '@/utils/datetime'
 import type { TimeSlot } from '@/types/appointment'
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { UseAvailabilityDefaultsOptions, UseAvailabilityDefaultsReturn } from '@/types/booking/availabilityDefaults'
+import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 
 /**
  * WHY: useAvailabilityDefaults composable
@@ -75,7 +76,7 @@ Per-date slot selection storage
     [() => restoreFrom?.value, timeSlots, selectedDate],
     ([restoreVal, slots, date]) => {
       const data = restoreVal as { candidateTimeSlots?: Array<{ startTime: string }> } | null | undefined
-      const slotList = (slots as TimeSlot[] | null) ?? []
+      const slotList = nilToEmptyArray(slots as TimeSlot[] | null | undefined)
       const dateStart = (date as { start: string | null })?.start
       if (!slotRestored && data?.candidateTimeSlots?.length && slotList.length && dateStart) {
         const firstSlot = data.candidateTimeSlots[0]

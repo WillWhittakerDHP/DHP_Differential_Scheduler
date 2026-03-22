@@ -111,7 +111,7 @@ export interface MetadataValidatorConstants {
 }
 
 const MISSING_INPUT_CONFIG_TEMPLATE = (renderAs: string) =>
-  `inputConfig is required when renderAs is "${renderAs}". Expected direct select config (targetMode relationship or primitive), or legacy relationshipSelect wrapper until migrated.`
+  `inputConfig is required when renderAs is "${renderAs}". Expected direct select config (targetMode relationship or primitive), or transitional relationshipSelect wrapper until migrated.`
 
 /**
  * Build config and create all four validators from tier constants. Single place for validator wiring

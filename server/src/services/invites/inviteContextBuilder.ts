@@ -1,6 +1,15 @@
+import { EMPTY_STRING, nilToEmptyString } from '@shared/utils/nilDefaults.js'
+
 /** Base URL for client-facing links (reschedule, cancel). Use APP_BASE_URL or VITE_APP_BASE_URL. */
 function getAppBaseUrl(): string {
-  const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''
+  const primary = process.env.APP_BASE_URL
+  const secondary = process.env.VITE_APP_BASE_URL
+  const base =
+    primary !== undefined && primary !== null && primary !== ''
+      ? primary
+      : secondary !== undefined && secondary !== null && secondary !== ''
+        ? secondary
+        : EMPTY_STRING
   return base.replace(/\/$/, '')
 }
 
@@ -56,11 +65,12 @@ export function buildInviteContext(
       state?: string
       zipCode?: string
     }
-    const street = addr.streetAddress ?? addr.address ?? ''
+    const primaryStreet = nilToEmptyString(addr.streetAddress)
+    const street = primaryStreet !== '' ? primaryStreet : nilToEmptyString(addr.address)
     context.streetAddress = street
-    context.city = addr.city ?? ''
-    context.state = addr.state ?? ''
-    context.zipCode = addr.zipCode ?? ''
+    context.city = nilToEmptyString(addr.city)
+    context.state = nilToEmptyString(addr.state)
+    context.zipCode = nilToEmptyString(addr.zipCode)
     context.fullAddress = [street, addr.city, addr.state, addr.zipCode].filter(Boolean).join(', ')
   }
 

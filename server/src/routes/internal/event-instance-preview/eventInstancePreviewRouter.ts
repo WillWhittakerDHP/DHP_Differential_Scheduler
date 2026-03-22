@@ -4,42 +4,44 @@ import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { previewEventInstanceTemplates } from '../../../services/invites/eventInstancePreviewService.js'
 import type { EventInstancePreviewRequestBody } from '@shared/types/eventInstancePreview.js'
 import { createLogger } from '../../../utils/logger.js'
+import { csrfProtection } from '../../../middlewares/security.js'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { eventInstancePreviewPostBodySchema } from '../../schemas/eventInstancePreviewBodySchema.js'
 
 const logger = createLogger('EventInstancePreviewRouter')
 const router = Router()
 
-function isNonEmptyString(v: unknown): v is string {
-  return typeof v === 'string' && v.trim().length > 0
+function toPreviewBody(raw: Record<string, unknown>): EventInstancePreviewRequestBody {
+  return {
+    appointmentId: String(raw.appointmentId).trim(),
+    eventShapeRef: String(raw.eventShapeRef).trim(),
+    titleTemplate: typeof raw.titleTemplate === 'string' ? raw.titleTemplate : null,
+    descriptionTemplate: typeof raw.descriptionTemplate === 'string' ? raw.descriptionTemplate : null,
+    locationTemplate: typeof raw.locationTemplate === 'string' ? raw.locationTemplate : null,
+  }
 }
 
 /** POST /event-instance-preview — resolve templates with invite context for a real appointment. */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const b = req.body as Record<string, unknown>
-    if (!isNonEmptyString(b.appointmentId) || !isNonEmptyString(b.eventShapeRef)) {
-      sendError(res, 'appointmentId and eventShapeRef are required', HTTP_STATUS_CODES.BAD_REQUEST)
-      return
-    }
+router.post(
+  '/',
+  csrfProtection,
+  validateRequest(eventInstancePreviewPostBodySchema),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const body = toPreviewBody(req.body as Record<string, unknown>)
 
-    const body: EventInstancePreviewRequestBody = {
-      appointmentId: String(b.appointmentId).trim(),
-      eventShapeRef: String(b.eventShapeRef).trim(),
-      titleTemplate: typeof b.titleTemplate === 'string' ? b.titleTemplate : null,
-      descriptionTemplate: typeof b.descriptionTemplate === 'string' ? b.descriptionTemplate : null,
-      locationTemplate: typeof b.locationTemplate === 'string' ? b.locationTemplate : null,
+      const result = await previewEventInstanceTemplates(body)
+      sendSuccess(res, result)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Preview failed'
+      logger.error('Event instance preview failed', { error, message })
+      if (message === 'Appointment not found') {
+        sendError(res, message, HTTP_STATUS_CODES.NOT_FOUND)
+        return
+      }
+      sendError(res, message, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
     }
-
-    const result = await previewEventInstanceTemplates(body)
-    sendSuccess(res, result)
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Preview failed'
-    logger.error('Event instance preview failed', { error, message })
-    if (message === 'Appointment not found') {
-      sendError(res, message, HTTP_STATUS_CODES.NOT_FOUND)
-      return
-    }
-    sendError(res, message, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
   }
-})
+)
 
 export { router as EventInstancePreviewRouter }

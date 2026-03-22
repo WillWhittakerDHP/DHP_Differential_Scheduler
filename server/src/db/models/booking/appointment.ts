@@ -9,7 +9,7 @@ import {
 } from 'sequelize'
 import type { AppointmentSelectionLine } from './appointment_selection_line.js'
 import type { AppointmentTimeSlot } from './appointment_time_slot.js'
-import { emptyLegacySelectionFields, linesToLegacyFields } from '../../../repositories/appointmentSelectionCodec.js'
+import { emptyFlatSelectionFields, linesToFlatSelectionFields } from '../../../repositories/appointmentSelectionCodec.js'
 import {
   overrideConstraintsObjectFromBooleans,
   stripOverrideConstraintVirtualKeysFromPlain,
@@ -217,9 +217,9 @@ export function AppointmentFactory(sequelize: Sequelize) {
     const rawLines = plain.selectionLines
     delete plain.selectionLines
     if (Array.isArray(rawLines) && rawLines.length > 0) {
-      Object.assign(plain, linesToLegacyFields(rawLines as AppointmentSelectionLine[]))
+      Object.assign(plain, linesToFlatSelectionFields(rawLines as AppointmentSelectionLine[]))
     } else {
-      Object.assign(plain, emptyLegacySelectionFields())
+      Object.assign(plain, emptyFlatSelectionFields())
     }
     plain.overrideConstraints = overrideConstraintsObjectFromBooleans(
       plain as {

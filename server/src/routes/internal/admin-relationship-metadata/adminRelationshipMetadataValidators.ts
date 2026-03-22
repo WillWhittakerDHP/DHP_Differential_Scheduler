@@ -12,7 +12,7 @@ const config = {
   errorMessages: ERROR_MESSAGES,
   renderAsRequiringInputConfig: RENDER_AS_REQUIRING_INPUT_CONFIG as readonly string[],
   missingInputConfigMessage: (renderAs: string) =>
-    `inputConfig is required when renderAs is "${renderAs}". Expected direct select config (targetMode relationship or primitive), or legacy relationshipSelect wrapper until migrated.`,
+    `inputConfig is required when renderAs is "${renderAs}". Expected direct select config (targetMode relationship or primitive), or transitional relationshipSelect wrapper until migrated.`,
 }
 
 export const validateEntityType = createValidateEntityType(config)

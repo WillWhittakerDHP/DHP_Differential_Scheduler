@@ -46,17 +46,6 @@ export function validateComputedAvailabilityRequest(
     }
   }
 
-  if (
-    req.reschedulingAppointmentId !== undefined
-    && req.reschedulingAppointmentId !== null
-    && typeof req.reschedulingAppointmentId !== 'string'
-  ) {
-    return {
-      valid: false,
-      error: 'reschedulingAppointmentId must be a string when provided',
-    }
-  }
-
   if (req.allowedExceptions !== undefined && req.allowedExceptions !== null) {
     if (!Array.isArray(req.allowedExceptions)) {
       return { valid: false, error: 'allowedExceptions must be an array when provided' }

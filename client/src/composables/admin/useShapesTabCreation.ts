@@ -2,12 +2,12 @@
  * PATTERN: Creation state and handlers for Shapes tab (BlockShape, PartShape, AnnotationShape, EventShape).
  * WHY: Keeps ShapesTab.vue under vue-architecture limits (script size, function count).
  */
-import { ref } from 'vue'
+import { reactive, toRefs, type Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
-import type { Ref } from 'vue'
 import type { UseShapesTabCreationParams } from '@/types/admin/shapesTabCreation'
+import { prependExpandedShapeId, removeExpandedShapeId } from '@/utils/admin/shapesTabExpandedPlaceholders'
 
 
 /** Grouped return for composable-health (oversized-return repair). */
@@ -49,140 +49,131 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
     logger,
   } = params
 
-  const isCreatingBlockShape = ref(false)
-  const isCreatingPartShape = ref(false)
-  const isCreatingAnnotationShape = ref(false)
-  const isCreatingEventShape = ref(false)
-  const newBlockShapeInitialValues = ref<GlobalEntity<'blockShape'> | null>(null)
-  const newPartShapeInitialValues = ref<GlobalEntity<'partShape'> | null>(null)
-  const newAnnotationShapeName = ref('')
-  const newEventShapeName = ref('')
-  const isCreatingAnnotationShapeLoading = ref(false)
-  const isCreatingEventShapeLoading = ref(false)
+  const ui = reactive({
+    isCreatingBlockShape: false,
+    isCreatingPartShape: false,
+    isCreatingAnnotationShape: false,
+    isCreatingEventShape: false,
+    newBlockShapeInitialValues: null as GlobalEntity<'blockShape'> | null,
+    newPartShapeInitialValues: null as GlobalEntity<'partShape'> | null,
+    newAnnotationShapeName: '',
+    newEventShapeName: '',
+    isCreatingAnnotationShapeLoading: false,
+    isCreatingEventShapeLoading: false,
+  })
 
   const createBlockShape = (): void => {
     const defaults = getDefaultEntityValues('blockShape')
-    newBlockShapeInitialValues.value = {
+    ui.newBlockShapeInitialValues = {
       ...defaults,
       id: `new-${Date.now()}` as string,
     } as GlobalEntity<'blockShape'>
-    isCreatingBlockShape.value = true
-    expandedShapes.value = ['new-blockShape', ...expandedShapes.value]
+    ui.isCreatingBlockShape = true
+    prependExpandedShapeId(expandedShapes, 'new-blockShape')
   }
 
   const handleBlockShapeCreated = (_entity?: GlobalEntity<GlobalEntityKey>): void => {
-    isCreatingBlockShape.value = false
-    newBlockShapeInitialValues.value = null
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+    ui.isCreatingBlockShape = false
+    ui.newBlockShapeInitialValues = null
+    removeExpandedShapeId(expandedShapes, 'new-blockShape')
   }
 
   const handleBlockShapeCancelled = (): void => {
-    isCreatingBlockShape.value = false
-    newBlockShapeInitialValues.value = null
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')
+    ui.isCreatingBlockShape = false
+    ui.newBlockShapeInitialValues = null
+    removeExpandedShapeId(expandedShapes, 'new-blockShape')
   }
 
   const createPartShape = (): void => {
     const defaults = getDefaultEntityValues('partShape')
-    newPartShapeInitialValues.value = {
+    ui.newPartShapeInitialValues = {
       ...defaults,
       id: `new-${Date.now()}` as string,
     } as GlobalEntity<'partShape'>
-    isCreatingPartShape.value = true
-    expandedShapes.value = ['new-partShape', ...expandedShapes.value]
+    ui.isCreatingPartShape = true
+    prependExpandedShapeId(expandedShapes, 'new-partShape')
   }
 
   const startCreatingAnnotationShape = (): void => {
-    newAnnotationShapeName.value = ''
-    isCreatingAnnotationShape.value = true
-    expandedShapes.value = ['new-annotationShape', ...expandedShapes.value]
+    ui.newAnnotationShapeName = ''
+    ui.isCreatingAnnotationShape = true
+    prependExpandedShapeId(expandedShapes, 'new-annotationShape')
   }
 
   const handlePartShapeCreated = (_entity?: GlobalEntity<GlobalEntityKey>): void => {
-    isCreatingPartShape.value = false
-    newPartShapeInitialValues.value = null
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+    ui.isCreatingPartShape = false
+    ui.newPartShapeInitialValues = null
+    removeExpandedShapeId(expandedShapes, 'new-partShape')
   }
 
   const handlePartShapeCancelled = (): void => {
-    isCreatingPartShape.value = false
-    newPartShapeInitialValues.value = null
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')
+    ui.isCreatingPartShape = false
+    ui.newPartShapeInitialValues = null
+    removeExpandedShapeId(expandedShapes, 'new-partShape')
   }
 
   const handleAnnotationShapeCreate = async (): Promise<void> => {
-    if (!newAnnotationShapeName.value.trim()) return
-    isCreatingAnnotationShapeLoading.value = true
+    if (!ui.newAnnotationShapeName.trim()) return
+    ui.isCreatingAnnotationShapeLoading = true
     try {
       await createAnnotationShapeMutation({
-        name: newAnnotationShapeName.value.trim(),
+        name: ui.newAnnotationShapeName.trim(),
         orderIndex: 0,
         active: true,
         entityKey: 'annotationShape' as const,
       })
       success('Annotation shape created successfully')
-      isCreatingAnnotationShape.value = false
-      newAnnotationShapeName.value = ''
-      expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
+      ui.isCreatingAnnotationShape = false
+      ui.newAnnotationShapeName = ''
+      removeExpandedShapeId(expandedShapes, 'new-annotationShape')
     } catch (_error) {
       logger.error('Failed to create annotation shape', { error: _error })
     } finally {
-      isCreatingAnnotationShapeLoading.value = false
+      ui.isCreatingAnnotationShapeLoading = false
     }
   }
 
   const handleAnnotationShapeCancelled = (): void => {
-    isCreatingAnnotationShape.value = false
-    newAnnotationShapeName.value = ''
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')
+    ui.isCreatingAnnotationShape = false
+    ui.newAnnotationShapeName = ''
+    removeExpandedShapeId(expandedShapes, 'new-annotationShape')
   }
 
   const startCreatingEventShape = (): void => {
-    newEventShapeName.value = ''
-    isCreatingEventShape.value = true
-    expandedShapes.value = ['new-eventShape', ...expandedShapes.value]
+    ui.newEventShapeName = ''
+    ui.isCreatingEventShape = true
+    prependExpandedShapeId(expandedShapes, 'new-eventShape')
   }
 
   const handleEventShapeCreate = async (): Promise<void> => {
-    if (!newEventShapeName.value.trim()) return
-    isCreatingEventShapeLoading.value = true
+    if (!ui.newEventShapeName.trim()) return
+    ui.isCreatingEventShapeLoading = true
     try {
       await createEventShapeMutation({
-        name: newEventShapeName.value.trim(),
+        name: ui.newEventShapeName.trim(),
         orderIndex: 0,
         active: true,
         entityKey: 'eventShape' as const,
       })
       success('Event shape created successfully')
-      isCreatingEventShape.value = false
-      newEventShapeName.value = ''
-      expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
+      ui.isCreatingEventShape = false
+      ui.newEventShapeName = ''
+      removeExpandedShapeId(expandedShapes, 'new-eventShape')
     } catch (error) {
-      logger.error('Failed to create event shape', { error, name: newEventShapeName.value })
+      logger.error('Failed to create event shape', { error, name: ui.newEventShapeName })
     } finally {
-      isCreatingEventShapeLoading.value = false
+      ui.isCreatingEventShapeLoading = false
     }
   }
 
   const handleEventShapeCancelled = (): void => {
-    isCreatingEventShape.value = false
-    newEventShapeName.value = ''
-    expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')
+    ui.isCreatingEventShape = false
+    ui.newEventShapeName = ''
+    removeExpandedShapeId(expandedShapes, 'new-eventShape')
   }
 
   return {
-    state: {
-      isCreatingBlockShape,
-      isCreatingPartShape,
-      isCreatingAnnotationShape,
-      isCreatingEventShape,
-      newBlockShapeInitialValues,
-      newPartShapeInitialValues,
-      newAnnotationShapeName,
-      newEventShapeName,
-      isCreatingAnnotationShapeLoading,
-      isCreatingEventShapeLoading,
-    },
+    state: toRefs(ui),
     actions: {
       createBlockShape,
       handleBlockShapeCreated,

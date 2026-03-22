@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { inject, computed, onMounted, provide, watch } from 'vue'
+import { nilToEmptyString } from '@shared/utils/nilDefaults'
 import { createLogger } from '@/utils/logger'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
@@ -185,7 +186,7 @@ const subStepContext = {
     return overlay.slotGridOverlayError.value
   },
   get emptyStateMessage() {
-    return o.emptyStateMessage.value ?? ''
+    return nilToEmptyString(o.emptyStateMessage.value)
   },
   get firstAvailableNotice() {
     return o.firstAvailableNotice?.value ?? null

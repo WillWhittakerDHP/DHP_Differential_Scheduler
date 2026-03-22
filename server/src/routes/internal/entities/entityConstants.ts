@@ -63,6 +63,8 @@ export const FIELD_NAMES = {
   AGENT_PERMISSIONS_SNAKE: 'agent_permissions',
   DIFFERENTIAL_ROLE: 'differentialRole',
   DIFFERENTIAL_ROLE_SNAKE: 'differential_role',
+  DIFFERENTIAL_EVENT_ROLE_OVERRIDES: 'differentialEventRoleOverrides',
+  DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE: 'differential_event_role_overrides',
   CREATED_AT: 'createdAt',
   ID: 'id',
   ANNOTATIONS: 'annotations',

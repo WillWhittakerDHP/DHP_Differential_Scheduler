@@ -1,5 +1,6 @@
 import { AnnotationAssignment } from '../../../config/app.js'
 import { resolveAnnotationTextForAssignment } from '../../../services/annotations/annotationTextResolution.js'
+import { nilToEmptyString } from '@shared/utils/nilDefaults.js'
 
 /**
  * API output: expose resolved `annotation.text` for assignments; omit internal contentRows.
@@ -17,7 +18,7 @@ export function formatAnnotationAssignmentsForApi(
         | undefined
       ann.text = resolveAnnotationTextForAssignment(
         {
-          text: String(ann.text ?? ''),
+          text: String(nilToEmptyString(ann.text as string | null | undefined)),
           contentRows,
         },
         assignUt ?? null

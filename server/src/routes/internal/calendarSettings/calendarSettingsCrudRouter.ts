@@ -8,8 +8,10 @@ import {
   saveCalendarSettingsData,
 } from '../../../repositories/calendarSettingsRepository.js';
 import { handleRouteError } from '../../helpers/routerErrorHandler.js';
-import { sendSuccess, sendBadRequest } from '../../helpers/routerResponseHelpers.js';
+import { sendSuccess } from '../../helpers/routerResponseHelpers.js';
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js';
+import { validateRequest } from '../../../middlewares/validateRequest.js';
+import { calendarSettingsPutBodySchema } from '../../schemas/calendarSettingsSchemas.js';
 
 const ERROR_FETCH = 'Failed to fetch calendar settings';
 const ERROR_UPDATE = 'Failed to update calendar settings';
@@ -29,14 +31,11 @@ router.put(
   '/',
   csrfProtection,
   checkOwnership('calendarSetting', 'id'),
+  validateRequest(calendarSettingsPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const settingValue = req.body?.setting_value;
-      if (settingValue === undefined || settingValue === null) {
-        sendBadRequest(res, 'setting_value is required');
-        return;
-      }
-      const saved = await saveCalendarSettingsData(settingValue as CalendarSettingsData);
+      const settingValue = (req.body as { setting_value: CalendarSettingsData }).setting_value;
+      const saved = await saveCalendarSettingsData(settingValue);
       sendSuccess(res, { setting_value: saved });
     } catch (error) {
       handleRouteError(error, res, ERROR_UPDATE, 'updating calendar settings');

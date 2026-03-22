@@ -221,7 +221,9 @@ async function resolveDefaultLocationCandidateDriveLegsMinutes(
   if (!defaultPlaceId?.trim() || !candidatePlaceId?.trim()) {
     return { driveToCandidate: 0, driveFromCandidate: 0 }
   }
+  // @audit-allow:hardcoding:fieldMapping - Routes API origin/destination payload uses placeId
   const def: RouteLocation = { placeId: defaultPlaceId.trim() }
+  // @audit-allow:hardcoding:fieldMapping - Routes API origin/destination payload uses placeId
   const cand: RouteLocation = { placeId: candidatePlaceId.trim() }
 
   let driveToCandidate = 0
@@ -467,14 +469,9 @@ export async function computeAvailabilityData(
   const { regularEvents, outOfOfficeEvents } =
     partitionByEventType(allCalendarEvents)
 
-  const effectiveAppointmentId =
-    request.appointmentId ?? request.reschedulingAppointmentId
-  if (request.reschedulingAppointmentId != null && request.appointmentId == null) {
-    logger.debug('reschedulingAppointmentId is deprecated; use appointmentId')
-  }
   const overlapRegularEvents = await excludeAppointmentFromOverlap(
     regularEvents,
-    effectiveAppointmentId
+    request.appointmentId
   )
 
   const driveTimesByPlaceId = useRealApis
@@ -507,7 +504,7 @@ export async function computeAvailabilityData(
     await resolveAllowedExceptions(
       enrichedConstraints,
       request.allowedExceptions,
-      effectiveAppointmentId
+      request.appointmentId
     )
 
   const businessHoursConstraint = constraintsForSlots.find(

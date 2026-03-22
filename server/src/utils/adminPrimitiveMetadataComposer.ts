@@ -5,6 +5,7 @@ import type { FieldMetadataEntry } from './adminMetadataComposer.js';
 import { mapMetaFieldsToPayload } from './adminMetadataPayload.js';
 import { decodeInputConfig, icColumnsFromModel } from './adminMetadataInputConfigCodec.js';
 import { fetchPrimitiveSelectOptionsByMetadataIds } from './adminPrimitiveRelationshipAssembly.js';
+import { nilToEmptyArray } from '@shared/utils/nilDefaults.js';
 
 export type { FieldMetadataEntry };
 
@@ -23,7 +24,7 @@ async function fieldEntriesFromPrimitiveRows(rows: AdminPrimitiveMetadata[]): Pr
       statusButtonColor: meta.statusButtonColor ?? undefined,
       panel: meta.panel,
       bulkEdit: meta.bulkEdit,
-      inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),
+      inputConfig: decodeInputConfig(icColumnsFromModel(meta), nilToEmptyArray(optionsMap.get(meta.id))),
     }),
   }))
 }

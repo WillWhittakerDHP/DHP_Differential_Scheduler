@@ -5,6 +5,7 @@ import type { UseAdminReturn } from '@/composables/admin/useAdmin'
 import type { BlockInstanceEntity } from '@/types/entities'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+import { nilToEmptyString } from '@shared/utils/nilDefaults'
 
 export function listSortedUserTypeBlockInstances(admin: UseAdminReturn): BlockInstanceEntity[] {
   const shapes = admin.getEntitiesByKey('blockShape')
@@ -19,6 +20,6 @@ export function listSortedUserTypeBlockInstances(admin: UseAdminReturn): BlockIn
       const ao = a[FIELD_NAMES.ORDER_INDEX] ?? 0
       const bo = b[FIELD_NAMES.ORDER_INDEX] ?? 0
       if (ao !== bo) return ao - bo
-      return (a.name ?? '').localeCompare(b.name ?? '')
+      return nilToEmptyString(a.name).localeCompare(nilToEmptyString(b.name))
     })
 }

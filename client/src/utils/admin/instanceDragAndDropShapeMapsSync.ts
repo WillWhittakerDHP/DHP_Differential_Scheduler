@@ -11,7 +11,7 @@ import { useEntityTabState } from '@/composables/admin/useEntityTabState'
 import {
   createGroupedZoneDragEndHandler,
   groupedInstanceDragZoneKey,
-} from '@/composables/admin/instanceDragAndDropGrouped'
+} from '@/composables/admin/useInstanceDragAndDropGrouped'
 
 type BlockInstanceDragHandlers = ReturnType<typeof useEntityDragHandlers<'blockInstance'>>
 

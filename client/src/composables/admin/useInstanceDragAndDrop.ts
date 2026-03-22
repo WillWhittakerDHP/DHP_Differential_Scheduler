@@ -6,7 +6,7 @@ import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, type Ref, type Com
 import { tearDown as formkitTearDown } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
-import { dragLayoutSignature, groupedInstanceDragZoneKey } from './instanceDragAndDropGrouped'
+import { dragLayoutSignature, groupedInstanceDragZoneKey } from './useInstanceDragAndDropGrouped'
 import { syncBlockInstanceShapeMapsFromSources } from '@/utils/admin/instanceDragAndDropShapeMapsSync'
 import {
   tryBindFormKitForZone,
@@ -16,7 +16,7 @@ import {
 import type { GlobalEntity } from '@/types/entities'
 import type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 
-export { groupedInstanceDragZoneKey } from './instanceDragAndDropGrouped'
+export { groupedInstanceDragZoneKey } from './useInstanceDragAndDropGrouped'
 
 /**
  * WHY: Composable for managing instance drag-and-drop

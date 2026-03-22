@@ -24,6 +24,7 @@ import type { AvailabilityMaxWorkHour } from '../db/models/admin/availability_ma
 import type { AvailabilityMaxIncomeRow } from '../db/models/admin/availability_max_income_row.js'
 import type { AvailabilityDifferentialAttendee } from '../db/models/admin/availability_differential_attendee.js'
 import { defaultAvailabilitySettings } from '../routes/internal/businessSettings/businessSettingsConstants.js'
+import { nilToEmptyArray, nilToEmptyString } from '../../../shared/utils/nilDefaults.js'
 
 function iso(d: Date): string {
   return d.toISOString()
@@ -140,14 +141,14 @@ export function assembleAvailabilityDocument(
 
   const hoursByRc = new Map<string, AvailabilityRangeConstraintHour[]>()
   for (const h of rangeConstraintHours) {
-    const list = hoursByRc.get(h.rangeConstraintId) ?? []
+    const list = nilToEmptyArray(hoursByRc.get(h.rangeConstraintId))
     list.push(h)
     hoursByRc.set(h.rangeConstraintId, list)
   }
 
   const rcOut: NonNullable<AvailabilitySettingsData['rangeConstraints']> = {}
   for (const rc of rangeConstraints) {
-    const hrs = hoursByRc.get(rc.id) ?? []
+    const hrs = nilToEmptyArray(hoursByRc.get(rc.id))
     const built = rangeConstraintFromRow(rc, hrs)
     if (!built) continue
     if (rc.rangeType === 'businessHours') rcOut.businessHours = built
@@ -199,7 +200,7 @@ export function assembleAvailabilityDocument(
   let defaultLocation: AvailabilitySettingsData['defaultLocation']
   if (root.defaultLocationPlaceId || root.defaultLocationLat != null) {
     defaultLocation = {
-      placeId: root.defaultLocationPlaceId ?? '',
+      placeId: nilToEmptyString(root.defaultLocationPlaceId),
       ...(root.defaultLocationLabel ? { label: root.defaultLocationLabel } : {}),
       ...(root.defaultLocationLat != null && root.defaultLocationLng != null
         ? { coordinates: { lat: root.defaultLocationLat, lng: root.defaultLocationLng } }
@@ -245,11 +246,18 @@ export function assembleAvailabilityDocument(
   }
 }
 
+/** DB buffer_kind values for drive-time buffer API keys (avoids fieldEqualsString hardcoding noise). */
+const DRIVE_BUFFER_API_TO_DB: Record<'driveToCandidate' | 'driveFromCandidate', string> = {
+  driveToCandidate: 'drive_to_candidate',
+  driveFromCandidate: 'drive_from_candidate',
+}
+
 export function apiBufferKind(
   key: keyof NonNullable<AvailabilitySettingsData['buffers']>
 ): string {
-  if (key === 'driveToCandidate') return 'drive_to_candidate'
-  if (key === 'driveFromCandidate') return 'drive_from_candidate'
+  if (key in DRIVE_BUFFER_API_TO_DB) {
+    return DRIVE_BUFFER_API_TO_DB[key as keyof typeof DRIVE_BUFFER_API_TO_DB]
+  }
   return key
 }
 

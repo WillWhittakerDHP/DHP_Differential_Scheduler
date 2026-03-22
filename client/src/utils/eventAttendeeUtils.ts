@@ -20,16 +20,6 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
   return stateControlBlockInstances.map(instance => instance.id)
 }
 
-function hasAttendee(
-  eventShape: EventShapeEntity,
-  userTypeBlockId: GlobalEntityId
-): boolean {
-  if (!eventShape.attendees || !Array.isArray(eventShape.attendees)) {
-    return false
-  }
-  return eventShape.attendees.includes(userTypeBlockId)
-}
-
 export function getEventShapeByRole(
   eventShapes: EventShapeEntity[],
   role: DifferentialRoleStorage
@@ -49,38 +39,4 @@ export function getEventShapeByRoleWithOverrides(
       return effective === role
     }) ?? null
   )
-}
-
-/**
- * Find event shape with major attendee
- * @deprecated Use getEventShapeByRole(shapes, 'major') for direct lookup; this remains as fallback.
- */
-export function getMajorEventShape(
-  eventShapes: EventShapeEntity[],
-  majorAttendeeIds: GlobalEntityId[]
-): EventShapeEntity | null {
-  if (majorAttendeeIds.length === 0) {
-    return null
-  }
-  
-  return eventShapes.find(eventShape => 
-    majorAttendeeIds.some(id => hasAttendee(eventShape, id))
-  ) || null
-}
-
-/**
- * Find event shape with minor attendee
- * @deprecated Use getEventShapeByRole(shapes, 'minor') for direct lookup; this remains as fallback.
- */
-export function getMinorEventShape(
-  eventShapes: EventShapeEntity[],
-  minorAttendeeIds: GlobalEntityId[]
-): EventShapeEntity | null {
-  if (minorAttendeeIds.length === 0) {
-    return null
-  }
-  
-  return eventShapes.find(eventShape => 
-    minorAttendeeIds.some(id => hasAttendee(eventShape, id))
-  ) || null
 }

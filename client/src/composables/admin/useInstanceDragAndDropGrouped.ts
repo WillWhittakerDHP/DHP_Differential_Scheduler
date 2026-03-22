@@ -3,13 +3,14 @@
  */
 import type { ComputedRef, Ref } from 'vue'
 import { rawBookingModeIsStandaloneOnly } from '@shared/utils/ternaryAliasUtils'
+import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
 
-const logger = createLogger('instanceDragAndDropGrouped')
+const logger = createLogger('useInstanceDragAndDropGrouped')
 
 const DEFAULT_BOOKING_MODE_STORAGE = DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
 
@@ -47,14 +48,16 @@ export function createGroupedZoneDragEndHandler(params: {
   const { blockShapeId, groupedEntityIds, groupedEntityList, blockInstancesByShape, patchOrderIndex } = params
 
   const syncGroupedFromSource = (): void => {
-    const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
+    const grouped = nilToEmptyArray(
+      blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e))
+    )
     groupedEntityList.value = [...grouped]
     groupedEntityIds.value = grouped.map((e) => e.id)
   }
 
   return async (): Promise<void> => {
     try {
-      const all = blockInstancesByShape.value.get(blockShapeId) ?? []
+      const all = nilToEmptyArray(blockInstancesByShape.value.get(blockShapeId))
       const idToEntity = new Map(all.map((e) => [e.id, e]))
       const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))
       const groupedOrdered = groupedEntityIds.value

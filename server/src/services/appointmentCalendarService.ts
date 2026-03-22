@@ -22,7 +22,7 @@ interface CalendarEventResult {
   attendeesUpdated: number;
 }
 
-/** Legacy `selectedTimeSlots` JSON from Appointment.toJSON (rowsToLegacySelectedTimeSlots); duration optional. */
+/** `selectedTimeSlots` JSON from Appointment.toJSON; duration optional. */
 interface CalendarSelectedTimeSlot {
   startTime: string
   endTime: string

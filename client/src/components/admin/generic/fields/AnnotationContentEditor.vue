@@ -9,6 +9,7 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
+import { nilToEmptyArray, nilToEmptyString } from '@shared/utils/nilDefaults'
 
 export interface AnnotationContentRowForm {
   userTypeBlockInstanceId: string | null
@@ -36,7 +37,7 @@ const defaultUserTypeInstanceId = ref('')
 function buildContentRowsPayload(): AnnotationContentRowForm[] {
   const insts = userTypeBlockInstances.value
   const defaultId = defaultUserTypeInstanceId.value
-  const genericText = perUserTexts.value[defaultId] ?? ''
+  const genericText = nilToEmptyString(perUserTexts.value[defaultId])
   const rows: AnnotationContentRowForm[] = [
     { userTypeBlockInstanceId: null, text: genericText },
   ]
@@ -44,7 +45,7 @@ function buildContentRowsPayload(): AnnotationContentRowForm[] {
     const id = String(inst.id)
     rows.push({
       userTypeBlockInstanceId: id,
-      text: perUserTexts.value[id] ?? '',
+      text: nilToEmptyString(perUserTexts.value[id]),
     })
   }
   return rows
@@ -64,7 +65,7 @@ function applyDefaultTextAndRows(): void {
     return
   }
   const defaultId = defaultUserTypeInstanceId.value
-  const genericText = perUserTexts.value[defaultId] ?? ''
+  const genericText = nilToEmptyString(perUserTexts.value[defaultId])
   void props.form.setFieldValue('text', genericText)
   syncFormContentRows()
 }
@@ -78,7 +79,7 @@ function hydrateFromEntity(): void {
   }
 
   const entity = props.entity as GlobalEntity<'annotationInstance'>
-  const rows = entity.contentRows ?? []
+  const rows = nilToEmptyArray(entity.contentRows)
 
   let genericText = ''
   const byUser = new Map<string, string>()
@@ -95,7 +96,7 @@ function hydrateFromEntity(): void {
   const next: Record<string, string> = {}
   for (const inst of insts) {
     const id = String(inst.id)
-    next[id] = byUser.get(id) ?? ''
+    next[id] = nilToEmptyString(byUser.get(id))
   }
 
   const legacyText = typeof entity.text === 'string' ? entity.text : ''
@@ -105,7 +106,7 @@ function hydrateFromEntity(): void {
 
   if (hasRowData) {
     if (genericText !== '') {
-      const match = insts.find((i) => (next[String(i.id)] ?? '') === genericText)
+      const match = insts.find((i) => nilToEmptyString(next[String(i.id)]) === genericText)
       if (match) {
         defaultId = String(match.id)
       } else {
@@ -116,7 +117,7 @@ function hydrateFromEntity(): void {
         defaultId = firstId
       }
     } else {
-      const nonEmpty = insts.find((i) => (next[String(i.id)] ?? '') !== '')
+      const nonEmpty = insts.find((i) => nilToEmptyString(next[String(i.id)]) !== '')
       if (nonEmpty) {
         defaultId = String(nonEmpty.id)
       }

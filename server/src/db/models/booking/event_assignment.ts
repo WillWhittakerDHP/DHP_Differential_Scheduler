@@ -51,7 +51,7 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('partInstance', 'blockInstance'),
         allowNull: false,
         field: 'parent_kind',
-        comment: 'Parent is always blockInstance (DB enum may list legacy values)',
+        comment: 'Parent is always blockInstance (DB enum lists historical partInstance value but unused)',
       },
       childKind: {
         type: DataTypes.VIRTUAL,

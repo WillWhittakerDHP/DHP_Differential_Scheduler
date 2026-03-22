@@ -6,8 +6,8 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { FormFieldConfig, FormFieldConfigMap } from '@/types/entity/formFields'
 import type { DisplayFieldConfigMap } from '@/configs/field/display/fullFieldDisplayConfig'
+import type { FormFieldConfigMap } from '@/types/entity/formFields'
 import type { InstanceConfig } from '@/configs/adminConfig'
 
 import { getAdminConfig, rebuildAdminConfig, type AdminConfig } from '../configs/adminConfig'
@@ -16,11 +16,6 @@ import { createLogger } from '@/utils/logger'
 export interface UseAdminConfigReturn {
   getConfig: () => AdminConfig
   rebuildConfig: () => void
-  getFormFieldConfig: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    entityKey: GE,
-    fieldKey: FieldKey
-  ) => ComputedRef<FormFieldConfig<GE, FieldKey> | undefined>
-  getEntityFormFieldConfig: <GE extends GlobalEntityKey>(entityKey: GE) => ComputedRef<FormFieldConfigMap[GE]>
   getDisplayFieldConfig: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
     entityKey: GE,
     fieldKey: FieldKey
@@ -35,12 +30,7 @@ export interface UseAdminConfigReturn {
 
 const logger = createLogger('useAdminConfig')
 
-const formFieldConfigCache = new Map<
-  string,
-  ComputedRef<FormFieldConfig<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined>
->()
 const displayFieldConfigCache = new Map<string, ComputedRef<unknown>>()
-const entityFormFieldConfigCache = new Map<string, ComputedRef<FormFieldConfigMap[GlobalEntityKey]>>()
 const entityDisplayFieldConfigCache = new Map<string, ComputedRef<Record<string, unknown>>>()
 const instanceConfigCache = new Map<string, ComputedRef<InstanceConfig[GlobalEntityKey]>>()
 
@@ -49,9 +39,7 @@ const createCacheKey = (entityKey: string, fieldKey?: string): string => {
 }
 
 export function _clearCache(): void {
-  formFieldConfigCache.clear()
   displayFieldConfigCache.clear()
-  entityFormFieldConfigCache.clear()
   entityDisplayFieldConfigCache.clear()
   instanceConfigCache.clear()
 }
@@ -86,27 +74,6 @@ export function useAdminConfig(): UseAdminConfigReturn {
 
   const rebuildConfig = (): void => {
     rebuildAdminConfig()
-  }
-
-  const getFormFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    entityKey: GE,
-    fieldKey: FieldKey
-  ): ComputedRef<FormFieldConfig<GE, FieldKey> | undefined> => {
-    throw new Error(
-      `[useAdminConfig] DEPRECATED: getFormFieldConfig(${String(entityKey)}, ${String(fieldKey)}) called. ` +
-      `Form field configs are now metadata-only. Use /admin-metadata and metadata.inputConfig instead. ` +
-      `This method has been removed - update caller to use metadata instead.`
-    )
-  }
-
-  const getEntityFormFieldConfig = <GE extends GlobalEntityKey>(
-    entityKey: GE
-  ): ComputedRef<FormFieldConfigMap[GE]> => {
-    throw new Error(
-      `[useAdminConfig] DEPRECATED: getEntityFormFieldConfig(${String(entityKey)}) called. ` +
-      `Form field configs are now metadata-only. Use /admin-metadata instead. ` +
-      `This method has been removed - update caller to use metadata instead.`
-    )
   }
 
   const getDisplayFieldConfig = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
@@ -174,8 +141,6 @@ export function useAdminConfig(): UseAdminConfigReturn {
   return {
     getConfig,
     rebuildConfig,
-    getFormFieldConfig,
-    getEntityFormFieldConfig,
     getDisplayFieldConfig,
     getEntityDisplayFieldConfig,
     getInstanceConfig

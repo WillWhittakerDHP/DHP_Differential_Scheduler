@@ -8,6 +8,7 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
 import EventInstanceBuilderBody from './EventInstanceBuilderBody.vue'
+import { nilToEmptyString } from '@shared/utils/nilDefaults'
 
 const logger = createLogger('EventInstanceEditor')
 
@@ -24,10 +25,10 @@ const emit = defineEmits<{
 function cloneFromEntity(e: GlobalEntity<'eventInstance'>): NewEventInstanceData {
   return {
     eventShapeRef: String(e.eventShapeRef),
-    name: e.name ?? '',
-    titleTemplate: e.titleTemplate ?? '',
-    descriptionTemplate: e.descriptionTemplate ?? '',
-    locationTemplate: e.locationTemplate ?? '',
+    name: nilToEmptyString(e.name),
+    titleTemplate: nilToEmptyString(e.titleTemplate),
+    descriptionTemplate: nilToEmptyString(e.descriptionTemplate),
+    locationTemplate: nilToEmptyString(e.locationTemplate),
     visibility: e.visibility,
     transparency: e.transparency,
     guestsCanModify: e.guestsCanModify,

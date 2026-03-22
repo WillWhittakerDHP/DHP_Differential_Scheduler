@@ -24,7 +24,7 @@ if (!ctx) {
   throw new Error('AvailabilitySubStepContent must be used inside AvailabilityStep')
 }
 
-/** Task 6.9.4.1: Moveable step 4 helpers (same logic as MoveablePartsModal). */
+/** Task 6.9.4.1: Moveable step 4 helpers (in-step flow). */
 function parseDayKey(day: string): Date {
   return new Date(`${day}T00:00:00Z`)
 }
@@ -41,7 +41,7 @@ function updateContingency(partial: Partial<ContingencyPeriod>): void {
   o.contingencyPeriod.value = { ...o.contingencyPeriod.value, ...partial }
 }
 
-/** Task 6.9.4.1: Step 4 moveable computeds (mirror MoveablePartsModal). */
+/** Task 6.9.4.1: Step 4 moveable computeds. */
 const step4HasClosingDate = computed(
   () =>
     ctx!.o.contingencyPeriod.value.hasContingency &&

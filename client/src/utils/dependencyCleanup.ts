@@ -6,8 +6,7 @@ import type { QueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { DependencyImpactBase } from '@/types/entity/formFields'
-import { useAdminConfig } from '@/composables/useAdminConfig'
+import type { DependencyImpactBase, RelationshipFieldType } from '@/types/entity/formFields'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import apiClient from '@/utils/api'
 import { getRelationshipByParentChildEndpoint } from '@/utils/api'
@@ -23,15 +22,21 @@ export async function cleanupInvalidActiveRelationships(
   newValidChildIds: GlobalEntityId[],
   queryClient: QueryClient
 ): Promise<void> {
-  const { getFormFieldConfig } = useAdminConfig()
-  const configRef = getFormFieldConfig(entityKey, relationshipKey as Parameters<typeof getFormFieldConfig>[1])
-  const config = configRef?.value
-  const dependencyImpact = (config as { relationshipSelect?: { dependencyImpact?: DependencyImpactBase } })?.relationshipSelect?.dependencyImpact
+  const { getEntitiesByKey, getEntity, getMetadata, ensureMetadataLoaded } = useAdmin()
+  ensureMetadataLoaded()
+  const entity = getEntity(entityKey, toGlobalEntityId(entityId))
+  if (!entity) {
+    logger.warn('cleanupInvalidActiveRelationships: parent entity not found', { entityKey, entityId })
+    return
+  }
+  const metaByField = getMetadata(entityKey, entity)
+  const entry = metaByField[String(relationshipKey)]
+  const inputConfig = entry?.inputConfig as RelationshipFieldType<typeof entityKey> | undefined
+  const dependencyImpact = inputConfig?.dependencyImpact as DependencyImpactBase | undefined
   if (!dependencyImpact) {
     return
   }
 
-  const { getEntitiesByKey, getEntity } = useAdmin()
   const validSet = new Set(newValidChildIds.map(String))
   const { affectedEntityKey, affectedField, linkingField } = dependencyImpact
   const childEntityKey: GlobalEntityKey =

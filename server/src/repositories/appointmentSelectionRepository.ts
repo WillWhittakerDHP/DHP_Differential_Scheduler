@@ -2,10 +2,10 @@ import type { Transaction } from 'sequelize'
 import { AppointmentSelectionLine } from '../config/app.js'
 import { createBlockInstanceVersion } from '../services/instanceVersioning.js'
 import {
-  legacyBodyToLineCreates,
-  linesToLegacyFields,
-  mergeLegacySelectionPatch,
-  legacyFieldsToBody,
+  flatSelectionBodyToLineCreates,
+  linesToFlatSelectionFields,
+  mergeFlatSelectionPatch,
+  flatSelectionFieldsToBody,
 } from './appointmentSelectionCodec.js'
 
 function lineSortKey(line: InstanceType<typeof AppointmentSelectionLine>): [number, number] {
@@ -18,7 +18,7 @@ export async function replaceSelectionLinesFromBody(
   body: Record<string, unknown>,
   transaction?: Transaction
 ): Promise<void> {
-  const rows = legacyBodyToLineCreates(appointmentId, body)
+  const rows = flatSelectionBodyToLineCreates(appointmentId, body)
   await AppointmentSelectionLine.destroy({ where: { appointmentId }, transaction })
   if (rows.length > 0) {
     await AppointmentSelectionLine.bulkCreate(rows, { transaction })
@@ -42,6 +42,7 @@ export async function fillMissingSnapshotVersionIds(
   for (const line of lines) {
     if (line.snapshotVersionId) continue
     const version = await createBlockInstanceVersion(line.blockInstanceId)
+    // @audit-allow:hardcoding:fieldMapping - Sequelize model update attributes for snapshot_version_id
     await line.update({ snapshotVersionId: version.id }, { transaction })
   }
 }
@@ -61,8 +62,8 @@ export async function applyMergedSelectionPatch(
   transaction?: Transaction
 ): Promise<void> {
   const existing = await AppointmentSelectionLine.findAll({ where: { appointmentId }, transaction })
-  const existingLegacy = linesToLegacyFields(existing)
-  const merged = mergeLegacySelectionPatch(existingLegacy, patchBody)
-  const synthetic = legacyFieldsToBody(merged)
+  const existingFlat = linesToFlatSelectionFields(existing)
+  const merged = mergeFlatSelectionPatch(existingFlat, patchBody)
+  const synthetic = flatSelectionFieldsToBody(merged)
   await syncSelectionsAndSnapshotsFromBody(appointmentId, synthetic, transaction)
 }

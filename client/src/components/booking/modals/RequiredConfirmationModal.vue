@@ -1,6 +1,6 @@
 <!--
   RequiredConfirmationModal – reusable confirmation modal shell (Phase 6.4).
-  WHY: MoveablePartsModal and PropertyConfirmationModal share VDialog+VCard+title+close+body+actions;
+  WHY: PropertyConfirmationModal and similar dialogs share VDialog+VCard+title+close+body+actions;
        extract once so dynamic title and progressive/mini-wizard behavior live in one place.
   PATTERN: v-model open, title prop (dynamic), default slot for body, optional actions (props or slot).
   Phase 6.4 UX: max-width 520px, ~400ms open delay, scale-transition.

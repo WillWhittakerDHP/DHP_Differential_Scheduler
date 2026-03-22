@@ -11,6 +11,7 @@ import {
   decodeInputConfig,
   icColumnsFromModel,
 } from './adminMetadataInputConfigCodec.js'
+import { nilToEmptyArray } from '@shared/utils/nilDefaults.js'
 
 export type SelectOptionRow = {
   displayOrder: number
@@ -76,7 +77,7 @@ export async function buildMetadataRecordFromRows(
   const optionsMap = await fetchSelectOptionsByMetadataIds(metadata.map((m) => m.id))
   const metadataRecord: Record<string, Omit<FieldMetadataEntryAssembly, 'fieldKey'>> = {}
   for (const meta of metadata) {
-    const opts = optionsMap.get(meta.id) ?? []
+    const opts = nilToEmptyArray(optionsMap.get(meta.id))
     metadataRecord[meta.fieldKey] = adminMetadataToApiEntry(meta, opts)
   }
   return metadataRecord

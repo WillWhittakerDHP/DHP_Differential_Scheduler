@@ -6,6 +6,7 @@ import {
   assertSelectInputConfigNotPropertyTargetMode,
   unwrapLegacyRelationshipSelect,
 } from '@shared/utils/selectInputConfigCodec.js'
+import { nilToEmptyString } from '@shared/utils/nilDefaults.js'
 import { createLogger } from './logger.js'
 
 const logger = createLogger('adminMetadataInputConfigCodec')
@@ -79,7 +80,7 @@ export function encodeInputConfig(
     const options: SelectOptionRowInput[] = rawOpts
       .filter((o): o is Record<string, unknown> => typeof o === 'object' && o !== null)
       .map((o, index) => {
-        const label = strOrNull(o.label) ?? ''
+        const label = nilToEmptyString(strOrNull(o.label))
         const val = o.value
         const valuePayload = val === undefined ? null : JSON.stringify(val)
         return { displayOrder: index, label, valuePayload }

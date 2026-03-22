@@ -338,13 +338,11 @@ export interface CalendarEvent extends TimeRangeBounds {
 export interface ComputedAvailabilityRequest {
   dateRange: TimeRangeBounds
   candidatePlaceId?: string           // Candidate property placeId for drive time (from wizard, not yet saved)
-  /** Entity identity of appointment being edited; server excludes its calendar event from overlap checks. Prefer this over reschedulingAppointmentId. */
+  /** Entity identity of appointment being edited; server excludes its calendar event from overlap checks. */
   appointmentId?: string
-  /** @deprecated Use appointmentId. Kept for compatibility during migration. */
-  reschedulingAppointmentId?: string
   /**
    * Violation keys the server may relax for this request (e.g. from constraint_override.overridden_violations).
-   * When present with appointmentId/reschedulingAppointmentId, server verifies keys against stored override
+   * When present with appointmentId, server verifies keys against stored override
    * and applies relaxConstraintsForExceptions before slot computation (Task 6.8.2.2).
    */
   allowedExceptions?: string[]

@@ -6,6 +6,7 @@ import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
 import { mapMetaFieldsToPayload } from './adminMetadataPayload.js';
 import { decodeInputConfig, icColumnsFromModel } from './adminMetadataInputConfigCodec.js';
 import { fetchRelationshipSelectOptionsByMetadataIds } from './adminPrimitiveRelationshipAssembly.js';
+import { nilToEmptyArray } from '@shared/utils/nilDefaults.js';
 
 /** Extends shared MetadataEntryBase; relationship entries use relationshipKey (TYPE_SIMILARITY 1.11). */
 export interface RelationshipMetadataEntry extends MetadataEntryBase {
@@ -28,7 +29,7 @@ async function relationshipEntriesFromRows(rows: AdminRelationshipMetadata[]): P
       statusButtonColor: meta.statusButtonColor ?? undefined,
       panel: meta.panel,
       bulkEdit: meta.bulkEdit,
-      inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),
+      inputConfig: decodeInputConfig(icColumnsFromModel(meta), nilToEmptyArray(optionsMap.get(meta.id))),
     }),
   }))
 }
