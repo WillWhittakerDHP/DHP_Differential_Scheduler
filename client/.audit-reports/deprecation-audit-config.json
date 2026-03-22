@@ -1,8 +1,0 @@
-{
-  "$comment": "Configuration for deprecation-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
-  "$schema": "Priority thresholds for deprecation audit",
-  "priorities": {
-    "p0MinSeverityScore": 10,
-    "p1MinSeverityScore": 4
-  }
-}

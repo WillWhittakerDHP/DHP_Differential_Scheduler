@@ -11,7 +11,7 @@ This note keeps **authoring playbooks** and **governance docs** aligned with the
 ## Frontend and repo layout
 
 - **Vue app root:** `client/` (historical docs may say `frontend-root/` — that path is obsolete).
-- **Audit reports:** `client/.audit-reports/` — not auto-committed by tier-end.
+- **Audit reports:** `client/.audit-reports/` — **gitignored** (regenerate locally); tier-end also skips staging them.
 
 ---
 
