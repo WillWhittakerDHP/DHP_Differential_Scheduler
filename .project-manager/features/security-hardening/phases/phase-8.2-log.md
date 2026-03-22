@@ -1,4 +1,4 @@
-# Phase 8.1 Log
+# Phase 8.2 Log
 
 **Purpose:** Track phase-level progress, decisions, and blockers
 
@@ -8,7 +8,7 @@
 
 ## Phase Status
 
-**Phase:** 8.1
+**Phase:** 8.2
 **Status:** [In Progress / Complete]
 **Started:** [Date]
 **Completed:** [Date] (if complete)
@@ -17,17 +17,47 @@
 
 ## Completed Sessions
 
-### Session 8.1.2: CORS verification and .env.example polish ✅
+### Session 8.2.1: General rate limiter for internal API routes ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** CORS verification and .env.example polish
+- Completed ** General rate limiter for internal API routes
 
-### Session 8.1.1: CORS Origin Wiring ✅
+
+
+### Session 8.2.1: General rate limiter for internal API routes ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Add `CORS_ORIGIN` env var, wire CORS origin in `app.ts`, update `.env.example`, verify origin restriction
+- Completed ** General rate limiter for internal API routes
+
+
+
+### Session 8.2.1: General rate limiter for internal API routes ✅
+**Completed:** 2026-03-21
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** General rate limiter for internal API routes
+
+### Session 8.2.2: Auth-route limiter and verification ✅
+**Completed:** 2026-03-21
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Auth-route limiter (10 req/15 min) on `/api/v1/internal/auth/*`; placeholder router; SECURITY_STUBS updated
+
+### Session [SESSION_ID]: [SESSION_NAME] ✅
+**Completed:** [Date]
+**Tasks Completed:** [List of task IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
+
+### Session [SESSION_ID+1]: [SESSION_NAME] ✅
+**Completed:** [Date]
+**Tasks Completed:** [List of task IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
 
 ---
 
@@ -78,9 +108,9 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** [List all session IDs]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
+**Sessions Completed:** 8.2.1, 8.2.2
+**Total Tasks Completed:** 0
+**Success Criteria Met:** Yes - All success criteria met
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -88,3 +118,5 @@
 - **Improvements needed:** [Workflow improvements for future phases]
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
+
+<!-- end excerpt phase -->

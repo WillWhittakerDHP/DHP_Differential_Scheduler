@@ -111,7 +111,7 @@
     "audit:tier-phase": "npm run typecheck:audit && npm run audit:type-similarity && npm run audit:duplication && npm run audit:unused-code && npm run audit:pattern-detection && npm run audit:import-graph && npm run audit:file-cohesion && npm run audit:deprecation && npm run audit:api-contract && npm run audit:data-flow && npm run audit:type-health && npm run audit:data-flow-health",
     "audit:tier-feature": "npm run audit:test && npm run audit:coverage-risk-crossref && npm run audit:bundle-size-budget && npm run audit:api-versioning && npm run audit:dep-freshness && npm run audit:security && npm run audit:meta",
     "audit:all": "npm run audit:tier-task && npm run audit:tier-session && npm run audit:tier-phase && npm run audit:tier-feature && npm run audit:allowlist-cleanup",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
