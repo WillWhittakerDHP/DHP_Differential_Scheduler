@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { ref, provide, defineAsyncComponent } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
+import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
 
 const InstancesTab = defineAsyncComponent(() => import('./tabs/InstancesTab.vue'))
 const ShapesTab = defineAsyncComponent(() => import('./tabs/ShapesTab.vue'))
@@ -23,7 +24,7 @@ useAdmin()
  */
 const currentTab = ref('instances')
 
-provide('adminCurrentTab', currentTab)
+provide(adminCurrentTabKey, currentTab)
 </script>
 
 <template>

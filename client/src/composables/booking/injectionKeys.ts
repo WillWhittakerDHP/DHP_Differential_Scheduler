@@ -21,6 +21,7 @@ import type { ServiceSummary, TimeSlotResults } from '@/types/booking/devPanelsC
 import type { ContactInfo } from '@/types/booking/contactsStepData'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { UseAvailabilityOrchestratorReturn } from '@/types/booking/availabilityOrchestrator'
+import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
 
 /** Flattened orchestrator state + actions + wizard for AvailabilitySubStepContent. */
 export type AvailabilitySubStepOrchestratorState = UseAvailabilityOrchestratorReturn['data'] &
@@ -66,6 +67,10 @@ export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn
 
 export const resetMocksSignalKey: InjectionKey<Ref<number>> =
   Symbol('resetMocksSignal')
+
+/** App root ref for wizard dev panel actions; provider: App.vue. */
+export const devPanelButtonsKey: InjectionKey<Ref<DevPanelButtonsContext | null>> =
+  Symbol('devPanelButtons')
 
 /** True when global data, booking transform, wizard settings, and flow availability load have settled. Provider: useBookingWizardSetup. */
 export const bookingFlowReadyKey: InjectionKey<ComputedRef<boolean>> = Symbol('bookingFlowReady')

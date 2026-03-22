@@ -41,7 +41,7 @@
 <script setup lang="ts">
 
 import { useTheme } from 'vuetify'
-import { ref, provide, computed } from 'vue'
+import { ref, provide, computed, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppNotification from '@/components/AppNotification.vue'
 import DevPanelToggle from '@/components/booking/dev/DevPanelToggle.vue'
@@ -52,6 +52,7 @@ import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'
 import { hexToRgb } from '@core/utils/colorConverter'
 import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
+import { devPanelButtonsKey } from '@/composables/booking/injectionKeys'
 
 const { global } = useTheme()
 const route = useRoute()
@@ -91,7 +92,8 @@ const handleApiPanelToggle = (): void => {
 }
 
 const devPanelButtons = ref<DevPanelButtonsContext | null>(null)
-provide('devPanelButtons', devPanelButtons)
+// WHY: Vue's Ref inference widens when dev mode assigns the shared context; runtime matches DevPanelButtonsContext.
+provide(devPanelButtonsKey, devPanelButtons as Ref<DevPanelButtonsContext | null>)
 </script>
 
 <style>
