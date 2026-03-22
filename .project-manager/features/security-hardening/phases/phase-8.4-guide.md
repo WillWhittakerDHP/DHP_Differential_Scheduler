@@ -27,19 +27,21 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.4: [SESSION_NAME]
-**Description:** [What this session accomplishes]
-**Tasks:** [Number of tasks]
+- [ ] ### Session 8.4.1: Env var audit
+**Description:** Inventory process.env usage, validate .env.example completeness, ensure no hardcoded secrets.
+**Tasks:** 2
 **Focus:**
-- [Focus area 1]
-- [Focus area 2]
+- Env var inventory
+- .env.example validation
+- No hardcoded secrets
 
-- [ ] ### Session [SESSION_ID+1]: [SESSION_NAME]
-**Description:** [What this session accomplishes]
-**Tasks:** [Number of tasks]
+- [ ] ### Session 8.4.2: Committed files scan
+**Description:** Verify .gitignore coverage, scan for secrets in tracked files, document in SECURITY_STUBS.
+**Tasks:** 2
 **Focus:**
-- [Focus area 1]
-- [Focus area 2]
+- .gitignore verification
+- Secrets scan
+- SECURITY_STUBS documentation
 
 ---
 
