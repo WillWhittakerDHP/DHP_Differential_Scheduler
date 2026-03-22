@@ -74,3 +74,4 @@
 - Feature Log: `.project-manager/features/[name]/feature-[name]-log.md`
 - Next Feature Guide: `.project-manager/features/[next-name]/feature-[next-name]-guide.md` (if applicable)
 
+<!-- end excerpt feature -->

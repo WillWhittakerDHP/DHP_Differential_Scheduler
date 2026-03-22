@@ -10,7 +10,7 @@
 
 **Phase number:** 7.1  
 **Name:** Database & Models  
-**Status:** In Progress  
+**Status:** Complete  
 **Branch:** `phase-7.1` (from `feature/authentication`)
 
 This phase adds PostgreSQL tables and Sequelize models for **`sessions`** and **`magic_links`** per PROJECT_PLAN Feature 7 Step 1 and LAUNCH_CHECKLIST Phase 2A (migrations, models, index registration). No auth router, strategies, or middleware here—only the data layer so Phase 7.2 can implement session manager and `requireAuth`.
@@ -101,3 +101,5 @@ Exact column shapes (session id storage, user FK nullable vs deferred) should fo
 - Phase log: `.project-manager/features/authentication/phases/phase-7.1-log.md`
 - Phase handoff: `.project-manager/features/authentication/phases/phase-7.1-handoff.md`
 - Session guides: `.project-manager/features/authentication/sessions/session-7.1.*-guide.md`
+
+<!-- end excerpt phase -->
