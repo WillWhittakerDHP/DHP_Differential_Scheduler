@@ -2,10 +2,13 @@
 import { Router, Request, Response } from 'express'
 import { RELATIONSHIP_REGISTRY, type RelationshipKind } from './relationshipConstants.js'
 import { buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
+import { formatAnnotationAssignmentsForApi } from './relationshipAnnotationFormat.js'
+import { AnnotationAssignment } from '../../../config/app.js'
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
 import { ERROR_MESSAGES } from './relationshipConstants.js'
+import { whereActiveRelationships } from './relationshipDisabledHelpers.js'
 
 const logger = createLogger('RelationshipBatchRouter')
 
@@ -14,8 +17,7 @@ const router = Router()
 function buildBatchWhereClause(
   relationshipConfig: typeof RELATIONSHIP_REGISTRY[RelationshipKind]
 ): Record<string, unknown> {
-  const modelAttributes = relationshipConfig.model.getAttributes()
-  return 'disabled' in modelAttributes ? { disabled: false } : {}
+  return whereActiveRelationships(relationshipConfig.model, {})
 }
 
 router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
@@ -41,7 +43,10 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
     // WHY: Matches expected batch response format with relationship keys as top-level properties
     // PATTERN: Reduce array of results to object keyed by relationshipKey
     const result = relationshipResults.reduce((acc, { relationshipKey, data }) => {
-      acc[relationshipKey] = data
+      acc[relationshipKey] =
+        relationshipKey === 'annotationAssignments'
+          ? formatAnnotationAssignmentsForApi(data as InstanceType<typeof AnnotationAssignment>[])
+          : data
       return acc
     }, {} as Record<string, unknown>)
 

@@ -6,7 +6,6 @@ import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
 import { useAvailabilityStepFeePreview } from '@/composables/booking/useAvailabilityStepFeePreview'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
-import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useBooking } from '@/composables/useBooking'
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
@@ -23,6 +22,7 @@ import {
   availabilityStepValidKey,
   availabilityStepValidateKey,
   loadedWizardStateKey,
+  bookingFlowReadyKey,
 } from '@/composables/booking/injectionKeys'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
@@ -59,6 +59,11 @@ if (!appointmentDurationRef) {
   throw new Error('appointmentDuration must be provided by BookingWizard')
 }
 
+const isBookingFlowReady = inject(bookingFlowReadyKey)
+if (!isBookingFlowReady) {
+  throw new Error('bookingFlowReadyKey must be provided by useBookingWizardSetup / BookingWizard')
+}
+
 const orchestrator = useAvailabilityOrchestrator({
   wizard,
   loadedWizardState,
@@ -84,7 +89,6 @@ useWizardStepSync({
 })
 
 const confirmation = useAvailabilityConfirmationState()
-const { isLoading: availabilitySettingsLoading } = useAvailabilitySettings()
 const { bookingData } = useBooking()
 
 const ui = useAvailabilityStepUI({ o, confirmation })
@@ -105,10 +109,16 @@ const {
 const logger = createLogger('AvailabilityStep')
 
 watch(
-  [overlay.showSlotsOverlay, overlay.slotGridOverlayLabel, availabilitySettingsLoading],
-  ([showing, label, loading]) => {
-    if (!loading && showing && !label) {
-      logger.warn('Slot grid overlay is shown but differentialGraphDefaultLabel is missing. Configure in Admin → Business Controls → Calendar → Grid.')
+  () => ({
+    showingSlotsOverlay: overlay.showSlotsOverlay.value,
+    slotGridLabel: overlay.slotGridOverlayLabel.value,
+    bookingFlowReady: isBookingFlowReady.value,
+  }),
+  ({ showingSlotsOverlay, slotGridLabel, bookingFlowReady }) => {
+    if (bookingFlowReady && showingSlotsOverlay && !slotGridLabel) {
+      logger.warn(
+        'Slot grid overlay is shown but differentialGraphDefaultLabel is missing in wizard settings. Set it under Admin → Business Controls → Calendar → Grid, then Save (wizard settings are persisted with that save).'
+      )
     }
   },
   { immediate: true }

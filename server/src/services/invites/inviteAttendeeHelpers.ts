@@ -38,7 +38,7 @@ export async function buildAttendeesForEventShape(
   appointment: AppointmentForAttendeeOps
 ): Promise<EventAttendee[]> {
   const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
+    where: { eventShapeId, disabled: false },
     attributes: ['userTypeBlockInstanceId'],
   })
 
@@ -71,7 +71,7 @@ export async function updateAttendeeRecords(
   googleEventId: string
 ): Promise<number> {
   const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
+    where: { eventShapeId, disabled: false },
     attributes: ['userTypeBlockInstanceId'],
   })
 
@@ -110,7 +110,7 @@ export async function markAttendeesAsFailed(
   errorMessage: string
 ): Promise<number> {
   const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
+    where: { eventShapeId, disabled: false },
     attributes: ['userTypeBlockInstanceId'],
   })
 

@@ -4,17 +4,17 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { UseFieldLocationReturn } from '@/types/admin/fieldLocation'
 
-export interface UseEntityCardFieldConfigurationParams {
-  entityKey: GlobalEntityKey
-  fieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+export interface UseEntityCardFieldConfigurationParams<GE extends GlobalEntityKey = GlobalEntityKey> {
+  entityKey: GE
+  fieldKeys: ComputedRef<GlobalFieldKey<GE>[]>
   composedFieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
   isExpanded: ComputedRef<boolean>
   filteredMetadata?: Record<string, FieldMetadataEntry>
 }
 
-export interface UseEntityCardFieldConfigurationReturn {
-  finalFieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  fieldLocation: UseFieldLocationReturn<GlobalEntityKey>
-  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+export interface UseEntityCardFieldConfigurationReturn<GE extends GlobalEntityKey = GlobalEntityKey> {
+  finalFieldKeys: ComputedRef<GlobalFieldKey<GE>[]>
+  fieldLocation: UseFieldLocationReturn<GE>
+  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GE>[]>
+  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GE>[]>
 }

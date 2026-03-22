@@ -29,4 +29,11 @@ export const annotationShapeDisplays = {
     inline: true,
     stacked: false,
   },
+
+  uiSlot: {
+    label: 'Wizard UI slot',
+    placeholder: 'Select where this shape appears in the booking wizard',
+    inline: false,
+    stacked: true,
+  },
 } as const;

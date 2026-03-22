@@ -76,3 +76,29 @@ export const ANNOTATION_UI_SLOT_REGISTRY = [
     attachesTo: ['blockInstance'],
   },
 ] as const
+
+/** Runtime list of allowed slot string values (for server/client validation). */
+export const ANNOTATION_UI_SLOT_VALUES: readonly AnnotationUiSlot[] = ANNOTATION_UI_SLOT_REGISTRY.map(
+  (entry) => entry.slot
+)
+
+export function isAnnotationUiSlot(value: string): value is AnnotationUiSlot {
+  return (ANNOTATION_UI_SLOT_VALUES as readonly string[]).includes(value)
+}
+
+/**
+ * Normalize API/DB input: empty string → null; unknown non-empty string → invalid (caller should reject).
+ */
+export function parseAnnotationUiSlotInput(raw: unknown): string | null {
+  if (raw === null || raw === undefined) {
+    return null
+  }
+  if (typeof raw !== 'string') {
+    return null
+  }
+  const t = raw.trim()
+  if (t.length === 0) {
+    return null
+  }
+  return t
+}

@@ -3,7 +3,7 @@
 import { createLogger } from '@/utils/logger'
 import { bookingModeToTernary, isTernaryBoolean } from '@shared/utils/ternaryAliasUtils'
 import type { TernaryBoolean } from '@/types/ternary'
-import { parseDifferentialRole } from '@shared/utils/differentialRoleUtils'
+import { parseDifferentialRole, sanitizeDifferentialEventRoleOverridesInput } from '@shared/utils/differentialRoleUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 
 const logger = createLogger('apiEntityFieldNormalization')
@@ -65,6 +65,13 @@ export function normalizeBlockInstanceAgentPermissionsFromApi(raw: unknown): Ter
 
 export function normalizeBlockInstanceDifferentialFromApi(raw: unknown): TernaryBoolean {
   return normalizeTernaryBooleanField(raw, 'differential', DEFAULT_TERNARY)
+}
+
+/** blockInstance.differentialEventRoleOverrides: map eventShape id → role. */
+export function normalizeBlockInstanceDifferentialEventRoleOverridesFromApi(
+  raw: unknown
+): Record<string, DifferentialRole> {
+  return sanitizeDifferentialEventRoleOverridesInput(raw)
 }
 
 /** eventShape.differentialRole: DifferentialRole (none when API sent null/omit). */

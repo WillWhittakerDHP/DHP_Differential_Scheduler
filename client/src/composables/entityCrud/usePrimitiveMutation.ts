@@ -58,6 +58,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
         await apiClient.patch(endpoint, admin)
         return { success: true }
       } catch (error: unknown) {
+        logger.error('Primitive mutation patch failed', { error, entityKey, dynamicId })
         const axiosError = error as AxiosError<{ error?: string; id?: string }>
         if (axiosError.response?.status === 404) {
           const errorMessage = axiosError.response?.data?.error || 'Entity not found'

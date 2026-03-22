@@ -3,6 +3,13 @@
  */
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../constants/roleConstants'
 
+/** Canonical one-slot payload for API and `appointment_time_slots` rows (ISO start/end, optional duration minutes). */
+export interface AppointmentSelectedTimeSlotPayload {
+  startTime: string
+  endTime: string
+  duration?: number
+}
+
 /** Attendee request for calendar invitations; single source for client and server. */
 export interface AttendeeRequest {
   userId: string

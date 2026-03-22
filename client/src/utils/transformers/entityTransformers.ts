@@ -8,8 +8,21 @@ import {
   normalizeBlockInstanceAgentPermissionsFromApi,
   normalizeBlockInstanceBookingModeFromApi,
   normalizeBlockInstanceDifferentialFromApi,
+  normalizeBlockInstanceDifferentialEventRoleOverridesFromApi,
   normalizeEventShapeDifferentialRoleFromApi,
 } from './apiEntityFieldNormalization'
+
+/**
+ * Invite link toggles on event shapes are NOT NULL default true in DB.
+ * Only boolean true or the string 'true' enable the flag when a value is present;
+ * 0, null, '', and other non-boolean noise must not be treated as enabled.
+ */
+function normalizeEventShapeInviteLinkFlag(raw: unknown): boolean {
+  if (raw === undefined) {
+    return true
+  }
+  return raw === true || raw === 'true'
+}
 
 export function transformApiEntity<GE extends GlobalEntityKey>(
   rawEntity: Record<string, unknown>,
@@ -30,11 +43,19 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     transformed.agentPermissions = normalizeBlockInstanceAgentPermissionsFromApi(agentRaw)
     const diffRaw = transformed.differential ?? rawEntity.differential
     transformed.differential = normalizeBlockInstanceDifferentialFromApi(diffRaw)
+    const overridesRaw =
+      transformed.differentialEventRoleOverrides ?? rawEntity.differential_event_role_overrides
+    transformed.differentialEventRoleOverrides =
+      normalizeBlockInstanceDifferentialEventRoleOverridesFromApi(overridesRaw)
   }
 
   if (entityKey === 'eventShape') {
     const roleRaw = transformed.differentialRole ?? rawEntity.differential_role
     transformed.differentialRole = normalizeEventShapeDifferentialRoleFromApi(roleRaw)
+    const rescheduleRaw = transformed.includeRescheduleLink ?? rawEntity.include_reschedule_link
+    const cancelRaw = transformed.includeCancelLink ?? rawEntity.include_cancel_link
+    transformed.includeRescheduleLink = normalizeEventShapeInviteLinkFlag(rescheduleRaw)
+    transformed.includeCancelLink = normalizeEventShapeInviteLinkFlag(cancelRaw)
   }
 
   return transformed as GlobalEntity<GE>

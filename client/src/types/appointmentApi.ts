@@ -8,7 +8,7 @@ import type { UserResponse } from './user'
 export type { PropertyResponse, UserResponse }
 
 import { INVITATION_STATUS_FAILED, INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants'
-import type { AttendeeRequest } from '@shared/types/appointmentTypes'
+import type { AppointmentSelectedTimeSlotPayload, AttendeeRequest } from '@shared/types/appointmentTypes'
 
 export interface AttendeeResponse {
   id: string
@@ -47,7 +47,7 @@ export interface AppointmentRequest {
   optionSnapshotIds?: string[] | null
   selectedDate?: ISO8601Date | null
   selectedDateRangeEnd?: ISO8601Date | null
-  selectedTimeSlots?: Array<{ startTime: string; endTime: string; duration?: number }> | null
+  selectedTimeSlots?: AppointmentSelectedTimeSlotPayload[] | null
   isQuoteMode?: boolean
   quotePdfUrl?: string | null
   status?: AppointmentStatus

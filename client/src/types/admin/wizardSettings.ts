@@ -35,13 +35,21 @@ export interface UseWizardSettingsLabelsReturn {
   moveableFallbackLabel: ComputedRef<string>
 }
 
+/** Load contract for /wizard-settings (booking singleton or per-instance admin fetch). */
+export interface UseWizardSettingsLoadState {
+  isLoading: ComputedRef<boolean>
+  /** True after the first fetch attempt finished (success or error); avoids null-first race in UI. */
+  isReady: ComputedRef<boolean>
+}
+
 /**
- * PATTERN: Grouped return — composable-health counts top-level keys only ({ flags, labels } = 2).
+ * PATTERN: Grouped return — composable-health keeps surface small ({ flags, labels, loadState }).
  * @see COMPOSABLE_AUTHORING_PLAYBOOK.md — split oversized return surfaces.
  */
 export interface UseWizardSettingsReturn {
   flags: UseWizardSettingsFlagsReturn
   labels: UseWizardSettingsLabelsReturn
+  loadState: UseWizardSettingsLoadState
 }
 
 export interface UseAdminWizardSettingsOptions {

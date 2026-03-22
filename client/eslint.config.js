@@ -3,6 +3,7 @@ import vue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
 import security from 'eslint-plugin-security'
 import vueParser from 'vue-eslint-parser'
+import schedulerLocal from '../eslint-local-plugin/index.mjs'
 
 export default tseslint.config(
   js.configs.recommended,
@@ -128,10 +129,20 @@ export default tseslint.config(
         },
       ],
       '@typescript-eslint/no-empty-object-type': 'warn',
-      
+
       'security/detect-object-injection': 'off',
       //      We keep this as 'warn' to catch potential issues, but will add disable comments
       'security/detect-non-literal-regexp': 'warn',
+    },
+  },
+
+  {
+    files: ['src/**/*.{ts,vue,js,mjs,cjs}'],
+    plugins: {
+      'scheduler-local': schedulerLocal,
+    },
+    rules: {
+      'scheduler-local/require-logger-in-catch': 'error',
     },
   },
 

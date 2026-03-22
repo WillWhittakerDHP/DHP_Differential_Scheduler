@@ -1,3 +1,0 @@
-{
-  "$comment": "Configuration for data-flow-audit.mjs - allowlist routes that intentionally pass through raw bodies Allowlist: audit-global-config.json allowlists.<auditId>."
-}

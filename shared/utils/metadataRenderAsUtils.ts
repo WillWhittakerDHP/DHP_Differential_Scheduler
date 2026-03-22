@@ -1,8 +1,13 @@
 /**
- * Shared utility for computing renderAs field metadata.
- * WHY: Ensures consistent field rendering determination across frontend and backend.
- * PATTERN: Shared utilities alongside shared types.
+ * Single source of truth for which admin UI “render kind” a field uses.
+ *
+ * WHY: Persisted `renderAs` in `admin_metadata` is denormalized (API/DB convenience). The
+ * authoritative decision for routing (FieldRenderer, PrimitiveInputs, form fieldType, etc.)
+ * is always `computeRenderAs(dataType, inputConfig, fieldKey)` so stale DB values cannot
+ * pick the wrong component.
  */
+
+import { RELATIONSHIP_COLLECTION_FIELD_KEYS } from '../constants/collectionFieldKeys.js'
 
 export type RenderAsType =
   | 'text'
@@ -15,8 +20,11 @@ export type RenderAsType =
   | 'relationshipCollection'
 
 /**
- * Compute the renderAs value for a field from its dataType, inputConfig, and fieldKey.
- * Used by client (metadataFieldUpdates) and server (adminPrimitiveMetadataHelpers).
+ * Derive render kind from structural metadata. Call this on read (UI routing) and on write
+ * (persist a matching `render_as` column).
+ *
+ * Relationship collection fields are identified by `RELATIONSHIP_COLLECTION_FIELD_KEYS`, not
+ * by a magic `selectType` string.
  */
 export function computeRenderAs(
   dataType: string | undefined,
@@ -27,22 +35,24 @@ export function computeRenderAs(
     return 'iconSelect'
   }
 
-  if (inputConfig && typeof inputConfig === 'object') {
-    const selectType = inputConfig.selectType as string | undefined
-    if (selectType === 'partsCollectionSelect') {
-      return 'relationshipCollection'
-    }
-    const selectMode = inputConfig.selectMode as string | undefined
-    if (selectMode === 'multiple') {
-      return 'multiselect'
-    }
-    if (inputConfig.targetMode === 'relationship') {
-      return 'reference'
-    }
-    return 'select'
+  if (RELATIONSHIP_COLLECTION_FIELD_KEYS.has(fieldKey)) {
+    return 'relationshipCollection'
   }
 
-  // WHY: Ternary is a boolean variant with three states, still renders as status button
+  if (inputConfig && typeof inputConfig === 'object') {
+    const ic = inputConfig as Record<string, unknown>
+    if (ic.selectMode === 'multiple') {
+      return 'multiselect'
+    }
+    if (ic.targetMode === 'relationship') {
+      return 'reference'
+    }
+    if (Array.isArray(ic.options)) {
+      return 'select'
+    }
+    // inputConfig without select shape (e.g. multiline, hint) — treat as text primitive
+  }
+
   if (dataType === 'boolean' || dataType === 'ternary') {
     return 'statusButton'
   }

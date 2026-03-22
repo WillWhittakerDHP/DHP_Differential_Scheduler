@@ -4,6 +4,7 @@
 
 This document governs how functions are designed and maintained: complexity bounds, return types, error handling, and extract-vs-allowlist decisions. It complements:
 
+- **Harness playbook alignment** (`.project-manager/HARNESS_PLAYBOOK_ALIGNMENT.md`) — Vue root (`client/`), tier-end commits, workflow scope API (kept in sync with `HARNESS_CHARTER.md`).
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries.
 - **Composable Authoring Playbook** (`.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`) — composable shape and function policy inside composables.
 - **Cursor rules** (`.cursor/rules/function-governance.mdc`) — thresholds, return types, no silent errors; always-applied.

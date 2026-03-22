@@ -15,6 +15,7 @@ export type { AdminObject, AdminObjectMap } from '@/types/transformers/adminObje
 const RELATIONSHIP_KEYS = [
   'validCascades',
   'validParts',
+  'validAnnotations',
   'validEvents',
   'bookingCascades',
   'pricingCascades',
@@ -33,6 +34,7 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
   const relationshipMappings: Record<string, string> = {
     validCascades: 'validCascades',
     validParts: 'validParts',
+    validAnnotations: 'validAnnotations',
     validEvents: 'validEvents',
     bookingCascades: 'bookingCascades',
     pricingCascades: 'pricingCascades',

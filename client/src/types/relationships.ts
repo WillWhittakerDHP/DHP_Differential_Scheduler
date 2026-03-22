@@ -15,9 +15,15 @@ export interface FetchedRelationship<
   parentId: GlobalEntityId
   childId: GlobalEntityId
   disabled: boolean
-  userTypeBlockBlockInstanceId?: GlobalEntityId | null  // For annotationAssignments user type override
-  partShapeId?: string | null  // For eventAssignments - which partShape uses this event
-  blockShapeId?: string | null  // For eventAssignments - which blockShape uses this event
+  /** Annotation assignment ordering from API (when present). */
+  orderIndex?: number
+  /**
+   * For `annotationAssignments` only: optional user-type block instance on the assignment row
+   * (`null` = all user types). Omitted for other relationship kinds.
+   */
+  userTypeBlockInstanceId?: GlobalEntityId | null
+  partShapeId?: string | null
+  blockShapeId?: string | null
 }
 
 /**

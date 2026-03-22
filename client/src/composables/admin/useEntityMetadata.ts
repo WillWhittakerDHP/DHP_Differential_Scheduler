@@ -5,6 +5,7 @@ WHY: Single composable for all entity...
 import type { ComputedRef } from 'vue'
 import { computed, unref, type MaybeRef } from 'vue'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
+import { resolveBlockInstanceMetadataFromCache } from '@/utils/admin/resolveBlockInstanceMetadata'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -44,19 +45,11 @@ export function useEntityMetadata<GE extends GlobalEntityKey>(
       return {}
     }
     
-    let blockShapeRef: string | null = null
     if (entityType === 'blockInstance' && entityKey === 'blockInstance') {
       const blockInstanceEntity = entityValue.value as GlobalEntity<'blockInstance'>
-      blockShapeRef = blockInstanceEntity.blockShapeRef || null
+      return resolveBlockInstanceMetadataFromCache(data, blockInstanceEntity.blockShapeRef)
     }
-    
-    if (entityType === 'blockInstance' && blockShapeRef) {
-      const blockShapeSpecific = data.blockShapeSpecific[blockShapeRef]
-      if (blockShapeSpecific && Object.keys(blockShapeSpecific).length > 0) {
-        return blockShapeSpecific as Record<string, FieldMetadataEntry>
-      }
-    }
-    
+
     const raw = data.global[entityType]
     const metadata = (raw !== undefined && raw !== null ? raw : {}) as Record<string, FieldMetadataEntry>
     return metadata

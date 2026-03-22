@@ -29,9 +29,10 @@ export const ADMIN_METADATA_COLOR_OPTIONS = [
   { title: 'Brown', value: 'brown' },
 ] as const
 
+/** Values must match RelationshipSelectModeEnum (lowercase) for SelectInputs / resolveSelectMultiple. */
 export const ADMIN_METADATA_SELECT_MODE_OPTIONS = [
-  { title: 'Single', value: 'Single' },
-  { title: 'Multiple', value: 'Multiple' },
-  { title: 'Required', value: 'Required' },
-  { title: 'Nested', value: 'Nested' },
+  { title: 'Single', value: 'single' },
+  { title: 'Multiple', value: 'multiple' },
+  { title: 'Required', value: 'required' },
+  { title: 'Nested', value: 'nested' },
 ] as const

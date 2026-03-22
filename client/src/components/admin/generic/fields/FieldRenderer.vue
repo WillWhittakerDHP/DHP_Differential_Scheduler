@@ -37,11 +37,7 @@
 <script setup lang="ts">
 /**
  */
-import { computed, toRef, type Component, type ComputedRef } from 'vue'
-import PrimitiveInputs from './PrimitiveInputs.vue'
-import SelectInputs from './SelectInputs.vue'
-import RelationshipCollection from '../collections/RelationshipCollection.vue'
-import IconInput from './IconInput.vue'
+import { computed, toRef, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
@@ -49,6 +45,7 @@ import { useFieldValue } from '@/composables/useFieldValue'
 import { useFieldComponent } from '@/composables/admin/useFieldComponent'
 import { useFieldRendererErrorWatch } from '@/composables/admin/useFieldRendererErrorWatch'
 import { useFieldRendererComponent } from '@/composables/admin/useFieldRendererComponent'
+import { createFieldRendererComponentMap } from './fieldRendererComponentMap'
 import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntity } from '@/types/entities'
@@ -137,9 +134,12 @@ const entityForMetadata = computed(() => {
 
 // PATTERN: Let parent component (EntityCard) handle warnings - it has access to metadata loading state
 
-const fieldMetadataRef = computed(() => {
+const fieldMetadataRef = computed((): Record<string, FieldMetadataEntry> | undefined => {
   const raw = props.fieldMetadata
-  return raw !== undefined && raw !== null ? raw : {}
+  if (raw === undefined || raw === null) {
+    return undefined
+  }
+  return raw
 })
 
 const fieldComponent = useFieldComponent({
@@ -157,15 +157,14 @@ const collectionType = computed(() => {
   return 'parts' // default
 })
 
-const componentMap: Record<FieldComponent['type'], Component | null> = {
-  icon: IconInput,
-  primitive: PrimitiveInputs,
-  relationshipCollection: RelationshipCollection,
-  select: SelectInputs,
-  unknown: null
-}
+const componentMap = createFieldRendererComponentMap()
 
-const componentsWithLabel: Array<FieldComponent['type']> = ['icon', 'primitive', 'select']
+const componentsWithLabel: Array<FieldComponent['type']> = [
+  'icon',
+  'primitive',
+  'select',
+  'differentialEventRoleOverrides',
+]
 
 const fieldShowLabel = computed(() =>
   componentsWithLabel.includes(fieldComponent.componentType.value.type) ? props.showLabel : undefined

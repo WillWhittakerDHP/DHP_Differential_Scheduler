@@ -17,6 +17,7 @@ import { PricingCascadeFactory } from "./booking/pricing_cascade.js";
 import { PartAssignmentFactory } from "./booking/part_assignment.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
 import { AnnotationInstanceFactory } from "./booking/annotation_instance.js";
+import { AnnotationInstanceContentFactory } from "./booking/annotation_instance_content.js";
 import { AnnotationAssignmentFactory } from "./booking/annotation_assignment.js";
 import { AnnotationShapeFactory } from "./booking/annotation_shape.js";
 import { EventShapeFactory } from "./booking/event_shape.js";
@@ -30,6 +31,8 @@ import { PropertyDetailsFactory } from "./booking/property_details.js";
 import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { AppointmentFactory } from "./booking/appointment.js";
+import { AppointmentSelectionLineFactory } from "./booking/appointment_selection_line.js";
+import { AppointmentTimeSlotFactory } from "./booking/appointment_time_slot.js";
 import { AppointmentFeeSummaryFactory } from "./booking/appointment_fee_summary.js";
 import { AppointmentFeeEntryFactory } from "./booking/appointment_fee_entry.js";
 import { ConstraintOverrideFactory } from "./booking/constraint_override.js";
@@ -46,6 +49,11 @@ import { AvailabilityDifferentialAttendeeFactory } from "./admin/availability_di
 import { CalendarSettingCalendarFactory } from "./admin/calendar_setting_calendar.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
 import { AdminMetadataFactory } from "./admin/adminMetadata.js";
+import { AdminMetadataSelectOptionFactory } from "./admin/adminMetadataSelectOption.js";
+import { AdminPrimitiveMetadataFactory } from "./admin/adminPrimitiveMetadata.js";
+import { AdminPrimitiveMetadataSelectOptionFactory } from "./admin/adminPrimitiveMetadataSelectOption.js";
+import { AdminRelationshipMetadataFactory } from "./admin/adminRelationshipMetadata.js";
+import { AdminRelationshipMetadataSelectOptionFactory } from "./admin/adminRelationshipMetadataSelectOption.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
 import { BetaFeedbackTagFactory } from "./beta/beta_feedback_tag.js";
 import { PropertyFieldMappingFactory } from "./mappings/property_field_mapping.js";
@@ -75,6 +83,7 @@ export function initializeModels(sequelize: Sequelize) {
 
   const AnnotationShape = AnnotationShapeFactory(sequelize);
   const AnnotationInstance = AnnotationInstanceFactory(sequelize);
+  const AnnotationInstanceContent = AnnotationInstanceContentFactory(sequelize);
   const AnnotationAssignment = AnnotationAssignmentFactory(sequelize);
 
   const EventShape = EventShapeFactory(sequelize);
@@ -89,6 +98,8 @@ export function initializeModels(sequelize: Sequelize) {
   const PropertyVersionType = PropertyVersionTypeFactory(sequelize);
   const User = UserFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
+  const AppointmentSelectionLine = AppointmentSelectionLineFactory(sequelize);
+  const AppointmentTimeSlot = AppointmentTimeSlotFactory(sequelize);
   const AppointmentFeeSummary = AppointmentFeeSummaryFactory(sequelize);
   const AppointmentFeeEntry = AppointmentFeeEntryFactory(sequelize);
   const ConstraintOverride = ConstraintOverrideFactory(sequelize);
@@ -107,6 +118,36 @@ export function initializeModels(sequelize: Sequelize) {
   const BusinessRule = BusinessRuleFactory(sequelize);
   // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
   const AdminMetadata = AdminMetadataFactory(sequelize);
+  const AdminMetadataSelectOption = AdminMetadataSelectOptionFactory(sequelize);
+
+  AdminMetadata.hasMany(AdminMetadataSelectOption, {
+    foreignKey: "adminMetadataId",
+    as: "selectOptions",
+  });
+  AdminMetadataSelectOption.belongsTo(AdminMetadata, {
+    foreignKey: "adminMetadataId",
+  });
+
+  const AdminPrimitiveMetadata = AdminPrimitiveMetadataFactory(sequelize);
+  const AdminRelationshipMetadata = AdminRelationshipMetadataFactory(sequelize);
+  const AdminPrimitiveMetadataSelectOption = AdminPrimitiveMetadataSelectOptionFactory(sequelize);
+  const AdminRelationshipMetadataSelectOption = AdminRelationshipMetadataSelectOptionFactory(sequelize);
+
+  AdminPrimitiveMetadata.hasMany(AdminPrimitiveMetadataSelectOption, {
+    foreignKey: "primitiveMetadataId",
+    as: "selectOptions",
+  });
+  AdminPrimitiveMetadataSelectOption.belongsTo(AdminPrimitiveMetadata, {
+    foreignKey: "primitiveMetadataId",
+  });
+
+  AdminRelationshipMetadata.hasMany(AdminRelationshipMetadataSelectOption, {
+    foreignKey: "relationshipMetadataId",
+    as: "selectOptions",
+  });
+  AdminRelationshipMetadataSelectOption.belongsTo(AdminRelationshipMetadata, {
+    foreignKey: "relationshipMetadataId",
+  });
 
   const BetaFeedback = BetaFeedbackFactory(sequelize);
   const BetaFeedbackTag = BetaFeedbackTagFactory(sequelize);
@@ -142,7 +183,8 @@ export function initializeModels(sequelize: Sequelize) {
   BlockShape.hasMany(ValidAnnotation, { foreignKey: 'parent_id', as: 'valid_annotations' });
   ValidAnnotation.belongsTo(AnnotationShape, { foreignKey: 'child_id', as: 'valid_annotation_shape' });
 
-  PartShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
+  BlockShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
+  ValidEvent.belongsTo(BlockShape, { foreignKey: 'parent_id', as: 'block_shape' });
   ValidEvent.belongsTo(EventShape, { foreignKey: 'child_id', as: 'valid_event_shape' });
 
   BlockInstance.hasMany(DependentInstance, { foreignKey: 'parent_id', as: 'dependent_instances' });
@@ -203,6 +245,20 @@ export function initializeModels(sequelize: Sequelize) {
   });
 
   AnnotationAssignment.belongsTo(BlockInstance, {
+    foreignKey: 'user_type_block_instance_id',
+    as: 'userTypeBlockInstance',
+  });
+
+  AnnotationInstance.hasMany(AnnotationInstanceContent, {
+    foreignKey: 'annotation_instance_id',
+    as: 'contentRows',
+    onDelete: 'CASCADE',
+  });
+  AnnotationInstanceContent.belongsTo(AnnotationInstance, {
+    foreignKey: 'annotation_instance_id',
+    as: 'annotationInstance',
+  });
+  AnnotationInstanceContent.belongsTo(BlockInstance, {
     foreignKey: 'user_type_block_instance_id',
     as: 'userTypeBlockInstance',
   });
@@ -291,6 +347,24 @@ export function initializeModels(sequelize: Sequelize) {
   AppointmentAttendee.belongsTo(Appointment, { 
     foreignKey: 'appointment_id', 
     as: 'appointment' 
+  });
+
+  Appointment.hasMany(AppointmentSelectionLine, {
+    foreignKey: 'appointmentId',
+    as: 'selectionLines',
+  });
+  AppointmentSelectionLine.belongsTo(Appointment, {
+    foreignKey: 'appointmentId',
+    as: 'appointment',
+  });
+
+  Appointment.hasMany(AppointmentTimeSlot, {
+    foreignKey: 'appointmentId',
+    as: 'timeSlots',
+  });
+  AppointmentTimeSlot.belongsTo(Appointment, {
+    foreignKey: 'appointmentId',
+    as: 'appointment',
   });
 
   User.hasMany(AppointmentAttendee, { 
@@ -401,9 +475,11 @@ export function initializeModels(sequelize: Sequelize) {
     BlockInstanceVersion, PartInstanceVersion,
     ValidCascade, ValidPart, ValidAnnotation, ValidEvent, ValidPricingCascade, DependentInstance,
     BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
-    AnnotationShape, AnnotationInstance, AnnotationAssignment,
+    AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
+    AppointmentSelectionLine,
+    AppointmentTimeSlot,
     AppointmentAttendee,
     AppointmentFeeSummary,
     AppointmentFeeEntry,
@@ -421,6 +497,11 @@ export function initializeModels(sequelize: Sequelize) {
     CalendarSettingCalendar,
     BusinessRule,
     AdminMetadata,
+    AdminMetadataSelectOption,
+    AdminPrimitiveMetadata,
+    AdminPrimitiveMetadataSelectOption,
+    AdminRelationshipMetadata,
+    AdminRelationshipMetadataSelectOption,
     BetaFeedback,
     BetaFeedbackTag,
     PropertyFieldMapping,

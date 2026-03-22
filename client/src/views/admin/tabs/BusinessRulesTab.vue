@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 import { useBusinessRulesTab } from '@/composables/admin/useBusinessRulesTab'
-import { ruleFormDialogContextKey } from '@/composables/admin/injectionKeys'
+import { ruleFormDialogContextKey } from '@/types/admin/adminInjectionKeys'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'
 import type { BusinessRuleFormData } from '@/types/admin/businessRules'
 import RulesList from './RulesList.vue'

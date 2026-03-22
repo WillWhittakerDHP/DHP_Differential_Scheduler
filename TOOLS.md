@@ -210,59 +210,54 @@ client/.audit-reports/
 
 ## GitHub PR Workflow Integration
 
-### Automated PR Creation (Session-End)
+### Automated PR Creation (Harness)
 
-**Purpose:** Automatically create pull requests at the end of each session
+**Purpose:** Open pull requests via GitHub CLI after tier-end git steps complete.
 
-**How it works:**
-1. At `/session-end`, after git operations complete
-2. Checks if GitHub CLI is authenticated
-3. Creates PR with session title and description
-4. Assigns PR to you automatically
-5. Provides PR link for review assignment
+**When:** `session-end`, `phase-end`, and `feature-end` call `.cursor/commands/scripts/create-pr.ts` (`gh pr create` with `--body-file`).
+
+**Verify your machine (run anytime):**
+```bash
+npm run check:gh
+```
 
 **Requirements:**
-- GitHub CLI (`gh`) installed and authenticated ✅ (v2.63.2)
-- Not on `main`/`master` branch
-- Git operations not skipped
+1. **Install `gh`:** https://cli.github.com/ (macOS: `brew install gh`)
+2. **Authenticate (pick one):**
+   - **Interactive (local dev):** `gh auth login -h github.com -p https -w` (browser flow)
+   - **Non-interactive / CI:** PAT with `repo` scope — `export GH_TOKEN=ghp_...` then either:
+     - `echo "$GH_TOKEN" | gh auth login --with-token -h github.com`, or
+     - many `gh` versions accept `GH_TOKEN` / `GITHUB_TOKEN` in the environment without a separate login step
+3. **Branch:** not on `main`/`master`; tier-end must not use `skipGit` where PRs apply
+4. **Optional env:** `HARNESS_SKIP_PR=1` skips PR creation; `HARNESS_PR_ASSIGNEE=me` adds `--assignee @me`
 
-**Manual PR Creation:**
+**Manual PR creation (fallback):**
 ```bash
-# If automated creation fails (from repo root):
-npx ts-node --esm .cursor/commands/scripts/create-pr.ts "Session X.Y: Title" "Description"
+# From repo root (uses tsx + local script):
+npx tsx .cursor/commands/scripts/create-pr.ts "Session X.Y: Title" "Description"
 
-# Or use gh CLI directly:
-gh pr create --title "Title" --body "Description" --assignee @me
+# Or directly:
+gh pr create --title "Title" --body-file body.md
 ```
 
 ### GitHub Validation Checkpoints
 
-**Phase-End Validation:**
-After completing a phase, you'll receive a prompt to verify on GitHub:
-- All session PRs from the phase are merged
-- No outstanding review comments
-- Phase branch is clean and ready
+Harness tier-ends open PRs via `gh` when configured (see above). You may still want to manually confirm on GitHub:
 
-**Feature-End Validation:**
-After completing a feature, you'll receive a prompt to verify on GitHub:
-- All phase PRs merged to main
-- Feature branch fully integrated
-- All reviews complete
-- CI/CD checks passing
+**After phase-end:** Open PRs list, CI green, reviews as needed.
+
+**After feature-end:** Parent branch (e.g. develop) PR toward default branch, CI, merge policy — reviews complete, CI green.
 
 ### PR Workflow Best Practices
 
 ```
 Task-end:     No PR (too granular)
-             
-Session-end:  ✅ Create PR automatically
-             (Cohesive, reviewable chunk)
-             
-Phase-end:    ✅ Validate all PRs merged
-             (Checkpoint before phase close)
-             
-Feature-end:  ✅ Final validation
-             (Ensure everything in main)
+
+Session-end:  ✅ Harness runs gh pr create (current branch → default base)
+
+Phase-end:    ✅ Harness runs gh pr create after phase → feature merge
+
+Feature-end:  ✅ Harness runs gh pr create after feature → parent merge
 ```
 
 ---

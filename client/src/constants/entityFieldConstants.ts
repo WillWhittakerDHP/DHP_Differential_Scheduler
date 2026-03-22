@@ -7,6 +7,8 @@ export const FIELD_NAMES = {
   CREATED_AT: 'createdAt',
   UPDATED_AT: 'updatedAt',
   ANNOTATIONS: 'annotations',
+  /** blockInstance → booking transformer / API field key */
+  DIFFERENTIAL_EVENT_ROLE_OVERRIDES: 'differentialEventRoleOverrides',
 } as const
 
 export const TEMPORARY_ID_PATTERNS = {

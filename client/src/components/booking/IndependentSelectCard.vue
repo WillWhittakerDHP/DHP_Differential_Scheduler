@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectionCardItem, SelectionCardConfig } from './types/selectionCardTypes'
 import { mergeSelectionCardConfigWithDefaults } from '@/utils/booking/selectionCardConfig'
+import { useAnnotationContent } from '@/composables/booking/useAnnotationContent'
+import type { BookingBlockAnnotationUi } from '@/types/transformers/bookingData'
 
 interface Props {
   item: SelectionCardItem
@@ -14,11 +16,14 @@ interface Props {
   appearance?: Partial<SelectionCardConfig['appearance']>
   
   disabled?: boolean
+
+  selectedUserTypeBlockInstanceId?: string | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
-  disabled: false
+  disabled: false,
+  selectedUserTypeBlockInstanceId: null,
 })
 
 interface Emits {
@@ -26,6 +31,12 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
+
+const annotationUiRef = computed(
+  () => (props.item as SelectionCardItem & { annotationUi?: BookingBlockAnnotationUi }).annotationUi
+)
+const selectedUtRef = toRef(props, 'selectedUserTypeBlockInstanceId')
+const { cardDescription, cardTooltip } = useAnnotationContent(annotationUiRef, selectedUtRef)
 
 const defaultConfig: SelectionCardConfig = {
   selectionType: 'checkbox',
@@ -140,9 +151,32 @@ const contentClasses = computed(() => {
     
     <!-- Content -->
     <div :class="contentClasses">
-      <span class="text-body-large font-weight-medium">
-        {{ item.name }}
-      </span>
+      <div class="d-flex align-center flex-wrap gap-1">
+        <span class="text-body-large font-weight-medium">
+          {{ item.name }}
+        </span>
+        <VTooltip v-if="cardTooltip.trim()" location="top">
+          <template #activator="{ props: tipProps }">
+            <VBtn
+              icon
+              size="x-small"
+              variant="text"
+              aria-label="More information"
+              v-bind="tipProps"
+              @click.stop
+            >
+              <Icon icon="mdi-information-outline" width="18" />
+            </VBtn>
+          </template>
+          <span>{{ cardTooltip }}</span>
+        </VTooltip>
+      </div>
+      <p
+        v-if="mergedConfig.appearance.showDescription !== false && cardDescription.trim()"
+        class="text-body-small text-medium-emphasis mt-1 mb-0"
+      >
+        {{ cardDescription }}
+      </p>
 
       <!-- Default slot for additional content -->
       <slot :item="item" />
