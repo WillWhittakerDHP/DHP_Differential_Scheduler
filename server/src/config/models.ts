@@ -31,6 +31,7 @@ export const {
   PropertyDetails,
   PropertyVersionType,
   User,
+  Session,
   Appointment,
   AppointmentSelectionLine,
   AppointmentTimeSlot,
