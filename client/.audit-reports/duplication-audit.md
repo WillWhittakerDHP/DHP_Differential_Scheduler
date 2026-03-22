@@ -37,43 +37,109 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **762**
-- Groups (window=10 lines, minOccurrences=2): **49**
+- Files scanned: **794**
+- Groups (window=10 lines, minOccurrences=2): **61**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
+| `dup-573aa28cdbf7` | 3 | 3 | 10 | `server/src/db/models/admin/adminMetadataSelectOption.ts@38`, `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts@38`, `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts@38` |
+| `dup-b5566deb2273` | 3 | 3 | 10 | `server/src/db/models/admin/adminMetadataSelectOption.ts@41`, `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts@41`, `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts@41` |
+| `dup-e3978eb5fea8` | 3 | 3 | 10 | `server/src/db/models/admin/adminMetadataSelectOption.ts@44`, `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts@44`, `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts@44` |
 | `dup-07637ee7e645` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@24`, `client/src/composables/booking/injectionKeys.ts@39` |
 | `dup-11f12b62a4a1` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@23`, `client/src/composables/booking/injectionKeys.ts@38` |
 | `dup-123065415eeb` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@12`, `client/src/composables/booking/injectionKeys.ts@50` |
-| `dup-142b35e7bc46` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@34`, `client/src/composables/booking/injectionKeys.ts@97` |
+| `dup-142b35e7bc46` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@34`, `client/src/composables/booking/injectionKeys.ts@100` |
 | `dup-16c81bdb13b1` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@25`, `client/src/composables/booking/injectionKeys.ts@40` |
-| `dup-1b753311ed13` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@39`, `client/src/composables/booking/injectionKeys.ts@102` |
-| `dup-1ed104e46b6b` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@19`, `client/src/composables/booking/injectionKeys.ts@82` |
+| `dup-1b753311ed13` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@39`, `client/src/composables/booking/injectionKeys.ts@105` |
+| `dup-1ed104e46b6b` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@19`, `client/src/composables/booking/injectionKeys.ts@85` |
+| `dup-200cf0be10ee` | 2 | 2 | 10 | `server/src/config/models.ts@46`, `server/src/db/models/index.ts@491` |
 | `dup-21187764e027` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@17`, `client/src/composables/booking/injectionKeys.ts@32` |
-| `dup-2260d64bf864` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@22`, `client/src/composables/booking/injectionKeys.ts@61` |
-| `dup-2d892e16dfba` | 2 | 2 | 10 | `server/src/config/models.ts@40`, `server/src/db/models/index.ts@413` |
-| `dup-2f98b2b8a160` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@25`, `client/src/composables/booking/injectionKeys.ts@88` |
-| `dup-2ff4aad4813a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@28`, `client/src/composables/booking/injectionKeys.ts@91` |
-| `dup-30a4f4a1cf3e` | 2 | 2 | 10 | `server/src/config/models.ts@35`, `server/src/db/models/index.ts@408` |
+| `dup-2a2d4ad30335` | 2 | 2 | 10 | `server/src/config/models.ts@43`, `server/src/db/models/index.ts@488` |
+| `dup-2f98b2b8a160` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@25`, `client/src/composables/booking/injectionKeys.ts@91` |
+| `dup-2ff4aad4813a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@28`, `client/src/composables/booking/injectionKeys.ts@94` |
+| `dup-30a4f4a1cf3e` | 2 | 2 | 10 | `server/src/config/models.ts@38`, `server/src/db/models/index.ts@483` |
 | `dup-3388642864ed` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@13`, `client/src/composables/booking/injectionKeys.ts@51` |
-| `dup-343823759865` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@42`, `client/src/composables/booking/injectionKeys.ts@105` |
-| `dup-35c1d4ab716f` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@21`, `client/src/composables/booking/injectionKeys.ts@60` |
+| `dup-33aa67f347dd` | 2 | 2 | 10 | `server/src/config/models.ts@47`, `server/src/db/models/index.ts@492` |
+| `dup-343823759865` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@42`, `client/src/composables/booking/injectionKeys.ts@108` |
 | `dup-38e4f00f21bc` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@19`, `client/src/composables/booking/injectionKeys.ts@58` |
-| `dup-3923ce43130e` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@24`, `client/src/composables/booking/injectionKeys.ts@87` |
-| `dup-3e0fca8edcc3` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@26`, `client/src/composables/booking/injectionKeys.ts@89` |
-| `dup-410a19544c06` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@30`, `client/src/composables/booking/injectionKeys.ts@93` |
+| `dup-3923ce43130e` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@24`, `client/src/composables/booking/injectionKeys.ts@90` |
+| `dup-3e0fca8edcc3` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@26`, `client/src/composables/booking/injectionKeys.ts@92` |
+| `dup-410a19544c06` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@30`, `client/src/composables/booking/injectionKeys.ts@96` |
 | `dup-452112380556` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@15`, `client/src/composables/booking/injectionKeys.ts@53` |
-| `dup-4c9d5a06c19a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@18`, `client/src/composables/booking/injectionKeys.ts@81` |
-| `dup-4f0b78374cc1` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@41`, `client/src/composables/booking/injectionKeys.ts@104` |
-| `dup-52fadcd59c64` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@20`, `client/src/composables/booking/injectionKeys.ts@35` |
-| `dup-555429af8150` | 2 | 2 | 10 | `server/src/config/models.ts@37`, `server/src/db/models/index.ts@410` |
+| `dup-4c9d5a06c19a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@18`, `client/src/composables/booking/injectionKeys.ts@84` |
 
 ## Per-group details (top)
 
 When a group spans multiple files in the same domain, it’s often a good extraction candidate (shared utility/composable).
+
+### Group `dup-573aa28cdbf7`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/admin/adminMetadataSelectOption.ts` @ lines 38-60
+- `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts` @ lines 38-60
+- `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts` @ lines 38-60
+
+```
+type: DataTypes.INTEGER,
+field: 'display_order',
+type: DataTypes.TEXT,
+type: DataTypes.TEXT,
+field: 'value_payload',
+comment: 'JSON text of option value (null/absent for null option value)',
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+field: 'created_at',
+type: DataTypes.DATE,
+```
+
+### Group `dup-b5566deb2273`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/admin/adminMetadataSelectOption.ts` @ lines 41-62
+- `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts` @ lines 41-62
+- `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts` @ lines 41-62
+
+```
+field: 'display_order',
+type: DataTypes.TEXT,
+type: DataTypes.TEXT,
+field: 'value_payload',
+comment: 'JSON text of option value (null/absent for null option value)',
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+field: 'created_at',
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+```
+
+### Group `dup-e3978eb5fea8`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/db/models/admin/adminMetadataSelectOption.ts` @ lines 44-63
+- `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts` @ lines 44-63
+- `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts` @ lines 44-63
+
+```
+type: DataTypes.TEXT,
+type: DataTypes.TEXT,
+field: 'value_payload',
+comment: 'JSON text of option value (null/absent for null option value)',
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+field: 'created_at',
+type: DataTypes.DATE,
+defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+field: 'updated_at',
+```
 
 ### Group `dup-07637ee7e645`
 
@@ -144,7 +210,7 @@ Symbol('updateDisplayedMonth')
 
 Locations:
 - `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 34-46
-- `client/src/composables/booking/injectionKeys.ts` @ lines 97-109
+- `client/src/composables/booking/injectionKeys.ts` @ lines 100-112
 
 ```
 export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
@@ -186,7 +252,7 @@ Symbol('availabilityStepValid')
 
 Locations:
 - `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 39-48
-- `client/src/composables/booking/injectionKeys.ts` @ lines 102-111
+- `client/src/composables/booking/injectionKeys.ts` @ lines 105-114
 
 ```
 clientInfo: Ref<ContactInfo>
@@ -207,7 +273,7 @@ fieldErrors: Ref<Record<string, string>>
 
 Locations:
 - `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 19-28
-- `client/src/composables/booking/injectionKeys.ts` @ lines 82-91
+- `client/src/composables/booking/injectionKeys.ts` @ lines 85-94
 
 ```
 finalizedParts: ComputedRef<PartFinal[]>
@@ -220,6 +286,27 @@ serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>
 handleServiceTypeChange: (serviceId: string | null) => void
 hasWizard: boolean
 isSelectedServiceDifferential: ComputedRef<boolean>
+```
+
+### Group `dup-200cf0be10ee`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/config/models.ts` @ lines 46-57
+- `server/src/db/models/index.ts` @ lines 491-502
+
+```
+AvailabilityRangeConstraint,
+AvailabilityRangeConstraintHour,
+AvailabilityMaxWorkHour,
+AvailabilityMaxIncomeRow,
+AvailabilityDifferentialAttendee,
+CalendarSettingCalendar,
+AdminMetadataSelectOption,
+AdminPrimitiveMetadata,
+AdminPrimitiveMetadataSelectOption,
+AdminRelationshipMetadata,
 ```
 
 ### Group `dup-21187764e027`
@@ -243,34 +330,13 @@ Symbol('propertyDetailsStepValidate')
 export const propertyDetailsFieldErrorsKey: InjectionKey<Ref<Record<string, string>>> =
 ```
 
-### Group `dup-2260d64bf864`
+### Group `dup-2a2d4ad30335`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `client/src/composables/booking/bookingKeys.ts` @ lines 22-36
-- `client/src/composables/booking/injectionKeys.ts` @ lines 61-75
-
-```
-Symbol('updateDisplayedMonth')
-export const appointmentDurationKey: InjectionKey<Ref<number | null>> =
-Symbol('appointmentDuration')
-export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =
-Symbol('computedAvailability')
-export const resetMocksSignalKey: InjectionKey<Ref<number>> =
-Symbol('resetMocksSignal')
-export const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')
-export const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =
-Symbol('loadedWizardState')
-```
-
-### Group `dup-2d892e16dfba`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `server/src/config/models.ts` @ lines 40-53
-- `server/src/db/models/index.ts` @ lines 413-426
+- `server/src/config/models.ts` @ lines 43-54
+- `server/src/db/models/index.ts` @ lines 488-499
 
 ```
 AvailabilitySetting,
@@ -282,7 +348,7 @@ AvailabilityMaxWorkHour,
 AvailabilityMaxIncomeRow,
 AvailabilityDifferentialAttendee,
 CalendarSettingCalendar,
-PropertyFieldMapping,
+AdminMetadataSelectOption,
 ```
 
 ### Group `dup-2f98b2b8a160`
@@ -291,7 +357,7 @@ PropertyFieldMapping,
 
 Locations:
 - `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 25-39
-- `client/src/composables/booking/injectionKeys.ts` @ lines 88-102
+- `client/src/composables/booking/injectionKeys.ts` @ lines 91-105
 
 ```
 serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>
@@ -312,7 +378,7 @@ clientInfo: Ref<ContactInfo>
 
 Locations:
 - `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 28-42
-- `client/src/composables/booking/injectionKeys.ts` @ lines 91-105
+- `client/src/composables/booking/injectionKeys.ts` @ lines 94-108
 
 ```
 isSelectedServiceDifferential: ComputedRef<boolean>
@@ -332,8 +398,8 @@ transactionManagerInfo: Ref<ContactInfo>
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
-- `server/src/config/models.ts` @ lines 35-46
-- `server/src/db/models/index.ts` @ lines 408-419
+- `server/src/config/models.ts` @ lines 38-49
+- `server/src/db/models/index.ts` @ lines 483-494
 
 ```
 AppointmentFeeSummary,
@@ -369,13 +435,34 @@ Symbol('updateDisplayedMonth')
 export const appointmentDurationKey: InjectionKey<Ref<number | null>> =
 ```
 
+### Group `dup-33aa67f347dd`
+
+- unique files: **2**, occurrences: **2**, lineCount: **10**
+
+Locations:
+- `server/src/config/models.ts` @ lines 47-58
+- `server/src/db/models/index.ts` @ lines 492-503
+
+```
+AvailabilityRangeConstraintHour,
+AvailabilityMaxWorkHour,
+AvailabilityMaxIncomeRow,
+AvailabilityDifferentialAttendee,
+CalendarSettingCalendar,
+AdminMetadataSelectOption,
+AdminPrimitiveMetadata,
+AdminPrimitiveMetadataSelectOption,
+AdminRelationshipMetadata,
+AdminRelationshipMetadataSelectOption,
+```
+
 ### Group `dup-343823759865`
 
 - unique files: **2**, occurrences: **2**, lineCount: **10**
 
 Locations:
 - `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 42-53
-- `client/src/composables/booking/injectionKeys.ts` @ lines 105-116
+- `client/src/composables/booking/injectionKeys.ts` @ lines 108-119
 
 ```
 transactionManagerInfo: Ref<ContactInfo>
@@ -388,27 +475,6 @@ fieldErrors: Ref<Record<string, string>>
 toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
 export const contactsFormContextKey: InjectionKey<ContactsFormContext> =
 Symbol('contactsFormContext')
-```
-
-### Group `dup-35c1d4ab716f`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/booking/bookingKeys.ts` @ lines 21-35
-- `client/src/composables/booking/injectionKeys.ts` @ lines 60-74
-
-```
-export const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =
-Symbol('updateDisplayedMonth')
-export const appointmentDurationKey: InjectionKey<Ref<number | null>> =
-Symbol('appointmentDuration')
-export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =
-Symbol('computedAvailability')
-export const resetMocksSignalKey: InjectionKey<Ref<number>> =
-Symbol('resetMocksSignal')
-export const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')
-export const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =
 ```
 
 ### Group `dup-38e4f00f21bc`
@@ -430,67 +496,4 @@ export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn
 Symbol('computedAvailability')
 export const resetMocksSignalKey: InjectionKey<Ref<number>> =
 Symbol('resetMocksSignal')
-```
-
-### Group `dup-3923ce43130e`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 24-35
-- `client/src/composables/booking/injectionKeys.ts` @ lines 87-98
-
-```
-selectedServiceTypeId: ComputedRef<string | null>
-serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>
-handleServiceTypeChange: (serviceId: string | null) => void
-hasWizard: boolean
-isSelectedServiceDifferential: ComputedRef<boolean>
-servicesSummary: ComputedRef<ServiceSummary[]>
-timeSlotResults: ComputedRef<TimeSlotResults>
-hasSelectedTime: ComputedRef<boolean>
-export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
-Symbol('instancesPanelContext')
-```
-
-### Group `dup-3e0fca8edcc3`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 26-40
-- `client/src/composables/booking/injectionKeys.ts` @ lines 89-103
-
-```
-handleServiceTypeChange: (serviceId: string | null) => void
-hasWizard: boolean
-isSelectedServiceDifferential: ComputedRef<boolean>
-servicesSummary: ComputedRef<ServiceSummary[]>
-timeSlotResults: ComputedRef<TimeSlotResults>
-hasSelectedTime: ComputedRef<boolean>
-export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
-Symbol('instancesPanelContext')
-clientInfo: Ref<ContactInfo>
-agentInfo: Ref<ContactInfo>
-```
-
-### Group `dup-410a19544c06`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 30-44
-- `client/src/composables/booking/injectionKeys.ts` @ lines 93-107
-
-```
-timeSlotResults: ComputedRef<TimeSlotResults>
-hasSelectedTime: ComputedRef<boolean>
-export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
-Symbol('instancesPanelContext')
-clientInfo: Ref<ContactInfo>
-agentInfo: Ref<ContactInfo>
-anotherClientInfo: Ref<ContactInfo>
-transactionManagerInfo: Ref<ContactInfo>
-sellerInfo: Ref<ContactInfo>
-showAnotherClient: Ref<boolean>
 ```

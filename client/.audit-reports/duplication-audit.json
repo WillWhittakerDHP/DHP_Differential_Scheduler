@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:27:32.509Z",
+  "generatedAt": "2026-03-22T02:44:23.728Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 762,
+  "fileCount": 794,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -466,6 +466,105 @@
   "duplicateComposableExports": [],
   "groups": [
     {
+      "groupId": "dup-573aa28cdbf7",
+      "hash": "573aa28cdbf7",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/admin/adminMetadataSelectOption.ts",
+          "startLine": 38,
+          "endLine": 60,
+          "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/admin/adminMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts",
+          "startLine": 38,
+          "endLine": 60,
+          "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts",
+          "startLine": 38,
+          "endLine": 60,
+          "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b5566deb2273",
+      "hash": "b5566deb2273",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/admin/adminMetadataSelectOption.ts",
+          "startLine": 41,
+          "endLine": 62,
+          "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/admin/adminMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts",
+          "startLine": 41,
+          "endLine": 62,
+          "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts",
+          "startLine": 41,
+          "endLine": 62,
+          "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e3978eb5fea8",
+      "hash": "e3978eb5fea8",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/admin/adminMetadataSelectOption.ts",
+          "startLine": 44,
+          "endLine": 63,
+          "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+          "target": "server/src/db/models/admin/adminMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts",
+          "startLine": 44,
+          "endLine": 63,
+          "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+          "target": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts",
+          "startLine": 44,
+          "endLine": 63,
+          "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+          "target": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-07637ee7e645",
       "hash": "07637ee7e645",
       "uniqueFiles": 2,
@@ -560,8 +659,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 97,
-          "endLine": 109,
+          "startLine": 100,
+          "endLine": 112,
           "windowText": "export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>\nshowSeller: Ref<boolean>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -612,8 +711,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 102,
-          "endLine": 111,
+          "startLine": 105,
+          "endLine": 114,
           "windowText": "clientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>\nshowSeller: Ref<boolean>\nvalidationRules: ComputedRef<Record<string, ValidationRule[]>>\nfieldErrors: Ref<Record<string, string>>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -638,10 +737,36 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 82,
-          "endLine": 91,
+          "startLine": 85,
+          "endLine": 94,
           "windowText": "finalizedParts: ComputedRef<PartFinal[]>\neventShapes: ComputedRef<EventShape[]>\nhasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-200cf0be10ee",
+      "hash": "200cf0be10ee",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 46,
+          "endLine": 57,
+          "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 491,
+          "endLine": 502,
+          "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -674,51 +799,25 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-2260d64bf864",
-      "hash": "2260d64bf864",
+      "groupId": "dup-2a2d4ad30335",
+      "hash": "2a2d4ad30335",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "Symbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =\nSymbol('loadedWizardState')",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/booking/bookingKeys.ts",
-          "startLine": 22,
-          "endLine": 36,
-          "windowText": "Symbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =\nSymbol('loadedWizardState')",
-          "target": "client/src/composables/booking/bookingKeys.ts"
-        },
-        {
-          "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 61,
-          "endLine": 75,
-          "windowText": "Symbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =\nSymbol('loadedWizardState')",
-          "target": "client/src/composables/booking/injectionKeys.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-2d892e16dfba",
-      "hash": "2d892e16dfba",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,",
+      "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
       "locations": [
         {
           "repoPath": "server/src/config/models.ts",
-          "startLine": 40,
-          "endLine": 53,
-          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,",
+          "startLine": 43,
+          "endLine": 54,
+          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
           "target": "server/src/config/models.ts"
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 413,
-          "endLine": 426,
-          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,",
+          "startLine": 488,
+          "endLine": 499,
+          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
           "target": "server/src/db/models/index.ts"
         }
       ],
@@ -742,8 +841,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 88,
-          "endLine": 102,
+          "startLine": 91,
+          "endLine": 105,
           "windowText": "serviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -768,8 +867,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 91,
-          "endLine": 105,
+          "startLine": 94,
+          "endLine": 108,
           "windowText": "isSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -787,15 +886,15 @@
       "locations": [
         {
           "repoPath": "server/src/config/models.ts",
-          "startLine": 35,
-          "endLine": 46,
+          "startLine": 38,
+          "endLine": 49,
           "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
           "target": "server/src/config/models.ts"
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 408,
-          "endLine": 419,
+          "startLine": 483,
+          "endLine": 494,
           "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
           "target": "server/src/db/models/index.ts"
         }
@@ -830,6 +929,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-33aa67f347dd",
+      "hash": "33aa67f347dd",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 47,
+          "endLine": 58,
+          "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 492,
+          "endLine": 503,
+          "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-343823759865",
       "hash": "343823759865",
       "uniqueFiles": 2,
@@ -846,35 +971,9 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 105,
-          "endLine": 116,
+          "startLine": 108,
+          "endLine": 119,
           "windowText": "transactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>\nshowSeller: Ref<boolean>\nvalidationRules: ComputedRef<Record<string, ValidationRule[]>>\nfieldErrors: Ref<Record<string, string>>\ntoggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void\nexport const contactsFormContextKey: InjectionKey<ContactsFormContext> =\nSymbol('contactsFormContext')",
-          "target": "client/src/composables/booking/injectionKeys.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-35c1d4ab716f",
-      "hash": "35c1d4ab716f",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "export const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =",
-      "locations": [
-        {
-          "repoPath": "client/src/composables/booking/bookingKeys.ts",
-          "startLine": 21,
-          "endLine": 35,
-          "windowText": "export const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =",
-          "target": "client/src/composables/booking/bookingKeys.ts"
-        },
-        {
-          "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 60,
-          "endLine": 74,
-          "windowText": "export const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
       ],
@@ -924,8 +1023,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 87,
-          "endLine": 98,
+          "startLine": 90,
+          "endLine": 101,
           "windowText": "selectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -950,8 +1049,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 89,
-          "endLine": 103,
+          "startLine": 92,
+          "endLine": 106,
           "windowText": "handleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -976,8 +1075,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 93,
-          "endLine": 107,
+          "startLine": 96,
+          "endLine": 110,
           "windowText": "timeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1028,8 +1127,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 81,
-          "endLine": 90,
+          "startLine": 84,
+          "endLine": 93,
           "windowText": "appointmentShape: ComputedRef<AppointmentShape | null>\nfinalizedParts: ComputedRef<PartFinal[]>\neventShapes: ComputedRef<EventShape[]>\nhasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1054,8 +1153,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 104,
-          "endLine": 115,
+          "startLine": 107,
+          "endLine": 118,
           "windowText": "anotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>\nshowSeller: Ref<boolean>\nvalidationRules: ComputedRef<Record<string, ValidationRule[]>>\nfieldErrors: Ref<Record<string, string>>\ntoggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void\nexport const contactsFormContextKey: InjectionKey<ContactsFormContext> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1099,15 +1198,15 @@
       "locations": [
         {
           "repoPath": "server/src/config/models.ts",
-          "startLine": 37,
-          "endLine": 48,
+          "startLine": 40,
+          "endLine": 51,
           "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
           "target": "server/src/config/models.ts"
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 410,
-          "endLine": 421,
+          "startLine": 485,
+          "endLine": 496,
           "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1158,8 +1257,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 86,
-          "endLine": 97,
+          "startLine": 89,
+          "endLine": 100,
           "windowText": "formatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1184,8 +1283,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 83,
-          "endLine": 92,
+          "startLine": 86,
+          "endLine": 95,
           "windowText": "eventShapes: ComputedRef<EventShape[]>\nhasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1210,10 +1309,36 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 84,
-          "endLine": 93,
+          "startLine": 87,
+          "endLine": 96,
           "windowText": "hasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-869c63fd19e5",
+      "hash": "869c63fd19e5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "...mapMetaFieldsToPayload({\ndataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "startLine": 15,
+          "endLine": 24,
+          "windowText": "...mapMetaFieldsToPayload({\ndataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,",
+          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 20,
+          "endLine": 29,
+          "windowText": "...mapMetaFieldsToPayload({\ndataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 22,
@@ -1281,15 +1406,15 @@
       "locations": [
         {
           "repoPath": "server/src/config/models.ts",
-          "startLine": 34,
-          "endLine": 45,
+          "startLine": 37,
+          "endLine": 48,
           "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
           "target": "server/src/config/models.ts"
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 407,
-          "endLine": 418,
+          "startLine": 482,
+          "endLine": 493,
           "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1314,8 +1439,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 80,
-          "endLine": 89,
+          "startLine": 83,
+          "endLine": 92,
           "windowText": "setActiveInstancesSubTab: (value: 'parts' | 'blocks') => void\nappointmentShape: ComputedRef<AppointmentShape | null>\nfinalizedParts: ComputedRef<PartFinal[]>\neventShapes: ComputedRef<EventShape[]>\nhasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1376,6 +1501,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-9a8cc5f6c115",
+      "hash": "9a8cc5f6c115",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 44,
+          "endLine": 55,
+          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 489,
+          "endLine": 500,
+          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-9e5edf287341",
       "hash": "9e5edf287341",
       "uniqueFiles": 2,
@@ -1392,10 +1543,36 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 98,
-          "endLine": 110,
+          "startLine": 101,
+          "endLine": 113,
           "windowText": "Symbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>\nshowSeller: Ref<boolean>\nvalidationRules: ComputedRef<Record<string, ValidationRule[]>>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-a7b2c82a18b0",
+      "hash": "a7b2c82a18b0",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 45,
+          "endLine": 56,
+          "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 490,
+          "endLine": 501,
+          "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1418,8 +1595,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 94,
-          "endLine": 108,
+          "startLine": 97,
+          "endLine": 111,
           "windowText": "hasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1444,10 +1621,62 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 92,
-          "endLine": 106,
+          "startLine": 95,
+          "endLine": 109,
           "windowText": "servicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b52008f44f0c",
+      "hash": "b52008f44f0c",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 35,
+          "endLine": 46,
+          "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 480,
+          "endLine": 491,
+          "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b6d7ca611115",
+      "hash": "b6d7ca611115",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 48,
+          "endLine": 61,
+          "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 493,
+          "endLine": 506,
+          "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1489,16 +1718,42 @@
       "locations": [
         {
           "repoPath": "server/src/config/models.ts",
-          "startLine": 36,
-          "endLine": 47,
+          "startLine": 39,
+          "endLine": 50,
           "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
           "target": "server/src/config/models.ts"
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 409,
-          "endLine": 420,
+          "startLine": 484,
+          "endLine": 495,
           "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c37ddcb0071b",
+      "hash": "c37ddcb0071b",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 49,
+          "endLine": 62,
+          "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 494,
+          "endLine": 507,
+          "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
           "target": "server/src/db/models/index.ts"
         }
       ],
@@ -1522,8 +1777,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 103,
-          "endLine": 112,
+          "startLine": 106,
+          "endLine": 115,
           "windowText": "agentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>\ntransactionManagerInfo: Ref<ContactInfo>\nsellerInfo: Ref<ContactInfo>\nshowAnotherClient: Ref<boolean>\nshowTransactionManager: Ref<boolean>\nshowSeller: Ref<boolean>\nvalidationRules: ComputedRef<Record<string, ValidationRule[]>>\nfieldErrors: Ref<Record<string, string>>\ntoggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
@@ -1532,26 +1787,52 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-ccb25faaba3a",
-      "hash": "ccb25faaba3a",
+      "groupId": "dup-cd8e6e6891a8",
+      "hash": "cd8e6e6891a8",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "Symbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')",
+      "windowText": "onUpdate: 'CASCADE',\nonDelete: 'SET NULL',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
       "locations": [
         {
-          "repoPath": "client/src/composables/booking/bookingKeys.ts",
-          "startLine": 20,
-          "endLine": 32,
-          "windowText": "Symbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')",
-          "target": "client/src/composables/booking/bookingKeys.ts"
+          "repoPath": "server/src/db/models/booking/appointment.ts",
+          "startLine": 187,
+          "endLine": 206,
+          "windowText": "onUpdate: 'CASCADE',\nonDelete: 'SET NULL',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
+          "target": "server/src/db/models/booking/appointment.ts"
         },
         {
-          "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 59,
-          "endLine": 71,
-          "windowText": "Symbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')",
-          "target": "client/src/composables/booking/injectionKeys.ts"
+          "repoPath": "server/src/db/models/participantModels/Users.ts",
+          "startLine": 69,
+          "endLine": 88,
+          "windowText": "onUpdate: 'CASCADE',\nonDelete: 'SET NULL',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
+          "target": "server/src/db/models/participantModels/Users.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-cedff6290f69",
+      "hash": "cedff6290f69",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "splitInputConfigForPersistence,\n} from '../../../utils/adminMetadataInputConfigPersist.js'\n} from '../../helpers/routerResponseHelpers.js'\nconst router = Router()\nrouter.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {\nconst entityType = paramString(req, 'entityType')\nconst entityId = paramString(req, 'entityId')\nconst entityTypeValidation = validateEntityType(entityType)\nif (!entityTypeValidation.valid) {\nsendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+          "startLine": 9,
+          "endLine": 38,
+          "windowText": "splitInputConfigForPersistence,\n} from '../../../utils/adminMetadataInputConfigPersist.js'\n} from '../../helpers/routerResponseHelpers.js'\nconst router = Router()\nrouter.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {\nconst entityType = paramString(req, 'entityType')\nconst entityId = paramString(req, 'entityId')\nconst entityTypeValidation = validateEntityType(entityType)\nif (!entityTypeValidation.valid) {\nsendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+          "startLine": 9,
+          "endLine": 38,
+          "windowText": "splitInputConfigForPersistence,\n} from '../../../utils/adminMetadataInputConfigPersist.js'\n} from '../../helpers/routerResponseHelpers.js'\nconst router = Router()\nrouter.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {\nconst entityType = paramString(req, 'entityType')\nconst entityId = paramString(req, 'entityId')\nconst entityTypeValidation = validateEntityType(entityType)\nif (!entityTypeValidation.valid) {\nsendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)",
+          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts"
         }
       ],
       "score": 22,
@@ -1584,6 +1865,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-d8e406518e30",
+      "hash": "d8e406518e30",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 36,
+          "endLine": 47,
+          "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 481,
+          "endLine": 492,
+          "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-e30e56f54b7c",
       "hash": "e30e56f54b7c",
       "uniqueFiles": 2,
@@ -1600,10 +1907,36 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 79,
-          "endLine": 88,
+          "startLine": 82,
+          "endLine": 91,
           "windowText": "activeInstancesSubTab: Ref<'parts' | 'blocks'>\nsetActiveInstancesSubTab: (value: 'parts' | 'blocks') => void\nappointmentShape: ComputedRef<AppointmentShape | null>\nfinalizedParts: ComputedRef<PartFinal[]>\neventShapes: ComputedRef<EventShape[]>\nhasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e7a186e2e085",
+      "hash": "e7a186e2e085",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "startLine": 16,
+          "endLine": 25,
+          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
+          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 21,
+          "endLine": 30,
+          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 22,
@@ -1626,10 +1959,36 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 85,
-          "endLine": 94,
+          "startLine": 88,
+          "endLine": 97,
           "windowText": "formatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-eda2171117d2",
+      "hash": "eda2171117d2",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "startLine": 17,
+          "endLine": 26,
+          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 22,
+          "endLine": 31,
+          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 22,
@@ -1662,32 +2021,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-f1bd893174b7",
-      "hash": "f1bd893174b7",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
-      "locations": [
-        {
-          "repoPath": "server/src/config/models.ts",
-          "startLine": 41,
-          "endLine": 54,
-          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
-          "target": "server/src/config/models.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/index.ts",
-          "startLine": 414,
-          "endLine": 427,
-          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
-          "target": "server/src/db/models/index.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-f2b56868d9c6",
       "hash": "f2b56868d9c6",
       "uniqueFiles": 2,
@@ -1704,8 +2037,8 @@
         },
         {
           "repoPath": "client/src/composables/booking/injectionKeys.ts",
-          "startLine": 90,
-          "endLine": 104,
+          "startLine": 93,
+          "endLine": 107,
           "windowText": "hasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>\nexport const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =\nSymbol('instancesPanelContext')\nclientInfo: Ref<ContactInfo>\nagentInfo: Ref<ContactInfo>\nanotherClientInfo: Ref<ContactInfo>",
           "target": "client/src/composables/booking/injectionKeys.ts"
         }
