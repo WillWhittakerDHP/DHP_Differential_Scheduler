@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:27:33.446Z",
+  "generatedAt": "2026-03-22T02:44:23.529Z",
   "clientEndpoints": 0,
   "serverEndpoints": 72,
   "endpointKeys": [
@@ -79,6 +79,10 @@
     {
       "name": "AppointmentFeeBreakdownPayload",
       "file": "shared/types/appointmentFeeTypes.ts"
+    },
+    {
+      "name": "AppointmentSelectedTimeSlotPayload",
+      "file": "shared/types/appointmentTypes.ts"
     },
     {
       "name": "AttendeeRequest",
@@ -391,6 +395,34 @@
     {
       "name": "PropertyDetailsBase",
       "file": "shared/types/propertyTypes.ts"
+    },
+    {
+      "name": "SelectInputConfigPassthroughKey",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputConfigPassthrough",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputStaticOptionsCore",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputRelationshipCore",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputPrimitiveCore",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputConfig",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "ParsedSelectInputConfig",
+      "file": "shared/types/selectInputConfig.ts"
     },
     {
       "name": "TernaryBoolean",

@@ -22,12 +22,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 **Legacy and backward-compatibility findings are NEVER permissible and are HIGH refactor targets.** Tier 1 (annotations, legacy-keyword, unhelpful-default-*) drives score and requiring-review count; legacy/compat rules contribute high numeric scores. Tier 2 (fallback-keyword, default-param, chaining-fallback) is report-only.
 
-- Files with findings: **9**
-- Requiring review (Tier 1): **12**
+- Files with findings: **20**
+- Requiring review (Tier 1): **33**
 - Allowed (with justification): 0
-- Annotated deprecations: **0**
-- Runtime legacy accommodation: **16**
-- Tier 1 findings: 12 (annotations: 0, legacy-keyword: 0, unhelpful-default: 12)
+- Annotated deprecations: **1**
+- Runtime legacy accommodation: **36**
+- Tier 1 findings: 33 (annotations: 1, legacy-keyword: 13, unhelpful-default: 19)
 
 ## Rules
 
@@ -83,17 +83,62 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 | File | Priority | Score | Annotations | Legacy/Compat |
 | --- | --- | ---: | ---: | ---: |
+| `server/src/repositories/appointmentSelectionCodec.ts` | P0 | 80 | 1 | 7 |
+| `server/src/services/appointmentSnapshotLoader.ts` | P0 | 40 | 0 | 4 |
+| `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` | P0 | 10 | 0 | 1 |
+| `server/src/routes/internal/shared/metadataValidatorFactory.ts` | P0 | 10 | 0 | 1 |
 | `server/src/repositories/availabilityRelationalCodec.ts` | P1 | 6 | 0 | 3 |
-| `client/src/composables/admin/useInstanceDragAndDrop.ts` | P1 | 4 | 0 | 2 |
+| `client/src/composables/admin/instanceDragAndDropGrouped.ts` | P1 | 4 | 0 | 2 |
 | `client/src/components/booking/steps/AvailabilityStep.vue` | P2 | 2 | 0 | 1 |
 | `client/src/composables/booking/useAvailabilityDefaults.ts` | P2 | 2 | 0 | 1 |
 | `client/src/composables/useThemeMode.ts` | P2 | 2 | 0 | 1 |
+| `client/src/utils/admin/resolveBlockInstanceMetadata.ts` | P2 | 2 | 0 | 1 |
 | `client/src/utils/booking/buildClientLinks.ts` | P2 | 2 | 0 | 1 |
 | `client/src/utils/booking/partFinalizer.ts` | P2 | 2 | 0 | 1 |
 | `server/src/repositories/calendarSettingsRepository.ts` | P2 | 2 | 0 | 5 |
+| `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` | P2 | 2 | 0 | 1 |
+| `server/src/routes/internal/relationships/relationshipAnnotationFormat.ts` | P2 | 2 | 0 | 1 |
 | `server/src/services/invites/inviteContextBuilder.ts` | P2 | 2 | 0 | 1 |
+| `server/src/utils/adminMetadataEntryAssembly.ts` | P2 | 2 | 0 | 1 |
+| `server/src/utils/adminMetadataInputConfigCodec.ts` | P2 | 2 | 0 | 1 |
+| `server/src/utils/adminPrimitiveMetadataComposer.ts` | P2 | 2 | 0 | 1 |
+| `server/src/utils/adminRelationshipMetadataComposer.ts` | P2 | 2 | 0 | 1 |
 
 ## Per-file findings
+
+### `server/src/repositories/appointmentSelectionCodec.ts` [P0] (score: 80)
+
+```
+[DEPR] compat-marker@6: /** Keys persisted on child rows but exposed on appointment JSON for backward compatibility. */
+[LEGACY] legacy-keyword@216: export function legacyFieldsToBody(legacy: LegacyAppointmentSelectionFields): Record<string, unknown> {
+[LEGACY] legacy-keyword@218: selectedServiceIds: legacy.selectedServiceIds,
+[LEGACY] legacy-keyword@219: serviceQuantities: legacy.serviceQuantities,
+[LEGACY] legacy-keyword@220: selectedPropertyIds: legacy.selectedPropertyIds,
+[LEGACY] legacy-keyword@221: propertyQuantities: legacy.propertyQuantities,
+[LEGACY] legacy-keyword@222: selectedOptionIds: legacy.selectedOptionIds,
+[LEGACY] legacy-keyword@223: optionQuantities: legacy.optionQuantities,
+```
+
+### `server/src/services/appointmentSnapshotLoader.ts` [P0] (score: 40)
+
+```
+[LEGACY] legacy-keyword@125: const legacy = linesToLegacyFields(lines)
+[LEGACY] legacy-keyword@127: serviceSnapshotIds: legacy.serviceSnapshotIds,
+[LEGACY] legacy-keyword@128: propertySnapshotIds: legacy.propertySnapshotIds,
+[LEGACY] legacy-keyword@129: optionSnapshotIds: legacy.optionSnapshotIds,
+```
+
+### `server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts` [P0] (score: 10)
+
+```
+[LEGACY] legacy-keyword@15: `inputConfig is required when renderAs is "${renderAs}". Expected direct select config (targetMode relationship or primi...
+```
+
+### `server/src/routes/internal/shared/metadataValidatorFactory.ts` [P0] (score: 10)
+
+```
+[LEGACY] legacy-keyword@114: `inputConfig is required when renderAs is "${renderAs}". Expected direct select config (targetMode relationship or primi...
+```
 
 ### `server/src/repositories/availabilityRelationalCodec.ts` [P1] (score: 6)
 
@@ -103,17 +148,17 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] unhelpful-default-nullish@202: placeId: root.defaultLocationPlaceId ?? '',
 ```
 
-### `client/src/composables/admin/useInstanceDragAndDrop.ts` [P1] (score: 4)
+### `client/src/composables/admin/instanceDragAndDropGrouped.ts` [P1] (score: 4)
 
 ```
-[LEGACY] unhelpful-default-nullish@61: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
-[LEGACY] unhelpful-default-nullish@68: const all = blockInstancesByShape.value.get(blockShapeId) ?? []
+[LEGACY] unhelpful-default-nullish@50: const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []
+[LEGACY] unhelpful-default-nullish@57: const all = blockInstancesByShape.value.get(blockShapeId) ?? []
 ```
 
 ### `client/src/components/booking/steps/AvailabilityStep.vue` [P2] (score: 2)
 
 ```
-[LEGACY] unhelpful-default-nullish@178: return o.emptyStateMessage.value ?? ''
+[LEGACY] unhelpful-default-nullish@188: return o.emptyStateMessage.value ?? ''
 ```
 
 ### `client/src/composables/booking/useAvailabilityDefaults.ts` [P2] (score: 2)
@@ -126,6 +171,12 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 
 ```
 [LEGACY] unhelpful-default-nullish@18: /** Explicit fallbacks to satisfy deprecation audit (avoid ?? '', ?? {} in-place). */
+```
+
+### `client/src/utils/admin/resolveBlockInstanceMetadata.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@11: const globalBlock = data.global.blockInstance ?? {}
 ```
 
 ### `client/src/utils/booking/buildClientLinks.ts` [P2] (score: 2)
@@ -150,10 +201,46 @@ Identifies deprecated code and runtime legacy accommodation patterns:
 [LEGACY] chaining-fallback@87: adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',
 ```
 
+### `server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@117: const optionRows = optionsMap.get(entry.id) ?? []
+```
+
+### `server/src/routes/internal/relationships/relationshipAnnotationFormat.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@20: text: String(ann.text ?? ''),
+```
+
 ### `server/src/services/invites/inviteContextBuilder.ts` [P2] (score: 2)
 
 ```
 [LEGACY] unhelpful-default-nullish@3: const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''
+```
+
+### `server/src/utils/adminMetadataEntryAssembly.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@79: const opts = optionsMap.get(meta.id) ?? []
+```
+
+### `server/src/utils/adminMetadataInputConfigCodec.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@79: const label = strOrNull(o.label) ?? ''
+```
+
+### `server/src/utils/adminPrimitiveMetadataComposer.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@26: inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),
+```
+
+### `server/src/utils/adminRelationshipMetadataComposer.ts` [P2] (score: 2)
+
+```
+[LEGACY] unhelpful-default-nullish@31: inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),
 ```
 
 ## Notes

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T15:27:32.971Z",
-  "totalFiles": 1150,
+  "generatedAt": "2026-03-22T02:44:23.645Z",
+  "totalFiles": 1182,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135,
@@ -10,17 +10,17 @@
   "fanOutViolations": [
     {
       "file": "server/src/db/models/index",
-      "fanOut": 51
+      "fanOut": 59
     }
   ],
   "fanInViolations": [
     {
       "file": "client/src/constants/entities",
-      "fanIn": 156
+      "fanIn": 157
     },
     {
       "file": "client/src/types/entities",
-      "fanIn": 137
+      "fanIn": 142
     }
   ],
   "composableChainDepthViolations": [
@@ -117,9 +117,10 @@
         "UseWizardSettingsReturn",
         "UseWizardSettingsFlagsReturn",
         "UseWizardSettingsLabelsReturn",
+        "UseWizardSettingsLoadState",
         "WizardSubStepLabels"
       ],
-      "consumersFromTypes": 3,
+      "consumersFromTypes": 4,
       "consumersFromComposable": 12,
       "recommendation": "Consolidate imports to one canonical path."
     }
