@@ -1,6 +1,12 @@
 import { Router, Request, Response } from 'express'
 import { PropertyVersion, PropertyDetails, Address } from '../../../config/app.js'
 import { transformPropertyVersion } from '../../../utils/propertyTransformers.js'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import {
+  propertyCreateBodySchema,
+  propertyUpdateBodySchema,
+  propertyPatchBodySchema,
+} from '../../schemas/propertySchemas.js'
 import { ERROR_MESSAGES, DEFAULT_VALUES } from './propertyConstants.js'
 import { handleRouteError } from './propertyErrorHandler.js'
 import { validateAddressFields, validatePropertyDetailsPatchBody } from './propertyValidators.js'
@@ -45,7 +51,8 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
 
 router.post(
   '/',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(propertyCreateBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const {
@@ -115,8 +122,9 @@ router.post(
 
 router.put(
   '/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('property', 'id'),
+  validateRequest(propertyUpdateBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))
@@ -167,8 +175,9 @@ router.put(
 
 router.patch(
   '/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('property', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('property', 'id'),
+  validateRequest(propertyPatchBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const propertyVersion = await getPropertyWithAssociations(paramString(req, 'id'))

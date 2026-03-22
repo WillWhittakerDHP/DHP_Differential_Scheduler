@@ -5,6 +5,8 @@
  */
 
 import { Request, Response, Router } from 'express'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { forceCreateBodySchema } from '../../schemas/forceCreateSchemas.js'
 import type { InferCreationAttributes } from 'sequelize'
 import type { MakeNullishOptional } from 'sequelize/types/utils.js'
 import type { Appointment as AppointmentModel } from '../../../db/models/booking/appointment.js'
@@ -286,6 +288,6 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
 }
 
 const router = Router()
-router.post('/', csrfProtection, requireAuth, requireRole('admin'), forceCreateHandler)
+router.post('/', csrfProtection, requireAuth, requireRole('admin'), validateRequest(forceCreateBodySchema), forceCreateHandler)
 
 export { router as forceCreateRouter }

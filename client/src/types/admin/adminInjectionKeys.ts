@@ -77,3 +77,6 @@ export interface InstancesTabContext {
 
 export const instancesTabContextKey: InjectionKey<InstancesTabContext> =
   Symbol('instancesTabContext')
+
+/** Admin shell active tab id; provider: AdminPanel.vue. */
+export const adminCurrentTabKey: InjectionKey<Ref<string>> = Symbol('adminCurrentTab')

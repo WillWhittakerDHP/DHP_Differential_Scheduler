@@ -1,12 +1,14 @@
 import { Router, Request, Response } from 'express'
-import { 
-  fetchAll, 
-  fetchById, 
-  createRecord, 
-  updateRecord, 
-  patchRecord, 
+import {
+  fetchAll,
+  fetchById,
+  createRecord,
+  updateRecord,
+  patchRecord,
   deleteRecord
 } from '../../helpers/dataController.js'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { entityBodySchema } from '../../schemas/entitySchemas.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateEntityId } from './entityValidators.js'
@@ -185,7 +187,8 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
 
 router.post(
   '/:entityType',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {
@@ -231,8 +234,9 @@ router.post(
 
 router.put(
   '/:entityType/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('entity', 'id'),
+  validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {
@@ -313,8 +317,9 @@ router.put(
 
 router.patch(
   '/:entityType/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('entity', 'id'),
+  validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {

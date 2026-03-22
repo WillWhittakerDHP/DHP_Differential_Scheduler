@@ -24,8 +24,9 @@ import BusinessControlsConstraintsSection from './BusinessControlsConstraintsSec
 import BusinessControlsCalendarSection from './BusinessControlsCalendarSection.vue'
 import WizardConfigPanel from './components/WizardConfigPanel.vue'
 import BusinessControlsRulesSection from './BusinessControlsRulesSection.vue'
+import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
 
-const adminCurrentTab = inject<Ref<string>>('adminCurrentTab')
+const adminCurrentTab = inject<Ref<string>>(adminCurrentTabKey)
 const isTabActive = computed(() => adminCurrentTab?.value === 'business')
 
 const availability = useAdminAvailabilitySettings({ enabled: isTabActive })

@@ -8,7 +8,7 @@ import type {
   UseWizardDevModeOptions,
   UseWizardDevModeReturn,
 } from '@/types/booking/wizardDevMode'
-import { resetMocksSignalKey } from '@/composables/booking/injectionKeys'
+import { devPanelButtonsKey, resetMocksSignalKey } from '@/composables/booking/injectionKeys'
 
 
 export function useWizardDevMode(
@@ -37,9 +37,9 @@ export function useWizardDevMode(
   }
 
   if (isDevMode) {
-    const appDevPanelButtons = inject<Ref<DevPanelButtonsContext | null>>('devPanelButtons')
+    const appDevPanelButtons = inject<Ref<DevPanelButtonsContext | null>>(devPanelButtonsKey)
     if (appDevPanelButtons) {
-      appDevPanelButtons.value = {
+      const next: DevPanelButtonsContext = {
         selectedAppointmentId,
         appointmentDropdownItems,
         loadedAppointmentId,
@@ -52,6 +52,7 @@ export function useWizardDevMode(
         updateAppointment,
         wizard,
       }
+      appDevPanelButtons.value = next
     }
   }
 

@@ -168,9 +168,9 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** 6.10.1, 6.10.2, 6.10.3, 6.10.4, 6.10.5, 6.10.6
-**Total Tasks Completed:** 0
-**Success Criteria Met:** Yes - All success criteria met
+**Sessions Completed:** [List all session IDs]
+**Total Tasks Completed:** [Number]
+**Success Criteria Met:** [Yes/No with details]
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -179,4 +179,3 @@
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
-<!-- end excerpt phase -->

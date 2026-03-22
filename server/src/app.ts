@@ -3,6 +3,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import morgan from 'morgan'
 import routes from './routes/index.js'
+import { getCorsOrigin } from './config/envConfig.js'
 import { notFound, errorHandler } from './middlewares/index.js'
 import { initializeDatabase } from './config/app.js'
 import { loadTokensFromFile } from './config/googleOAuth.js'
@@ -34,8 +35,20 @@ const startServer = async (): Promise<void> => {
 startServer()
 
 app.use(morgan('dev'))
-app.use(helmet())
-app.use(cors())
+app.use(
+  helmet({
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    },
+    referrerPolicy: {
+      policy: 'strict-origin-when-cross-origin',
+    },
+  })
+)
+const corsOrigin = getCorsOrigin()
+app.use(cors({ origin: Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin] }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use((req, _res, next) => {
