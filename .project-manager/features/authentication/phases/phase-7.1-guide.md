@@ -33,7 +33,7 @@ Work is organized into three sessions (7.1.1–7.1.3). Each session has its own 
 
 ## Sessions Breakdown
 
-- [ ] ### Session 7.1.1: Migrations for sessions and magic_links
+- [x] ### Session 7.1.1: Migrations for sessions and magic_links
 **Description:** Add idempotent DB migrations creating `sessions` and `magic_links` with columns and indexes per Feature 7 / LAUNCH_CHECKLIST 2A.1.
 **Goal:** Tables exist in dev with schema ready for session manager and magic-link consumption in Phase 7.2–7.3.
 **Files:** `server/src/db/migrations/*` (new migration files following repo conventions)
