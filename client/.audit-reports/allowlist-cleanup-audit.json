@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T13:45:27.028Z",
+  "generatedAt": "2026-03-22T15:42:28.753Z",
   "check": "allowlist-cleanup",
   "configPath": "client/.audit-reports/audit-global-config.json",
   "suppressionHits": {
