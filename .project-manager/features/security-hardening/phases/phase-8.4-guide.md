@@ -35,7 +35,7 @@
 - .env.example validation
 - No hardcoded secrets
 
-- [ ] ### Session 8.4.2: Committed files scan
+- [x] ### Session 8.4.2: Committed files scan
 **Description:** Verify .gitignore coverage, scan for secrets in tracked files, document in SECURITY_STUBS.
 **Tasks:** 2
 **Focus:**
