@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-22T13:37:05.012Z",
+  "generatedAt": "2026-03-22T17:40:43.959Z",
   "check": "Deprecation",
-  "totalScanned": 1169,
+  "totalScanned": 1188,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 5,
+    "totalRequiresReview": 36,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,6 +26,444 @@
     }
   },
   "files": [
+    {
+      "id": "server__src__repositories__appointmentSelectionCodec.ts",
+      "repoPath": "server/src/repositories/appointmentSelectionCodec.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "compat-marker",
+          "lineNumber": 6,
+          "line": "/** Keys persisted on child rows but exposed on appointment JSON for backward compatibility. */",
+          "section": "annotation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 216,
+          "line": "export function legacyFieldsToBody(legacy: LegacyAppointmentSelectionFields): Record<string, unknown> {",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 218,
+          "line": "selectedServiceIds: legacy.selectedServiceIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 219,
+          "line": "serviceQuantities: legacy.serviceQuantities,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 220,
+          "line": "selectedPropertyIds: legacy.selectedPropertyIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 221,
+          "line": "propertyQuantities: legacy.propertyQuantities,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 222,
+          "line": "selectedOptionIds: legacy.selectedOptionIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 223,
+          "line": "optionQuantities: legacy.optionQuantities,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "compat-marker",
+          "lineNumber": 6,
+          "line": "/** Keys persisted on child rows but exposed on appointment JSON for backward compatibility. */",
+          "section": "annotation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 216,
+          "line": "export function legacyFieldsToBody(legacy: LegacyAppointmentSelectionFields): Record<string, unknown> {",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 218,
+          "line": "selectedServiceIds: legacy.selectedServiceIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 219,
+          "line": "serviceQuantities: legacy.serviceQuantities,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 220,
+          "line": "selectedPropertyIds: legacy.selectedPropertyIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 221,
+          "line": "propertyQuantities: legacy.propertyQuantities,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 222,
+          "line": "selectedOptionIds: legacy.selectedOptionIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 223,
+          "line": "optionQuantities: legacy.optionQuantities,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 80,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__services__appointmentSnapshotLoader.ts",
+      "repoPath": "server/src/services/appointmentSnapshotLoader.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 125,
+          "line": "const legacy = linesToLegacyFields(lines)",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 127,
+          "line": "serviceSnapshotIds: legacy.serviceSnapshotIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 128,
+          "line": "propertySnapshotIds: legacy.propertySnapshotIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 129,
+          "line": "optionSnapshotIds: legacy.optionSnapshotIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 125,
+          "line": "const legacy = linesToLegacyFields(lines)",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 127,
+          "line": "serviceSnapshotIds: legacy.serviceSnapshotIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 128,
+          "line": "propertySnapshotIds: legacy.propertySnapshotIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 129,
+          "line": "optionSnapshotIds: legacy.optionSnapshotIds,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 40,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__db__models__booking__event_assignment.ts",
+      "repoPath": "server/src/db/models/booking/event_assignment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 54,
+          "line": "comment: 'Parent is always blockInstance (DB enum may list legacy values)',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 54,
+          "line": "comment: 'Parent is always blockInstance (DB enum may list legacy values)',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataValidators.ts",
+      "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 15,
+          "line": "`inputConfig is required when renderAs is \"${renderAs}\". Expected direct select config (targetMode relationship or primi...",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 15,
+          "line": "`inputConfig is required when renderAs is \"${renderAs}\". Expected direct select config (targetMode relationship or primi...",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__routes__internal__shared__metadataValidatorFactory.ts",
+      "repoPath": "server/src/routes/internal/shared/metadataValidatorFactory.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 114,
+          "line": "`inputConfig is required when renderAs is \"${renderAs}\". Expected direct select config (targetMode relationship or primi...",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 114,
+          "line": "`inputConfig is required when renderAs is \"${renderAs}\". Expected direct select config (targetMode relationship or primi...",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__services__invites__inviteContextBuilder.ts",
+      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 59,
+          "line": "const street = addr.streetAddress ?? addr.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 61,
+          "line": "context.city = addr.city ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 62,
+          "line": "context.state = addr.state ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "context.zipCode = addr.zipCode ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 59,
+          "line": "const street = addr.streetAddress ?? addr.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 61,
+          "line": "context.city = addr.city ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 62,
+          "line": "context.state = addr.state ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "context.zipCode = addr.zipCode ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__repositories__availabilityRelationalCodec.ts",
+      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 143,
+          "line": "const list = hoursByRc.get(h.rangeConstraintId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 150,
+          "line": "const hrs = hoursByRc.get(rc.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 202,
+          "line": "placeId: root.defaultLocationPlaceId ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 143,
+          "line": "const list = hoursByRc.get(h.rangeConstraintId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 150,
+          "line": "const hrs = hoursByRc.get(rc.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 202,
+          "line": "placeId: root.defaultLocationPlaceId ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 6,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__services__invites__inviteOrchestrationService.ts",
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 376,
+          "line": "const street = address ? address.streetAddress ?? address.address ?? '' : ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 396,
+          "line": "const street = address.streetAddress ?? address.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 376,
+          "line": "const street = address ? address.streetAddress ?? address.address ?? '' : ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 396,
+          "line": "const street = address.streetAddress ?? address.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
     {
       "id": "client__src__components__booking__steps__AvailabilityStep.vue",
       "repoPath": "client/src/components/booking/steps/AvailabilityStep.vue",
@@ -127,14 +565,42 @@
       "priority": "P2"
     },
     {
-      "id": "server__src__services__invites__inviteContextBuilder.ts",
-      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "id": "server__src__repositories__calendarSettingsRepository.ts",
+      "repoPath": "server/src/repositories/calendarSettingsRepository.ts",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 3,
-          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "lineNumber": 36,
+          "line": "const entries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 71,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 72,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 86,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 87,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -142,8 +608,186 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 3,
-          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "lineNumber": 36,
+          "line": "const entries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 71,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 72,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 86,
+          "line": "adminEntryTimeoutValue: merged.adminEntryTimeout?.value ?? 30,",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "chaining-fallback",
+          "lineNumber": 87,
+          "line": "adminEntryTimeoutUnit: merged.adminEntryTimeout?.unit ?? 'days',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__admin-metadata__adminMetadataHelpers.ts",
+      "repoPath": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 113,
+          "line": "const optionRows = optionsMap.get(entry.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 113,
+          "line": "const optionRows = optionsMap.get(entry.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__routes__internal__relationships__relationshipAnnotationFormat.ts",
+      "repoPath": "server/src/routes/internal/relationships/relationshipAnnotationFormat.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 20,
+          "line": "text: String(ann.text ?? ''),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 20,
+          "line": "text: String(ann.text ?? ''),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__utils__adminMetadataEntryAssembly.ts",
+      "repoPath": "server/src/utils/adminMetadataEntryAssembly.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 79,
+          "line": "const opts = optionsMap.get(meta.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 79,
+          "line": "const opts = optionsMap.get(meta.id) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__utils__adminMetadataInputConfigCodec.ts",
+      "repoPath": "server/src/utils/adminMetadataInputConfigCodec.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 82,
+          "line": "const label = strOrNull(o.label) ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 82,
+          "line": "const label = strOrNull(o.label) ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__utils__adminPrimitiveMetadataComposer.ts",
+      "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 26,
+          "line": "inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 26,
+          "line": "inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "server__src__utils__adminRelationshipMetadataComposer.ts",
+      "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 31,
+          "line": "inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 31,
+          "line": "inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }

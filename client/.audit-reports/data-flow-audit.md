@@ -4,16 +4,20 @@
 
 # Data Flow Validation Audit (Generated)
 
-Generated at: 2026-03-22T13:37:05.247Z
+Generated at: 2026-03-22T17:40:43.806Z
 
 ## Summary
 
 - Total allowed: **0**
-- Requiring review: **0**
+- Requiring review: **3**
 
 ## Files with potential unvalidated input
 
-None.
+| File | Rule | Line | Snippet |
+| --- | --- | ---: | --- |
+| `server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts` | reqBodyUnvalidated | 34 | const settingValue = req.body?.setting_value; |
+| `server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts` | reqBodyUnvalidated | 19 | const b = req.body as Record<string, unknown> |
+| `server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts` | reqBodyUnvalidated | 34 | const settingValue = req.body?.setting_value; |
 
 ## Allowed Exceptions (for transparency)
 

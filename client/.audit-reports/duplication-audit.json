@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T13:37:04.198Z",
+  "generatedAt": "2026-03-22T17:40:43.979Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 749,
+  "fileCount": 778,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -465,33 +465,99 @@
   "duplicateComposableExports": [],
   "groups": [
     {
-      "groupId": "dup-23e58d4b1c3c",
-      "hash": "23e58d4b1c3c",
+      "groupId": "dup-573aa28cdbf7",
+      "hash": "573aa28cdbf7",
       "uniqueFiles": 3,
       "occurrences": 3,
       "lineCount": 10,
-      "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
+      "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
       "locations": [
         {
-          "repoPath": "server/src/db/models/admin/business_settings.ts",
-          "startLine": 102,
-          "endLine": 122,
-          "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-          "target": "server/src/db/models/admin/business_settings.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/calendar_settings.ts",
+          "repoPath": "server/src/db/models/admin/adminMetadataSelectOption.ts",
           "startLine": 38,
-          "endLine": 58,
-          "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-          "target": "server/src/db/models/admin/calendar_settings.ts"
+          "endLine": 60,
+          "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/admin/adminMetadataSelectOption.ts"
         },
         {
-          "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 48,
-          "endLine": 68,
-          "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
-          "target": "server/src/db/models/admin/wizard_settings.ts"
+          "repoPath": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts",
+          "startLine": 38,
+          "endLine": 60,
+          "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts",
+          "startLine": 38,
+          "endLine": 60,
+          "windowText": "type: DataTypes.INTEGER,\nfield: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,",
+          "target": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b5566deb2273",
+      "hash": "b5566deb2273",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/admin/adminMetadataSelectOption.ts",
+          "startLine": 41,
+          "endLine": 62,
+          "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/admin/adminMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts",
+          "startLine": 41,
+          "endLine": 62,
+          "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts",
+          "startLine": 41,
+          "endLine": 62,
+          "windowText": "field: 'display_order',\ntype: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),",
+          "target": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts"
+        }
+      ],
+      "score": 33,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-e3978eb5fea8",
+      "hash": "e3978eb5fea8",
+      "uniqueFiles": 3,
+      "occurrences": 3,
+      "lineCount": 10,
+      "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/admin/adminMetadataSelectOption.ts",
+          "startLine": 44,
+          "endLine": 63,
+          "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+          "target": "server/src/db/models/admin/adminMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts",
+          "startLine": 44,
+          "endLine": 63,
+          "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+          "target": "server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts",
+          "startLine": 44,
+          "endLine": 63,
+          "windowText": "type: DataTypes.TEXT,\ntype: DataTypes.TEXT,\nfield: 'value_payload',\ncomment: 'JSON text of option value (null/absent for null option value)',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+          "target": "server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts"
         }
       ],
       "score": 33,
@@ -680,6 +746,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-200cf0be10ee",
+      "hash": "200cf0be10ee",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 48,
+          "endLine": 59,
+          "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 514,
+          "endLine": 525,
+          "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-21187764e027",
       "hash": "21187764e027",
       "uniqueFiles": 2,
@@ -726,6 +818,32 @@
           "endLine": 75,
           "windowText": "Symbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =\nSymbol('resetMocksSignal')\nexport const wizardKey: InjectionKey<UseBookingWizardReturn> = Symbol('wizard')\nexport const loadedWizardStateKey: InjectionKey<Ref<WizardStateData | null>> =\nSymbol('loadedWizardState')",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-2a2d4ad30335",
+      "hash": "2a2d4ad30335",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 45,
+          "endLine": 56,
+          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 511,
+          "endLine": 522,
+          "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -784,6 +902,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-30a4f4a1cf3e",
+      "hash": "30a4f4a1cf3e",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 40,
+          "endLine": 51,
+          "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 506,
+          "endLine": 517,
+          "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-3388642864ed",
       "hash": "3388642864ed",
       "uniqueFiles": 2,
@@ -804,6 +948,32 @@
           "endLine": 62,
           "windowText": "Symbol('availabilityStepValidate')\nexport const confirmationStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('confirmationStepValid')\nexport const confirmationStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =\nSymbol('confirmationStepValidate')\nexport const displayedMonthKey: InjectionKey<Ref<DisplayedMonth>> =\nSymbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-33aa67f347dd",
+      "hash": "33aa67f347dd",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 49,
+          "endLine": 60,
+          "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 515,
+          "endLine": 526,
+          "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -992,6 +1162,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-4c0d54727d0d",
+      "hash": "4c0d54727d0d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": ".map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,\npropertyVersion: appointment.propertyVersion ?? undefined,",
+      "locations": [
+        {
+          "repoPath": "server/src/services/invites/eventInstancePreviewService.ts",
+          "startLine": 76,
+          "endLine": 89,
+          "windowText": ".map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,\npropertyVersion: appointment.propertyVersion ?? undefined,",
+          "target": "server/src/services/invites/eventInstancePreviewService.ts"
+        },
+        {
+          "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+          "startLine": 171,
+          "endLine": 184,
+          "windowText": ".map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,\npropertyVersion: appointment.propertyVersion ?? undefined,",
+          "target": "server/src/services/invites/inviteOrchestrationService.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-4c9d5a06c19a",
       "hash": "4c9d5a06c19a",
       "uniqueFiles": 2,
@@ -1064,6 +1260,32 @@
           "endLine": 45,
           "windowText": "export const confirmationStepDataKey: InjectionKey<Ref<ConfirmationStepData | null>> =\nSymbol('confirmationStepData')\nexport const propertyDetailsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('propertyDetailsStepValid')\nexport const propertyDetailsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =\nSymbol('propertyDetailsStepValidate')\nexport const propertyDetailsFieldErrorsKey: InjectionKey<Ref<Record<string, string>>> =\nSymbol('propertyDetailsFieldErrors')\nexport const contactsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('contactsStepValid')",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-555429af8150",
+      "hash": "555429af8150",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 42,
+          "endLine": 53,
+          "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 508,
+          "endLine": 519,
+          "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1148,32 +1370,6 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-84bc927b7e6d",
-      "hash": "84bc927b7e6d",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
-      "locations": [
-        {
-          "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 33,
-          "endLine": 57,
-          "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
-          "target": "server/src/db/models/admin/calendar_settings.ts"
-        },
-        {
-          "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 43,
-          "endLine": 67,
-          "windowText": "defaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,",
-          "target": "server/src/db/models/admin/wizard_settings.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
       "groupId": "dup-851efbc758f3",
       "hash": "851efbc758f3",
       "uniqueFiles": 2,
@@ -1194,6 +1390,32 @@
           "endLine": 93,
           "windowText": "hasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean\nformatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-869c63fd19e5",
+      "hash": "869c63fd19e5",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "...mapMetaFieldsToPayload({\ndataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "startLine": 15,
+          "endLine": 24,
+          "windowText": "...mapMetaFieldsToPayload({\ndataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,",
+          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 20,
+          "endLine": 29,
+          "windowText": "...mapMetaFieldsToPayload({\ndataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 22,
@@ -1246,6 +1468,32 @@
           "endLine": 46,
           "windowText": "Symbol('confirmationStepData')\nexport const propertyDetailsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('propertyDetailsStepValid')\nexport const propertyDetailsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =\nSymbol('propertyDetailsStepValidate')\nexport const propertyDetailsFieldErrorsKey: InjectionKey<Ref<Record<string, string>>> =\nSymbol('propertyDetailsFieldErrors')\nexport const contactsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('contactsStepValid')\nexport const contactsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-8ba260796e5f",
+      "hash": "8ba260796e5f",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 39,
+          "endLine": 50,
+          "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 505,
+          "endLine": 516,
+          "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1330,6 +1578,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-9a8cc5f6c115",
+      "hash": "9a8cc5f6c115",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 46,
+          "endLine": 57,
+          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 512,
+          "endLine": 523,
+          "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-9e5edf287341",
       "hash": "9e5edf287341",
       "uniqueFiles": 2,
@@ -1356,26 +1630,52 @@
       "priority": "P0"
     },
     {
-      "groupId": "dup-a6d29c1ae79d",
-      "hash": "a6d29c1ae79d",
+      "groupId": "dup-a7b2c82a18b0",
+      "hash": "a7b2c82a18b0",
       "uniqueFiles": 2,
       "occurrences": 2,
       "lineCount": 10,
-      "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
+      "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
       "locations": [
         {
-          "repoPath": "server/src/db/models/admin/calendar_settings.ts",
-          "startLine": 32,
-          "endLine": 52,
-          "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
-          "target": "server/src/db/models/admin/calendar_settings.ts"
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 47,
+          "endLine": 58,
+          "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
+          "target": "server/src/config/models.ts"
         },
         {
-          "repoPath": "server/src/db/models/admin/wizard_settings.ts",
-          "startLine": 42,
-          "endLine": 62,
-          "windowText": "type: DataTypes.UUID,\ndefaultValue: DataTypes.UUIDV4,\ntype: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',",
-          "target": "server/src/db/models/admin/wizard_settings.ts"
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 513,
+          "endLine": 524,
+          "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-a7c5a683579d",
+      "hash": "a7c5a683579d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const rawSlots = appointment.selectedTimeSlots\nconst selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,",
+      "locations": [
+        {
+          "repoPath": "server/src/services/invites/eventInstancePreviewService.ts",
+          "startLine": 73,
+          "endLine": 87,
+          "windowText": "const rawSlots = appointment.selectedTimeSlots\nconst selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,",
+          "target": "server/src/services/invites/eventInstancePreviewService.ts"
+        },
+        {
+          "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+          "startLine": 168,
+          "endLine": 182,
+          "windowText": "const rawSlots = appointment.selectedTimeSlots\nconst selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,",
+          "target": "server/src/services/invites/inviteOrchestrationService.ts"
         }
       ],
       "score": 22,
@@ -1434,6 +1734,58 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-b52008f44f0c",
+      "hash": "b52008f44f0c",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 37,
+          "endLine": 48,
+          "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 503,
+          "endLine": 514,
+          "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b6d7ca611115",
+      "hash": "b6d7ca611115",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 50,
+          "endLine": 63,
+          "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 516,
+          "endLine": 529,
+          "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-b85d9886cb9f",
       "hash": "b85d9886cb9f",
       "uniqueFiles": 2,
@@ -1454,6 +1806,84 @@
           "endLine": 67,
           "windowText": "Symbol('confirmationStepValidate')\nexport const displayedMonthKey: InjectionKey<Ref<DisplayedMonth>> =\nSymbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-b89d74fde0fc",
+      "hash": "b89d74fde0fc",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 41,
+          "endLine": 52,
+          "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 507,
+          "endLine": 518,
+          "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c37ddcb0071b",
+      "hash": "c37ddcb0071b",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 51,
+          "endLine": 64,
+          "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 517,
+          "endLine": 530,
+          "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
+          "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c477b319eabd",
+      "hash": "c477b319eabd",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,",
+      "locations": [
+        {
+          "repoPath": "server/src/services/invites/eventInstancePreviewService.ts",
+          "startLine": 74,
+          "endLine": 88,
+          "windowText": "const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,",
+          "target": "server/src/services/invites/eventInstancePreviewService.ts"
+        },
+        {
+          "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+          "startLine": 169,
+          "endLine": 183,
+          "windowText": "const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,",
+          "target": "server/src/services/invites/inviteOrchestrationService.ts"
         }
       ],
       "score": 22,
@@ -1512,6 +1942,58 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-cd8e6e6891a8",
+      "hash": "cd8e6e6891a8",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "onUpdate: 'CASCADE',\nonDelete: 'SET NULL',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
+      "locations": [
+        {
+          "repoPath": "server/src/db/models/booking/appointment.ts",
+          "startLine": 187,
+          "endLine": 206,
+          "windowText": "onUpdate: 'CASCADE',\nonDelete: 'SET NULL',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
+          "target": "server/src/db/models/booking/appointment.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/participantModels/Users.ts",
+          "startLine": 69,
+          "endLine": 88,
+          "windowText": "onUpdate: 'CASCADE',\nonDelete: 'SET NULL',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
+          "target": "server/src/db/models/participantModels/Users.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-cedff6290f69",
+      "hash": "cedff6290f69",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "splitInputConfigForPersistence,\n} from '../../../utils/adminMetadataInputConfigPersist.js'\n} from '../../helpers/routerResponseHelpers.js'\nconst router = Router()\nrouter.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {\nconst entityType = paramString(req, 'entityType')\nconst entityId = paramString(req, 'entityId')\nconst entityTypeValidation = validateEntityType(entityType)\nif (!entityTypeValidation.valid) {\nsendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)",
+      "locations": [
+        {
+          "repoPath": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts",
+          "startLine": 9,
+          "endLine": 38,
+          "windowText": "splitInputConfigForPersistence,\n} from '../../../utils/adminMetadataInputConfigPersist.js'\n} from '../../helpers/routerResponseHelpers.js'\nconst router = Router()\nrouter.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {\nconst entityType = paramString(req, 'entityType')\nconst entityId = paramString(req, 'entityId')\nconst entityTypeValidation = validateEntityType(entityType)\nif (!entityTypeValidation.valid) {\nsendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)",
+          "target": "server/src/routes/internal/admin-primitive-metadata/adminPrimitiveMetadataCrudRouter.ts"
+        },
+        {
+          "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts",
+          "startLine": 9,
+          "endLine": 38,
+          "windowText": "splitInputConfigForPersistence,\n} from '../../../utils/adminMetadataInputConfigPersist.js'\n} from '../../helpers/routerResponseHelpers.js'\nconst router = Router()\nrouter.get('/:entityType/:entityId', async (req: Request, res: Response): Promise<void> => {\nconst entityType = paramString(req, 'entityType')\nconst entityId = paramString(req, 'entityId')\nconst entityTypeValidation = validateEntityType(entityType)\nif (!entityTypeValidation.valid) {\nsendBadRequest(res, entityTypeValidation.error, entityTypeValidation.details?.message as string)",
+          "target": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataCrudRouter.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-d8a45ea9ba66",
       "hash": "d8a45ea9ba66",
       "uniqueFiles": 2,
@@ -1532,6 +2014,32 @@
           "endLine": 44,
           "windowText": "Symbol('availabilityStepData')\nexport const confirmationStepDataKey: InjectionKey<Ref<ConfirmationStepData | null>> =\nSymbol('confirmationStepData')\nexport const propertyDetailsStepValidKey: InjectionKey<Ref<boolean>> =\nSymbol('propertyDetailsStepValid')\nexport const propertyDetailsStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =\nSymbol('propertyDetailsStepValidate')\nexport const propertyDetailsFieldErrorsKey: InjectionKey<Ref<Record<string, string>>> =\nSymbol('propertyDetailsFieldErrors')\nexport const contactsStepValidKey: InjectionKey<Ref<boolean>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-d8e406518e30",
+      "hash": "d8e406518e30",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
+      "locations": [
+        {
+          "repoPath": "server/src/config/models.ts",
+          "startLine": 38,
+          "endLine": 49,
+          "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
+          "target": "server/src/config/models.ts"
+        },
+        {
+          "repoPath": "server/src/db/models/index.ts",
+          "startLine": 504,
+          "endLine": 515,
+          "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
+          "target": "server/src/db/models/index.ts"
         }
       ],
       "score": 22,
@@ -1564,6 +2072,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-e7a186e2e085",
+      "hash": "e7a186e2e085",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "startLine": 16,
+          "endLine": 25,
+          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
+          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 21,
+          "endLine": 30,
+          "windowText": "dataType: meta.dataType,\nlabel: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-ea5b067383a2",
       "hash": "ea5b067383a2",
       "uniqueFiles": 2,
@@ -1584,6 +2118,32 @@
           "endLine": 94,
           "windowText": "formatDuration: (ms: number) => string\nformatTime: (value: string | null) => string\nselectedServiceTypeId: ComputedRef<string | null>\nserviceTypeOptions: ComputedRef<Array<{ title: string; value: string }>>\nhandleServiceTypeChange: (serviceId: string | null) => void\nhasWizard: boolean\nisSelectedServiceDifferential: ComputedRef<boolean>\nservicesSummary: ComputedRef<ServiceSummary[]>\ntimeSlotResults: ComputedRef<TimeSlotResults>\nhasSelectedTime: ComputedRef<boolean>",
           "target": "client/src/composables/booking/injectionKeys.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-eda2171117d2",
+      "hash": "eda2171117d2",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+      "locations": [
+        {
+          "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+          "startLine": 17,
+          "endLine": 26,
+          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "target": "server/src/utils/adminPrimitiveMetadataComposer.ts"
+        },
+        {
+          "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+          "startLine": 22,
+          "endLine": 31,
+          "windowText": "label: meta.label,\nisRequired: meta.isRequired,\nvisibility: meta.visibility,\nlayout: meta.layout,\ndisplayOrder: meta.displayOrder,\nrenderAs: meta.renderAs,\nstatusButtonColor: meta.statusButtonColor ?? undefined,\npanel: meta.panel,\nbulkEdit: meta.bulkEdit,\ninputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),",
+          "target": "server/src/utils/adminRelationshipMetadataComposer.ts"
         }
       ],
       "score": 22,

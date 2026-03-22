@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-22T13:37:04.663Z",
-  "totalFiles": 1152,
+  "generatedAt": "2026-03-22T17:40:43.904Z",
+  "totalFiles": 1171,
   "thresholds": {
     "maxFanOut": 40,
     "maxFanIn": 135,
@@ -10,7 +10,7 @@
   "fanOutViolations": [
     {
       "file": "server/src/db/models/index",
-      "fanOut": 43
+      "fanOut": 61
     }
   ],
   "fanInViolations": [

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T13:37:04.488Z",
+  "generatedAt": "2026-03-22T17:40:43.891Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1169,
+  "fileCount": 1188,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -55,7 +55,7 @@
           "server/src/services/invites/inviteOrchestrationService.ts",
           "server/src/utils/logger.ts"
         ],
-        "patternCount": 51
+        "patternCount": 50
       },
       {
         "prefix": "use",
@@ -387,10 +387,11 @@
           "client/src/vite-env.d.ts",
           "server/src/config/entityRegistry.ts",
           "server/src/config/googleOAuth.ts",
+          "server/src/repositories/availabilitySettingsRepository.ts",
           "server/src/repositories/calendarSettingsRepository.ts",
+          "server/src/repositories/wizardSettingsRepository.ts",
           "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
           "server/src/routes/internal/appointments/appointmentHelpers.ts",
-          "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
           "server/src/routes/internal/properties/propertyHelpers.ts",
           "server/src/services/addressGeocodingCache.ts",
           "server/src/services/brightMls/brightMlsAuth.ts",
@@ -452,10 +453,9 @@
         "value": "held",
         "files": [
           "client/src/composables/useAppointment.ts",
-          "client/src/types/appointmentApi.ts",
-          "server/src/db/models/booking/appointment.ts"
+          "client/src/types/appointmentApi.ts"
         ],
-        "occurrences": 7
+        "occurrences": 5
       }
     ]
   },
@@ -496,13 +496,13 @@
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 238,
+            "line": 233,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
           {
             "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-            "line": 240,
+            "line": 247,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -542,7 +542,7 @@
           },
           {
             "file": "server/src/db/models/booking/appointment.ts",
-            "line": 49,
+            "line": 52,
             "context": "status-check",
             "code": "declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancel"
           }
@@ -566,7 +566,7 @@
         ]
       },
       "held": {
-        "count": 7,
+        "count": 5,
         "locations": [
           {
             "file": "client/src/composables/useAppointment.ts",
@@ -597,18 +597,63 @@
             "line": 106,
             "context": "status-check",
             "code": "/** The User who placed the hold, eagerly loaded when status = 'held' */"
+          }
+        ]
+      },
+      "deleted": {
+        "count": 2,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 67,
+            "context": "status-check",
+            "code": "| { status: 'deleted'; affected: number }"
           },
           {
-            "file": "server/src/db/models/booking/appointment.ts",
-            "line": 52,
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 81,
             "context": "status-check",
-            "code": "/** FK → users.id — who placed the hold (populated when status = 'held') */"
+            "code": "return { status: 'deleted', affected: updatedCount }"
+          }
+        ]
+      },
+      "already_inactive": {
+        "count": 2,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 68,
+            "context": "status-check",
+            "code": "| { status: 'already_inactive' }"
           },
           {
-            "file": "server/src/db/models/booking/appointment.ts",
-            "line": 54,
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 88,
             "context": "status-check",
-            "code": "/** When the hold expires (populated when status = 'held') */"
+            "code": "return { status: 'already_inactive' }"
+          }
+        ]
+      },
+      "not_found": {
+        "count": 3,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 69,
+            "context": "status-check",
+            "code": "| { status: 'not_found' }"
+          },
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 85,
+            "context": "status-check",
+            "code": "return { status: 'not_found' }"
+          },
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 90,
+            "context": "status-check",
+            "code": "return { status: 'not_found' }"
           }
         ]
       },
@@ -3696,7 +3741,7 @@
           },
           {
             "file": "server/src/repositories/calendarSettingsRepository.ts",
-            "line": 19,
+            "line": 22,
             "name": "CalendarSettings"
           }
         ]
@@ -4896,6 +4941,26 @@
           }
         ]
       },
+      "getAvailabilitySettingsData": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/repositories/availabilitySettingsRepository.ts",
+            "line": 49,
+            "name": "AvailabilitySettingsData"
+          }
+        ]
+      },
+      "getWizardSettingsData": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "server/src/repositories/wizardSettingsRepository.ts",
+            "line": 14,
+            "name": "WizardSettingsData"
+          }
+        ]
+      },
       "createCrudRouter": {
         "prefix": "create",
         "locations": [
@@ -4966,16 +5031,6 @@
           }
         ]
       },
-      "getDefaultRenderAs": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
-            "line": 16,
-            "name": "DefaultRenderAs"
-          }
-        ]
-      },
       "getDefaultPanel": {
         "prefix": "get",
         "locations": [
@@ -4991,7 +5046,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 50,
+            "line": 53,
             "name": "HoldDurationBoundsFromSettings"
           }
         ]
@@ -5001,7 +5056,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 56,
+            "line": 59,
             "name": "HoldDurationFromSettings"
           }
         ]
@@ -5011,7 +5066,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 66,
+            "line": 69,
             "name": "HoldDurationDefaultFromSettings"
           }
         ]
@@ -5021,7 +5076,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 74,
+            "line": 77,
             "name": "AdminEntryTimeoutFromSettings"
           }
         ]
@@ -5031,7 +5086,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 85,
+            "line": 88,
             "name": "AutoConfirmEnabledFromSettings"
           }
         ]
@@ -5041,18 +5096,8 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 96,
+            "line": 99,
             "name": "WriteToCalendarFromSettings"
-          }
-        ]
-      },
-      "createSnapshotsForAppointment": {
-        "prefix": "create",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 140,
-            "name": "SnapshotsForAppointment"
           }
         ]
       },
@@ -5061,7 +5106,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 216,
+            "line": 212,
             "name": "AttendeeRecords"
           }
         ]
@@ -5071,7 +5116,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 245,
+            "line": 241,
             "name": "FeeRecordsForAppointment"
           }
         ]
@@ -5081,7 +5126,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 289,
+            "line": 285,
             "name": "CalendarIdForAppointment"
           }
         ]
@@ -5091,18 +5136,8 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 306,
+            "line": 302,
             "name": "ConstraintOverrideOnRescheduleIfNeeded"
-          }
-        ]
-      },
-      "getSettingWithDefault": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/businessSettings/businessSettingsHelpers.ts",
-            "line": 25,
-            "name": "SettingWithDefault"
           }
         ]
       },
@@ -5161,7 +5196,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-            "line": 242,
+            "line": 249,
             "name": "ComponentActiveStates"
           }
         ]
@@ -5241,7 +5276,7 @@
         "locations": [
           {
             "file": "server/src/services/appointmentCalendarService.ts",
-            "line": 50,
+            "line": 74,
             "name": "CalendarEventForAppointment"
           }
         ]
@@ -5291,7 +5326,7 @@
         "locations": [
           {
             "file": "server/src/services/computedAvailabilityService.ts",
-            "line": 516,
+            "line": 575,
             "name": "ForceCreateSlotContext"
           }
         ]
@@ -5381,7 +5416,7 @@
         "locations": [
           {
             "file": "server/src/services/instanceVersioning.ts",
-            "line": 108,
+            "line": 116,
             "name": "BlockInstanceVersionIfReferenced"
           }
         ]
@@ -5391,7 +5426,7 @@
         "locations": [
           {
             "file": "server/src/services/instanceVersioning.ts",
-            "line": 133,
+            "line": 141,
             "name": "BlockInstanceVersion"
           }
         ]
@@ -5411,7 +5446,7 @@
         "locations": [
           {
             "file": "server/src/services/invites/inviteOrchestrationService.ts",
-            "line": 85,
+            "line": 97,
             "name": "InvitesForAppointment"
           }
         ]
@@ -5451,7 +5486,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminMetadataComposer.ts",
-            "line": 14,
+            "line": 15,
             "name": "AdminMetadata"
           }
         ]
@@ -5461,7 +5496,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-            "line": 9,
+            "line": 31,
             "name": "AdminPrimitiveMetadata"
           }
         ]
@@ -5471,7 +5506,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-            "line": 14,
+            "line": 36,
             "name": "AdminRelationshipMetadata"
           }
         ]
@@ -5709,43 +5744,22 @@
       },
       {
         "type": "status-workflow",
-        "file": "server/src/db/models/admin/calendar_settings.ts",
-        "line": 14,
-        "pattern": "AppointmentStatus workflow",
-        "code": "/** When true, appointments created with status 'submitted' are auto-transitioned to 'confirmed'. */"
-      },
-      {
-        "type": "status-workflow",
         "file": "server/src/db/models/booking/appointment.ts",
-        "line": 49,
+        "line": 52,
         "pattern": "AppointmentStatus workflow",
         "code": "declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancel"
       },
       {
         "type": "status-workflow",
         "file": "server/src/db/models/booking/appointment.ts",
-        "line": 58,
-        "pattern": "AppointmentStatus workflow",
-        "code": "/** When the appointment transitioned to 'submitted' status */"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/db/models/booking/appointment.ts",
-        "line": 60,
-        "pattern": "AppointmentStatus workflow",
-        "code": "/** When the appointment transitioned to 'confirmed' status */"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/db/models/booking/appointment.ts",
-        "line": 177,
+        "line": 116,
         "pattern": "AppointmentStatus workflow",
         "code": "type: DataTypes.ENUM('started', 'held', 'rescheduling', 'quoted', 'submitted', 'confirmed', 'cancell"
       },
       {
         "type": "status-workflow",
         "file": "server/src/db/models/booking/appointment.ts",
-        "line": 179,
+        "line": 118,
         "pattern": "AppointmentStatus workflow",
         "code": "defaultValue: 'started',"
       },
@@ -5829,77 +5843,77 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 151,
+        "line": 155,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 155,
+        "line": 159,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 234,
+        "line": 229,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
+      },
+      {
+        "type": "status-workflow",
+        "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
+        "line": 233,
+        "pattern": "AppointmentStatus workflow",
+        "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
         "line": 238,
         "pattern": "AppointmentStatus workflow",
-        "code": "status: 'confirmed',"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 243,
-        "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 138,
+        "line": 145,
         "pattern": "AppointmentStatus workflow",
         "code": "if (status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 141,
+        "line": 148,
         "pattern": "AppointmentStatus workflow",
         "code": "if (status === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 236,
+        "line": 243,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 240,
+        "line": 247,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 247,
+        "line": 254,
         "pattern": "AppointmentStatus workflow",
         "code": "oldStatus: 'submitted',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 248,
+        "line": 255,
         "pattern": "AppointmentStatus workflow",
         "code": "newStatus: 'confirmed',"
       },
@@ -5976,21 +5990,21 @@
       {
         "type": "status-workflow",
         "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-        "line": 115,
+        "line": 114,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Only counts appointments with status 'submitted' or 'confirmed' (line 88)"
       },
       {
         "type": "status-workflow",
         "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-        "line": 186,
+        "line": 185,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Only counts appointments with status 'submitted' or 'confirmed'"
       },
       {
         "type": "status-workflow",
         "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-        "line": 248,
+        "line": 247,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Only counts appointments with status 'submitted' or 'confirmed'"
       }

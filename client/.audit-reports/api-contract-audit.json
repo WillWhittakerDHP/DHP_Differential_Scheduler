@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-22T13:37:05.129Z",
+  "generatedAt": "2026-03-22T17:40:43.787Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 74,
+  "serverEndpoints": 75,
   "endpointKeys": [
     "GET /events-cache",
     "GET /rate-limit",
@@ -82,12 +82,20 @@
       "file": "shared/types/appointmentFeeTypes.ts"
     },
     {
+      "name": "AppointmentSelectedTimeSlotPayload",
+      "file": "shared/types/appointmentTypes.ts"
+    },
+    {
       "name": "AttendeeRequest",
       "file": "shared/types/appointmentTypes.ts"
     },
     {
       "name": "AdminEntryAppointmentItem",
       "file": "shared/types/appointmentTypes.ts"
+    },
+    {
+      "name": "AvailabilitySettingsData",
+      "file": "shared/types/availabilitySettingsDocument.ts"
     },
     {
       "name": "RFC3339DateTime",
@@ -206,6 +214,10 @@
       "file": "shared/types/availabilityTypes.ts"
     },
     {
+      "name": "DriveTimeFeeConfig",
+      "file": "shared/types/availabilityTypes.ts"
+    },
+    {
       "name": "BusyTimeRange",
       "file": "shared/types/availabilityTypes.ts"
     },
@@ -258,6 +270,10 @@
       "file": "shared/types/businessRulesTypes.ts"
     },
     {
+      "name": "CalendarSettingsData",
+      "file": "shared/types/calendarSettingsDocument.ts"
+    },
+    {
       "name": "CalendarProvider",
       "file": "shared/types/calendarTypes.ts"
     },
@@ -292,6 +308,22 @@
     {
       "name": "CoreEntity",
       "file": "shared/types/coreEntityTypes.ts"
+    },
+    {
+      "name": "DifferentialRole",
+      "file": "shared/types/differentialRole.ts"
+    },
+    {
+      "name": "DifferentialRoleStorage",
+      "file": "shared/types/differentialRole.ts"
+    },
+    {
+      "name": "EventInstancePreviewRequestBody",
+      "file": "shared/types/eventInstancePreview.ts"
+    },
+    {
+      "name": "EventInstancePreviewResponseBody",
+      "file": "shared/types/eventInstancePreview.ts"
     },
     {
       "name": "IdentifiableById",
@@ -372,6 +404,42 @@
     {
       "name": "PropertyDetailsBase",
       "file": "shared/types/propertyTypes.ts"
+    },
+    {
+      "name": "SelectInputConfigPassthroughKey",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputConfigPassthrough",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputStaticOptionsCore",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputRelationshipCore",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputPrimitiveCore",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "SelectInputConfig",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "ParsedSelectInputConfig",
+      "file": "shared/types/selectInputConfig.ts"
+    },
+    {
+      "name": "TernaryBoolean",
+      "file": "shared/types/ternary.ts"
+    },
+    {
+      "name": "WizardSettingsData",
+      "file": "shared/types/wizardSettingsTypes.ts"
     }
   ],
   "score": 0,
