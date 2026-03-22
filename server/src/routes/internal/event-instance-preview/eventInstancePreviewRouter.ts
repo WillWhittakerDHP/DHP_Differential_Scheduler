@@ -3,7 +3,9 @@ import { sendError, sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { previewEventInstanceTemplates } from '../../../services/invites/eventInstancePreviewService.js'
 import type { EventInstancePreviewRequestBody } from '@shared/types/eventInstancePreview.js'
+import { createLogger } from '../../../utils/logger.js'
 
+const logger = createLogger('EventInstancePreviewRouter')
 const router = Router()
 
 function isNonEmptyString(v: unknown): v is string {
@@ -31,6 +33,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     sendSuccess(res, result)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Preview failed'
+    logger.error('Event instance preview failed', { error, message })
     if (message === 'Appointment not found') {
       sendError(res, message, HTTP_STATUS_CODES.NOT_FOUND)
       return

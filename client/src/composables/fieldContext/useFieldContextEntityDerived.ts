@@ -60,10 +60,7 @@ export function useFieldContextEntityDerived<GE extends GlobalEntityKey, FieldKe
 
     if (composedEntityComposable) {
       const components = composedEntityComposable.data.getComponents(entityId)
-      const ids = components
-        .map((ea) => ea.childId)
-        .filter((id): id is string => typeof id === 'string')
-      return ids
+      return components.map((ea) => ea.childId) as ValidAdminValue
     }
 
     const currentEntity = entity.value as Record<string, unknown> | undefined

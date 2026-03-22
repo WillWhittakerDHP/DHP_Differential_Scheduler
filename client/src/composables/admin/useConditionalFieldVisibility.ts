@@ -1,12 +1,17 @@
 import { computed } from 'vue'
-import type { UseConditionalFieldVisibilityOptions, UseConditionalFieldVisibilityReturn, FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
+import type { GlobalEntityKey } from '@/constants/entities'
+import type {
+  UseConditionalFieldVisibilityOptions,
+  UseConditionalFieldVisibilityReturn,
+  FieldsByLocation,
+} from '@/types/admin/conditionalFieldVisibility'
 
-export function useConditionalFieldVisibility(
-  options: UseConditionalFieldVisibilityOptions
-): UseConditionalFieldVisibilityReturn {
+export function useConditionalFieldVisibility<GE extends GlobalEntityKey = GlobalEntityKey>(
+  options: UseConditionalFieldVisibilityOptions<GE>
+): UseConditionalFieldVisibilityReturn<GE> {
   const { fieldsByLocation, isComposable, form } = options
 
-  const filteredFieldsByLocation = computed<FieldsByLocation>(() => {
+  const filteredFieldsByLocation = computed<FieldsByLocation<GE>>(() => {
     const base = fieldsByLocation.value
 
     const formValues = form.values

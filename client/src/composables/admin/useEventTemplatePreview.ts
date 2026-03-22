@@ -9,6 +9,9 @@ import { resolveEventTemplates } from '@shared/utils/eventTemplateResolver'
 import type { EventInstancePreviewResponseBody } from '@shared/types/eventInstancePreview'
 import apiClient from '@/utils/api'
 import { getEventInstancePreviewEndpoint } from '@/utils/api/eventInstancePreviewApi'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useEventTemplatePreview')
 
 export interface EventInstancePreviewDraftSlice {
   titleTemplate: string
@@ -81,6 +84,7 @@ export function useEventTemplatePreview(params: UseEventTemplatePreviewParams): 
       })
       realPreview.value = data
     } catch (e) {
+      logger.warn('Real event instance preview request failed', { error: e })
       let message = 'Real preview failed'
       if (isAxiosError(e)) {
         const data = e.response?.data as { error?: string } | undefined

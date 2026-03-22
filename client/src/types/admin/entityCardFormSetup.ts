@@ -19,15 +19,15 @@ export interface UseEntityCardFormSetupParams<GE extends GlobalEntityKey> {
   adminConfig: ReturnType<typeof useAdminConfig>
 }
 
-export interface UseEntityCardFormSetupReturn {
-  formFields: UseFormFieldsReturn
-  fieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+export interface UseEntityCardFormSetupReturn<GE extends GlobalEntityKey = GlobalEntityKey> {
+  formFields: UseFormFieldsReturn<GE>
+  fieldKeys: ComputedRef<GlobalFieldKey<GE>[]>
   isMetadataReady: ComputedRef<boolean>
   entityName: ComputedRef<string>
   isComposable: ComputedRef<boolean>
-  finalFieldKeys: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  fieldLocation: UseEntityCardFieldConfigurationReturn['fieldLocation']
-  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  finalFieldKeys: ComputedRef<GlobalFieldKey<GE>[]>
+  fieldLocation: UseEntityCardFieldConfigurationReturn<GE>['fieldLocation']
+  inlineFieldsConfig: ComputedRef<GlobalFieldKey<GE>[]>
+  stackedFieldsConfig: ComputedRef<GlobalFieldKey<GE>[]>
   isFormReady: ComputedRef<boolean>
 }

@@ -13,10 +13,9 @@ import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCa
 import { useFormFields } from '@/composables/useFormFields'
 import type { UseEntityCardFormSetupParams, UseEntityCardFormSetupReturn } from '@/types/admin/entityCardFormSetup'
 
-
 export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
   params: UseEntityCardFormSetupParams<GE>
-): UseEntityCardFormSetupReturn {
+): UseEntityCardFormSetupReturn<GE> {
   const {
     entityKey,
     entity,
@@ -46,9 +45,9 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
 
   const fieldKeys = computed(() => {
     if (composedFieldMetadata.value && Object.keys(composedFieldMetadata.value).length > 0) {
-      return Object.keys(composedFieldMetadata.value) as GlobalFieldKey<GlobalEntityKey>[]
+      return Object.keys(composedFieldMetadata.value) as GlobalFieldKey<GE>[]
     }
-    return [] as GlobalFieldKey<GlobalEntityKey>[]
+    return [] as GlobalFieldKey<GE>[]
   })
 
   const entityName = computed(() => getEntityName(entityKey, entity))
@@ -63,7 +62,7 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
     fieldLocation,
     inlineFieldsConfig,
     stackedFieldsConfig,
-  } = useEntityCardFieldConfiguration({
+  } = useEntityCardFieldConfiguration<GE>({
     entityKey,
     fieldKeys,
     composedFieldMetadata,
@@ -71,7 +70,7 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
     filteredMetadata,
   })
 
-  const formFields = useFormFields({
+  const formFields = useFormFields<GE>({
     entityKey,
     entityId: computed(() => entity.id),
     form,

@@ -1,20 +1,43 @@
 /**
  * EventInstancesSection receives instancesTabContext from InstancesTab and passes it here.
  */
-import { computed } from 'vue'
+import {
+  computed,
+  reactive,
+  type ComputedRef,
+  type ComponentPublicInstance,
+  type UnwrapNestedRefs,
+} from 'vue'
 import type { InstancesTabContext } from '@/types/admin/adminInjectionKeys'
-import type { ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 
-export interface UseEventInstancesSectionReturn {
-  ctx: InstancesTabContext
-  expandedInstances: InstancesTabContext['expandedInstances']
+/** Ref bundle passed into `reactive()`; public shape after reactive is `EventInstancesSectionDisplayReactive`. */
+export type EventInstancesSectionDisplayRefs = {
   eventInstancesDisplay: ComputedRef<GlobalEntity<'eventInstance'>[]>
   eventShapesList: ComputedRef<GlobalEntity<'eventShape'>[]>
   hasEventInstances: ComputedRef<boolean>
   isLoading: ComputedRef<boolean>
-  templateWarningsUnwrapped: ComputedRef<{ titleTemplate: string[]; descriptionTemplate: string[]; locationTemplate: string[] }>
+  templateWarningsUnwrapped: ComputedRef<{
+    titleTemplate: string[]
+    descriptionTemplate: string[]
+    locationTemplate: string[]
+  }>
+}
+
+export type EventInstancesSectionDisplayReactive = UnwrapNestedRefs<EventInstancesSectionDisplayRefs>
+
+export interface EventInstancesSectionActions {
   toggleEventInstanceMetadata: () => void
+  bindEventInstancesContainer: (el: unknown) => void
+  bindEventInstancesPanelsContainer: (el: unknown) => void
+}
+
+export interface UseEventInstancesSectionReturn {
+  ctx: InstancesTabContext
+  expandedInstances: InstancesTabContext['expandedInstances']
+  display: EventInstancesSectionDisplayReactive
+  actions: EventInstancesSectionActions
+  canSubmitNewEventInstance: ComputedRef<boolean>
 }
 
 export function useEventInstancesSection(context: InstancesTabContext): UseEventInstancesSectionReturn {
@@ -39,14 +62,39 @@ export function useEventInstancesSection(context: InstancesTabContext): UseEvent
     resolvedCtx.eventInstanceMetadataModalOpen.value = !resolvedCtx.eventInstanceMetadataModalOpen.value
   }
 
-  return {
-    ctx: resolvedCtx,
-    expandedInstances,
+  const canSubmitNewEventInstance = computed(() => {
+    const d = resolvedCtx.newEventInstanceData.value
+    return typeof d?.name === 'string' && d.name.trim() !== ''
+  })
+
+  function bindEventInstancesContainer(el: unknown): void {
+    if (!resolvedCtx.eventInstancesContainer) return
+    resolvedCtx.eventInstancesContainer.value = (el as HTMLElement | null) ?? null
+  }
+
+  function bindEventInstancesPanelsContainer(el: unknown): void {
+    if (!resolvedCtx.eventInstancesPanelsContainer || el == null) return
+    const holder = resolvedCtx.eventInstancesPanelsContainer as { value: ComponentPublicInstance | HTMLElement | null }
+    holder.value = el as ComponentPublicInstance | HTMLElement
+  }
+
+  const display = reactive<EventInstancesSectionDisplayRefs>({
     eventInstancesDisplay,
     eventShapesList,
     hasEventInstances,
     isLoading,
     templateWarningsUnwrapped,
-    toggleEventInstanceMetadata,
+  })
+
+  return {
+    ctx: resolvedCtx,
+    expandedInstances,
+    display,
+    actions: {
+      toggleEventInstanceMetadata,
+      bindEventInstancesContainer,
+      bindEventInstancesPanelsContainer,
+    },
+    canSubmitNewEventInstance,
   }
 }

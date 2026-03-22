@@ -1,4 +1,4 @@
-import { ref, computed, getCurrentInstance, triggerRef, watchEffect, type Ref } from 'vue'
+import { ref, shallowRef, computed, getCurrentInstance, triggerRef, watchEffect } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { categorizeFieldsByLayout as categorizeFieldsByLayoutPure } from '@/utils/forms/layoutFieldCategorization'
 import { asEmptyArray } from '@/utils/safeDefaults'
@@ -27,31 +27,45 @@ const logger = createLogger('useFormFields')
  * CONSUMERS (composable-health wave 3): useEntityCardFormSetup (→ EntityCard), EntityFormContent.vue,
  * DynamicForm.vue. Type UseFormFieldsReturn is consumed by entityCardFieldContextAndVisibility.ts.
  *
- * APPROACH: Oversized-return and excessive-composable-imports are allowlisted; decomposition into
- * smaller composables is deferred to a coordinated multi-file pass (high fan-in).
+ * Generic GE matches the card’s entityKey so field contexts and cache entries share one entity type.
  */
-export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsReturn {
-  const {
-    entityKey,
-    entityId,
-    form: providedForm,
-    fieldKeys,
-    fieldMetadata: providedFieldMetadata,
-    inlineFieldsConfig = ref<GlobalFieldKey<GlobalEntityKey>[]>([]),
-    stackedFieldsConfig = ref<GlobalFieldKey<GlobalEntityKey>[]>([]),
-    adminConfig: providedAdminConfig,
-  } = options
+export function useFormFields<GE extends GlobalEntityKey = GlobalEntityKey>(
+  options: UseFormFieldsOptions<GE>
+): UseFormFieldsReturn<GE> {
+  const { entityKey, entityId, form: providedForm, fieldMetadata: providedFieldMetadata, adminConfig: providedAdminConfig } =
+    options
+
+  /* Read option refs inside computeds so we never assign generic `Ref<>` to a local (avoids UnwrapRef widening).
+   * Narrow array elements to GlobalFieldKey<GE> — callers already pass that shape via UseFormFieldsOptions. */
+  const fieldKeysSource = computed((): GlobalFieldKey<GE>[] => {
+    const list = options.fieldKeys.value
+    if (!Array.isArray(list)) return []
+    return list as GlobalFieldKey<GE>[]
+  })
+  const inlineFieldsSource = computed((): GlobalFieldKey<GE>[] => {
+    const cfg = options.inlineFieldsConfig
+    if (cfg === undefined) return []
+    const list = cfg.value
+    if (!Array.isArray(list)) return []
+    return list as GlobalFieldKey<GE>[]
+  })
+  const stackedFieldsSource = computed((): GlobalFieldKey<GE>[] => {
+    const cfg = options.stackedFieldsConfig
+    if (cfg === undefined) return []
+    const list = cfg.value
+    if (!Array.isArray(list)) return []
+    return list as GlobalFieldKey<GE>[]
+  })
 
   const _resolvedAdminConfig = providedAdminConfig ?? useAdminConfig()
   void _resolvedAdminConfig
   const { warning: showWarning } = useNotification()
-  // When cards mount before metadata is ready (e.g. Instances tab), the effect runs with getCurrentInstance() null;
-  // using the captured instance avoids infinite nextTick deferral and allows contexts to be created.
   const capturedInstance = getCurrentInstance()
   const appInstance = capturedInstance?.appContext.app
 
   const formInstance = computed<FormContext | undefined>(() => providedForm?.value ?? undefined)
-  const fieldContextCache = ref<Map<string, FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>(new Map())
+  /** shallowRef: avoid Vue deep UnwrapRef on stored FieldContextTypeGrouped (state holds Refs). */
+  const fieldContextCache = shallowRef<Map<string, FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>>>(new Map())
   const warnedFields = ref<Set<string>>(new Set())
   const tempEntityId = ref<GlobalEntityId>(toGlobalEntityId(TEMPORARY_ID_PATTERNS.NEW_PREFIX + String(Date.now())))
 
@@ -72,13 +86,13 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     return hasMetadata || providedFieldMetadata !== undefined
   })
 
-  const fieldsNeedingContexts = computed<GlobalFieldKey<GlobalEntityKey>[]>(() => {
+  const fieldsNeedingContexts = computed<GlobalFieldKey<GE>[]>(() => {
     if (!isFormReady.value) return []
     const metadata = providedFieldMetadata?.value
     const metadataKeys = metadata ? Object.keys(metadata) : []
-    const rawKeys = fieldKeys.value
+    const rawKeys = fieldKeysSource.value
     const baseKeys = rawKeys !== undefined && rawKeys !== null && Array.isArray(rawKeys) ? rawKeys : []
-    const combinedKeys = Array.from(new Set([...baseKeys, ...metadataKeys])) as GlobalFieldKey<GlobalEntityKey>[]
+    const combinedKeys = Array.from(new Set([...baseKeys, ...metadataKeys])) as GlobalFieldKey<GE>[]
 
     if (isMetadataReady.value && metadata) {
       combinedKeys.forEach((fieldKey) => {
@@ -96,7 +110,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   const getFieldTypeFromMetadata = (
     meta: FieldMetadataEntry,
     fieldKey: string
-  ): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['state']['displayConfig']['fieldType'] => {
+  ): FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>['state']['displayConfig']['fieldType'] => {
     const effective = computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKey)
     if (effective === 'multiselect') return 'multiselect'
     if (effective === 'select' || effective === 'reference') return 'select'
@@ -112,7 +126,9 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     return 'text'
   }
 
-  const getFieldDisplayConfig = (fieldKey: string): FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>['state']['displayConfig'] => {
+  const getFieldDisplayConfig = (
+    fieldKey: string
+  ): FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>['state']['displayConfig'] => {
     const metadata = providedFieldMetadata?.value
     const hasMetadataKeys = !!metadata && Object.keys(metadata).length > 0
 
@@ -165,7 +181,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     }
   }
 
-  const createFieldContext = (fieldKey: GlobalFieldKey<GlobalEntityKey>, entityIdValue: GlobalEntityId): void => {
+  const createFieldContext = (fieldKey: GlobalFieldKey<GE>, entityIdValue: GlobalEntityId): void => {
     const cacheKey = String(fieldKey)
     if (fieldContextCache.value.has(cacheKey)) return
 
@@ -175,7 +191,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
         if (!currentFormInstance) {
           throw new Error(`[useFormFields] Form instance not ready for field ${fieldKey}`)
         }
-        const stateAndActions = useFieldContextState<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>(
+        const stateAndActions = useFieldContextState<GE, GlobalFieldKey<GE>>(
           fieldKey,
           entityKey,
           entityIdValue,
@@ -217,12 +233,10 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     if (fieldsNeedingContexts.value.length > 0) createContextsForFields()
   })
 
-  const getFieldContext = <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    fieldKey: FieldKey
-  ): FieldContextTypeGrouped<GE, FieldKey> | undefined => {
-    const cacheKey = String(fieldKey)
-    const context = fieldContextCache.value.get(cacheKey)
-    return context === undefined ? undefined : (context as FieldContextTypeGrouped<GE, FieldKey>)
+  const getFieldContext = (
+    fieldKey: GlobalFieldKey<GE>
+  ): FieldContextTypeGrouped<GE, GlobalFieldKey<GE>> | undefined => {
+    return fieldContextCache.value.get(String(fieldKey))
   }
 
   const context = {
@@ -235,27 +249,27 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
 
   const adminComp = useAdmin()
 
-  const getReadyFields = (fields: GlobalFieldKey<GlobalEntityKey>[]): GlobalFieldKey<GlobalEntityKey>[] => {
+  const getReadyFields = (fields: GlobalFieldKey<GE>[]): GlobalFieldKey<GE>[] => {
     return fields.filter((fieldKey) => {
-      const hasContext = !!context.getFieldContext(fieldKey as GlobalFieldKey<typeof entityKey>)
+      const hasContext = !!context.getFieldContext(fieldKey)
       const fieldKeyStr = String(fieldKey)
       const hasMetadata = providedFieldMetadata?.value && fieldKeyStr in providedFieldMetadata.value
       return hasContext && hasMetadata
     })
   }
 
-  const categorizeFieldsByLayout = (fields: GlobalFieldKey<GlobalEntityKey>[]) => {
+  const categorizeFieldsByLayout = (fields: GlobalFieldKey<GE>[]) => {
     return categorizeFieldsByLayoutPure(
       fields.map(String),
-      asEmptyArray(inlineFieldsConfig.value).map(String),
-      asEmptyArray(stackedFieldsConfig.value).map(String)
+      asEmptyArray(inlineFieldsSource.value).map(String),
+      asEmptyArray(stackedFieldsSource.value).map(String)
     )
   }
 
-  const standardLayout = useFormFieldsStandardLayout({
-    fieldKeys,
-    inlineFieldsConfig,
-    stackedFieldsConfig,
+  const standardLayout = useFormFieldsStandardLayout<GE>({
+    fieldKeys: fieldKeysSource,
+    inlineFieldsConfig: inlineFieldsSource,
+    stackedFieldsConfig: stackedFieldsSource,
     getReadyFields,
   })
 
@@ -290,5 +304,5 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     stackedFields: standardLayout.stackedFields,
     readyInlineFields: standardLayout.readyInlineFields,
     readyStackedFields: standardLayout.readyStackedFields,
-  } as UseFormFieldsReturn
+  }
 }
