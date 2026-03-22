@@ -52,8 +52,6 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
       if (entityKey === ENTITY_KEYS.ANNOTATION_INSTANCE) {
         acc[entityKey] = (data as InstanceType<typeof AnnotationInstance>[]).map((row) => {
           const plain = row.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
-          // WHY: Keep generic-resolved `text` for list UIs; preserve `contentRows` so the booking
-          // wizard can resolve copy per selected user type (task 6.12.2.2).
           plain.text = resolveAnnotationTextForAssignment(plain, null)
           return plain
         })

@@ -48,7 +48,6 @@ export function buildInviteContext(
 
   const address = appointment.propertyVersion?.address
   if (address) {
-    /** WHY: Sequelize `Address` uses column `address`; API/docs use `streetAddress` — support both. */
     const addr = address as {
       streetAddress?: string
       address?: string
