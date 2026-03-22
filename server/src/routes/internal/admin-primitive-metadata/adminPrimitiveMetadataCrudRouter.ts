@@ -1,5 +1,7 @@
 
 import { Router, Request, Response } from 'express'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { adminPrimitiveMetadataPostBodySchema } from '../../schemas/adminPrimitiveMetadataSchemas.js'
 import { AdminPrimitiveMetadata } from '../../../db/models/admin/adminPrimitiveMetadata.js'
 import { getAdminPrimitiveMetadata } from '../../../utils/adminPrimitiveMetadataComposer.js'
 import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminPrimitiveMetadataConstants.js'
@@ -40,7 +42,8 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
 router.post(
   '/:entityType/:entityId',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(adminPrimitiveMetadataPostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')

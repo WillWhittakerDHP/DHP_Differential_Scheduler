@@ -50,7 +50,7 @@ These sections contain session-specific content:
 **Approach:** Identify routes using createCrudRouter vs inline validation; add Joi schemas per route or integrate into CRUD factory; wire validateRequest(schema) before handlers.
 **Checkpoint:** Key internal routes return 400 with validation details on invalid payloads.
 
-- [ ] #### Task 8.3.2.2: Apply Joi to remaining internal routes; document in SECURITY_STUBS
+- [x] #### Task 8.3.2.2: Apply Joi to remaining internal routes; document in SECURITY_STUBS
 **Goal:** Apply Joi validation to remaining internal POST/PUT routes (business/calendar/wizard settings, admin-metadata, etc.); expand SECURITY_STUBS with validation patterns and schema inventory.
 **Files:** 
 - `server/src/routes/internal/businessSettings/`, `server/src/routes/internal/calendarSettings/`, `server/src/routes/internal/wizardSettings/`, `server/src/routes/internal/admin-metadata/`, `server/docs/SECURITY_STUBS.md`

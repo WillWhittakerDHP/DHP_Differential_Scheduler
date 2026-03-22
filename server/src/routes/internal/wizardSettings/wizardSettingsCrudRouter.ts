@@ -2,6 +2,8 @@
  * Singleton CRUD for wizard_settings: GET / returns setting_value; PUT / upserts.
  */
 import { Router, Request, Response } from 'express';
+import { validateRequest } from '../../../middlewares/validateRequest.js';
+import { wizardSettingsPutBodySchema } from '../../schemas/wizardSettingsSchemas.js';
 import { WizardSettings } from '../../../config/app.js';
 import type { WizardSettingsData } from '../../../db/models/admin/wizard_settings.js';
 import { handleRouteError } from '../../helpers/routerErrorHandler.js';
@@ -34,6 +36,7 @@ router.put(
   '/',
   csrfProtection,
   checkOwnership('wizardSetting', 'id'),
+  validateRequest(wizardSettingsPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const settingValue = req.body?.setting_value;

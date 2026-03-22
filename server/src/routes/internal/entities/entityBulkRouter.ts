@@ -1,5 +1,10 @@
 
 import { Router, Request, Response } from 'express'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import {
+  entityOrderIndexPatchBodySchema,
+  entityBulkPatchBodySchema,
+} from '../../schemas/entityBulkSchemas.js'
 import { bulkPatch } from '../../helpers/dataController.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
@@ -14,7 +19,7 @@ const router = Router()
 
 router.param('entityType', entityTypeParamHandler)
 
-router.patch('/:entityType/order_index', csrfProtection, async (req: Request, res: Response): Promise<void> => {
+router.patch('/:entityType/order_index', csrfProtection, validateRequest(entityOrderIndexPatchBodySchema), async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
     res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
@@ -31,7 +36,7 @@ router.patch('/:entityType/order_index', csrfProtection, async (req: Request, re
   }
 })
 
-router.patch('/:entityType/bulk', csrfProtection, async (req: Request, res: Response): Promise<void> => {
+router.patch('/:entityType/bulk', csrfProtection, validateRequest(entityBulkPatchBodySchema), async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
     res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })

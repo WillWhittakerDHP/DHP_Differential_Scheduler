@@ -2,6 +2,8 @@
  * Relationship CRUD: errors sanitized in production (NODE_ENV) via relationshipErrorHandler and shared routerErrorHandler.
  */
 import { Router, Request, Response } from 'express'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { relationshipPostBodySchema } from '../../schemas/relationshipSchemas.js'
 import { BlockInstance } from '../../../config/app.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { FIELD_NAMES } from '../entities/entityConstants.js'
@@ -154,6 +156,7 @@ export async function handleInstanceComponentCreate(req: Request, res: Response)
 router.post(
   '/:relationshipType',
   csrfProtection,
+  validateRequest(relationshipPostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const relationshipConfig = req.relationshipConfig
     if (!relationshipConfig) {

@@ -2,6 +2,8 @@
  * Singleton CRUD for calendar_settings: GET / returns setting_value; PUT / upserts.
  */
 import { Router, Request, Response } from 'express';
+import { validateRequest } from '../../../middlewares/validateRequest.js';
+import { calendarSettingsPutBodySchema } from '../../schemas/calendarSettingsSchemas.js';
 import { CalendarSettings } from '../../../config/app.js';
 import type { CalendarSettingsData } from '../../../db/models/admin/calendar_settings.js';
 import { handleRouteError } from '../../helpers/routerErrorHandler.js';
@@ -41,6 +43,7 @@ router.put(
   '/',
   csrfProtection,
   checkOwnership('calendarSetting', 'id'),
+  validateRequest(calendarSettingsPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const settingValue = req.body?.setting_value;

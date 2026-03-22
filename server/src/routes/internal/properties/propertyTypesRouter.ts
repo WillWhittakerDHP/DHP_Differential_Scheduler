@@ -1,6 +1,12 @@
 
 import { Router, Request, Response } from 'express'
 import { Op } from 'sequelize'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import {
+  propertyTypePostBodySchema,
+  propertyTypePatchBodySchema,
+  propertyTypesPutBodySchema,
+} from '../../schemas/propertyTypesSchemas.js'
 import { PropertyVersion, PropertyVersionType, BlockInstance, BlockShape } from '../../../config/app.js'
 import { FIELD_NAMES } from '../entities/entityConstants.js'
 import { ERROR_MESSAGES, DEFAULT_VALUES, REQUIRED_FIELDS } from './propertyConstants.js'
@@ -34,7 +40,8 @@ router.get('/:id/types', async (req: Request, res: Response): Promise<void> => {
 
 router.post(
   '/:id/types',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(propertyTypePostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersionId = paramString(req, 'id')
@@ -95,8 +102,9 @@ router.post(
 
 router.patch(
   '/:id/types/:typeId',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('propertyType', 'typeId'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('propertyType', 'typeId'),
+  validateRequest(propertyTypePatchBodySchema),
   async (req: Request, res: Response): Promise<void> => {
   try {
     const typeId = paramString(req, 'typeId')
@@ -148,7 +156,8 @@ router.delete(
 
 router.put(
   '/:id/types',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(propertyTypesPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
   try {
     const propertyVersionId = paramString(req, 'id')

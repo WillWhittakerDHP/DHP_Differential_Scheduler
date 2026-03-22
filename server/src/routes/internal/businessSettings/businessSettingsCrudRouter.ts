@@ -3,6 +3,11 @@
  * Calendar and wizard settings use /calendar-settings and /wizard-settings.
  */
 import { Router, Request, Response } from 'express';
+import { validateRequest } from '../../../middlewares/validateRequest.js';
+import {
+  businessSettingsPostBodySchema,
+  businessSettingsPutPatchBodySchema,
+} from '../../schemas/businessSettingsSchemas.js';
 import { BusinessSettings } from '../../../config/app.js';
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js';
 import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY, defaultAvailabilitySettings } from './businessSettingsConstants.js';
@@ -86,6 +91,7 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
 router.post(
   '/',
   csrfProtection,
+  validateRequest(businessSettingsPostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { setting_key, setting_value } = req.body;
@@ -137,6 +143,7 @@ router.put(
   '/:key',
   csrfProtection,
   checkOwnership('businessSetting', 'key'),
+  validateRequest(businessSettingsPutPatchBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key');
@@ -185,6 +192,7 @@ router.patch(
   '/:key',
   csrfProtection,
   checkOwnership('businessSetting', 'key'),
+  validateRequest(businessSettingsPutPatchBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key');
