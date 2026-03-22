@@ -4,22 +4,22 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-22T13:41:00.319Z
+Generated: 2026-03-22T16:45:19.011Z
 
 ## Summary
 
-- Type files: **270**
+- Type files: **277**
 - Constant files: **24**
 - Config files: **41**
 - Files with inline type exports: **115**
-- Annotated: **325** | Unannotated: **10**
+- Annotated: **325** | Unannotated: **17**
 
 | Classification Issue | Count |
 | --- | ---: |
-| Mixed type+constant files | 14 |
+| Mixed type+constant files | 15 |
 | Inline types in composables | 85 |
 | Configs with factory functions | 11 |
-| Duplicate type names | 7 |
+| Duplicate type names | 8 |
 | Cleanup candidates (misplaced + unused) | 0 |
 | Monomorphic generics | 9 |
 
@@ -159,6 +159,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | --- | --- | --- | --- | --- | --- |
 | `client/src/types/admin/wizardSettings.ts` | dedicated | UseAdminWizardSettingsOptions, UseAdminWizardSettingsReturn | no | (none) | unknown |
 
+### Domain: availabilitySettingsDocument.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/availabilitySettingsDocument.ts` | dedicated | AvailabilitySettingsData | no | (none) | unknown |
+
 ### Domain: booking
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -257,6 +263,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/booking/selectionCard/selectionCardStyles.ts` | dedicated | UseSelectionCardStylesParams, UseSelectionCardStylesParamsBase, UseSelectionCardStylesReturn | no | Style and theming types for selection card display | feature |
 | `client/src/components/booking/types/selectionCardTypes.ts` | colocated | ComponentItem, SelectionCardItem, GridColumns, StatePlugin, SelectionCardConfig | no | Selection card configuration, appearance, and feature-flag types. | feature |
 
+### Domain: calendarSettingsDocument.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/calendarSettingsDocument.ts` | dedicated |  | no | (none) | unknown |
+
 ### Domain: componentEntity
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -281,6 +293,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/dev/devPanelTabs.ts` | dedicated | DevPanelTab, UseDevPanelTabsReturn | no | Dev panel tab configuration and navigation types | feature |
 | `client/src/components/admin/dev/devPanelTypes.ts` | colocated | DevPanelVisibleProps | no | Dev panel visibility props and component types. | feature |
 
+### Domain: differentialRole.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/differentialRole.ts` | dedicated | DifferentialRole, DifferentialRoleStorage | no | (none) | unknown |
+
 ### Domain: entity
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
@@ -299,6 +317,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/entityCrud/entityCrudState.ts` | dedicated | UseEntityCrudStateReturn, UseEntityCrudStateReturnBase | no | Entity CRUD state management types | shared |
 | `client/src/types/entityCrud/entityCrudTypes.ts` | dedicated | OrderIndexUpdate, BulkUpdate, UseEntityCrudActionsReturn, EntityCrudMutationContext, UseEntityCrudMutationsReturnBase | no | Core entity CRUD operation types | shared |
 | `client/src/types/entityCrud/sharedMutationHandlers.ts` | dedicated | InvalidateEntityQueriesOptions, MutationContextWithPreviousData | no | Shared entity mutation handler types | shared |
+
+### Domain: eventInstancePreview.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/eventInstancePreview.ts` | dedicated | EventInstancePreviewRequestBody, EventInstancePreviewResponseBody | no | (none) | unknown |
 
 ### Domain: fieldContext
 
@@ -375,7 +399,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/wizardStateFieldConfig.ts` | dedicated | WizardInstance, WizardStateField, WizardFieldConfig | no | Wizard state field configuration and mapping types | feature |
 | `client/src/types/wizardStepData.ts` | dedicated | SummaryData, PriceData | no | Wizard step data container and shape types | feature |
 | `shared/types/appointmentFeeTypes.ts` | dedicated | AppointmentFeeSummaryCreate, AppointmentFeeEntryCreate, AppointmentFeeSummary, FeeEntryBase, AppointmentFeeBreakdownPayload | no | Appointment fee calculation and pricing types | shared |
-| `shared/types/appointmentTypes.ts` | dedicated | AttendeeRequest, AdminEntryAppointmentItem | no | Shared appointment data structure types | shared |
+| `shared/types/appointmentTypes.ts` | dedicated | AppointmentSelectedTimeSlotPayload, AttendeeRequest, AdminEntryAppointmentItem | no | Shared appointment data structure types | shared |
 | `shared/types/availabilityTypes.ts` | dedicated | RFC3339DateTime, ConstraintEnforcement, RollingWeekDirection, ConstraintCategory, RangeConstraintType… | no | Shared availability slot and scheduling types | shared |
 | `shared/types/businessRulesTypes.ts` | dedicated | RuleConfig, RequiredFieldsRuleConfig, RequiresAgentRuleConfig, ConditionalValidationRuleConfig, ValidationMessageRuleConfig | no | Business rules configuration and constraint types | shared |
 | `shared/types/calendarTypes.ts` | dedicated | CalendarProvider, AdminEntryTimeoutUnit, CalendarEntry, AdminEntryTimeout, CalendarConfig | no | Shared calendar event and scheduling types | shared |
@@ -390,11 +414,29 @@ Generic types always instantiated with the same argument; consider removing the 
 | `shared/types/propertyEnrichmentTypes.ts` | dedicated |  | no | Property enrichment data from external sources | shared |
 | `shared/types/propertyTypes.ts` | dedicated | PropertyAddressBase, PropertyDetailsBase | no | Shared property entity data types | shared |
 
+### Domain: selectInputConfig.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/selectInputConfig.ts` | dedicated | SelectInputConfigPassthroughKey, SelectInputConfigPassthrough, SelectInputStaticOptionsCore, SelectInputRelationshipCore, SelectInputPrimitiveCore… | yes | (none) | unknown |
+
+### Domain: ternary.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/ternary.ts` | dedicated | TernaryBoolean | no | (none) | unknown |
+
 ### Domain: utils/booking
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
 | `client/src/utils/booking/bookingFinalTypes.ts` | colocated |  | no | Re-export barrel for BlockFinal type from booking/blockFinal. | feature |
+
+### Domain: wizardSettingsTypes.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/wizardSettingsTypes.ts` | dedicated | WizardSettingsData | no | (none) | unknown |
 
 ## Constants vs Configs Boundary
 
@@ -571,5 +613,6 @@ _None (or unused-code-audit.json not available)._
 - **DurationRoundingConfig**: client/src/types/booking/durationRounding.ts, shared/types/availabilityTypes.ts
 - **ComponentStrategy**: client/src/types/component.ts, shared/types/componentTypes.ts
 - **ComponentConfig**: client/src/types/component.ts, shared/types/componentTypes.ts
+- **TernaryBoolean**: client/src/types/ternary.ts, shared/types/ternary.ts
 - **InstancesPanelContext**: client/src/composables/booking/bookingDevPanelKeys.ts, client/src/composables/booking/injectionKeys.ts
 - **ContactsFormContext**: client/src/composables/booking/bookingDevPanelKeys.ts, client/src/composables/booking/injectionKeys.ts

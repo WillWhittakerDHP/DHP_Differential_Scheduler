@@ -54,7 +54,7 @@ export function inputConfigEditor(
     }
   }
 
-  function buildInputConfig(fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
+  function buildInputConfig(_fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
     if (formData.options !== null) {
       return {
         options: formData.options
@@ -86,10 +86,6 @@ export function inputConfigEditor(
       }
       if (formData.placeholder) {
         baseConfig.placeholder = formData.placeholder
-      }
-
-      const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
-      if (renderAs === 'relationshipCollection') {
       }
     } else if (formData.targetMode === 'property') {
       if (formData.targetKey) {
