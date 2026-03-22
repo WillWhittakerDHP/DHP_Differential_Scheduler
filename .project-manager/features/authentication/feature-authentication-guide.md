@@ -34,7 +34,7 @@ Research phase not yet started — architectural decisions to be documented in t
 
 ## Phases Breakdown
 
-- [ ] ### Phase 10.1: Database & Models
+- [ ] ### Phase 7.1: Database & Models
 **Description:** 
 **Duration:** [Estimated weeks]
 **Sessions:** [Number of sessions]
