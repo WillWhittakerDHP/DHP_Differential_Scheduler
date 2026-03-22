@@ -6,14 +6,15 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile && npm run start\"",
-    "compile": "tsc",
-    "build": "tsc",
+    "dev": "cross-env NODE_ENV=development nodemon -w src -e ts --exec \"npm run compile && npm run start\"",
+    "compile": "tsc && tsc-alias -p tsconfig.json",
+    "build": "tsc && tsc-alias -p tsconfig.json",
     "lint": "eslint .",
     "start": "node dist/server/src/index.js",
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --coverage --detectOpenHandles --forceExit",
     "backup:properties": "npm run compile && node dist/scripts/backup-properties.js",
     "migrate": "node src/scripts/run-migrations.mjs",
+    "db:reset": "node scripts/db-reset.mjs",
     "migrate:status": "npx sequelize-cli db:migrate:status --config src/db/config/database.mjs --migrations-path src/db/migrations",
     "migrate:undo": "dotenv -e .env npx sequelize-cli db:migrate:undo --config src/db/config/database.mjs --migrations-path src/db/migrations",
     "migrate:undo:all": "dotenv -e .env npx sequelize-cli db:migrate:undo:all --config src/db/config/database.mjs --migrations-path src/db/migrations",
@@ -21,7 +22,9 @@
     "generate-js": "dotenv -e .env npx sequelize-cli migration:generate --config src/db/config/database.mjs --migrations-path src/db/migrations --name",
     "db:migrate:generate": "npm run generate-js -- \"$1\" && npm run fix-mjs",
     "db:migrate:undo": "dotenv -e .env npx sequelize-cli db:migrate:undo --config src/db/config/database.mjs --migrations-path src/db/migrations",
-    "import:calendar": "npm run compile && node dist/scripts/importCalendarData.js"
+    "import:calendar": "npm run compile && node dist/scripts/importCalendarData.js",
+    "gmail-mcp:creds": "node scripts/write-gmail-mcp-creds.mjs",
+    "gmail-mcp:sync-tokens": "node scripts/sync-gmail-mcp-tokens.mjs"
   },
   "keywords": [
     "nodejs",
@@ -37,11 +40,13 @@
   },
   "dependencies": {
     "@sequelize/core": "^7.0.0-alpha.48",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
     "googleapis": "^171.4.0",
     "helmet": "^8.1.0",
     "joi": "^18.0.2",
@@ -50,8 +55,13 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7"
   },
+  "overrides": {
+    "minimatch": "^10.2.1",
+    "glob": "^10.4.5"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
@@ -70,6 +80,7 @@
     "sequelize-cli": "^6.6.5",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "tsc-alias": "^1.8.10"
   }
 }

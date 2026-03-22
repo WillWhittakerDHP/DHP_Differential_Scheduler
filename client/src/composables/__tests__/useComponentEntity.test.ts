@@ -65,14 +65,14 @@ describe('useComponentEntity', () => {
 
   describe('instanceComponents computed', () => {
     it('should return active components from globalData', () => {
-      const { instanceComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const instanceComponents = data.instanceComponents
       
       expect(instanceComponents.value).toBeInstanceOf(Array)
       expect(instanceComponents.value.length).toBeGreaterThan(0)
     })
 
     it('should transform GlobalRelationship to ActiveComponent format', () => {
-      const { instanceComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const instanceComponents = data.instanceComponents
       
       const component = instanceComponents.value[0]
       
@@ -88,13 +88,13 @@ describe('useComponentEntity', () => {
         getGlobalData: vi.fn(() => null),
       } as any)
       
-      const { instanceComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const instanceComponents = data.instanceComponents
       
       expect(instanceComponents.value).toEqual([])
     })
 
     it('should filter by instanceComponents relationship kind', () => {
-      const { instanceComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const instanceComponents = data.instanceComponents
       
       instanceComponents.value.forEach(comp => {
         expect(comp).toHaveProperty('parentId')
@@ -105,9 +105,9 @@ describe('useComponentEntity', () => {
 
   describe('canBeComposed', () => {
     it('should return false for non-blockInstance entity types', () => {
-      const { canBeComposed } = useComponentEntity('partInstance')
+      const ce = useComponentEntity('partInstance')
       
-      expect(canBeComposed('part-1')).toBe(false)
+      expect(ce.data.canBeComposed('part-1')).toBe(false)
     })
 
     it('should return false when globalData is null', () => {
@@ -116,15 +116,15 @@ describe('useComponentEntity', () => {
         getGlobalData: vi.fn(() => null),
       } as any)
       
-      const { canBeComposed } = useComponentEntity('blockInstance')
+      const ce = useComponentEntity('blockInstance')
       
-      expect(canBeComposed('block-1')).toBe(false)
+      expect(ce.data.canBeComposed('block-1')).toBe(false)
     })
 
     it('should return false when blockInstance not found', () => {
-      const { canBeComposed } = useComponentEntity('blockInstance')
+      const ce = useComponentEntity('blockInstance')
       
-      expect(canBeComposed('non-existent')).toBe(false)
+      expect(ce.data.canBeComposed('non-existent')).toBe(false)
     })
 
     it('should return true when BlockShape is composable', () => {
@@ -136,27 +136,27 @@ describe('useComponentEntity', () => {
         (blockShape as any).composable = true
       }
       
-      const { canBeComposed } = useComponentEntity('blockInstance')
+      const ce = useComponentEntity('blockInstance')
       
-      expect(canBeComposed(blockInstance.id)).toBe(true)
+      expect(ce.data.canBeComposed(blockInstance.id)).toBe(true)
     })
   })
 
   describe('getAvailableComponents', () => {
     it('should return empty array for non-blockInstance entity types', () => {
-      const { getAvailableComponents } = useComponentEntity('partInstance')
+      const { data } = useComponentEntity('partInstance'); const getAvailableComponents = data.getAvailableComponents
       
       expect(getAvailableComponents('part-1')).toEqual([])
     })
 
     it('should return empty array when composer not found', () => {
-      const { getAvailableComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getAvailableComponents = data.getAvailableComponents
       
       expect(getAvailableComponents('non-existent')).toEqual([])
     })
 
     it('should filter out composer itself', () => {
-      const { getAvailableComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getAvailableComponents = data.getAvailableComponents
       
       const available = getAvailableComponents('block-1')
       
@@ -164,7 +164,7 @@ describe('useComponentEntity', () => {
     })
 
     it('should filter out existing components', () => {
-      const { getAvailableComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getAvailableComponents = data.getAvailableComponents
       
       const available = getAvailableComponents('block-1')
       
@@ -173,7 +173,7 @@ describe('useComponentEntity', () => {
     })
 
     it('should only return components with same blockShapeRef', () => {
-      const { getAvailableComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getAvailableComponents = data.getAvailableComponents
       
       const available = getAvailableComponents('block-1')
       
@@ -188,7 +188,7 @@ describe('useComponentEntity', () => {
 
   describe('getComponents', () => {
     it('should return components for a composer', () => {
-      const { getComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComponents = data.getComponents
       
       const components = getComponents('block-1')
       
@@ -197,7 +197,7 @@ describe('useComponentEntity', () => {
     })
 
     it('should filter by parentId', () => {
-      const { getComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComponents = data.getComponents
       
       const components = getComponents('block-1')
       
@@ -207,7 +207,7 @@ describe('useComponentEntity', () => {
     })
 
     it('should exclude disabled components', () => {
-      const { getComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComponents = data.getComponents
       
       const components = getComponents('block-1')
       
@@ -219,7 +219,7 @@ describe('useComponentEntity', () => {
     it('should return empty array when no components exist', () => {
       mockGlobalData.relationships.instanceComponents = []
       
-      const { getComponents } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComponents = data.getComponents
       
       expect(getComponents('block-1')).toEqual([])
     })
@@ -227,20 +227,20 @@ describe('useComponentEntity', () => {
 
   describe('isComponent', () => {
     it('should return false for non-blockInstance entity types', () => {
-      const { isComponent } = useComponentEntity('partInstance')
+      const { data } = useComponentEntity('partInstance'); const isComponent = data.isComponent
       
       expect(isComponent('part-1')).toBe(false)
     })
 
     it('should return true when entity is a component', () => {
-      const { isComponent } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const isComponent = data.isComponent
       
       expect(isComponent('block-2')).toBe(true)
       expect(isComponent('block-3')).toBe(true)
     })
 
     it('should return false when entity is not a component', () => {
-      const { isComponent } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const isComponent = data.isComponent
       
       expect(isComponent('block-1')).toBe(false) // block-1 is the composer, not a component
     })
@@ -248,7 +248,7 @@ describe('useComponentEntity', () => {
     it('should return false when no components exist', () => {
       mockGlobalData.relationships.instanceComponents = []
       
-      const { isComponent } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const isComponent = data.isComponent
       
       expect(isComponent('block-2')).toBe(false)
     })
@@ -256,20 +256,20 @@ describe('useComponentEntity', () => {
 
   describe('getComposerId', () => {
     it('should return null for non-blockInstance entity types', () => {
-      const { getComposerId } = useComponentEntity('partInstance')
+      const { data } = useComponentEntity('partInstance'); const getComposerId = data.getComposerId
       
       expect(getComposerId('part-1')).toBeNull()
     })
 
     it('should return composer ID for a component', () => {
-      const { getComposerId } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComposerId = data.getComposerId
       
       expect(getComposerId('block-2')).toBe('block-1')
       expect(getComposerId('block-3')).toBe('block-1')
     })
 
     it('should return null when entity is not a component', () => {
-      const { getComposerId } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComposerId = data.getComposerId
       
       expect(getComposerId('block-1')).toBeNull()
     })
@@ -277,7 +277,7 @@ describe('useComponentEntity', () => {
     it('should return null when no components exist', () => {
       mockGlobalData.relationships.instanceComponents = []
       
-      const { getComposerId } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComposerId = data.getComposerId
       
       expect(getComposerId('block-2')).toBeNull()
     })
@@ -285,7 +285,7 @@ describe('useComponentEntity', () => {
 
   describe('getComposedEntity', () => {
     it('should return composed entity', () => {
-      const { getComposedEntity } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComposedEntity = data.getComposedEntity
       
       const composed = getComposedEntity('block-1')
       
@@ -298,7 +298,7 @@ describe('useComponentEntity', () => {
         getGlobalData: vi.fn(() => null),
       } as any)
       
-      const { getComposedEntity } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const getComposedEntity = data.getComposedEntity
       
       expect(getComposedEntity('block-1')).toBeNull()
     })
@@ -308,7 +308,7 @@ describe('useComponentEntity', () => {
     it('should create component relationships', async () => {
       vi.mocked(apiClient.post).mockResolvedValue({ data: {} })
       
-      const { createComponent } = useComponentEntity('blockInstance')
+      const { actions } = useComponentEntity('blockInstance'); const createComponent = actions.createComponent
       
       await createComponent({ composerId: 'block-1', componentIds: ['block-2', 'block-3'] })
       
@@ -319,7 +319,7 @@ describe('useComponentEntity', () => {
       const error = new Error('Failed to create component')
       vi.mocked(apiClient.post).mockRejectedValue(error)
       
-      const { createComponent } = useComponentEntity('blockInstance')
+      const { actions } = useComponentEntity('blockInstance'); const createComponent = actions.createComponent
       
       await expect(createComponent({ composerId: 'block-1', componentIds: ['block-2'] })).rejects.toThrow('Failed to create component')
     })
@@ -329,7 +329,7 @@ describe('useComponentEntity', () => {
     it('should add component to composer', async () => {
       vi.mocked(apiClient.post).mockResolvedValue({ data: {} })
       
-      const { addToComponent } = useComponentEntity('blockInstance')
+      const { actions } = useComponentEntity('blockInstance'); const addToComponent = actions.addToComponent
       
       await addToComponent({ composerId: 'block-1', componentId: 'block-2', orderIndex: 0 })
       
@@ -346,7 +346,7 @@ describe('useComponentEntity', () => {
     it('should use default orderIndex when not provided', async () => {
       vi.mocked(apiClient.post).mockResolvedValue({ data: {} })
       
-      const { addToComponent } = useComponentEntity('blockInstance')
+      const { actions } = useComponentEntity('blockInstance'); const addToComponent = actions.addToComponent
       
       await addToComponent({ composerId: 'block-1', componentId: 'block-2' })
       
@@ -363,7 +363,7 @@ describe('useComponentEntity', () => {
     it('should remove component from composer', async () => {
       vi.mocked(apiClient.delete).mockResolvedValue({})
       
-      const { removeFromComponent } = useComponentEntity('blockInstance')
+      const { actions } = useComponentEntity('blockInstance'); const removeFromComponent = actions.removeFromComponent
       
       await removeFromComponent({ composerId: 'block-1', componentId: 'block-2' })
       
@@ -376,7 +376,7 @@ describe('useComponentEntity', () => {
       const error = new Error('Failed to delete component')
       vi.mocked(apiClient.delete).mockRejectedValue(error)
       
-      const { removeFromComponent } = useComponentEntity('blockInstance')
+      const { actions } = useComponentEntity('blockInstance'); const removeFromComponent = actions.removeFromComponent
       
       await expect(removeFromComponent({ composerId: 'block-1', componentId: 'block-2' })).rejects.toThrow('Failed to delete component')
     })
@@ -384,7 +384,7 @@ describe('useComponentEntity', () => {
 
   describe('calculateDistributionPreview', () => {
     it('should calculate proportional distribution', () => {
-      const { calculateDistributionPreview } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const calculateDistributionPreview = data.calculateDistributionPreview
       
       const preview = calculateDistributionPreview('block-1', 'baseFee', 100, 'proportional')
       
@@ -399,7 +399,7 @@ describe('useComponentEntity', () => {
     })
 
     it('should calculate equal distribution', () => {
-      const { calculateDistributionPreview } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const calculateDistributionPreview = data.calculateDistributionPreview
       
       const preview = calculateDistributionPreview('block-1', 'baseFee', 100, 'equal')
       
@@ -414,7 +414,7 @@ describe('useComponentEntity', () => {
     it('should return empty array when no components exist', () => {
       mockGlobalData.relationships.instanceComponents = []
       
-      const { calculateDistributionPreview } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const calculateDistributionPreview = data.calculateDistributionPreview
       
       const preview = calculateDistributionPreview('block-1', 'baseFee', 100, 'proportional')
       
@@ -427,7 +427,7 @@ describe('useComponentEntity', () => {
         getGlobalData: vi.fn(() => null),
       } as any)
       
-      const { calculateDistributionPreview } = useComponentEntity('blockInstance')
+      const { data } = useComponentEntity('blockInstance'); const calculateDistributionPreview = data.calculateDistributionPreview
       
       const preview = calculateDistributionPreview('block-1', 'baseFee', 100, 'proportional')
       

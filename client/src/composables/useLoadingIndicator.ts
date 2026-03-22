@@ -1,17 +1,5 @@
-
-import { ref, watch, type Ref } from 'vue'
-
-export interface UseLoadingIndicatorReturn {
-  bufferValue: Ref<number>
-  progressValue: Ref<number>
-  isFallbackState: Ref<boolean>
-  showProgress: Ref<boolean>
-  fallbackHandle: () => void
-  resolveHandle: () => void
-}
-
-/** Subset of return type used by layout/blank for ref template; single source of truth. */
-export type LoadingIndicatorInstance = Pick<UseLoadingIndicatorReturn, 'fallbackHandle' | 'resolveHandle'>
+import { ref, watch } from 'vue'
+import type { UseLoadingIndicatorReturn } from '@/types/loadingIndicator'
 
 export function useLoadingIndicator(): UseLoadingIndicatorReturn {
   const bufferValue = ref(20)
@@ -30,10 +18,6 @@ export function useLoadingIndicator(): UseLoadingIndicatorReturn {
     }, 800)
   }
 
-  /**
-LEARNING: Watch progress and fallback state
-WHY: Adjusts progress wh...
-   */
   watch([progressValue, isFallbackState], () => {
     if (progressValue.value > 80 && isFallbackState.value)
       progressValue.value = 82
@@ -76,4 +60,3 @@ PATTERN: Set ...
     resolveHandle
   }
 }
-

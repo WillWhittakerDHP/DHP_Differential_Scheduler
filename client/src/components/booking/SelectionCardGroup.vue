@@ -27,7 +27,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-// LEARNING: Use selection card group config composable
 // PATTERN: Composable provides group configuration
 const {
   configWithDefaults,
@@ -37,8 +36,6 @@ const {
 } = useSelectionCardGroupConfig({
   config: computed(() => props.config)
 })
-
-
 
 /**
  * WHY: Use selection card group composable for group-level logic
@@ -56,7 +53,6 @@ const {
   shouldExpand
 } = selectionCardGroupComposable
 
-// LEARNING: Use selection card group state composable
 // PATTERN: Composable provides state management
 const {
   nestedSelections,
@@ -71,7 +67,6 @@ const {
   shouldExpand
 })
 
-// LEARNING: Use wizard number update composable
 // PATTERN: Composable that handles finding and updating instances in wizard arrays
 const { updateNumber } = useWizardNumberUpdate()
 
@@ -99,11 +94,9 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
 
 <template>
   <div class="selection-card-group">
-    <!-- LEARNING: Row layout with grid columns -->
     <!-- WHY: VRow/VCol creates responsive grid layout -->
     <!-- PATTERN: Conditionally wrap all cards in group component based on config -->
     <VRow v-if="configWithDefaults.layout === 'row'">
-      <!-- LEARNING: Conditionally wrap in group component if needed -->
       <component
         v-if="useGroupWrapper"
         :is="groupComponentName"
@@ -127,34 +120,12 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
             @update:number="handleNumberUpdate"
             @toggle-expansion="toggleCardExpansion(item.id)"
           >
-            <template #icon="{ item }">
-              <slot name="icon" :item="item" />
-            </template>
-            <template #title="{ item }">
-              <slot name="title" :item="item" />
-            </template>
-            <template #description="{ item }">
-              <slot name="description" :item="item" />
-            </template>
             <template #default="{ item }">
               <slot :item="item" />
-            </template>
-            <template #child-icon="{ item }">
-              <slot name="child-icon" :item="item" />
-            </template>
-            <template #child-title="{ item }">
-              <slot name="child-title" :item="item" />
-            </template>
-            <template #child-description="{ item }">
-              <slot name="child-description" :item="item" />
-            </template>
-            <template #child-content="{ item }">
-              <slot name="child-content" :item="item" />
             </template>
           </SelectionCard>
         </VCol>
       </component>
-      <!-- LEARNING: No group wrapper - SelectionCard handles selection explicitly -->
       <template v-else>
         <VCol
           v-for="item in items"
@@ -173,38 +144,15 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
             @update:number="handleNumberUpdate"
             @toggle-expansion="toggleCardExpansion(item.id)"
           >
-            <template #icon="{ item }">
-              <slot name="icon" :item="item" />
-            </template>
-            <template #title="{ item }">
-              <slot name="title" :item="item" />
-            </template>
-            <template #description="{ item }">
-              <slot name="description" :item="item" />
-            </template>
             <template #default="{ item }">
               <slot :item="item" />
-            </template>
-            <template #child-icon="{ item }">
-              <slot name="child-icon" :item="item" />
-            </template>
-            <template #child-title="{ item }">
-              <slot name="child-title" :item="item" />
-            </template>
-            <template #child-description="{ item }">
-              <slot name="child-description" :item="item" />
-            </template>
-            <template #child-content="{ item }">
-              <slot name="child-content" :item="item" />
             </template>
           </SelectionCard>
         </VCol>
       </template>
     </VRow>
     
-    <!-- LEARNING: Stack layout for vertical list -->
     <div v-else class="selection-stack">
-      <!-- LEARNING: Conditionally wrap in group component if needed -->
       <component
         v-if="useGroupWrapper"
         :is="groupComponentName"
@@ -223,33 +171,11 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
           @update:nested-child-selections="handleNestedSelection(item.id, $event)"
           @toggle-expansion="toggleCardExpansion(item.id)"
         >
-          <template #icon="{ item }">
-            <slot name="icon" :item="item" />
-          </template>
-          <template #title="{ item }">
-            <slot name="title" :item="item" />
-          </template>
-          <template #description="{ item }">
-            <slot name="description" :item="item" />
-          </template>
           <template #default="{ item }">
             <slot :item="item" />
           </template>
-          <template #child-icon="{ item }">
-            <slot name="child-icon" :item="item" />
-          </template>
-          <template #child-title="{ item }">
-            <slot name="child-title" :item="item" />
-          </template>
-          <template #child-description="{ item }">
-            <slot name="child-description" :item="item" />
-          </template>
-          <template #child-content="{ item }">
-            <slot name="child-content" :item="item" />
-          </template>
         </SelectionCard>
       </component>
-      <!-- LEARNING: No group wrapper - SelectionCard handles selection explicitly -->
       <template v-else>
         <SelectionCard
           v-for="item in items"
@@ -263,29 +189,8 @@ function handleNestedSelection(itemId: string, componentIds: string[]): void {
           @update:nested-child-selections="handleNestedSelection(item.id, $event)"
           @toggle-expansion="toggleCardExpansion(item.id)"
         >
-          <template #icon="{ item }">
-            <slot name="icon" :item="item" />
-          </template>
-          <template #title="{ item }">
-            <slot name="title" :item="item" />
-          </template>
-          <template #description="{ item }">
-            <slot name="description" :item="item" />
-          </template>
           <template #default="{ item }">
             <slot :item="item" />
-          </template>
-          <template #child-icon="{ item }">
-            <slot name="child-icon" :item="item" />
-          </template>
-          <template #child-title="{ item }">
-            <slot name="child-title" :item="item" />
-          </template>
-          <template #child-description="{ item }">
-            <slot name="child-description" :item="item" />
-          </template>
-          <template #child-content="{ item }">
-            <slot name="child-content" :item="item" />
           </template>
         </SelectionCard>
       </template>

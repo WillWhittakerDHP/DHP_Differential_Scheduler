@@ -3,6 +3,7 @@ import type { PropertyDetailsBase } from '../../../shared/types/propertyTypes.js
 import type { BrightMlsPropertyResponse } from '../types/brightMls.js'
 import type { PropertyFieldMapping } from '../db/models/mappings/property_field_mapping.js'
 import { mapFoundationType } from '../config/brightMlsFoundationMapping.js'
+import { PATCH_PROPERTY_FIELD_KEY } from '../routes/internal/properties/propertyConstants.js'
 import { asEmptyString } from '../utils/safeDefaults.js'
 
 /** TYPE_SIMILARITY: Extend shared PropertyDetailsBase as single source of truth. */
@@ -66,9 +67,9 @@ export function mapFieldsToModel(
       mapped = m.fallbackValue ?? raw;
     }
 
-    if (m.targetField === 'foundationAccess') {
+    if (m.targetField === PATCH_PROPERTY_FIELD_KEY.FOUNDATION_ACCESS) {
       result.foundationAccess = mapped as 'basement' | 'crawlspace' | 'slab' | null;
-    } else if (m.targetField === 'additionalUnits') {
+    } else if (m.targetField === PATCH_PROPERTY_FIELD_KEY.ADDITIONAL_UNITS) {
       result.additionalUnits =
         mapped != null ? Math.round(Number(mapped)) : null;
     }

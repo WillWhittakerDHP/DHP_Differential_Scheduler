@@ -1,3 +1,4 @@
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 import type { SelectionCardConfig, SelectionCardItem, ComponentItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
 
 type WizardStatePlugin = StatePlugin
@@ -39,7 +40,7 @@ export function buildUserTypeBlockRowSelectionConfig(options: SelectionConfigBui
       showDescription: true,
       showBorder: true,
       cardPadding: 'pa-6',
-      minHeight: '200px',
+      minHeight: 'auto',
     },
     expansion: {
       enabled: true,
@@ -56,7 +57,7 @@ export function buildUserTypeBlockRowSelectionConfig(options: SelectionConfigBui
 
   return {
     ...baseConfig,
-    stateSource: 'local',
+    stateSource: APP_STAGE.LOCAL,
   }
 }
 
@@ -90,7 +91,7 @@ export function buildServicesStackSelectionConfig(options: SelectionConfigBuildO
 
   return {
     ...baseConfig,
-    stateSource: 'local',
+    stateSource: APP_STAGE.LOCAL,
   }
 }
 

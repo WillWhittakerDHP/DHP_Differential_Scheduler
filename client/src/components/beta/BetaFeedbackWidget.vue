@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Wizard-scoped feedback widget: button + modal
   WHY: Composes button and modal; single mount point in BookingWizardView
   PATTERN: Thin wrapper with local state for modal visibility
 -->

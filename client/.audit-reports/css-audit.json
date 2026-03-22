@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T18:12:50.034Z",
+  "generatedAt": "2026-02-25T01:18:49.603Z",
   "scope": {
     "included": [
       "client/src/**/*.vue",
@@ -14,10 +14,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 107,
+  "totalScanned": 111,
   "exceptionSummary": {
     "totalAllowed": 59,
-    "totalRequiresReview": 37,
+    "totalRequiresReview": 34,
     "bySource": {
       "inline": 0,
       "pattern": 9,
@@ -125,27 +125,27 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 363,
+          "lineNumber": 328,
           "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 367,
+          "lineNumber": 332,
           "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 375,
+          "lineNumber": 340,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 386,
+          "lineNumber": 351,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 392,
+          "lineNumber": 357,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {"
         }
       ],
@@ -153,103 +153,36 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 363,
+          "lineNumber": 328,
           "line": ".select-field--multiple.v-select--chips.v-input--dirty :deep(.v-select__selection) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 367,
+          "lineNumber": 332,
           "line": ".select-field--multiple.v-select--chips :deep(.v-field__input) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 375,
+          "lineNumber": 340,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 386,
+          "lineNumber": 351,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 392,
+          "lineNumber": 357,
           "line": ".select-field--multiple.v-select--chips :deep(.v-chip__close:hover) {",
           "suppressionStatus": "unsuppressed"
         }
       ],
       "score": 5,
-      "priority": "P2"
-    },
-    {
-      "id": "client__src__components__booking__dev__DevPanelsContainer.vue",
-      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/DevPanelsContainer.vue",
-      "counts": {
-        "large-style-block": 0,
-        "empty-style-block": 0,
-        "unscoped-style": 0,
-        "inline-style-static": 0,
-        "inline-style-dynamic": 0,
-        "important-override": 0,
-        "deep-selector": 4,
-        "magic-color": 0,
-        "css-in-ts": 0
-      },
-      "matches": [
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 649,
-          "line": ":deep(*) {"
-        },
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 653,
-          "line": ":deep(.v-card-text),"
-        },
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 654,
-          "line": ":deep(.v-window-item) {"
-        },
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 666,
-          "line": ":deep(.flexible-tabs) {"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 649,
-          "line": ":deep(*) {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 653,
-          "line": ":deep(.v-card-text),",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 654,
-          "line": ":deep(.v-window-item) {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "deep-selector",
-          "lineNumber": 666,
-          "line": ":deep(.flexible-tabs) {",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 4,
       "priority": "P2"
     },
     {
@@ -270,17 +203,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 164,
+          "lineNumber": 123,
           "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 168,
+          "lineNumber": 127,
           "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-outer-spin-button),"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 169,
+          "lineNumber": 128,
           "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-inner-spin-button) {"
         }
       ],
@@ -288,19 +221,19 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 164,
+          "lineNumber": 123,
           "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 168,
+          "lineNumber": 127,
           "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-outer-spin-button),",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 169,
+          "lineNumber": 128,
           "line": ".fee-preview-sqft-input :deep(input[type=\"number\"]::-webkit-inner-spin-button) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -382,17 +315,17 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1068,
+          "lineNumber": 853,
           "line": ".instances-tabs-container :deep(.v-tab) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1072,
+          "lineNumber": 857,
           "line": ".instances-tabs-container :deep(.v-tabs) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1076,
+          "lineNumber": 861,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {"
         }
       ],
@@ -400,19 +333,19 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1068,
+          "lineNumber": 853,
           "line": ".instances-tabs-container :deep(.v-tab) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1072,
+          "lineNumber": 857,
           "line": ".instances-tabs-container :deep(.v-tabs) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 1076,
+          "lineNumber": 861,
           "line": ".instances-tabs-container :deep(.v-slide-group__content) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -545,6 +478,40 @@
       "priority": "P2"
     },
     {
+      "id": "client__src__components__booking__dev__DevPanelsContainer.vue",
+      "repoPath": "client/src/components/booking/dev/DevPanelsContainer.vue",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/booking/dev/DevPanelsContainer.vue",
+      "counts": {
+        "large-style-block": 0,
+        "empty-style-block": 1,
+        "unscoped-style": 0,
+        "inline-style-static": 0,
+        "inline-style-dynamic": 0,
+        "important-override": 0,
+        "deep-selector": 0,
+        "magic-color": 0,
+        "css-in-ts": 0
+      },
+      "matches": [
+        {
+          "ruleId": "empty-style-block",
+          "lineNumber": 194,
+          "line": "<style> block is empty; remove or add styles"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "empty-style-block",
+          "lineNumber": 194,
+          "line": "<style> block is empty; remove or add styles",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
       "id": "client__src__components__common__AddressAutocomplete.vue",
       "repoPath": "client/src/components/common/AddressAutocomplete.vue",
       "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/components/common/AddressAutocomplete.vue",
@@ -562,7 +529,7 @@
       "matches": [
         {
           "ruleId": "empty-style-block",
-          "lineNumber": 307,
+          "lineNumber": 130,
           "line": "<style> block is empty; remove or add styles"
         }
       ],
@@ -570,7 +537,7 @@
       "requiresReview": [
         {
           "ruleId": "empty-style-block",
-          "lineNumber": 307,
+          "lineNumber": 130,
           "line": "<style> block is empty; remove or add styles",
           "suppressionStatus": "unsuppressed"
         }
@@ -596,12 +563,12 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 903,
+          "lineNumber": 700,
           "line": ".title-field-input :deep(.v-field__input) {"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 908,
+          "lineNumber": 705,
           "line": ".title-field-input :deep(.v-field) {"
         }
       ],
@@ -609,13 +576,13 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 903,
+          "lineNumber": 700,
           "line": ".title-field-input :deep(.v-field__input) {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 908,
+          "lineNumber": 705,
           "line": ".title-field-input :deep(.v-field) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -641,12 +608,12 @@
       "matches": [
         {
           "ruleId": "unscoped-style",
-          "lineNumber": 114,
+          "lineNumber": 103,
           "line": "<style>"
         },
         {
           "ruleId": "deep-selector",
-          "lineNumber": 133,
+          "lineNumber": 122,
           "line": ":deep(.v-btn__content) {"
         },
         {
@@ -663,7 +630,7 @@
       "allowed": [
         {
           "ruleId": "unscoped-style",
-          "lineNumber": 114,
+          "lineNumber": 103,
           "line": "<style>",
           "reason": "App root and wizard dev panel require global selectors.",
           "source": "specific",
@@ -689,7 +656,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 133,
+          "lineNumber": 122,
           "line": ":deep(.v-btn__content) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -715,7 +682,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 166,
+          "lineNumber": 156,
           "line": ".create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
         }
       ],
@@ -723,7 +690,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 166,
+          "lineNumber": 156,
           "line": ".create-modal-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -749,7 +716,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 196,
+          "lineNumber": 186,
           "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
         }
       ],
@@ -757,7 +724,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 196,
+          "lineNumber": 186,
           "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -783,7 +750,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 225,
+          "lineNumber": 207,
           "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {"
         }
       ],
@@ -791,7 +758,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 225,
+          "lineNumber": 207,
           "line": ".bulk-edit-entity-card :deep(.d-flex.align-center.justify-end.mt-4.pt-4) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -817,7 +784,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 240,
+          "lineNumber": 226,
           "line": ".cursor-pointer :deep(tbody tr) {"
         }
       ],
@@ -825,7 +792,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 240,
+          "lineNumber": 226,
           "line": ".cursor-pointer :deep(tbody tr) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -885,7 +852,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 59,
+          "lineNumber": 43,
           "line": ":deep(.v-btn__content) {"
         }
       ],
@@ -893,7 +860,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 59,
+          "lineNumber": 43,
           "line": ":deep(.v-btn__content) {",
           "suppressionStatus": "unsuppressed"
         }
@@ -1014,7 +981,7 @@
       "matches": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 247,
+          "lineNumber": 246,
           "line": ":deep(.summary-table) {"
         }
       ],
@@ -1022,7 +989,7 @@
       "requiresReview": [
         {
           "ruleId": "deep-selector",
-          "lineNumber": 247,
+          "lineNumber": 246,
           "line": ":deep(.summary-table) {",
           "suppressionStatus": "unsuppressed"
         }

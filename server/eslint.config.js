@@ -111,6 +111,8 @@ export default [
   },
   {
     ignores: [
+      'dist/**',
+      'coverage/**',
       'src/db/migrations/**',
       'src/**/__tests__/**',
       'src/**/*.test.ts',

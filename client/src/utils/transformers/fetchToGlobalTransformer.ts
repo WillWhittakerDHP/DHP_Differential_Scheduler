@@ -1,15 +1,15 @@
 /**
  * WHY: Fetch to Global Transformer
-LEARNING: Transforms API responses (snake_ca...
  */
 import apiClient, { getEntitiesBatchEndpoint, getRelationshipsBatchEndpoint } from '../api'
 import { ENTITY_KEYS } from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { RELATIONSHIP_KEYS } from '@/constants/relationships'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { toGlobalEntityId, toGlobalEntityIdOrNull, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId, toGlobalEntityIdOrNull } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
-import type { FetchedRelationship } from '@/types/relationships'
+import type { FetchedRelationship, GlobalRelationship } from '@/types/relationships'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { transformApiEntity } from './entityTransformers'
 import { transformApiRelationships } from './relationshipTransformers'
@@ -20,6 +20,9 @@ import { asEmptyString } from '@/utils/safeDefaults'
 import { buildFieldClassificationSets, transformFieldForDehydrate } from './fieldClassification'
 import { safeArray, safeString, safeId } from './transformerPrimitives'
 import { groupByParentId, immutableSort } from './transformerCollections'
+import type { GlobalData } from '@/types/transformers/globalData'
+
+export type { GlobalData } from '@/types/transformers/globalData'
 
 const logger = createLogger('fetchToGlobalTransformer')
 
@@ -69,21 +72,6 @@ function transformBatchRelationships(
   })
 }
 
-/**
-WHY: Matches format e...
- */
-export type GlobalRelationship<GE extends GlobalEntityKey = GlobalEntityKey> = {
-  relationshipKind: GlobalRelationshipKey
-  parent: GlobalEntity<GE>
-  children: GlobalEntity<GE>[]
-}
-
-export type GlobalData = {
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
-  relationships: Record<GlobalRelationshipKey, GlobalRelationship[]>
-}
-
-
 function resolveRelationshipIds(
   raw: Record<string, unknown>,
   relationshipKey: GlobalRelationshipKey
@@ -116,7 +104,6 @@ function resolveRelationshipIds(
 
 /**
  * WHY: Transform API relationship response to FetchedRelationship format
-LEARNI...
  */
 function transformApiRelationship(
   raw: Record<string, unknown>,
@@ -153,10 +140,8 @@ function transformApiRelationship(
   }
 }
 
-/**
- * Attach instanceComponents arrays to entities for backward compatibility.
- */
-function attachLegacyInstanceComponents(
+/** Attach instanceComponents arrays to entities. */
+function attachInstanceComponents(
   fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
   fetchedRelationships: FetchedRelationship[]
 ): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
@@ -187,7 +172,6 @@ function attachLegacyInstanceComponents(
 
 /**
  * WHY: Global Transformer Class
-LEARNING: Transforms API responses to GlobalDat...
  */
 export class GlobalTransformer {
   async stageForHydration(): Promise<{
@@ -233,12 +217,11 @@ export class GlobalTransformer {
     fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
     fetchedRelationships: FetchedRelationship[]
   }): GlobalData {
-    const entities = attachLegacyInstanceComponents(
+    const entities = attachInstanceComponents(
       staged.fetchedEntities,
       staged.fetchedRelationships
     )
     
-    // LEARNING: Annotations follow the same pattern as entities and relationships
     // PATTERN: No special attachment - annotations accessed via relationships.annotationAssignments like other relationships
     
     // PATTERN: Provide entities for relationship resolution (includes events/annotations)
@@ -260,7 +243,6 @@ export class GlobalTransformer {
     entity: Partial<GlobalEntity<GE>> & { entityKey?: GE }
   ): Record<string, unknown> {
 
-    // LEARNING: Extract entityKey from entity to determine entity type
     // PATTERN: Extract entityKey from entity parameter (it's included in mutation calls)
     const entityKey = entity.entityKey
     if (!entityKey) {
@@ -298,4 +280,3 @@ export class GlobalTransformer {
 }
 
 export const globalTransformer = new GlobalTransformer()
-

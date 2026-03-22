@@ -104,7 +104,6 @@ describe('useAdmin', () => {
   })
   
   describe('data state handling', () => {
-    // LEARNING: useAdmin uses singleton pattern for performance
     // PATTERN: Instance is created on first call and reused afterwards
     
     it('should use singleton pattern', () => {
@@ -124,7 +123,6 @@ describe('useAdmin', () => {
   
   describe('data integrity', () => {
     it('should provide entities via adminData', () => {
-      // LEARNING: Entities accessed via adminData.value.entityKey pattern
       // WHY: adminData is a computed that transforms globalData to admin format
       const { adminData } = useAdmin()
       
@@ -142,4 +140,3 @@ describe('useAdmin', () => {
     })
   })
 })
-

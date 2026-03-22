@@ -1,19 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, watch, nextTick } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import type { FieldContextType } from '@/composables/fieldContext/types'
+import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import { SUB_PANEL_KEYS, type SubPanelRecord } from '@/constants/fieldMetadata'
-import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import type { EntityCardSharedProps } from './entityCardConstants'
-
-type SubPanelFields = SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
+import { useEntityCardSubPanels, type SubPanelFields } from '@/composables/admin/useEntityCardSubPanels'
 
 interface Props extends EntityCardSharedProps {
   entity: GlobalEntity<GlobalEntityKey>
@@ -21,176 +16,22 @@ interface Props extends EntityCardSharedProps {
   subPanelFields: SubPanelFields
   getFieldContext: (
     fieldKey: GlobalFieldKey<GlobalEntityKey>
-  ) => FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  ) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
   fieldMetadata?: Record<string, FieldMetadataEntry>
 }
 
 const props = defineProps<Props>()
 
-const { entities: blockInstances } = useEntityCrud('blockInstance')
-const { entities: partInstances } = useEntityCrud('partInstance')
-const { entities: blockShapes } = useEntityCrud('blockShape')
-
-const blockShapeName = computed((): string => {
-  if (props.entityKey !== 'blockInstance') return ''
-  const entity = props.entity as GlobalEntity<'blockInstance'>
-  const blockShape = blockShapes.value.find(bs => bs.id === entity.blockShapeRef)
-  const name = blockShape?.name
-  return name !== undefined && name !== null && name !== '' ? name : 'Block'
-})
-
-const MAX_DISPLAY_ITEMS = 2
-
-/**
- * LEARNING: Helper to format truncated list with count
- */
-function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
-  if (items.length === 0) return ''
-  
-  const displayItems = items.slice(0, maxDisplay)
-  const remaining = items.length - maxDisplay
-  
-  if (remaining <= 0) {
-    return displayItems.join(', ')
-  }
-  
-  return `${displayItems.join(', ')} +${remaining} more`
-}
-
-function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInstance'): string[] {
-  if (!Array.isArray(ids)) return []
-  
-  const entities = entityType === 'blockInstance' ? blockInstances.value : partInstances.value
-  
-  return ids
-    .map(id => {
-      const entity = entities.find(e => e.id === id)
-      return entity?.name || null
-    })
-    .filter((name): name is string => name !== null)
-}
-
-const partsSummary = computed((): string => {
-  if (props.entityKey !== 'blockInstance') return ''
-  
-  const partAssignments = props.form.values.partAssignments
-  if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
-  
-  const names = getEntityNames(partAssignments, 'partInstance')
-  return formatTruncatedList(names)
-})
-
-  /**
-   * PATTERN: Use getFieldComponent() as single source of truth for component type determination
-   */
-function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
-  if (!props.fieldMetadata) return false
-  
-  const fieldMeta = props.fieldMetadata[String(fieldKey)]
-  if (!fieldMeta) return false
-  
-  // LEARNING: Use getFieldComponent() as single source of truth
-  // PATTERN: Check component type from dispatcher instead of duplicating logic
-  const componentType = getFieldComponent(props.entityKey, fieldKey, fieldMeta)
-  return componentType.type === 'relationshipCollection'
-}
-
-// PATTERN: Type as array to match Vue 3 behavior, access first element when needed
-const partsCollectionRef = ref<(InstanceType<typeof RelationshipCollection> | null)[] | InstanceType<typeof RelationshipCollection> | null>(null)
-
-const expandedPanels = ref<string[]>([])
-
-const getRelationshipCollectionInstance = (): InstanceType<typeof RelationshipCollection> | null => {
-  const refValue = partsCollectionRef.value
-  if (!refValue) return null
-  if (Array.isArray(refValue)) {
-    return refValue[0] ?? null
-  }
-  return refValue
-}
-
-// LEARNING: bulkEditMode is exposed as a Ref<boolean>
-const partsBulkEditMode = computed(() => {
-  const instance = getRelationshipCollectionInstance()
-  // PATTERN: Check if bulkEditMode exists and has a value property (is a Ref)
-  if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {
-    return (instance.bulkEditMode as { value: boolean }).value
-  }
-  return false
-})
-
-const togglePartsBulkEditMode = () => {
-  // FIX: Expand panel first if not expanded, then toggle bulk edit mode
-  // PATTERN: Ensure panel is expanded, wait for nextTick for component to mount, then toggle
-  if (!expandedPanels.value.includes('parts')) {
-    expandedPanels.value.push('parts')
-    nextTick(() => {
-      const instance = getRelationshipCollectionInstance()
-      if (instance && typeof instance.toggleBulkEditMode === 'function') {
-        instance.toggleBulkEditMode()
-      }
-    })
-  } else {
-    const instance = getRelationshipCollectionInstance()
-    if (instance && typeof instance.toggleBulkEditMode === 'function') {
-      instance.toggleBulkEditMode()
-    }
-  }
-}
-
-watch(partsBulkEditMode, (isEnabled) => {
-  if (isEnabled && !expandedPanels.value.includes('parts')) {
-    expandedPanels.value.push('parts')
-  }
-})
-
-const relationshipsSummary = computed((): string => {
-  const formValues = props.form.values
-  const relationshipTypes: string[] = []
-  
-  if (props.entityKey === 'blockInstance') {
-    const cascades = Array.isArray(formValues.bookingCascades) ? formValues.bookingCascades : []
-    const components = Array.isArray(formValues.instanceComponents) ? formValues.instanceComponents : []
-    const dependentInstances = Array.isArray(formValues.dependentInstances) ? formValues.dependentInstances : []
-    
-    if (cascades.length > 0) {
-      relationshipTypes.push('Booking Cascades')
-    }
-    if (components.length > 0) {
-      relationshipTypes.push(`${blockShapeName.value} Components`)
-    }
-    if (dependentInstances.length > 0) {
-      relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)
-    }
-  } else if (props.entityKey === 'blockShape') {
-    const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []
-    const parts = Array.isArray(formValues.validParts) ? formValues.validParts : []
-    
-    if (cascades.length > 0) {
-      relationshipTypes.push('Valid Cascades')
-    }
-    if (parts.length > 0) {
-      relationshipTypes.push('Valid Parts')
-    }
-  } else if (props.entityKey === 'partInstance') {
-    const pricingCascades = Array.isArray(formValues.pricingCascades) ? formValues.pricingCascades : []
-    if (pricingCascades.length > 0) {
-      relationshipTypes.push('Pricing Cascades')
-    }
-  } else if (props.entityKey === 'partShape') {
-    const validPricingCascades = Array.isArray(formValues.validPricingCascades) ? formValues.validPricingCascades : []
-    if (validPricingCascades.length > 0) {
-      relationshipTypes.push('Valid Pricing Cascades')
-    }
-  }
-  
-  return formatTruncatedList(relationshipTypes)
-})
-
-const hasAnySubPanelFields = computed(() =>
-  SUB_PANEL_KEYS.some(key => props.subPanelFields[key].length > 0)
-)
-
+const {
+  blockShapeName,
+  partsSummary,
+  isRelationshipCollectionField,
+  expandedPanels,
+  partsBulkEditMode,
+  togglePartsBulkEditMode,
+  relationshipsSummary,
+  hasAnySubPanelFields,
+} = useEntityCardSubPanels(props)
 </script>
 
 <template>
@@ -200,7 +41,6 @@ const hasAnySubPanelFields = computed(() =>
     multiple
     class="mt-4"
   >
-    <!-- LEARNING: Parts Panel with truncated summary and bulk edit button -->
     <!-- WHY: Shows preview of constituent parts in panel title with bulk edit functionality -->
     <!-- PATTERN: "Parts: Name1, Name2 +X more" format with bulk edit button (similar to InstancesTab) -->
     <VExpansionPanel v-if="subPanelFields.parts.length" value="parts">
@@ -208,7 +48,7 @@ const hasAnySubPanelFields = computed(() =>
         <div class="d-flex align-center justify-space-between flex-grow-1">
           <div>
             <span class="font-weight-medium">Parts</span>
-            <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-2">
+            <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-medium">
               {{ partsSummary }}
             </span>
           </div>
@@ -226,7 +66,6 @@ const hasAnySubPanelFields = computed(() =>
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.parts" :key="fieldKey" class="mb-4">
-          <!-- LEARNING: For relationshipCollection fields that need bulk edit access, render RelationshipCollection directly with ref -->
           <!-- WHY: Bulk edit button in panel title needs access to RelationshipCollection's exposed methods -->
           <!-- PATTERN: Check component type from metadata - if relationshipCollection, render RelationshipCollection with ref; otherwise use FieldRenderer -->
           <RelationshipCollection
@@ -245,13 +84,12 @@ const hasAnySubPanelFields = computed(() =>
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Relationships Panel with truncated summary -->
     <!-- WHY: Shows preview of related entities in panel title -->
     <!-- PATTERN: "Relationships: Name1, Name2 +X more" format -->
     <VExpansionPanel v-if="subPanelFields.relationships.length" value="relationships">
       <template #title>
         <span class="font-weight-medium">Relationships</span>
-        <span v-if="relationshipsSummary" class="ml-2 text-medium-emphasis text-body-2">
+        <span v-if="relationshipsSummary" class="ml-2 text-medium-emphasis text-body-medium">
           {{ relationshipsSummary }}
         </span>
       </template>
@@ -266,7 +104,6 @@ const hasAnySubPanelFields = computed(() =>
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Annotations Panel - no summary in title -->
     <!-- WHY: User requested no annotation chips/summary in panel titles -->
     <!-- PATTERN: Simple panel with just "Annotations" label -->
     <VExpansionPanel v-if="subPanelFields.annotations.length" value="annotations">
@@ -283,7 +120,6 @@ const hasAnySubPanelFields = computed(() =>
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Events Panel -->
     <!-- WHY: Shows event instances configured for shapes -->
     <!-- PATTERN: Simple panel with "Events" label -->
     <VExpansionPanel v-if="subPanelFields.events.length" value="events">
@@ -301,7 +137,6 @@ const hasAnySubPanelFields = computed(() =>
       </template>
     </VExpansionPanel>
 
-    <!-- LEARNING: Composition Panel - block-shape-specific components -->
     <!-- WHY: instanceComponents field renders here when composite and composable -->
     <!-- PATTERN: Title uses blockShapeName for "{BlockShape} Components" -->
     <VExpansionPanel v-if="subPanelFields.composition.length" value="composition">
@@ -321,4 +156,3 @@ const hasAnySubPanelFields = computed(() =>
 
   </VExpansionPanels>
 </template>
-

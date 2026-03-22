@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Detail and triage modal for a single beta feedback item
   WHY: View full feedback + context; update status and resolution notes
   PATTERN: VDialog with read-only content and editable status/notes
 -->
@@ -19,47 +18,12 @@
       </VCardTitle>
       <VCardText>
         <VList density="compact" class="mb-4">
-          <VListItem>
-            <VListItemTitle class="text-caption text-medium-emphasis">Reporter</VListItemTitle>
-            <VListItemSubtitle>{{ feedback.reporterName }} {{ feedback.reporterEmail ? `(${feedback.reporterEmail})` : '' }}</VListItemSubtitle>
-          </VListItem>
-          <VListItem>
-            <VListItemTitle class="text-caption text-medium-emphasis">Category / Severity</VListItemTitle>
-            <VListItemSubtitle>{{ feedback.category }} · {{ feedback.severity }}</VListItemSubtitle>
-          </VListItem>
-          <VListItem>
-            <VListItemTitle class="text-caption text-medium-emphasis">Description</VListItemTitle>
-            <VListItemSubtitle class="text-wrap">{{ feedback.description }}</VListItemSubtitle>
-          </VListItem>
-          <template v-if="feedback.category === 'bug'">
-            <VListItem v-if="feedback.stepsToReproduce">
-              <VListItemTitle class="text-caption text-medium-emphasis">Steps to reproduce</VListItemTitle>
-              <VListItemSubtitle class="text-wrap">{{ feedback.stepsToReproduce }}</VListItemSubtitle>
-            </VListItem>
-            <VListItem v-if="feedback.expectedBehavior">
-              <VListItemTitle class="text-caption text-medium-emphasis">Expected</VListItemTitle>
-              <VListItemSubtitle class="text-wrap">{{ feedback.expectedBehavior }}</VListItemSubtitle>
-            </VListItem>
-            <VListItem v-if="feedback.actualBehavior">
-              <VListItemTitle class="text-caption text-medium-emphasis">Actual</VListItemTitle>
-              <VListItemSubtitle class="text-wrap">{{ feedback.actualBehavior }}</VListItemSubtitle>
-            </VListItem>
-          </template>
-          <VListItem v-if="feedback.pageUrl">
-            <VListItemTitle class="text-caption text-medium-emphasis">Page URL</VListItemTitle>
-            <VListItemSubtitle class="text-break">{{ feedback.pageUrl }}</VListItemSubtitle>
-          </VListItem>
-          <VListItem v-if="feedback.browserInfo">
-            <VListItemTitle class="text-caption text-medium-emphasis">Browser</VListItemTitle>
-            <VListItemSubtitle class="text-wrap text-caption">{{ feedback.browserInfo }}</VListItemSubtitle>
-          </VListItem>
-          <VListItem v-if="feedback.screenSize">
-            <VListItemTitle class="text-caption text-medium-emphasis">Screen size</VListItemTitle>
-            <VListItemSubtitle>{{ feedback.screenSize }}</VListItemSubtitle>
-          </VListItem>
-          <VListItem v-if="feedback.tags?.length">
-            <VListItemTitle class="text-caption text-medium-emphasis">Tags</VListItemTitle>
-            <VListItemSubtitle>{{ feedback.tags.join(', ') }}</VListItemSubtitle>
+          <VListItem
+            v-for="row in detailRows"
+            :key="row.key"
+          >
+            <VListItemTitle class="text-body-small text-medium-emphasis">{{ row.label }}</VListItemTitle>
+            <VListItemSubtitle :class="row.subtitleClass">{{ row.value }}</VListItemSubtitle>
           </VListItem>
         </VList>
         <VSelect
@@ -95,24 +59,40 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback';
-import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
-import { useNotification } from '@/composables/useNotification';
-import { createLogger } from '@/utils/logger';
-import { asEmptyString } from '@/utils/safeDefaults';
+import { computed } from 'vue'
+import type { BetaFeedback, FeedbackStatus } from '@/types/betaFeedback'
+import { useFeedbackDetail } from '@/composables/beta/useFeedbackDetail'
 
-const logger = createLogger('BetaFeedbackDetailModal');
+const props = defineProps<{ modelValue: boolean; feedback: BetaFeedback | null }>()
+const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void; (e: 'saved'): void }>()
 
-const props = defineProps<{ modelValue: boolean; feedback: BetaFeedback | null }>();
-const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void; (e: 'saved'): void }>();
+const {
+  localStatus,
+  localResolutionNotes,
+  saving,
+  saveError,
+  handleSave,
+} = useFeedbackDetail(() => props.feedback, emit)
 
-const { updateFeedback } = useBetaFeedback();
-const { success, error: showError } = useNotification();
-const localStatus = ref<FeedbackStatus>('new');
-const localResolutionNotes = ref('');
-const saving = ref(false);
-const saveError = ref('');
+const detailRows = computed(() => {
+  const f = props.feedback
+  if (!f) return []
+  const rows: { key: string; label: string; value: string; subtitleClass?: string }[] = [
+    { key: 'reporter', label: 'Reporter', value: `${f.reporterName}${f.reporterEmail ? ` (${f.reporterEmail})` : ''}` },
+    { key: 'category', label: 'Category / Severity', value: `${f.category} · ${f.severity}` },
+    { key: 'description', label: 'Description', value: f.description, subtitleClass: 'text-wrap' },
+  ]
+  if (f.category === 'bug') {
+    if (f.stepsToReproduce) rows.push({ key: 'steps', label: 'Steps to reproduce', value: f.stepsToReproduce, subtitleClass: 'text-wrap' })
+    if (f.expectedBehavior) rows.push({ key: 'expected', label: 'Expected', value: f.expectedBehavior, subtitleClass: 'text-wrap' })
+    if (f.actualBehavior) rows.push({ key: 'actual', label: 'Actual', value: f.actualBehavior, subtitleClass: 'text-wrap' })
+  }
+  if (f.pageUrl) rows.push({ key: 'pageUrl', label: 'Page URL', value: f.pageUrl, subtitleClass: 'text-break' })
+  if (f.browserInfo) rows.push({ key: 'browser', label: 'Browser', value: f.browserInfo, subtitleClass: 'text-wrap text-body-small' })
+  if (f.screenSize) rows.push({ key: 'screenSize', label: 'Screen size', value: f.screenSize })
+  if (f.tags?.length) rows.push({ key: 'tags', label: 'Tags', value: f.tags.join(', ') })
+  return rows
+})
 
 const statusItems: { title: string; value: FeedbackStatus }[] = [
   { title: 'New', value: 'new' },
@@ -121,41 +101,4 @@ const statusItems: { title: string; value: FeedbackStatus }[] = [
   { title: 'Resolved', value: 'resolved' },
   { title: "Won't fix", value: 'wont_fix' },
 ];
-
-watch(
-  () => props.feedback,
-  (f) => {
-    if (f) {
-      localStatus.value = f.status;
-      localResolutionNotes.value = asEmptyString(f.resolutionNotes);
-      saveError.value = '';
-    }
-  },
-  { immediate: true }
-);
-
-async function handleSave() {
-  if (!props.feedback) return;
-  saving.value = true;
-  saveError.value = '';
-  try {
-    await updateFeedback(props.feedback.id, {
-      status: localStatus.value,
-      resolutionNotes: localResolutionNotes.value || null,
-    });
-    success('Feedback updated');
-    emit('saved');
-    emit('update:modelValue', false);
-  } catch (err) {
-    logger.error('Failed to update feedback', { err });
-    const message =
-      err && typeof err === 'object' && 'response' in err
-        ? (err as { response?: { data?: { error?: string } } }).response?.data?.error
-        : null;
-    saveError.value = message || 'Failed to update feedback';
-    showError(saveError.value);
-  } finally {
-    saving.value = false;
-  }
-}
 </script>

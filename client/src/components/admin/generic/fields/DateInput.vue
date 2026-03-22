@@ -1,23 +1,23 @@
 <template>
   <BaseInput
-    :field-key="String(fieldContext.fieldKey)"
-    :display-config="fieldContext.displayConfig"
-    :error="fieldContext.error?.value"
+    :field-key="String(fieldContext.state.fieldKey)"
+    :display-config="fieldContext.state.displayConfig"
+    :error="fieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="fieldContext.isDisabled.value"
+    :is-disabled="fieldContext.state.isDisabled.value"
   >
     <div @keydown="handleKeydown">
       <AppDateTimePicker
-        :id="`field-${String(fieldContext.fieldKey)}`"
-        :name="String(fieldContext.fieldKey)"
+        :id="`field-${String(fieldContext.state.fieldKey)}`"
+        :name="String(fieldContext.state.fieldKey)"
         :model-value="typeof fieldValue === 'string' ? fieldValue : undefined"
-        :label="fieldContext.displayConfig.label"
-        :placeholder="fieldContext.displayConfig.placeholder"
-        :disabled="fieldContext.displayConfig.disabled"
-        :readonly="fieldContext.displayConfig.readOnly"
-        :error="!!fieldContext.error?.value"
-        :error-messages="fieldContext.error?.value"
-        :config="{ dateFormat: 'Y-m-d' }"
+        :label="fieldContext.state.displayConfig.label"
+        :placeholder="fieldContext.state.displayConfig.placeholder"
+        :disabled="fieldContext.state.displayConfig.disabled"
+        :readonly="fieldContext.state.displayConfig.readOnly"
+        :error="!!fieldContext.state.error?.value"
+        :error-messages="fieldContext.state.error?.value"
+        :config="datePickerConfig"
         @update:model-value="handleChange"
         @on-open="handleFocus"
         @on-close="handleBlur"
@@ -35,6 +35,8 @@ import AppDateTimePicker from '@/@core/components/app-form-elements/AppDateTimeP
 import { useFieldInputSetup } from '@/composables/admin/useFieldInputSetup'
 
 import type { FieldInputProps } from './fieldTypes'
+
+const datePickerConfig = { dateFormat: 'Y-m-d' as const }
 
 const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true

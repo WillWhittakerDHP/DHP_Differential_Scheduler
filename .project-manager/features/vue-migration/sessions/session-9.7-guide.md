@@ -259,14 +259,6 @@ kind: {
 
 ---
 
-## Learning Checkpoints
-
-### What We'll Learn
-- Sequelize field mapping patterns and when they're necessary
-- Automatic conversion behavior with `underscored: true`
-- Model-to-database schema alignment strategies
-- Field mapping cleanup patterns
-
 ### Why These Patterns Matter
 - Unnecessary field mappings add complexity without benefit
 - Consistent patterns improve code maintainability
@@ -346,4 +338,3 @@ Before starting this session, verify:
    - `kind` (property) → `type` (column) - if migration hasn't happened yet
    - `parent_kind` (property) → `parent_type` (column) - if migration hasn't happened yet
    - `child_kind` (property) → `child_type` (column) - if migration hasn't happened yet
-

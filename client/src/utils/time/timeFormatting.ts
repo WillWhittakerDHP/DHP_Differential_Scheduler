@@ -1,10 +1,8 @@
 import type { TimeRange, TimeSlot } from '@/types/appointment'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { formatTimeRangeForDisplay } from '@/utils/time/localTime'
 
 type MaybeRef<Value> = Value | { value: Value }
-
-const { formatTimeRangeForDisplay } = useLocalTime()
 
 export function formatTimeRange(range: TimeRange | TimeSlot): string {
   return formatTimeRangeForDisplay(range)

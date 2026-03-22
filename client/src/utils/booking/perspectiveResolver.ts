@@ -6,15 +6,11 @@ import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
 import { createLogger } from '@/utils/logger'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
+import type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
+
+export type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
 
 const logger = createLogger('perspectiveResolver')
-
-export interface ResolvedEventShapes {
-  majorEventShape: EventShapeEntity | null
-  minorEventShape: EventShapeEntity | null
-  majorEventName: string | null
-  minorEventName: string | null
-}
 
 export function resolveEventShapes(
   eventFinals: SlotShape['eventFinals']

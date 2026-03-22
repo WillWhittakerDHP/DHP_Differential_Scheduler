@@ -66,33 +66,30 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { entityListDelete } from '@/utils/admin/entityListDelete'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 const logger = createLogger('PartShapeList')
 const router = useRouter()
 const { error: notifyError } = useNotification()
 const { entities, isLoading, error, remove } = useEntityCrud('partShape')
+const handleDelete = entityListDelete({
+  remove,
+  confirmMessage: 'Are you sure you want to delete this part type?',
+  errorMessage: 'Failed to delete part type',
+  logger,
+  notifyError,
+})
 
-function goToCreate() {
+function goToCreate(): void {
   router.push({ name: 'part-type-create' })
 }
 
-function goToEdit(id: GlobalEntityId) {
+function goToEdit(id: GlobalEntityId): void {
   router.push({ name: 'part-type-edit', params: { id: String(id) } })
-}
-
-async function handleDelete(id: GlobalEntityId) {
-  if (confirm('Are you sure you want to delete this part type?')) {
-    try {
-      await remove(id)
-    } catch (error) {
-      logger.error('Failed to delete part type', { error })
-      notifyError('Failed to delete part type')
-    }
-  }
 }
 </script>
 

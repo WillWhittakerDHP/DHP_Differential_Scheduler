@@ -1,12 +1,8 @@
 /**
 
-LEARNING: Isolates DOM access for debug window att...
  */
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-/**
-LEARNING: Iso...
- */
 export function attachDebugToWindow(
   key: string,
   debugObject: Record<string, unknown>

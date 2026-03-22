@@ -70,7 +70,7 @@ const toggleReadUnread = (isSeen: boolean, Id: number) => {
       <VCard class="d-flex flex-column">
         <!-- 👉 Header -->
         <VCardItem class="notification-section">
-          <VCardTitle class="text-h6">
+          <VCardTitle class="text-headline-small">
             Notifications
           </VCardTitle>
 
@@ -147,7 +147,7 @@ const toggleReadUnread = (isSeen: boolean, Id: number) => {
                       {{ notification.title }}
                     </p>
                     <p
-                      class="text-body-2 mb-2"
+                      class="text-body-medium mb-2"
                       style=" letter-spacing: 0.4px !important; line-height: 18px;"
                     >
                       {{ notification.subtitle }}

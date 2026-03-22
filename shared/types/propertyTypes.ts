@@ -1,7 +1,6 @@
 /**
  * Shared Property Address Types
  *
- * LEARNING: Base types for property address/detail shapes shared between client and server
  * WHY: Single source of truth for property payloads; prevents type drift (TYPE_SIMILARITY_PROPOSAL § 1.4)
  * PATTERN: Shared types directory for cross-cutting concerns
  */

@@ -1,24 +1,22 @@
 <script setup lang="ts">
 
-import { computed, inject, type Ref } from 'vue'
-import { useBookingWizard } from '@/composables/booking/useBookingWizard'
+import { computed, inject } from 'vue'
+import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'
 import { useInstanceSelectionState } from '@/composables/booking/useInstanceSelectionState'
 import { useInstanceComponentsList } from '@/composables/booking/useInstanceComponentsList'
 import { useDynamicGridConfig } from '@/composables/booking/useDynamicGridConfig'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 
-const wizard = inject<ReturnType<typeof useBookingWizard>>('wizard')
+const wizard = inject(wizardKey)
 if (!wizard) {
   throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
 }
 
-const loadedWizardState = inject<Ref<WizardStateData | null>>('loadedWizardState')
+const loadedWizardState = inject(loadedWizardStateKey)
 
-// LEARNING: Use instance selection state composable for v-model bridges
 // PATTERN: Composable provides computed properties with getter/setter
 const { selectedId: selectedUserTypeBlockId } = useInstanceSelectionState({
   availableInstances: computed(() => wizard.availableUserTypeBlocks.value),
@@ -49,7 +47,6 @@ const stackSelectionConfigComposable = useInstanceSelectionConfig({
 const baseRowSelectionConfig = rowSelectionConfigComposable.selectionConfig
 const stackSelectionConfig = stackSelectionConfigComposable.selectionConfig
 
-// LEARNING: Use instance display composable for display transformations
 // WHY: Moves icon mapping and display transformation logic out of component into reusable composable
 // PATTERN: Composable handles icon mapping and display transformations
 const userTypeDisplay = useInstanceDisplay({
@@ -57,7 +54,6 @@ const userTypeDisplay = useInstanceDisplay({
 })
 const wizardStateSelector = userTypeDisplay.instancesWithDisplay
 
-// LEARNING: Use dynamic grid config composable
 // PATTERN: Composable provides config with dynamic grid columns
 const { dynamicConfig: rowSelectionConfig } = useDynamicGridConfig({
   baseConfig: baseRowSelectionConfig,
@@ -89,17 +85,16 @@ const isDevMode = isDevModeEnabled()
 
 <template>
   <div class="service-selection-step">
-    <!-- LEARNING: Loading/Empty State Guards -->
     <!-- WHY: Provides user feedback when data isn't loaded or no user types are available -->
     <!-- PATTERN: Conditional rendering with helpful messages -->
-    <div v-if="!wizard.bookingData" class="text-body-1 text-medium-emphasis py-4">
+    <div v-if="!wizard.bookingData" class="text-body-large text-medium-emphasis py-4">
       Loading booking data...
     </div>
     
-    <div v-else-if="wizardStateSelector.length === 0" class="text-body-1 text-medium-emphasis py-4">
+    <div v-else-if="wizardStateSelector.length === 0" class="text-body-large text-medium-emphasis py-4">
       <div class="mb-2">No user types available.</div>
-      <div class="text-caption">Please ensure you have block shapes with <code>isStateControl: true</code> and active block instances.</div>
-      <div v-if="isDevMode" class="text-caption mt-2">
+      <div class="text-body-small">Please ensure you have block shapes with <code>isStateControl: true</code> and active block instances.</div>
+      <div v-if="isDevMode" class="text-body-small mt-2">
         Debug: availableUserTypeBlocks count = {{ wizard.availableUserTypeBlocks.value.length }}
       </div>
     </div>
@@ -114,9 +109,9 @@ const isDevMode = isDevModeEnabled()
     />
     
     <!-- WHY: Better UX - quote mode is now a button in the stepper header -->
-    <VRow v-if="wizard.selectedUserTypeBlock" class="service-type-section">
+    <VRow v-if="wizard.selectedUserTypeBlock.value" class="service-type-section">
       <VCol cols="12">
-        <h4 class="text-h4 mb-6 mb-sm-4">Service Type</h4>
+        <h4 class="text-headline-large mb-6 mb-sm-4">Service Type</h4>
         
         <!-- Cascade configuration error -->
         <VAlert
@@ -129,7 +124,7 @@ const isDevMode = isDevModeEnabled()
         </VAlert>
         
         <!-- WHY: Provides feedback when no services match selected user type -->
-        <div v-else-if="wizard.availableServices.value.length === 0" class="text-body-1 text-medium-emphasis py-4">
+        <div v-else-if="wizard.availableServices.value.length === 0" class="text-body-large text-medium-emphasis py-4">
           No services available for selected user type.
         </div>
         
@@ -172,4 +167,3 @@ const isDevMode = isDevModeEnabled()
   margin-bottom: 1rem;
 }
 </style>
-

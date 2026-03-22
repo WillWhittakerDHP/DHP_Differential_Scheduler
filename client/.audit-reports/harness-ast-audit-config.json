@@ -1,0 +1,15 @@
+{
+  "$comment": "Allowlist for harness-ast-audit.mjs. Step/plugin loops in kernel and step-graph intentionally use mutation.",
+  "allowlist": {
+    "patterns": [
+      {
+        "file": ".cursor/commands/harness/kernel.ts",
+        "ruleIds": ["loopMutation", "forOf"]
+      },
+      {
+        "file": ".cursor/commands/harness/step-graph.ts",
+        "ruleIds": ["loopMutation", "forOf"]
+      }
+    ]
+  }
+}

@@ -64,6 +64,7 @@ describe('useWizardFilteredOptions', () => {
   let selectedServiceTypeBlocks: ReturnType<typeof ref>
   let selectedAvailabilityOptions: ReturnType<typeof ref>
   let selectedPropertyTypeBlocks: ReturnType<typeof ref>
+  let selectedCouponBlocks: ReturnType<typeof ref>
 
   beforeEach(() => {
     bookingData = ref(null)
@@ -71,6 +72,7 @@ describe('useWizardFilteredOptions', () => {
     selectedServiceTypeBlocks = ref([])
     selectedAvailabilityOptions = ref([])
     selectedPropertyTypeBlocks = ref([])
+    selectedCouponBlocks = ref([])
   })
 
   describe('availableUserTypeBlocks', () => {
@@ -81,6 +83,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableUserTypeBlocks.value).toEqual([])
@@ -108,6 +111,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableUserTypeBlocks.value).toHaveLength(2)
@@ -139,6 +143,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableUserTypeBlocks.value).toHaveLength(1)
@@ -154,6 +159,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableServices.value).toEqual([])
@@ -179,6 +185,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableServices.value).toHaveLength(2)
@@ -207,6 +214,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableServices.value).toHaveLength(2)
@@ -234,6 +242,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(servicesCascadeError.value).toBeNull()
@@ -246,6 +255,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(servicesCascadeError.value).toBe('Booking data not loaded')
@@ -263,6 +273,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(servicesCascadeError.value).toBe('Please select a parent option to view available services')
@@ -285,6 +296,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(servicesCascadeError.value).toContain('no services cascades configured')
@@ -321,6 +333,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableOptionTypeBlocks.value).toHaveLength(2)
@@ -358,6 +371,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableOptionTypeBlocks.value).toHaveLength(1)
@@ -393,6 +407,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableOptionTypeBlocks.value).toHaveLength(2)
@@ -431,6 +446,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availablePropertyTypeBlocks.value).toHaveLength(2)
@@ -468,6 +484,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availablePropertyTypeBlocks.value).toHaveLength(1)
@@ -487,6 +504,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(accServices.value).toEqual([service1])
@@ -502,6 +520,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(accProperty.value).toEqual([property1])
@@ -517,6 +536,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(accAvailability.value).toEqual([option1])
@@ -553,6 +573,7 @@ describe('useWizardFilteredOptions', () => {
         selectedServiceTypeBlocks,
         selectedAvailabilityOptions,
         selectedPropertyTypeBlocks,
+        selectedCouponBlocks,
       })
       
       expect(availableOptionTypeBlocks.value.map(b => b.id)).toContain('option-1')

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-
+import { computed } from 'vue'
+import type { OAuthStatusShape, RateLimitShape } from '@/types/dev/apiDevPanelData'
 import { formatTimestamp, getApiStatusColor, getApiStatusLabel } from '@/utils/dev/formatDevPanelData'
 import type { ApiStatusValue } from '@/constants/apiStatus'
-import type { OAuthStatusShape, RateLimitShape } from '@/composables/dev/useApiDevPanelData'
 
 interface Props {
   oauthStatus: OAuthStatusShape | null
@@ -26,7 +26,16 @@ interface Props {
   onRefresh: () => void
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const calendarUtilizationColor = computed(() => {
+  const p = (props.rateLimitStats.calendar?.utilizationPercent) ?? 0
+  return p > 80 ? 'error' : p > 60 ? 'warning' : 'success'
+})
+const mapsUtilizationColor = computed(() => {
+  const p = (props.rateLimitStats.maps?.utilizationPercent) ?? 0
+  return p > 80 ? 'error' : p > 60 ? 'warning' : 'success'
+})
 </script>
 
 <template>
@@ -34,7 +43,7 @@ defineProps<Props>()
     <!-- OAuth Status -->
     <div class="mb-4">
       <div class="d-flex justify-space-between align-center mb-3">
-        <h3 class="text-subtitle-1 font-weight-bold">OAuth Status</h3>
+        <h3 class="text-body-large font-weight-bold">OAuth Status</h3>
         <VBtn
           size="small"
           :loading="loading.oauth"
@@ -90,7 +99,7 @@ defineProps<Props>()
     <!-- Rate Limits -->
     <div class="mb-4">
       <div class="d-flex justify-space-between align-center mb-3">
-        <h3 class="text-subtitle-1 font-weight-bold">Rate Limits</h3>
+        <h3 class="text-body-large font-weight-bold">Rate Limits</h3>
         <VBtn
           size="small"
           :loading="loading.ratelimit"
@@ -111,7 +120,7 @@ defineProps<Props>()
 
       <!-- Calendar API Rate Limits -->
       <VCard v-if="rateLimitStats.calendar" variant="outlined" density="compact" class="mb-3">
-        <VCardTitle class="text-subtitle-2 pa-2">Google Calendar API</VCardTitle>
+        <VCardTitle class="text-label-large pa-2">Google Calendar API</VCardTitle>
         <VCardText>
           <div class="mb-2">
             <strong>Limit:</strong> {{ rateLimitStats.calendar.requestsPerMinute }} requests/minute
@@ -126,7 +135,7 @@ defineProps<Props>()
             <strong>Utilization:</strong> 
             <VProgressLinear
               :model-value="(rateLimitStats.calendar?.utilizationPercent) ?? 0"
-              :color="((rateLimitStats.calendar?.utilizationPercent) ?? 0) > 80 ? 'error' : ((rateLimitStats.calendar?.utilizationPercent) ?? 0) > 60 ? 'warning' : 'success'"
+              :color="calendarUtilizationColor"
               height="20"
               class="mt-1"
             >
@@ -138,7 +147,7 @@ defineProps<Props>()
 
       <!-- Maps API Rate Limits -->
       <VCard v-if="rateLimitStats.maps" variant="outlined" density="compact">
-        <VCardTitle class="text-subtitle-2 pa-2">Google Maps API</VCardTitle>
+        <VCardTitle class="text-label-large pa-2">Google Maps API</VCardTitle>
         <VCardText>
           <div class="mb-2">
             <strong>Limit:</strong> {{ rateLimitStats.maps.requestsPerMinute }} requests/minute
@@ -153,7 +162,7 @@ defineProps<Props>()
             <strong>Utilization:</strong> 
             <VProgressLinear
               :model-value="(rateLimitStats.maps?.utilizationPercent) ?? 0"
-              :color="((rateLimitStats.maps?.utilizationPercent) ?? 0) > 80 ? 'error' : ((rateLimitStats.maps?.utilizationPercent) ?? 0) > 60 ? 'warning' : 'success'"
+              :color="mapsUtilizationColor"
               height="20"
               class="mt-1"
             >
@@ -177,10 +186,10 @@ defineProps<Props>()
 
     <!-- API Status Flags -->
     <div class="mb-4">
-      <h3 class="text-subtitle-1 font-weight-bold mb-3">API Call Status</h3>
+      <h3 class="text-body-large font-weight-bold mb-3">API Call Status</h3>
       <VList density="compact">
         <VListItem>
-          <VListItemTitle class="text-body-2">Events</VListItemTitle>
+          <VListItemTitle class="text-body-medium">Events</VListItemTitle>
           <template #append>
             <VChip
               :color="getApiStatusColor(apiStatus.events)"
@@ -191,7 +200,7 @@ defineProps<Props>()
           </template>
         </VListItem>
         <VListItem>
-          <VListItemTitle class="text-body-2">Routes</VListItemTitle>
+          <VListItemTitle class="text-body-medium">Routes</VListItemTitle>
           <template #append>
             <VChip
               :color="getApiStatusColor(apiStatus.routes)"
@@ -202,7 +211,7 @@ defineProps<Props>()
           </template>
         </VListItem>
         <VListItem>
-          <VListItemTitle class="text-body-2">Places</VListItemTitle>
+          <VListItemTitle class="text-body-medium">Places</VListItemTitle>
           <template #append>
             <VChip
               :color="getApiStatusColor(apiStatus.places)"

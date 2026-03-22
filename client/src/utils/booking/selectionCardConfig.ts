@@ -1,10 +1,11 @@
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
 export const DEFAULT_SELECTION_CARD_CONFIG: SelectionCardConfig = {
   selectionType: 'radio',
   selectionComponent: 'VRadio',
   selectionGroup: 'VRadioGroup',
-  stateSource: 'local',
+  stateSource: APP_STAGE.LOCAL,
   statePlugins: [],
   layout: 'row',
   controlPosition: 'bottom',
@@ -21,7 +22,6 @@ export const DEFAULT_SELECTION_CARD_CONFIG: SelectionCardConfig = {
 /**
  * Merge a user config with safe defaults.
  *
- * LEARNING: This is pure, so it belongs in utils (composables can wrap it with computed()).
  */
 export function mergeSelectionCardConfigWithDefaults(config: SelectionCardConfig | undefined): SelectionCardConfig {
   if (!config || config === null || typeof config !== 'object' || Array.isArray(config)) {
@@ -42,5 +42,3 @@ export function mergeSelectionCardConfigWithDefaults(config: SelectionCardConfig
     expansion: userConfig.expansion,
   }
 }
-
-

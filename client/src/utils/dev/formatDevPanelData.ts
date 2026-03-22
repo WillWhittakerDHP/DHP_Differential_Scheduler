@@ -1,7 +1,6 @@
 /**
  * WHY: Dev Panel Data Formatting Utilities
 
-LEARNING: Pure formatting functions...
  */
 import {
   API_STATUS_COLOR_MAP,

@@ -1,10 +1,10 @@
-# Feature 11: Security Hardening
+# Feature 8: Security Hardening
 
-**Feature Number:** 11
+**Feature Number:** 8
 **Status:** 📋 Planning
 **Created:** 2026-02-18
-**Branch:** TBD
-**Depends On:** BETA_LAUNCH_CHECKLIST.md Phase 2; authentication (Feature 10) for Phase 2.1
+**Branch:** feature/security-hardening
+**Depends On:** LAUNCH_CHECKLIST.md Phase 2; Authentication (Feature 7) for Phases 8.6–8.7
 
 ---
 
@@ -24,8 +24,8 @@ Protect the API and data before exposing it to any external users, even trusted 
 ## Related Documents
 
 - **Feature Guide:** `feature-security-hardening-guide.md`
-- **Checklist (todo layer):** `../../../BETA_LAUNCH_CHECKLIST.md` — Phase 2
-- **Authentication (Phase 2.1):** `../authentication/` — Feature 10
+- **Checklist (todo layer):** `../../../LAUNCH_CHECKLIST.md` — Phase 2
+- **Authentication (Phases 8.6–8.7):** `../authentication/` — Feature 7
 
 ---
 

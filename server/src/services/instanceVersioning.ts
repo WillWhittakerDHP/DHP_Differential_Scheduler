@@ -20,6 +20,7 @@ interface BlockInstanceVersionComparison {
   baseSqFt?: number | null;
   allowMultiple?: boolean;
   differential?: string;
+  preClosing?: boolean;
 }
 
 function versionsMatch(
@@ -33,7 +34,8 @@ function versionsMatch(
          versionData.icon === instanceData.icon &&
          versionData.baseSqFt === instanceData.baseSqFt &&
          versionData.allowMultiple === instanceData.allowMultiple &&
-         versionData.differential === instanceData.differential;
+         versionData.differential === instanceData.differential &&
+         versionData.preClosing === instanceData.preClosing;
 }
 
 async function findAppointmentsUsingBlockInstance(
@@ -62,6 +64,7 @@ async function createVersionFromInstance(
     baseSqFt: instanceData.baseSqFt,
     allowMultiple: instanceData.allowMultiple,
     differential: instanceData.differential,
+    preClosing: instanceData.preClosing ?? false,
   });
 
   const blockInstanceWithParts = await BlockInstance.findByPk(instanceData.id, {

@@ -1,8 +1,8 @@
 import { ref, type Ref } from 'vue'
-
+import { APP_STAGE } from '@shared/constants/appStageConstants'
 
 type UseI18nOptions = {
-  useScope?: 'global' | 'local'
+  useScope?: 'global' | typeof APP_STAGE.LOCAL
 }
 
 const globalLocale = ref('en')

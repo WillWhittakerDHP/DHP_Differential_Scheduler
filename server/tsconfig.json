@@ -71,6 +71,6 @@
 
     "resolveJsonModule": true, // Allow importing JSON files
   },
-  "include": ["src/**/*.ts", "src/db/seedScripts/index.ts", "src/utils/testOLDMakeAvailabilities.ts", "src/utils/OLDmakeAvailabilties.ts", "src/db/config/database.mjs"],
+  "include": ["src/**/*.ts", "../shared/**/*.ts", "src/db/seedScripts/index.ts", "src/utils/testOLDMakeAvailabilities.ts", "src/utils/OLDmakeAvailabilties.ts", "src/db/config/database.mjs"],
   "exclude": ["node_modules", "dist", "src/**/__tests__/**", "src/**/*.test.ts", "src/**/*.spec.ts"]
 }

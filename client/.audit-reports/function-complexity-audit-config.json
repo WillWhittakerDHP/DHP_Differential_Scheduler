@@ -1,7 +1,7 @@
 {
-  "$comment": "Configuration for function-complexity-audit.mjs Allowlist: audit-global-config.json allowlists.<auditId>.",
+  "$comment": "Configuration for function-complexity-audit.mjs. Nesting is measured by brace depth (function's own brace excluded). Allowlist: audit-global-config.json allowlists.function-complexity.",
   "thresholds": {
-    "maxNesting": 4,
+    "maxNesting": 3,
     "maxBranches": 8,
     "maxFunctionLines": 50,
     "maxScriptSetupLines": 100,

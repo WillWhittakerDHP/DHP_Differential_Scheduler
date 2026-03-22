@@ -6,14 +6,9 @@ import {
   type SubPanelRecord
 } from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { StatusButtonField } from '@/types/forms/fieldSectionCategorization'
 
-
-export interface StatusButtonField {
-  key: GlobalFieldKey<GlobalEntityKey>
-  label: string
-  color: string
-  order: number
-}
+export type { StatusButtonField } from '@/types/forms/fieldSectionCategorization'
 
 interface CategorizedFields {
   directFields: {

@@ -30,7 +30,7 @@ const roundingMethodOptions = ROUNDING_METHOD_OPTIONS
 
 <template>
   <div class="mb-6">
-    <div class="text-subtitle-1 mb-3">{{ UI_STRINGS.sections.durationRoundingTitle }}</div>
+    <div class="text-body-large mb-3">{{ UI_STRINGS.sections.durationRoundingTitle }}</div>
     <VSwitch
       :model-value="durationRoundingEnabled"
       @update:model-value="(v: boolean | null) => emit('update:durationRoundingEnabled', v === true)"
@@ -60,7 +60,7 @@ const roundingMethodOptions = ROUNDING_METHOD_OPTIONS
         class="mb-2"
       />
     </div>
-    <div class="text-caption mt-2">
+    <div class="text-body-small mt-2">
       {{ UI_STRINGS.help.durationRoundingDescription }}
     </div>
   </div>

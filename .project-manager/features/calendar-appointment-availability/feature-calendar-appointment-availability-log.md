@@ -27,7 +27,7 @@
 
 **Decisions Made:**
 - Use server-side slot computation with constraint-based filtering
-- Implement violation key system for extensibility (reused by Feature 6.7)
+- Implement violation key system for extensibility (reused by Feature 6 Phase 6.8)
 - Use orchestrator pattern for composable coordination
 
 ---
@@ -142,7 +142,7 @@
 **Context:** How to represent why a slot is blocked
 **Decision:** String-based violation keys (e.g. `range.leadTime`, `capacity.daily`)
 **Rationale:** Extensible, human-readable, can be stored in DB for override tracking
-**Impact:** Reused by Feature 6.7 (Force-Create) for constraint override records
+**Impact:** Reused by Feature 6 Phase 6.8 (Force-Create) for constraint override records
 
 ### Decision: 14-Day Prefetch
 **Context:** How much availability data to fetch upfront
@@ -240,7 +240,7 @@
 **Context:** How to represent why a slot is blocked
 **Decision:** String-based violation keys (e.g. `range.leadTime`, `capacity.daily`)
 **Rationale:** Extensible, human-readable, can be stored in DB for override tracking
-**Impact:** Reused by Feature 6.7 (Force-Create) for constraint override records
+**Impact:** Reused by Feature 6 Phase 6.8 (Force-Create) for constraint override records
 
 ### Decision: 14-Day Prefetch
 **Context:** How much availability data to fetch upfront

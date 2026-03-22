@@ -1,7 +1,7 @@
 
 import { Op } from 'sequelize'
 import { createEvent } from '../google/calendar/eventCreationService.js'
-import type { CreateEventParams, EventAttendee } from '../google/calendar/calendarTypes.js'
+import type { CreateEventParams } from '../google/calendar/calendarTypes.js'
 import {
   Appointment,
   AppointmentAttendee,
@@ -12,13 +12,19 @@ import {
   PartAssignment,
   EventAssignment,
   EventInstance,
-  EventShapeAttendee,
 } from '../../config/app.js'
 import type { Appointment as AppointmentType } from '../../db/models/booking/appointment.js'
 import type { EventInstance as EventInstanceType } from '../../db/models/booking/event_instance.js'
 import { resolveEventTemplates } from './templateResolver.js'
 import { buildInviteContext, type InviteAppointmentData } from './inviteContextBuilder.js'
+import {
+  buildAttendeesForEventShape,
+  markAttendeesAsFailed,
+  updateAttendeeRecords,
+} from './inviteAttendeeHelpers.js'
 import { createLogger } from '../../utils/logger.js'
+import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
+import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
 
 const logger = createLogger('InviteOrchestrationService')
 
@@ -39,7 +45,40 @@ export interface InviteOrchestrationResult {
   totalEventsCreated: number
   totalAttendeesUpdated: number
   events: SingleEventResult[]
-  fallbackUsed: boolean
+  noEventInstances?: boolean
+}
+
+/** Plain appointment shape with array fields guaranteed for invite orchestration; no Model methods. */
+interface NormalizedAppointmentForInvites {
+  id: string
+  selectedDate: Date | null
+  selectedTimeSlots: Array<Record<string, unknown>> | null
+  status: AppointmentType['status']
+  propertyVersion?: InviteAppointmentData['propertyVersion']
+  selectedServiceIds: string[]
+  selectedPropertyIds: string[]
+  selectedOptionIds: string[]
+  attendees: AppointmentAttendeeWithUser[]
+}
+
+function asArrayOrLogEmpty<T>(value: T[] | null | undefined, appointmentId: string, field: string): T[] {
+  if (Array.isArray(value)) return value
+  logger.debug('Invite orchestration: normalizing null/undefined to []', { appointmentId, field })
+  return []
+}
+
+function normalizeAppointmentForInvites(raw: AppointmentWithRelations): NormalizedAppointmentForInvites {
+  return {
+    id: raw.id,
+    selectedDate: raw.selectedDate,
+    selectedTimeSlots: raw.selectedTimeSlots,
+    status: raw.status,
+    propertyVersion: raw.propertyVersion,
+    selectedServiceIds: asArrayOrLogEmpty(raw.selectedServiceIds, raw.id, 'selectedServiceIds'),
+    selectedPropertyIds: asArrayOrLogEmpty(raw.selectedPropertyIds, raw.id, 'selectedPropertyIds'),
+    selectedOptionIds: asArrayOrLogEmpty(raw.selectedOptionIds, raw.id, 'selectedOptionIds'),
+    attendees: asArrayOrLogEmpty(raw.attendees, raw.id, 'attendees'),
+  }
 }
 
 
@@ -55,18 +94,26 @@ export async function createInvitesForAppointment(
     return emptyResult(appointmentId)
   }
 
-  const selectedBlockInstanceIds = collectBlockInstanceIds(appointment)
+  const normalized = normalizeAppointmentForInvites(appointment)
+  const selectedBlockInstanceIds = collectBlockInstanceIds(normalized)
   const eventInstances = await findEventInstancesForBlockInstances(selectedBlockInstanceIds)
 
   if (eventInstances.length === 0) {
-    logger.info('No EventInstances found for appointment — using fallback')
-    return await createFallbackEvent(appointment, calendarId)
+    logger.info('No EventInstances found for appointment — calendar invites skipped')
+    return {
+      appointmentId,
+      totalEventsAttempted: 0,
+      totalEventsCreated: 0,
+      totalAttendeesUpdated: 0,
+      events: [],
+      noEventInstances: true,
+    }
   }
 
   logger.info(`Found ${eventInstances.length} EventInstance(s) for appointment`)
 
   const serviceName = await resolveServiceName(selectedBlockInstanceIds)
-  const inviteData = toInviteAppointmentData(appointment)
+  const inviteData = toInviteAppointmentData(normalized)
   const context = buildInviteContext(inviteData, serviceName)
 
   const events: SingleEventResult[] = []
@@ -75,7 +122,7 @@ export async function createInvitesForAppointment(
   for (const eventInstance of eventInstances) {
     const result = await createEventForInstance(
       eventInstance,
-      appointment,
+      normalized,
       context,
       calendarId
     )
@@ -95,7 +142,6 @@ export async function createInvitesForAppointment(
     totalEventsCreated: totalCreated,
     totalAttendeesUpdated,
     events,
-    fallbackUsed: false,
   }
 }
 
@@ -120,7 +166,7 @@ async function fetchAppointmentWithRelations(appointmentId: string): Promise<App
   })
 }
 
-function toInviteAppointmentData(appointment: AppointmentWithRelations): InviteAppointmentData {
+function toInviteAppointmentData(appointment: NormalizedAppointmentForInvites): InviteAppointmentData {
   const rawSlots = appointment.selectedTimeSlots
   const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots
     ? rawSlots
@@ -141,11 +187,11 @@ function toInviteAppointmentData(appointment: AppointmentWithRelations): InviteA
   }
 }
 
-function collectBlockInstanceIds(appointment: AppointmentType): string[] {
+function collectBlockInstanceIds(appointment: NormalizedAppointmentForInvites): string[] {
   return [
-    ...(appointment.selectedServiceIds ?? []),
-    ...(appointment.selectedPropertyIds ?? []),
-    ...(appointment.selectedOptionIds ?? []),
+    ...appointment.selectedServiceIds,
+    ...appointment.selectedPropertyIds,
+    ...appointment.selectedOptionIds,
   ]
 }
 
@@ -197,7 +243,7 @@ async function resolveServiceName(blockInstanceIds: string[]): Promise<string | 
 
 async function createEventForInstance(
   eventInstance: EventInstanceType,
-  appointment: AppointmentWithRelations,
+  appointment: NormalizedAppointmentForInvites,
   context: Record<string, string>,
   calendarId: string
 ): Promise<SingleEventResult> {
@@ -266,63 +312,19 @@ async function createEventForInstance(
     const failedCount = await markAttendeesAsFailed(
       appointment,
       eventInstance.eventShapeRef,
-      error instanceof Error ? error.message : 'Unknown error'
+      error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
     )
 
     return {
       eventInstanceId: eventInstance.id,
       eventInstanceName: instanceName,
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE,
       attendeesUpdated: failedCount,
     }
   }
 }
 
-
-async function buildAttendeesForEventShape(
-  eventShapeId: string,
-  appointment: AppointmentWithRelations
-): Promise<EventAttendee[]> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
-    attributes: ['userTypeBlockInstanceId'],
-  })
-
-  const allowedUserTypes = new Set(
-    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
-  )
-
-  if (allowedUserTypes.size === 0) {
-    logger.debug(`No EventShapeAttendees configured for shape ${eventShapeId} — inviting all appointment attendees`)
-    return buildAllAttendees(appointment)
-  }
-
-  const appointmentAttendees = appointment.attendees ?? []
-
-  return appointmentAttendees
-    .filter(att =>
-      att.shouldReceiveInvitation &&
-      att.userTypeBlockInstanceId &&
-      allowedUserTypes.has(att.userTypeBlockInstanceId) &&
-      att.user?.email
-    )
-    .map(att => ({
-      email: att.user!.email,
-      displayName: [att.user!.firstName, att.user!.lastName].filter(Boolean).join(' ') || undefined,
-    }))
-}
-
-function buildAllAttendees(appointment: AppointmentWithRelations): EventAttendee[] {
-  const attendees = appointment.attendees ?? []
-
-  return attendees
-    .filter(att => att.shouldReceiveInvitation && att.user?.email)
-    .map(att => ({
-      email: att.user!.email,
-      displayName: [att.user!.firstName, att.user!.lastName].filter(Boolean).join(' ') || undefined,
-    }))
-}
 
 interface AppointmentAttendeeWithUser {
   id: string
@@ -345,96 +347,7 @@ interface AppointmentWithRelations extends AppointmentType {
 }
 
 
-async function updateAttendeeRecords(
-  appointment: AppointmentWithRelations,
-  eventShapeId: string,
-  googleEventId: string
-): Promise<number> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
-    attributes: ['userTypeBlockInstanceId'],
-  })
-
-  const allowedUserTypes = new Set(
-    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
-  )
-
-  const appointmentAttendees = appointment.attendees ?? []
-
-  const matchingAttendees = allowedUserTypes.size > 0
-    ? appointmentAttendees.filter(
-        att =>
-          att.shouldReceiveInvitation &&
-          att.userTypeBlockInstanceId &&
-          allowedUserTypes.has(att.userTypeBlockInstanceId)
-      )
-    : appointmentAttendees.filter(att => att.shouldReceiveInvitation)
-
-  let updated = 0
-
-  for (const attendee of matchingAttendees) {
-    try {
-      await AppointmentAttendee.update(
-        { googleEventId, invitationStatus: 'sent' },
-        { where: { id: attendee.id } }
-      )
-      updated++
-    } catch (error) {
-      logger.error(`Failed to update attendee ${attendee.id}:`, error)
-    }
-  }
-
-  return updated
-}
-
-async function markAttendeesAsFailed(
-  appointment: AppointmentWithRelations,
-  eventShapeId: string,
-  errorMessage: string
-): Promise<number> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId },
-    attributes: ['userTypeBlockInstanceId'],
-  })
-
-  const allowedUserTypes = new Set(
-    shapeAttendees.map(sa => sa.userTypeBlockInstanceId)
-  )
-
-  const appointmentAttendees = appointment.attendees ?? []
-
-  const matchingAttendees = allowedUserTypes.size > 0
-    ? appointmentAttendees.filter(
-        att =>
-          att.shouldReceiveInvitation &&
-          att.userTypeBlockInstanceId &&
-          allowedUserTypes.has(att.userTypeBlockInstanceId)
-      )
-    : appointmentAttendees.filter(att => att.shouldReceiveInvitation)
-
-  let updated = 0
-
-  for (const attendee of matchingAttendees) {
-    try {
-      await AppointmentAttendee.update(
-        { invitationStatus: 'failed' },
-        { where: { id: attendee.id } }
-      )
-      updated++
-    } catch (updateError) {
-      logger.error(`Failed to mark attendee ${attendee.id} as failed:`, updateError)
-    }
-  }
-
-  if (updated > 0) {
-    logger.warn(`Marked ${updated} attendee(s) as 'failed' due to: ${errorMessage}`)
-  }
-
-  return updated
-}
-
-
-function extractStartTime(appointment: AppointmentType): string {
+function extractStartTime(appointment: NormalizedAppointmentForInvites): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ startTime: string }> | null)?.[0]
   if (!firstSlot?.startTime) {
     throw new Error(`Appointment ${appointment.id} has no selectedTimeSlots — cannot create calendar event`)
@@ -442,7 +355,7 @@ function extractStartTime(appointment: AppointmentType): string {
   return new Date(firstSlot.startTime).toISOString()
 }
 
-function extractEndTime(appointment: AppointmentType): string {
+function extractEndTime(appointment: NormalizedAppointmentForInvites): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ endTime: string }> | null)?.[0]
   if (!firstSlot?.endTime) {
     throw new Error(`Appointment ${appointment.id} has no endTime in selectedTimeSlots`)
@@ -451,12 +364,12 @@ function extractEndTime(appointment: AppointmentType): string {
 }
 
 
-function buildDefaultSummary(appointment: AppointmentWithRelations): string {
+function buildDefaultSummary(appointment: NormalizedAppointmentForInvites): string {
   const address = appointment.propertyVersion?.address
-  return address ? `Inspection: ${address.streetAddress}` : 'Inspection Appointment'
+  return address ? `Inspection: ${address.streetAddress}` : DEFAULT_EVENT_SUMMARY_FALLBACK
 }
 
-function buildDefaultDescription(appointment: AppointmentWithRelations): string {
+function buildDefaultDescription(appointment: NormalizedAppointmentForInvites): string {
   return [
     'Home Inspection Appointment',
     '',
@@ -466,7 +379,7 @@ function buildDefaultDescription(appointment: AppointmentWithRelations): string 
   ].join('\n')
 }
 
-function buildDefaultLocation(appointment: AppointmentWithRelations): string {
+function buildDefaultLocation(appointment: NormalizedAppointmentForInvites): string {
   const address = appointment.propertyVersion?.address
   if (!address) return ''
 
@@ -475,81 +388,6 @@ function buildDefaultLocation(appointment: AppointmentWithRelations): string {
     .join(', ')
 }
 
-// ─── Fallback: legacy single-event behavior ─────────────────────────────────
-
-async function createFallbackEvent(
-  appointment: AppointmentWithRelations,
-  calendarId: string
-): Promise<InviteOrchestrationResult> {
-  try {
-    const summary = buildDefaultSummary(appointment)
-    const description = buildDefaultDescription(appointment)
-    const location = buildDefaultLocation(appointment)
-    const attendees = buildAllAttendees(appointment)
-
-    const eventParams: CreateEventParams = {
-      calendarId,
-      summary,
-      description,
-      location: location || undefined,
-      start: extractStartTime(appointment),
-      end: extractEndTime(appointment),
-      attendees,
-      sendUpdates: 'all',
-    }
-
-    const createdEvent = await createEvent(eventParams)
-
-    const attendeesToUpdate = appointment.attendees?.filter(a => a.shouldReceiveInvitation) ?? []
-    let attendeesUpdated = 0
-
-    for (const attendee of attendeesToUpdate) {
-      try {
-        await AppointmentAttendee.update(
-          { googleEventId: createdEvent.id, invitationStatus: 'sent' },
-          { where: { id: attendee.id } }
-        )
-        attendeesUpdated++
-      } catch (error) {
-        logger.error(`Failed to update attendee ${attendee.id}:`, error)
-      }
-    }
-
-    return {
-      appointmentId: appointment.id,
-      totalEventsAttempted: 1,
-      totalEventsCreated: 1,
-      totalAttendeesUpdated: attendeesUpdated,
-      events: [{
-        eventInstanceId: 'fallback',
-        eventInstanceName: 'Legacy fallback event',
-        success: true,
-        googleEventId: createdEvent.id,
-        eventLink: createdEvent.htmlLink,
-        attendeesUpdated,
-      }],
-      fallbackUsed: true,
-    }
-  } catch (error) {
-    logger.error('Fallback event creation failed:', error)
-    return {
-      appointmentId: appointment.id,
-      totalEventsAttempted: 1,
-      totalEventsCreated: 0,
-      totalAttendeesUpdated: 0,
-      events: [{
-        eventInstanceId: 'fallback',
-        eventInstanceName: 'Legacy fallback event',
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        attendeesUpdated: 0,
-      }],
-      fallbackUsed: true,
-    }
-  }
-}
-
-
 function emptyResult(appointmentId: string): InviteOrchestrationResult {
   return {
     appointmentId,
@@ -557,6 +395,5 @@ function emptyResult(appointmentId: string): InviteOrchestrationResult {
     totalEventsCreated: 0,
     totalAttendeesUpdated: 0,
     events: [],
-    fallbackUsed: false,
   }
 }

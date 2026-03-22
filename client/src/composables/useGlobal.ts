@@ -1,8 +1,7 @@
 /**
- * PATTERN: Global Entity Composable
-
-PATTERN: Composable that reads from Vue Query ...
+ * PATTERN: Global Entity Composable — reads from Vue Query.
  */
+import type { Ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -11,11 +10,21 @@ import { globalTransformer } from '@/utils/transformers/fetchToGlobalTransformer
 import { asEmptyArray, asEmptyString } from '@/utils/safeDefaults'
 import { attachDebugToWindow } from '@/utils/debug/windowDebug'
 
+export interface UseGlobalReturn {
+  getGlobalEntities: <GE extends GlobalEntityKey>(entityKey: GE) => GlobalEntity<GE>[]
+  getGlobalEntityById: <GE extends GlobalEntityKey>(entityKey: GE, id: string) => GlobalEntity<GE> | undefined
+  getGlobalData: () => GlobalData | null
+  globalData: Ref<GlobalData | undefined>
+  isLoading: Ref<boolean>
+  error: Ref<Error | null>
+  refetch: () => Promise<unknown>
+}
+
 let instanceCount = 0
 let callCount = 0
 const instanceCallSites: Array<{ count: number; stack: string }> = []
 
-let globalInstance: ReturnType<typeof createGlobalInstance> | null = null
+let globalInstance: UseGlobalReturn | null = null
 
 function getCallSiteInfo(): { caller: string; stack: string } {
   const stack = asEmptyString(new Error().stack)
@@ -27,7 +36,7 @@ function getCallSiteInfo(): { caller: string; stack: string } {
   }
 }
 
-function createGlobalInstance() {
+function createGlobalInstance(): UseGlobalReturn {
   instanceCount++
   const callSite = getCallSiteInfo()
   instanceCallSites.push({ count: instanceCount, stack: callSite.stack })
@@ -83,7 +92,7 @@ function createGlobalInstance() {
  * PATTERN: Global entity composable
 PATTERN: Singleton pattern - creates instance o...
  */
-export function useGlobal() {
+export function useGlobal(): UseGlobalReturn {
   callCount++
   
   if (!globalInstance) {

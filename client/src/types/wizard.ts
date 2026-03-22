@@ -1,14 +1,18 @@
 /**
 
-LEARNING: TypeScript types for booking wizard state
 ...
  */
 import type { BookingBlockInstance, BookingData } from '@/utils/transformers/globalToBookingTransformer'
 import type { ComputedRef, Ref } from 'vue'
 
 /**
+ * Wizard mode: 'new' (create), 'quote' (quote flow), 'reschedule' (load existing and land at step 3).
+ * Used so submit step can show "Update appointment" and call update path when mode is reschedule.
+ */
+export type WizardMode = 'new' | 'quote' | 'reschedule'
+
+/**
  * WHY: Wizard State Interface
-LEARNING: Defines the structure of wizard state
 P...
  */
 export interface WizardState {
@@ -22,8 +26,12 @@ export interface WizardState {
   selectedPropertyTypeBlocks: BookingBlockInstance[]
   /** Array of selected line item blocks (bookingMode: "addOn") */
   selectedLineItemBlocks: BookingBlockInstance[]
+  /** Array of selected coupon block (single-select UI, array storage; same pattern as property type) */
+  selectedCouponBlocks: BookingBlockInstance[]
   /** Whether user only wants a quote (not booking) */
   isQuoteMode: boolean
+  /** Mode for wizard flow: new, quote, or reschedule (load-at-step-3 + update path) */
+  wizardMode: WizardMode
 }
 
 export interface WizardSelectionMethods {
@@ -37,8 +45,12 @@ export interface WizardSelectionMethods {
   togglePropertyTypeBlock: (block: BookingBlockInstance) => void
   /** Toggle line item block selection (multi-select) */
   toggleLineItemBlock: (block: BookingBlockInstance) => void
+  /** Toggle coupon block selection (single-select UI, array storage; same as property type) */
+  toggleCouponBlock: (block: BookingBlockInstance) => void
   /** Run multiple wizard state updates without cascading clears (e.g. when loading an appointment) */
   batchUpdate: (fn: () => void) => void
+  /** Set wizard mode (new, quote, reschedule). Entry points set 'reschedule' then call handleLoadAppointment(id). */
+  setWizardMode: (mode: WizardMode) => void
 }
 
 export interface WizardComputedProperties {
@@ -50,6 +62,8 @@ export interface WizardComputedProperties {
   availableOptionTypeBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available property type blocks (filtered by selected services) */
   availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
+  /** Available coupon block instances (cascade from selected services; same routine as property type) */
+  availableCouponBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available line item blocks (bookingMode: "addOn") */
   availableLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   
@@ -57,6 +71,7 @@ export interface WizardComputedProperties {
   servicesCascadeError: ComputedRef<string | null>
   availabilityOptionsCascadeError: ComputedRef<string | null>
   propertyTypesCascadeError: ComputedRef<string | null>
+  couponCascadeError: ComputedRef<string | null>
   
   /** Accumulation computed properties for duration calculations */
   accServices: ComputedRef<BookingBlockInstance[]>
@@ -64,15 +79,34 @@ export interface WizardComputedProperties {
   accAvailability: ComputedRef<BookingBlockInstance[]>
 }
 
+/** Flat shape provided/injected. isQuoteMode is a convenience derived from wizardMode (wizardMode === 'quote'). */
 export type UseBookingWizardReturn = {
   selectedUserTypeBlock: Ref<BookingBlockInstance | null>
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
   selectedLineItemBlocks: Ref<BookingBlockInstance[]>
+  selectedCouponBlocks: Ref<BookingBlockInstance[]>
   isQuoteMode: Ref<boolean>
+  wizardMode: Ref<WizardMode>
 } & WizardSelectionMethods & WizardComputedProperties & {
   bookingData: ComputedRef<BookingData | null>
+}
+
+/** Grouped return for composable-health (oversized-return repair). Tab spreads to flat when providing. */
+export interface UseBookingWizardReturnGrouped {
+  state: {
+    selectedUserTypeBlock: Ref<BookingBlockInstance | null>
+    selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
+    selectedLineItemBlocks: Ref<BookingBlockInstance[]>
+    selectedCouponBlocks: Ref<BookingBlockInstance[]>
+    isQuoteMode: Ref<boolean>
+    wizardMode: Ref<WizardMode>
+  }
+  actions: WizardSelectionMethods
+  computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }
 }
 
 import type { PropertyDetailsData } from '@/types/propertyForm'

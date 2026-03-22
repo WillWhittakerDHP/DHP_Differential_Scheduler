@@ -1,7 +1,7 @@
 
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
-import { toGlobalEntityId } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { asEmptyArray } from '@/utils/safeDefaults'
 

@@ -1,20 +1,12 @@
 <script lang="ts" setup>
-import type { LoadingIndicatorInstance } from '@/composables/useLoadingIndicator'
+import { useSuspenseFallback } from '@/composables/layout/useSuspenseFallback'
+import { useSkins } from '@core/composable/useSkins'
 
 const { injectSkinClasses } = useSkins()
+const { isFallbackStateActive, refLoadingIndicator } = useSuspenseFallback()
+void refLoadingIndicator
 
 injectSkinClasses()
-
-const isFallbackStateActive = ref(false)
-const refLoadingIndicator = ref<LoadingIndicatorInstance | null>(null)
-
-watch([isFallbackStateActive, refLoadingIndicator], () => {
-  if (isFallbackStateActive.value && refLoadingIndicator.value)
-    refLoadingIndicator.value.fallbackHandle()
-
-  if (!isFallbackStateActive.value && refLoadingIndicator.value)
-    refLoadingIndicator.value.resolveHandle()
-}, { immediate: true })
 </script>
 
 <template>

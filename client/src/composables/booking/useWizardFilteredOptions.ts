@@ -1,22 +1,14 @@
-import { computed, type Ref } from 'vue'
-import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+import { computed } from 'vue'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import {
   filterByCascade,
   cascadeShapePipeline,
   getUserTypeBlocks
 } from '@/utils/booking/cascadeFilterPipeline'
-import type { WizardComputedProperties } from '@/types/wizard'
-
-export type UseWizardFilteredOptionsParams = {
-  bookingData: Ref<BookingData | null>
-  selectedUserType: Ref<BookingBlockInstance | null>
-  selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedAvailabilityOptions: Ref<BookingBlockInstance[]>
-  selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-}
-
-export type UseWizardFilteredOptionsReturn = WizardComputedProperties
+import type {
+  UseWizardFilteredOptionsParams,
+  UseWizardFilteredOptionsReturn,
+} from '@/types/booking/wizardFilteredOptions'
 
 export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams): UseWizardFilteredOptionsReturn {
   const {
@@ -24,7 +16,8 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     selectedUserType,
     selectedServiceTypeBlocks,
     selectedAvailabilityOptions,
-    selectedPropertyTypeBlocks
+    selectedPropertyTypeBlocks,
+    selectedCouponBlocks
   } = params
 
   const availableUserTypeBlocks = computed(() => getUserTypeBlocks(bookingData.value))
@@ -69,6 +62,19 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
   const availablePropertyTypeBlocks = computed(() => propertyTypesResult.value.instances)
   const propertyTypesCascadeError = computed(() => propertyTypesResult.value.error)
 
+  const couponTypesResult = computed(() =>
+    cascadeShapePipeline({
+      bookingData: bookingData.value,
+      parentInstances: selectedServiceTypeBlocks.value,
+      currentSelection: selectedCouponBlocks.value,
+      relationshipName: 'coupons',
+      shapeType: BLOCK_SHAPE_TYPES.COUPON,
+      allowFallbackToAllOfShape: false
+    })
+  )
+  const availableCouponBlocks = computed(() => couponTypesResult.value.instances)
+  const couponCascadeError = computed(() => couponTypesResult.value.error)
+
   const availableLineItemBlocks = computed(() => {
     const raw = bookingData.value?.lineItemBlocks
     return raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
@@ -83,10 +89,12 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
     availableServices,
     availableOptionTypeBlocks: availableAvailabilityOptions,
     availablePropertyTypeBlocks,
+    availableCouponBlocks,
     availableLineItemBlocks,
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
+    couponCascadeError,
     accServices,
     accProperty,
     accAvailability

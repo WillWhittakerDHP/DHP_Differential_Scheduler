@@ -19,25 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current appointment table schema with FK columns
-- Understand JSONB array storage in PostgreSQL
-- Understand GIN indexes for JSONB array queries
-- Review existing migration patterns in the codebase
-
-**During Session:**
-- Learn how to create database migrations with data transformation
-- Learn how to migrate FK columns to JSONB arrays
-- Learn how to add GIN indexes for JSONB array queries
-- Learn how to verify data migration integrity
-
-**After Session:**
-- Understand JSONB array migration patterns
-- Understand data preservation during schema changes
-- Understand index strategies for JSONB arrays
-
 ---
 
 ## Objectives
@@ -277,4 +258,3 @@
 ---
 
 **Next Sub-Session:** Session 1.3.9.2 - Backend Model and API Updates
-

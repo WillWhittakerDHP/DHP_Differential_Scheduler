@@ -1,12 +1,7 @@
 
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { BuildMetadataEntryOptions } from '@/types/admin/buildMetadataEntry'
 
-export interface BuildMetadataEntryOptions {
-  key: string
-  renderingUpdates: Partial<FieldMetadataEntry>
-  existingMetadata: FieldMetadataEntry
-  isRelationship?: boolean
-}
+export type { BuildMetadataEntryOptions } from '@/types/admin/buildMetadataEntry'
 
 /**
 PATTERN: ...
@@ -20,7 +15,6 @@ export function buildMetadataEntry(options: BuildMetadataEntryOptions): Record<s
     isRequired: existingMetadata.isRequired,
   }
 
-  // LEARNING: inputConfig is stored in direct format (not wrapped)
   // PATTERN: Return inputConfig as-is, no wrapping needed
   const getInputConfig = (): Record<string, unknown> | null => {
     return renderingUpdates.inputConfig !== undefined 

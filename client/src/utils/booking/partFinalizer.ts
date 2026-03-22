@@ -6,7 +6,8 @@ import type { EventInstance, EventShape } from '@/types/events'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
-import { toGlobalEntityId, type EventShapeEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal, SlotShape } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createLogger } from '@/utils/logger'
@@ -135,7 +136,6 @@ export function calculateSlotShape(
     ])
   )
   
-  // LEARNING: Convert Map to EventFinal[] array with dual-track durations
   // WHY: Provides array of event shapes with both raw and rounded durations, matching PartFinal[] pattern
   // PATTERN: Map over eventRawDurations entries, create EventFinal for each with both raw and rounded durations
   const eventFinals: EventFinal[] = Array.from(eventRawDurations.entries())
@@ -159,7 +159,6 @@ export function calculateSlotShape(
     ? Math.max(...eventFinals.map(ef => ef.roundedDuration))
     : 0
   
-  // LEARNING: Calculate differentialOffset as the difference between major and minor event durations
   // PATTERN: Calculate offset from final event durations after all parts have been processed and rounded
   let rawDifferentialOffset = 0
   let roundedDifferentialOffset = 0

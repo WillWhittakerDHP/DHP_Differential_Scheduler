@@ -1,10 +1,15 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string
+  /** Optional base URL for client-facing links (reschedule, cancel, quote). Used by server-side invite templates. */
+  readonly VITE_APP_BASE_URL?: string
+  readonly VITE_APP_STAGE?: string
   readonly VITE_INCLUDE_DEV_FLAGS?: string
   readonly VITE_VERBOSE_LOGGING?: string
   readonly VITE_DEBUG_SCOPES?: string
   readonly VITE_LOG_LEVEL?: string
+  /** When set (e.g. "1" or "true"), logger appends caller file:line for debug/warn/error. Dev-only. */
+  readonly VITE_LOG_CALLSITE?: string
   readonly VITE_AVAILABILITY_CACHE_TTL?: string
   readonly DEV?: boolean
 }
@@ -14,18 +19,12 @@ interface ImportMeta {
   readonly glob: (pattern: string | string[], options?: { eager?: boolean }) => Record<string, () => Promise<unknown> | unknown>
 }
 
-/**
-LEARNING: Declares .vue files as valid module...
- */
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
   const component: DefineComponent<Record<string, never>, Record<string, never>, unknown>
   export default component
 }
 
-/**
-LEARNING: Declares .svg files as valid modules fo...
- */
 declare module '*.svg' {
   const content: string
   export default content
@@ -100,7 +99,5 @@ declare module 'vuetify/lib/components/VInput/VInput' {
 }
 
 declare module 'vuetify/lib/util/helpers' {
-  export function filterInputAttrs(attrs: Record<string, unknown>): [Record<string, unknown>, Record<string, unknown>]
+  export function filterInputAttrs(attrs: Record<string, unknown>): Partial<Record<string, unknown>>[]
 }
-
-

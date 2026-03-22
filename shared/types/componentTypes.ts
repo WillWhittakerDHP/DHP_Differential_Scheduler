@@ -1,7 +1,6 @@
 /**
  * Shared component config types
  *
- * LEARNING: ComponentConfig and ComponentStrategy shared between client and server (Phase 1.3 type-similarity UNIFY)
  * WHY: Entity registry (server) and component UI (client) use the same config shape
  * PATTERN: Types in shared; entity-specific config lives in client/server
  */

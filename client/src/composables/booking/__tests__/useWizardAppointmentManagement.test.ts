@@ -23,10 +23,14 @@ describe('useWizardAppointmentManagement', () => {
   beforeEach(() => {
     mockWizard = {
       selectUserTypeBlock: vi.fn(),
-      selectedServices: ref([]),
+      setWizardMode: vi.fn(),
+      selectedServiceTypeBlocks: ref([]),
       selectedPropertyTypeBlocks: ref([]),
       selectedOptionTypeBlocks: ref([]),
+      selectedLineItemBlocks: ref([]),
+      selectedUserTypeBlock: ref(null),
       isQuoteMode: ref(false),
+      wizardMode: ref('new'),
     } as unknown as UseBookingWizardReturn
 
     mockBookingData = ref<BookingData | null>({
@@ -268,10 +272,11 @@ describe('useWizardAppointmentManagement', () => {
       expect(loadedWizardState.value).toBeNull()
       expect(loadedAppointmentId.value).toBeNull()
       expect(selectedAppointmentId.value).toBeNull()
-      expect(mockWizard.selectedServices.value).toEqual([])
+      expect(mockWizard.selectedServiceTypeBlocks.value).toEqual([])
       expect(mockWizard.selectedPropertyTypeBlocks.value).toEqual([])
       expect(mockWizard.selectedOptionTypeBlocks.value).toEqual([])
       expect(mockWizard.isQuoteMode.value).toBe(false)
+      expect(mockWizard.setWizardMode).toHaveBeenCalledWith('new')
       expect(mockSuccess).toHaveBeenCalledWith('Wizard reset successfully')
     })
   })

@@ -150,15 +150,6 @@ client-vue/src/views/admin/
 
 ---
 
-## Learning Points
-
-1. **Tab Navigation**: Using VTabs with VWindow provides clean sub-tab navigation
-2. **Card Display**: VExpansionPanels provide expandable/collapsible card display
-3. **Dialog Pattern**: Centralized dialogs in parent component with event-driven architecture
-4. **Drag-and-Drop**: Integrating drag-and-drop requires orderIndex management
-5. **Search Filtering**: Computed properties with filter provide reactive search
-6. **Component Composition**: Cards emit events, parent handles dialog state
-
 ---
 
 ## Next Steps
@@ -186,4 +177,3 @@ client-vue/src/views/admin/
 - Phase Guide: `project-manager/features/vue-migration/phases/phase-4-guide.md`
 - Session 4.4 Summary: `project-manager/features/vue-migration/sessions/session-4.4-summary.md`
 - Project Plan: `project-manager/PROJECT_PLAN.md`
-

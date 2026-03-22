@@ -1,26 +1,11 @@
 /**
  * WHY: useSelectionCardGroupState Composable
 
-LEARNING: Extracts group state ma...
  */
-import { computed, watch, ref, type Ref, type ComputedRef } from 'vue'
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
+import { computed, watch, ref, type Ref } from 'vue'
+import type { UseSelectionCardGroupStateParams, UseSelectionCardGroupStateReturn } from '@/types/booking/selectionCard/selectionCardGroupState'
 
-export interface UseSelectionCardGroupStateParams {
-  items: ComputedRef<SelectionCardItem[]>
-  modelValue: ComputedRef<string | string[] | null>
-  configWithDefaults: ComputedRef<{ expansion?: { enabled?: boolean } }>
-  shouldExpand: (item: SelectionCardItem) => boolean
-}
-
-export interface UseSelectionCardGroupStateReturn {
-  expandedCardIds: Ref<string[]>
-  nestedSelections: Ref<Record<string, string[]>>
-  expansionStates: ComputedRef<Record<string, boolean>>
-  internalValue: ComputedRef<string | string[] | null>
-  handleNestedSelection: (itemId: string, componentIds: string[]) => void
-  toggleCardExpansion: (itemId: string) => void
-}
+export type { UseSelectionCardGroupStateParams, UseSelectionCardGroupStateReturn } from '@/types/booking/selectionCard/selectionCardGroupState'
 
 /**
  * WHY: useSelectionCardGroupState composable
@@ -35,7 +20,6 @@ export function useSelectionCardGroupState(params: UseSelectionCardGroupStatePar
     shouldExpand
   } = params
 
-  // LEARNING: Use array instead of Set for Vue reactivity
   // WHY: Vue doesn't track Set mutations, so we need an array for proper reactivity
   // PATTERN: Use array with includes() instead of Set with has()
   const expandedCardIds = ref<string[]>([])
@@ -47,7 +31,6 @@ export function useSelectionCardGroupState(params: UseSelectionCardGroupStatePar
   })
 
   /**
-   * LEARNING: Computed property that creates expansion state object
    */
   const expansionStates = computed(() => {
     const ids = expandedCardIds.value
@@ -99,7 +82,6 @@ export function useSelectionCardGroupState(params: UseSelectionCardGroupStatePar
         const item = items.value.find(item => item.id === id)
         if (item && shouldExpand(item) && !expandedCardIds.value.includes(id)) {
           idsToAdd.push(id)
-          // LEARNING: Mark card as recently auto-expanded to prevent immediate manual toggle
           // PATTERN: Add to Set, remove after 100ms
           recentlyAutoExpanded.value.add(id)
           setTimeout(() => {
@@ -132,5 +114,3 @@ export function useSelectionCardGroupState(params: UseSelectionCardGroupStatePar
     toggleCardExpansion: (itemId: string) => toggleCardExpansion(itemId, recentlyAutoExpanded)
   }
 }
-
-

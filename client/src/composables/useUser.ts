@@ -1,7 +1,5 @@
 /**
 
-LEARNING: Vue composable for user CRUD operations
-
 S...
  */
 import { computed, type ComputedRef } from 'vue'
@@ -73,4 +71,3 @@ export function useUser(): UseUserReturn {
     fetchById,
   }
 }
-

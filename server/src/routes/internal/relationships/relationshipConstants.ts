@@ -25,9 +25,6 @@ export interface RelationshipConfig {
   childEntity: string
 }
 
-/**
-LEARNING: Registry pattern for relationship type c...
- */
 export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
   validCascades: {
     model: ValidCascade,

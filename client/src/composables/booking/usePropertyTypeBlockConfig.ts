@@ -3,51 +3,14 @@
 
 WHY: Moves complex config constru...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
-import type { ComponentItem } from './usePropertyDetailsLogic'
+import { computed } from 'vue'
+import { APP_STAGE } from '@shared/constants/appStageConstants'
+import type { SelectionCardConfig, SelectionCardItem, StatePlugin } from '@/components/booking/types/selectionCardTypes'
+import type { ComponentItem } from '@/types/booking/propertyDetailsLogic'
+import type { UsePropertyTypeBlockConfigParams, UsePropertyTypeBlockConfigReturn } from '@/types/booking/propertyTypeBlockConfig'
 import { calculateGridColumnsForItemCount } from '@/utils/booking/selectionCardGroupConfig'
 
-export interface UsePropertyTypeBlockConfigParams {
-  selectedPropertyTypeBlocks: Ref<unknown[]>
-  propertyTypeBlocksStatePlugin: unknown | null
-  availablePropertyTypeBlocks?: Ref<unknown[]>
-}
 
-export interface SelectionCardConfig {
-  selectionType: 'checkbox' | 'radio'
-  selectionComponent: 'VCheckbox' | 'VRadio'
-  selectionGroup: 'none' | 'v-radio-group'
-  stateSource: 'wizard' | 'local'
-  layout: 'row' | 'stack'
-  controlPosition: 'top' | 'bottom' | 'left' | 'right'
-  gridColumns: { cols?: string | number; sm?: string | number; md?: string | number; lg?: string | number; xl?: string | number }
-  appearance: {
-    showIcon: boolean
-    showDescription: boolean
-    showBorder: boolean
-    cardPadding: string
-    minHeight: string
-  }
-  expansion: {
-    enabled: boolean
-    componentData: (item: SelectionCardItem) => {
-      composite: boolean
-      visibleComponents: Array<{ id: string; name: string; description?: string; icon?: string }>
-    } | null
-  }
-  statePlugins?: unknown[]
-}
-
-export interface UsePropertyTypeBlockConfigReturn {
-  rowSelectionConfig: ComputedRef<SelectionCardConfig>
-}
-
-/**
- * WHY: usePropertyTypeBlockConfig composable
-
-WHY: Extracts config construction...
- */
 export function usePropertyTypeBlockConfig(
   params: UsePropertyTypeBlockConfigParams
 ): UsePropertyTypeBlockConfigReturn {
@@ -80,7 +43,7 @@ export function usePropertyTypeBlockConfig(
         showDescription: true,
         showBorder: true,
         cardPadding: 'pa-6',
-        minHeight: '200px'
+        minHeight: 'auto'
       },
       expansion: {
         enabled: true,
@@ -104,13 +67,13 @@ export function usePropertyTypeBlockConfig(
     if (propertyTypeBlocksStatePlugin) {
       return {
         ...baseConfig,
-        statePlugins: [propertyTypeBlocksStatePlugin]
+        statePlugins: [propertyTypeBlocksStatePlugin as StatePlugin]
       }
     }
     
     return {
       ...baseConfig,
-      stateSource: 'local' as const
+      stateSource: APP_STAGE.LOCAL
     }
   })
 

@@ -1,13 +1,12 @@
 <template>
   <BaseInput
     v-if="resolvedFieldContext"
-    :field-key="String(resolvedFieldContext.fieldKey)"
-    :display-config="resolvedFieldContext.displayConfig"
-    :error="resolvedFieldContext.error?.value"
+    :field-key="String(resolvedFieldContext.state.fieldKey)"
+    :display-config="resolvedFieldContext.state.displayConfig"
+    :error="resolvedFieldContext.state.error?.value"
     :show-label="false"
-    :is-disabled="resolvedFieldContext.isDisabled.value"
+    :is-disabled="resolvedFieldContext.state.isDisabled.value"
   >
-    <!-- LEARNING: When readonly, display as plain text for better UX -->
     <!-- WHY: Readonly inputs look disabled/confusing - plain text is clearer -->
     <!-- PATTERN: Use computed to reactively track readOnly state for v-if -->
     <span
@@ -15,27 +14,26 @@
       class="readonly-text"
       :class="{ 'readonly-text-empty': !fieldValue || fieldValue === '' }"
     >
-      {{ fieldValue || resolvedFieldContext?.displayConfig.placeholder || '' }}
+      {{ fieldValue || resolvedFieldContext?.state.displayConfig.placeholder || '' }}
     </span>
     
-    <!-- LEARNING: Conditionally render textarea for long content when editable -->
     <!-- WHY: Long text is better displayed in multi-line textarea -->
     <!-- PATTERN: Check content length and newlines to determine if textarea is needed -->
     <AppTextarea
       v-else-if="shouldUseTextarea && resolvedFieldContext"
-      :id="`field-${String(resolvedFieldContext.fieldKey)}`"
-      :name="String(resolvedFieldContext.fieldKey)"
+      :id="`field-${String(resolvedFieldContext.state.fieldKey)}`"
+      :name="String(resolvedFieldContext.state.fieldKey)"
       :model-value="fieldValue"
-      :label="resolvedFieldContext.displayConfig.label"
-      :placeholder="resolvedFieldContext.displayConfig.placeholder"
-      :disabled="resolvedFieldContext.displayConfig.disabled"
-      :readonly="resolvedFieldContext.displayConfig.readOnly"
-      :error="!!resolvedFieldContext.error?.value"
-      :error-messages="resolvedFieldContext.error?.value"
+      :label="resolvedFieldContext.state.displayConfig.label"
+      :placeholder="resolvedFieldContext.state.displayConfig.placeholder"
+      :disabled="resolvedFieldContext.state.displayConfig.disabled"
+      :readonly="resolvedFieldContext.state.displayConfig.readOnly"
+      :error="!!resolvedFieldContext.state.error?.value"
+      :error-messages="resolvedFieldContext.state.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
       :auto-grow="true"
       :rows="1"
-      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.fieldKey === 'name'"
+      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.state.fieldKey === 'name'"
       class="text-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
@@ -44,17 +42,17 @@
     />
     <AppTextField
       v-else-if="resolvedFieldContext"
-      :id="`field-${String(resolvedFieldContext.fieldKey)}`"
-      :name="String(resolvedFieldContext.fieldKey)"
+      :id="`field-${String(resolvedFieldContext.state.fieldKey)}`"
+      :name="String(resolvedFieldContext.state.fieldKey)"
       :model-value="fieldValue"
-      :label="resolvedFieldContext.displayConfig.label"
-      :placeholder="resolvedFieldContext.displayConfig.placeholder"
-      :disabled="resolvedFieldContext.displayConfig.disabled"
-      :readonly="resolvedFieldContext.displayConfig.readOnly"
-      :error="!!resolvedFieldContext.error?.value"
-      :error-messages="resolvedFieldContext.error?.value"
+      :label="resolvedFieldContext.state.displayConfig.label"
+      :placeholder="resolvedFieldContext.state.displayConfig.placeholder"
+      :disabled="resolvedFieldContext.state.displayConfig.disabled"
+      :readonly="resolvedFieldContext.state.displayConfig.readOnly"
+      :error="!!resolvedFieldContext.state.error?.value"
+      :error-messages="resolvedFieldContext.state.error?.value"
       :autocomplete="AUTCOMPLETE_OFF"
-      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.fieldKey === 'name'"
+      :autofocus="entityCardSaveContext?.isNew && resolvedFieldContext.state.fieldKey === 'name'"
       class="text-input-field"
       @update:model-value="handleChange"
       @focus="handleFocus"
@@ -85,7 +83,6 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
 })
 
-// LEARNING: Use toRef to maintain reactivity when accessing props
 // WHY: Vue 3 best practice - destructuring props breaks reactivity, use toRef instead
 const fieldContextRef = toRef(props, 'fieldContext')
 
@@ -106,7 +103,6 @@ const fieldValue = computed(() => {
     return '' as ValidAdminValue
   }
   
-  // LEARNING: Access value using useFieldValue composable which handles Ref unwrapping
   // WHY: useFieldValue is designed to handle Vue's Ref unwrapping when fieldContext is passed as prop
   // PATTERN: Use useFieldValue composable which properly handles both Ref and unwrapped cases
   // NOTE: This is the correct way to access field values - it handles all edge cases
@@ -114,17 +110,15 @@ const fieldValue = computed(() => {
   return val as ValidAdminValue
 })
 
-// LEARNING: Computed property to reactively track readOnly state
 const isReadOnly = computed(() => {
   // PATTERN: Access resolvedFieldContext.value, then nested properties, to establish reactivity dependency
   const context = resolvedFieldContext.value
   if (!context) return false
-  const displayConfig = context.displayConfig
+  const displayConfig = context.state.displayConfig
   const readOnly = displayConfig.readOnly
   return readOnly === true
 })
 
-// LEARNING: Use Vuetify's display composable for responsive behavior
 const { width } = useDisplay()
 
 const shouldUseTextarea = computed(() => {
@@ -148,7 +142,7 @@ const shouldUseTextarea = computed(() => {
 const handleChange = (value: string) => {
   const context = resolvedFieldContext.value
   if (!context) return
-  context.setValue(value)
+  context.actions.setValue(value)
 }
 
 // FIX: Use shared field input handlers from composable (includes keyboard guard)
@@ -169,7 +163,6 @@ const handlers = computed(() => {
   })
 })
 
-// LEARNING: Access handlers through computed to ensure reactivity (Enter is handled inside handleKeydown)
 const handleFocus = () => handlers.value.handleFocus()
 const handleBlur = () => handlers.value.handleBlur()
 const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(event)
@@ -222,4 +215,3 @@ const handleKeydown = (event: KeyboardEvent) => handlers.value.handleKeydown(eve
   font-style: italic;
 }
 </style>
-

@@ -103,11 +103,6 @@ const currentTab = ref('profiles')
 </template>
 ```
 
-**Learning Points:**
-- VTabs and VWindow components work together for tab navigation
-- VWindowItem wraps each tab's content
-- Use v-model for two-way binding of active tab
-
 ---
 
 ### Task 4.1.2: Create Placeholder ProfilesTab Component
@@ -139,10 +134,6 @@ const currentTab = ref('profiles')
 </template>
 ```
 
-**Learning Points:**
-- Component structure for future implementation
-- Using Vuexy VCard for layout
-
 ---
 
 ### Task 4.1.3: Create Placeholder TypesTab Component
@@ -172,10 +163,6 @@ const currentTab = ref('profiles')
   </div>
 </template>
 ```
-
-**Learning Points:**
-- Component structure for future implementation
-- Using Vuexy VCard for layout
 
 ---
 
@@ -223,10 +210,6 @@ const routes: RouteRecordRaw[] = [
   // Remove all separate entity routes
 ]
 ```
-
-**Learning Points:**
-- Router cleanup and consolidation
-- Single route for unified admin interface
 
 ---
 
@@ -302,4 +285,3 @@ client-vue/src/views/admin/
 - Phase Guide: `.cursor/project-manager/features/vue-migration/phases/phase-4-guide.md`
 - Project Plan: `.cursor/project-manager/PROJECT_PLAN.md`
 - Plan Details: `plan.plan.md`
-

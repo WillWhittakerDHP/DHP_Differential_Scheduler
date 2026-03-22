@@ -19,344 +19,304 @@ Each group has a recommended action:
 
 ## Summary
 
-- Generated at: **2026-02-23T18:06:37.939Z**
-- Files scanned: **818**
-- Type definitions found: **665**
-- Similarity groups: **21**
-- UNIFY candidates: **0**
+- Generated at: **2026-03-22T00:45:41.191Z**
+- Files scanned: **1199**
+- Type definitions found: **836**
+- Similarity groups: **20**
+- UNIFY candidates: **4**
 - BRAND candidates: **3**
-- EXTEND candidates: **16**
-- REVIEW candidates: **2**
+- EXTEND candidates: **12**
+- REVIEW candidates: **1**
 
-- P0 (high): **12**, P1 (medium): **9**, P2 (low): **0**
+- P0 (high): **16**, P1 (medium): **4**, P2 (low): **0**
 
 ## Groups (ranked by score)
 
 | Priority | Action | Relationship | Types | Files | Score | Signature |
 | --- | --- | --- | --- | ---: | ---: | --- |
-| P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingPartInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `BlockInstanceLike`, `PropertyResponse`, `UserResponse`, `AppointmentResponse`, `BetaFeedback`, `FetchedInstanceComponent`, `PropertyResponse`, `ShapeFieldMetadata`, `ShapeLayoutConfig`, `UserResponse`, `PropertyFieldMappingRow`, `PropertyFeatureMappingRow`, `BetaFeedbackFiltersBase`, `UserRequest`, `ContactInfoBase` | 14 | 97 | `{ address?: PropertyResponse, addressId: string, attendee...` |
-| P0 | EXTEND | SUBSET | `CreatedEventResponse`, `TimeRangeBounds`, `BusyTimeRange`, `CalendarEvent`, `ComputedAvailabilityRequest` | 2 | 27 | `{ attendees?: Array<{, email: string, end: string, htmlLi...` |
-| P0 | BRAND | EXACT | `BusinessDataCollectionCrudConfig`, `BusinessDataCollectionCrudComposableReturn`, `BusinessDataCollectionQueryOptions`, `GlobalDataCollectionCrudConfig`, `GlobalDataCollectionCrudComposableReturn`, `GlobalDataCollectionQueryOptions`, `WithId` | 5 | 26 | `{ id: string }` |
-| P0 | EXTEND | SUBSET | `PropertyRequest`, `PropertyDetailsBase`, `ParsedProperty` | 3 | 19 | `{ additionalUnits?: number | null, bathrooms?: number | n...` |
-| P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `ServerTimeSlot`, `SlotTimeBounds` | 3 | 17 | `{ __brand?: 'ServerTimeSlot', duration?: number, endTime:...` |
-| P0 | BRAND | EXACT | `RFC3339DateTime`, `ISO8601Date`, `GlobalEntityId` | 2 | 16 | `= string` |
-| P0 | EXTEND | SUBSET | `PriceData`, `FeeEntryBase` | 2 | 15 | `{ amount: number, bagTotal: number, baseFee: number, base...` |
-| P0 | EXTEND | SUBSET | `CapacityConstraint`, `IncomeCapacityFilter`, `WorkCapacityFilter` | 1 | 14 | `{ category: 'capacity', direction?: RollingWeekDirection,...` |
-| P0 | EXTEND | SUBSET | `SlotDisplayData`, `ComputedSlot` | 2 | 13 | `{ buttonIndex: number, displayTime: TimeRange | null, isA...` |
-| P0 | EXTEND | SUBSET | `Props`, `DefaultLocation` | 2 | 13 | `{ clearable?: boolean, coordinates?: Coordinates, debounc...` |
-| P0 | EXTEND | SUBSET | `PropertyFormData`, `WizardStateData`, `PropertyDetailsStepData` | 3 | 12 | `{ additionalContacts: Array<{, additionalUnits: number | ...` |
-| P0 | EXTEND | SUBSET | `DevPanelButtons`, `UseAppointmentDropdownReturn`, `UseWizardDevModeOptions` | 3 | 12 | `{ appointmentDropdownItems: ComputedRef<Array<{ text: str...` |
-| P1 | BRAND | EXACT | `OptionsSelectConfig`, `OptionsSelectConfigLike` | 2 | 10 | `{ label: string }>, options: Array<{ value: string | null...` |
-| P1 | REVIEW | HIGH_OVERLAP | `UseBlockInstanceFormReturn`, `UsePartInstanceFormReturn` | 2 | 9 | `{ blockTypeOptions: Ref<Array<{ id: string, entityId: Ref...` |
-| P1 | REVIEW | HIGH_OVERLAP | `WizardState`, `WizardBlocksForBuilders` | 2 | 9 | `{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBl...` |
-| P1 | EXTEND | SUBSET | `Props`, `ContingencyPeriod` | 2 | 8 | `{ contingencyPeriod: {, endDate: string | null, endTime: ...` |
-| P1 | EXTEND | SUBSET | `Props`, `TimeBasisHandlerProps` | 2 | 8 | `{ graphBars: {, isDifferentialService: boolean, major: Ti...` |
-| P1 | EXTEND | SUBSET | `Props`, `FieldInputProps` | 2 | 8 | `{ fieldContext?: FieldContextType<GlobalEntityKey, Global...` |
-| P1 | EXTEND | SUBSET | `UseAppointmentSlotsReturn`, `UseMoveablePartsSchedulingParams` | 2 | 8 | `{ appointmentShape: ComputedRef<AppointmentShape | null>,...` |
-| P1 | EXTEND | SUBSET | `FieldsByLocation`, `FieldsByLocation` | 2 | 8 | `{ directInline: GlobalFieldKey<GlobalEntityKey>[], direct...` |
-| P1 | EXTEND | SUBSET | `RelationshipFieldType`, `DependencyImpact` | 2 | 8 | `{ affectedEntities: string, affectedEntityKey: GlobalEnti...` |
+| P0 | EXTEND | SUBSET | `ComponentItem`, `BlockInstanceResponse`, `SelectionCardItem`, `AttendeeResponse`, `PropertyVersionType`, `VersionBlockInstance`, `BookingBlockShape`, `BlockInstanceSnapshot`, `CoreEntity`, `PartShapeFormData`, `BlockShapeFormData`, `BlockInstanceFormData`, `PartInstanceFormData` | 11 | 59 | `{ appointmentId: string, createdAt: string, googleEventId...` |
+| P0 | EXTEND | SUBSET | `DifferentialPerspectivesLabels`, `WizardSettingsData`, `GridConfigState`, `WizardSettingsData` | 4 | 23 | `{ differential: {, differentialGraphDefaultLabel: string,...` |
+| P0 | EXTEND | SUBSET | `UseAdminMetadataMutationsReturn`, `SaveFieldMetadataVariables`, `DeleteFieldMetadataVariables`, `SavePrimitiveFieldVariables`, `DeletePrimitiveFieldVariables`, `UsePrimitiveMetadataSaveOptions`, `UseAdminPrimitiveMetadataMutationsReturn` | 3 | 22 | `{ blockShapeRef?: string | null, clearPendingState: () =>...` |
+| P0 | EXTEND | SUBSET | `AppointmentRequest`, `AppointmentRecordWithUpdate`, `AppointmentResponse` | 2 | 19 | `{ address?: PropertyResponse, addressId: string, attendee...` |
+| P0 | UNIFY | EXACT | `CalendarSettingsData`, `CalendarSettingsData` | 2 | 17 | `{ autoConfirmEnabled?: boolean }` |
+| P0 | BRAND | EXACT | `ForceCreateViolationReport`, `ComputedSlot` | 2 | 17 | `{ violations: string[] }` |
+| P0 | UNIFY | EXACT | `WizardSettingsData`, `WizardSettingsData` | 2 | 17 | `{ differentialGraphDefaultLabel?: string, majorLabel?: st...` |
+| P0 | BRAND | EXACT | `UseAvailabilitySettingsOptions`, `UseAdminCalendarSettingsOptions`, `UseAdminWizardSettingsOptions` | 3 | 16 | `{ enabled?: Ref<boolean> }` |
+| P0 | EXTEND | SUBSET | `MoveableSlot`, `SlotAvailabilityResult` | 2 | 15 | `{ dayLabel: string, isAvailable?: boolean, timeLabel: str...` |
+| P0 | EXTEND | SUBSET | `ConfirmationAndHoldsPanelProps`, `CalendarConfig` | 2 | 15 | `{ adminEntryTimeout?: AdminEntryTimeout, calendars: Calen...` |
+| P0 | EXTEND | SUBSET | `LoadedTimeSlot`, `SlotTimeBounds` | 2 | 15 | `{ duration: number, endTime: string, startTime: string }` |
+| P0 | REVIEW | HIGH_OVERLAP | `UseAdminAvailabilitySettingsReturn`, `UseAdminCalendarSettingsReturn`, `UseAdminWizardSettingsReturn` | 3 | 13 | `{ error: Ref<string | null>, formData: Ref<AvailabilitySe...` |
+| P0 | BRAND | EXACT | `UseSelectConfigOptions`, `UseSelectDomTargetsOptions` | 2 | 12 | `{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, ...` |
+| P0 | UNIFY | EXACT | `InstancesPanelContext`, `InstancesPanelContext` | 2 | 12 | `{ activeInstancesSubTab: Ref<'parts' | 'blocks'>, appoint...` |
+| P0 | UNIFY | EXACT | `ContactsFormContext`, `ContactsFormContext` | 2 | 12 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
+| P0 | EXTEND | SUBSET | `ContactsFormContext`, `ContactRefs`, `ContactsFormContext` | 3 | 12 | `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<Con...` |
+| P1 | EXTEND | SUBSET | `UseAdminRelationshipMetadataMutationsReturn`, `DeleteRelationshipFieldVariables`, `SaveRelationshipFieldVariables` | 1 | 10 | `{ deleteRelationshipFieldOverride: (, entityId: string, e...` |
+| P1 | EXTEND | SUBSET | `UserRequest`, `UserResponse` | 1 | 10 | `{ createdAt: string, id: string, loginId?: number | null,...` |
+| P1 | EXTEND | SUBSET | `UseShapesTabModalsReturn`, `UseMetadataModalHandlersReturn` | 2 | 10 | `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockSh...` |
+| P1 | EXTEND | SUBSET | `UseBookingWizardReturnGrouped`, `UseBookingWizardReturn` | 1 | 10 | `{ actions: WizardSelectionMethods, computed: WizardComput...` |
+
+## UNIFY Candidates (4)
+
+These types are structurally identical and likely represent the same concept. Import from a single source to prevent drift.
+
+### sim-exact-217bd8a1214a
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ autoConfirmEnabled?: boolean }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `CalendarSettingsData` | interface | `client/src/configs/calendarSettings/types.ts` | 7 | yes |
+| `CalendarSettingsData` | interface | `server/src/db/models/admin/calendar_settings.ts` | 12 | yes |
+
+### sim-exact-f3a7450b3718
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ differentialGraphDefaultLabel?: string, majorLabel?: string, majorStateLabel?: string, minorLabel?: string, minorStateLabel?: string, moveableFallbackLabel?: string, selectTimeSlotLabel?: string, showApplyCoupon?: boolean, subStepLabelConfirmMoveable?: string, subStepLabelOptions?: string, subStepLabelPickDay?: string, subStepLabelPickTime?: string, useBrandColors?: boolean }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `WizardSettingsData` | interface | `client/src/configs/wizardSettings/types.ts` | 4 | yes |
+| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 11 | yes |
+
+### sim-exact-38c8c2c0930a
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **12**
+- Structure: `{ activeInstancesSubTab: Ref<'parts' | 'blocks'>, appointmentShape: ComputedRef<AppointmentShape | null>, eventShapes: ComputedRef<EventShape[]>, finalizedParts: ComputedRef<PartFinal[]>, formatDuration: (ms: number) => string, formatTime: (value: string | null) => string, handleServiceTypeChange: (serviceId: string | null) => void, hasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean, hasSelectedTime: ComputedRef<boolean>, hasWizard: boolean, isSelectedServiceDifferential: ComputedRef<boolean>, selectedServiceTypeId: ComputedRef<string | null>, servicesSummary: ComputedRef<ServiceSummary[]>, serviceTypeOptions: ComputedRef<Array<{ title: string, setActiveInstancesSubTab: (value: 'parts' | 'blocks') => void, timeSlotResults: ComputedRef<TimeSlotResults>, value: string }>> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `InstancesPanelContext` | interface | `client/src/composables/booking/bookingDevPanelKeys.ts` | 15 | yes |
+| `InstancesPanelContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 78 | yes |
+
+### sim-exact-76752b2b57bc
+
+- Relationship: **EXACT**, Priority: **P0**, Score: **12**
+- Structure: `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `ContactsFormContext` | interface | `client/src/composables/booking/bookingDevPanelKeys.ts` | 38 | yes |
+| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 101 | yes |
 
 ## BRAND Candidates (3)
 
 These types are structurally identical but may represent different concepts. Add TypeScript branding to make them explicitly distinct.
 
-### sim-exact-72e74436e8c8
+### sim-exact-645ac1eccd58
 
-- Relationship: **EXACT**, Priority: **P0**, Score: **26**
-- Structure: `{ id: string }`
+- Relationship: **EXACT**, Priority: **P0**, Score: **17**
+- Structure: `{ violations: string[] }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `BusinessDataCollectionCrudConfig` | type-alias-object | `client/src/composables/businessDataCollections/types.ts` | 23 | yes |
-| `BusinessDataCollectionCrudComposableReturn` | type-alias-object | `client/src/composables/businessDataCollections/types.ts` | 33 | yes |
-| `BusinessDataCollectionQueryOptions` | type-alias-object | `client/src/composables/businessDataCollections/useBusinessDataCollectionQuery.ts` | 10 | no |
-| `GlobalDataCollectionCrudConfig` | type-alias-object | `client/src/composables/globalDataCollections/types.ts` | 22 | yes |
-| `GlobalDataCollectionCrudComposableReturn` | type-alias-object | `client/src/composables/globalDataCollections/types.ts` | 31 | yes |
-| `GlobalDataCollectionQueryOptions` | type-alias-object | `client/src/composables/globalDataCollections/useGlobalDataCollectionQuery.ts` | 9 | no |
-| `WithId` | type-alias-object | `client/src/utils/transformers/transformerCollections.ts` | 9 | no |
+| `ForceCreateViolationReport` | interface | `server/src/services/slotComputationService.ts` | 49 | yes |
+| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 401 | yes |
 
-### sim-exact-primitive:string
+### sim-exact-f6dfa1db9ec1
 
 - Relationship: **EXACT**, Priority: **P0**, Score: **16**
-- Structure: `= string`
+- Structure: `{ enabled?: Ref<boolean> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `RFC3339DateTime` | type-alias-primitive | `shared/types/availabilityTypes.ts` | 20 | yes |
-| `ISO8601Date` | type-alias-primitive | `shared/types/primitiveBrands.ts` | 8 | yes |
-| `GlobalEntityId` | type-alias-primitive | `shared/types/primitiveBrands.ts` | 11 | yes |
+| `UseAvailabilitySettingsOptions` | interface | `client/src/types/admin/availabilitySettings.ts` | 3 | yes |
+| `UseAdminCalendarSettingsOptions` | interface | `client/src/types/admin/calendarSettings.ts` | 3 | yes |
+| `UseAdminWizardSettingsOptions` | interface | `client/src/types/admin/wizardSettings.ts` | 3 | yes |
 
-### sim-exact-192a39ff6989
+### sim-exact-0d7d919f2c4e
 
-- Relationship: **EXACT**, Priority: **P1**, Score: **10**
-- Structure: `{ label: string }>, options: Array<{ value: string | null, selectMode?: RelationshipSelectModeEnum }`
+- Relationship: **EXACT**, Priority: **P0**, Score: **12**
+- Structure: `{ fieldContext: FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `OptionsSelectConfig` | interface | `client/src/composables/admin/useSelectConfig.ts` | 51 | no |
-| `OptionsSelectConfigLike` | interface | `client/src/utils/admin/selectTypeResolver.ts` | 13 | yes |
+| `UseSelectConfigOptions` | interface | `client/src/types/admin/selectConfig.ts` | 7 | yes |
+| `UseSelectDomTargetsOptions` | interface | `client/src/types/admin/selectDomTargets.ts` | 6 | yes |
 
-## EXTEND Candidates (16)
+## EXTEND Candidates (12)
 
 One type is a structural subset of another. Consider using `extends` or intersection types.
 
-### sim-subset-48ccf0eb8ee9
+### sim-subset-71fff301522c
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **97**
-- Structure: `{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], createdAt: string, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, updatedAt: string, userTypeId?: string | null }`
+- Relationship: **SUBSET**, Priority: **P0**, Score: **59**
+- Structure: `{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED, name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 1 | yes |
+| `ComponentItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 6 | yes |
 | `BlockInstanceResponse` | interface | `client/src/types/annotations.ts` | 21 | yes |
-| `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 7 | yes |
-| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 25 | yes |
-| `PropertyVersionType` | interface | `client/src/types/property.ts` | 29 | yes |
-| `VersionBlockInstance` | interface | `client/src/utils/transformers/appointmentToWizardHelpers.ts` | 16 | no |
-| `BookingPartInstance` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 24 | yes |
-| `BookingBlockShape` | type-alias-object | `client/src/utils/transformers/globalToBookingTransformer.ts` | 40 | yes |
+| `SelectionCardItem` | interface | `client/src/components/booking/types/selectionCardTypes.ts` | 12 | yes |
+| `AttendeeResponse` | interface | `client/src/types/appointmentApi.ts` | 12 | yes |
+| `PropertyVersionType` | interface | `client/src/types/property.ts` | 23 | yes |
+| `VersionBlockInstance` | interface | `client/src/types/transformers/appointmentToWizardHelpers.ts` | 1 | yes |
+| `BookingBlockShape` | type-alias-object | `client/src/types/transformers/bookingData.ts` | 19 | yes |
 | `BlockInstanceSnapshot` | interface | `server/src/db/models/booking/appointment.ts` | 10 | yes |
-| `BlockInstanceLike` | interface | `shared/types/blockInstanceTypes.ts` | 13 | yes |
-| `PropertyResponse` | interface | `client/src/types/appointmentApi.ts` | 9 | yes |
-| `UserResponse` | interface | `client/src/types/appointmentApi.ts` | 15 | yes |
-| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 80 | yes |
-| `BetaFeedback` | interface | `client/src/types/betaFeedback.ts` | 17 | yes |
-| `FetchedInstanceComponent` | interface | `client/src/types/component.ts` | 9 | yes |
-| `PropertyResponse` | interface | `client/src/types/property.ts` | 16 | yes |
-| `ShapeFieldMetadata` | interface | `client/src/types/shapeFieldMetadata.ts` | 3 | yes |
-| `ShapeLayoutConfig` | interface | `client/src/types/shapeFieldMetadata.ts` | 19 | yes |
-| `UserResponse` | interface | `client/src/types/user.ts` | 11 | yes |
-| `PropertyFieldMappingRow` | interface | `client/src/views/admin/tabs/PropertyMappingsTab.vue` | 13 | no |
-| `PropertyFeatureMappingRow` | interface | `client/src/views/admin/tabs/PropertyMappingsTab.vue` | 26 | no |
-| `BetaFeedbackFiltersBase` | interface | `client/src/types/betaFeedback.ts` | 63 | yes |
-| `UserRequest` | interface | `client/src/types/user.ts` | 2 | yes |
-| `ContactInfoBase` | interface | `shared/types/contactTypes.ts` | 13 | yes |
+| `CoreEntity` | interface | `shared/types/coreEntityTypes.ts` | 12 | yes |
+| `PartShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 18 | yes |
+| `BlockShapeFormData` | interface | `client/src/composables/admin/useShapeForm.ts` | 12 | yes |
+| `BlockInstanceFormData` | interface | `client/src/types/admin/blockInstanceForm.ts` | 4 | yes |
+| `PartInstanceFormData` | interface | `client/src/types/admin/partInstanceForm.ts` | 4 | yes |
 
-### sim-subset-09b1100091e4
+### sim-subset-7ab923d73cfd
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **27**
-- Structure: `{ attendees?: Array<{, email: string, end: string, htmlLink: string, id: string, location?: string, responseStatus: string, start: string, summary: string }`
+- Relationship: **SUBSET**, Priority: **P0**, Score: **23**
+- Structure: `{ differential: {, differentialGraphDefaultLabel: string, formState: {, majorAttendees: GlobalEntityId[], majorLabel: string, majorStateLabel: string, minorAttendees: GlobalEntityId[], minorLabel: string, minorStateLabel: string, minuteIncrement: number, moveableFallbackLabel: string, setMinuteIncrement: (v: number) => void, subStepLabelConfirmMoveable: string, subStepLabelOptions: string, subStepLabelPickDay: string, subStepLabelPickTime: string }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `CreatedEventResponse` | interface | `server/src/services/google/calendar/calendarTypes.ts` | 42 | yes |
-| `TimeRangeBounds` | interface | `shared/types/availabilityTypes.ts` | 71 | yes |
-| `BusyTimeRange` | interface | `shared/types/availabilityTypes.ts` | 326 | yes |
-| `CalendarEvent` | interface | `shared/types/availabilityTypes.ts` | 341 | yes |
-| `ComputedAvailabilityRequest` | interface | `shared/types/availabilityTypes.ts` | 358 | yes |
+| `DifferentialPerspectivesLabels` | interface | `client/src/configs/availabilitySettings/types.ts` | 108 | yes |
+| `WizardSettingsData` | interface | `client/src/configs/wizardSettings/types.ts` | 4 | yes |
+| `GridConfigState` | interface | `client/src/types/admin/gridConfigHandlers.ts` | 7 | yes |
+| `WizardSettingsData` | interface | `server/src/db/models/admin/wizard_settings.ts` | 11 | yes |
 
-### sim-subset-389316abf437
+### sim-subset-78a568e60ff2
+
+- Relationship: **SUBSET**, Priority: **P0**, Score: **22**
+- Structure: `{ blockShapeRef?: string | null, clearPendingState: () => void, computeRenderAs: (, dataType: string | undefined, debug: (msg: string, ctx?: unknown) => void }, entityId: string, entityType: EntityMetadataType, existingMetadata: FieldMetadataEntry | undefined, fieldKey: string, fieldKey: string, getBlockShapeRef: () => string | undefined | null, getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getEntityId: () => string | null, getEntityType: () => EntityMetadataType | null, getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>, inputConfig: Record<string, unknown> | null | undefined, logger: { error: (msg: string, ctx?: unknown) => void, onSaved: () => void, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldMetadata: (params: { }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseAdminMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminMetadataMutations.ts` | 14 | yes |
+| `SaveFieldMetadataVariables` | type-alias-object | `client/src/composables/admin/useAdminMetadataMutations.ts` | 37 | no |
+| `DeleteFieldMetadataVariables` | type-alias-object | `client/src/composables/admin/useAdminMetadataMutations.ts` | 110 | no |
+| `SavePrimitiveFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 33 | no |
+| `DeletePrimitiveFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 110 | no |
+| `UsePrimitiveMetadataSaveOptions` | interface | `client/src/composables/admin/usePrimitiveMetadataSave.ts` | 6 | yes |
+| `UseAdminPrimitiveMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts` | 13 | yes |
+
+### sim-subset-4f59ed64384b
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **19**
-- Structure: `{ additionalUnits?: number | null, bathrooms?: number | null, bedrooms?: number | null, foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null, latitude?: number | null, longitude?: number | null, mlsNumber?: string | null, placeId?: string | null, source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT, squareFootage?: number | null }`
+- Structure: `{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], confirmedAt?: string | null, confirmedBy?: string | null, createdAt: string, heldBy?: string | null, heldByUser?: UserResponse, heldUntil?: string | null, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, submittedAt?: string | null, updatedAt: string, userTypeId?: string | null }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `PropertyRequest` | interface | `client/src/types/property.ts` | 3 | yes |
-| `PropertyDetailsBase` | interface | `shared/types/propertyTypes.ts` | 25 | yes |
-| `ParsedProperty` | interface | `server/src/scripts/helpers/calendarParsingHelpers.ts` | 50 | yes |
+| `AppointmentRequest` | interface | `client/src/types/appointmentApi.ts` | 36 | yes |
+| `AppointmentRecordWithUpdate` | interface | `server/src/routes/internal/appointments/appointmentHelpers.ts` | 183 | yes |
+| `AppointmentResponse` | interface | `client/src/types/appointmentApi.ts` | 71 | yes |
 
-### sim-subset-76d9424a14ec
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **17**
-- Structure: `{ __brand?: 'ServerTimeSlot', duration?: number, endTime: string, startTime: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `LoadedTimeSlot` | interface | `client/src/utils/booking/timeSlotMatching.ts` | 53 | yes |
-| `ServerTimeSlot` | interface | `server/src/services/appointmentCalendarService.ts` | 23 | no |
-| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 409 | yes |
-
-### sim-subset-2e38529bb213
+### sim-subset-87ff2f40bfd6
 
 - Relationship: **SUBSET**, Priority: **P0**, Score: **15**
-- Structure: `{ amount: number, bagTotal: number, baseFee: number, baseFeeTotal?: number, couponDiscount: number, currency: string, deliveryCharges: number, deliveryFree: boolean, finalTotal: number, isFree: boolean, label: string, lineItemFees?: {, lineItems?: Array<{, orderTotal: number, overageFee: number, overageFeeTotal?: number, totalFee: number, totalFee: number }`
+- Structure: `{ dayLabel: string, isAvailable?: boolean, timeLabel: string, violations?: string[] }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `PriceData` | interface | `client/src/types/wizardStepData.ts` | 12 | yes |
-| `FeeEntryBase` | interface | `shared/types/appointmentFeeTypes.ts` | 33 | yes |
-
-Overlap: **18%** shared properties
-- Shared: `baseFee`, `overageFee`, `totalFee`
-- Only in `PriceData`: `amount`, `bagTotal`, `baseFeeTotal`, `couponDiscount`, `currency`, `deliveryCharges`, `deliveryFree`, `finalTotal`, `isFree`, `label`, `lineItemFees`, `lineItems`, `orderTotal`, `overageFeeTotal`
-
-### sim-subset-73571281c541
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **14**
-- Structure: `{ category: 'capacity', direction?: RollingWeekDirection, enforcement: ConstraintEnforcement, maxHours: number, maxIncome?: number, scheduledHours?: Record<string, number>, scheduledIncome?: Record<string, number>, type: 'daily' | 'calendarWeek' | 'rollingWeek' }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `CapacityConstraint` | interface | `shared/types/availabilityTypes.ts` | 204 | yes |
-| `IncomeCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 221 | yes |
-| `WorkCapacityFilter` | interface | `shared/types/availabilityTypes.ts` | 281 | yes |
-
-### sim-subset-9e9273396fa4
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **13**
-- Structure: `{ buttonIndex: number, displayTime: TimeRange | null, isAvailable: boolean, violations?: string[] }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `SlotDisplayData` | interface | `client/src/components/booking/AppointmentSlotGrid.vue` | 61 | no |
-| `ComputedSlot` | interface | `shared/types/availabilityTypes.ts` | 420 | yes |
+| `MoveableSlot` | interface | `client/src/types/moveableScheduling.ts` | 20 | yes |
+| `SlotAvailabilityResult` | interface | `shared/types/availabilityTypes.ts` | 392 | yes |
 
 Overlap: **50%** shared properties
 - Shared: `isAvailable`, `violations`
-- Only in `SlotDisplayData`: `buttonIndex`, `displayTime`
+- Only in `MoveableSlot`: `dayLabel`, `timeLabel`
 
-### sim-subset-bbdc63598db4
+### sim-subset-9bcf40cb9094
 
-- Relationship: **SUBSET**, Priority: **P0**, Score: **13**
-- Structure: `{ clearable?: boolean, coordinates?: Coordinates, debounceMs?: number, disabled?: boolean, hint?: string, label?: string, minInputLength?: number, modelValue: string, placeholder?: string, placeId?: string, prependIcon?: string }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/common/AddressAutocomplete.vue` | 33 | no |
-| `DefaultLocation` | interface | `shared/types/availabilityTypes.ts` | 303 | yes |
-
-Overlap: **18%** shared properties
-- Shared: `label`, `placeId`
-- Only in `Props`: `clearable`, `coordinates`, `debounceMs`, `disabled`, `hint`, `minInputLength`, `modelValue`, `placeholder`, `prependIcon`
-
-### sim-subset-b2d0f4be007d
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **12**
-- Structure: `{ additionalContacts: Array<{, additionalUnits: number | null, address: string, agent: {, availability: {, bathrooms: number | null, bedrooms: number | null, candidateCoordinates?: { lat: number, candidateDate: { start: string | null, candidatePlaceId?: string, candidateTimeSlots: Array<{ time: string, city: string, client: {, contacts: {, duration: number }> | null, email: string, email: string, email: string, end: string | null }, firstName: string, firstName: string, firstName: string, foundationAccess: 'basement' | 'crawlspace' | 'slab' | null, isQuoteMode: boolean, lastName: string, lastName: string, lastName: string, lineItemBlocks: BookingBlockInstance[], lng: number }, mlsNumber: string, numberOfUnits: number | null, optionTypeBlocks: BookingBlockInstance[], propertyDetails: {, propertySize: number | null, propertyTypeBlocks: BookingBlockInstance[], role: 'anotherClient' | 'transactionManager' | 'seller', services: BookingBlockInstance[], squareFootage: number | null, state: string, unit: string, userTypeBlock: BookingBlockInstance | null, zipCode: string }`
+- Relationship: **SUBSET**, Priority: **P0**, Score: **15**
+- Structure: `{ adminEntryTimeout?: AdminEntryTimeout, calendars: CalendarEntry[], enabled: boolean, holdDurationFallback?: number, holdDurationMax?: number, holdDurationMin?: number, holdDurationMinutes?: number, provider: CalendarProvider }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `PropertyFormData` | interface | `client/src/composables/booking/usePropertyValidation.ts` | 7 | yes |
-| `WizardStateData` | interface | `client/src/utils/transformers/appointmentToWizardTransformer.ts` | 31 | yes |
-| `PropertyDetailsStepData` | type-alias-object | `client/src/utils/booking/confirmationStepData.ts` | 29 | no |
-
-### sim-subset-ef42cc8ae7b0
-
-- Relationship: **SUBSET**, Priority: **P0**, Score: **12**
-- Structure: `{ appointmentDropdownItems: ComputedRef<Array<{ text: string, data: Ref<AppointmentResponse[]> }, fetchAll: { isLoading: Ref<boolean>, handleLoadAppointment: (id: string | null) => Promise<void>, handleResetMocks: () => void, handleResetWizard: () => void, handleUpdateAppointment: () => Promise<void>, isLoadingAppointment: Ref<boolean>, loadedAppointmentId: Ref<string | null>, selectedAppointmentId: Ref<string | null>, updateAppointment: { isPending: Ref<boolean> }, value: string }>>, wizard: ReturnType<typeof useBookingWizard> | null }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `DevPanelButtons` | interface | `client/src/components/dev/DevPanelButtons.vue` | 6 | no |
-| `UseAppointmentDropdownReturn` | interface | `client/src/composables/booking/useAppointmentDropdown.ts` | 11 | yes |
-| `UseWizardDevModeOptions` | interface | `client/src/composables/booking/useWizardDevMode.ts` | 13 | yes |
-
-### sim-subset-339c96daa549
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ contingencyPeriod: {, endDate: string | null, endTime: string | null, hasContingency: boolean, isLoadingOptions: boolean, moveableOptions: MoveableSchedulingOptions | null, selectedSlotIndex: number | null, showModal: boolean }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/booking/MoveablePartsModal.vue` | 8 | no |
-| `ContingencyPeriod` | interface | `client/src/types/moveableScheduling.ts` | 2 | yes |
+| `ConfirmationAndHoldsPanelProps` | interface | `client/src/composables/admin/useConfirmationAndHoldsPanel.ts` | 9 | yes |
+| `CalendarConfig` | interface | `shared/types/calendarTypes.ts` | 36 | yes |
 
 Overlap: **38%** shared properties
-- Shared: `endDate`, `endTime`, `hasContingency`
-- Only in `Props`: `contingencyPeriod`, `isLoadingOptions`, `moveableOptions`, `selectedSlotIndex`, `showModal`
+- Shared: `holdDurationFallback`, `holdDurationMax`, `holdDurationMin`
+- Only in `CalendarConfig`: `adminEntryTimeout`, `calendars`, `enabled`, `holdDurationMinutes`, `provider`
 
-### sim-subset-981f48dd6dfd
+### sim-subset-bb8c320874a1
 
-- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ graphBars: {, isDifferentialService: boolean, major: TimeRange | null, minor: TimeRange | null, selectedServices: BookingBlockInstance[], startTimeType: 'major' | 'minor' | 'nonDifferential' }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/booking/DifferentialGraph.vue` | 8 | no |
-| `TimeBasisHandlerProps` | interface | `client/src/composables/booking/useTimeBasisHandler.ts` | 1 | yes |
-
-Overlap: **33%** shared properties
-- Shared: `isDifferentialService`, `startTimeType`
-- Only in `Props`: `graphBars`, `major`, `minor`, `selectedServices`
-
-### sim-subset-99e5f061a37a
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ fieldContext?: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>, fieldMetadata?: Record<string, FieldMetadataEntry>, LEARNING: Optional override for readOnly state, readOnly?: boolean, showLabel?: boolean, WHY: Allows parent co... }`
+- Relationship: **SUBSET**, Priority: **P0**, Score: **15**
+- Structure: `{ duration: number, endTime: string, startTime: string }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `Props` | interface | `client/src/components/admin/generic/fields/FieldRenderer.vue` | 20 | no |
-| `FieldInputProps` | interface | `client/src/components/admin/generic/fields/fieldTypes.ts` | 5 | yes |
+| `LoadedTimeSlot` | interface | `client/src/types/booking/timeSlotMatching.ts` | 3 | yes |
+| `SlotTimeBounds` | interface | `shared/types/availabilityTypes.ts` | 382 | yes |
 
-Overlap: **33%** shared properties
-- Shared: `fieldContext`, `showLabel`
-- Only in `Props`: `fieldMetadata`, `LEARNING`, `readOnly`, `WHY`
+Overlap: **67%** shared properties
+- Shared: `endTime`, `startTime`
+- Only in `SlotTimeBounds`: `duration`
 
-### sim-subset-a7b7f79a0ee6
+### sim-subset-121bc912fdec
 
-- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ appointmentShape: ComputedRef<AppointmentShape | null>, appointmentSlots: ComputedRef<AppointmentSlots>, getDisplayTime: (buttonIndex: number) => TimeRange | null, graphBars: ComputedRef<{, major: TimeRange | null, minor: TimeRange | null, selectedSlot: ComputedRef<AppointmentSlot | null> }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `UseAppointmentSlotsReturn` | interface | `client/src/composables/booking/useAppointmentSlots.ts` | 28 | yes |
-| `UseMoveablePartsSchedulingParams` | interface | `client/src/composables/booking/useMoveablePartsScheduling.ts` | 58 | no |
-
-Overlap: **29%** shared properties
-- Shared: `appointmentShape`, `selectedSlot`
-- Only in `UseAppointmentSlotsReturn`: `appointmentSlots`, `getDisplayTime`, `graphBars`, `major`, `minor`
-
-### sim-subset-b94d646049e8
-
-- Relationship: **SUBSET**, Priority: **P1**, Score: **8**
-- Structure: `{ directInline: GlobalFieldKey<GlobalEntityKey>[], directStacked: GlobalFieldKey<GlobalEntityKey>[], hidden: GlobalFieldKey<GlobalEntityKey>[], subPanels: SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>, titleRow: GlobalFieldKey<GlobalEntityKey>[] }`
+- Relationship: **SUBSET**, Priority: **P0**, Score: **12**
+- Structure: `{ agentInfo: Ref<ContactInfo>, anotherClientInfo: Ref<ContactInfo>, clientInfo: Ref<ContactInfo>, fieldErrors: Ref<Record<string, string>>, sellerInfo: Ref<ContactInfo>, showAnotherClient: Ref<boolean>, showSeller: Ref<boolean>, showTransactionManager: Ref<boolean>, toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void, transactionManagerInfo: Ref<ContactInfo>, validationRules: ComputedRef<Record<string, ValidationRule[]>> }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `FieldsByLocation` | interface | `client/src/components/admin/generic/EntityCardContent.vue` | 13 | no |
-| `FieldsByLocation` | interface | `client/src/composables/admin/useConditionalFieldVisibility.ts` | 6 | yes |
+| `ContactsFormContext` | interface | `client/src/composables/booking/bookingDevPanelKeys.ts` | 38 | yes |
+| `ContactRefs` | interface | `client/src/composables/booking/useContactsStepData.ts` | 20 | no |
+| `ContactsFormContext` | interface | `client/src/composables/booking/injectionKeys.ts` | 101 | yes |
 
-Overlap: **60%** shared properties
-- Shared: `directInline`, `directStacked`, `subPanels`
-- Only in `FieldsByLocation`: `hidden`, `titleRow`
+### sim-subset-1554fa06fa28
 
-_(1 more EXTEND groups omitted — see JSON for full data)_
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ deleteRelationshipFieldOverride: (, entityId: string, entityId: string, entityType: EntityMetadataType, entityType: EntityMetadataType, existingMetadata?: FieldMetadataEntry, isSaving: import('vue').Ref<boolean>, relationshipKey: string, relationshipKey: string, renderingUpdates: Partial<FieldMetadataEntry>, saveRelationshipFieldRendering: ( }`
 
-## REVIEW Candidates (2)
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseAdminRelationshipMetadataMutationsReturn` | interface | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 11 | yes |
+| `DeleteRelationshipFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 97 | no |
+| `SaveRelationshipFieldVariables` | type-alias-object | `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts` | 31 | no |
+
+### sim-subset-d4dc4450299d
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ createdAt: string, id: string, loginId?: number | null, updatedAt: string, userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector' }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UserRequest` | interface | `client/src/types/user.ts` | 3 | yes |
+| `UserResponse` | interface | `client/src/types/user.ts` | 8 | yes |
+
+Overlap: **40%** shared properties
+- Shared: `loginId`, `userRole`
+- Only in `UserResponse`: `createdAt`, `id`, `updatedAt`
+
+### sim-subset-d93cb6a73824
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ annotationShapeMetadataModalOpen: Ref<boolean>, blockShapeMetadataModalOpen: Ref<boolean>, eventShapeMetadataModalOpen: Ref<boolean>, handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseShapesTabModalsReturn` | interface | `client/src/composables/admin/useShapesTabModals.ts` | 7 | yes |
+| `UseMetadataModalHandlersReturn` | interface | `client/src/types/admin/metadataModalHandlers.ts` | 2 | yes |
+
+Overlap: **27%** shared properties
+- Shared: `handlePartInstanceMetadataSaved`, `partInstanceMetadataModalOpen`, `togglePartInstanceMetadataModal`
+- Only in `UseShapesTabModalsReturn`: `annotationShapeMetadataModalOpen`, `blockShapeMetadataModalOpen`, `eventShapeMetadataModalOpen`, `partShapeMetadataModalOpen`, `toggleAnnotationShapeMetadataModal`, `toggleBlockShapeMetadataModal`, `toggleEventShapeMetadataModal`, `togglePartShapeMetadataModal`
+
+### sim-subset-f43751655285
+
+- Relationship: **SUBSET**, Priority: **P1**, Score: **10**
+- Structure: `{ actions: WizardSelectionMethods, computed: WizardComputedProperties & { bookingData: ComputedRef<BookingData | null> }, isQuoteMode: Ref<boolean>, selectedCouponBlocks: Ref<BookingBlockInstance[]>, selectedLineItemBlocks: Ref<BookingBlockInstance[]>, selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>, selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>, selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>, selectedUserTypeBlock: Ref<BookingBlockInstance | null>, state: {, wizardMode: Ref<WizardMode> }`
+
+| Type | Kind | File | Line | Exported |
+| --- | --- | --- | ---: | --- |
+| `UseBookingWizardReturnGrouped` | interface | `client/src/types/wizard.ts` | 97 | yes |
+| `UseBookingWizardReturn` | type-alias-object | `client/src/types/wizard.ts` | 83 | yes |
+
+Overlap: **73%** shared properties
+- Shared: `isQuoteMode`, `selectedCouponBlocks`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`, `selectedUserTypeBlock`, `wizardMode`
+- Only in `UseBookingWizardReturnGrouped`: `actions`, `computed`, `state`
+
+## REVIEW Candidates (1)
 
 These types have high structural overlap. Review to determine if they should be unified, branded, or left as-is.
 
-### sim-high_overlap-76c5e2a1d396
+### sim-high_overlap-3e63d0b076f9
 
-- Relationship: **HIGH_OVERLAP**, Priority: **P1**, Score: **9**
-- Structure: `{ blockTypeOptions: Ref<Array<{ id: string, entityId: Ref<string | undefined>, error: Ref<string | null>, formData: Ref<BlockInstanceFormData>, goBack: () => void, handleSubmit: () => Promise<void>, isEdit: Ref<boolean>, isSubmitting: Ref<boolean>, LEARNING: Submission loading state, loadEntity: () => Promise<void>, name: string }>>, WHY: Component needs to show load... }`
-
-| Type | Kind | File | Line | Exported |
-| --- | --- | --- | ---: | --- |
-| `UseBlockInstanceFormReturn` | interface | `client/src/composables/admin/useBlockInstanceForm.ts` | 26 | yes |
-| `UsePartInstanceFormReturn` | interface | `client/src/composables/admin/usePartInstanceForm.ts` | 26 | yes |
-
-Overlap: **77%** shared properties
-- Shared: `entityId`, `error`, `goBack`, `handleSubmit`, `isEdit`, `isSubmitting`, `LEARNING`, `loadEntity`, `name`, `WHY`
-- Only in `UseBlockInstanceFormReturn`: `blockTypeOptions`, `formData(Ref<BlockInstanceFormData>)`
-- Only in `UsePartInstanceFormReturn`: `formData(Ref<PartInstanceFormData>)`, `partTypeOptions`
-
-### sim-high_overlap-99828820f350
-
-- Relationship: **HIGH_OVERLAP**, Priority: **P1**, Score: **9**
-- Structure: `{ isQuoteMode: boolean, selectedLineItemBlocks: BookingBlockInstance[], selectedOptionTypeBlocks: BookingBlockInstance[], selectedPropertyTypeBlocks: BookingBlockInstance[], selectedServiceTypeBlocks: BookingBlockInstance[], selectedUserTypeBlock: BookingBlockInstance | null }`
+- Relationship: **HIGH_OVERLAP**, Priority: **P0**, Score: **13**
+- Structure: `{ error: Ref<string | null>, formData: Ref<AvailabilitySettings | null>, loading: Ref<boolean>, loadSettings: () => Promise<void>, saveSettings: () => Promise<void>, saving: Ref<boolean>, success: Ref<string | null>, validateBusinessHours: () => boolean }`
 
 | Type | Kind | File | Line | Exported |
 | --- | --- | --- | ---: | --- |
-| `WizardState` | interface | `client/src/types/wizard.ts` | 15 | yes |
-| `WizardBlocksForBuilders` | interface | `client/src/utils/booking/appointmentDataBuilders.ts` | 30 | yes |
-
-Overlap: **83%** shared properties
-- Shared: `isQuoteMode`, `selectedLineItemBlocks`, `selectedOptionTypeBlocks`, `selectedPropertyTypeBlocks`, `selectedServiceTypeBlocks`
-- Only in `WizardState`: `selectedUserTypeBlock(BookingBlockInstance | null)`
-- Only in `WizardBlocksForBuilders`: `selectedUserTypeBlock({ id: string } | null)`
-
-## Primitive Alias Inventory
-
-These type aliases map to bare primitives (`number`, `string`, `boolean`).
-They are prime candidates for branding — each represents a different concept
-but TypeScript treats them as interchangeable without branding.
-
-| Base Type | Aliases | Files |
-| --- | --- | --- |
-| `string` | `RFC3339DateTime`, `ISO8601Date`, `GlobalEntityId` | `shared/types/availabilityTypes.ts`, `shared/types/primitiveBrands.ts` |
+| `UseAdminAvailabilitySettingsReturn` | interface | `client/src/types/admin/availabilitySettings.ts` | 7 | yes |
+| `UseAdminCalendarSettingsReturn` | interface | `client/src/types/admin/calendarSettings.ts` | 7 | yes |
+| `UseAdminWizardSettingsReturn` | interface | `client/src/types/admin/wizardSettings.ts` | 7 | yes |
 
 ## Notes
 

@@ -1,34 +1,14 @@
-import type { ComputedRef } from 'vue'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { GlobalEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
-import type { InstanceComponent, DistributionStrategy, DistributionPreview } from '@/types/component'
+import type { GlobalEntity, GlobalEntityId, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
 import { getComposedEntityFromRelationships, getComponentsRecursive } from '@/utils/transformers/relationshipTransformers'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
+import type { DistributionStrategy, DistributionPreview, InstanceComponent } from '@/types/component'
+import type {
+  UseComponentEntityDomainParams,
+  UseComponentEntityDomainReturn,
+} from '@/types/componentEntity/componentEntityDomain'
 import { asEmptyArray } from '@/utils/safeDefaults'
-
-export type UseComponentEntityDomainParams<GE extends GlobalEntityKey> = {
-  entityKey: GE
-  getGlobalData: () => GlobalData | null
-  instanceComponents: ComputedRef<InstanceComponent[]>
-}
-
-export type UseComponentEntityDomainReturn<GE extends GlobalEntityKey> = {
-  canBeComposed: (blockInstanceId: GlobalEntityId) => boolean
-  getAvailableComponents: (composerId: GlobalEntityId) => GlobalEntity<'blockInstance'>[]
-  getComponents: (composerId: GlobalEntityId) => InstanceComponent[]
-  isComponent: (entityId: GlobalEntityId) => boolean
-  getComposerId: (entityId: GlobalEntityId) => GlobalEntityId | null
-  getComposedEntity: (composerId: GlobalEntityId) => GlobalEntity<GE> | null
-  calculateDistributionPreview: (
-    composerId: GlobalEntityId,
-    propertyKey: string,
-    newValue: number,
-    strategy: DistributionStrategy
-  ) => DistributionPreview[]
-}
 
 export function useComponentEntityDomain<GE extends GlobalEntityKey>(
   params: UseComponentEntityDomainParams<GE>
@@ -195,5 +175,3 @@ export function useComponentEntityDomain<GE extends GlobalEntityKey>(
     calculateDistributionPreview,
   }
 }
-
-

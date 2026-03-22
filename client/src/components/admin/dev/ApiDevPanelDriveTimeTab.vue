@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
+import type { DevPanelCacheEntry, DevPanelCacheShape } from '@/types/dev/apiDevPanelData'
 import { formatTTL } from '@/utils/dev/formatDevPanelData'
-import type { DevPanelCacheShape, DevPanelCacheEntry } from '@/composables/dev/useApiDevPanelData'
 
 function driveTimeEntryData(entry: DevPanelCacheEntry): Record<string, unknown> | undefined {
   return entry.data as Record<string, unknown> | undefined
@@ -58,7 +57,7 @@ defineProps<Props>()
 
     <!-- Events Cache Section -->
     <div class="mb-4">
-      <h3 class="text-subtitle-1 font-weight-bold mb-3">Events Cache</h3>
+      <h3 class="text-body-large font-weight-bold mb-3">Events Cache</h3>
 
       <VAlert
         v-if="errors.events"
@@ -114,7 +113,7 @@ defineProps<Props>()
               </VExpansionPanel>
             </VExpansionPanels>
           </div>
-          <div v-else class="text-body-2 text-medium-emphasis">
+          <div v-else class="text-body-medium text-medium-emphasis">
             No cached entries
           </div>
         </VCardText>
@@ -125,7 +124,7 @@ defineProps<Props>()
 
     <!-- DriveTime Cache Section -->
     <div>
-      <h3 class="text-subtitle-1 font-weight-bold mb-3">DriveTime Cache</h3>
+      <h3 class="text-body-large font-weight-bold mb-3">DriveTime Cache</h3>
 
       <VAlert
         v-if="errors.drivetime"
@@ -189,7 +188,7 @@ defineProps<Props>()
               </VExpansionPanel>
             </VExpansionPanels>
           </div>
-          <div v-else class="text-body-2 text-medium-emphasis">
+          <div v-else class="text-body-medium text-medium-emphasis">
             No cached entries
           </div>
         </VCardText>

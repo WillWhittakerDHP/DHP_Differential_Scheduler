@@ -2,25 +2,18 @@
  * PATTERN: Composable for status button click handlers
 PATTERN: Composable that man...
  */
-import { ref, watch, type Ref, type ComputedRef } from 'vue'
+import { ref, watch } from 'vue'
 import { useStatusButtonToggle } from './useStatusButtonToggle'
-import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
+import type { UseStatusButtonHandlersOptions, UseStatusButtonHandlersReturn } from '@/types/admin/statusButtonHandlers'
 
-export interface UseStatusButtonHandlersOptions<GE extends GlobalEntityKey> {
-  filteredEntities: ComputedRef<GlobalEntity<GE>[]>
-  entityKey: GE
-}
-
-export interface UseStatusButtonHandlersReturn<GE extends GlobalEntityKey> {
-  statusButtonHandlers: Ref<Map<string, ReturnType<typeof useStatusButtonToggle<GE>>>>
-  handleStatusButtonClick: (entityId: string, fieldKey: GlobalFieldKey<GE>, event: Event) => void
-}
+export type { UseStatusButtonHandlersOptions, UseStatusButtonHandlersReturn } from '@/types/admin/statusButtonHandlers'
 
 /**
  * Composable for managing status button handlers
  */
+
 export function useStatusButtonHandlers<GE extends GlobalEntityKey>(
   options: UseStatusButtonHandlersOptions<GE>
 ): UseStatusButtonHandlersReturn<GE> {

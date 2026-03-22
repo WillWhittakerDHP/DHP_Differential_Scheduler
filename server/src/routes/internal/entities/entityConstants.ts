@@ -38,7 +38,6 @@ export const DEFAULT_VALUES = {
 
 /**
  * WHY: Temporary ID patterns that should be rejected
-LEARNING: Patterns that in...
  */
 export const TEMPORARY_ID_PATTERNS = {
   NEW_PREFIX: 'new-',

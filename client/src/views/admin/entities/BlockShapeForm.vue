@@ -32,7 +32,7 @@
               ></v-text-field>
               
               <v-checkbox
-                v-model="formData.active"
+                v-model="blockFormActive"
                 label="Active"
                 class="mb-4"
               ></v-checkbox>
@@ -61,68 +61,18 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useShapeForm, type BlockShapeFormData } from '@/composables/admin/useShapeForm'
 
-import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import { useGlobal } from '@/composables/useGlobal'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
-import { createLogger } from '@/utils/logger'
+const { isEdit, formData, isSubmitting, error, handleSubmit, goBack } =
+  useShapeForm('blockShape')
 
-const logger = createLogger('BlockShapeForm')
-
-const router = useRouter()
-const route = useRoute()
-const { create, update } = useEntityCrud('blockShape')
-const { getGlobalEntityById } = useGlobal()
-
-const isEdit = computed(() => !!route.params.id)
-const entityId = computed(() => route.params.id as string | undefined)
-
-const formData = ref({
-  name: '',
-  orderIndex: 0,
-  active: true,
+const blockFormActive = computed({
+  get: () => (formData as { value: BlockShapeFormData }).value?.active ?? false,
+  set: (v: boolean) => {
+    const ref = formData as { value: BlockShapeFormData }
+    ref.value = { ...ref.value, active: v }
+  },
 })
-
-const isSubmitting = ref(false)
-const error = ref<string | null>(null)
-
-onMounted(async () => {
-  if (isEdit.value && entityId.value) {
-    const entity = getGlobalEntityById('blockShape', entityId.value)
-    if (entity) {
-      const rawName = entity.name
-      formData.value = {
-        name: rawName !== undefined && rawName !== null && rawName !== '' ? rawName : '',
-        orderIndex: entity.orderIndex ?? 0,
-        active: entity.active ?? true,
-      }
-    }
-  }
-})
-
-async function handleSubmit() {
-  isSubmitting.value = true
-  error.value = null
-  
-  try {
-    if (isEdit.value && entityId.value) {
-      await update(formData.value as Partial<GlobalEntity<'blockShape'>>, toGlobalEntityId(entityId.value))
-      } else {
-      await create(formData.value as Partial<GlobalEntity<'blockShape'>>)
-    }
-    goBack()
-  } catch (err) {
-    logger.error('Failed to save block type', { err })
-    error.value = err instanceof Error ? err.message : 'Failed to save block type'
-  } finally {
-    isSubmitting.value = false
-  }
-}
-
-function goBack() {
-  router.push({ name: 'block-types-list' })
-}
 </script>
 

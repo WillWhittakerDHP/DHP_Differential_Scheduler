@@ -4,7 +4,7 @@ import { OAUTH_ERROR_MESSAGES } from '../../../constants/appConstants.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../../constants/router.js'
 import { getGoogleMapsApiKey } from '../shared/googleApiConfig.js'
 import { GOOGLE_MAPS_API_BASE } from '../shared/googleApiConfig.js'
-import {
+import type {
   AddressComponents,
   AutocompletePrediction,
   Coordinates,
@@ -222,7 +222,6 @@ function parseAddressComponents(components: Array<{
 /**
  * WHY: Convert our location format to Routes API waypoint format
 
-LEARNING: Rou...
  */
 export function toRoutesWaypoint(location: RouteLocation): object {
   if (location.placeId) {

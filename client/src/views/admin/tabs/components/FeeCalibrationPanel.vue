@@ -1,50 +1,23 @@
 <!--
-  LEARNING: Fee Calibration Panel for Admin Instances Tab
   WHY: Visualizes total fee vs square footage per service so pricing can be calibrated
   PATTERN: Composable for data; VCard + SVG line chart + range controls; empty state when no services
   WHY SVG chart: vue-chartjs caused emitsOptions null errors; native SVG is reliable and dependency-free
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
-import { asEmptyArray } from '@/utils/safeDefaults'
 import { useCalibrationChart } from '@/composables/admin/useCalibrationChart'
 
 const {
-  chartData,
   sqftMin,
   sqftMax,
   sqftStep,
   serviceCount,
   hasData,
+  svgChart,
 } = useCalibrationChart()
 
 const CHART_WIDTH = 700
 const CHART_HEIGHT = 320
 const PAD = { left: 48, right: 24, top: 24, bottom: 40 }
-const PLOT_WIDTH = CHART_WIDTH - PAD.left - PAD.right
-const PLOT_HEIGHT = CHART_HEIGHT - PAD.top - PAD.bottom
-
-/** SVG path data and scale for drawing lines; legend labels with colors */
-const svgChart = computed(() => {
-  const data = chartData.value
-  const labels = asEmptyArray(data.labels)
-  const datasets = asEmptyArray(data.datasets) as Array<{ label: string; data: number[]; borderColor: string }>
-  if (labels.length === 0 || datasets.length === 0) {
-    return { polylines: [], legend: [], xScale: (_: number) => PAD.left, yScale: (_: number) => PAD.top, yMax: 0 }
-  }
-  const allValues = datasets.flatMap(d => d.data).filter((v): v is number => typeof v === 'number')
-  const yMax = Math.max(1, ...allValues)
-  const yScale = (v: number) => PAD.top + PLOT_HEIGHT - (v / yMax) * PLOT_HEIGHT
-  const xScale = (i: number) => PAD.left + (i / Math.max(1, labels.length - 1)) * PLOT_WIDTH
-  const polylines = datasets.map(d => {
-    const points = d.data
-      .map((val, i) => `${xScale(i)},${yScale(val)}`)
-      .join(' ')
-    return { points, color: d.borderColor ?? 'currentColor' }
-  })
-  const legend = datasets.map(d => ({ label: d.label, color: d.borderColor ?? 'currentColor' }))
-  return { polylines, legend, xScale, yScale, yMax }
-})
 </script>
 
 <template>
@@ -55,7 +28,7 @@ const svgChart = computed(() => {
         Fee Calibration
       </VCardTitle>
       <VCardText>
-        <p class="text-body-2 text-medium-emphasis mb-4">
+        <p class="text-body-medium text-medium-emphasis mb-4">
           Total fee vs square footage for each service. Use this to verify and calibrate pricing curves.
         </p>
 
@@ -63,7 +36,7 @@ const svgChart = computed(() => {
           <div class="mb-4">
             <div class="d-flex align-center flex-wrap gap-4">
               <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
-                <span class="text-caption">Min sqft</span>
+                <span class="text-body-small">Min sqft</span>
                 <VSlider
                   v-model="sqftMin"
                   :min="0"
@@ -73,10 +46,10 @@ const svgChart = computed(() => {
                   density="compact"
                   class="flex-grow-1 fee-cal-slider-input"
                 />
-                <span class="text-caption">{{ sqftMin }}</span>
+                <span class="text-body-small">{{ sqftMin }}</span>
               </div>
               <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
-                <span class="text-caption">Max sqft</span>
+                <span class="text-body-small">Max sqft</span>
                 <VSlider
                   v-model="sqftMax"
                   :min="sqftMin"
@@ -86,10 +59,10 @@ const svgChart = computed(() => {
                   density="compact"
                   class="flex-grow-1 fee-cal-slider-input"
                 />
-                <span class="text-caption">{{ sqftMax }}</span>
+                <span class="text-body-small">{{ sqftMax }}</span>
               </div>
               <div class="d-flex align-center gap-2 fee-cal-slider-wrap">
-                <span class="text-caption">Step</span>
+                <span class="text-body-small">Step</span>
                 <VSlider
                   v-model="sqftStep"
                   :min="50"
@@ -99,7 +72,7 @@ const svgChart = computed(() => {
                   density="compact"
                   class="flex-grow-1 fee-cal-slider-input"
                 />
-                <span class="text-caption">{{ sqftStep }}</span>
+                <span class="text-body-small">{{ sqftStep }}</span>
               </div>
               <VChip size="small" variant="tonal" color="primary">
                 {{ serviceCount }} service{{ serviceCount !== 1 ? 's' : '' }}
@@ -174,7 +147,7 @@ const svgChart = computed(() => {
                   class="legend-swatch"
                   :style="{ backgroundColor: item.color }"
                 />
-                <span class="text-caption">{{ item.label }}</span>
+                <span class="text-body-small">{{ item.label }}</span>
               </div>
             </div>
           </div>

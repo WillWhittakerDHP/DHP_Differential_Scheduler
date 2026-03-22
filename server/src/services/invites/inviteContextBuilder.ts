@@ -1,3 +1,22 @@
+/** Base URL for client-facing links (reschedule, cancel). Use APP_BASE_URL or VITE_APP_BASE_URL. */
+function getAppBaseUrl(): string {
+  const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''
+  return base.replace(/\/$/, '')
+}
+
+/** Build full reschedule URL. Matches client buildClientLinks. */
+function buildRescheduleUrl(appointmentId: string): string {
+  const base = getAppBaseUrl()
+  const path = `/booking?mode=reschedule&appointmentId=${encodeURIComponent(appointmentId)}`
+  return base ? `${base}${path}` : path
+}
+
+/** Build full cancel URL. Matches client buildClientLinks. */
+function buildCancelUrl(appointmentId: string): string {
+  const base = getAppBaseUrl()
+  const path = `/cancel?appointmentId=${encodeURIComponent(appointmentId)}`
+  return base ? `${base}${path}` : path
+}
 
 export interface InviteAppointmentData {
   id: string
@@ -22,6 +41,8 @@ export function buildInviteContext(
 
   context.appointmentId = appointment.id
   context.status = appointment.status
+  context.rescheduleLink = buildRescheduleUrl(appointment.id)
+  context.cancelLink = buildCancelUrl(appointment.id)
 
   const address = appointment.propertyVersion?.address
   if (address) {
@@ -69,15 +90,4 @@ export function buildInviteContext(
   return context
 }
 
-export const AVAILABLE_TEMPLATE_VARIABLES = [
-  { name: 'streetAddress', description: 'Property street address', example: '123 Main St' },
-  { name: 'city', description: 'Property city', example: 'Austin' },
-  { name: 'state', description: 'Property state abbreviation', example: 'TX' },
-  { name: 'zipCode', description: 'Property ZIP code', example: '78701' },
-  { name: 'fullAddress', description: 'Full formatted address', example: '123 Main St, Austin, TX 78701' },
-  { name: 'appointmentDate', description: 'Formatted appointment date', example: 'February 21, 2026' },
-  { name: 'appointmentTime', description: 'Formatted start time', example: '2:30 PM' },
-  { name: 'appointmentId', description: 'Appointment UUID', example: 'abc-123-def' },
-  { name: 'status', description: 'Current appointment status', example: 'confirmed' },
-  { name: 'service', description: 'Primary service name', example: "Buyer's Inspection" },
-] as const
+export { EVENT_TEMPLATE_VARIABLES as AVAILABLE_TEMPLATE_VARIABLES } from '../../../../shared/constants/templateVariables.js'

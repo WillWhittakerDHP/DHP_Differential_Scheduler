@@ -3,21 +3,12 @@
 
 WHY: Moves responsive layout and date hand...
  */
-import { computed, type Ref, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useFormValidation } from '@/composables/useFormValidation'
+import { toISO8601Date } from '@/utils/datetime'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import { toISO8601Date } from '@/types/datetime'
-
-export interface UseAvailabilityUIParams {
-  selectedDate: Ref<{ start: ISO8601Date | null; end: ISO8601Date | null }>
-  selectedButtonIndex: Ref<number | null>
-  fieldErrors: Ref<Record<string, string>>
-}
-
-export interface UseAvailabilityUIReturn {
-  handleDateChange: (value: string | Date | string[] | Date[] | null) => void
-}
+import type { UseAvailabilityUIParams, UseAvailabilityUIReturn } from '@/types/booking/availabilityUI'
 
 /**
  * WHY: useAvailabilityUI composable
@@ -32,7 +23,6 @@ export function useAvailabilityUI(params: UseAvailabilityUIParams): UseAvailabil
   const { dateNotInPast } = useFormValidation()
   
   /**
-   * LEARNING: Use Vuetify's display composable for responsive breakpoints
    */
   const { width, smAndUp } = useDisplay()
 
@@ -54,7 +44,6 @@ PATTERN: Function that validates and updates error state
 NOTE: VDate...
    */
   const handleDateChange = (value: string | Date | string[] | Date[] | null): void => {
-    // LEARNING: Normalize date value to ISO 8601 format (YYYY-MM-DD)
     // WHY: VDatePicker may return Date object or string, need consistent ISO 8601 format
     // PATTERN: Convert Date to ISO 8601 string, handle array (take first), handle null
     let dateString: ISO8601Date | null = null

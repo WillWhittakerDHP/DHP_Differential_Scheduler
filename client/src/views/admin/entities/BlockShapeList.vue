@@ -66,35 +66,31 @@
 </template>
 
 <script setup lang="ts">
-
 import { useRouter } from 'vue-router'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { entityListDelete } from '@/utils/admin/entityListDelete'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 const logger = createLogger('BlockShapeList')
 const router = useRouter()
 const { error: notifyError } = useNotification()
 const { entities, isLoading, error, remove } = useEntityCrud('blockShape')
+const handleDelete = entityListDelete({
+  remove,
+  confirmMessage: 'Are you sure you want to delete this block type?',
+  errorMessage: 'Failed to delete block type',
+  logger,
+  notifyError,
+})
 
-function goToCreate() {
+function goToCreate(): void {
   router.push({ name: 'block-type-create' })
 }
 
-function goToEdit(id: GlobalEntityId) {
+function goToEdit(id: GlobalEntityId): void {
   router.push({ name: 'block-type-edit', params: { id: String(id) } })
-}
-
-async function handleDelete(id: GlobalEntityId) {
-  if (confirm('Are you sure you want to delete this block type?')) {
-    try {
-      await remove(id)
-    } catch (error) {
-      logger.error('Failed to delete block type', { error })
-      notifyError('Failed to delete block type')
-    }
-  }
 }
 </script>
 

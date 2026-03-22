@@ -14,14 +14,14 @@ import {
   ERROR_FETCH_DRIVE_TIME_CACHE,
   ERROR_FETCH_DEV_STATUS,
 } from '@/constants/errorMessages'
+import type {
+  OAuthStatusShape,
+  RateLimitShape,
+  DevPanelCacheShape,
+  UseApiDevPanelDataReturn,
+} from '@/types/dev/apiDevPanelData'
 
 const logger = createLogger('ApiDevPanel')
-
-export interface OAuthStatusShape { authenticated?: boolean; hasRefreshToken?: boolean; expiryDate?: string; authUrl?: string }
-export interface RateLimitShape { requestsPerMinute?: number; currentRequests?: number; remainingRequests?: number; utilizationPercent?: number }
-export interface DevPanelCacheEntry { key: string; expired?: boolean; data?: unknown; age?: number; ttl?: number }
-export interface DevPanelCacheStats { totalEntries?: number; memoryUsage?: number; oldestEntryAge?: number | null }
-export interface DevPanelCacheShape { stats?: DevPanelCacheStats; entries?: DevPanelCacheEntry[] }
 
 function handleRateLimitResponse(
   response: PromiseSettledResult<unknown>,
@@ -42,7 +42,7 @@ function checkBothRateLimitsFailed(
   return calendarResponse.status === 'rejected' && mapsResponse.status === 'rejected'
 }
 
-export function useApiDevPanelData(apiBaseUrl: string) {
+export function useApiDevPanelData(apiBaseUrl: string): UseApiDevPanelDataReturn {
   const oauthStatus = ref<OAuthStatusShape | null>(null)
   const eventsCache = ref<DevPanelCacheShape | null>(null)
   const rateLimitStats = ref<{

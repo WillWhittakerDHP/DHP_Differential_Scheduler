@@ -5,10 +5,8 @@ PATTERN: Composable that creates and re...
  */
 import { ref } from 'vue'
 import type { PropertyFormData, PropertySource } from '@/types/propertyForm'
-import type { PropertyFormStateCore } from './usePropertyDetailsLogic'
+import type { UsePropertyFormStateReturn } from '@/types/booking/propertyFormState'
 
-/** Extends shared base (TYPE_SIMILARITY 1.15). */
-export type UsePropertyFormStateReturn = PropertyFormStateCore
 
 /**
  * WHY: usePropertyFormState composable

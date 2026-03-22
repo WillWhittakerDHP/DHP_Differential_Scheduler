@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
         />
       </VAvatar>
 
-      <h5 class="text-h5">
+      <h5 class="text-headline-medium">
         {{ props.stats }}
       </h5>
       <div class="text-sm">

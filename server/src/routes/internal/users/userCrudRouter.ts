@@ -4,7 +4,6 @@ import { ERROR_MESSAGES } from './userConstants.js'
 
 /**
 
-LEARNING: Uses factory pattern to generate standardize...
  */
 const router = createCrudRouter({
   model: User,

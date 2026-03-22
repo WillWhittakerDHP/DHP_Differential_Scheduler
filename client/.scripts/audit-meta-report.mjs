@@ -170,7 +170,7 @@ function computeHealthScores(fileScores) {
 /**
  * Compute a SHA-256 hash of a config file's allowlist content.
  * Returns null if the file doesn't exist or can't be read.
- * LEARNING: We hash only the allowlist section so that changes to
+ * We hash only the allowlist section so that changes to
  * priority thresholds (which don't affect exception counts) don't
  * trigger false "config changed" alerts.
  */
@@ -293,7 +293,7 @@ function computeExceptionAnalysis(auditResults, auditDir) {
           specific: inlineCount + specificCount,
           total: totalAllowed,
           totalScanned,
-          // LEARNING: Ratio tells us "how many exceptions per scanned file"
+          // Ratio tells us "how many exceptions per scanned file"
           // A stable ratio means the codebase grew but patterns didn't change
           ratio: totalScanned > 0
             ? Math.round((patternCount / totalScanned) * 1000) / 1000
@@ -357,7 +357,7 @@ function computeExceptionDiff(current, previous) {
     [],
   )
 
-  // LEARNING: Determine the "verdict" — is this real creep or harmless growth?
+  // Determine the "verdict" — is this real creep or harmless growth?
   // Real creep = specific suppressions increased OR config allowlists were expanded
   // Harmless growth = only structural count changed with same configs
   let verdict = 'stable'
@@ -380,7 +380,7 @@ function computeExceptionDiff(current, previous) {
   }
 }
 
-// LEARNING: Keep the legacy function for backward compatibility in the JSON output.
+// Keep the legacy function for backward compatibility in the JSON output.
 // The totalExceptions field is still useful as a quick reference number.
 function computeExceptionCreep(auditResults) {
   return auditResults.reduce((totalAllowed, { data }) => {
@@ -395,12 +395,17 @@ function computeAuditSummaries(auditResults) {
     .map(({ id, data }) => {
       const files = Array.isArray(data.files) ? data.files : []
       const findings = Array.isArray(data.findings) ? data.findings : []
-      const totalFindings = data.exceptionSummary?.totalRequiresReview ||
-                           data.totals?.totalMarkers ||
-                           findings.length ||
-                           files.length
 
-      return { auditId: id, filesWithFindings: files.length, totalFindings }
+      const review = data.exceptionSummary?.totalRequiresReview
+      const totalFindings = review != null
+        ? review
+        : (data.totals?.totalMarkers ?? (findings.length || files.length))
+
+      const filesWithFindings = files.filter(
+        f => (f.score ?? f.complexityScore ?? 0) > 0
+      ).length
+
+      return { auditId: id, filesWithFindings, totalFindings }
     })
 }
 

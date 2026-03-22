@@ -11,7 +11,7 @@ Generated from `client/.audit-reports/type-import-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 4 |
+| Files scanned | 1066 |
 | value-import-from-type-only-file | 0 |
 | type-used-as-value | 0 |
 | Files with findings | 0 |

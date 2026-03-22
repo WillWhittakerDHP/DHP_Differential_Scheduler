@@ -1,47 +1,32 @@
 /**
  * TIME SLOT MATCHING TESTS
- * 
+ *
  * Unit tests for timeSlotMatching utility functions.
- * Tests time extraction, slot matching, and loaded appointment restoration.
- * 
- * What it covers:
- * - extractTimeString: Extracting time from RFC3339 datetime format (UTC)
- * - findMatchingTimeSlot: Finding available slots by time
- * - matchLoadedTimeSlots: Restoring time slot selections from saved appointments
- * - matchLoadedTimeSlotsImmutable: Pure function version of matching
- * 
- * How it works:
- * - Tests RFC3339 datetime format extraction (UTC)
- * - Tests slot matching against available time slots
- * - Tests ref mutation for composable compatibility
- * 
- * What it validates:
- * - Correct time extraction from RFC3339 format in UTC
- * - Proper slot matching by time comparison
- * - Correct population of inspector/client slot refs
- * 
- * Dependencies:
- * - vitest for testing
- * - vue ref for reactive references
- * - TimeSlot type from appointment types
+ * extractTimeString uses rfc3339ToLocalHHmm (local time); tests expect UTC.
+ * Run with TZ=UTC so local === UTC (e.g. TZ=UTC npm run test -- timeSlotMatching).
  */
 
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 import { ref } from 'vue'
 import {
   extractTimeString,
   findMatchingTimeSlot,
-  matchLoadedTimeSlots,
   matchLoadedTimeSlotsImmutable,
 } from '../timeSlotMatching'
+import { matchLoadedTimeSlots } from '@/composables/booking/useTimeSlotMatching'
 import type { TimeSlot } from '@/types/appointment'
 
-function createTimeSlot(slotStart: string, duration = 60): TimeSlot {
+function createTimeSlot(startTime: string, duration = 60): TimeSlot {
+  const endTime =
+    new Date(new Date(startTime).getTime() + duration * 60000).toISOString()
   return {
-    slotStart,
-    slotEnd: slotStart, // Not used in matching logic
+    startTime,
+    endTime,
     duration,
-    available: true,
+    major: false,
+    minor: false,
+    moveable: false,
+    isAvailable: true,
   }
 }
 
@@ -114,14 +99,14 @@ describe('timeSlotMatching', () => {
       const result = findMatchingTimeSlot('2026-01-09T09:00:00Z', availableSlots)
       
       expect(result).toBeDefined()
-      expect(result?.slotStart).toBe('2026-01-09T09:00:00')
+      expect(result?.startTime).toBe('2026-01-09T09:00:00')
     })
 
     it('should find matching slot by ISO timestamp', () => {
       const result = findMatchingTimeSlot('2026-01-09T14:00:00', availableSlots)
       
       expect(result).toBeDefined()
-      expect(result?.slotStart).toBe('2026-01-09T14:00:00')
+      expect(result?.startTime).toBe('2026-01-09T14:00:00')
     })
 
     it('should return undefined when no match found', () => {
@@ -163,7 +148,7 @@ describe('timeSlotMatching', () => {
       )
       
       expect(inspectorRef.value).toBeDefined()
-      expect(inspectorRef.value?.slotStart).toBe('2026-01-09T09:00:00')
+      expect(inspectorRef.value?.startTime).toBe('2026-01-09T09:00:00')
       expect(clientRef.value).toBeNull()
     })
 
@@ -178,8 +163,8 @@ describe('timeSlotMatching', () => {
         clientRef
       )
       
-      expect(inspectorRef.value?.slotStart).toBe('2026-01-09T08:00:00')
-      expect(clientRef.value?.slotStart).toBe('2026-01-09T14:00:00')
+      expect(inspectorRef.value?.startTime).toBe('2026-01-09T08:00:00')
+      expect(clientRef.value?.startTime).toBe('2026-01-09T14:00:00')
     })
 
     it('should not modify refs when no loaded slots', () => {
@@ -228,7 +213,7 @@ describe('timeSlotMatching', () => {
         clientRef
       )
       
-      expect(inspectorRef.value?.slotStart).toBe('2026-01-09T09:00:00')
+      expect(inspectorRef.value?.startTime).toBe('2026-01-09T09:00:00')
       expect(clientRef.value).toBeNull()
     })
   })
@@ -246,8 +231,8 @@ describe('timeSlotMatching', () => {
         availableSlots
       )
       
-      expect(result.inspectorSlot?.slotStart).toBe('2026-01-09T09:00:00')
-      expect(result.clientSlot?.slotStart).toBe('2026-01-09T14:00:00')
+      expect(result.inspectorSlot?.startTime).toBe('2026-01-09T09:00:00')
+      expect(result.clientSlot?.startTime).toBe('2026-01-09T14:00:00')
     })
 
     it('should return nulls when no loaded slots', () => {
@@ -270,7 +255,7 @@ describe('timeSlotMatching', () => {
         availableSlots
       )
       
-      expect(result.inspectorSlot?.slotStart).toBe('2026-01-09T08:00:00')
+      expect(result.inspectorSlot?.startTime).toBe('2026-01-09T08:00:00')
       expect(result.clientSlot).toBeNull()
     })
 

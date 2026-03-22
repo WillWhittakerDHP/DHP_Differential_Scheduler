@@ -49,6 +49,18 @@ export class Appointment extends Model<
   declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted';
   /** Tracks which user engaged/interacted with the scheduler to create this appointment */
   declare scheduledById: ForeignKey<string> | null;
+  /** FK → users.id — who placed the hold (populated when status = 'held') */
+  declare heldBy: ForeignKey<string> | null;
+  /** When the hold expires (populated when status = 'held') */
+  declare heldUntil: Date | null;
+  /** JSONB — which slot-computation constraints are bypassed by admin override (populated via PATCH) */
+  declare overrideConstraints: Record<string, boolean> | null;
+  /** When the appointment transitioned to 'submitted' status */
+  declare submittedAt: Date | null;
+  /** When the appointment transitioned to 'confirmed' status */
+  declare confirmedAt: Date | null;
+  /** FK → users.id — who confirmed the appointment (populated by Feature 7 auth) */
+  declare confirmedBy: ForeignKey<string> | null;
   declare propertyDetails: Record<string, unknown> | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -175,6 +187,49 @@ export function AppointmentFactory(sequelize: Sequelize) {
           model: 'users',
           key: 'id',
         },
+      },
+      heldBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'held_by',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      heldUntil: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'held_until',
+      },
+      overrideConstraints: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+        field: 'override_constraints',
+        comment: 'Admin constraint overrides — keys match slot computation constraints (capacity, buffer, blackout, businessHours)',
+      },
+      submittedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'submitted_at',
+      },
+      confirmedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'confirmed_at',
+      },
+      confirmedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'confirmed_by',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       propertyDetails: {
         type: DataTypes.JSONB,

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 
-import { ref, watch, inject } from 'vue'
+import { ref, inject } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
-import { useLocalTime } from '@/composables/useLocalTime'
+import { localTime } from '@/utils/time/localTime'
 import { useDevPanelTabs } from '@/composables/dev/useDevPanelTabs'
 import { useApiDevPanelData } from '@/composables/dev/useApiDevPanelData'
-import type { UseComputedAvailabilityReturn } from '@/composables/booking/useComputedAvailability'
+import { useApiDevPanelVisibility } from '@/composables/admin/useApiDevPanelVisibility'
+import { computedAvailabilityKey } from '@/composables/booking/injectionKeys'
 import DevPanelButtons from '@/components/dev/DevPanelButtons.vue'
 import ApiDevPanelStatusTab from './ApiDevPanelStatusTab.vue'
 import ApiDevPanelDriveTimeTab from './ApiDevPanelDriveTimeTab.vue'
@@ -27,15 +28,14 @@ const isDevMode = isDevModeEnabled()
 const panelRef = ref<HTMLElement | null>(null)
 void panelRef.value // ref used by template
 
-const computedAvailability = inject<UseComputedAvailabilityReturn | null>('computedAvailability', null)
+const computedAvailability = inject(computedAvailabilityKey, null)
 
-// LEARNING: Fixed deprecation pattern - use nullish coalescing instead of ||
 const rawApiBase = import.meta.env.VITE_API_BASE_URL
 const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBase !== '' ? rawApiBase : ''
 
 const { apiStatus } = useApiCallStatus()
 
-const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
+const { formatDateTimeForDisplay, formatTimeForDisplay } = localTime()
 
 const { activeTab } = useDevPanelTabs()
 
@@ -52,13 +52,12 @@ const {
   fetchAll,
 } = useApiDevPanelData(API_BASE_URL)
 
-watch(() => props.visible, (isVisible) => {
-  if (isVisible && isDevMode) {
-    if (!oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps) {
-      fetchDevStatus()
-    }
-  }
-}, { immediate: false })
+useApiDevPanelVisibility({
+  visible: () => props.visible,
+  isDevMode,
+  shouldFetch: () => !oauthStatus.value && !rateLimitStats.value.calendar && !rateLimitStats.value.maps,
+  fetch: fetchDevStatus,
+})
 </script>
 
 <template>
@@ -71,7 +70,7 @@ watch(() => props.visible, (isVisible) => {
       color="info"
     >
       <VCardTitle class="d-flex justify-space-between align-center pa-3">
-        <span class="text-h6">API Dev Panel</span>
+        <span class="text-headline-small">API Dev Panel</span>
         <VBtn
           icon="mdi-close"
           variant="text"

@@ -3,67 +3,21 @@
 
 WHY: Components should be thin UI wrapper...
  */
-import { ref, computed, onMounted, type Ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useGlobal } from '../useGlobal'
-import { toGlobalEntityId, type GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
+import type {
+  PartInstanceFormData,
+  UsePartInstanceFormOptions,
+  UsePartInstanceFormReturn
+} from '@/types/admin/partInstanceForm'
 
 const logger = createLogger('usePartInstanceForm')
-
-export interface PartInstanceFormData {
-  name: string
-  partShapeRef: string
-  orderIndex: number
-  active: boolean
-}
-
-import type { UseEntityFormRedirectOptions } from './useEntityFormRedirectOptions'
-
-export type UsePartInstanceFormOptions = UseEntityFormRedirectOptions
-
-export interface UsePartInstanceFormReturn {
-  /**
-   */
-  isEdit: Ref<boolean>
-  
-  /**
-   */
-  entityId: Ref<string | undefined>
-  
-  /**
-   */
-  partTypeOptions: Ref<Array<{ id: string; name: string }>>
-  
-  /**
-   */
-  formData: Ref<PartInstanceFormData>
-  
-  /**
-LEARNING: Submission loading state
-WHY: Component needs to show load...
-   */
-  isSubmitting: Ref<boolean>
-  
-  /**
-   */
-  error: Ref<string | null>
-  
-  /**
-   * PATTERN: Function called in onMounted hook
-   */
-  loadEntity: () => Promise<void>
-  
-  /**
-   */
-  handleSubmit: () => Promise<void>
-  
-  /**
-   */
-  goBack: () => void
-}
 
 /**
  * WHY: Part Instance Form Composable
@@ -108,10 +62,6 @@ export function usePartInstanceForm(
     active: true,
   })
   
-  /**
-LEARNING: Submission loading state
-WHY: Component needs to show load...
-   */
   const isSubmitting = ref(false)
   
   /**
@@ -180,4 +130,3 @@ WHY: Component needs to show load...
     goBack
   }
 }
-

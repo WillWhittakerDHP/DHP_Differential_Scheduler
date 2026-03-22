@@ -17,7 +17,6 @@ export const TIME_INCREMENT_OPTIONS = [
 
 /**
  * WHY: Timezone options for availability calculations
-LEARNING: Common IANA tim...
  */
 export const TIMEZONE_OPTIONS = [
   { title: 'Eastern Time (America/New_York)', value: 'America/New_York' },

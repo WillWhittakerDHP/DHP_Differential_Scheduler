@@ -17,7 +17,7 @@ export default tseslint.config(
     },
   },
   
-  // LEARNING: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
+  // WHY: Vue files need vue-eslint-parser as the parser, with TypeScript parser for script blocks
   // PATTERN: Separate config block for Vue files with proper parser setup
   {
     files: ['**/*.vue'],
@@ -229,10 +229,19 @@ export default tseslint.config(
     },
   },
   
+  // PATTERN: Align with client/.audit-reports/audit-global-config.json globalExclusions
+  // so we do not lint test files, core/library code (@core, @layouts), or build output.
   {
     ignores: [
+      'dist/**',
+      'fixtures/**',
+      'src/@core/**',
+      'src/@layouts/**',
       'src/**/__tests__/**',
       'src/**/*.test.ts',
       'src/**/*.test.tsx',
       'src/**/*.spec.ts',
       'src/**/*.spec.tsx',
+    ],
+  },
+);

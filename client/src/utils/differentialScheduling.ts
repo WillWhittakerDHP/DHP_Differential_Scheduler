@@ -68,7 +68,6 @@ function calculateMajorStartTime(minorStartTime: string, majorTotal: number): st
   const minorStart = new Date(minorStartTime)
   const majorStart = new Date(minorStart)
   
-  // LEARNING: Subtract majorTotal minutes from minor start time using UTC
   // WHY: Major arrives earlier to prepare; use UTC to match ISO string format
   // PATTERN: Use setUTCMinutes to subtract time in UTC
   majorStart.setUTCMinutes(majorStart.getUTCMinutes() - majorTotal)
@@ -188,4 +187,3 @@ export function transformToMinorPerspective(
     eventTimeRanges: adjustedEventTimeRanges
   }
 }
-

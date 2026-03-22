@@ -1,5 +1,4 @@
 <!--
-  LEARNING: Beta feedback submission modal (wizard only)
   WHY: Collects feedback with auto-captured context (URL, browser, screen size)
   PATTERN: VDialog + VForm; modelValue for open/close; conditional bug fields
 -->
@@ -116,23 +115,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue';
-import { VForm } from 'vuetify/components';
-import { useBetaFeedback } from '@/composables/beta/useBetaFeedback';
-import { useNotification } from '@/composables/useNotification';
-import type { FeedbackCategory, FeedbackSeverity } from '@/types/betaFeedback';
-import { createLogger } from '@/utils/logger';
+import { useFeedbackSubmit } from '@/composables/beta/useFeedbackSubmit'
+import type { FeedbackCategory, FeedbackSeverity } from '@/types/betaFeedback'
 
-const logger = createLogger('BetaFeedbackModal');
+const props = defineProps<{ modelValue: boolean }>()
+const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
 
-const props = defineProps<{ modelValue: boolean }>();
-const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>();
-
-const { submitFeedback } = useBetaFeedback();
-const { success, error: showError } = useNotification();
-const formRef = ref<InstanceType<typeof VForm> | null>(null);
-const sending = ref(false);
-const submitError = ref('');
+const { form, sending, submitError, handleSubmit } = useFeedbackSubmit({
+  modelValue: () => props.modelValue,
+  onClose: () => emit('update:modelValue', false),
+})
 
 const categoryItems: { title: string; value: FeedbackCategory }[] = [
   { title: 'Bug', value: 'bug' },
@@ -140,99 +132,14 @@ const categoryItems: { title: string; value: FeedbackCategory }[] = [
   { title: 'Usability', value: 'usability' },
   { title: 'Performance', value: 'performance' },
   { title: 'General', value: 'general' },
-];
+]
 
 const severityItems: { title: string; value: FeedbackSeverity }[] = [
   { title: 'Low', value: 'low' },
   { title: 'Medium', value: 'medium' },
   { title: 'High', value: 'high' },
   { title: 'Critical', value: 'critical' },
-];
+]
 
-const suggestedTags = ['booking-wizard', 'mobile', 'first-impression', 'confusing'];
-
-const form = reactive({
-  reporterName: '',
-  reporterEmail: '',
-  category: 'general' as FeedbackCategory,
-  severity: 'medium' as FeedbackSeverity,
-  title: '',
-  description: '',
-  tags: [] as string[],
-  stepsToReproduce: '',
-  expectedBehavior: '',
-  actualBehavior: '',
-});
-
-function captureContext(): { pageUrl: string; browserInfo: string; screenSize: string } {
-  if (typeof window === 'undefined') {
-    return { pageUrl: '', browserInfo: '', screenSize: '' };
-  }
-  const nav = typeof window.navigator !== 'undefined' ? window.navigator : null;
-  return {
-    pageUrl: window.location.href,
-    browserInfo: nav ? nav.userAgent : '',
-    screenSize: `${window.innerWidth}x${window.innerHeight}`,
-  };
-}
-
-watch(
-  () => props.modelValue,
-  (isOpen) => {
-    if (isOpen) submitError.value = '';
-  }
-);
-
-async function handleSubmit() {
-  const valid = await formRef.value?.validate();
-  if (!valid?.valid) return;
-  submitError.value = '';
-  sending.value = true;
-  try {
-    const { pageUrl, browserInfo, screenSize } = captureContext();
-    await submitFeedback({
-      reporterName: form.reporterName.trim(),
-      reporterEmail: form.reporterEmail?.trim() || undefined,
-      category: form.category,
-      severity: form.severity,
-      title: form.title.trim(),
-      description: form.description.trim(),
-      pageUrl: pageUrl || undefined,
-      browserInfo: browserInfo || undefined,
-      screenSize: screenSize || undefined,
-      stepsToReproduce:
-        form.category === 'bug' && form.stepsToReproduce?.trim()
-          ? form.stepsToReproduce.trim()
-          : undefined,
-      expectedBehavior:
-        form.category === 'bug' && form.expectedBehavior?.trim()
-          ? form.expectedBehavior.trim()
-          : undefined,
-      actualBehavior:
-        form.category === 'bug' && form.actualBehavior?.trim()
-          ? form.actualBehavior.trim()
-          : undefined,
-      tags: form.tags.length > 0 ? form.tags : undefined,
-    });
-    success('Thank you! Your feedback has been submitted.');
-    emit('update:modelValue', false);
-    form.reporterName = '';
-    form.reporterEmail = '';
-    form.title = '';
-    form.description = '';
-    form.tags = [];
-    form.stepsToReproduce = '';
-    form.expectedBehavior = '';
-    form.actualBehavior = '';
-  } catch (err) {
-    logger.error('Failed to submit feedback', { err });
-    const message = err && typeof err === 'object' && 'response' in err
-      ? (err as { response?: { data?: { error?: string } } }).response?.data?.error
-      : null;
-    submitError.value = message || 'Failed to submit feedback. Please try again.';
-    showError(submitError.value);
-  } finally {
-    sending.value = false;
-  }
-}
+const suggestedTags = ['booking-wizard', 'mobile', 'first-impression', 'confusing']
 </script>

@@ -7,6 +7,7 @@ import {
   ForeignKey,
   Sequelize,
 } from 'sequelize';
+import { PATCH_PROPERTY_FIELD_KEY } from '../../../routes/internal/properties/propertyConstants.js';
 
 export class AppointmentFeeSummary extends Model<
   InferAttributes<AppointmentFeeSummary>,
@@ -76,13 +77,13 @@ export function AppointmentFeeSummaryFactory(sequelize: Sequelize) {
           return value != null ? Number(value) : 0;
         },
       },
-      squareFootage: {
+      [PATCH_PROPERTY_FIELD_KEY.SQUARE_FOOTAGE]: {
         type: DataTypes.DECIMAL(12, 2),
         allowNull: false,
         defaultValue: 0,
         field: 'square_footage',
         get() {
-          const value = this.getDataValue('squareFootage');
+          const value = this.getDataValue(PATCH_PROPERTY_FIELD_KEY.SQUARE_FOOTAGE);
           return value != null ? Number(value) : 0;
         },
       },

@@ -1,12 +1,14 @@
 import { Router, Request, Response } from 'express'
-import { 
-  fetchAll, 
-  fetchById, 
-  createRecord, 
-  updateRecord, 
-  patchRecord, 
+import {
+  fetchAll,
+  fetchById,
+  createRecord,
+  updateRecord,
+  patchRecord,
   deleteRecord
 } from '../../helpers/dataController.js'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { entityBodySchema } from '../../schemas/entitySchemas.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateEntityId } from './entityValidators.js'
@@ -73,7 +75,8 @@ router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void
 
 router.post(
   '/:entityType',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {
@@ -82,7 +85,6 @@ router.post(
     }
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(req.body, paramString(req, 'entityType'))
       
@@ -97,8 +99,9 @@ router.post(
 
 router.put(
   '/:entityType/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('entity', 'id'),
+  validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {
@@ -109,7 +112,6 @@ router.put(
     const entityId = paramString(req, 'id')
     
     try {
-      // LEARNING: Sanitize empty strings for enum fields to prevent database errors
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForUpdate(req.body, paramString(req, 'entityType'))
       
@@ -138,7 +140,6 @@ router.put(
         await handlePartInstanceCleanup(entityId)
       }
       
-    // Note: Keeping custom response format for backward compatibility
       const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, { 
         message: `${successMessage} successfully`,
@@ -153,8 +154,9 @@ router.put(
 
 router.patch(
   '/:entityType/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  checkOwnership('entity', 'id'),
+  validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {
@@ -176,14 +178,25 @@ router.patch(
     try {
       // WHY: Support both {key, value} format and direct field updates
       // PATTERN: Standard PATCH - parse data, update directly, let Sequelize handle validation
-      let updateData
+      let updateData: Record<string, unknown>
       if (fieldKey && newValue !== undefined) {
         updateData = { [fieldKey]: newValue }
       } else {
         updateData = req.body
       }
-      
-      const sanitizedData = sanitizeEntityDataForUpdate(updateData, paramString(req, 'entityType'))
+
+      // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
+      const entityType = paramString(req, 'entityType')
+      if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {
+        if (updateData.canHaveParts === true) {
+          updateData = { ...updateData, isStateControl: false }
+        }
+        if (updateData.isStateControl === true) {
+          updateData = { ...updateData, canHaveParts: false }
+        }
+      }
+
+      const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType)
       
       // WHY: Standard PATCH pattern - log essentials, not entire entity state
       // PATTERN: Log before update to track what's being changed
@@ -252,8 +265,7 @@ router.delete(
         sendNotFound(res, errorMessage, entityId)
         return
       }
-      
-      // Note: Keeping custom response format for backward compatibility (different from standard 204)
+
       const successMessage = ERROR_MESSAGES.DELETE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, { 
         message: `${successMessage} successfully`,

@@ -12,12 +12,19 @@ const logger = createLogger('useMapsSessionToken')
 const sharedToken: Ref<string> = ref('')
 const isFetching: Ref<boolean> = ref(false)
 
+export interface UseMapsSessionTokenReturn {
+  token: Ref<string>
+  prefetchToken: () => Promise<void>
+  getToken: () => Promise<string>
+  resetToken: () => void
+}
+
 /**
  * PATTERN: useMapsSessionToken composable
 
 PATTERN: Singleton pattern - shared toke...
  */
-export function useMapsSessionToken() {
+export function useMapsSessionToken(): UseMapsSessionTokenReturn {
   const prefetchToken = async (): Promise<void> => {
     if (sharedToken.value || isFetching.value) {
       return

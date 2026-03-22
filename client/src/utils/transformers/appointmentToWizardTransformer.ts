@@ -1,11 +1,10 @@
 /**
  * WHY: Appointment to Wizard Transformer
 
-LEARNING: Transforms appointment API ...
  */
 import type { AppointmentResponse } from '@/types/appointment'
-import type { BookingBlockInstance } from './globalToBookingTransformer'
-import type { BookingData } from './globalToBookingTransformer'
+import type { BookingBlockInstance, BookingData } from '@/types/transformers/bookingData'
+import type { WizardStateData } from '@/types/booking/wizardStateData'
 import { getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
 import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import { safeArray, extractOptionalString, extractOptionalNumber, extractOptionalBoolean } from './transformerPrimitives'
@@ -24,61 +23,7 @@ import {
 
 const logger = createLogger('appointmentToWizardTransformer')
 
-/**
- * WHY: Wizard state data structure
-LEARNING: Represents all wizard state that c...
- */
-export interface WizardStateData {
-  userTypeBlock: BookingBlockInstance | null
-  services: BookingBlockInstance[] // Multi-select array - replaces baseService
-  propertyTypeBlocks: BookingBlockInstance[] // Multi-select array - replaces propertyTypeBlock
-  optionTypeBlocks: BookingBlockInstance[]
-  lineItemBlocks: BookingBlockInstance[] // Line item blocks (bookingMode: "addOn")
-  
-  propertyDetails: {
-    address: string
-    unit: string
-    city: string
-    state: string
-    zipCode: string
-    candidatePlaceId?: string  // Candidate placeId (from confirmed appointment, loaded into wizard for editing)
-    candidateCoordinates?: { lat: number; lng: number }  // Candidate coordinates (from confirmed appointment, loaded into wizard)
-    propertySize: number | null
-    numberOfUnits: number | null
-    mlsNumber: string
-    squareFootage: number | null
-    bedrooms: number | null
-    bathrooms: number | null
-    foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
-    additionalUnits: number | null
-  }
-  
-  contacts: {
-    client: {
-      firstName: string
-      lastName: string
-      email: string
-    }
-    agent: {
-      firstName: string
-      lastName: string
-      email: string
-    }
-    additionalContacts: Array<{
-      firstName: string
-      lastName: string
-      email: string
-      role: 'anotherClient' | 'transactionManager' | 'seller'
-    }>
-  }
-  
-  availability: {
-    candidateDate: { start: string | null; end: string | null }  // Candidate date (from confirmed appointment, loaded into wizard)
-    candidateTimeSlots: Array<{ time: string; duration: number }> | null  // Candidate time slots (from confirmed appointment, loaded into wizard)
-  }
-  
-  isQuoteMode: boolean
-}
+export type { WizardStateData } from '@/types/booking/wizardStateData'
 
 function normalizePropertyDetails(propertyDetails: unknown): unknown {
   if (Array.isArray(propertyDetails) && propertyDetails.length > 0) {
@@ -240,7 +185,6 @@ function resolveBlockCategories(
 
 /**
  * WHY: Transform appointment response to wizard state data
-LEARNING: Main trans...
  */
 export async function transformAppointmentToWizard(
   appointment: AppointmentResponse,

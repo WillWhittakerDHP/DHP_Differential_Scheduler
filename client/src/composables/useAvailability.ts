@@ -12,12 +12,19 @@ import { hasValidDateRangeStructure, validateDateRange } from '@/utils/booking/d
 import type { PropertyDetails } from '@/types/availability'
 import type { ComputedSlotAvailabilityData } from '@shared/types/availabilityTypes'
 
+export interface UseAvailabilityReturn {
+  timeSlots: import('vue').ComputedRef<TimeSlot[]>
+  error: import('vue').ComputedRef<Error | null>
+  hasError: import('vue').ComputedRef<boolean>
+  isLoading: import('vue').ComputedRef<boolean>
+}
+
 export function useAvailability(
   _blockInstances: BookingBlockInstance[] | Ref<BookingBlockInstance[]> | ComputedRef<BookingBlockInstance[]>,
   dateRange: { start: string | null; end: string | null } | null | Ref<{ start: string | null; end: string | null } | null> | ComputedRef<{ start: string | null; end: string | null } | null>,
   _propertyDetails?: PropertyDetails | null | Ref<PropertyDetails | null> | ComputedRef<PropertyDetails | null>,
   _prefetchedData?: Ref<ComputedSlotAvailabilityData | null> | ComputedRef<ComputedSlotAvailabilityData | null>
-) {
+): UseAvailabilityReturn {
   const timeSlots = ref<TimeSlot[]>([])
   const error = ref<Error | null>(null)
   const isLoading = ref(false)

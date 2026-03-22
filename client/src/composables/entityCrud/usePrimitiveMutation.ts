@@ -1,3 +1,4 @@
+import type { UseMutationReturnType } from '@tanstack/vue-query'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { AxiosError } from 'axios'
 import apiClient, { getEntityByIdEndpoint } from '@/utils/api'
@@ -11,10 +12,20 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 
 const logger = createLogger('usePrimitiveMutation')
 
+/** blockShape mutual-exclusion field keys: canHaveParts and isStateControl cannot both be true. */
+const BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS = {
+  canHaveParts: 'canHaveParts',
+  isStateControl: 'isStateControl',
+} as const
+
+type PrimitiveMutationVariables = {
+  admin: { key: string; value: ValidAdminValue }
+  dynamicId: string
+}
+
 /**
  * Primitive mutation for updating a single field on an entity.
  *
- * LEARNING: Optimistic update pattern using mutation variables
  *      We update cache using what we sent (variables), not what server returns
  * 
  * PERFORMANCE: Eliminates 26+ GET requests per field update
@@ -22,10 +33,15 @@ const logger = createLogger('usePrimitiveMutation')
  */
 export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey>(
   entityKey: GlobalEntityTypeKey
-) {
+): UseMutationReturnType<{ success: boolean }, AxiosError<{ error?: string; id?: string }>, PrimitiveMutationVariables, { previousData?: GlobalData }> {
   const queryClient = useQueryClient()
 
-  return useMutation({
+  const mutation = useMutation<
+    { success: boolean },
+    AxiosError<{ error?: string; id?: string }> | Error,
+    PrimitiveMutationVariables,
+    { previousData?: GlobalData }
+  >({
     mutationFn: async ({
       admin,
       dynamicId,
@@ -89,7 +105,6 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
       }
     },
     onMutate: async (variables) => {
-      // LEARNING: Optimistic update pattern
       // PATTERN: Cancel queries → Snapshot → Update → Return context for rollback
       
       // 1. Cancel any outgoing refetches to prevent race conditions
@@ -119,9 +134,22 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
 
         // PATTERN: Update specific field using variables.admin.key and variables.admin.value
         const updatedEntities = [...currentEntities]
-        updatedEntities[entityIndex] = {
-          [variables.admin.key]: variables.admin.value, // Only update the single field being changed
-        } as GlobalEntity<GlobalEntityTypeKey>
+        const existingEntity = currentEntities[entityIndex] as Record<string, unknown>
+        let nextEntity: Record<string, unknown> = {
+          ...existingEntity,
+          [variables.admin.key]: variables.admin.value,
+        }
+
+        if (entityKey === 'blockShape') {
+          if (variables.admin.key === BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.canHaveParts && variables.admin.value === true) {
+            nextEntity = { ...nextEntity, [BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.isStateControl]: false }
+          }
+          if (variables.admin.key === BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.isStateControl && variables.admin.value === true) {
+            nextEntity = { ...nextEntity, [BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.canHaveParts]: false }
+          }
+        }
+
+        updatedEntities[entityIndex] = nextEntity as GlobalEntity<GlobalEntityTypeKey>
 
         // PATTERN: Compare field counts before and after update
         if (isDevModeEnabled()) {
@@ -175,6 +203,10 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
       }
     },
   })
+  return mutation as UseMutationReturnType<
+    { success: boolean },
+    AxiosError<{ error?: string; id?: string }>,
+    PrimitiveMutationVariables,
+    { previousData?: GlobalData }
+  >
 }
-
-

@@ -21,9 +21,6 @@ const menuProps = computed(() => {
     attrs.multiple !== undefined ? 'v-list-select-multiple' : ''
   ].filter(Boolean)
   
-  // PATTERN: Set closeOnContentClick based on multiple prop
-  const isMultiple = attrs.multiple !== undefined
-  
   const defaultMenuProps = {
     contentClass: defaultContentClass,
   }
@@ -50,21 +47,22 @@ const menuProps = computed(() => {
   
   return defaultMenuProps
 })
+
+const selectBind = computed(() => {
+  const { class: _cls, ...rest } = attrs
+  return { ...rest, class: null, variant: 'outlined' as const, id: elementId.value, menuProps: menuProps.value }
+})
+
+const wrapperClass = computed(() => (attrs.class ?? null) as string | string[] | Record<string, boolean> | null)
 </script>
 
 <template>
   <div
     class="app-select flex-grow-1"
-    :class="$attrs.class"
+    :class="wrapperClass"
   >
     <VSelect
-      v-bind="{
-        ...$attrs,
-        class: null,
-        variant: 'outlined',
-        id: elementId,
-        menuProps: menuProps,
-      }"
+      v-bind="selectBind"
     >
       <template
         v-for="(_, name) in $slots"

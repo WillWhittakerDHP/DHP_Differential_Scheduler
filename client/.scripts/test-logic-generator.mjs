@@ -8,7 +8,7 @@ import readline from 'node:readline'
  * Analyzes source code and presents interactive multiple-choice interface
  * to guide test generation based on:
  * - Function signatures and types
- * - Code comments (LEARNING, WHY, PATTERN)
+ * - Code comments (WHY, PATTERN)
  * - Conditional logic and edge cases
  * - Existing test patterns
  *
@@ -106,19 +106,9 @@ function parseParams(paramString) {
 function extractBehaviors(contents) {
   const behaviors = []
   
-  // Extract LEARNING comments
-  const learningRegex = /LEARNING:\s*(.+?)(?:\n|WHY|PATTERN|$)/g
-  let m
-  while ((m = learningRegex.exec(contents)) !== null) {
-    behaviors.push({
-      type: 'learning',
-      text: m[1].trim(),
-      priority: 'high'
-    })
-  }
-  
   // Extract WHY comments (help identify edge cases)
-  const whyRegex = /WHY:\s*(.+?)(?:\n|LEARNING|PATTERN|$)/g
+  let m
+  const whyRegex = /WHY:\s*(.+?)(?:\n|PATTERN|$)/g
   while ((m = whyRegex.exec(contents)) !== null) {
     behaviors.push({
       type: 'why',
@@ -128,7 +118,7 @@ function extractBehaviors(contents) {
   }
   
   // Extract PATTERN comments
-  const patternRegex = /PATTERN:\s*(.+?)(?:\n|LEARNING|WHY|$)/g
+  const patternRegex = /PATTERN:\s*(.+?)(?:\n|WHY|$)/g
   while ((m = patternRegex.exec(contents)) !== null) {
     behaviors.push({
       type: 'pattern',
@@ -248,8 +238,8 @@ function generateTestCode(functionName, functionDetails, behaviors, edgeCases, t
   }
   
   if (testType === 'behavioral' || testType === 'comprehensive') {
-    // Behavioral tests from comments
-    behaviors.filter(b => b.type === 'learning').forEach(behavior => {
+    // Behavioral tests from comments (WHY, PATTERN)
+    behaviors.filter(b => b.type === 'why' || b.type === 'pattern').forEach(behavior => {
       const behaviorDesc = behavior.text.toLowerCase().replace(/\.$/, '')
       tests.push(`  it('should ${behaviorDesc}', () => {
     // Arrange

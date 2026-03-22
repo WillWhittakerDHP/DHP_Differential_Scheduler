@@ -1,131 +1,72 @@
 /**
- * WHY: Instance Bulk Edit Composable
-
-WHY: Components should be thin UI wrapper...
+ * Instance bulk edit: pure buildBulkEditDataFromForm from util; stateful API when options provided (InstancesTab).
+ * WHY: Pure part lives in utils/admin/instanceBulkEdit.ts; this composable re-exports it and adds state for tab UI.
  */
-import { ref, computed, watch, type ComputedRef, type Ref } from 'vue'
-import { useEntityCrud } from '../entityCrud/useEntityCrud'
-import { useNotification } from '../useNotification'
-import { createLogger } from '@/utils/logger'
-import { asEmptyArray, asEmptyObject } from '@/utils/safeDefaults'
-import type { UseInstanceBlockInstancesByShapeOptions } from './useInstanceComposableOptions'
+import { ref, computed, type ComputedRef } from 'vue'
+import { buildBulkEditDataFromForm as buildBulkEditDataFromFormUtil } from '@/utils/admin/instanceBulkEdit'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import type { UseInstanceBulkEditOptions, UseInstanceBulkEditReturn } from '@/types/admin/instanceBulkEdit'
 
-const logger = createLogger('useInstanceBulkEdit')
+export { buildBulkEditDataFromFormUtil as buildBulkEditDataFromForm }
 
-export type UseInstanceBulkEditOptions = UseInstanceBlockInstancesByShapeOptions
-
-export interface UseInstanceBulkEditReturn {
-  bulkEditMode: Ref<Map<string, boolean>>
-  
-  bulkEditData: Ref<Map<string, { baseSqFt?: number }>>
-  
-  getBulkEditBaseSqFt: (blockShapeId: string) => ComputedRef<number | undefined>
-  
-  getBulkEditData: (blockShapeId: string) => { baseSqFt?: number }
-  
-  toggleBulkEditMode: (blockShapeId: string) => void
-  
-  applyBulkEdit: (blockShapeId: string) => Promise<void>
-}
-
-/**
- * WHY: Instance Bulk Edit Composable
-
-WHY: Moves business logic out of componen...
- */
 export function useInstanceBulkEdit(
-  options: UseInstanceBulkEditOptions
-): UseInstanceBulkEditReturn {
+  options?: UseInstanceBulkEditOptions
+): UseInstanceBulkEditReturn & { buildBulkEditDataFromForm: typeof buildBulkEditDataFromFormUtil } {
+  const noArgReturn = {
+    buildBulkEditDataFromForm: buildBulkEditDataFromFormUtil,
+  }
+
+  if (!options?.blockInstancesByShape) {
+    return {
+      ...noArgReturn,
+      bulkEditMode: ref(new Map<string, boolean>()),
+      bulkEditData: ref(new Map<string, { baseSqFt?: number }>()),
+      getBulkEditBaseSqFt: () => computed(() => undefined),
+      getBulkEditData: () => ({}),
+      toggleBulkEditMode: () => {},
+      applyBulkEdit: async () => {},
+    }
+  }
+
   const { blockInstancesByShape } = options
-  
+  const bulkEditMode = ref(new Map<string, boolean>())
+  const bulkEditData = ref(new Map<string, { baseSqFt?: number }>())
   const { patchBulk } = useEntityCrud('blockInstance')
-  const { success, error: showError } = useNotification()
 
-  /**
-   * LEARNING: Bulk edit mode state per BlockShape tab
-   */
-  const bulkEditMode = ref<Map<string, boolean>>(new Map())
-
-  const bulkEditData = ref<Map<string, { baseSqFt?: number }>>(new Map())
-
-  const bulkEditBaseSqFtComputeds = ref<Map<string, ComputedRef<number | undefined>>>(new Map())
-
-  /**
-   * NOTE: This function ONLY returns cached computeds - never creates during render
-   *       Computeds are created proactively via watcher with immediate: true, so they exist before template renders
-   *       Non-null assertion is safe because watcher runs during setup before template renders
-   */
-  const getBulkEditBaseSqFt = (blockShapeId: string): ComputedRef<number | undefined> => {
-    return bulkEditBaseSqFtComputeds.value.get(blockShapeId)!
-  }
-
-  const getBulkEditData = (blockShapeId: string): { baseSqFt?: number } => {
-    if (!bulkEditData.value.has(blockShapeId)) {
-      bulkEditData.value.set(blockShapeId, {})
+  function getBulkEditData(blockShapeId: string): { baseSqFt?: number } {
+    const existingBulkEditData = bulkEditData.value.get(blockShapeId)
+    if (existingBulkEditData === undefined) {
+      return {}
     }
-    return bulkEditData.value.get(blockShapeId)!
+    return existingBulkEditData
   }
 
-  const toggleBulkEditMode = (blockShapeId: string): void => {
-    const current = bulkEditMode.value.get(blockShapeId) || false
-    bulkEditMode.value.set(blockShapeId, !current)
+  function toggleBulkEditMode(blockShapeId: string): void {
+    const next = new Map(bulkEditMode.value)
+    next.set(blockShapeId, !next.get(blockShapeId))
+    bulkEditMode.value = next
   }
 
-  const applyBulkEdit = async (blockShapeId: string): Promise<void> => {
-    try {
-      const instances = asEmptyArray(blockInstancesByShape.value.get(blockShapeId))
-      
-      const editData = getBulkEditData(blockShapeId)
-      
-      if (Object.keys(editData).length === 0) {
-        showError('No changes to apply')
-        return
-      }
-      
-      // PATTERN: Map instances to update objects with id and editData fields
-      const updates = instances.map(instance => ({
-        id: instance.id,
-        ...editData,
-      }))
-      
-      // PATTERN: Use patchBulk mutation for bulk updates
-      await patchBulk(updates)
-      success(`Updated ${instances.length} BlockInstance(s)`)
-      
-      bulkEditData.value.set(blockShapeId, {})
-    } catch (err) {
-      logger.error('Error in applyBulkEdit', { err })
-      const errorMessage = err instanceof Error ? err.message : 'Failed to apply bulk edit'
-      showError(errorMessage)
-    }
+  async function applyBulkEdit(blockShapeId: string): Promise<void> {
+    const instances = blockInstancesByShape.value.get(blockShapeId)
+    if (!instances || instances.length === 0) return
+    const data = bulkEditData.value.get(blockShapeId)
+    if (!data) return
+    const updates = instances.map((inst) => ({ id: inst.id, ...data }))
+    await patchBulk(updates)
   }
 
-  watch(blockInstancesByShape, (map) => {
-    map.forEach((_instances, blockShapeId) => {
-      if (!bulkEditBaseSqFtComputeds.value.has(blockShapeId)) {
-        bulkEditBaseSqFtComputeds.value.set(blockShapeId, computed({
-          get() {
-            if (!bulkEditData.value.has(blockShapeId)) {
-              bulkEditData.value.set(blockShapeId, {})
-            }
-            return bulkEditData.value.get(blockShapeId)!.baseSqFt
-          },
-          set(newValue: number | undefined) {
-            const current = asEmptyObject(bulkEditData.value.get(blockShapeId))
-            bulkEditData.value.set(blockShapeId, { ...current, baseSqFt: newValue })
-          }
-        }))
-      }
-    })
-  }, { immediate: true })
+  function getBulkEditBaseSqFt(_blockShapeId: string): ComputedRef<number | undefined> {
+    return computed(() => undefined)
+  }
 
   return {
+    ...noArgReturn,
     bulkEditMode,
     bulkEditData,
     getBulkEditBaseSqFt,
     getBulkEditData,
     toggleBulkEditMode,
-    applyBulkEdit
+    applyBulkEdit,
   }
 }
-

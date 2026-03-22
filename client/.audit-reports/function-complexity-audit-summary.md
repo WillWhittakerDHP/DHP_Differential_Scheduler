@@ -7,40 +7,12 @@
 
 Generated from `client/.audit-reports/function-complexity-audit.json`.
 
-- Files with complex functions: **242**
+- Files with complex functions: **3**
 
-## Top 30 files
+## Top 3 files
 
 | File | Priority | Score | Complex Fns | Worst Nesting | Worst Length |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `server/src/routes/helpers/crudRouteHandlers.ts` | P0 | 27 | 4 | 8 | 67 |
-| `server/src/services/invites/inviteOrchestrationService.ts` | P0 | 26 | 4 | 7 | 83 |
-| `server/src/services/google/maps/placesApiService.ts` | P0 | 18 | 3 | 8 | 43 |
-| `server/src/services/google/maps/routesApiService.ts` | P0 | 18 | 2 | 12 | 92 |
-| `client/src/composables/useRelationship.ts` | P0 | 17 | 2 | 11 | 116 |
-| `server/src/services/slotComputationService.ts` | P0 | 17 | 3 | 5 | 81 |
-| `client/src/composables/booking/useMoveablePartsScheduling.ts` | P0 | 15 | 2 | 17 | 159 |
-| `client/src/utils/admin/selectTypeResolver.ts` | P0 | 15 | 3 | 9 | 26 |
-| `client/src/utils/forms/fieldLocationDispatcher.ts` | P0 | 15 | 3 | 15 | 75 |
-| `server/src/services/appointmentCalendarService.ts` | P0 | 15 | 2 | 10 | 80 |
-| `server/src/services/brightMls/brightMlsApiClient.ts` | P0 | 15 | 2 | 13 | 81 |
-| `client/src/components/admin/generic/EntityCardSubPanels.vue` | P0 | 13 | 2 | 7 | 18 |
-| `client/src/utils/booking/timeSlotMatching.ts` | P0 | 13 | 2 | 9 | 29 |
-| `server/src/routes/internal/appointments/appointmentHelpers.ts` | P0 | 13 | 2 | 7 | 50 |
-| `server/src/services/propertyFeatureMatcher.ts` | P0 | 13 | 2 | 9 | 34 |
-| `client/src/composables/booking/useContactsStepData.ts` | P0 | 12 | 2 | 12 | 57 |
-| `client/src/utils/booking/cascadeFilterPipeline.ts` | P0 | 12 | 3 | 6 | 53 |
-| `client/src/components/admin/generic/fields/BooleanInput.vue` | P1 | 10 | 1 | 19 | 63 |
-| `client/src/components/booking/dev/DevPanelsContainer.vue` | P1 | 10 | 2 | 9 | 29 |
-| `client/src/components/booking/plugins/wizardStatePlugin.ts` | P1 | 10 | 1 | 16 | 89 |
-| `client/src/components/common/AddressAutocomplete.vue` | P1 | 10 | 2 | 6 | 32 |
-| `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | P1 | 10 | 1 | 8 | 106 |
-| `client/src/composables/admin/useAvailabilitySettings.ts` | P1 | 10 | 1 | 43 | 271 |
-| `client/src/composables/admin/useBufferSettings.ts` | P1 | 10 | 2 | 5 | 28 |
-| `client/src/composables/admin/useBusinessRuleForm.ts` | P1 | 10 | 1 | 10 | 159 |
-| `client/src/composables/admin/useBusinessRules.ts` | P1 | 10 | 1 | 7 | 168 |
-| `client/src/composables/admin/useCalendarEntries.ts` | P1 | 10 | 1 | 30 | 173 |
-| `client/src/composables/admin/useCapacitySettings.ts` | P1 | 10 | 2 | 6 | 31 |
-| `client/src/composables/admin/useDragAndDropHelpers.ts` | P1 | 10 | 2 | 6 | 26 |
-| `client/src/composables/admin/useEntityCardActions.ts` | P1 | 10 | 1 | 8 | 127 |
-
+| `client/src/composables/booking/useMoveableAvailabilityData.ts` | P1 | 7 | 1 | 4 | 129 |
+| `client/src/composables/admin/tables/useAppointmentsTableModel.ts` | P1 | 5 | 1 | 3 | 124 |
+| `client/src/composables/admin/usePropertyCreateForm.ts` | P1 | 5 | 1 | 3 | 65 |

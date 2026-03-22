@@ -2,6 +2,9 @@
 import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsConstants.js'
+import { ROLLING_WEEK_DIRECTION } from '../../../utils/availabilities/availabilityConstants.js'
+
+const rollingWeekDirectionValues = new Set<string>(Object.values(ROLLING_WEEK_DIRECTION))
 
 /**
  * Validate availability settings structure
@@ -222,7 +225,7 @@ export function validateAvailabilitySettings(data: unknown): data is Availabilit
       if (typeof rollingWeekFilter !== 'object' ||
           typeof (rollingWeekFilter as Record<string, unknown>).maxHours !== 'number' ||
           !['off', 'flexible', 'hard'].includes((rollingWeekFilter as Record<string, unknown>).enforcement as string) ||
-          !['past', 'centered', 'future'].includes((rollingWeekFilter as Record<string, unknown>).direction as string)) {
+          !rollingWeekDirectionValues.has((rollingWeekFilter as Record<string, unknown>).direction as string)) {
         return false
       }
     }
@@ -255,7 +258,7 @@ export function validateAvailabilitySettings(data: unknown): data is Availabilit
       if (typeof maxIncomeRollingWeek !== 'object' ||
           typeof (maxIncomeRollingWeek as Record<string, unknown>).maxIncome !== 'number' ||
           !['off', 'flexible', 'hard'].includes((maxIncomeRollingWeek as Record<string, unknown>).enforcement as string) ||
-          !['past', 'centered', 'future'].includes((maxIncomeRollingWeek as Record<string, unknown>).direction as string)) {
+          !rollingWeekDirectionValues.has((maxIncomeRollingWeek as Record<string, unknown>).direction as string)) {
         return false
       }
     }

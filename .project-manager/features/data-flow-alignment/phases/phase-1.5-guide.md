@@ -34,11 +34,7 @@
 - [ ] ### Session 1.5.1: Business Rules Database Infrastructure
 **Description:** Create database tables and models for business rules configuration. Replace hardcoded validation logic (isMultiFamily, requiresAgent, conditional required fields) with database-driven rules.
 **Tasks:** 6 tasks
-**Learning Goals:**
-- Database schema design for configurable business rules
-- Relationship modeling between business rules and block instances
-- Annotation instances integration with validation messages
-- Leveraging existing patterns (requiresUnitNumber flag, BusinessSettings JSONB)
+
 **Key Deliverables:**
 - `business_rules` table with rule_type and JSONB config
 - Block instance validation flags (is_multi_family, requires_agent)
@@ -49,26 +45,12 @@
 - [ ] ### Session 1.5.2: Business Rules Admin Tab
 **Description:** Create admin panel tab for managing business rules (required fields UI, validation message configuration)
 **Tasks:** 4-5 tasks
-**Learning Goals:**
-- Admin UI patterns for configuration management
-- Form design for complex rule configuration
-- Real-time preview of validation rules
 
-- [ ] ### Session 1.5.3: Required Fields Validation Logic
 **Description:** Implement required fields validation in wizard (property details confirmation modal, required field checking)
 **Tasks:** 4-5 tasks
-**Learning Goals:**
-- Dynamic validation based on business rules
-- Modal workflows for confirmation
-- Annotation-driven user messages
 
-- [ ] ### Session 1.5.4: "Requires Agent" Logic Implementation
 **Description:** Implement "requires agent" detection and modal workflow (agent/client contact info validation)
 **Tasks:** 3-4 tasks
-**Learning Goals:**
-- Service-specific validation logic
-- Shared composable patterns for modal/step data
-- Conditional form field requirements
 
 ---
 

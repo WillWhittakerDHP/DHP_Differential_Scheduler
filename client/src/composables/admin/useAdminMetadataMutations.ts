@@ -12,11 +12,38 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAdminMetadataMutations')
 
-export function useAdminMetadataMutations() {
+export interface UseAdminMetadataMutationsReturn {
+  saveFieldMetadata: (variables: {
+    entityType: EntityMetadataType
+    entityId: string
+    fieldKey: string
+    renderingUpdates: Partial<FieldMetadataEntry>
+    existingMetadata: FieldMetadataEntry | undefined
+    blockShapeRef?: string | null
+  }) => Promise<unknown>
+  deleteFieldMetadata: (variables: {
+    entityType: EntityMetadataType
+    entityId: string
+    fieldKey: string
+    blockShapeRef?: string | null
+  }) => Promise<unknown>
+  isSaving: import('vue').Ref<boolean>
+  isDeleting: import('vue').Ref<boolean>
+}
+
+export function useAdminMetadataMutations(): UseAdminMetadataMutationsReturn {
   const queryClient = useQueryClient()
   const { getFieldMetadata } = useMetadataCache()
 
-  const saveFieldMetadataMutation = useMutation({
+  type SaveFieldMetadataVariables = {
+    entityType: EntityMetadataType
+    entityId: string
+    fieldKey: string
+    renderingUpdates: Partial<FieldMetadataEntry>
+    existingMetadata: FieldMetadataEntry | undefined
+    blockShapeRef?: string | null
+  }
+  const saveFieldMetadataMutation = useMutation<unknown, Error, SaveFieldMetadataVariables>({
     mutationFn: async ({
       entityType,
       entityId,
@@ -24,14 +51,7 @@ export function useAdminMetadataMutations() {
       renderingUpdates,
       existingMetadata,
       blockShapeRef,
-    }: {
-      entityType: EntityMetadataType
-      entityId: string
-      fieldKey: string
-      renderingUpdates: Partial<FieldMetadataEntry>
-      existingMetadata: FieldMetadataEntry | undefined
-      blockShapeRef?: string | null
-    }) => {
+    }: SaveFieldMetadataVariables) => {
       // PATTERN: Like entity mutations accept fields (primitives + relationships) and dehydrate together
       
       // PATTERN: Use lazy-loaded metadata cache instead of globalData
@@ -83,30 +103,29 @@ export function useAdminMetadataMutations() {
       return response.data
     },
     onSuccess: () => {
-      // LEARNING: Invalidate cache to mark as stale
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
     },
   })
 
-  const deleteFieldMetadataMutation = useMutation({
+  type DeleteFieldMetadataVariables = {
+    entityType: EntityMetadataType
+    entityId: string
+    fieldKey: string
+    blockShapeRef?: string | null
+  }
+  const deleteFieldMetadataMutation = useMutation<void, Error, DeleteFieldMetadataVariables>({
     mutationFn: async ({
       entityType,
       entityId,
       fieldKey,
       blockShapeRef,
-    }: {
-      entityType: EntityMetadataType
-      entityId: string
-      fieldKey: string
-      blockShapeRef?: string | null
-    }) => {
+    }: DeleteFieldMetadataVariables) => {
       const endpoint = `${getAdminMetadataEndpoint(entityType, entityId)}/${fieldKey}`
       const url = blockShapeRef ? `${endpoint}?blockShapeRef=${blockShapeRef}` : endpoint
       await apiClient.delete(url)
     },
     onSuccess: () => {
-      // LEARNING: Invalidate cache to mark as stale
       // PATTERN: Invalidate in mutation, refetch manually in component to await completion
       queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
       // PATTERN: Invalidate both adminMetadata and globalData after metadata saves

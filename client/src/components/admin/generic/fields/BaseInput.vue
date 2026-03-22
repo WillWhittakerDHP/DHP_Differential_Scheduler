@@ -14,11 +14,6 @@
     <!-- Field Content -->
     <div class="field-content">
       <slot />
-      
-      <!-- Right Actions (e.g., mode toggle buttons) -->
-      <div v-if="$slots.rightActions" class="field-right-actions">
-        <slot name="rightActions" />
-      </div>
     </div>
     
     <!-- Error Message -->
@@ -50,13 +45,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showLabel: true,
+  showLabel: false,
   showError: true,
   showHelp: true,
   isDisabled: false
 })
 
-// LEARNING: Computed properties provide reactive derived state
 // PATTERN: Use computed for derived state
 const hasError = computed(() => !!props.error)
 const fieldId = computed(() => `field-${props.fieldKey}`)
@@ -122,4 +116,3 @@ const fieldId = computed(() => `field-${props.fieldKey}`)
   pointer-events: none;
 }
 </style>
-

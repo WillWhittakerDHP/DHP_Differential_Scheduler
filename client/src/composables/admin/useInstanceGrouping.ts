@@ -3,28 +3,11 @@
 
 WHY: Components should be thin UI wrappers...
  */
-import { computed, watch, type ComputedRef, type Ref } from 'vue'
+import { computed, watch } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
-
-export interface UseInstanceGroupingOptions {
-  activeTab?: Ref<string>
-}
-
-export interface UseInstanceGroupingReturn {
-  sortedBlockShapes: ComputedRef<GlobalEntity<'blockShape'>[]>
-  
-  blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  
-  blockInstancesCountByShape: ComputedRef<Map<string, number>>
-  
-  blockShapeComposable: ComputedRef<Map<string, boolean>>
-  
-  blockShapeStateControl: ComputedRef<Map<string, boolean>>
-  
-  blockShapeValidCascades: ComputedRef<Map<string, string[]>>
-}
+import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
 /**
  * WHY: Instance Grouping Composable
@@ -46,7 +29,6 @@ export function useInstanceGrouping(
     const blockShapes = getEntities('blockShape')
     return [...blockShapes].sort((a, b) => a.orderIndex - b.orderIndex)
   })
-
 
   /**
    * NOTE: Uses getEntities() to ensure entities have relationships attached (e.g., instanceComponents)
@@ -77,10 +59,6 @@ export function useInstanceGrouping(
     }, new Map<string, number>())
   })
 
-  /**
-LEARNING: Computed property for BlockShape composable flags
-WHY: Cac...
-   */
   const blockShapeComposable = computed(() => {
     const blockShapes = getEntities('blockShape')
     
@@ -92,10 +70,6 @@ WHY: Cac...
     }, new Map<string, boolean>())
   })
 
-  /**
-LEARNING: Computed property for BlockShape state control flags
-WHY: ...
-   */
   const blockShapeStateControl = computed(() => {
     const blockShapes = getEntities('blockShape')
     
@@ -138,7 +112,6 @@ WHY: ...
   })
 
   /**
-   * LEARNING: Watcher for sortedBlockShapes (matches ShapesTab pattern of minimal watchers)
    */
   watch(sortedBlockShapes, (shapes) => {
     if (activeTab && shapes.length > 0) {
@@ -157,4 +130,3 @@ WHY: ...
     blockShapeValidCascades
   }
 }
-

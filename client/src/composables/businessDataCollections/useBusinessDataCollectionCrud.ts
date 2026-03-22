@@ -1,11 +1,12 @@
 /**
  * WHY: Business Data Collection CRUD Composable
 
-LEARNING: Facade composable fo...
  */
-import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from './types'
+import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
+import type { BusinessDataCollectionCrudComposableReturn, BusinessDataCollectionCrudConfig } from '@/types/dataCollections/businessDataCollectionTypes'
+import { BUSINESS_DATA_QUERY_KEY } from '@/composables/useBusiness'
+import { useDataCollectionActions } from '@/composables/dataCollections/useDataCollectionActions'
 import { useBusinessDataCollectionQuery } from './useBusinessDataCollectionQuery'
-import { useBusinessDataCollectionActions } from './useBusinessDataCollectionActions'
 
 /**
  * PATTERN: Facade composable for BusinessData-backed collections
@@ -21,11 +22,12 @@ export function useBusinessDataCollectionCrud<
     selectCollection: config.selectCollection,
   })
 
-  const { create, update, patch, remove } = useBusinessDataCollectionActions<
+  const { create, update, patch, remove } = useDataCollectionActions<
     CollectionItem,
     CreatePayload,
-    UpdatePayload
-  >(config)
+    UpdatePayload,
+    BusinessData
+  >(config, BUSINESS_DATA_QUERY_KEY, true)
 
   return {
     create,
@@ -36,4 +38,3 @@ export function useBusinessDataCollectionCrud<
     fetchById,
   }
 }
-

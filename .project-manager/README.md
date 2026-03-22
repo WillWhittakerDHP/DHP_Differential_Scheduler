@@ -2,7 +2,7 @@
 
 **Purpose:** This README explains the project manager documentation structure and which documents are current.
 
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-03-15
 
 ---
 
@@ -19,17 +19,21 @@
 ├── features/ (feature-level documentation)
 │   ├── vue-migration/ (Feature 0 — ✅ Complete)
 │   ├── data-flow-alignment/ (Feature 1 — ✅ Complete)
-│   ├── feature-2-google-apis-integration/ (Feature 2 — ✅ Functionally Complete)
-│   ├── booking-calculations/ (Feature 3 — ⏳ Core Complete)
-│   ├── calendar-appointment-availability/ (Feature 4 — ✅ Functionally Complete)
-│   ├── beta-feedback/ (Feature 5 — ✅ Complete)
-│   ├── appointment-workflow/ (Feature 8 — ⏳ Partial)
-│   ├── test-suite-setup/ (Feature 9 — 📋 Planning)
-│   ├── beta-feedback-response/ (Feature 10 — 📋 Planning)
-│   ├── beta-launch/ (Feature 11 — 📋 Planning)
-│   ├── feature-7-ui-polish/ (Feature 12 — 🔮 Future)
-│   ├── admin-ui-overhaul/ (Feature 13 — 🔮 Future)
-│   └── gpt-admin-automation/ (Feature 14 — 🔮 Future, to be renamed admin-assistance-wizard)
+│   ├── google-apis-integration/ (Feature 2 — ✅ Complete)
+│   ├── calendar-appointment-availability/ (Feature 3 — ✅ Complete)
+│   ├── appointment-workflow/ (Feature 6 — ⏳ Partial)
+│   ├── authentication/ (Feature 7 — 📋 Planning)
+│   ├── security-hardening/ (Feature 8 — 📋 Planning)
+│   ├── guided-alpha-testing/ (Feature 9 — 📋 Planning)
+│   ├── testing-quality-validation/ (Feature 10 — 📋 Planning)
+│   ├── production-readiness/ (Feature 11 — 📋 Planning)
+│   ├── pre-launch-polish/ (Feature 12 — 📋 Planning)
+│   ├── beta-feedback/ (Feature 14 — ✅ Complete)
+│   ├── beta-feedback-response/ (Feature 15 — 📋 Planning)
+│   ├── ui-polish/ (Feature 16 — 🔮 Future)
+│   ├── admin-ui-overhaul/ (Feature 17 — 🔮 Future)
+│   ├── admin-assistance-wizard/ (Feature 18 — 🔮 Future)
+│   └── booking-calculations/ (historical — merged into Feature 6)
 └── archive/ (historical/archived documents)
 ```
 
@@ -39,7 +43,7 @@
 
 ### Project Level
 - **Master Plan:** `PROJECT_PLAN.md` ⭐ **SINGLE SOURCE OF TRUTH** — All features, phases, and statuses
-- **Launch Infrastructure:** `../../BETA_LAUNCH_CHECKLIST.md` ⭐ — Hosting, security, deployment, testing (root-level)
+- **Launch Infrastructure:** `../../LAUNCH_CHECKLIST.md` ⭐ — Hosting, security, deployment, testing (root-level)
 
 ### Feature Level (Tier 1)
 Each feature directory contains:
@@ -58,28 +62,35 @@ Each feature directory contains:
 
 ---
 
-## Current Status (2026-02-18)
+## Current Status (2026-03-15)
 
 ### Completed / Functionally Complete
-- **Feature 0:** Vue.js Migration — ✅ Core Complete
+- **Feature 0:** Vue.js Migration — ✅ Complete
 - **Feature 1:** Data Flow Alignment — ✅ Complete (2026-01-31)
-- **Feature 2:** Google APIs Integration — ✅ Functionally Complete (MLS credentials pending on external provider)
-- **Feature 3:** Booking Calculations — ⏳ Core Complete (logic works, needs consolidation composable)
-- **Feature 4:** Calendar & Appointment Availability — ✅ Functionally Complete (full booking flow working)
-- **Feature 5:** Beta Feedback System — ✅ Complete (2026-02-10)
-- **Feature 6:** Pricing Cascades — ✅ Complete (2026-02-13)
-- **Feature 7:** Property Enrichment & Mappings — ✅ Complete (2026-02-11)
-- **Feature 8:** Appointment Workflow — ⏳ Phase 1 Complete, future phases planned
+- **Feature 2:** Google APIs Integration — ✅ Complete (MLS credentials pending on external provider)
+- **Feature 3:** Calendar & Appointment Availability — ✅ Complete (2026-02-21)
+- **Feature 4:** Pricing Cascades — ✅ Complete (2026-02-13)
+- **Feature 5:** Property Enrichment & Mappings — ✅ Complete (2026-02-11)
+- **Feature 14:** Beta Feedback System — ✅ Complete (2026-02-10)
+
+### In Progress
+- **Feature 6:** Appointment Workflow & Booking Calculations — ⏳ Partial (Phase 6.10 active)
 
 ### Planning (Pre-Launch)
-- **Feature 9:** Test Suite Setup
-- **Feature 10:** Beta Feedback Response
-- **Feature 11:** Beta Launch
+- **Feature 7:** Authentication
+- **Feature 8:** Security Hardening
+- **Feature 9:** Guided Alpha Testing
+- **Feature 10:** Testing & Quality Validation
+- **Feature 11:** Production Readiness
+- **Feature 12:** Pre-Launch Polish
+- **Feature 13:** Alpha Launch & Deployment
+- **Feature 15:** Beta Feedback Response
+- **Feature 19:** CRM / Inspection Platform Integration
 
 ### Future (Post-Launch)
-- **Feature 12:** UI Polish
-- **Feature 13:** Admin UI Overhaul
-- **Feature 14:** Admin Assistance Wizard (guided service setup, replaces GPT concept)
+- **Feature 16:** UI Polish
+- **Feature 17:** Admin UI Overhaul
+- **Feature 18:** Admin Assistance Wizard
 
 ---
 
@@ -93,7 +104,7 @@ Each feature directory contains:
 - **README.md** — This document
 
 ### In Project Root
-- **BETA_LAUNCH_CHECKLIST.md** ⭐ **CURRENT** — Master checklist for launch infrastructure (hosting, auth, security, CI/CD, testing). This is a separate tracking artifact from feature development — think of it as "Can we ship it safely?" vs PROJECT_PLAN's "What does the app do?"
+- **LAUNCH_CHECKLIST.md** ⭐ **CURRENT** — Master checklist for launch infrastructure (hosting, auth, security, CI/CD, testing). This is a separate tracking artifact from feature development — think of it as "Can we ship it safely?" vs PROJECT_PLAN's "What does the app do?"
 
 ### Archive
 - **archive/** — Historical/archived documents (`project-plan.md.old`, etc.)
@@ -124,7 +135,7 @@ Each feature directory contains:
 
 ### For Current Planning
 1. **Start with:** `PROJECT_PLAN.md` ⭐ — Single source of truth for feature development
-2. **Launch readiness:** `../../BETA_LAUNCH_CHECKLIST.md` — Infrastructure and deployment
+2. **Launch readiness:** `../../LAUNCH_CHECKLIST.md` — Infrastructure and deployment
 3. **Feature details:** `features/[feature-name]/feature-{feature-name}-guide.md` — Detailed feature plans
 4. **Feature overviews:** `features/[feature-name]/README.md` — Quick feature summaries
 5. **Validation:** See `FEATURE_VALIDATION_CHECKLIST.md` for pre-phase planning requirements
@@ -146,8 +157,8 @@ Each feature directory contains:
 - **Client Directory:** The Vue 3 application lives in `client/` (previously `client-vue/` — renamed after React codebase removal)
 - **Feature-Level Docs Requirement:** Feature-level planning documents (feature guide, `README.md`) MUST be created before any phase planning documents. See `FEATURE_VALIDATION_CHECKLIST.md`.
 - **3-Tier Structure:** Feature → Phase → Session. Each tier has its own documentation as needed.
-- **Features 6–7:** Pricing Cascades and Property Enrichment are complete sub-features documented in PROJECT_PLAN without dedicated directories.
-- **Feature 14:** "Admin Assistance Wizard" replaces the original "GPT Admin Automation" concept. The directory `gpt-admin-automation/` will be renamed when work begins.
+- **Features 4–5:** Pricing Cascades and Property Enrichment are complete sub-features documented in PROJECT_PLAN without dedicated directories.
+- **Feature 18:** "Admin Assistance Wizard" replaces the original "GPT Admin Automation" concept. Directory renamed to `admin-assistance-wizard/`.
 
 ---
 
@@ -155,6 +166,6 @@ Each feature directory contains:
 
 If you're unsure which document to use:
 1. **Feature development:** Start with `PROJECT_PLAN.md`
-2. **Launch infrastructure:** Start with `../../BETA_LAUNCH_CHECKLIST.md`
+2. **Launch infrastructure:** Start with `../../LAUNCH_CHECKLIST.md`
 3. **Specific feature:** Check `features/[feature-name]/README.md`
 4. **Current progress on active feature:** Check `features/[feature-name]/feature-[N]-handoff.md`

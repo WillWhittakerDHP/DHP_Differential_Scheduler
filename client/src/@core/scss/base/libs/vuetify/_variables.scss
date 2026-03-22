@@ -1,25 +1,16 @@
 @use "sass:map";
 
-/* 👉 Shadow opacities */
-$shadow-key-umbra-opacity-custom: var(--v-shadow-key-umbra-opacity);
-$shadow-key-penumbra-opacity-custom: var(--v-shadow-key-penumbra-opacity);
-$shadow-key-ambient-opacity-custom: var(--v-shadow-key-ambient-opacity);
-
 /* 👉 Card transition properties */
 $card-transition-property-custom: box-shadow, opacity;
 
+// V4: shadow system uses $shadow-key-color, $shadow-ambient-color (6 levels); legacy umbra/penumbra/ambient removed
 @forward "vuetify/settings" with (
   // 👉 General settings
   $color-pack: false !default,
 
-  // 👉 Shadow opacity
-  $shadow-key-umbra-opacity: $shadow-key-umbra-opacity-custom !default,
-  $shadow-key-penumbra-opacity: $shadow-key-penumbra-opacity-custom !default,
-  $shadow-key-ambient-opacity: $shadow-key-ambient-opacity-custom !default,
-
-    // 👉 Card
+  // 👉 Card
   $card-color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity)) !default,
-  $card-elevation: 6 !default,
+  $card-elevation: 5 !default,
   $card-title-line-height: 1.6 !default,
   $card-actions-min-height: unset !default,
   $card-text-padding: 1.25rem !default,

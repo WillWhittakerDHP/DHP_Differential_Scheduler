@@ -3,25 +3,13 @@
 PATTERN: Extract shared mutat...
  */
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { UseMutationReturnType } from '@tanstack/vue-query'
 import apiClient from '@/utils/api'
 import { appendIfMissingById } from '@/utils/collections/appendIfMissingById'
-import type { UpdateByIdPayload } from '@/composables/businessDataCollections/types'
+import type { UpdateByIdPayload } from '@/types/collectionTypes'
 import { createRefetchQueriesHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import type { DataCollectionCrudConfig, UseDataCollectionActionsReturn } from '@/types/dataCollections/dataCollectionActions'
 
-export interface DataCollectionCrudConfig<
-  CollectionItem extends { id: string },
-  DataType
-> {
-  endpoints: {
-    listEndpoint: () => string
-    byIdEndpoint: (id: string) => string
-  }
-  selectCollection: (data: DataType) => CollectionItem[] | readonly CollectionItem[] | undefined
-  updateCollection: (data: DataType, collection: CollectionItem[] | readonly CollectionItem[]) => DataType
-  [key: string]: unknown
-}
 
 /**
  * PATTERN: Accepts query key and data type as parameters for flexibility
@@ -35,12 +23,7 @@ export function useDataCollectionActions<
   config: DataCollectionCrudConfig<CollectionItem, DataType>,
   queryKey: readonly unknown[],
   enableOptimisticUpdates: boolean = true
-): {
-  create: UseMutationReturnType<CollectionItem, unknown, CreatePayload, unknown>
-  update: UseMutationReturnType<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>
-  patch: UseMutationReturnType<CollectionItem, unknown, UpdateByIdPayload<UpdatePayload>, unknown>
-  remove: UseMutationReturnType<void, unknown, string, unknown>
-} {
+): UseDataCollectionActionsReturn<CollectionItem, CreatePayload, UpdatePayload> {
   const queryClient = useQueryClient()
   
   // WHY: Eliminates duplication of common refetch pattern

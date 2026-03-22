@@ -5,13 +5,13 @@
 
 # Audit Golden Sample Results
 
-Generated: 2026-02-23T18:03:16.400Z
+Generated: 2026-03-22T00:03:44.960Z
 
 ## Summary
 
 | Passed | Failed | Skipped |
 | ---: | ---: | ---: |
-| 5 | 1 | 0 |
+| 4 | 2 | 0 |
 
 ## Per rule
 
@@ -19,7 +19,7 @@ Generated: 2026-02-23T18:03:16.400Z
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | error-handling | catch-without-logger | passed | 1 | 1 | 0 | 1 | 1 |
 | error-handling | empty-catch | passed | 1 | 1 | 0 | 1 | 1 |
-| type-escape | as-any | passed | 2 | 2 | 0 | 1 | 1 |
+| type-escape | as-any | failed | 0 | 2 | 0 | 1 | 0 |
 | type-escape | as-unknown-as | passed | 1 | 1 | 0 | 1 | 1 |
 | type-escape | ts-ignore | failed | 0 | 1 | 0 | 1 | 0 |
 | type-import | type-used-as-value | passed | 1 | 1 | 0 | 1 | 1 |

@@ -3,6 +3,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import {
   listAuditFiles,
+  loadCentralAllowlist,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
@@ -49,7 +50,7 @@ import {
  */
 
 // ─── Tunables ───────────────────────────────────────────────────────────────
-// LEARNING: These thresholds control sensitivity. Lower = more findings, higher = fewer false positives.
+// These thresholds control sensitivity. Lower = more findings, higher = fewer false positives.
 const MIN_PROPERTIES_FOR_STRUCTURAL = 2   // Minimum properties to compare structure
 const OVERLAP_THRESHOLD_PERCENT = 75      // Percentage overlap for "high overlap" grouping
 const MIN_GROUP_SIZE = 2                  // Minimum types in a group to report
@@ -81,7 +82,7 @@ function extractVueScriptContent(vueContent) {
 // ─── Type Parsing ───────────────────────────────────────────────────────────
 
 /**
- * LEARNING: We use heuristic regex-based parsing rather than a full TypeScript AST.
+ * We use heuristic regex-based parsing rather than a full TypeScript AST.
  * WHY: No dependency on TypeScript compiler API, runs fast, good enough for structural comparison.
  * PATTERN: Parse declaration headers, then extract the body between balanced braces.
  *
@@ -504,7 +505,7 @@ function classifyRelationship(typeA, typeB) {
  * @returns {'UNIFY' | 'BRAND' | 'EXTEND' | 'REVIEW'}
  */
 function classifyAction(members, relationship) {
-  // LEARNING: The classification heuristic:
+  // The classification heuristic:
   // - Same name, different files → UNIFY (it's a duplicate)
   // - Different names, same shape, different files → BRAND (different concepts, same structure)
   // - Different names, same file → REVIEW (likely intentional)
@@ -962,9 +963,12 @@ function main() {
   }
 
   // Build similarity groups
-  const groups = buildGroups(allDefinitions, config)
+  const allGroups = buildGroups(allDefinitions, config)
+  const allowlist = loadCentralAllowlist('type-similarity')
+  const allowlistedGroupIds = new Set((allowlist.specific || []).map((e) => e.groupId).filter(Boolean))
+  const groups = allGroups.filter((g) => !allowlistedGroupIds.has(g.groupId))
 
-  // Build output
+  // Build output (only non-allowlisted groups count as findings)
   const output = {
     generatedAt: new Date().toISOString(),
     scope: {

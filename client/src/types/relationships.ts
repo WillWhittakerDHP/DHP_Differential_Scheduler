@@ -39,4 +39,3 @@ export interface CreateRelationshipPayloadBase {
 }
 
 export type CreateRelationshipPayload = CreateRelationshipPayloadBase
-

@@ -19,25 +19,6 @@
 
 ---
 
-## Learning Goals
-
-**Before Starting:**
-- Understand current Appointment model structure with FK fields
-- Understand Sequelize model relationships
-- Understand API route validation patterns
-- Review JSONB field handling in Sequelize
-
-**During Session:**
-- Learn how to update Sequelize models for JSONB arrays
-- Learn how to remove FK relationships
-- Learn how to update API validation for arrays
-- Learn how to handle array data in appointment creation/updates
-
-**After Session:**
-- Understand JSONB array handling in Sequelize models
-- Understand array validation patterns in API routes
-- Understand relationship changes when moving from FK to JSONB
-
 ---
 
 ## Objectives
@@ -242,4 +223,3 @@
 ---
 
 **Next Sub-Session:** Session 1.3.9.3 - Frontend Type and Wizard State Updates
-

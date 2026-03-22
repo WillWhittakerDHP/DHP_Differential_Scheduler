@@ -7,15 +7,12 @@ import { computed, type ComputedRef } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { businessTransformer, type BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import type { UseBusinessReturn } from '@/types/business'
+
 
 export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
 
-export function useBusiness(): {
-  businessData: ComputedRef<BusinessData | undefined>
-  isLoading: ComputedRef<boolean>
-  error: ComputedRef<Error | null>
-  refetch: () => Promise<void>
-} {
+export function useBusiness(): UseBusinessReturn {
   const queryClient = useQueryClient()
 
   const businessQuery = useQuery<BusinessData>({

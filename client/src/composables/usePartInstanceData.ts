@@ -3,31 +3,16 @@
 
 PATTERN: Composable that manages PartInst...
  */
-import { computed, type Ref } from 'vue'
+import { computed } from 'vue'
 import type { BlockInstanceEntity, GlobalEntity } from '@/types/entities'
+import type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from '@/types/partInstanceData'
 import { useGlobal } from './useGlobal'
 import { useAdmin } from './admin/useAdmin'
 import { useRelationshipCrud } from './useRelationship'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-export interface UsePartInstanceDataOptions {
-  blockInstanceId: Ref<string> | string
-}
-
-export interface UsePartInstanceDataReturn {
-  validPartShapes: Ref<GlobalEntity<'partShape'>[]>
-  existingPartInstances: Ref<GlobalEntity<'partInstance'>[]>
-  
-  getPartInstanceForShape: (partShapeId: string) => GlobalEntity<'partInstance'> | undefined
-  getPartShapeName: (partShapeId: string) => string
-  generatePartInstanceName: (
-    blockInstanceName: string,
-    partShapeName: string,
-    blockInstanceRef: string,
-    partShapeRef: string
-  ) => string
-}
+export type { UsePartInstanceDataOptions, UsePartInstanceDataReturn } from '@/types/partInstanceData'
 
 /**
  * PATTERN: Part Instance Data Composable

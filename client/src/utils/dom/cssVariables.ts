@@ -1,6 +1,5 @@
 /**
 
-LEARNING: Isolates DOM access for CSS variable ma...
  */
 export function setCSSVariable(key: string, value: string): void {
   // PATTERN: Check typeof document before accessing it
@@ -14,7 +13,6 @@ export function setCSSVariable(key: string, value: string): void {
 
 /**
 
-LEARNING: Isolates documen...
  */
 export function removeCSSVariable(key: string): void {
   // PATTERN: Check typeof document before accessing it

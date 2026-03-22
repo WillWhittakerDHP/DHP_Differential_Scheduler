@@ -47,10 +47,10 @@ export const defaultAvailabilitySettings: AvailabilitySettingsData = {
     }
   },
   durationRounding: {
-    enabled: false, // Default disabled for testing
+    enabled: false,
     increment: 15,
     method: 'roundUp'
-  }
+  },
 }
 
 export const ERROR_MESSAGES = {

@@ -3,7 +3,6 @@
  * 
  *      Aligns with entity data pattern: primitives + relationships
  * NOTE: Supports inheritance - instance entities inherit from shapes
- * NOTE: This is a legacy router maintained for backward compatibility
  */
 
 import { Router } from 'express'

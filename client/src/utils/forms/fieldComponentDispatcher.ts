@@ -1,17 +1,9 @@
-
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { FieldComponent } from '@/types/forms/fieldComponent'
 
-/**
- * Field component types with reasons
- */
-export type FieldComponent =
-  | { type: 'icon'; reason: 'iconSelect' } // Renders IconInput component
-  | { type: 'primitive'; reason: 'text' | 'number' | 'statusButton' } // Renders PrimitiveInputs component
-  | { type: 'relationshipCollection'; reason: 'relationshipCollection' } // Renders RelationshipCollection component (for parts, annotations, events)
-  | { type: 'select'; reason: 'select' | 'multiselect' | 'reference' } // Renders SelectInputs component
-  | { type: 'unknown'; reason: 'notConfigured' | 'invalidRenderAs' } // Unknown/invalid field
+export type { FieldComponent } from '@/types/forms/fieldComponent'
 
 export function getFieldComponent<GE extends GlobalEntityKey>(
   entityKey: GE,

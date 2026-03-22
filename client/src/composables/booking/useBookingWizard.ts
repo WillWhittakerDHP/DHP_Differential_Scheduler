@@ -1,34 +1,50 @@
 /**
  * WHY: Booking Wizard Composable
-LEARNING: Vue composable pattern for managing ...
  */
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { useBooking } from '../useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { UseBookingWizardReturn } from '@/types/wizard'
+import type { UseBookingWizardReturnGrouped, WizardMode } from '@/types/wizard'
 import { useWizardFilteredOptions } from './useWizardFilteredOptions'
 
 /**
  * WHY: Booking Wizard Composable
 WHY: Single source of truth for wizard state w...
  */
-export function useBookingWizard(): UseBookingWizardReturn {
+export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const { bookingData } = useBooking()
 
-  // LEARNING: Reactive state for wizard selections
   // PATTERN: Use ref for single values, ref([]) for arrays
   const selectedUserTypeBlock = ref<BookingBlockInstance | null>(null)
   const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - renamed from selectedServices for consistency
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
+  const selectedCouponBlocks = ref<BookingBlockInstance[]>([]) // Single-select UI, array storage (same pattern as property type)
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
 
-  // PATTERN: Use useStorage from VueUse for reactive localStorage binding
-  const isQuoteMode = useStorage<boolean>('booking-wizard-quote-mode', false)
+  const persistedWizardMode = useStorage<WizardMode>('booking-wizard-mode', 'new')
+  const _sessionMode = ref<WizardMode | null>(null)
+  const wizardMode = computed(() => _sessionMode.value ?? persistedWizardMode.value)
+  const isQuoteMode = computed(() => wizardMode.value === 'quote')
+
+  // Optional migration: if user had quote preference under old key, move to new key and remove old key
+  if (typeof localStorage !== 'undefined' && localStorage.getItem('booking-wizard-quote-mode') === 'true') {
+    persistedWizardMode.value = 'quote'
+    localStorage.removeItem('booking-wizard-quote-mode')
+  }
 
   /** When true, selection methods do not clear dependent selections (used by batchUpdate) */
   const _inBatch = ref(false)
+
+  const setWizardMode = (mode: WizardMode): void => {
+    if (mode === 'reschedule') {
+      _sessionMode.value = 'reschedule'
+    } else {
+      _sessionMode.value = null
+      persistedWizardMode.value = mode
+    }
+  }
 
   /**
    * Run multiple wizard state updates without cascading clears.
@@ -45,7 +61,6 @@ export function useBookingWizard(): UseBookingWizardReturn {
 
   /**
 Select user type and clear dependent selections
-LEARNING: Cascading ...
    */
   const selectUserTypeBlock = (block: BookingBlockInstance | null): void => {
     selectedUserTypeBlock.value = block
@@ -53,6 +68,7 @@ LEARNING: Cascading ...
       selectedServiceTypeBlocks.value = []
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
+      selectedCouponBlocks.value = []
     }
   }
 
@@ -68,6 +84,7 @@ Toggle service type block selection (single-select UI, array storage...
     if (!_inBatch.value) {
       selectedOptionTypeBlocks.value = []
       selectedPropertyTypeBlocks.value = []
+      selectedCouponBlocks.value = []
     }
   }
 
@@ -85,7 +102,6 @@ Toggle property type block selection (single-select UI, array storag...
 
   /**
 Toggle availability option selection
-LEARNING: Multi-select pattern ...
    */
   const toggleOptionTypeBlock = (block: BookingBlockInstance): void => {
     const index = selectedOptionTypeBlocks.value.findIndex(b => b.id === block.id)
@@ -97,8 +113,18 @@ LEARNING: Multi-select pattern ...
   }
 
   /**
+   * Toggle coupon block selection (single-select UI, array of 0 or 1; same as property type).
+   */
+  const toggleCouponBlock = (block: BookingBlockInstance): void => {
+    if (selectedCouponBlocks.value.length === 1 && selectedCouponBlocks.value[0]?.id === block.id) {
+      selectedCouponBlocks.value = []
+      return
+    }
+    selectedCouponBlocks.value = [block]
+  }
+
+  /**
 Toggle line item block selection
-LEARNING: Multi-select pattern usin...
    */
   const toggleLineItemBlock = (block: BookingBlockInstance): void => {
     const index = selectedLineItemBlocks.value.findIndex(b => b.id === block.id)
@@ -114,10 +140,12 @@ LEARNING: Multi-select pattern usin...
     availableServices,
     availableOptionTypeBlocks,
     availablePropertyTypeBlocks,
+    availableCouponBlocks,
     availableLineItemBlocks,
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
+    couponCascadeError,
     accServices,
     accProperty,
     accAvailability,
@@ -127,32 +155,45 @@ LEARNING: Multi-select pattern usin...
     selectedServiceTypeBlocks: selectedServiceTypeBlocks,
     selectedAvailabilityOptions: selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
+    selectedCouponBlocks,
   })
 
   return {
-    selectedUserTypeBlock,
-    selectedServiceTypeBlocks,
-    selectedOptionTypeBlocks,
-    selectedPropertyTypeBlocks,
-    selectedLineItemBlocks,
-    isQuoteMode,
-    selectUserTypeBlock,
-    toggleServiceTypeBlock,
-    toggleOptionTypeBlock,
-    togglePropertyTypeBlock,
-    toggleLineItemBlock,
-    batchUpdate,
-    availableUserTypeBlocks,
-    availableServices,
-    availableOptionTypeBlocks,
-    availablePropertyTypeBlocks,
-    availableLineItemBlocks,
-    servicesCascadeError,
-    availabilityOptionsCascadeError,
-    propertyTypesCascadeError,
-    accServices,
-    accProperty,
-    accAvailability,
-    bookingData,
+    state: {
+      selectedUserTypeBlock,
+      selectedServiceTypeBlocks,
+      selectedOptionTypeBlocks,
+      selectedPropertyTypeBlocks,
+      selectedCouponBlocks,
+      selectedLineItemBlocks,
+      isQuoteMode,
+      wizardMode,
+    },
+    actions: {
+      selectUserTypeBlock,
+      toggleServiceTypeBlock,
+      toggleOptionTypeBlock,
+      togglePropertyTypeBlock,
+      toggleCouponBlock,
+      toggleLineItemBlock,
+      batchUpdate,
+      setWizardMode,
+    },
+    computed: {
+      availableUserTypeBlocks,
+      availableServices,
+      availableOptionTypeBlocks,
+      availablePropertyTypeBlocks,
+      availableCouponBlocks,
+      availableLineItemBlocks,
+      servicesCascadeError,
+      availabilityOptionsCascadeError,
+      propertyTypesCascadeError,
+      couponCascadeError,
+      accServices,
+      accProperty,
+      accAvailability,
+      bookingData,
+    },
   }
 }

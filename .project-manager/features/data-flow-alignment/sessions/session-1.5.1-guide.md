@@ -1,6 +1,6 @@
 # Session 1.5.1 Guide: Business Rules Database Infrastructure
 
-**Purpose:** Session-level guide with task breakdown and learning goals
+**Purpose:** Session-level guide with task breakdown
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
@@ -18,14 +18,6 @@
 
 **Duration:** 3-4 hours  
 **Status:** Not Started
-
-### Learning Goals
-
-- Database schema design for configurable business rules
-- Relationship modeling between business rules and block instances  
-- Leveraging existing annotation infrastructure for validation messages
-- Following established patterns (requiresUnitNumber flag, BusinessSettings JSONB)
-- Understanding rule_type enumeration and typed JSONB configs
 
 ---
 

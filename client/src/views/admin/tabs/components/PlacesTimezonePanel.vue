@@ -30,8 +30,8 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
 <template>
   <div class="mb-6">
-    <div class="text-subtitle-1 mb-3">{{ UI_STRINGS.sections.defaultLocationTitle }}</div>
-    <div class="text-body-2 mb-4 text-medium-emphasis">
+    <div class="text-body-large mb-3">{{ UI_STRINGS.sections.defaultLocationTitle }}</div>
+    <div class="text-body-medium mb-4 text-medium-emphasis">
       {{ UI_STRINGS.help.defaultLocationDescription }}
     </div>
     <VRow>
@@ -47,7 +47,7 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
           @update:coordinates="emit('update:defaultLocationCoordinates', $event)"
           @update:place-id="(e: string | undefined) => emit('update:defaultLocationPlaceId', e ?? '')"
         />
-        <div v-if="defaultLocationCoordinates || defaultLocationPlaceId" class="text-caption mt-1 text-medium-emphasis">
+        <div v-if="defaultLocationCoordinates || defaultLocationPlaceId" class="text-body-small mt-1 text-medium-emphasis">
           <div v-if="defaultLocationCoordinates">
             <VIcon size="x-small" class="me-1">mdi-crosshairs-gps</VIcon>
             {{ UI_STRINGS.sections.coordinatesLabel }}
@@ -76,7 +76,7 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
   <VDivider class="my-6" />
 
   <div class="mb-4">
-    <div class="text-subtitle-1 mb-3">{{ UI_STRINGS.sections.timezoneSettingsTitle }}</div>
+    <div class="text-body-large mb-3">{{ UI_STRINGS.sections.timezoneSettingsTitle }}</div>
     <VSelect
       :model-value="timezone"
       @update:model-value="emit('update:timezone', $event)"
@@ -88,7 +88,7 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
         (v: string) => !!v || UI_STRINGS.validation.timezoneRequired,
       ]"
     />
-    <div class="text-caption mt-2">
+    <div class="text-body-small mt-2">
       {{ UI_STRINGS.help.timezone }}
       {{ UI_STRINGS.help.currentSelection }} {{ timezone || UI_STRINGS.help.notSet }}
     </div>

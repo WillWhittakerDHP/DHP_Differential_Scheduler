@@ -3,9 +3,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
 import { getQueryClient } from '@/plugins/3.vue-query'
 import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
-import type { MetadataCache } from '@/composables/admin/useMetadataCache'
 import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 
+import type { MetadataCache } from '@/types/admin/metadataCache'
 const logger = createLogger('Router Guard')
 
 const routes: RouteRecordRaw[] = [
@@ -25,9 +25,19 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/admin/AdminPanel.vue'),
   },
   {
+    path: '/admin/booking',
+    name: 'admin-booking-entry',
+    component: () => import('@/views/admin/AdminBookingEntryView.vue'),
+  },
+  {
     path: '/beta-feedback',
     name: 'beta-feedback',
     component: () => import('@/views/beta/BetaFeedbackView.vue'),
+  },
+  {
+    path: '/cancel',
+    name: 'cancel-appointment',
+    component: () => import('@/views/booking/CancelConfirmView.vue'),
   },
 ]
 

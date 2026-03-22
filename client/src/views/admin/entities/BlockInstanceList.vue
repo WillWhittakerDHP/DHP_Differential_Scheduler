@@ -67,26 +67,9 @@
 
 <script setup lang="ts">
 /**
- * WHY: Use entity list composable
-WHY: Extracts list management logic from comp...
  */
-import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import { useEntityList } from '@/composables/admin/useEntityList'
+import { useBlockInstanceList } from '@/composables/admin/useBlockInstanceList'
 
-const { entities, isLoading, error } = useEntityCrud('blockInstance')
-
-const {
-  goToCreate,
-  goToEdit,
-  handleDelete
-} = useEntityList({
-  entityKey: 'blockInstance',
-  routes: {
-    create: 'block-instance-create',
-    edit: 'block-instance-edit'
-  },
-  deleteConfirmation: 'Are you sure you want to delete this block instance?',
-  deleteErrorMessage: 'Failed to delete block instance'
-})
+const { entities, isLoading, error, goToCreate, goToEdit, handleDelete } = useBlockInstanceList()
 </script>
 

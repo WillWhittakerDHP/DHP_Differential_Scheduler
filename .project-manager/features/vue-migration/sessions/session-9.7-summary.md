@@ -70,14 +70,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We Learned
-- Sequelize `underscored: true` automatically converts camelCase properties to snake_case columns
-- Explicit `field:` mappings are only needed when property name doesn't match automatic conversion
-- Models with `underscored: false` require explicit field mappings for all snake_case columns
-- Field mapping cleanup improves code maintainability and reduces redundancy
-
 ### Why These Patterns Matter
 - Unnecessary field mappings add complexity without benefit
 - Consistent patterns improve code readability
@@ -146,4 +138,3 @@
   - Improved maintainability
   - Consistent patterns across models
   - Easier to understand field mappings (only present when necessary)
-

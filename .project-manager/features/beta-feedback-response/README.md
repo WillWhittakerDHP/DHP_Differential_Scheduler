@@ -3,7 +3,7 @@
 **Status:** Planning
 **Feature Number:** 16
 **Branch:** TBD
-**Depends On:** Feature 5 (Beta Feedback System), Authentication (BETA_LAUNCH_CHECKLIST Phase 2A)
+**Depends On:** Feature 5 (Beta Feedback System), Authentication (LAUNCH_CHECKLIST Phase 2A)
 
 ---
 
@@ -40,7 +40,7 @@ Beta testers need to know their feedback is heard. Without a response loop:
 
 - **Feature Guide:** `feature-beta-feedback-response-guide.md`
 - **Feature 5 (Collection System):** `../beta-feedback/`
-- **Beta Launch Checklist:** `../../BETA_LAUNCH_CHECKLIST.md`
+- **Launch Checklist:** `../../LAUNCH_CHECKLIST.md`
 
 ---
 

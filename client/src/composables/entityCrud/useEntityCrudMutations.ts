@@ -4,12 +4,12 @@ import type { GlobalEntity } from '@/types/entities'
 import { globalTransformer, type GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { Logger } from '@/utils/logger'
-import type { BulkUpdate, UseEntityCrudMutationsReturnBase } from './useEntityCrudTypes'
-import type { EntityCrudMutationContext } from './useEntityCrudTypes'
-import { createCreateMutationOptions } from './useEntityCrudMutationsCreate'
-import { createUpdateMutationOptions } from './useEntityCrudMutationsUpdate'
-import { createRemoveMutationOptions } from './useEntityCrudMutationsRemove'
-import { createOrderMutationOptions } from './useEntityCrudMutationsOrder'
+import type { BulkUpdate, EntityCrudMutationContext, OrderIndexUpdate, UseEntityCrudMutationsReturnBase } from '@/types/entityCrud/entityCrudTypes'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { createEntityCreateMutationOptions } from '@/utils/entityCrud/createEntityCreateMutationOptions'
+import { createEntityUpdateMutationOptions } from '@/utils/entityCrud/createEntityUpdateMutationOptions'
+import { createEntityRemoveMutationOptions } from '@/utils/entityCrud/createEntityRemoveMutationOptions'
+import { createEntityOrderMutationOptions } from '@/utils/entityCrud/createEntityOrderMutationOptions'
 
 type UseEntityCrudMutationsReturn<GlobalEntityTypeKey extends GlobalEntityKey> =
   UseEntityCrudMutationsReturnBase<GlobalEntityTypeKey>
@@ -41,10 +41,27 @@ export function useEntityCrudMutations<GlobalEntityTypeKey extends GlobalEntityK
     getEntitiesForKey,
   }
 
-  const createMutation = useMutation(createCreateMutationOptions(mutationContext))
-  const updateMutation = useMutation(createUpdateMutationOptions(mutationContext))
-  const removeMutation = useMutation(createRemoveMutationOptions(mutationContext))
-  const patchOrderIndexMutation = useMutation(createOrderMutationOptions(mutationContext))
+  const createMutation = useMutation<
+    GlobalEntity<GlobalEntityTypeKey>,
+    unknown,
+    Partial<GlobalEntity<GlobalEntityTypeKey>>,
+    { previousData?: GlobalData }
+  >(createEntityCreateMutationOptions(mutationContext))
+  const updateMutation = useMutation<
+    GlobalEntity<GlobalEntityTypeKey>,
+    unknown,
+    { entity: Partial<GlobalEntity<GlobalEntityTypeKey>>; id: GlobalEntityId },
+    { previousData?: GlobalData }
+  >(createEntityUpdateMutationOptions(mutationContext))
+  const removeMutation = useMutation<
+    { deletedId: string },
+    unknown,
+    GlobalEntityId,
+    { previousData?: GlobalData }
+  >(createEntityRemoveMutationOptions(mutationContext))
+  const patchOrderIndexMutation = useMutation<void, unknown, OrderIndexUpdate, { previousData?: GlobalData }>(
+    createEntityOrderMutationOptions(mutationContext)
+  )
 
   const patchBulkMutation = useMutation<void, unknown, BulkUpdate<GlobalEntityTypeKey>, { previousData?: GlobalData }>({
     mutationFn: async (updates: BulkUpdate<GlobalEntityTypeKey>) => {

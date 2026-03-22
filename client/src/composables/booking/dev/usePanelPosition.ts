@@ -1,31 +1,11 @@
 /**
  * WHY: usePanelPosition Composable
-
-WHY: Moves DOM manipulation logic out of co...
  */
-import { ref, watch, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
+import { ref, watch, nextTick } from 'vue'
+import { useDisplay } from 'vuetify'
+import type { UsePanelPositionOptions, UsePanelPositionReturn } from '@/types/booking/dev/panelPosition'
 
-export interface UsePanelPositionOptions {
-  wrapperRef: Ref<HTMLElement | null>
-  
-  panelRef: Ref<HTMLElement | null>
-  
-  isExpanded: Ref<boolean>
-  
-  expectedPanelWidth?: number
-}
-
-export interface UsePanelPositionReturn {
-  panelTransform: Ref<string>
-  
-  isTransitioning: Ref<boolean>
-  
-  calculatePanelPosition: () => string
-  
-  updatePanelPosition: () => void
-  
-  handleToggle: (willExpand: boolean) => Promise<void>
-}
+export type { UsePanelPositionOptions, UsePanelPositionReturn } from '@/types/booking/dev/panelPosition'
 
 /**
  * WHY: Panel positioning composable
@@ -43,8 +23,10 @@ export function usePanelPosition(
 
   const panelTransform = ref('translateX(0)')
   const isTransitioning = ref(false)
+  const display = useDisplay()
 
   /**
+   * Uses Vuetify useDisplay().width for viewport (SSR-safe); no direct window access.
    */
   const calculatePanelPosition = (): string => {
     if (!wrapperRef.value) {
@@ -53,7 +35,7 @@ export function usePanelPosition(
 
     const wrapperRect = wrapperRef.value.getBoundingClientRect()
     const panelWidth = expectedPanelWidth
-    const viewportWidth = window.innerWidth
+    const viewportWidth = display.width.value
     const rightEdge = wrapperRect.right + panelWidth
     const padding = 24 // Viewport padding
 
@@ -72,48 +54,39 @@ export function usePanelPosition(
       return
     }
 
-    // PATTERN: Use requestAnimationFrame for accurate measurements
-    requestAnimationFrame(() => {
-      if (!panelRef.value || !wrapperRef.value || !isExpanded.value) return
+    // PATTERN: Use requestAnimationFrame for accurate measurements (SSR guard: only in browser)
+    if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(() => {
+        if (!panelRef.value || !wrapperRef.value || !isExpanded.value) return
 
-      const wrapperRect = wrapperRef.value.getBoundingClientRect()
-      const panelWidth = panelRef.value.offsetWidth || expectedPanelWidth
-      const viewportWidth = window.innerWidth
-      const rightEdge = wrapperRect.right + panelWidth
-      const padding = 24 // Viewport padding
+        const wrapperRect = wrapperRef.value.getBoundingClientRect()
+        const panelWidth = panelRef.value.offsetWidth || expectedPanelWidth
+        const viewportWidth = display.width.value
+        const rightEdge = wrapperRect.right + panelWidth
+        const padding = 24 // Viewport padding
 
-      // PATTERN: Calculate transform to shift left if needed
-      if (rightEdge > viewportWidth - padding) {
-        const overflow = rightEdge - (viewportWidth - padding)
-        panelTransform.value = `translateX(-${overflow}px)`
-      } else {
-        panelTransform.value = 'translateX(0)'
-      }
-    })
-  }
-
-  /**
-   */
-  const handleResize = (): void => {
-    if (isExpanded.value) {
-      updatePanelPosition()
+        // PATTERN: Calculate transform to shift left if needed
+        if (rightEdge > viewportWidth - padding) {
+          const overflow = rightEdge - (viewportWidth - padding)
+          panelTransform.value = `translateX(-${overflow}px)`
+        } else {
+          panelTransform.value = 'translateX(0)'
+        }
+      })
     }
   }
 
-  // PATTERN: Watch isExpanded and update position
+  // PATTERN: Watch isExpanded and viewport width (useDisplay is reactive; no manual resize listener)
   watch(isExpanded, (newValue) => {
     if (newValue) {
       updatePanelPosition()
     }
   })
 
-  // PATTERN: Add listener on mount, remove on unmount
-  onMounted(() => {
-    window.addEventListener('resize', handleResize)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
+  watch(() => display.width.value, () => {
+    if (isExpanded.value) {
+      updatePanelPosition()
+    }
   })
 
   /**
@@ -122,7 +95,6 @@ WHY: Calculates transform before state change to prevent visual hop
    */
   const handleToggle = async (willExpand: boolean): Promise<void> => {
     if (willExpand) {
-      // LEARNING: Calculate transform BEFORE toggling expansion state
       // PATTERN: Calculate synchronously, disable transitions, apply transform, then toggle state
       const calculatedTransform = calculatePanelPosition()
       
@@ -135,16 +107,18 @@ WHY: Calculates transform before state change to prevent visual hop
       await nextTick()
       
       /**
-       * WHY: // WHY: Component controls isExpanded, composable only handles positioning
-       * PATTERN: // PATTERN: Use nextTick then requestAnimationFrame for precise timing
+       * WHY: Component controls isExpanded, composable only handles positioning
        */
       nextTick(() => {
-        requestAnimationFrame(() => {
+        if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+          window.requestAnimationFrame(() => {
+            isTransitioning.value = false
+            updatePanelPosition()
+          })
+        } else {
           isTransitioning.value = false
-          
-          // PATTERN: Use requestAnimationFrame for accurate measurements
           updatePanelPosition()
-        })
+        }
       })
       
       // PATTERN: Use setTimeout to wait for VExpandTransition (300ms)
@@ -152,7 +126,6 @@ WHY: Calculates transform before state change to prevent visual hop
         updatePanelPosition()
       }, 350)
     } else {
-      // LEARNING: Collapse panel - component manages isExpanded state
       // WHY: Component controls isExpanded, composable only handles positioning
       // PATTERN: Keep transform during collapse, reset after animation completes
       // PATTERN: Wait for collapse transition (300ms) before resetting transform

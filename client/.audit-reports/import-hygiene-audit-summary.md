@@ -11,7 +11,7 @@ Generated from `client/.audit-reports/import-hygiene-audit.json`.
 
 | Metric | Count |
 | --- | ---: |
-| Files scanned | 769 |
+| Files scanned | 1031 |
 | Barrel dirs | 13 |
 | Barrel bypass | 0 |
 | Inconsistent paths | 0 |
@@ -19,10 +19,15 @@ Generated from `client/.audit-reports/import-hygiene-audit.json`.
 | Relative when alias | 0 |
 | Type/value re-export | 0 |
 
-## Top 0 files
+## Top 5 files
 
 | File | Priority | Score | Barrel Bypass | Deep Relative | Type/Value Re-export |
 | --- | --- | ---: | ---: | ---: | ---: |
+| `undefined` | P2 | 1 | 0 | 0 | 0 |
+| `undefined` | P2 | 1 | 0 | 0 | 0 |
+| `undefined` | P2 | 1 | 0 | 0 | 0 |
+| `undefined` | P2 | 1 | 0 | 0 | 0 |
+| `undefined` | P2 | 1 | 0 | 0 | 0 |
 
 ## Notes
 

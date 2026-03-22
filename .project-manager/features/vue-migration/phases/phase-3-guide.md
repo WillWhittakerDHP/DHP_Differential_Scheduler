@@ -64,13 +64,6 @@
 - Task 3.1.5: Verify relationship CRUD operations (validBlocks, validParts, activeBlocks, activeParts)
 - Task 3.1.6: Verify error handling and edge cases
 
-**Learning Goals:**
-- Understand API client structure
-- Learn Vue Query patterns for CRUD operations
-- Understand relationship management patterns
-- Test error handling in Vue
-
-- [ ] ### Session 3.2: State Management Verification
 **Description:** Verify Pinia stores and Vue Query are working correctly
 **Tasks:**
 - Task 3.2.1: Verify Pinia stores functional
@@ -78,12 +71,6 @@
 - Task 3.2.3: Verify composables working correctly
 - Task 3.2.4: Test reactive state updates
 
-**Learning Goals:**
-- Understand Pinia store patterns
-- Learn Vue Query caching strategies
-- Practice composable patterns
-
-- [ ] ### Session 3.3: Routing & Placeholder Pages
 **Description:** Create minimal routing structure and placeholder pages to demonstrate data flow
 **Tasks:**
 - Task 3.3.1: Set up basic routing structure
@@ -91,23 +78,12 @@
 - Task 3.3.3: Create placeholder form pages (no UI polish)
 - Task 3.3.4: Verify data displays correctly on pages
 
-**Learning Goals:**
-- Understand Vue Router setup
-- Learn route configuration patterns
-- Practice component composition
-
-- [ ] ### Session 3.4: Data Flow Testing & Validation
 **Description:** Comprehensive testing of complete data flow from API to UI
 **Tasks:**
 - Task 3.4.1: Test complete data flow (API → State → Components)
 - Task 3.4.2: Verify data transformations working
 - Task 3.4.3: Test all composables functional
 - Task 3.4.4: Validate ready for Phase 4 (Vuexy integration)
-
-**Learning Goals:**
-- Understand end-to-end data flow
-- Learn testing strategies
-- Practice debugging techniques
 
 ---
 
@@ -150,4 +126,3 @@ This phase focuses on data flow verification rather than UI building. The goal i
 - Phase Log: `.cursor/project-manager/features/vue-migration/phases/phase-3-log.md`
 - Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-3-handoff.md`
 - Session Guides: `.cursor/project-manager/features/vue-migration/sessions/session-[3.X]-guide.md`
-

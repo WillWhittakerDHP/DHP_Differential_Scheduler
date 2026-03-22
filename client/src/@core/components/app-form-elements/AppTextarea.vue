@@ -4,27 +4,28 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const elementId = computed (() => {
-  const attrs = useAttrs()
+const attrs = useAttrs()
+const elementId = computed(() => {
   const _elementIdToken = attrs.id
   const _id = useId()
-
   return _elementIdToken ? `app-textarea-${_elementIdToken}` : _id
 })
+
+const textareaBind = computed(() => {
+  const { class: _cls, ...rest } = attrs
+  return { ...rest, class: null, variant: 'outlined' as const, id: elementId.value }
+})
+
+const wrapperClass = computed(() => (attrs.class ?? null) as string | string[] | Record<string, boolean> | null)
 </script>
 
 <template>
   <div
     class="app-textarea flex-grow-1"
-    :class="$attrs.class"
+    :class="wrapperClass"
   >
     <VTextarea
-      v-bind="{
-        ...$attrs,
-        class: null,
-        variant: 'outlined',
-        id: elementId,
-      }"
+      v-bind="textareaBind"
     >
       <template
         v-for="(_, name) in $slots"

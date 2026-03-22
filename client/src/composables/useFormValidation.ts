@@ -1,20 +1,32 @@
+import { computed, type Ref, type ComputedRef } from 'vue'
+import type { ValidationRule, ValidationResult } from '@/types/formValidation'
+import { createLogger } from '@/utils/logger'
 
-import { computed, type Ref } from 'vue'
+const logger = createLogger('useFormValidation')
 
-/**
-WHY: Matches Vuetify's validation rule pattern
- */
-export type ValidationRule = (value: unknown) => string | boolean
-
-/**
- * Validation Result Interface
- */
-export interface ValidationResult {
-  isValid: boolean
-  errors: Record<string, string>
+export interface UseFormValidationReturn {
+  required: (message?: string) => ValidationRule
+  email: (message?: string) => ValidationRule
+  phone: (message?: string) => ValidationRule
+  minLength: (min: number, message?: string) => ValidationRule
+  maxLength: (max: number, message?: string) => ValidationRule
+  min: (minValue: number, message?: string) => ValidationRule
+  max: (maxValue: number, message?: string) => ValidationRule
+  zipCode: (message?: string) => ValidationRule
+  dateNotInPast: (message?: string) => ValidationRule
+  custom: (validator: (value: unknown) => boolean, message: string) => ValidationRule
+  combine: (...rules: ValidationRule[]) => ValidationRule[]
+  validateForm: (
+    data: Record<string, unknown>,
+    rules: Record<string, ValidationRule[]>
+  ) => ValidationResult
+  useFormValidity: (
+    formData: Ref<Record<string, unknown>>,
+    rules: Record<string, ValidationRule[]>
+  ) => ComputedRef<boolean>
 }
 
-export function useFormValidation() {
+export function useFormValidation(): UseFormValidationReturn {
   /**
    * Required field validation rule
    */
@@ -35,7 +47,6 @@ export function useFormValidation() {
 
   /**
 Email format validation rule
-LEARNING: Validates email format using ...
    */
   const email = (message = 'Please enter a valid email address'): ValidationRule => {
     return (value: unknown): string | boolean => {
@@ -48,7 +59,6 @@ LEARNING: Validates email format using ...
 
   /**
 Phone number format validation rule
-LEARNING: Validates phone number...
    */
   const phone = (message = 'Please enter a valid phone number'): ValidationRule => {
     return (value: unknown): string | boolean => {
@@ -112,7 +122,6 @@ LEARNING: Validates phone number...
 
   /**
 Zip code format validation rule (US format)
-LEARNING: Validates US z...
    */
   const zipCode = (message = 'Please enter a valid zip code'): ValidationRule => {
     return (value: unknown): string | boolean => {
@@ -146,7 +155,8 @@ LEARNING: Validates US z...
             return message // Invalid date numbers
           }
           selectedDate = new Date(year, month - 1, day) // Local timezone, midnight
-        } catch {
+        } catch (err) {
+          logger.warn('dateNotInPast parse failed', { value, error: err })
           return message // Error parsing date
         }
       } else {
@@ -155,7 +165,6 @@ LEARNING: Validates US z...
       
       if (isNaN(selectedDate.getTime())) return message
       
-      // LEARNING: Normalize both dates to midnight UTC for comparison
       // WHY: All business logic should use UTC to avoid timezone issues
       // PATTERN: Use Date.UTC() to create dates at midnight UTC, compare date portions only
       const now = new Date()
@@ -243,4 +252,3 @@ WHY: Enables reactive form validat...
     useFormValidity,
   }
 }
-

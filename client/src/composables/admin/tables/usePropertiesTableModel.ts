@@ -2,9 +2,10 @@ import { computed } from 'vue'
 import { useProperty } from '@/composables/useProperty'
 import { useNotification } from '@/composables/useNotification'
 import type { PropertyRequest, PropertyResponse } from '@/types/property'
-import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { useCrudDataTableModel } from './useCrudDataTableModel'
 import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
 
+import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
 export interface PropertiesTableModel extends CrudDataTableModel<
   PropertyResponse,
   PropertyRequest,
@@ -15,7 +16,7 @@ export function usePropertiesTableModel(): PropertiesTableModel {
   const { success, error } = useNotification()
   const { fetchAll, create, update, remove } = useProperty()
 
-  const model = useCrudDataTableModel<PropertyResponse, PropertyRequest, Partial<PropertyRequest>>({
+  const crud = useCrudDataTableModel<PropertyResponse, PropertyRequest, Partial<PropertyRequest>>({
     entityLabel: 'Property',
     itemsSource: createItemsSource(fetchAll.data),
     isLoadingSource: computed(() => fetchAll.isLoading.value),
@@ -25,7 +26,19 @@ export function usePropertiesTableModel(): PropertiesTableModel {
     deleteItem: async (id) => remove.mutateAsync(id),
     notifySuccess: (message) => success(message),
     notifyError: (message) => error(message),
-    getCreateDefaults: () => ({}) as PropertyRequest,
+    getCreateDefaults: () => ({
+      address: '',
+      unit: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      mlsNumber: '',
+      squareFootage: null,
+      bedrooms: null,
+      bathrooms: null,
+      foundationAccess: null,
+      additionalUnits: null,
+    }) as PropertyRequest,
     validateCreate: (payload) => {
       if (!payload.address || !payload.city || !payload.state || !payload.zipCode) {
         return 'Address, city, state, and zip code are required'
@@ -48,9 +61,12 @@ export function usePropertiesTableModel(): PropertiesTableModel {
   })
 
   return {
-    ...model,
+    ...crud.data,
+    ...crud.editState,
+    ...crud.dialogs,
+    ...crud.actions,
     formatNullValue,
-  }
+  } as PropertiesTableModel
 }
 
 

@@ -9,7 +9,7 @@ Generated from `client/.audit-reports/api-contract-audit.json`.
 
 - Client endpoints: **0**
 - Server endpoints: **66**
-- Shared types: **74**
+- Shared types: **76**
 - Findings: **0**
 
 ## Findings by type

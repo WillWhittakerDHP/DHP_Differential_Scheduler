@@ -3,29 +3,14 @@
 
 WHY: Moves step navigation, validation c...
  */
-import { ref, computed, type Ref, type ComputedRef } from 'vue'
+import { ref, computed } from 'vue'
 import type { WizardStepConfig } from '@/configs/wizardSteps'
+import type {
+  UseWizardNavigationParams,
+  UseWizardNavigationReturn,
+} from '@/types/booking/wizardNavigation'
 
 export type { WizardStepConfig }
-
-export interface UseWizardNavigationParams {
-  steps: WizardStepConfig[]
-  validateStep: (stepIndex: number) => boolean
-  showError?: (message: string) => void
-}
-
-export interface UseWizardNavigationReturn {
-  activeStep: Ref<number>
-  completedSteps: Ref<Set<number>>
-  isLastStep: ComputedRef<boolean>
-  markStepCompleted: (stepIndex: number) => void
-  arePreviousStepsCompleted: (targetStep: number) => boolean
-  handleNext: () => void
-  handlePrev: () => void
-  handleStepClick: (index: number) => void
-  getStepState: (index: number) => string
-  isStepAccessible: (index: number) => boolean
-}
 
 /**
  * WHY: useWizardNavigation composable
@@ -36,7 +21,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
   const { steps, validateStep, showError } = params
 
   /**
-   * LEARNING: Reactive state for tracking current step
    */
   const activeStep = ref(0)
 
@@ -45,7 +29,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
   const isLastStep = computed(() => activeStep.value === steps.length - 1)
 
   /**
-   * LEARNING: Mark step as completed
    */
   const markStepCompleted = (stepIndex: number): void => {
     completedSteps.value.add(stepIndex)
@@ -115,7 +98,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
   }
 
   /**
-   * LEARNING: Helper to determine step state classes
    */
   const getStepState = (index: number): string => {
     if (completedSteps.value.has(index)) {
@@ -152,6 +134,3 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     isStepAccessible
   }
 }
-
-
-

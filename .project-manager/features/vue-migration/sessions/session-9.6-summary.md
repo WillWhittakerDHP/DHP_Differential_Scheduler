@@ -77,15 +77,6 @@
 
 ---
 
-## Learning Checkpoints
-
-### What We Learned
-- Database column rename patterns in Sequelize migrations
-- Index management during column renames (remove old, create new)
-- Backward compatibility strategies in API routes
-- Composition relationship model extension patterns
-- Entity kind support verification strategies
-
 ### Why These Patterns Matter
 - Consistent naming (`entity_kind` instead of `entity_type`) aligns with Session 9.3 (Type → Kind rename)
 - Proper migrations ensure data integrity during schema changes
@@ -173,4 +164,3 @@
   - Fully supported at model and API level
   - BlockInstance-specific validation (poolable check) doesn't apply to partInstance
   - PartInstance compositions work without additional validation (can be added later if needed)
-

@@ -20,7 +20,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { ref, computed } from 'vue'
 import { useWizardValidation } from '../useWizardValidation'
-import type { StepValidator } from '@/utils/booking/wizardValidation'
+import type { StepValidator } from '@/types/booking/wizardValidation'
 
 describe('useWizardValidation', () => {
   describe('validateStep', () => {

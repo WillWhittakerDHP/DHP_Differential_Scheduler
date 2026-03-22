@@ -2,21 +2,12 @@
  * WHY: Shared composable for getting shape entity from instance entity
 PATTERN:...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useAdmin } from '@/composables/admin/useAdmin'
-import { toGlobalEntityId, type BlockShapeEntity, type GlobalEntity, type PartShapeEntity } from '@/types/entities'
-
-export interface UseInstanceShapeOptions {
-  entityKey: 'blockInstance' | 'partInstance'
-  entityId: ComputedRef<string> | string
-}
-
-export interface UseInstanceShapeReturn {
-  blockShape: ComputedRef<BlockShapeEntity | null>
-  partShape: ComputedRef<PartShapeEntity | null>
-  shape: ComputedRef<BlockShapeEntity | PartShapeEntity | null>
-}
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import type { BlockShapeEntity, GlobalEntity, PartShapeEntity } from '@/types/entities'
+import type { UseInstanceShapeOptions, UseInstanceShapeReturn } from '@/types/admin/instanceShape'
 
 export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceShapeReturn {
   const { entityKey, entityId } = options
@@ -30,7 +21,6 @@ export function useInstanceShape(options: UseInstanceShapeOptions): UseInstanceS
     return adminComp.getEntity(entityKey, toGlobalEntityId(entityIdRef.value))
   })
   
-  // LEARNING: Get shapeRef from instance - same pattern for both entity types
   // PATTERN: Extract shapeRef based on entity type
   const shapeRef = computed(() => {
     if (!instance.value) return null

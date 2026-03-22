@@ -24,6 +24,7 @@ export class BlockInstanceVersion extends Model<
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
   declare differential: 'true' | 'false' | 'override';
+  declare preClosing: boolean;
   declare createdAt: CreationOptional<Date>;
   
   /** Associated part instance versions (typed as Model[] to avoid circular type reference with PartInstanceVersion) */
@@ -67,6 +68,12 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
         defaultValue: 'false',
+      },
+      preClosing: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        field: 'pre_closing',
       },
       createdAt: {
         type: DataTypes.DATE,

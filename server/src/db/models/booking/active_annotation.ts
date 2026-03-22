@@ -17,7 +17,6 @@ import { AnnotationInstance } from './annotation_instance';
  * Through-table for many-to-many relationship between BlockInstance and AnnotationInstance.
  * Enables block instances to have multiple annotation instances with ordering and user-type filtering.
  * 
- * LEARNING: Annotation assignment pattern enables:
  * - Many-to-many relationships (one block can have many annotation instances, one annotation instance can be used by many blocks)
  * - Additional metadata on the relationship (orderIndex, userTypeBlockInstanceId override, isDefault)
  * - User-type-specific filtering at the relationship level via BlockInstance foreign key
@@ -127,4 +126,3 @@ export function AnnotationAssignmentFactory(sequelize: Sequelize) {
 
   return AnnotationAssignment;
 }
-

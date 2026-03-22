@@ -3,63 +3,25 @@
 
 WHY: Components should be thin UI wrappers - c...
  */
-import { computed, type ComputedRef } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey } from '@/constants/primitives'
+import { computed } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { RelationshipSelectModeEnum, RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { SelectOption } from '@/composables/useSelectOptions'
 import { useEntityMetadata } from './useEntityMetadata'
 import {
+  type OptionsSelectConfigLike,
   unwrapInputConfig,
   getSelectConfigFromUnwrapped,
   resolveSelectMultiple,
   resolveOptionEntityKey,
 } from '@/utils/admin/selectTypeResolver'
+import { resolveOptionLabelKey } from '@/utils/admin/selectConfigResolvers'
+import type { UseSelectConfigOptions, UseSelectConfigReturn } from '@/types/admin/selectConfig'
+import type { SelectOption } from '@/types/selectOptions'
 
 const logger = createLogger('useSelectConfig')
-
-export interface UseSelectConfigOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-}
-
-export interface UseSelectConfigReturn {
-  selectConfig: ComputedRef<RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined>
-  
-  isEnumSelect: ComputedRef<boolean>
-
-  isOptionsSelect: ComputedRef<boolean>
-
-  optionsSelectOptions: ComputedRef<SelectOption[]>
-  
-  /**
-Whether this is an AnnotationAssignmentSelect field
-LEARNING: Annota...
-   */
-  isAnnotationAssignmentSelect: ComputedRef<boolean>
-  
-  isAttendeeSelect: ComputedRef<boolean>
-  
-  isMultiple: ComputedRef<boolean>
-  
-  chipsProps: ComputedRef<Record<string, unknown>>
-  
-  optionEntityKey: ComputedRef<GlobalEntityKey>
-  
-  optionLabelKey: ComputedRef<string>
-}
-
-/**
- * NOTE: value can be null for fields like ternaryDefault where null means "fail gracefully"
- */
-interface OptionsSelectConfig {
-  options: Array<{ value: string | null; label: string }>
-  selectMode?: RelationshipSelectModeEnum
-}
 
 /**
  * WHY: Select Config Composable
@@ -81,9 +43,14 @@ export function useSelectConfig(
    */
   const entity = computed(() => {
     try {
-      const entityValue = admin.getEntity(fieldContext.entityKey, fieldContext.entityId)
+      const entityValue = admin.getEntity(fieldContext.state.entityKey, fieldContext.state.entityId)
       return entityValue ?? null
-    } catch {
+    } catch (err) {
+      logger.warn('useSelectConfig: failed to get entity', {
+        entityKey: fieldContext.state.entityKey,
+        entityId: fieldContext.state.entityId,
+        err,
+      })
       return null
     }
   })
@@ -92,7 +59,7 @@ export function useSelectConfig(
    * PATTERN: Use useEntityMetadata composable to fetch metadata
    */
   const { fieldMetadata } = useEntityMetadata(
-    fieldContext.entityKey,
+    fieldContext.state.entityKey,
     entity
   )
   
@@ -102,19 +69,19 @@ export function useSelectConfig(
     if (!fieldMetadata.value) {
       return undefined
     }
-    return fieldMetadata.value[String(fieldContext.fieldKey)]
+    return fieldMetadata.value[String(fieldContext.state.fieldKey)]
   })
 
   /**
    */
   const isEnumSelect = computed(() => {
-    return (fieldContext.entityKey === 'blockShape' || fieldContext.entityKey === 'partShape') && 
-           String(fieldContext.fieldKey) === 'type'
+    return (fieldContext.state.entityKey === 'blockShape' || fieldContext.state.entityKey === 'partShape') && 
+           String(fieldContext.state.fieldKey) === 'type'
   })
 
   /**
    */
-  const optionsSelectConfig = computed<OptionsSelectConfig | undefined>(() => {
+  const optionsSelectConfig = computed<OptionsSelectConfigLike | undefined>(() => {
     const meta = fieldMetadataEntry.value
     if (!meta || !meta.inputConfig || typeof meta.inputConfig !== 'object') {
       return undefined
@@ -140,7 +107,7 @@ export function useSelectConfig(
     
     if (hasInvalidOption) {
       throw new Error(
-        `[useSelectConfig] Invalid options format for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `[useSelectConfig] Invalid options format for ${String(fieldContext.state.entityKey)}.${String(fieldContext.state.fieldKey)}. ` +
         `Each option must include non-empty "label" property and "value" must be non-empty string or null.`
       )
     }
@@ -163,16 +130,14 @@ export function useSelectConfig(
     
     return config.options.map((option) => ({
       title: option.label,
-      // LEARNING: Convert null to '__NULL__' sentinel for ternaryDefault field
       // PATTERN: Use '__NULL__' as sentinel, convert back to null when saving
       value: option.value === null ? '__NULL__' : option.value
     }))
   })
 
   /**
-   * LEARNING: Extract select config from metadata.inputConfig (direct format)
    */
-  const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey> | undefined => {
+  const selectConfig = computed((): RelationshipFieldType<typeof fieldContext.state.entityKey> | VirtualFieldType<typeof fieldContext.state.entityKey> | undefined => {
     // PATTERN: Gracefully handle loading state instead of throwing
     if (!isMetadataLoaded.value) {
       return undefined
@@ -197,7 +162,7 @@ export function useSelectConfig(
     
     if (!meta.inputConfig) {
       throw new Error(
-        `[useSelectConfig] Missing inputConfig in FieldMetadataEntry for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+        `[useSelectConfig] Missing inputConfig in FieldMetadataEntry for ${String(fieldContext.state.entityKey)}.${String(fieldContext.state.fieldKey)}. ` +
         `Select fields (renderAs: select/multiselect/reference) must have inputConfig configured.`
       )
     }
@@ -207,11 +172,11 @@ export function useSelectConfig(
       const wrapped = inputConfig.relationshipSelect
       if (typeof wrapped === 'object' && wrapped !== null && 'targetMode' in wrapped) {
         logger.warn(
-          `Wrapped inputConfig detected (stale relationshipSelect format) for ${String(fieldContext.entityKey)}.${String(fieldContext.fieldKey)}. ` +
+          `Wrapped inputConfig detected (stale relationshipSelect format) for ${String(fieldContext.state.entityKey)}.${String(fieldContext.state.fieldKey)}. ` +
             `inputConfig is wrapped in "relationshipSelect" key — fix in admin_metadata.`,
           {
-            entityKey: fieldContext.entityKey,
-            fieldKey: fieldContext.fieldKey,
+            entityKey: fieldContext.state.entityKey,
+            fieldKey: fieldContext.state.fieldKey,
             wrappedKeys: Object.keys(inputConfig),
           }
         )
@@ -219,14 +184,14 @@ export function useSelectConfig(
     }
     inputConfig = unwrapInputConfig(
       inputConfig,
-      String(fieldContext.entityKey),
-      String(fieldContext.fieldKey)
+      String(fieldContext.state.entityKey),
+      String(fieldContext.state.fieldKey)
     )
     return getSelectConfigFromUnwrapped(
       inputConfig,
-      String(fieldContext.entityKey),
-      String(fieldContext.fieldKey)
-    ) as RelationshipFieldType<typeof fieldContext.entityKey> | VirtualFieldType<typeof fieldContext.entityKey>
+      String(fieldContext.state.entityKey),
+      String(fieldContext.state.fieldKey)
+    ) as RelationshipFieldType<typeof fieldContext.state.entityKey> | VirtualFieldType<typeof fieldContext.state.entityKey>
   })
 
   /**
@@ -251,8 +216,7 @@ export function useSelectConfig(
     }
     
     const inputConfig = meta.inputConfig as Record<string, unknown>
-    return inputConfig.selectType === RelationshipSelectTypeEnum.AttendeeSelect || 
-           inputConfig.selectType === 'attendeeSelect'
+    return inputConfig.selectType === 'attendeeSelect'
   })
 
   /**
@@ -262,8 +226,8 @@ export function useSelectConfig(
       isEnumSelect.value,
       optionsSelectConfig.value,
       selectConfig.value,
-      String(fieldContext.entityKey),
-      String(fieldContext.fieldKey)
+      String(fieldContext.state.entityKey),
+      String(fieldContext.state.fieldKey)
     )
   )
 
@@ -286,41 +250,12 @@ export function useSelectConfig(
       isEnumSelect.value,
       isOptionsSelect.value,
       selectConfig.value,
-      String(fieldContext.entityKey),
-      String(fieldContext.fieldKey)
+      String(fieldContext.state.entityKey),
+      String(fieldContext.state.fieldKey)
     )
   )
 
-  /**
-WHY: Most entities use 'name' as their display field - safe default ...
-   */
-  const optionLabelKey = computed(() => {
-    // PATTERN: Return 'name' as default for enum selects (not actually used)
-    if (isEnumSelect.value) {
-      return 'name'
-    }
-
-    // PATTERN: Return 'name' as a harmless default (not used)
-    if (isOptionsSelect.value) {
-      return 'name'
-    }
-    
-    const config = selectConfig.value
-    
-    // PATTERN: Return 'name' as safe default when config is undefined
-    if (!config) {
-      return 'name'
-    }
-    
-    // PATTERN: Use 'name' field for annotation instances (transformer maps API 'text' to entity 'name')
-    if (isAnnotationAssignmentSelect.value) {
-      return 'name' // AnnotationInstance.name contains the text content
-    }
-    
-    // WHY: Most entities (blockShape, partShape, blockInstance, partInstance) use 'name' as their display field
-    // PATTERN: Provide sensible default that matches actual entity structure
-    return 'name'
-  })
+  const optionLabelKey = computed(() => resolveOptionLabelKey())
 
   return {
     selectConfig,
@@ -335,4 +270,3 @@ WHY: Most entities use 'name' as their display field - safe default ...
     optionLabelKey
   }
 }
-

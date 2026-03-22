@@ -1,74 +1,23 @@
 /**
  * WHY: useRelationshipCollection Composable
-LEARNING: Generic collection-level ...
  */
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useNotification } from '@/composables/useNotification'
-import {
-  useRelationshipCollectionData,
-  type UseRelationshipCollectionDataReturnBase,
-} from './useRelationshipCollectionData'
+import { useRelationshipCollectionData } from './useRelationshipCollectionData'
 import { useRelationshipCollectionField } from './useRelationshipCollectionField'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldContextType } from '@/composables/fieldContext/types'
-import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createLogger } from '@/utils/logger'
+import type { RelationshipCollectionModel, UseRelationshipCollectionOptions } from '@/types/admin/relationshipCollection'
 
 const logger = createLogger('useRelationshipCollection')
 
-/**
-WHY: Different collection types may have d...
- */
-export type NameGenerator = (
-  parentName: string,
-  shapeName: string,
-  parentId: string,
-  shapeId: string,
-  existingChildren: GlobalEntity<GlobalEntityKey>[]
-) => string
-
-/** Extends shared data return base (P2 type-similarity). */
-export interface RelationshipCollectionModel extends UseRelationshipCollectionDataReturnBase {
-  parentEntity: ComputedRef<GlobalEntity<GlobalEntityKey> | undefined>
-  shouldShow: ComputedRef<boolean>
-  optionsFieldKey: ComputedRef<string>
-  expandedPlaceholders: Ref<string[]>
-  getNewChildEntity: (shapeId: string) => GlobalEntity<GlobalEntityKey>
-  handleNewChildSaved: (shapeId: string, createdEntity: GlobalEntity<GlobalEntityKey>) => Promise<void>
-  handleNewChildCancelled: (shapeId: string) => void
-  expandedChildren: Ref<string[]>
-  isPanelExpanded: (childId: string) => boolean
-  bulkEditMode?: Ref<boolean>
-  bulkEditData?: Ref<Record<string, unknown>>
-  toggleBulkEditMode?: () => void
-  applyBulkEdit?: () => Promise<void>
-  handleBulkEditModalUpdate?: (value: boolean) => void
-  handleBulkEditConfirm?: (data: Record<string, unknown>) => void
-}
-
-export interface UseRelationshipCollectionOptions {
-  fieldContext: FieldContextType<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>
-  nameGenerator?: NameGenerator
-  enableBulkEdit?: boolean
-  bulkEditComposable?: (collectionModel: RelationshipCollectionModel) => {
-    bulkEditMode: Ref<boolean>
-    bulkEditData: Ref<Record<string, unknown>>
-    toggleBulkEditMode: () => void
-    applyBulkEdit: () => Promise<void>
-    handleBulkEditModalUpdate: (value: boolean) => void
-    handleBulkEditConfirm: (data: Record<string, unknown>) => void
-  }
-}
-
-/**
-LEARNING: Generic collection-level composable ...
- */
 export function useRelationshipCollection(
   options: UseRelationshipCollectionOptions
 ): RelationshipCollectionModel {
@@ -82,11 +31,9 @@ export function useRelationshipCollection(
     childEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentEntity: parentEntityFromField,
-    parentTypeEntityKey,
-    parentTypeRef
-    // LEARNING: shapeRefProperty removed - not used in this composable
+    parentContext,
   } = fieldConfig
+  const { parentEntity: parentEntityFromField, parentTypeEntityKey, parentTypeRef } = parentContext
   
   // WHY: Pattern: partInstance → partShape, annotationInstance → annotationShape, eventInstance → eventShape
   // PATTERN: Replace 'Instance' with 'Shape' in entity key
@@ -106,20 +53,20 @@ export function useRelationshipCollection(
     return `${firstLower}Ref`
   })
   
-  const parentEntityId = computed(() => fieldContext.entityId)
+  const parentEntityId = computed(() => fieldContext.state.entityId)
   
-  // PATTERN: Add type assertion since we know it should be non-null at runtime
+  // PATTERN: Options accept childEntityKey | null; implementation casts to GlobalEntityKey
   const collectionData = useRelationshipCollectionData({
     parentEntityId,
-    parentEntityKey: computed(() => fieldContext.entityKey),
+    parentEntityKey: computed(() => fieldContext.state.entityKey),
     childEntityKey,
     shapeEntityKey,
     relationshipKey,
     optionsFieldKey,
-    parentTypeEntityKey: parentTypeEntityKey as ComputedRef<GlobalEntityKey>,
+    parentTypeEntityKey,
     parentTypeRef,
     shapeRefProperty: shapeRefProperty.value
-  })
+  } as import('@/types/admin/relationshipCollectionData').UseRelationshipCollectionDataOptions)
   
   const {
     validShapes,
@@ -134,7 +81,7 @@ export function useRelationshipCollection(
     return validShapes.value.length > 0
   })
   
-  const { create: createRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
+  const { create: createRelationship, remove: removeRelationship } = useRelationshipCrud(relationshipKey.value as GlobalRelationshipKey)
   
   const expandedPlaceholders = ref<string[]>([])
   
@@ -146,7 +93,8 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     let defaults: Record<string, unknown>
     try {
       defaults = getDefaultEntityValues(childEntityKey.value)
-    } catch {
+    } catch (err) {
+      logger.warn('getDefaultEntityValues failed, using fallback', { childEntityKey: childEntityKey.value, error: err })
       defaults = { orderIndex: 0 }
     }
     
@@ -168,12 +116,15 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     if (nameGenerator) {
       const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
       const shapeName = getShapeName(shapeId)
+      const children = existingChildren.value.filter(
+        (c): c is GlobalEntity<GlobalEntityKey> => c != null
+      )
       const name = nameGenerator(
         parentName,
         shapeName,
         parentEntity.value.id,
         shapeId,
-        existingChildren.value
+        children
       )
       return {
         ...baseEntity,
@@ -228,7 +179,7 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
       })
       
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: [fieldContext.entityKey] }),
+        queryClient.invalidateQueries({ queryKey: [fieldContext.state.entityKey] }),
         queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
         queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
         queryClient.invalidateQueries({ queryKey: ['globalData'] }),
@@ -239,8 +190,8 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
         expandedPlaceholders.value.splice(index, 1)
       }
     } catch (error) {
-      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}:`, error)
-      notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.entityKey}`)
+      logger.error(`Failed to link ${childEntityKey.value} to ${fieldContext.state.entityKey}:`, error)
+      notifyError(`Failed to link ${childEntityKey.value} to ${fieldContext.state.entityKey}`)
     }
   }
   
@@ -252,6 +203,26 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
       expandedPlaceholders.value.splice(index, 1)
     }
   }
+
+  const handleDeleteChildById = async (id: string): Promise<void> => {
+    if (!parentEntity.value) return
+    try {
+      await removeRelationship(toGlobalEntityId(parentEntity.value.id), toGlobalEntityId(id))
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [fieldContext.state.entityKey] }),
+        queryClient.invalidateQueries({ queryKey: [childEntityKey.value] }),
+        queryClient.invalidateQueries({ queryKey: [relationshipKey.value] }),
+        queryClient.invalidateQueries({ queryKey: ['globalData'] }),
+      ])
+    } catch (error) {
+      logger.error(`Failed to remove child ${id} from ${fieldContext.state.entityKey}:`, error)
+      notifyError(`Failed to remove child`)
+    }
+  }
+
+  const handleDeleteChild = async (entity: GlobalEntity<GlobalEntityKey>): Promise<void> => {
+    await handleDeleteChildById(String(entity.id))
+  }
   
   const expandedChildren = ref<string[]>([])
   const isPanelExpanded = (childId: string): boolean => expandedChildren.value.includes(String(childId))
@@ -261,8 +232,10 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     existingChildren,
     getChildForShape,
     getShapeName,
-    
-    parentEntity,
+
+    parentEntity: parentEntity as import('vue').ComputedRef<
+      GlobalEntity<GlobalEntityKey> | undefined
+    >,
     shouldShow,
     
     optionsFieldKey,
@@ -271,7 +244,9 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     getNewChildEntity,
     handleNewChildSaved,
     handleNewChildCancelled,
-    
+    handleDeleteChildById,
+    handleDeleteChild,
+
     expandedChildren,
     isPanelExpanded,
   }

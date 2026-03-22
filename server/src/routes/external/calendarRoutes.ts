@@ -21,6 +21,7 @@ const createEventBodySchema = Joi.object({
   end: Joi.string().required(),
   description: Joi.string().allow('').optional(),
   location: Joi.string().allow('').optional(),
+  // @audit-allow:hardcoding:fieldMapping - Joi schema shape for request validation
   attendees: Joi.array().items(Joi.object({ email: Joi.string().email().required() })).optional(),
   sendUpdates: Joi.string().valid('all', 'externalOnly', 'none').optional(),
 })

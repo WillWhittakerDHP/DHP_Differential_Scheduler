@@ -28,7 +28,11 @@ const EXTENSIONS = ['.ts', '.tsx', '.vue']
 const AUDIT_SCRIPTS = {
   'type-import': 'type-import-audit.mjs',
   'type-escape': 'type-escape-audit.mjs',
+  'type-health': 'type-health-audit.mjs',
   'error-handling': 'error-handling-audit.mjs',
+  'component-health': 'component-health-audit.mjs',
+  'composable-health': 'composable-health-audit.mjs',
+  'data-flow-health': 'data-flow-health-audit.mjs',
 }
 
 /**
@@ -126,7 +130,7 @@ function main() {
   const scriptDir = __dirname
   const clientDir = path.resolve(scriptDir, '..')
   const projectRoot = path.resolve(clientDir, '..')
-  const paths = resolveAuditPaths('type-import') // any; we need projectRoot
+  const _paths = resolveAuditPaths('type-import') // any; we need projectRoot
   const outDir = path.join(clientDir, '.audit-reports')
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
 

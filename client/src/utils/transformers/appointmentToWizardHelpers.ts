@@ -5,7 +5,6 @@ WHY: Reduces duplication and ...
  */
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
@@ -13,32 +12,9 @@ import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { Logger } from '@/utils/logger'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
+import type { AppointmentVersionsResponse, VersionBlockInstance } from '@/types/transformers/appointmentToWizardHelpers'
 
-interface VersionBlockInstance {
-  id: string // blockInstanceId
-  name: string
-  icon: string
-  baseSqFt: number
-  allowMultiple: boolean
-  // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-  partInstances: Array<{
-    id: string // partInstanceId
-    name: string
-    baseFee: number
-    baseTime: number
-    rateOverBaseFee: number
-    rateOverBaseTime: number
-    // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-    // @audit-allow:deprecation:legacy-keyword - Intentional backward compatibility for boolean | TernaryBoolean
-  }>
-}
-
-export interface AppointmentVersionsResponse {
-  services: VersionBlockInstance[]
-  properties: VersionBlockInstance[]
-  options: VersionBlockInstance[]
-  lineItems?: VersionBlockInstance[]
-}
+export type { AppointmentVersionsResponse } from '@/types/transformers/appointmentToWizardHelpers'
 
 export function findBlockInstanceById(
   bookingData: BookingData,
@@ -78,7 +54,7 @@ function transformVersionToBookingInstance(
 
   const partInstances: BookingPartInstance[] = version.partInstances.map(pi => {
     const currentPart = currentInstance?.partInstances.find(p => p.id === pi.id)
-    return {
+    const part = {
       id: pi.id,
       entityKey: 'partInstance' as const,
       name: safeString(pi.name, 'VersionBlockInstance.partInstances.name'),
@@ -92,6 +68,8 @@ function transformVersionToBookingInstance(
       zeroOutPart: currentPart?.zeroOutPart ?? false,
       activePartIds: asEmptyArray(currentPart?.activePartIds),
     }
+    const percentageOff = (pi as BookingPartInstance).percentageOff ?? currentPart?.percentageOff
+    return { ...part, ...(percentageOff !== undefined && percentageOff !== null && { percentageOff }) } as BookingPartInstance
   })
 
   return {
@@ -101,8 +79,8 @@ function transformVersionToBookingInstance(
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
     baseSqFt: safeNumber(version.baseSqFt, 'VersionBlockInstance.baseSqFt'),
     allowMultiple: version.allowMultiple,
-    // LEARNING: Convert boolean to TernaryBoolean for differential
-    differential: convertToTernaryBoolean(version.differential, 'false'),
+    // Preserve existing differential state when present; fallback to false for legacy payloads.
+    differential: convertToTernaryBoolean(currentInstance?.differential ?? false, 'false'),
     partInstances,
   } as BookingBlockInstance
 }

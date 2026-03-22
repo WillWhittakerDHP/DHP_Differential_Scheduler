@@ -2,13 +2,14 @@
 import { computed, type ComputedRef } from 'vue'
 import { useBusiness } from '@/composables/useBusiness'
 import { findById } from '@/utils/collections/findById'
+import type { WithId } from '@/types/collectionTypes'
 import type {
   BusinessDataCollectionByIdQueryResult,
   BusinessDataCollectionQueryResult,
   BusinessDataCollectionSelector,
-} from './types'
+} from '@/types/dataCollections/businessDataCollectionTypes'
 
-type BusinessDataCollectionQueryOptions<CollectionItem extends { id: string }> = {
+type BusinessDataCollectionQueryOptions<CollectionItem extends WithId> = {
   selectCollection: BusinessDataCollectionSelector<CollectionItem>
 } & { readonly __brand?: 'BusinessDataCollectionQueryOptions' }
 
@@ -17,7 +18,7 @@ type BusinessDataCollectionQueryOptions<CollectionItem extends { id: string }> =
  *
  * WHY: Keeping "query" concerns separate makes CRUD composables smaller and easier to reuse.
  */
-export function useBusinessDataCollectionQuery<CollectionItem extends { id: string }>(
+export function useBusinessDataCollectionQuery<CollectionItem extends WithId>(
   options: BusinessDataCollectionQueryOptions<CollectionItem>
 ): {
   list: ComputedRef<CollectionItem[]>

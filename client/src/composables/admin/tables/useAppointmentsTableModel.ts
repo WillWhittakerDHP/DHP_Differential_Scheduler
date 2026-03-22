@@ -6,20 +6,34 @@ import { useNotification } from '@/composables/useNotification'
 import type { AppointmentRequest, AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
-import { useCrudDataTableModel, type CrudDataTableModel } from './useCrudDataTableModel'
+import { useCrudDataTableModel } from './useCrudDataTableModel'
 import { getAppointmentFieldFormatter } from '@/utils/appointmentFieldFormatters'
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
+import { createLogger } from '@/utils/logger'
 
-export interface AppointmentsTableModel extends CrudDataTableModel<
-  AppointmentResponse,
-  AppointmentRequest,
-  Partial<AppointmentRequest>
-> {
+import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
+
+const logger = createLogger('useAppointmentsTableModel')
+
+/** Grouped to keep return surface under 10 (composable-health). */
+export interface AppointmentsTableLookups {
   properties: ComputedRef<PropertyResponse[]>
   users: ComputedRef<UserResponse[]>
   getDisplayValue: (appointment: AppointmentResponse, field: string) => string
   getPropertyById: (propertyVersionId: string | null | undefined) => PropertyResponse | undefined
   getUserById: (userId: string | null | undefined) => UserResponse | undefined
   getPropertyTypeNames: (propertyVersionId: string | null | undefined) => string
+}
+
+export interface AppointmentsTableModel extends CrudDataTableModel<
+  AppointmentResponse,
+  AppointmentRequest,
+  Partial<AppointmentRequest>
+> {
+  lookups: AppointmentsTableLookups
+  confirmAppointment: (id: string) => Promise<boolean>
+  /** Soft delete: PATCH status to cancelled (record retained for audit). */
+  markCancelled: (id: string) => Promise<boolean>
 }
 
 /**
@@ -72,7 +86,32 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
     return names.length ? names.join(', ') : '—'
   }
 
-  const model = useCrudDataTableModel<AppointmentResponse, AppointmentRequest, Partial<AppointmentRequest>>({
+  const confirmAppointment = async (id: string): Promise<boolean> => {
+    try {
+      await update.mutateAsync({ id, data: { status: 'confirmed' } as Partial<AppointmentRequest> })
+      success(APPOINTMENTS_TABLE_UI.CONFIRM_SUCCESS)
+      return true
+    } catch (err) {
+      logger.error(APPOINTMENTS_TABLE_UI.CONFIRM_ERROR, { error: err, appointmentId: id })
+      error(APPOINTMENTS_TABLE_UI.CONFIRM_ERROR)
+      return false
+    }
+  }
+
+  /** Soft delete: set status to cancelled; record retained for audit. */
+  const markCancelled = async (id: string): Promise<boolean> => {
+    try {
+      await update.mutateAsync({ id, data: { status: 'cancelled' } as Partial<AppointmentRequest> })
+      success(APPOINTMENTS_TABLE_UI.MARK_CANCELLED_SUCCESS)
+      return true
+    } catch (err) {
+      logger.error(APPOINTMENTS_TABLE_UI.MARK_CANCELLED_ERROR, { error: err, appointmentId: id })
+      error(APPOINTMENTS_TABLE_UI.MARK_CANCELLED_ERROR)
+      return false
+    }
+  }
+
+  const crud = useCrudDataTableModel<AppointmentResponse, AppointmentRequest, Partial<AppointmentRequest>>({
     entityLabel: 'Appointment',
     itemsSource: computed(() => {
       const data = fetchAll.data.value
@@ -122,13 +161,20 @@ export function useAppointmentsTableModel(): AppointmentsTableModel {
   })
 
   return {
-    ...model,
-    properties,
-    users,
-    getDisplayValue,
-    getPropertyById,
-    getUserById,
-    getPropertyTypeNames,
+    ...crud.data,
+    ...crud.editState,
+    ...crud.dialogs,
+    ...crud.actions,
+    lookups: {
+      properties,
+      users,
+      getDisplayValue,
+      getPropertyById,
+      getUserById,
+      getPropertyTypeNames,
+    },
+    confirmAppointment,
+    markCancelled,
   }
 }
 

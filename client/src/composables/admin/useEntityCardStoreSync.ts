@@ -2,32 +2,12 @@
  * WHY: Entity Card Store Sync Composable
 PATTERN: Composable that handles form ...
  */
-import { computed, watch, type Ref, type ComputedRef } from 'vue'
-import type { FormContext } from 'vee-validate'
+import { computed, watch } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import type { UseEntityCardStoreSyncOptions, UseEntityCardStoreSyncReturn } from '@/types/admin/entityCardStoreSync'
 
-export interface UseEntityCardStoreSyncOptions<GE extends GlobalEntityKey> {
-  entityKey: GE
-  
-  entityId: Ref<string> | ComputedRef<string>
-  
-  form: FormContext
-  
-  isNew: boolean
-  
-  getStoreEntity: () => GlobalEntity<GE> | undefined
-  
-  initialEntity: GlobalEntity<GE>
-}
 
-export interface UseEntityCardStoreSyncReturn<GE extends GlobalEntityKey> {
-  storeEntity: ComputedRef<GlobalEntity<GE> | undefined>
-}
-
-/**
- * LEARNING: Entity Card Store Sync Composable
- */
 export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   options: UseEntityCardStoreSyncOptions<GE>
 ): UseEntityCardStoreSyncReturn<GE> {
@@ -103,6 +83,6 @@ export function useEntityCardStoreSync<GE extends GlobalEntityKey>(
   }
 
   return {
-    storeEntity: storeEntity as ComputedRef<GlobalEntity<GE> | undefined>
+    storeEntity
   }
 }

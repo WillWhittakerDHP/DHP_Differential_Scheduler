@@ -1,6 +1,31 @@
-export type StepValidator = (stepIndex: number) => boolean
+/**
+ * Wizard step validation: resolves validators from Ref or plain object and validates by step index.
+ * Accepts reactive params but uses no Vue reactivity internally.
+ */
+import type {
+  StepValidator,
+  UseWizardValidationParams,
+  UseWizardValidationReturn,
+} from '@/types/booking/wizardValidation'
 
-export type UseWizardValidationReturn = {
-  validateStep: (stepIndex: number) => boolean
+export function useWizardValidation(params: UseWizardValidationParams): UseWizardValidationReturn {
+  const { stepValidators } = params
+  
+  // WHY: Ensures validation always uses current validator functions with current values
+  // PATTERN: Check if it's a ref/computed and access .value, otherwise use directly
+  const getValidators = (): Record<number, StepValidator | null> => {
+    if ('value' in stepValidators) {
+      return stepValidators.value
+    }
+    return stepValidators
+  }
+  
+  const validateStep = (stepIndex: number): boolean => {
+    const validators = getValidators()
+    const validator = validators[stepIndex]
+    if (validator) return validator(stepIndex)
+    return true
+  }
+
+  return { validateStep }
 }
-
