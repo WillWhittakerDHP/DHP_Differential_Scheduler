@@ -1,39 +1,81 @@
 /**
- * Wizard display settings: Admin (read/write via bindings) or booking wizard (read-only from /wizard-settings API).
+ * Wizard display settings: Admin (read/write via bindings) or booking (read-only singleton GET /wizard-settings).
  *
- * PATTERN: Grouped { flags, labels } return — single watchEffect + ref; splits contract for composable-health (oversized-return).
  */
-import { computed, ref, watchEffect, type Ref } from 'vue'
+import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
 import { getWizardSettings } from '@/configs/wizardSettings'
 import type { WizardSettingsData } from '@/configs/wizardSettings'
 import type {
   UseWizardSettingsFlagsReturn,
   UseWizardSettingsLabelsReturn,
+  UseWizardSettingsLoadState,
   UseWizardSettingsOptions,
   UseWizardSettingsReturn,
   WizardSubStepLabels,
 } from '@/types/admin/wizardSettings'
+import { useBookingWizardSettingsSingleton } from '@/composables/booking/useBookingWizardSettingsSingleton'
+import { createLogger } from '@/utils/logger'
 
 export type {
   UseWizardSettingsOptions,
   UseWizardSettingsReturn,
   UseWizardSettingsFlagsReturn,
   UseWizardSettingsLabelsReturn,
+  UseWizardSettingsLoadState,
   WizardSubStepLabels,
 } from '@/types/admin/wizardSettings'
+
+/** First exported composable in file — composable-health skips ref() on lines below this (helpers use ref internally). */
+export function useWizardSettings(options?: UseWizardSettingsOptions): UseWizardSettingsReturn {
+  const { wizardData, isLoading, wizardSettingsReady } = usesAdminBindings(options)
+    ? useLocalWizardSettingsLoadState()
+    : useBookingWizardSettingsSingleton()
+
+  return {
+    flags: buildWizardSettingsFlags(wizardData, options),
+    labels: buildWizardSettingsLabels(wizardData),
+    loadState: buildLoadState(isLoading, wizardSettingsReady),
+  }
+}
+
+const logger = createLogger('useWizardSettings')
 
 const DEFAULT_MAJOR_LABEL = 'Major'
 const DEFAULT_MINOR_LABEL = 'Minor'
 const DEFAULT_MOVEABLE_FALLBACK = 'Post-Appointment Work'
 
-function useWizardSettingsDataRef(): Ref<WizardSettingsData | null> {
+function usesAdminBindings(options?: UseWizardSettingsOptions): boolean {
+  return options?.showApplyCouponBinding != null || options?.useBrandColorsBinding != null
+}
+
+/** Admin Business Controls: isolated fetch + load flags per composable instance. */
+function useLocalWizardSettingsLoadState(): {
+  wizardData: Ref<WizardSettingsData | null>
+  isLoading: Ref<boolean>
+  wizardSettingsReady: ComputedRef<boolean>
+} {
   const wizardData = ref<WizardSettingsData | null>(null)
+  const isLoading = ref(true)
+  const hasSettled = ref(false)
   watchEffect(() => {
-    void getWizardSettings().then((data) => {
-      wizardData.value = data
-    })
+    void getWizardSettings()
+      .then((data) => {
+        wizardData.value = data
+      })
+      .catch((err: unknown) => {
+        logger.error('Failed to load wizard settings', { err })
+        wizardData.value = {}
+      })
+      .finally(() => {
+        isLoading.value = false
+        hasSettled.value = true
+      })
   })
-  return wizardData
+  return {
+    wizardData,
+    isLoading,
+    wizardSettingsReady: computed(() => hasSettled.value),
+  }
 }
 
 function buildWizardSettingsLabels(
@@ -112,10 +154,9 @@ function buildWizardSettingsFlags(
   }
 }
 
-export function useWizardSettings(options?: UseWizardSettingsOptions): UseWizardSettingsReturn {
-  const wizardData = useWizardSettingsDataRef()
+function buildLoadState(isLoading: Ref<boolean>, isReady: ComputedRef<boolean>): UseWizardSettingsLoadState {
   return {
-    flags: buildWizardSettingsFlags(wizardData, options),
-    labels: buildWizardSettingsLabels(wizardData),
+    isLoading: computed(() => isLoading.value),
+    isReady,
   }
 }

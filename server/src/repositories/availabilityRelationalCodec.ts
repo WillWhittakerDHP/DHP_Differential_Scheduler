@@ -207,6 +207,12 @@ export function assembleAvailabilityDocument(
     }
   }
 
+  const driveTimeFee: NonNullable<AvailabilitySettingsData['driveTimeFee']> = {
+    complimentaryDriveMinutes: root.driveTimeFeeComplimentaryMinutes,
+    drivingRatePerHour: root.driveTimeFeeRatePerHour,
+    driveTimeRoundingMinutes: root.driveTimeFeeRoundingMinutes,
+  }
+
   const majors = differential.filter((d) => d.role === 'major').sort((a, b) => a.sortOrder - b.sortOrder)
   const minors = differential.filter((d) => d.role === 'minor').sort((a, b) => a.sortOrder - b.sortOrder)
   let differentialPerspectives: AvailabilitySettingsData['differentialPerspectives']
@@ -235,6 +241,7 @@ export function assembleAvailabilityDocument(
     },
     ...(differentialPerspectives ? { differentialPerspectives } : {}),
     ...(defaultLocation ? { defaultLocation } : {}),
+    driveTimeFee,
   }
 }
 

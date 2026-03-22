@@ -49,10 +49,13 @@ export function useFieldComponent(
     entity
   )
 
-  // PATTERN: Create a computed that reactively accesses the correct source
+  // PATTERN: Parent may omit fieldMetadata (undefined) so we fetch from useEntityMetadata.
   const fieldMetadata = computed(() => {
-    if (providedFieldMetadata) {
-      return providedFieldMetadata.value
+    if (providedFieldMetadata !== undefined) {
+      const v = providedFieldMetadata.value
+      if (v !== undefined && v !== null) {
+        return v
+      }
     }
     return fetchedFieldMetadata.fieldMetadata.value
   })

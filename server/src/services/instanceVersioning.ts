@@ -1,5 +1,12 @@
-import { Op, Model } from 'sequelize';
-import { BlockInstance, PartInstance, Appointment, BlockInstanceVersion, PartInstanceVersion } from '../config/app.js';
+import { Model } from 'sequelize';
+import {
+  BlockInstance,
+  PartInstance,
+  Appointment,
+  AppointmentSelectionLine,
+  BlockInstanceVersion,
+  PartInstanceVersion,
+} from '../config/app.js';
 import { FIELD_NAMES, SORT_ORDERS } from '../routes/internal/entities/entityConstants.js';
 
 /**
@@ -42,13 +49,14 @@ async function findAppointmentsUsingBlockInstance(
   blockInstanceId: string
 ): Promise<InstanceType<typeof Appointment>[]> {
   return await Appointment.findAll({
-    where: {
-      [Op.or]: [
-        { selectedServiceIds: { [Op.contains]: [blockInstanceId] } },
-        { selectedPropertyIds: { [Op.contains]: [blockInstanceId] } },
-        { selectedOptionIds: { [Op.contains]: [blockInstanceId] } },
-      ]
-    }
+    include: [
+      {
+        model: AppointmentSelectionLine,
+        as: 'selectionLines',
+        required: true,
+        where: { blockInstanceId },
+      },
+    ],
   });
 }
 

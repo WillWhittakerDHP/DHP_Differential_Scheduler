@@ -60,19 +60,42 @@ export function useFieldContextEntityDerived<GE extends GlobalEntityKey, FieldKe
 
     if (composedEntityComposable) {
       const components = composedEntityComposable.data.getComponents(entityId)
-      return components.map((ea) => ea.childId) as unknown as ValidAdminValue
+      return components.map((ea) => ea.childId) as ValidAdminValue
     }
 
     const currentEntity = entity.value as Record<string, unknown> | undefined
     if (!currentEntity) return ''
 
     const propertyName = actualPropertyName.value
-    if (Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
-      const propValue = (currentEntity as Record<string, unknown>)[propertyName]
-      if (propValue == null) return '' as ValidAdminValue
-      return asEmptyString(propValue as string) as ValidAdminValue
+
+    const missingDefault = (): ValidAdminValue => {
+      if (entityKey === 'blockInstance' && propertyName === 'differentialEventRoleOverrides') {
+        return {}
+      }
+      return ''
     }
-    return ''
+
+    if (!Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
+      return missingDefault()
+    }
+
+    const propValue = (currentEntity as Record<string, unknown>)[propertyName]
+    if (propValue === null || propValue === undefined) {
+      return missingDefault()
+    }
+    if (Array.isArray(propValue)) {
+      return propValue as ValidAdminValue
+    }
+    if (typeof propValue === 'object') {
+      return propValue as ValidAdminValue
+    }
+    if (typeof propValue === 'boolean' || typeof propValue === 'number') {
+      return propValue as ValidAdminValue
+    }
+    if (typeof propValue === 'string') {
+      return asEmptyString(propValue) as ValidAdminValue
+    }
+    return asEmptyString(String(propValue)) as ValidAdminValue
   })
 
   return { entityValue, actualPropertyName }

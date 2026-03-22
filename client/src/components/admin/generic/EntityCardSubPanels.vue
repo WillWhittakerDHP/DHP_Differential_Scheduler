@@ -115,6 +115,7 @@ const {
           <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="false"
+            :field-metadata="props.fieldMetadata"
           />
         </div>
       </template>

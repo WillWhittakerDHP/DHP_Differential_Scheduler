@@ -16,6 +16,7 @@ import type { GlobalEntity } from '@/types/entities'
 import {
   calculateSlotShape,
   enrichBlockFinalsWithDifferentialRoles,
+  mergeBlockDifferentialRoleOverrides,
 } from './partFinalizer'
 import {
   createBlockFinals,
@@ -43,6 +44,7 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
       roundedDifferentialOffset: 0,
     },
     eventAssignmentsByPartShape: {},
+    differentialEventRoleOverrides: {},
   }
 }
 
@@ -56,20 +58,20 @@ function lookupEventsForPartShape(
   const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
   if (!partShapeEntity) return []
 
-  const partInstanceIds = blockInstances
-    .flatMap((bi) => {
+  const blockInstanceIds = blockInstances
+    .filter((bi) => {
       const p = bi.partInstances
       if (p === undefined || p === null) {
         logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
-        return []
+        return false
       }
-      return p
+      return p.some((pi) => pi.partShape === partShapeName)
     })
-    .filter((pi) => pi.partShape === partShapeName)
-    .map(pi => pi.id)
+    .map((bi) => bi.id)
 
   const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(
-    rel => rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+    (rel) =>
+      rel.parent.entityKey === 'blockInstance' && blockInstanceIds.includes(rel.parent.id)
   )
   const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel =>
     rel.children.map(child => child.id)
@@ -149,18 +151,22 @@ export function buildAppointmentShape(
 
   const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)
 
+  const differentialEventRoleOverrides = mergeBlockDifferentialRoleOverrides(nonZeroedBlockFinals)
+
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
     resolvedEventShapes,
     settings ?? null,
+    differentialEventRoleOverrides,
   )
 
   return {
     finalizedBlocks: nonZeroedBlockFinals,
     finalizedParts: nonZeroedParts,
     slotShape,
-    eventAssignmentsByPartShape
+    eventAssignmentsByPartShape,
+    differentialEventRoleOverrides,
   }
 }
 
@@ -194,7 +200,10 @@ export function applyShapeToTime(
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
   const resolved = effectiveSlotShape.eventFinals.length > 0
-    ? resolveEventShapes(effectiveSlotShape.eventFinals)
+    ? resolveEventShapes(
+        effectiveSlotShape.eventFinals,
+        shape.differentialEventRoleOverrides ?? null
+      )
     : {
         majorEventShape: null,
         minorEventShape: null,

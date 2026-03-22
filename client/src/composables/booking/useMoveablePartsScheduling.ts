@@ -17,7 +17,7 @@ import { createLogger } from '@/utils/logger'
 import { localTime } from '@/utils/time/localTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
-import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
@@ -148,7 +148,11 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     const shape = appointmentShape.value
     if (!shape || shape.slotShape.eventFinals.length === 0) return null
     const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-    const moveableShape = getEventShapeByRole(eventShapes, 'moveable')
+    const moveableShape = getEventShapeByRoleWithOverrides(
+      eventShapes,
+      'moveable',
+      shape.differentialEventRoleOverrides ?? null
+    )
     if (!moveableShape) return null
     return shape.slotShape.eventFinals.find(ef => ef.eventShape.id === moveableShape.id) ?? null
   })
@@ -157,7 +161,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
 
   const moveableDuration = computed(() => {
     if (!moveableEventFinal.value) {
-      logger.error('moveableDuration: no event shape with differentialRole=moveable')
+      logger.error('moveableDuration: no event shape with effective differentialRole=moveable')
       return 0
     }
     return moveableEventFinal.value.roundedDuration ?? 0

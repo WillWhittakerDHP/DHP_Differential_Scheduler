@@ -1,20 +1,33 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
-import { ENTITY_KEY_BLOCK_INSTANCE, ENTITY_KEY_BLOCK_SHAPE, ENTITY_KEY_PART_INSTANCE, ENTITY_KEY_PART_SHAPE } from '@/constants/entities'
+import {
+  ENTITY_KEY_ANNOTATION_INSTANCE,
+  ENTITY_KEY_ANNOTATION_SHAPE,
+  ENTITY_KEY_BLOCK_INSTANCE,
+  ENTITY_KEY_BLOCK_SHAPE,
+  ENTITY_KEY_EVENT_INSTANCE,
+  ENTITY_KEY_EVENT_SHAPE,
+  ENTITY_KEY_PART_INSTANCE,
+  ENTITY_KEY_PART_SHAPE,
+} from '@/constants/entities'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { GlobalRelationshipKey } from '@/constants/relationships'
 import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum, TypeSelectEnum } from '@/types/entity/formDataEnums'
 
 // FIX: Use entity key constants (these are string literals, so they work in types)
-type ChildFieldKey = GlobalFieldKey<"blockInstance"> | GlobalFieldKey<"partInstance"> | GlobalFieldKey<"blockShape"> | GlobalFieldKey<"partShape">;
+type ChildFieldKey =
+  | GlobalFieldKey<'blockInstance'>
+  | GlobalFieldKey<'partInstance'>
+  | GlobalFieldKey<'blockShape'>
+  | GlobalFieldKey<'partShape'>
+  | GlobalFieldKey<'eventInstance'>
 
 type ValidRelationshipKeys<GE extends GlobalEntityKey> =
-  GE extends "blockShape" ? "validCascades" | "validParts" | "validAnnotations" | "eventAssignments" :
-  GE extends "blockInstance" ? "bookingCascades" | "partAssignments" | "annotationAssignments" | "instanceComponents" | "dependentInstances" :
-  GE extends "partInstance" ? "pricingCascades" :
-  GE extends "partShape" ? "validPricingCascades" :
-  never;
+  GE extends 'blockShape' ? 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' :
+  GE extends 'blockInstance'
+    ? 'bookingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'instanceComponents' | 'dependentInstances'
+    : GE extends 'partInstance' ? 'pricingCascades' : GE extends 'partShape' ? 'validPricingCascades' : never
 
 type SelectableFieldKey<GE extends GlobalEntityKey> = GlobalFieldKey<GE> | ValidRelationshipKeys<GE>;
 
@@ -68,7 +81,7 @@ type RelationshipDisplayType<
 type VirtualDisplayType<
   GE extends GlobalEntityKey = GlobalEntityKey,
 > = {
-  targetMode: "property";
+  targetMode: "primitive";
   targetKey: typeof ENTITY_KEY_BLOCK_SHAPE | typeof ENTITY_KEY_PART_SHAPE;
   globalField: GlobalFieldKey<GE>;
 
@@ -122,7 +135,7 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
   return {
     [ENTITY_KEY_BLOCK_INSTANCE]: {
       blockShapeRef: {
-        targetMode: "property",
+        targetMode: "primitive",
         targetKey: ENTITY_KEY_BLOCK_SHAPE,
         globalField: "blockShapeRef",
 
@@ -224,6 +237,78 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
         
         meta: {
           visible: true
+        },
+      },
+
+      annotationAssignments: {
+        targetMode: "relationship",
+        targetKey: "annotationAssignments",
+        globalField: "annotationAssignments",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_ANNOTATION_INSTANCE,
+        selectedChildPath: ["annotationAssignments"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        candidateParentPath: ["blockShapeRef"],
+        candidateChildKey: ENTITY_KEY_ANNOTATION_INSTANCE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.AnnotationAssignmentSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+
+        label: "Annotation Assignments",
+        placeholder: "No annotations selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "list",
+        emptyStateText: "No annotations assigned",
+        maxDisplayItems: 15,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
+        },
+      },
+
+      eventAssignments: {
+        targetMode: "relationship",
+        targetKey: "eventAssignments",
+        globalField: "eventAssignments",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_EVENT_INSTANCE,
+        selectedChildPath: ["eventAssignments"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        candidateParentPath: ["blockShapeRef"],
+        candidateChildKey: ENTITY_KEY_EVENT_INSTANCE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.EventAssignmentSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+        groupByKey: "eventShapeRef",
+
+        label: "Event Assignments",
+        placeholder: "No events selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "chips",
+        emptyStateText: "No events assigned",
+        maxDisplayItems: 10,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
+          groupByKey: ENTITY_KEY_EVENT_SHAPE,
         },
       },
 
@@ -369,11 +454,81 @@ export function buildSelectableDisplayType(): SelectableDisplayTypeSuite {
           visible: true
         },
       },
+
+      validAnnotations: {
+        targetMode: "relationship",
+        targetKey: "validAnnotations",
+        globalField: "validAnnotations",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        selectedChildKey: ENTITY_KEY_ANNOTATION_SHAPE,
+        selectedChildPath: ["validAnnotations"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        candidateParentPath: [],
+        candidateChildKey: ENTITY_KEY_ANNOTATION_SHAPE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.ValidAnnotationSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+
+        label: "Valid Annotation Shapes",
+        placeholder: "No annotation shapes selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "badges",
+        emptyStateText: "No valid annotation shapes defined",
+        maxDisplayItems: 12,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true
+        },
+      },
+
+      validEvents: {
+        targetMode: "relationship",
+        targetKey: "validEvents",
+        globalField: "validEvents",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        selectedChildKey: ENTITY_KEY_EVENT_SHAPE,
+        selectedChildPath: ["validEvents"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
+        candidateParentPath: [],
+        candidateChildKey: ENTITY_KEY_EVENT_SHAPE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.ValidEventSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+
+        label: "Valid Events",
+        placeholder: "No events selected",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "badges",
+        emptyStateText: "No valid events defined",
+        maxDisplayItems: 8,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
+        },
+      },
     },
     
     [ENTITY_KEY_PART_INSTANCE]: {
       partShapeRef: {
-        targetMode: "property",
+        targetMode: "primitive",
         targetKey: ENTITY_KEY_PART_SHAPE,
         globalField: "partShapeRef",
 

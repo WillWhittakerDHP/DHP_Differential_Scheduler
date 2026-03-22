@@ -6,33 +6,30 @@ WHY: Reduces component compl...
 import { computed } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { UseEntityCardFieldConfigurationParams, UseEntityCardFieldConfigurationReturn } from '@/types/admin/entityCardFieldConfiguration'
+import type {
+  UseEntityCardFieldConfigurationParams,
+  UseEntityCardFieldConfigurationReturn,
+} from '@/types/admin/entityCardFieldConfiguration'
 import { useFieldLocation } from './useFieldLocation'
 
-
-export function useEntityCardFieldConfiguration(
-  params: UseEntityCardFieldConfigurationParams
-): UseEntityCardFieldConfigurationReturn {
+export function useEntityCardFieldConfiguration<GE extends GlobalEntityKey = GlobalEntityKey>(
+  params: UseEntityCardFieldConfigurationParams<GE>
+): UseEntityCardFieldConfigurationReturn<GE> {
   const { fieldKeys, composedFieldMetadata, isExpanded, filteredMetadata } = params
 
-  // PATTERN: Override fieldKeys if filtered metadata is provided
   const finalFieldKeys = computed(() => {
     if (filteredMetadata && Object.keys(filteredMetadata).length > 0) {
-      return Object.keys(filteredMetadata) as GlobalFieldKey<GlobalEntityKey>[]
+      return Object.keys(filteredMetadata) as GlobalFieldKey<GE>[]
     }
     return fieldKeys.value
   })
 
-  /**
-   * PATTERN: Composable that determines field locations from metadata + context
-   */
-  const fieldLocation = useFieldLocation({
+  const fieldLocation = useFieldLocation<GE>({
     fieldKeys: finalFieldKeys,
     fieldMetadata: composedFieldMetadata,
-    isExpanded: isExpanded
+    isExpanded: isExpanded,
   })
 
-  // PATTERN: Extract from fieldLocation.fieldsByLocation after fieldLocation is computed
   const inlineFieldsConfig = computed(() => fieldLocation.fieldsByLocation.value.directInline)
   const stackedFieldsConfig = computed(() => fieldLocation.fieldsByLocation.value.directStacked)
 
@@ -40,6 +37,6 @@ export function useEntityCardFieldConfiguration(
     finalFieldKeys,
     fieldLocation,
     inlineFieldsConfig,
-    stackedFieldsConfig
+    stackedFieldsConfig,
   }
 }

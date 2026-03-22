@@ -14,13 +14,22 @@ import { getForceCreateSlotContext } from '../../../services/computedAvailabilit
 import { computeViolationsForSlot } from '../../../services/slotComputationService.js'
 import {
   appointmentIncludes,
-  applySnapshotIdsToAppointment,
   createAttendeeRecords,
   createFeeRecordsForAppointment,
   shouldCreateCalendarEvent,
   getCalendarIdForAppointment,
   getAutoConfirmEnabledFromSettings,
+  validateAppointmentLineSnapshots,
 } from './appointmentHelpers.js'
+import { stripSelectionFieldsFromPlainObject } from '../../../repositories/appointmentSelectionCodec.js'
+import {
+  stripPropertyDetailsFromPlainObject,
+  syncPropertyDetailsFromWizardBlob,
+} from '../../../repositories/appointmentPropertyDetailsSync.js'
+import { stripSelectedTimeSlotsFromPlainObject } from '../../../repositories/appointmentTimeSlotCodec.js'
+import { replaceTimeSlotsFromBody } from '../../../repositories/appointmentTimeSlotRepository.js'
+import { applyOverrideConstraintsFromBodyToPayload } from '../../../repositories/appointmentOverrideConstraintsCodec.js'
+import { syncSelectionsAndSnapshotsFromBody } from '../../../repositories/appointmentSelectionRepository.js'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { AppointmentFeeBreakdownPayload } from '../../../../../shared/types/appointmentFeeTypes.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
@@ -186,6 +195,12 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
       durationMinutes,
       userId
     )
+    applyOverrideConstraintsFromBodyToPayload(appointmentPayload)
+    stripSelectionFieldsFromPlainObject(appointmentPayload)
+    const slotsForPersist = appointmentPayload.selectedTimeSlots
+    const propertyDetailsForPersist = appointmentPayload.propertyDetails
+    stripSelectedTimeSlotsFromPlainObject(appointmentPayload)
+    stripPropertyDetailsFromPlainObject(appointmentPayload)
 
     const sequelize = Appointment.sequelize
     if (!sequelize) {
@@ -210,21 +225,15 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
         },
         { transaction }
       )
+      await replaceTimeSlotsFromBody(created.id, slotsForPersist, transaction)
+      await syncPropertyDetailsFromWizardBlob(created.propertyVersionId, propertyDetailsForPersist, transaction)
       return [created]
     })
 
     const record = appointment!
 
-    const idsOrEmpty = (key: 'selectedServiceIds' | 'selectedPropertyIds' | 'selectedOptionIds'): string[] => {
-      const raw = appointmentBody[key]
-      if (raw === undefined || raw === null) return []
-      return Array.isArray(raw) ? raw : []
-    }
-    await applySnapshotIdsToAppointment(record, {
-      serviceIds: idsOrEmpty('selectedServiceIds'),
-      propertyIds: idsOrEmpty('selectedPropertyIds'),
-      optionIds: idsOrEmpty('selectedOptionIds'),
-    })
+    await syncSelectionsAndSnapshotsFromBody(record.id, appointmentBody as Record<string, unknown>)
+    await validateAppointmentLineSnapshots(record.id)
 
     const rawAttendees = appointmentBody.attendees
     const attendeesData = Array.isArray(rawAttendees) ? rawAttendees : []

@@ -56,6 +56,7 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
   const fieldMetadata = computed(() => props.fieldMetadata)
   const { entities: blockInstances } = useEntityCrud('blockInstance')
   const { entities: partInstances } = useEntityCrud('partInstance')
+  const { entities: partShapes } = useEntityCrud('partShape')
   const { entities: blockShapes } = useEntityCrud('blockShape')
 
   const blockShapeName = computed((): string => {
@@ -78,11 +79,28 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
       .filter((name): name is string => name !== null)
   }
 
+  function getPartShapeNames(ids: unknown[]): string[] {
+    if (!Array.isArray(ids)) return []
+    return ids
+      .map((id) => {
+        const found = partShapes.value.find((e) => e.id === id)
+        return found?.name ?? null
+      })
+      .filter((name): name is string => name !== null)
+  }
+
   const partsSummary = computed((): string => {
-    if (entityKey.value !== 'blockInstance') return ''
-    const partAssignments = form.value.values.partAssignments
-    if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
-    return formatTruncatedList(getEntityNames(partAssignments, 'partInstance'))
+    if (entityKey.value === 'blockInstance') {
+      const partAssignments = form.value.values.partAssignments
+      if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
+      return formatTruncatedList(getEntityNames(partAssignments, 'partInstance'))
+    }
+    if (entityKey.value === 'blockShape') {
+      const validParts = form.value.values.validParts
+      if (!Array.isArray(validParts) || validParts.length === 0) return ''
+      return formatTruncatedList(getPartShapeNames(validParts))
+    }
+    return ''
   })
 
   function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
@@ -145,9 +163,7 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
       if (dependentInstances.length > 0) relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)
     } else if (entityKey.value === 'blockShape') {
       const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []
-      const parts = Array.isArray(formValues.validParts) ? formValues.validParts : []
       if (cascades.length > 0) relationshipTypes.push('Valid Cascades')
-      if (parts.length > 0) relationshipTypes.push('Valid Parts')
     } else if (entityKey.value === 'partInstance') {
       const pricingCascades = Array.isArray(formValues.pricingCascades) ? formValues.pricingCascades : []
       if (pricingCascades.length > 0) relationshipTypes.push('Pricing Cascades')

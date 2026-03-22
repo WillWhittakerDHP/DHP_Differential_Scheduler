@@ -1,7 +1,14 @@
 <template>
   <div>
+    <!-- WHY: fieldType textarea must win over computeRenderAs 'text' (same render kind for strings). -->
+    <TextAreaInput
+      v-if="fieldType === 'textarea'"
+      :field-context="fieldContext"
+      :show-label="showLabel"
+    />
+
     <TextInput
-      v-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
+      v-else-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
       :field-context="fieldContext"
       :show-label="showLabel"
     />
@@ -28,13 +35,6 @@
       :show-label="showLabel"
     />
     
-    <!-- Textarea Input -->
-    <TextAreaInput
-      v-else-if="fieldType === 'textarea'"
-      :field-context="fieldContext"
-      :show-label="showLabel"
-    />
-    
     <!-- Unknown Input Type -->
     <div v-else class="input-error">
       Unknown input type: {{ fieldType }} (renderAs: {{ renderAs }})
@@ -48,6 +48,7 @@
  */
 import { computed } from 'vue'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import TextInput from './TextInput.vue'
@@ -85,7 +86,10 @@ const renderAs = computed<FieldMetadataEntry['renderAs'] | undefined>(() => {
   const metadata = fetchedMetadata.fieldMetadata.value
   const fieldKeyStr = String(props.fieldContext.state.fieldKey)
   const meta = metadata[fieldKeyStr]
-  return meta?.renderAs
+  if (!meta) {
+    return undefined
+  }
+  return computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKeyStr)
 })
 </script>
 

@@ -25,16 +25,27 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
     if (fieldKey === RELATIONSHIP_KEYS.partAssignments.frontendKey) {
       return 'parts'
     }
+    if (fieldKey === RELATIONSHIP_KEYS.validParts.frontendKey) {
+      return 'parts'
+    }
     if (fieldKey === RELATIONSHIP_KEYS.annotationAssignments.frontendKey) {
+      return FIELD_NAMES.ANNOTATIONS
+    }
+    if (fieldKey === RELATIONSHIP_KEYS.validAnnotations.frontendKey) {
       return FIELD_NAMES.ANNOTATIONS
     }
     if (fieldKey === RELATIONSHIP_KEYS.eventAssignments.frontendKey) {
       return 'events'
     }
-    if (fieldKey === RELATIONSHIP_KEYS.instanceComponents.frontendKey) {
-      return 'composition'
+    if (fieldKey === RELATIONSHIP_KEYS.validEvents.frontendKey) {
+      return 'events'
     }
     return 'relationships'
+  }
+
+  /** Primitive: per–event-shape role matrix on block instances; belongs in Events, not Relationships. */
+  if (fieldKey === 'differentialEventRoleOverrides') {
+    return 'events'
   }
 
   return 'none'

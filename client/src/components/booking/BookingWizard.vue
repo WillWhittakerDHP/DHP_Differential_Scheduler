@@ -5,6 +5,9 @@ import { useBookingWizardSetup } from '@/composables/booking/useBookingWizardSet
 import { buildQuoteLink } from '@/utils/booking/buildClientLinks'
 import { useNotification } from '@/composables/useNotification'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('BookingWizard')
 
 const {
   steps,
@@ -55,6 +58,7 @@ async function handleCopyQuoteLink(): Promise<void> {
     await window.navigator.clipboard.writeText(url)
     success(APPOINTMENTS_TABLE_UI.LINK_COPIED)
   } catch (err) {
+    logger.warn('Copy quote link to clipboard failed', { err })
     showError(err instanceof Error ? err.message : 'Failed to copy link')
   }
 }

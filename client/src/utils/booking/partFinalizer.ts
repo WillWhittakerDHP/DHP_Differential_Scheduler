@@ -5,7 +5,9 @@ import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from '@/types/events'
 import { createPartFinal } from './PartFinal'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
-import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
+import type { DifferentialRole } from '@shared/types/differentialRole'
+import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal, SlotShape } from '@/types/appointment'
@@ -15,6 +17,36 @@ import { createLogger } from '@/utils/logger'
 import { roundDuration } from '@/utils/booking/durationRounding'
 
 const logger = createLogger('partFinalizer')
+
+/**
+ * Merge per-block differential role overrides for slot math. First block wins per eventShapeId; log on conflict.
+ */
+export function mergeBlockDifferentialRoleOverrides(blockFinals: BlockFinal[]): Record<string, DifferentialRole> {
+  const merged: Record<string, DifferentialRole> = {}
+  for (const bf of blockFinals) {
+    const raw = bf.sourceBlockInstance.differentialEventRoleOverrides
+    if (raw === undefined || raw === null || typeof raw !== 'object') {
+      continue
+    }
+    for (const [k, v] of Object.entries(raw)) {
+      if (v !== 'major' && v !== 'minor' && v !== 'moveable' && v !== 'none') {
+        continue
+      }
+      if (k in merged && merged[k] !== v) {
+        logger.warn('mergeBlockDifferentialRoleOverrides: conflicting override; keeping first', {
+          eventShapeId: k,
+          kept: merged[k],
+          skipped: v,
+        })
+        continue
+      }
+      if (!(k in merged)) {
+        merged[k] = v
+      }
+    }
+  }
+  return merged
+}
 
 function partShapeKey(part: BookingPartInstance): string {
   const raw = part.partShape
@@ -59,6 +91,7 @@ export function calculateSlotShape(
   eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
   eventShapes: EventShape[] = [],
   roundingSettings?: AvailabilitySettings | null,
+  mergedRoleOverrides: Record<string, DifferentialRole> = {},
 ): SlotShape {
   let rawDuration = 0
   
@@ -66,8 +99,6 @@ export function calculateSlotShape(
   const eventRawDurationsByShapeId = new Map<string, number>()
   
   const eventShapeById = new Map(eventShapes.map(es => [es.id, es]))
-  
-  const eventShapeEntities = eventShapes as EventShapeEntity[]
   
   // PATTERN: Use reduce to accumulate raw durations only
   const { totalRawDuration, eventRawDurations } = blockFinals.reduce(
@@ -163,11 +194,30 @@ export function calculateSlotShape(
   // PATTERN: Calculate offset from final event durations after all parts have been processed and rounded
   let rawDifferentialOffset = 0
   let roundedDifferentialOffset = 0
-  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
-  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  const participatingIds = new Set(
+    Array.from(eventRawDurations.entries())
+      .filter(([, dur]) => dur > 0)
+      .map(([id]) => id)
+  )
+  const candidateEventShapes = eventShapes.filter((es) => participatingIds.has(String(es.id)))
+
+  const majorEventShape = getEventShapeByRoleWithOverrides(
+    candidateEventShapes as EventShapeEntity[],
+    'major',
+    mergedRoleOverrides
+  )
+  const minorEventShape = getEventShapeByRoleWithOverrides(
+    candidateEventShapes as EventShapeEntity[],
+    'minor',
+    mergedRoleOverrides
+  )
   if (!majorEventShape) {
-    logger.error('calculateSlotShape: no event shape with differentialRole=major', {
-      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    logger.error('calculateSlotShape: no event shape with effective differentialRole=major', {
+      availableRoles: candidateEventShapes.map((es) => ({
+        name: es.name,
+        differentialRole: es.differentialRole,
+        effective: effectiveDifferentialRole(String(es.id), es.differentialRole, mergedRoleOverrides),
+      })),
     })
   }
   if (majorEventShape) {
@@ -197,7 +247,8 @@ export function calculateSlotShape(
 function resolvePartShapeDifferentialFlags(
   partShapeName: string,
   assignments: Record<string, EventInstance[]>,
-  shapeById: Map<string, EventShape>
+  shapeById: Map<string, EventShape>,
+  overrides?: Record<string, DifferentialRole> | null
 ): { major: TernaryBoolean; minor: TernaryBoolean; moveable: boolean } {
   const events = assignments[partShapeName] ?? []
   let major: TernaryBoolean = 'false'
@@ -205,7 +256,10 @@ function resolvePartShapeDifferentialFlags(
   let moveable = false
   for (const ei of events) {
     const es = shapeById.get(toGlobalEntityId(ei.eventShapeRef))
-    const role = es?.differentialRole
+    if (!es) {
+      continue
+    }
+    const role = effectiveDifferentialRole(String(es.id), es.differentialRole, overrides ?? undefined)
     if (role === 'major') {
       major = 'true'
     } else if (role === 'minor') {
@@ -232,7 +286,8 @@ export function enrichBlockFinalsWithDifferentialRoles(
       const flags = resolvePartShapeDifferentialFlags(
         pf.partShape,
         eventAssignmentsByPartShape,
-        shapeById
+        shapeById,
+        bf.sourceBlockInstance.differentialEventRoleOverrides ?? null
       )
       return { ...pf, ...flags }
     }),

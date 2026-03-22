@@ -6,6 +6,7 @@ export interface UseInstancesTabEventInstanceParams {
   expandedInstances: Ref<string[]>
   eventShapes: Ref<GlobalEntity<'eventShape'>[]>
   createEventInstance: (payload: Record<string, unknown>) => Promise<unknown>
+  removeEventInstance: (id: string) => Promise<unknown>
   logger: AppLogger
 }
 
@@ -24,4 +25,6 @@ export type NewEventInstanceData = {
   sendUpdates: 'all' | 'externalOnly' | 'none'
   colorId: string | null
   status: 'confirmed' | 'tentative'
+  /** Create + edit builder: persisted on save (create defaults to true). */
+  active: boolean
 }

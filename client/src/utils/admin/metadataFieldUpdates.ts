@@ -5,7 +5,6 @@ import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatche
 import { computeRenderAs as computeRenderAsShared } from '@shared/utils/metadataRenderAsUtils'
 
 export interface MetadataFieldUpdatesOptions {
-  getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
   pendingChanges: Record<string, Partial<FieldMetadataEntry>>
 }
 
@@ -21,7 +20,7 @@ export interface MetadataFieldUpdatesReturn {
 export function metadataFieldUpdates(
   options: MetadataFieldUpdatesOptions
 ): MetadataFieldUpdatesReturn {
-  const { getEffectiveFieldMetadata, pendingChanges } = options
+  const { pendingChanges } = options
 
   function computeRenderAs(
     dataType: string | undefined,
@@ -32,14 +31,6 @@ export function metadataFieldUpdates(
   }
 
   function updateFieldRendering(fieldKey: string, updates: Partial<FieldMetadataEntry>): void {
-    const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
-    const newDataType = effectiveMeta?.dataType
-    const newInputConfig = updates.inputConfig !== undefined ? updates.inputConfig : effectiveMeta?.inputConfig
-
-    if (updates.inputConfig !== undefined) {
-      updates.renderAs = computeRenderAs(newDataType, newInputConfig, fieldKey)
-    }
-
     if (updates.visibility !== undefined) {
       const newVisibility = updates.visibility
       if (newVisibility === 'titleRow' || newVisibility === 'expandedDirect' || newVisibility === 'staticAsTitle') {

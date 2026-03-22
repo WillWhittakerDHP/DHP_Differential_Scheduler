@@ -72,13 +72,20 @@ export function useEntityCardActions(
       }
       
       const formValues = formInstance.values as Record<string, ValidAdminValue>
-      
+
       // PATTERN: Spread original entity first, then form values override (form values take precedence)
       const entityVal = entity.value as Record<string, ValidAdminValue>
       const entityToSave = {
         ...entityVal,
         ...formValues,
       } as Record<string, ValidAdminValue>
+
+      if (entityKey === 'annotationInstance') {
+        const rows = formInstance.values.contentRows
+        if (Array.isArray(rows)) {
+          entityToSave.contentRows = rows as ValidAdminValue
+        }
+      }
       
       if (isNew) {
         const createdEntity = await createEntity(entityToSave)

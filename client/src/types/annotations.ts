@@ -32,7 +32,7 @@ export interface AnnotationAssignmentResponse {
   orderIndex: number
   isDefault: boolean
   userTypeBlock?: string | null
-  userTypeBlockBlockInstanceId?: string | null
+  userTypeBlockInstanceId?: string | null
   [key: string]: unknown // Allow additional properties from API
 }
 

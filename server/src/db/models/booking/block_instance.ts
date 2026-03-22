@@ -32,6 +32,8 @@ export class BlockInstance extends Model<
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
+  /** Per eventShapeId: major | minor | moveable | none; omit id to inherit template role. */
+  declare differentialEventRoleOverrides: CreationOptional<Record<string, string> | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -124,6 +126,12 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      differentialEventRoleOverrides: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: {},
+        field: 'differential_event_role_overrides',
       },
       createdAt: {
         type: DataTypes.DATE,

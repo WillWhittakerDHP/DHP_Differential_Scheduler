@@ -10,13 +10,19 @@ export interface UseShapesTabModalsReturn {
   partShapeMetadataModalOpen: Ref<boolean>
   partInstanceMetadataModalOpen: Ref<boolean>
   annotationShapeMetadataModalOpen: Ref<boolean>
+  annotationInstanceMetadataModalOpen: Ref<boolean>
   eventShapeMetadataModalOpen: Ref<boolean>
+  eventInstanceMetadataModalOpen: Ref<boolean>
   toggleBlockShapeMetadataModal: () => void
   togglePartShapeMetadataModal: () => void
   togglePartInstanceMetadataModal: () => void
   handlePartInstanceMetadataSaved: () => void
   toggleAnnotationShapeMetadataModal: () => void
+  toggleAnnotationInstanceMetadataModal: () => void
+  handleAnnotationInstanceMetadataSaved: () => void
   toggleEventShapeMetadataModal: () => void
+  toggleEventInstanceMetadataModal: () => void
+  handleEventInstanceMetadataSaved: () => void
 }
 
 export function useShapesTabModals(): UseShapesTabModalsReturn {
@@ -24,7 +30,9 @@ export function useShapesTabModals(): UseShapesTabModalsReturn {
   const partShapeMetadataModalOpen = ref(false)
   const partInstanceMetadataModalOpen = ref(false)
   const annotationShapeMetadataModalOpen = ref(false)
+  const annotationInstanceMetadataModalOpen = ref(false)
   const eventShapeMetadataModalOpen = ref(false)
+  const eventInstanceMetadataModalOpen = ref(false)
 
   const toggleBlockShapeMetadataModal = (): void => {
     blockShapeMetadataModalOpen.value = !blockShapeMetadataModalOpen.value
@@ -46,8 +54,24 @@ export function useShapesTabModals(): UseShapesTabModalsReturn {
     annotationShapeMetadataModalOpen.value = !annotationShapeMetadataModalOpen.value
   }
 
+  const toggleAnnotationInstanceMetadataModal = (): void => {
+    annotationInstanceMetadataModalOpen.value = !annotationInstanceMetadataModalOpen.value
+  }
+
+  const handleAnnotationInstanceMetadataSaved = (): void => {
+    annotationInstanceMetadataModalOpen.value = false
+  }
+
   const toggleEventShapeMetadataModal = (): void => {
     eventShapeMetadataModalOpen.value = !eventShapeMetadataModalOpen.value
+  }
+
+  const toggleEventInstanceMetadataModal = (): void => {
+    eventInstanceMetadataModalOpen.value = !eventInstanceMetadataModalOpen.value
+  }
+
+  const handleEventInstanceMetadataSaved = (): void => {
+    eventInstanceMetadataModalOpen.value = false
   }
 
   return {
@@ -55,12 +79,18 @@ export function useShapesTabModals(): UseShapesTabModalsReturn {
     partShapeMetadataModalOpen,
     partInstanceMetadataModalOpen,
     annotationShapeMetadataModalOpen,
+    annotationInstanceMetadataModalOpen,
     eventShapeMetadataModalOpen,
+    eventInstanceMetadataModalOpen,
     toggleBlockShapeMetadataModal,
     togglePartShapeMetadataModal,
     togglePartInstanceMetadataModal,
     handlePartInstanceMetadataSaved,
     toggleAnnotationShapeMetadataModal,
+    toggleAnnotationInstanceMetadataModal,
+    handleAnnotationInstanceMetadataSaved,
     toggleEventShapeMetadataModal,
+    toggleEventInstanceMetadataModal,
+    handleEventInstanceMetadataSaved,
   }
 }

@@ -34,4 +34,12 @@ export const annotationShapeFields = {
     globalField: "active" as const,
     expandable: false,
   },
+
+  uiSlot: {
+    primitiveType: PrimitiveTypeEnum.String,
+    primitiveMode: PrimitiveModeEnum.Select,
+    placeholder: 'Wizard UI slot (optional)',
+    globalField: 'uiSlot' as const,
+    expandable: false,
+  },
 } as const;
