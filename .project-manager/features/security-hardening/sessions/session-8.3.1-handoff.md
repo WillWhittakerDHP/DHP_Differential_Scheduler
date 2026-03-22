@@ -1,126 +1,49 @@
-# Session 8.3.1 Handoff: Session 8.3.1
+# Session 8.3.1 Handoff: Add validation library and middleware
 
-**Purpose:** Minimal transition context between sessions (~100-200 lines)
+**Purpose:** Minimal transition context between sessions (~100–200 lines)
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** [Date]
-**Session Status:** [Complete / In Progress]
-**Next Session:** [NEXT_SESSION]
+**Last Updated:** 2026-03-21
+**Session Status:** Complete
+**Next Session:** 8.3.2 — Apply validation across internal routes
 
 ---
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 8.3.2
-**Git Branch:** `phase-8.3`
-**Last Updated:** 2026-03-21
+**Last Completed:** Task **8.3.1.2** — Wire validation to a sample internal route; document pattern in `SECURITY_STUBS`.  
+(Session **8.3.1** also completed Task **8.3.1.1** — add Joi and `validateRequest` middleware.)
+
+**Next Session:** Session **8.3.2** — Apply validation across internal POST/PUT routes (see `session-8.3.2-guide.md`)
+
+**Git Branch:** `feature/security-hardening`
+
+---
 
 ## Next Action
 
-Start Session 8.3.2 (see session guide and phase guide for scope).
+Start Session **8.3.2**: expand Joi validation to internal routes; keep 400 + error details on invalid payloads; update `SECURITY_STUBS` as needed.
+
+---
 
 ## Transition Context
 
-**Where we left off:**
-Completed Task 
+**Where we left off:**  
+Joi is installed; validation middleware/helpers exist; at least one internal route validates POST/PUT bodies; invalid payloads return **400** with schema details. Pattern noted in `server/docs/SECURITY_STUBS.md`.
 
-**What you need to start:**
-- Begin Session 8.3.2
+**What you need to start 8.3.2:**
 
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.3.2
+- Review `server/src/middlewares/` validation helpers and the sample route wiring
+- Follow `session-8.3.2-guide.md` and `phases/phase-8.3-guide.md` for breadth of route coverage
 
 <!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.3.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.3.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-[Minimal notes about what was completed - 2-3 sentences max]
-
-**What you need to start:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about files to review]
-- [Brief bullet point about any blockers or considerations]
-
-**Minimal Future Considerations:**
-- [Only include if critical for next session - keep minimal]
-
----
-
-## Document Structure Guidelines
-
-### Keep Minimal:
-- Transition context only (where we left off, what's next)
-- Format/template for handoff entries
-- Critical context for starting next session
-
-### Move to Session Guide:
-- Explicit instructions
-- Editing advice
-- Architectural notes
-- Code-reuse suggestions
-- Detailed task notes
-- Checkpoints
-- Pattern explanations
-
-### File Size Target:
-- 100-200 lines maximum
-- Focus on transition, not history
-- Remove completed task details after they're no longer needed
-
----
-
-## Example Minimal Entry
-
-```markdown
-
-**Where we left off:**
-Completed Task 1.3.4: Relationship API Composables. Created composables for parent-child CRUD operations. All files compile successfully.
-
-**What you need to start:**
-- Review `frontend-root/src/api/relationships.ts` for relationship patterns
-- Begin Session 1.4: Transformers
-- Follow patterns from `frontend-root/src/admin/dataTransformation/` (React reference)
-```
-
----
-
-## Maintenance
-
-- Update "Last Completed" and "Next Session" after each session
-- Keep "Transition Context" to 2-3 sentences
-- Remove old task details once they're no longer needed
-- Move detailed notes to session log or session guide
 
 ---
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-8.3.1-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-8.3.1-log.md`
-- Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-8.3-handoff.md` (for phase-level context)
+- Session guide: `session-8.3.1-guide.md`
+- Session log: `session-8.3.1-log.md`
+- Phase handoff: `phases/phase-8.3-handoff.md`
+- Next session guide: `session-8.3.2-guide.md` (if present)

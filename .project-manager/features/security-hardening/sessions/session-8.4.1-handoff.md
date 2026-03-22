@@ -1,99 +1,49 @@
-# Session 8.4.1 Handoff: Session 8.4.1
+# Session 8.4.1 Handoff: Env var audit
 
-**Purpose:** Minimal transition context between sessions (~100-200 lines)
+**Purpose:** Minimal transition context between sessions (~100–200 lines)
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** [Date]
-**Session Status:** [Complete / In Progress]
-**Next Session:** [NEXT_SESSION]
+**Last Updated:** 2026-03-22
+**Session Status:** Complete
+**Next Session:** 8.4.2 — Committed files scan
 
 ---
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 8.4.2
-**Git Branch:** `session-8.4.1`
-**Last Updated:** 2026-03-22
+**Last Completed:** Task **8.4.1.2** — Validate `.env.example` and remediate any hardcoded secrets (cross-check against inventory).  
+(Session **8.4.1** also completed Task **8.4.1.1** — inventory `process.env` / config usage across server and client.)
+
+**Next Session:** Session **8.4.2** — Verify `.gitignore`, scan tracked files for secrets, document in `SECURITY_STUBS` (see `session-8.4.2-guide.md`)
+
+**Git Branch:** `feature/security-hardening`
+
+---
 
 ## Next Action
 
-Start Session 8.4.2 (see session guide and phase guide for scope).
+Start Session **8.4.2**: committed-files / credential-path coverage; optional pattern scan; extend secrets-audit section in `SECURITY_STUBS`.
+
+---
 
 ## Transition Context
 
-**Where we left off:**
-Completed Task 
+**Where we left off:**  
+Env usage is inventoried; `.env.example` templates align with required vars; no hardcoded secrets left in scope of this audit. Findings and safe-handling notes are reflected in project docs / `SECURITY_STUBS` as applicable.
 
-**What you need to start:**
-- Begin Session 8.4.2
+**What you need to start 8.4.2:**
+
+- Review `.gitignore` and any credential paths (e.g. tokens, `.env*`)
+- Follow `session-8.4.2-guide.md` and `phases/phase-8.4-guide.md` for the committed-files scan scope
 
 <!-- end excerpt session -->
-
-
-**Where we left off:**
-[Minimal notes about what was completed - 2-3 sentences max]
-
-**What you need to start:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about files to review]
-- [Brief bullet point about any blockers or considerations]
-
-**Minimal Future Considerations:**
-- [Only include if critical for next session - keep minimal]
-
----
-
-## Document Structure Guidelines
-
-### Keep Minimal:
-- Transition context only (where we left off, what's next)
-- Format/template for handoff entries
-- Critical context for starting next session
-
-### Move to Session Guide:
-- Explicit instructions
-- Editing advice
-- Architectural notes
-- Code-reuse suggestions
-- Detailed task notes
-- Checkpoints
-- Pattern explanations
-
-### File Size Target:
-- 100-200 lines maximum
-- Focus on transition, not history
-- Remove completed task details after they're no longer needed
-
----
-
-## Example Minimal Entry
-
-```markdown
-
-**Where we left off:**
-Completed Task 1.3.4: Relationship API Composables. Created composables for parent-child CRUD operations. All files compile successfully.
-
-**What you need to start:**
-- Review `frontend-root/src/api/relationships.ts` for relationship patterns
-- Begin Session 1.4: Transformers
-- Follow patterns from `frontend-root/src/admin/dataTransformation/` (React reference)
-```
-
----
-
-## Maintenance
-
-- Update "Last Completed" and "Next Session" after each session
-- Keep "Transition Context" to 2-3 sentences
-- Remove old task details once they're no longer needed
-- Move detailed notes to session log or session guide
 
 ---
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-8.4.1-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-8.4.1-log.md`
-- Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-8.4-handoff.md` (for phase-level context)
+- Session guide: `session-8.4.1-guide.md`
+- Session log: `session-8.4.1-log.md`
+- Phase handoff: `phases/phase-8.4-handoff.md`
+- Next session guide: `session-8.4.2-guide.md` (if present)
