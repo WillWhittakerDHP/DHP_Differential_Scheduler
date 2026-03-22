@@ -4,6 +4,7 @@ import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { previewEventInstanceTemplates } from '../../../services/invites/eventInstancePreviewService.js'
 import type { EventInstancePreviewRequestBody } from '@shared/types/eventInstancePreview.js'
 import { createLogger } from '../../../utils/logger.js'
+import { csrfProtection } from '../../../middlewares/security.js'
 
 const logger = createLogger('EventInstancePreviewRouter')
 const router = Router()
@@ -13,7 +14,7 @@ function isNonEmptyString(v: unknown): v is string {
 }
 
 /** POST /event-instance-preview — resolve templates with invite context for a real appointment. */
-router.post('/', async (req: Request, res: Response): Promise<void> => {
+router.post('/', csrfProtection, async (req: Request, res: Response): Promise<void> => {
   try {
     const b = req.body as Record<string, unknown>
     if (!isNonEmptyString(b.appointmentId) || !isNonEmptyString(b.eventShapeRef)) {
