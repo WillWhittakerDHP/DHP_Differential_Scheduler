@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.4.1: Env var audit
+- [x] ### Session 8.4.1: Env var audit
 **Description:** Inventory process.env usage, validate .env.example completeness, ensure no hardcoded secrets.
 **Tasks:** 2
 **Focus:**
