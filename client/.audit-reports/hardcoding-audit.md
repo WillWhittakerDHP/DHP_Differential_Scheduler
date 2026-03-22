@@ -50,14 +50,16 @@ When extracting literals to constants, prefer these constant files (from constan
 ## Summary
 
 - Entity keys detected (from `client/src/constants/entities.ts`): (none detected)
-- Total files scanned: **0**
-- **Requiring review: 0**
-- Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0, linePattern: 0)
+- Total files scanned: **2**
+- **Requiring review: 4**
+- Allowed (with justification): 2 (inline: 1, pattern: 0, specific: 1, linePattern: 0)
 
 ## Top hotspots (by heuristic score, excluding allowed)
 
 | File | score | switch(entityKey) | entityKey strings | case strings | field===string | field mappings | omitFields | headers | label maps | allowed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
+| `server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts` | 6 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -71,6 +73,38 @@ Review periodically to ensure exceptions are still valid.
 
 Legend: **P1** = high leverage cleanup, **P2** = consistency/polish.
 
+### `server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
+### `server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts`
+
+- score: **6**
+
+- **P1** (casing_utility): Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies.
+
 ## Per-file matches requiring review (line-level)
 
 Legend: `ruleId@lineNumber: line`
+
+### `server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@58: sendSuccess(res, { setting_value: row.settingValue });
+fieldMapping@61: sendSuccess(res, { setting_value: created.settingValue });
+```
+
+### `server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts`
+
+- total counts (Tier 1): switchEntityKey=0, entityKeyString=0, caseString=0, fieldEqualsString=0, fieldMapping=2, omitFieldsArray=0, headersArray=0, inlineLabelMap=0
+- requiring review: 2, allowed: 0
+
+```
+fieldMapping@51: sendSuccess(res, { setting_value: row.settingValue });
+fieldMapping@54: sendSuccess(res, { setting_value: created.settingValue });
+```
