@@ -6,15 +6,23 @@
 
 ---
 
-## Feature Overview
+## Overview
 
-**Feature Name:** Admin UI Overhaul
-**Description:** (1) **Admin vs Developer Split:** Rename current admin panel to Developer; create a new Admin panel from scratch for business administration only. (2) **Smart UI Redesign:** Guided workflows, relationship builders, templates, contextual intelligence, progressive disclosure. (3) **Live Preview Panel:** Real-time booking simulation. (4) **Selective AI Assistance:** GPT-powered helpers integrated into workflows.
-**Status:** Research
+**Feature Name:** Admin UI Overhaul  
+**Description:** (1) **Admin vs Developer Split:** Rename current admin panel to Developer; create a new Admin panel from scratch for business administration only. (2) **Smart UI Redesign:** Guided workflows, relationship builders, templates, contextual intelligence, progressive disclosure. (3) **Live Preview Panel:** Real-time booking simulation. (4) **Selective AI Assistance:** GPT-powered helpers integrated into workflows.  
+**Status:** Research  
 
-**Duration:** 10–11 weeks (2–3 weeks Phase 0, 3 weeks Phase 1, 2 weeks Phase 2, 3 weeks Phase 3)
-**Started:** 2025-02-01
+**Duration:** 10–11 weeks (2–3 weeks Phase 0, 3 weeks Phase 1, 2 weeks Phase 2, 3 weeks Phase 3)  
+**Started:** 2025-02-01  
 **Completed:** [Date] (if complete)
+
+## Architecture
+
+Split **Developer** (`/developer`) for instances, shapes, metadata, and dev tooling from **Admin** (`/admin`) for users, roles, permissions, and org settings; client rename-first, API/DB renames optional. CONTROLS (business rules, calendar, holds, wizard) placement is an explicit decision between panels. Later phases add guided workflows, live preview using booking calculation parity, and optional OpenAI-backed suggestions—without replacing human approval.
+
+## Implementation Plan
+
+**Phase 0:** Admin vs Developer split and routing. **Phase 1:** Smart UI redesign (workflows, templates, progressive disclosure). **Phase 2:** Live preview panel wired to booking calculations. **Phase 3:** Selective AI assistance. Each phase depends on the previous; research questions in `research-questions.md` inform Phase 0–1 details.
 
 ---
 

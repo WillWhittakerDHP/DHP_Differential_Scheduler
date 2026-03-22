@@ -2,6 +2,20 @@
 
 ---
 
+## Overview
+
+Feature 9 **Guided Alpha Testing** validates the product before E2E automation (Feature 10): produce a Mermaid map of the booking wizard, an alpha task database with assignable scenarios, guided assignment plus mandatory blank runs, and a unified **user_feedback** pipeline (rename from beta feedback) with error-boundary wiring. Status is planning; directory `features/guided-alpha-testing/`; depends on Feature 7 for authenticated assignment and task UI.
+
+## Architecture
+
+Deliverables span **docs + DB + API + Vue**: wizard flow diagram derived from wizard configs and composables; relational tables for tasks and assignments; server APIs for list/assign/complete; client views for “Your alpha tasks” and blank runs when logged in; refactor of feedback models/routes/types to `user_feedback` with a `source` dimension for human vs automated reports. Feature 6 supplies wizard semantics; Feature 10 consumes the task catalog for E2E cases.
+
+## Implementation Plan
+
+Follow the documented order: **9.1** Mermaid wizard flow review → **9.2** alpha task schema, seed, and APIs → **9.3** random assignment, blank runs, in-app task UI (blocked on Feature 7 for identity) → **9.4** user_feedback rename and global error wiring (Session 9.4.1). Steps 9.1–9.3 can sequence strictly; 9.4 can overlap per dependency notes in this guide.
+
+---
+
 ## Feature 9: Guided Alpha Testing
 
 **Status:** 📋 Planning

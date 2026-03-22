@@ -6,15 +6,23 @@
 
 ---
 
-## Feature Overview
+## Overview
 
-**Feature Name:** calendar-appointment-availability
-**Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.
-**Status:** Complete
+**Feature Name:** calendar-appointment-availability  
+**Description:** Server-side slot computation, client-side calendar UI, time slot selection, and differential scheduling — all functional for the booking workflow.  
+**Status:** Complete  
 
-**Duration:** ~12 months (built alongside Features 2, 4, 5)
-**Started:** 2025-02-01
+**Duration:** ~12 months (built alongside Features 2, 4, 5)  
+**Started:** 2025-02-01  
 **Completed:** 2026-02-21
+
+## Architecture
+
+Pipeline: server loads calendar events and drive times, extracts constraints from business settings, computes capacity, and returns filtered slots; client applies differential scheduling and displays Vuetify-based calendars via an orchestrator coordinating many composables (`useComputedAvailability`, `useAvailabilityOrchestrator`, etc.). Shared types bridge server and client. Google Calendar and Maps integrations come from Feature 2; calendar invite configuration (Phase 3.5) extends EventInstance and invite services.
+
+## Implementation Plan
+
+Phases **3.1–3.5** are complete (server slots, client UI, differential, wizard integration, invite wiring). Finish **3.6** (`differentialRole`, moveable modal behavior) then run feature-end when scope is done. Prior work shipped primarily on `feature/google-apis-integration`; formal feature branch is `feature/calendar-appointment-availability`.
 
 ---
 

@@ -6,15 +6,23 @@
 
 ---
 
-## Feature Overview
+## Overview
 
-**Feature Name:** Appointment Workflow & Booking Calculations
-**Feature Number:** 6
-**Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard.
-**Status:** In Progress
+**Feature Name:** Appointment Workflow & Booking Calculations  
+**Feature Number:** 6  
+**Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard.  
+**Status:** In Progress  
 
-**Started:** January 2026 (Phase 6.1)
+**Started:** January 2026 (Phase 6.1)  
 **Branch:** `feature/google-apis-integration`
+
+## Architecture
+
+Vue 3 booking wizard and admin surfaces drive state through composables (`useWizardNavigation`, availability orchestration, fee finalizers). Server enforces appointment status transitions, holds, overrides, and constraints; scheduled-by and force-create paths depend on Feature 7 for `req.user`. Wizard **mode** (`initial` | `quote` | `reschedule`) and **user role** (post–Feature 7) are separate axes for labels, submit actions, and admin-only actions. Fee and time logic lives in shared booking utilities (`buildConfirmationPriceData`, slot calculations, BlockFinal/PartFinals) consumed by the confirmation and availability steps.
+
+## Implementation Plan
+
+Advance phases roughly in numeric order after dependencies are met: **6.1–6.3** (status workflow, held/override stubs, confirmation) are complete; then **6.4** moveable modal / `preClosing`, **6.5** rescheduling, **6.6** soft vs hard delete, **6.7** scheduled-by (needs auth), **6.8** force-create and overrides (needs auth), **6.9** availability mini-wizard, **6.10** fee preview and coupon visibility, **6.11** drive-time fee line item. Use phase guides under `phases/` for session detail; run tier workflow (`/phase-start` … `/phase-end`) per phase.
 
 ---
 

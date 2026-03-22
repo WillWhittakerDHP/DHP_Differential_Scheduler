@@ -6,15 +6,23 @@
 
 ---
 
-## Feature Overview
+## Overview
 
-**Feature Name:** authentication
-**Description:** 
-**Status:** 📋 Planning
+**Feature Name:** authentication  
+**Description:** Pluggable authentication (magic link for beta, password deferred for production), shared PostgreSQL sessions, httpOnly cookies, and `requireAuth` middleware per LAUNCH_CHECKLIST Phase 2A and PROJECT_PLAN Feature 7.  
+**Status:** 📋 Planning  
 
-**Duration:** [To be determined]
-**Started:** 2026-02-18
+**Duration:** [To be determined]  
+**Started:** 2026-02-18  
 **Completed:** —
+
+## Architecture
+
+Server-side **strategy pattern** for auth: shared `sessions` / `magic_links` data layer, session manager, auth router, and middleware that attaches `req.user` from cookie-backed sessions. Client uses Pinia (or equivalent) plus Vue Router guards aligned with the same session contract. CSRF and ownership checks in `security.ts` stay wired; real implementations replace stubs after sessions exist. Feature 6 and later features consume identity via enactment steps listed under Dependencies in this guide.
+
+## Implementation Plan
+
+Execute phases in order: **7.1** Database & Models (migrations, Sequelize models) → **7.2** Server infrastructure (strategy interface, session manager, `requireAuth`, auth config, router) → **7.3** Magic link strategy (beta/dev) → **7.4** Client-side auth (store, views, guards) → enact dependent features per PROJECT_PLAN; **7.5** Password strategy remains deferred until production readiness. After each phase: `/phase-start` → work per phase guide → `/phase-end`, then cascade to the next phase.
 
 ---
 
@@ -34,7 +42,7 @@ Research phase not yet started — architectural decisions to be documented in t
 
 ## Phases Breakdown
 
-- [ ] ### Phase 10.1: Database & Models
+- [ ] ### Phase 7.1: Database & Models
 **Description:** 
 **Duration:** [Estimated weeks]
 **Sessions:** [Number of sessions]

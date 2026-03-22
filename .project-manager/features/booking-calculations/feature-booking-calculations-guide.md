@@ -6,19 +6,26 @@
 
 ---
 
-## Feature Overview
+## Overview
 
-**Feature Name:** Booking Calculations
-**Description:** Extract and implement fee and time calculation logic. Create shared calculation composable for booking wizard and admin preview. This feature may involve extracting logic from React codebase OR improving/fixing existing Vue.js implementations.
+**Feature Name:** Booking Calculations  
+**Description:** Extract and implement fee and time calculation logic. Create shared calculation composable for booking wizard and admin preview. This feature may involve extracting logic from React codebase OR improving/fixing existing Vue.js implementations.  
 
-**Target:** Shared calculation composable that can be used by both booking wizard and admin preview panel.
+**Target:** Shared calculation composable that can be used by both booking wizard and admin preview panel.  
 
----
-**Status:** Planning - Needs Audit
+**Status:** Planning - Needs Audit  
 
-**Duration:** [To be determined]
-**Started:** 2025-02-01
+**Duration:** [To be determined]  
+**Started:** 2025-02-01  
 **Completed:** 2025-02-01 (if complete)
+
+## Architecture
+
+Calculations span **fee** paths (block/part finals, pricing cascade, confirmation price data) and **time** paths (slot generation, duration totals, moveable scheduling). The intended end state is a **shared composable or module** consumed by the booking wizard and any admin preview (e.g. Feature 16 Phase 2), with logic consolidated under `client/src/utils/booking/` (and server counterparts where needed) rather than duplicated per view.
+
+## Implementation Plan
+
+Use phased delivery as listed below: **3.0** audit scope → **3.1** extract or reconcile calculation source → **3.2** shared composable → **3.3** wizard integration → **3.4** tests → optional **3.5** moveable scheduling fix and **3.6** soft hold warnings if still in scope. Dependencies: Vue migration and data-flow work; calendar/slot accuracy ties to Features 2–3.
 
 ---
 

@@ -134,6 +134,16 @@
 
 ---
 
+## Feature Checkpoints
+
+### Checkpoint 2026-03-22
+**Status:** [On track / Behind / Ahead]
+**Notes:** [Checkpoint notes]
+**Git Branch:** `feature/authentication`
+**Git Commit:** [Commit hash]
+
+---
+
 ## Next Steps
 
 - [Next phase to start]
