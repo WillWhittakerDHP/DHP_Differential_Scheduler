@@ -161,6 +161,42 @@ curl -v http://localhost:3001/api/v1/internal/auth
 # On 429: expect Retry-After header and JSON body: {"error":"Too many requests, please try again later."}
 ```
 
+## Security headers (Helmet) (active)
+
+**Location:** `server/src/app.ts`  
+**Applied to:** All responses (global middleware via `app.use(helmet({...}))`)
+
+**Configuration (Task 8.5.1.1 — 2026-03-22):**
+
+| Option | Value | Rationale |
+|--------|-------|-----------|
+| `hsts.maxAge` | 31536000 (1 year) | Browsers remember HTTPS-only for 1 year; minimum for preload eligibility |
+| `hsts.includeSubDomains` | true | Policy applies to all subdomains |
+| `hsts.preload` | true | Eligible for browser HSTS preload lists |
+| `referrerPolicy.policy` | strict-origin-when-cross-origin | Full URL for same-origin; origin-only for cross-origin HTTPS→HTTP; no referrer for HTTPS→HTTP downgrade |
+
+Helmet also sets defaults for: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options, X-DNS-Prefetch-Control, etc. Session 8.5.2 will tune CSP for the Vue SPA.
+
+**Note:** HSTS is only sent over HTTPS. In local dev (HTTP), `Strict-Transport-Security` may not appear. Production behind an HTTPS reverse proxy will send it. `Referrer-Policy` is sent for both HTTP and HTTPS.
+
+### How to verify
+
+With the server running (e.g. `npm run start:dev`):
+
+```bash
+curl -I http://localhost:3001/
+```
+
+Expected headers:
+
+- **Referrer-Policy:** `strict-origin-when-cross-origin`
+- **Strict-Transport-Security:** `max-age=31536000; includeSubDomains; preload` (when served over HTTPS)
+- **X-Content-Type-Options:** `nosniff`
+- **X-Frame-Options:** `SAMEORIGIN`
+- **Content-Security-Policy:** (Helmet default; Session 8.5.2 will customize)
+
+Alternatively, use browser DevTools → Network tab → select a request → Headers to inspect response headers.
+
 ## Request validation (active)
 
 **Location:** `server/src/middlewares/validateRequest.ts`  
