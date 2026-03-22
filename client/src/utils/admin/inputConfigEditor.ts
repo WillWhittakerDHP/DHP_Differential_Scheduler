@@ -91,7 +91,7 @@ export function inputConfigEditor(
       if (formData.placeholder) {
         baseConfig.placeholder = formData.placeholder
       }
-    } else if (formData.targetMode === 'property') {
+    } else if (formData.targetMode === 'primitive' || formData.targetMode === 'property') {
       if (formData.targetKey) {
         baseConfig.targetKey = formData.targetKey
       }

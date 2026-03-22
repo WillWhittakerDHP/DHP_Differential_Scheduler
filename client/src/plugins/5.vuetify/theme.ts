@@ -1,5 +1,7 @@
 import type { ThemeDefinition } from 'vuetify'
 
+import { buildWizardModePaletteFromAnchors } from '@/utils/theme'
+
 export const staticPrimaryColor = '#7367F0'
 export const staticPrimaryDarkenColor = '#675DD8'
 
@@ -55,40 +57,26 @@ export interface WizardModePalette {
   'warning-darken-1': string
 }
 
+/** DHP brand anchors (admin “Brand colors”); modes derived via OKLCH in `buildWizardModePaletteFromAnchors`. */
+const DHP_ANCHOR_PRIMARY = '#EED202'
+const DHP_ANCHOR_SECONDARY = '#FF3333'
+
 export const dhpPalette: Record<'standard' | 'quote' | 'reschedule', WizardModePalette> = {
-  standard: {
-    'primary': '#EED202', // Safety yellow
-    'on-primary': '#000000',
-    'primary-darken-1': '#D4BC00',
-    'secondary': '#FF3333', // Day-glow red
-    'on-secondary': '#FFFFFF',
-    'secondary-darken-1': '#E62E2E',
-    'warning': '#FF3333',
-    'on-warning': '#FFFFFF',
-    'warning-darken-1': '#E62E2E',
-  },
-  quote: {
-    'primary': '#EED202',
-    'on-primary': '#000000',
-    'primary-darken-1': '#D4BC00',
-    'secondary': '#FF3333',
-    'on-secondary': '#FFFFFF',
-    'secondary-darken-1': '#E62E2E',
-    'warning': '#FF3333',
-    'on-warning': '#FFFFFF',
-    'warning-darken-1': '#E62E2E',
-  },
-  reschedule: {
-    'primary': '#EED202',
-    'on-primary': '#000000',
-    'primary-darken-1': '#D4BC00',
-    'secondary': '#FF3333',
-    'on-secondary': '#FFFFFF',
-    'secondary-darken-1': '#E62E2E',
-    'warning': '#FF3333',
-    'on-warning': '#FFFFFF',
-    'warning-darken-1': '#E62E2E',
-  },
+  standard: buildWizardModePaletteFromAnchors({
+    primary: DHP_ANCHOR_PRIMARY,
+    secondary: DHP_ANCHOR_SECONDARY,
+    mode: 'standard',
+  }),
+  quote: buildWizardModePaletteFromAnchors({
+    primary: DHP_ANCHOR_PRIMARY,
+    secondary: DHP_ANCHOR_SECONDARY,
+    mode: 'quote',
+  }),
+  reschedule: buildWizardModePaletteFromAnchors({
+    primary: DHP_ANCHOR_PRIMARY,
+    secondary: DHP_ANCHOR_SECONDARY,
+    mode: 'reschedule',
+  }),
 }
 
 export const themes: Record<string, ThemeDefinition> = {
