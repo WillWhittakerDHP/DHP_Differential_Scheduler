@@ -34,7 +34,18 @@ const startServer = async (): Promise<void> => {
 startServer()
 
 app.use(morgan('dev'))
-app.use(helmet())
+app.use(
+  helmet({
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    },
+    referrerPolicy: {
+      policy: 'strict-origin-when-cross-origin',
+    },
+  })
+)
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
