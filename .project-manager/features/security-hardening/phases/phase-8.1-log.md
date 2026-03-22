@@ -21,14 +21,6 @@
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** ** Add CORS_ORIGIN env var, wire CORS origin in app.ts, update .env.example, verify origin restriction
-
-
-
-### Session 8.1.1: CORS Origin Wiring ✅
-**Completed:** 2026-03-21
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
 - Add `CORS_ORIGIN` env var, wire CORS origin in `app.ts`, update `.env.example`, verify origin restriction
 
 ---

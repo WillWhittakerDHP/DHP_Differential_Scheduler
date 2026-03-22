@@ -17,27 +17,17 @@
 
 ## Completed Sessions
 
-### Session 8.3.2: Apply validation across internal routes ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Apply validation across internal routes
-
-
-
-### Session 8.3.2: Apply validation across internal routes ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Apply validation across internal routes
-
-
-
 ### Session 8.3.1: Add validation library and middleware ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
 - Added Joi dependency; created validation middleware; wired to sample route
+
+### Session 8.3.2: Apply validation across internal routes ✅
+**Completed:** 2026-03-22
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Applied validation across internal POST/PUT routes; invalid payloads return 400 with schema details
 
 ---
 
@@ -88,7 +78,7 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** 8.3.1
+**Sessions Completed:** 8.3.1, 8.3.2
 **Total Tasks Completed:** 0
 **Success Criteria Met:** Yes - All success criteria met
 

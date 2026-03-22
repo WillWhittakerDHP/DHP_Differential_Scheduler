@@ -21,43 +21,13 @@
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
-- Completed ** General rate limiter for internal API routes
-
-
-
-### Session 8.2.1: General rate limiter for internal API routes ✅
-**Completed:** 2026-03-21
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** General rate limiter for internal API routes
-
-
-
-### Session 8.2.1: General rate limiter for internal API routes ✅
-**Completed:** 2026-03-21
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** General rate limiter for internal API routes
+- Installed `express-rate-limit`; general limiter (100 req/15 min per IP) on `/api/v1/internal/*`; 429 with `Retry-After` when exceeded
 
 ### Session 8.2.2: Auth-route limiter and verification ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
 - Auth-route limiter (10 req/15 min) on `/api/v1/internal/auth/*`; placeholder router; SECURITY_STUBS updated
-
-### Session [SESSION_ID]: [SESSION_NAME] ✅
-**Completed:** [Date]
-**Tasks Completed:** [List of task IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-### Session [SESSION_ID+1]: [SESSION_NAME] ✅
-**Completed:** [Date]
-**Tasks Completed:** [List of task IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
 
 ---
 
