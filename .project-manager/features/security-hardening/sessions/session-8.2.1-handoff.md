@@ -1,171 +1,49 @@
-# Session 8.2.1 Handoff: Session 8.2.1
+# Session 8.2.1 Handoff: General rate limiter for internal API routes
 
-**Purpose:** Minimal transition context between sessions (~100-200 lines)
+**Purpose:** Minimal transition context between sessions (~100–200 lines)
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** [Date]
-**Session Status:** [Complete / In Progress]
-**Next Session:** [NEXT_SESSION]
+**Last Updated:** 2026-03-21
+**Session Status:** Complete
+**Next Session:** 8.2.2 — Auth-route limiter and verification
 
 ---
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 8.2.2
-**Git Branch:** `phase-8.2`
-**Last Updated:** 2026-03-21
+**Last Completed:** Task **8.2.1.2** — Verify rate limit behavior (429 + `Retry-After`; manual or `curl` check).  
+(Session **8.2.1** also completed Task **8.2.1.1** — add `express-rate-limit` and mount general limiter on `/api/v1/internal/*`.)
+
+**Next Session:** Session **8.2.2** — Auth-route limiter and verification (tasks per `session-8.2.2-guide.md`)
+
+**Git Branch:** `feature/security-hardening`
+
+---
 
 ## Next Action
 
-Start Session 8.2.2 (see session guide and phase guide for scope).
+Start Session **8.2.2**: stricter auth-route limiter (10 req/15 min), placeholder or real `/api/v1/internal/auth/*` mount, update `SECURITY_STUBS`.
+
+---
 
 ## Transition Context
 
-**Where we left off:**
-Completed Task 
+**Where we left off:**  
+General inbound limiter (100 req/15 min per IP) is mounted for internal API routes; excess traffic returns **429** with **Retry-After**. Behavior documented in `server/docs/SECURITY_STUBS.md`.
 
-**What you need to start:**
-- Begin Session 8.2.2
+**What you need to start 8.2.2:**
 
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
+- Review limiter order and paths in `server/src/app.ts` and notes in `SECURITY_STUBS.md`
+- Follow `session-8.2.2-guide.md` and `phases/phase-8.2-guide.md` for auth-route scope
 
 <!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 8.2.2
-
-<!-- end excerpt session -->
-
-
-**Where we left off:**
-[Minimal notes about what was completed - 2-3 sentences max]
-
-**What you need to start:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about files to review]
-- [Brief bullet point about any blockers or considerations]
-
-**Minimal Future Considerations:**
-- [Only include if critical for next session - keep minimal]
-
----
-
-## Document Structure Guidelines
-
-### Keep Minimal:
-- Transition context only (where we left off, what's next)
-- Format/template for handoff entries
-- Critical context for starting next session
-
-### Move to Session Guide:
-- Explicit instructions
-- Editing advice
-- Architectural notes
-- Code-reuse suggestions
-- Detailed task notes
-- Checkpoints
-- Pattern explanations
-
-### File Size Target:
-- 100-200 lines maximum
-- Focus on transition, not history
-- Remove completed task details after they're no longer needed
-
----
-
-## Example Minimal Entry
-
-```markdown
-
-**Where we left off:**
-Completed Task 1.3.4: Relationship API Composables. Created composables for parent-child CRUD operations. All files compile successfully.
-
-**What you need to start:**
-- Review `frontend-root/src/api/relationships.ts` for relationship patterns
-- Begin Session 1.4: Transformers
-- Follow patterns from `frontend-root/src/admin/dataTransformation/` (React reference)
-```
-
----
-
-## Maintenance
-
-- Update "Last Completed" and "Next Session" after each session
-- Keep "Transition Context" to 2-3 sentences
-- Remove old task details once they're no longer needed
-- Move detailed notes to session log or session guide
 
 ---
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-8.2.1-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-8.2.1-log.md`
-- Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-8.2-handoff.md` (for phase-level context)
+- Session guide: `session-8.2.1-guide.md`
+- Session log: `session-8.2.1-log.md`
+- Phase handoff: `phases/phase-8.2-handoff.md`
+- Next session guide: `session-8.2.2-guide.md` (if present)
