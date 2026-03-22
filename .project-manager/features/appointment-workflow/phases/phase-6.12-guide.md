@@ -149,3 +149,5 @@ export const ANNOTATION_UI_SLOT_REGISTRY = [
 - PROJECT_PLAN.md — Feature 6 Phase 6.12
 - feature-appointment-workflow-guide.md — Phase 6.12 summary
 - phases/phase-6.5-guide.md — Rescheduling flow (prerequisite for link toggles)
+
+<!-- end excerpt phase -->
