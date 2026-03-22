@@ -51,7 +51,6 @@ Tier 1 (nesting, branches, length-when-branchy) drives score and file count; Tie
 | `client/src/composables/booking/useWizardAppointmentManagement.ts` | P1 | 10 | 1 | 5 | 207 |
 | `client/src/composables/booking/useWizardNavigation.ts` | P1 | 10 | 1 | 5 | 117 |
 
-*...and 89 more files.*
 
 ## Per-file details
 
