@@ -9,9 +9,9 @@
 ## Phase Status
 
 **Phase:** 8.5
-**Status:** In Progress
-**Started:** 2026-03-22
-**Completed:** (if complete)
+**Status:** [In Progress / Complete]
+**Started:** [Date]
+**Completed:** [Date] (if complete)
 
 ---
 
@@ -25,29 +25,77 @@
 
 
 
-### Session 8.5.1: Helmet configuration ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** All tasks completed
+### Session [SESSION_ID]: [SESSION_NAME] ✅
+**Completed:** [Date]
+**Tasks Completed:** [List of task IDs]
 **Key Accomplishments:**
-- Completed ** ** Helmet configuration — audit defaults, tune HSTS/referrer policy, document in SECURITY_STUBS
+- [Accomplishment 1]
+- [Accomplishment 2]
 
-
-
-### Session 8.5.1: Helmet configuration ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** 8.5.1.1, 8.5.1.2
+### Session [SESSION_ID+1]: [SESSION_NAME] ✅
+**Completed:** [Date]
+**Tasks Completed:** [List of task IDs]
 **Key Accomplishments:**
-- Helmet configured with HSTS and referrer policy in server/src/app.ts
-- SECURITY_STUBS documentation added for Security headers (Helmet)
+- [Accomplishment 1]
+- [Accomplishment 2]
 
 ---
 
 ## In Progress Sessions
 
-(none)
+### Session [SESSION_ID]: [SESSION_NAME] 🔄
+**Started:** [Date]
+**Current Task:** [TASK_ID]
+**Progress:** [X] of [Y] tasks complete
+
+---
+
+## Blockers and Issues
+
+### Blocker [Date]
+**Description:** [What's blocking progress]
+**Impact:** [How it affects the phase]
+**Resolution:** [How it was resolved or plan to resolve]
+
+---
+
+## Key Decisions
+
+### Decision [Date]
+**Context:** [What decision was needed]
+**Decision:** [What was decided]
+**Rationale:** [Why this decision was made]
+**Impact:** [How this affects downstream phases]
+
+---
+
+## Phase Checkpoints
+
+### Checkpoint [Date]
+**Sessions Completed:** [X.Y, X.Y+1, ...]
+**Status:** [On track / Behind / Ahead]
+**Notes:** [Checkpoint notes]
 
 ---
 
 ## Next Steps
 
-- Session 8.5.2: CSP implementation
+- [Next session to start]
+- [Actions needed]
+- [Dependencies to resolve]
+
+---
+
+## Phase Completion Summary
+
+**Sessions Completed:** [List all session IDs]
+**Total Tasks Completed:** [Number]
+**Success Criteria Met:** [Yes/No with details]
+
+**Workflow Feedback:** (Optional - only document if issues encountered)
+- **User feedback:** [Any problems managing phase workflow or issues with results]
+- **AI observations:** [Sticking points, inefficiencies, or workflow friction encountered during phase]
+- **Improvements needed:** [Workflow improvements for future phases]
+- **Template updates:** [Any template improvements suggested]
+- **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
+
