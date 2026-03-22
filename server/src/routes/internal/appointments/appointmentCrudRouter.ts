@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import { Appointment, AppointmentAttendee } from '../../../config/app.js'
 import { checkOwnership } from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
+import { joiValidateRequest } from '../../helpers/joiValidationAdapter.js'
+import { appointmentBodySchema } from '../../schemas/appointmentSchemas.js'
 import { loadAllAppointmentVersions } from '../../../services/appointmentSnapshotLoader.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
 import {
@@ -76,6 +78,7 @@ const router = createCrudRouter({
       handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT, 'fetching appointment')
     }
   },
+  validateRequest: joiValidateRequest(appointmentBodySchema),
   /** Set scheduledById from authenticated user on create; client cannot override (Phase 6.7 / Feature 7). */
   beforeCreate: async (req: Request, _res: Response): Promise<void> => {
     const authReq = req as Request & { user?: { id: string } }

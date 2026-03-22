@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.3.2.1: Audit and apply Joi to entity CRUD and high-impact internal routes
+- [x] #### Task 8.3.2.1: Audit and apply Joi to entity CRUD and high-impact internal routes
 **Goal:** Audit internal POST/PUT routes for validation coverage; add Joi schemas and validateRequest middleware to entity CRUD, appointments, availability, property CRUD, and other high-impact routes lacking schema-based validation.
 **Files:** 
 - `server/src/routes/internal/entities/`, `server/src/routes/internal/appointments/`, `server/src/routes/internal/availabilityRouter.ts`, `server/src/routes/internal/properties/`, `server/src/middlewares/validateRequest.ts`
