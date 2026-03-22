@@ -12,18 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-21T20:14:38.809Z**
+- Generated at: **2026-03-22T00:40:10.087Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 2**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P0 | `TS2345-ts2345-arg-arrayschema-objectschema` | 24 | 2 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +35,12 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `server/src/routes/internal/entities/entityBulkRouter.ts`
+
+- errors: 2, unsafeCasts: 0, suppressions: 0
+
+```
+TS2345@22:74 Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.
+TS2345@39:67 Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.
+```
