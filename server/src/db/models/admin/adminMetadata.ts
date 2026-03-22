@@ -26,9 +26,23 @@ export class AdminMetadata extends Model<
   declare displayOrder: number;
   declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
-  declare panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
+  declare panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS | 'events';
   declare bulkEdit: boolean;
-  declare inputConfig: CreationOptional<Record<string, unknown> | null>;
+  /** Normalized input config (API still uses composed inputConfig). */
+  declare icTargetMode: CreationOptional<string | null>;
+  declare icSelectMode: CreationOptional<string | null>;
+  declare icSelectType: CreationOptional<string | null>;
+  declare icTargetKey: CreationOptional<string | null>;
+  declare icGlobalField: CreationOptional<string | null>;
+  declare icPlaceholder: CreationOptional<string | null>;
+  declare icGroupByKey: CreationOptional<string | null>;
+  declare icSelectedChildKey: CreationOptional<string | null>;
+  declare icCandidateChildKey: CreationOptional<string | null>;
+  declare icSelectedParentKey: CreationOptional<string | null>;
+  declare icCandidateParentKey: CreationOptional<string | null>;
+  declare icSelectedChildPath: CreationOptional<string[] | null>;
+  declare icCandidateChildPath: CreationOptional<string[] | null>;
+  declare icCandidateParentPath: CreationOptional<string[] | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -135,11 +149,75 @@ export function AdminMetadataFactory(sequelize: Sequelize) {
         field: 'bulk_edit',
         comment: 'Whether field can be bulk edited',
       },
-      inputConfig: {
-        type: DataTypes.JSONB,
+      icTargetMode: {
+        type: DataTypes.STRING(32),
         allowNull: true,
-        field: 'input_config',
-        comment: 'Input configuration for select/multiselect/reference/relationshipCollection fields',
+        field: 'ic_target_mode',
+      },
+      icSelectMode: {
+        type: DataTypes.STRING(32),
+        allowNull: true,
+        field: 'ic_select_mode',
+      },
+      icSelectType: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'ic_select_type',
+      },
+      icTargetKey: {
+        type: DataTypes.STRING(128),
+        allowNull: true,
+        field: 'ic_target_key',
+      },
+      icGlobalField: {
+        type: DataTypes.STRING(128),
+        allowNull: true,
+        field: 'ic_global_field',
+      },
+      icPlaceholder: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'ic_placeholder',
+      },
+      icGroupByKey: {
+        type: DataTypes.STRING(128),
+        allowNull: true,
+        field: 'ic_group_by_key',
+      },
+      icSelectedChildKey: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'ic_selected_child_key',
+      },
+      icCandidateChildKey: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'ic_candidate_child_key',
+      },
+      icSelectedParentKey: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'ic_selected_parent_key',
+      },
+      icCandidateParentKey: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'ic_candidate_parent_key',
+      },
+      icSelectedChildPath: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+        field: 'ic_selected_child_path',
+      },
+      icCandidateChildPath: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+        field: 'ic_candidate_child_path',
+      },
+      icCandidateParentPath: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+        field: 'ic_candidate_parent_path',
       },
       createdAt: {
         type: DataTypes.DATE,

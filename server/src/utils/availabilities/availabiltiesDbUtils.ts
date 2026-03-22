@@ -41,19 +41,19 @@
 
 import { createLogger } from '../logger.js';
 import { STATUSES_REQUIRING_CALENDAR_EVENT } from '../../routes/internal/appointments/appointmentConstants.js';
-import { Appointment, AppointmentFeeSummary } from '../../config/app.js';
+import { Appointment, AppointmentFeeSummary, AppointmentTimeSlot } from '../../config/app.js';
 
 const logger = createLogger('AvailabilitiesDbUtils');
 
 function sumDurationsFromAppointments(
-  appointments: Array<{ selectedTimeSlots?: Array<{ duration?: number } | Record<string, unknown>> | null }>
+  appointments: Array<{ timeSlots?: Array<{ durationMinutes?: number | null }> }>
 ): number {
   return appointments.reduce(
     (total, apt) =>
       total +
-      (Array.isArray(apt.selectedTimeSlots) ? apt.selectedTimeSlots : []).reduce(
-        (slotSum, slot) =>
-          slotSum + (typeof (slot as { duration?: number }).duration === 'number' ? (slot as { duration: number }).duration : 0),
+      (Array.isArray(apt.timeSlots) ? apt.timeSlots : []).reduce(
+        (slotSum, row) =>
+          slotSum + (typeof row.durationMinutes === 'number' ? row.durationMinutes : 0),
         0
       ),
     0
@@ -74,7 +74,7 @@ function sumDurationsFromAppointments(
  * Queries scheduled appointments for the specific date and sums durations:
  * 1. Filters appointments by selectedDate matching the date (DATEONLY comparison)
  * 2. Only counts appointments with status 'submitted' or 'confirmed' (line 30)
- * 3. Extracts durations from selectedTimeSlots array
+ * 3. Extracts durations from appointment_time_slots rows (via `timeSlots` include)
  * 4. Sums all durations and converts minutes to hours
  * 
  * Returns 0 on error or if no appointments found (safe default)
@@ -82,8 +82,6 @@ function sumDurationsFromAppointments(
  */
 export async function sumWorkHoursForDay(date: Date): Promise<number> {
   try {
-    const { Appointment } = await import('../../db/models/booking/appointment.js');
-    
     const dateOnly = date.toISOString().split('T')[0];
     
     // PATTERN: Filter by status to only include appointments that should count toward capacity
@@ -92,6 +90,7 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
         selectedDate: dateOnly,
         status: [...STATUSES_REQUIRING_CALENDAR_EVENT],
       },
+      include: [{ model: AppointmentTimeSlot, as: 'timeSlots', required: false }],
     });
 
     const totalMinutes = sumDurationsFromAppointments(appointments);
@@ -122,7 +121,6 @@ export async function sumWorkHoursForDay(date: Date): Promise<number> {
  */
 async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise<number> {
   try {
-    const { Appointment } = await import('../../db/models/booking/appointment.js');
     const { Op } = await import('sequelize');
     
     const startDateOnly = startDate.toISOString().split('T')[0];
@@ -135,6 +133,7 @@ async function sumWorkHoursForDateRange(startDate: Date, endDate: Date): Promise
         },
         status: [...STATUSES_REQUIRING_CALENDAR_EVENT],
       },
+      include: [{ model: AppointmentTimeSlot, as: 'timeSlots', required: false }],
     });
 
     const totalMinutes = sumDurationsFromAppointments(appointments);

@@ -16,12 +16,25 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1'])
+const dbHost = process.env.DB_HOST || '127.0.0.1'
+
+if (!LOCAL_HOSTS.has(dbHost)) {
+  console.error(
+    `❌ Migration blocked: DB_HOST is "${dbHost}" (remote).\n` +
+    `   Only the database host machine may run migrations.\n` +
+    `   If you need schema changes applied, commit the migration file and\n` +
+    `   run "npm run migrate" on the machine that hosts PostgreSQL.`
+  )
+  process.exit(1)
+}
+
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'scheduler_db',
   process.env.DB_USER || 'postgres',
   process.env.DB_PASSWORD || 'jklJKL',
   {
-    host: process.env.DB_HOST || '127.0.0.1',
+    host: dbHost,
     port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     logging: console.log

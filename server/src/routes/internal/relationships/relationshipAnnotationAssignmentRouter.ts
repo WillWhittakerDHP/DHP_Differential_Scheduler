@@ -41,6 +41,7 @@ router.patch('/:blockInstanceId/:annotationId', csrfProtection, async (req: Requ
       where: {
         blockInstanceId,
         annotationId,
+        disabled: false,
       },
     })
     

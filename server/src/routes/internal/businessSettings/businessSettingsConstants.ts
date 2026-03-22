@@ -1,6 +1,6 @@
 
 import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
-import type { AvailabilitySettingsData } from '../../../db/models/admin/business_settings.js'
+import type { AvailabilitySettingsData } from '../../../../../shared/types/availabilitySettingsDocument.js'
 import { ERROR_FETCH_BUSINESS_SETTINGS } from '../../../../../shared/constants/errorMessages.js'
 import type { RFC3339DateTime, DayHours } from '../../../../../shared/types/availabilityTypes.js'
 
@@ -67,4 +67,6 @@ export const ERROR_MESSAGES = {
   INVALID_AVAILABILITY_SETTINGS: 'Invalid availability_settings structure',
   SETTING_ALREADY_EXISTS: 'Setting with key "{key}" already exists. Use PUT or PATCH to update.',
   SETTING_NOT_FOUND_FOR_PATCH: 'Setting with key "{key}" not found. Use POST to create.',
+  AVAILABILITY_SETTINGS_ONLY:
+    'Only availability_settings is supported here; use /calendar-settings and /wizard-settings for other configuration.',
 } as const

@@ -39,7 +39,8 @@ router.get('/status', (_req: Request, res: Response): void => {
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL
       }
     } catch (credError: unknown) {
-      const credMessage = credError instanceof Error ? credError.message : String(credError);
+      const credMessage = credError instanceof Error ? credError.message : String(credError)
+      logger.warn('Dev status: OAuth credential read failed (non-fatal)', { credError })
       oauthStatus = {
         authenticated: false,
         authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
