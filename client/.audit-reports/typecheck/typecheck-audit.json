@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T00:40:10.087Z",
+  "generatedAt": "2026-03-22T00:40:58.308Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,99 +10,19 @@
       "cwd": "server"
     }
   },
-  "exitCode": 1,
+  "exitCode": 0,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 2,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [
-    {
-      "file": "src/routes/internal/entities/entityBulkRouter.ts",
-      "line": 22,
-      "col": 74,
-      "code": "TS2345",
-      "message": "Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-      "raw": "src/routes/internal/entities/entityBulkRouter.ts(22,74): error TS2345: Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts"
-    },
-    {
-      "file": "src/routes/internal/entities/entityBulkRouter.ts",
-      "line": 39,
-      "col": 67,
-      "code": "TS2345",
-      "message": "Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-      "raw": "src/routes/internal/entities/entityBulkRouter.ts(39,67): error TS2345: Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-      "scope": "server",
-      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts"
-    }
-  ],
+  "errors": [],
   "allowedErrors": [],
-  "pools": [
-    {
-      "poolId": "TS2345-ts2345-arg-arrayschema-objectschema",
-      "groupKey": "TS2345::arg:ArraySchema<...>=>ObjectSchema<...>",
-      "errorCount": 2,
-      "fileCount": 1,
-      "severityScore": 20,
-      "blastRadiusScore": 2,
-      "repetitionScore": 2,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 24,
-      "sample": [
-        {
-          "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 22,
-          "col": 74,
-          "code": "TS2345",
-          "message": "Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'."
-        },
-        {
-          "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 39,
-          "col": 67,
-          "code": "TS2345",
-          "message": "Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'."
-        }
-      ],
-      "priority": "P0"
-    }
-  ],
-  "files": [
-    {
-      "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts",
-      "errorCount": 2,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 22,
-          "col": 74,
-          "code": "TS2345",
-          "message": "Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-          "raw": "src/routes/internal/entities/entityBulkRouter.ts(22,74): error TS2345: Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts"
-        },
-        {
-          "file": "src/routes/internal/entities/entityBulkRouter.ts",
-          "line": 39,
-          "col": 67,
-          "code": "TS2345",
-          "message": "Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-          "raw": "src/routes/internal/entities/entityBulkRouter.ts(39,67): error TS2345: Argument of type 'ArraySchema<any[]>' is not assignable to parameter of type 'ObjectSchema<any>'.",
-          "scope": "server",
-          "repoPath": "server/src/routes/internal/entities/entityBulkRouter.ts"
-        }
-      ]
-    }
-  ]
+  "pools": [],
+  "files": []
 }

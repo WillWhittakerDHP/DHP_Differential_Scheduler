@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T00:31:50.763Z",
+  "generatedAt": "2026-03-22T00:40:33.441Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1015,
+  "totalScanned": 1030,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 5,
+    "totalRequiresReview": 6,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -60,7 +60,7 @@
     {
       "id": "inline-orphan-Validation-failed",
       "classification": "HOIST",
-      "description": "Value 'Validation failed' defined in constants but used inline in 1 locations",
+      "description": "Value 'Validation failed' defined in constants but used inline in 2 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/users/userConstants.ts",
@@ -71,11 +71,17 @@
         {
           "file": "server/src/middlewares/validateRequest.ts",
           "export": null,
-          "line": 27,
+          "line": 29,
+          "inline": true
+        },
+        {
+          "file": "server/src/routes/helpers/joiValidationAdapter.ts",
+          "export": null,
+          "line": 23,
           "inline": true
         }
       ],
-      "score": 12,
+      "score": 16,
       "priority": "P1",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
     },
@@ -93,13 +99,13 @@
         {
           "file": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
           "export": null,
-          "line": 48,
+          "line": 51,
           "inline": true
         },
         {
           "file": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
           "export": null,
-          "line": 41,
+          "line": 44,
           "inline": true
         }
       ],
@@ -112,29 +118,29 @@
     {
       "id": "server__src__middlewares__validateRequest.ts",
       "repoPath": "server/src/middlewares/validateRequest.ts",
-      "score": 6,
+      "score": 5.333333333333333,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 27,
+          "lineNumber": 29,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
       ]
     },
     {
-      "id": "server__src__routes__internal__users__userConstants.ts",
-      "repoPath": "server/src/routes/internal/users/userConstants.ts",
-      "score": 6,
+      "id": "server__src__routes__helpers__joiValidationAdapter.ts",
+      "repoPath": "server/src/routes/helpers/joiValidationAdapter.ts",
+      "score": 5.333333333333333,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 2,
-          "line": "export: ERROR_MESSAGES",
+          "lineNumber": 23,
+          "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
       ]
@@ -163,8 +169,23 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 48,
+          "lineNumber": 51,
           "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__users__userConstants.ts",
+      "repoPath": "server/src/routes/internal/users/userConstants.ts",
+      "score": 5.333333333333333,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 2,
+          "line": "export: ERROR_MESSAGES",
           "suppressionStatus": "unsuppressed"
         }
       ]
@@ -178,7 +199,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 41,
+          "lineNumber": 44,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
