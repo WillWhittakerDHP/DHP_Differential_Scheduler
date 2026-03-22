@@ -94,8 +94,9 @@ Other tiers use a single approve step (`approve_execute`); only task has this ex
 ### Current implementation notes (alignment with code)
 
 - **Proceed-from-gate:** When the user runs `/accepted-proceed` or `/accepted-code`, the start workflow **proceeds from the gate** (e.g. from `ensure_branch`) via `resumeAfterStep`; it does not re-run from the top (validate, read_context_light, context_gathering are skipped). This keeps execution efficient and avoids redundant work.
-- **Git at tier-end:** Before committing remaining work, the workflow verifies the current git branch matches the tier's expected branch (`getExpectedBranchForTier`). The tier-end commit step (`commitUncommittedNonCursor` in `git/shared/tier-branch-manager.ts`) stages touched files only when they fall under **`client/`**, **`server/`**, or **`.project-manager/`** (`DEFAULT_ALLOWED_COMMIT_PREFIXES`). It **never** stages: paths under **`.cursor/`** (submodule; commit inside the `.cursor` repo), **`client/.audit-reports/`**, or **transient** `.project-manager/` harness files (e.g. `.git-ops-log`, `.write-log`, `.tier-scope`, `.current-feature`, `.merge-incident-log`, `.audit-baseline-log.jsonl`). Non-transient `.project-manager/` documentation (guides, plans, handoffs) **is** auto-committed when modified. On wrong branch, tier-end returns `wrong_branch_before_commit` and the playbook directs the user to checkout the correct branch and re-run.
+- **Git at tier-end:** Branches are created at **tier-start** (`ensureTierBranch`); tier-end does **not** create missing phase/session/feature branches. After resolving the expected branch name (`getExpectedBranchForTier`, including prefix match), if that branch **does not exist locally**, tier-end fails with **`expected_branch_missing_run_tier_start`** and an actionable message (run **`/feature-start`**, **`/phase-start`**, or **`/session-start`** as appropriate, plus optional **`git fetch`** if the branch exists only on the remote). Otherwise, before committing remaining work, the workflow ensures checkout matches the expected branch. The commit step (`commitUncommittedNonCursor` in `git/shared/tier-branch-manager.ts`) stages touched files only when they fall under **`client/`**, **`server/`**, or **`.project-manager/`** (`DEFAULT_ALLOWED_COMMIT_PREFIXES`). It **never** stages: paths under **`.cursor/`** (submodule; commit inside the `.cursor` repo), **`client/.audit-reports/`**, or **transient** `.project-manager/` harness files (e.g. `.git-ops-log`, `.write-log`, `.tier-scope`, `.current-feature`, `.merge-incident-log`, `.audit-baseline-log.jsonl`). Non-transient `.project-manager/` documentation (guides, plans, handoffs) **is** auto-committed when modified. If the branch exists but the current branch differs, tier-end returns `wrong_branch_before_commit` and the playbook directs the user to checkout the correct branch and re-run.
 - **nextInvoke shape:** Control-plane decision uses `nextInvoke: { tier, action, params }` (not a full `WorkflowSpec`). Params carry tier identifiers and `params.options` for execution toggles (e.g. `mode: 'execute'`).
+- **Workflow scope resolution:** `resolveWorkflowScope` (`.cursor/commands/utils/workflow-scope.ts`) is the **only** resolver for normalized feature directory name, tier + identifier, and optional `.tier-scope`. **Phase, session, and task** invocations **must** include **`featureId` or `featureName`** (numeric `#` or directory slug from `PROJECT_PLAN.md` Feature Summary). The harness does **not** infer feature from git branch. Pending state (`.tier-start-pending.json`, `.task-start-pending.json`) must carry feature for phase/session/task re-invocation (`/accepted-proceed`, `/accepted-code`). `WorkflowCommandContext.contextFromParams` delegates to `resolveWorkflowScope` only.
 
 ---
 
@@ -656,6 +657,7 @@ export type FailureReasonCode =
   | 'preflight_failed'
   | 'git_failed'
   | 'wrong_branch_before_commit'
+  | 'expected_branch_missing_run_tier_start'
   | 'unhandled_error';
 
 export type ReasonCode = FlowReasonCode | FailureReasonCode;
@@ -681,7 +683,10 @@ export type ReasonCode = FlowReasonCode | FailureReasonCode;
 | `preflight_failed` | true | `failure_options` | none |
 | `git_failed` | true | `failure_options` | none |
 | `wrong_branch_before_commit` | true | (message only) | user checkouts correct branch, then re-runs tier-end |
+| `expected_branch_missing_run_tier_start` | true | (message only) | user runs matching **tier-start** (or `git fetch` + checkout); then re-runs tier-end |
 | `unhandled_error` | true | `failure_options` | none |
+
+**Tier-end branch edge cases (policy: fail loud, no auto-create at end):** (1) **Skipped tier-start** — run the slash command in the outcome message. (2) **Branch only on remote** — `git fetch` then checkout (message includes this). (3) **Manual / mismatched branch names** — align local names with tier `getBranchName` + prefix rules. (4) **Deleted branch** — re-run tier-start or recreate from parent. **Simpler strategy:** keep this single pre-commit check + clear copy; avoid duplicating `ensureTierBranch` at tier-end unless you add an explicit “repair” flag later.
 
 ### `reopen_ok` nextInvoke mapping
 
