@@ -1,6 +1,5 @@
 /**
  * Shared Joi field definitions for admin metadata POST schemas.
- * WHY: Consolidate duplication across adminMetadataSchemas, adminPrimitiveMetadataSchemas,
  * adminRelationshipMetadataSchemas (audit-fix per FUNCTION_AUTHORING_PLAYBOOK).
  */
 import Joi from 'joi'
