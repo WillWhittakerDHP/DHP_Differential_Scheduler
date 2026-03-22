@@ -406,14 +406,16 @@ The following auth-related code already exists in the codebase:
 
 ### Implementation Order
 
-| Step | What | Depends On |
-|------|------|------------|
-| 1 | **Database & Models** — Migrations for `sessions` and `magic_links` tables; Sequelize models. | — |
-| 2 | **Server Auth Infrastructure** — Strategy interface (`strategyTypes.ts`), session manager (`sessionManager.ts`), real `requireAuth` middleware (cookie → session → `req.user`), auth router, auth config. Replace `_requireAuth` stub. | Step 1 |
-| 3 | **Magic Link Strategy** — `magicLinkStrategy.ts`, email service (or console log in dev), verify route that creates a session and sets the cookie. | Step 2 |
-| 4 | **Client Auth** — Pinia auth store + composable, auth views (MagicLinkForm, verify landing), align router guards with real session cookie. | Step 3 |
-| 5 | **Enactment** — Wire auth into other features (see checklist below). | Step 4 |
-| — | **Password Strategy** — Deferred to production (post-beta). | Step 2 |
+Phases **7.1–7.4** match `feature-authentication-guide.md` (Feature 7 only). **Feature 10** uses **10.1–10.7** for testing and quality — do not confuse with auth phases.
+
+| Step | Phase | What | Depends On |
+|------|-------|------|------------|
+| 1 | **7.1** | **Database & Models** — Migrations for `sessions` and `magic_links` tables; Sequelize models. | — |
+| 2 | **7.2** | **Server Auth Infrastructure** — Strategy interface (`strategyTypes.ts`), session manager (`sessionManager.ts`), real `requireAuth` middleware (cookie → session → `req.user`), auth router, auth config. Replace `_requireAuth` stub. | Step 1 |
+| 3 | **7.3** | **Magic Link Strategy** — `magicLinkStrategy.ts`, email service (or console log in dev), verify route that creates a session and sets the cookie. | Step 2 |
+| 4 | **7.4** | **Client Auth** — Pinia auth store + composable, auth views (MagicLinkForm, verify landing), align router guards with real session cookie. | Step 3 |
+| 5 | — | **Enactment** — Wire auth into other features (see checklist below). | Step 4 |
+| — | **7.5** (deferred) | **Password Strategy** — Deferred to production (post-beta). | Step 2 |
 
 ### Enactment (after auth is in place)
 
