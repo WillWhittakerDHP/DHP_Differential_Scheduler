@@ -44,7 +44,7 @@ Work is organized into three sessions (7.1.1–7.1.3). Each session has its own 
 - Schema matches downstream session manager and magic-link verify flow
 - Migration style matches existing server migrations
 
-- [ ] ### Session 7.1.2: Sequelize models for auth tables
+- [x] ### Session 7.1.2: Sequelize models for auth tables
 **Description:** Implement Sequelize models for the new tables; define fields, timestamps, and any required associations.
 **Goal:** Typed models match migrations; associations documented where used by later phases.
 **Files:** `server/src/db/models/**` (new model module(s)), types co-located or shared per codebase pattern
