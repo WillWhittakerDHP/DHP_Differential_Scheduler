@@ -1,4 +1,4 @@
-# Session 8.3.2 Guide: Apply validation across internal routes
+# Session 8.3.2 Guide: ** Apply validation across internal routes
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -43,19 +43,19 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] #### Task 8.3.2.1: Audit and apply Joi to entity CRUD and high-impact internal routes
-**Goal:** Audit internal POST/PUT routes for validation coverage; add Joi schemas and validateRequest middleware to entity CRUD, appointments, availability, property CRUD, and other high-impact routes lacking schema-based validation.
+- [ ] #### Task 8.3.2.1: [Task Name]
+**Goal:** [Task goal]
 **Files:** 
-- `server/src/routes/internal/entities/`, `server/src/routes/internal/appointments/`, `server/src/routes/internal/availabilityRouter.ts`, `server/src/routes/internal/properties/`, `server/src/middlewares/validateRequest.ts`
-**Approach:** Identify routes using createCrudRouter vs inline validation; add Joi schemas per route or integrate into CRUD factory; wire validateRequest(schema) before handlers.
-**Checkpoint:** Key internal routes return 400 with validation details on invalid payloads.
+- [Files to work with]
+**Approach:** [Approach to take]
+**Checkpoint:** [What needs to be verified]
 
-- [x] #### Task 8.3.2.2: Apply Joi to remaining internal routes; document in SECURITY_STUBS
-**Goal:** Apply Joi validation to remaining internal POST/PUT routes (business/calendar/wizard settings, admin-metadata, etc.); expand SECURITY_STUBS with validation patterns and schema inventory.
+- [ ] #### Task 8.3.2.2: [Task Name]
+**Goal:** [Task goal]
 **Files:** 
-- `server/src/routes/internal/businessSettings/`, `server/src/routes/internal/calendarSettings/`, `server/src/routes/internal/wizardSettings/`, `server/src/routes/internal/admin-metadata/`, `server/docs/SECURITY_STUBS.md`
-**Approach:** Add Joi schemas to remaining routes; document patterns (validateRequest usage, schema shape, error response) and list schemas by route in SECURITY_STUBS.
-**Checkpoint:** All internal POST/PUT routes validated; SECURITY_STUBS updated with patterns and inventory.
+- [Files to work with]
+**Approach:** [Approach to take]
+**Checkpoint:** [What needs to be verified]
 
 ---
 
@@ -402,5 +402,3 @@ Break each session into focused tasks:
 ## Notes
 
 [Session-specific notes, patterns, architectural decisions]
-
-<!-- end excerpt session -->

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T00:31:15.060Z",
+  "generatedAt": "2026-03-21T22:10:20.192Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1030,
+  "totalScanned": 1015,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 6,
+    "totalRequiresReview": 5,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -60,7 +60,7 @@
     {
       "id": "inline-orphan-Validation-failed",
       "classification": "HOIST",
-      "description": "Value 'Validation failed' defined in constants but used inline in 2 locations",
+      "description": "Value 'Validation failed' defined in constants but used inline in 1 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/users/userConstants.ts",
@@ -73,15 +73,9 @@
           "export": null,
           "line": 27,
           "inline": true
-        },
-        {
-          "file": "server/src/routes/helpers/joiValidationAdapter.ts",
-          "export": null,
-          "line": 25,
-          "inline": true
         }
       ],
-      "score": 16,
+      "score": 12,
       "priority": "P1",
       "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/users/userConstants.ts"
     },
@@ -99,13 +93,13 @@
         {
           "file": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
           "export": null,
-          "line": 51,
+          "line": 48,
           "inline": true
         },
         {
           "file": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
           "export": null,
-          "line": 44,
+          "line": 41,
           "inline": true
         }
       ],
@@ -118,7 +112,7 @@
     {
       "id": "server__src__middlewares__validateRequest.ts",
       "repoPath": "server/src/middlewares/validateRequest.ts",
-      "score": 5.333333333333333,
+      "score": 6,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
@@ -131,16 +125,16 @@
       ]
     },
     {
-      "id": "server__src__routes__helpers__joiValidationAdapter.ts",
-      "repoPath": "server/src/routes/helpers/joiValidationAdapter.ts",
-      "score": 5.333333333333333,
+      "id": "server__src__routes__internal__users__userConstants.ts",
+      "repoPath": "server/src/routes/internal/users/userConstants.ts",
+      "score": 6,
       "priority": "P2",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 25,
-          "line": "inline: value",
+          "lineNumber": 2,
+          "line": "export: ERROR_MESSAGES",
           "suppressionStatus": "unsuppressed"
         }
       ]
@@ -169,23 +163,8 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 51,
+          "lineNumber": 48,
           "line": "inline: value",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
-      "id": "server__src__routes__internal__users__userConstants.ts",
-      "repoPath": "server/src/routes/internal/users/userConstants.ts",
-      "score": 5.333333333333333,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 2,
-          "line": "export: ERROR_MESSAGES",
           "suppressionStatus": "unsuppressed"
         }
       ]
@@ -199,7 +178,7 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 44,
+          "lineNumber": 41,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

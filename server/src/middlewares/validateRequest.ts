@@ -5,7 +5,7 @@
  */
 
 import type { Request, Response, NextFunction } from 'express';
-import type { AnySchema } from 'joi';
+import type { ObjectSchema } from 'joi';
 
 /**
  * Returns Express middleware that validates req.body against the given Joi schema.
@@ -16,10 +16,10 @@ import type { AnySchema } from 'joi';
  * PATTERN: Same validation approach as relationshipAnnotationAssignmentRouter, extracted
  * into reusable middleware so routes stay thin.
  *
- * @param schema - Joi schema (ObjectSchema or ArraySchema) to validate req.body
+ * @param schema - Joi ObjectSchema to validate req.body
  * @returns Express RequestHandler
  */
-export function validateRequest(schema: AnySchema): (req: Request, res: Response, next: NextFunction) => void {
+export function validateRequest(schema: ObjectSchema): (req: Request, res: Response, next: NextFunction) => void {
   return (req: Request, res: Response, next: NextFunction): void => {
     const { error } = schema.validate(req.body, { abortEarly: false });
     if (error) {

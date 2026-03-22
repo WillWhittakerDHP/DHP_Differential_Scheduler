@@ -34,7 +34,7 @@
 - Add Joi dependency
 - Validation middleware or helper pattern
 
-- [x] ### Session 8.3.2: Apply validation across internal routes
+- [ ] ### Session 8.3.2: Apply validation across internal routes
 **Description:** Apply validation to internal POST/PUT routes; document schemas and patterns.
 **Tasks:** 2
 **Focus:**

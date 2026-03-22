@@ -41,7 +41,7 @@ for i in $(seq 1 11); do
 done
 ```
 
-Expect the first 10 to succeed and the 11th to be `429`. To inspect the 429 response and headers:
+Expect the first 10 responses to be `501` (placeholder) and the 11th to be `429`. To inspect the 429 response and headers:
 
 ```bash
 # After exhausting the limit, one more request shows 429
@@ -52,55 +52,9 @@ curl -v http://localhost:3001/api/v1/internal/auth
 ## Request validation (active)
 
 **Location:** `server/src/middlewares/validateRequest.ts`  
-**Pattern:** `validateRequest(schema)` returns Express middleware that validates `req.body` against a Joi schema (ObjectSchema or ArraySchema). On failure, responds 400 with `{ error: 'Validation failed', details: [...] }`. On success, calls `next()`.
+**Pattern:** `validateRequest(schema)` returns Express middleware that validates `req.body` against a Joi schema. On failure, responds 400 with `{ error: 'Validation failed', details: [...] }`. On success, calls `next()`.
 
-### Usage
-
-- **Inline routes:** Add `validateRequest(schema)` before the handler, after CSRF and auth middlewares.
-- **createCrudRouter:** Set `validateRequest: joiValidateRequest(schema)` in the config; the adapter wires it to POST/PUT/PATCH handlers.
-- **Schema placement:** Define schemas in `server/src/routes/schemas/` per route family (e.g. `entitySchemas.ts`, `propertySchemas.ts`).
-
-### Error response shape
-
-```json
-{
-  "error": "Validation failed",
-  "details": [
-    { "message": "...", "path": ["field"], "type": "..." }
-  ]
-}
-```
-
-### Schema inventory by route (Session 8.3.2)
-
-| Route | Method | Schema file | Schema export |
-|-------|--------|-------------|---------------|
-| `/auth` | POST | authSchemas | loginBodySchema |
-| `/availability` | POST | availabilitySchemas | computedAvailabilityRequestSchema |
-| `/entities` | POST, PUT, PATCH | entitySchemas | entityBodySchema |
-| `/entities/:entityType/order_index` | PATCH | entityBulkSchemas | entityOrderIndexPatchBodySchema |
-| `/entities/:entityType/bulk` | PATCH | entityBulkSchemas | entityBulkPatchBodySchema |
-| `/appointments` | POST, PUT, PATCH | appointmentSchemas | appointmentBodySchema |
-| `/appointments/force-create` | POST | forceCreateSchemas | forceCreateBodySchema |
-| `/properties` | POST, PUT, PATCH | propertySchemas | propertyCreateBodySchema, propertyUpdateBodySchema, propertyPatchBodySchema |
-| `/properties/:id/types` | POST, PATCH, PUT | propertyTypesSchemas | propertyTypePostBodySchema, propertyTypePatchBodySchema, propertyTypesPutBodySchema |
-| `/business-settings` | POST | businessSettingsSchemas | businessSettingsPostBodySchema |
-| `/business-settings/:key` | PUT, PATCH | businessSettingsSchemas | businessSettingsPutPatchBodySchema |
-| `/calendar-settings` | PUT | calendarSettingsSchemas | calendarSettingsPutBodySchema |
-| `/wizard-settings` | PUT | wizardSettingsSchemas | wizardSettingsPutBodySchema |
-| `/admin-metadata/:entityType/:entityId` | POST | adminMetadataSchemas | adminMetadataPostBodySchema |
-| `/admin-primitive-metadata/:entityType/:entityId` | POST | adminPrimitiveMetadataSchemas | adminPrimitiveMetadataPostBodySchema |
-| `/admin-relationship-metadata/:entityType/:entityId` | POST | adminRelationshipMetadataSchemas | adminRelationshipMetadataPostBodySchema |
-| `/relationships/:relationshipType` | POST | relationshipSchemas | relationshipPostBodySchema |
-| relationshipAnnotationAssignmentRouter | PATCH | (inline Joi) | — |
-| relationshipInstanceComponentRouter | PATCH | (inline Joi) | — |
-
-### Migration notes for new routes
-
-1. Create a Joi schema in `server/src/routes/schemas/<domain>Schemas.ts`.
-2. Use minimal schema to reject malformed input; keep domain logic in handlers or validators.
-3. Wire `validateRequest(schema)` (or `joiValidateRequest(schema)` for createCrudRouter) before the handler.
-4. Add the route to this schema inventory table.
+**Sample route:** `POST /api/v1/internal/auth/login` — validates `{ email, password }`; valid payload → 501 (placeholder); invalid → 400 with Joi details. Session 8.3.2 will apply validation across internal routes.
 
 ### How to verify
 

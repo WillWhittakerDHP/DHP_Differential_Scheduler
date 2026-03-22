@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T00:22:49.682Z",
+  "generatedAt": "2026-03-21T21:40:48.848Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,16 +13,16 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 11,
+  "totalScanned": 0,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 2,
-    "totalRequiresReview": 4,
+    "totalAllowed": 0,
+    "totalRequiresReview": 0,
     "bySource": {
-      "inline": 1,
+      "inline": 0,
       "pattern": 0,
-      "specific": 1,
+      "specific": 0,
       "linePattern": 0
     }
   },
@@ -57,154 +57,5 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": [
-    {
-      "id": "server__src__routes__internal__calendarSettings__calendarSettingsCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 2
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 25,
-          "line": "const ERROR_FETCH = 'Failed to fetch calendar settings';"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 26,
-          "line": "const ERROR_UPDATE = 'Failed to update calendar settings';"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 58,
-          "line": "sendSuccess(res, { setting_value: row.settingValue });"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 61,
-          "line": "sendSuccess(res, { setting_value: created.settingValue });"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 58,
-          "line": "sendSuccess(res, { setting_value: row.settingValue });",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 61,
-          "line": "sendSuccess(res, { setting_value: created.settingValue });",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 6,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    },
-    {
-      "id": "server__src__routes__internal__wizardSettings__wizardSettingsCrudRouter.ts",
-      "repoPath": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
-      "counts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 2
-      },
-      "reviewCounts": {
-        "switchEntityKey": 0,
-        "switchTypeLike": 0,
-        "caseString": 0,
-        "fieldEqualsString": 0,
-        "fieldMapping": 2,
-        "inlineLabelMap": 0,
-        "omitFieldsArray": 0,
-        "headersArray": 0,
-        "magicLabel": 0,
-        "entityKeyString": 0
-      },
-      "matches": [
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 18,
-          "line": "const ERROR_FETCH = 'Failed to fetch wizard settings';"
-        },
-        {
-          "ruleId": "magicLabel",
-          "lineNumber": 19,
-          "line": "const ERROR_UPDATE = 'Failed to update wizard settings';"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 51,
-          "line": "sendSuccess(res, { setting_value: row.settingValue });"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 54,
-          "line": "sendSuccess(res, { setting_value: created.settingValue });"
-        }
-      ],
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 51,
-          "line": "sendSuccess(res, { setting_value: row.settingValue });",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "fieldMapping",
-          "lineNumber": 54,
-          "line": "sendSuccess(res, { setting_value: created.settingValue });",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 6,
-      "priority": "P2",
-      "suggestions": [
-        {
-          "priority": "P1",
-          "kind": "casing_utility",
-          "message": "Field mapping objects detected. Consider replacing with casing conversion utilities (e.g., snakeToCamel, camelToSnake) instead of manual mappings. Mappings often indicate legacy accommodations or fallback strategies."
-        }
-      ]
-    }
-  ]
+  "files": []
 }
