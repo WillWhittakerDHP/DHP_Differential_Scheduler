@@ -395,7 +395,7 @@ server/src/
         Session.ts              ← Session model
         MagicLink.ts            ← Magic link token model
     migrations/
-      20260219_100000_create_auth_tables.mjs  ← Sessions + magic_links tables
+      20260322_100001_create_auth_sessions_and_magic_links.mjs  ← Sessions + magic_links tables
 
 client/src/
   stores/
@@ -417,7 +417,7 @@ client/src/
 
 - [ ] **2A.1** Create database migration for `sessions` and `magic_links` tables
 
-  Migration file: `server/src/db/migrations/20260219_100000_create_auth_tables.mjs`
+  Migration file: `server/src/db/migrations/20260322_100001_create_auth_sessions_and_magic_links.mjs` (runs after the squashed baseline; see `server/src/db/migrations/README.md`)
 
   ```javascript
   export default {
