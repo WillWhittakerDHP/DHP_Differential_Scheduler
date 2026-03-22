@@ -14,7 +14,7 @@
 
 **Last Completed:** Task 
 **Next Session:** Session 
-**Git Branch:** `session-8.3.2`
+**Git Branch:** `phase-8.3`
 **Last Updated:** 2026-03-22
 
 ## Next Action
@@ -22,6 +22,15 @@
 Start Session  (see session guide and phase guide for scope).
 
 ## Transition Context
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
 
 **Where we left off:**
 Completed Task 
