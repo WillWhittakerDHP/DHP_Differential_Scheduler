@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 8.3.2: Apply validation across internal routes ✅
+**Completed:** 2026-03-22
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** Apply validation across internal routes
+
+
+
 ### Session 8.3.1: Add validation library and middleware ✅
 **Completed:** 2026-03-21
 **Tasks Completed:** All tasks completed
