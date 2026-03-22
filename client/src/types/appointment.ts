@@ -3,6 +3,7 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from './events'
+import type { DifferentialRole } from '@shared/types/differentialRole'
 
 export type { AppointmentStatus } from './appointmentStatus'
 export { APPOINTMENT_STATUSES, VALID_STATUS_TRANSITIONS, getValidNextStatuses } from '@/constants/appointmentStatus'
@@ -10,10 +11,11 @@ export { APPOINTMENT_STATUSES, VALID_STATUS_TRANSITIONS, getValidNextStatuses } 
 /** Extends shared SlotTimeBounds for single source of truth. */
 export type TimeRange = SlotTimeBounds
 
+/** Minimal-slot generator / calendar row perspective (mutually exclusive). */
+export type TimeSlotPerspectiveKind = 'major' | 'minor' | 'moveable'
+
 export interface TimeSlot extends TimeRange {
-  major: boolean
-  minor: boolean
-  moveable: boolean
+  slotKind: TimeSlotPerspectiveKind
   isAvailable: boolean  // true = available, false = busy/unavailable (required)
   hasFlexibleViolations?: boolean  // true if slot violates flexible constraints
   flexibleViolations?: string[]    // array of constraint types that were violated (e.g., ['businessHours', 'capacity.daily'])
@@ -45,6 +47,9 @@ export interface AppointmentShape {
   
   // PATTERN: Map partShape name → EventInstance[] for that shape
   eventAssignmentsByPartShape: Record<string, EventInstance[]>
+
+  /** Merged block-instance role overrides for major/minor resolution (first block wins on conflict). */
+  differentialEventRoleOverrides?: Record<string, DifferentialRole>
 }
 
 export interface AppointmentSlot {
@@ -62,6 +67,9 @@ export interface AppointmentSlot {
   // WHY: Precomputed because accessed frequently in UI (graphBars, derivePerspective, etc.)
   totalTimeRange: TimeRange | null          // From shape.slotShape.roundedDuration + startTime (uses rounded for display)
   eventTimeRanges: Record<string, TimeRange | null>  // Map of event shape name to TimeRange
+  /** From computed slot: default location → candidate and candidate → default (minutes). */
+  driveToCandidate?: number
+  driveFromCandidate?: number
 }
 
 export type AppointmentSlots = AppointmentSlot[]

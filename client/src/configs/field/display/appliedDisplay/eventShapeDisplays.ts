@@ -36,4 +36,18 @@ export const eventShapeDisplays = {
     inline: true,
     stacked: false,
   },
+
+  includeRescheduleLink: {
+    label: "Include reschedule link",
+    placeholder: "Show {rescheduleLink} in calendar invite templates",
+    inline: true,
+    stacked: false,
+  },
+
+  includeCancelLink: {
+    label: "Include cancel link",
+    placeholder: "Show {cancelLink} in calendar invite templates",
+    inline: true,
+    stacked: false,
+  },
 } as const;

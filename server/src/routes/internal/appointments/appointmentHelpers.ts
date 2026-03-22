@@ -12,9 +12,12 @@ import {
   User,
   BlockInstance,
   ConstraintOverride,
+  AppointmentSelectionLine,
+  AppointmentTimeSlot,
 } from '../../../config/app.js'
+import { loadLegacySelectedTimeSlotsForAppointment } from '../../../repositories/appointmentTimeSlotRepository.js'
 import { getCalendarSettings } from '../../../repositories/calendarSettingsRepository.js'
-import { createBlockInstanceVersion } from '../../../services/instanceVersioning.js'
+import { syncSelectionsAndSnapshotsFromBody } from '../../../repositories/appointmentSelectionRepository.js'
 import { getUserTypeBlockIdForRole } from '../../../utils/userTypeMapping.js'
 import { createLogger } from '../../../utils/logger.js'
 import { DEFAULT_CALENDAR_EMAIL, STATUSES_REQUIRING_CALENDAR_EVENT, ERROR_MESSAGES, CONSTRAINT_OVERRIDE_FIELDS } from './appointmentConstants.js'
@@ -135,24 +138,17 @@ export const appointmentIncludes = [
     as: 'feeSummary',
     include: [{ model: AppointmentFeeEntry, as: 'feeEntries' }],
   },
+  {
+    model: AppointmentSelectionLine,
+    as: 'selectionLines',
+    separate: true,
+  },
+  {
+    model: AppointmentTimeSlot,
+    as: 'timeSlots',
+    separate: true,
+  },
 ]
-
-export async function createSnapshotsForAppointment(
-  blockInstanceIds: string[]
-): Promise<string[]> {
-  if (!blockInstanceIds || blockInstanceIds.length === 0) {
-    return []
-  }
-
-  const snapshots = await Promise.all(
-    blockInstanceIds.map(async (blockInstanceId) => {
-      const version = await createBlockInstanceVersion(blockInstanceId)
-      return version.id
-    })
-  )
-  
-  return snapshots
-}
 
 /**
  * Validate snapshot IDs exist
@@ -172,41 +168,41 @@ export async function validateSnapshotIds(snapshotIds: string[]): Promise<void> 
   }
 }
 
-/** Snapshot ID arrays for service/property/option; used by applySnapshotIdsToAppointment. */
+/** Snapshot ID arrays for service/property/option; legacy hook for ids-only flows. */
 export interface AppointmentSnapshotIds {
   serviceIds: string[]
   propertyIds: string[]
   optionIds: string[]
 }
 
-/** Record that can receive snapshot IDs (e.g. Appointment instance from create). */
-export interface AppointmentRecordWithUpdate {
-  update(values: {
-    serviceSnapshotIds: string[] | null
-    propertySnapshotIds: string[] | null
-    optionSnapshotIds: string[] | null
-  }): Promise<unknown>
-}
-
 /**
- * Create snapshots for service/property/option IDs, validate them, and update the appointment record.
- * Shared by appointmentCrudRouter (afterCreate) and forceCreateRouter (post-create) to avoid duplication.
+ * Persist selection lines and block_instance_versions for service/property/option IDs (quantity defaults to 1).
+ * Prefer syncSelectionsAndSnapshotsFromBody(record.id, fullBody) when quantities are present.
  */
 export async function applySnapshotIdsToAppointment(
-  record: AppointmentRecordWithUpdate,
+  record: { id: string },
   ids: AppointmentSnapshotIds
 ): Promise<void> {
-  const serviceSnapshotIds = await createSnapshotsForAppointment(ids.serviceIds)
-  const propertySnapshotIds = await createSnapshotsForAppointment(ids.propertyIds)
-  const optionSnapshotIds = await createSnapshotsForAppointment(ids.optionIds)
-  await validateSnapshotIds(serviceSnapshotIds)
-  await validateSnapshotIds(propertySnapshotIds)
-  await validateSnapshotIds(optionSnapshotIds)
-  await record.update({
-    serviceSnapshotIds: serviceSnapshotIds.length > 0 ? serviceSnapshotIds : null,
-    propertySnapshotIds: propertySnapshotIds.length > 0 ? propertySnapshotIds : null,
-    optionSnapshotIds: optionSnapshotIds.length > 0 ? optionSnapshotIds : null,
+  await syncSelectionsAndSnapshotsFromBody(record.id, {
+    selectedServiceIds: ids.serviceIds,
+    selectedPropertyIds: ids.propertyIds,
+    selectedOptionIds: ids.optionIds,
   })
+  await validateAppointmentLineSnapshots(record.id)
+}
+
+/** Every selection line must have a snapshot version after sync. */
+export async function validateAppointmentLineSnapshots(appointmentId: string): Promise<void> {
+  const lines = await AppointmentSelectionLine.findAll({
+    where: { appointmentId },
+    attributes: ['snapshotVersionId'],
+  })
+  if (lines.length === 0) return
+  const ids = lines.map((l) => l.snapshotVersionId).filter((v): v is string => Boolean(v))
+  if (ids.length !== lines.length) {
+    throw new Error(ERROR_MESSAGES.INVALID_SNAPSHOT_IDS)
+  }
+  await validateSnapshotIds(ids)
 }
 
 /** Re-export from shared for single source of truth. */
@@ -303,16 +299,17 @@ export async function getCalendarIdForAppointment(): Promise<string> {
  * create a new ConstraintOverride record for the new slot so the audit trail is preserved
  * and the new slot remains override-linked.
  */
-export async function createConstraintOverrideOnRescheduleIfNeeded(
-  updatedAppointment: { id: string; selectedDate: Date | string | null; selectedTimeSlots: Array<Record<string, unknown>> | null }
-): Promise<void> {
+export async function createConstraintOverrideOnRescheduleIfNeeded(updatedAppointment: {
+  id: string
+  selectedDate: Date | string | null
+}): Promise<void> {
   const existing = await ConstraintOverride.findOne({
     where: { [CONSTRAINT_OVERRIDE_FIELDS.APPOINTMENT_ID]: updatedAppointment.id },
     order: [[FIELD_NAMES.CREATED_AT, SORT_ORDERS.DESC]],
   })
   if (!existing) return
 
-  const slots = updatedAppointment.selectedTimeSlots
+  const slots = await loadLegacySelectedTimeSlotsForAppointment(updatedAppointment.id)
   const first = Array.isArray(slots) && slots.length > 0 ? slots[0] : null
   const startTime = first && typeof first.startTime === 'string' ? first.startTime : null
   const endTime = first && typeof first.endTime === 'string' ? first.endTime : null

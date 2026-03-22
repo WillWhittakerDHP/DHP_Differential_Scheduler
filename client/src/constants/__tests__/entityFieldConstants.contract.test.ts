@@ -22,6 +22,9 @@ describe('entityFieldConstants contract', () => {
     it('BOOKING_MODE equals bookingMode', () => {
       expect(FIELD_NAMES.BOOKING_MODE).toBe('bookingMode')
     })
+    it('AGENT_PERMISSIONS equals agentPermissions', () => {
+      expect(FIELD_NAMES.AGENT_PERMISSIONS).toBe('agentPermissions')
+    })
     it('ID equals id', () => {
       expect(FIELD_NAMES.ID).toBe('id')
     })
@@ -48,6 +51,9 @@ describe('entityFieldConstants contract', () => {
   describe('DEFAULT_VALUES', () => {
     it('BOOKING_MODE equals standalone', () => {
       expect(DEFAULT_VALUES.BOOKING_MODE).toBe('standalone')
+    })
+    it('DEFAULT_TERNARY_BOOKING_MODE equals false', () => {
+      expect(DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE).toBe('false')
     })
   })
 

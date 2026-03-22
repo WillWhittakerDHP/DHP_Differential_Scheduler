@@ -1,6 +1,8 @@
 /**
+ * Admin primitive metadata: edit select `inputConfig` subset with passthrough preservation.
  */
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { mergeSelectInputConfig } from '@shared/utils/selectInputConfigCodec'
 
 export interface InputConfigFormData {
   targetMode: string | null
@@ -20,6 +22,59 @@ export interface InputConfigEditorOptions {
 export interface InputConfigEditorReturn {
   getInputConfigData: (fieldKey: string) => InputConfigFormData
   updateInputConfigField: (fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown) => void
+}
+
+function mergeRelationshipInputFields(
+  base: Record<string, unknown>,
+  formData: InputConfigFormData
+): void {
+  if (formData.targetKey) {
+    base.targetKey = formData.targetKey
+  }
+  if (formData.candidateChildKey) {
+    base.candidateChildKey = formData.candidateChildKey
+  }
+  if (formData.groupByKey) {
+    base.groupByKey = formData.groupByKey
+  }
+  if (formData.placeholder) {
+    base.placeholder = formData.placeholder
+  }
+}
+
+function mergePrimitiveInputFields(
+  base: Record<string, unknown>,
+  formData: InputConfigFormData
+): void {
+  if (formData.targetKey) {
+    base.targetKey = formData.targetKey
+  }
+  if (formData.placeholder) {
+    base.placeholder = formData.placeholder
+  }
+}
+
+/** fieldKey reserved for future per-field branching (e.g. relationshipCollection). */
+function buildInputConfig(_fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
+  if (formData.options !== null) {
+    return { options: formData.options }
+  }
+  if (!formData.selectMode) {
+    return null
+  }
+  if (!formData.targetMode) {
+    return { selectMode: formData.selectMode }
+  }
+  const baseConfig: Record<string, unknown> = {
+    targetMode: formData.targetMode,
+    selectMode: formData.selectMode,
+  }
+  if (formData.targetMode === 'relationship') {
+    mergeRelationshipInputFields(baseConfig, formData)
+  } else if (formData.targetMode === 'primitive') {
+    mergePrimitiveInputFields(baseConfig, formData)
+  }
+  return baseConfig
 }
 
 export function inputConfigEditor(
@@ -54,60 +109,19 @@ export function inputConfigEditor(
     }
   }
 
-  function buildInputConfig(fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
-    if (formData.options !== null) {
-      return {
-        options: formData.options
-      }
-    }
-
-    if (!formData.selectMode) {
-      return null
-    }
-
-    if (!formData.targetMode) {
-      return { selectMode: formData.selectMode }
-    }
-
-    const baseConfig: Record<string, unknown> = {
-      targetMode: formData.targetMode,
-      selectMode: formData.selectMode,
-    }
-
-    if (formData.targetMode === 'relationship') {
-      if (formData.targetKey) {
-        baseConfig.targetKey = formData.targetKey
-      }
-      if (formData.candidateChildKey) {
-        baseConfig.candidateChildKey = formData.candidateChildKey
-      }
-      if (formData.groupByKey) {
-        baseConfig.groupByKey = formData.groupByKey
-      }
-      if (formData.placeholder) {
-        baseConfig.placeholder = formData.placeholder
-      }
-
-      const renderAs = getEffectiveFieldMetadata(fieldKey)?.renderAs
-      if (renderAs === 'relationshipCollection') {
-      }
-    } else if (formData.targetMode === 'property') {
-      if (formData.targetKey) {
-        baseConfig.targetKey = formData.targetKey
-      }
-      if (formData.placeholder) {
-        baseConfig.placeholder = formData.placeholder
-      }
-    }
-
-    return baseConfig
-  }
-
   function updateInputConfigField(fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown): void {
     const currentData = getInputConfigData(fieldKey)
     const updatedData = { ...currentData, [fieldName]: value }
-    const newConfig = buildInputConfig(fieldKey, updatedData)
-    updateFieldRendering(fieldKey, { inputConfig: newConfig })
+    const built = buildInputConfig(fieldKey, updatedData)
+    const rawExisting = getEffectiveFieldMetadata(fieldKey)?.inputConfig
+    const existing =
+      rawExisting !== null && rawExisting !== undefined && typeof rawExisting === 'object' && !Array.isArray(rawExisting)
+        ? (rawExisting as Record<string, unknown>)
+        : undefined
+
+    const next = mergeSelectInputConfig(existing, built)
+
+    updateFieldRendering(fieldKey, { inputConfig: next })
   }
 
   return {

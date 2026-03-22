@@ -30,20 +30,7 @@ function getStateControlBlockShapes(
 ): BookingBlockShape[] {
   const blockShapes = getBlockShapes(bookingData, 'getStateControlBlockShapes')
 
-  const filtered = blockShapes.filter(
-    blockShape => {
-      if (!blockShape.type) {
-        logger.error('Block shape has no type defined', {
-          blockShapeName: blockShape.name,
-          blockShapeId: blockShape.id
-        })
-        return false
-      }
-      return blockShape.type === 'user'
-    }
-  )
-  
-  return filtered
+  return blockShapes.filter((blockShape) => blockShape.isStateControl === true)
 }
 
 export function getStateControlBlockInstances(

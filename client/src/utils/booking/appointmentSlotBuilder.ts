@@ -14,7 +14,9 @@ import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import {
-  calculateSlotShape
+  calculateSlotShape,
+  enrichBlockFinalsWithDifferentialRoles,
+  mergeBlockDifferentialRoleOverrides,
 } from './partFinalizer'
 import {
   createBlockFinals,
@@ -42,6 +44,7 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
       roundedDifferentialOffset: 0,
     },
     eventAssignmentsByPartShape: {},
+    differentialEventRoleOverrides: {},
   }
 }
 
@@ -55,20 +58,20 @@ function lookupEventsForPartShape(
   const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
   if (!partShapeEntity) return []
 
-  const partInstanceIds = blockInstances
-    .flatMap((bi) => {
+  const blockInstanceIds = blockInstances
+    .filter((bi) => {
       const p = bi.partInstances
       if (p === undefined || p === null) {
         logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
-        return []
+        return false
       }
-      return p
+      return p.some((pi) => pi.partShape === partShapeName)
     })
-    .filter((pi) => pi.partShape === partShapeName)
-    .map(pi => pi.id)
+    .map((bi) => bi.id)
 
   const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(
-    rel => rel.parent.entityKey === 'partInstance' && partInstanceIds.includes(rel.parent.id)
+    (rel) =>
+      rel.parent.entityKey === 'blockInstance' && blockInstanceIds.includes(rel.parent.id)
   )
   const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel =>
     rel.children.map(child => child.id)
@@ -111,13 +114,15 @@ export function buildAppointmentShape(
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
-  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
-  const nonZeroedParts = nonZeroedBlockFinals.flatMap(blockFinal => blockFinal.finalizedParts)
+  let nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
+  const nonZeroedPartsBeforeEnrich = nonZeroedBlockFinals.flatMap(
+    (blockFinal) => blockFinal.finalizedParts
+  )
 
   const eventAssignmentsByPartShape =
     eventInstances && eventAssignmentsRelationships && partShapeById
       ? buildEventAssignmentsByPartShape(
-          nonZeroedParts,
+          nonZeroedPartsBeforeEnrich,
           partShapeById,
           eventAssignmentsRelationships,
           eventInstances,
@@ -132,18 +137,36 @@ export function buildAppointmentShape(
     logger.debug('buildAppointmentShape: eventShapes missing, using []')
     resolvedEventShapes = []
   }
+
+  if (
+    Object.keys(eventAssignmentsByPartShape).length > 0 &&
+    resolvedEventShapes.length > 0
+  ) {
+    nonZeroedBlockFinals = enrichBlockFinalsWithDifferentialRoles(
+      nonZeroedBlockFinals,
+      eventAssignmentsByPartShape,
+      resolvedEventShapes
+    )
+  }
+
+  const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)
+
+  const differentialEventRoleOverrides = mergeBlockDifferentialRoleOverrides(nonZeroedBlockFinals)
+
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
     resolvedEventShapes,
     settings ?? null,
+    differentialEventRoleOverrides,
   )
 
   return {
     finalizedBlocks: nonZeroedBlockFinals,
     finalizedParts: nonZeroedParts,
     slotShape,
-    eventAssignmentsByPartShape
+    eventAssignmentsByPartShape,
+    differentialEventRoleOverrides,
   }
 }
 
@@ -177,7 +200,10 @@ export function applyShapeToTime(
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
   const resolved = effectiveSlotShape.eventFinals.length > 0
-    ? resolveEventShapes(effectiveSlotShape.eventFinals)
+    ? resolveEventShapes(
+        effectiveSlotShape.eventFinals,
+        shape.differentialEventRoleOverrides ?? null
+      )
     : {
         majorEventShape: null,
         minorEventShape: null,

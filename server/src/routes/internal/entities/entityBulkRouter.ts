@@ -14,6 +14,8 @@ import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
+import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
+import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 
 const router = Router()
 
@@ -27,8 +29,24 @@ router.patch('/:entityType/order_index', csrfProtection, validateRequest(entityO
   }
   
   try {
+    const entityType = paramString(req, 'entityType')
+    const body = req.body as Array<{ id: string } & Record<string, unknown>>
+    if (entityType === ENTITY_KEYS.ANNOTATION_SHAPE || entityType === 'annotationShape') {
+      for (const row of body) {
+        const normalized = normalizeAnnotationShapeWritePayload(row)
+        if (!normalized.ok) {
+          sendBadRequest(res, 'Invalid annotation shape uiSlot', normalized.message)
+          return
+        }
+        const next = normalized.data
+        for (const key of Object.keys(row)) {
+          delete row[key]
+        }
+        Object.assign(row, next)
+      }
+    }
     // PATTERN: Client sends camelCase (orderIndex); Sequelize model uses underscored: true
-    const updatedCount = await bulkPatch(entityConfig.model, req.body)
+    const updatedCount = await bulkPatch(entityConfig.model, body)
     res.json({ updated: updatedCount })
   } catch (error) {
     const errorMessage = ERROR_MESSAGES.BULK_UPDATE_ENTITIES.replace('{displayName}', entityConfig.displayName)
@@ -59,6 +77,21 @@ router.patch('/:entityType/bulk', csrfProtection, validateRequest(entityBulkPatc
     const isBlockInstance = entityType === ENTITY_KEYS.BLOCK_INSTANCE
     if (isBlockInstance) {
       await ensureBlockInstanceVersionsBeforeBulkUpdate(updates)
+    }
+
+    if (entityType === ENTITY_KEYS.ANNOTATION_SHAPE || entityType === 'annotationShape') {
+      for (const row of updates) {
+        const normalized = normalizeAnnotationShapeWritePayload(row as Record<string, unknown>)
+        if (!normalized.ok) {
+          sendBadRequest(res, 'Invalid annotation shape uiSlot', normalized.message)
+          return
+        }
+        const next = normalized.data
+        for (const key of Object.keys(row)) {
+          delete row[key]
+        }
+        Object.assign(row, next)
+      }
     }
 
     const updatedCount = await bulkPatch(entityConfig.model, updates)

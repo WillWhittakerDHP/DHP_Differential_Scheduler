@@ -13,7 +13,7 @@
 **Description:** (0) Restore the add new block shapes button on the admin Shapes tab (it used to exist and is no longer there). If the original can’t be recovered, adapt the same add-new button pattern used on the other shapes sub-tabs (Part, Annotation, Event). (1) Add a bar at the top of the Appointment Availability (step 3) wizard that shows total fee as a preview; on hover, show fee details in a popover (same structure as the Confirmation step: Bag Total, optional Coupon row and Apply Coupon button, Order Total, line items, Total — no submit buttons). (2) Add an admin toggle in Business Controls → Calendar → Confirmation & Holds to show or hide the apply-coupon line and button in the wizard; persist the setting with availability/business settings; wizard (Confirmation step and availability-step popover) respects the toggle.
 
 **Duration:** 6 sessions
-**Status:** Complete
+**Status:** In Progress
 
 ---
 
@@ -116,5 +116,3 @@ Sessions and tasks for this phase. See Sessions Breakdown above for session list
 - sessions/session-6.10.4-guide.md — Coupon fee calculation
 - sessions/session-6.10.5-guide.md — Wizard sub-tab and consolidated settings
 - sessions/session-6.10.6-guide.md — Settings architecture cleanup (three-table separation)
-
-<!-- end excerpt phase -->

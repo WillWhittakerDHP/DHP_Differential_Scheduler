@@ -1,14 +1,15 @@
 
 import { AdminMetadata } from '../db/models/admin/adminMetadata.js';
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
-import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
-import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';
 import { Op } from 'sequelize';
+import {
+  buildMetadataRecordFromRows,
+  type FieldMetadataEntryAssembly,
+} from './adminMetadataEntryAssembly.js';
 
-/** Extends shared MetadataEntryBase; server includes fieldKey (TYPE_SIMILARITY 1.11). */
-export interface FieldMetadataEntry extends MetadataEntryBase {
+/** Server batch entry: fieldKey + assembly fields. */
+export interface FieldMetadataEntry extends FieldMetadataEntryAssembly {
   fieldKey: string;
-  panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
 }
 
 export async function getAdminMetadata(
@@ -41,7 +42,7 @@ export async function getAdminMetadata(
       (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE)
     ) {
       if (entityMetadata.length > 0) {
-        return buildMetadataRecord(entityMetadata);
+        return buildMetadataRecordFromRows(entityMetadata);
       }
       
       if (blockShapeRef && entityType === 'blockInstance') {
@@ -53,10 +54,10 @@ export async function getAdminMetadata(
           },
           order: [['display_order', 'ASC'], ['field_key', 'ASC']],
         });
-        return buildMetadataRecord(globalMetadata);
+        return buildMetadataRecordFromRows(globalMetadata);
       }
       
-      return buildMetadataRecord(entityMetadata);
+      return buildMetadataRecordFromRows(entityMetadata);
     }
     
     if (entityMetadata.length === 0) {
@@ -71,7 +72,7 @@ export async function getAdminMetadata(
         });
         
         if (blockShapeSpecificMetadata.length > 0) {
-          return buildMetadataRecord(blockShapeSpecificMetadata);
+          return buildMetadataRecordFromRows(blockShapeSpecificMetadata);
         }
       }
       
@@ -88,49 +89,11 @@ export async function getAdminMetadata(
         order: [['display_order', 'ASC'], ['field_key', 'ASC']],
       });
       
-      return buildMetadataRecord(fallbackMetadata);
+      return buildMetadataRecordFromRows(fallbackMetadata);
     }
     
-    return buildMetadataRecord(entityMetadata);
+    return buildMetadataRecordFromRows(entityMetadata);
   }
 
-  return buildMetadataRecord(entityMetadata);
-}
-
-
-function buildMetadataRecord(
-  metadata: Array<{
-    fieldKey: string;
-    dataType: 'string' | 'number' | 'boolean' | 'ternary' | 'array' | 'reference';
-    label: string;
-    isRequired: boolean;
-    visibility: 'titleRow' | 'staticAsTitle' | 'expandedDirect' | 'expandedPanel' | 'hidden' | 'notConfigured';
-    layout: 'inline' | 'stacked';
-    displayOrder: number;
-    renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
-    statusButtonColor?: string | null;
-    panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
-    bulkEdit: boolean;
-    inputConfig?: Record<string, unknown> | null;
-  }>
-): Record<string, Omit<FieldMetadataEntry, 'fieldKey'>> {
-  const metadataRecord: Record<string, Omit<FieldMetadataEntry, 'fieldKey'>> = {};
-  
-  for (const meta of metadata) {
-    metadataRecord[meta.fieldKey] = {
-      dataType: meta.dataType,
-      label: meta.label,
-      isRequired: meta.isRequired,
-      visibility: meta.visibility,
-      layout: meta.layout,
-      displayOrder: meta.displayOrder,
-      renderAs: meta.renderAs,
-      statusButtonColor: meta.statusButtonColor || null,
-      panel: meta.panel,
-      bulkEdit: meta.bulkEdit,
-      inputConfig: meta.inputConfig || null,
-    };
-  }
-  
-  return metadataRecord;
+  return buildMetadataRecordFromRows(entityMetadata);
 }

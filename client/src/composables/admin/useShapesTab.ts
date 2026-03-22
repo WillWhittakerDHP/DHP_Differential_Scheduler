@@ -17,6 +17,9 @@ import type { GlobalEntity } from '@/types/entities'
 import {
   PART_INSTANCE_GLOBAL_CONFIG_ID,
   ANNOTATION_SHAPE_GLOBAL_CONFIG_ID,
+  ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID,
+  EVENT_SHAPE_GLOBAL_CONFIG_ID,
+  EVENT_INSTANCE_GLOBAL_CONFIG_ID,
 } from '@/utils/entities/entityTypeMapping'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
@@ -97,6 +100,7 @@ export function useShapesTab(): UseShapesTabReturn {
     dragEndHandler: partShapesDragHandlers.handleDragEnd,
     group: 'partShapes',
     draggableClass: 'draggable-part-shape',
+    dragHandle: '.shape-list-drag-handle',
   })
   useDragAndDrop({
     containerRef: blockShapesContainer,
@@ -107,6 +111,7 @@ export function useShapesTab(): UseShapesTabReturn {
     dragEndHandler: blockShapesDragHandlers.handleDragEnd,
     group: 'blockShapes',
     draggableClass: 'draggable-block-shape',
+    dragHandle: '.shape-list-drag-handle',
   })
 
   const filteredAnnotationShapes = computed(() =>
@@ -126,6 +131,14 @@ export function useShapesTab(): UseShapesTabReturn {
     id: PART_INSTANCE_GLOBAL_CONFIG_ID,
     entityKey: 'partInstance',
   } as GlobalEntity<'partInstance'>))
+  const annotationInstanceConfigEntity = computed((): GlobalEntity<'annotationInstance'> => ({
+    id: toGlobalEntityId(ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID),
+    entityKey: 'annotationInstance',
+  } as GlobalEntity<'annotationInstance'>))
+  const eventInstanceConfigEntity = computed((): GlobalEntity<'eventInstance'> => ({
+    id: toGlobalEntityId(EVENT_INSTANCE_GLOBAL_CONFIG_ID),
+    entityKey: 'eventInstance',
+  } as GlobalEntity<'eventInstance'>))
   const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
     id: toGlobalEntityId(ANNOTATION_SHAPE_GLOBAL_CONFIG_ID),
     name: 'Annotation Shape Fields (Global)',
@@ -134,14 +147,16 @@ export function useShapesTab(): UseShapesTabReturn {
     active: true,
   }))
   const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
-    id: toGlobalEntityId('00000000-0000-0000-0000-000000000010'),
+    id: toGlobalEntityId(EVENT_SHAPE_GLOBAL_CONFIG_ID),
     name: 'Event Shape Fields (Global)',
     entityKey: 'eventShape',
     orderIndex: 0,
     active: true,
     isTernary: false,
     ternaryDefault: null,
-    differentialRole: null,
+    differentialRole: 'none',
+    includeRescheduleLink: true,
+    includeCancelLink: true,
   }))
 
   return {
@@ -173,6 +188,8 @@ export function useShapesTab(): UseShapesTabReturn {
     isLoadingAnnotationShapes,
     isLoadingEventShapes,
     partInstanceConfigEntity,
+    annotationInstanceConfigEntity,
+    eventInstanceConfigEntity,
     annotationShapeFieldsEntity,
     eventShapeFieldsEntity,
   } as UseShapesTabReturn

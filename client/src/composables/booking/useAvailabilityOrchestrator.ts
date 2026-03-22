@@ -1,4 +1,4 @@
-import { computed, ref, watch, type ComputedRef } from 'vue'
+import { computed, ref, shallowRef, watch, type ComputedRef } from 'vue'
 import type { TimeSlot } from '@/types/appointment'
 import { toISO8601Date } from '@/utils/datetime'
 import { getTodayDate } from '@/utils/time/timeFormatting'
@@ -38,16 +38,17 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
     availabilityStepData
   } = params
 
-  const timeSlotsWrapper = ref<ComputedRef<TimeSlot[]> | null>(null)
+  /** shallowRef: keep inner `ComputedRef<TimeSlot[]>` typed; plain `ref` unwraps it to `TimeSlot[]` in generics. */
+  const timeSlotsWrapper = shallowRef<ComputedRef<TimeSlot[]> | null>(null)
   const timeSlotsForDefaults = computed<TimeSlot[] | null>(() => {
-    const wrapper = timeSlotsWrapper.value
-    if (!wrapper || !('value' in wrapper)) return null
-    return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
+    const inner = timeSlotsWrapper.value
+    if (inner === null) return null
+    return inner.value
   })
   const timeSlotsForLogic = computed<TimeSlot[]>(() => {
-    const wrapper = timeSlotsWrapper.value
-    if (!wrapper || !('value' in wrapper)) return []
-    return (wrapper as unknown as ComputedRef<TimeSlot[]>).value
+    const inner = timeSlotsWrapper.value
+    if (inner === null) return []
+    return inner.value
   })
 
   /** Use canonical differential derivation from useAvailabilityLogic (Phase 6.4). */
@@ -102,9 +103,7 @@ export function useAvailabilityOrchestrator(params: UseAvailabilityOrchestratorP
       startTime: s.startTime,
       endTime: s.endTime,
       duration: s.duration,
-      major: false,
-      minor: false,
-      moveable: false,
+      slotKind: 'major',
       isAvailable: s.isAvailable,
       flexibleViolations: s.violations
     }))

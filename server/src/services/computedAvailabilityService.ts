@@ -13,18 +13,18 @@ import type {
 import { RANGE_CONSTRAINT_TYPES } from '../../../shared/constants/constraintConstants.js'
 import { computeSlotsForDateRange, attachDriveTimesToEvents } from './slotComputationService.js'
 import type { EventWithDrive } from './slotConstraintCheckers.js'
-import { AppointmentAttendee, ConstraintOverride, BusinessSettings } from '../config/app.js'
-import type { AvailabilitySettingsData } from '../db/models/admin/business_settings.js'
-import type { CalendarSettingsData } from '../db/models/admin/calendar_settings.js'
+import { AppointmentAttendee, ConstraintOverride } from '../config/app.js'
+import type { AvailabilitySettingsData } from '../../../shared/types/availabilitySettingsDocument.js'
+import type { CalendarSettingsData } from '../../../shared/types/calendarSettingsDocument.js'
 import { getCalendarSettings } from '../repositories/calendarSettingsRepository.js'
-import { AVAILABILITY_SETTINGS_KEY } from '../constants/appConstants.js'
-import { defaultAvailabilitySettings } from '../routes/internal/businessSettings/businessSettingsConstants.js'
+import { getAvailabilitySettingsData } from '../repositories/availabilitySettingsRepository.js'
 import {
   extractConstraints,
 } from './constraintExtractor.js'
 import { groupConstraintsByCategory, relaxConstraintsForExceptions } from '../../../shared/utils/constraintUtils.js'
 import { getCalendarEvents } from './google/calendar/eventsService.js'
 import { calculateRouteMatrix } from './google/maps/routesApiService.js'
+import { GOOGLE_API_STATUS } from './google/maps/mapsConstants.js'
 import { MapsApiError } from './google/maps/mapsErrorHandler.js'
 import { getCachedDriveTime, cacheDriveTime } from './driveTimeCache.js'
 import { withRetry } from './google/shared/googleApiRetry.js'
@@ -211,11 +211,62 @@ async function calculateDriveTimesForPlaceIds(
   return resultsFinal
 }
 
+/**
+ * Fee context: drive minutes default location → candidate and candidate → default (Routes API + cache).
+ */
+async function resolveDefaultLocationCandidateDriveLegsMinutes(
+  defaultPlaceId: string | undefined,
+  candidatePlaceId: string | undefined
+): Promise<{ driveToCandidate: number; driveFromCandidate: number }> {
+  if (!defaultPlaceId?.trim() || !candidatePlaceId?.trim()) {
+    return { driveToCandidate: 0, driveFromCandidate: 0 }
+  }
+  const def: RouteLocation = { placeId: defaultPlaceId.trim() }
+  const cand: RouteLocation = { placeId: candidatePlaceId.trim() }
+
+  let driveToCandidate = 0
+  let driveFromCandidate = 0
+  const cachedTo = getCachedDriveTime(def, cand)
+  if (cachedTo) {
+    driveToCandidate = Math.ceil(cachedTo.durationSeconds / 60)
+  }
+  const cachedFrom = getCachedDriveTime(cand, def)
+  if (cachedFrom) {
+    driveFromCandidate = Math.ceil(cachedFrom.durationSeconds / 60)
+  }
+
+  try {
+    if (!cachedTo) {
+      const toResults = await withRetry(
+        () => calculateRouteMatrix([def], [cand], true),
+        (error) => error instanceof MapsApiError && error.retryable
+      )
+      const r = toResults[0]
+      if (r && r.status === GOOGLE_API_STATUS.OK && r.durationSeconds > 0) {
+        cacheDriveTime(def, cand, r.durationSeconds, r.distanceMeters)
+        driveToCandidate = Math.ceil(r.durationSeconds / 60)
+      }
+    }
+    if (!cachedFrom) {
+      const fromResults = await withRetry(
+        () => calculateRouteMatrix([cand], [def], true),
+        (error) => error instanceof MapsApiError && error.retryable
+      )
+      const r = fromResults[0]
+      if (r && r.status === GOOGLE_API_STATUS.OK && r.durationSeconds > 0) {
+        cacheDriveTime(cand, def, r.durationSeconds, r.distanceMeters)
+        driveFromCandidate = Math.ceil(r.durationSeconds / 60)
+      }
+    }
+  } catch (error) {
+    logger.warn('resolveDefaultLocationCandidateDriveLegsMinutes: route lookup failed', { error })
+  }
+
+  return { driveToCandidate, driveFromCandidate }
+}
+
 async function fetchAvailabilitySettings(): Promise<AvailabilitySettingsData> {
-  const row = await BusinessSettings.findOne({
-    where: { settingKey: AVAILABILITY_SETTINGS_KEY },
-  })
-  return (row?.settingValue ?? defaultAvailabilitySettings) as AvailabilitySettingsData
+  return getAvailabilitySettingsData()
 }
 
 async function fetchAndDedupeCalendarEvents(
@@ -430,6 +481,13 @@ export async function computeAvailabilityData(
     ? await calculateDriveTimesForPlaceIds(overlapRegularEvents, request.candidatePlaceId)
     : {}
 
+  const candidateDriveLegs = useRealApis
+    ? await resolveDefaultLocationCandidateDriveLegsMinutes(
+        settings.defaultLocation?.placeId,
+        request.candidatePlaceId
+      )
+    : { driveToCandidate: 0, driveFromCandidate: 0 }
+
   if (!useRealApis) {
     logger.info(`[dataSource=${dataSource}] Skipping Google Calendar and Routes API calls`)
   }
@@ -479,7 +537,8 @@ export async function computeAvailabilityData(
         businessHoursConfig,
         settings.timezone ?? 'UTC',
         new Date(),
-        effectiveOooEnforcement
+        effectiveOooEnforcement,
+        candidateDriveLegs
       )
     : {}
 

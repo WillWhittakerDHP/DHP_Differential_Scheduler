@@ -3,17 +3,30 @@
  */
 import type { GlobalData } from '@/types/transformers/globalData'
 import type { GlobalRelationship } from '@/types/relationships'
-import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { DEFAULT_VALUES, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
 import type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
-import { safeArray, safeString, convertToTernaryBoolean } from './transformerPrimitives'
+import {
+  safeArray,
+  safeString,
+  convertToTernaryBoolean,
+  convertTernaryToBookingMode,
+} from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
+import { buildBookingBlockAnnotationUi } from './buildBookingBlockAnnotationUi'
 
-export type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
+export type {
+  BookingAnnotationUiCandidate,
+  BookingBlockAnnotationUi,
+  BookingBlockInstance,
+  BookingBlockShape,
+  BookingData,
+  BookingPartInstance,
+} from '@/types/transformers/bookingData'
 
 /** Entity-like shape for active/disabled check without full Record<string, unknown>. */
 function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null | undefined): boolean {
@@ -23,8 +36,10 @@ function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null 
   return !disabled && active
 }
 
-function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): string {
-  return blockInstance.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE
+function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): BookingMode {
+  return convertTernaryToBookingMode(
+    blockInstance.bookingMode ?? DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
+  )
 }
 
 function filterAndSortBlockInstances(
@@ -119,35 +134,44 @@ function resolvePartInstanceIds(
   return collectIds(partAssignmentChildIds, activeComponentPartIds)
 }
 
-/** Optional block instance fields used when building BookingBlockInstance. */
+/** Optional block instance fields used when building BookingBlockInstance (API/storage shape). */
 type BlockInstanceOptionalProps = {
   baseSqFt?: number
   icon?: string
-  bookingMode?: BookingMode
-  differential?: TernaryBoolean | boolean
+  bookingMode?: TernaryBoolean
+  agentPermissions?: TernaryBoolean
+  differential?: TernaryBoolean
   preClosing?: boolean
   number?: number | null
   allowMultiple?: boolean
   requiresUnitNumber?: boolean | null
   isMultiFamily?: boolean
   requiresAgent?: boolean
+  differentialEventRoleOverrides?: Record<string, import('@shared/types/differentialRole').DifferentialRole>
 }
 
 function extractBlockInstanceProps(
   blockInstance: GlobalEntity<'blockInstance'>
 ): BlockInstanceOptionalProps {
-  const b = blockInstance as GlobalEntity<'blockInstance'> & BlockInstanceOptionalProps
+  const b = blockInstance as BlockInstanceEntity
+  const numberRaw = b.number
+  const numberProp =
+    typeof numberRaw === 'number' || numberRaw === null ? numberRaw : undefined
   return {
     baseSqFt: b.baseSqFt,
     icon: b.icon,
     bookingMode: b.bookingMode,
+    agentPermissions: b.agentPermissions,
     differential: b.differential,
     preClosing: b.preClosing,
-    number: b.number,
+    number: numberProp,
     allowMultiple: b.allowMultiple,
     requiresUnitNumber: b.requiresUnitNumber,
     isMultiFamily: b.isMultiFamily,
     requiresAgent: b.requiresAgent,
+    ...(b.differentialEventRoleOverrides !== undefined && b.differentialEventRoleOverrides !== null
+      ? { differentialEventRoleOverrides: { ...b.differentialEventRoleOverrides } }
+      : {}),
   }
 }
 
@@ -160,6 +184,10 @@ function buildBookingBlockInstance(
   activeBlockIds: string[],
   differential: TernaryBoolean
 ): BookingBlockInstance {
+  const bookingModeDomain = convertTernaryToBookingMode(
+    props.bookingMode ?? DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
+  )
+  const agentPermissions = convertToTernaryBoolean(props.agentPermissions, 'false')
   return {
     id: blockInstance.id,
     entityKey: 'blockInstance',
@@ -167,7 +195,8 @@ function buildBookingBlockInstance(
     active: isEntityActive(blockInstance),
     baseSqFt: props.baseSqFt ?? 0,
     icon: safeString(props.icon, 'blockInstance.icon'),
-    bookingMode: (props.bookingMode ?? DEFAULT_VALUES.BOOKING_MODE) as BookingMode,
+    bookingMode: bookingModeDomain,
+    agentPermissions,
     differential,
     preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,
@@ -180,6 +209,12 @@ function buildBookingBlockInstance(
       typeof props.requiresUnitNumber === 'boolean' ? props.requiresUnitNumber : null,
     isMultiFamily: props.isMultiFamily ?? false,
     requiresAgent: props.requiresAgent ?? false,
+    ...(props[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES] !== undefined
+      ? {
+          [FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES]:
+            props[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES],
+        }
+      : {}),
   }
 }
 
@@ -347,9 +382,16 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     (a, b) => a.name.localeCompare(b.name)
   )
 
+  function withAnnotationUi(blocks: BookingBlockInstance[]): BookingBlockInstance[] {
+    return blocks.map((b) => {
+      const ui = buildBookingBlockAnnotationUi(b.id, globalData)
+      return ui !== undefined ? { ...b, annotationUi: ui } : b
+    })
+  }
+
   return {
-    blockInstances: bookingBlockInstances,
-    lineItemBlocks,
+    blockInstances: withAnnotationUi(bookingBlockInstances),
+    lineItemBlocks: withAnnotationUi(lineItemBlocks),
     blockShapes: bookingBlockShapes,
   }
 }

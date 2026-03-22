@@ -1,8 +1,0 @@
-{
-  "$comment": "Configuration for hardcoding-audit.mjs exception handling Allowlist: audit-global-config.json allowlists.<auditId>.",
-  "$schema": "Allowlist for intentional/necessary hardcoding patterns",
-  "priorities": {
-    "p0MinSeverityScore": 20,
-    "p1MinSeverityScore": 10
-  }
-}

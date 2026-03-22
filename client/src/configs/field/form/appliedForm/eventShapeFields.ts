@@ -1,6 +1,6 @@
 
+import { DIFFERENTIAL_ROLE_SELECT_OPTIONS } from '@shared/constants/differentialRoleMappings'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
-import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants'
 import { ENTITY_STATUS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { PrimitiveTypeEnum, PrimitiveModeEnum } from '@/types/entity/formDataEnums'
 
@@ -65,12 +65,23 @@ export const eventShapeFields = {
     placeholder: "Differential Role",
     globalField: "differentialRole" as const,
     expandable: false,
-    options: [
-      { value: null, label: BUSINESS_RULES_UI.VALIDATION_NONE },
-      { value: 'major', label: 'Major' },
-      { value: 'minor', label: 'Minor' },
-      { value: 'moveable', label: 'Moveable' },
-    ],
+    options: [...DIFFERENTIAL_ROLE_SELECT_OPTIONS],
+  },
+
+  includeRescheduleLink: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Include reschedule link in invites",
+    globalField: "includeRescheduleLink" as const,
+    expandable: false,
+  },
+
+  includeCancelLink: {
+    primitiveType: PrimitiveTypeEnum.Boolean,
+    primitiveMode: PrimitiveModeEnum.Toggle,
+    placeholder: "Include cancel link in invites",
+    globalField: "includeCancelLink" as const,
+    expandable: false,
   },
 
 } as const;

@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { applyShapeToTime, derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
 import { createLogger } from '@/utils/logger'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
-import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type { TimeRange } from '@/types/appointment'
 import type { UseAppointmentSlotsParams, UseAppointmentSlotsReturn } from '@/types/booking/appointmentSlots'
@@ -46,6 +46,8 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
           isAvailable: serverSlot.isAvailable,
           flexibleViolations: serverSlot.violations,
           hasFlexibleViolations: serverSlot.violations.length > 0,
+          driveToCandidate: serverSlot.driveToCandidate,
+          driveFromCandidate: serverSlot.driveFromCandidate,
         }
       })
     } catch (error) {
@@ -77,14 +79,22 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
       (ef) => ef.eventShape
     ) as EventShapeEntity[]
 
-    const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+    const majorEventShape = getEventShapeByRoleWithOverrides(
+      eventShapeEntities,
+      'major',
+      shape.differentialEventRoleOverrides ?? null
+    )
     if (!majorEventShape) {
-      logger.error('graphBars: no event shape with differentialRole=major')
+      logger.error('graphBars: no event shape with effective differentialRole=major')
       return { major: null, minor: null }
     }
 
     const minorEventShape = isDifferentialService.value
-      ? getEventShapeByRole(eventShapeEntities, 'minor')
+      ? getEventShapeByRoleWithOverrides(
+          eventShapeEntities,
+          'minor',
+          shape.differentialEventRoleOverrides ?? null
+        )
       : null
 
     return {

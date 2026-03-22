@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import tseslintParser from '@typescript-eslint/parser'
 import tseslintPlugin from '@typescript-eslint/eslint-plugin'
+import schedulerLocal from '../eslint-local-plugin/index.mjs'
 
 export default [
   js.configs.recommended,
@@ -34,8 +35,10 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tseslintPlugin,
+      'scheduler-local': schedulerLocal,
     },
     rules: {
+      'scheduler-local/require-logger-in-catch': 'error',
       'no-unused-vars': 'off', // Turn off base rule in favor of @typescript-eslint version
       '@typescript-eslint/no-explicit-any': [
         'warn',

@@ -1,147 +1,136 @@
 /**
  * PATTERN: Composable for instance drag-and-drop setup
-PATTERN: Composable that man...
+ * PATTERN: Composable that wires shape maps → entity drag handlers → FormKit bind.
  */
-import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance } from 'vue'
-import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
+import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, type Ref, type ComponentPublicInstance } from 'vue'
+import { tearDown as formkitTearDown } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
-import { useEntityTabState } from './useEntityTabState'
-import { getPanelsElement, countDraggableNodes, createMultiClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
-import { createLogger } from '@/utils/logger'
+import { dragLayoutSignature, groupedInstanceDragZoneKey } from './instanceDragAndDropGrouped'
+import { syncBlockInstanceShapeMapsFromSources } from '@/utils/admin/instanceDragAndDropShapeMapsSync'
+import {
+  tryBindFormKitForZone,
+  panelRefSnapshot,
+  type InstanceDragFormKitBinderDeps,
+} from '@/utils/admin/instanceDragAndDropFormKitBind'
 import type { GlobalEntity } from '@/types/entities'
 import type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 
-const logger = createLogger('useInstanceDragAndDrop')
-
+export { groupedInstanceDragZoneKey } from './instanceDragAndDropGrouped'
 
 /**
  * WHY: Composable for managing instance drag-and-drop
-WHY: Centralizes drag-and...
+ * WHY: Centralizes drag-and-drop maps and FormKit lifecycle for admin block instances.
  */
 export function useInstanceDragAndDrop(
   options: UseInstanceDragAndDropOptions
 ): UseInstanceDragAndDropReturn {
-  const { mainInstancesByShape, patchBlockInstanceOrderIndex } = options
+  const {
+    mainInstancesByShape,
+    groupedInstancesByShape,
+    blockInstancesByShape,
+    patchBlockInstanceOrderIndex,
+  } = options
 
   const blockInstancesLists = ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>(new Map())
   const blockInstanceIdsMap = ref<Map<string, Ref<string[]>>>(new Map())
 
   const groupContainers = ref<Map<string, HTMLElement | null>>(new Map())
   const groupPanelsContainers = ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>(new Map())
+  const groupPanelsGroupedContainers = ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>(new Map())
 
   const groupDragHandlers = ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>(new Map())
 
   const groupDragInstances = ref<Map<string, ReturnType<typeof dragAndDrop>>>(new Map())
+  const formKitParentElByZone = ref<Map<string, HTMLElement>>(new Map())
   const isMounted = ref(false)
+  const dragReinitNonce = ref(0)
+  const shapeDragBoundNonce = ref<Map<string, number>>(new Map())
+  let lastLayoutSignature = ''
 
-  /**
-   * PATTERN: Watch blockInstancesByShape and create handlers/arrays for each group (similar to ShapesTab pattern)
-   */
-  watch(mainInstancesByShape, (instancesMap) => {
-    instancesMap.forEach((instances, blockShapeId) => {
-      if (!blockInstancesLists.value.has(blockShapeId)) {
-        blockInstancesLists.value.set(blockShapeId, ref([...instances]))
-        blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map(i => i.id)))
-        
-        const filteredInstances = computed(() => {
-          const raw = mainInstancesByShape.value.get(blockShapeId)
-          return raw !== undefined ? raw : []
-        })
-        
-        const dragHandlers = useEntityDragHandlers({
-          entityIds: blockInstanceIdsMap.value.get(blockShapeId)!,
-          entityList: blockInstancesLists.value.get(blockShapeId)!,
-          filteredEntities: filteredInstances,
-          patchOrderIndex: patchBlockInstanceOrderIndex
-        })
-        groupDragHandlers.value.set(blockShapeId, dragHandlers)
-        
-        useEntityTabState({
-          filteredEntities: filteredInstances,
-          dragHandlers
-        })
-      } else {
-        const handlers = groupDragHandlers.value.get(blockShapeId)
-        if (handlers) {
-          handlers.syncArrays()
-        }
+  const formKitDeps: InstanceDragFormKitBinderDeps = {
+    isMounted,
+    dragReinitNonce,
+    blockInstancesLists,
+    blockInstanceIdsMap,
+    groupDragHandlers,
+    groupDragInstances,
+    formKitParentElByZone,
+    shapeDragBoundNonce,
+  }
+
+  watch(
+    () => [mainInstancesByShape.value, groupedInstancesByShape.value] as const,
+    ([mainMap, groupedMap]) => {
+      const nextSig = dragLayoutSignature(mainMap, groupedMap)
+      if (nextSig !== lastLayoutSignature) {
+        lastLayoutSignature = nextSig
+        groupDragInstances.value.clear()
+        shapeDragBoundNonce.value = new Map()
+        dragReinitNonce.value += 1
       }
-    })
-  }, { immediate: true, deep: true })
 
-  /**
-   * PATTERN: Watch containers and panels containers, set up drag-and-drop manually (similar to useDragAndDrop pattern)
-   */
-  watch(() => [groupContainers.value, groupPanelsContainers.value], ([containers, panelsContainers]) => {
-    if (!isMounted.value) return
-    
-    if (!containers || !(containers instanceof Map)) return
-    if (!panelsContainers || !(panelsContainers instanceof Map)) return
-    
-    containers.forEach((container, blockShapeId) => {
-      if (!container || !(container instanceof HTMLElement)) return
-      
-      if (groupDragInstances.value.has(blockShapeId)) return
-      
-      const instancesList = blockInstancesLists.value.get(blockShapeId)
-      const instanceIds = blockInstanceIdsMap.value.get(blockShapeId)
-      const dragHandlers = groupDragHandlers.value.get(blockShapeId)
-      const panelsRef = panelsContainers.get(blockShapeId)
-      
-      if (!instancesList || !instanceIds || !dragHandlers || !panelsRef) return
-      
-      nextTick(() => {
-        if (!isMounted.value) return
-        
-        try {
-          const panelsEl = getPanelsElement(isRef(panelsRef) ? panelsRef.value : panelsRef, container)
-          if (!panelsEl || !(panelsEl instanceof HTMLElement)) return
-          
-          const panelsRefForDrag = ref(panelsEl)
-          
-          const existingInstance = groupDragInstances.value.get(blockShapeId)
-          if (existingInstance) {
-            groupDragInstances.value.delete(blockShapeId)
-          }
-          
-          // PATTERN: Check values array length before initializing drag-and-drop
-          const instanceIdsArray = instanceIds.value
-          if (!instanceIdsArray || instanceIdsArray.length === 0) return
-          
-          // PATTERN: Count draggable nodes and ensure they match values array length
-          const draggableClasses = [`draggable-instance-${blockShapeId}`, 'draggable-instance-item']
-          // PATTERN: Reuse the same checker function for both validation and drag-and-drop config
-          const isDraggableChecker = createMultiClassDraggableChecker(draggableClasses)
-          const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
-          
-          if (enabledNodesCount !== instanceIdsArray.length) {
-            // PATTERN: Skip initialization and let watcher retry on next update
-            return
-          }
-          
-          groupDragInstances.value.set(blockShapeId, dragAndDrop({
-            parent: panelsRefForDrag,
-            values: instanceIds,
-            // PATTERN: Pass the Ref directly, not the .value
-            group: `blockInstances-${blockShapeId}`,
-            // PATTERN: Extract common logic to shared utility
-            draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
-            plugins: [animations()],
-            performTransfer: (arg) => {
-              formkitPerformTransfer(arg)
+      syncBlockInstanceShapeMapsFromSources({
+        mainMap,
+        groupedMap,
+        blockInstancesLists,
+        blockInstanceIdsMap,
+        groupDragHandlers,
+        groupDragInstances,
+        shapeDragBoundNonce,
+        mainInstancesByShape,
+        groupedInstancesByShape,
+        blockInstancesByShape,
+        patchBlockInstanceOrderIndex,
+      })
+    },
+    { immediate: true, deep: true }
+  )
+
+  watch(
+    () =>
+      [
+        groupContainers.value,
+        dragReinitNonce.value,
+        isMounted.value,
+        ...panelRefSnapshot(groupPanelsContainers.value),
+        ...panelRefSnapshot(groupPanelsGroupedContainers.value),
+      ] as const,
+    ([containers]) => {
+      if (!isMounted.value) {
+        return
+      }
+
+      if (!containers || !(containers instanceof Map)) {
+        return
+      }
+
+      containers.forEach((_container, blockShapeId) => {
+        tryBindFormKitForZone(
+          {
+            dragKey: blockShapeId,
+            blockShapeIdForClass: blockShapeId,
+            panelsRefHolder: groupPanelsContainers.value.get(blockShapeId),
+          },
+          formKitDeps
+        )
+
+        const groupedZoneKey = groupedInstanceDragZoneKey(blockShapeId)
+        const groupedIds = blockInstanceIdsMap.value.get(groupedZoneKey)?.value
+        if (groupedIds && groupedIds.length > 0) {
+          tryBindFormKitForZone(
+            {
+              dragKey: groupedZoneKey,
+              blockShapeIdForClass: blockShapeId,
+              panelsRefHolder: groupPanelsGroupedContainers.value.get(blockShapeId),
             },
-            handleEnd: (state) => {
-              formkitHandleEnd(state)
-              dragHandlers.handleDragEnd()
-            },
-          }))
-        } catch (error) {
-          logger.debug('Failed to initialize drag and drop for group', { error, blockShapeId })
+            formKitDeps
+          )
         }
       })
-    })
-  }, { immediate: true, deep: true })
+    },
+    { immediate: true, deep: true, flush: 'post' }
+  )
 
   onMounted(() => {
     isMounted.value = true
@@ -149,17 +138,21 @@ export function useInstanceDragAndDrop(
 
   onBeforeUnmount(() => {
     isMounted.value = false
-    groupDragInstances.value.forEach(_instance => {
+    formKitParentElByZone.value.forEach((el) => {
+      formkitTearDown(el)
     })
+    formKitParentElByZone.value.clear()
     groupDragInstances.value.clear()
   })
 
   onUnmounted(() => {
     groupContainers.value.clear()
     groupPanelsContainers.value.clear()
+    groupPanelsGroupedContainers.value.clear()
     blockInstancesLists.value.clear()
     blockInstanceIdsMap.value.clear()
     groupDragHandlers.value.clear()
+    formKitParentElByZone.value.clear()
   })
 
   return {
@@ -167,6 +160,7 @@ export function useInstanceDragAndDrop(
     blockInstanceIdsMap,
     groupContainers,
     groupPanelsContainers,
+    groupPanelsGroupedContainers,
     groupDragHandlers,
     groupDragInstances,
     isMounted

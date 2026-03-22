@@ -2,13 +2,31 @@ import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
 import type { EventShapeEntity } from '@/types/entities'
-import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { createLogger } from '@/utils/logger'
 
 export type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
 
 const logger = createLogger('availabilityStepData')
+
+/**
+ * Sum drive legs from a selected appointment slot (server → client). Null when no slot.
+ */
+export function totalDriveMinutesFromAppointmentSlot(
+  slot: { driveToCandidate?: number; driveFromCandidate?: number } | null
+): number | null {
+  if (!slot) {
+    return null
+  }
+  const to = slot.driveToCandidate ?? 0
+  const from = slot.driveFromCandidate ?? 0
+  const sum = to + from
+  if (!Number.isFinite(sum)) {
+    return null
+  }
+  return Math.max(0, sum)
+}
 
 type BuildSelectedTimeSlotsParams = {
   selectedDateStart: string | null
@@ -26,10 +44,11 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
   const eventFinals = asEmptyArray(params.selectedSlot.shape?.slotShape?.eventFinals)
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
-  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  const overrides = params.selectedSlot.shape.differentialEventRoleOverrides ?? null
+  const majorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'major', overrides)
   if (!majorEventShape) {
-    logger.error('buildSelectedTimeSlots: no event shape with differentialRole=major', {
-      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    logger.error('buildSelectedTimeSlots: no event shape with effective differentialRole=major', {
+      availableRoles: eventShapeEntities.map((es) => ({ name: es.name, differentialRole: es.differentialRole })),
     })
   }
   const majorEventName = majorEventShape?.name
@@ -43,7 +62,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
     })
   }
 
-  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  const minorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'minor', overrides)
   const minorEventName = minorEventShape?.name
   const minorTimeRange = minorEventName ? eventTimeRanges?.[minorEventName] : null
 
@@ -71,6 +90,7 @@ export function buildAvailabilityStepData(params: {
   candidateDate: { start: string | null; end: string | null }
   candidateTimeSlots: SelectedTimeSlot[] | null
   moveableScheduling?: MoveableSchedulingOptions | null
+  totalDriveMinutes: number | null
 }): AvailabilityStepData {
   return {
     candidateDate: {
@@ -79,5 +99,6 @@ export function buildAvailabilityStepData(params: {
     },
     candidateTimeSlots: params.candidateTimeSlots,
     moveableScheduling: params.moveableScheduling ?? null,
+    totalDriveMinutes: params.totalDriveMinutes,
   }
 }

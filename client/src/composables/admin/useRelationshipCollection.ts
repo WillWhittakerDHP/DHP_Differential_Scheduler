@@ -45,9 +45,10 @@ export function useRelationshipCollection(
     return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
   })
   
-  // WHY: Pattern: partShape → partShapeRef, annotationShape → annotationShapeRef
-  // PATTERN: Lowercase first letter + 'Ref' suffix
+  // WHY: partInstance uses partShapeRef; eventInstance uses eventShapeRef; annotationInstance uses `type` (FK to annotation shape), not annotationShapeRef.
+  // PATTERN: Lowercase first letter + 'Ref' suffix except annotationInstance → type
   const shapeRefProperty = computed<string>(() => {
+    if (childEntityKey.value === 'annotationInstance') return 'type'
     const shapeKey = String(shapeEntityKey.value)
     const firstLower = shapeKey.charAt(0).toLowerCase() + shapeKey.slice(1)
     return `${firstLower}Ref`

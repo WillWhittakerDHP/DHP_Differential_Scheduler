@@ -41,7 +41,7 @@ export function ValidEventFactory(sequelize: Sequelize) {
       parentKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return 'partShape';
+          return 'blockShape';
         },
       },
       childKind: {
@@ -54,7 +54,7 @@ export function ValidEventFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'part_shapes',
+          model: 'block_shapes',
           key: 'id',
         },
       },

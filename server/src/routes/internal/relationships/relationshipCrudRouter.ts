@@ -2,10 +2,17 @@
  * Relationship CRUD: errors sanitized in production (NODE_ENV) via relationshipErrorHandler and shared routerErrorHandler.
  */
 import { Router, Request, Response } from 'express'
+import type { Model, ModelStatic } from 'sequelize'
 import { validateRequest } from '../../../middlewares/validateRequest.js'
 import { relationshipPostBodySchema } from '../../schemas/relationshipSchemas.js'
-import { BlockInstance } from '../../../config/app.js'
+import { BlockInstance, AnnotationAssignment } from '../../../config/app.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
+import {
+  findOrCreateRelationshipRow,
+  relationshipModelSupportsDisabled,
+  softDeleteRelationshipRows,
+} from './relationshipDisabledHelpers.js'
+import { formatAnnotationAssignmentsForApi } from './relationshipAnnotationFormat.js'
 import { FIELD_NAMES } from '../entities/entityConstants.js'
 import { ERROR_MESSAGES, type RelationshipConfig } from './relationshipConstants.js'
 import { handleRouteError } from './relationshipErrorHandler.js'
@@ -60,7 +67,12 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
       whereClause,
     })
     const data = await relationshipConfig.model.findAll(options)
-    sendSuccess(res, data)
+    const relationshipType = paramString(req, 'relationshipType')
+    const payload =
+      relationshipType === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS
+        ? formatAnnotationAssignmentsForApi(data as InstanceType<typeof AnnotationAssignment>[])
+        : data
+    sendSuccess(res, payload)
   } catch (error) {
     logger.error('Error fetching relationships:', error)
     logger.error('Relationship kind:', paramString(req, 'relationshipType'))
@@ -192,6 +204,7 @@ router.post(
         try {
           await validateAttendeeAssignmentEntities(parentId, childId)
         } catch (error) {
+          logger.warn('Attendee assignment entity validation failed', { error })
           if (error instanceof Error) {
             if (error.message.includes('does not exist')) {
               sendBadRequest(
@@ -216,10 +229,27 @@ router.post(
         }
       }
 
-      const baseCreateData = await mapRelationshipFields(normalizedKind, parentId, childId)
+      const mapOpts =
+        normalizedKind === RELATIONSHIP_TYPES.ANNOTATION_ASSIGNMENTS
+          ? {
+              userTypeBlockInstanceId:
+                req.body.userTypeBlockInstanceId ?? req.body.user_type_block_instance_id,
+            }
+          : undefined
+      const baseCreateData = await mapRelationshipFields(
+        normalizedKind,
+        parentId,
+        childId,
+        mapOpts
+      )
       createData = baseCreateData as Record<string, unknown>
-      const created = await relationshipConfig.model.create(createData)
-      sendCreated(res, created)
+      const model = relationshipConfig.model as ModelStatic<Model>
+      const { row, created } = await findOrCreateRelationshipRow(model, createData, normalizedKind)
+      if (created) {
+        sendCreated(res, row)
+      } else {
+        sendSuccess(res, row)
+      }
     } catch (error: unknown) {
       logger.error('Error creating relationship:', error)
       logger.error('Relationship type:', paramString(req, 'relationshipType'))
@@ -254,20 +284,47 @@ router.delete(
   const normalizedKind = normalizeRelationshipKind(paramString(req, 'relationshipType'))
   
   const whereClause = await mapRelationshipFields(normalizedKind, parentId, childId)
-  
+  const model = relationshipConfig.model as ModelStatic<Model>
+
   try {
-    const deletedCount = await relationshipConfig.model.destroy({
-      where: whereClause
-    })
-    
-    if (deletedCount === 0) {
-      sendNotFound(res, ERROR_MESSAGES.RELATIONSHIP_NOT_FOUND.replace('{displayName}', relationshipConfig.displayName), parentId)
+    if (relationshipModelSupportsDisabled(model)) {
+      const outcome = await softDeleteRelationshipRows(model, whereClause as Record<string, unknown>)
+      if (outcome.status === 'not_found') {
+        sendNotFound(
+          res,
+          ERROR_MESSAGES.RELATIONSHIP_NOT_FOUND.replace('{displayName}', relationshipConfig.displayName),
+          parentId
+        )
+        return
+      }
+      const deletedCount = outcome.status === 'deleted' ? outcome.affected : 0
+      sendSuccess(res, {
+        message:
+          outcome.status === 'already_inactive'
+            ? `${relationshipConfig.displayName} was already inactive`
+            : `${relationshipConfig.displayName} deleted successfully`,
+        deleted: deletedCount,
+        alreadyInactive: outcome.status === 'already_inactive',
+      })
       return
     }
-    
-    sendSuccess(res, { 
+
+    const deletedCount = await model.destroy({
+      where: whereClause,
+    })
+
+    if (deletedCount === 0) {
+      sendNotFound(
+        res,
+        ERROR_MESSAGES.RELATIONSHIP_NOT_FOUND.replace('{displayName}', relationshipConfig.displayName),
+        parentId
+      )
+      return
+    }
+
+    sendSuccess(res, {
       message: `${relationshipConfig.displayName} deleted successfully`,
-      deleted: deletedCount
+      deleted: deletedCount,
     })
   } catch (error) {
     logger.error('Error:', error)

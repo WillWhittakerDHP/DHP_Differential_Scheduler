@@ -3,8 +3,12 @@
   WHY: Grouped under Calendar as settings related to appointment confirmation status and event holds
 -->
 <script setup lang="ts">
+import { inject } from 'vue'
+import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useConfirmationAndHoldsPanel } from '@/composables/admin/useConfirmationAndHoldsPanel'
+import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from '../businessControlsStateKey'
+import DriveTimeFeeAdminFields from './DriveTimeFeeAdminFields.vue'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
@@ -48,6 +52,15 @@ const {
   handleAdminEntryTimeoutValue,
   handleAdminEntryTimeoutUnit,
 } = useConfirmationAndHoldsPanel(props, emit)
+
+const businessState = inject<BusinessControlsState | null>(BUSINESS_CONTROLS_STATE_KEY, null)
+
+function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
+  const fd = businessState?.availabilityFormData
+  if (fd) {
+    fd.driveTimeFee = value
+  }
+}
 </script>
 
 <template>
@@ -147,6 +160,14 @@ const {
       How long a slot is held before it expires. Allowed range: {{ holdDurationMin }}–{{ holdDurationMax }} minutes.
     </div>
   </div>
+
+  <VDivider v-if="businessState?.availabilityFormData?.driveTimeFee" class="my-4" />
+
+  <DriveTimeFeeAdminFields
+    v-if="businessState?.availabilityFormData?.driveTimeFee"
+    :model-value="businessState.availabilityFormData.driveTimeFee"
+    @update:model-value="onDriveTimeFeeUpdate"
+  />
 
   <div class="d-flex gap-2 mt-4">
     <VBtn v-bind="saveButtonProps">

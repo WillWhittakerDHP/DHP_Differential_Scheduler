@@ -7,6 +7,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { RelationshipSelectModeEnum } from '@/types/entity/formDataEnums'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 import type { SelectConfigLike, OptionsSelectConfigLike } from '@/types/admin/selectTypeResolver'
+import { unwrapLegacyRelationshipSelect } from '@shared/utils/selectInputConfigCodec'
 
 export type { SelectConfigLike, OptionsSelectConfigLike } from '@/types/admin/selectTypeResolver'
 
@@ -18,13 +19,7 @@ export function unwrapInputConfig(
   _entityKey: string,
   _fieldKey: string
 ): Record<string, unknown> {
-  if ('targetMode' in inputConfig) return inputConfig
-  if (!('relationshipSelect' in inputConfig)) return inputConfig
-  const wrapped = inputConfig.relationshipSelect
-  if (typeof wrapped === 'object' && wrapped !== null && 'targetMode' in wrapped) {
-    return wrapped as Record<string, unknown>
-  }
-  return inputConfig
+  return unwrapLegacyRelationshipSelect(inputConfig)
 }
 
 export function getSelectConfigFromUnwrapped(
@@ -37,13 +32,13 @@ export function getSelectConfigFromUnwrapped(
     if (targetMode === 'relationship') {
       return inputConfig as RelationshipFieldType<GlobalEntityKey>
     }
-    if (targetMode === 'property') {
+    if (targetMode === 'primitive') {
       return inputConfig as VirtualFieldType<GlobalEntityKey>
     }
   }
   throw new Error(
     `[selectTypeResolver] Invalid inputConfig format for ${entityKey}.${fieldKey}. ` +
-      `Expected direct select config with targetMode ('relationship' or 'property').`
+      `Expected direct select config with targetMode ('relationship' or 'primitive').`
   )
 }
 
@@ -77,11 +72,11 @@ export function resolveOptionEntityKey(
 ): GlobalEntityKey {
   if (isEnumSelect || isOptionsSelect) return 'blockShape' as GlobalEntityKey
   if (!selectConfig) return 'blockShape' as GlobalEntityKey
-  if (selectConfig.targetMode === 'property') {
+  if (selectConfig.targetMode === 'primitive') {
     if (!selectConfig.targetKey) {
       throw new Error(
         `[selectTypeResolver] Missing targetKey in inputConfig for ${entityKey}.${fieldKey}. ` +
-          `Type select fields (targetMode: property) must have targetKey configured.`
+          `Type select fields (targetMode: primitive) must have targetKey configured.`
       )
     }
     return selectConfig.targetKey

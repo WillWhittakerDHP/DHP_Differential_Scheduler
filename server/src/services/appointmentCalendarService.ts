@@ -1,8 +1,14 @@
-import type { SlotTimeBounds } from '@shared/types/availabilityTypes.js';
 import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js';
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
-import { Appointment, AppointmentAttendee, User, PropertyVersion, Address } from '../config/app.js';
+import {
+  Appointment,
+  AppointmentAttendee,
+  AppointmentTimeSlot,
+  User,
+  PropertyVersion,
+  Address,
+} from '../config/app.js';
 import { UNKNOWN_ERROR_MESSAGE } from '../constants/router.js';
 import { createLogger } from '../utils/logger.js';
 
@@ -16,15 +22,17 @@ interface CalendarEventResult {
   attendeesUpdated: number;
 }
 
-/** Server slot shape aligned with shared SlotTimeBounds (RFC3339 start/end, duration in minutes). */
-interface ServerTimeSlot extends SlotTimeBounds {
-  readonly __brand?: 'ServerTimeSlot'
+/** Legacy `selectedTimeSlots` JSON from Appointment.toJSON (rowsToLegacySelectedTimeSlots); duration optional. */
+interface CalendarSelectedTimeSlot {
+  startTime: string
+  endTime: string
+  duration?: number
 }
 
 interface AppointmentWithDetails {
   id: string;
   selectedDate: Date | string | null;  // DATEONLY field
-  selectedTimeSlots: ServerTimeSlot[] | null;  // JSONB array
+  selectedTimeSlots: CalendarSelectedTimeSlot[] | null;
   status: string;
   propertyVersion?: {
     address?: {
@@ -47,6 +55,22 @@ interface AppointmentWithDetails {
   }>;
 }
 
+function isCalendarSelectedTimeSlot(v: unknown): v is CalendarSelectedTimeSlot {
+  if (v === null || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return typeof o.startTime === 'string' && typeof o.endTime === 'string';
+}
+
+function isAppointmentCalendarPayload(v: unknown): v is AppointmentWithDetails {
+  if (v === null || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  if (typeof o.id !== 'string' || typeof o.status !== 'string') return false;
+  const slots = o.selectedTimeSlots;
+  if (slots === null || slots === undefined) return true;
+  if (!Array.isArray(slots)) return false;
+  return slots.every((s) => isCalendarSelectedTimeSlot(s));
+}
+
 export async function createCalendarEventForAppointment(
   appointmentId: string,
   calendarId: string = 'primary'
@@ -66,8 +90,13 @@ export async function createCalendarEventForAppointment(
           as: 'attendees',
           include: [{ model: User, as: 'user' }],
         },
+        {
+          model: AppointmentTimeSlot,
+          as: 'timeSlots',
+          separate: true,
+        },
       ],
-    }) as AppointmentWithDetails | null;
+    });
     
     if (!appointment) {
       return {
@@ -77,12 +106,22 @@ export async function createCalendarEventForAppointment(
       };
     }
     
-    const eventParams = buildEventParams(appointment, calendarId);
+    const rawJson = appointment.toJSON();
+    if (!isAppointmentCalendarPayload(rawJson)) {
+      logger.error('Appointment toJSON shape invalid for calendar event', { appointmentId });
+      return {
+        success: false,
+        error: `Appointment ${appointmentId} payload invalid for calendar`,
+        attendeesUpdated: 0,
+      };
+    }
+    const json = rawJson;
+    const eventParams = buildEventParams(json, calendarId);
     
     try {
       const createdEvent = await createEvent(eventParams);
       
-      const filtered = appointment.attendees?.filter(a => a.shouldReceiveInvitation)
+      const filtered = json.attendees?.filter((a) => a.shouldReceiveInvitation)
       const attendeesToUpdate = filtered !== undefined && filtered !== null ? filtered : []
       let attendeesUpdated = 0;
       

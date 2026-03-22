@@ -21,7 +21,8 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare bookingMode: typeof DEFAULT_VALUES.BOOKING_MODE | 'addOn' | 'both';
+  declare bookingMode: 'true' | 'false' | 'override';
+  declare agentPermissions: 'true' | 'false' | 'override';
   declare composite: boolean;
   declare differential: 'true' | 'false' | 'override';
   declare preClosing: boolean;
@@ -31,6 +32,8 @@ export class BlockInstance extends Model<
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
+  /** Per eventShapeId: major | minor | moveable | none; omit id to inherit template role. */
+  declare differentialEventRoleOverrides: CreationOptional<Record<string, string> | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -69,10 +72,16 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         defaultValue: true,
       },
       bookingMode: {
-        type: DataTypes.ENUM(DEFAULT_VALUES.BOOKING_MODE, 'addOn', 'both'),
+        type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
-        defaultValue: DEFAULT_VALUES.BOOKING_MODE,
+        defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
         field: FIELD_NAMES.BOOKING_MODE_SNAKE,
+      },
+      agentPermissions: {
+        type: DataTypes.ENUM('true', 'false', 'override'),
+        allowNull: false,
+        defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
+        field: FIELD_NAMES.AGENT_PERMISSIONS_SNAKE,
       },
       composite: {
         type: DataTypes.BOOLEAN,
@@ -117,6 +126,12 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      differentialEventRoleOverrides: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: {},
+        field: 'differential_event_role_overrides',
       },
       createdAt: {
         type: DataTypes.DATE,

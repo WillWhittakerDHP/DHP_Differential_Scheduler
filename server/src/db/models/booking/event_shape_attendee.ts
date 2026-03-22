@@ -35,6 +35,7 @@ export class EventShapeAttendee extends Model<
   declare id: CreationOptional<string>;
   declare eventShapeId: ForeignKey<string>;
   declare userTypeBlockInstanceId: ForeignKey<string>;
+  declare disabled: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -69,6 +70,11 @@ export function EventShapeAttendeeFactory(sequelize: Sequelize) {
           key: 'id',
         },
         comment: 'BlockInstance ID representing user type (must be a state control block)',
+      },
+      disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,

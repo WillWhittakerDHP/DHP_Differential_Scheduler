@@ -1,10 +1,7 @@
 import { computed } from 'vue'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
-import {
-  filterByCascade,
-  cascadeShapePipeline,
-  getUserTypeBlocks
-} from '@/utils/booking/cascadeFilterPipeline'
+import { SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_NAME } from '@/constants/systemDriveTimeBlock'
+import { cascadeShapePipeline, getUserTypeBlocks } from '@/utils/booking/cascadeFilterPipeline'
 import type {
   UseWizardFilteredOptionsParams,
   UseWizardFilteredOptionsReturn,
@@ -22,18 +19,18 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
 
   const availableUserTypeBlocks = computed(() => getUserTypeBlocks(bookingData.value))
 
-  const servicesResult = computed(() =>
-    filterByCascade({
+  const servicesPipelineResult = computed(() =>
+    cascadeShapePipeline({
       bookingData: bookingData.value,
       parentInstances: selectedUserType.value,
       currentSelection: selectedServiceTypeBlocks.value,
-      relationshipName: 'services'
+      relationshipName: 'services',
+      shapeType: BLOCK_SHAPE_TYPES.SERVICE,
+      allowFallbackToAllOfShape: false,
     })
   )
-  const availableServices = computed(() => servicesResult.value.instances)
-  const servicesCascadeError = computed(() =>
-    servicesResult.value.success ? null : servicesResult.value.error
-  )
+  const availableServices = computed(() => servicesPipelineResult.value.instances)
+  const servicesCascadeError = computed(() => servicesPipelineResult.value.error)
 
   const availabilityOptionsResult = computed(() =>
     cascadeShapePipeline({
@@ -77,7 +74,8 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
 
   const availableLineItemBlocks = computed(() => {
     const raw = bookingData.value?.lineItemBlocks
-    return raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
+    const list = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
+    return list.filter((b) => b.name !== SYSTEM_DRIVE_TIME_BLOCK_INSTANCE_NAME)
   })
 
   const accServices = computed(() => selectedServiceTypeBlocks.value)

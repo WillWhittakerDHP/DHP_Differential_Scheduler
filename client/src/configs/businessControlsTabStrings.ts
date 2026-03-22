@@ -156,7 +156,16 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     useBrandColorsLabel: 'Brand colors',
     useBrandColorsHint: 'When on, the booking wizard uses DHP brand colors (safety yellow / day-glow red) instead of the default theme.',
     adminEntryTimeoutLabel: 'Admin entry dropdown time-out',
-    adminEntryTimeoutHint: 'Only show appointments in the Edit quote / Reschedule dropdown where scheduling began within the last X days or weeks (or quote in quote status for last X). Used to limit the list to recent inspections.'
+    adminEntryTimeoutHint: 'Only show appointments in the Edit quote / Reschedule dropdown where scheduling began within the last X days or weeks (or quote in quote status for last X). Used to limit the list to recent inspections.',
+    driveTimeFeeSectionTitle: 'Drive time fees (billing)',
+    driveTimeFeeSectionHint:
+      'Billing for drive time is separate from drive buffers under Constraints → Overlap. These values persist with availability settings and are available to the booking client when settings load.',
+    complimentaryDriveMinutesLabel: 'Complimentary drive time (minutes)',
+    complimentaryDriveMinutesHint: 'Drive minutes included at no charge before the hourly rate applies.',
+    drivingRatePerHourLabel: 'Driving rate ($ / hour)',
+    drivingRatePerHourHint: 'Dollar amount per hour for billable drive time after complimentary minutes.',
+    driveTimeRoundingMinutesLabel: 'Billable drive rounding (minutes)',
+    driveTimeRoundingMinutesHint: 'Billable drive time is rounded up to this increment. Must be at least 1 minute.'
   },
   driveTime: {
     calculatedTitle: 'Calculated Drive Times',

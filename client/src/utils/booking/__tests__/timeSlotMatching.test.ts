@@ -23,9 +23,7 @@ function createTimeSlot(startTime: string, duration = 60): TimeSlot {
     startTime,
     endTime,
     duration,
-    major: false,
-    minor: false,
-    moveable: false,
+    slotKind: 'major',
     isAvailable: true,
   }
 }

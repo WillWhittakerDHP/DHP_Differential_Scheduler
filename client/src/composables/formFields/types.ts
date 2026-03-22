@@ -9,43 +9,45 @@ import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 
 /** Base shared by UseFormFieldsOptions and UseFormFieldsContextOptions (P2 type-similarity). */
-export interface UseFormFieldsOptionsBase {
-  entityKey: GlobalEntityKey
+export interface UseFormFieldsOptionsBase<GE extends GlobalEntityKey = GlobalEntityKey> {
+  entityKey: GE
   entityId: Ref<GlobalEntityId>
   form: Ref<FormContext | undefined>
-  fieldKeys: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+  fieldKeys: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
   fieldMetadata?: Ref<Record<string, FieldMetadataEntry>> | ComputedRef<Record<string, FieldMetadataEntry>>
   adminConfig?: ReturnType<typeof useAdminConfig>
 }
 
-export interface UseFormFieldsOptions extends UseFormFieldsOptionsBase {
-  inlineFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFieldsConfig?: Ref<GlobalFieldKey<GlobalEntityKey>[]> | ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+export interface UseFormFieldsOptions<GE extends GlobalEntityKey = GlobalEntityKey>
+  extends UseFormFieldsOptionsBase<GE> {
+  inlineFieldsConfig?: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
+  stackedFieldsConfig?: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
 }
 
-export type UseFormFieldsContextOptions = UseFormFieldsOptionsBase
+export type UseFormFieldsContextOptions<GE extends GlobalEntityKey = GlobalEntityKey> =
+  UseFormFieldsOptionsBase<GE>
 
 /** Layout subset shared by UseFormFieldsReturn and UseFormFieldsStandardLayoutReturn (P2 type-similarity). */
-export interface UseFormFieldsStandardLayoutReturn {
-  inlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  stackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  readyInlineFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  readyStackedFields: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
+export interface UseFormFieldsStandardLayoutReturn<GE extends GlobalEntityKey = GlobalEntityKey> {
+  inlineFields: ComputedRef<GlobalFieldKey<GE>[]>
+  stackedFields: ComputedRef<GlobalFieldKey<GE>[]>
+  readyInlineFields: ComputedRef<GlobalFieldKey<GE>[]>
+  readyStackedFields: ComputedRef<GlobalFieldKey<GE>[]>
 }
 
-export interface UseFormFieldsReturn extends UseFormFieldsStandardLayoutReturn {
-  fieldContextCache: Ref<Map<string, FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>>
+export interface UseFormFieldsReturn<GE extends GlobalEntityKey = GlobalEntityKey>
+  extends UseFormFieldsStandardLayoutReturn<GE> {
+  fieldContextCache: Ref<Map<string, FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>>>
   isFormReady: ComputedRef<boolean>
-  fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GlobalEntityKey>[]>
-  getFieldContext: <GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-    fieldKey: FieldKey
-  ) => FieldContextTypeGrouped<GE, FieldKey> | undefined
+  fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GE>[]>
+  /** One entity per composable instance; map keys are string(fieldKey). */
+  getFieldContext: (
+    fieldKey: GlobalFieldKey<GE>
+  ) => FieldContextTypeGrouped<GE, GlobalFieldKey<GE>> | undefined
 
   getBlockShapeProperties: () => { composable: boolean; canHaveParts: boolean }
   shouldShowPartInstances: Ref<boolean>
 
-  categorizeFieldsByLayout: (fields: GlobalFieldKey<GlobalEntityKey>[]) => FieldsByLayout
-  getReadyFields: (fields: GlobalFieldKey<GlobalEntityKey>[]) => GlobalFieldKey<GlobalEntityKey>[]
+  categorizeFieldsByLayout: (fields: GlobalFieldKey<GE>[]) => FieldsByLayout
+  getReadyFields: (fields: GlobalFieldKey<GE>[]) => GlobalFieldKey<GE>[]
 }
-
-

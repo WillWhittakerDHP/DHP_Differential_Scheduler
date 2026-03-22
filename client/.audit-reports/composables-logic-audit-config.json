@@ -1,8 +1,0 @@
-{
-  "$comment": "Configuration for composables-logic-audit.mjs exception handling Allowlist: audit-global-config.json allowlists.<auditId>.",
-  "$schema": "Allowlist for intentional/necessary composable logic patterns",
-  "priorities": {
-    "p0MinSeverityScore": 35,
-    "p1MinSeverityScore": 20
-  }
-}

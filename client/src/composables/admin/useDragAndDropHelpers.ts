@@ -6,11 +6,22 @@ const logger = createLogger('useDragAndDropHelpers')
 export function getPanelsElement(
   componentRef: ComponentPublicInstance | HTMLElement | null,
   container: HTMLElement | null,
-  isMounted?: Ref<boolean>
+  isMounted?: Ref<boolean>,
+  /** When false, never use container.querySelector — avoids wrong panels when multiple VExpansionPanels exist. */
+  useContainerFallback: boolean = true
 ): HTMLElement | null {
   // PATTERN: Check mount status and ref validity before accessing
   if (isMounted && !isMounted.value) return null
-  if (!componentRef && !container) return null
+  if (!componentRef) {
+    if (!useContainerFallback) return null
+    if (!container) return null
+    try {
+      return container.querySelector('.v-expansion-panels') as HTMLElement | null
+    } catch (err) {
+      logger.warn('getPanelsElement failed', { error: err })
+      return null
+    }
+  }
   
   try {
     const componentEl = (componentRef && typeof componentRef === 'object' && '$el' in componentRef) 
@@ -19,7 +30,7 @@ export function getPanelsElement(
     
     const panelsEl = componentEl?.querySelector?.('.v-expansion-panels') || componentEl
     
-    if (!panelsEl && container) {
+    if (!panelsEl && container && useContainerFallback) {
       return container.querySelector('.v-expansion-panels') as HTMLElement | null
     }
     

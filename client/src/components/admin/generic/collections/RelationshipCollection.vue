@@ -39,6 +39,7 @@
           :entity-key="childEntityKey"
           :entity="getChildForShape(shape.id)!"
           :expanded="isPanelExpanded(getChildForShape(shape.id)!.id)"
+          :parent-block-shape-is-state-control="parentBlockShapeIsStateControl"
           @delete="handleDeleteChildById"
         />
       </template>
@@ -75,6 +76,7 @@
               :expanded="true"
               :is-new="true"
               :use-expansion-panel="false"
+              :parent-block-shape-is-state-control="parentBlockShapeIsStateControl"
               @saved="(entity) => handleNewChildSaved(shape.id, entity as GlobalEntity<GlobalEntityKey>)"
               @cancelled="handleNewChildCancelled(shape.id)"
             />
@@ -108,11 +110,14 @@ import { computed, defineAsyncComponent } from 'vue'
 
 const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useRelationshipCollectionField } from '@/composables/admin/useRelationshipCollectionField'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
+import type { BlockInstanceEntity, BlockShapeEntity, GlobalEntity } from '@/types/entities'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 
 type CollectionType = 'parts' | 'annotations' | 'events'
 
@@ -137,6 +142,25 @@ const fieldConfig = useRelationshipCollectionField(props.fieldContext)
 
 const { parentContext, childEntityKey, relationshipKey: _relationshipKey } = fieldConfig
 const parentEntity = parentContext.parentEntity
+
+const admin = useAdmin()
+
+/**
+ * WHY: Per–user-type annotation copy is keyed off wizard user type; parent is already a user-type instance when its shape is state control — hide that editor (see AnnotationContentEditor).
+ */
+const parentBlockShapeIsStateControl = computed((): boolean => {
+  const parent = parentEntity.value
+  if (!parent) return false
+  if (parent.entityKey === 'blockInstance') {
+    const bi = parent as BlockInstanceEntity
+    const shape = admin.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef) as GlobalEntityId)
+    return shape?.isStateControl === true
+  }
+  if (parent.entityKey === 'blockShape') {
+    return (parent as BlockShapeEntity).isStateControl === true
+  }
+  return false
+})
 
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType

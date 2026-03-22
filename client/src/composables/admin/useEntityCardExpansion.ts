@@ -9,17 +9,17 @@ export function useEntityCardExpansion(
   options: UseEntityCardExpansionOptions
 ): UseEntityCardExpansionReturn {
   const expandedValue = isRef(options.expanded) ? options.expanded.value : options.expanded
-  
+
   // WHY: group:selected reflects actual VExpansionPanel state even if parent props lag
   // PATTERN: Initialize from props, then sync from group:selected events
   const internalExpanded = ref(expandedValue ?? true)
 
-  // PATTERN: Watch prop changes, but allow group:selected to be the primary source of truth
-  if (isRef(options.expanded)) {
-    watch(options.expanded, (newValue) => {
+  watch(
+    () => (isRef(options.expanded) ? options.expanded.value : options.expanded),
+    (newValue) => {
       internalExpanded.value = newValue ?? true
-    })
-  }
+    }
+  )
 
   // WHY: Ensures expansion state reflects the actual UI state
   // PATTERN: Update internal state when VExpansionPanel emits group:selected

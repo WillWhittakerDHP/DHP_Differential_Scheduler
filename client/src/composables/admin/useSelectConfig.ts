@@ -17,6 +17,10 @@ import {
   resolveSelectMultiple,
   resolveOptionEntityKey,
 } from '@/utils/admin/selectTypeResolver'
+import {
+  assertSelectInputConfigNotPropertyTargetMode,
+  ForbiddenSelectInputTargetModeError,
+} from '@shared/utils/selectInputConfigCodec'
 import { resolveOptionLabelKey } from '@/utils/admin/selectConfigResolvers'
 import type { UseSelectConfigOptions, UseSelectConfigReturn } from '@/types/admin/selectConfig'
 import type { SelectOption } from '@/types/selectOptions'
@@ -181,6 +185,20 @@ export function useSelectConfig(
           }
         )
       }
+    }
+    try {
+      assertSelectInputConfigNotPropertyTargetMode(inputConfig)
+    } catch (err) {
+      if (err instanceof ForbiddenSelectInputTargetModeError) {
+        logger.error(
+          'Forbidden inputConfig.targetMode "property" for select field; use "primitive" and run metadata migration.',
+          {
+            entityKey: fieldContext.state.entityKey,
+            fieldKey: fieldContext.state.fieldKey,
+          }
+        )
+      }
+      throw err
     }
     inputConfig = unwrapInputConfig(
       inputConfig,

@@ -10,6 +10,8 @@ import { blockInstanceDisplays } from './appliedDisplay/blockInstanceDisplays'
 import { blockShapeDisplays } from './appliedDisplay/blockShapeDisplays'
 import { partInstanceDisplays } from './appliedDisplay/partInstanceDisplays'
 import { partShapeDisplays } from './appliedDisplay/partShapeDisplays'
+import { eventShapeDisplays } from './appliedDisplay/eventShapeDisplays'
+import { annotationShapeDisplays } from './appliedDisplay/annotationShapeDisplays'
 import { buildSelectableDisplayType, type SelectableDisplayType } from './selectableDisplayConfig'
 import { asEmptyObject } from '@/utils/safeDefaults'
 
@@ -40,9 +42,17 @@ export function buildDisplayFieldConfig(): DisplayFieldConfigMap {
       partShapeDisplays,
       selectableDisplayConfig.partShape
     ),
-    eventShape: {},
+    eventShape: buildAllPerEntityDisplayConfig(
+      "eventShape",
+      eventShapeDisplays,
+      selectableDisplayConfig.eventShape
+    ),
     eventInstance: {},
-    annotationShape: {},
+    annotationShape: buildAllPerEntityDisplayConfig(
+      'annotationShape',
+      annotationShapeDisplays,
+      selectableDisplayConfig.annotationShape
+    ),
     annotationInstance: {},
   };
 }
@@ -78,7 +88,7 @@ function buildAllPerEntityDisplayConfig<GE extends GlobalEntityKey>(
           }
           if (mode === "relationship") {
             config.relationshipDisplay = selectConfig;
-          } else if (mode === "property") {
+          } else if (mode === "primitive") {
             config.typeDisplay = selectConfig;
           } else {
             throw new Error(`❌ Unknown select mode: ${mode}`);

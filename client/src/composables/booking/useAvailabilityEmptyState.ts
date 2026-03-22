@@ -17,7 +17,8 @@ export function useAvailabilityEmptyState(
 ): UseAvailabilityEmptyStateReturn {
   const { isEffectivelyDifferential, startTimeType, appointmentSlotsCount } = params
   
-  const { majorLabel, minorLabel } = useWizardSettings()
+  const { labels } = useWizardSettings()
+  const { majorLabel, minorLabel } = labels
 
   /**
    */

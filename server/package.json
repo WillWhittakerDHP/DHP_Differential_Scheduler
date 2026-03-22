@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon -w src -e ts --exec \"npm run compile && npm run start\"",
+    "dev": "cross-env NODE_ENV=development nodemon -e ts --delay 2 --exec \"npm run compile && npm run start\"",
     "compile": "tsc && tsc-alias -p tsconfig.json",
     "build": "tsc && tsc-alias -p tsconfig.json",
     "lint": "eslint .",

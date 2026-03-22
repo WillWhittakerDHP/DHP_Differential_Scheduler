@@ -6,6 +6,7 @@ import {
   EventInstance,
   EventShape,
   AnnotationInstance,
+  AnnotationInstanceContent,
   AnnotationShape,
   BlockInstance,
 } from '../../../config/app.js'
@@ -13,6 +14,7 @@ import { getModelAttributes, isModelUnderscored } from '../../../utils/sequelize
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { FIELD_NAMES } from '../entities/entityConstants.js'
 import type { RelationshipConfig } from './relationshipConstants.js'
+import { whereActiveRelationships } from './relationshipDisabledHelpers.js'
 
 const EVENT_ASSIGNMENTS_ATTRIBUTES = [
   'id',
@@ -43,7 +45,13 @@ function annotationAssignmentsInclude(): Includeable[] {
       as: 'annotation',
       attributes: ['id', 'text', 'userType', 'type'],
       include: [
-        { model: AnnotationShape, as: 'annotationShape', attributes: ['id', 'name'] },
+        { model: AnnotationShape, as: 'annotationShape', attributes: ['id', 'name', 'uiSlot'] },
+        {
+          model: AnnotationInstanceContent,
+          as: 'contentRows',
+          attributes: ['id', 'text', 'userTypeBlockInstanceId'],
+          required: false,
+        },
       ],
     },
     {
@@ -69,10 +77,8 @@ export function buildRelationshipWhereClause(params: BuildWhereClauseParams): Re
   const parentId = query.parentId ?? query.parent_id
   const blockInstanceId = query.blockInstanceId as string | undefined
 
-  const modelAttributes = relationshipConfig.model.getAttributes()
   const baseWhere: Record<string, unknown> = {}
-  const whereWithDisabled =
-    'disabled' in modelAttributes ? { ...baseWhere, disabled: false } : baseWhere
+  const whereWithDisabled = whereActiveRelationships(relationshipConfig.model, baseWhere)
 
   let whereWithParentId = whereWithDisabled
   if (relationshipType === RELATIONSHIP_TYPES.INSTANCE_COMPONENTS && parentId) {

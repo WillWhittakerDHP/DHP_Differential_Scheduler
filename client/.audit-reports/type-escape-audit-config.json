@@ -1,7 +1,0 @@
-{
-  "$comment": "Configuration for type-escape-audit.mjs. Allowlist is in audit-global-config.json (allowlists.type-escape). This file holds priorities only.",
-  "priorities": {
-    "p0MinSeverityScore": 15,
-    "p1MinSeverityScore": 6
-  }
-}

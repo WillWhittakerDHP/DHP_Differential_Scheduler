@@ -7,6 +7,7 @@ import { inject, ref, computed } from 'vue'
 import { wizardKey } from '@/composables/booking/injectionKeys'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
+import { useBooking } from '@/composables/useBooking'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
 import {
   propertyDetailsStepDataKey,
@@ -26,6 +27,7 @@ if (!wizard) {
 
 const propertyDetailsStepData = inject(propertyDetailsStepDataKey, null)
 const availabilityStepData = inject(availabilityStepDataKey, null)
+const { bookingData } = useBooking()
 
 const stepData = ref<ConfirmationStepData>({})
 const isFormValid = ref(true)
@@ -54,7 +56,8 @@ const {
     selectedUserTypeBlock: wizard.selectedUserTypeBlock
   },
   propertyDetailsStepData,
-  availabilityStepData
+  availabilityStepData,
+  bookingData,
 })
 
 const selectedCouponBlockId = computed(() => wizard!.selectedCouponBlocks.value[0]?.id ?? null)
@@ -76,6 +79,7 @@ function onCouponSelect(id: string | null): void {
 // "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
 const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
 
+// Show coupon row only when admin enables it and (coupons available or discount applied)
 const { showApplyCoupon } = useWizardSettings()
 const showCouponRow = computed(
   () =>
