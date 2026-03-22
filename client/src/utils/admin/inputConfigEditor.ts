@@ -1,8 +1,11 @@
 /**
  * Admin primitive metadata: edit select `inputConfig` subset with passthrough preservation.
  */
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { FIELD_RENDER_AS, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { mergeSelectInputConfig } from '@shared/utils/selectInputConfigCodec'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('inputConfigEditor')
 
 export interface InputConfigFormData {
   targetMode: string | null
@@ -17,6 +20,8 @@ export interface InputConfigFormData {
 export interface InputConfigEditorOptions {
   getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
   updateFieldRendering: (fieldKey: string, updates: Partial<FieldMetadataEntry>) => void
+  /** Derived renderAs (e.g. from inputConfig); preferred over stored `renderAs` when provided. */
+  getEffectiveRenderAs?: (fieldKey: string) => FieldMetadataEntry['renderAs'] | undefined
 }
 
 export interface InputConfigEditorReturn {
@@ -54,8 +59,25 @@ function mergePrimitiveInputFields(
   }
 }
 
-/** fieldKey reserved for future per-field branching (e.g. relationshipCollection). */
-function buildInputConfig(_fieldKey: string, formData: InputConfigFormData): Record<string, unknown> | null {
+function resolveRenderAs(
+  fieldKey: string,
+  getEffectiveFieldMetadata: InputConfigEditorOptions['getEffectiveFieldMetadata'],
+  getEffectiveRenderAs?: InputConfigEditorOptions['getEffectiveRenderAs']
+): FieldMetadataEntry['renderAs'] | undefined {
+  const derived = getEffectiveRenderAs?.(fieldKey)
+  if (derived !== undefined) return derived
+  return getEffectiveFieldMetadata(fieldKey)?.renderAs
+}
+
+/**
+ * Builds the select/inputConfig subset. `relationshipCollection` shares the relationship/primitive
+ * targetMode paths when set; other targetModes remain observable via logger (no silent gaps).
+ */
+function buildInputConfig(
+  fieldKey: string,
+  formData: InputConfigFormData,
+  renderAs: FieldMetadataEntry['renderAs'] | undefined
+): Record<string, unknown> | null {
   if (formData.options !== null) {
     return { options: formData.options }
   }
@@ -73,14 +95,23 @@ function buildInputConfig(_fieldKey: string, formData: InputConfigFormData): Rec
     mergeRelationshipInputFields(baseConfig, formData)
   } else if (formData.targetMode === 'primitive') {
     mergePrimitiveInputFields(baseConfig, formData)
+  } else {
+    const isCollection = renderAs === FIELD_RENDER_AS.RELATIONSHIP_COLLECTION
+    logger.warn(
+      isCollection
+        ? 'inputConfigEditor: relationshipCollection inputConfig has no merge branch for this targetMode; passthrough still applied via mergeSelectInputConfig'
+        : 'inputConfigEditor: unrecognized targetMode for inputConfig merge',
+      { fieldKey, targetMode: formData.targetMode, renderAs }
+    )
   }
+
   return baseConfig
 }
 
 export function inputConfigEditor(
   options: InputConfigEditorOptions
 ): InputConfigEditorReturn {
-  const { getEffectiveFieldMetadata, updateFieldRendering } = options
+  const { getEffectiveFieldMetadata, updateFieldRendering, getEffectiveRenderAs } = options
 
   function getInputConfigData(fieldKey: string): InputConfigFormData {
     const meta = getEffectiveFieldMetadata(fieldKey)
@@ -112,7 +143,8 @@ export function inputConfigEditor(
   function updateInputConfigField(fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown): void {
     const currentData = getInputConfigData(fieldKey)
     const updatedData = { ...currentData, [fieldName]: value }
-    const built = buildInputConfig(fieldKey, updatedData)
+    const renderAs = resolveRenderAs(fieldKey, getEffectiveFieldMetadata, getEffectiveRenderAs)
+    const built = buildInputConfig(fieldKey, updatedData, renderAs)
     const rawExisting = getEffectiveFieldMetadata(fieldKey)?.inputConfig
     const existing =
       rawExisting !== null && rawExisting !== undefined && typeof rawExisting === 'object' && !Array.isArray(rawExisting)

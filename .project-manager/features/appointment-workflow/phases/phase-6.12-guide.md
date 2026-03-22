@@ -134,12 +134,12 @@ export const ANNOTATION_UI_SLOT_REGISTRY = [
 
 ## Success Criteria
 
-- [ ] Event shape and event instance show includeRescheduleLink and includeCancelLink toggles; invite builder respects them.
-- [ ] Block shapes tab entity cards expand when clicked.
-- [ ] annotation_instance_content table exists; content per user type block instance; migration preserves behavior; annotation shape delete returns 409 when dependents exist.
-- [ ] shared/constants/annotationSlots.ts exists with ANNOTATION_UI_SLOTS and ANNOTATION_UI_SLOT_REGISTRY; annotation_shapes.ui_slot column; admin dropdown from registry.
-- [ ] Wizard transformer populates annotations; useAnnotationContent composable; SelectionCard/IndependentSelectCard show cardDescription and cardTooltip from annotations; grid overlay can use gridOverlay slot with fallback to settings.
-- [ ] Lint and app start pass.
+- [x] Event shape and event instance show includeRescheduleLink and includeCancelLink toggles; invite builder respects them.
+- [x] Block shapes tab entity cards expand when clicked.
+- [x] annotation_instance_content table exists; content per user type block instance; migration preserves behavior; annotation shape delete returns 409 when dependents exist.
+- [x] shared/constants/annotationSlots.ts exists with ANNOTATION_UI_SLOTS and ANNOTATION_UI_SLOT_REGISTRY; annotation_shapes.ui_slot column; admin dropdown from registry.
+- [x] Wizard transformer populates annotations; useAnnotationContent composable; SelectionCard/IndependentSelectCard show cardDescription and cardTooltip from annotations; grid overlay can use gridOverlay slot with fallback to settings.
+- [x] Lint and app start pass.
 
 ---
 

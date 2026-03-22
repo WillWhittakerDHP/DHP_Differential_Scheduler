@@ -240,9 +240,16 @@ const { computeRenderAs, updateFieldRendering } = metadataFieldUpdates({
   pendingChanges,
 })
 
+function derivedRenderAs(fieldKey: string): FieldMetadataEntry['renderAs'] | undefined {
+  const meta = getEffectiveFieldMetadata(fieldKey)
+  if (!meta) return undefined
+  return computeRenderAs(meta.dataType, meta.inputConfig ?? null, fieldKey)
+}
+
 const { getInputConfigData, updateInputConfigField } = inputConfigEditor({
   getEffectiveFieldMetadata,
   updateFieldRendering,
+  getEffectiveRenderAs: derivedRenderAs,
 })
 
 function derivedRenderAs(fieldKey: string): FieldMetadataEntry['renderAs'] | undefined {
