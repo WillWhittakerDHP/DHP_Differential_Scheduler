@@ -1,18 +1,47 @@
 {
-  "generatedAt": "2026-03-22T17:06:38.502Z",
+  "generatedAt": "2026-03-22T17:08:22.692Z",
   "totalScanned": 1186,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
+    "totalAllowed": 2,
     "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
-      "pattern": 0,
+      "pattern": 2,
       "specific": 0,
       "linePattern": 0
     }
   },
   "files": [],
-  "scanned": []
+  "scanned": [
+    {
+      "repoPath": "server/src/db/models/auth/MagicLink.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 22,
+          "line": "export function MagicLinkFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    },
+    {
+      "repoPath": "server/src/db/models/auth/Session.ts",
+      "allowed": [
+        {
+          "ruleId": "functionExport",
+          "lineNumber": 22,
+          "line": "export function SessionFactory(",
+          "reason": "Sequelize model factory convention: ModelNameFactory",
+          "source": "pattern",
+          "suppressionStatus": "suppressedByPattern"
+        }
+      ],
+      "requiresReview": []
+    }
+  ]
 }

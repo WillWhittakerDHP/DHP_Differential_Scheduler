@@ -4,11 +4,11 @@
 
 # Naming Convention Audit (Generated)
 
-Generated at: 2026-03-22T17:06:38.502Z
+Generated at: 2026-03-22T17:08:22.693Z
 
 ## Summary
 
-- Total allowed: **0**
+- Total allowed: **2**
 - Requiring review: **0**
 
 ## Files with naming violations
@@ -20,4 +20,7 @@ None.
 These items matched audit rules but have documented justifications.
 Review periodically to ensure exceptions are still valid.
 
-- (no exceptions configured)
+| File | Rule | Line | Source | Reason |
+| --- | --- | ---: | --- | --- |
+| `server/src/db/models/auth/MagicLink.ts` | functionExport | 22 | pattern | Sequelize model factory convention: ModelNameFactory |
+| `server/src/db/models/auth/Session.ts` | functionExport | 22 | pattern | Sequelize model factory convention: ModelNameFactory |
