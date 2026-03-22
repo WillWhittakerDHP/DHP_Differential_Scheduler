@@ -184,6 +184,13 @@
 
 ---
 
+
+- [ ] ### Phase 6.13: Guide: Wizard Theme Tokens & Brand Palettes
+**Description:** Guide: Wizard Theme Tokens & Brand Palettes
+**Sessions:** [To be planned]
+**Success Criteria:**
+- [To be defined]
+
 ## Booking Calculations (Core Complete)
 
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`.
