@@ -28,7 +28,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.5.1: Helmet configuration
+- [x] ### Session 8.5.1: Helmet configuration
 **Description:** Audit current Helmet defaults, tune HSTS/referrer policy, document in SECURITY_STUBS.
 **Tasks:** 2
 **Focus:**
