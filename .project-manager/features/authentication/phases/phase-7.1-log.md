@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 7.1.2: Sequelize models for auth tables ✅
+**Completed:** 2026-03-22
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** Sequelize models, fields, and associations for auth tables
+
+
+
 ### Session 7.1.1: Migrations for sessions and magic_links ✅
 **Completed:** 2026-03-22
 **Tasks Completed:** All tasks completed
