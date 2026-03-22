@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] #### Task 7.1.1.1: [Task Name]
+- [x] - [x] #### Task 7.1.1.1: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]
