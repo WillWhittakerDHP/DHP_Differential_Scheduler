@@ -17,11 +17,40 @@ import {
   filterByAttendeeSelectBlockInstances,
   filterByDirectMatching,
   mergeComponentOptions,
+  type ValidChildrenKey,
 } from '@/utils/admin/selectFilterStrategies'
 import { createLogger } from '@/utils/logger'
 import type { UseSelectFilteringOptions, UseSelectFilteringReturn } from '@/types/admin/selectFiltering'
 
 const logger = createLogger('useSelectFiltering')
+
+/** Maps relationship field targetKey to allowlist on parent type (blockShape / partShape). */
+const VALID_CHILDREN_KEY_BY_TARGET: Partial<Record<string, ValidChildrenKey>> = {
+  bookingCascades: 'validCascades',
+  partAssignments: 'validParts',
+  annotationAssignments: 'validAnnotations',
+  pricingCascades: 'validPricingCascades',
+  eventAssignments: 'validEvents',
+}
+
+function resolveValidChildrenKey(fieldKey: string, selectConfig: unknown): ValidChildrenKey {
+  const target =
+    selectConfig &&
+    typeof selectConfig === 'object' &&
+    'targetKey' in selectConfig &&
+    (selectConfig as { targetKey?: unknown }).targetKey != null
+      ? String((selectConfig as { targetKey: string }).targetKey)
+      : fieldKey
+  const mapped = VALID_CHILDREN_KEY_BY_TARGET[target]
+  if (mapped !== undefined) {
+    return mapped
+  }
+  if (target === 'bookingCascades') {
+    return 'validCascades'
+  }
+  logger.debug('resolveValidChildrenKey: unmapped target, falling back to validParts', { target, fieldKey })
+  return 'validParts'
+}
 
 export function useSelectFiltering(
   options: UseSelectFilteringOptions
@@ -227,7 +256,7 @@ WHY: Composables can only be called during setup, not inside compute...
         return []
       }
       
-      const validChildrenKey = fieldKey.value === 'bookingCascades' ? 'validCascades' : 'validParts'
+      const validChildrenKey = resolveValidChildrenKey(fieldKey.value, selectConfig.value)
       return filterByActiveChildSelect(
         allEntities.value,
         parentTypeEntity.value,

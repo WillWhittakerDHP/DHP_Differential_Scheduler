@@ -1,10 +1,76 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-21T19:02:14.126Z",
-  "totalScanned": 0,
+  "generatedAt": "2026-03-22T02:01:50.056Z",
+  "totalScanned": 56,
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "findings": [],
+  "findings": [
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "lineNumber": 63,
+      "ruleId": "as-unknown-as",
+      "snippet": "return components.map((ea) => ea.childId) as unknown as ValidAdminValue",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "lineNumber": 87,
+      "ruleId": "as-unknown-as",
+      "snippet": "return propValue as unknown as ValidAdminValue",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 184,
+      "ruleId": "as-unknown-as",
+      "snippet": "const fieldContext = buildFieldContextReturn(stateAndActions) as unknown as F...",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 228,
+      "ruleId": "as-unknown-as",
+      "snippet": "return context === undefined ? undefined : (context as unknown as FieldContex...",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 284,
+      "ruleId": "as-unknown-as",
+      "snippet": "fieldContextCache: context.fieldContextCache as unknown as Ref<",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 284,
+      "ruleId": "as-ref",
+      "snippet": "fieldContextCache: context.fieldContextCache as unknown as Ref<",
+      "message": "Assertion to Ref — fix source type instead",
+      "fixHint": "Fix the composable return type so the assertion is unnecessary.",
+      "confidence": "low"
+    }
+  ],
   "functionTypeOffenders": [],
-  "files": []
+  "files": [
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "score": 14,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "score": 8,
+      "priority": "P1"
+    }
+  ]
 }

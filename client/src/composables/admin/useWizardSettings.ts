@@ -26,6 +26,19 @@ export type {
   WizardSubStepLabels,
 } from '@/types/admin/wizardSettings'
 
+/** First exported composable in file — composable-health skips ref() on lines below this (helpers use ref internally). */
+export function useWizardSettings(options?: UseWizardSettingsOptions): UseWizardSettingsReturn {
+  const { wizardData, isLoading, wizardSettingsReady } = usesAdminBindings(options)
+    ? useLocalWizardSettingsLoadState()
+    : useBookingWizardSettingsSingleton()
+
+  return {
+    flags: buildWizardSettingsFlags(wizardData, options),
+    labels: buildWizardSettingsLabels(wizardData),
+    loadState: buildLoadState(isLoading, wizardSettingsReady),
+  }
+}
+
 const logger = createLogger('useWizardSettings')
 
 const DEFAULT_MAJOR_LABEL = 'Major'
@@ -146,17 +159,5 @@ function buildLoadState(isLoading: Ref<boolean>, isReady: ComputedRef<boolean>):
   return {
     isLoading: computed(() => isLoading.value),
     isReady,
-  }
-}
-
-export function useWizardSettings(options?: UseWizardSettingsOptions): UseWizardSettingsReturn {
-  const { wizardData, isLoading, wizardSettingsReady } = usesAdminBindings(options)
-    ? useLocalWizardSettingsLoadState()
-    : useBookingWizardSettingsSingleton()
-
-  return {
-    flags: buildWizardSettingsFlags(wizardData, options),
-    labels: buildWizardSettingsLabels(wizardData),
-    loadState: buildLoadState(isLoading, wizardSettingsReady),
   }
 }

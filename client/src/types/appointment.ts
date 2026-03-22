@@ -3,6 +3,7 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from './events'
+import type { DifferentialRole } from '@shared/types/differentialRole'
 
 export type { AppointmentStatus } from './appointmentStatus'
 export { APPOINTMENT_STATUSES, VALID_STATUS_TRANSITIONS, getValidNextStatuses } from '@/constants/appointmentStatus'
@@ -46,6 +47,9 @@ export interface AppointmentShape {
   
   // PATTERN: Map partShape name → EventInstance[] for that shape
   eventAssignmentsByPartShape: Record<string, EventInstance[]>
+
+  /** Merged block-instance role overrides for major/minor resolution (first block wins on conflict). */
+  differentialEventRoleOverrides?: Record<string, DifferentialRole>
 }
 
 export interface AppointmentSlot {

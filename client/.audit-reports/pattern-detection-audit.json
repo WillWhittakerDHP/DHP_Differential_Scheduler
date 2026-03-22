@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:27:32.801Z",
+  "generatedAt": "2026-03-22T02:02:05.598Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,7 +13,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1167,
+  "fileCount": 1216,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -22,6 +22,7 @@
         "files": [
           "client/src/components/booking/plugins/localStatePlugin.ts",
           "client/src/components/booking/plugins/wizardStatePlugin.ts",
+          "client/src/composables/admin/instanceDragAndDropGrouped.ts",
           "client/src/composables/admin/tables/useTableModelHelpers.ts",
           "client/src/composables/admin/useDragAndDropHelpers.ts",
           "client/src/composables/admin/utils/nestedComputedFactory.ts",
@@ -116,7 +117,9 @@
           "client/src/composables/admin/useEntityMetadata.ts",
           "client/src/composables/admin/useEntityStatus.ts",
           "client/src/composables/admin/useEntityTabState.ts",
+          "client/src/composables/admin/useEventInstanceBuilder.ts",
           "client/src/composables/admin/useEventInstancesSection.ts",
+          "client/src/composables/admin/useEventTemplatePreview.ts",
           "client/src/composables/admin/useExpansionState.ts",
           "client/src/composables/admin/useFeePreview.ts",
           "client/src/composables/admin/useFieldComponent.ts",
@@ -191,6 +194,7 @@
           "client/src/composables/booking/selectionCard/useSelectionCardHandlers.ts",
           "client/src/composables/booking/selectionCard/useSelectionCardState.ts",
           "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
+          "client/src/composables/booking/useAnnotationContent.ts",
           "client/src/composables/booking/useApiCallStatus.ts",
           "client/src/composables/booking/useAppointmentDropdown.ts",
           "client/src/composables/booking/useAppointmentDuration.ts",
@@ -215,7 +219,9 @@
           "client/src/composables/booking/useAvailabilityUI.ts",
           "client/src/composables/booking/useAvailabilityValidation.ts",
           "client/src/composables/booking/useBlockInstanceSelection.ts",
+          "client/src/composables/booking/useBookingFlow.ts",
           "client/src/composables/booking/useBookingWizard.ts",
+          "client/src/composables/booking/useBookingWizardSettingsSingleton.ts",
           "client/src/composables/booking/useBookingWizardSetup.ts",
           "client/src/composables/booking/useBookingWizardStepValidators.ts",
           "client/src/composables/booking/useCancelAppointment.ts",
@@ -325,7 +331,7 @@
           "client/src/utils/booking/availabilityStepHandlers.ts",
           "client/src/utils/booking/wizardValidation.ts"
         ],
-        "patternCount": 269
+        "patternCount": 274
       },
       {
         "prefix": "get",
@@ -352,6 +358,7 @@
           "client/src/utils/api/availabilityApi.ts",
           "client/src/utils/api/betaFeedbackApi.ts",
           "client/src/utils/api/entityApi.ts",
+          "client/src/utils/api/eventInstancePreviewApi.ts",
           "client/src/utils/api/propertyApi.ts",
           "client/src/utils/api/propertyMappingsApi.ts",
           "client/src/utils/api/relationshipApi.ts",
@@ -412,7 +419,7 @@
           "server/src/utils/sequelizeHelpers.ts",
           "server/src/utils/userTypeMapping.ts"
         ],
-        "patternCount": 134
+        "patternCount": 135
       },
       {
         "prefix": "update",
@@ -453,10 +460,9 @@
         "value": "held",
         "files": [
           "client/src/composables/useAppointment.ts",
-          "client/src/types/appointmentApi.ts",
-          "server/src/db/models/booking/appointment.ts"
+          "client/src/types/appointmentApi.ts"
         ],
-        "occurrences": 7
+        "occurrences": 5
       }
     ]
   },
@@ -473,37 +479,37 @@
           },
           {
             "file": "client/src/composables/admin/useInstancesTab.ts",
-            "line": 166,
+            "line": 168,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
           {
             "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
-            "line": 82,
+            "line": 64,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
           {
             "file": "client/src/types/admin/instancesTabEventInstance.ts",
-            "line": 26,
+            "line": 27,
             "context": "status-check",
             "code": "status: 'confirmed' | 'tentative'"
           },
           {
             "file": "client/src/types/entities.ts",
-            "line": 87,
+            "line": 94,
             "context": "status-check",
             "code": "status: 'confirmed' | 'tentative';"
           },
           {
             "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-            "line": 235,
+            "line": 233,
             "context": "status-check",
             "code": "status: 'confirmed',"
           },
           {
             "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-            "line": 238,
+            "line": 247,
             "context": "status-check",
             "code": "status: 'confirmed',"
           }
@@ -543,7 +549,7 @@
           },
           {
             "file": "server/src/db/models/booking/appointment.ts",
-            "line": 49,
+            "line": 52,
             "context": "status-check",
             "code": "declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancel"
           }
@@ -567,7 +573,7 @@
         ]
       },
       "held": {
-        "count": 7,
+        "count": 5,
         "locations": [
           {
             "file": "client/src/composables/useAppointment.ts",
@@ -598,18 +604,63 @@
             "line": 106,
             "context": "status-check",
             "code": "/** The User who placed the hold, eagerly loaded when status = 'held' */"
+          }
+        ]
+      },
+      "deleted": {
+        "count": 2,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 69,
+            "context": "status-check",
+            "code": "| { status: 'deleted'; affected: number }"
           },
           {
-            "file": "server/src/db/models/booking/appointment.ts",
-            "line": 52,
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 83,
             "context": "status-check",
-            "code": "/** FK → users.id — who placed the hold (populated when status = 'held') */"
+            "code": "return { status: 'deleted', affected: updatedCount }"
+          }
+        ]
+      },
+      "already_inactive": {
+        "count": 2,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 70,
+            "context": "status-check",
+            "code": "| { status: 'already_inactive' }"
           },
           {
-            "file": "server/src/db/models/booking/appointment.ts",
-            "line": 54,
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 90,
             "context": "status-check",
-            "code": "/** When the hold expires (populated when status = 'held') */"
+            "code": "return { status: 'already_inactive' }"
+          }
+        ]
+      },
+      "not_found": {
+        "count": 3,
+        "locations": [
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 71,
+            "context": "status-check",
+            "code": "| { status: 'not_found' }"
+          },
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 87,
+            "context": "status-check",
+            "code": "return { status: 'not_found' }"
+          },
+          {
+            "file": "server/src/routes/internal/relationships/relationshipDisabledHelpers.ts",
+            "line": 92,
+            "context": "status-check",
+            "code": "return { status: 'not_found' }"
           }
         ]
       },
@@ -914,6 +965,16 @@
             "file": "client/src/components/booking/plugins/wizardStatePlugin.ts",
             "line": 20,
             "name": "WizardStatePlugin"
+          }
+        ]
+      },
+      "createGroupedZoneDragEndHandler": {
+        "prefix": "create",
+        "locations": [
+          {
+            "file": "client/src/composables/admin/instanceDragAndDropGrouped.ts",
+            "line": 41,
+            "name": "GroupedZoneDragEndHandler"
           }
         ]
       },
@@ -1502,7 +1563,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useEntityMetadata.ts",
-            "line": 20,
+            "line": 21,
             "name": "EntityMetadata"
           }
         ]
@@ -1527,6 +1588,16 @@
           }
         ]
       },
+      "useEventInstanceBuilder": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useEventInstanceBuilder.ts",
+            "line": 21,
+            "name": "EventInstanceBuilder"
+          }
+        ]
+      },
       "useEventInstancesSection": {
         "prefix": "use",
         "locations": [
@@ -1534,6 +1605,16 @@
             "file": "client/src/composables/admin/useEventInstancesSection.ts",
             "line": 20,
             "name": "EventInstancesSection"
+          }
+        ]
+      },
+      "useEventTemplatePreview": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/admin/useEventTemplatePreview.ts",
+            "line": 33,
+            "name": "EventTemplatePreview"
           }
         ]
       },
@@ -1642,7 +1723,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useFieldRendererErrorWatch.ts",
-            "line": 21,
+            "line": 22,
             "name": "FieldRendererErrorWatch"
           }
         ]
@@ -1692,7 +1773,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstanceDragAndDrop.ts",
-            "line": 92,
+            "line": 25,
             "name": "InstanceDragAndDrop"
           }
         ]
@@ -1752,7 +1833,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
-            "line": 41,
+            "line": 27,
             "name": "InstancesTabEventInstance"
           }
         ]
@@ -1772,7 +1853,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useMetadataCache.ts",
-            "line": 125,
+            "line": 123,
             "name": "MetadataCache"
           }
         ]
@@ -1892,7 +1973,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/usePrimitiveMetadataSave.ts",
-            "line": 32,
+            "line": 26,
             "name": "PrimitiveMetadataSave"
           }
         ]
@@ -1962,7 +2043,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectConfig.ts",
-            "line": 31,
+            "line": 35,
             "name": "SelectConfig"
           }
         ]
@@ -2002,7 +2083,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useSelectFiltering.ts",
-            "line": 26,
+            "line": 55,
             "name": "SelectFiltering"
           }
         ]
@@ -2092,7 +2173,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useShapesTab.ts",
-            "line": 27,
+            "line": 30,
             "name": "ShapesTab"
           }
         ]
@@ -2102,7 +2183,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useShapesTabCreation.ts",
-            "line": 38,
+            "line": 43,
             "name": "ShapesTabCreation"
           }
         ]
@@ -2112,7 +2193,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useShapesTabModals.ts",
-            "line": 22,
+            "line": 28,
             "name": "ShapesTabModals"
           }
         ]
@@ -2162,7 +2243,7 @@
         "locations": [
           {
             "file": "client/src/composables/admin/useWizardSettings.ts",
-            "line": 115,
+            "line": 152,
             "name": "WizardSettings"
           }
         ]
@@ -2304,6 +2385,16 @@
             "file": "client/src/composables/booking/selectionCard/useSelectionCardStyles.ts",
             "line": 16,
             "name": "SelectionCardStyles"
+          }
+        ]
+      },
+      "useAnnotationContent": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useAnnotationContent.ts",
+            "line": 16,
+            "name": "AnnotationContent"
           }
         ]
       },
@@ -2452,7 +2543,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilitySettings.ts",
-            "line": 18,
+            "line": 20,
             "name": "AvailabilitySettings"
           }
         ]
@@ -2502,7 +2593,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-            "line": 19,
+            "line": 21,
             "name": "AvailabilityStepSlotOverlay"
           }
         ]
@@ -2567,6 +2658,16 @@
           }
         ]
       },
+      "useBookingFlow": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useBookingFlow.ts",
+            "line": 12,
+            "name": "BookingFlow"
+          }
+        ]
+      },
       "useBookingWizard": {
         "prefix": "use",
         "locations": [
@@ -2574,6 +2675,16 @@
             "file": "client/src/composables/booking/useBookingWizard.ts",
             "line": 15,
             "name": "BookingWizard"
+          }
+        ]
+      },
+      "useBookingWizardSettingsSingleton": {
+        "prefix": "use",
+        "locations": [
+          {
+            "file": "client/src/composables/booking/useBookingWizardSettingsSingleton.ts",
+            "line": 52,
+            "name": "BookingWizardSettingsSingleton"
           }
         ]
       },
@@ -3072,7 +3183,7 @@
         "locations": [
           {
             "file": "client/src/composables/booking/useWizardFilteredOptions.ts",
-            "line": 14,
+            "line": 10,
             "name": "WizardFilteredOptions"
           }
         ]
@@ -3322,7 +3433,7 @@
         "locations": [
           {
             "file": "client/src/composables/formFields/useFormFields.ts",
-            "line": 32,
+            "line": 33,
             "name": "FormFields"
           }
         ]
@@ -3452,7 +3563,7 @@
         "locations": [
           {
             "file": "client/src/composables/useBooking.ts",
-            "line": 75,
+            "line": 76,
             "name": "Booking"
           }
         ]
@@ -3967,7 +4078,7 @@
         "locations": [
           {
             "file": "client/src/utils/admin/selectTypeResolver.ts",
-            "line": 30,
+            "line": 25,
             "name": "SelectConfigFromUnwrapped"
           }
         ]
@@ -4152,6 +4263,16 @@
           }
         ]
       },
+      "getEventInstancePreviewEndpoint": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/utils/api/eventInstancePreviewApi.ts",
+            "line": 2,
+            "name": "EventInstancePreviewEndpoint"
+          }
+        ]
+      },
       "getPropertyEndpoint": {
         "prefix": "get",
         "locations": [
@@ -4277,7 +4398,7 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 49,
+            "line": 36,
             "name": "StateControlBlockInstances"
           }
         ]
@@ -4287,7 +4408,7 @@
         "locations": [
           {
             "file": "client/src/utils/blockInstanceUtils.ts",
-            "line": 64,
+            "line": 51,
             "name": "BlockShapeIdByType"
           }
         ]
@@ -4327,7 +4448,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/appointmentSlotBuilder.ts",
-            "line": 34,
+            "line": 35,
             "name": "MinimalAppointmentShapeForDuration"
           }
         ]
@@ -4357,7 +4478,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/cascadeFilterPipeline.ts",
-            "line": 190,
+            "line": 192,
             "name": "UserTypeBlocks"
           }
         ]
@@ -4397,7 +4518,7 @@
         "locations": [
           {
             "file": "client/src/utils/booking/partFinalizer.ts",
-            "line": 41,
+            "line": 73,
             "name": "PartFinals"
           }
         ]
@@ -4717,12 +4838,22 @@
           }
         ]
       },
+      "getEventShapeByRoleWithOverrides": {
+        "prefix": "get",
+        "locations": [
+          {
+            "file": "client/src/utils/eventAttendeeUtils.ts",
+            "line": 41,
+            "name": "EventShapeByRoleWithOverrides"
+          }
+        ]
+      },
       "getMajorEventShape": {
         "prefix": "get",
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 44,
+            "line": 58,
             "name": "MajorEventShape"
           }
         ]
@@ -4732,7 +4863,7 @@
         "locations": [
           {
             "file": "client/src/utils/eventAttendeeUtils.ts",
-            "line": 61,
+            "line": 75,
             "name": "MinorEventShape"
           }
         ]
@@ -4742,7 +4873,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldComponentDispatcher.ts",
-            "line": 8,
+            "line": 9,
             "name": "FieldComponent"
           }
         ]
@@ -4752,7 +4883,7 @@
         "locations": [
           {
             "file": "client/src/utils/forms/fieldLocationDispatcher.ts",
-            "line": 43,
+            "line": 54,
             "name": "FieldLocation"
           }
         ]
@@ -4987,16 +5118,6 @@
           }
         ]
       },
-      "getDefaultRenderAs": {
-        "prefix": "get",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/admin-metadata/adminMetadataHelpers.ts",
-            "line": 16,
-            "name": "DefaultRenderAs"
-          }
-        ]
-      },
       "getDefaultPanel": {
         "prefix": "get",
         "locations": [
@@ -5012,7 +5133,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 50,
+            "line": 53,
             "name": "HoldDurationBoundsFromSettings"
           }
         ]
@@ -5022,7 +5143,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 56,
+            "line": 59,
             "name": "HoldDurationFromSettings"
           }
         ]
@@ -5032,7 +5153,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 66,
+            "line": 69,
             "name": "HoldDurationDefaultFromSettings"
           }
         ]
@@ -5042,7 +5163,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 74,
+            "line": 77,
             "name": "AdminEntryTimeoutFromSettings"
           }
         ]
@@ -5052,7 +5173,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 85,
+            "line": 88,
             "name": "AutoConfirmEnabledFromSettings"
           }
         ]
@@ -5062,18 +5183,8 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 96,
+            "line": 99,
             "name": "WriteToCalendarFromSettings"
-          }
-        ]
-      },
-      "createSnapshotsForAppointment": {
-        "prefix": "create",
-        "locations": [
-          {
-            "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 140,
-            "name": "SnapshotsForAppointment"
           }
         ]
       },
@@ -5082,7 +5193,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 216,
+            "line": 212,
             "name": "AttendeeRecords"
           }
         ]
@@ -5092,7 +5203,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 245,
+            "line": 241,
             "name": "FeeRecordsForAppointment"
           }
         ]
@@ -5102,7 +5213,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 289,
+            "line": 285,
             "name": "CalendarIdForAppointment"
           }
         ]
@@ -5112,7 +5223,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-            "line": 306,
+            "line": 302,
             "name": "ConstraintOverrideOnRescheduleIfNeeded"
           }
         ]
@@ -5172,7 +5283,7 @@
         "locations": [
           {
             "file": "server/src/routes/internal/relationships/relationshipHelpers.ts",
-            "line": 242,
+            "line": 249,
             "name": "ComponentActiveStates"
           }
         ]
@@ -5252,7 +5363,7 @@
         "locations": [
           {
             "file": "server/src/services/appointmentCalendarService.ts",
-            "line": 50,
+            "line": 57,
             "name": "CalendarEventForAppointment"
           }
         ]
@@ -5392,7 +5503,7 @@
         "locations": [
           {
             "file": "server/src/services/instanceVersioning.ts",
-            "line": 108,
+            "line": 116,
             "name": "BlockInstanceVersionIfReferenced"
           }
         ]
@@ -5402,7 +5513,7 @@
         "locations": [
           {
             "file": "server/src/services/instanceVersioning.ts",
-            "line": 133,
+            "line": 141,
             "name": "BlockInstanceVersion"
           }
         ]
@@ -5422,7 +5533,7 @@
         "locations": [
           {
             "file": "server/src/services/invites/inviteOrchestrationService.ts",
-            "line": 85,
+            "line": 97,
             "name": "InvitesForAppointment"
           }
         ]
@@ -5462,7 +5573,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminMetadataComposer.ts",
-            "line": 14,
+            "line": 15,
             "name": "AdminMetadata"
           }
         ]
@@ -5472,7 +5583,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminPrimitiveMetadataComposer.ts",
-            "line": 9,
+            "line": 31,
             "name": "AdminPrimitiveMetadata"
           }
         ]
@@ -5482,7 +5593,7 @@
         "locations": [
           {
             "file": "server/src/utils/adminRelationshipMetadataComposer.ts",
-            "line": 14,
+            "line": 36,
             "name": "AdminRelationshipMetadata"
           }
         ]
@@ -5553,14 +5664,14 @@
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/useInstancesTab.ts",
-        "line": 166,
+        "line": 168,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
-        "line": 82,
+        "line": 64,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
@@ -5658,7 +5769,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/types/admin/instancesTabEventInstance.ts",
-        "line": 26,
+        "line": 27,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed' | 'tentative'"
       },
@@ -5700,7 +5811,7 @@
       {
         "type": "status-workflow",
         "file": "client/src/types/entities.ts",
-        "line": 87,
+        "line": 94,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed' | 'tentative';"
       },
@@ -5721,35 +5832,21 @@
       {
         "type": "status-workflow",
         "file": "server/src/db/models/booking/appointment.ts",
-        "line": 49,
+        "line": 52,
         "pattern": "AppointmentStatus workflow",
         "code": "declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancel"
       },
       {
         "type": "status-workflow",
         "file": "server/src/db/models/booking/appointment.ts",
-        "line": 58,
-        "pattern": "AppointmentStatus workflow",
-        "code": "/** When the appointment transitioned to 'submitted' status */"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/db/models/booking/appointment.ts",
-        "line": 60,
-        "pattern": "AppointmentStatus workflow",
-        "code": "/** When the appointment transitioned to 'confirmed' status */"
-      },
-      {
-        "type": "status-workflow",
-        "file": "server/src/db/models/booking/appointment.ts",
-        "line": 177,
+        "line": 116,
         "pattern": "AppointmentStatus workflow",
         "code": "type: DataTypes.ENUM('started', 'held', 'rescheduling', 'quoted', 'submitted', 'confirmed', 'cancell"
       },
       {
         "type": "status-workflow",
         "file": "server/src/db/models/booking/appointment.ts",
-        "line": 179,
+        "line": 118,
         "pattern": "AppointmentStatus workflow",
         "code": "defaultValue: 'started',"
       },
@@ -5833,77 +5930,77 @@
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 148,
+        "line": 155,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 152,
+        "line": 159,
         "pattern": "AppointmentStatus workflow",
         "code": "if (newStatus === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 231,
+        "line": 229,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 235,
+        "line": 233,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/appointmentCrudRouter.ts",
-        "line": 240,
+        "line": 238,
         "pattern": "AppointmentStatus workflow",
         "code": "onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch(("
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 136,
+        "line": 145,
         "pattern": "AppointmentStatus workflow",
         "code": "if (status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 139,
+        "line": 148,
         "pattern": "AppointmentStatus workflow",
         "code": "if (status === 'confirmed') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 234,
+        "line": 243,
         "pattern": "AppointmentStatus workflow",
         "code": "if (record.status === 'submitted') {"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 238,
+        "line": 247,
         "pattern": "AppointmentStatus workflow",
         "code": "status: 'confirmed',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 245,
+        "line": 254,
         "pattern": "AppointmentStatus workflow",
         "code": "oldStatus: 'submitted',"
       },
       {
         "type": "status-workflow",
         "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-        "line": 246,
+        "line": 255,
         "pattern": "AppointmentStatus workflow",
         "code": "newStatus: 'confirmed',"
       },
@@ -5980,21 +6077,21 @@
       {
         "type": "status-workflow",
         "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-        "line": 115,
+        "line": 114,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Only counts appointments with status 'submitted' or 'confirmed' (line 88)"
       },
       {
         "type": "status-workflow",
         "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-        "line": 186,
+        "line": 185,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Only counts appointments with status 'submitted' or 'confirmed'"
       },
       {
         "type": "status-workflow",
         "file": "server/src/utils/availabilities/availabiltiesDbUtils.ts",
-        "line": 248,
+        "line": 247,
         "pattern": "AppointmentStatus workflow",
         "code": "* - Only counts appointments with status 'submitted' or 'confirmed'"
       }

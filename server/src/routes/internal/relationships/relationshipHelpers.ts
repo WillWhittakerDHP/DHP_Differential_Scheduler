@@ -46,15 +46,11 @@ async function mapEventAssignmentsFields(
   parentId: string,
   childId: string
 ): Promise<Record<string, string>> {
-  const partInstance = await PartInstance.findByPk(parentId)
-  if (partInstance) {
-    return { parentId, parentKind: 'partInstance', childId }
-  }
   const blockInstance = await BlockInstance.findByPk(parentId)
   if (blockInstance) {
     return { parentId, parentKind: 'blockInstance', childId }
   }
-  throw new Error(`Parent ID ${parentId} is not a valid PartInstance or BlockInstance for eventAssignments`)
+  throw new Error(`Parent ID ${parentId} is not a valid BlockInstance for eventAssignments`)
 }
 
 export async function mapRelationshipFields(

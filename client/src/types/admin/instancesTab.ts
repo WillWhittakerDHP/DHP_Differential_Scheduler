@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
+import type { InstancesTabContext } from '@/types/admin/adminInjectionKeys'
 
 export interface UseInstancesTabReturn {
   instancesTabContext: InstancesTabContext

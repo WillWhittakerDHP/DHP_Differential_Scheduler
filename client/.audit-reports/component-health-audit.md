@@ -4,13 +4,13 @@
 
 # Component Health Audit
 
-Generated: 2026-03-21T19:02:10.236Z
+Generated: 2026-03-22T02:01:44.946Z
 
 ## Overview
 
-- Components scanned: **0**
-- Findings: **0**
-- Files with findings: **0**
+- Components scanned: **5**
+- Findings: **5**
+- Files with findings: **3**
 
 ## Ruleset
 
@@ -27,11 +27,37 @@ Generated: 2026-03-21T19:02:10.236Z
 | unused-named-slot | P2 | 1 | Named slot defined but never filled by any parent. |
 | constant-prop-value | info | 0 | Prop always receives the same literal value across all parents. |
 
+## By rule
+
+| Rule | Severity | Count |
+| --- | --- | ---: |
+| complex-template-expression | P2 | 3 |
+| oversized-template | P2 | 1 |
+| component-coupling | P1 | 1 |
+
 ## Repair Waves
 
 - **Wave 1 — Local** (parentCount = 0): 0 finding(s)
-- **Wave 2 — Low fan-in** (parentCount 1–3): 0 finding(s)
-- **Wave 3 — High fan-in** (parentCount ≥ 4): 0 finding(s)
+- **Wave 2 — Low fan-in** (parentCount 1–3): 3 finding(s)
+- **Wave 3 — High fan-in** (parentCount ≥ 4): 2 finding(s)
+
+## Top 3 files by score
+
+| File | Priority | Score | Parents |
+| --- | --- | ---: | ---: |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | P1 | 3 | 1 |
+| `client/src/components/admin/generic/fields/FieldRenderer.vue` | P2 | 2 | 5 |
+| `client/src/components/admin/generic/EntityCard.vue` | P2 | 1 | 7 |
+
+## All findings (first 60)
+
+| File | Line | Rule | Message | Parents |
+| --- | ---: | --- | --- | ---: |
+| `client/src/components/admin/generic/EntityCard.vue` | 263 | oversized-template | Template is 260 lines; extract sub-components to improve ... | 7 |
+| `client/src/components/admin/generic/fields/FieldRenderer.vue` | 37 | component-coupling | Component imports 5 sibling components; high coupling sur... | 5 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 49 | complex-template-expression | Complex template expression (105 chars); extract to compu... | 1 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 52 | complex-template-expression | Complex template expression (133 chars); extract to compu... | 1 |
+| `client/src/views/admin/tabs/components/EventInstancesSection.vue` | 79 | complex-template-expression | Complex template expression (105 chars); extract to compu... | 1 |
 
 ## Notes
 

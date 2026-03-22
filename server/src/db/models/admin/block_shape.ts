@@ -10,6 +10,7 @@ import {
 import { FIELD_NAMES, ERROR_MESSAGES } from '../../../routes/internal/entities/entityConstants.js';
 import { ValidPart } from './valid_part';
 import { ValidCascade } from './valid_cascade';
+import { ValidEvent } from './valid_event';
 
 export class BlockShape extends Model<
   InferAttributes<BlockShape>,
@@ -28,6 +29,7 @@ export class BlockShape extends Model<
   declare valid_parts?: ValidPart[];
   declare valid_cascades?: ValidCascade[];
   declare default_parts?: ValidPart[];
+  declare valid_events?: ValidEvent[];
 }
 
 export function BlockShapeFactory(sequelize: Sequelize) {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:02:09.879Z",
+  "generatedAt": "2026-03-22T02:01:44.575Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +11,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1055,
+  "totalScanned": 1067,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
@@ -249,25 +249,25 @@
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 352,
+          "line": 353,
           "inline": true
         },
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 356,
+          "line": 357,
           "inline": true
         },
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 361,
+          "line": 362,
           "inline": true
         },
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 365,
+          "line": 366,
           "inline": true
         }
       ],
@@ -641,25 +641,25 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 352,
+          "lineNumber": 353,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 356,
+          "lineNumber": 357,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 361,
+          "lineNumber": 362,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 365,
+          "lineNumber": 366,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }

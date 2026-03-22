@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-21T15:27:33.566Z",
-  "totalScanned": 111,
+  "generatedAt": "2026-03-22T02:02:06.461Z",
+  "totalScanned": 114,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 2,
+    "totalRequiresReview": 3,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -14,6 +14,12 @@
   "files": [
     {
       "repoPath": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
+      "score": 3,
+      "priority": "P2",
+      "count": 1
+    },
+    {
+      "repoPath": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
       "score": 3,
       "priority": "P2",
       "count": 1
@@ -34,6 +40,18 @@
           "ruleId": "reqBodyUnvalidated",
           "lineNumber": 34,
           "line": "const settingValue = req.body?.setting_value;",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "reqBodyUnvalidated",
+          "lineNumber": 16,
+          "line": "const b = req.body as Record<string, unknown>",
           "suppressionStatus": "unsuppressed"
         }
       ]

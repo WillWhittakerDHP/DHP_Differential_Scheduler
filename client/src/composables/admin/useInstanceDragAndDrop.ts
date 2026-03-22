@@ -7,12 +7,12 @@ import { tearDown as formkitTearDown } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { useEntityDragHandlers } from './useEntityDragHandlers'
 import { dragLayoutSignature, groupedInstanceDragZoneKey } from './instanceDragAndDropGrouped'
-import { syncBlockInstanceShapeMapsFromSources } from './instanceDragAndDropShapeMapsSync'
+import { syncBlockInstanceShapeMapsFromSources } from '@/utils/admin/instanceDragAndDropShapeMapsSync'
 import {
   tryBindFormKitForZone,
   panelRefSnapshot,
   type InstanceDragFormKitBinderDeps,
-} from './instanceDragAndDropFormKitBind'
+} from '@/utils/admin/instanceDragAndDropFormKitBind'
 import type { GlobalEntity } from '@/types/entities'
 import type { UseInstanceDragAndDropOptions, UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 

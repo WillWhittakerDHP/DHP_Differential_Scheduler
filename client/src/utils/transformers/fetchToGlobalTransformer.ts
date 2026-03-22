@@ -34,17 +34,35 @@ function buildAnnotationAssignmentEdges(fetched: FetchedRelationship[]): Annotat
     .map((r) => ({
       blockInstanceId: r.parentId,
       annotationInstanceId: r.childId,
-      userTypeBlockInstanceId: r.userTypeBlockBlockInstanceId ?? null,
+      userTypeBlockInstanceId: r.userTypeBlockInstanceId ?? null,
       orderIndex: typeof r.orderIndex === 'number' ? r.orderIndex : 0,
     }))
 }
 
-function applyAnnotationInstanceNameFallback(
-  entities: GlobalEntity<'annotationInstance'>[]
+/**
+ * Card title and list labels use `name`. Annotation copy lives in `text` — keep the title as the
+ * annotation **shape** name (FK `type` → annotation_shapes.id) so long bodies do not replace it.
+ */
+function applyAnnotationInstanceDisplayNames(
+  entities: GlobalEntity<'annotationInstance'>[],
+  shapes: GlobalEntity<'annotationShape'>[]
 ): GlobalEntity<'annotationInstance'>[] {
+  const shapeById = new Map<string, GlobalEntity<'annotationShape'>>(
+    shapes.map((s) => [String(s.id), s])
+  )
   return entities.map((entity) => {
-    if (entity.name != null) return entity
-    if (entity.text != null) return { ...entity, name: String(entity.text) } as GlobalEntity<'annotationInstance'>
+    const shape = shapeById.get(String(entity.type))
+    const shapeName =
+      shape != null && typeof shape.name === 'string' ? shape.name.trim() : ''
+    if (shapeName !== '') {
+      return { ...entity, name: shapeName }
+    }
+    if (entity.name != null && String(entity.name).trim() !== '') {
+      return entity
+    }
+    if (entity.text != null && String(entity.text).trim() !== '') {
+      return { ...entity, name: String(entity.text) } as GlobalEntity<'annotationInstance'>
+    }
     return entity
   })
 }
@@ -55,22 +73,24 @@ function transformBatchEntities(
   const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>
     (a.orderIndex ?? 0) - (b.orderIndex ?? 0)
 
-  return Object.fromEntries(
+  const byKey = Object.fromEntries(
     ENTITY_KEYS.map((entityKey) => {
       const rawEntities = safeArray(batchResponse[entityKey])
       const transformedEntities = rawEntities.map((raw: Record<string, unknown>) =>
         transformApiEntity(raw, entityKey)
       )
       const sortedEntities = immutableSort(transformedEntities, orderCompare)
-      const result =
-        entityKey === 'annotationInstance'
-          ? (applyAnnotationInstanceNameFallback(
-              sortedEntities as GlobalEntity<'annotationInstance'>[]
-            ) as GlobalEntity<GlobalEntityKey>[])
-          : sortedEntities
-      return [entityKey, result]
+      return [entityKey, sortedEntities]
     })
   ) as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+
+  const shapeList = byKey.annotationShape as GlobalEntity<'annotationShape'>[]
+  const instanceList = byKey.annotationInstance as GlobalEntity<'annotationInstance'>[]
+  byKey.annotationInstance = applyAnnotationInstanceDisplayNames(instanceList, shapeList) as GlobalEntity<
+    GlobalEntityKey
+  >[]
+
+  return byKey
 }
 
 function transformBatchRelationships(
@@ -129,8 +149,10 @@ function transformApiRelationship(
     relationshipKey === 'eventAssignments' && raw.parentKind
       ? (raw.parentKind as GlobalEntityKey)
       : undefined
-  const userTypeBlockBlockInstanceId =
-    raw.userTypeBlockBlockInstanceId ?? raw.userTypeBlockInstanceId
+  const userTypeBlockInstanceIdRaw =
+    relationshipKey === 'annotationAssignments'
+      ? raw.userTypeBlockBlockInstanceId ?? raw.userTypeBlockInstanceId
+      : undefined
 
   const idResolved = safeId(raw.id)
   if (idResolved === undefined) {
@@ -148,10 +170,10 @@ function transformApiRelationship(
     childId: toGlobalEntityId(childId),
     disabled: Boolean(raw.disabled ?? false),
     ...(orderIndex !== undefined && { orderIndex }),
-    ...(userTypeBlockBlockInstanceId !== undefined &&
-      (userTypeBlockBlockInstanceId === null ||
-        typeof userTypeBlockBlockInstanceId === 'string') && {
-        userTypeBlockBlockInstanceId: toGlobalEntityIdOrNull(userTypeBlockBlockInstanceId),
+    ...(userTypeBlockInstanceIdRaw !== undefined &&
+      (userTypeBlockInstanceIdRaw === null ||
+        typeof userTypeBlockInstanceIdRaw === 'string') && {
+        userTypeBlockInstanceId: toGlobalEntityIdOrNull(userTypeBlockInstanceIdRaw),
       }),
   }
 }

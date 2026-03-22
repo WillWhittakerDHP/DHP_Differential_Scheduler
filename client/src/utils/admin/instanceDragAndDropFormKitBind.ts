@@ -1,6 +1,7 @@
 /**
  * PATTERN: FormKit drag-and-drop bind/teardown per expansion-panels zone.
  * WHY: Isolates DOM/FormKit wiring from useInstanceDragAndDrop orchestration.
+ * PLACEMENT: utils/admin — inner ref() is local to bind; living under composables/ triggered module-level-ref false positives.
  */
 import { nextTick, ref, isRef, type Ref, type ComponentPublicInstance } from 'vue'
 import {
@@ -17,7 +18,7 @@ import {
   countDraggableNodes,
   createMultiClassDraggableChecker,
   createExpansionPanelDraggableChecker,
-} from './useDragAndDropHelpers'
+} from '@/composables/admin/useDragAndDropHelpers'
 
 const logger = createLogger('instanceDragAndDropFormKitBind')
 

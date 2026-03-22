@@ -1,12 +1,13 @@
-import type { BusinessRule } from '@/types/admin/businessRules'
 /**
  * Typed InjectionKey constants for admin provide/inject.
  * PATTERN: Use these keys in provide() and inject() for type-safe dependency injection.
+ * PLACEMENT: types/admin (not composables/) — keys-only module; naming audit expects use*.ts under composables/.
  */
 import type { InjectionKey } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import type { BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
+import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
+import type { NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -61,7 +62,7 @@ export interface InstancesTabContext {
   filteredEventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
   isLoadingEventInstances: ComputedRef<boolean>
   isCreatingEventInstance: Ref<boolean>
-  newEventInstanceData: Ref<Record<string, unknown> | null>
+  newEventInstanceData: Ref<NewEventInstanceData | null>
   isCreatingEventInstanceLoading: Ref<boolean>
   templateVariables: readonly { name: string; description: string; example: string }[]
   templateWarnings: ComputedRef<{ titleTemplate: string[]; descriptionTemplate: string[]; locationTemplate: string[] }>

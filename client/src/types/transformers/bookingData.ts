@@ -4,6 +4,7 @@ import type { AnnotationUiSlot } from '@shared/constants/annotationSlots'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
+import type { DifferentialRole } from '@shared/types/differentialRole'
 
 /** One annotation assignment row eligible for wizard slot resolution (from global batch + edges). */
 export type BookingAnnotationUiCandidate = {
@@ -60,6 +61,7 @@ export type BookingBlockInstance = CoreEntity & {
   isMultiFamily: boolean
   requiresAgent: boolean
   annotationUi?: BookingBlockAnnotationUi
+  differentialEventRoleOverrides?: Record<string, DifferentialRole>
   [key: string]: unknown
 }
 

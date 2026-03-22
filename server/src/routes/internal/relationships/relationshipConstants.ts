@@ -47,7 +47,7 @@ export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig>
   validEvents: {
     model: ValidEvent,
     displayName: 'Valid Event',
-    parentEntity: 'partShape',
+    parentEntity: 'blockShape',
     childEntity: 'eventShape'
   },
   dependentInstances: {
@@ -89,7 +89,7 @@ export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig>
   eventAssignments: {
     model: EventAssignment,
     displayName: 'Event Assignment',
-    parentEntity: 'partInstance', // Can be partInstance or blockInstance (determined by parent_kind)
+    parentEntity: 'blockInstance',
     childEntity: 'eventInstance'
   },
   attendeeAssignments: {

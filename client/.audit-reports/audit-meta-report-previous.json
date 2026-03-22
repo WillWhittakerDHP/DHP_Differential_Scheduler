@@ -1,6 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-07T18:34:03.054Z",
+  "generatedAt": "2026-03-07T18:37:55.899Z",
   "auditSummaries": [
     {
       "auditId": "type-similarity",
@@ -9,8 +9,8 @@
     },
     {
       "auditId": "component-logic",
-      "filesWithFindings": 0,
-      "totalFindings": 0
+      "filesWithFindings": 1,
+      "totalFindings": 1
     },
     {
       "auditId": "composables-logic",
@@ -24,13 +24,13 @@
     },
     {
       "auditId": "hardcoding",
-      "filesWithFindings": 0,
-      "totalFindings": 0
+      "filesWithFindings": 2,
+      "totalFindings": 2
     },
     {
       "auditId": "function-complexity",
-      "filesWithFindings": 0,
-      "totalFindings": 0
+      "filesWithFindings": 1,
+      "totalFindings": 1
     },
     {
       "auditId": "pattern-detection",
@@ -54,8 +54,8 @@
     },
     {
       "auditId": "deprecation",
-      "filesWithFindings": 3,
-      "totalFindings": 3
+      "filesWithFindings": 0,
+      "totalFindings": 0
     },
     {
       "auditId": "security",
@@ -84,8 +84,8 @@
     },
     {
       "auditId": "constants-consolidation",
-      "filesWithFindings": 6,
-      "totalFindings": 8
+      "filesWithFindings": 2,
+      "totalFindings": 1
     },
     {
       "auditId": "bundle-size-budget",
@@ -141,11 +141,12 @@
   "hotspots": [
     {
       "repoPath": "server/src/routes/internal/appointments/appointmentHelpers.ts",
-      "totalScore": 29.333333333333332,
-      "auditCount": 2,
+      "totalScore": 28.5,
+      "auditCount": 3,
       "auditIds": [
-        "file-cohesion",
-        "constants-consolidation"
+        "hardcoding",
+        "function-complexity",
+        "file-cohesion"
       ]
     },
     {
@@ -170,15 +171,6 @@
       "auditCount": 1,
       "auditIds": [
         "import-graph"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/appointments/listForAdminEntryHandler.ts",
-      "totalScore": 13.333333333333332,
-      "auditCount": 2,
-      "auditIds": [
-        "deprecation",
-        "constants-consolidation"
       ]
     },
     {
@@ -230,14 +222,6 @@
       ]
     },
     {
-      "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
-      "totalScore": 11.333333333333332,
-      "auditCount": 1,
-      "auditIds": [
-        "constants-consolidation"
-      ]
-    },
-    {
       "repoPath": "server/src/db/models/index",
       "totalScore": 9,
       "auditCount": 1,
@@ -286,14 +270,6 @@
       ]
     },
     {
-      "repoPath": "client/src/constants/entityFieldConstants.ts",
-      "totalScore": 6,
-      "auditCount": 1,
-      "auditIds": [
-        "constants-consolidation"
-      ]
-    },
-    {
       "repoPath": "server/src/routes/internal/index.ts",
       "totalScore": 6,
       "auditCount": 1,
@@ -331,6 +307,14 @@
       "auditCount": 1,
       "auditIds": [
         "file-cohesion"
+      ]
+    },
+    {
+      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
+      "totalScore": 3,
+      "auditCount": 1,
+      "auditIds": [
+        "hardcoding"
       ]
     },
     {
@@ -382,22 +366,6 @@
       ]
     },
     {
-      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "deprecation"
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-      "totalScore": 2,
-      "auditCount": 1,
-      "auditIds": [
-        "deprecation"
-      ]
-    },
-    {
       "repoPath": "client/src/components/admin/generic/entityCardConstants.ts",
       "totalScore": 2,
       "auditCount": 1,
@@ -435,6 +403,14 @@
       "auditCount": 1,
       "auditIds": [
         "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client/src/views/admin/AdminBookingEntryView.vue",
+      "totalScore": 1,
+      "auditCount": 1,
+      "auditIds": [
+        "component-logic"
       ]
     },
     {
@@ -540,24 +516,56 @@
       "auditIds": [
         "dep-freshness"
       ]
+    },
+    {
+      "repoPath": "server:eslint",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:vite-svg-loader",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
+    },
+    {
+      "repoPath": "client:vuetify",
+      "totalScore": 0.5,
+      "auditCount": 1,
+      "auditIds": [
+        "dep-freshness"
+      ]
     }
   ],
-  "totalExceptions": 2,
-  "previousExceptions": 0,
+  "totalExceptions": 41,
+  "previousExceptions": 17,
   "exceptionAnalysis": {
     "totals": {
-      "structural": 1,
+      "structural": 39,
       "specific": 1,
-      "total": 2
+      "total": 41
     },
     "perAudit": [
       {
         "auditId": "loop-mutation",
-        "structural": 1,
+        "structural": 39,
+        "specific": 0,
+        "total": 39,
+        "totalScanned": 6,
+        "ratio": 6.5
+      },
+      {
+        "auditId": "hardcoding",
+        "structural": 0,
         "specific": 0,
         "total": 1,
-        "totalScanned": 1,
-        "ratio": 1
+        "totalScanned": 9,
+        "ratio": 0
       },
       {
         "auditId": "constants-consolidation",
@@ -598,16 +606,13 @@
     "configPatternCount": 174
   },
   "exceptionDiff": {
-    "totalDelta": 2,
-    "structuralDelta": 1,
-    "specificDelta": 1,
+    "totalDelta": 24,
+    "structuralDelta": 23,
+    "specificDelta": 0,
     "configsChanged": [
-      "error-handling",
-      "import-graph",
-      "constants-consolidation",
       "type-import"
     ],
-    "verdict": "suppression-creep"
+    "verdict": "config-expanded"
   },
   "trend": [
     {
@@ -618,9 +623,9 @@
     },
     {
       "auditId": "component-logic",
-      "current": 0,
+      "current": 1,
       "previous": 0,
-      "delta": 0
+      "delta": 1
     },
     {
       "auditId": "composables-logic",
@@ -636,15 +641,15 @@
     },
     {
       "auditId": "hardcoding",
-      "current": 0,
+      "current": 2,
       "previous": 0,
-      "delta": 0
+      "delta": 2
     },
     {
       "auditId": "function-complexity",
-      "current": 0,
-      "previous": 0,
-      "delta": 0
+      "current": 1,
+      "previous": 3,
+      "delta": -2
     },
     {
       "auditId": "pattern-detection",
@@ -667,14 +672,14 @@
     {
       "auditId": "error-handling",
       "current": 0,
-      "previous": 0,
-      "delta": 0
+      "previous": 1,
+      "delta": -1
     },
     {
       "auditId": "deprecation",
-      "current": 3,
-      "previous": 6,
-      "delta": -3
+      "current": 0,
+      "previous": 0,
+      "delta": 0
     },
     {
       "auditId": "security",
@@ -708,9 +713,9 @@
     },
     {
       "auditId": "constants-consolidation",
-      "current": 8,
-      "previous": 4,
-      "delta": 4
+      "current": 1,
+      "previous": 1,
+      "delta": 0
     },
     {
       "auditId": "bundle-size-budget",

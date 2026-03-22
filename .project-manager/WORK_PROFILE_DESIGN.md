@@ -37,4 +37,4 @@
 
 `WorkflowCommandContext` resolves scope. `WorkProfile` classifies work. Do not conflate them.
 
-**Scope and branch resolution:** `WorkflowCommandContext.scope` is populated from `.project-manager/.tier-scope` via `readTierScope()` when context is built with `contextFromParams` or `getCurrent()`. Tier configs use `scope` (e.g. `ctx.scope?.phase?.branch`, `ctx.scope?.phase?.slug`) for deterministic branch names; session branches are created from the phase branch, not the feature branch. See Harness Charter §7.3 (TierScopeSnapshot, current implementation) and §16 (compatibility).
+**Scope and branch resolution:** `WorkflowCommandContext.scope` is populated from `.project-manager/.tier-scope` via `readTierScope()` when context is built with **`contextFromParams`** (which uses **`resolveWorkflowScope`**). Tier configs use `scope` (e.g. `ctx.scope?.phase?.branch`, `ctx.scope?.phase?.slug`) for deterministic branch names; session branches are created from the phase branch, not the feature branch. See Harness Charter §7.3 (TierScopeSnapshot, current implementation), §16 (compatibility), and `.project-manager/HARNESS_PLAYBOOK_ALIGNMENT.md`.

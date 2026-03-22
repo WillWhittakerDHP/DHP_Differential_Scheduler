@@ -1,7 +1,14 @@
 <template>
   <div>
+    <!-- WHY: fieldType textarea must win over computeRenderAs 'text' (same render kind for strings). -->
+    <TextAreaInput
+      v-if="fieldType === 'textarea'"
+      :field-context="fieldContext"
+      :show-label="showLabel"
+    />
+
     <TextInput
-      v-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
+      v-else-if="renderAs === 'text' || (fieldType === 'text' && renderAs !== 'statusButton')"
       :field-context="fieldContext"
       :show-label="showLabel"
     />
@@ -24,13 +31,6 @@
     <!-- Date Input -->
     <DateInput
       v-else-if="fieldType === 'date'"
-      :field-context="fieldContext"
-      :show-label="showLabel"
-    />
-    
-    <!-- Textarea Input -->
-    <TextAreaInput
-      v-else-if="fieldType === 'textarea'"
       :field-context="fieldContext"
       :show-label="showLabel"
     />

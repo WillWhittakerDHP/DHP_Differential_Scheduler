@@ -11,6 +11,10 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined
 ): FieldComponent {
+  if (entityKey === 'blockInstance' && String(fieldKey) === 'differentialEventRoleOverrides') {
+    return { type: 'differentialEventRoleOverrides', reason: 'differentialRoleMatrix' }
+  }
+
   if (!fieldMetadata) {
     return { type: 'unknown', reason: 'notConfigured' }
   }

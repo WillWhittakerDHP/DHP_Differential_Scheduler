@@ -1,7 +1,7 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-  "generatedAt": "2026-03-21T19:02:10.236Z",
-  "totalScanned": 0,
+  "generatedAt": "2026-03-22T02:01:44.946Z",
+  "totalScanned": 5,
   "ruleset": [
     {
       "ruleId": "excessive-prop-count",
@@ -84,11 +84,183 @@
       "recommendedFix": "Make the value a default or remove the prop entirely."
     }
   ],
-  "findings": [],
-  "files": [],
+  "findings": [
+    {
+      "ruleId": "oversized-template",
+      "lineNumber": 263,
+      "snippet": "Template is 260 lines",
+      "message": "Template is 260 lines; extract sub-components to improve readability.",
+      "fixHint": "Extract logical sections into sub-components.",
+      "confidence": "high",
+      "isFileLevel": true,
+      "detail": {
+        "lineCount": 260
+      },
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "isExported": true,
+      "parentCount": 7
+    },
+    {
+      "ruleId": "component-coupling",
+      "lineNumber": 37,
+      "snippet": "5 .vue imports",
+      "message": "Component imports 5 sibling components; high coupling surface.",
+      "fixHint": "Extract sub-compositions or use slots to reduce direct imports.",
+      "confidence": "high",
+      "isFileLevel": true,
+      "detail": {
+        "importCount": 5
+      },
+      "file": "client/src/components/admin/generic/fields/FieldRenderer.vue",
+      "isExported": true,
+      "parentCount": 5
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 49,
+      "snippet": ":ref=\"(el) => { if (ctx.eventInstancesContainer) ctx.eventInstancesContainer.val...",
+      "message": "Complex template expression (105 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 105
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 52,
+      "snippet": ":ref=\"(el) => { if (ctx.eventInstancesPanelsContainer && el != null) (ctx.eventI...",
+      "message": "Complex template expression (133 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 133
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    },
+    {
+      "ruleId": "complex-template-expression",
+      "lineNumber": 79,
+      "snippet": ":disabled=\"!(typeof ctx.newEventInstanceData.value?.name === 'string' && ctx.new...",
+      "message": "Complex template expression (105 chars); extract to computed property or method.",
+      "fixHint": "Move expression to a computed property.",
+      "confidence": "medium",
+      "isFileLevel": false,
+      "detail": {
+        "expressionLength": 105
+      },
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "isExported": true,
+      "parentCount": 1
+    }
+  ],
+  "files": [
+    {
+      "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+      "score": 3,
+      "priority": "P1",
+      "parentCount": 1
+    },
+    {
+      "file": "client/src/components/admin/generic/fields/FieldRenderer.vue",
+      "score": 2,
+      "priority": "P2",
+      "parentCount": 5
+    },
+    {
+      "file": "client/src/components/admin/generic/EntityCard.vue",
+      "score": 1,
+      "priority": "P2",
+      "parentCount": 7
+    }
+  ],
   "repairWaves": {
     "local": [],
-    "lowFanIn": [],
-    "highFanIn": []
+    "lowFanIn": [
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 49,
+        "snippet": ":ref=\"(el) => { if (ctx.eventInstancesContainer) ctx.eventInstancesContainer.val...",
+        "message": "Complex template expression (105 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 105
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 52,
+        "snippet": ":ref=\"(el) => { if (ctx.eventInstancesPanelsContainer && el != null) (ctx.eventI...",
+        "message": "Complex template expression (133 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 133
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      },
+      {
+        "ruleId": "complex-template-expression",
+        "lineNumber": 79,
+        "snippet": ":disabled=\"!(typeof ctx.newEventInstanceData.value?.name === 'string' && ctx.new...",
+        "message": "Complex template expression (105 chars); extract to computed property or method.",
+        "fixHint": "Move expression to a computed property.",
+        "confidence": "medium",
+        "isFileLevel": false,
+        "detail": {
+          "expressionLength": 105
+        },
+        "file": "client/src/views/admin/tabs/components/EventInstancesSection.vue",
+        "isExported": true,
+        "parentCount": 1
+      }
+    ],
+    "highFanIn": [
+      {
+        "ruleId": "oversized-template",
+        "lineNumber": 263,
+        "snippet": "Template is 260 lines",
+        "message": "Template is 260 lines; extract sub-components to improve readability.",
+        "fixHint": "Extract logical sections into sub-components.",
+        "confidence": "high",
+        "isFileLevel": true,
+        "detail": {
+          "lineCount": 260
+        },
+        "file": "client/src/components/admin/generic/EntityCard.vue",
+        "isExported": true,
+        "parentCount": 7
+      },
+      {
+        "ruleId": "component-coupling",
+        "lineNumber": 37,
+        "snippet": "5 .vue imports",
+        "message": "Component imports 5 sibling components; high coupling surface.",
+        "fixHint": "Extract sub-compositions or use slots to reduce direct imports.",
+        "confidence": "high",
+        "isFileLevel": true,
+        "detail": {
+          "importCount": 5
+        },
+        "file": "client/src/components/admin/generic/fields/FieldRenderer.vue",
+        "isExported": true,
+        "parentCount": 5
+      }
+    ]
   }
 }

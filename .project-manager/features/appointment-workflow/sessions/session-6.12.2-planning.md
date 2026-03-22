@@ -45,8 +45,15 @@ Ship **annotation UI slots** end-to-end for the booking wizard and admin: (1) ad
 - [ ] Client lint and app start clean; no new tests (deferred)
 
 ## How we build the tierDown to achieve them
+
 - **Task 6.12.2.1:** Shared slots constant, `ui_slot` schema, server validation, admin dropdown and legacy shape mapping
 - **Task 6.12.2.2:** `globalToBookingTransformer`, `useAnnotationContent`, SelectionCard/IndependentSelectCard, AvailabilityStep grid overlay fallback
+- **Task 6.12.2.3 (retro):** Annotation assignment flat edges, `assignmentUserTypeFilter`, `contentRows` resolution in wizard; see `sessions/task-6.12.2.3-planning.md`
+
+## Session log (technical backfill)
+
+Full retro reference (slots + assignments): `sessions/session-6.12.2-log.md`
+
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/phases/phase-6.12-guide.md`

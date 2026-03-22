@@ -19,6 +19,7 @@ import type { GlobalEntity } from '@/types/entities'
 import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
 import FieldRenderer from './fields/FieldRenderer.vue'
+import EntityCardPrimaryTitleRow from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
@@ -27,6 +28,7 @@ import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useE
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
@@ -208,6 +210,42 @@ provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = fieldLocation.titleRowFields
 
+/** WHY: Title stays the annotation template name; `text` is body copy and must not replace it. */
+const annotationInstanceShapeTitle = computed((): string => {
+  if (props.entityKey !== 'annotationInstance') return ''
+  const ann = props.entity as GlobalEntity<'annotationInstance'>
+  if (ann.type == null || String(ann.type) === '') return ''
+  const shape = admin.getEntity('annotationShape', toGlobalEntityId(String(ann.type)))
+  const n = shape?.name
+  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
+})
+
+/** WHY: Event shape name in title row; eventShapeRef UUID stays hidden in metadata. */
+const eventInstanceShapeTitle = computed((): string => {
+  if (props.entityKey !== 'eventInstance') return ''
+  const ei = props.entity as GlobalEntity<'eventInstance'>
+  if (ei.eventShapeRef == null || String(ei.eventShapeRef) === '') return ''
+  const shape = admin.getEntity('eventShape', toGlobalEntityId(String(ei.eventShapeRef)))
+  const n = shape?.name
+  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
+})
+
+const expansionFallbackTitle = computed(() => {
+  if (props.entityKey === 'annotationInstance' && annotationInstanceShapeTitle.value !== '') {
+    return annotationInstanceShapeTitle.value
+  }
+  return entityName.value
+})
+
+function fieldTreatsAsStaticTitle(fieldKey: string): boolean {
+  const vis = composedFieldMetadata.value[String(fieldKey)]?.visibility
+  if (vis !== FIELD_VISIBILITY.STATIC_AS_TITLE) return false
+  if (props.entityKey === 'annotationInstance' && fieldKey === 'text') {
+    return false
+  }
+  return true
+}
+
 /**
  * WHY: Expose methods and state for parent components (minimal API)
 PATTERN: Ex...
@@ -263,11 +301,19 @@ defineExpose({
             <!-- WHY: Name field should be on the left side of the title row, always first -->
             <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
             <div class="flex-grow-1 d-flex align-center gap-2">
+              <span
+                v-if="annotationInstanceShapeTitle"
+                class="font-weight-medium text-truncate"
+              >{{ annotationInstanceShapeTitle }}</span>
+              <span
+                v-if="eventInstanceShapeTitle"
+                class="font-weight-medium text-truncate text-medium-emphasis"
+              >{{ eventInstanceShapeTitle }}</span>
               <template
                 v-for="fieldKey in titleRowFields"
                 :key="fieldKey"
               >
-                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field" @click.stop>
+                <div v-if="fieldTreatsAsStaticTitle(String(fieldKey))" class="title-row-field" @click.stop>
                   <FieldRenderer
                     :field-context="getFieldContext(fieldKey)"
                     :show-label="false"
@@ -285,7 +331,7 @@ defineExpose({
                 v-for="fieldKey in titleRowFields"
                 :key="fieldKey"
               >
-                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
+                <div v-if="!fieldTreatsAsStaticTitle(String(fieldKey)) && composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
                   <FieldRenderer
                     :field-context="getFieldContext(fieldKey)"
                     :show-label="false"
@@ -295,7 +341,7 @@ defineExpose({
               </template>
             </div>
           </template>
-          <span v-else class="flex-grow-1">{{ entityName }}</span>
+          <span v-else class="flex-grow-1">{{ expansionFallbackTitle }}</span>
         </div>
         
         <!-- WHY: Shows parts totals at top of card when entity can have parts -->
@@ -391,11 +437,19 @@ defineExpose({
       <!-- WHY: Name field should be on the left side of the title row, always first -->
       <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
       <div class="flex-grow-1 d-flex align-center gap-2">
+        <span
+          v-if="annotationInstanceShapeTitle"
+          class="font-weight-medium text-truncate"
+        >{{ annotationInstanceShapeTitle }}</span>
+        <span
+          v-if="eventInstanceShapeTitle"
+          class="font-weight-medium text-truncate text-medium-emphasis"
+        >{{ eventInstanceShapeTitle }}</span>
         <template
           v-for="fieldKey in titleRowFields"
           :key="fieldKey"
         >
-          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field">
+          <div v-if="fieldTreatsAsStaticTitle(String(fieldKey))" class="title-row-field">
             <FieldRenderer
               :field-context="getFieldContext(fieldKey)"
               :show-label="false"
@@ -413,7 +467,7 @@ defineExpose({
           v-for="fieldKey in titleRowFields"
           :key="fieldKey"
         >
-          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
+          <div v-if="!fieldTreatsAsStaticTitle(String(fieldKey)) && composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
             <FieldRenderer
               :field-context="getFieldContext(fieldKey)"
               :show-label="false"
@@ -457,7 +511,7 @@ defineExpose({
     <VCard>
       <VCardTitle class="text-headline-small">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
       <VCardText>
-        Are you sure you want to delete "{{ entityName }}"? This action cannot be undone.
+        Are you sure you want to delete "{{ expansionFallbackTitle }}"? This action cannot be undone.
       </VCardText>
       <VCardActions>
         <VSpacer />

@@ -25,10 +25,12 @@ export interface InviteAppointmentData {
   status: string
   propertyVersion?: {
     address?: {
-      streetAddress: string
-      city: string
-      state: string
-      zipCode: string
+      streetAddress?: string
+      /** DB column name on Sequelize Address model (street line). */
+      address?: string
+      city?: string
+      state?: string
+      zipCode?: string
     }
   } | null
 }
@@ -46,18 +48,20 @@ export function buildInviteContext(
 
   const address = appointment.propertyVersion?.address
   if (address) {
-    context.streetAddress = address.streetAddress
-    context.city = address.city
-    context.state = address.state
-    context.zipCode = address.zipCode
-    context.fullAddress = [
-      address.streetAddress,
-      address.city,
-      address.state,
-      address.zipCode,
-    ]
-      .filter(Boolean)
-      .join(', ')
+    /** WHY: Sequelize `Address` uses column `address`; API/docs use `streetAddress` — support both. */
+    const addr = address as {
+      streetAddress?: string
+      address?: string
+      city?: string
+      state?: string
+      zipCode?: string
+    }
+    const street = addr.streetAddress ?? addr.address ?? ''
+    context.streetAddress = street
+    context.city = addr.city ?? ''
+    context.state = addr.state ?? ''
+    context.zipCode = addr.zipCode ?? ''
+    context.fullAddress = [street, addr.city, addr.state, addr.zipCode].filter(Boolean).join(', ')
   }
 
   if (appointment.selectedDate) {

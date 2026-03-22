@@ -40,14 +40,17 @@ export function computeRenderAs(
   }
 
   if (inputConfig && typeof inputConfig === 'object') {
-    const selectMode = inputConfig.selectMode as string | undefined
-    if (selectMode === 'multiple') {
+    const ic = inputConfig as Record<string, unknown>
+    if (ic.selectMode === 'multiple') {
       return 'multiselect'
     }
-    if (inputConfig.targetMode === 'relationship') {
+    if (ic.targetMode === 'relationship') {
       return 'reference'
     }
-    return 'select'
+    if (Array.isArray(ic.options)) {
+      return 'select'
+    }
+    // inputConfig without select shape (e.g. multiline, hint) — treat as text primitive
   }
 
   if (dataType === 'boolean' || dataType === 'ternary') {

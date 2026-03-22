@@ -18,7 +18,7 @@ import { useInstancesTabEventInstanceDrag } from '@/composables/admin/useInstanc
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
 import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { createLogger } from '@/utils/logger'
-import { instancesTabContextKey, type InstancesTabContext } from '@/composables/admin/injectionKeys'
+import { instancesTabContextKey, type InstancesTabContext } from '@/types/admin/adminInjectionKeys'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseInstancesTabReturn } from '@/types/admin/instancesTab'
 
@@ -106,6 +106,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     entities: eventInstances,
     create: createEventInstance,
     patchOrderIndex: patchEventInstanceOrderIndex,
+    remove: removeEventInstanceCrud,
   } = eventInstanceCrud
   const { entities: eventShapes } = useEntityCrud('eventShape')
   const isLoadingEventInstances = computed(() => false)
@@ -114,6 +115,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     expandedInstances,
     eventShapes,
     createEventInstance,
+    removeEventInstance: async (id: string) => removeEventInstanceCrud(toGlobalEntityId(id)),
     logger,
   })
   const {
