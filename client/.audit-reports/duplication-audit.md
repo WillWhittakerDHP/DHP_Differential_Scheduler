@@ -37,8 +37,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **744**
-- Groups (window=10 lines, minOccurrences=2): **46**
+- Files scanned: **751**
+- Groups (window=10 lines, minOccurrences=2): **49**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
@@ -46,6 +46,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 | Group | unique files | occurrences | lineCount | sample locations |
 | --- | ---: | ---: | ---: | --- |
 | `dup-23e58d4b1c3c` | 3 | 3 | 10 | `server/src/db/models/admin/business_settings.ts@102`, `server/src/db/models/admin/calendar_settings.ts@38`, `server/src/db/models/admin/wizard_settings.ts@48` |
+| `dup-8a6249d2b1ba` | 3 | 3 | 10 | `server/src/routes/schemas/adminMetadataSchemas.ts@11`, `server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts@11`, `server/src/routes/schemas/adminRelationshipMetadataSchemas.ts@11` |
+| `dup-a4ea723996de` | 3 | 3 | 10 | `server/src/routes/schemas/adminMetadataSchemas.ts@12`, `server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts@12`, `server/src/routes/schemas/adminRelationshipMetadataSchemas.ts@12` |
 | `dup-07637ee7e645` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@24`, `client/src/composables/booking/injectionKeys.ts@39` |
 | `dup-11f12b62a4a1` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@23`, `client/src/composables/booking/injectionKeys.ts@38` |
 | `dup-123065415eeb` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@12`, `client/src/composables/booking/injectionKeys.ts@50` |
@@ -68,8 +70,6 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-4c9d5a06c19a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@18`, `client/src/composables/booking/injectionKeys.ts@81` |
 | `dup-4f0b78374cc1` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@41`, `client/src/composables/booking/injectionKeys.ts@104` |
 | `dup-52fadcd59c64` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@20`, `client/src/composables/booking/injectionKeys.ts@35` |
-| `dup-58c3f9ebb247` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@15`, `client/src/composables/booking/injectionKeys.ts@30` |
-| `dup-66df354a977c` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@23`, `client/src/composables/booking/injectionKeys.ts@86` |
 
 ## Per-group details (top)
 
@@ -95,6 +95,50 @@ defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 field: 'updated_at',
 timestamps: false,
 underscored: false,
+```
+
+### Group `dup-8a6249d2b1ba`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/routes/schemas/adminMetadataSchemas.ts` @ lines 11-20
+- `server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts` @ lines 11-20
+- `server/src/routes/schemas/adminRelationshipMetadataSchemas.ts` @ lines 11-20
+
+```
+dataType: Joi.string().required(),
+label: Joi.string().required(),
+visibility: Joi.string().required(),
+layout: Joi.string().required(),
+displayOrder: Joi.number().required(),
+isRequired: Joi.boolean().optional(),
+renderAs: Joi.string().optional(),
+statusButtonColor: Joi.string().allow(null).optional(),
+panel: Joi.string().optional(),
+bulkEdit: Joi.boolean().optional(),
+```
+
+### Group `dup-a4ea723996de`
+
+- unique files: **3**, occurrences: **3**, lineCount: **10**
+
+Locations:
+- `server/src/routes/schemas/adminMetadataSchemas.ts` @ lines 12-21
+- `server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts` @ lines 12-21
+- `server/src/routes/schemas/adminRelationshipMetadataSchemas.ts` @ lines 12-21
+
+```
+label: Joi.string().required(),
+visibility: Joi.string().required(),
+layout: Joi.string().required(),
+displayOrder: Joi.number().required(),
+isRequired: Joi.boolean().optional(),
+renderAs: Joi.string().optional(),
+statusButtonColor: Joi.string().allow(null).optional(),
+panel: Joi.string().optional(),
+bulkEdit: Joi.boolean().optional(),
+inputConfig: Joi.any().optional(),
 ```
 
 ### Group `dup-07637ee7e645`
@@ -452,46 +496,4 @@ export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
 Symbol('instancesPanelContext')
 clientInfo: Ref<ContactInfo>
 agentInfo: Ref<ContactInfo>
-```
-
-### Group `dup-410a19544c06`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/booking/bookingDevPanelKeys.ts` @ lines 30-44
-- `client/src/composables/booking/injectionKeys.ts` @ lines 93-107
-
-```
-timeSlotResults: ComputedRef<TimeSlotResults>
-hasSelectedTime: ComputedRef<boolean>
-export const instancesPanelContextKey: InjectionKey<InstancesPanelContext> =
-Symbol('instancesPanelContext')
-clientInfo: Ref<ContactInfo>
-agentInfo: Ref<ContactInfo>
-anotherClientInfo: Ref<ContactInfo>
-transactionManagerInfo: Ref<ContactInfo>
-sellerInfo: Ref<ContactInfo>
-showAnotherClient: Ref<boolean>
-```
-
-### Group `dup-452112380556`
-
-- unique files: **2**, occurrences: **2**, lineCount: **10**
-
-Locations:
-- `client/src/composables/booking/bookingKeys.ts` @ lines 15-25
-- `client/src/composables/booking/injectionKeys.ts` @ lines 53-64
-
-```
-Symbol('confirmationStepValid')
-export const confirmationStepValidateKey: InjectionKey<Ref<(() => boolean) | null>> =
-Symbol('confirmationStepValidate')
-export const displayedMonthKey: InjectionKey<Ref<DisplayedMonth>> =
-Symbol('displayedMonth')
-export const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =
-Symbol('updateDisplayedMonth')
-export const appointmentDurationKey: InjectionKey<Ref<number | null>> =
-Symbol('appointmentDuration')
-export const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =
 ```

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:22:29.954Z",
+  "generatedAt": "2026-03-22T00:39:28.129Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,7 +14,7 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1182,
+  "fileCount": 1198,
   "totalDefinitions": 836,
   "groups": [
     {
@@ -7928,7 +7928,7 @@
       "name": "ForceCreateBody",
       "kind": "interface",
       "file": "server/src/routes/internal/appointments/forceCreateRouter.ts",
-      "line": 39,
+      "line": 41,
       "exported": false,
       "fingerprint": "c04528c3d690",
       "propertyCount": 5,

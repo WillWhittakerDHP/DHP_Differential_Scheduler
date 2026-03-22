@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-21T19:22:51.280Z",
-  "totalScanned": 112,
+  "generatedAt": "2026-03-22T00:39:27.321Z",
+  "totalScanned": 127,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 2,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -11,44 +11,6 @@
       "linePattern": 0
     }
   },
-  "files": [
-    {
-      "repoPath": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
-      "score": 3,
-      "priority": "P2",
-      "count": 1
-    },
-    {
-      "repoPath": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
-      "score": 3,
-      "priority": "P2",
-      "count": 1
-    }
-  ],
-  "scanned": [
-    {
-      "repoPath": "server/src/routes/internal/calendarSettings/calendarSettingsCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 46,
-          "line": "const settingValue = req.body?.setting_value;",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
-      "repoPath": "server/src/routes/internal/wizardSettings/wizardSettingsCrudRouter.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "reqBodyUnvalidated",
-          "lineNumber": 39,
-          "line": "const settingValue = req.body?.setting_value;",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    }
-  ]
+  "files": [],
+  "scanned": []
 }
