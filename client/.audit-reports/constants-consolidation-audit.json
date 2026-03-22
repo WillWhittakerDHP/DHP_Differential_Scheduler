@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T16:52:44.109Z",
+  "generatedAt": "2026-03-22T17:08:06.191Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,7 +11,7 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1048,
+  "totalScanned": 1050,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
@@ -137,25 +137,25 @@
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 353,
-          "inline": true
-        },
-        {
-          "file": "server/src/db/models/index.ts",
-          "export": null,
           "line": 357,
           "inline": true
         },
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 362,
+          "line": 361,
           "inline": true
         },
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
           "line": 366,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/index.ts",
+          "export": null,
+          "line": 370,
           "inline": true
         }
       ],
@@ -436,25 +436,25 @@
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 353,
-          "line": "inline: value",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "hoist",
           "lineNumber": 357,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 362,
+          "lineNumber": 361,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
           "lineNumber": 366,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 370,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
