@@ -71,6 +71,13 @@ The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** 
 - **Server .env files:** `server/.env.development`, `server/.env.production` are loaded by envConfig; ensure `.gitignore` covers `.env*`.
 - **Root .env:** Used for cross-cutting vars (e.g. `TEST_ENABLED`, `GIT_MCP_SERVER`); do not commit real values.
 
+### Validation (Task 8.4.1.2 — 2026-03-22)
+
+- **server/.env.example:** Updated with all required and optional vars from inventory. Template includes DB_*, Google OAuth, Bright MLS, cache TTLs, and logging vars.
+- **Root .env.example:** Created for cross-cutting vars (TEST_ENABLED, GIT_MCP_SERVER, VITE_*).
+- **Hardcoded secrets scan:** No API keys or tokens found in committed source. `database.mjs` uses `DB_PASSWORD || 'jklJKL'` as a dev fallback; production requires `DB_PASSWORD` (envConfig validates). Document as acceptable dev default; prod must set env.
+- **.gitignore:** Confirms `.env` and `.env.*` — env files are not committed.
+
 ## Inbound rate limiting (active)
 
 **Location:** `server/src/middlewares/rateLimit.ts`  
