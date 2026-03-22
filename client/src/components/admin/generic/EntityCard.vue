@@ -295,53 +295,18 @@ defineExpose({
             WHY: Native HTML5 drag does not start from descendants of <button> (VExpansionPanelTitle).
             PATTERN: .instance-drag-handle lives in the panel default slot (sibling of title), positioned over the title rail — see below.
           -->
-          <!-- WHY: Name field should be on the left side of the title row -->
-          <!-- PATTERN: Render name field first, then status buttons on the right -->
-          <template v-if="titleRowFields.length > 0 && isFormReady">
-            <!-- WHY: Name field should be on the left side of the title row, always first -->
-            <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
-            <div class="flex-grow-1 d-flex align-center gap-2">
-              <span
-                v-if="annotationInstanceShapeTitle"
-                class="font-weight-medium text-truncate"
-              >{{ annotationInstanceShapeTitle }}</span>
-              <span
-                v-if="eventInstanceShapeTitle"
-                class="font-weight-medium text-truncate text-medium-emphasis"
-              >{{ eventInstanceShapeTitle }}</span>
-              <template
-                v-for="fieldKey in titleRowFields"
-                :key="fieldKey"
-              >
-                <div v-if="fieldTreatsAsStaticTitle(String(fieldKey))" class="title-row-field" @click.stop>
-                  <FieldRenderer
-                    :field-context="getFieldContext(fieldKey)"
-                    :show-label="false"
-                    :field-metadata="composedFieldMetadata"
-                    :read-only="!isExpanded"
-                  />
-                </div>
-              </template>
-            </div>
-            
-            <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
-            <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
-            <div class="d-flex align-center gap-2 ms-auto">
-              <template
-                v-for="fieldKey in titleRowFields"
-                :key="fieldKey"
-              >
-                <div v-if="!fieldTreatsAsStaticTitle(String(fieldKey)) && composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
-                  <FieldRenderer
-                    :field-context="getFieldContext(fieldKey)"
-                    :show-label="false"
-                    :field-metadata="composedFieldMetadata"
-                  />
-                </div>
-              </template>
-            </div>
-          </template>
-          <span v-else class="flex-grow-1">{{ expansionFallbackTitle }}</span>
+          <EntityCardPrimaryTitleRow
+            :title-row-fields="titleRowFields"
+            :is-form-ready="isFormReady"
+            :is-expanded="isExpanded"
+            :annotation-instance-shape-title="annotationInstanceShapeTitle"
+            :event-instance-shape-title="eventInstanceShapeTitle"
+            :expansion-fallback-title="expansionFallbackTitle"
+            :composed-field-metadata="composedFieldMetadata"
+            :field-treats-as-static-title="fieldTreatsAsStaticTitle"
+            :get-field-context="getFieldContext"
+            :read-only-static-when-collapsed="true"
+          />
         </div>
         
         <!-- WHY: Shows parts totals at top of card when entity can have parts -->
@@ -434,48 +399,19 @@ defineExpose({
       class="d-flex align-center gap-2 mb-4 flex-wrap"
       @keydown="handleTitleKeydown"
     >
-      <!-- WHY: Name field should be on the left side of the title row, always first -->
-      <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
-      <div class="flex-grow-1 d-flex align-center gap-2">
-        <span
-          v-if="annotationInstanceShapeTitle"
-          class="font-weight-medium text-truncate"
-        >{{ annotationInstanceShapeTitle }}</span>
-        <span
-          v-if="eventInstanceShapeTitle"
-          class="font-weight-medium text-truncate text-medium-emphasis"
-        >{{ eventInstanceShapeTitle }}</span>
-        <template
-          v-for="fieldKey in titleRowFields"
-          :key="fieldKey"
-        >
-          <div v-if="fieldTreatsAsStaticTitle(String(fieldKey))" class="title-row-field">
-            <FieldRenderer
-              :field-context="getFieldContext(fieldKey)"
-              :show-label="false"
-              :field-metadata="composedFieldMetadata"
-              :read-only="!isExpanded"
-            />
-          </div>
-        </template>
-      </div>
-      
-      <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
-      <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
-      <div class="d-flex align-center gap-2 ms-auto">
-        <template
-          v-for="fieldKey in titleRowFields"
-          :key="fieldKey"
-        >
-          <div v-if="!fieldTreatsAsStaticTitle(String(fieldKey)) && composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
-            <FieldRenderer
-              :field-context="getFieldContext(fieldKey)"
-              :show-label="false"
-              :field-metadata="composedFieldMetadata"
-            />
-          </div>
-        </template>
-      </div>
+      <EntityCardPrimaryTitleRow
+        :fallback-when-not-ready="false"
+        :title-row-fields="titleRowFields"
+        :is-form-ready="isFormReady"
+        :is-expanded="isExpanded"
+        :annotation-instance-shape-title="annotationInstanceShapeTitle"
+        :event-instance-shape-title="eventInstanceShapeTitle"
+        :expansion-fallback-title="expansionFallbackTitle"
+        :composed-field-metadata="composedFieldMetadata"
+        :field-treats-as-static-title="fieldTreatsAsStaticTitle"
+        :get-field-context="getFieldContext"
+        :read-only-static-when-collapsed="false"
+      />
     </div>
 
     <EntityCardFeePreview
