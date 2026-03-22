@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-22T00:39:27.790Z",
+  "generatedAt": "2026-03-22T00:44:35.828Z",
   "check": "Deprecation",
-  "totalScanned": 1168,
+  "totalScanned": 1169,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
