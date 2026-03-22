@@ -54,7 +54,7 @@ Work is organized into three sessions (7.1.1–7.1.3). Each session has its own 
 **Focus:**
 - Explicit typings and model layout consistent with codebase patterns
 
-- [ ] ### Session 7.1.3: Model registration and boot verification
+- [x] ### Session 7.1.3: Model registration and boot verification
 **Description:** Register models in `server/src/db/models/index.ts`; run migrate/sync and confirm server boot against dev DB.
 **Goal:** Application discovery loads auth tables through the same index as other models; dev boot is green.
 **Files:** `server/src/db/models/index.ts`, bootstrap touch points only if required
