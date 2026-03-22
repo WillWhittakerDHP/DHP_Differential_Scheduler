@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T13:41:00.319Z",
+  "generatedAt": "2026-03-22T16:45:19.011Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,17 +36,17 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 270,
+    "totalTypeFiles": 277,
     "totalConstantFiles": 24,
     "totalConfigFiles": 41,
     "filesWithInlineTypes": 115,
     "annotated": 325,
-    "unannotated": 10,
+    "unannotated": 17,
     "classificationIssues": {
-      "mixedTypeConstantFiles": 14,
+      "mixedTypeConstantFiles": 15,
       "inlineTypesInComposables": 85,
       "configsWithLogic": 11,
-      "duplicateTypeNames": 7,
+      "duplicateTypeNames": 8,
       "cleanupCandidates": 0,
       "monomorphicGenerics": 9
     }
@@ -7060,18 +7060,44 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
+        "AppointmentSelectedTimeSlotPayload",
         "AttendeeRequest",
         "AdminEntryAppointmentItem"
       ],
       "exportKinds": {
         "types": 0,
-        "interfaces": 2,
+        "interfaces": 3,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 24,
+      "lineCount": 30,
       "purpose": "Shared appointment data structure types",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__availabilitySettingsDocument.ts",
+      "repoPath": "shared/types/availabilitySettingsDocument.ts",
+      "name": "availabilitySettingsDocument",
+      "directoryDomain": "availabilitySettingsDocument.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "AvailabilitySettingsData"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 84,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -7110,6 +7136,7 @@
         "ConstraintCheckResult",
         "WorkCapacityFilter",
         "DurationRoundingConfig",
+        "DriveTimeFeeConfig",
         "ComputedAvailabilityRequest",
         "ComputedAvailabilityData",
         "SlotTimeBounds",
@@ -7118,11 +7145,11 @@
       ],
       "exportKinds": {
         "types": 12,
-        "interfaces": 17,
+        "interfaces": 18,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 382,
+      "lineCount": 400,
       "purpose": "Shared availability slot and scheduling types",
       "reuseTier": "shared",
       "tags": [],
@@ -7154,6 +7181,29 @@
       "lineCount": 53,
       "purpose": "Business rules configuration and constraint types",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__calendarSettingsDocument.ts",
+      "repoPath": "shared/types/calendarSettingsDocument.ts",
+      "name": "calendarSettingsDocument",
+      "directoryDomain": "calendarSettingsDocument.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 6,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -7259,6 +7309,58 @@
       "lineCount": 16,
       "purpose": "Core entity type definitions shared between client and server",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__differentialRole.ts",
+      "repoPath": "shared/types/differentialRole.ts",
+      "name": "differentialRole",
+      "directoryDomain": "differentialRole.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "DifferentialRole",
+        "DifferentialRoleStorage"
+      ],
+      "exportKinds": {
+        "types": 2,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 5,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__eventInstancePreview.ts",
+      "repoPath": "shared/types/eventInstancePreview.ts",
+      "name": "eventInstancePreview",
+      "directoryDomain": "eventInstancePreview.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "EventInstancePreviewRequestBody",
+        "EventInstancePreviewResponseBody"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 15,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -7445,6 +7547,87 @@
       "lineCount": 29,
       "purpose": "Shared property entity data types",
       "reuseTier": "shared",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__selectInputConfig.ts",
+      "repoPath": "shared/types/selectInputConfig.ts",
+      "name": "selectInputConfig",
+      "directoryDomain": "selectInputConfig.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "SelectInputConfigPassthroughKey",
+        "SelectInputConfigPassthrough",
+        "SelectInputStaticOptionsCore",
+        "SelectInputRelationshipCore",
+        "SelectInputPrimitiveCore",
+        "SelectInputConfig",
+        "ParsedSelectInputConfig"
+      ],
+      "exportKinds": {
+        "types": 7,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": true,
+      "lineCount": 56,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__ternary.ts",
+      "repoPath": "shared/types/ternary.ts",
+      "name": "ternary",
+      "directoryDomain": "ternary.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "TernaryBoolean"
+      ],
+      "exportKinds": {
+        "types": 1,
+        "interfaces": 0,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 4,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__wizardSettingsTypes.ts",
+      "repoPath": "shared/types/wizardSettingsTypes.ts",
+      "name": "wizardSettingsTypes",
+      "directoryDomain": "wizardSettingsTypes.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "WizardSettingsData"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 1,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 16,
+      "purpose": null,
+      "reuseTier": "unknown",
       "tags": [],
       "placement": null,
       "priority": null,
@@ -10359,6 +10542,10 @@
         "reason": "In types/ but exports runtime values"
       },
       {
+        "repoPath": "shared/types/selectInputConfig.ts",
+        "reason": "In types/ but exports runtime values"
+      },
+      {
         "repoPath": "client/src/constants/apiStatus.ts",
         "reason": "In constants/configs and exports type definitions"
       },
@@ -11585,6 +11772,13 @@
         "files": [
           "client/src/types/component.ts",
           "shared/types/componentTypes.ts"
+        ]
+      },
+      {
+        "typeName": "TernaryBoolean",
+        "files": [
+          "client/src/types/ternary.ts",
+          "shared/types/ternary.ts"
         ]
       },
       {
