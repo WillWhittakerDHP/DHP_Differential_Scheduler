@@ -194,6 +194,16 @@
       "timestamp": "2026-03-21T21:40:47.894Z",
       "auditType": "type-import",
       "hits": {}
+    },
+    {
+      "timestamp": "2026-03-22T00:15:42.163Z",
+      "auditType": "error-handling",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-22T00:15:42.164Z",
+      "auditType": "type-import",
+      "hits": {}
     }
   ],
   "maxRuns": 5
