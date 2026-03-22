@@ -78,6 +78,29 @@ The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** 
 - **Hardcoded secrets scan:** No API keys or tokens found in committed source. `database.mjs` uses `DB_PASSWORD || 'jklJKL'` as a dev fallback; production requires `DB_PASSWORD` (envConfig validates). Document as acceptable dev default; prod must set env.
 - **.gitignore:** Confirms `.env` and `.env.*` — env files are not committed.
 
+### Committed files scan — results (Task 8.4.2.1 — 2026-03-22)
+
+**Methodology:** Audited `.gitignore` for credential-path coverage; ran pattern-based grep on tracked files (`git ls-files` over `client/src/**`, `server/src/**`) for: `(api_key|secret|password|token|bearer)=.*[20+ chars]`, `AIza[0-9A-Za-z-_]{35}`, `sk-[a-zA-Z0-9]{20,}`. Excluded `.env.example` and documentation.
+
+**.gitignore coverage (verified):**
+
+| Pattern | Purpose |
+|---------|---------|
+| `.env`, `.env.*` | All env files (except `.env.example` templates) |
+| `!.env.example`, `!**/.env.example` | Allow template files only |
+| `.google-tokens.json` | Google OAuth token storage |
+| `.cursor/mcp.json` | MCP config with machine-specific paths |
+| `.cursor/gmail-mcp-server` | Cloned Gmail MCP (third-party) |
+| `backups/property-configs/property-config-*.json` | Dated config backups (may hold API keys) |
+
+**Note:** `backups/property-configs/property-config-latest.json` is tracked. Ensure it does not contain real API keys; use placeholders or env refs if used for deployment.
+
+**Scan results:**
+
+- **No high-risk findings.** No hardcoded Google API keys (`AIza*`), OpenAI-style keys (`sk-*`), or bearer tokens in committed source.
+- **DB_PASSWORD fallback:** `database.mjs`, `db-reset.mjs`, `run-migrations.mjs` use `process.env.DB_PASSWORD || 'jklJKL'` for local dev. Documented in Validation section above; production requires `DB_PASSWORD` env.
+- **sessionToken:** `mapsRoutes.ts` uses `generateSessionToken()` — runtime-generated, not a hardcoded secret.
+
 ## Inbound rate limiting (active)
 
 **Location:** `server/src/middlewares/rateLimit.ts`  
