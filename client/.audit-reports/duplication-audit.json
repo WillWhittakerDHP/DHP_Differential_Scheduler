@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T00:39:27.841Z",
+  "generatedAt": "2026-03-22T00:42:55.164Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 751,
+  "fileCount": 749,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -492,72 +492,6 @@
           "endLine": 68,
           "windowText": "type: DataTypes.JSONB,\nfield: 'setting_value',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'created_at',\ntype: DataTypes.DATE,\ndefaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),\nfield: 'updated_at',\ntimestamps: false,\nunderscored: false,",
           "target": "server/src/db/models/admin/wizard_settings.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-8a6249d2b1ba",
-      "hash": "8a6249d2b1ba",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "dataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/schemas/adminMetadataSchemas.ts",
-          "startLine": 11,
-          "endLine": 20,
-          "windowText": "dataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),",
-          "target": "server/src/routes/schemas/adminMetadataSchemas.ts"
-        },
-        {
-          "repoPath": "server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts",
-          "startLine": 11,
-          "endLine": 20,
-          "windowText": "dataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),",
-          "target": "server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts"
-        },
-        {
-          "repoPath": "server/src/routes/schemas/adminRelationshipMetadataSchemas.ts",
-          "startLine": 11,
-          "endLine": 20,
-          "windowText": "dataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),",
-          "target": "server/src/routes/schemas/adminRelationshipMetadataSchemas.ts"
-        }
-      ],
-      "score": 33,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-a4ea723996de",
-      "hash": "a4ea723996de",
-      "uniqueFiles": 3,
-      "occurrences": 3,
-      "lineCount": 10,
-      "windowText": "label: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),\ninputConfig: Joi.any().optional(),",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/schemas/adminMetadataSchemas.ts",
-          "startLine": 12,
-          "endLine": 21,
-          "windowText": "label: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),\ninputConfig: Joi.any().optional(),",
-          "target": "server/src/routes/schemas/adminMetadataSchemas.ts"
-        },
-        {
-          "repoPath": "server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts",
-          "startLine": 12,
-          "endLine": 21,
-          "windowText": "label: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),\ninputConfig: Joi.any().optional(),",
-          "target": "server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts"
-        },
-        {
-          "repoPath": "server/src/routes/schemas/adminRelationshipMetadataSchemas.ts",
-          "startLine": 12,
-          "endLine": 21,
-          "windowText": "label: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),\nbulkEdit: Joi.boolean().optional(),\ninputConfig: Joi.any().optional(),",
-          "target": "server/src/routes/schemas/adminRelationshipMetadataSchemas.ts"
         }
       ],
       "score": 33,
@@ -1520,32 +1454,6 @@
           "endLine": 67,
           "windowText": "Symbol('confirmationStepValidate')\nexport const displayedMonthKey: InjectionKey<Ref<DisplayedMonth>> =\nSymbol('displayedMonth')\nexport const updateDisplayedMonthKey: InjectionKey<(month: DisplayedMonth) => void> =\nSymbol('updateDisplayedMonth')\nexport const appointmentDurationKey: InjectionKey<Ref<number | null>> =\nSymbol('appointmentDuration')\nexport const computedAvailabilityKey: InjectionKey<UseComputedAvailabilityReturn> =\nSymbol('computedAvailability')\nexport const resetMocksSignalKey: InjectionKey<Ref<number>> =",
           "target": "client/src/composables/booking/injectionKeys.ts"
-        }
-      ],
-      "score": 22,
-      "priority": "P0"
-    },
-    {
-      "groupId": "dup-c559cca22244",
-      "hash": "c559cca22244",
-      "uniqueFiles": 2,
-      "occurrences": 2,
-      "lineCount": 10,
-      "windowText": "fieldKey: Joi.string().required(),\ndataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),",
-      "locations": [
-        {
-          "repoPath": "server/src/routes/schemas/adminMetadataSchemas.ts",
-          "startLine": 10,
-          "endLine": 19,
-          "windowText": "fieldKey: Joi.string().required(),\ndataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),",
-          "target": "server/src/routes/schemas/adminMetadataSchemas.ts"
-        },
-        {
-          "repoPath": "server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts",
-          "startLine": 10,
-          "endLine": 19,
-          "windowText": "fieldKey: Joi.string().required(),\ndataType: Joi.string().required(),\nlabel: Joi.string().required(),\nvisibility: Joi.string().required(),\nlayout: Joi.string().required(),\ndisplayOrder: Joi.number().required(),\nisRequired: Joi.boolean().optional(),\nrenderAs: Joi.string().optional(),\nstatusButtonColor: Joi.string().allow(null).optional(),\npanel: Joi.string().optional(),",
-          "target": "server/src/routes/schemas/adminPrimitiveMetadataSchemas.ts"
         }
       ],
       "score": 22,

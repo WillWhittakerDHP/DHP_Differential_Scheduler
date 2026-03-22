@@ -5,7 +5,7 @@
  */
 
 import type { Request, Response, NextFunction } from 'express';
-import type { ObjectSchema } from 'joi';
+import type { Schema } from 'joi';
 
 /**
  * Returns Express middleware that validates req.body against the given Joi schema.
@@ -15,10 +15,13 @@ import type { ObjectSchema } from 'joi';
  * PATTERN: Same validation approach as relationshipAnnotationAssignmentRouter, extracted
  * into reusable middleware so routes stay thin.
  *
- * @param schema - Joi ObjectSchema to validate req.body
+ * WHY Schema: Accepts ObjectSchema (typical POST/PUT bodies) and ArraySchema
+ * (bulk routes like PATCH /entities/:type/order_index) — schema.validate() works for both.
+ *
+ * @param schema - Joi Schema (ObjectSchema or ArraySchema) to validate req.body
  * @returns Express RequestHandler
  */
-export function validateRequest(schema: ObjectSchema): (req: Request, res: Response, next: NextFunction) => void {
+export function validateRequest(schema: Schema): (req: Request, res: Response, next: NextFunction) => void {
   return (req: Request, res: Response, next: NextFunction): void => {
     const { error } = schema.validate(req.body, { abortEarly: false });
     if (error) {

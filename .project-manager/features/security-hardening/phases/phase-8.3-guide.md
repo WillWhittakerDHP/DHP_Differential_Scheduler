@@ -13,7 +13,7 @@
 **Description:** Add request validation and input sanitization (e.g. Joi) on POST/PUT bodies to protect against malformed or malicious payloads.
 
 **Duration:** [Estimated]
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -52,9 +52,9 @@
 
 ## Success Criteria
 
-- [ ] All sessions completed
+- [x] All sessions completed
 - [ ] Validation applied to internal POST/PUT routes
-- [ ] Documentation updated
+- [x] Documentation updated
 
 ---
 

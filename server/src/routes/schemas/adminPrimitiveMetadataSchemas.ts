@@ -3,19 +3,10 @@
  * Domain validation remains in handlers.
  */
 import Joi from 'joi'
+import { adminMetadataCommonFields } from './adminMetadataSchemaHelpers.js'
 
 /** POST /admin-primitive-metadata/:entityType/:entityId. */
 export const adminPrimitiveMetadataPostBodySchema = Joi.object({
   fieldKey: Joi.string().required(),
-  dataType: Joi.string().required(),
-  label: Joi.string().required(),
-  visibility: Joi.string().required(),
-  layout: Joi.string().required(),
-  displayOrder: Joi.number().required(),
-  isRequired: Joi.boolean().optional(),
-  renderAs: Joi.string().optional(),
-  statusButtonColor: Joi.string().allow(null).optional(),
-  panel: Joi.string().optional(),
-  bulkEdit: Joi.boolean().optional(),
-  inputConfig: Joi.any().optional(),
+  ...adminMetadataCommonFields,
 }).required()
