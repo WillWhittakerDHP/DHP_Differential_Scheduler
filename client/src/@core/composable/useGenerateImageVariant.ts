@@ -1,7 +1,14 @@
+import { computed, type ComputedRef } from 'vue'
 import { useTheme } from 'vuetify'
 import { useConfigStore } from '@core/stores/config'
 
-export const useGenerateImageVariant = (imgLight: string, imgDark: string, imgLightBordered?: string, imgDarkBordered?: string, bordered = false) => {
+export const useGenerateImageVariant = (
+  imgLight: string,
+  imgDark: string,
+  imgLightBordered?: string,
+  imgDarkBordered?: string,
+  bordered = false
+): ComputedRef<string | undefined> => {
   const configStore = useConfigStore()
   const { global } = useTheme()
 
