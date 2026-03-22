@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:02:08.736Z",
+  "generatedAt": "2026-03-22T02:01:43.367Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"
@@ -10,222 +10,172 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 284,
+  "totalScanned": 290,
   "exceptionSummary": {
-    "totalRequiresReview": 2
+    "totalRequiresReview": 3
   },
   "files": [
     {
-      "id": "client__src__composables__admin__useInstanceDragAndDrop.ts",
-      "repoPath": "client/src/composables/admin/useInstanceDragAndDrop.ts",
-      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useInstanceDragAndDrop.ts",
+      "id": "client__src__composables__admin__useShapesTabCreation.ts",
+      "repoPath": "client/src/composables/admin/useShapesTabCreation.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useShapesTabCreation.ts",
       "counts": {
-        "computed": 2,
-        "ref": 7,
+        "computed": 0,
+        "ref": 8,
         "reactive": 0,
-        "watch": 2,
+        "watch": 0,
         "watchEffect": 0,
-        "lifecycle": 4,
-        "async": 1,
-        "await": 1,
+        "lifecycle": 0,
+        "async": 2,
+        "await": 2,
         "vueQuery": 0,
-        "map": 7,
+        "map": 0,
         "reduce": 0,
-        "filter": 3,
-        "sort": 2,
+        "filter": 8,
+        "sort": 0,
         "dom": 0,
         "timers": 0,
         "console": 0
       },
       "matches": [
         {
-          "ruleId": "lifecycle",
-          "lineNumber": 5,
-          "line": "import { ref, watch, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, isRef, type Ref, type ComponentPublicInstance, type ComputedRef } from 'vue'",
+          "ruleId": "ref",
+          "lineNumber": 52,
+          "line": "const isCreatingBlockShape = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "map",
-          "lineNumber": 40,
-          "line": ".map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)",
+          "ruleId": "ref",
+          "lineNumber": 53,
+          "line": "const isCreatingPartShape = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "sort",
-          "lineNumber": 40,
-          "line": ".map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)",
+          "ruleId": "ref",
+          "lineNumber": 54,
+          "line": "const isCreatingAnnotationShape = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "sort",
-          "lineNumber": 41,
-          "line": ".sort()",
+          "ruleId": "ref",
+          "lineNumber": 55,
+          "line": "const isCreatingEventShape = ref(false)",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 58,
+          "line": "const newAnnotationShapeName = ref('')",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 59,
+          "line": "const newEventShapeName = ref('')",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 60,
+          "line": "const isCreatingAnnotationShapeLoading = ref(false)",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "ref",
+          "lineNumber": 61,
+          "line": "const isCreatingEventShapeLoading = ref(false)",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "filter",
-          "lineNumber": 62,
-          "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
+          "lineNumber": 76,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "map",
-          "lineNumber": 64,
-          "line": "groupedEntityIds.value = grouped.map((e) => e.id)",
+          "ruleId": "filter",
+          "lineNumber": 82,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-blockShape')",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 104,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "filter",
+          "lineNumber": 110,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-partShape')",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "async",
-          "lineNumber": 67,
-          "line": "return async (): Promise<void> => {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 70,
-          "line": "const idToEntity = new Map(all.map((e) => [e.id, e]))",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 71,
-          "line": "const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 73,
-          "line": ".map((id) => idToEntity.get(id as GlobalEntityId))",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "filter",
-          "lineNumber": 74,
-          "line": ".filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 76,
-          "line": "const updates = merged.map((entity, index) => ({",
+          "lineNumber": 113,
+          "line": "const handleAnnotationShapeCreate = async (): Promise<void> => {",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "await",
-          "lineNumber": 81,
-          "line": "await patchOrderIndex(updates)",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 115,
-          "line": "const isMounted = ref(false)",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "ref",
           "lineNumber": 117,
-          "line": "const dragReinitNonce = ref(0)",
+          "line": "await createAnnotationShapeMutation({",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "watch",
-          "lineNumber": 122,
-          "line": "watch(",
+          "ruleId": "filter",
+          "lineNumber": 126,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "ref",
-          "lineNumber": 135,
-          "line": "blockInstancesLists.value.set(blockShapeId, ref([...instances]))",
+          "ruleId": "filter",
+          "lineNumber": 137,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-annotationShape')",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "ref",
-          "lineNumber": 136,
-          "line": "blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))",
+          "ruleId": "async",
+          "lineNumber": 146,
+          "line": "const handleEventShapeCreate = async (): Promise<void> => {",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "map",
-          "lineNumber": 136,
-          "line": "blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))",
+          "ruleId": "await",
+          "lineNumber": 150,
+          "line": "await createEventShapeMutation({",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "computed",
-          "lineNumber": 138,
-          "line": "const filteredInstances = computed(() => {",
+          "ruleId": "filter",
+          "lineNumber": 159,
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')",
           "suppressionStatus": "unsuppressed"
         },
         {
-          "ruleId": "ref",
-          "lineNumber": 167,
-          "line": "blockInstancesLists.value.set(zoneKey, ref([...instances]))",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 168,
-          "line": "blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "map",
-          "lineNumber": 168,
-          "line": "blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "computed",
+          "ruleId": "filter",
           "lineNumber": 170,
-          "line": "const filteredGrouped = computed(() => {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "ref",
-          "lineNumber": 281,
-          "line": "const panelsRefForDrag = ref(panelsEl)",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "watch",
-          "lineNumber": 335,
-          "line": "watch(",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 374,
-          "line": "onMounted(() => {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 378,
-          "line": "onBeforeUnmount(() => {",
-          "suppressionStatus": "unsuppressed"
-        },
-        {
-          "ruleId": "lifecycle",
-          "lineNumber": 387,
-          "line": "onUnmounted(() => {",
+          "line": "expandedShapes.value = expandedShapes.value.filter(id => id !== 'new-eventShape')",
           "suppressionStatus": "unsuppressed"
         }
       ],
       "exportUseFunctions": [
-        "useInstanceDragAndDrop"
+        "useShapesTabCreation"
       ],
       "returnKeys": [
-        "blockInstanceIdsMap",
-        "blockInstancesLists",
-        "groupContainers",
-        "groupDragHandlers",
-        "groupDragInstances",
-        "groupPanelsContainers",
-        "groupPanelsGroupedContainers"
+        "isCreatingAnnotationShape",
+        "isCreatingAnnotationShapeLoading",
+        "isCreatingBlockShape",
+        "isCreatingEventShape",
+        "isCreatingEventShapeLoading",
+        "isCreatingPartShape",
+        "newAnnotationShapeName",
+        "newBlockShapeInitialValues",
+        "newEventShapeName",
+        "newPartShapeInitialValues",
+        "state"
       ],
-      "complexityScore": 29,
+      "complexityScore": 20,
       "priority": "P1",
       "suggestions": [
         {
@@ -304,6 +254,60 @@
         "setExpanded"
       ],
       "complexityScore": 6,
+      "priority": "P2",
+      "suggestions": [
+        {
+          "kind": "side_effects",
+          "priority": "P0",
+          "message": "Contains direct DOM access. Prefer isolating DOM work behind a small composable/utility and keeping core logic testable."
+        }
+      ]
+    },
+    {
+      "id": "client__src__composables__admin__useEventInstanceBuilder.ts",
+      "repoPath": "client/src/composables/admin/useEventInstanceBuilder.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/composables/admin/useEventInstanceBuilder.ts",
+      "counts": {
+        "computed": 0,
+        "ref": 0,
+        "reactive": 0,
+        "watch": 0,
+        "watchEffect": 0,
+        "lifecycle": 0,
+        "async": 0,
+        "await": 0,
+        "vueQuery": 0,
+        "map": 0,
+        "reduce": 0,
+        "filter": 0,
+        "sort": 0,
+        "dom": 2,
+        "timers": 0,
+        "console": 0
+      },
+      "matches": [
+        {
+          "ruleId": "dom",
+          "lineNumber": 3,
+          "line": "* PATTERN: Uses `data-event-template-field` on VTextarea so we can read selection from document.activeElement.",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "dom",
+          "lineNumber": 31,
+          "line": "const activeEl = document.activeElement",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "exportUseFunctions": [
+        "useEventInstanceBuilder"
+      ],
+      "returnKeys": [
+        "activeTemplateField",
+        "insertVariable",
+        "setActiveTemplateField"
+      ],
+      "complexityScore": 2,
       "priority": "P2",
       "suggestions": [
         {

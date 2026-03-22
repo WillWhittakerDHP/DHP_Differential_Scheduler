@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-22T02:44:23.678Z",
+  "generatedAt": "2026-03-22T02:02:06.201Z",
   "check": "Deprecation",
-  "totalScanned": 1199,
+  "totalScanned": 1216,
   "tierModel": "tier1",
   "tier1Rules": [
     "jsdoc-deprecated",
@@ -17,7 +17,7 @@
   "neverPermissibleInstructions": "Legacy and backward-compatibility findings are NEVER permissible. They are HIGH refactor targets. Do not allowlist them; eliminate the pattern or migrate off the legacy path. Scores are weighted so legacy/compat findings produce high numeric values and P0/P1 priority.",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 33,
+    "totalRequiresReview": 54,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -217,6 +217,140 @@
       "priority": "P0"
     },
     {
+      "id": "client__src__components__admin__generic__fields__AnnotationContentEditor.vue",
+      "repoPath": "client/src/components/admin/generic/fields/AnnotationContentEditor.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 35,
+          "line": "const genericText = perUserTexts.value[defaultId] ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 43,
+          "line": "text: perUserTexts.value[id] ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "const genericText = perUserTexts.value[defaultId] ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 77,
+          "line": "const rows = entity.contentRows ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 94,
+          "line": "next[id] = byUser.get(id) ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 104,
+          "line": "const match = insts.find((i) => (next[String(i.id)] ?? '') === genericText)",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 115,
+          "line": "const nonEmpty = insts.find((i) => (next[String(i.id)] ?? '') !== '')",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 35,
+          "line": "const genericText = perUserTexts.value[defaultId] ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 43,
+          "line": "text: perUserTexts.value[id] ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "const genericText = perUserTexts.value[defaultId] ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 77,
+          "line": "const rows = entity.contentRows ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 94,
+          "line": "next[id] = byUser.get(id) ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 104,
+          "line": "const match = insts.find((i) => (next[String(i.id)] ?? '') === genericText)",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 115,
+          "line": "const nonEmpty = insts.find((i) => (next[String(i.id)] ?? '') !== '')",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 14,
+      "priority": "P0"
+    },
+    {
+      "id": "server__src__db__models__booking__event_assignment.ts",
+      "repoPath": "server/src/db/models/booking/event_assignment.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 54,
+          "line": "comment: 'Parent is always blockInstance (DB enum may list legacy values)',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "legacy-keyword",
+          "lineNumber": 54,
+          "line": "comment: 'Parent is always blockInstance (DB enum may list legacy values)',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
       "id": "server__src__routes__internal__admin-relationship-metadata__adminRelationshipMetadataValidators.ts",
       "repoPath": "server/src/routes/internal/admin-relationship-metadata/adminRelationshipMetadataValidators.ts",
       "allowed": [],
@@ -265,6 +399,154 @@
       ],
       "score": 10,
       "priority": "P0"
+    },
+    {
+      "id": "server__src__services__invites__inviteContextBuilder.ts",
+      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 59,
+          "line": "const street = addr.streetAddress ?? addr.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 61,
+          "line": "context.city = addr.city ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 62,
+          "line": "context.state = addr.state ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "context.zipCode = addr.zipCode ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 3,
+          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 59,
+          "line": "const street = addr.streetAddress ?? addr.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 61,
+          "line": "context.city = addr.city ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 62,
+          "line": "context.state = addr.state ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 63,
+          "line": "context.zipCode = addr.zipCode ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "client__src__views__admin__tabs__components__EventInstanceEditor.vue",
+      "repoPath": "client/src/views/admin/tabs/components/EventInstanceEditor.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 26,
+          "line": "name: e.name ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 27,
+          "line": "titleTemplate: e.titleTemplate ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 28,
+          "line": "descriptionTemplate: e.descriptionTemplate ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 29,
+          "line": "locationTemplate: e.locationTemplate ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 26,
+          "line": "name: e.name ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 27,
+          "line": "titleTemplate: e.titleTemplate ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 28,
+          "line": "descriptionTemplate: e.descriptionTemplate ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 29,
+          "line": "locationTemplate: e.locationTemplate ?? '',",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
     },
     {
       "id": "server__src__repositories__availabilityRelationalCodec.ts",
@@ -326,14 +608,14 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 50,
+          "lineNumber": 51,
           "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 57,
+          "lineNumber": 58,
           "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -342,15 +624,54 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 50,
+          "lineNumber": 51,
           "line": "const grouped = blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e)) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 57,
+          "lineNumber": 58,
           "line": "const all = blockInstancesByShape.value.get(blockShapeId) ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 4,
+      "priority": "P1"
+    },
+    {
+      "id": "server__src__services__invites__inviteOrchestrationService.ts",
+      "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 376,
+          "line": "const street = address ? address.streetAddress ?? address.address ?? '' : ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 396,
+          "line": "const street = address.streetAddress ?? address.address ?? ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 376,
+          "line": "const street = address ? address.streetAddress ?? address.address ?? '' : ''",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 396,
+          "line": "const street = address.streetAddress ?? address.address ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -365,7 +686,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 188,
+          "lineNumber": 190,
           "line": "return o.emptyStateMessage.value ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -374,7 +695,7 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 188,
+          "lineNumber": 190,
           "line": "return o.emptyStateMessage.value ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -440,7 +761,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 11,
+          "lineNumber": 12,
           "line": "const globalBlock = data.global.blockInstance ?? {}",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -449,8 +770,33 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 11,
+          "lineNumber": 12,
           "line": "const globalBlock = data.global.blockInstance ?? {}",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__admin__userTypeBlockInstances.ts",
+      "repoPath": "client/src/utils/admin/userTypeBlockInstances.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 22,
+          "line": "return (a.name ?? '').localeCompare(b.name ?? '')",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 22,
+          "line": "return (a.name ?? '').localeCompare(b.name ?? '')",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -490,7 +836,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 202,
+          "lineNumber": 253,
           "line": "const events = assignments[partShapeName] ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -499,8 +845,58 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 202,
+          "lineNumber": 253,
           "line": "const events = assignments[partShapeName] ?? []",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__utils__transformers__buildBookingBlockAnnotationUi.ts",
+      "repoPath": "client/src/utils/transformers/buildBookingBlockAnnotationUi.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 35,
+          "line": "const edges = (data.annotationAssignmentEdges ?? []).filter(",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 35,
+          "line": "const edges = (data.annotationAssignmentEdges ?? []).filter(",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "id": "client__src__views__admin__tabs__components__EventInstanceVariableChips.vue",
+      "repoPath": "client/src/views/admin/tabs/components/EventInstanceVariableChips.vue",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 34,
+          "line": "return GROUP_ORDER.map((label) => ({ label, variables: map.get(label) ?? [] }))",
+          "section": "legacy-accommodation",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "requiresReviewAll": [
+        {
+          "ruleId": "unhelpful-default-nullish",
+          "lineNumber": 34,
+          "line": "return GROUP_ORDER.map((label) => ({ label, variables: map.get(label) ?? [] }))",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -596,7 +992,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 117,
+          "lineNumber": 113,
           "line": "const optionRows = optionsMap.get(entry.id) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -605,7 +1001,7 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 117,
+          "lineNumber": 113,
           "line": "const optionRows = optionsMap.get(entry.id) ?? []",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -632,31 +1028,6 @@
           "ruleId": "unhelpful-default-nullish",
           "lineNumber": 20,
           "line": "text: String(ann.text ?? ''),",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "score": 2,
-      "priority": "P2"
-    },
-    {
-      "id": "server__src__services__invites__inviteContextBuilder.ts",
-      "repoPath": "server/src/services/invites/inviteContextBuilder.ts",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 3,
-          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
-          "section": "legacy-accommodation",
-          "suppressionStatus": "unsuppressed"
-        }
-      ],
-      "requiresReviewAll": [
-        {
-          "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 3,
-          "line": "const base = process.env.APP_BASE_URL ?? process.env.VITE_APP_BASE_URL ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
         }
@@ -696,7 +1067,7 @@
       "requiresReview": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 79,
+          "lineNumber": 80,
           "line": "const label = strOrNull(o.label) ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"
@@ -705,7 +1076,7 @@
       "requiresReviewAll": [
         {
           "ruleId": "unhelpful-default-nullish",
-          "lineNumber": 79,
+          "lineNumber": 80,
           "line": "const label = strOrNull(o.label) ?? ''",
           "section": "legacy-accommodation",
           "suppressionStatus": "unsuppressed"

@@ -4,6 +4,7 @@
 
 This document governs how Vue components are designed and maintained: prop/emit/slot boundaries, thin script and template surfaces, logic extraction, and decomposition when health thresholds are exceeded. It complements:
 
+- **Harness playbook alignment** (`.project-manager/HARNESS_PLAYBOOK_ALIGNMENT.md`) — app lives under `client/`; tier-end commit/staging rules.
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries.
 - **Composable Authoring Playbook** (`.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`) — composable shape and where extracted logic lives.
 - **Function Authoring Playbook** (`.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`) — complexity and return types in extracted utilities.

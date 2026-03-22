@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:02:16.211Z",
+  "generatedAt": "2026-03-22T02:01:52.781Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",
@@ -36,15 +36,15 @@
     "excludedSource": "audit-global-config.json globalExclusions"
   },
   "summary": {
-    "totalTypeFiles": 278,
+    "totalTypeFiles": 279,
     "totalConstantFiles": 25,
     "totalConfigFiles": 41,
-    "filesWithInlineTypes": 121,
+    "filesWithInlineTypes": 126,
     "annotated": 325,
-    "unannotated": 19,
+    "unannotated": 20,
     "classificationIssues": {
       "mixedTypeConstantFiles": 15,
-      "inlineTypesInComposables": 91,
+      "inlineTypesInComposables": 96,
       "configsWithLogic": 11,
       "duplicateTypeNames": 7,
       "cleanupCandidates": 0,
@@ -1602,7 +1602,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 25,
+      "lineCount": 28,
       "purpose": "UseInstancesTabEventInstanceParams, NewEventInstanceData.",
       "reuseTier": "feature",
       "tags": [
@@ -2348,7 +2348,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 42,
+      "lineCount": 44,
       "purpose": "Shapes tab component state and action types",
       "reuseTier": "feature",
       "tags": [],
@@ -2722,7 +2722,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 56,
+      "lineCount": 59,
       "purpose": "Core appointment data structure types",
       "reuseTier": "feature",
       "tags": [],
@@ -5584,7 +5584,7 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
-        "AnnotationShapeEntity",
+        "PartShapeEntity",
         "GlobalEntity"
       ],
       "exportKinds": {
@@ -5593,7 +5593,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 107,
+      "lineCount": 116,
       "purpose": "Core entity type definitions (runtime helpers moved to utils/globalEntity.ts).",
       "reuseTier": "shared",
       "tags": [
@@ -6050,7 +6050,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 9,
+      "lineCount": 10,
       "purpose": "Form field component type definitions",
       "reuseTier": "shared",
       "tags": [
@@ -6446,7 +6446,7 @@
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 36,
+      "lineCount": 42,
       "purpose": "Relationship type definitions for parent-child entity connections.",
       "reuseTier": "shared",
       "tags": [
@@ -6597,18 +6597,20 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
+        "BookingAnnotationUiCandidate",
+        "BookingBlockAnnotationUi",
         "BookingPartInstance",
         "BookingBlockShape",
         "BookingBlockInstance",
         "BookingData"
       ],
       "exportKinds": {
-        "types": 4,
+        "types": 6,
         "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 50,
+      "lineCount": 66,
       "purpose": "Booking data transformer types",
       "reuseTier": "shared",
       "tags": [],
@@ -6677,15 +6679,16 @@
       "domainMatch": false,
       "location": "dedicated",
       "exports": [
+        "AnnotationAssignmentEdge",
         "GlobalData"
       ],
       "exportKinds": {
-        "types": 1,
+        "types": 2,
         "interfaces": 0,
         "enums": 0
       },
       "alsoExportsRuntime": false,
-      "lineCount": 8,
+      "lineCount": 18,
       "purpose": "Global data transformer types",
       "reuseTier": "shared",
       "tags": [],
@@ -7393,6 +7396,32 @@
       },
       "alsoExportsRuntime": false,
       "lineCount": 5,
+      "purpose": null,
+      "reuseTier": "unknown",
+      "tags": [],
+      "placement": null,
+      "priority": null,
+      "targetPath": null
+    },
+    {
+      "id": "shared__types__eventInstancePreview.ts",
+      "repoPath": "shared/types/eventInstancePreview.ts",
+      "name": "eventInstancePreview",
+      "directoryDomain": "eventInstancePreview.ts",
+      "annotatedDomain": null,
+      "domainMatch": null,
+      "location": "dedicated",
+      "exports": [
+        "EventInstancePreviewRequestBody",
+        "EventInstancePreviewResponseBody"
+      ],
+      "exportKinds": {
+        "types": 0,
+        "interfaces": 2,
+        "enums": 0
+      },
+      "alsoExportsRuntime": false,
+      "lineCount": 15,
       "purpose": null,
       "reuseTier": "unknown",
       "tags": [],
@@ -8226,11 +8255,13 @@
       "alsoExportsTypes": true,
       "exportedTypeNames": [
         "ValidPrimitiveValues",
+        "AnnotationInstanceContentRowPayload",
+        "DifferentialEventRoleOverridesMap",
         "ValidAdminValue",
         "GlobalFieldKey"
       ],
       "hasFactoryFunctions": false,
-      "lineCount": 15,
+      "lineCount": 25,
       "purpose": "Primitive type constants for entity fields.",
       "reuseTier": "shared",
       "tags": [
@@ -8703,7 +8734,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 27,
+      "lineCount": 33,
       "purpose": "Annotation shape field display configuration",
       "reuseTier": "feature",
       "tags": [
@@ -8930,7 +8961,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": true,
-      "lineCount": 85,
+      "lineCount": 90,
       "purpose": "Complete field display configuration registry",
       "reuseTier": "feature",
       "tags": [
@@ -8957,7 +8988,7 @@
         "SelectableDisplayType"
       ],
       "hasFactoryFunctions": true,
-      "lineCount": 442,
+      "lineCount": 538,
       "purpose": "Selectable field display configuration mapping",
       "reuseTier": "feature",
       "tags": [
@@ -9009,7 +9040,7 @@
       "alsoExportsTypes": false,
       "exportedTypeNames": [],
       "hasFactoryFunctions": false,
-      "lineCount": 32,
+      "lineCount": 39,
       "purpose": "Annotation shape form field configuration",
       "reuseTier": "feature",
       "tags": [
@@ -9381,7 +9412,7 @@
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
-      "importedByCount": 0,
+      "importedByCount": 1,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -9632,9 +9663,33 @@
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
+      "sourceFile": "client/src/composables/admin/useEventInstanceBuilder.ts",
+      "exportedTypes": [
+        "EventInstanceTemplateFieldKey",
+        "EventInstanceTemplateModel",
+        "UseEventInstanceBuilderReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/composables/admin/useEventInstancesSection.ts",
       "exportedTypes": [
         "UseEventInstancesSectionReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/admin/useEventTemplatePreview.ts",
+      "exportedTypes": [
+        "EventInstancePreviewDraftSlice",
+        "UseEventTemplatePreviewParams",
+        "UseEventTemplatePreviewReturn"
       ],
       "exportedConstants": [],
       "primaryPurpose": "composable",
@@ -9958,6 +10013,16 @@
       ],
       "primaryPurpose": "composable",
       "importedByCount": 2,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
+      "sourceFile": "client/src/composables/booking/useAnnotationContent.ts",
+      "exportedTypes": [
+        "UseAnnotationContentReturn"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
       "recommendation": "Consider extracting to a dedicated type file"
     },
     {
@@ -10325,6 +10390,16 @@
       "recommendation": null
     },
     {
+      "sourceFile": "client/src/utils/admin/differentialRoleMatrixRows.ts",
+      "exportedTypes": [
+        "DifferentialRoleMatrixRow"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
+    },
+    {
       "sourceFile": "client/src/utils/admin/entityCardTitleKeydown.ts",
       "exportedTypes": [
         "EntityCardTitleKeydownReturn"
@@ -10521,6 +10596,17 @@
       "primaryPurpose": "composable",
       "importedByCount": 0,
       "recommendation": null
+    },
+    {
+      "sourceFile": "client/src/utils/booking/resolveAnnotationTextForAssignment.ts",
+      "exportedTypes": [
+        "AnnotationContentRowPlain",
+        "AnnotationWithContentPlain"
+      ],
+      "exportedConstants": [],
+      "primaryPurpose": "composable",
+      "importedByCount": 0,
+      "recommendation": "Consider extracting to a dedicated type file"
     },
     {
       "sourceFile": "client/src/utils/booking/selectionCardConfig.ts",
@@ -10758,7 +10844,7 @@
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
-          "importedByCount": 0,
+          "importedByCount": 1,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -10959,9 +11045,33 @@
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
+          "sourceFile": "client/src/composables/admin/useEventInstanceBuilder.ts",
+          "exportedTypes": [
+            "EventInstanceTemplateFieldKey",
+            "EventInstanceTemplateModel",
+            "UseEventInstanceBuilderReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/composables/admin/useEventInstancesSection.ts",
           "exportedTypes": [
             "UseEventInstancesSectionReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/admin/useEventTemplatePreview.ts",
+          "exportedTypes": [
+            "EventInstancePreviewDraftSlice",
+            "UseEventTemplatePreviewParams",
+            "UseEventTemplatePreviewReturn"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -11213,6 +11323,16 @@
           ],
           "primaryPurpose": "composable",
           "importedByCount": 2,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/composables/booking/useAnnotationContent.ts",
+          "exportedTypes": [
+            "UseAnnotationContentReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
           "recommendation": "Consider extracting to a dedicated type file"
         },
         {
@@ -11540,6 +11660,16 @@
           "recommendation": null
         },
         {
+          "sourceFile": "client/src/utils/admin/differentialRoleMatrixRows.ts",
+          "exportedTypes": [
+            "DifferentialRoleMatrixRow"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
           "sourceFile": "client/src/utils/admin/entityCardTitleKeydown.ts",
           "exportedTypes": [
             "EntityCardTitleKeydownReturn"
@@ -11681,6 +11811,17 @@
           "sourceFile": "client/src/utils/booking/devPanelsFormatters.ts",
           "exportedTypes": [
             "DevPanelsFormattersReturn"
+          ],
+          "exportedConstants": [],
+          "primaryPurpose": "composable",
+          "importedByCount": 0,
+          "recommendation": "Consider extracting to a dedicated type file"
+        },
+        {
+          "sourceFile": "client/src/utils/booking/resolveAnnotationTextForAssignment.ts",
+          "exportedTypes": [
+            "AnnotationContentRowPlain",
+            "AnnotationWithContentPlain"
           ],
           "exportedConstants": [],
           "primaryPurpose": "composable",
@@ -12532,11 +12673,13 @@
         "alsoExportsTypes": true,
         "exportedTypeNames": [
           "ValidPrimitiveValues",
+          "AnnotationInstanceContentRowPayload",
+          "DifferentialEventRoleOverridesMap",
           "ValidAdminValue",
           "GlobalFieldKey"
         ],
         "hasFactoryFunctions": false,
-        "lineCount": 15,
+        "lineCount": 25,
         "purpose": "Primitive type constants for entity fields.",
         "reuseTier": "shared",
         "tags": [
@@ -13011,7 +13154,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 27,
+        "lineCount": 33,
         "purpose": "Annotation shape field display configuration",
         "reuseTier": "feature",
         "tags": [
@@ -13238,7 +13381,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": true,
-        "lineCount": 85,
+        "lineCount": 90,
         "purpose": "Complete field display configuration registry",
         "reuseTier": "feature",
         "tags": [
@@ -13265,7 +13408,7 @@
           "SelectableDisplayType"
         ],
         "hasFactoryFunctions": true,
-        "lineCount": 442,
+        "lineCount": 538,
         "purpose": "Selectable field display configuration mapping",
         "reuseTier": "feature",
         "tags": [
@@ -13317,7 +13460,7 @@
         "alsoExportsTypes": false,
         "exportedTypeNames": [],
         "hasFactoryFunctions": false,
-        "lineCount": 32,
+        "lineCount": 39,
         "purpose": "Annotation shape form field configuration",
         "reuseTier": "feature",
         "tags": [

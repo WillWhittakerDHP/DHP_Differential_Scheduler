@@ -6,6 +6,7 @@
 import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
+import EventInstanceTemplateRef from './fields/EventInstanceTemplateRef.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -86,6 +87,8 @@ defineProps<Props>()
       </VAlert>
     </VCol>
   </VRow>
+
+  <EventInstanceTemplateRef v-if="entityKey === 'eventInstance'" />
 
   <div v-for="fieldKey in fieldsByLocation.directStacked" :key="fieldKey" class="mb-4">
     <FieldRenderer

@@ -102,6 +102,13 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
     if (effective === 'select' || effective === 'reference') return 'select'
     if (effective === 'number') return 'number'
     if (meta.dataType === 'boolean' || meta.dataType === 'ternary') return 'boolean'
+    if (
+      meta.inputConfig &&
+      typeof meta.inputConfig === 'object' &&
+      (meta.inputConfig as Record<string, unknown>).multiline === true
+    ) {
+      return 'textarea'
+    }
     return 'text'
   }
 
@@ -140,6 +147,13 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
       warnedFields.value.add(`${fieldKey}:label`)
     }
     const displayLabel = meta.label !== undefined && meta.label !== null && meta.label !== '' ? meta.label : fieldKey
+    const hintFromInput =
+      meta.inputConfig &&
+      typeof meta.inputConfig === 'object' &&
+      typeof (meta.inputConfig as Record<string, unknown>).hint === 'string'
+        ? String((meta.inputConfig as Record<string, unknown>).hint)
+        : undefined
+    const metaHelp = (meta as { helpText?: string }).helpText
     return {
       label: displayLabel,
       placeholder: (meta as { placeholder?: string }).placeholder ?? undefined,
@@ -147,7 +161,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
       required: meta.isRequired === true,
       disabled: (meta as { disabled?: boolean }).disabled === true,
       readOnly: (meta as { readOnly?: boolean }).readOnly === true,
-      helpText: (meta as { helpText?: string }).helpText,
+      helpText: hintFromInput ?? metaHelp,
     }
   }
 
@@ -161,17 +175,14 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
         if (!currentFormInstance) {
           throw new Error(`[useFormFields] Form instance not ready for field ${fieldKey}`)
         }
-        const stateAndActions = useFieldContextState(
-          fieldKey as GlobalFieldKey<typeof entityKey>,
+        const stateAndActions = useFieldContextState<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>(
+          fieldKey,
           entityKey,
           entityIdValue,
           { form: currentFormInstance as FormContext, displayConfig: getFieldDisplayConfig(String(fieldKey)) }
         )
-        const fieldContext = buildFieldContextReturn(stateAndActions) as unknown as FieldContextTypeGrouped<
-          GlobalEntityKey,
-          GlobalFieldKey<GlobalEntityKey>
-        >
-        fieldContextCache.value.set(cacheKey, fieldContext as never)
+        const fieldContext = buildFieldContextReturn(stateAndActions)
+        fieldContextCache.value.set(cacheKey, fieldContext)
         triggerRef(fieldContextCache)
       }
       if (capturedInstance && appInstance?.runWithContext) {
@@ -211,7 +222,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   ): FieldContextTypeGrouped<GE, FieldKey> | undefined => {
     const cacheKey = String(fieldKey)
     const context = fieldContextCache.value.get(cacheKey)
-    return context === undefined ? undefined : (context as unknown as FieldContextTypeGrouped<GE, FieldKey>)
+    return context === undefined ? undefined : (context as FieldContextTypeGrouped<GE, FieldKey>)
   }
 
   const context = {
@@ -267,9 +278,7 @@ export function useFormFields(options: UseFormFieldsOptions): UseFormFieldsRetur
   })
 
   return {
-    fieldContextCache: context.fieldContextCache as unknown as Ref<
-      Map<string, FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>>>
-    >,
+    fieldContextCache: context.fieldContextCache,
     isFormReady: context.isFormReady,
     fieldsNeedingContexts: context.fieldsNeedingContexts,
     getFieldContext: context.getFieldContext,

@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 /**
+ * LEARNING: JSON map fields need a dedicated control so admins don’t edit raw JSON.
  * PATTERN: Same field-context contract as IconInput / SelectInputs (grouped context + setValue).
  */
 import { computed } from 'vue'

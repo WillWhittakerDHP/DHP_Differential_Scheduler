@@ -4,20 +4,20 @@
 
 # Type and Constant Inventory Audit (Generated)
 
-Generated: 2026-03-21T19:02:16.211Z
+Generated: 2026-03-22T02:01:52.781Z
 
 ## Summary
 
-- Type files: **278**
+- Type files: **279**
 - Constant files: **25**
 - Config files: **41**
-- Files with inline type exports: **121**
-- Annotated: **325** | Unannotated: **19**
+- Files with inline type exports: **126**
+- Annotated: **325** | Unannotated: **20**
 
 | Classification Issue | Count |
 | --- | ---: |
 | Mixed type+constant files | 15 |
-| Inline types in composables | 91 |
+| Inline types in composables | 96 |
 | Configs with factory functions | 11 |
 | Duplicate type names | 7 |
 | Cleanup candidates (misplaced + unused) | 0 |
@@ -315,7 +315,7 @@ Generic types always instantiated with the same argument; consider removing the 
 
 | File | Location | Exports | Also runtime? | Purpose | Tier |
 | --- | --- | --- | --- | --- | --- |
-| `client/src/types/entities.ts` | dedicated | AnnotationShapeEntity, GlobalEntity | no | Core entity type definitions (runtime helpers moved to utils/globalEntity.ts). | shared |
+| `client/src/types/entities.ts` | dedicated | PartShapeEntity, GlobalEntity | no | Core entity type definitions (runtime helpers moved to utils/globalEntity.ts). | shared |
 | `client/src/types/entity/formDataEnums.ts` | dedicated |  | no | Form data enums: field type, mode, primitive type, etc. | shared |
 | `client/src/types/entity/formFields.ts` | dedicated | PrimitiveFormField, PrimitiveFieldType, DependencyImpactBase, RelationshipFieldType, VirtualFieldType… | no | Form field config types for entity forms. | shared |
 | `client/src/types/entity/selectOptions.ts` | dedicated | SelectGroup | no | Select options types for entity fields. | shared |
@@ -329,6 +329,12 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/entityCrud/entityCrudState.ts` | dedicated | UseEntityCrudStateReturn, UseEntityCrudStateReturnBase | no | Entity CRUD state management types | shared |
 | `client/src/types/entityCrud/entityCrudTypes.ts` | dedicated | OrderIndexUpdate, BulkUpdate, UseEntityCrudActionsReturn, EntityCrudMutationContext, UseEntityCrudMutationsReturnBase | no | Core entity CRUD operation types | shared |
 | `client/src/types/entityCrud/sharedMutationHandlers.ts` | dedicated | InvalidateEntityQueriesOptions, MutationContextWithPreviousData | no | Shared entity mutation handler types | shared |
+
+### Domain: eventInstancePreview.ts
+
+| File | Location | Exports | Also runtime? | Purpose | Tier |
+| --- | --- | --- | --- | --- | --- |
+| `shared/types/eventInstancePreview.ts` | dedicated | EventInstancePreviewRequestBody, EventInstancePreviewResponseBody | no | (none) | unknown |
 
 ### Domain: fieldContext
 
@@ -392,10 +398,10 @@ Generic types always instantiated with the same argument; consider removing the 
 | `client/src/types/ternary.ts` | dedicated |  | no | Ternary logic value types for three-state fields | shared |
 | `client/src/types/transformers/adminObject.ts` | dedicated | AdminObject, AdminObjectMap | no | Admin object transformer input/output types | shared |
 | `client/src/types/transformers/appointmentToWizardHelpers.ts` | dedicated | VersionBlockInstance, AppointmentVersionsResponse | no | Appointment-to-wizard data mapping helper types | shared |
-| `client/src/types/transformers/bookingData.ts` | dedicated | BookingPartInstance, BookingBlockShape, BookingBlockInstance, BookingData | no | Booking data transformer types | shared |
+| `client/src/types/transformers/bookingData.ts` | dedicated | BookingAnnotationUiCandidate, BookingBlockAnnotationUi, BookingPartInstance, BookingBlockShape, BookingBlockInstance… | no | Booking data transformer types | shared |
 | `client/src/types/transformers/businessData.ts` | dedicated | BusinessData | no | Business data transformer types | shared |
 | `client/src/types/transformers/fieldClassification.ts` | dedicated | DehydrateFieldSets | no | Field classification and categorization types | shared |
-| `client/src/types/transformers/globalData.ts` | dedicated | GlobalData | no | Global data transformer types | shared |
+| `client/src/types/transformers/globalData.ts` | dedicated | AnnotationAssignmentEdge, GlobalData | no | Global data transformer types | shared |
 | `client/src/types/user.ts` | dedicated |  | no | User entity and session types | shared |
 | `client/src/types/userTypes.ts` | dedicated | UserTypeBlock | no | User profile and authentication types | shared |
 | `client/src/types/vueRefTypes.ts` | dedicated | ReadonlyVueRef | no | Vue ref type helpers and unwrap utilities | shared |
@@ -468,7 +474,7 @@ Generic types always instantiated with the same argument; consider removing the 
 | constants | `client/src/constants/fieldMetadata.ts` | 6 | 3 | no |
 | constants | `client/src/constants/mapsConstants.ts` | 2 | 1 | no |
 | constants | `client/src/constants/moveableScheduling.ts` | 2 | 0 | no |
-| constants | `client/src/constants/primitives.ts` | 0 | 3 | no |
+| constants | `client/src/constants/primitives.ts` | 0 | 5 | no |
 | constants | `client/src/constants/relationships.ts` | 1 | 1 | no |
 | constants | `client/src/constants/scheduling.ts` | 3 | 0 | no |
 | constants | `client/src/constants/statusButtonLabels.ts` | 1 | 0 | no |
@@ -522,7 +528,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/injectionKeys.ts`: RuleFormDialogContext, InstancesTabContext (imported by 2 files)
 - `client/src/composables/admin/instanceDragAndDropFormKitBind.ts`: InstanceDragFormKitBinderDeps (imported by 0 files)
 - `client/src/composables/admin/tables/useAppointmentsTableModel.ts`: AppointmentsTableLookups (imported by 0 files)
-- `client/src/composables/admin/useAdmin.ts`: UseAdminReturn (imported by 0 files)
+- `client/src/composables/admin/useAdmin.ts`: UseAdminReturn (imported by 1 files)
 - `client/src/composables/admin/useAdminMetadataMutations.ts`: UseAdminMetadataMutationsReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminPrimitiveMetadataMutations.ts`: UseAdminPrimitiveMetadataMutationsReturn (imported by 0 files)
 - `client/src/composables/admin/useAdminRelationshipMetadataMutations.ts`: UseAdminRelationshipMetadataMutationsReturn (imported by 0 files)
@@ -542,7 +548,9 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/admin/useDifferentialPerspectives.ts`: UseDifferentialPerspectivesReturn (imported by 1 files)
 - `client/src/composables/admin/useEntityCardSubPanels.ts`: SubPanelFields, UseEntityCardSubPanelsOptions, UseEntityCardSubPanelsReturn (imported by 0 files)
 - `client/src/composables/admin/useEntityMetadata.ts`: UseEntityMetadataReturn (imported by 0 files)
+- `client/src/composables/admin/useEventInstanceBuilder.ts`: EventInstanceTemplateFieldKey, EventInstanceTemplateModel, UseEventInstanceBuilderReturn (imported by 0 files)
 - `client/src/composables/admin/useEventInstancesSection.ts`: UseEventInstancesSectionReturn (imported by 0 files)
+- `client/src/composables/admin/useEventTemplatePreview.ts`: EventInstancePreviewDraftSlice, UseEventTemplatePreviewParams, UseEventTemplatePreviewReturn (imported by 0 files)
 - `client/src/composables/admin/useFeePreview.ts`: UseFeePreviewOptions, UseFeePreviewReturn (imported by 0 files)
 - `client/src/composables/admin/useFieldRendererErrorWatch.ts`: UseFieldRendererErrorWatchParams (imported by 0 files)
 - `client/src/composables/admin/useFormFieldConfigs.ts`: UseFormFieldConfigsReturn (imported by 0 files)
@@ -562,6 +570,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/booking/bookingKeys.ts`:  (imported by 0 files)
 - `client/src/composables/booking/bookingWizardStepKeys.ts`:  (imported by 0 files)
 - `client/src/composables/booking/injectionKeys.ts`: AvailabilitySubStepOrchestratorState, InstancesPanelContext, ContactsFormContext, AvailabilitySubStepContext (imported by 2 files)
+- `client/src/composables/booking/useAnnotationContent.ts`: UseAnnotationContentReturn (imported by 0 files)
 - `client/src/composables/booking/useAppointmentLoader.ts`: UseAppointmentLoaderReturn (imported by 0 files)
 - `client/src/composables/booking/useAvailabilityConfirmationState.ts`: AvailabilityConfirmationState, UseAvailabilityConfirmationStateReturn (imported by 1 files)
 - `client/src/composables/booking/useAvailabilityStepAccordion.ts`: UseAvailabilityStepAccordionParams, UseAvailabilityStepAccordionReturn (imported by 0 files)
@@ -593,6 +602,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/composables/useThemeMode.ts`: UseThemeModeReturn, UseThemeModeOptions (imported by 0 files)
 - `client/src/utils/admin/businessRulesApi.ts`: BusinessRulesQueryFilters (imported by 0 files)
 - `client/src/utils/admin/calibrationChartTransforms.ts`:  (imported by 0 files)
+- `client/src/utils/admin/differentialRoleMatrixRows.ts`: DifferentialRoleMatrixRow (imported by 0 files)
 - `client/src/utils/admin/entityCardTitleKeydown.ts`: EntityCardTitleKeydownReturn (imported by 0 files)
 - `client/src/utils/admin/entityDisplay.ts`: EntityDisplayConfig, EntityDisplayReturn (imported by 0 files)
 - `client/src/utils/admin/entityList.ts`: EntityListOptions, EntityListReturn (imported by 1 files)
@@ -607,6 +617,7 @@ Generic types always instantiated with the same argument; consider removing the 
 - `client/src/utils/booking/computeDriveTimeFee.ts`: ComputeDriveTimeFeeResult (imported by 0 files)
 - `client/src/utils/booking/confirmationStepData.ts`: ConfirmationDriveContext, AppointmentFeeBreakdownDriveOptions (imported by 1 files)
 - `client/src/utils/booking/devPanelsFormatters.ts`: DevPanelsFormattersReturn (imported by 0 files)
+- `client/src/utils/booking/resolveAnnotationTextForAssignment.ts`: AnnotationContentRowPlain, AnnotationWithContentPlain (imported by 0 files)
 - `client/src/utils/booking/systemDriveTimeBlock.ts`: SystemDriveTimeBlockRef (imported by 0 files)
 - `client/src/utils/booking/timeBasisHandler.ts`: TimeBasisHandlerProps, TimeBasisHandlerEmits, TimeBasisHandlerReturn (imported by 0 files)
 - `client/src/utils/time/localTime.ts`: LocalTimeReturn (imported by 0 files)

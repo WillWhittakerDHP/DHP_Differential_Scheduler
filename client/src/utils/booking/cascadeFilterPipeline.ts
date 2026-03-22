@@ -146,6 +146,8 @@ export function cascadeShapePipeline(params: PipelineParams): {
       logger.warn('Property block shape [type: property] not found')
     } else if (relationshipName === 'coupons') {
       logger.warn('Coupon block shape [type: coupon] not found')
+    } else if (relationshipName === 'services') {
+      logger.warn('Service block shape [type: service] not found')
     }
     return { instances: [], error: cascadeResult.success ? null : cascadeResult.error }
   }

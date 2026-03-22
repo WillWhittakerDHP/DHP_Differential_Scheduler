@@ -13,9 +13,9 @@ Scope:
 
 ## Summary
 
-- Total errors: **0**
+- Total errors: **1**
 - Total warnings: **0**
-- Files with issues: **0**
+- Files with issues: **1**
 
 ## Categories
 
@@ -24,10 +24,17 @@ Scope:
 | Dependency Vulnerabilities | P2 | 0 | 0 | 0 |
 | Exposed Secrets | P2 | 0 | 0 | 0 |
 | Security Configuration | P2 | 0 | 0 | 0 |
-| CSRF Protection | P2 | 0 | 0 | 0 |
+| CSRF Protection | P1 | 12 | 1 | 0 |
 | Authentication Patterns | P2 | 0 | 0 | 0 |
 | IDOR Vulnerabilities | P2 | 0 | 0 | 0 |
 
 ## Issues by File (sorted by priority)
 
 Legend: **P0** = critical (fix soon), **P1** = important (high leverage), **P2** = low priority (best practices)
+
+### `server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts` [P0] (score: 20)
+
+- ❌ **Missing CSRF protection on POST route** (line 14)
+  - Route: / (POST)
+- ❌ **Missing CSRF protection on POST route** (line 14)
+  - Route: / (POST)

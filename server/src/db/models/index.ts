@@ -167,7 +167,8 @@ export function initializeModels(sequelize: Sequelize) {
   BlockShape.hasMany(ValidAnnotation, { foreignKey: 'parent_id', as: 'valid_annotations' });
   ValidAnnotation.belongsTo(AnnotationShape, { foreignKey: 'child_id', as: 'valid_annotation_shape' });
 
-  PartShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
+  BlockShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
+  ValidEvent.belongsTo(BlockShape, { foreignKey: 'parent_id', as: 'block_shape' });
   ValidEvent.belongsTo(EventShape, { foreignKey: 'child_id', as: 'valid_event_shape' });
 
   BlockInstance.hasMany(DependentInstance, { foreignKey: 'parent_id', as: 'dependent_instances' });

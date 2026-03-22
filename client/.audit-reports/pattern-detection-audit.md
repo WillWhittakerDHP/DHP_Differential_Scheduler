@@ -14,11 +14,11 @@ Exception handling:
 
 ## Summary
 
-- Files scanned: **1199**
+- Files scanned: **1216**
 - String literals found: **11** (showing those with 3+ occurrences)
 - Type and constant cataloging: see **type-constant-inventory** audit (`npm run audit:type-constant-inventory`)
 - Config locations found: **49**
-- Function patterns found: **464**
+- Function patterns found: **466**
 - Common patterns found: **65**
 
 ## String Literals (Potential Enum/Key Candidates)
@@ -27,10 +27,10 @@ Showing string literals that appear 3 or more times:
 
 | Value | Occurrences | Locations |
 | --- | ---: | --- |
-| `confirmed` | 7 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:91`, `client/src/composables/admin/useInstancesTab.ts:166`, `client/src/composables/admin/useInstancesTabEventInstance.ts:82` (+4 more) |
+| `confirmed` | 7 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:91`, `client/src/composables/admin/useInstancesTab.ts:168`, `client/src/composables/admin/useInstancesTabEventInstance.ts:64` (+4 more) |
 | `held` | 5 | `client/src/composables/useAppointment.ts:79`, `client/src/types/appointmentApi.ts:61`, `client/src/types/appointmentApi.ts:101` (+2 more) |
 | `started` | 3 | `client/src/composables/admin/tables/useAppointmentsTableModel.ts:129`, `client/src/composables/useAppointment.ts:83`, `server/src/db/models/booking/appointment.ts:52` |
-| `not_found` | 3 | `server/src/routes/internal/relationships/relationshipDisabledHelpers.ts:69`, `server/src/routes/internal/relationships/relationshipDisabledHelpers.ts:85`, `server/src/routes/internal/relationships/relationshipDisabledHelpers.ts:90` |
+| `not_found` | 3 | `server/src/routes/internal/relationships/relationshipDisabledHelpers.ts:71`, `server/src/routes/internal/relationships/relationshipDisabledHelpers.ts:87`, `server/src/routes/internal/relationships/relationshipDisabledHelpers.ts:92` |
 
 ## Types and Constants
 
@@ -127,7 +127,7 @@ Common function naming patterns (use*, get*, create*, etc.):
 | `useBooleanInputClick` | `use*` | 1 |
 | `useBufferSettings` | `use*` | 1 |
 | `useBusinessControlsFormState` | `use*` | 1 |
-| ... | ... | (+434 more) |
+| ... | ... | (+436 more) |
 
 ## Common Patterns (Status Workflows, etc.)
 

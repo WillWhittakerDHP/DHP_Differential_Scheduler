@@ -5,7 +5,6 @@ import type { CreateEventParams } from '../google/calendar/calendarTypes.js'
 import {
   Appointment,
   BlockInstance,
-  PartAssignment,
   EventAssignment,
   EventInstance,
   EventShape,
@@ -199,17 +198,8 @@ async function findEventInstancesForBlockInstances(
 ): Promise<EventInstanceType[]> {
   if (blockInstanceIds.length === 0) return []
 
-  const partAssignments = await PartAssignment.findAll({
-    where: { parentId: { [Op.in]: blockInstanceIds }, disabled: false },
-    attributes: ['childId'],
-  })
-  const partInstanceIds = partAssignments.map(pa => pa.childId)
-
-  const parentIds = [...partInstanceIds, ...blockInstanceIds]
-  if (parentIds.length === 0) return []
-
   const eventAssignments = await EventAssignment.findAll({
-    where: { parentId: { [Op.in]: parentIds }, disabled: false },
+    where: { parentId: { [Op.in]: blockInstanceIds }, disabled: false },
     include: [
       {
         model: EventInstance,
@@ -380,8 +370,11 @@ function extractEndTime(appointment: NormalizedAppointmentForInvites): string {
 
 
 function buildDefaultSummary(appointment: NormalizedAppointmentForInvites): string {
-  const address = appointment.propertyVersion?.address
-  return address ? `Inspection: ${address.streetAddress}` : DEFAULT_EVENT_SUMMARY_FALLBACK
+  const address = appointment.propertyVersion?.address as
+    | { streetAddress?: string; address?: string }
+    | undefined
+  const street = address ? address.streetAddress ?? address.address ?? '' : ''
+  return street ? `Inspection: ${street}` : DEFAULT_EVENT_SUMMARY_FALLBACK
 }
 
 function buildDefaultDescription(appointment: NormalizedAppointmentForInvites): string {
@@ -395,12 +388,13 @@ function buildDefaultDescription(appointment: NormalizedAppointmentForInvites): 
 }
 
 function buildDefaultLocation(appointment: NormalizedAppointmentForInvites): string {
-  const address = appointment.propertyVersion?.address
+  const address = appointment.propertyVersion?.address as
+    | { streetAddress?: string; address?: string; city?: string; state?: string; zipCode?: string }
+    | undefined
   if (!address) return ''
 
-  return [address.streetAddress, address.city, address.state, address.zipCode]
-    .filter(Boolean)
-    .join(', ')
+  const street = address.streetAddress ?? address.address ?? ''
+  return [street, address.city, address.state, address.zipCode].filter(Boolean).join(', ')
 }
 
 function emptyResult(appointmentId: string): InviteOrchestrationResult {

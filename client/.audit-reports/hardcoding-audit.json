@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:33:39.385Z",
+  "generatedAt": "2026-03-22T02:01:38.996Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,17 +13,17 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 0,
+  "totalScanned": 53,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
-    "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalAllowed": 91,
+    "totalRequiresReview": 1,
     "bySource": {
-      "inline": 0,
-      "pattern": 0,
-      "specific": 0,
-      "linePattern": 0
+      "inline": 1,
+      "pattern": 80,
+      "specific": 6,
+      "linePattern": 4
     }
   },
   "entityKeys": [],
@@ -57,5 +57,53 @@
     "server/src/services/propertyMatchConstants.ts",
     "server/src/utils/availabilities/availabilityConstants.ts"
   ],
-  "files": []
+  "files": [
+    {
+      "id": "client__src__utils__transformers__globalToBookingTransformer.ts",
+      "repoPath": "client/src/utils/transformers/globalToBookingTransformer.ts",
+      "absPath": "/Users/districthomepro/Bonsai/Differential_Scheduler/client/src/utils/transformers/globalToBookingTransformer.ts",
+      "counts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0
+      },
+      "reviewCounts": {
+        "switchEntityKey": 0,
+        "switchTypeLike": 0,
+        "caseString": 0,
+        "fieldEqualsString": 0,
+        "fieldMapping": 1,
+        "inlineLabelMap": 0,
+        "omitFieldsArray": 0,
+        "headersArray": 0,
+        "magicLabel": 0,
+        "entityKeyString": 0
+      },
+      "matches": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 213,
+          "line": "? { differentialEventRoleOverrides: props.differentialEventRoleOverrides }"
+        }
+      ],
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "fieldMapping",
+          "lineNumber": 213,
+          "line": "? { differentialEventRoleOverrides: props.differentialEventRoleOverrides }",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 3,
+      "priority": "P2",
+      "suggestions": []
+    }
+  ]
 }

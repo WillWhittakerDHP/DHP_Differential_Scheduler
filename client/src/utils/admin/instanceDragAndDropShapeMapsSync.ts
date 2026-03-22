@@ -1,16 +1,17 @@
 /**
  * WHY: Vue composables (useEntityDragHandlers) must run in setup; this module holds the branching logic only.
+ * PLACEMENT: utils/admin — not a `use*` composable file; avoids composable-health false positives on inner ref().
  */
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
-import { useEntityDragHandlers } from './useEntityDragHandlers'
-import { useEntityTabState } from './useEntityTabState'
+import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
+import { useEntityTabState } from '@/composables/admin/useEntityTabState'
 import {
   createGroupedZoneDragEndHandler,
   groupedInstanceDragZoneKey,
-} from './instanceDragAndDropGrouped'
+} from '@/composables/admin/instanceDragAndDropGrouped'
 
 type BlockInstanceDragHandlers = ReturnType<typeof useEntityDragHandlers<'blockInstance'>>
 

@@ -9,7 +9,8 @@
 
 import { createLogger } from '@/utils/logger'
 import { createTimeRange, createTimeRangesFromSlotShape } from './booking/appointmentSlotBuilder'
-import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
+import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal, AppointmentSlot } from '@/types/appointment'
 
@@ -29,7 +30,8 @@ type SlotShapeWithFinals = AppointmentSlot['shape']['slotShape']
 /** Resolve major and minor EventFinal from slotShape via differentialRole. */
 function resolveMajorMinorEventFinals(
   slotShape: SlotShapeWithFinals,
-  context: string
+  context: string,
+  overrides?: Record<string, DifferentialRole> | null
 ): {
   majorEventFinal: EventFinal | undefined
   minorEventFinal: EventFinal | undefined
@@ -40,17 +42,17 @@ function resolveMajorMinorEventFinals(
 
   const eventShapeEntities = slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
-  const majorEventShape = getEventShapeByRole(eventShapeEntities, 'major')
+  const majorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'major', overrides)
   if (!majorEventShape) {
-    logger.error(`${context}: no event shape with differentialRole=major`, {
-      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    logger.error(`${context}: no event shape with effective differentialRole=major`, {
+      availableRoles: eventShapeEntities.map((es) => ({ name: es.name, differentialRole: es.differentialRole })),
     })
   }
 
-  const minorEventShape = getEventShapeByRole(eventShapeEntities, 'minor')
+  const minorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'minor', overrides)
   if (!minorEventShape) {
-    logger.error(`${context}: no event shape with differentialRole=minor`, {
-      availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+    logger.error(`${context}: no event shape with effective differentialRole=minor`, {
+      availableRoles: eventShapeEntities.map((es) => ({ name: es.name, differentialRole: es.differentialRole })),
     })
   }
 
@@ -103,7 +105,8 @@ export function transformToMajorPerspective(
   const slotShape = appointmentSlot.shape.slotShape
   const { majorEventFinal, minorEventFinal } = resolveMajorMinorEventFinals(
     slotShape,
-    'transformToMajorPerspective'
+    'transformToMajorPerspective',
+    appointmentSlot.shape.differentialEventRoleOverrides ?? null
   )
 
   const majorDuration = durationMinutes(majorEventFinal, 'transformToMajorPerspective.major')
@@ -148,7 +151,8 @@ export function transformToMinorPerspective(
   const slotShape = appointmentSlot.shape.slotShape
   const { majorEventFinal, minorEventFinal } = resolveMajorMinorEventFinals(
     slotShape,
-    'transformToMinorPerspective'
+    'transformToMinorPerspective',
+    appointmentSlot.shape.differentialEventRoleOverrides ?? null
   )
 
   const majorTotal = durationMinutes(majorEventFinal, 'transformToMinorPerspective.major')

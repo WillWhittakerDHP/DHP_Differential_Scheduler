@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-22T02:44:23.529Z",
+  "generatedAt": "2026-03-22T02:02:06.327Z",
   "clientEndpoints": 0,
-  "serverEndpoints": 72,
+  "serverEndpoints": 73,
   "endpointKeys": [
     "GET /events-cache",
     "GET /rate-limit",
@@ -315,6 +315,14 @@
     {
       "name": "DifferentialRoleStorage",
       "file": "shared/types/differentialRole.ts"
+    },
+    {
+      "name": "EventInstancePreviewRequestBody",
+      "file": "shared/types/eventInstancePreview.ts"
+    },
+    {
+      "name": "EventInstancePreviewResponseBody",
+      "file": "shared/types/eventInstancePreview.ts"
     },
     {
       "name": "IdentifiableById",

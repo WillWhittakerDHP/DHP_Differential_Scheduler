@@ -4,6 +4,7 @@
 
 This document governs how composables and function boundaries are designed, exposed, and tested. It complements:
 
+- **Harness playbook alignment** (`.project-manager/HARNESS_PLAYBOOK_ALIGNMENT.md`) — `client/src` layout vs obsolete `frontend-root` naming in old docs.
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries follow that playbook; this one focuses on composable shape, mutation ownership, and complexity.
 - **Cursor rules** (`.cursor/rules/composable-governance.mdc`) — flat contracts, action-based mutation, Ref/ComputedRef boundaries; always-applied.
 - **Audit scripts** — composable-health, composables-logic, function-complexity — which enforce and report on composable and function hygiene.

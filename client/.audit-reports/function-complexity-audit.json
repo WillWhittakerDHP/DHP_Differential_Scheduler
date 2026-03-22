@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-21T19:02:08.915Z",
-  "totalScanned": 1117,
+  "generatedAt": "2026-03-22T02:01:43.568Z",
+  "totalScanned": 1139,
   "totalAllowed": 0,
   "tierModel": "tier1",
   "tier1Rules": [
@@ -18,5 +18,480 @@
   },
   "deltaMode": true,
   "baseRef": "HEAD~1",
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/composables/admin/useSelectFiltering.ts",
+      "functions": [
+        {
+          "name": "useSelectFiltering",
+          "startLine": 55,
+          "endLine": 364,
+          "length": 310,
+          "maxNesting": 7,
+          "branches": 43,
+          "params": 0,
+          "returns": 34,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 7,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 43,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 310,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 34,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useAppointmentSlots.ts",
+      "functions": [
+        {
+          "name": "useAppointmentSlots",
+          "startLine": 13,
+          "endLine": 116,
+          "length": 104,
+          "maxNesting": 4,
+          "branches": 9,
+          "params": 1,
+          "returns": 14,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 104,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 14,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/formFields/useFormFields.ts",
+      "functions": [
+        {
+          "name": "useFormFields",
+          "startLine": 33,
+          "endLine": 299,
+          "length": 267,
+          "maxNesting": 4,
+          "branches": 42,
+          "params": 1,
+          "returns": 29,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "branches",
+              "value": 42,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 267,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 29,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/forms/fieldLocationDispatcher.ts",
+      "functions": [
+        {
+          "name": "determinePanelFromFieldKey",
+          "startLine": 22,
+          "endLine": 52,
+          "length": 31,
+          "maxNesting": 2,
+          "branches": 9,
+          "params": 1,
+          "returns": 9,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 9,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "getFieldLocation",
+          "startLine": 54,
+          "endLine": 127,
+          "length": 74,
+          "maxNesting": 3,
+          "branches": 21,
+          "params": 0,
+          "returns": 13,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 21,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 74,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 13,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        },
+        {
+          "name": "switch",
+          "startLine": 148,
+          "endLine": 167,
+          "length": 20,
+          "maxNesting": 2,
+          "branches": 6,
+          "params": 1,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/booking/useTimeSlotCalculations.ts",
+      "functions": [
+        {
+          "name": "useTimeSlotCalculations",
+          "startLine": 27,
+          "endLine": 148,
+          "length": 122,
+          "maxNesting": 4,
+          "branches": 8,
+          "params": 1,
+          "returns": 10,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 122,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 10,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "functions": [
+        {
+          "name": "BlockShapeFactory",
+          "startLine": 35,
+          "endLine": 111,
+          "length": 77,
+          "maxNesting": 4,
+          "branches": 1,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 77,
+              "threshold": 50,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/admin/useEntityCardSubPanels.ts",
+      "functions": [
+        {
+          "name": "useEntityCardSubPanels",
+          "startLine": 51,
+          "endLine": 193,
+          "length": 143,
+          "maxNesting": 3,
+          "branches": 35,
+          "params": 1,
+          "returns": 20,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 35,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 143,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 20,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "functions": [
+        {
+          "name": "useFieldContextEntityDerived",
+          "startLine": 29,
+          "endLine": 102,
+          "length": 74,
+          "maxNesting": 3,
+          "branches": 14,
+          "params": 0,
+          "returns": 19,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 74,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 19,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/partFinalizer.ts",
+      "functions": [
+        {
+          "name": "mergeBlockDifferentialRoleOverrides",
+          "startLine": 24,
+          "endLine": 49,
+          "length": 26,
+          "maxNesting": 4,
+          "branches": 6,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/forms/fieldComponentDispatcher.ts",
+      "functions": [
+        {
+          "name": "getFieldComponent",
+          "startLine": 9,
+          "endLine": 67,
+          "length": 59,
+          "maxNesting": 2,
+          "branches": 9,
+          "params": 0,
+          "returns": 10,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 59,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 10,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "client/src/utils/booking/perspectiveResolver.ts",
+      "functions": [
+        {
+          "name": "derivePerspective",
+          "startLine": 87,
+          "endLine": 126,
+          "length": 40,
+          "maxNesting": 2,
+          "branches": 10,
+          "params": 0,
+          "returns": 9,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 9,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/utils/transformers/apiEntityFieldNormalization.ts",
+      "functions": [
+        {
+          "name": "normalizeTernaryBooleanField",
+          "startLine": 13,
+          "endLine": 55,
+          "length": 43,
+          "maxNesting": 3,
+          "branches": 12,
+          "params": 0,
+          "returns": 8,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 8,
+              "threshold": 4,
+              "tier": 2
+            }
+          ]
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    }
+  ]
 }

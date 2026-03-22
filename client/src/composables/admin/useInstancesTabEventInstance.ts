@@ -5,6 +5,7 @@
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useNotification } from '@/composables/useNotification'
 import { EVENT_TEMPLATE_VARIABLES } from '@shared/constants/templateVariables'
+import { templateFieldUnknownWarnings } from '@shared/utils/templateVariableWarnings'
 import type { UseInstancesTabEventInstanceParams, NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 
 
@@ -23,23 +24,8 @@ export interface UseInstancesTabEventInstanceReturn {
   handleDeleteEventInstance: (id: string) => Promise<void>
 }
 
-const knownVariableNames = new Set<string>(EVENT_TEMPLATE_VARIABLES.map(v => v.name))
-
-function findUnknownVariables(template: string): string[] {
-  const varPattern = /\{(\w+)\}/g
-  const unknown: string[] = []
-  let match: RegExpExecArray | null
-  while ((match = varPattern.exec(template)) !== null) {
-    const name = match[1]
-    if (!knownVariableNames.has(name) && !unknown.includes(name)) {
-      unknown.push(match[1])
-    }
-  }
-  return unknown
-}
-
 export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanceParams): UseInstancesTabEventInstanceReturn {
-  const { expandedInstances, eventShapes, createEventInstance, logger } = params
+  const { expandedInstances, eventShapes, createEventInstance, removeEventInstance, logger } = params
   const { success } = useNotification()
 
   const isCreatingEventInstance = ref(false)
@@ -49,14 +35,10 @@ export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanc
   const templateWarnings = computed(() => {
     const data = newEventInstanceData.value
     if (!data) return { titleTemplate: [], descriptionTemplate: [], locationTemplate: [] }
-    const warn = (field: string): string[] => {
-      const unknown = findUnknownVariables(field)
-      return unknown.length > 0 ? [`Unknown variable(s): ${unknown.map(v => `{${v}}`).join(', ')}`] : []
-    }
     return {
-      titleTemplate: warn(data.titleTemplate),
-      descriptionTemplate: warn(data.descriptionTemplate),
-      locationTemplate: warn(data.locationTemplate),
+      titleTemplate: templateFieldUnknownWarnings(data.titleTemplate),
+      descriptionTemplate: templateFieldUnknownWarnings(data.descriptionTemplate),
+      locationTemplate: templateFieldUnknownWarnings(data.locationTemplate),
     }
   })
 
@@ -80,6 +62,7 @@ export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanc
       sendUpdates: 'all',
       colorId: null,
       status: 'confirmed',
+      active: true,
     }
     isCreatingEventInstance.value = true
     expandedInstances.value = ['new-eventInstance', ...expandedInstances.value]
@@ -106,7 +89,7 @@ export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanc
         status: newEventInstanceData.value.status,
         reminderOverrides: null,
         orderIndex: 0,
-        active: true,
+        active: newEventInstanceData.value.active,
         entityKey: 'eventInstance' as const,
       })
       success('Event instance created successfully')
@@ -126,7 +109,14 @@ export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanc
     expandedInstances.value = expandedInstances.value.filter(id => id !== 'new-eventInstance')
   }
 
-  const handleDeleteEventInstance = async (_id: string): Promise<void> => {
+  const handleDeleteEventInstance = async (id: string): Promise<void> => {
+    try {
+      await removeEventInstance(id)
+      success('Event instance deleted')
+      expandedInstances.value = expandedInstances.value.filter(panelId => panelId !== id)
+    } catch (error) {
+      logger.error('Failed to delete event instance', { error, id })
+    }
   }
 
   return {

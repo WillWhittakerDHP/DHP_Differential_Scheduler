@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:02:09.879Z",
+  "generatedAt": "2026-03-22T02:01:44.575Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -11,14 +11,14 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1047,
+  "totalScanned": 1067,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
   "deltaMode": true,
   "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 24,
+    "totalRequiresReview": 39,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -238,7 +238,7 @@
     {
       "id": "inline-orphan-appointmentId",
       "classification": "HOIST",
-      "description": "Value 'appointmentId' defined in constants but used inline in 2 locations",
+      "description": "Value 'appointmentId' defined in constants but used inline in 4 locations",
       "locations": [
         {
           "file": "server/src/routes/internal/appointments/appointmentConstants.ts",
@@ -249,19 +249,169 @@
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 350,
+          "line": 353,
           "inline": true
         },
         {
           "file": "server/src/db/models/index.ts",
           "export": null,
-          "line": 354,
+          "line": 357,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/index.ts",
+          "export": null,
+          "line": 362,
+          "inline": true
+        },
+        {
+          "file": "server/src/db/models/index.ts",
+          "export": null,
+          "line": 366,
+          "inline": true
+        }
+      ],
+      "score": 24,
+      "priority": "P0",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/appointments/appointmentConstants.ts"
+    },
+    {
+      "id": "inline-orphan-mlsNumber",
+      "classification": "HOIST",
+      "description": "Value 'mlsNumber' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "PATCH_PROPERTY_FIELD_KEY",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 68,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-squareFootage",
+      "classification": "HOIST",
+      "description": "Value 'squareFootage' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "PATCH_PROPERTY_FIELD_KEY",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 69,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-bedrooms",
+      "classification": "HOIST",
+      "description": "Value 'bedrooms' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "PATCH_PROPERTY_FIELD_KEY",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 70,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-bathrooms",
+      "classification": "HOIST",
+      "description": "Value 'bathrooms' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "PATCH_PROPERTY_FIELD_KEY",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 71,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-foundationAccess",
+      "classification": "HOIST",
+      "description": "Value 'foundationAccess' defined in constants but used inline in 1 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "PATCH_PROPERTY_FIELD_KEY",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 72,
+          "inline": true
+        }
+      ],
+      "score": 12,
+      "priority": "P1",
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
+    },
+    {
+      "id": "inline-orphan-additionalUnits",
+      "classification": "HOIST",
+      "description": "Value 'additionalUnits' defined in constants but used inline in 2 locations",
+      "locations": [
+        {
+          "file": "server/src/routes/internal/properties/propertyConstants.ts",
+          "export": "PATCH_PROPERTY_FIELD_KEY",
+          "line": 50,
+          "inline": false
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 73,
+          "inline": true
+        },
+        {
+          "file": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+          "export": null,
+          "line": 74,
           "inline": true
         }
       ],
       "score": 16,
       "priority": "P1",
-      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/appointments/appointmentConstants.ts"
+      "suggestion": "Replace inline usage with imported constant from server/src/routes/internal/properties/propertyConstants.ts"
     },
     {
       "id": "inline-orphan-setting-value-is-required",
@@ -293,6 +443,102 @@
     }
   ],
   "files": [
+    {
+      "id": "server__src__repositories__appointmentPropertyDetailsSync.ts",
+      "repoPath": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+      "score": 40.66666666666667,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 68,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 69,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 70,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 71,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 72,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 73,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 74,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__properties__propertyConstants.ts",
+      "repoPath": "server/src/routes/internal/properties/propertyConstants.ts",
+      "score": 35.333333333333336,
+      "priority": "P0",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: PATCH_PROPERTY_FIELD_KEY",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: PATCH_PROPERTY_FIELD_KEY",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: PATCH_PROPERTY_FIELD_KEY",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: PATCH_PROPERTY_FIELD_KEY",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: PATCH_PROPERTY_FIELD_KEY",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 50,
+          "line": "export: PATCH_PROPERTY_FIELD_KEY",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
     {
       "id": "server__src__routes__internal__entities__entityConstants.ts",
       "repoPath": "server/src/routes/internal/entities/entityConstants.ts",
@@ -389,19 +635,31 @@
     {
       "id": "server__src__db__models__index.ts",
       "repoPath": "server/src/db/models/index.ts",
-      "score": 10.666666666666666,
+      "score": 19.2,
       "priority": "P1",
       "allowed": [],
       "requiresReview": [
         {
           "ruleId": "hoist",
-          "lineNumber": 350,
+          "lineNumber": 353,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         },
         {
           "ruleId": "hoist",
-          "lineNumber": 354,
+          "lineNumber": 357,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 362,
+          "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "hoist",
+          "lineNumber": 366,
           "line": "inline: value",
           "suppressionStatus": "unsuppressed"
         }
@@ -513,21 +771,6 @@
       ]
     },
     {
-      "id": "server__src__routes__internal__appointments__appointmentConstants.ts",
-      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
-      "score": 5.333333333333333,
-      "priority": "P2",
-      "allowed": [],
-      "requiresReview": [
-        {
-          "ruleId": "hoist",
-          "lineNumber": 79,
-          "line": "export: CONSTRAINT_OVERRIDE_FIELDS",
-          "suppressionStatus": "unsuppressed"
-        }
-      ]
-    },
-    {
       "id": "server__src__routes__internal__businessSettings__businessSettingsConstants.ts",
       "repoPath": "server/src/routes/internal/businessSettings/businessSettingsConstants.ts",
       "score": 5.333333333333333,
@@ -568,6 +811,21 @@
           "ruleId": "hoist",
           "lineNumber": 36,
           "line": "inline: value",
+          "suppressionStatus": "unsuppressed"
+        }
+      ]
+    },
+    {
+      "id": "server__src__routes__internal__appointments__appointmentConstants.ts",
+      "repoPath": "server/src/routes/internal/appointments/appointmentConstants.ts",
+      "score": 4.8,
+      "priority": "P2",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "hoist",
+          "lineNumber": 79,
+          "line": "export: CONSTRAINT_OVERRIDE_FIELDS",
           "suppressionStatus": "unsuppressed"
         }
       ]

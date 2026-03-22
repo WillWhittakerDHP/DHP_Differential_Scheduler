@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T02:44:23.885Z",
+  "generatedAt": "2026-03-22T02:02:04.881Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -14,8 +14,8 @@
       "client/src/@layouts/**"
     ]
   },
-  "fileCount": 1240,
-  "totalDefinitions": 880,
+  "fileCount": 1262,
+  "totalDefinitions": 891,
   "groups": [
     {
       "groupId": "sim-subset-995776b07154",
@@ -80,7 +80,7 @@
           "name": "BookingBlockShape",
           "kind": "type-alias-object",
           "file": "client/src/types/transformers/bookingData.ts",
-          "line": 19,
+          "line": 35,
           "exported": true,
           "propertyCount": 6,
           "signature": "{ canHaveParts: boolean, composable: boolean, id: string, isStateControl: boolean, name: string, type: BlockShapeType }"
@@ -170,6 +170,53 @@
       "signature": "{ appointmentId: string, createdAt: string, googleEventId?: string | null, id: string, id: string, invitationStatus: 'pending' | typeof INVITATION_STATUS_SENT | 'accepted' | 'declined' | typeof INVITATION_STATUS_FAILED, name: string, shouldReceiveInvitation: boolean, updatedAt: string, user?: UserResponse, userId: string, userTypeBlockInstance?: {, userTypeBlockInstanceId?: string | null }",
       "propertyCount": 13,
       "score": 71,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-exact-ec8734a45e23",
+      "relationship": "EXACT",
+      "action": "REVIEW",
+      "members": [
+        {
+          "name": "AnnotationContentRowForm",
+          "kind": "interface",
+          "file": "client/src/components/admin/generic/fields/AnnotationContentEditor.vue",
+          "line": 8,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "AnnotationContentRowPlain",
+          "kind": "interface",
+          "file": "client/src/utils/booking/resolveAnnotationTextForAssignment.ts",
+          "line": 4,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "AnnotationContentRowInput",
+          "kind": "interface",
+          "file": "server/src/services/annotations/annotationInstanceContentSync.ts",
+          "line": 9,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "AnnotationContentRowPlain",
+          "kind": "interface",
+          "file": "server/src/services/annotations/annotationTextResolution.ts",
+          "line": 1,
+          "exported": true,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ text: string, userTypeBlockInstanceId: string | null }",
+      "propertyCount": 2,
+      "score": 25,
       "priority": "P0"
     },
     {
@@ -275,8 +322,8 @@
           "file": "client/src/composables/admin/usePrimitiveMetadataSave.ts",
           "line": 6,
           "exported": true,
-          "propertyCount": 21,
-          "signature": "{ blockShapeRef?: string | null, clearPendingState: () => void, computeRenderAs: (, dataType: string | undefined, debug: (msg: string, ctx?: unknown) => void }, entityId: string, entityType: EntityMetadataType, existingMetadata: FieldMetadataEntry | undefined, fieldKey: string, fieldKey: string, getBlockShapeRef: () => string | undefined | null, getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getEntityId: () => string | null, getEntityType: () => EntityMetadataType | null, getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>, inputConfig: Record<string, unknown> | null | undefined, logger: { error: (msg: string, ctx?: unknown) => void, onSaved: () => void, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldMetadata: (params: { }"
+          "propertyCount": 16,
+          "signature": "{ blockShapeRef?: string | null, clearPendingState: () => void, debug: (msg: string, ctx?: unknown) => void }, entityId: string, entityType: EntityMetadataType, existingMetadata: FieldMetadataEntry | undefined, fieldKey: string, getBlockShapeRef: () => string | undefined | null, getEntityId: () => string | null, getEntityType: () => EntityMetadataType | null, getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>, logger: { error: (msg: string, ctx?: unknown) => void, onSaved: () => void, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldMetadata: (params: { }"
         },
         {
           "name": "UseAdminPrimitiveMetadataMutationsReturn",
@@ -288,8 +335,8 @@
           "signature": "{ deleteFieldOverride: (, entityId: string, entityId: string, entityType: EntityMetadataType, entityType: EntityMetadataType, existingMetadata?: FieldMetadataEntry, fieldKey: string, fieldKey: string, isSaving: import('vue').Ref<boolean>, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldRendering: ( }"
         }
       ],
-      "signature": "{ blockShapeRef?: string | null, clearPendingState: () => void, computeRenderAs: (, dataType: string | undefined, debug: (msg: string, ctx?: unknown) => void }, entityId: string, entityType: EntityMetadataType, existingMetadata: FieldMetadataEntry | undefined, fieldKey: string, fieldKey: string, getBlockShapeRef: () => string | undefined | null, getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getEntityId: () => string | null, getEntityType: () => EntityMetadataType | null, getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>, inputConfig: Record<string, unknown> | null | undefined, logger: { error: (msg: string, ctx?: unknown) => void, onSaved: () => void, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldMetadata: (params: { }",
-      "propertyCount": 21,
+      "signature": "{ blockShapeRef?: string | null, clearPendingState: () => void, debug: (msg: string, ctx?: unknown) => void }, entityId: string, entityType: EntityMetadataType, existingMetadata: FieldMetadataEntry | undefined, fieldKey: string, getBlockShapeRef: () => string | undefined | null, getEntityId: () => string | null, getEntityType: () => EntityMetadataType | null, getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined, getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>, logger: { error: (msg: string, ctx?: unknown) => void, onSaved: () => void, renderingUpdates: Partial<FieldMetadataEntry>, saveFieldMetadata: (params: { }",
+      "propertyCount": 16,
       "score": 22,
       "priority": "P0"
     },
@@ -328,6 +375,44 @@
       ],
       "signature": "{ address?: PropertyResponse, addressId: string, attendees?: AttendeeResponse[], confirmedAt?: string | null, confirmedBy?: string | null, createdAt: string, heldBy?: string | null, heldByUser?: UserResponse, heldUntil?: string | null, id: string, id: string, isQuoteMode: boolean, moveableScheduling?: MoveableSchedulingOptions | null, optionQuantities?: Record<string, number> | null, optionSnapshotIds?: string[] | null, overrideConstraints?: Record<string, boolean> | null, propertyDetails?: Record<string, unknown> | null, propertyDetails?: Array<PropertyResponse>, propertyQuantities?: Record<string, number> | null, propertySnapshotIds?: string[] | null, propertyVersion?: {, propertyVersionId?: string | null, quotePdfUrl?: string | null, scheduledBy?: UserResponse, scheduledById?: string | null, selectedDate?: string | null, selectedDateRangeEnd?: string | null, selectedOptionIds?: string[] | null, selectedPropertyIds?: string[] | null, selectedServiceIds?: string[] | null, selectedTimeSlots?: Array<Record<string, unknown>> | null, serviceQuantities?: Record<string, number> | null, serviceSnapshotIds?: string[] | null, status: AppointmentStatus, submittedAt?: string | null, updatedAt: string, userTypeId?: string | null }",
       "propertyCount": 37,
+      "score": 19,
+      "priority": "P0"
+    },
+    {
+      "groupId": "sim-subset-5c07f0924f37",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "CalendarEvent",
+          "kind": "interface",
+          "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
+          "line": 21,
+          "exported": true,
+          "propertyCount": 17,
+          "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }"
+        },
+        {
+          "name": "EventInstancePreviewResponseBody",
+          "kind": "interface",
+          "file": "shared/types/eventInstancePreview.ts",
+          "line": 11,
+          "exported": true,
+          "propertyCount": 3,
+          "signature": "{ description: string, location: string, summary: string }"
+        },
+        {
+          "name": "CreateEventParams",
+          "kind": "interface",
+          "file": "server/src/services/google/calendar/calendarTypes.ts",
+          "line": 22,
+          "exported": true,
+          "propertyCount": 17,
+          "signature": "{ addConferenceLink?: boolean, attendees?: EventAttendee[], calendarId: string, colorId?: string | null, description?: string, end: Date | string, guestsCanInviteOthers?: boolean, guestsCanModify?: boolean, guestsCanSeeOtherGuests?: boolean, location?: string, reminderOverrides?: ReminderOverride[] | null, sendUpdates?: 'all' | 'externalOnly' | 'none', start: Date | string, status?: 'confirmed' | 'tentative', summary: string, transparency?: 'opaque' | 'transparent', visibility?: 'default' | 'public' | 'private' | 'confidential' }"
+        }
+      ],
+      "signature": "{ attendees?: Array<{, date?: string, date?: string, dateTime?: string, dateTime?: string, description?: string, displayName?: string, displayName?: string, email?: string, email?: string, end?: {, id?: string, location?: string, organizer?: {, responseStatus?: string, start?: {, summary?: string }",
+      "propertyCount": 17,
       "score": 19,
       "priority": "P0"
     },
@@ -407,7 +492,7 @@
           "name": "TimeSlotPerspectiveKind",
           "kind": "type-alias-union",
           "file": "client/src/types/appointment.ts",
-          "line": 14,
+          "line": 15,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": [
@@ -432,35 +517,6 @@
       ],
       "signature": "= 'major' | 'minor' | 'moveable'",
       "propertyCount": 0,
-      "score": 17,
-      "priority": "P0"
-    },
-    {
-      "groupId": "sim-exact-ec8734a45e23",
-      "relationship": "EXACT",
-      "action": "UNIFY",
-      "members": [
-        {
-          "name": "AnnotationContentRowPlain",
-          "kind": "interface",
-          "file": "client/src/utils/booking/resolveAnnotationTextForAssignment.ts",
-          "line": 3,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        },
-        {
-          "name": "AnnotationContentRowPlain",
-          "kind": "interface",
-          "file": "server/src/services/annotations/annotationTextResolution.ts",
-          "line": 1,
-          "exported": true,
-          "primitiveAlias": null,
-          "unionMembers": null
-        }
-      ],
-      "signature": "{ text: string, userTypeBlockInstanceId: string | null }",
-      "propertyCount": 2,
       "score": 17,
       "priority": "P0"
     },
@@ -622,7 +678,7 @@
           "name": "EventInstanceTemplateModel",
           "kind": "interface",
           "file": "client/src/composables/admin/useEventInstanceBuilder.ts",
-          "line": 6,
+          "line": 8,
           "exported": true,
           "propertyCount": 3,
           "signature": "{ descriptionTemplate: string, locationTemplate: string, titleTemplate: string }"
@@ -631,7 +687,7 @@
           "name": "EventInstancePreviewDraftSlice",
           "kind": "interface",
           "file": "client/src/composables/admin/useEventTemplatePreview.ts",
-          "line": 14,
+          "line": 12,
           "exported": true,
           "propertyCount": 4,
           "signature": "{ descriptionTemplate: string, eventShapeRef: string, locationTemplate: string, titleTemplate: string }"
@@ -640,14 +696,14 @@
           "name": "NewEventInstanceData",
           "kind": "type-alias-object",
           "file": "client/src/types/admin/instancesTabEventInstance.ts",
-          "line": 11,
+          "line": 12,
           "exported": true,
-          "propertyCount": 14,
-          "signature": "{ addConferenceLink: boolean, colorId: string | null, descriptionTemplate: string, eventShapeRef: string, guestsCanInviteOthers: boolean, guestsCanModify: boolean, guestsCanSeeOtherGuests: boolean, locationTemplate: string, name: string, sendUpdates: 'all' | 'externalOnly' | 'none', status: 'confirmed' | 'tentative', titleTemplate: string, transparency: 'opaque' | 'transparent', visibility: 'default' | 'public' | 'private' | 'confidential' }"
+          "propertyCount": 15,
+          "signature": "{ active: boolean, addConferenceLink: boolean, colorId: string | null, descriptionTemplate: string, eventShapeRef: string, guestsCanInviteOthers: boolean, guestsCanModify: boolean, guestsCanSeeOtherGuests: boolean, locationTemplate: string, name: string, sendUpdates: 'all' | 'externalOnly' | 'none', status: 'confirmed' | 'tentative', titleTemplate: string, transparency: 'opaque' | 'transparent', visibility: 'default' | 'public' | 'private' | 'confidential' }"
         }
       ],
-      "signature": "{ addConferenceLink: boolean, colorId: string | null, descriptionTemplate: string, eventShapeRef: string, guestsCanInviteOthers: boolean, guestsCanModify: boolean, guestsCanSeeOtherGuests: boolean, locationTemplate: string, name: string, sendUpdates: 'all' | 'externalOnly' | 'none', status: 'confirmed' | 'tentative', titleTemplate: string, transparency: 'opaque' | 'transparent', visibility: 'default' | 'public' | 'private' | 'confidential' }",
-      "propertyCount": 14,
+      "signature": "{ active: boolean, addConferenceLink: boolean, colorId: string | null, descriptionTemplate: string, eventShapeRef: string, guestsCanInviteOthers: boolean, guestsCanModify: boolean, guestsCanSeeOtherGuests: boolean, locationTemplate: string, name: string, sendUpdates: 'all' | 'externalOnly' | 'none', status: 'confirmed' | 'tentative', titleTemplate: string, transparency: 'opaque' | 'transparent', visibility: 'default' | 'public' | 'private' | 'confidential' }",
+      "propertyCount": 15,
       "score": 14,
       "priority": "P0"
     },
@@ -794,7 +850,7 @@
           "name": "SelectOptionRowInput",
           "kind": "interface",
           "file": "server/src/utils/adminMetadataInputConfigCodec.ts",
-          "line": 26,
+          "line": 27,
           "exported": true,
           "primitiveAlias": null,
           "unionMembers": null
@@ -844,6 +900,53 @@
       "priority": "P0"
     },
     {
+      "groupId": "sim-subset-e129389fe945",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "Props",
+          "kind": "interface",
+          "file": "client/src/components/admin/generic/EntityCardContent.vue",
+          "line": 15,
+          "exported": false,
+          "propertyCount": 16,
+          "signature": "{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, parentBlockShapeIsStateControl?: boolean, unifiedSaveState: { }"
+        },
+        {
+          "name": "Props",
+          "kind": "interface",
+          "file": "client/src/components/admin/generic/fields/AnnotationContentEditor.vue",
+          "line": 13,
+          "exported": false,
+          "propertyCount": 2,
+          "signature": "{ entity: GlobalEntity<GlobalEntityKey>, form: FormContext }"
+        },
+        {
+          "name": "Props",
+          "kind": "interface",
+          "file": "client/src/components/admin/generic/EntityCardSubPanels.vue",
+          "line": 12,
+          "exported": false,
+          "propertyCount": 6,
+          "signature": "{ entity: GlobalEntity<GlobalEntityKey>, fieldKey: GlobalFieldKey<GlobalEntityKey>, fieldMetadata?: Record<string, FieldMetadataEntry>, form: FormContext, getFieldContext: (, subPanelFields: SubPanelFields }"
+        },
+        {
+          "name": "UseEntityCardSubPanelsOptions",
+          "kind": "interface",
+          "file": "client/src/composables/admin/useEntityCardSubPanels.ts",
+          "line": 28,
+          "exported": true,
+          "propertyCount": 6,
+          "signature": "{ entity: GlobalEntity<GlobalEntityKey>, entityKey: GlobalEntityKey, fieldMetadata?: Record<string, FieldMetadataEntry>, form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, subPanelFields: SubPanelFields }"
+        }
+      ],
+      "signature": "{ canSave: ComputedRef<boolean>, composedFieldMetadata: Record<string, FieldMetadataEntry>, entity: GlobalEntity<GlobalEntityKey>, fieldsByLocation: FieldsByLocation, fieldsMissingContexts: GlobalFieldKey<GlobalEntityKey>[], form: FormContext, getFieldContext: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined, handleCancel: () => void, handleDeleteClick: () => void, handleDuplicate?: () => Promise<void>, handleSave: () => Promise<void>, handleUndo: () => void, isFormReady: boolean, isNew: boolean, parentBlockShapeIsStateControl?: boolean, unifiedSaveState: { }",
+      "propertyCount": 16,
+      "score": 12,
+      "priority": "P0"
+    },
+    {
       "groupId": "sim-subset-1554fa06fa28",
       "relationship": "SUBSET",
       "action": "EXTEND",
@@ -878,6 +981,53 @@
       ],
       "signature": "{ deleteRelationshipFieldOverride: (, entityId: string, entityId: string, entityType: EntityMetadataType, entityType: EntityMetadataType, existingMetadata?: FieldMetadataEntry, isSaving: import('vue').Ref<boolean>, relationshipKey: string, relationshipKey: string, renderingUpdates: Partial<FieldMetadataEntry>, saveRelationshipFieldRendering: ( }",
       "propertyCount": 11,
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "groupId": "sim-subset-b76bdb18b119",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "AppointmentWithRelations",
+          "kind": "interface",
+          "file": "server/src/services/invites/eventInstancePreviewService.ts",
+          "line": 21,
+          "exported": false,
+          "propertyCount": 2,
+          "signature": "{ attendees?: AppointmentAttendeeWithUser[], propertyVersion?: InviteAppointmentData['propertyVersion'] }"
+        },
+        {
+          "name": "NormalizedAppointmentForPreview",
+          "kind": "interface",
+          "file": "server/src/services/invites/eventInstancePreviewService.ts",
+          "line": 26,
+          "exported": false,
+          "propertyCount": 9,
+          "signature": "{ attendees: AppointmentAttendeeWithUser[], id: string, propertyVersion?: InviteAppointmentData['propertyVersion'], selectedDate: Date | null, selectedOptionIds: string[], selectedPropertyIds: string[], selectedServiceIds: string[], selectedTimeSlots: Array<Record<string, unknown>> | null, status: AppointmentType['status'] }"
+        },
+        {
+          "name": "NormalizedAppointmentForInvites",
+          "kind": "interface",
+          "file": "server/src/services/invites/inviteOrchestrationService.ts",
+          "line": 62,
+          "exported": false,
+          "propertyCount": 9,
+          "signature": "{ attendees: AppointmentAttendeeWithUser[], id: string, propertyVersion?: InviteAppointmentData['propertyVersion'], selectedDate: Date | null, selectedOptionIds: string[], selectedPropertyIds: string[], selectedServiceIds: string[], selectedTimeSlots: Array<Record<string, unknown>> | null, status: AppointmentType['status'] }"
+        },
+        {
+          "name": "AppointmentWithRelations",
+          "kind": "interface",
+          "file": "server/src/services/invites/inviteOrchestrationService.ts",
+          "line": 349,
+          "exported": false,
+          "propertyCount": 2,
+          "signature": "{ attendees?: AppointmentAttendeeWithUser[], propertyVersion?: InviteAppointmentData['propertyVersion'] }"
+        }
+      ],
+      "signature": "{ attendees: AppointmentAttendeeWithUser[], id: string, propertyVersion?: InviteAppointmentData['propertyVersion'], selectedDate: Date | null, selectedOptionIds: string[], selectedPropertyIds: string[], selectedServiceIds: string[], selectedTimeSlots: Array<Record<string, unknown>> | null, status: AppointmentType['status'] }",
+      "propertyCount": 9,
       "score": 10,
       "priority": "P1"
     },
@@ -932,8 +1082,8 @@
           "file": "client/src/composables/admin/useShapesTabModals.ts",
           "line": 7,
           "exported": true,
-          "propertyCount": 11,
-          "signature": "{ annotationShapeMetadataModalOpen: Ref<boolean>, blockShapeMetadataModalOpen: Ref<boolean>, eventShapeMetadataModalOpen: Ref<boolean>, handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }"
+          "propertyCount": 17,
+          "signature": "{ annotationInstanceMetadataModalOpen: Ref<boolean>, annotationShapeMetadataModalOpen: Ref<boolean>, blockShapeMetadataModalOpen: Ref<boolean>, eventInstanceMetadataModalOpen: Ref<boolean>, eventShapeMetadataModalOpen: Ref<boolean>, handleAnnotationInstanceMetadataSaved: () => void, handleEventInstanceMetadataSaved: () => void, handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, toggleAnnotationInstanceMetadataModal: () => void, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventInstanceMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }"
         },
         {
           "name": "UseMetadataModalHandlersReturn",
@@ -945,21 +1095,27 @@
           "signature": "{ handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, togglePartInstanceMetadataModal: () => void }"
         }
       ],
-      "signature": "{ annotationShapeMetadataModalOpen: Ref<boolean>, blockShapeMetadataModalOpen: Ref<boolean>, eventShapeMetadataModalOpen: Ref<boolean>, handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }",
-      "propertyCount": 11,
-      "overlapPercent": 27,
+      "signature": "{ annotationInstanceMetadataModalOpen: Ref<boolean>, annotationShapeMetadataModalOpen: Ref<boolean>, blockShapeMetadataModalOpen: Ref<boolean>, eventInstanceMetadataModalOpen: Ref<boolean>, eventShapeMetadataModalOpen: Ref<boolean>, handleAnnotationInstanceMetadataSaved: () => void, handleEventInstanceMetadataSaved: () => void, handlePartInstanceMetadataSaved: () => void, partInstanceMetadataModalOpen: Ref<boolean>, partShapeMetadataModalOpen: Ref<boolean>, toggleAnnotationInstanceMetadataModal: () => void, toggleAnnotationShapeMetadataModal: () => void, toggleBlockShapeMetadataModal: () => void, toggleEventInstanceMetadataModal: () => void, toggleEventShapeMetadataModal: () => void, togglePartInstanceMetadataModal: () => void, togglePartShapeMetadataModal: () => void }",
+      "propertyCount": 17,
+      "overlapPercent": 18,
       "sharedProperties": [
         "handlePartInstanceMetadataSaved",
         "partInstanceMetadataModalOpen",
         "togglePartInstanceMetadataModal"
       ],
       "uniqueToFirst": [
+        "annotationInstanceMetadataModalOpen",
         "annotationShapeMetadataModalOpen",
         "blockShapeMetadataModalOpen",
+        "eventInstanceMetadataModalOpen",
         "eventShapeMetadataModalOpen",
+        "handleAnnotationInstanceMetadataSaved",
+        "handleEventInstanceMetadataSaved",
         "partShapeMetadataModalOpen",
+        "toggleAnnotationInstanceMetadataModal",
         "toggleAnnotationShapeMetadataModal",
         "toggleBlockShapeMetadataModal",
+        "toggleEventInstanceMetadataModal",
         "toggleEventShapeMetadataModal",
         "togglePartShapeMetadataModal"
       ],
@@ -1012,6 +1168,108 @@
       "uniqueToSecond": [],
       "score": 10,
       "priority": "P1"
+    },
+    {
+      "groupId": "sim-exact-908690c4448d",
+      "relationship": "EXACT",
+      "action": "UNIFY",
+      "members": [
+        {
+          "name": "AppointmentWithRelations",
+          "kind": "interface",
+          "file": "server/src/services/invites/eventInstancePreviewService.ts",
+          "line": 21,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "AppointmentWithRelations",
+          "kind": "interface",
+          "file": "server/src/services/invites/inviteOrchestrationService.ts",
+          "line": 349,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ attendees?: AppointmentAttendeeWithUser[], propertyVersion?: InviteAppointmentData['propertyVersion'] }",
+      "propertyCount": 2,
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "groupId": "sim-exact-c1d2ca97a73d",
+      "relationship": "EXACT",
+      "action": "BRAND",
+      "members": [
+        {
+          "name": "NormalizedAppointmentForPreview",
+          "kind": "interface",
+          "file": "server/src/services/invites/eventInstancePreviewService.ts",
+          "line": 26,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
+        },
+        {
+          "name": "NormalizedAppointmentForInvites",
+          "kind": "interface",
+          "file": "server/src/services/invites/inviteOrchestrationService.ts",
+          "line": 62,
+          "exported": false,
+          "primitiveAlias": null,
+          "unionMembers": null
+        }
+      ],
+      "signature": "{ attendees: AppointmentAttendeeWithUser[], id: string, propertyVersion?: InviteAppointmentData['propertyVersion'], selectedDate: Date | null, selectedOptionIds: string[], selectedPropertyIds: string[], selectedServiceIds: string[], selectedTimeSlots: Array<Record<string, unknown>> | null, status: AppointmentType['status'] }",
+      "propertyCount": 9,
+      "score": 8,
+      "priority": "P1"
+    },
+    {
+      "groupId": "sim-subset-6cbdc08c5963",
+      "relationship": "SUBSET",
+      "action": "EXTEND",
+      "members": [
+        {
+          "name": "AppointmentAttendeeWithUser",
+          "kind": "interface",
+          "file": "server/src/services/invites/eventInstancePreviewService.ts",
+          "line": 13,
+          "exported": false,
+          "propertyCount": 5,
+          "signature": "{ id: string, invitationStatus: string, shouldReceiveInvitation: boolean, userId: string, userTypeBlockInstanceId: string | null }"
+        },
+        {
+          "name": "AppointmentAttendeeWithUser",
+          "kind": "interface",
+          "file": "server/src/services/invites/inviteOrchestrationService.ts",
+          "line": 332,
+          "exported": false,
+          "propertyCount": 10,
+          "signature": "{ email: string, firstName?: string, id: string, id: string, invitationStatus: string, lastName?: string, shouldReceiveInvitation: boolean, user?: {, userId: string, userTypeBlockInstanceId: string | null }"
+        }
+      ],
+      "signature": "{ email: string, firstName?: string, id: string, id: string, invitationStatus: string, lastName?: string, shouldReceiveInvitation: boolean, user?: {, userId: string, userTypeBlockInstanceId: string | null }",
+      "propertyCount": 10,
+      "overlapPercent": 56,
+      "sharedProperties": [
+        "id",
+        "invitationStatus",
+        "shouldReceiveInvitation",
+        "userId",
+        "userTypeBlockInstanceId"
+      ],
+      "uniqueToFirst": [],
+      "uniqueToSecond": [
+        "email",
+        "firstName",
+        "lastName",
+        "user"
+      ],
+      "score": 6,
+      "priority": "P2"
     }
   ],
   "definitions": [
@@ -1239,7 +1497,7 @@
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/admin/generic/EntityCard.vue",
-      "line": 51,
+      "line": 56,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1249,10 +1507,10 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/generic/EntityCardContent.vue",
-      "line": 13,
+      "line": 15,
       "exported": false,
-      "fingerprint": "e1f9d9c07741",
-      "propertyCount": 15,
+      "fingerprint": "44e7449228e7",
+      "propertyCount": 16,
       "primitiveAlias": null
     },
     {
@@ -1299,7 +1557,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 18,
+      "line": 21,
       "exported": false,
       "fingerprint": "aed8fd6c7265",
       "propertyCount": 9,
@@ -1309,7 +1567,7 @@
       "name": "CollectionType",
       "kind": "type-alias-union",
       "file": "client/src/components/admin/generic/collections/RelationshipCollection.vue",
-      "line": 16,
+      "line": 19,
       "exported": false,
       "fingerprint": "a3cc0e4aa1fa",
       "propertyCount": 0,
@@ -1336,6 +1594,26 @@
       "primitiveAlias": null
     },
     {
+      "name": "AnnotationContentRowForm",
+      "kind": "interface",
+      "file": "client/src/components/admin/generic/fields/AnnotationContentEditor.vue",
+      "line": 8,
+      "exported": true,
+      "fingerprint": "ec8734a45e23",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "Props",
+      "kind": "interface",
+      "file": "client/src/components/admin/generic/fields/AnnotationContentEditor.vue",
+      "line": 13,
+      "exported": false,
+      "fingerprint": "760720551686",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/generic/fields/BaseInput.vue",
@@ -1349,7 +1627,7 @@
       "name": "RoleSelectItem",
       "kind": "interface",
       "file": "client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue",
-      "line": 18,
+      "line": 19,
       "exported": false,
       "fingerprint": "4b71704ca4fe",
       "propertyCount": 2,
@@ -1359,7 +1637,7 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/admin/generic/fields/FieldRenderer.vue",
-      "line": 23,
+      "line": 24,
       "exported": false,
       "fingerprint": "02577030b2ff",
       "propertyCount": 5,
@@ -1459,17 +1737,17 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/booking/IndependentSelectCard.vue",
-      "line": 6,
+      "line": 8,
       "exported": false,
-      "fingerprint": "ffd0c328df02",
-      "propertyCount": 5,
+      "fingerprint": "2f8f377be375",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/IndependentSelectCard.vue",
-      "line": 23,
+      "line": 28,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1499,17 +1777,17 @@
       "name": "Props",
       "kind": "interface",
       "file": "client/src/components/booking/SelectionCard.vue",
-      "line": 20,
+      "line": 22,
       "exported": false,
-      "fingerprint": "7e9862223a10",
-      "propertyCount": 5,
+      "fingerprint": "ddf169736f81",
+      "propertyCount": 6,
       "primitiveAlias": null
     },
     {
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/SelectionCard.vue",
-      "line": 33,
+      "line": 38,
       "exported": false,
       "fingerprint": "512c531fe656",
       "propertyCount": 1,
@@ -1521,15 +1799,15 @@
       "file": "client/src/components/booking/SelectionCardGroup.vue",
       "line": 12,
       "exported": false,
-      "fingerprint": "70e59372d670",
-      "propertyCount": 3,
+      "fingerprint": "fa0469b10956",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
       "name": "Emits",
       "kind": "interface",
       "file": "client/src/components/booking/SelectionCardGroup.vue",
-      "line": 22,
+      "line": 25,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -1601,8 +1879,8 @@
       "file": "client/src/components/booking/steps/AvailabilityOptionsSection.vue",
       "line": 5,
       "exported": false,
-      "fingerprint": "dbf88ccd2b98",
-      "propertyCount": 4,
+      "fingerprint": "26a71db35c6b",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
@@ -1699,7 +1977,7 @@
       "name": "RuleFormDialogContext",
       "kind": "interface",
       "file": "client/src/composables/admin/injectionKeys.ts",
-      "line": 14,
+      "line": 15,
       "exported": true,
       "fingerprint": "86468f986c20",
       "propertyCount": 21,
@@ -1709,9 +1987,9 @@
       "name": "InstancesTabContext",
       "kind": "interface",
       "file": "client/src/composables/admin/injectionKeys.ts",
-      "line": 37,
+      "line": 38,
       "exported": true,
-      "fingerprint": "591d70f62991",
+      "fingerprint": "98bb5c58efc4",
       "propertyCount": 41,
       "primitiveAlias": null
     },
@@ -1719,7 +1997,7 @@
       "name": "InstanceDragFormKitBinderDeps",
       "kind": "type-alias-object",
       "file": "client/src/composables/admin/instanceDragAndDropFormKitBind.ts",
-      "line": 22,
+      "line": 23,
       "exported": true,
       "fingerprint": "6e812eaa8261",
       "propertyCount": 9,
@@ -2099,7 +2377,7 @@
       "name": "WithToggle",
       "kind": "type-alias-object",
       "file": "client/src/composables/admin/useEntityCardSubPanels.ts",
-      "line": 112,
+      "line": 130,
       "exported": false,
       "fingerprint": "08b77282f96b",
       "propertyCount": 1,
@@ -2109,7 +2387,7 @@
       "name": "EventInstanceTemplateModel",
       "kind": "interface",
       "file": "client/src/composables/admin/useEventInstanceBuilder.ts",
-      "line": 6,
+      "line": 8,
       "exported": true,
       "fingerprint": "887a047bd967",
       "propertyCount": 3,
@@ -2119,7 +2397,7 @@
       "name": "UseEventInstanceBuilderReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useEventInstanceBuilder.ts",
-      "line": 12,
+      "line": 14,
       "exported": true,
       "fingerprint": "b1ba1ffdd1f4",
       "propertyCount": 3,
@@ -2129,7 +2407,7 @@
       "name": "EventInstanceTemplateFieldKey",
       "kind": "type-alias-union",
       "file": "client/src/composables/admin/useEventInstanceBuilder.ts",
-      "line": 4,
+      "line": 6,
       "exported": true,
       "fingerprint": "b7ad874a0e1e",
       "propertyCount": 0,
@@ -2149,7 +2427,7 @@
       "name": "EventInstancePreviewDraftSlice",
       "kind": "interface",
       "file": "client/src/composables/admin/useEventTemplatePreview.ts",
-      "line": 14,
+      "line": 12,
       "exported": true,
       "fingerprint": "cb768c9dc709",
       "propertyCount": 4,
@@ -2159,7 +2437,7 @@
       "name": "UseEventTemplatePreviewParams",
       "kind": "interface",
       "file": "client/src/composables/admin/useEventTemplatePreview.ts",
-      "line": 21,
+      "line": 19,
       "exported": true,
       "fingerprint": "00c4822295dc",
       "propertyCount": 1,
@@ -2169,7 +2447,7 @@
       "name": "UseEventTemplatePreviewReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useEventTemplatePreview.ts",
-      "line": 25,
+      "line": 23,
       "exported": true,
       "fingerprint": "9f723fdb1315",
       "propertyCount": 6,
@@ -2229,7 +2507,7 @@
       "name": "UseFieldRendererErrorWatchParams",
       "kind": "interface",
       "file": "client/src/composables/admin/useFieldRendererErrorWatch.ts",
-      "line": 9,
+      "line": 10,
       "exported": true,
       "fingerprint": "4ff9187ce300",
       "propertyCount": 9,
@@ -2239,7 +2517,7 @@
       "name": "FieldContextLike",
       "kind": "type-alias-object",
       "file": "client/src/composables/admin/useFieldRendererErrorWatch.ts",
-      "line": 7,
+      "line": 8,
       "exported": false,
       "fingerprint": "39f83f5d4177",
       "propertyCount": 3,
@@ -2269,7 +2547,7 @@
       "name": "UseInstancesTabEventInstanceReturn",
       "kind": "interface",
       "file": "client/src/composables/admin/useInstancesTabEventInstance.ts",
-      "line": 13,
+      "line": 14,
       "exported": true,
       "fingerprint": "57e5d644f5ac",
       "propertyCount": 11,
@@ -2321,8 +2599,8 @@
       "file": "client/src/composables/admin/usePrimitiveMetadataSave.ts",
       "line": 6,
       "exported": true,
-      "fingerprint": "d3a2fc254ae2",
-      "propertyCount": 21,
+      "fingerprint": "971704d1861e",
+      "propertyCount": 16,
       "primitiveAlias": null
     },
     {
@@ -2401,8 +2679,8 @@
       "file": "client/src/composables/admin/useShapesTabCreation.ts",
       "line": 14,
       "exported": true,
-      "fingerprint": "344c5042306c",
-      "propertyCount": 19,
+      "fingerprint": "8ca7aad31a86",
+      "propertyCount": 24,
       "primitiveAlias": null
     },
     {
@@ -2411,8 +2689,8 @@
       "file": "client/src/composables/admin/useShapesTabModals.ts",
       "line": 7,
       "exported": true,
-      "fingerprint": "f963a035e89a",
-      "propertyCount": 11,
+      "fingerprint": "6dbf568f83b5",
+      "propertyCount": 17,
       "primitiveAlias": null
     },
     {
@@ -2483,6 +2761,16 @@
       "exported": true,
       "fingerprint": "a7c710cb6b9c",
       "propertyCount": 12,
+      "primitiveAlias": null
+    },
+    {
+      "name": "UseAnnotationContentReturn",
+      "kind": "interface",
+      "file": "client/src/composables/booking/useAnnotationContent.ts",
+      "line": 5,
+      "exported": true,
+      "fingerprint": "263149cedcc3",
+      "propertyCount": 4,
       "primitiveAlias": null
     },
     {
@@ -2599,7 +2887,7 @@
       "name": "UseAvailabilityStepSlotOverlayParams",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-      "line": 8,
+      "line": 10,
       "exported": true,
       "fingerprint": "0e9a1f442bde",
       "propertyCount": 1,
@@ -2609,7 +2897,7 @@
       "name": "UseAvailabilityStepSlotOverlayReturn",
       "kind": "interface",
       "file": "client/src/composables/booking/useAvailabilityStepSlotOverlay.ts",
-      "line": 12,
+      "line": 14,
       "exported": true,
       "fingerprint": "0dc1e5638c83",
       "propertyCount": 3,
@@ -3289,7 +3577,7 @@
       "name": "RelationshipDisplayType",
       "kind": "type-alias-object",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 26,
+      "line": 33,
       "exported": false,
       "fingerprint": "f3baec35d9c3",
       "propertyCount": 34,
@@ -3299,7 +3587,7 @@
       "name": "VirtualDisplayType",
       "kind": "type-alias-object",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 73,
+      "line": 80,
       "exported": false,
       "fingerprint": "7033df60a4bc",
       "propertyCount": 31,
@@ -3309,7 +3597,7 @@
       "name": "SelectableDisplayTypeSuite",
       "kind": "type-alias-object",
       "file": "client/src/configs/field/display/selectableDisplayConfig.ts",
-      "line": 122,
+      "line": 129,
       "exported": false,
       "fingerprint": "empty",
       "propertyCount": 0,
@@ -4221,18 +4509,18 @@
       "file": "client/src/types/admin/instancesTabEventInstance.ts",
       "line": 4,
       "exported": true,
-      "fingerprint": "0fdc49c7c0f5",
-      "propertyCount": 4,
+      "fingerprint": "dd3b8bcacc6a",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
       "name": "NewEventInstanceData",
       "kind": "type-alias-object",
       "file": "client/src/types/admin/instancesTabEventInstance.ts",
-      "line": 11,
+      "line": 12,
       "exported": true,
-      "fingerprint": "2fa7ad69e21e",
-      "propertyCount": 14,
+      "fingerprint": "4697d849d554",
+      "propertyCount": 15,
       "primitiveAlias": null
     },
     {
@@ -4651,8 +4939,8 @@
       "file": "client/src/types/admin/shapesTab.ts",
       "line": 13,
       "exported": true,
-      "fingerprint": "e677db4218dc",
-      "propertyCount": 27,
+      "fingerprint": "b4a13947b94e",
+      "propertyCount": 29,
       "primitiveAlias": null
     },
     {
@@ -4821,7 +5109,7 @@
       "file": "client/src/types/annotations.ts",
       "line": 27,
       "exported": true,
-      "fingerprint": "f3322ac2fef3",
+      "fingerprint": "b5a6c86431fc",
       "propertyCount": 7,
       "primitiveAlias": null
     },
@@ -4849,7 +5137,7 @@
       "name": "TimeSlot",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 15,
+      "line": 16,
       "exported": true,
       "fingerprint": "0a8c3a90f757",
       "propertyCount": 4,
@@ -4859,7 +5147,7 @@
       "name": "EventFinal",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 26,
+      "line": 27,
       "exported": true,
       "fingerprint": "571292729b7c",
       "propertyCount": 3,
@@ -4869,7 +5157,7 @@
       "name": "SlotShape",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 32,
+      "line": 33,
       "exported": true,
       "fingerprint": "533db6e7ffee",
       "propertyCount": 5,
@@ -4879,17 +5167,17 @@
       "name": "AppointmentShape",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 40,
+      "line": 41,
       "exported": true,
-      "fingerprint": "f0637d5f79b2",
-      "propertyCount": 4,
+      "fingerprint": "8149a77855eb",
+      "propertyCount": 5,
       "primitiveAlias": null
     },
     {
       "name": "AppointmentSlot",
       "kind": "interface",
       "file": "client/src/types/appointment.ts",
-      "line": 50,
+      "line": 54,
       "exported": true,
       "fingerprint": "c64a0ee710aa",
       "propertyCount": 10,
@@ -4899,7 +5187,7 @@
       "name": "TimeSlotPerspectiveKind",
       "kind": "type-alias-union",
       "file": "client/src/types/appointment.ts",
-      "line": 14,
+      "line": 15,
       "exported": true,
       "fingerprint": "7adcd5da4f8c",
       "propertyCount": 0,
@@ -4909,7 +5197,7 @@
       "name": "PerspectiveKey",
       "kind": "type-alias-union",
       "file": "client/src/types/appointment.ts",
-      "line": 22,
+      "line": 23,
       "exported": true,
       "fingerprint": "6a9e94092161",
       "propertyCount": 0,
@@ -5459,7 +5747,7 @@
       "name": "UseBookingFlowReturn",
       "kind": "interface",
       "file": "client/src/types/booking/bookingFlow.ts",
-      "line": 24,
+      "line": 25,
       "exported": true,
       "fingerprint": "de9c7da1ade0",
       "propertyCount": 7,
@@ -7329,7 +7617,7 @@
       "name": "CreateRelationshipPayloadBase",
       "kind": "interface",
       "file": "client/src/types/relationships.ts",
-      "line": 35,
+      "line": 41,
       "exported": true,
       "fingerprint": "3c05a47e2a31",
       "propertyCount": 2,
@@ -7339,7 +7627,7 @@
       "name": "GlobalRelationship",
       "kind": "type-alias-object",
       "file": "client/src/types/relationships.ts",
-      "line": 27,
+      "line": 33,
       "exported": true,
       "fingerprint": "1c77cc2e4734",
       "propertyCount": 3,
@@ -7466,10 +7754,30 @@
       "primitiveAlias": null
     },
     {
+      "name": "BookingAnnotationUiCandidate",
+      "kind": "type-alias-object",
+      "file": "client/src/types/transformers/bookingData.ts",
+      "line": 10,
+      "exported": true,
+      "fingerprint": "90c4019d7e5c",
+      "propertyCount": 6,
+      "primitiveAlias": null
+    },
+    {
+      "name": "BookingBlockAnnotationUi",
+      "kind": "type-alias-object",
+      "file": "client/src/types/transformers/bookingData.ts",
+      "line": 17,
+      "exported": true,
+      "fingerprint": "3ffdc1ca8f0b",
+      "propertyCount": 1,
+      "primitiveAlias": null
+    },
+    {
       "name": "BookingBlockShape",
       "kind": "type-alias-object",
       "file": "client/src/types/transformers/bookingData.ts",
-      "line": 19,
+      "line": 35,
       "exported": true,
       "fingerprint": "1c889e079dd3",
       "propertyCount": 6,
@@ -7479,7 +7787,7 @@
       "name": "BookingData",
       "kind": "type-alias-object",
       "file": "client/src/types/transformers/bookingData.ts",
-      "line": 49,
+      "line": 67,
       "exported": true,
       "fingerprint": "bd42d1d690ba",
       "propertyCount": 3,
@@ -7506,13 +7814,23 @@
       "primitiveAlias": null
     },
     {
+      "name": "AnnotationAssignmentEdge",
+      "kind": "type-alias-object",
+      "file": "client/src/types/transformers/globalData.ts",
+      "line": 8,
+      "exported": true,
+      "fingerprint": "d2b308ed1ab0",
+      "propertyCount": 4,
+      "primitiveAlias": null
+    },
+    {
       "name": "GlobalData",
       "kind": "type-alias-object",
       "file": "client/src/types/transformers/globalData.ts",
-      "line": 5,
+      "line": 14,
       "exported": true,
-      "fingerprint": "c6c759a9b9e4",
-      "propertyCount": 2,
+      "fingerprint": "ac237221c051",
+      "propertyCount": 3,
       "primitiveAlias": null
     },
     {
@@ -7709,7 +8027,7 @@
       "name": "DifferentialRoleMatrixRow",
       "kind": "interface",
       "file": "client/src/utils/admin/differentialRoleMatrixRows.ts",
-      "line": 7,
+      "line": 9,
       "exported": true,
       "fingerprint": "bb812b38dbea",
       "propertyCount": 3,
@@ -7821,28 +8139,18 @@
       "file": "client/src/utils/admin/metadataFieldUpdates.ts",
       "line": 6,
       "exported": true,
-      "fingerprint": "3ba0591ea6ed",
-      "propertyCount": 2,
+      "fingerprint": "fd2acfb329c7",
+      "propertyCount": 1,
       "primitiveAlias": null
     },
     {
       "name": "MetadataFieldUpdatesReturn",
       "kind": "interface",
       "file": "client/src/utils/admin/metadataFieldUpdates.ts",
-      "line": 11,
+      "line": 10,
       "exported": true,
       "fingerprint": "3b6b6e3aa21f",
       "propertyCount": 5,
-      "primitiveAlias": null
-    },
-    {
-      "name": "ValidChildrenKey",
-      "kind": "type-alias-union",
-      "file": "client/src/utils/admin/selectFilterStrategies.ts",
-      "line": 15,
-      "exported": true,
-      "fingerprint": "d29992992dd8",
-      "propertyCount": 0,
       "primitiveAlias": null
     },
     {
@@ -8009,7 +8317,7 @@
       "name": "AnnotationContentRowPlain",
       "kind": "interface",
       "file": "client/src/utils/booking/resolveAnnotationTextForAssignment.ts",
-      "line": 3,
+      "line": 4,
       "exported": true,
       "fingerprint": "ec8734a45e23",
       "propertyCount": 2,
@@ -8019,7 +8327,7 @@
       "name": "AnnotationWithContentPlain",
       "kind": "interface",
       "file": "client/src/utils/booking/resolveAnnotationTextForAssignment.ts",
-      "line": 8,
+      "line": 9,
       "exported": true,
       "fingerprint": "ff2870659cad",
       "propertyCount": 2,
@@ -8079,7 +8387,7 @@
       "name": "CategorizedFields",
       "kind": "interface",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 12,
+      "line": 13,
       "exported": false,
       "fingerprint": "840df1e6a6e7",
       "propertyCount": 5,
@@ -8089,7 +8397,7 @@
       "name": "CategorizeFieldsOptions",
       "kind": "interface",
       "file": "client/src/utils/forms/fieldSectionCategorization.ts",
-      "line": 24,
+      "line": 25,
       "exported": false,
       "fingerprint": "ec5952ec059f",
       "propertyCount": 5,
@@ -8129,10 +8437,10 @@
       "name": "BlockInstanceOptionalProps",
       "kind": "type-alias-object",
       "file": "client/src/utils/transformers/globalToBookingTransformer.ts",
-      "line": 130,
+      "line": 138,
       "exported": false,
-      "fingerprint": "bddf5e91fb68",
-      "propertyCount": 11,
+      "fingerprint": "3752aec26f92",
+      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
@@ -8466,6 +8774,16 @@
       "primitiveAlias": null
     },
     {
+      "name": "AnnotationContentRowInput",
+      "kind": "interface",
+      "file": "server/src/services/annotations/annotationInstanceContentSync.ts",
+      "line": 9,
+      "exported": true,
+      "fingerprint": "ec8734a45e23",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
       "name": "AnnotationContentRowPlain",
       "kind": "interface",
       "file": "server/src/services/annotations/annotationTextResolution.ts",
@@ -8706,6 +9024,36 @@
       "primitiveAlias": null
     },
     {
+      "name": "AppointmentAttendeeWithUser",
+      "kind": "interface",
+      "file": "server/src/services/invites/eventInstancePreviewService.ts",
+      "line": 13,
+      "exported": false,
+      "fingerprint": "ce5c7b77cb18",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "AppointmentWithRelations",
+      "kind": "interface",
+      "file": "server/src/services/invites/eventInstancePreviewService.ts",
+      "line": 21,
+      "exported": false,
+      "fingerprint": "908690c4448d",
+      "propertyCount": 2,
+      "primitiveAlias": null
+    },
+    {
+      "name": "NormalizedAppointmentForPreview",
+      "kind": "interface",
+      "file": "server/src/services/invites/eventInstancePreviewService.ts",
+      "line": 26,
+      "exported": false,
+      "fingerprint": "c1d2ca97a73d",
+      "propertyCount": 9,
+      "primitiveAlias": null
+    },
+    {
       "name": "AppointmentForAttendeeOps",
       "kind": "interface",
       "file": "server/src/services/invites/inviteAttendeeHelpers.ts",
@@ -8721,15 +9069,15 @@
       "file": "server/src/services/invites/inviteContextBuilder.ts",
       "line": 20,
       "exported": true,
-      "fingerprint": "8f5a2453ac0f",
-      "propertyCount": 11,
+      "fingerprint": "529793007a57",
+      "propertyCount": 12,
       "primitiveAlias": null
     },
     {
       "name": "SingleEventResult",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 42,
+      "line": 41,
       "exported": false,
       "fingerprint": "8224d83e2f7e",
       "propertyCount": 7,
@@ -8739,7 +9087,7 @@
       "name": "InviteOrchestrationResult",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 52,
+      "line": 51,
       "exported": true,
       "fingerprint": "1ab50fc90048",
       "propertyCount": 6,
@@ -8749,7 +9097,7 @@
       "name": "NormalizedAppointmentForInvites",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 63,
+      "line": 62,
       "exported": false,
       "fingerprint": "c1d2ca97a73d",
       "propertyCount": 9,
@@ -8759,7 +9107,7 @@
       "name": "AppointmentAttendeeWithUser",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 342,
+      "line": 332,
       "exported": false,
       "fingerprint": "c1e5c460606b",
       "propertyCount": 10,
@@ -8769,19 +9117,9 @@
       "name": "AppointmentWithRelations",
       "kind": "interface",
       "file": "server/src/services/invites/inviteOrchestrationService.ts",
-      "line": 359,
+      "line": 349,
       "exported": false,
       "fingerprint": "908690c4448d",
-      "propertyCount": 2,
-      "primitiveAlias": null
-    },
-    {
-      "name": "TemplateResolverOptions",
-      "kind": "interface",
-      "file": "server/src/services/invites/templateResolver.ts",
-      "line": 8,
-      "exported": true,
-      "fingerprint": "5843e4ace97f",
       "propertyCount": 2,
       "primitiveAlias": null
     },
@@ -8929,7 +9267,7 @@
       "name": "AdminMetadataIcColumns",
       "kind": "interface",
       "file": "server/src/utils/adminMetadataInputConfigCodec.ts",
-      "line": 9,
+      "line": 10,
       "exported": true,
       "fingerprint": "eb73e889ed51",
       "propertyCount": 14,
@@ -8939,7 +9277,7 @@
       "name": "SelectOptionRowInput",
       "kind": "interface",
       "file": "server/src/utils/adminMetadataInputConfigCodec.ts",
-      "line": 26,
+      "line": 27,
       "exported": true,
       "fingerprint": "89e67391b40e",
       "propertyCount": 3,
@@ -9566,6 +9904,26 @@
       "primitiveAlias": null
     },
     {
+      "name": "EventInstancePreviewRequestBody",
+      "kind": "interface",
+      "file": "shared/types/eventInstancePreview.ts",
+      "line": 4,
+      "exported": true,
+      "fingerprint": "828a54b06091",
+      "propertyCount": 5,
+      "primitiveAlias": null
+    },
+    {
+      "name": "EventInstancePreviewResponseBody",
+      "kind": "interface",
+      "file": "shared/types/eventInstancePreview.ts",
+      "line": 11,
+      "exported": true,
+      "fingerprint": "da137415401d",
+      "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
       "name": "IdentifiableById",
       "kind": "interface",
       "file": "shared/types/identifiable.ts",
@@ -9813,6 +10171,16 @@
       "exported": true,
       "fingerprint": "6edfe16986ae",
       "propertyCount": 3,
+      "primitiveAlias": null
+    },
+    {
+      "name": "TemplateResolverOptions",
+      "kind": "interface",
+      "file": "shared/utils/eventTemplateResolver.ts",
+      "line": 8,
+      "exported": true,
+      "fingerprint": "5843e4ace97f",
+      "propertyCount": 2,
       "primitiveAlias": null
     }
   ]

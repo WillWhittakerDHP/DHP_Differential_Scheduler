@@ -69,6 +69,7 @@ declare global {
   const getDefaultEntityValues: typeof import('./src/utils/entityDefaults').getDefaultEntityValues
   const getEntityDisplayName: typeof import('./src/utils/entityDefaults').getEntityDisplayName
   const getEventShapeByRole: typeof import('./src/utils/eventAttendeeUtils').getEventShapeByRole
+  const getEventShapeByRoleWithOverrides: typeof import('./src/utils/eventAttendeeUtils').getEventShapeByRoleWithOverrides
   const getIcon: typeof import('./src/utils/iconMapper').getIcon
   const getMajorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMajorEventShape
   const getMinorEventShape: typeof import('./src/utils/eventAttendeeUtils').getMinorEventShape
@@ -533,6 +534,7 @@ declare module 'vue' {
     readonly getDefaultEntityValues: UnwrapRef<typeof import('./src/utils/entityDefaults')['getDefaultEntityValues']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
     readonly getEventShapeByRole: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getEventShapeByRole']>
+    readonly getEventShapeByRoleWithOverrides: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getEventShapeByRoleWithOverrides']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getMajorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMajorEventShape']>
     readonly getMinorEventShape: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getMinorEventShape']>

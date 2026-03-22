@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T02:44:23.728Z",
+  "generatedAt": "2026-03-22T02:02:05.176Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -16,7 +16,7 @@
   },
   "windowLines": 10,
   "minGroupOccurrences": 2,
-  "fileCount": 794,
+  "fileCount": 806,
   "candidates": {
     "similarTypeNames": [],
     "similarFunctionPatterns": [
@@ -763,8 +763,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 491,
-          "endLine": 502,
+          "startLine": 492,
+          "endLine": 503,
           "windowText": "AvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,",
           "target": "server/src/db/models/index.ts"
         }
@@ -815,8 +815,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 488,
-          "endLine": 499,
+          "startLine": 489,
+          "endLine": 500,
           "windowText": "AvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,",
           "target": "server/src/db/models/index.ts"
         }
@@ -893,8 +893,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 483,
-          "endLine": 494,
+          "startLine": 484,
+          "endLine": 495,
           "windowText": "AppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,",
           "target": "server/src/db/models/index.ts"
         }
@@ -945,8 +945,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 492,
-          "endLine": 503,
+          "startLine": 493,
+          "endLine": 504,
           "windowText": "AvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1111,6 +1111,32 @@
       "priority": "P0"
     },
     {
+      "groupId": "dup-4c0d54727d0d",
+      "hash": "4c0d54727d0d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": ".map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,\npropertyVersion: appointment.propertyVersion ?? undefined,",
+      "locations": [
+        {
+          "repoPath": "server/src/services/invites/eventInstancePreviewService.ts",
+          "startLine": 76,
+          "endLine": 89,
+          "windowText": ".map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,\npropertyVersion: appointment.propertyVersion ?? undefined,",
+          "target": "server/src/services/invites/eventInstancePreviewService.ts"
+        },
+        {
+          "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+          "startLine": 171,
+          "endLine": 184,
+          "windowText": ".map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,\npropertyVersion: appointment.propertyVersion ?? undefined,",
+          "target": "server/src/services/invites/inviteOrchestrationService.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
       "groupId": "dup-4c9d5a06c19a",
       "hash": "4c9d5a06c19a",
       "uniqueFiles": 2,
@@ -1205,8 +1231,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 485,
-          "endLine": 496,
+          "startLine": 486,
+          "endLine": 497,
           "windowText": "ConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1413,8 +1439,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 482,
-          "endLine": 493,
+          "startLine": 483,
+          "endLine": 494,
           "windowText": "AppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1517,8 +1543,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 489,
-          "endLine": 500,
+          "startLine": 490,
+          "endLine": 501,
           "windowText": "AvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1569,10 +1595,36 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 490,
-          "endLine": 501,
+          "startLine": 491,
+          "endLine": 502,
           "windowText": "AvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,",
           "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-a7c5a683579d",
+      "hash": "a7c5a683579d",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const rawSlots = appointment.selectedTimeSlots\nconst selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,",
+      "locations": [
+        {
+          "repoPath": "server/src/services/invites/eventInstancePreviewService.ts",
+          "startLine": 73,
+          "endLine": 87,
+          "windowText": "const rawSlots = appointment.selectedTimeSlots\nconst selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,",
+          "target": "server/src/services/invites/eventInstancePreviewService.ts"
+        },
+        {
+          "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+          "startLine": 168,
+          "endLine": 182,
+          "windowText": "const rawSlots = appointment.selectedTimeSlots\nconst selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,",
+          "target": "server/src/services/invites/inviteOrchestrationService.ts"
         }
       ],
       "score": 22,
@@ -1647,8 +1699,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 480,
-          "endLine": 491,
+          "startLine": 481,
+          "endLine": 492,
           "windowText": "AppointmentSelectionLine,\nAppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1673,8 +1725,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 493,
-          "endLine": 506,
+          "startLine": 494,
+          "endLine": 507,
           "windowText": "AvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1725,8 +1777,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 484,
-          "endLine": 495,
+          "startLine": 485,
+          "endLine": 496,
           "windowText": "AppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,\nAvailabilityMaxWorkHour,\nAvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,",
           "target": "server/src/db/models/index.ts"
         }
@@ -1751,10 +1803,36 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 494,
-          "endLine": 507,
+          "startLine": 495,
+          "endLine": 508,
           "windowText": "AvailabilityMaxIncomeRow,\nAvailabilityDifferentialAttendee,\nCalendarSettingCalendar,\nAdminMetadataSelectOption,\nAdminPrimitiveMetadata,\nAdminPrimitiveMetadataSelectOption,\nAdminRelationshipMetadata,\nAdminRelationshipMetadataSelectOption,\nPropertyFieldMapping,\nPropertyFeatureMapping,",
           "target": "server/src/db/models/index.ts"
+        }
+      ],
+      "score": 22,
+      "priority": "P0"
+    },
+    {
+      "groupId": "dup-c477b319eabd",
+      "hash": "c477b319eabd",
+      "uniqueFiles": 2,
+      "occurrences": 2,
+      "lineCount": 10,
+      "windowText": "const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,",
+      "locations": [
+        {
+          "repoPath": "server/src/services/invites/eventInstancePreviewService.ts",
+          "startLine": 74,
+          "endLine": 88,
+          "windowText": "const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,",
+          "target": "server/src/services/invites/eventInstancePreviewService.ts"
+        },
+        {
+          "repoPath": "server/src/services/invites/inviteOrchestrationService.ts",
+          "startLine": 169,
+          "endLine": 183,
+          "windowText": "const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots\n.map((s: Record<string, unknown>) => {\nconst start = s.startTime\nconst end = s.endTime\nif (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }\n.filter((slot): slot is { startTime: string; endTime: string } => slot !== null)\nid: appointment.id,\nselectedDate: appointment.selectedDate,\nselectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,\nstatus: appointment.status,",
+          "target": "server/src/services/invites/inviteOrchestrationService.ts"
         }
       ],
       "score": 22,
@@ -1881,8 +1959,8 @@
         },
         {
           "repoPath": "server/src/db/models/index.ts",
-          "startLine": 481,
-          "endLine": 492,
+          "startLine": 482,
+          "endLine": 493,
           "windowText": "AppointmentTimeSlot,\nAppointmentAttendee,\nAppointmentFeeSummary,\nAppointmentFeeEntry,\nConstraintOverride,\nAvailabilitySetting,\nAvailabilityBusinessHour,\nAvailabilityBufferEntry,\nAvailabilityRangeConstraint,\nAvailabilityRangeConstraintHour,",
           "target": "server/src/db/models/index.ts"
         }

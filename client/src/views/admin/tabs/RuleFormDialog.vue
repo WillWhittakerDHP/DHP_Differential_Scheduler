@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import type { BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
-import { ruleFormDialogContextKey } from '@/composables/admin/injectionKeys'
+import { ruleFormDialogContextKey } from '@/types/admin/adminInjectionKeys'
 import { BUSINESS_RULES_UI } from '@/constants/businessRulesConstants.js'
 
 const injected = inject(ruleFormDialogContextKey)

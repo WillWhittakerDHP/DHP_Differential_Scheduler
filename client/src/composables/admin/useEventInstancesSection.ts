@@ -2,7 +2,7 @@
  * EventInstancesSection receives instancesTabContext from InstancesTab and passes it here.
  */
 import { computed } from 'vue'
-import type { InstancesTabContext } from '@/composables/admin/injectionKeys'
+import type { InstancesTabContext } from '@/types/admin/adminInjectionKeys'
 import type { ComputedRef } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 

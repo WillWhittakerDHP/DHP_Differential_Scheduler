@@ -1,4 +1,6 @@
 /**
+ * WHY: Tracks which template textarea is active and inserts `{variableName}` at the caret (or appends).
+ * PATTERN: Uses `data-event-template-field` on VTextarea so we can read selection from document.activeElement.
  */
 import { ref, nextTick, type Ref } from 'vue'
 

@@ -1,16 +1,6 @@
 {
   "runs": [
     {
-      "timestamp": "2026-03-15T18:18:22.167Z",
-      "auditType": "error-handling",
-      "hits": {}
-    },
-    {
-      "timestamp": "2026-03-15T18:18:22.191Z",
-      "auditType": "type-import",
-      "hits": {}
-    },
-    {
       "timestamp": "2026-03-15T18:24:23.244Z",
       "auditType": "error-handling",
       "hits": {}
@@ -497,6 +487,16 @@
     },
     {
       "timestamp": "2026-03-21T19:33:41.889Z",
+      "auditType": "type-import",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-22T02:02:16.436Z",
+      "auditType": "error-handling",
+      "hits": {}
+    },
+    {
+      "timestamp": "2026-03-22T02:02:16.437Z",
       "auditType": "type-import",
       "hits": {}
     }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T19:33:41.770Z",
+  "generatedAt": "2026-03-22T02:02:16.183Z",
   "scope": {
     "included": [
       "server/src/**/*.{ts,mjs}"
@@ -13,7 +13,7 @@
     ]
   },
   "summary": {
-    "totalErrors": 0,
+    "totalErrors": 1,
     "totalWarnings": 0,
     "byCategory": {
       "dependencies": {
@@ -29,7 +29,7 @@
         "warnings": 0
       },
       "csrf": {
-        "errors": 0,
+        "errors": 1,
         "warnings": 0
       },
       "auth": {
@@ -71,11 +71,31 @@
     {
       "id": "csrf",
       "name": "CSRF Protection",
-      "errors": [],
+      "errors": [
+        {
+          "file": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
+          "line": 14,
+          "route": "/",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        }
+      ],
       "warnings": [],
-      "score": 0,
-      "fileIssues": {},
-      "priority": "P2"
+      "score": 12,
+      "fileIssues": {
+        "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts": [
+          {
+            "file": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
+            "line": 14,
+            "route": "/",
+            "method": "POST",
+            "issue": "Missing CSRF protection on POST route",
+            "severity": "error"
+          }
+        ]
+      },
+      "priority": "P1"
     },
     {
       "id": "auth",
@@ -96,5 +116,33 @@
       "priority": "P2"
     }
   ],
-  "files": []
+  "files": [
+    {
+      "id": "server__src__routes__internal__event-instance-preview__eventInstancePreviewRouter.ts",
+      "repoPath": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
+      "categories": [
+        "csrf"
+      ],
+      "issues": [
+        {
+          "file": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
+          "line": 14,
+          "route": "/",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        },
+        {
+          "file": "server/src/routes/internal/event-instance-preview/eventInstancePreviewRouter.ts",
+          "line": 14,
+          "route": "/",
+          "method": "POST",
+          "issue": "Missing CSRF protection on POST route",
+          "severity": "error"
+        }
+      ],
+      "score": 20,
+      "priority": "P0"
+    }
+  ]
 }

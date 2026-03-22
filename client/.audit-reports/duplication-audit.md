@@ -37,8 +37,8 @@ These candidates were identified by pattern-detection audit as high-probability 
 
 ## Summary
 
-- Files scanned: **794**
-- Groups (window=10 lines, minOccurrences=2): **61**
+- Files scanned: **806**
+- Groups (window=10 lines, minOccurrences=2): **64**
 - Candidate findings from pattern-detection: **7**
 
 ## Top duplication groups (by leverage)
@@ -55,21 +55,21 @@ These candidates were identified by pattern-detection audit as high-probability 
 | `dup-16c81bdb13b1` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@25`, `client/src/composables/booking/injectionKeys.ts@40` |
 | `dup-1b753311ed13` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@39`, `client/src/composables/booking/injectionKeys.ts@105` |
 | `dup-1ed104e46b6b` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@19`, `client/src/composables/booking/injectionKeys.ts@85` |
-| `dup-200cf0be10ee` | 2 | 2 | 10 | `server/src/config/models.ts@46`, `server/src/db/models/index.ts@491` |
+| `dup-200cf0be10ee` | 2 | 2 | 10 | `server/src/config/models.ts@46`, `server/src/db/models/index.ts@492` |
 | `dup-21187764e027` | 2 | 2 | 10 | `client/src/composables/booking/bookingWizardStepKeys.ts@17`, `client/src/composables/booking/injectionKeys.ts@32` |
-| `dup-2a2d4ad30335` | 2 | 2 | 10 | `server/src/config/models.ts@43`, `server/src/db/models/index.ts@488` |
+| `dup-2a2d4ad30335` | 2 | 2 | 10 | `server/src/config/models.ts@43`, `server/src/db/models/index.ts@489` |
 | `dup-2f98b2b8a160` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@25`, `client/src/composables/booking/injectionKeys.ts@91` |
 | `dup-2ff4aad4813a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@28`, `client/src/composables/booking/injectionKeys.ts@94` |
-| `dup-30a4f4a1cf3e` | 2 | 2 | 10 | `server/src/config/models.ts@38`, `server/src/db/models/index.ts@483` |
+| `dup-30a4f4a1cf3e` | 2 | 2 | 10 | `server/src/config/models.ts@38`, `server/src/db/models/index.ts@484` |
 | `dup-3388642864ed` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@13`, `client/src/composables/booking/injectionKeys.ts@51` |
-| `dup-33aa67f347dd` | 2 | 2 | 10 | `server/src/config/models.ts@47`, `server/src/db/models/index.ts@492` |
+| `dup-33aa67f347dd` | 2 | 2 | 10 | `server/src/config/models.ts@47`, `server/src/db/models/index.ts@493` |
 | `dup-343823759865` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@42`, `client/src/composables/booking/injectionKeys.ts@108` |
 | `dup-38e4f00f21bc` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@19`, `client/src/composables/booking/injectionKeys.ts@58` |
 | `dup-3923ce43130e` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@24`, `client/src/composables/booking/injectionKeys.ts@90` |
 | `dup-3e0fca8edcc3` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@26`, `client/src/composables/booking/injectionKeys.ts@92` |
 | `dup-410a19544c06` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@30`, `client/src/composables/booking/injectionKeys.ts@96` |
 | `dup-452112380556` | 2 | 2 | 10 | `client/src/composables/booking/bookingKeys.ts@15`, `client/src/composables/booking/injectionKeys.ts@53` |
-| `dup-4c9d5a06c19a` | 2 | 2 | 10 | `client/src/composables/booking/bookingDevPanelKeys.ts@18`, `client/src/composables/booking/injectionKeys.ts@84` |
+| `dup-4c0d54727d0d` | 2 | 2 | 10 | `server/src/services/invites/eventInstancePreviewService.ts@76`, `server/src/services/invites/inviteOrchestrationService.ts@171` |
 
 ## Per-group details (top)
 
@@ -294,7 +294,7 @@ isSelectedServiceDifferential: ComputedRef<boolean>
 
 Locations:
 - `server/src/config/models.ts` @ lines 46-57
-- `server/src/db/models/index.ts` @ lines 491-502
+- `server/src/db/models/index.ts` @ lines 492-503
 
 ```
 AvailabilityRangeConstraint,
@@ -336,7 +336,7 @@ export const propertyDetailsFieldErrorsKey: InjectionKey<Ref<Record<string, stri
 
 Locations:
 - `server/src/config/models.ts` @ lines 43-54
-- `server/src/db/models/index.ts` @ lines 488-499
+- `server/src/db/models/index.ts` @ lines 489-500
 
 ```
 AvailabilitySetting,
@@ -399,7 +399,7 @@ transactionManagerInfo: Ref<ContactInfo>
 
 Locations:
 - `server/src/config/models.ts` @ lines 38-49
-- `server/src/db/models/index.ts` @ lines 483-494
+- `server/src/db/models/index.ts` @ lines 484-495
 
 ```
 AppointmentFeeSummary,
@@ -441,7 +441,7 @@ export const appointmentDurationKey: InjectionKey<Ref<number | null>> =
 
 Locations:
 - `server/src/config/models.ts` @ lines 47-58
-- `server/src/db/models/index.ts` @ lines 492-503
+- `server/src/db/models/index.ts` @ lines 493-504
 
 ```
 AvailabilityRangeConstraintHour,
