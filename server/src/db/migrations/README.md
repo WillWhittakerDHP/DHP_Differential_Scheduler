@@ -2,7 +2,7 @@
 
 **Purpose:** Manage database schema changes using Sequelize migrations
 
-**Last Updated:** 2026-03-20 (Baseline Squash)
+**Last Updated:** 2026-03-22 (auth incremental migration + duplicate baseline cleanup)
 
 ---
 
@@ -17,6 +17,10 @@ Migrations handle all database schema changes. **Never use `sequelize.sync()` or
 - `20260320_000001_baseline_data.sql` — reference/seed data for all tables
 
 Historical migration files remain in git history for reference. The previous squash (2026-02-10, 224 files) and all incremental migrations through 2026-03-15 are superseded by this single baseline.
+
+**Incremental auth DDL (Feature 7):** After the baseline, `20260322_100001_create_auth_sessions_and_magic_links.mjs` adds `public.sessions` and `public.magic_links` with FK to `public.users(id)` (see `LAUNCH_CHECKLIST.md` §2A.1).
+
+**Duplicate baseline removed (2026-03-22):** A second full baseline (`20260322_000001_baseline_from_dump.mjs` plus its `.sql` pair) was removed. It ran alphabetically after `20260320_000001` and failed on fresh/partial DBs (`type ... already exists`). **Only one** squashed baseline should exist; re-squash by replacing `20260320_*` per “Regenerating the Baseline” below—do not add a parallel baseline filename.
 
 **Migration Runner:** We use a custom migration runner (`server/src/scripts/run-migrations.mjs`) instead of Sequelize CLI because:
 - Sequelize CLI doesn't properly detect `.mjs` (ES module) migration files
