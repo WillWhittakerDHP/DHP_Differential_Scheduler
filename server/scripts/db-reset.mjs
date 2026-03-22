@@ -21,6 +21,16 @@ const dbHost = process.env.DB_HOST || '127.0.0.1';
 const dbPort = process.env.DB_PORT || 5432;
 const dbName = process.env.DB_NAME || 'scheduler_db';
 
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
+if (!LOCAL_HOSTS.has(dbHost)) {
+  console.error(
+    `❌ Database reset blocked: DB_HOST is "${dbHost}" (remote).\n` +
+    `   Only the database host machine may drop/recreate the database.\n` +
+    `   Run this on the machine that hosts PostgreSQL.`
+  );
+  process.exit(1);
+}
+
 const env = { ...process.env, PGPASSWORD: dbPassword };
 
 console.log(`🔄 Resetting database ${dbName} as ${dbUser}@${dbHost}:${dbPort}...`);

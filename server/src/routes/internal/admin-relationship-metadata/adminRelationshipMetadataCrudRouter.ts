@@ -1,16 +1,28 @@
 
 import { Router, Request, Response } from 'express'
-import { validateRequest } from '../../../middlewares/validateRequest.js'
-import { adminRelationshipMetadataPostBodySchema } from '../../schemas/adminRelationshipMetadataSchemas.js'
 import { AdminRelationshipMetadata } from '../../../db/models/admin/adminRelationshipMetadata.js'
+import { sequelize } from '../../../config/database.js'
 import { getAdminRelationshipMetadata } from '../../../utils/adminRelationshipMetadataComposer.js'
+import { relationshipMetadataToHttpPayload } from '../../../utils/adminPrimitiveRelationshipAssembly.js'
+import {
+  replaceSelectOptionsForRelationshipMetadata,
+  splitInputConfigForPersistence,
+} from '../../../utils/adminMetadataInputConfigPersist.js'
 import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminRelationshipMetadataConstants.js'
 
 type RelationshipEntityType = (typeof VALID_ENTITY_TYPES)[number]
 import { handleRouteError } from './adminRelationshipMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateInputConfig } from './adminRelationshipMetadataValidators.js'
 import { transformMetadataToRecord } from './adminRelationshipMetadataHelpers.js'
-import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendNoContent } from '../../helpers/routerResponseHelpers.js'
+import {
+  sendSuccess,
+  sendCreated,
+  sendNotFound,
+  sendBadRequest,
+  sendNoContent,
+  sendError,
+} from '../../helpers/routerResponseHelpers.js'
+import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 
@@ -42,8 +54,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
 router.post(
   '/:entityType/:entityId',
-  csrfProtection,
-  validateRequest(adminRelationshipMetadataPostBodySchema),
+  csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
@@ -97,41 +108,70 @@ router.post(
       },
     })
 
+    const { icFields, options } = splitInputConfigForPersistence(inputConfig)
+
     if (existing) {
-      await existing.update({
-        dataType,
-        label,
-        isRequired,
-        visibility,
-        layout,
-        displayOrder,
-        renderAs,
-        statusButtonColor,
-        panel,
-        bulkEdit,
-        inputConfig,
+      await sequelize.transaction(async (transaction) => {
+        await existing.update(
+          {
+            dataType,
+            label,
+            isRequired,
+            visibility,
+            layout,
+            displayOrder,
+            renderAs,
+            statusButtonColor,
+            panel,
+            bulkEdit,
+            ...icFields,
+          },
+          { transaction }
+        )
+        await replaceSelectOptionsForRelationshipMetadata(existing.id, options, transaction)
       })
-
-      sendSuccess(res, existing)
+      const reloaded = await AdminRelationshipMetadata.findOne({
+        where: {
+          entityType: entityType as RelationshipEntityType,
+          entityId: entityId,
+          relationshipKey: relationshipKey,
+        },
+      })
+      if (!reloaded) {
+        sendError(res, 'Relationship metadata row missing after update', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        return
+      }
+      sendSuccess(res, await relationshipMetadataToHttpPayload(reloaded))
     } else {
-      const metadata = await AdminRelationshipMetadata.create({
-        entityType: entityType as RelationshipEntityType,
-        entityId: entityId,
-        relationshipKey,
-        dataType,
-        label,
-        isRequired,
-        visibility,
-        layout,
-        displayOrder,
-        renderAs,
-        statusButtonColor,
-        panel,
-        bulkEdit,
-        inputConfig,
+      let created: AdminRelationshipMetadata | null = null
+      await sequelize.transaction(async (transaction) => {
+        const row = await AdminRelationshipMetadata.create(
+          {
+            entityType: entityType as RelationshipEntityType,
+            entityId: entityId,
+            relationshipKey,
+            dataType,
+            label,
+            isRequired,
+            visibility,
+            layout,
+            displayOrder,
+            renderAs,
+            statusButtonColor,
+            panel,
+            bulkEdit,
+            ...icFields,
+          },
+          { transaction }
+        )
+        await replaceSelectOptionsForRelationshipMetadata(row.id, options, transaction)
+        created = row
       })
-
-      sendCreated(res, metadata)
+      if (!created) {
+        sendError(res, 'Relationship metadata create failed', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        return
+      }
+      sendCreated(res, await relationshipMetadataToHttpPayload(created))
     }
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.CREATE_UPDATE_METADATA, 'creating/updating relationship metadata')

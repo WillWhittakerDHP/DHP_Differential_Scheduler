@@ -3,8 +3,30 @@ import { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadat
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
 import type { FieldMetadataEntry } from './adminMetadataComposer.js';
 import { mapMetaFieldsToPayload } from './adminMetadataPayload.js';
+import { decodeInputConfig, icColumnsFromModel } from './adminMetadataInputConfigCodec.js';
+import { fetchPrimitiveSelectOptionsByMetadataIds } from './adminPrimitiveRelationshipAssembly.js';
 
 export type { FieldMetadataEntry };
+
+async function fieldEntriesFromPrimitiveRows(rows: AdminPrimitiveMetadata[]): Promise<FieldMetadataEntry[]> {
+  const optionsMap = await fetchPrimitiveSelectOptionsByMetadataIds(rows.map((m) => m.id))
+  return rows.map((meta) => ({
+    fieldKey: meta.fieldKey,
+    ...mapMetaFieldsToPayload({
+      dataType: meta.dataType,
+      label: meta.label,
+      isRequired: meta.isRequired,
+      visibility: meta.visibility,
+      layout: meta.layout,
+      displayOrder: meta.displayOrder,
+      renderAs: meta.renderAs,
+      statusButtonColor: meta.statusButtonColor ?? undefined,
+      panel: meta.panel,
+      bulkEdit: meta.bulkEdit,
+      inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionsMap.get(meta.id) ?? []),
+    }),
+  }))
+}
 
 export async function getAdminPrimitiveMetadata(
   entityType: 'blockShape' | 'partShape' | 'blockInstance' | 'partInstance',
@@ -21,17 +43,11 @@ export async function getAdminPrimitiveMetadata(
   // PATTERN: Return instance metadata directly, no inheritance merging
   if (entityType === 'blockInstance' || entityType === 'partInstance') {
     if (entityType === 'partInstance' && entityId === GLOBAL_CONFIG_IDS.PART_INSTANCE) {
-      return entityMetadata.map(meta => ({
-        fieldKey: meta.fieldKey,
-        ...mapMetaFieldsToPayload(meta),
-      }));
+      return fieldEntriesFromPrimitiveRows(entityMetadata)
     }
     
     if (entityType === 'blockInstance' && entityId === GLOBAL_CONFIG_IDS.BLOCK_INSTANCE) {
-      return entityMetadata.map(meta => ({
-        fieldKey: meta.fieldKey,
-        ...mapMetaFieldsToPayload(meta),
-      }));
+      return fieldEntriesFromPrimitiveRows(entityMetadata)
     }
     
     if (entityMetadata.length === 0) {
@@ -47,21 +63,15 @@ export async function getAdminPrimitiveMetadata(
         order: [['display_order', 'ASC'], ['field_key', 'ASC']],
       });
       
-      return fallbackMetadata.map(meta => ({
-        fieldKey: meta.fieldKey,
-        ...mapMetaFieldsToPayload(meta),
-      }));
+      return fieldEntriesFromPrimitiveRows(fallbackMetadata)
     }
     
-    return entityMetadata.map(meta => ({
-      fieldKey: meta.fieldKey,
-      ...mapMetaFieldsToPayload(meta),
-    }));
+    return fieldEntriesFromPrimitiveRows(entityMetadata)
   }
 
-  return entityMetadata.map(meta => ({
-    fieldKey: meta.fieldKey,
-    ...mapMetaFieldsToPayload(meta),
-    statusButtonColor: meta.statusButtonColor ?? null,
-  }));
+  const entries = await fieldEntriesFromPrimitiveRows(entityMetadata)
+  return entries.map((e) => ({
+    ...e,
+    statusButtonColor: e.statusButtonColor ?? null,
+  }))
 }

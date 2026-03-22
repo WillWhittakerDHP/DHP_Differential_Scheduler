@@ -36,6 +36,7 @@ export class AnnotationAssignment extends Model<
   declare blockInstanceId: ForeignKey<string>;
   declare annotationId: ForeignKey<string>;
   declare userTypeBlockInstanceId: ForeignKey<string> | null; // Optional override: BlockInstance ID for user type filtering
+  declare disabled: boolean;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -80,6 +81,11 @@ export function AnnotationAssignmentFactory(sequelize: Sequelize) {
           key: 'id',
         },
         comment: 'Optional user type override for this specific relationship (BlockInstance ID representing user type)',
+      },
+      disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,

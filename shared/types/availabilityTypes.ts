@@ -291,6 +291,19 @@ export interface DurationRoundingConfig {
 }
 
 /**
+ * Drive time **billing** (fee) settings — separate from {@link DriveTimeConfig} overlap buffers.
+ * WHY: Pricing/rounding for charged drive time; buffers only reserve calendar gaps.
+ */
+export interface DriveTimeFeeConfig {
+  /** Minutes of drive time included at no charge before hourly rate applies. */
+  complimentaryDriveMinutes: number
+  /** Dollar amount per hour for billable drive time (after complimentary minutes). */
+  drivingRatePerHour: number
+  /** Billable drive time is rounded up to this increment (minutes); must be > 0 when configured. */
+  driveTimeRoundingMinutes: number
+}
+
+/**
  * Busy time range
  * WHY: Used to exclude time slots that conflict with existing appointments
  * PATTERN: Extends TimeRangeBounds; optional placeId for drive time calculations
@@ -400,6 +413,12 @@ export interface SlotAvailabilityResult {
  */
 export interface ComputedSlot extends SlotTimeBounds, SlotAvailabilityResult {
   violations: string[]  // required for server slot e.g. ['overlap.event.direct', 'overlap.driveFromCandidate.buffer:20']
+  /**
+   * Billable drive context for fee preview (default location ↔ candidate property), in minutes.
+   * WHY: Same names as overlap buffer vocabulary but here they are **route** legs for the inspection address.
+   */
+  driveToCandidate?: number
+  driveFromCandidate?: number
 }
 
 /**

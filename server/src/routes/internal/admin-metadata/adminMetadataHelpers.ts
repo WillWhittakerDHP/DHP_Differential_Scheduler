@@ -3,6 +3,10 @@ import { Op } from 'sequelize'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { isRelationshipKey } from '../../../constants/relationships.js'
 import { GLOBAL_CONFIG_IDS, VALID_ENTITY_TYPES } from './adminMetadataConstants.js'
+import {
+  adminMetadataToApiEntry,
+  fetchSelectOptionsByMetadataIds,
+} from '../../../utils/adminMetadataEntryAssembly.js'
 
 type AdminMetadataEntityType = (typeof VALID_ENTITY_TYPES)[number]
 
@@ -11,10 +15,6 @@ WHY: Matches entity pattern - bac...
  */
 export function determineMetadataType(fieldKey: string): 'relationship' | 'primitive' {
   return isRelationshipKey(fieldKey) ? 'relationship' : 'primitive'
-}
-
-export function getDefaultRenderAs(metadataType: 'relationship' | 'primitive'): string {
-  return metadataType === 'relationship' ? 'reference' : 'text'
 }
 
 export function getDefaultPanel(metadataType: 'relationship' | 'primitive'): string {
@@ -62,7 +62,9 @@ export function buildMetadataWhereClause(
   return where
 }
 
-export function buildBatchMetadataResult(allMetadata: InstanceType<typeof AdminMetadata>[]): {
+export async function buildBatchMetadataResult(
+  allMetadata: InstanceType<typeof AdminMetadata>[]
+): Promise<{
   global: {
     blockShape: Record<string, unknown>
     partShape: Record<string, unknown>
@@ -74,7 +76,9 @@ export function buildBatchMetadataResult(allMetadata: InstanceType<typeof AdminM
     annotationInstance: Record<string, unknown>
   }
   blockShapeSpecific: Record<string, Record<string, unknown>>
-} {
+}> {
+  const optionsMap = await fetchSelectOptionsByMetadataIds(allMetadata.map((m) => m.id))
+
   const result: {
     global: {
       blockShape: Record<string, unknown>
@@ -106,19 +110,8 @@ export function buildBatchMetadataResult(allMetadata: InstanceType<typeof AdminM
     const fieldKey = entry.fieldKey
     const blockShapeRef = entry.blockShapeRef
 
-    const metadataEntry = {
-      dataType: entry.dataType,
-      label: entry.label,
-      isRequired: entry.isRequired,
-      visibility: entry.visibility,
-      layout: entry.layout,
-      displayOrder: entry.displayOrder,
-      renderAs: entry.renderAs,
-      statusButtonColor: entry.statusButtonColor,
-      panel: entry.panel,
-      bulkEdit: entry.bulkEdit,
-      inputConfig: entry.inputConfig,
-    }
+    const optionRows = optionsMap.get(entry.id) ?? []
+    const metadataEntry = adminMetadataToApiEntry(entry, optionRows)
 
     if (entityType === 'blockInstance' && blockShapeRef) {
       if (!result.blockShapeSpecific[blockShapeRef]) {

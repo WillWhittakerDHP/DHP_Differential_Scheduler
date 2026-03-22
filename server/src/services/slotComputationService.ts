@@ -178,6 +178,17 @@ function getDayConfigsInRange(
     .filter((c): c is DayConfig => c != null)
 }
 
+function withCandidateDriveLegs(
+  slot: ComputedSlot,
+  legs: { driveToCandidate: number; driveFromCandidate: number }
+): ComputedSlot {
+  return {
+    ...slot,
+    driveToCandidate: legs.driveToCandidate,
+    driveFromCandidate: legs.driveFromCandidate,
+  }
+}
+
 function computeSlotsForOneDay(
   dayConfig: DayConfig,
   durationMinutes: number,
@@ -188,7 +199,8 @@ function computeSlotsForOneDay(
   overlapConstraints: OverlapConstraint[],
   capacityConstraints: CapacityConstraint[],
   eventsWithDrive: EventWithDrive[],
-  now: Date
+  now: Date,
+  candidateDriveLegs: { driveToCandidate: number; driveFromCandidate: number }
 ): ComputedSlot[] {
   const rawSlots = generateSlotsForDay(
     dayConfig.boundaries.dayStartUtc,
@@ -208,13 +220,16 @@ function computeSlotsForOneDay(
       now
     )
     if (!rangeResult.passes) {
-      return {
-        startTime: startTime.toISOString() as RFC3339DateTime,
-        endTime: endTime.toISOString() as RFC3339DateTime,
-        duration: durationMinutes,
-        isAvailable: false,
-        violations: [],
-      }
+      return withCandidateDriveLegs(
+        {
+          startTime: startTime.toISOString() as RFC3339DateTime,
+          endTime: endTime.toISOString() as RFC3339DateTime,
+          duration: durationMinutes,
+          isAvailable: false,
+          violations: [],
+        },
+        candidateDriveLegs
+      )
     }
     const overlapResult = checkOverlapConstraints(
       startTime,
@@ -223,13 +238,16 @@ function computeSlotsForOneDay(
       overlapConstraints
     )
     if (!overlapResult.passes) {
-      return {
-        startTime: startTime.toISOString() as RFC3339DateTime,
-        endTime: endTime.toISOString() as RFC3339DateTime,
-        duration: durationMinutes,
-        isAvailable: false,
-        violations: overlapResult.violations,
-      }
+      return withCandidateDriveLegs(
+        {
+          startTime: startTime.toISOString() as RFC3339DateTime,
+          endTime: endTime.toISOString() as RFC3339DateTime,
+          duration: durationMinutes,
+          isAvailable: false,
+          violations: overlapResult.violations,
+        },
+        candidateDriveLegs
+      )
     }
     const capacityResult = checkCapacityConstraints(
       startTime,
@@ -237,26 +255,32 @@ function computeSlotsForOneDay(
       capacityConstraints
     )
     if (!capacityResult.passes) {
-      return {
-        startTime: startTime.toISOString() as RFC3339DateTime,
-        endTime: endTime.toISOString() as RFC3339DateTime,
-        duration: durationMinutes,
-        isAvailable: false,
-        violations: capacityResult.violations,
-      }
+      return withCandidateDriveLegs(
+        {
+          startTime: startTime.toISOString() as RFC3339DateTime,
+          endTime: endTime.toISOString() as RFC3339DateTime,
+          duration: durationMinutes,
+          isAvailable: false,
+          violations: capacityResult.violations,
+        },
+        candidateDriveLegs
+      )
     }
     const allViolations = [
       ...rangeResult.violations,
       ...overlapResult.violations,
       ...capacityResult.violations,
     ]
-    return {
-      startTime: startTime.toISOString() as RFC3339DateTime,
-      endTime: endTime.toISOString() as RFC3339DateTime,
-      duration: durationMinutes,
-      isAvailable: allViolations.length === 0,
-      violations: allViolations,
-    }
+    return withCandidateDriveLegs(
+      {
+        startTime: startTime.toISOString() as RFC3339DateTime,
+        endTime: endTime.toISOString() as RFC3339DateTime,
+        duration: durationMinutes,
+        isAvailable: allViolations.length === 0,
+        violations: allViolations,
+      },
+      candidateDriveLegs
+    )
   })
 }
 
@@ -272,7 +296,12 @@ export function computeSlotsForDateRange(
   _timezone: string, // Pass-through for client/UI; server uses UTC/RFC3339 only
   now: Date = new Date(),
   /** Enforcement level for out-of-office events (defaults to 'hard') */
-  oooEnforcement: 'flexible' | 'hard' = 'hard'
+  oooEnforcement: 'flexible' | 'hard' = 'hard',
+  /** Default-location ↔ candidate drive legs (minutes) for fee context on every slot. */
+  candidateDriveLegs: { driveToCandidate: number; driveFromCandidate: number } = {
+    driveToCandidate: 0,
+    driveFromCandidate: 0,
+  }
 ): Record<string, ComputedSlot[]> {
   const active = filterActiveConstraints(constraints)
   const { range: rangeConstraints, overlap: overlapConstraints, capacity: capacityConstraints } =
@@ -318,7 +347,8 @@ export function computeSlotsForDateRange(
         overlapConstraints,
         capacityConstraints,
         eventsWithDrive,
-        now
+        now,
+        candidateDriveLegs
       ),
     ])
   )

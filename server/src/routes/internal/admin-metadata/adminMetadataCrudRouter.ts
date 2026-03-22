@@ -1,8 +1,7 @@
 
 import { Router, Request, Response } from 'express'
-import { validateRequest } from '../../../middlewares/validateRequest.js'
-import { adminMetadataPostBodySchema } from '../../schemas/adminMetadataSchemas.js'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
+import { sequelize } from '../../../config/database.js'
 import { getAdminMetadata } from '../../../utils/adminMetadataComposer.js'
 import { ERROR_MESSAGES, VALID_ENTITY_TYPES } from './adminMetadataConstants.js'
 
@@ -11,17 +10,22 @@ import { handleRouteError } from './adminMetadataErrorHandler.js'
 import { validateEntityType, validateRequiredFields, validateRenderAs, validateInputConfig } from './adminMetadataValidators.js'
 import {
   determineMetadataType,
-  getDefaultRenderAs,
   getDefaultPanel,
   resolveBlockInstanceMetadata,
   buildMetadataWhereClause,
   buildBatchMetadataResult,
 } from './adminMetadataHelpers.js'
+import { computeRenderAs } from '../../../../../shared/utils/metadataRenderAsUtils.js'
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess, sendCreated, sendNoContent, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
+import { adminMetadataToHttpPayload } from '../../../utils/adminMetadataEntryAssembly.js'
+import {
+  replaceSelectOptionsForMetadata,
+  splitInputConfigForPersistence,
+} from '../../../utils/adminMetadataInputConfigPersist.js'
 
 const logger = createLogger('AdminMetadataRouter')
 
@@ -35,7 +39,7 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
       order: [['display_order', 'ASC'], ['field_key', 'ASC']],
     })
 
-    const result = buildBatchMetadataResult(allMetadata)
+    const result = await buildBatchMetadataResult(allMetadata)
 
     logger.debug(`Batch returning: global counts = blockShape:${Object.keys(result.global.blockShape).length}, partShape:${Object.keys(result.global.partShape).length}, blockInstance:${Object.keys(result.global.blockInstance).length}, partInstance:${Object.keys(result.global.partInstance).length}, eventShape:${Object.keys(result.global.eventShape).length}, eventInstance:${Object.keys(result.global.eventInstance).length}, annotationShape:${Object.keys(result.global.annotationShape).length}, annotationInstance:${Object.keys(result.global.annotationInstance).length}, blockShapeSpecific:${Object.keys(result.blockShapeSpecific).length}`)
 
@@ -77,8 +81,7 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
 router.post(
   '/:entityType/:entityId',
-  csrfProtection,
-  validateRequest(adminMetadataPostBodySchema),
+  csrfProtection, // Security middleware: CSRF protection
   async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')
@@ -91,7 +94,6 @@ router.post(
       visibility,
       layout,
       displayOrder,
-      renderAs,
       statusButtonColor = null,
       panel,
       bulkEdit = false,
@@ -120,8 +122,14 @@ router.post(
     }
 
     const metadataType = determineMetadataType(fieldKey)
-    const defaultRenderAs = getDefaultRenderAs(metadataType)
-    const finalRenderAs = renderAs || defaultRenderAs
+    const inputConfigRecord =
+      inputConfig !== null &&
+      inputConfig !== undefined &&
+      typeof inputConfig === 'object' &&
+      !Array.isArray(inputConfig)
+        ? (inputConfig as Record<string, unknown>)
+        : null
+    const finalRenderAs = computeRenderAs(dataType, inputConfigRecord, fieldKey)
 
     const defaultPanel = getDefaultPanel(metadataType)
     const finalPanel = panel || defaultPanel
@@ -162,44 +170,67 @@ router.post(
       where: existingWhere,
     })
 
+    const { icFields, options } = splitInputConfigForPersistence(inputConfig)
+
     if (existing) {
-      await existing.update({
-        dataType,
-        label,
-        isRequired,
-        visibility,
-        layout,
-        displayOrder,
-        renderAs: finalRenderAs,
-        statusButtonColor,
-        panel: finalPanel,
-        bulkEdit,
-        inputConfig,
-        blockShapeRef: finalBlockShapeRef,
+      await sequelize.transaction(async (transaction) => {
+        await existing.update(
+          {
+            dataType,
+            label,
+            isRequired,
+            visibility,
+            layout,
+            displayOrder,
+            renderAs: finalRenderAs,
+            statusButtonColor,
+            panel: finalPanel,
+            bulkEdit,
+            blockShapeRef: finalBlockShapeRef,
+            ...icFields,
+          },
+          { transaction }
+        )
+        await replaceSelectOptionsForMetadata(existing.id, options, transaction)
       })
-
-      sendSuccess(res, existing)
+      const reloaded = await AdminMetadata.findOne({ where: existingWhere })
+      if (!reloaded) {
+        sendError(res, 'Metadata row missing after update', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        return
+      }
+      sendSuccess(res, await adminMetadataToHttpPayload(reloaded))
     } else {
-      const metadata = await AdminMetadata.create({
-        entityType: entityType as AdminMetadataEntityType,
-        entityId: finalEntityId,
-        metadataType,
-        fieldKey,
-        dataType,
-        label,
-        isRequired,
-        visibility,
-        layout,
-        displayOrder,
-        renderAs: finalRenderAs,
-        statusButtonColor,
-        panel: finalPanel,
-        bulkEdit,
-        inputConfig,
-        blockShapeRef: finalBlockShapeRef,
+      let created: AdminMetadata | null = null
+      await sequelize.transaction(async (transaction) => {
+        const row = await AdminMetadata.create(
+          {
+            entityType: entityType as AdminMetadataEntityType,
+            entityId: finalEntityId,
+            metadataType,
+            fieldKey,
+            dataType,
+            label,
+            isRequired,
+            visibility,
+            layout,
+            displayOrder,
+            renderAs: finalRenderAs,
+            statusButtonColor,
+            panel: finalPanel,
+            bulkEdit,
+            blockShapeRef: finalBlockShapeRef,
+            ...icFields,
+          },
+          { transaction }
+        )
+        await replaceSelectOptionsForMetadata(row.id, options, transaction)
+        created = row
       })
-
-      sendCreated(res, metadata)
+      if (!created) {
+        sendError(res, 'Metadata create failed', HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        return
+      }
+      sendCreated(res, await adminMetadataToHttpPayload(created))
     }
   } catch (error) {
     handleRouteError(error, res, ERROR_MESSAGES.CREATE_UPDATE_METADATA, 'creating/updating metadata')
