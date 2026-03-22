@@ -38,7 +38,10 @@
 
 ## Sessions Breakdown
 
-_Sessions to be added via `/session-add` after scope is confirmed (e.g. one session for pipeline + SCSS cleanup, a second if semantic tokens or admin UI for anchors is in scope)._
+- **Session 6.13.1:** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, OKLCH/HSL generator, `WizardModePalette` / CSS vars)
+- **Session 6.13.2:** `BookingWizard.vue` / `BookingWizard.scss` integration; brand + quote/reschedule verification; client lint
+
+_Register each session with `/session-add` or tier workflow when starting work._
 
 ---
 
