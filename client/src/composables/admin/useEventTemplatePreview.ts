@@ -1,4 +1,5 @@
 /**
+ * WHY: Sample preview is always local; real preview calls internal API when an appointment is selected.
  */
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import { isAxiosError } from 'axios'

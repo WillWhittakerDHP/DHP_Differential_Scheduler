@@ -9,7 +9,7 @@ import { formatDuration } from '@/utils/time/timeFormatting'
 import { localTime } from '@/utils/time/localTime'
 import { toRFC3339DateTime } from '@/utils/datetime'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
-import { getEventShapeByRole } from '@/utils/eventAttendeeUtils'
+import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type {
   UseTimeSlotCalculationsParams,
@@ -41,10 +41,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     if (!shape || shape.slotShape.eventFinals.length === 0) return 0
     
     const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-    const majorShape = getEventShapeByRole(eventShapeEntities, 'major')
+    const majorShape = getEventShapeByRoleWithOverrides(
+      eventShapeEntities,
+      'major',
+      shape.differentialEventRoleOverrides ?? null
+    )
     if (!majorShape) {
-      logger.error('majorDuration: no event shape with differentialRole=major', {
-        availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+      logger.error('majorDuration: no event shape with effective differentialRole=major', {
+        availableRoles: eventShapeEntities.map((es) => ({ name: es.name, differentialRole: es.differentialRole })),
       })
       return 0
     }
@@ -57,10 +61,14 @@ export function useTimeSlotCalculations(params: UseTimeSlotCalculationsParams): 
     if (!shape || shape.slotShape.eventFinals.length === 0) return 0
     
     const eventShapeEntities = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-    const minorShape = getEventShapeByRole(eventShapeEntities, 'minor')
+    const minorShape = getEventShapeByRoleWithOverrides(
+      eventShapeEntities,
+      'minor',
+      shape.differentialEventRoleOverrides ?? null
+    )
     if (!minorShape) {
-      logger.error('minorDuration: no event shape with differentialRole=minor', {
-        availableRoles: eventShapeEntities.map(es => ({ name: es.name, differentialRole: es.differentialRole }))
+      logger.error('minorDuration: no event shape with effective differentialRole=minor', {
+        availableRoles: eventShapeEntities.map((es) => ({ name: es.name, differentialRole: es.differentialRole })),
       })
       return 0
     }

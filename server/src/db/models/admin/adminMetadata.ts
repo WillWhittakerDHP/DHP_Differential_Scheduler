@@ -26,7 +26,7 @@ export class AdminMetadata extends Model<
   declare displayOrder: number;
   declare renderAs: 'text' | 'number' | 'select' | 'multiselect' | 'reference' | 'statusButton' | 'iconSelect' | 'relationshipCollection';
   declare statusButtonColor: CreationOptional<string | null>;
-  declare panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS;
+  declare panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS | 'events';
   declare bulkEdit: boolean;
   /** Normalized input config (API still uses composed inputConfig). */
   declare icTargetMode: CreationOptional<string | null>;

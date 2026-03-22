@@ -30,6 +30,7 @@ export function createEmptyGlobalData(): GlobalData {
       eventAssignments: [],
       attendeeAssignments: [],
     },
+    annotationAssignmentEdges: [],
   }
 }
 

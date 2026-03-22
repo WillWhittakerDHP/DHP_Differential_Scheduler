@@ -39,6 +39,8 @@ export interface UseShapesTabReturn
   isLoadingAnnotationShapes: Ref<boolean>
   isLoadingEventShapes: Ref<boolean>
   partInstanceConfigEntity: ComputedRef<GlobalEntity<'partInstance'>>
+  annotationInstanceConfigEntity: ComputedRef<GlobalEntity<'annotationInstance'>>
+  eventInstanceConfigEntity: ComputedRef<GlobalEntity<'eventInstance'>>
   annotationShapeFieldsEntity: ComputedRef<GlobalEntity<'annotationShape'>>
   eventShapeFieldsEntity: ComputedRef<GlobalEntity<'eventShape'>>
 }

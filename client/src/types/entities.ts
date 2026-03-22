@@ -36,6 +36,10 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   preClosing?: boolean;
   isMultiFamily: boolean;
   requiresAgent: boolean;
+  /** Per eventShape id: scheduling role override for this block instance; omit key to inherit event shape template. */
+  differentialEventRoleOverrides?: Record<string, DifferentialRole>;
+  /** Assigned event instances (parent_kind = blockInstance on event_assignments). */
+  eventAssignments?: GlobalEntityId[];
 }
 
 export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
@@ -46,6 +50,8 @@ export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
   validCascades?: GlobalEntityId[];
   validParts?: GlobalEntityId[];
   validAnnotations?: GlobalEntityId[];
+  /** Which event shapes are allowed for block instances of this shape (valid_events.parent_id = block_shape). */
+  validEvents?: GlobalEntityId[];
 }
 
 export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
@@ -56,12 +62,9 @@ export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
   rateOverBaseFee: number;
   active: boolean;
   zeroOutPart: boolean;
-  eventAssignments?: GlobalEntityId[];
 }
 
-export interface PartShapeEntity extends GlobalEntityBase<"partShape"> {
-  validEvents?: GlobalEntityId[];
-}
+export type PartShapeEntity = GlobalEntityBase<"partShape">
 
 export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
   isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
@@ -94,10 +97,16 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   scheduledBy?: string | null;
 }
 
-export type AnnotationShapeEntity = GlobalEntityBase<"annotationShape">
+export interface AnnotationShapeEntity extends GlobalEntityBase<"annotationShape"> {
+  /** Wizard slot from ANNOTATION_UI_SLOT_REGISTRY, or null/omitted when unset. */
+  uiSlot?: string | null
+}
 
 export interface AnnotationInstanceEntity extends GlobalEntityBase<"annotationInstance"> {
   type: string; // Foreign key to AnnotationShape.id
+  text?: string
+  /** From batch when server exposes content rows for wizard resolution (task 6.12.2.2). */
+  contentRows?: ReadonlyArray<{ text: string; userTypeBlockInstanceId: string | null }>
 }
 
 /** Inline annotation type to avoid circular import with annotations.ts */

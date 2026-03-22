@@ -1,8 +1,0 @@
-{
-  "$comment": "Configuration for duplication-audit.mjs exception handling Allowlist: audit-global-config.json allowlists.<auditId>.",
-  "$schema": "Allowlist for intentional/necessary duplication patterns",
-  "priorities": {
-    "p0MinSeverityScore": 10,
-    "p1MinSeverityScore": 5
-  }
-}

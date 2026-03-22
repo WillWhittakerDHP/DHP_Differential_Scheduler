@@ -38,24 +38,28 @@ These sections contain session-specific content:
 **Session Name:** ** Annotation UI slots registry and wizard pipeline
 **Description:** [Brief description of session objectives]
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** (retrospective)
+**Status:** Complete
 
 ### Tasks
 
-- [ ] #### Task 6.12.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 6.12.2.1: Annotation UI slots constant, `ui_slot` column, validation, and admin
+**Goal:** Shared `ANNOTATION_UI_SLOTS` / registry; DB `annotation_shapes.ui_slot`; server validation; admin dropdown; seed legacy shapes.
+**Files:** `shared/constants/annotationSlots.ts`, annotation shape model/migrations, admin annotation shape forms (see `sessions/task-6.12.2.1-planning.md`).
+**Approach:** Single source of truth for slot strings; validate on write; no silent invalid `ui_slot`.
+**Checkpoint:** Registry-driven admin; server rejects unknown slots.
 
-- [ ] #### Task 6.12.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 6.12.2.2: Wizard annotation pipeline (transformer, composable, cards, grid overlay)
+**Goal:** Extend booking wizard data and UI for `ui_slot` (`cardDescription`, `cardTooltip`, `gridOverlay`): transformer, `useAnnotationContent`, selection cards, `AvailabilityStep` with settings fallback.
+**Files:** Booking transformer, wizard components, `AvailabilityStep.vue` (see `sessions/task-6.12.2.2-planning.md`).
+**Approach:** Composable owns resolution; explicit types; surface gaps per project rules.
+**Checkpoint:** Cards and grid overlay read annotations where configured.
+
+- [x] #### Task 6.12.2.3: Annotation assignment edges, user-type filter, content rows (retro)
+**Goal:** Flat `annotationAssignmentEdges` on global hydrate; `assignmentUserTypeFilter` / content rows for wizard and admin annotation editor.
+**Files:** `fetchToGlobalTransformer`, booking annotation UI builders, `AnnotationContentEditor` (see `sessions/task-6.12.2.3-planning.md`).
+**Approach:** Retro-documented; overlaps fetch normalization in session **6.12.8** for `FetchedRelationship.userTypeBlockInstanceId`.
+**Checkpoint:** Edges after batch hydrate; slot text respects user-type + content rows.
 
 ---
 

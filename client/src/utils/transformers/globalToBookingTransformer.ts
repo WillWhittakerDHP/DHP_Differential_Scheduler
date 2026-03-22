@@ -3,7 +3,7 @@
  */
 import type { GlobalData } from '@/types/transformers/globalData'
 import type { GlobalRelationship } from '@/types/relationships'
-import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { DEFAULT_VALUES, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BookingMode } from '@/constants/bookingMode'
@@ -17,8 +17,16 @@ import {
   convertTernaryToBookingMode,
 } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
+import { buildBookingBlockAnnotationUi } from './buildBookingBlockAnnotationUi'
 
-export type { BookingBlockInstance, BookingBlockShape, BookingData, BookingPartInstance } from '@/types/transformers/bookingData'
+export type {
+  BookingAnnotationUiCandidate,
+  BookingBlockAnnotationUi,
+  BookingBlockInstance,
+  BookingBlockShape,
+  BookingData,
+  BookingPartInstance,
+} from '@/types/transformers/bookingData'
 
 /** Entity-like shape for active/disabled check without full Record<string, unknown>. */
 function isEntityActive(entity: { disabled?: boolean; active?: boolean } | null | undefined): boolean {
@@ -139,6 +147,7 @@ type BlockInstanceOptionalProps = {
   requiresUnitNumber?: boolean | null
   isMultiFamily?: boolean
   requiresAgent?: boolean
+  differentialEventRoleOverrides?: Record<string, import('@shared/types/differentialRole').DifferentialRole>
 }
 
 function extractBlockInstanceProps(
@@ -160,6 +169,9 @@ function extractBlockInstanceProps(
     requiresUnitNumber: b.requiresUnitNumber,
     isMultiFamily: b.isMultiFamily,
     requiresAgent: b.requiresAgent,
+    ...(b.differentialEventRoleOverrides !== undefined && b.differentialEventRoleOverrides !== null
+      ? { differentialEventRoleOverrides: { ...b.differentialEventRoleOverrides } }
+      : {}),
   }
 }
 
@@ -197,6 +209,12 @@ function buildBookingBlockInstance(
       typeof props.requiresUnitNumber === 'boolean' ? props.requiresUnitNumber : null,
     isMultiFamily: props.isMultiFamily ?? false,
     requiresAgent: props.requiresAgent ?? false,
+    ...(props[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES] !== undefined
+      ? {
+          [FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES]:
+            props[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES],
+        }
+      : {}),
   }
 }
 
@@ -364,9 +382,16 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     (a, b) => a.name.localeCompare(b.name)
   )
 
+  function withAnnotationUi(blocks: BookingBlockInstance[]): BookingBlockInstance[] {
+    return blocks.map((b) => {
+      const ui = buildBookingBlockAnnotationUi(b.id, globalData)
+      return ui !== undefined ? { ...b, annotationUi: ui } : b
+    })
+  }
+
   return {
-    blockInstances: bookingBlockInstances,
-    lineItemBlocks,
+    blockInstances: withAnnotationUi(bookingBlockInstances),
+    lineItemBlocks: withAnnotationUi(lineItemBlocks),
     blockShapes: bookingBlockShapes,
   }
 }

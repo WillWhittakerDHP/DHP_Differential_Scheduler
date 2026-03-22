@@ -6,6 +6,9 @@ import {
   assertSelectInputConfigNotPropertyTargetMode,
   unwrapLegacyRelationshipSelect,
 } from '@shared/utils/selectInputConfigCodec.js'
+import { createLogger } from './logger.js'
+
+const logger = createLogger('adminMetadataInputConfigCodec')
 
 export interface AdminMetadataIcColumns {
   icTargetMode: string | null
@@ -118,8 +121,14 @@ export function decodeInputConfig(
       let value: unknown = null
       if (r.valuePayload !== null && r.valuePayload !== undefined && r.valuePayload !== '') {
         try {
-          value = JSON.parse(r.valuePayload) as unknown
-        } catch {
+          const parsed: unknown = JSON.parse(r.valuePayload)
+          value = parsed
+        } catch (parseErr: unknown) {
+          logger.warn('inputConfig option valuePayload is not valid JSON; using raw string', {
+            displayOrder: r.displayOrder,
+            label: r.label,
+            parseErr,
+          })
           value = r.valuePayload
         }
       }

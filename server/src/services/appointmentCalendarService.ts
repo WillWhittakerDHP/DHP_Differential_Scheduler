@@ -1,4 +1,3 @@
-import type { SlotTimeBounds } from '@shared/types/availabilityTypes.js';
 import { INVITATION_STATUS_SENT } from '@shared/constants/inviteStatusConstants.js';
 import { createEvent } from './google/calendar/eventCreationService.js';
 import type { CreateEventParams, EventAttendee } from './google/calendar/calendarTypes.js';
@@ -23,15 +22,17 @@ interface CalendarEventResult {
   attendeesUpdated: number;
 }
 
-/** Server slot shape aligned with shared SlotTimeBounds (RFC3339 start/end, duration in minutes). */
-interface ServerTimeSlot extends SlotTimeBounds {
-  readonly __brand?: 'ServerTimeSlot'
+/** Legacy `selectedTimeSlots` JSON from Appointment.toJSON (rowsToLegacySelectedTimeSlots); duration optional. */
+interface CalendarSelectedTimeSlot {
+  startTime: string
+  endTime: string
+  duration?: number
 }
 
 interface AppointmentWithDetails {
   id: string;
   selectedDate: Date | string | null;  // DATEONLY field
-  selectedTimeSlots: ServerTimeSlot[] | null;
+  selectedTimeSlots: CalendarSelectedTimeSlot[] | null;
   status: string;
   propertyVersion?: {
     address?: {
@@ -52,6 +53,22 @@ interface AppointmentWithDetails {
       lastName?: string;
     };
   }>;
+}
+
+function isCalendarSelectedTimeSlot(v: unknown): v is CalendarSelectedTimeSlot {
+  if (v === null || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return typeof o.startTime === 'string' && typeof o.endTime === 'string';
+}
+
+function isAppointmentCalendarPayload(v: unknown): v is AppointmentWithDetails {
+  if (v === null || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  if (typeof o.id !== 'string' || typeof o.status !== 'string') return false;
+  const slots = o.selectedTimeSlots;
+  if (slots === null || slots === undefined) return true;
+  if (!Array.isArray(slots)) return false;
+  return slots.every((s) => isCalendarSelectedTimeSlot(s));
 }
 
 export async function createCalendarEventForAppointment(
@@ -89,7 +106,16 @@ export async function createCalendarEventForAppointment(
       };
     }
     
-    const json = appointment.toJSON() as unknown as AppointmentWithDetails;
+    const rawJson = appointment.toJSON();
+    if (!isAppointmentCalendarPayload(rawJson)) {
+      logger.error('Appointment toJSON shape invalid for calendar event', { appointmentId });
+      return {
+        success: false,
+        error: `Appointment ${appointmentId} payload invalid for calendar`,
+        attendeesUpdated: 0,
+      };
+    }
+    const json = rawJson;
     const eventParams = buildEventParams(json, calendarId);
     
     try {

@@ -157,6 +157,7 @@ watch(
       :cascade-error="ctx.o.wizard.availabilityOptionsCascadeError?.value ?? null"
       :available-option-type-blocks="ctx.o.wizard.availableOptionTypeBlocks.value"
       :selected-option-type-block-id="ctx.o.selectedOptionTypeBlockId.value"
+      :selected-user-type-block-instance-id="ctx.o.wizard.selectedUserTypeBlock.value?.id ?? null"
       @update:selected-option-type-block-id="ctx.onOptionIdUpdate"
     />
   </div>

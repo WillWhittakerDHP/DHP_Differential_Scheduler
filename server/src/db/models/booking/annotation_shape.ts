@@ -30,6 +30,8 @@ export class AnnotationShape extends Model<
   declare name: string; // e.g., 'description', 'tooltip'
   declare orderIndex: CreationOptional<number>;
   declare active: CreationOptional<boolean>;
+  /** Registered wizard slot (shared/constants/annotationSlots.ts) or null. */
+  declare uiSlot: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -60,6 +62,12 @@ export function AnnotationShapeFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: true,
         comment: 'Whether this annotation shape is active/enabled',
+      },
+      uiSlot: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        field: 'ui_slot',
+        comment: 'Wizard UI slot key from ANNOTATION_UI_SLOT_REGISTRY, or null',
       },
       createdAt: {
         type: DataTypes.DATE,

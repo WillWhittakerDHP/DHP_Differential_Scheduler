@@ -11,8 +11,35 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('selectFilterStrategies')
 
-/** Type for valid children ref key from parent type entity (e.g. validParts, validCascades). */
-export type ValidChildrenKey = 'validCascades' | 'validParts'
+/** Type for valid-children allowlist field on a parent shape (blockShape or partShape for pricing). */
+export type ValidChildrenKey =
+  | 'validCascades'
+  | 'validParts'
+  | 'validAnnotations'
+  | 'validEvents'
+  | 'validPricingCascades'
+
+/** Maps option entity kind to the FK field that points at its shape (for allowlist filtering). */
+const CANDIDATE_TYPE_REF_BY_OPTION_ENTITY: Partial<Record<GlobalEntityKey, string>> = {
+  blockInstance: 'blockShapeRef',
+  partInstance: 'partShapeRef',
+  eventInstance: 'eventShapeRef',
+  annotationInstance: 'annotationShapeRef',
+}
+
+/**
+ * WHY: eventInstance uses eventShapeRef, not partShapeRef; hardcoding block vs part only broke eventAssignments.
+ */
+export function resolveCandidateTypeRefKey(optionEntityKey: GlobalEntityKey): string {
+  const key = CANDIDATE_TYPE_REF_BY_OPTION_ENTITY[optionEntityKey]
+  if (key !== undefined) {
+    return key
+  }
+  logger.warn('resolveCandidateTypeRefKey: unknown optionEntityKey, defaulting partShapeRef', {
+    optionEntityKey,
+  })
+  return 'partShapeRef'
+}
 
 /**
  * Filter entities by active-child select: only those whose type ref is in the parent's valid children.
@@ -36,7 +63,7 @@ export function filterByActiveChildSelect(
     return []
   }
   const validChildrenSet = new Set(validChildrenRefs.map((id: unknown) => String(id)))
-  const candidateTypeRefKey = optionEntityKey === 'blockInstance' ? 'blockShapeRef' : 'partShapeRef'
+  const candidateTypeRefKey = resolveCandidateTypeRefKey(optionEntityKey)
 
   if (validChildrenKey === 'validCascades') {
     const uniqueCandidateRefs = new Set<string>()

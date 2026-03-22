@@ -12,19 +12,8 @@ import type { EventInstance } from './event_instance.js';
 
 /**
  * EventAssignment Model
- * 
- * Through-table for many-to-many relationship between PartInstance/BlockInstance and EventInstance.
- * Enables instances to have multiple event instances.
- * 
- * - Many-to-many relationships (one instance can have many event instances, one event instance can be used by many instances)
- * - Instance-level configuration (events are configured per instance, not per shape)
- * 
- * - Reusability: Same event instance templates can be shared across multiple instances
- * - Instance-level configuration: Events are configured at instance level, matching the pattern used by parts and annotations
- * 
- * PATTERN: Assignment relationship model matching part_assignments pattern exactly
- * 
- * NOTE: Uses parent_id/child_id pattern with parent_kind enum to handle multiple parent types (partInstance or blockInstance)
+ *
+ * Through-table: BlockInstance → EventInstance (parent_id is always a block instance).
  */
 export class EventAssignment extends Model<
   InferAttributes<EventAssignment>,
@@ -32,7 +21,7 @@ export class EventAssignment extends Model<
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
-  declare parentKind: 'partInstance' | 'blockInstance';
+  declare parentKind: 'blockInstance';
   declare childKind: CreationOptional<string>;
   declare parentId: ForeignKey<string>;
   declare childId: ForeignKey<string>;
@@ -62,7 +51,7 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('partInstance', 'blockInstance'),
         allowNull: false,
         field: 'parent_kind',
-        comment: 'Type of parent instance (partInstance or blockInstance)',
+        comment: 'Parent is always blockInstance (DB enum may list legacy values)',
       },
       childKind: {
         type: DataTypes.VIRTUAL,
@@ -73,7 +62,7 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
       parentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        comment: 'Foreign key to parent instance (partInstance or blockInstance, determined by parent_kind)',
+        comment: 'Foreign key to block_instances.id',
       },
       childId: {
         type: DataTypes.UUID,

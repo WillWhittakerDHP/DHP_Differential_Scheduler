@@ -8,6 +8,7 @@ import {
   normalizeBlockInstanceAgentPermissionsFromApi,
   normalizeBlockInstanceBookingModeFromApi,
   normalizeBlockInstanceDifferentialFromApi,
+  normalizeBlockInstanceDifferentialEventRoleOverridesFromApi,
   normalizeEventShapeDifferentialRoleFromApi,
 } from './apiEntityFieldNormalization'
 
@@ -42,6 +43,10 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     transformed.agentPermissions = normalizeBlockInstanceAgentPermissionsFromApi(agentRaw)
     const diffRaw = transformed.differential ?? rawEntity.differential
     transformed.differential = normalizeBlockInstanceDifferentialFromApi(diffRaw)
+    const overridesRaw =
+      transformed.differentialEventRoleOverrides ?? rawEntity.differential_event_role_overrides
+    transformed.differentialEventRoleOverrides =
+      normalizeBlockInstanceDifferentialEventRoleOverridesFromApi(overridesRaw)
   }
 
   if (entityKey === 'eventShape') {

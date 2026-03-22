@@ -9,12 +9,6 @@ export interface UsePrimitiveMetadataSaveOptions {
   getEntityId: () => string | null
   getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>
   getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
-  getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
-  computeRenderAs: (
-    dataType: string | undefined,
-    inputConfig: Record<string, unknown> | null | undefined,
-    fieldKey: string
-  ) => FieldMetadataEntry['renderAs'] | undefined
   clearPendingState: () => void
   saveFieldMetadata: (params: {
     entityType: EntityMetadataType
@@ -38,8 +32,6 @@ export function usePrimitiveMetadataSave(
     getEntityId,
     getPendingChanges,
     getFieldMetadata,
-    getEffectiveFieldMetadata,
-    computeRenderAs,
     clearPendingState,
     saveFieldMetadata,
     getBlockShapeRef,
@@ -67,17 +59,7 @@ export function usePrimitiveMetadataSave(
 
       for (const [fieldKey, updates] of Object.entries(pendingChanges)) {
         const existingMeta = getFieldMetadata(fieldKey)
-        const effectiveMeta = getEffectiveFieldMetadata(fieldKey)
         const finalUpdates = { ...updates }
-
-        if (!finalUpdates.renderAs || updates.inputConfig !== undefined) {
-          const dataType = effectiveMeta?.dataType
-          const inputConfig =
-            finalUpdates.inputConfig !== undefined
-              ? finalUpdates.inputConfig
-              : effectiveMeta?.inputConfig
-          finalUpdates.renderAs = computeRenderAs(dataType, inputConfig, fieldKey)
-        }
 
         logger.debug('Saving field:', {
           fieldKey,

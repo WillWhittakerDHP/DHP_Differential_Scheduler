@@ -45,7 +45,7 @@ function annotationAssignmentsInclude(): Includeable[] {
       as: 'annotation',
       attributes: ['id', 'text', 'userType', 'type'],
       include: [
-        { model: AnnotationShape, as: 'annotationShape', attributes: ['id', 'name'] },
+        { model: AnnotationShape, as: 'annotationShape', attributes: ['id', 'name', 'uiSlot'] },
         {
           model: AnnotationInstanceContent,
           as: 'contentRows',

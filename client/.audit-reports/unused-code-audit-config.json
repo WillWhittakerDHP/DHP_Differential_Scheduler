@@ -1,7 +1,0 @@
-{
-  "$comment": "Configuration for unused-code-audit.mjs. Policy: verify before remove, allowlist when in doubt. Allowlist: audit-global-config.json allowlists.<auditId>.",
-  "priorities": {
-    "p0MinSeverityScore": 10,
-    "p1MinSeverityScore": 5
-  }
-}

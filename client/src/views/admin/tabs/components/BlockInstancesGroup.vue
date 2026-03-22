@@ -3,7 +3,7 @@
 import { computed, inject, ref, type Ref } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
-import { instancesTabContextKey } from '@/composables/admin/injectionKeys'
+import { instancesTabContextKey } from '@/types/admin/adminInjectionKeys'
 import { groupedInstanceDragZoneKey } from '@/composables/admin/useInstanceDragAndDrop'
 import type { GlobalEntity } from '@/types/entities'
 import { asEmptyArray } from '@/utils/safeDefaults'

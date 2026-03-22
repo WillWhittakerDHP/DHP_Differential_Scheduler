@@ -16,9 +16,11 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
-import FieldRenderer from './fields/FieldRenderer.vue'
+import EntityCardPrimaryTitleRow, {
+  type EntityCardPrimaryTitleRowModel,
+} from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
@@ -27,6 +29,8 @@ import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useE
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
+import { toGlobalEntityId } from '@/utils/globalEntity'
+import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
@@ -46,13 +50,16 @@ interface Props<GE extends GlobalEntityKey> {
   isNew?: boolean
   disableAutoSave?: boolean
   fieldMetadata?: Record<string, FieldMetadataEntry>
+  /** Set when this card is a child inside RelationshipCollection; true if parent block shape is state control (user type). */
+  parentBlockShapeIsStateControl?: boolean
 }
 
 const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   expanded: true,
   isNew: false,
   disableAutoSave: false,
-  useExpansionPanel: true
+  useExpansionPanel: true,
+  parentBlockShapeIsStateControl: false,
 })
 
 interface Emits {
@@ -110,10 +117,34 @@ const formForTemplate = computed(() => form.value!)
 
 // WHY: Reduces component complexity by moving metadata logic to composable
 // PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
-const { composedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
+const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   entityKey: props.entityKey,
   entity: props.entity,
   filteredMetadata: props.fieldMetadata
+})
+
+/**
+ * WHY: Per-user annotation editor syncs `text` + `contentRows`; hide primitive `text` via metadata (field location dispatcher), not a parallel filter composable.
+ */
+const composedFieldMetadata = computed(() => {
+  const base = baseComposedFieldMetadata.value
+  if (props.entityKey !== 'annotationInstance') {
+    return base
+  }
+  if (props.parentBlockShapeIsStateControl) {
+    return base
+  }
+  if (listSortedUserTypeBlockInstances(admin).length === 0) {
+    return base
+  }
+  const textEntry = base.text
+  if (!textEntry) {
+    return base
+  }
+  return {
+    ...base,
+    text: { ...textEntry, visibility: FIELD_VISIBILITY.HIDDEN },
+  }
 })
 
 const {
@@ -180,6 +211,70 @@ provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = fieldLocation.titleRowFields
 
+/** WHY: Title stays the annotation template name; `text` is body copy and must not replace it. */
+const annotationInstanceShapeTitle = computed((): string => {
+  if (props.entityKey !== 'annotationInstance') return ''
+  const ann = props.entity as GlobalEntity<'annotationInstance'>
+  if (ann.type == null || String(ann.type) === '') return ''
+  const shape = admin.getEntity('annotationShape', toGlobalEntityId(String(ann.type)))
+  const n = shape?.name
+  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
+})
+
+/** WHY: Event shape name in title row; eventShapeRef UUID stays hidden in metadata. */
+const eventInstanceShapeTitle = computed((): string => {
+  if (props.entityKey !== 'eventInstance') return ''
+  const ei = props.entity as GlobalEntity<'eventInstance'>
+  if (ei.eventShapeRef == null || String(ei.eventShapeRef) === '') return ''
+  const shape = admin.getEntity('eventShape', toGlobalEntityId(String(ei.eventShapeRef)))
+  const n = shape?.name
+  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
+})
+
+const expansionFallbackTitle = computed(() => {
+  if (props.entityKey === 'annotationInstance' && annotationInstanceShapeTitle.value !== '') {
+    return annotationInstanceShapeTitle.value
+  }
+  return entityName.value
+})
+
+function fieldTreatsAsStaticTitle(fieldKey: string): boolean {
+  const vis = composedFieldMetadata.value[String(fieldKey)]?.visibility
+  if (vis !== FIELD_VISIBILITY.STATIC_AS_TITLE) return false
+  if (props.entityKey === 'annotationInstance' && fieldKey === 'text') {
+    return false
+  }
+  return true
+}
+
+const primaryTitleRowExpansion = computed((): EntityCardPrimaryTitleRowModel => ({
+  titleRowFields: titleRowFields.value,
+  isFormReady: isFormReady.value,
+  isExpanded: isExpanded.value,
+  annotationInstanceShapeTitle: annotationInstanceShapeTitle.value,
+  eventInstanceShapeTitle: eventInstanceShapeTitle.value,
+  expansionFallbackTitle: expansionFallbackTitle.value,
+  composedFieldMetadata: composedFieldMetadata.value,
+  fieldTreatsAsStaticTitle,
+  getFieldContext,
+  readOnlyStaticWhenCollapsed: true,
+  fallbackWhenNotReady: true,
+}))
+
+const primaryTitleRowModal = computed((): EntityCardPrimaryTitleRowModel => ({
+  titleRowFields: titleRowFields.value,
+  isFormReady: isFormReady.value,
+  isExpanded: isExpanded.value,
+  annotationInstanceShapeTitle: annotationInstanceShapeTitle.value,
+  eventInstanceShapeTitle: eventInstanceShapeTitle.value,
+  expansionFallbackTitle: expansionFallbackTitle.value,
+  composedFieldMetadata: composedFieldMetadata.value,
+  fieldTreatsAsStaticTitle,
+  getFieldContext,
+  readOnlyStaticWhenCollapsed: false,
+  fallbackWhenNotReady: false,
+}))
+
 /**
  * WHY: Expose methods and state for parent components (minimal API)
 PATTERN: Ex...
@@ -229,45 +324,7 @@ defineExpose({
             WHY: Native HTML5 drag does not start from descendants of <button> (VExpansionPanelTitle).
             PATTERN: .instance-drag-handle lives in the panel default slot (sibling of title), positioned over the title rail — see below.
           -->
-          <!-- WHY: Name field should be on the left side of the title row -->
-          <!-- PATTERN: Render name field first, then status buttons on the right -->
-          <template v-if="titleRowFields.length > 0 && isFormReady">
-            <!-- WHY: Name field should be on the left side of the title row, always first -->
-            <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
-            <div class="flex-grow-1 d-flex align-center gap-2">
-              <template
-                v-for="fieldKey in titleRowFields"
-                :key="fieldKey"
-              >
-                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field" @click.stop>
-                  <FieldRenderer
-                    :field-context="getFieldContext(fieldKey)"
-                    :show-label="false"
-                    :field-metadata="composedFieldMetadata"
-                    :read-only="!isExpanded"
-                  />
-                </div>
-              </template>
-            </div>
-            
-            <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
-            <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
-            <div class="d-flex align-center gap-2 ms-auto">
-              <template
-                v-for="fieldKey in titleRowFields"
-                :key="fieldKey"
-              >
-                <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
-                  <FieldRenderer
-                    :field-context="getFieldContext(fieldKey)"
-                    :show-label="false"
-                    :field-metadata="composedFieldMetadata"
-                  />
-                </div>
-              </template>
-            </div>
-          </template>
-          <span v-else class="flex-grow-1">{{ entityName }}</span>
+          <EntityCardPrimaryTitleRow :title-row="primaryTitleRowExpansion" />
         </div>
         
         <!-- WHY: Shows parts totals at top of card when entity can have parts -->
@@ -299,6 +356,7 @@ defineExpose({
           :fields-missing-contexts="fieldsMissingContexts"
           :is-form-ready="isFormReady"
           :is-new="props.isNew"
+          :parent-block-shape-is-state-control="props.parentBlockShapeIsStateControl"
           :handle-save="handleSave"
           :handle-undo="handleUndo"
           :handle-duplicate="handleDuplicate"
@@ -359,40 +417,7 @@ defineExpose({
       class="d-flex align-center gap-2 mb-4 flex-wrap"
       @keydown="handleTitleKeydown"
     >
-      <!-- WHY: Name field should be on the left side of the title row, always first -->
-      <!-- PATTERN: Use template wrapper with v-if to conditionally render staticAsTitle fields in left container -->
-      <div class="flex-grow-1 d-flex align-center gap-2">
-        <template
-          v-for="fieldKey in titleRowFields"
-          :key="fieldKey"
-        >
-          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility === 'staticAsTitle'" class="title-row-field">
-            <FieldRenderer
-              :field-context="getFieldContext(fieldKey)"
-              :show-label="false"
-              :field-metadata="composedFieldMetadata"
-              :read-only="!isExpanded"
-            />
-          </div>
-        </template>
-      </div>
-      
-      <!-- WHY: Status buttons and other titleRow fields should be on the right side -->
-      <!-- PATTERN: Use template wrapper with v-if to conditionally render non-staticAsTitle fields in right container -->
-      <div class="d-flex align-center gap-2 ms-auto">
-        <template
-          v-for="fieldKey in titleRowFields"
-          :key="fieldKey"
-        >
-          <div v-if="composedFieldMetadata[String(fieldKey)]?.visibility !== 'staticAsTitle'" @click.stop>
-            <FieldRenderer
-              :field-context="getFieldContext(fieldKey)"
-              :show-label="false"
-              :field-metadata="composedFieldMetadata"
-            />
-          </div>
-        </template>
-      </div>
+      <EntityCardPrimaryTitleRow :title-row="primaryTitleRowModal" />
     </div>
 
     <EntityCardFeePreview
@@ -411,6 +436,7 @@ defineExpose({
       :fields-missing-contexts="fieldsMissingContexts"
       :is-form-ready="isFormReady"
       :is-new="props.isNew"
+      :parent-block-shape-is-state-control="props.parentBlockShapeIsStateControl"
       :handle-save="handleSave"
       :handle-undo="handleUndo"
       :handle-duplicate="handleDuplicate"
@@ -427,7 +453,7 @@ defineExpose({
     <VCard>
       <VCardTitle class="text-headline-small">{{ getEntityDeleteTitle(entityKey) }}</VCardTitle>
       <VCardText>
-        Are you sure you want to delete "{{ entityName }}"? This action cannot be undone.
+        Are you sure you want to delete "{{ expansionFallbackTitle }}"? This action cannot be undone.
       </VCardText>
       <VCardActions>
         <VSpacer />
