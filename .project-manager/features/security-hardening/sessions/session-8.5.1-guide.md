@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.5.1.1: Helmet config — HSTS and referrer policy
+- [x] #### Task 8.5.1.1: Helmet config — HSTS and referrer policy
 **Goal:** Replace `app.use(helmet())` with configured options (HSTS, referrerPolicy); verify app starts and API responds.
 **Files:** 
 - `server/src/app.ts`
