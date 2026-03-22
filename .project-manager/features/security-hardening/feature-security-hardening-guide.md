@@ -121,4 +121,15 @@ Research phase not yet started — architectural decisions to be documented in t
 
 ---
 
-**Last Updated:** 2026-03-15
+**Last Updated:** 2026-03-22
+
+---
+
+## Phase rollup (from parallel phase-8.5 line)
+
+- **Phase 8.1:** CORS origin wiring — complete on integration branch
+- **Phase 8.2:** Inbound rate limiting — complete on integration branch
+- **Phase 8.3:** Request validation / input sanitization — Joi on POST/PUT bodies
+- **Phase 8.4:** Secrets audit
+- **Phase 8.5:** Security headers — Helmet, CSP
+- **Phase 8.6–8.7:** CSRF protection (depends on Feature 7 Authentication)

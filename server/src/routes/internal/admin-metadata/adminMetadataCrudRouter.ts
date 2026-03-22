@@ -1,5 +1,7 @@
 
 import { Router, Request, Response } from 'express'
+import { validateRequest } from '../../../middlewares/validateRequest.js'
+import { adminMetadataPostBodySchema } from '../../schemas/adminMetadataSchemas.js'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { sequelize } from '../../../config/database.js'
 import { getAdminMetadata } from '../../../utils/adminMetadataComposer.js'
@@ -81,7 +83,8 @@ router.get('/:entityType/:entityId', async (req: Request, res: Response): Promis
 
 router.post(
   '/:entityType/:entityId',
-  csrfProtection, // Security middleware: CSRF protection
+  csrfProtection,
+  validateRequest(adminMetadataPostBodySchema),
   async (req: Request, res: Response): Promise<void> => {
   try {
     const entityType = paramString(req, 'entityType')

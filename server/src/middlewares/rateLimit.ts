@@ -1,7 +1,7 @@
 /**
  * Inbound HTTP rate limiting for internal API routes.
  * Limits requests per IP to protect against abuse.
- * Session 8.2.2 will add a stricter limiter for auth routes.
+ * Auth routes use a stricter limiter (10 req/15min).
  */
 
 import rateLimit from 'express-rate-limit'
