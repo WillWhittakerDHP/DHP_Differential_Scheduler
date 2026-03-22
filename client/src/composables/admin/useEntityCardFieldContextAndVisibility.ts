@@ -2,20 +2,17 @@
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
 import { watch } from 'vue'
+import type { GlobalEntityKey } from '@/constants/entities'
 import { useFieldContextManager } from '@/composables/admin/useFieldContextManager'
 import { useConditionalFieldVisibility } from '@/composables/admin/useConditionalFieldVisibility'
-import type { UseEntityCardFieldContextAndVisibilityParams } from '@/types/admin/entityCardFieldContextAndVisibility'
+import type {
+  UseEntityCardFieldContextAndVisibilityParams,
+  UseEntityCardFieldContextAndVisibilityReturn,
+} from '@/types/admin/entityCardFieldContextAndVisibility'
 
-
-export interface UseEntityCardFieldContextAndVisibilityReturn {
-  getFieldContext: ReturnType<typeof useFieldContextManager>['getFieldContext']
-  fieldsMissingContexts: ReturnType<typeof useFieldContextManager>['fieldsMissingContexts']
-  filteredFieldsByLocation: ReturnType<typeof useConditionalFieldVisibility>['filteredFieldsByLocation']
-}
-
-export function useEntityCardFieldContextAndVisibility(
-  params: UseEntityCardFieldContextAndVisibilityParams
-): UseEntityCardFieldContextAndVisibilityReturn {
+export function useEntityCardFieldContextAndVisibility<GE extends GlobalEntityKey = GlobalEntityKey>(
+  params: UseEntityCardFieldContextAndVisibilityParams<GE>
+): UseEntityCardFieldContextAndVisibilityReturn<GE> {
   const {
     formFields,
     fieldLocation,
@@ -39,7 +36,7 @@ export function useEntityCardFieldContextAndVisibility(
     }
   )
 
-  const { getFieldContext, fieldsMissingContexts } = useFieldContextManager({
+  const { getFieldContext, fieldsMissingContexts } = useFieldContextManager<GE>({
     getFieldContext: formFields.getFieldContext,
     fieldsByLocation: fieldLocation.fieldsByLocation,
     isMetadataLoading,
@@ -47,7 +44,7 @@ export function useEntityCardFieldContextAndVisibility(
     fieldsNeedingContexts: formFields.fieldsNeedingContexts,
   })
 
-  const { filteredFieldsByLocation } = useConditionalFieldVisibility({
+  const { filteredFieldsByLocation } = useConditionalFieldVisibility<GE>({
     fieldsByLocation: fieldLocation.fieldsByLocation,
     entityKey,
     isComposable,

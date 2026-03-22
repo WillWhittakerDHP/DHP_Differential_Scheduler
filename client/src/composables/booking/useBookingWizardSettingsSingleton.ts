@@ -10,6 +10,7 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useBookingWizardSettingsSingleton')
 
+/* Intentional module-level singleton state (deduped fetch). Allowlisted: audit-global-config → composable-health → module-level-ref. */
 const wizardData = ref<WizardSettingsData | null>(null)
 const isLoading = ref(false)
 const hasSettled = ref(false)

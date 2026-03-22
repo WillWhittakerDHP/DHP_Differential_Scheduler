@@ -23,7 +23,8 @@ function cookieValueCaseInsensitive(
 function decodeCookiePayload(raw: string): string {
   try {
     return decodeURIComponent(raw)
-  } catch {
+  } catch (decodeErr: unknown) {
+    logger.warn('Cookie segment URI decode failed; using raw string', { decodeErr })
     return raw
   }
 }

@@ -13,7 +13,7 @@
 **Description:** (1) **Entity enhancements:** Add `includeRescheduleLink` and `includeCancelLink` booleans to event shape (DB, model, client types, field config, metadata; invite builder reads them). Fix block shapes tab entity cards not expanding when clicked. (2) **Annotation data layer:** Create `annotation_instance_content` table (annotation_instance_id, user_type_block_instance_id FK, text, tooltip); dimensions are dynamic (user type block instances). Deprecate `AnnotationInstance.userType` and simplify `AnnotationAssignment`; migrate existing data. Handle annotation shape delete FK constraint — return 409 with actionable message instead of 500. (3) **Annotation UI slots and wizard pipeline:** Add shared constant `ANNOTATION_UI_SLOTS` and `ANNOTATION_UI_SLOT_REGISTRY`; add `ui_slot` column to annotation_shapes; extend transformer and add `useAnnotationContent` composable; wire annotations into SelectionCard/IndependentSelectCard and migrate grid overlay text to annotation slot.
 
 **Duration:** 8 sessions (6.12.1–6.12.8)  
-**Status:** In Progress
+**Status:** Complete
 
 ---
 
@@ -149,3 +149,5 @@ export const ANNOTATION_UI_SLOT_REGISTRY = [
 - PROJECT_PLAN.md — Feature 6 Phase 6.12
 - feature-appointment-workflow-guide.md — Phase 6.12 summary
 - phases/phase-6.5-guide.md — Rescheduling flow (prerequisite for link toggles)
+
+<!-- end excerpt phase -->

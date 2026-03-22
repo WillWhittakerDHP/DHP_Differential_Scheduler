@@ -1,5 +1,6 @@
 <!-- Thin component; display computeds and toggle in useEventInstancesSection. -->
 <script setup lang="ts">
+import { toRefs } from 'vue'
 import type { InstancesTabContext } from '@/types/admin/adminInjectionKeys'
 import { useEventInstancesSection } from '@/composables/admin/useEventInstancesSection'
 import EventInstanceBuilderBody from './EventInstanceBuilderBody.vue'
@@ -8,15 +9,10 @@ import EventInstanceListItem from './EventInstanceListItem.vue'
 const props = defineProps<{
   instancesTabContext: InstancesTabContext
 }>()
-const {
-  ctx,
-  expandedInstances,
-  eventInstancesDisplay,
-  eventShapesList,
-  hasEventInstances,
-  isLoading,
-  toggleEventInstanceMetadata,
-} = useEventInstancesSection(props.instancesTabContext)
+const { ctx, expandedInstances, display, actions, canSubmitNewEventInstance } = useEventInstancesSection(
+  props.instancesTabContext
+)
+const { eventInstancesDisplay, eventShapesList, hasEventInstances, isLoading } = toRefs(display)
 </script>
 
 <template>
@@ -28,7 +24,7 @@ const {
           :variant="ctx.eventInstanceMetadataModalOpen.value ? 'flat' : 'outlined'"
           :color="ctx.eventInstanceMetadataModalOpen.value ? 'primary' : 'default'"
           prepend-icon="tabler-settings"
-          @click="toggleEventInstanceMetadata"
+          @click="actions.toggleEventInstanceMetadata"
         >
           Instance Fields
         </VBtn>
@@ -46,10 +42,10 @@ const {
     </div>
     <div
       v-else-if="ctx.isCreatingEventInstance.value || hasEventInstances"
-      :ref="(el) => { if (ctx.eventInstancesContainer) ctx.eventInstancesContainer.value = el as HTMLElement | null }"
+      :ref="actions.bindEventInstancesContainer"
     >
       <VExpansionPanels
-        :ref="(el) => { if (ctx.eventInstancesPanelsContainer && el != null) (ctx.eventInstancesPanelsContainer as { value: unknown }).value = el }"
+        :ref="actions.bindEventInstancesPanelsContainer"
         v-model="expandedInstances"
         multiple
       >
@@ -76,7 +72,7 @@ const {
                 <VBtn
                   color="primary"
                   :loading="ctx.isCreatingEventInstanceLoading.value"
-                  :disabled="!(typeof ctx.newEventInstanceData.value?.name === 'string' && ctx.newEventInstanceData.value.name.trim())"
+                  :disabled="!canSubmitNewEventInstance"
                   prepend-icon="tabler-plus"
                   @click="ctx.handleEventInstanceCreate()"
                 >

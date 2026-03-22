@@ -18,8 +18,9 @@ import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSet
 import type { GlobalEntity } from '@/types/entities'
 import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
-import FieldRenderer from './fields/FieldRenderer.vue'
-import EntityCardPrimaryTitleRow from './EntityCardPrimaryTitleRow.vue'
+import EntityCardPrimaryTitleRow, {
+  type EntityCardPrimaryTitleRowModel,
+} from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
@@ -246,6 +247,34 @@ function fieldTreatsAsStaticTitle(fieldKey: string): boolean {
   return true
 }
 
+const primaryTitleRowExpansion = computed((): EntityCardPrimaryTitleRowModel => ({
+  titleRowFields: titleRowFields.value,
+  isFormReady: isFormReady.value,
+  isExpanded: isExpanded.value,
+  annotationInstanceShapeTitle: annotationInstanceShapeTitle.value,
+  eventInstanceShapeTitle: eventInstanceShapeTitle.value,
+  expansionFallbackTitle: expansionFallbackTitle.value,
+  composedFieldMetadata: composedFieldMetadata.value,
+  fieldTreatsAsStaticTitle,
+  getFieldContext,
+  readOnlyStaticWhenCollapsed: true,
+  fallbackWhenNotReady: true,
+}))
+
+const primaryTitleRowModal = computed((): EntityCardPrimaryTitleRowModel => ({
+  titleRowFields: titleRowFields.value,
+  isFormReady: isFormReady.value,
+  isExpanded: isExpanded.value,
+  annotationInstanceShapeTitle: annotationInstanceShapeTitle.value,
+  eventInstanceShapeTitle: eventInstanceShapeTitle.value,
+  expansionFallbackTitle: expansionFallbackTitle.value,
+  composedFieldMetadata: composedFieldMetadata.value,
+  fieldTreatsAsStaticTitle,
+  getFieldContext,
+  readOnlyStaticWhenCollapsed: false,
+  fallbackWhenNotReady: false,
+}))
+
 /**
  * WHY: Expose methods and state for parent components (minimal API)
 PATTERN: Ex...
@@ -295,18 +324,7 @@ defineExpose({
             WHY: Native HTML5 drag does not start from descendants of <button> (VExpansionPanelTitle).
             PATTERN: .instance-drag-handle lives in the panel default slot (sibling of title), positioned over the title rail — see below.
           -->
-          <EntityCardPrimaryTitleRow
-            :title-row-fields="titleRowFields"
-            :is-form-ready="isFormReady"
-            :is-expanded="isExpanded"
-            :annotation-instance-shape-title="annotationInstanceShapeTitle"
-            :event-instance-shape-title="eventInstanceShapeTitle"
-            :expansion-fallback-title="expansionFallbackTitle"
-            :composed-field-metadata="composedFieldMetadata"
-            :field-treats-as-static-title="fieldTreatsAsStaticTitle"
-            :get-field-context="getFieldContext"
-            :read-only-static-when-collapsed="true"
-          />
+          <EntityCardPrimaryTitleRow :title-row="primaryTitleRowExpansion" />
         </div>
         
         <!-- WHY: Shows parts totals at top of card when entity can have parts -->
@@ -399,19 +417,7 @@ defineExpose({
       class="d-flex align-center gap-2 mb-4 flex-wrap"
       @keydown="handleTitleKeydown"
     >
-      <EntityCardPrimaryTitleRow
-        :fallback-when-not-ready="false"
-        :title-row-fields="titleRowFields"
-        :is-form-ready="isFormReady"
-        :is-expanded="isExpanded"
-        :annotation-instance-shape-title="annotationInstanceShapeTitle"
-        :event-instance-shape-title="eventInstanceShapeTitle"
-        :expansion-fallback-title="expansionFallbackTitle"
-        :composed-field-metadata="composedFieldMetadata"
-        :field-treats-as-static-title="fieldTreatsAsStaticTitle"
-        :get-field-context="getFieldContext"
-        :read-only-static-when-collapsed="false"
-      />
+      <EntityCardPrimaryTitleRow :title-row="primaryTitleRowModal" />
     </div>
 
     <EntityCardFeePreview

@@ -201,6 +201,7 @@ router.post(
         try {
           await validateAttendeeAssignmentEntities(parentId, childId)
         } catch (error) {
+          logger.warn('Attendee assignment entity validation failed', { error })
           if (error instanceof Error) {
             if (error.message.includes('does not exist')) {
               sendBadRequest(

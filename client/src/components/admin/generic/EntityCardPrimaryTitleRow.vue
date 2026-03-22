@@ -1,84 +1,89 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 
-const props = withDefaults(
-  defineProps<{
-    titleRowFields: GlobalFieldKey<GlobalEntityKey>[]
-    isFormReady: boolean
-    isExpanded: boolean
-    annotationInstanceShapeTitle: string
-    eventInstanceShapeTitle: string
-    expansionFallbackTitle: string
-    composedFieldMetadata: Record<string, FieldMetadataEntry>
-    fieldTreatsAsStaticTitle: (fieldKey: string) => boolean
-    getFieldContext: (
-      fieldKey: GlobalFieldKey<GlobalEntityKey>
-    ) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
-    /** When true, static-as-title fields use read-only mode while collapsed (expansion panel). */
-    readOnlyStaticWhenCollapsed: boolean
-    /** Expansion title rail shows fallback label when metadata/form not ready; modal title row omits fallback. */
-    fallbackWhenNotReady?: boolean
-  }>(),
-  { fallbackWhenNotReady: true }
-)
+export interface EntityCardPrimaryTitleRowModel {
+  titleRowFields: GlobalFieldKey<GlobalEntityKey>[]
+  isFormReady: boolean
+  isExpanded: boolean
+  annotationInstanceShapeTitle: string
+  eventInstanceShapeTitle: string
+  expansionFallbackTitle: string
+  composedFieldMetadata: Record<string, FieldMetadataEntry>
+  fieldTreatsAsStaticTitle: (fieldKey: string) => boolean
+  getFieldContext: (
+    fieldKey: GlobalFieldKey<GlobalEntityKey>
+  ) => FieldContextTypeGrouped<GlobalEntityKey, GlobalFieldKey<GlobalEntityKey>> | undefined
+  readOnlyStaticWhenCollapsed: boolean
+  fallbackWhenNotReady?: boolean
+}
+
+const props = defineProps<{
+  titleRow: EntityCardPrimaryTitleRowModel
+}>()
+
+const r = computed<EntityCardPrimaryTitleRowModel>(() => ({
+  ...props.titleRow,
+  fallbackWhenNotReady: props.titleRow.fallbackWhenNotReady ?? true,
+}))
 </script>
 
 <template>
-  <template v-if="props.titleRowFields.length > 0 && props.isFormReady">
+  <template v-if="r.titleRowFields.length > 0 && r.isFormReady">
     <div class="flex-grow-1 d-flex align-center gap-2">
       <span
-        v-if="props.annotationInstanceShapeTitle"
+        v-if="r.annotationInstanceShapeTitle"
         class="font-weight-medium text-truncate"
-      >{{ props.annotationInstanceShapeTitle }}</span>
+      >{{ r.annotationInstanceShapeTitle }}</span>
       <span
-        v-if="props.eventInstanceShapeTitle"
+        v-if="r.eventInstanceShapeTitle"
         class="font-weight-medium text-truncate text-medium-emphasis"
-      >{{ props.eventInstanceShapeTitle }}</span>
+      >{{ r.eventInstanceShapeTitle }}</span>
       <template
-        v-for="fieldKey in props.titleRowFields"
+        v-for="fieldKey in r.titleRowFields"
         :key="fieldKey"
       >
         <div
-          v-if="props.fieldTreatsAsStaticTitle(String(fieldKey))"
+          v-if="r.fieldTreatsAsStaticTitle(String(fieldKey))"
           class="title-row-field"
           @click.stop
         >
           <FieldRenderer
-            :field-context="props.getFieldContext(fieldKey)"
+            :field-context="r.getFieldContext(fieldKey)"
             :show-label="false"
-            :field-metadata="props.composedFieldMetadata"
-            :read-only="props.readOnlyStaticWhenCollapsed ? !props.isExpanded : undefined"
+            :field-metadata="r.composedFieldMetadata"
+            :read-only="r.readOnlyStaticWhenCollapsed ? !r.isExpanded : undefined"
           />
         </div>
       </template>
     </div>
     <div class="d-flex align-center gap-2 ms-auto">
       <template
-        v-for="fieldKey in props.titleRowFields"
+        v-for="fieldKey in r.titleRowFields"
         :key="fieldKey"
       >
         <div
           v-if="
-            !props.fieldTreatsAsStaticTitle(String(fieldKey)) &&
-              props.composedFieldMetadata[String(fieldKey)]?.visibility !== FIELD_VISIBILITY.STATIC_AS_TITLE
+            !r.fieldTreatsAsStaticTitle(String(fieldKey)) &&
+              r.composedFieldMetadata[String(fieldKey)]?.visibility !== FIELD_VISIBILITY.STATIC_AS_TITLE
           "
           @click.stop
         >
           <FieldRenderer
-            :field-context="props.getFieldContext(fieldKey)"
+            :field-context="r.getFieldContext(fieldKey)"
             :show-label="false"
-            :field-metadata="props.composedFieldMetadata"
+            :field-metadata="r.composedFieldMetadata"
           />
         </div>
       </template>
     </div>
   </template>
   <span
-    v-else-if="props.fallbackWhenNotReady"
+    v-else-if="r.fallbackWhenNotReady"
     class="flex-grow-1"
-  >{{ props.expansionFallbackTitle }}</span>
+  >{{ r.expansionFallbackTitle }}</span>
 </template>
