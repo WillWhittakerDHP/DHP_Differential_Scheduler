@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T13:37:03.617Z",
+  "generatedAt": "2026-03-22T13:45:23.947Z",
   "scope": {
     "client": {
       "command": "vue-tsc -b --pretty false",
@@ -10,72 +10,19 @@
       "cwd": "server"
     }
   },
-  "exitCode": 1,
+  "exitCode": 0,
   "command": "vue-tsc -b --pretty false && tsc --noEmit --pretty false",
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 1,
+    "totalRequiresReview": 0,
     "bySource": {
       "inline": 0,
       "pattern": 0,
       "specific": 0
     }
   },
-  "errors": [
-    {
-      "file": "src/middlewares/rateLimit.ts",
-      "line": 7,
-      "col": 23,
-      "code": "TS2307",
-      "message": "Cannot find module 'express-rate-limit' or its corresponding type declarations.",
-      "raw": "src/middlewares/rateLimit.ts(7,23): error TS2307: Cannot find module 'express-rate-limit' or its corresponding type declarations.",
-      "scope": "server",
-      "repoPath": "server/src/middlewares/rateLimit.ts"
-    }
-  ],
+  "errors": [],
   "allowedErrors": [],
-  "pools": [
-    {
-      "poolId": "TS2307-ts2307-cannot-find-module-express-rate-limit-or-its-corresponding-type-declarations",
-      "groupKey": "TS2307::Cannot find module 'express-rate-limit' or its corresponding type declarations.",
-      "errorCount": 1,
-      "fileCount": 1,
-      "severityScore": 10,
-      "blastRadiusScore": 2,
-      "repetitionScore": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "totalScore": 13,
-      "sample": [
-        {
-          "repoPath": "server/src/middlewares/rateLimit.ts",
-          "line": 7,
-          "col": 23,
-          "code": "TS2307",
-          "message": "Cannot find module 'express-rate-limit' or its corresponding type declarations."
-        }
-      ],
-      "priority": "P1"
-    }
-  ],
-  "files": [
-    {
-      "repoPath": "server/src/middlewares/rateLimit.ts",
-      "errorCount": 1,
-      "unsafeCastHits": 0,
-      "suppressionHits": 0,
-      "errors": [
-        {
-          "file": "src/middlewares/rateLimit.ts",
-          "line": 7,
-          "col": 23,
-          "code": "TS2307",
-          "message": "Cannot find module 'express-rate-limit' or its corresponding type declarations.",
-          "raw": "src/middlewares/rateLimit.ts(7,23): error TS2307: Cannot find module 'express-rate-limit' or its corresponding type declarations.",
-          "scope": "server",
-          "repoPath": "server/src/middlewares/rateLimit.ts"
-        }
-      ]
-    }
-  ]
+  "pools": [],
+  "files": []
 }
