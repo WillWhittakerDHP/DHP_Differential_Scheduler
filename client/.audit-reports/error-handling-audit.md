@@ -10,13 +10,13 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 ## Summary
 
-- Files with findings: **2**
-- Requiring review: **4**
+- Files with findings: **0**
+- Requiring review: **0**
 - Allowed (with justification): 0
 
-- P0 (silent catches): **1**
-- P1 (console-in-catch, alert-in-catch, type suppressions): **1**
-- P2 (general console, catch-without-logger): **2**
+- P0 (silent catches): **0**
+- P1 (console-in-catch, alert-in-catch, type suppressions): **0**
+- P2 (general console, catch-without-logger): **0**
 
 ## Rules
 
@@ -72,21 +72,5 @@ Scope: `client/src` (ts, js, vue) and `server/src` (ts, mjs)
 
 | File | Priority | Score | P0 | P1 | P2 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts` | P0 | 10 | 1 | 0 | 0 |
-| `client/fixtures/audits/error-handling/empty-catch/fp/logged-catch.ts` | P1 | 7 | 0 | 1 | 2 |
 
 ## Per-file findings
-
-### `client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts` [P0] (score: 10)
-
-```
-empty-catch@1: try { doSomething(); } catch (e) { }
-```
-
-### `client/fixtures/audits/error-handling/empty-catch/fp/logged-catch.ts` [P1] (score: 7)
-
-```
-console-in-catch@3: } catch (e) {
-console-general@4: console.error(e)
-console-no-logger@1: Raw console.* used without logger utility -- use createLogger() from utils/logger instead.
-```

@@ -10,100 +10,13 @@ Scope: `client/src/{components,views,layouts}/**/*.vue` (excluding `@core`, `@la
 
 ## Summary
 
-- Total files: **5**
+- Total files: **0**
 
 ## Top hotspots (by heuristic score)
 
 | File | watch | async/await | map/reduce | DOM | inline :config | console/alert |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `client/src/components/booking/BookingWizard.vue` | 0 | 0 | 2 | 0 | 1 | 0 | 0 |
-| `client/src/views/booking/CancelConfirmView.vue` | 0 | 0 | 2 | 0 | 1 | 0 | 0 |
-| `client/src/components/booking/steps/AvailabilityStep.vue` | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/components/booking/steps/AvailabilitySubStepContent.vue` | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| `client/src/views/admin/AdminBookingEntryView.vue` | 0 | 0 | 0 | 1 | 0 | 0 | 0 |
 
 ## Per-file matches (line-level)
 
 Legend: `ruleId@lineNumber: line`
-
-### `client/src/components/booking/BookingWizard.vue`
-
-- counts: computed=0, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=1, inlineConfig=0, console=0, alert=0
-
-```
-computed@40: const showCopyQuoteLink = computed(
-computed@44: const submitButtonLabel = computed(() => {
-async@50: async function handleCopyQuoteLink(): Promise<void> {
-await@55: await window.navigator.clipboard.writeText(url)
-dom@55: await window.navigator.clipboard.writeText(url)
-```
-
-### `client/src/views/booking/CancelConfirmView.vue`
-
-- counts: computed=0, ref=0, watch=0, async=1, await=1, map=0, reduce=0, dom=1, inlineConfig=0, console=0, alert=0
-
-```
-computed@21: const appointmentId = computed(() => {
-computed@26: const appointmentSummary = computed(() => {
-computed@33: const showConfirm = computed(
-computed@40: const showNotCancellable = computed(
-async@47: const handleConfirm = async (): Promise<void> => {
-await@49: await cancelAppointment(appointmentId.value)
-dom@53: window.history.back()
-```
-
-### `client/src/components/booking/steps/AvailabilityStep.vue`
-
-- counts: computed=0, ref=0, watch=2, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@30: const wizard = inject(wizardKey)
-provideInject@35: const loadedWizardState = inject(loadedWizardStateKey)
-provideInject@40: const computedAvailability = inject(computedAvailabilityKey)
-provideInject@45: const propertyDetailsStepData = inject(propertyDetailsStepDataKey)
-provideInject@50: const displayedMonth = inject(displayedMonthKey)
-provideInject@51: const updateDisplayedMonth = inject(updateDisplayedMonthKey)
-provideInject@56: const appointmentDurationRef = inject(appointmentDurationKey)
-watch@103: watch(
-computed@113: const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
-computed@114: const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
-computed@115: const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
-computed@116: const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
-computed@124: userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
-computed@132: const visibleSubStepsFiltered = computed(() =>
-filter@133: subSteps.visibleSubSteps.value.filter((s) => s.visible)
-computed@137: currentStepIndex: computed(() => subSteps.currentStepIndex.value),
-computed@141: const expandedIndex = computed(() => accordion.expandedIndex.value)
-computed@144: const hasLoadedAvailability = computed(
-provideInject@156: /** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
-provideInject@181: provide(availabilitySubStepContextKey, subStepContext)
-provideInject@254: LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per
-watch@258: LEARNING (Task 6.9.3.3): Focus management — watch(expandedIndex) moves focus into content on expand,
-```
-
-### `client/src/components/booking/steps/AvailabilitySubStepContent.vue`
-
-- counts: computed=0, ref=0, watch=1, async=0, await=0, map=0, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-provideInject@22: const ctx = inject(availabilitySubStepContextKey)
-computed@45: const step4HasClosingDate = computed(
-computed@51: const step4InnerDayKey = computed(
-computed@54: const step4OuterDayKey = computed(
-computed@58: const step4CanStepPrev = computed(() => {
-computed@66: const step4CanStepNext = computed(() => {
-computed@74: const step4SelectedMoveableDayLabel = computed(() => {
-computed@87: const step4CanConfirm = computed(() => {
-watch@114: watch(
-```
-
-### `client/src/views/admin/AdminBookingEntryView.vue`
-
-- counts: computed=0, ref=0, watch=0, async=0, await=0, map=1, reduce=0, dom=0, inlineConfig=0, console=0, alert=0
-
-```
-computed@18: const users = computed(() => {
-computed@28: const dropdownItems = computed(() => {
-map@31: return items.map((item: AdminEntryAppointmentItem) => ({
-computed@50: const canGo = computed(() => {
-```
