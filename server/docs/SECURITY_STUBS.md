@@ -1,6 +1,75 @@
 # Security middleware stubs
 
-The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until authentication is implemented. They are wired into state-changing routes now so that the security layer can be dropped in later without changing route definitions.
+The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until authentication is implemented.
+
+---
+
+## Environment variable inventory (Phase 8.4)
+
+**Last updated:** 2026-03-22  
+**Scope:** All `process.env` (server) and `import.meta.env` (client) usage across the codebase.
+
+### Server (`process.env`)
+
+| Variable | Source files | Required | Purpose |
+|----------|--------------|----------|---------|
+| `NODE_ENV` | `envConfig.ts`, `database.mjs`, `Users.ts`, `errorHandler.test.ts`, `googleOauthRoutes.ts` | No (default: development) | Runtime environment |
+| `APP_STAGE` | `envHelpers.ts` | No (default: local) | Deployment stage |
+| `SERVER_PORT` / `PORT` | `index.ts` | No (default: 3001) | HTTP server port |
+| `DB_HOST` | `database.mjs`, `db-reset.mjs`, `run-migrations.mjs`, `testDb.ts` | Yes (prod) | PostgreSQL host |
+| `DB_PORT` | Same | No (default: 5432) | PostgreSQL port |
+| `DB_NAME` | Same, `copy-service-config-to-option.mjs` | Yes (prod) | PostgreSQL database name |
+| `DB_USER` | Same | Yes (prod) | PostgreSQL user |
+| `DB_PASSWORD` | Same | Yes (prod) | PostgreSQL password (secret) |
+| `TEST_DB_NAME` | `testDb.ts` | No (default: scheduler_test) | Test database name |
+| `APP_BASE_URL` | `inviteContextBuilder.ts` | Yes (prod) | Base URL for invite links |
+| `VITE_APP_BASE_URL` | `inviteContextBuilder.ts` | No (fallback) | Alternate base URL |
+| `LOG_LEVEL` | `logger.ts` | No | Server log level |
+| `DEBUG_SCOPES` | `logger.ts` | No | Debug scopes filter |
+| `LOG_CALLSITE` / `VITE_LOG_CALLSITE` | `logger.ts` | No | Log callsite tracking |
+| `GOOGLE_CLIENT_ID` | `googleOAuth.ts`, `googleOauthRoutes.ts`, `write-gmail-mcp-creds.mjs` | Yes (OAuth) | Google OAuth client ID (secret) |
+| `GOOGLE_CLIENT_SECRET` | `googleOAuth.ts`, `write-gmail-mcp-creds.mjs` | Yes (OAuth) | Google OAuth client secret (secret) |
+| `GOOGLE_REDIRECT_URI` | `googleOAuth.ts`, `googleOauthRoutes.ts` | Yes (OAuth) | OAuth redirect URI |
+| `GOOGLE_SCOPES` | `googleOAuth.ts` | No (has default) | Google API scopes (comma-separated) |
+| `GOOGLE_API_KEY` | `googleApiConfig.ts` | No (optional) | Google API key for some APIs (secret) |
+| `GOOGLE_CALENDAR_RATE_LIMIT_PER_MINUTE` | `rateLimiter.ts` | No (default: 60) | Calendar API rate limit |
+| `GOOGLE_CALENDAR_CACHE_TTL_MINUTES` | `calendarEventsCache.ts` | No (default: 5) | Calendar cache TTL |
+| `ORGANIZER_EMAIL` | `importCalendarData.ts` | No (has default) | Default organizer for calendar import |
+| `BRIGHT_MLS_API_URL` | `brightMlsApiClient.ts`, `brightMlsAuth.ts` | Conditional | Bright MLS API base URL |
+| `BRIGHT_MLS_CLIENT_ID` | `brightMlsAuth.ts` | Conditional | Bright MLS client ID (secret) |
+| `BRIGHT_MLS_CLIENT_SECRET` | `brightMlsAuth.ts` | Conditional | Bright MLS client secret (secret) |
+| `BRIGHT_MLS_ACCESS_TOKEN` | `brightMlsAuth.ts` | Conditional | Bright MLS Bearer token (secret) |
+| `BRIGHT_MLS_TOKEN_URL` | `brightMlsAuth.ts` | Conditional | OAuth token endpoint |
+| `BRIGHT_MLS_RATE_LIMIT_PER_SECOND` | `brightMlsApiClient.ts` | No (default: 2) | Bright MLS rate limit |
+| `BRIGHT_MLS_RATE_LIMIT_PER_DAY` | `brightMlsApiClient.ts` | No (default: 40000) | Bright MLS daily limit |
+| `PROPERTY_ENRICHMENT_CACHE_TTL_MINUTES` | `propertyEnrichmentCache.ts` | No (default: 60) | Property enrichment cache TTL |
+| `ADDRESS_GEOCODING_CACHE_TTL_DAYS` | `addressGeocodingCache.ts` | No | Geocoding cache TTL |
+| `DRIVE_TIME_CACHE_TTL_HOURS` | `driveTimeCache.ts` | No (default: 24) | Drive-time cache TTL |
+
+### Client (`import.meta.env`)
+
+| Variable | Source files | Required | Purpose |
+|----------|--------------|----------|---------|
+| `VITE_API_BASE_URL` | `propertyEnrichmentApiService.ts`, `api/index.ts`, `calendarApiService.ts`, `mapsApiService.ts`, `ApiDevPanel.vue` | No (default: localhost:3001 or /api/v1/internal) | API base URL |
+| `VITE_AVAILABILITY_CACHE_TTL` | `availabilitySettings/api.ts` | No | Availability cache TTL (ms) |
+| `VITE_APP_STAGE` | `devMode.ts` | No (default: local) | Deployment stage |
+| `VITE_INCLUDE_DEV_FLAGS` | `devMode.ts` | No | Enable dev-only flags |
+| `VITE_LOG_LEVEL` | `logger.ts` | No | Client log level |
+| `VITE_DEBUG_SCOPES` | `logger.ts` | No | Debug scopes filter |
+| `VITE_LOG_CALLSITE` | `logger.ts` | No | Log callsite tracking |
+| `DEV` | `devMode.ts`, `logger.ts` | No (Vite built-in) | Vite dev mode flag |
+
+### Config loaders
+
+- **Server:** `server/src/config/envConfig.ts` — loads `.env.${NODE_ENV}` via dotenv; validates `DB_*`, `PORT`, `NODE_ENV`, `APP_STAGE`.
+- **Server:** `server/src/db/config/database.mjs` — Sequelize config reads `DB_*` directly.
+- **Client:** Vite injects `import.meta.env.*` at build time; only `VITE_*` and `DEV`/`MODE` are exposed.
+
+### Safe-handling notes
+
+- **Secrets:** `DB_PASSWORD`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_API_KEY`, `BRIGHT_MLS_*` credentials must never be committed. Use `.env` files (gitignored) or a secrets manager.
+- **Server .env files:** `server/.env.development`, `server/.env.production` are loaded by envConfig; ensure `.gitignore` covers `.env*`.
+- **Root .env:** Used for cross-cutting vars (e.g. `TEST_ENABLED`, `GIT_MCP_SERVER`); do not commit real values.
 
 ## Inbound rate limiting (active)
 
