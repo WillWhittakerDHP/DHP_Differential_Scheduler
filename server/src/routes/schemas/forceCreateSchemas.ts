@@ -1,6 +1,5 @@
 /**
  * Joi schemas for admin force-create appointment.
- * WHY: Request body validation for POST /appointments/force-create (Session 8.3.2).
  * Domain validation (slot dates, duration) remains in handler.
  */
 import Joi from 'joi'

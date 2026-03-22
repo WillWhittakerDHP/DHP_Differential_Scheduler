@@ -1,6 +1,5 @@
 /**
  * Joi schemas for business settings CRUD routes.
- * WHY: Request body validation for business settings POST/PUT/PATCH (Session 8.3.2).
  * Domain validation (validateSettingKey, validateAvailabilitySettings) remains in handlers.
  */
 import Joi from 'joi'

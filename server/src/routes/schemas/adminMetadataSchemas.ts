@@ -1,6 +1,5 @@
 /**
  * Joi schemas for admin metadata routes.
- * WHY: Request body validation for admin-metadata POST (Session 8.3.2).
  * Domain validation (validateEntityType, validateRequiredFields, etc.) remains in handlers.
  */
 import Joi from 'joi'

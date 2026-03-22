@@ -12,7 +12,6 @@ import type { ObjectSchema } from 'joi';
  * On validation failure: responds 400 with { error, details } and does not call next().
  * On success: calls next().
  *
- * WHY: Centralizes body validation with consistent error shape (error + details).
  * PATTERN: Same validation approach as relationshipAnnotationAssignmentRouter, extracted
  * into reusable middleware so routes stay thin.
  *

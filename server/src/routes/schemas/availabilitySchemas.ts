@@ -1,6 +1,5 @@
 /**
  * Joi schemas for availability routes.
- * WHY: Request body validation for POST /computed-data (Session 8.3.2).
  * PATTERN: Centralized schema definitions; wire via validateRequest middleware.
  */
 

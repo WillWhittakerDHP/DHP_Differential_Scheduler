@@ -1,6 +1,5 @@
 /**
  * Joi schemas for calendar settings routes.
- * WHY: Request body validation for calendar settings PUT (Session 8.3.2).
  * Domain validation remains in handlers.
  */
 import Joi from 'joi'

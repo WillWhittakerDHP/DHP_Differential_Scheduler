@@ -1,7 +1,5 @@
 /**
  * Adapter to use Joi schemas with CrudRouterConfig.validateRequest.
- * WHY: createCrudRouter expects (req, method) => ValidationResult; Joi validates req.body.
- * PATTERN: Converts Joi schema to ValidationResult for CRUD handlers.
  */
 
 import type { Request } from 'express'

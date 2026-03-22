@@ -1,6 +1,5 @@
 /**
  * Joi schemas for appointment CRUD routes.
- * WHY: Request body validation for appointment POST/PUT/PATCH (Session 8.3.2).
  * Minimal schema: require non-empty object; appointment-specific validation in sanitizeInput.
  */
 

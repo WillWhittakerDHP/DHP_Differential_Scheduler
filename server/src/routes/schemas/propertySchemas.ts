@@ -1,6 +1,5 @@
 /**
  * Joi schemas for property CRUD routes.
- * WHY: Request body validation for property POST/PUT/PATCH (Session 8.3.2).
  * Domain validation (validateAddressFields, validatePropertyDetailsPatchBody) remains in handlers.
  */
 

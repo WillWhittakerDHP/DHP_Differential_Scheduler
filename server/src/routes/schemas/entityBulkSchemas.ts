@@ -1,6 +1,5 @@
 /**
  * Joi schemas for entity bulk routes.
- * WHY: Request body validation for entity bulk PATCH (Session 8.3.2).
  * Domain validation (validateBulkUpdateArray) remains in handlers.
  */
 import Joi from 'joi'

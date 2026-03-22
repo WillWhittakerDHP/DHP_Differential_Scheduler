@@ -1,6 +1,5 @@
 /**
  * Joi schemas for admin primitive metadata routes.
- * WHY: Request body validation for admin-primitive-metadata POST (Session 8.3.2).
  * Domain validation remains in handlers.
  */
 import Joi from 'joi'

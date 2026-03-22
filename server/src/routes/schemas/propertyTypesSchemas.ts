@@ -1,6 +1,5 @@
 /**
  * Joi schemas for property types routes.
- * WHY: Request body validation for property types POST/PATCH/PUT (Session 8.3.2).
  * Domain validation (validateBlockShape, etc.) remains in handlers.
  */
 import Joi from 'joi'

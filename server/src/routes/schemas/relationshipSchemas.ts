@@ -1,6 +1,5 @@
 /**
  * Joi schemas for relationship routes.
- * WHY: Request body validation for relationship CRUD POST (Session 8.3.2).
  * relationshipAnnotationAssignmentRouter and relationshipInstanceComponentRouter already use Joi inline.
  */
 import Joi from 'joi'
