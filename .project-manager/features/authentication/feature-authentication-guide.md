@@ -34,9 +34,9 @@ Research phase not yet started — architectural decisions to be documented in t
 
 ## Feature Objectives
 
-- [Objective 1]
-- [Objective 2]
-- [Objective 3]
+- Ship PostgreSQL-backed **`sessions`** and **`magic_links`** (LAUNCH_CHECKLIST 2A.1), Sequelize models, and registration in `server/src/db/models/index.ts` so Phase 7.2+ can implement session manager, `requireAuth`, and magic-link flows without schema rework.
+- Add server auth infrastructure (strategy interface, session manager, auth router, middleware) and **magic link** strategy for beta/dev, then client store + Vue Router guards aligned with httpOnly cookies — defer **password** strategy to Phase 7.5 until production readiness.
+- Replace auth stubs with real session-backed identity so Feature 6 and later work (`req.user`, ownership checks) and existing CSRF wiring in `security.ts` remain coherent.
 
 ---
 

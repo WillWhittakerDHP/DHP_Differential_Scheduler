@@ -31,6 +31,7 @@ import { PropertyDetailsFactory } from "./booking/property_details.js";
 import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
 import { SessionFactory } from "./auth/Session.js";
+import { MagicLinkFactory } from "./auth/MagicLink.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { AppointmentSelectionLineFactory } from "./booking/appointment_selection_line.js";
 import { AppointmentTimeSlotFactory } from "./booking/appointment_time_slot.js";
@@ -99,6 +100,7 @@ export function initializeModels(sequelize: Sequelize) {
   const PropertyVersionType = PropertyVersionTypeFactory(sequelize);
   const User = UserFactory(sequelize);
   const Session = SessionFactory(sequelize);
+  const MagicLink = MagicLinkFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
   const AppointmentSelectionLine = AppointmentSelectionLineFactory(sequelize);
   const AppointmentTimeSlot = AppointmentTimeSlotFactory(sequelize);
@@ -430,6 +432,15 @@ export function initializeModels(sequelize: Sequelize) {
     as: 'user',
   });
 
+  User.hasMany(MagicLink, {
+    foreignKey: 'user_id',
+    as: 'authMagicLinks',
+  });
+  MagicLink.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user',
+  });
+
   BlockInstanceVersion.hasMany(PartInstanceVersion, {
     foreignKey: 'block_instance_version_id', 
     as: 'partInstanceVersions' 
@@ -488,7 +499,7 @@ export function initializeModels(sequelize: Sequelize) {
     BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
-    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, Appointment,
+    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
     AppointmentSelectionLine,
     AppointmentTimeSlot,
     AppointmentAttendee,
