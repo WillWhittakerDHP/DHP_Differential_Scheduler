@@ -101,6 +101,19 @@ The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** 
 - **DB_PASSWORD fallback:** `database.mjs`, `db-reset.mjs`, `run-migrations.mjs` use `process.env.DB_PASSWORD || 'jklJKL'` for local dev. Documented in Validation section above; production requires `DB_PASSWORD` env.
 - **sessionToken:** `mapsRoutes.ts` uses `generateSessionToken()` — runtime-generated, not a hardcoded secret.
 
+**Safe-handling guidelines (Task 8.4.2.2 — 2026-03-22)**
+
+- **Pre-commit checklist:** Before committing, verify no API keys, tokens, or passwords are in source. Use `process.env.*` or `import.meta.env.*` for all secrets; reference `server/.env.example` and root `.env.example` for required vars.
+- **Patterns to avoid:** Hardcoded `AIza*` (Google API), `sk-*` (OpenAI-style), bearer tokens, `password=...`, `secret=...` with literal values. Acceptable: `process.env.DB_PASSWORD || 'jklJKL'` for local dev only when production requires env.
+- **Adding new credential paths:** When adding a new integration (OAuth, API client, token storage), add the credential file or directory to `.gitignore` before committing. Document the pattern in this section.
+- **When to re-run the scan:** Before phase/session end, when adding new third-party integrations, or after significant refactors touching config loaders. Quick scan for high-risk patterns (Google API keys, OpenAI-style keys):
+
+```bash
+git ls-files client/src server/src | xargs grep -E 'AIza[0-9A-Za-z_-]{35}|sk-[a-zA-Z0-9]{20,}' 2>/dev/null || echo "No high-risk matches"
+```
+
+Excludes `.env.example` (template only). Any matches warrant manual review. For broader patterns, see methodology in "Committed files scan — results" above.
+
 ## Inbound rate limiting (active)
 
 **Location:** `server/src/middlewares/rateLimit.ts`  
