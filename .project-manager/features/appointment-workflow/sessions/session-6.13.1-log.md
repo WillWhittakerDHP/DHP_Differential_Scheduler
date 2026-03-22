@@ -1,42 +1,21 @@
-# Session 6.13.1: ** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
-
-
-### Task 6.13.1.1: Task 6.13.1.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.13.1.2
-
-
+# Session 6.13.1: Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
 
 ## Completed Tasks
 
-### Task 6.13.1.2: Task 6.13.1.2 ✅
-**Goal:** Task completed
+### Task 6.13.1.1 ✅
 
-**Next Task:**
-- 6.13.1.3
+**Goal:** Color utilities and `buildWizardModePaletteFromAnchors` (OKLCH via culori).
 
+**Next Task:** 6.13.1.2
 
+### Task 6.13.1.2 ✅
 
-### Task 6.13.1.1: Task 6.13.1.1 ✅
-**Goal:** Task completed
+**Goal:** Wire `theme.ts` to generated `WizardModePalette` per mode; keep `useThemeMode` indexing `dhpPalette` by mode.
 
-**Next Task:**
-- 6.13.1.2
+**Next Task:** Session 6.13.2 (phase)
 
 <!-- end excerpt session -->
-### Task 6.13.1.2: Task 6.13.1.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.13.1.3
-
-
-
 
 ## Test Status
 
-**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-
-
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred (project: `TEST_ENABLED=false` until Phase 3.0).

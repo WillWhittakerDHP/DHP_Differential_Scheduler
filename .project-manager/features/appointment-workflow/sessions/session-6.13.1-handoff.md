@@ -4,30 +4,30 @@
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** [Date]
-**Session Status:** [Complete / In Progress]
-**Next Session:** [NEXT_SESSION]
+**Last Updated:** 2026-03-22
+**Session Status:** Complete
+**Next Session:** 6.13.2
 
 ---
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 6.13.1
+**Last Completed:** Session 6.13.1 (tasks 6.13.1.1–6.13.1.2)
+**Next Session:** Session 6.13.2
 **Git Branch:** `phase-6.13`
 **Last Updated:** 2026-03-22
 
 ## Next Action
 
-Start Session 6.13.1 (see session guide and phase guide for scope).
+Start Session 6.13.2 (BookingWizard Vue/SCSS integration and verification; see session guide and phase guide).
 
 ## Transition Context
 
 **Where we left off:**
-Completed Task 
+Session 6.13.1 delivered the OKLCH/culori token pipeline, `WizardModePalette` wiring in `theme.ts`, and distinct standard/quote/reschedule DHP palettes.
 
 **What you need to start:**
-- Begin Session 6.13.1
+- Begin Session 6.13.2 per `session-6.13.2-guide.md` and the phase guide Sessions (tierDown) section.
 
 <!-- end excerpt session -->
 

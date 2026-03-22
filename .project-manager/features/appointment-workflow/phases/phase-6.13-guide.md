@@ -41,7 +41,8 @@
 - **Session 6.13.1:** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, OKLCH/HSL generator, `WizardModePalette` / CSS vars)
 - **Session 6.13.2:** `BookingWizard.vue` / `BookingWizard.scss` integration; brand + quote/reschedule verification; client lint
 
-_Register each session with `/session-add` or tier workflow when starting work._  
+_Register each session with `/session-add` or tier workflow when starting work._
+
 Session detail (Goal / Files / Approach / Checkpoint) is under **Sessions (tierDown)** below. Start order: 6.13.1 → 6.13.2.
 
 ---
