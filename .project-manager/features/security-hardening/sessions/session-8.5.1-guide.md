@@ -50,7 +50,7 @@ These sections contain session-specific content:
 **Approach:** Add helmet options object; enable HSTS for production (maxAge, includeSubDomains, preload); set referrerPolicy (strict-origin-when-cross-origin).
 **Checkpoint:** App starts; existing API routes respond; no regression.
 
-- [ ] #### Task 8.5.1.2: SECURITY_STUBS Helmet documentation
+- [x] #### Task 8.5.1.2: SECURITY_STUBS Helmet documentation
 **Goal:** Add "Security headers (Helmet)" section to SECURITY_STUBS with config summary and verification steps.
 **Files:** 
 - `server/docs/SECURITY_STUBS.md`
