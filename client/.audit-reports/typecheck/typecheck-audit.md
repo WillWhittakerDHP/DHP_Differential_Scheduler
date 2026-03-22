@@ -12,18 +12,19 @@ Exception handling:
 
 ## Summary
 
-- Generated at: **2026-03-22T00:46:50.523Z**
+- Generated at: **2026-03-22T13:36:27.361Z**
 - Client command: `vue-tsc -b --pretty false`
 - Server command: `tsc --noEmit --pretty false`
-- Exit code: **0**
-- **Errors requiring review: 0**
+- Exit code: **1**
+- **Errors requiring review: 1**
 - Allowed (with justification): 0 (inline: 0, pattern: 0, specific: 0)
-- Pools: **0**
+- Pools: **1**
 
 ## Top pools (by score)
 
 | Priority | Pool | score | errors | files | unsafeCasts | suppressions |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| P1 | `TS2307-ts2307-cannot-find-module-express-rate-limit-or-its-corresponding-type-declarations` | 13 | 1 | 1 | 0 | 0 |
 
 ## Allowed Exceptions (for transparency)
 
@@ -34,3 +35,11 @@ Review periodically to ensure exceptions are still valid.
 
 
 ## Per-file errors requiring review
+
+### `server/src/middlewares/rateLimit.ts`
+
+- errors: 1, unsafeCasts: 0, suppressions: 0
+
+```
+TS2307@7:23 Cannot find module 'express-rate-limit' or its corresponding type declarations.
+```
