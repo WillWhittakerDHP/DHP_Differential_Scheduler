@@ -1,22 +1,106 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T23:23:49.463Z",
-=======
-  "generatedAt": "2026-03-21T23:26:31.183Z",
->>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:50:56.104Z",
->>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:51:37.228Z",
->>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
-  "totalScanned": 0,
-  "deltaMode": true,
-  "baseRef": "HEAD~1",
-  "findings": [],
+  "generatedAt": "2026-03-22T00:04:20.457Z",
+  "totalScanned": 1152,
+  "findings": [
+    {
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "lineNumber": 45,
+      "ruleId": "as-unknown-as",
+      "snippet": "return (wrapper as unknown as ComputedRef<TimeSlot[]>).value",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "lineNumber": 45,
+      "ruleId": "as-computed-ref",
+      "snippet": "return (wrapper as unknown as ComputedRef<TimeSlot[]>).value",
+      "message": "Assertion to ComputedRef — fix source type instead",
+      "fixHint": "Fix the composable return type so the assertion is unnecessary.",
+      "confidence": "low"
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "lineNumber": 50,
+      "ruleId": "as-unknown-as",
+      "snippet": "return (wrapper as unknown as ComputedRef<TimeSlot[]>).value",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "lineNumber": 50,
+      "ruleId": "as-computed-ref",
+      "snippet": "return (wrapper as unknown as ComputedRef<TimeSlot[]>).value",
+      "message": "Assertion to ComputedRef — fix source type instead",
+      "fixHint": "Fix the composable return type so the assertion is unnecessary.",
+      "confidence": "low"
+    },
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "lineNumber": 63,
+      "ruleId": "as-unknown-as",
+      "snippet": "return components.map((ea) => ea.childId) as unknown as ValidAdminValue",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 165,
+      "ruleId": "as-unknown-as",
+      "snippet": "const fieldContext = buildFieldContextReturn(stateAndActions) as unknown as F...",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 209,
+      "ruleId": "as-unknown-as",
+      "snippet": "return context === undefined ? undefined : (context as unknown as FieldContex...",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 265,
+      "ruleId": "as-unknown-as",
+      "snippet": "fieldContextCache: context.fieldContextCache as unknown as Ref<",
+      "message": "Double assertion escape hatch",
+      "confidence": "high",
+      "whyFlagged": "unnecessary double assertion"
+    },
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "lineNumber": 265,
+      "ruleId": "as-ref",
+      "snippet": "fieldContextCache: context.fieldContextCache as unknown as Ref<",
+      "message": "Assertion to Ref — fix source type instead",
+      "fixHint": "Fix the composable return type so the assertion is unnecessary.",
+      "confidence": "low"
+    }
+  ],
   "functionTypeOffenders": [],
-  "files": []
+  "files": [
+    {
+      "file": "client/src/composables/formFields/useFormFields.ts",
+      "score": 14,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/booking/useAvailabilityOrchestrator.ts",
+      "score": 12,
+      "priority": "P1"
+    },
+    {
+      "file": "client/src/composables/fieldContext/useFieldContextEntityDerived.ts",
+      "score": 4,
+      "priority": "P2"
+    }
+  ]
 }

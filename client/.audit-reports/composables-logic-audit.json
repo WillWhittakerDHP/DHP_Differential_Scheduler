@@ -1,17 +1,5 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T23:23:44.114Z",
-=======
-  "generatedAt": "2026-03-21T23:26:25.215Z",
->>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:50:51.535Z",
->>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:51:31.849Z",
->>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
+  "generatedAt": "2026-03-22T00:04:20.634Z",
   "scope": {
     "included": [
       "client/src/composables/**/*.{ts,js}"

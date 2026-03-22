@@ -1,17 +1,5 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T23:23:46.041Z",
-=======
-  "generatedAt": "2026-03-21T23:26:27.395Z",
->>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:50:53.428Z",
->>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:51:34.162Z",
->>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
+  "generatedAt": "2026-03-22T00:04:12.104Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js}",
@@ -23,11 +11,9 @@
       "**/*.spec.*"
     ]
   },
-  "totalScanned": 1013,
+  "totalScanned": 1014,
   "totalConstantsFiles": 28,
   "totalExportsScanned": 83,
-  "deltaMode": true,
-  "baseRef": "HEAD~1",
   "exceptionSummary": {
     "totalAllowed": 0,
     "totalRequiresReview": 3,

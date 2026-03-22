@@ -1,18 +1,6 @@
 {
   "instructionsForAi": "**Instructions for AI / tooling:** Treat the findings in this report as canonical. Do not plan or change the audit scripts unless you have asked the user and received explicit approval to do so.\n\n**When fixing a finding:** Search the codebase for the same rule or pattern (same ruleId or equivalent) and fix all similar occurrences consistently. Ensure the fix does not introduce new violations of this or related rules.",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T23:23:48.779Z",
-=======
-  "generatedAt": "2026-03-21T23:26:30.502Z",
->>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:50:55.353Z",
->>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:51:36.565Z",
->>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
+  "generatedAt": "2026-03-22T00:04:08.804Z",
   "totalScanned": 282,
   "ruleset": [
     {

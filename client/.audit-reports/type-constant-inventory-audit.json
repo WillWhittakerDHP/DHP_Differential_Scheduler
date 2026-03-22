@@ -1,17 +1,5 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T23:23:48.540Z",
-=======
-  "generatedAt": "2026-03-21T23:26:29.862Z",
->>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:50:55.000Z",
->>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:51:36.121Z",
->>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
+  "generatedAt": "2026-03-22T00:04:14.408Z",
   "scope": {
     "typeFilesIncluded": [
       "client/src/types/**/*.ts",

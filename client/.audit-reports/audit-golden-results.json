@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-23T18:03:16.400Z",
+  "generatedAt": "2026-03-22T00:03:44.960Z",
   "rules": [
     {
       "auditType": "error-handling",
@@ -30,15 +30,18 @@
     {
       "auditType": "type-escape",
       "ruleId": "as-any",
-      "status": "passed",
+      "status": "failed",
       "tpTotal": 2,
-      "tpDetected": 2,
-      "tpMissed": [],
+      "tpDetected": 0,
+      "tpMissed": [
+        "type-escape/as-any/tp/has-as-any.ts",
+        "type-escape/as-any/tp/unnecessary-as-any.ts"
+      ],
       "fpTotal": 2,
       "fpDetected": 0,
       "fpHit": [],
       "precision": 1,
-      "recall": 1
+      "recall": 0
     },
     {
       "auditType": "type-escape",
@@ -83,8 +86,8 @@
     }
   ],
   "summary": {
-    "passed": 5,
-    "failed": 1,
+    "passed": 4,
+    "failed": 2,
     "skipped": 0
   }
 }

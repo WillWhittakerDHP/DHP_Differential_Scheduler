@@ -7,6 +7,18 @@
 
 ## Summary
 
-- Files scanned: **1066**
+- Files scanned: **3**
 - value-import-from-type-only-file: **0**
-- type-used-as-value: **0**
+- type-used-as-value: **1**
+
+## type-used-as-value
+
+| File | Line | Symbol |
+| --- | ---: | --- |
+| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 2 | Foo |
+
+## Files by finding count (score)
+
+| File | Score |
+| --- | ---: |
+| `client/fixtures/audits/type-import/type-used-as-value/tp/import-type-used-as-value.ts` | 2 |

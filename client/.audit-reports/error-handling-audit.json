@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T23:52:06.843Z",
+  "generatedAt": "2026-03-22T00:03:45.510Z",
   "scope": {
     "included": [
       "client/src/**/*.{ts,js,vue}",
@@ -13,12 +13,10 @@
       "client/src/@layouts/**"
     ]
   },
-  "totalScanned": 1149,
-  "deltaMode": true,
-  "baseRef": "HEAD~1",
+  "totalScanned": 2,
   "exceptionSummary": {
     "totalAllowed": 0,
-    "totalRequiresReview": 0,
+    "totalRequiresReview": 4,
     "bySource": {
       "inline": 0,
       "pattern": 0,
@@ -26,7 +24,54 @@
       "linePattern": 0
     }
   },
-  "files": [],
+  "files": [
+    {
+      "id": "client__fixtures__audits__error-handling__empty-catch__tp__empty-catch.ts",
+      "repoPath": "client/fixtures/audits/error-handling/empty-catch/tp/empty-catch.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "empty-catch",
+          "lineNumber": 1,
+          "line": "try { doSomething(); } catch (e) { }",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 10,
+      "priority": "P0"
+    },
+    {
+      "id": "client__fixtures__audits__error-handling__empty-catch__fp__logged-catch.ts",
+      "repoPath": "client/fixtures/audits/error-handling/empty-catch/fp/logged-catch.ts",
+      "allowed": [],
+      "requiresReview": [
+        {
+          "ruleId": "console-in-catch",
+          "lineNumber": 3,
+          "line": "} catch (e) {",
+          "detectionStage": "validator",
+          "suppressionStatus": "unsuppressed"
+        },
+        {
+          "ruleId": "console-general",
+          "lineNumber": 4,
+          "line": "console.error(e)",
+          "suppressionStatus": "unsuppressed",
+          "confidence": "medium"
+        },
+        {
+          "ruleId": "console-no-logger",
+          "lineNumber": 1,
+          "line": "Raw console.* used without logger utility -- use createLogger() from utils/logger instead.",
+          "confidence": "medium",
+          "suppressionStatus": "unsuppressed"
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    }
+  ],
   "ruleset": [
     {
       "ruleId": "empty-catch",

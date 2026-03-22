@@ -1,30 +1,45 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "generatedAt": "2026-03-21T23:23:44.048Z",
+  "generatedAt": "2026-03-22T00:04:12.338Z",
   "totalScanned": 1152,
-=======
-  "generatedAt": "2026-03-21T23:26:25.118Z",
-=======
-  "generatedAt": "2026-03-21T23:51:31.620Z",
->>>>>>> 9f1b75b8 ([session 8.2.1] ** General rate limiter for internal API routes)
-  "totalScanned": 1151,
->>>>>>> e68372fa ([session 8.2.1] ** General rate limiter for internal API routes)
-=======
-  "generatedAt": "2026-03-21T23:50:51.451Z",
-  "totalScanned": 1152,
->>>>>>> 10d2a660 ([session 8.2.1] ** General rate limiter for internal API routes)
-  "deltaMode": true,
-  "baseRef": "HEAD~1",
   "totals": {
-    "totalScanned": 1151,
-    "totalMarkers": 0,
-    "fresh": 0,
+    "totalScanned": 1152,
+    "totalMarkers": 2,
+    "fresh": 2,
     "aging": 0,
     "stale": 0,
     "ancient": 0,
-    "orphaned": 0
+    "orphaned": 2
   },
-  "files": []
+  "files": [
+    {
+      "repoPath": "client/src/views/admin/tabs/components/OverlapConstraintsPanel.vue",
+      "markers": [
+        {
+          "lineNumber": 223,
+          "marker": "TODO",
+          "line": "<!-- TODO(PROJECT_PLAN Phase 6.8): Lunch Buffer UI — constraint config; deferred until admin force-create/overrides. -->",
+          "category": "fresh",
+          "days": 10,
+          "orphaned": true
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "client/src/views/admin/tabs/components/RangeConstraintsPanel.vue",
+      "markers": [
+        {
+          "lineNumber": 94,
+          "marker": "TODO",
+          "line": "<!-- TODO(PROJECT_PLAN Phase 6.8): Date Range Constraint UI — constraint config; deferred until admin force-create/overr",
+          "category": "fresh",
+          "days": 10,
+          "orphaned": true
+        }
+      ],
+      "score": 2,
+      "priority": "P2"
+    }
+  ]
 }
