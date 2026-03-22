@@ -38,7 +38,8 @@
 
 ## Sessions Breakdown
 
-_Sessions to be added via `/session-add` after scope is confirmed (e.g. one session for pipeline + SCSS cleanup, a second if semantic tokens or admin UI for anchors is in scope)._
+- **Session 6.13.1:** Token pipeline and theme wiring — OKLCH/HSL generator, `WizardModePalette` / `resolvePalette` / `applyPaletteToCss`, distinct DHP mode palettes where required.
+- **Session 6.13.2:** Wizard SCSS, Vue class logic, and verification — align `dhp-colors-active` with quote/reschedule, reduce duplicate hex, full mode matrix + client lint.
 
 ---
 

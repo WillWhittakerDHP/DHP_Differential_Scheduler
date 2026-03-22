@@ -5,6 +5,44 @@
 
 ---
 
+## Goal
+
+Deliver **Phase 6.13 — Wizard Theme Tokens & Brand Palettes**: one perceptual pipeline (OKLCH or HSL, e.g. via culori) that derives wizard/Vuetify tokens from anchor colors so primary, secondary, warning, darken-1, on-*, inactive, and optional tertiary/semantic roles stay visually consistent; **distinct** `standard` / `quote` / `reschedule` behavior when admin **Brand colors** (DHP) is on; and consolidated outputs feeding `theme.ts`, `useThemeMode`, and `BookingWizard.scss` (no three parallel hex lists). **Done** when phase guide success criteria are met, wizard is verified in new / quote / reschedule with brand on and off, and `cd client && npm run lint` plus app start pass.
+
+## Files
+
+- **TierUp:** `.project-manager/features/appointment-workflow/phases/phase-6.13-guide.md`, `feature-appointment-workflow-guide.md`
+- **Prior handoff:** `.project-manager/features/appointment-workflow/phases/phase-6.12-handoff.md`
+- **Theme & palette:** `client/src/plugins/5.vuetify/theme.ts` (`dhpPalette`, `quoteModeColors`, `rescheduleModeColors`, `WizardModePalette`)
+- **Runtime application:** `client/src/composables/useThemeMode.ts` (`resolvePalette`, `applyPaletteToCss`, `THEME_VAR_KEYS`)
+- **Wizard styles:** `client/src/components/booking/BookingWizard.scss`, `BookingWizard.vue` (class logic for `quote-mode-active`, `dhp-colors-active`)
+- **New or refactored:** token builder module (e.g. under `client/src/` composables or `utils/color/`) — single source for derived hex/CSS variables
+- **Governance:** `client/.audit-reports/*`, playbooks under `.project-manager/*_AUTHORING_PLAYBOOK.md`
+
+## Approach
+
+1. **Session 6.13.1:** Inventory current overrides; add OKLCH/HSL transform API + generator from brand/Vuetify anchors; extend `WizardModePalette` and wire `resolvePalette` / `applyPaletteToCss` so `dhpPalette.standard` / `quote` / `reschedule` are meaningfully distinct when product requires it; keep `useBrandColors` behavior explicit in code paths.
+2. **Session 6.13.2:** Align `BookingWizard.vue` / SCSS so quote and reschedule can coexist with `dhp-colors-active` when intended; replace or narrow hand-maintained duplicate hex in SCSS using runtime CSS variables or the same generator output; verify all wizard modes; client lint.
+3. Follow **Vue-only** frontend rule, **explicit types**, **logger in catch** where applicable, and **no silent fallbacks** per project standards.
+
+## Checkpoint
+
+After **6.13.1:** generator produces consistent tokens; `resolvePalette` uses theme seeds or documented DHP path; distinct quote/reschedule entries or documented equivalence; smoke wizard with brand on/off. After **6.13.2:** SCSS/class behavior matches plan; no stray duplicate palettes; `cd client && npm run lint` and `npm run start:dev` clean.
+
+## How we build the tierDown
+
+- **Session 6.13.1:** Token pipeline and theme wiring
+- **Session 6.13.2:** Wizard SCSS, classes, and verification
+
+## Reference (read before locking execution — governance and inventory)
+
+- TierUp guide: `.project-manager/features/appointment-workflow/phases/phase-6.13-guide.md`
+- Handoff: `.project-manager/features/appointment-workflow/phases/phase-6.12-handoff.md`
+- Governance reports: `client/.audit-reports/` — function-complexity, component-health, composable-health, type-escape, type-constant-inventory
+- Playbooks: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`, `.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPONENT_AUTHORING_PLAYBOOK.md`
+
+---
+
 ## Intent
 
 Implement themes rooted in brand colors with **consistent degree** (chroma, lightness, hue relationships) across quote mode, reschedule, warning, tertiary/semantic roles, and inactive tints — not only primary and secondary anchors.
