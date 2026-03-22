@@ -50,7 +50,7 @@ These sections contain session-specific content:
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
-- [ ] #### Task 6.13.1.2: [Task Name]
+- [x] #### Task 6.13.1.2: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]
