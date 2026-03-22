@@ -6,8 +6,9 @@
 import { ref, computed, inject, type Ref } from 'vue'
 import { usePropertyMappingsTab } from '@/composables/admin/usePropertyMappingsTab'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
+import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
 
-const adminCurrentTab = inject<Ref<string>>('adminCurrentTab', ref(''))
+const adminCurrentTab = inject<Ref<string>>(adminCurrentTabKey, ref(''))
 
 /** When provided (e.g. when embedded under Controls > Rules), overrides tab-active check so queries run when this section is visible. */
 const props = withDefaults(

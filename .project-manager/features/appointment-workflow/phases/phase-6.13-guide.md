@@ -12,8 +12,8 @@
 **Phase Name:** Wizard Theme Tokens & Brand Palettes  
 **Description:** Today, non-brand quote/reschedule use hand-tuned palettes while brand mode applies a flat DHP palette with identical `standard` / `quote` / `reschedule` entries; quote/reschedule SCSS classes are disabled when brand colors are on. Warning and other semantic colors in the global Vuetify theme are a separate static set. This phase introduces derived tokens from anchor colors (and optional library such as culori), extends `WizardModePalette` and CSS variable application as needed, and consolidates one generator feeding both JS and wizard styles.
 
-**Duration:** TBD (session after scoping)  
-**Status:** Not Started
+**Duration:** 2 sessions (6.13.1, 6.13.2)  
+**Status:** Planning
 
 ---
 
@@ -38,7 +38,12 @@
 
 ## Sessions Breakdown
 
-_Sessions to be added via `/session-add` after scope is confirmed (e.g. one session for pipeline + SCSS cleanup, a second if semantic tokens or admin UI for anchors is in scope)._
+- **Session 6.13.1:** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, OKLCH/HSL generator, `WizardModePalette` / CSS vars)
+- **Session 6.13.2:** `BookingWizard.vue` / `BookingWizard.scss` integration; brand + quote/reschedule verification; client lint
+
+_Register each session with `/session-add` or tier workflow when starting work._
+
+Session detail (Goal / Files / Approach / Checkpoint) is under **Sessions (tierDown)** below. Start order: 6.13.1 → 6.13.2.
 
 ---
 
@@ -63,3 +68,31 @@ _Sessions to be added via `/session-add` after scope is confirmed (e.g. one sess
 - `phases/phase-6.13-planning.md` — technical deep-dive and current-state analysis
 - `client/src/plugins/5.vuetify/theme.ts`, `client/src/composables/useThemeMode.ts`, `client/src/components/booking/BookingWizard.scss`
 - Feature guide: `feature-appointment-workflow-guide.md` (Phase 6.13 entry)
+
+---
+
+## Sessions (tierDown)
+
+### Session 6.13.1: Token pipeline and theme wiring
+
+**Goal:** Introduce a single perceptual-color module (OKLCH or HSL, optional culori) that derives `WizardModePalette` roles from anchor colors; wire `resolvePalette` and `applyPaletteToCss` so DHP `standard` / `quote` / `reschedule` are **distinct** generated palettes; keep non-brand `quoteModeColors` / `rescheduleModeColors` paths working; document token rules (darken-1, warning, on-*).
+
+**Files:** New generator module under `client/src/utils/theme/` (or agreed location); `client/src/plugins/5.vuetify/theme.ts`; `client/src/composables/useThemeMode.ts`; client `package.json` only if adding a color dependency.
+
+**Approach:** (1) Choose library vs hand-rolled OKLCH transforms; (2) Define a small API: inputs (primary, secondary, mode) → palette record; (3) Replace duplicate `dhpPalette` entries with derived outputs per mode; (4) Extend `THEME_VAR_KEYS` / `applyPaletteToCss` as needed; (5) Smoke-check wizard with brand off; brand-on distinct modes in a follow-up session if SCSS still blocks.
+
+**Checkpoint:** Distinct hex/CSS vars for standard vs quote vs reschedule when DHP is on; no placeholder palette fields; client lint clean for touched files; app starts.
+
+**See:** `sessions/session-6.13.1-guide.md` (created by tier workflow)
+
+### Session 6.13.2: BookingWizard integration and verification
+
+**Goal:** Align `BookingWizard.vue` and `BookingWizard.scss` with the single pipeline: allow quote/reschedule visual treatment alongside `dhp-colors-active` when required; prefer CSS variables from the composable over parallel SCSS hex lists; verify all wizard modes with brand on and off.
+
+**Files:** `client/src/components/booking/BookingWizard.vue`; `client/src/components/booking/BookingWizard.scss`; touch-ups in `useThemeMode.ts` only if class/CSS var contract needs adjustment.
+
+**Approach:** (1) Audit class bindings that gate quote/reschedule on `!useDhpColors`; (2) Map SCSS variables to emitted CSS variables where possible; (3) Manual matrix: new / quote / reschedule × brand on/off; (4) Run `cd client && npm run lint`.
+
+**Checkpoint:** Coherent quote and reschedule appearance with brand colors enabled; admin brand toggle behavior unchanged unless documented; lint and app start pass.
+
+**See:** `sessions/session-6.13.2-guide.md` (created by tier workflow)

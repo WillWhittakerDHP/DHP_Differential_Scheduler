@@ -1,7 +1,7 @@
 /**
  * WHY: Keeps TheCustomizer.vue under vue-architecture script line limit.
  */
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { Direction, Layout, Skins, Theme } from '@core/enums'
 import { ContentWidth } from '@layouts/enums'
 import horizontalLight from '@images/customizer-icons/horizontal-light.svg'
@@ -13,7 +13,27 @@ import ltrSvg from '@images/customizer-icons/ltr-light.svg'
 import rtlSvg from '@images/customizer-icons/rtl-light.svg'
 import wideSvg from '@images/customizer-icons/wide-light.svg'
 
-export function useCustomizerOptions() {
+type ThemeValue = (typeof Theme)[keyof typeof Theme]
+type SkinsValue = (typeof Skins)[keyof typeof Skins]
+type LayoutValue = (typeof Layout)[keyof typeof Layout]
+type ContentWidthValue = (typeof ContentWidth)[keyof typeof ContentWidth]
+type DirectionValue = (typeof Direction)[keyof typeof Direction]
+
+export interface CustomizerOption<T> {
+  bgImage: string | Record<string, unknown>
+  value: T
+  label: string
+}
+
+export interface UseCustomizerOptionsReturn {
+  themeMode: ComputedRef<CustomizerOption<ThemeValue>[]>
+  themeSkin: ComputedRef<CustomizerOption<SkinsValue>[]>
+  layouts: ComputedRef<CustomizerOption<LayoutValue>[]>
+  contentWidth: ComputedRef<CustomizerOption<ContentWidthValue>[]>
+  direction: ComputedRef<CustomizerOption<DirectionValue>[]>
+}
+
+export function useCustomizerOptions(): UseCustomizerOptionsReturn {
   const themeMode = computed(() => [
     { bgImage: 'tabler-sun', value: Theme.Light, label: 'Light' },
     { bgImage: 'tabler-moon-stars', value: Theme.Dark, label: 'Dark' },

@@ -1,9 +1,19 @@
+import { computed, h, watch, type ComputedRef } from 'vue'
 import { VThemeProvider } from 'vuetify/components/VThemeProvider'
 import { useConfigStore } from '@core/stores/config'
 import { AppContentLayoutNav } from '@layouts/enums'
 
+export interface UseSkinsReturn {
+  injectSkinClasses: () => void
+  layoutAttrs: ComputedRef<{
+    verticalNavAttrs: {
+      wrapper: ReturnType<typeof h>
+      wrapperProps: { withBackground: boolean; theme: string | undefined }
+    }
+  }>
+}
 
-export const useSkins = () => {
+export const useSkins = (): UseSkinsReturn => {
   const configStore = useConfigStore()
 
   const layoutAttrs = computed(() => ({
