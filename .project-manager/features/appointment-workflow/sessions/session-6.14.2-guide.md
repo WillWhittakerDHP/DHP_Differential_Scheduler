@@ -16,7 +16,7 @@
 
 ### Tasks
 
-- [ ] #### Task 6.14.2.1: Audit + server wiring and validation parity
+- [x] #### Task 6.14.2.1: Audit + server wiring and validation parity
 
 **Goal:** Inventory remaining server routes and handlers that read numeric policy; wire `resolveNumericPolicyForAvailabilityAndCalendar` (or equivalent) so validation matches computed availability; document any intentional exceptions in phase handoff.
 

@@ -34,6 +34,11 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 
 **Plan changes affecting downstream:** None beyond clarifying 6.14 as two-session phase.
 
+### Task 6.14.2.1 (server wiring — 2026-03-23)
+
+- **`getHoldDurationFromSettings`** and **`getAdminEntryTimeoutFromSettings`** (`server/src/routes/internal/appointments/appointmentSettingsHelpers.ts`) now load availability + calendar and call **`resolveNumericPolicyForAvailabilityAndCalendar`**, using **`policy.holdsAndAdminEntry`** for bounds, default hold minutes, and admin entry timeout. This matches the merge used by **`computedAvailabilityService`** and org defaults JSONB. Previously these helpers read **calendar settings only**, which could diverge from merged policy.
+- **Documented exceptions:** None for these entry points; calendar-only hold/timeout reads were replaced rather than grandfathered.
+
 ---
 
 ## Phase Summary
