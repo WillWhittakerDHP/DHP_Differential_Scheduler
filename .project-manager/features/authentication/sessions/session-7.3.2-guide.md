@@ -412,3 +412,5 @@ Break each session into focused tasks:
 
 - Depends on **7.3.1** (`issueMagicLinkForEmail`, token TTL). Verify + `Set-Cookie` belongs to **7.3.3**.
 - Planning: `.project-manager/features/authentication/sessions/session-7.3.2-planning.md`
+
+<!-- end excerpt session -->

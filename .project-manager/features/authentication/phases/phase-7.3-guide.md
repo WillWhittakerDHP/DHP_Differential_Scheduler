@@ -34,7 +34,7 @@
 - Align with `strategyTypes` and session manager boundaries
 - Expiry, single-use or rotation policy, and logging on failure
 
-- [ ] ### Session 7.3.2: Request magic link + delivery abstraction
+- [x] ### Session 7.3.2: Request magic link + delivery abstraction
 **Description:** HTTP surface to request a link for an identifier (email); outbound email when configured, structured console/log path in dev.  
 **Tasks:** 3  
 **Focus:**
