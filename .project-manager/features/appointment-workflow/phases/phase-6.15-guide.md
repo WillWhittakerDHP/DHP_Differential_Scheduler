@@ -1,123 +1,87 @@
-# Phase 6.15 Guide Template
+# Phase 6.15 Guide: Admin Brand Customization — Logo Upload & Color Anchors
 
-**Purpose:** Phase-level guide for planning and tracking major milestones
+**Purpose:** Phase-level guide for per-wizard brand assets and theme anchors: persisted logo URL and primary/secondary hex on `wizard_settings`, server upload + public serving, admin extraction/selection of anchors, and wiring into the OKLCH pipeline plus BookingWizard header.
 
 **Tier:** Phase (Tier 1 - High-Level)
 
 ---
 
-## Phase Overview
+## Overview
 
-**Phase Number:** 6.15
-**Phase Name:** Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); 
-**Description:** Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); 
+**Phase Number:** 6.15  
+**Phase Name:** Admin Brand Customization: Logo Upload & Color Anchors  
+**Description:** Logo upload (file storage + public serving); client-side color extraction from the uploaded image; admin verification of primary and secondary anchor hex; DB fields for anchors and logo URL; replace hardcoded `DHP_ANCHOR_PRIMARY` / `DHP_ANCHOR_SECONDARY` with DB-sourced values in `theme.ts` / `useThemeMode`; render the logo in the BookingWizard header. Depends on **Phase 6.13** (wizard theme tokens / OKLCH pipeline).
 
-**Duration:** [Estimated weeks/months]
-**Status:** [Not Started / In Progress / Complete]
-
----
-
-## Phase Objectives
-
-- [Objective 1]
-- [Objective 2]
-- [Objective 3]
+**Duration:** Three sessions (6.15.1 data + API, 6.15.2 admin UI, 6.15.3 wizard consumption).  
+**Status:** In Progress — phase started; run sessions in order, then `/phase-end 6.15 appointment-workflow` when success criteria are met.
 
 ---
 
-## Sessions Breakdown
+## Objectives
 
-- [ ] ### Session 6.15: [SESSION_NAME]
-**Description:** [What this session accomplishes]
-**Tasks:** [Number of tasks]
-**Focus:**
-- [Focus area 1]
-- [Focus area 2]
-
-- [ ] ### Session [SESSION_ID+1]: [SESSION_NAME]
-**Description:** [What this session accomplishes]
-**Tasks:** [Number of tasks]
-**Focus:**
-- [Focus area 1]
-- [Focus area 2]
-
----
-
-## Dependencies
-
-**Prerequisites:**
-- [Dependency 1]
-- [Dependency 2]
-
-**Downstream Impact:**
-- [How this phase affects later phases]
-
----
-
-## Success Criteria
-
-- [ ] All sessions completed
-- [ ] All focus areas addressed
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Ready for next phase
-
----
-
-## End of Phase Workflow
-
-**CRITICAL: Prompt before completing phase**
-
-After completing all sessions in a phase, **prompt the user** before running `/phase-end`:
-
-```
-## Ready to Complete Phase?
-
-All sessions complete. Ready to run phase-completion workflow?
-
-**This will:**
-- Mark phase complete (update checkboxes and status)
-- Update phase log with completion summary
-- Update main handoff document
-- Git commit/push
-
-**Proceed with /phase-end?** (yes/no)
-```
-
-**If user says "yes":**
-- Run `/phase-end` command automatically
-- Complete all phase-completion steps
-
-**If user says "no":**
-- Address any requested changes
-- Re-prompt when ready
-
-After completing all sessions in a phase:
-
-1. **Verify phase completion** - All sessions complete, success criteria met
-2. **Update phase status** - Mark phase as Complete
-3. **Update phase handoff** - Document phase completion and transition context
-4. **Workflow Feedback** (Optional - only if issues encountered):
-   - Were there any problems managing this phase workflow or issues with results?
-   - Note any sticking points, inefficiencies, or workflow friction for future improvement
-   - Consider if phase-level issues suggest improvements needed at session or task level
-
----
-
-## Notes
-
-[Phase-specific notes, decisions, blockers]
-
----
-
-## Related Documents
-
-- Phase Log: `.cursor/workflow-manager/vue-migration/phases/phase-6.15-log.md`
-- Phase Handoff: `.cursor/workflow-manager/vue-migration/phases/phase-6.15-handoff.md`
-- Session Guides: `.cursor/workflow-manager/vue-migration/sessions/session-[X.Y]-guide.md`
+- Persist `brand_primary_hex`, `brand_secondary_hex`, and `logo_url` (or agreed column names) on `wizard_settings` with a safe migration.
+- Expose multer (or equivalent) upload, public URL for the asset, and GET/PUT brand settings aligned with existing wizard settings patterns.
+- Admin UI: upload logo, extract colors, edit anchors, live palette preview via `buildWizardModePaletteFromAnchors`, save round-trip.
+- Wizard: load anchors from API into theme composables; show logo in `BookingWizard.vue`; verify light/dark and mode combinations without silent misconfiguration.
 
 ---
 
 ## Tasks
 
-Sessions and tasks for this phase. [See Sessions Breakdown below.]
+- Land migration and server routes; only run migrations where project policy allows (`DB_HOST` localhost guard).
+- Implement admin brand surface and wire to API.
+- Integrate theme pipeline and header; client lint; update handoffs per session.
+
+### Sessions Breakdown
+
+- [ ] ### Session 6.15.1: DB schema and brand settings API with logo upload  
+**Goal:** Add columns and migration for brand fields on `wizard_settings`; implement upload endpoint and brand GET/PUT; serve uploaded files under the agreed public path; log errors per project standards.  
+**Files:** Sequelize model(s), migration, wizard settings routes, upload middleware, static serving config as used elsewhere in the server.  
+**Approach:** Follow existing `wizard_settings` API shapes; return typed payloads for client; document URL shape for the logo.  
+**Checkpoint:** Migration applies on dev DB; API accepts and returns brand fields; uploaded file is reachable at the URL stored in DB.
+
+- [ ] ### Session 6.15.2: Admin brand UI with extraction, anchors, and palette preview  
+**Goal:** Let admins upload a logo, derive candidate colors from the image, pick/verify primary and secondary hex, preview palettes, and save.  
+**Files:** Admin Vue components and composables under `client/src/` (brand settings tab or agreed surface), API client calls from 6.15.1.  
+**Approach:** Thin components; composable for extraction + form state; use `buildWizardModePaletteFromAnchors` for preview; explicit save/load.  
+**Checkpoint:** Round-trip save/load; preview matches saved anchors; no placeholder UX.
+
+- [ ] ### Session 6.15.3: Wizard theme wiring and BookingWizard logo integration  
+**Goal:** Replace hardcoded anchor constants with values from loaded wizard settings; render logo in the wizard header; verify combinations.  
+**Files:** `theme.ts`, `useThemeMode`, `BookingWizard.vue`, wizard data loaders that already fetch `wizard_settings`.  
+**Approach:** Single source of truth from API; fallbacks only where explicitly documented (no silent hides); manual verification matrix for mode × theme.  
+**Checkpoint:** Custom brand visible end-to-end; client lint clean; regressions documented or fixed.
+
+---
+
+## Dependencies
+
+**Prerequisites:** Phase **6.13** complete (OKLCH / wizard theme token pipeline).  
+**Downstream:** Later phases may assume brand fields exist on `wizard_settings`; avoid breaking default wizard when columns are null.
+
+---
+
+## Success Criteria
+
+- [ ] Migration + API + upload path complete — **6.15.1**
+- [ ] Admin can configure logo and anchors with preview — **6.15.2**
+- [ ] Wizard uses DB anchors and shows logo — **6.15.3**
+- [ ] Client and server lint pass at phase close; app starts (`npm run start:dev`)
+- [ ] Phase handoff and feature guide table updated when phase ends
+
+---
+
+## End of Phase Workflow
+
+After all sessions complete, confirm with Will before running:
+
+`/phase-end 6.15 appointment-workflow`
+
+---
+
+## Related Documents
+
+- `phases/phase-6.15-planning.md`
+- `feature-appointment-workflow-guide.md` (Phase 6.15 row)
+- `phases/phase-6.13-guide.md` (theme token dependency)
+- Session guides: `sessions/session-6.15.1-guide.md`, `sessions/session-6.15.2-guide.md`, `sessions/session-6.15.3-guide.md`
