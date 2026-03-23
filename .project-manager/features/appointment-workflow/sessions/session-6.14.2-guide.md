@@ -17,22 +17,56 @@
 ### Tasks
 
 - [ ] #### Task 6.14.2.1: Audit + server wiring and validation parity
-**Goal:** Inventory remaining server routes/handlers that read numeric policy; wire `resolveNumericPolicyForAvailabilityAndCalendar` (or equivalent) so validation matches computed availability; document any intentional exceptions.
-**Files:** `server/src/services/organizationNumericPolicyService.ts`, `server/src/services/computedAvailabilityService.ts`, grep targets under `server/src/routes/internal/`, appointment validation modules.
+
+**Goal:** Inventory remaining server routes and handlers that read numeric policy; wire `resolveNumericPolicyForAvailabilityAndCalendar` (or equivalent) so validation matches computed availability; document any intentional exceptions in phase handoff.
+
+**Files:** `server/src/services/organizationNumericPolicyService.ts`, `server/src/services/computedAvailabilityService.ts`, `server/src/routes/internal/` (appointment and availability routes), validation modules that enforce slot or timing policy.
+
 **Approach:** Grep for raw availability/calendar numeric reads; align each with shared resolver inputs; add short comments where an exception is required.
+
 **Checkpoint:** Server paths that enforce policy for booking use the same merge as computed availability, or exceptions are written in handoff.
 
 - [ ] #### Task 6.14.2.2: Client booking alignment + optional admin badges
-**Goal:** Align client booking composables with resolved policy contract (from API or shared resolver after fetch); add minimal “using org default” affordances on high-traffic admin fields where useful.
-**Files:** `client/src/composables/booking/` (call sites), `BusinessControlsTab.vue`, `BusinessControlsOrganizationSection.vue`, related calendar/availability panels.
-**Approach:** Prefer consuming server-resolved payloads; if client must resolve locally, use shared utils and one documented pattern.
-**Checkpoint:** Wizard/admin behavior matches server policy; badges optional but consistent where added.
+
+**Goal:** Align client booking composables with the resolved policy contract (prefer API payloads that embed policy; if client resolves locally, use shared utils and one documented pattern). Add minimal “using org default” affordances on high-traffic admin fields where useful.
+
+**Files:** `client/src/composables/booking/`, `client/src/views/admin/tabs/BusinessControlsTab.vue`, `BusinessControlsOrganizationSection.vue`, calendar/availability panels as needed.
+
+**Approach:** Prefer server-resolved values; avoid duplicate merge logic unless documented.
+
+**Checkpoint:** Wizard/admin behavior matches server policy; badges consistent where added.
 
 - [ ] #### Task 6.14.2.3: Docs, handoff, quality gate
-**Goal:** Update `phase-6.14-handoff.md`, `phase-6.14-log.md` as appropriate; run client + server lint; verify app start.
-**Files:** `.project-manager/features/appointment-workflow/phases/phase-6.14-handoff.md`, session handoff, phase guide success criteria checkboxes.
-**Approach:** Close phase 6.14 success criteria or list explicit deferrals; no silent gaps.
+
+**Goal:** Update phase handoff and session log; run client and server lint; verify app start; check phase success criteria or list explicit deferrals.
+
+**Files:** `phases/phase-6.14-handoff.md`, `phases/phase-6.14-log.md`, `sessions/session-6.14.2-handoff.md`, `phases/phase-6.14-guide.md` success criteria.
+
+**Approach:** Close the loop on documentation; no silent gaps.
+
 **Checkpoint:** Lint passes; phase guide reflects delivered vs deferred honestly.
+
+---
+
+## Session Workflow
+
+### Before starting
+
+1. Confirm you are on branch `session-6.14.2` (created by `/accepted-proceed`).
+2. Read `sessions/session-6.14.2-planning.md` and `sessions/session-6.14.1-planning.md` → *Outcome: delivered vs deferred*.
+3. Work tasks **6.14.2.1** → **6.14.2.3** in order unless a dependency forces a swap (document in session handoff).
+
+### During the session
+
+1. One task at a time; checkpoint after each task.
+2. No silent fallbacks: use `createLogger` in catch paths per project standards.
+3. Testing: deferred to Phase 3.0 unless explicitly unblocked.
+
+### After the session
+
+1. `cd client && npm run lint` and `cd server && npm run lint`.
+2. Verify app starts (`npm run start:dev` or project script).
+3. `/session-end 6.14.2` when scope is complete; then `/phase-end 6.14` when phase success criteria are met.
 
 ---
 
