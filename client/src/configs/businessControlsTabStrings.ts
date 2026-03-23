@@ -171,6 +171,26 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     driveTimeRoundingMinutesLabel: 'Billable drive rounding (minutes)',
     driveTimeRoundingMinutesHint: 'Billable drive time is rounded up to this increment. Must be at least 1 minute.'
   },
+  brand: {
+    sectionTitle: 'Brand customization',
+    sectionHint:
+      'Logo and anchor colors for the booking wizard when Brand colors is enabled. Click Save settings to persist.',
+    currentLogoAlt: 'Current wizard logo',
+    logoLabel: 'Logo file',
+    logoHint: 'PNG or JPEG. Choose a file, then upload or extract colors.',
+    uploadButton: 'Upload logo',
+    extractButton: 'Extract colors from image',
+    primaryHexLabel: 'Primary anchor (hex)',
+    primaryHexHint: 'Six-digit hex (e.g. #EED202). Drives the yellow family in OKLCH-derived palettes.',
+    secondaryHexLabel: 'Secondary anchor (hex)',
+    secondaryHexHint: 'Six-digit hex (e.g. #FF3333). Drives the red family.',
+    previewTitle: 'Preview (standard mode)',
+    previewPrimary: 'Primary',
+    previewSecondary: 'Secondary',
+    previewWarning: 'Warning',
+    uploadFailed: 'Upload failed. Check the file and try again.',
+    extractFailed: 'Could not read colors from this image. Try another file.'
+  },
   driveTime: {
     calculatedTitle: 'Calculated Drive Times',
     calculatedCaption: 'Drive times will be calculated using Google Maps Routes API based on your default location and appointment addresses.',
