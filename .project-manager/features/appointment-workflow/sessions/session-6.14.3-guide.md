@@ -16,7 +16,7 @@
 
 ### Tasks
 
-- [ ] #### Task 6.14.3.1: Exhaustive grep audit — wire or document exceptions
+- [x] #### Task 6.14.3.1: Exhaustive grep audit — wire or document exceptions
 
 **Goal:** Inventory remaining server and client call sites that read numeric policy from org + availability + calendar; ensure each uses the shared resolver contract or has an explicit, written exception in code + `phases/phase-6.14-handoff.md`.
 

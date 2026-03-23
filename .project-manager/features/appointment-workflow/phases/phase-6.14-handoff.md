@@ -66,6 +66,27 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 - **Optional** “using org default” UI on legacy Calendar/Availability panels — **not shipped**; tracked as **session 6.14.3**.
 - **Exhaustive** audit of every remaining numeric read in the repo — not claimed in 6.14.2; primary booking + validation paths above are aligned. **Session 6.14.3** owns the exhaustive pass (wire or document).
 
+### Session 6.14.3.1 — exhaustive audit (2026-03-23)
+
+**Goal:** Inventory remaining **booking-relevant** numeric policy reads; wire merged policy or document **exempt** paths (admin persistence, validation of stored documents, incremental `constraintBaselines`).
+
+| Area | Location / pattern | Action |
+|------|-------------------|--------|
+| Server — computed slots | `computedAvailabilityService.ts` | **Aligned** — `resolveNumericPolicyForAvailabilityAndCalendar` before slot computation; response built from merged `settingsWithResolvedNumericPolicy`. |
+| Server — API response shape | `buildComputedAvailabilityResponse` (`computedAvailabilityResponseHelpers.ts`) | **Aligned** — `minuteIncrement` / `durationRounding` come from merged settings object passed by caller. |
+| Server — hold / admin timeout | `getHoldDurationFromSettings`, `getAdminEntryTimeoutFromSettings` (`appointmentSettingsHelpers.ts`) | **Aligned** (6.14.2) — merged policy. |
+| Server — slot math | `slotComputationService.ts` | **Aligned** — receives `minuteIncrement` as parameters from merged pipeline (no independent policy read). |
+| Server — persistence / codec | `availabilityRelationalCodec.ts`, `availabilityPersistenceChunks.ts`, validators | **Exempt** — map DB rows to/from `AvailabilitySettingsData`; validate saved payloads. Not runtime merge for booking. |
+| Server — org defaults API | `organizationNumericPolicyService.ts`, `organizationDefaults*` routes | **Resolver infrastructure** — not booking consumers. |
+| Client — computed availability fetch | `computedAvailabilityFetchCore.ts` | **Aligned** — reflects server response (already merged on server). |
+| Client — appointment shape / rounding | `useAppointmentShape.ts` | **Aligned** (6.14.2) — `resolveBookingNumericPolicyFromLoadedData` for `timeAndRounding`. |
+| Client — confirmation fee / drive line | `useConfirmationStepData.ts` | **Wired (6.14.3.1)** — loads org defaults + calendar in parallel with availability; uses `resolveBookingNumericPolicyFromLoadedData` → `driveTimeFee` for `buildConfirmationPriceData`, with fallback to raw availability `driveTimeFee` if merge fails. |
+| Client — orchestrator minute increment fallback | `useAvailabilityOrchestratorPostFetchPhase.ts` (`computedAvailability…minuteIncrement ?? 15`) | **Aligned** — uses computed-availability payload from server (merged), not a separate raw merge. |
+| Client — after-appointment buffer | `useAfterAppointmentBufferMinutes.ts` | **Exempt** — reads `buffers.appointment` from persisted availability settings for orchestration timing; org-level **constraintBaselines** buffer merge is not in scope for this pass (see `FIELD_INVENTORY` in `organizationDefaults.ts`). |
+| Client — admin Business Controls | `useBusinessControlsFormState`, grid/duration panels, `BusinessControlsOrganizationSection` | **Exempt** — edit stored org/availability documents, not wizard booking merge. |
+
+**Grep follow-up:** Re-run when adding new booking or fee features: `minuteIncrement`, `durationRounding`, `driveTimeFee`, `resolveNumericPolicyForAvailabilityAndCalendar`, `resolveBookingNumericPolicyFromLoadedData`.
+
 ---
 
 ## Phase Summary
