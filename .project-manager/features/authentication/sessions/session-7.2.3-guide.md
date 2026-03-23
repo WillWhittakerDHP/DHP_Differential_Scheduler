@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 7.2.3.1: Session-backed requireAuth middleware
+- [x] #### Task 7.2.3.1: Session-backed requireAuth middleware
 **Goal:** Read session id from cookie, load `Session` row, require `userId`, load `User`, set `req.user` (`id`, `role` from `userRole`); respond 401 with typed JSON when unauthenticated or on server errors (logged).
 **Files:** 
 - `server/src/middlewares/security.ts`

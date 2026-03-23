@@ -16,12 +16,6 @@
 - Respect **migration authority**: run DDL only when `DB_HOST` is localhost; otherwise author migrations for execution on the DB host.
 - No auth middleware, routes, or client UI in this phase — Phase 7.2+ only.
 
-## Tasks
-
-Sessions and tasks for this phase. See **Sessions Breakdown** below.
-
----
-
 ## Sessions Breakdown
 
 - [x] ### Session 7.1.1: Migrations — sessions & magic_links
@@ -50,9 +44,19 @@ Sessions and tasks for this phase. See **Sessions Breakdown** below.
 
 ## Success Criteria
 
-- [ ] All sessions in this phase completed
-- [ ] Migrations and models reviewed against PROJECT_PLAN Feature 7 step 1
-- [ ] Ready for `/phase-end 7.1` when scoped work is done
+- [x] All sessions in this phase completed
+- [x] Migrations and models reviewed against PROJECT_PLAN Feature 7 step 1
+- [x] Ready for Phase 7.2 (session manager, middleware, strategies)
+
+---
+
+## End of Phase Workflow
+
+After completing all sessions in a phase, **prompt the user** before running `/phase-end`:
+
+1. **Verify phase completion** — All sessions complete, success criteria met  
+2. **Update phase status** — Mark phase as Complete  
+3. **Update phase handoff** — Document phase completion and transition context  
 
 ---
 
@@ -61,5 +65,3 @@ Sessions and tasks for this phase. See **Sessions Breakdown** below.
 - Feature guide: `.project-manager/features/authentication/feature-authentication-guide.md`
 - Phase planning: `.project-manager/features/authentication/phases/phase-7.1-planning.md`
 - Session guides: `.project-manager/features/authentication/sessions/session-7.1.*-guide.md`
-
-<!-- end excerpt phase -->
