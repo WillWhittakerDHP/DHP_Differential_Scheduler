@@ -26,7 +26,7 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
 **Last Completed:** Task 
 **Next Session:** Session 6.13.2
-**Git Branch:** `phase-6.13`
+**Git Branch:** `session-6.13.2`
 **Last Updated:** 2026-03-23
 
 ## Next Action
