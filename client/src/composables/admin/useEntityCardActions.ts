@@ -4,6 +4,7 @@
 WHY: Moves business logic out of compone...
  */
 import { isRef, ref, type Ref } from 'vue'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useEntityForm } from '../useEntityForm'
 import { useEntityCrud } from '../entityCrud/useEntityCrud'
 import { useNotification } from '../useNotification'
@@ -30,6 +31,7 @@ export function useEntityCardActions(options: UseEntityCardActionsOptions): UseE
     : ref(entityOption)
 
   const { create: createEntity, update: updateEntity, remove } = useEntityCrud(entityKey)
+  const queryClient = useQueryClient()
 
   const { success, error: showError } = useNotification()
 
@@ -60,6 +62,7 @@ export function useEntityCardActions(options: UseEntityCardActionsOptions): UseE
       getEntityCreateMessage,
       getEntitySuccessMessage,
       onSaved,
+      queryClient,
     })
   }
 

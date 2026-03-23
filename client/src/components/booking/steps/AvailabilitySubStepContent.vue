@@ -4,7 +4,7 @@
   Task 6.9.4.1: Step 4 is completion slots only; contingency lives in step 1 when moveable + preClosing.
 -->
 <script setup lang="ts">
-import { inject, computed, watch } from 'vue'
+import { inject, computed, ref, watch } from 'vue'
 import { availabilitySubStepContextKey } from '@/keys/bookingInjectionKeys'
 import { AVAILABILITY_SUBSTEP_UI } from '@/constants/availabilityStepConstants'
 import SlotGridWithOverlay from '@/components/booking/steps/SlotGridWithOverlay.vue'
@@ -86,17 +86,14 @@ const deadlineDateNativeAttrs = computed(() => {
   return min !== undefined && min !== '' ? { min } : {}
 })
 
-const deadlineTimeNativeAttrs = computed(() => {
-  const min = contingencyDeadlineMinTime.value
+/** Restricts VTimePicker dial to only minutes aligned with admin grid increment (e.g. 0, 15, 30, 45). */
+const allowedDeadlineMinutes = computed(() => {
   const minutes = ctx!.o.availabilityMinuteIncrement.value
-  const safeMinutes = Number.isFinite(minutes) && minutes > 0 ? Math.round(minutes) : 15
-  /** HTML `step` on `input type="time"` is in seconds; matches admin grid increment. */
-  const stepSeconds = safeMinutes * 60
-  return {
-    step: stepSeconds,
-    ...(min !== undefined && min !== '' ? { min } : {}),
-  }
+  const step = Number.isFinite(minutes) && minutes > 0 ? Math.round(minutes) : 15
+  return (m: number): boolean => m % step === 0
 })
+
+const deadlineTimeMenuOpen = ref(false)
 
 /** Full YYYY-MM-DD only — avoids clobbering partial input while typing. */
 function coerceDeadlineDateInput(raw: unknown): string | null {
@@ -288,16 +285,30 @@ watch(
               />
             </VCol>
             <VCol cols="6">
-              <VTextField
-                :model-value="ctx.o.contingencyPeriod.value.endTime"
-                :label="AVAILABILITY_SUBSTEP_UI.DEADLINE_TIME"
-                type="time"
-                variant="outlined"
-                density="comfortable"
-                hide-details="auto"
-                v-bind="deadlineTimeNativeAttrs"
-                @update:model-value="onDeadlineTimeModelUpdate"
-              />
+              <VMenu
+                v-model="deadlineTimeMenuOpen"
+                :close-on-content-click="false"
+                location="bottom start"
+              >
+                <template #activator="{ props: menuProps }">
+                  <VTextField
+                    :model-value="ctx.o.contingencyPeriod.value.endTime"
+                    :label="AVAILABILITY_SUBSTEP_UI.DEADLINE_TIME"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details="auto"
+                    readonly
+                    v-bind="menuProps"
+                  />
+                </template>
+                <VTimePicker
+                  :model-value="ctx.o.contingencyPeriod.value.endTime"
+                  :allowed-minutes="allowedDeadlineMinutes"
+                  :min="contingencyDeadlineMinTime"
+                  format="ampm"
+                  @update:model-value="(v: string | null) => { onDeadlineTimeModelUpdate(v); deadlineTimeMenuOpen = false }"
+                />
+              </VMenu>
             </VCol>
           </VRow>
         </div>

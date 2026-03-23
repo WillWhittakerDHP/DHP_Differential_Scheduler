@@ -108,11 +108,12 @@ const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
 const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
 const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
 
-/** Step 4 panel only when user must pick a completion slot (Yes + deadline). "No" uses silent confirm below. */
-const showMoveableSubstep = computed(
-  () =>
-    o.hasMoveablePartsGated.value && o.contingencyPeriod.value.hasContingency === true
-)
+/** Step 4 only when completion slots are required: gated + Yes + deadline. "No" skips the panel; silent confirm runs below. */
+const showMoveableSubstep = computed(() => {
+  if (!o.hasMoveablePartsGated.value) return false
+  const c = o.contingencyPeriod.value
+  return c.hasContingency === true && Boolean(c.endDate && c.endTime)
+})
 
 const tailorSubStepComplete = computed(() => {
   const optsOk = !hasOptions.value || o.selectedOptionTypeBlockId.value !== null

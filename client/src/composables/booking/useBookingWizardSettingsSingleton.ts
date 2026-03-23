@@ -16,6 +16,7 @@ const hasSettled = ref(false)
 let inFlight: Promise<void> | null = null
 
 function runLoad(): Promise<void> {
+  if (hasSettled.value) return Promise.resolve()
   if (inFlight) return inFlight
   isLoading.value = true
   const p = getWizardSettings()

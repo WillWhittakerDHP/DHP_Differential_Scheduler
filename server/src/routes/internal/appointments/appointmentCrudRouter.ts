@@ -104,7 +104,11 @@ const router = createCrudRouter({
         body._currentStatus = existing.status
 
         const newStatus = body.status as AppointmentStatus
-        if (!isValidTransition(existing.status, newStatus)) {
+        // WHY: State machine lists only forward transitions — same→same is a no-op save, not a transition.
+        if (
+          existing.status !== newStatus &&
+          !isValidTransition(existing.status, newStatus)
+        ) {
           res.status(400).json({
             error: ERROR_MESSAGES.INVALID_STATUS_TRANSITION,
             details: `Cannot transition from '${existing.status}' to '${newStatus}'`,

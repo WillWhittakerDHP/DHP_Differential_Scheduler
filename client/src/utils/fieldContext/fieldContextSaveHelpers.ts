@@ -40,7 +40,8 @@ function relationshipIdFromItem(item: unknown): string | null {
   return null
 }
 
-function relationshipIdsFromFieldValue(value: unknown): string[] {
+/** Exported for entity card Save: relationship field sync outside field-context blur. */
+export function relationshipIdsFromFieldValue(value: unknown): string[] {
   if (value === undefined || value === null) {
     return []
   }
@@ -51,7 +52,7 @@ function relationshipIdsFromFieldValue(value: unknown): string[] {
   return one !== null ? [one] : []
 }
 
-function dedupeIdsPreserveOrder(ids: string[]): string[] {
+export function dedupeIdsPreserveOrder(ids: string[]): string[] {
   const seen = new Set<string>()
   const out: string[] = []
   for (const id of ids) {
@@ -131,26 +132,20 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
   await Promise.all(promises)
 }
 
-export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
-  params: SaveRelationshipFieldParams<GE, FieldKey>
-): Promise<void> {
-  const { state, currentEntity, fieldKeyString, queryClient } = params
-
-  const relationshipKey = fieldKeyString as GlobalRelationshipKey
+/**
+ * POST/DELETE relationship rows to match desired child IDs (no cache invalidation).
+ * WHY: Shared by blur-save and entity card Save.
+ */
+export async function applyRelationshipIdDiff(params: {
+  relationshipKey: GlobalRelationshipKey
+  parentId: string
+  oldIds: string[]
+  newIds: string[]
+}): Promise<void> {
+  const { relationshipKey, parentId, oldIds, newIds } = params
   const relationshipEndpoint = getRelationshipEndpoint(relationshipKey)
-
-  const entityRecord = currentEntity as Record<string, ValidAdminValue | undefined>
-  const currentValue = Object.prototype.hasOwnProperty.call(entityRecord, fieldKeyString)
-    ? entityRecord[fieldKeyString]
-    : undefined
-  const oldValues = relationshipIdsFromFieldValue(currentValue)
-
-  const rawValue = state.value.value
-  const plainValue = toRaw(rawValue)
-  const newValues = dedupeIdsPreserveOrder(relationshipIdsFromFieldValue(plainValue))
-
-  const parentId = String(state.entityId)
-  const { toAdd, toRemove } = calculateArrayDiff(oldValues, newValues)
+  const normalizedNew = dedupeIdsPreserveOrder(newIds)
+  const { toAdd, toRemove } = calculateArrayDiff(oldIds, normalizedNew)
 
   const promises: Promise<void>[] = [
     ...toAdd.map((childId) => {
@@ -175,6 +170,32 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   ]
 
   await Promise.all(promises)
+}
+
+export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+  params: SaveRelationshipFieldParams<GE, FieldKey>
+): Promise<void> {
+  const { state, currentEntity, fieldKeyString, queryClient } = params
+
+  const relationshipKey = fieldKeyString as GlobalRelationshipKey
+
+  const entityRecord = currentEntity as Record<string, ValidAdminValue | undefined>
+  const currentValue = Object.prototype.hasOwnProperty.call(entityRecord, fieldKeyString)
+    ? entityRecord[fieldKeyString]
+    : undefined
+  const oldValues = relationshipIdsFromFieldValue(currentValue)
+
+  const rawValue = state.value.value
+  const plainValue = toRaw(rawValue)
+  const newValues = relationshipIdsFromFieldValue(plainValue)
+
+  const parentId = String(state.entityId)
+  await applyRelationshipIdDiff({
+    relationshipKey,
+    parentId,
+    oldIds: oldValues,
+    newIds: newValues,
+  })
 
   await invalidateEntityQueries(queryClient, {
     entityKey: state.entityKey,

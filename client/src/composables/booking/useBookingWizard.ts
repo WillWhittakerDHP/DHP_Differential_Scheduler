@@ -18,6 +18,11 @@ import {
   syncAvailabilityOptionSelectionFromAvailable,
   type BookingWizardSelectionRefs,
 } from '@/composables/booking/bookingWizardSelectionActions'
+import {
+  restoreMultiCascadeSelection,
+  restoreSingleCascadeSelection,
+  wizardCascadeBlockIds,
+} from '@/utils/booking/wizardCascadeReselect'
 
 /**
  * WHY: Booking Wizard Composable
@@ -96,6 +101,36 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     { immediate: true }
   )
 
+  const selectUserTypeBlockWithCascadeReselect = (block: BookingBlockInstance | null): void => {
+    const prevServiceIds = wizardCascadeBlockIds(selectedServiceTypeBlocks.value)
+    const prevPropertyIds = wizardCascadeBlockIds(selectedPropertyTypeBlocks.value)
+    const prevOptionIds = wizardCascadeBlockIds(selectedOptionTypeBlocks.value)
+    const prevCouponIds = wizardCascadeBlockIds(selectedCouponBlocks.value)
+
+    bookingWizardSelectUserType(selectionRefs, block)
+
+    if (block === null) {
+      return
+    }
+
+    selectedServiceTypeBlocks.value = restoreSingleCascadeSelection(prevServiceIds, availableServices.value)
+    selectedPropertyTypeBlocks.value = restoreSingleCascadeSelection(prevPropertyIds, availablePropertyTypeBlocks.value)
+    selectedOptionTypeBlocks.value = restoreMultiCascadeSelection(prevOptionIds, availableOptionTypeBlocks.value)
+    selectedCouponBlocks.value = restoreSingleCascadeSelection(prevCouponIds, availableCouponBlocks.value)
+  }
+
+  const toggleServiceTypeBlockWithCascadeReselect = (block: BookingBlockInstance): void => {
+    const prevPropertyIds = wizardCascadeBlockIds(selectedPropertyTypeBlocks.value)
+    const prevOptionIds = wizardCascadeBlockIds(selectedOptionTypeBlocks.value)
+    const prevCouponIds = wizardCascadeBlockIds(selectedCouponBlocks.value)
+
+    bookingWizardToggleServiceTypeBlock(selectionRefs, block)
+
+    selectedPropertyTypeBlocks.value = restoreSingleCascadeSelection(prevPropertyIds, availablePropertyTypeBlocks.value)
+    selectedOptionTypeBlocks.value = restoreMultiCascadeSelection(prevOptionIds, availableOptionTypeBlocks.value)
+    selectedCouponBlocks.value = restoreSingleCascadeSelection(prevCouponIds, availableCouponBlocks.value)
+  }
+
   return {
     state: {
       selectedUserTypeBlock,
@@ -108,8 +143,8 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
       wizardMode,
     },
     actions: {
-      selectUserTypeBlock: (block) => bookingWizardSelectUserType(selectionRefs, block),
-      toggleServiceTypeBlock: (block) => bookingWizardToggleServiceTypeBlock(selectionRefs, block),
+      selectUserTypeBlock: selectUserTypeBlockWithCascadeReselect,
+      toggleServiceTypeBlock: toggleServiceTypeBlockWithCascadeReselect,
       toggleOptionTypeBlock: (block) => bookingWizardToggleOptionTypeBlock(selectionRefs, block),
       togglePropertyTypeBlock: (block) => bookingWizardTogglePropertyTypeBlock(selectionRefs, block),
       toggleCouponBlock: (block) => bookingWizardToggleCouponBlock(selectionRefs, block),

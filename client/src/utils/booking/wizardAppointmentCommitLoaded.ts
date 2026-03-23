@@ -5,6 +5,7 @@
 import type { Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { AppointmentResponse } from '@/types/appointment'
+import type { AppointmentStatus } from '@/types/appointmentStatus'
 import type { UseWizardAppointmentManagementOptions } from '@/types/booking/wizardAppointmentManagement'
 import { applyWizardStateFromAppointment } from '@/utils/booking/wizardAppointmentApplyState'
 import { PERSIST_KEY_APPOINTMENT_ID } from '@/utils/booking/wizardAppointmentInitialRoute'
@@ -18,6 +19,7 @@ export function commitLoadedAppointmentToWizardUi(input: {
   contactsStepData: UseWizardAppointmentManagementOptions['contactsStepData']
   loadedWizardState: Ref<WizardStateData | null>
   loadedAppointmentId: Ref<string | null>
+  loadedAppointmentStatus: Ref<AppointmentStatus | null>
   selectedAppointmentId: Ref<string | null>
   completedSteps: UseWizardAppointmentManagementOptions['completedSteps']
   activeStep: UseWizardAppointmentManagementOptions['activeStep']
@@ -33,6 +35,7 @@ export function commitLoadedAppointmentToWizardUi(input: {
   })
   input.loadedWizardState.value = input.wizardState
   input.loadedAppointmentId.value = input.appointment.id
+  input.loadedAppointmentStatus.value = input.appointment.status
 
   if (input.appointmentIdOrRandom !== 'random' && typeof localStorage !== 'undefined') {
     localStorage.setItem(PERSIST_KEY_APPOINTMENT_ID, input.appointment.id)

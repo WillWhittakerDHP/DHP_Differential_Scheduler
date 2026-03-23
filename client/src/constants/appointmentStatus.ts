@@ -21,3 +21,8 @@ export const VALID_STATUS_TRANSITIONS: Record<AppointmentStatus, readonly Appoin
 export function getValidNextStatuses(currentStatus: AppointmentStatus): AppointmentStatus[] {
   return [...VALID_STATUS_TRANSITIONS[currentStatus]]
 }
+
+/** Mirrors server `isValidTransition` — used when building save payloads for loaded appointments. */
+export function isValidTransition(fromStatus: AppointmentStatus, toStatus: AppointmentStatus): boolean {
+  return (VALID_STATUS_TRANSITIONS[fromStatus] as readonly AppointmentStatus[]).includes(toStatus)
+}

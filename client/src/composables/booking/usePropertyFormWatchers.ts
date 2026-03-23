@@ -17,7 +17,7 @@ export function usePropertyFormWatchers(params: UsePropertyFormWatchersParams): 
   const { formData, loadedWizardState, isAddressExpanded, restoreFrom } = params
 
   registerPropertyFormFieldWatchers(formData)
-  registerPropertyFormWizardRestoreWatch({ formData, loadedWizardState, isAddressExpanded })
+  registerPropertyFormWizardRestoreWatch({ formData, loadedWizardState, isAddressExpanded, restoreFrom })
   registerPropertyFormRestoreFromWatch({ formData, restoreFrom, isAddressExpanded })
 
   return {}

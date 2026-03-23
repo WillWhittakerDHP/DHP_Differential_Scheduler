@@ -22,6 +22,7 @@ import { useAppointmentLoader } from '@/composables/booking/useAppointmentLoader
 import { useWizardStepDataRefs } from '@/composables/booking/useWizardStepDataRefs'
 import { useWizardValidationErrors } from '@/composables/booking/useWizardValidationErrors'
 import { useWizardAppointmentManagement } from '@/composables/booking/useWizardAppointmentManagement'
+import { createWizardAppointmentRefs } from '@/utils/booking/wizardAppointmentHandlerBuilders'
 import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDropdown'
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
@@ -115,6 +116,8 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
 
   const handleStepClick = baseHandleStepClick
 
+  const wizardAppointmentRefs = createWizardAppointmentRefs()
+
   const { create, update, fetchAll, fetchRandom } = useAppointment()
   const { loadAppointmentById } = useAppointmentLoader()
   const { create: createProperty } = useProperty()
@@ -159,6 +162,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     createProperty,
     createUser,
     showError,
+    loadedAppointmentStatus: wizardAppointmentRefs.loadedAppointmentStatus,
   })
 
   const {
@@ -170,20 +174,23 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     handleLoadAppointment,
     handleUpdateAppointment,
     handleResetWizard,
-  } = useWizardAppointmentManagement({
-    ...stepDataRefs,
-    wizard,
-    bookingData,
-    loadAppointmentById,
-    fetchRandom,
-    collectAppointmentData,
-    // @audit-allow:hardcoding:fieldMapping - pass TanStack mutation handles into appointment management composable
-    updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
-    activeStep,
-    completedSteps,
-    showError,
-    success,
-  })
+  } = useWizardAppointmentManagement(
+    {
+      ...stepDataRefs,
+      wizard,
+      bookingData,
+      loadAppointmentById,
+      fetchRandom,
+      collectAppointmentData,
+      // @audit-allow:hardcoding:fieldMapping - pass TanStack mutation handles into appointment management composable
+      updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
+      activeStep,
+      completedSteps,
+      showError,
+      success,
+    },
+    wizardAppointmentRefs
+  )
 
   provide(loadedWizardStateKey, loadedWizardState)
 

@@ -13,7 +13,6 @@ import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from 
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import { AVAILABILITY_SUBSTEP_UI } from '@/constants/availabilityStepConstants'
 import { DEFAULT_CONTINGENCY } from '@/constants/moveableScheduling'
-import { createLogger } from '@/utils/logger'
 import { useLocalTime } from '@/utils/time/localTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
@@ -34,7 +33,6 @@ import {
   computeMoveableStepperDayLabel,
 } from '@/utils/booking/moveableDayDisplayLabel'
 
-const logger = createLogger('useMoveablePartsScheduling')
 const DEFAULT_MOVEABLE_FALLBACK_LABEL = 'Post-Appointment Work'
 
 /** Re-export for tests and consumers that import from this module. */
@@ -139,13 +137,9 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
 
   const hasMoveableParts = computed(() => (moveableEventFinal.value?.roundedDuration ?? 0) > 0)
 
-  const moveableDuration = computed(() => {
-    if (!moveableEventFinal.value) {
-      logger.error('moveableDuration: no event shape with effective differentialRole=moveable')
-      return 0
-    }
-    return moveableEventFinal.value.roundedDuration ?? 0
-  })
+  const moveableDuration = computed(
+    () => moveableEventFinal.value?.roundedDuration ?? 0
+  )
 
   const moveablePartShapeName = computed(() =>
     getMoveablePartShapeName(

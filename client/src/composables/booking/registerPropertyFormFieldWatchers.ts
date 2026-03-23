@@ -31,9 +31,9 @@ export function registerPropertyFormFieldWatchers(
 }
 
 export function registerPropertyFormWizardRestoreWatch(
-  params: Pick<UsePropertyFormWatchersParams, 'formData' | 'loadedWizardState' | 'isAddressExpanded'>
+  params: Pick<UsePropertyFormWatchersParams, 'formData' | 'loadedWizardState' | 'isAddressExpanded' | 'restoreFrom'>
 ): void {
-  const { formData, loadedWizardState, isAddressExpanded } = params
+  const { formData, loadedWizardState, isAddressExpanded, restoreFrom } = params
   if (!loadedWizardState) {
     return
   }
@@ -41,6 +41,10 @@ export function registerPropertyFormWizardRestoreWatch(
   watch(
     loadedWizardState,
     (newState) => {
+      // WHY: Parent `propertyDetailsStepData` is the live source after load/edits; load snapshot would clobber on remount.
+      if (restoreFrom?.value != null) {
+        return
+      }
       if (!newState?.propertyDetails) {
         return
       }

@@ -36,7 +36,10 @@ function useBlockInstanceSelectionSingle(
     set: (id: string | null) => {
       if (id) {
         const selected = findById(availableBlocks.value, id)
-        selectedBlocks.value = selected ? [selected] : []
+        if (selected) {
+          selectedBlocks.value = [selected]
+        }
+        // WHY: Cascade list can be empty briefly on remount; do not clear a valid in-memory selection.
         return
       }
       selectedBlocks.value = []

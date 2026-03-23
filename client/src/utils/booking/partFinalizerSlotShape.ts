@@ -2,7 +2,6 @@ import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from '@/types/events'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
-import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal, SlotShape } from '@/types/appointment'
@@ -127,15 +126,6 @@ export function calculateSlotShape(
     'minor',
     mergedRoleOverrides,
   )
-  if (!majorEventShape) {
-    logger.error('calculateSlotShape: no event shape with effective differentialRole=major', {
-      availableRoles: candidateEventShapes.map((es) => ({
-        name: es.name,
-        differentialRole: es.differentialRole,
-        effective: effectiveDifferentialRole(String(es.id), es.differentialRole, mergedRoleOverrides),
-      })),
-    })
-  }
   if (majorEventShape) {
     const majorRawDuration = eventRawDurations.get(majorEventShape.id) || 0
     const majorRoundedDuration = eventRoundedDurationsByShapeId.get(majorEventShape.id) || 0

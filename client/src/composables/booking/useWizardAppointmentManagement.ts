@@ -7,17 +7,17 @@ import { useRoute } from 'vue-router'
 import type { UseWizardAppointmentManagementOptions, UseWizardAppointmentManagementReturn } from '@/types/booking/wizardAppointmentManagement'
 import { scheduleInitialAppointmentLoadFromRouteAndStorage } from '@/utils/booking/wizardAppointmentInitialRoute'
 import {
-  createWizardAppointmentRefs,
   createLoadAppointmentHandler,
   createUpdateAppointmentHandler,
   createResetWizardHandler,
+  type WizardAppointmentRefsBundle,
 } from '@/utils/booking/wizardAppointmentHandlerBuilders'
 
 export function useWizardAppointmentManagement(
-  options: UseWizardAppointmentManagementOptions
+  options: UseWizardAppointmentManagementOptions,
+  refs: WizardAppointmentRefsBundle
 ): UseWizardAppointmentManagementReturn {
   const route = useRoute()
-  const refs = createWizardAppointmentRefs()
   const handleLoadAppointment = createLoadAppointmentHandler(options, refs)
   const handleUpdateAppointment = createUpdateAppointmentHandler(options, refs)
   const handleResetWizard = createResetWizardHandler(options, refs)

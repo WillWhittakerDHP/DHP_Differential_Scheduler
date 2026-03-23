@@ -4,6 +4,7 @@
 
 import { ref, type Ref } from 'vue'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
+import type { AppointmentStatus } from '@/types/appointmentStatus'
 import type { UseWizardAppointmentManagementOptions } from '@/types/booking/wizardAppointmentManagement'
 import { createLogger } from '@/utils/logger'
 import { resetWizardStepValidationRefs } from '@/utils/booking/wizardStepValidationReset'
@@ -20,6 +21,7 @@ export type WizardAppointmentRefsBundle = {
   currentAppointmentId: Ref<string | null>
   selectedAppointmentId: Ref<string | null>
   isLoadingAppointment: Ref<boolean>
+  loadedAppointmentStatus: Ref<AppointmentStatus | null>
 }
 
 export function createWizardAppointmentRefs(): WizardAppointmentRefsBundle {
@@ -28,12 +30,14 @@ export function createWizardAppointmentRefs(): WizardAppointmentRefsBundle {
   const currentAppointmentId = loadedAppointmentId
   const selectedAppointmentId = ref<string | null>(null)
   const isLoadingAppointment = ref(false)
+  const loadedAppointmentStatus = ref<AppointmentStatus | null>(null)
   return {
     loadedWizardState,
     loadedAppointmentId,
     currentAppointmentId,
     selectedAppointmentId,
     isLoadingAppointment,
+    loadedAppointmentStatus,
   }
 }
 
@@ -85,6 +89,7 @@ export function createLoadAppointmentHandler(
         contactsStepData,
         loadedWizardState: refs.loadedWizardState,
         loadedAppointmentId: refs.loadedAppointmentId,
+        loadedAppointmentStatus: refs.loadedAppointmentStatus,
         selectedAppointmentId: refs.selectedAppointmentId,
         completedSteps,
         activeStep,
@@ -165,6 +170,7 @@ export function createResetWizardHandler(
     }
     refs.loadedWizardState.value = null
     refs.loadedAppointmentId.value = null
+    refs.loadedAppointmentStatus.value = null
     refs.selectedAppointmentId.value = null
 
     resetWizardStepValidationRefs({

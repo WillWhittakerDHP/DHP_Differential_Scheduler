@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
 import type { AppointmentRequest } from '@/types/appointment'
+import type { AppointmentStatus } from '@/types/appointmentStatus'
 import type { PropertyRequest } from '@/types/property'
 import type { UserRequest } from '@/types/user'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -28,6 +29,8 @@ export interface UseAppointmentDataCollectionParams {
     mutateAsync: (data: UserRequest) => Promise<{ id: string }>
   }
   showError: (message: string) => void
+  /** Set when an appointment was loaded; used to avoid illegal status transitions on PUT. */
+  loadedAppointmentStatus: Ref<AppointmentStatus | null>
 }
 
 export interface UseAppointmentDataCollectionReturn {

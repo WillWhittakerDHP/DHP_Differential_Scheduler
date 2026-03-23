@@ -7,7 +7,7 @@
   "license": "ISC",
   "scripts": {
     "start": "cross-env NODE_ENV=production npm run build:prod && cross-env NODE_ENV=production npm run client:build && cross-env NODE_ENV=production npm run server",
-    "restart:dev": "node scripts/start-dev.mjs",
+    "restart:dev": "node scripts/start-dev.mjs --restart",
     "start:dev:testing": "cross-env APP_STAGE=staging node scripts/start-dev.mjs",
     "preflight:commands:typecheck:client": "npm --prefix client run type-check",
     "preflight:commands:lint:server": "npm --prefix server run lint",
@@ -29,7 +29,7 @@
     "comments:audit": "node scripts/comment-tools/audit-comments.mjs",
     "comments:cleanup": "node scripts/comment-tools/cleanup-comments.mjs",
     "kill:ports": "kill-port 3000 3001 3002 3003 3004 3005 3006 3007 3008 3009 5173 || true",
-    "start:dev": "npm run restart:dev",
+    "start:dev": "node scripts/start-dev.mjs",
     "server": "npm --prefix server start",
     "server:dev": "npm --prefix server run dev",
     "server:refresh": "npm --prefix server run dev",

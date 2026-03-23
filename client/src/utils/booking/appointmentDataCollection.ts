@@ -9,6 +9,7 @@ import {
   buildAvailabilityPayload,
   buildBlockQuantities,
   buildAppointmentRequest,
+  resolveAppointmentRequestStatus,
   type WizardBlocksForBuilders,
 } from '@/utils/booking/appointmentDataBuilders'
 import { createLogger } from '@/utils/logger'
@@ -31,6 +32,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
     createProperty,
     createUser,
     showError,
+    loadedAppointmentStatus,
   } = params
 
   const { bookingData } = useBooking()
@@ -100,6 +102,11 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
             }
           : null
 
+      const status = resolveAppointmentRequestStatus({
+        existingStatus: loadedAppointmentStatus.value,
+        isQuoteMode: wizard.isQuoteMode.value,
+      })
+
       return buildAppointmentRequest({
         propertyVersionId,
         wizard: wizardBlocks,
@@ -110,6 +117,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         squareFootage,
         aduCount,
         feeDriveOptions,
+        status,
       })
     } catch (error) {
       logger.error('Failed to collect appointment data', { error })

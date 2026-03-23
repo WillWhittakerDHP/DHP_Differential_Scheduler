@@ -1,6 +1,7 @@
 
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
+import { isValidTransition } from '@/constants/appointmentStatus'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 import type { PropertyRequest } from '@/types/property'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -129,6 +130,27 @@ export function buildBlockQuantities(wizard: WizardBlocksForBuilders): BlockQuan
   }
 }
 
+/**
+ * WHY: New bookings use quoted/submitted from quote toggle; updates must not send illegal transitions
+ * (e.g. confirmed → submitted) or the server returns 400.
+ */
+export function resolveAppointmentRequestStatus(input: {
+  existingStatus: AppointmentStatus | null
+  isQuoteMode: boolean
+}): AppointmentStatus {
+  const intended: AppointmentStatus = input.isQuoteMode ? 'quoted' : 'submitted'
+  if (input.existingStatus === null) {
+    return intended
+  }
+  if (input.existingStatus === intended) {
+    return intended
+  }
+  if (isValidTransition(input.existingStatus, intended)) {
+    return intended
+  }
+  return input.existingStatus
+}
+
 export function buildAppointmentRequest(params: {
   propertyVersionId: string
   wizard: WizardBlocksForBuilders
@@ -140,6 +162,7 @@ export function buildAppointmentRequest(params: {
   aduCount: number | null
   /** Phase 6.11.5: optional drive fee row in persisted fee breakdown */
   feeDriveOptions?: AppointmentFeeBreakdownDriveOptions | null
+  status: AppointmentStatus
 }): AppointmentRequest {
   const {
     propertyVersionId,
@@ -151,6 +174,7 @@ export function buildAppointmentRequest(params: {
     squareFootage,
     aduCount,
     feeDriveOptions,
+    status,
   } = params
   const hasServiceQty = Object.keys(quantities.serviceQuantities).length > 0
   const hasPropertyQty = Object.keys(quantities.propertyQuantities).length > 0
@@ -167,7 +191,6 @@ export function buildAppointmentRequest(params: {
     aduCount,
     feeDriveOptions ?? undefined
   )
-  const status: AppointmentStatus = wizard.isQuoteMode ? 'quoted' : 'submitted'
 
   return {
     propertyVersionId,

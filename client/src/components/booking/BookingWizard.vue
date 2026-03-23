@@ -34,11 +34,14 @@ const {
   update,
   isLoadingAppointment,
   handleLoadAppointment,
+  handleUpdateAppointment,
   loadedAppointmentId,
   stepItemClass,
   stepItemStyle,
   progressSummaryStrip,
 } = useBookingWizardSetup()
+
+const currentStepComponent = computed(() => getStepContent(activeStep.value))
 
 /** Plain object for child props — unwraps ComputedRefs for vue-tsc. */
 const progressSummaryStripDisplay = computed(() => ({
@@ -59,6 +62,11 @@ const { success, error: showError } = useNotification()
 /** When viewing an existing quote, show Copy quote link instead of Submit. */
 const showCopyQuoteLink = computed(
   () => isQuoteMode.value && !!loadedAppointmentId.value && isLastStep.value
+)
+
+/** Save loaded appointment without advancing step; also shown on quote last step beside Copy link. */
+const showInlineUpdateAppointment = computed(
+  () => isUpdateSubmit.value && (!isLastStep.value || showCopyQuoteLink.value)
 )
 
 const submitButtonLabel = computed(() => {
@@ -174,7 +182,8 @@ async function handleCopyQuoteLink(): Promise<void> {
         <VCol cols="12" class="content-column">
           <VCardText class="step-content">
             <BookingProgressSummaryStrip v-bind="progressSummaryStripDisplay" />
-            <component :is="getStepContent(activeStep)" v-if="getStepContent(activeStep)" />
+            <!-- NOTE: KeepAlive + defineAsyncComponent steps caused Vue runtime: parentComponent.ctx.deactivate is not a function. -->
+            <component :is="currentStepComponent" v-if="currentStepComponent" />
             
             <!-- Navigation Footer -->
             <div class="d-flex justify-space-between mt-6">
@@ -215,7 +224,18 @@ async function handleCopyQuoteLink(): Promise<void> {
                   {{ APPOINTMENTS_TABLE_UI.COPY_QUOTE_LINK }}
                 </VBtn>
                 <VBtn
-                  v-else
+                  v-if="showInlineUpdateAppointment"
+                  variant="outlined"
+                  color="success"
+                  prepend-icon="tabler-device-floppy"
+                  :loading="update.isPending.value"
+                  :disabled="update.isPending.value"
+                  @click="handleUpdateAppointment"
+                >
+                  Update appointment
+                </VBtn>
+                <VBtn
+                  v-if="!showCopyQuoteLink"
                   :color="isLastStep ? 'success' : 'primary'"
                   :prepend-icon="isLastStep ? 'tabler-check' : undefined"
                   :append-icon="!isLastStep ? 'tabler-arrow-right' : undefined"
