@@ -51,7 +51,7 @@ These sections contain session-specific content:
 **Approach:** Single entry `sendMagicLinkNotification(...)`; no new npm deps unless already in repo; document env flags.
 **Checkpoint:** Dev path logs intent without requiring SMTP; prod path callable when env is wired.
 
-- [ ] #### Task 7.3.2.2: Verify URL helper + request-link handler
+- [x] #### Task 7.3.2.2: Verify URL helper + request-link handler
 **Goal:** `buildMagicLinkVerifyUrl(rawToken)`; `POST` handler that validates email, calls `issueMagicLinkForEmail`, then delivery.
 **Files:**
 - `server/src/auth/` (url helper, optional small module)

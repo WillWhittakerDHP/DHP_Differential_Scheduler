@@ -40,3 +40,8 @@ export type {
   IssueMagicLinkForEmailResult,
 } from './strategies/magicLinkStrategy.js'
 export { redactMagicLinkBodyForLogs, sendMagicLinkDelivery } from './magicLinkDelivery.js'
+export {
+  buildMagicLinkVerifyUrl,
+  magicLinkRequestBodySchema,
+  submitMagicLinkRequest,
+} from './magicLinkRequest.js'
