@@ -19,6 +19,20 @@ export default {
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
     `)
+    // If public.sessions already existed with another shape, CREATE TABLE IF NOT EXISTS is a no-op.
+    // Add any missing columns so indexes and connect-pg-simple alignment succeed.
+    await sequelize.query(`
+      ALTER TABLE public.sessions
+        ADD COLUMN IF NOT EXISTS sess JSONB NOT NULL DEFAULT '{}'::jsonb,
+        ADD COLUMN IF NOT EXISTS expire TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS user_id UUID NULL REFERENCES public.users(id) ON DELETE SET NULL,
+        ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+    `)
+    await sequelize.query(`
+      ALTER TABLE public.sessions
+        ADD COLUMN IF NOT EXISTS sid VARCHAR(255);
+    `)
     await sequelize.query(`
       COMMENT ON TABLE public.sessions IS 'Server-side session rows; sid/sess/expire align with connect-pg-simple; user_id optional post-login.';
     `)

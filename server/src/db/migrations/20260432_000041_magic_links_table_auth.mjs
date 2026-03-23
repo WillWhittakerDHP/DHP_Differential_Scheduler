@@ -21,6 +21,18 @@ export default {
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
     `)
+    // Align pre-existing public.magic_links when CREATE TABLE IF NOT EXISTS was a no-op.
+    await sequelize.query(`
+      ALTER TABLE public.magic_links
+        ADD COLUMN IF NOT EXISTS token_hash TEXT NOT NULL DEFAULT '',
+        ADD COLUMN IF NOT EXISTS email TEXT NULL,
+        ADD COLUMN IF NOT EXISTS user_id UUID NULL REFERENCES public.users(id) ON DELETE SET NULL,
+        ADD COLUMN IF NOT EXISTS purpose TEXT NULL,
+        ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS consumed_at TIMESTAMPTZ NULL,
+        ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+    `)
     await sequelize.query(`
       COMMENT ON TABLE public.magic_links IS 'Magic-link tokens: token_hash is digest of secret; raw token never stored.';
     `)
