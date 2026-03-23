@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] #### Task 7.2.1.1: Define Auth Strategy Contracts
+- [ ] #### Task 7.2.1.1: Define Auth Strategy Contracts
 **Goal:** Create the shared strategy interface, auth payload/result types, and server auth vocabulary that Phase 7.3 can implement without revisiting route contracts.
 **Files:** 
 - `server/src/auth/strategies/strategyTypes.ts`
@@ -52,7 +52,7 @@ These sections contain session-specific content:
 **Approach:** Define explicit auth strategy contracts for request/verify/authenticate-style flows, add typed result shapes, and align the current auth router with those contracts without implementing magic-link behavior yet.
 **Checkpoint:** Strategy types are explicit, reusable, and narrow enough that future strategies can implement them without changing router signatures.
 
-- [x] #### Task 7.2.1.2: Add Auth Config and Module Scaffolding
+- [ ] #### Task 7.2.1.2: Add Auth Config and Module Scaffolding
 **Goal:** Centralize auth environment decisions and create clean server module seams for config-driven auth behavior.
 **Files:** 
 - `server/src/config/authConfig.ts`
@@ -407,5 +407,3 @@ Break each session into focused tasks:
 ## Notes
 
 [Session-specific notes, patterns, architectural decisions]
-
-<!-- end excerpt session -->

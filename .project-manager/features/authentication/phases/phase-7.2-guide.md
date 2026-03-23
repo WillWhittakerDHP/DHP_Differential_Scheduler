@@ -13,7 +13,7 @@
 **Description:** Build the shared server-side authentication foundation: strategy contracts, auth configuration, session lifecycle management, middleware boundaries, and router integration. This phase should make magic-link auth possible in the next phase without forcing rewrites to route protection or session storage.
 
 **Duration:** 3 sessions
-**Status:** Complete
+**Status:** In Progress
 
 ---
 
@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [x] ### Session 7.2.1: Strategy Contract and Auth Config Foundation
+- [ ] ### Session 7.2.1: Strategy Contract and Auth Config Foundation
 **Description:** Start simple by defining the server auth seams: shared auth types, strategy interface, environment/config decisions, and router/auth module structure.
 **Tasks:** 3
 **Focus:**
@@ -35,7 +35,7 @@
 - Add auth config helpers for cookie/session behavior and environment-driven strategy selection
 - Replace placeholder planning ambiguity with concrete file locations and naming for the auth server module
 
-- [x] ### Session 7.2.2: Session Manager and Cookie Lifecycle
+- [ ] ### Session 7.2.2: Session Manager and Cookie Lifecycle
 **Description:** Add the persistent session layer that strategies can use without owning cookie or database lifecycle details directly.
 **Tasks:** 3
 **Focus:**
@@ -43,7 +43,7 @@
 - Define cookie read/write helpers and httpOnly session behavior for Express responses
 - Keep the public server contract flat so later strategies call session actions instead of duplicating persistence logic
 
-- [x] ### Session 7.2.3: Middleware and Router Integration
+- [ ] ### Session 7.2.3: Middleware and Router Integration
 **Description:** Wire the infrastructure into Express so auth-aware routes have reusable middleware and the auth router can grow beyond its current placeholder state.
 **Tasks:** 3
 **Focus:**
@@ -129,5 +129,3 @@ After completing all sessions in a phase:
 - Phase Log: `.project-manager/features/authentication/phases/phase-7.2-log.md`
 - Phase Handoff: `.project-manager/features/authentication/phases/phase-7.2-handoff.md`
 - Feature Guide: `../feature-authentication-guide.md`
-
-<!-- end excerpt phase -->
