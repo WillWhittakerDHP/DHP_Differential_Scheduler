@@ -10,7 +10,7 @@
 
 **Feature Name:** security-hardening
 **Description:** CORS lockdown, rate limiting, request validation (Joi), secrets audit, security headers (Helmet), CSRF when using session-based auth. Protects API before external access.
-**Status:** 📋 Planning
+**Status:** Complete
 
 **Duration:** [To be determined]
 **Started:** —
