@@ -1,4 +1,4 @@
-# Session 8.7.2 Guide: ** Edge routes, global/system rows, SECURITY_STUBS update, manual IDOR smoke notes
+# Session 8.7.2 Guide: Edge routes, global/system rows, SECURITY_STUBS update, manual IDOR smoke notes
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -35,27 +35,29 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 8.7.2
-**Session Name:** ** Edge routes, global/system rows, SECURITY_STUBS update, manual IDOR smoke notes
-**Description:** [Brief description of session objectives]
+**Session Name:** Edge routes, global/system rows, SECURITY_STUBS update, manual IDOR smoke notes
+**Description:** Finalize documentation and verification for registry-backed `checkOwnership`; align phase 8.7 guides.
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** TBD
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 8.7.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 8.7.2.1: SECURITY_STUBS — active checkOwnership
+**Goal:** Replace stub language with accurate behavior, file pointers, registry kinds, and staff vs row-level ownership rules.
+**Files:**
+- `server/docs/SECURITY_STUBS.md`
+**Approach:** Update intro paragraph, expand `checkOwnership` section, update stub→real mapping table.
+**Checkpoint:** Doc matches `security.ts` / `ownershipEnforcement.ts` behavior; server unchanged or lint clean if touched.
 
-- [ ] #### Task 8.7.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 8.7.2.2: Smoke checklist and phase guide sync
+**Goal:** Add manual IDOR/ownership verification steps to the doc (or linked checklist); mark phase/session objectives complete when accurate.
+**Files:**
+- `server/docs/SECURITY_STUBS.md` (checklist subsection) or session handoff
+- `.project-manager/features/security-hardening/phases/phase-8.7-guide.md`
+- Optional: `phase-8.7-log.md` if required by harness
+**Approach:** Bullet checklist for user + appointment + staff route; update phase guide checkboxes and status.
+**Checkpoint:** Phase 8.7 guide reflects completion; checklist is actionable for QA.
 
 ---
 
@@ -266,7 +268,7 @@ Break each session into focused tasks. Each task should have:
 
 **Task Format:**
 ```
-#### Task 8.7.2.N: [Task Name]
+#### Task 8.7.2.N: \<Task Name\>
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]
@@ -290,7 +292,7 @@ Break each session into focused tasks. Each task should have:
 When planning a new task, use this structure:
 
 ```markdown
-- [ ] #### Task 8.7.2.N: [Task Name]
+- [ ] #### Task 8.7.2.N: \<Task Name\>
 
 **Goal:** [Clear, specific objective]
 
