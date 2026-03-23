@@ -412,3 +412,5 @@ Break each session into focused tasks:
 ## Notes
 
 Session 8.6.2 will attach the token in the Vue API layer. Until then, some browser CRUD flows may fail — expected until client work lands.
+
+<!-- end excerpt session -->

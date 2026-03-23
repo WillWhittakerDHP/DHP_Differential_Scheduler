@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.6.1: Server CSRF middleware and token issuance
+- [x] ### Session 8.6.1: Server CSRF middleware and token issuance
 **Description:** Implement real `csrfProtection`, document contract, verify mutating routes reject without token.
 **Tasks:** TBD in session guide
 **Focus:**
