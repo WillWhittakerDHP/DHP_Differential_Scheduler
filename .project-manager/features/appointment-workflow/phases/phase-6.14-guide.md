@@ -12,8 +12,14 @@
 **Phase Name:** Organization Defaults & Resolved Numeric Policy  
 **Description:** Introduce organization-level defaults (option 3: defaults + optional overrides / merge at read) for admin-controlled numeric fields currently spread across Business Controls. Defaults define “what we use when nothing more specific is set”; overrides store only explicit values or deltas where they differ.
 
-**Duration:** Starts with session 6.14.1  
-**Status:** Not Started
+**Duration:** 2 sessions (6.14.1 foundation, 6.14.2 integration gaps) — see `phases/phase-6.14-planning.md` *Planning decomposition note*.  
+**Status:** In Progress (6.14.1 complete; 6.14.2 not started)
+
+---
+
+## Planning decomposition note
+
+Early phase artifacts listed only **one session** while the phase objectives implicitly required **foundation + follow-up integration** (full resolver wiring, validation parity, optional admin badges). Session **6.14.1** delivered types, resolver, persistence, admin surface, and merge-at-read on the **computed availability** server path. Session **6.14.2** tracks the remaining scope explicitly (`sessions/session-6.14.2-planning.md`). This restores alignment between planning docs and actual work.
 
 ---
 
@@ -37,11 +43,16 @@
 
 ### Sessions Breakdown
 
-- [x] ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar)
-**Description:** Canonical defaults object + merge at read for numeric policy (minuteIncrement, durationRounding, driveTimeFee, holds, adminEntryTimeout, lead time, buffers, capacity baselines). Deliverables: shared `OrganizationDefaults` types, resolver, persistence strategy, admin tab, wiring. Full scope: `sessions/session-6.14.1-planning.md`.
-**Tasks:** Types; merge/resolve; persistence; admin UI; wire booking read paths (or documented follow-up).
-**Focus:**
-- Single resolver for client + server; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
+- [x] ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar) — **foundation**
+**Description:** Canonical defaults object + merge at read for numeric policy (minuteIncrement, durationRounding, driveTimeFee, holds, adminEntryTimeout, lead time, buffers, capacity baselines). Deliverables: shared `OrganizationDefaults` types, resolver, persistence, admin surface, merge-at-read on computed availability server path. Deferred items: `sessions/session-6.14.1-planning.md` → *Outcome*.
+**Tasks:** Types; merge/resolve; persistence; admin UI; initial server wiring + documented deferrals.
+**Focus:** Single resolver module; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
+
+- [ ] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
+**Description:** Close gaps from 6.14.1 — wire resolver across remaining booking/server read and validation paths (or document exceptions); optional “using org default” badges on Calendar/Availability panels; finalize phase success criteria.
+**Tasks:** Audit call sites; server + client alignment as needed; admin badges; handoff updates.
+**Focus:** Parity between what the wizard sees and what the server enforces.
+**Full scope:** `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`.
 
 ---
 
@@ -53,15 +64,21 @@
 
 ## Success Criteria
 
-- [ ] Types and resolver in shared (or agreed) layer; booking reads resolved values
-- [ ] Admin can edit organization defaults in one dedicated surface
-- [ ] Persistence strategy documented and implemented or stubbed with follow-up
-- [ ] Client lint and app start pass; resolver tests per Phase 3.0 policy
+- [x] Types and resolver in shared (or agreed) layer — **6.14.1**
+- [ ] **Resolved numeric policy** used (or explicitly exempted in writing) for all production booking + validation paths that derive policy from org + calendar + availability — **target 6.14.2**
+- [x] Admin can edit organization defaults in one dedicated surface — **6.14.1**
+- [x] Persistence strategy documented and implemented (`organization_defaults` JSONB + API) — **6.14.1**
+- [ ] Optional: “using org default” affordances on relevant legacy admin panels — **6.14.2** (where useful)
+- [ ] Client lint and app start pass at phase close — **verify at 6.14.2 end** (6.14.1 already met this bar for touched code)
+- [ ] Resolver automated tests — Phase 3.0 policy (not a gate for 6.14.2 unless unblocked)
 
 ---
 
 ## Related Documents
 
-- `sessions/session-6.14.1-planning.md`
+- `phases/phase-6.14-planning.md` (phase contract + decomposition table)
+- `phases/phase-6.14-handoff.md` (current transition / next: 6.14.2)
+- `sessions/session-6.14.1-planning.md` (includes **Outcome: delivered vs deferred**)
+- `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`
 - `feature-appointment-workflow-guide.md` (Phase 6.14)
 - `client/src/views/admin/tabs/BusinessControlsTab.vue`, `client/src/configs/availabilitySettings/types.ts`, `shared/types/calendarTypes.ts`, `shared/types/availabilityTypes.ts`

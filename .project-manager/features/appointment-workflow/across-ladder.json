@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "feature": "appointment-workflow",
-  "derivedAt": "2026-03-23T16:44:55.747Z",
+  "derivedAt": "2026-03-23T17:35:14.122Z",
   "sourceTier": "session",
   "phasesOnDisk": [
     "6.2",
@@ -16,11 +16,12 @@
     "6.11",
     "6.12",
     "6.13",
-    "6.14"
+    "6.14",
+    "6.17"
   ],
-  "phaseAcrossTotal": 13,
+  "phaseAcrossTotal": 14,
   "focusPhaseId": "6.14",
-  "nextPhaseAcross": null,
+  "nextPhaseAcross": "6.17",
   "prevPhaseId": "6.13",
   "sessionsByPhase": {
     "6.2": [
@@ -88,13 +89,21 @@
       "6.13.2"
     ],
     "6.14": [
-      "6.14.1"
+      "6.14.1",
+      "6.14.2"
+    ],
+    "6.17": [
+      "6.17.1",
+      "6.17.2",
+      "6.17.3",
+      "6.17.4",
+      "6.17.5"
     ]
   },
-  "focusSessionId": "6.14.1",
-  "sessionAcrossTotal": 1,
-  "sessionIndex0Based": 0,
+  "focusSessionId": "6.14.2",
+  "sessionAcrossTotal": 2,
+  "sessionIndex0Based": 1,
   "nextSessionAcross": null,
-  "taskAcrossTotal": 2,
-  "nextTaskAcross": "6.14.1.1"
+  "taskAcrossTotal": 0,
+  "nextTaskAcross": null
 }

@@ -9,9 +9,11 @@
 ## Phase Status
 
 **Phase:** 6.14
-**Status:** [In Progress / Complete]
-**Started:** [Date]
-**Completed:** [Date] (if complete)
+**Status:** In Progress
+**Started:** 2026-03-23
+**Completed:** (when session 6.14.2 and phase success criteria are done)
+
+**Planning update (2026-03-23):** Phase 6.14 is **two sessions** (6.14.1 foundation + **6.14.2** integration gaps). See `phases/phase-6.14-guide.md` *Planning decomposition note* and `sessions/session-6.14.2-planning.md`.
 
 ---
 

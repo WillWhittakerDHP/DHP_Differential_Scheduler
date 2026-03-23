@@ -16,7 +16,7 @@
 - **Downstream advice:** Guide owns task detail; this doc sets boundaries and task order.
 
 ## Where we left off
-Phase 6.14 started; session 6.14.1 is the first session in the phase.
+Phase 6.14 started; session 6.14.1 is the **foundation** session. Phase decomposition was originally documented as a single session in some artifacts; **session 6.14.2** explicitly tracks remaining integration work (see `sessions/session-6.14.2-planning.md`).
 
 ## Goal
 Ship a canonical **organization defaults** model and **merge-at-read** resolver so numeric policy (minute grid, duration rounding, drive-time fee, holds, admin entry timeout, and optional constraint baselines) resolves in one place for client booking paths and server validation—no silent Vue-only fallbacks. Deliver shared types, resolver module(s), a documented persistence strategy (with implementation or explicit stub + follow-up), a dedicated admin surface for org defaults, and wiring to key read paths—or documented follow-ups where wiring is large.
@@ -67,3 +67,22 @@ Ship a canonical **organization defaults** model and **merge-at-read** resolver 
 **Constraint baselines (candidates):** lead time minutes, overlap buffer minutes, capacity `maxHours` / `maxIncome`.
 
 **Out of scope unless pulled in:** wizard copy-only settings, pure non-numeric toggles, MLS tab rules not tied to numeric policy.
+
+---
+
+## Outcome: delivered vs deferred (6.14.1)
+
+**Delivered (foundation):**
+
+- Shared types and field inventory: `shared/types/organizationDefaults.ts` (and related), `resolveOrganizationNumericPolicy` in `shared/utils/resolveOrganizationNumericPolicy.ts`, `buildCalendarNumericOverridesFromAvailabilityAndCalendar` in `shared/utils/calendarNumericOverridesFromSettings.ts`.
+- Persistence: `organization_defaults` JSONB on availability settings; migration; model; repository; GET/PUT internal routes for admin.
+- Admin: organization defaults surface under Business Controls (`BusinessControlsOrganizationSection.vue`, tab wiring in `BusinessControlsTab.vue`, `useAdminOrganizationDefaults`, API client under `client/src/configs/organizationDefaults/`).
+- **Server merge-at-read:** `server/src/services/organizationNumericPolicyService.ts` → used by `server/src/services/computedAvailabilityService.ts` so the **computed availability** pipeline applies org defaults + calendar/availability overrides consistently for that path.
+
+**Deferred to session 6.14.2** (documented gaps — not regressions):
+
+- **Breadth of wiring:** Other server routes / validation paths that read numeric policy may not yet call `resolveNumericPolicyForAvailabilityAndCalendar` (or equivalent); booking client code may rely on API payloads rather than importing the shared resolver locally — confirm and align per `session-6.14.2-planning.md`.
+- **“Using org default” badges** on legacy Calendar / Availability panels: optional UX from phase guide; not required to ship 6.14.1 foundation.
+- **Automated resolver tests:** remain deferred to Phase 3.0 per project test policy unless explicitly scheduled.
+
+**Next:** `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`.

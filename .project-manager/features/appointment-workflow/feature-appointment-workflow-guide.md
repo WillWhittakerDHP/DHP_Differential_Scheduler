@@ -76,8 +76,10 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 | 6.11 | Drive Time Fee Line Item | In Progress | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 | 6.12 | Annotation Content Layer and Entity Enhancements | Not Started | Event shape link toggles; annotation_instance_content; UI slots registry; wizard pipeline for selection cards and grid overlay. Sessions 6.12.1–6.12.2. |
 | 6.13 | Wizard Theme Tokens & Brand Palettes | Not Started | OKLCH/HSL-derived palettes; quote/reschedule/brand alignment; single pipeline for theme.ts, useThemeMode, BookingWizard.scss. To be sessioned from phase guide. |
-| 6.14 | Organization Defaults & Resolved Numeric Policy | Not Started | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Session 6.14.1. |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (wiring, validation parity, badges). |
 | 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Not Started | Logo upload + serving; extract/verify primary+secondary anchors; wizard_settings fields; wire OKLCH pipeline; logo in BookingWizard. Depends on 6.13. Sessions 6.15.1–6.15.3. |
+| 6.16 | Differential Role Generalization: margin + Multiple Moveables | Not Started | Add `margin` to DifferentialRole; DB ENUM; slot pipeline + time ranges; multi-moveable sequencing; `differentialEventRoleOverrides` for diversion. Sessions 6.16.1–6.16.3. Detailed plan referenced in phase 6.16 block below. |
+| 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight + wizard + resolve/finalize delete for admin CRUD; policy registry; wire `useEntityCrud` / list + card delete. Sessions 6.17.1–6.17.5. See `phases/phase-6.17-guide.md`. Relates to Phase 6.6 (soft vs hard delete). |
 
 ---
 
@@ -217,13 +219,14 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 
 - [ ] ### Phase 6.14: Organization Defaults & Resolved Numeric Policy
 **Description:** Organization-level defaults model (canonical defaults object + optional overrides, merge at read time) for admin numeric policy scattered across Business Controls. Covers time grid & rounding, drive-time billing, holds & admin entry timeout, and optional constraint baselines.
-**Sessions:** 6.14.1 (see `sessions/session-6.14.1-planning.md`)
+**Sessions:** **6.14.1** — foundation (`sessions/session-6.14.1-planning.md`, outcome: delivered vs deferred). **6.14.2** — remaining wiring, validation parity, optional org-default badges (`sessions/session-6.14.2-planning.md`).
 **Success Criteria:**
-- Shared `OrganizationDefaults` (or equivalent) types and JSON-serializable shape
-- Resolver used (or wired with documented follow-up) for minuteIncrement, duration rounding, driveTimeFee where booking reads them
-- Admin surface for org defaults; persistence strategy documented; tests for merge edge cases
-- Lint/app start pass; no silent misconfiguration fallbacks per project standards
-**See:** `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`
+- Shared `OrganizationDefaults` (or equivalent) types and JSON-serializable shape — **6.14.1**
+- Resolver merged across **all** production booking and server validation paths that derive policy from org + availability + calendar, **or** narrow exceptions documented — **6.14.2**
+- Admin surface for org defaults; persistence implemented — **6.14.1**; optional “using org default” badges — **6.14.2**
+- Automated tests for resolver edge cases — Phase 3.0 policy unless explicitly scheduled
+- Lint/app start pass at phase close; no silent misconfiguration fallbacks per project standards
+**See:** `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`, `sessions/session-6.14.2-planning.md`
 
 ---
 
@@ -240,6 +243,25 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 **Sessions:** [To be planned]
 **Success Criteria:**
 - [To be defined]
+
+
+- [ ] ### Phase 6.16: Differential Role Generalization: margin + Multiple Moveables — Add 'margin' to DifferentialRole (deterministic pre-major temporal position); DB ENUM migration; slot pipeline extensions (PartFinal margin flag, SlotShape margin durations, backward time range offset); perspective resolver margin awareness; admin override dropdown; multi-moveable detection (getAllEventShapesByRole) and sequential boundary chaining in useMoveablePartsScheduling; integration verification and downstream concerns inventory (appointment persistence, calendar events, API payload, confirmation UX). Leverages existing differentialEventRoleOverrides on option blocks for conditional diversion. Sessions 6.16.1 (margin role: shared types + server model + migration, slot pipeline compute + time range placement + perspective resolver, admin UI dropdown, lint), 6.16.2 (multiple moveables: detection utilities + MoveableSegment type, useMoveablePartsScheduling multi-segment refactor + sequential boundary chaining, orchestrator/sub-step wiring, lint), 6.16.3 (integration verification with test event shape data, multi-moveable sequential scheduling verification, downstream concerns inventory for persistence/calendar/API/UX). refer to /Users/districthomepro/.cursor/plans/differential_role_generalization_7884ea5f.plan.md for more information
+**Description:** Differential Role Generalization: margin + Multiple Moveables — Add 'margin' to DifferentialRole (deterministic pre-major temporal position); DB ENUM migration; slot pipeline extensions (PartFinal margin flag, SlotShape margin durations, backward time range offset); perspective resolver margin awareness; admin override dropdown; multi-moveable detection (getAllEventShapesByRole) and sequential boundary chaining in useMoveablePartsScheduling; integration verification and downstream concerns inventory (appointment persistence, calendar events, API payload, confirmation UX). Leverages existing differentialEventRoleOverrides on option blocks for conditional diversion. Sessions 6.16.1 (margin role: shared types + server model + migration, slot pipeline compute + time range placement + perspective resolver, admin UI dropdown, lint), 6.16.2 (multiple moveables: detection utilities + MoveableSegment type, useMoveablePartsScheduling multi-segment refactor + sequential boundary chaining, orchestrator/sub-step wiring, lint), 6.16.3 (integration verification with test event shape data, multi-moveable sequential scheduling verification, downstream concerns inventory for persistence/calendar/API/UX). refer to /Users/districthomepro/.cursor/plans/differential_role_generalization_7884ea5f.plan.md for more information
+**Sessions:** [To be planned]
+**Success Criteria:**
+- [To be defined]
+
+
+- [ ] ### Phase 6.17: Generalized Dependency-Aware Delete Wizard — Cross-cutting admin architecture: preflight dependency inspection, reusable delete wizard, typed policy categories, resolve/finalize API (no long-running HTTP DELETE during UI). First rollout `partShape`, `blockShape`, `annotationShape` (+ related generic-delete entities). Full scope: `phases/phase-6.17-guide.md`, `phases/phase-6.17-planning.md`.
+**Description:** Generalized Dependency-Aware Delete Wizard — Reusable admin delete workflow: preflight dependency inspection, wizard UI for reassignment/removal, resolution/finalize API (not long-running DELETE), registry-driven policies (`reassign_required`, `safe_auto_remove`, `confirm_bulk_remove`, `hard_blocked`, `allow_direct_delete`). Wire `useEntityCrud`, `useEntityCrudMutations`, `entityListDelete`, `entityCardActionsPersistence`; server `entityCrudRouter` and related handlers. Relates to Phase 6.6 (soft vs hard delete). Out of scope unless explicitly added: silent full cascade for all entities, background delete workers, DB-wide FK CASCADE migrations, automated tests (Phase 3.0 policy).
+**Sessions:** 6.17.1 (dependency model + API contract); 6.17.2 (server preflight / resolution / finalize infrastructure); 6.17.3 (reusable client delete wizard + composable/service); 6.17.4 (wire generic delete entry points — list + entity card); 6.17.5 (entity-policy rollout for initial supported entities + doc for adding policies).
+**Success Criteria:**
+- [ ] Supported deletes do not rely on raw one-shot delete only; dependency-aware wizard when preflight requires it
+- [ ] Reassignment available where policy is `reassign_required`; bulk confirm / safe auto-remove paths per policy
+- [ ] Final delete runs after resolution in a clear server transaction story; no orphan data for rolled-out entities
+- [ ] Client global entity cache/state stays consistent after finalize
+- [ ] Server returns structured dependency + policy payloads (not only generic 500/409)
+- [ ] Phase docs describe how to register new entity types and policies
 
 ## Booking Calculations (Core Complete)
 
@@ -381,6 +403,7 @@ After completing all phases in a feature:
 - Phase 6.9 Guide: `phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- Phase 6.17 Guide: `phases/phase-6.17-guide.md` (Generalized Dependency-Aware Delete Wizard)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6)
 

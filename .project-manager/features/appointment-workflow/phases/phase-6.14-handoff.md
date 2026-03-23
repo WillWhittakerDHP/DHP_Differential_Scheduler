@@ -1,76 +1,64 @@
-# Phase [N] Handoff
+# Phase 6.14 Handoff
 
 **Purpose:** Transition context between phases (large-scale concerns only)
 
 **Tier:** Phase (Tier 1 - High-Level)
 
-**Last Updated:** [Date]
-**Phase Status:** [Complete / In Progress]
-**Next Phase:** [N+1]
+**Last Updated:** 2026-03-23
+**Phase Status:** In Progress
+**Next session in phase:** 6.14.2 (resolver breadth, validation parity, org-default UX)
 
 ---
 
 ## Current Status
 
-**Phase [N]:** [Complete / In Progress]
-**Last Completed Session:** 6.14
-**Next Phase:** [N+1]
+**Phase 6.14:** In Progress  
+**Last completed session:** 6.14.1 (foundation — types, resolver, persistence, admin surface, computed-availability merge on server)  
+**Remaining in phase:** Session **6.14.2** per `sessions/session-6.14.2-planning.md`  
+**Next phase after 6.14 closes:** 6.15 (see feature guide) — **do not** start until `/phase-end` for 6.14 when success criteria are met.
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-[Minimal notes about phase completion - 2-3 sentences max]
 
-**What you need to start Phase [N+1]:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about dependencies]
-- [Brief bullet point about any blockers or considerations]
+Session 6.14.1 shipped the shared resolver and org-defaults persistence, but phase-level goals require **broader wiring** (remaining server/booking paths), **validation parity**, and optional **“using org default”** admin affordances. Those items are **not** missing implementation by accident — they were **deferred** and are now tracked as session **6.14.2** (see `sessions/session-6.14.1-planning.md` → *Outcome: delivered vs deferred*).
 
-**Plan Changes Affecting Downstream Phases:**
-- [Only include if plan changed and affects later phases]
-- [Brief description of change and impact]
+**Planning note:** Early artifacts listed only one session for phase 6.14; planning docs were **amended** to add **6.14.2** so decomposition matches scope.
+
+**What you need for session 6.14.2:**
+
+- Read `sessions/session-6.14.2-planning.md` and `phases/phase-6.14-guide.md` success criteria.
+- Audit grep: `resolveOrganizationNumericPolicy`, `resolveNumericPolicyForAvailabilityAndCalendar`, raw availability/calendar numeric reads in `server/src/` and `client/src/composables/booking/`.
+
+**Plan changes affecting downstream:** None beyond clarifying 6.14 as two-session phase.
 
 ---
 
 ## Phase Summary
 
-**Sessions Completed:** [List session IDs]
-**Key Accomplishments:**
-- [Major accomplishment 1]
-- [Major accomplishment 2]
+**Sessions completed:** 6.14.1  
+**Sessions remaining:** 6.14.2  
 
-**Decisions Made:**
-- [Decision that affects downstream phases]
+**Key accomplishments (6.14.1):**
 
----
+- `OrganizationDefaults` types; `resolveOrganizationNumericPolicy`; JSONB persistence; admin API and Business Controls organization surface; merge-at-read on computed availability service path.
 
-## Notes
+**Decisions:**
 
-**Keep minimal** - Detailed notes belong in phase log, not handoff.
+- Follow-up integration is **session 6.14.2**, not ad-hoc tickets, until phase success criteria are satisfied or exceptions are documented.
 
 ---
 
 ## Related Documents
 
-- Phase Guide: `.cursor/workflow-manager/vue-migration/phases/phase-[N]-guide.md`
-- Phase Log: `.cursor/workflow-manager/vue-migration/phases/phase-[N]-log.md`
-- Next Phase Guide: `.cursor/workflow-manager/vue-migration/phases/phase-[N+1]-guide.md`
+- Phase guide: `phases/phase-6.14-guide.md`
+- Phase log: `phases/phase-6.14-log.md`
+- Session 6.14.2 planning: `sessions/session-6.14.2-planning.md`
 
 ---
 
 ## Next Action
 
-Continue with next step. [Fill in.]
-
-<!-- harness-across-ladder:start -->
-## Across ladder (harness)
-
-_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
-
-- **Feature:** `appointment-workflow` · **Source:** phase · **Derived:** 2026-03-23T16:35:34.067Z
-- **Phases on disk (13):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14
-- **Focus phase:** `6.14` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
-<!-- harness-across-ladder:end -->
+Run **`/session-start 6.14.2`** (or equivalent tier workflow) when ready to implement session 6.14.2; then **`/session-end`** when session completes. When phase 6.14 success criteria are fully met, run **`/phase-end 6.14`**.
