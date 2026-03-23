@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 8.6.2: Vue client wires CSRF on mutating API calls ✅
+**Completed:** 2026-03-23
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** Client — wire token into API layer for mutating requests; smoke-test admin and booking flows that use CRUD
+
+
+
 ### Session 8.6.1: Server CSRF middleware and token issuance ✅
 **Completed:** 2026-03-23
 **Tasks Completed:** All tasks completed

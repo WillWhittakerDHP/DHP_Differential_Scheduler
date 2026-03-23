@@ -33,7 +33,7 @@
 **Focus:**
 - `server/src/middlewares/security.ts`, `app.ts` ordering, `docs/SECURITY_STUBS.md`
 
-- [ ] ### Session 8.6.2: Vue client wires CSRF on mutating API calls
+- [x] ### Session 8.6.2: Vue client wires CSRF on mutating API calls
 **Description:** Ensure SPA sends token on POST/PUT/PATCH/DELETE through shared API layer; smoke-test key flows.
 **Tasks:** TBD in session guide
 **Focus:**
