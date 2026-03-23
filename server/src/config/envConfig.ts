@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import Joi from "joi";
 import { NODE_ENV, APP_STAGE } from "../constants/appConstants.js";
 import { createLogger } from "../utils/logger.js";
+import type { AuthStrategyName } from "../auth/strategies/strategyTypes.js";
 
 const logger = createLogger("EnvConfig");
 
@@ -16,6 +17,12 @@ export interface EnvConfig {
   DB_PASSWORD: string;
   DB_PORT: number;
   CORS_ORIGIN: string;
+  /** Active auth strategy seam; `none` until magic-link/password implementations are wired. */
+  AUTH_STRATEGY: AuthStrategyName;
+  /** HttpOnly session cookie name (used when Session 7.2.2 sets cookies). */
+  AUTH_SESSION_COOKIE_NAME: string;
+  /** Max-Age for session cookie in seconds. */
+  AUTH_SESSION_MAX_AGE_SEC: number;
 }
 
 const envFile = `./.env.${process.env.NODE_ENV || NODE_ENV.DEVELOPMENT}`;
@@ -36,6 +43,11 @@ const schema = Joi.object({
   DB_PASSWORD: Joi.string().required(),
   DB_PORT: Joi.number().default(5432),
   CORS_ORIGIN: Joi.string().default("http://localhost:3002"),
+  AUTH_STRATEGY: Joi.string()
+    .valid("none", "magic_link", "password")
+    .default("none"),
+  AUTH_SESSION_COOKIE_NAME: Joi.string().min(1).default("dhp_sid"),
+  AUTH_SESSION_MAX_AGE_SEC: Joi.number().integer().min(60).default(604800),
 }).unknown(true);
 
 const { error, value } = schema.validate(process.env);
