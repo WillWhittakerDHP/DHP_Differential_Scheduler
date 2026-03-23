@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 6.13.2.1: SCSS and class-binding alignment
+- [x] #### Task 6.13.2.1: SCSS and class-binding alignment
 **Goal:** Remove the `&& !useDhpColors` guard from quote/reschedule class bindings in `BookingWizard.vue` so mode classes coexist with `dhp-colors-active`; refactor the `.dhp-colors-active` SCSS block to defer to CSS variables set by `useThemeMode` instead of hardcoding RGB triplets; consolidate duplicate hex/RGB default variables in SCSS where the single pipeline is the source of truth.
 **Files:** 
 - `client/src/components/booking/BookingWizard.vue` — class bindings on root VCard and stepper-header

@@ -1,6 +1,7 @@
 /**
  * PATTERN: Theme Mode Composable
- * Watches wizardMode and useDhpColors; applies quote/reschedule/DHP palettes and sets --v-theme-* CSS vars.
+ * Watches wizardMode and useDhpColors; applies quote/reschedule/DHP palettes via --wizard-* CSS vars.
+ * SCSS (.wizard-palette-active) maps --wizard-* to --v-theme-* at component level for Vuetify specificity.
  */
 import { computed, watch } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
@@ -19,32 +20,33 @@ import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 const FALLBACK_THEME_COLORS: Record<string, string> = {}
 const FALLBACK_STR = ''
 
-const THEME_VAR_KEYS = [
-  '--v-theme-primary',
-  '--v-theme-primary-darken-1',
-  '--v-theme-secondary',
-  '--v-theme-secondary-darken-1',
-  '--v-theme-warning',
-  '--v-theme-warning-darken-1',
-  '--v-theme-on-primary',
-  '--v-theme-on-secondary',
-  '--v-theme-on-warning',
+/** Intermediate vars that bypass Vuetify's theme provider specificity. SCSS maps these to --v-theme-* at component level. */
+const WIZARD_VAR_KEYS = [
+  '--wizard-primary',
+  '--wizard-primary-darken-1',
+  '--wizard-secondary',
+  '--wizard-secondary-darken-1',
+  '--wizard-warning',
+  '--wizard-warning-darken-1',
+  '--wizard-on-primary',
+  '--wizard-on-secondary',
+  '--wizard-on-warning',
 ] as const
 
 function applyPaletteToCss(palette: WizardModePalette): void {
-  setCSSVariable('--v-theme-primary', hexToRgb(palette.primary))
-  setCSSVariable('--v-theme-primary-darken-1', hexToRgb(palette['primary-darken-1']))
-  setCSSVariable('--v-theme-secondary', hexToRgb(palette.secondary))
-  setCSSVariable('--v-theme-secondary-darken-1', hexToRgb(palette['secondary-darken-1']))
-  setCSSVariable('--v-theme-warning', hexToRgb(palette.warning))
-  setCSSVariable('--v-theme-warning-darken-1', hexToRgb(palette['warning-darken-1']))
-  setCSSVariable('--v-theme-on-primary', palette['on-primary'])
-  setCSSVariable('--v-theme-on-secondary', palette['on-secondary'])
-  setCSSVariable('--v-theme-on-warning', palette['on-warning'])
+  setCSSVariable('--wizard-primary', hexToRgb(palette.primary))
+  setCSSVariable('--wizard-primary-darken-1', hexToRgb(palette['primary-darken-1']))
+  setCSSVariable('--wizard-secondary', hexToRgb(palette.secondary))
+  setCSSVariable('--wizard-secondary-darken-1', hexToRgb(palette['secondary-darken-1']))
+  setCSSVariable('--wizard-warning', hexToRgb(palette.warning))
+  setCSSVariable('--wizard-warning-darken-1', hexToRgb(palette['warning-darken-1']))
+  setCSSVariable('--wizard-on-primary', hexToRgb(palette['on-primary']))
+  setCSSVariable('--wizard-on-secondary', hexToRgb(palette['on-secondary']))
+  setCSSVariable('--wizard-on-warning', hexToRgb(palette['on-warning']))
 }
 
 function clearThemeOverrides(): void {
-  for (const key of THEME_VAR_KEYS) {
+  for (const key of WIZARD_VAR_KEYS) {
     removeCSSVariable(key)
   }
 }

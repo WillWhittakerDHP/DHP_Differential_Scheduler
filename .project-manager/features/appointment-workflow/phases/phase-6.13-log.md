@@ -18,46 +18,6 @@
 ## Completed Sessions
 
 ### Session 6.13.1: Token pipeline and theme wiring ✅
-**Completed:** 2026-03-23
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
-
-
-
-### Session 6.13.1: Token pipeline and theme wiring ✅
-**Completed:** 2026-03-23
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
-
-
-
-### Session 6.13.1: Token pipeline and theme wiring ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
-
-
-
-### Session 6.13.1: Token pipeline and theme wiring ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
-
-
-
-### Session 6.13.1: Token pipeline and theme wiring ✅
-**Completed:** 2026-03-22
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, generator module)
-
-
-
-### Session 6.13.1: Token pipeline and theme wiring ✅
 **Completed:** 2026-03-22
 **Tasks Completed:** All tasks completed
 **Key Accomplishments:**
