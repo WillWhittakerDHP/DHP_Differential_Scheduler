@@ -6,7 +6,7 @@
 
 ---
 
-## Phase Overview
+## Overview
 
 **Phase Number:** 6.14  
 **Phase Name:** Organization Defaults & Resolved Numeric Policy  
@@ -17,13 +17,13 @@
 
 ---
 
-## Phase Objectives
+## Objectives
 
 - Define shared types for organization defaults (nested groups: time/rounding, drive-time fee, holds/admin entry, optional constraint baselines).
 - Implement merge/resolve functions used by client booking paths and server validation (single place, not Vue-only fallbacks).
 - Document persistence (new field vs existing `calendar_settings` / availability JSON) aligned with `BusinessControlsTab.vue` save split.
 - Add admin UI (recommended: top-level “Organization defaults” or “Policies” tab) with sub-sections mirroring types.
-- Add tests for resolver edge cases (missing keys, zero vs unset, hold clamping).
+- Document or defer automated tests for resolver edge cases per project test policy (missing keys, zero vs unset, hold clamping).
 
 ---
 
@@ -33,15 +33,13 @@
 - Specify `OrganizationDefaults` shape in `shared/types/` and migration/API if needed.
 - Implement `resolve*` (or single `resolveBusinessNumericPolicy`) and wire call sites for slot grid, rounding, drive fee pipeline.
 - Build admin panel + save/load; link or badge “using org default” on existing panels where useful.
-- Unit tests + lint; update handoff/session log per workflow.
+- Client lint + app start; update handoff/session log per workflow.
 
----
-
-## Sessions Breakdown
+### Sessions Breakdown
 
 - [ ] ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar)
-**Description:** Canonical defaults object + merge at read for numeric policy (minuteIncrement, durationRounding, driveTimeFee, holds, adminEntryTimeout, lead time, buffers, capacity baselines). Deliverables: shared `OrganizationDefaults` types, resolver, persistence strategy, admin tab, tests. Full scope: `sessions/session-6.14.1-planning.md`.
-**Tasks:** Types; merge/resolve; persistence; admin UI; unit tests; wire booking read paths (or documented follow-up).
+**Description:** Canonical defaults object + merge at read for numeric policy (minuteIncrement, durationRounding, driveTimeFee, holds, adminEntryTimeout, lead time, buffers, capacity baselines). Deliverables: shared `OrganizationDefaults` types, resolver, persistence strategy, admin tab, wiring. Full scope: `sessions/session-6.14.1-planning.md`.
+**Tasks:** Types; merge/resolve; persistence; admin UI; wire booking read paths (or documented follow-up).
 **Focus:**
 - Single resolver for client + server; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
 
@@ -58,7 +56,7 @@
 - [ ] Types and resolver in shared (or agreed) layer; booking reads resolved values
 - [ ] Admin can edit organization defaults in one dedicated surface
 - [ ] Persistence strategy documented and implemented or stubbed with follow-up
-- [ ] Tests for merge/resolver; client lint and app start pass
+- [ ] Client lint and app start pass; resolver tests per Phase 3.0 policy
 
 ---
 
