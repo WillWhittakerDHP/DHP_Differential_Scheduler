@@ -34,7 +34,7 @@
 
 ### Sessions Breakdown
 
-- [ ] ### Session 6.15.1: DB schema and brand settings API with logo upload  
+- [x] ### Session 6.15.1: DB schema and brand settings API with logo upload  
 **Goal:** Add columns and migration for brand fields on `wizard_settings`; implement upload endpoint and brand GET/PUT; serve uploaded files under the agreed public path; log errors per project standards.  
 **Files:** Sequelize model(s), migration, wizard settings routes, upload middleware, static serving config as used elsewhere in the server.  
 **Approach:** Follow existing `wizard_settings` API shapes; return typed payloads for client; document URL shape for the logo.  
