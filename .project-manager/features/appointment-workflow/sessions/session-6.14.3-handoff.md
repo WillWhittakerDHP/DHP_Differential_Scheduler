@@ -14,36 +14,25 @@
 
 ## Current Status
 
-**Last Completed Task:** 6.14.3.3 (docs, Phase 3.0 checklist in phase guide, client + server lint)
-
-**Next Task:** — (session tasks complete)
-
-**Git Branch:** `session-6.14.3` (typical; confirm with `git branch` before session-end)
-
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `session-6.14.3`
 **Last Updated:** 2026-03-23
-
----
 
 ## Next Action
 
-1. Run **`/session-end 6.14.3`** (feature `appointment-workflow`) to roll up session 6.14.3.
-2. When ready to close phase 6.14, run **`/phase-end 6.14`**.
-
----
+Start Session  (see session guide and phase guide for scope).
 
 ## Transition Context
 
 **Where we left off:**
+Completed Task 
 
-- **6.14.3.1:** Exhaustive audit table in `phases/phase-6.14-handoff.md` (wire vs exempt call sites); client confirmation `driveTimeFee` wired via merged policy in `useConfirmationStepData`.
-- **6.14.3.2:** Org defaults load on Business Controls **Constraints / Calendar / Organization**; **Org default** / **Override** chips on Grid (slot increment) and Constraints → Rounding; drive-time fee chips deferred (documented in phase handoff).
-- **6.14.3.3:** `phases/phase-6.14-guide.md` success criteria + **Phase 3.0** resolver test checklist; `phases/phase-6.14-handoff.md` session 6.14.3.3 note; phase log updated; client + server lint verified.
+**What you need to start:**
+- Begin Session 
 
-**What you need next:**
+<!-- end excerpt session -->
 
-- Session-end merge/push per harness; then phase-end if 6.14 is fully done.
-
-<!-- harness-across-ladder:start -->
 ## Across ladder (harness)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
@@ -55,5 +44,3 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 - **Tasks in session (detected):** 3 · **Next task across:** `6.14.3.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
 <!-- harness-across-ladder:end -->
-
-<!-- end excerpt session -->
