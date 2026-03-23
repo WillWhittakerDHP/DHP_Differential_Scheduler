@@ -43,7 +43,7 @@
 - Define cookie read/write helpers and httpOnly session behavior for Express responses
 - Keep the public server contract flat so later strategies call session actions instead of duplicating persistence logic
 
-- [ ] ### Session 7.2.3: Middleware and Router Integration
+- [x] ### Session 7.2.3: Middleware and Router Integration
 **Description:** Wire the infrastructure into Express so auth-aware routes have reusable middleware and the auth router can grow beyond its current placeholder state.
 **Tasks:** 3
 **Focus:**
