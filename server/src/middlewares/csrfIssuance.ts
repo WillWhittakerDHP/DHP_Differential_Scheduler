@@ -16,13 +16,13 @@ import { createLogger } from '../utils/logger.js'
 const logger = createLogger('middleware.csrfIssuance')
 
 /** Readable cookie name — SPA reads this; must match docs and client (8.6.2). */
-export const CSRF_TOKEN_COOKIE_NAME = 'csrf_token'
+const CSRF_TOKEN_COOKIE_NAME = 'csrf_token'
 
 /** Header the client must send on POST/PUT/PATCH/DELETE (validation in 8.6.1.2). */
 export const CSRF_HEADER_NAME = 'X-CSRF-Token'
 
 /** Key inside `Session.sess` JSONB (server-authoritative value). */
-export const CSRF_SESS_KEY = 'csrfToken'
+const CSRF_SESS_KEY = 'csrfToken'
 
 const CSRF_TOKEN_BYTE_LEN = 32
 const MIN_STORED_TOKEN_LEN = CSRF_TOKEN_BYTE_LEN * 2

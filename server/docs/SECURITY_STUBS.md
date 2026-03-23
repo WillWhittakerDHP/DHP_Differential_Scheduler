@@ -16,7 +16,7 @@ In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Featu
 | Header for mutating requests (validation active) | **`X-CSRF-Token`** — send the same value as `csrf_token` |
 | When skipped | No session cookie, or session row missing/expired — no cookie set |
 
-**Exports:** `CSRF_TOKEN_COOKIE_NAME`, `CSRF_HEADER_NAME`, `CSRF_SESS_KEY` from `csrfIssuance.ts` for server and documentation parity with the Vue client (8.6.2).
+**Exports from `csrfIssuance.ts`:** `CSRF_HEADER_NAME`, `readStoredCsrfToken`, `ensureCsrfTokenAttached`. The readable cookie name (`csrf_token`) and `Session.sess` key (`csrfToken`) are **module-private constants** in that file — this doc lists their string values for parity with the Vue client (8.6.2).
 
 ### How to verify (manual)
 
@@ -45,11 +45,11 @@ In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Featu
 
 ### Canonical names (keep in sync with server)
 
-| Role | Value | Server export (reference) |
-|------|--------|---------------------------|
-| Readable cookie | `csrf_token` | `CSRF_TOKEN_COOKIE_NAME` |
-| Request header | `X-CSRF-Token` | `CSRF_HEADER_NAME` |
-| DB `Session.sess` key | `csrfToken` | `CSRF_SESS_KEY` |
+| Role | Value | Server reference (`csrfIssuance.ts`) |
+|------|--------|--------------------------------------|
+| Readable cookie | `csrf_token` | private constant (same string) |
+| Request header | `X-CSRF-Token` | exported `CSRF_HEADER_NAME` |
+| DB `Session.sess` key | `csrfToken` | private constant (same string) |
 
 In the client, use the **same string literals** or define matching constants in `client/src/` (e.g. next to your API module) so they stay aligned with the server file above.
 

@@ -6,7 +6,7 @@ const logger = createLogger('csrfClient')
  * CSRF cookie/header names must stay aligned with server `csrfIssuance.ts` / `security.ts`.
  * No env vars — fixed contract for SPA + API.
  */
-export const CSRF_COOKIE_NAME = 'csrf_token'
+const CSRF_COOKIE_NAME = 'csrf_token'
 export const CSRF_HEADER_NAME = 'X-CSRF-Token'
 
 /**
