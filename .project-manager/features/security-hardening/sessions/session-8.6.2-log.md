@@ -1,2 +1,20 @@
 # Session 8.6.2: ** Client — wire token into API layer for mutating requests; smoke-test admin and booking flows that use CRUD
 
+
+### Task 8.6.2.1: Task 8.6.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 8.6.2.2
+
+
+
+## Completed Tasks
+
+### Task 8.6.2.1: Task 8.6.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 8.6.2.2
+
+<!-- end excerpt session -->
