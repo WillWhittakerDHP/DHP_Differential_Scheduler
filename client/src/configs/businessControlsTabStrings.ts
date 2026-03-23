@@ -241,6 +241,10 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     subStepLabelConfirmMoveable: 'Confirm moveable details',
     moveableNoFeasibleCompletionSlotsMessage: DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE,
   },
+  orgDefaultBadges: {
+    orgDefault: 'Org default',
+    override: 'Override',
+  },
   sections: {
     durationRoundingTitle: 'Rounding',
     defaultLocationTitle: 'Default Location',

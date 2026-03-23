@@ -86,10 +86,15 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
 
   const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
 
-  const organizationTabEnabled = computed(
-    () => isTabActive.value === true && currentMainTab.value === 'organization'
-  )
-  const organization = useAdminOrganizationDefaults({ enabled: organizationTabEnabled })
+  /** Load org defaults on Calendar / Constraints / Organization so Grid + rounding panels can badge vs baseline without visiting Organization first. */
+  const organizationDefaultsEnabled = computed(() => {
+    if (!isTabActive.value) {
+      return false
+    }
+    const t = currentMainTab.value
+    return t === 'constraints' || t === 'calendar' || t === 'organization'
+  })
+  const organization = useAdminOrganizationDefaults({ enabled: organizationDefaultsEnabled })
 
   const loading = computed(
     () =>

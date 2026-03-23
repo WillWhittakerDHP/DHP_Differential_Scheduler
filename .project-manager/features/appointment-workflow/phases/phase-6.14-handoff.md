@@ -87,6 +87,11 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 
 **Grep follow-up:** Re-run when adding new booking or fee features: `minuteIncrement`, `durationRounding`, `driveTimeFee`, `resolveNumericPolicyForAvailabilityAndCalendar`, `resolveBookingNumericPolicyFromLoadedData`.
 
+### Session 6.14.3.2 — org default badges (2026-03-23)
+
+- **Shipped:** Organization defaults load when Business Controls main tab is **Constraints**, **Calendar**, or **Organization** (not only Organization), so **Grid → slot increment** and **Constraints → Rounding** can compare to the org baseline. Small tonal chips: **Org default** (match) vs **Override** (differs), using `client/src/utils/admin/orgDefaultPolicyBadges.ts`.
+- **Deferred:** Drive-time fee row under Calendar → confirmation/holds — no chip in this pass (merge surface is shared with availability; keep UI minimal).
+
 ---
 
 ## Phase Summary

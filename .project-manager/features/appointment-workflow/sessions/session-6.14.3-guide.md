@@ -26,7 +26,7 @@
 
 **Checkpoint:** Handoff contains an audit table or bullet list: site → resolved / exempt + rationale.
 
-- [ ] #### Task 6.14.3.2: Optional “using org default” badges on legacy Calendar / Availability panels
+- [x] #### Task 6.14.3.2: Optional “using org default” badges on legacy Calendar / Availability panels
 
 **Goal:** Where product value is clear, add minimal badges or helper text indicating a field is using the organization default vs an explicit override — without duplicating the Organization defaults tab.
 

@@ -3,15 +3,18 @@
   WHY: Extracted from BusinessControlsTab to reduce file size and cohesion
 -->
 <script setup lang="ts">
+import { computed, inject, unref } from 'vue'
+import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import {
   ROUNDING_INCREMENT_OPTIONS,
   ROUNDING_METHOD_OPTIONS
 } from '@/constants/businessControlsOptions'
+import { durationRoundingMatchesOrg } from '@/utils/admin/orgDefaultPolicyBadges'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-defineProps<{
+const props = defineProps<{
   durationRoundingEnabled: boolean
   durationRoundingIncrement: number
   durationRoundingMethod: string
@@ -26,11 +29,49 @@ const emit = defineEmits<{
 
 const roundingIncrementOptions = ROUNDING_INCREMENT_OPTIONS
 const roundingMethodOptions = ROUNDING_METHOD_OPTIONS
+
+const state = inject(BUSINESS_CONTROLS_STATE_KEY, null)
+
+const durationRoundingOrgBadge = computed((): 'match' | 'override' | null => {
+  if (state == null) {
+    return null
+  }
+  const orgModule = state.organizationDefaults
+  const loading = unref(orgModule.loading)
+  const org = unref(orgModule.formData)
+  if (loading || org == null) {
+    return null
+  }
+  const m = durationRoundingMatchesOrg(
+    props.durationRoundingEnabled,
+    props.durationRoundingIncrement,
+    props.durationRoundingMethod,
+    org
+  )
+  if (m === null) {
+    return null
+  }
+  return m ? 'match' : 'override'
+})
 </script>
 
 <template>
   <div class="mb-6">
-    <div class="text-body-large mb-3">{{ UI_STRINGS.sections.durationRoundingTitle }}</div>
+    <div class="d-flex align-center flex-wrap gap-2 mb-3">
+      <div class="text-body-large">{{ UI_STRINGS.sections.durationRoundingTitle }}</div>
+      <VChip
+        v-if="durationRoundingOrgBadge !== null"
+        size="small"
+        variant="tonal"
+        :color="durationRoundingOrgBadge === 'match' ? 'success' : 'warning'"
+      >
+        {{
+          durationRoundingOrgBadge === 'match'
+            ? UI_STRINGS.orgDefaultBadges.orgDefault
+            : UI_STRINGS.orgDefaultBadges.override
+        }}
+      </VChip>
+    </div>
     <VSwitch
       :model-value="durationRoundingEnabled"
       @update:model-value="(v: boolean | null) => emit('update:durationRoundingEnabled', v === true)"
