@@ -1,4 +1,4 @@
-# Session 7.3.2 Guide: ** Request-magic-link API + mailer abstraction (real email when configured; console/logger fallback in dev).
+# Session 7.3.2 Guide: Request magic link + delivery abstraction
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -35,29 +35,36 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 7.3.2
-**Session Name:** ** Request-magic-link API + mailer abstraction (real email when configured; console/logger fallback in dev).
-**Description:** [Brief description of session objectives]
+**Session Name:** Request magic link + delivery abstraction
+**Description:** Expose a POST endpoint to request a magic link, deliver it via a mailer abstraction (real email when configured; structured logger in dev). Reuse `issueMagicLinkForEmail`. Verify route + cookie is session 7.3.3.
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** 3 tasks
+**Status:** In Progress
 
 ### Tasks
 
-[To be planned] Task blocks finalized after materialization.
+- [x] #### Task 7.3.2.1: Magic link delivery abstraction
+**Goal:** Env-gated outbound send vs dev-only logging; stable log messages; redact secrets in logs.
+**Files:**
+- `server/src/auth/magicLinkDelivery.ts` (or `server/src/services/email/` if you prefer)
+- `server/.env.example`
+**Approach:** Single entry `sendMagicLinkNotification(...)`; no new npm deps unless already in repo; document env flags.
+**Checkpoint:** Dev path logs intent without requiring SMTP; prod path callable when env is wired.
 
-- [ ] #### Task 7.3.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 7.3.2.2: Verify URL helper + request-link handler
+**Goal:** `buildMagicLinkVerifyUrl(rawToken)`; `POST` handler that validates email, calls `issueMagicLinkForEmail`, then delivery.
+**Files:**
+- `server/src/auth/` (url helper, optional small module)
+- `server/src/routes/internal/auth/authRouter.ts`
+**Approach:** Joi body; generic JSON success (no user enumeration); CSRF on POST.
+**Checkpoint:** End-to-end in dev: POST returns 200/202 and logs show a verifiable URL fragment.
 
-- [ ] #### Task 7.3.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 7.3.2.3: Router integration and docs
+**Goal:** Wire route path under `authRouter`; align with `routes/index.ts` prefix; document env and smoke steps.
+**Files:**
+- `authRouter.ts`, `.env.example`, session planning reference
+**Approach:** Keep handlers thin; delegate to helpers; logger on unexpected errors.
+**Checkpoint:** `npm run lint` (server) clean; no verify/session cookie in this session.
 
 ---
 
@@ -403,4 +410,5 @@ Break each session into focused tasks:
 
 ## Notes
 
-[Session-specific notes, patterns, architectural decisions]
+- Depends on **7.3.1** (`issueMagicLinkForEmail`, token TTL). Verify + `Set-Cookie` belongs to **7.3.3**.
+- Planning: `.project-manager/features/authentication/sessions/session-7.3.2-planning.md`

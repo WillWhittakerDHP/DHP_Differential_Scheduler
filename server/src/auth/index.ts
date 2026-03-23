@@ -39,3 +39,4 @@ export type {
   IssueMagicLinkForEmailInput,
   IssueMagicLinkForEmailResult,
 } from './strategies/magicLinkStrategy.js'
+export { redactMagicLinkBodyForLogs, sendMagicLinkDelivery } from './magicLinkDelivery.js'
