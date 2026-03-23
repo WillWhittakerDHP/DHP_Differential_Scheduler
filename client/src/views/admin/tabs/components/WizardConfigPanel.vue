@@ -8,6 +8,7 @@ import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useGridConfigHandlers } from '@/utils/admin/gridConfigHandlers'
 import type { GridConfigState } from '@/types/admin/gridConfigHandlers'
+import WizardBrandPanel from './WizardBrandPanel.vue'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
@@ -48,6 +49,8 @@ function handleUseBrandColors(value: boolean | null): void {
       persistent-hint
       class="mb-4"
     />
+
+    <WizardBrandPanel />
 
     <VDivider v-if="state?.differential && handlers" class="my-6" />
 

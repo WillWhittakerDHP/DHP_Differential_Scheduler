@@ -3,7 +3,7 @@
  * WHY: Keeps the view thin (component-logic); orchestration lives in one composable.
  */
 import { computed, inject, provide, reactive, type ComputedRef, type Ref } from 'vue'
-import { BUSINESS_CONTROLS_STATE_KEY } from '@/views/admin/tabs/businessControlsStateKey'
+import { BUSINESS_CONTROLS_STATE_KEY, WIZARD_FORM_DATA_KEY } from '@/views/admin/tabs/businessControlsStateKey'
 import { useLocalTime } from '@/utils/time/localTime'
 import {
   useAdminAvailabilitySettings,
@@ -192,6 +192,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
   })
 
   provide(BUSINESS_CONTROLS_STATE_KEY, businessControlsState)
+  provide(WIZARD_FORM_DATA_KEY, wizard.formData)
 
   const organizationSaveButtonProps = computed(
     () =>
