@@ -25,6 +25,9 @@ const OPTIONAL_LABEL_FIELDS = [
   'subStepLabelPickTime',
   'subStepLabelConfirmMoveable',
   'moveableNoFeasibleCompletionSlotsMessage',
+  'brandPrimaryHex',
+  'brandSecondaryHex',
+  'logoUrl',
 ] as const satisfies readonly (keyof WizardSettingsData)[]
 
 /** Read optional label columns from a Sequelize model instance (explicit keys; avoids fragile row casts). */
@@ -72,6 +75,9 @@ async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<
         subStepLabelPickTime: merged.subStepLabelPickTime ?? null,
         subStepLabelConfirmMoveable: merged.subStepLabelConfirmMoveable ?? null,
         moveableNoFeasibleCompletionSlotsMessage: merged.moveableNoFeasibleCompletionSlotsMessage ?? null,
+        brandPrimaryHex: merged.brandPrimaryHex ?? null,
+        brandSecondaryHex: merged.brandSecondaryHex ?? null,
+        logoUrl: merged.logoUrl ?? null,
       },
       { transaction: t }
     )
@@ -92,6 +98,9 @@ async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<
         subStepLabelPickTime: merged.subStepLabelPickTime ?? null,
         subStepLabelConfirmMoveable: merged.subStepLabelConfirmMoveable ?? null,
         moveableNoFeasibleCompletionSlotsMessage: merged.moveableNoFeasibleCompletionSlotsMessage ?? null,
+        brandPrimaryHex: merged.brandPrimaryHex ?? null,
+        brandSecondaryHex: merged.brandSecondaryHex ?? null,
+        logoUrl: merged.logoUrl ?? null,
         updatedAt: new Date(),
       },
       { transaction: t }
