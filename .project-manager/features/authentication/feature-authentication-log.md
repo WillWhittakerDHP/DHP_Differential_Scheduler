@@ -6,270 +6,70 @@
 
 ---
 
-
-## Feature Start - 2026-02-18
+## Feature start — 2026-02-18
 
 **Feature:** authentication
 **Status:** Complete
-**Description:** 
+**Description:** User authentication for the scheduler (sessions, strategies, magic link beta path).
+**Objectives:** Ship DB/models, server auth infrastructure, and magic link flow per phases 7.1–7.3.
 
-**Objectives:**
-
-
-**Phases Planned:** 5
+**Phases planned:** 7.1, 7.2, 7.3 (plus any future auth hardening tracked separately)
 
 ---
 
-
-## Feature Status
+## Feature status
 
 **Feature:** authentication
-**Status:** [Not Started / Research / Planning / In Progress / Complete]
+**Status:** Complete
 **Started:** 2026-02-18
-**Completed:** —
-
----
-
-## Research Phase
-
-### Research Phase Entry [Date]
-**Status:** [In Progress / Complete]
-**Researcher:** [Name/Agent]
-**Key Findings:**
-- [Finding 1]
-- [Finding 2]
-
-**Decisions Made:**
-- [Decision 1]
-- [Decision 2]
-
-**Research Documentation:**
-- Research Questions: `.project-manager/features/[name]/research-questions.md`
-
----
-
-## Completed Phases
-
-### Phase [N]: [Phase Name] ✅
-**Completed:** 2026-03-23
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
-### Phase [N+1]: [Phase Name] ✅
-**Completed:** 2026-03-23
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
----
-
-## In Progress Phases
-
-### Phase [N]: [Phase Name] 🔄
-**Started:** [Date]
-**Current Session:** [SESSION_ID]
-**Progress:** [X] of [Y] sessions complete
-
----
-
-## Blockers and Issues
-
-### Blocker [Date]
-**Description:** [What's blocking progress]
-**Impact:** [How it affects the feature]
-**Resolution:** [How it was resolved or plan to resolve]
-
----
-
-## Key Decisions
-
-### Decision [Date]
-**Context:** [What decision was needed]
-**Decision:** [What was decided]
-**Rationale:** [Why this decision was made]
-**Impact:** [How this affects the feature and downstream work]
-
----
-
-## Feature Checkpoints
-
-### Checkpoint [Date]
-**Phases Completed:** [N, N+1, ...]
-**Status:** [On track / Behind / Ahead]
-**Notes:** [Checkpoint notes]
-**Git Branch:** `feature/[name]`
-**Git Commit:** [Commit hash]
-
----
-
-## Feature Changes
-
-### Feature Change [Date]
-**From:** [Previous state]
-**To:** [New state]
-**Reason:** [Why the change was made]
-**Impact:** [How this affects phases/sessions]
-
-**Documentation:**
-- Feature Change Doc: `.project-manager/features/[name]/feature-[name]-change.md`
-
----
-
-## Feature Checkpoints
-
-### Checkpoint 2026-02-20
-**Status:** [On track / Behind / Ahead]
-**Notes:** [Checkpoint notes]
-**Git Branch:** `feature/authentication`
-**Git Commit:** [Commit hash]
-
----
-
-## Next Steps
-
-- [Next phase to start]
-- [Actions needed]
-- [Dependencies to resolve]
-
----
-
-## Feature Completion Summary
-
-**Feature:** authentication
 **Completed:** 2026-03-23
 
-### Completed Phases
+---
 
-## Completed Phases
+## Completed phases
 
-### Phase [N]: [Phase Name] ✅
+### Phase 7.1: Database & models
+
+**Completed:** 2026-03-23  
+**Sessions:** per phase-7.1 guides on disk  
+**Accomplishments:** Schema/migrations and models aligned with auth entities (sessions, magic links, etc.).
+
+### Phase 7.2: Server infrastructure
+
+**Completed:** 2026-03-23  
+**Sessions:** per phase-7.2 guides on disk  
+**Accomplishments:** Strategy interface, session manager, auth config, middleware, router wiring.
+
+### Phase 7.3: Magic link strategy (beta / development)
+
+**Completed:** 2026-03-23  
+**Sessions:** 7.3.x (request, verify, cookie session)  
+**Accomplishments:** Magic link request and verify routes, structured errors/logging, env documentation.
+
+---
+
+## Feature checkpoints
+
+### Checkpoint 2026-03-23
+
+**Phases completed:** 7.1, 7.2, 7.3  
+**Status:** Complete  
+**Notes:** Documentation normalized for handoff; integration line is **`develop`**.  
+**Git:** Work merged to **`develop`**; **`main`** updated via merge from **`develop`** when releasing.
+
+---
+
+## Feature completion summary
+
+**Feature:** authentication  
 **Completed:** 2026-03-23
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
 
-**Decisions Made:**
-- [Decision that affects feature]
-
-### Phase [N+1]: [Phase Name] ✅
-**Completed:** 2026-03-23
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
+All planned phases for this feature tranche are complete. Follow-up work (e.g. additional strategies, production hardening) should be scheduled as new tasks/phases in **PROJECT_PLAN**.
 
 ---
 
+## Related documents
 
-### Key Decisions
-
-## Key Decisions
-
-### Decision [Date]
-**Context:** [What decision was needed]
-**Decision:** [What was decided]
-**Rationale:** [Why this decision was made]
-**Impact:** [How this affects the feature and downstream work]
-
----
-
-
-### Completed Phases
-
-## Completed Phases
-
-### Phase [N]: [Phase Name] ✅
-**Completed:** 2026-03-23
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
-### Phase [N+1]: [Phase Name] ✅
-**Completed:** 2026-03-23
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
----
-
-
-### Key Decisions
-
-## Key Decisions
-
-### Decision [Date]
-**Context:** [What decision was needed]
-**Decision:** [What was decided]
-**Rationale:** [Why this decision was made]
-**Impact:** [How this affects the feature and downstream work]
-
----
-
-
-### Completed Phases
-
-## Completed Phases
-
-### Phase [N]: [Phase Name] ✅
-**Completed:** [Date]
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
-### Phase [N+1]: [Phase Name] ✅
-**Completed:** [Date]
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
----
-
-
-### Key Decisions
-
-## Key Decisions
-
-### Decision [Date]
-**Context:** [What decision was needed]
-**Decision:** [What was decided]
-**Rationale:** [Why this decision was made]
-**Impact:** [How this affects the feature and downstream work]
-
----
-
-
-## Related Documents
-
-- Feature Guide: `.project-manager/features/[name]/feature-[name]-guide.md`
-- Feature Handoff: `.project-manager/features/[name]/feature-[name]-handoff.md`
-- Phase Logs: `.project-manager/features/[name]/phases/phase-[N]-log.md`
-
+- Feature guide: `.project-manager/features/authentication/feature-authentication-guide.md`
+- Feature handoff: `.project-manager/features/authentication/feature-authentication-handoff.md`
+- Phase logs: `.project-manager/features/authentication/phases/phase-7.*-log.md`

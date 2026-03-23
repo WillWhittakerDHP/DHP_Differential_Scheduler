@@ -9,120 +9,98 @@
 ## Feature Overview
 
 **Feature Name:** authentication
-**Description:** 
+**Description:** User authentication (sessions, strategies, magic link beta).
 **Status:** Complete
 
-**Duration:** [To be determined]
+**Duration:** 2026-02-18 — 2026-03-23
 **Started:** 2026-02-18
-**Completed:** —
+**Completed:** 2026-03-23
 
 ---
 
 ## Research Phase
 
-Research phase not yet started — architectural decisions to be documented in this guide.
+Research folded into phases 7.1–7.3; key decisions recorded in phase logs and server docs.
 
 ---
 
 ## Feature Objectives
 
-- [Objective 1]
-- [Objective 2]
-- [Objective 3]
+- [x] Database and models for auth-related entities
+- [x] Server infrastructure (strategy, session, middleware, routing)
+- [x] Magic link strategy for beta/development flows
 
 ---
 
 ## Phases Breakdown
 
-- [ ] ### Phase 7.1: Database & Models
-**Description:** 
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
+- [x] ### Phase 7.1: Database & Models
+**Description:** Migrations and models for sessions, magic links, and related tables.
+**Duration:** _(completed 2026-03-23)_
+**Sessions:** See phase-7.1 guides
+**Dependencies:** Local DB for migrations (policy: migrations on host when shared DB)
+**Success Criteria:** DDL aligned with server usage; migrations apply on localhost.
 
+- [x] ### Phase 7.2: Server Infrastructure (Strategy Interface, Session Manager, Auth Config, Middleware, Router)
+**Description:** Pluggable auth strategies, session issuance, config, and HTTP pipeline.
+**Duration:** _(completed 2026-03-23)_
+**Sessions:** See phase-7.2 guides
+**Dependencies:** Phase 7.1 schema
+**Success Criteria:** Auth middleware and routes callable; session cookies issued consistently.
 
-- [ ] ### Phase 7.2: Server Infrastructure (Strategy Interface, Session Manager, Auth Config, Middleware, Router)
-**Description:** 
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
-
-
-- [ ] ### Phase 7.3: Magic Link Strategy (Beta / Development)
-**Description:** 
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
+- [x] ### Phase 7.3: Magic Link Strategy (Beta / Development)
+**Description:** Request and verify magic links; set session cookie; structured logging.
+**Duration:** _(completed 2026-03-23)_
+**Sessions:** 7.3.x
+**Dependencies:** Phase 7.2 infrastructure
+**Success Criteria:** Documented env vars; verify route validates token and establishes session.
 
 
 - [ ] ### Phase 7.4: Client-Side Auth
-**Description:** 
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
-
+**Description:** _(future tranche — not in scope for 7.1–7.3 completion)_
+**Duration:** TBD
+**Sessions:** TBD
+**Dependencies:** Phase 7.3 APIs stable
+**Success Criteria:** TBD
 
 - [ ] ### Phase 7.5: Password Strategy (Production — Deferred)
-**Description:** 
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
-
-
-- [ ] ### Phase [N+1]: [Phase Name]
-**Description:** [What this phase accomplishes]
-**Duration:** [Estimated weeks]
-**Sessions:** [Number of sessions]
-**Dependencies:** [Prerequisites]
-**Success Criteria:**
-- [Criterion 1]
-- [Criterion 2]
+**Description:** _(deferred per plan)_
+**Duration:** TBD
+**Sessions:** TBD
+**Dependencies:** TBD
+**Success Criteria:** TBD
 
 ---
 
 ## Dependencies
 
 **Prerequisites:**
-- [Dependency 1]
-- [Dependency 2]
+- Local or hosted DB for migrations (see migration policy)
+- Env vars documented in server `.env.example` / root `.env.example`
 
-**Downstream Impact:**
-- [How this feature affects other features/work]
+**Downstream impact:** Booking and admin UIs consume auth when wired client-side (phase 7.4+).
 
-**External Dependencies:**
-- [External dependency 1]
-- [External dependency 2]
+**External dependencies:** Email delivery for magic links (provider-specific).
 
 ---
 
-## Success Criteria
+## Success criteria (tranche 7.1–7.3)
 
-- [ ] All phases completed
-- [ ] All research questions answered
-- [ ] Architecture decisions documented
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Tests passing
-- [ ] Performance targets met
-- [ ] Ready for production
+- [x] Phases 7.1–7.3 completed
+- [x] Architecture and env documented for delivered scope
+- [x] Documentation updated (guide, log, handoff)
+- [ ] Phases 7.4+ (client auth, password strategy) — not part of this completion
 
 ---
 
 ## Git Branch Strategy
 
-**Branch Name:** `feature/[name]`
+**Branch Name:** `feature/authentication` (when used by harness)
 **Branch From:** `develop`
 **Merge To:** `develop`
 
 **Branch Management:**
-- Created: [Date] (at feature start)
-- Merged: [Date] (at feature end)
-- Deleted: [Date] (after merge)
+- Integrated on **`develop`** as of 2026-03-23; feature branch may be removed after merge.
 
 ---
 

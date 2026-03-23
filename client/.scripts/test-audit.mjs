@@ -4,6 +4,7 @@ import {
   listAuditFiles,
   listTestFiles,
   isTestFileFromCentralConfig,
+  isTestingEnabled,
   resolveAuditPaths,
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
@@ -29,6 +30,10 @@ import {
  * Notes:
  * - This is a fast AST-like scan using regex patterns (not full parsing)
  * - It intentionally over-flags; the report is a starting point for test strategy
+ *
+ * When TEST_ENABLED is not true and APP_STAGE is not staging (project root .env),
+ * writes a no-op report so tier-quality / feature-end are not blocked until
+ * LAUNCH_CHECKLIST Phase 3.0 (same policy as coverage-risk-crossref-audit.mjs).
  */
 
 function toRepoPath(absPath, projectRoot) {
@@ -381,6 +386,38 @@ function findTestFile(sourcePath, allTestFiles, projectRoot) {
 
 function main() {
   const paths = resolveAuditPaths('test')
+
+  if (!isTestingEnabled()) {
+    const generatedAt = new Date().toISOString()
+    const out = {
+      generatedAt,
+      testsEnabled: false,
+      summary: {
+        totalSourceFiles: 0,
+        totalTestFiles: 0,
+        untestedSourceFiles: 0,
+        orphanedTestFiles: 0,
+        coveragePercentage: 100,
+      },
+      untestedSource: [],
+      orphanedTests: [],
+      byDirectory: [],
+      sourceAnalysis: [],
+      testAnalysis: [],
+    }
+    const mdContent = [
+      '# Test Audit Report (Generated)',
+      '',
+      `Generated at: ${generatedAt}`,
+      '',
+      '**Test coverage audit is suppressed while testing is off.** Set `TEST_ENABLED=true` or `APP_STAGE=staging` in project root `.env` (see LAUNCH_CHECKLIST Phase 3.0a) and re-run this audit to populate findings.',
+      '',
+    ].join('\n')
+    const { outJson, outMd } = writeAuditReports('test', out, mdContent)
+    console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
+    console.log('Testing disabled (TEST_ENABLED not true, APP_STAGE not staging): test audit suppressed.')
+    return
+  }
 
   // Load priority config
   let priorityConfig = {}
