@@ -27,6 +27,14 @@
 
 
 
+### Session 6.14.3: Org-default UX polish, resolver audit, and test policy alignment ✅
+**Completed:** 2026-03-23
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Org-default UX polish, resolver audit, and test policy alignment
+
+
+
 ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar) ✅
 **Completed:** 2026-03-23  
 **Key Accomplishments:** Shared `OrganizationDefaults` types; resolver; JSONB persistence; admin surface; merge-at-read on computed availability server path.
