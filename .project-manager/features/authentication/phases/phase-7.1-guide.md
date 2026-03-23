@@ -31,7 +31,7 @@ Sessions and tasks for this phase. See **Sessions Breakdown** below.
 - Match columns to session-manager / magic-link design (expiry, token storage, user linkage)
 - Follow repo migration conventions; respect DB_HOST policy for running migrations
 
-- [ ] ### Session 7.1.2: Sequelize models & registration
+- [x] ### Session 7.1.2: Sequelize models & registration
 **Description:** Implement models for the new tables, define associations to `User`, export via `server/src/db/models/index.ts` (and association files if required by repo pattern).
 **Tasks:** [To be planned]
 **Focus:**

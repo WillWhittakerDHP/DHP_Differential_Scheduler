@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 7.1.2: Sequelize models & registration ✅
+**Completed:** 2026-03-23
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** Sequelize models — register Session and MagicLink (or agreed names), associations, model index wiring
+
+
+
 ### Session 7.1.1: Migrations — sessions & magic_links ✅
 **Completed:** 2026-03-23
 **Tasks Completed:** All tasks completed
