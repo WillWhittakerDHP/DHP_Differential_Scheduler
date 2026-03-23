@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 7.2.2.1: Session manager (DB lifecycle)
+- [x] #### Task 7.2.2.1: Session manager (DB lifecycle)
 **Goal:** Create, load, and revoke sessions via Sequelize `Session` model with explicit expiry handling and logging on errors.
 **Files:** 
 - `server/src/db/models/auth/session.ts` (reference)

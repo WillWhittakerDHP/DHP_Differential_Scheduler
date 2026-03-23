@@ -15,3 +15,9 @@ export type {
 } from './strategies/strategyTypes.js'
 export { AUTH_FAILURE_CODES, buildAuthPlaceholder501Body } from './strategies/strategyTypes.js'
 export { getAuthConfig, type AuthRuntimeConfig } from '../config/authConfig.js'
+export {
+  createAuthSession,
+  getAuthSessionBySid,
+  revokeAuthSession,
+  type CreatedAuthSession,
+} from './sessionManager.js'
