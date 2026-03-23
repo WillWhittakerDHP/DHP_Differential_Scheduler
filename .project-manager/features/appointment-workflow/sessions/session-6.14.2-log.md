@@ -11,14 +11,6 @@ Wire merged organization defaults + availability + calendar numeric policy on re
 
 ## Completed Tasks
 
-### Task 6.14.2.3: Task 6.14.2.3 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.14.2.4
-
-
-
 ### Task 6.14.2.1: Audit + server wiring and validation parity ✅
 
 **Completed:** 2026-03-23  
@@ -35,15 +27,6 @@ Wire merged organization defaults + availability + calendar numeric policy on re
 **Summary:** Updated `phase-6.14-handoff.md`, `session-6.14.2-handoff.md`, `phase-6.14-guide.md` success criteria; `phase-6.14-log.md` session entry; client + server lint run.
 
 <!-- end excerpt session -->
-
-### Task 6.14.2.3: Task 6.14.2.3 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.14.2.4
-
-
-
 
 ## Test Status
 

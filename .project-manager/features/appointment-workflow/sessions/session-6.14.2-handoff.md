@@ -29,8 +29,6 @@ Completed Task
 **What you need to start:**
 - Begin Session 
 
-<!-- end excerpt session -->
-
 ## Across ladder (harness)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
@@ -42,3 +40,5 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 - **Tasks in session (detected):** 3 · **Next task across:** `6.14.2.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
 <!-- harness-across-ladder:end -->
+
+<!-- end excerpt session -->

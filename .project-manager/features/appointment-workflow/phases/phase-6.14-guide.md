@@ -48,7 +48,11 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 **Tasks:** Types; merge/resolve; persistence; admin UI; initial server wiring + documented deferrals.
 **Focus:** Single resolver module; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
 
+<<<<<<< HEAD
 - [x] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
+=======
+- [ ] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
+>>>>>>> dd05826dd ([auto] workflow artifacts before branch switch)
 **Description:** Close gaps from 6.14.1 — wire resolver across remaining booking/server read and validation paths (or document exceptions); optional “using org default” badges on Calendar/Availability panels; finalize phase success criteria.
 **Tasks:** Audit call sites; server + client alignment as needed; admin badges; handoff updates.
 **Focus:** Parity between what the wizard sees and what the server enforces.

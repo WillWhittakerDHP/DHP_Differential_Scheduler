@@ -68,7 +68,7 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 ## Phase Summary
 
 **Sessions completed:** 6.14.1, 6.14.2  
-**Sessions remaining:** _(none in phase 6.14)_  
+**Sessions remaining:** _(none in phase 6.14)_
 
 **Key accomplishments (6.14.1):**
 
