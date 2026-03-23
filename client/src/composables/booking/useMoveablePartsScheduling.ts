@@ -7,7 +7,7 @@
  * same components and constraint semantics.
  */
 import type { Ref } from 'vue'
-import { computed, ref, watch, type ComputedRef } from 'vue'
+import { computed, ref, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import type { PropertyDetailsData } from '@/types/propertyForm'
@@ -32,6 +32,7 @@ import {
   computeMoveableSlotRowDayLabel,
   computeMoveableStepperDayLabel,
 } from '@/utils/booking/moveableDayDisplayLabel'
+import { useMoveablePartsSchedulingDayKeys } from '@/composables/booking/useMoveablePartsSchedulingDayKeys'
 
 const DEFAULT_MOVEABLE_FALLBACK_LABEL = 'Post-Appointment Work'
 
@@ -92,14 +93,14 @@ export interface UseMoveablePartsSchedulingReturn {
   selectedMoveableDay: Ref<string | null>
   /** Set selected day (e.g. from calendar in modal). */
   setSelectedMoveableDay: (date: string | null) => void
-  /** Predicate: date allowed when it is a canonical UTC day key with ≥1 slot after moveable window filter. */
+  /** Predicate: date allowed when it is a canonical UTC day key with ≥1 slot after the moveable slot filter. */
   allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
-  /** Sorted UTC day keys from fetched map that have at least one slot after window filter. */
+  /** Sorted UTC day keys from fetched map that have at least one slot after the slot filter. */
   availableMoveableDayKeys: ComputedRef<string[]>
   /** First / last of availableMoveableDayKeys (canonical stepper bounds). */
   moveableFirstDayKey: ComputedRef<string | null>
   moveableLastDayKey: ComputedRef<string | null>
-  /** Transient client-only window applied to raw moveable day slots (earliest start + optional deadline end). */
+  /** Transient client-only scheduling range applied to raw moveable day slots (earliest start + optional deadline end). */
   moveableSchedulingWindow: ComputedRef<MoveableSchedulingWindow | null>
   /** Current day's slots as MoveableSlot[] for saving to step data on confirm. */
   moveableSlotsForConfirm: ComputedRef<MoveableSlot[]>
@@ -221,38 +222,17 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     )
   )
 
-  const availableMoveableDayKeys = computed<string[]>(() => {
-    const map = moveableSlotsByDay.value
-    const window = moveableSchedulingWindow.value
-    return [...map.keys()]
-      .filter((key) => {
-        const raw = map.get(key) ?? []
-        return applyMoveableWindowToComputedSlots(raw, window, 'exclude').length > 0
-      })
-      .sort()
+  const {
+    availableMoveableDayKeys,
+    allowedMoveableDates,
+    moveableFirstDayKey,
+    moveableLastDayKey,
+  } = useMoveablePartsSchedulingDayKeys({
+    moveableSlotsByDay,
+    moveableSchedulingWindow,
+    selectedMoveableDay,
+    setSelectedMoveableDay,
   })
-
-  const allowedMoveableDates = computed(() => {
-    const keys = new Set(availableMoveableDayKeys.value)
-    return (date: unknown): boolean => typeof date === 'string' && keys.has(date)
-  })
-
-  const moveableFirstDayKey = computed(() => availableMoveableDayKeys.value[0] ?? null)
-
-  const moveableLastDayKey = computed(() => {
-    const keys = availableMoveableDayKeys.value
-    return keys.length > 0 ? keys[keys.length - 1] ?? null : null
-  })
-
-  watch(
-    [availableMoveableDayKeys, selectedMoveableDay],
-    ([keys, day]) => {
-      if (keys.length === 0) return
-      if (day === null || !keys.includes(day)) {
-        setSelectedMoveableDay(keys[0] ?? null)
-      }
-    }
-  )
 
   const moveableSlotsForConfirm = computed<MoveableSlot[]>(() =>
     moveableAppointmentSlots.value.map((s) => {

@@ -16,6 +16,9 @@ import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailab
 import { useAvailabilityStepAccordion } from '@/composables/booking/useAvailabilityStepAccordion'
 import { useAvailabilityStepInjections } from '@/composables/booking/useAvailabilityStepInjections'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
+import { buildAvailabilitySubStepContext } from '@/composables/booking/buildAvailabilitySubStepContext'
+import { useAvailabilityStepMoveableInfeasible } from '@/composables/booking/useAvailabilityStepMoveableInfeasible'
+import { useAvailabilityStepSlotOverlayLabelGuard } from '@/composables/booking/useAvailabilityStepSlotOverlayLabelGuard'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
 
@@ -57,40 +60,21 @@ useWizardStepSync({
 const confirmation = useAvailabilityConfirmationState()
 const { labels: bookingWizardLabels } = useWizardSettings()
 
-/** Yes+deadline moveable: loaded day slots empty — show admin message and keep step invalid until user adjusts. */
-const moveableInfeasible = computed(() => {
-  if (!o.hasMoveablePartsGated.value) return false
-  const c = o.contingencyPeriod.value
-  if (c.hasContingency !== true || !c.endDate || !c.endTime) return false
-  if (!o.moveableOptions.value) return false
-  if (o.isLoadingOptions.value || o.isLoadingMoveableDaySlots.value) return false
-  return o.moveableAppointmentSlots.value.length === 0
+const { moveableInfeasible, moveableInfeasibleMessage } = useAvailabilityStepMoveableInfeasible({
+  o,
+  moveableNoFeasibleCompletionSlotsMessage: bookingWizardLabels.moveableNoFeasibleCompletionSlotsMessage,
 })
-
-const moveableInfeasibleMessage = computed(
-  () => bookingWizardLabels.moveableNoFeasibleCompletionSlotsMessage.value
-)
 
 const ui = useAvailabilityStepUI({ o, confirmation })
 const overlay = useAvailabilityStepSlotOverlay({ o })
 
 const logger = createLogger('AvailabilityStep')
 
-watch(
-  () => ({
-    showingSlotsOverlay: overlay.showSlotsOverlay.value,
-    slotGridLabel: overlay.slotGridOverlayLabel.value,
-    bookingFlowReady: isBookingFlowReady.value,
-  }),
-  ({ showingSlotsOverlay, slotGridLabel, bookingFlowReady }) => {
-    if (bookingFlowReady && showingSlotsOverlay && !slotGridLabel) {
-      logger.warn(
-        'Slot grid overlay is shown but differentialGraphDefaultLabel is missing in wizard settings. Set it under Admin → Business Controls → Calendar → Grid, then Save (wizard settings are persisted with that save).'
-      )
-    }
-  },
-  { immediate: true }
-)
+useAvailabilityStepSlotOverlayLabelGuard({
+  overlay,
+  isBookingFlowReady,
+  logger,
+})
 
 /** Options substep only when multiple cascade choices; 0–1 options use auto/clear sync in useBookingWizard. */
 const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 1)
@@ -189,40 +173,23 @@ function onExpandedChange(val: number | { value: number }): void {
   accordion.setExpanded(num)
 }
 
-/** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
-const subStepContext = {
-  o,
-  handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
-  onOptionIdUpdate: ui.onOptionIdUpdate,
-  handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
-  handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
-  handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
-  get showSlotsOverlay() {
-    return overlay.showSlotsOverlay.value
-  },
-  get slotGridOverlayLabel() {
-    return overlay.slotGridOverlayLabel.value
-  },
-  get slotGridOverlayError() {
-    return overlay.slotGridOverlayError.value
-  },
-  get emptyStateMessage() {
-    // WHY: useAvailabilityEmptyState returns null when slots exist; context still exposes string for templates.
-    return o.emptyStateMessage.value ?? ''
-  },
-  get firstAvailableNotice() {
-    return o.firstAvailableNotice?.value ?? null
-  },
-  clearFirstAvailableNotice: o.clearFirstAvailableNotice,
-  get moveableInfeasible() {
-    return moveableInfeasible.value
-  },
-  get moveableInfeasibleMessage() {
-    return moveableInfeasibleMessage.value
-  },
-  hasOptions,
-}
-provide(availabilitySubStepContextKey, subStepContext)
+provide(
+  availabilitySubStepContextKey,
+  buildAvailabilitySubStepContext({
+    o,
+    handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
+    onOptionIdUpdate: ui.onOptionIdUpdate,
+    handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
+    handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
+    handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
+    showSlotsOverlay: overlay.showSlotsOverlay,
+    slotGridOverlayLabel: overlay.slotGridOverlayLabel,
+    slotGridOverlayError: overlay.slotGridOverlayError,
+    moveableInfeasible,
+    moveableInfeasibleMessage,
+    hasOptions,
+  })
+)
 
 onMounted(() => {
   if (hasLoadedAvailability.value) {

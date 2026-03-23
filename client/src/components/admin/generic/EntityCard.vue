@@ -5,7 +5,7 @@
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { computed, provide } from 'vue'
+import { computed } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { useEntityCardForm } from '@/composables/admin/useEntityCardForm'
 import { useEntityCardSaveAndActions } from '@/composables/admin/useEntityCardSaveAndActions'
@@ -16,7 +16,7 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
-import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCardPrimaryTitleRow from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
@@ -24,17 +24,14 @@ import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
 import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useEntityCardFieldContextAndVisibility'
-import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
 import { useEntityCardPrimaryTitleModels } from '@/composables/admin/useEntityCardPrimaryTitleModels'
-import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
+import { useEntityCardAnnotationComposedMetadata } from '@/composables/admin/useEntityCardAnnotationComposedMetadata'
+import { useEntityCardProvides } from '@/composables/admin/useEntityCardProvides'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
-/**
- *      Since we explicitly declare all props, we don't need automatic inheritance
- */
 defineOptions({
   inheritAttrs: false
 })
@@ -69,26 +66,16 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-/**
- */
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
 const { handleTitleKeydown } = entityCardTitleKeydown()
 
-/**
- * WHY: Use entity display composable for display name and messages
-WHY: Moves d...
- */
 const entityDisplayComposable = entityDisplay(useAdminConfig())
 const {
   getEntityDeleteTitle
 } = entityDisplayComposable
 
-/**
- * WHY: Use entity status composable for component status checks
-WHY: Moves comp...
- */
 void useEntityStatus({
   entityKey: props.entityKey,
   entity: computed(() => props.entity)
@@ -121,28 +108,11 @@ const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = 
   filteredMetadata: props.fieldMetadata
 })
 
-/**
- * WHY: Per-user annotation editor syncs `text` + `contentRows`; hide primitive `text` via metadata (field location dispatcher), not a parallel filter composable.
- */
-const composedFieldMetadata = computed(() => {
-  const base = baseComposedFieldMetadata.value
-  if (props.entityKey !== 'annotationInstance') {
-    return base
-  }
-  if (props.parentBlockShapeIsStateControl) {
-    return base
-  }
-  if (listSortedUserTypeBlockInstances(admin).length === 0) {
-    return base
-  }
-  const textEntry = base.text
-  if (!textEntry) {
-    return base
-  }
-  return {
-    ...base,
-    text: { ...textEntry, visibility: FIELD_VISIBILITY.HIDDEN },
-  }
+const composedFieldMetadata = useEntityCardAnnotationComposedMetadata({
+  entityKey: computed(() => props.entityKey),
+  parentBlockShapeIsStateControl: computed(() => props.parentBlockShapeIsStateControl),
+  baseComposedFieldMetadata,
+  admin,
 })
 
 const {
@@ -199,13 +169,11 @@ const {
   logger,
 })
 
-provide(ENTITY_CARD_SAVE_KEY, {
+useEntityCardProvides({
   handleSave,
   isNew: props.isNew,
-  disableAutoSave: props.disableAutoSave
+  disableAutoSave: props.disableAutoSave,
 })
-
-provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = fieldLocation.titleRowFields
 

@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
-import { useComputedAvailabilityMutableState } from '@/composables/booking/useComputedAvailabilityState'
+import { useComputedAvailabilityMutableState } from '@/composables/booking/useComputedAvailabilityMutableState'
 import { createComputedAvailabilityRangeFetcher } from '@/composables/booking/useComputedAvailabilityRangeFetcher'
 import { resolveComputedAvailabilityDerived } from '@/composables/booking/useComputedAvailabilityDerived'
 import { wireComputedAvailabilityWatchers } from '@/composables/booking/useComputedAvailabilityWiring'

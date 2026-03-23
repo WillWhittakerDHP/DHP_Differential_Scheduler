@@ -7,7 +7,7 @@ import type { ComponentPublicInstance } from 'vue'
 import {
   useMountDragAndDropOnPanelsIfReady,
   type MountDragAndDropOnPanelsParams,
-} from '@/composables/admin/useDragAndDropInstance'
+} from '@/composables/admin/useMountDragAndDropOnPanelsIfReady'
 import type { UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
 
 function scheduleMountWhenReady(params: MountDragAndDropOnPanelsParams): void {

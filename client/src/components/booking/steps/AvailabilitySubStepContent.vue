@@ -11,14 +11,13 @@ import SlotGridWithOverlay from '@/components/booking/steps/SlotGridWithOverlay.
 import type { ContingencyPeriod } from '@/types/moveableScheduling'
 import {
   clampContingencyDeadlineToEarliest,
-  minContingencyDateKeyFromEarliest,
-  minContingencyTimeForDate,
   parseContingencyDeadlineLocalWallToUtcMs,
 } from '@/utils/booking/clampContingencyDeadlineToEarliest'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
 import AvailabilityCalendarSection from '@/components/booking/steps/AvailabilityCalendarSection.vue'
 import AvailabilityOptionsSection from '@/components/booking/steps/AvailabilityOptionsSection.vue'
+import { useAvailabilitySubStepContingencyDeadlineFields } from '@/composables/booking/useAvailabilitySubStepContingencyDeadlineFields'
 
 interface Props {
   stepIndex: number
@@ -67,31 +66,12 @@ const step4HasClosingDate = computed(
 
 const hasOptions = computed(() => ctx!.hasOptions.value)
 
-/** Min date/time from selected inspection slot + buffer (Step 3+); omit min until slot picked. */
-const contingencyDeadlineMinDate = computed(() => {
-  const es = ctx!.o.moveableSchedulingWindow.value?.earliestStart
-  return es ? minContingencyDateKeyFromEarliest(es) : undefined
-})
-
-const contingencyDeadlineMinTime = computed(() => {
-  const win = ctx!.o.moveableSchedulingWindow.value
-  const endDate = ctx!.o.contingencyPeriod.value.endDate
-  if (!win?.earliestStart || !endDate) return undefined
-  return minContingencyTimeForDate(endDate, win.earliestStart)
-})
-
-/** Pass min on component attrs so Vuetify forwards it to the native date/time input (not a declared prop). */
-const deadlineDateNativeAttrs = computed(() => {
-  const min = contingencyDeadlineMinDate.value
-  return min !== undefined && min !== '' ? { min } : {}
-})
-
-/** Restricts VTimePicker dial to only minutes aligned with admin grid increment (e.g. 0, 15, 30, 45). */
-const allowedDeadlineMinutes = computed(() => {
-  const minutes = ctx!.o.availabilityMinuteIncrement.value
-  const step = Number.isFinite(minutes) && minutes > 0 ? Math.round(minutes) : 15
-  return (m: number): boolean => m % step === 0
-})
+const {
+  contingencyDeadlineMinDate,
+  contingencyDeadlineMinTime,
+  deadlineDateNativeAttrs,
+  allowedDeadlineMinutes,
+} = useAvailabilitySubStepContingencyDeadlineFields(ctx!)
 
 const deadlineTimeMenuOpen = ref(false)
 
@@ -206,9 +186,10 @@ watch(
     const clamped = clampContingencyDeadlineToEarliest(c.endDate, c.endTime, earliest)
     const beforeMs = parseContingencyDeadlineLocalWallToUtcMs(c.endDate, c.endTime)
     const afterMs = parseContingencyDeadlineLocalWallToUtcMs(clamped.endDate, clamped.endTime)
-    const deadlineUnchanged =
+    const deadlineUnchanged = (
       (beforeMs === null && afterMs === null) ||
       (beforeMs !== null && afterMs !== null && beforeMs === afterMs)
+    )
     if (!deadlineUnchanged) {
       o.contingencyPeriod.value = { ...c, endDate: clamped.endDate, endTime: clamped.endTime }
     }
