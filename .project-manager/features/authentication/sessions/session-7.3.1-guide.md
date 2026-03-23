@@ -51,7 +51,7 @@ These sections contain session-specific content:
 **Approach:** Use Node crypto for random bytes + one-way hash; centralize constants; log misconfiguration with project logger, not empty catches.
 **Checkpoint:** Hash function stable; TTL documented; raw token never persisted in DB.
 
-- [ ] #### Task 7.3.1.2: Magic link persistence layer
+- [x] #### Task 7.3.1.2: Magic link persistence layer
 **Goal:** Create, lookup by token hash, enforce `expiresAt` and `consumedAt`, mark consumed on success (single-use).
 **Files:**
 - `server/src/db/models/auth/magic_link.ts` (model usage)
