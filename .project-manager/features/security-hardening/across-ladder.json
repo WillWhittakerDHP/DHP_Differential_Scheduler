@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "feature": "security-hardening",
-  "derivedAt": "2026-03-23T20:50:23.576Z",
+  "derivedAt": "2026-03-23T20:52:26.515Z",
   "sourceTier": "session",
   "phasesOnDisk": [
     "8.1",
@@ -45,6 +45,6 @@
   "sessionAcrossTotal": 2,
   "sessionIndex0Based": 0,
   "nextSessionAcross": "8.6.2",
-  "taskAcrossTotal": 2,
+  "taskAcrossTotal": 3,
   "nextTaskAcross": "8.6.1.1"
 }

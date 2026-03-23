@@ -1,4 +1,4 @@
-# Session 8.6.1 Guide: ** Server — CSRF token issuance, `csrfProtection` validation, env/docs updates, manual verification against a mutating route
+# Session 8.6.1 Guide: Server CSRF middleware and token issuance
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -35,27 +35,38 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 8.6.1
-**Session Name:** ** Server — CSRF token issuance, `csrfProtection` validation, env/docs updates, manual verification against a mutating route
-**Description:** [Brief description of session objectives]
+**Session Name:** Server CSRF middleware and token issuance
+**Description:** Implement server-side CSRF token issuance and `csrfProtection` validation; document contract for Session 8.6.2 (Vue client).
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** ~1–2 days (3 tasks)
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 8.6.1.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 8.6.1.1: Token issuance and middleware wiring
+**Goal:** Establish how the CSRF secret/token is created and bound to the session (or cookie), and ensure middleware order in `app.ts` is correct so mutating routes can be validated in the next task.
+**Files:**
+- `server/src/middlewares/security.ts`
+- `server/src/app.ts`
+- `server/src/routes/helpers/createCrudRouter.ts` (read-only: confirm which methods use `csrfProtection`)
+**Approach:** Pick double-submit or synchronizer-token pattern; add minimal issuance (e.g. on session create or first request); use `createLogger` for diagnostics; keep `checkOwnership` unchanged.
+**Checkpoint:** Dev server starts; a test mutating request can include a token that the stub would not have rejected (or temporary log proves token is issued).
 
-- [ ] #### Task 8.6.1.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 8.6.1.2: `csrfProtection` validation and error responses
+**Goal:** Replace the `csrfProtection` no-op with validation on unsafe HTTP methods; return 403 or 400 consistently; log failures.
+**Files:**
+- `server/src/middlewares/security.ts`
+- Shared auth/error codes if needed for JSON shape
+**Approach:** Skip GET/HEAD/OPTIONS; validate header/body/cookie per chosen pattern; avoid silent catches; explicit return types on exported middleware.
+**Checkpoint:** `curl`/API client without token gets error; with valid token succeeds on at least one CRUD route behind `createCrudRouter`.
+
+- [ ] #### Task 8.6.1.3: Docs and handoff for 8.6.2
+**Goal:** Update `docs/SECURITY_STUBS.md` (and `server/.env.example` if new vars) so Session 8.6.2 can wire the Vue client without guessing names.
+**Files:**
+- `docs/SECURITY_STUBS.md`
+- `server/.env.example` (if applicable)
+**Approach:** Document cookie names, header names, exemptions, and manual verification steps; note that SPA may need 8.6.2 before UI CRUD works again.
+**Checkpoint:** Another developer can implement client headers from the doc alone; planning doc and this guide stay aligned.
 
 ---
 
@@ -266,12 +277,12 @@ Break each session into focused tasks. Each task should have:
 
 **Task Format:**
 ```
-#### Task 8.6.1.N: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+#### Task 8.6.1.N: <task title>
+**Goal:** <one sentence>
+**Files:**
+- <paths>
+**Approach:** <ordered steps>
+**Checkpoint:** <verify X>
 ```
 
 ### Session Organization
@@ -290,25 +301,24 @@ Break each session into focused tasks. Each task should have:
 When planning a new task, use this structure:
 
 ```markdown
-- [ ] #### Task 8.6.1.N: [Task Name]
+- [ ] #### Task 8.6.1.N: <task title>
 
-**Goal:** [Clear, specific objective]
+**Goal:** <clear, specific objective>
 
-**Files:** 
-- Source: `[source-path]` (if porting/migrating)
-- Target: `[target-path]` (if creating new)
+**Files:**
+- Source: `path` (if porting/migrating)
+- Target: `path` (if creating new)
 
-**Approach:** 
-- [Step 1]
-- [Step 2]
-- [Step 3]
+**Approach:**
+- Step 1
+- Step 2
 
-**Checkpoint:** 
-- [What needs to be verified]
-- [Quality criteria]
+**Checkpoint:**
+- What to verify
+- Quality criteria
 
 **Dependencies:**
-- [Prerequisite tasks or files]
+- Prerequisite tasks or files
 ```
 
 ### Task Entry Template (For Session Log)
@@ -401,4 +411,4 @@ Break each session into focused tasks:
 
 ## Notes
 
-[Session-specific notes, patterns, architectural decisions]
+Session 8.6.2 will attach the token in the Vue API layer. Until then, some browser CRUD flows may fail — expected until client work lands.

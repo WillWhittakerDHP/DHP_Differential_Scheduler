@@ -11,11 +11,11 @@ const AUTH_500_MESSAGE = 'Authentication check failed'
 const ROLE_403_MESSAGE = 'Insufficient permissions'
 
 /**
- * WHY: CSRF Protection Middleware (Stub)
-WHY: Wires CSRF protection into all st...
+ * WHY: CSRF validation (stub until 8.6.1.2). Issuance: `ensureCsrfTokenAttached` in `csrfIssuance.ts`
+ * sets `Session.sess.csrfToken` + readable `csrf_token` cookie; client must send `X-CSRF-Token`.
  */
 export function csrfProtection(req: Request, res: Response, next: NextFunction): void {
-  // Stub: see docs/SECURITY_STUBS.md
+  // Stub: see server/docs/SECURITY_STUBS.md — CSRF issuance (active)
   next()
 }
 

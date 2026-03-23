@@ -1,6 +1,29 @@
 # Security middleware stubs
 
-Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in. **`csrfProtection`** and **`checkOwnership`** remain stubs.
+Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in. **`checkOwnership`** remains a stub. **`csrfProtection`** is still a **validation stub** (Phase 8.6.1.2); **CSRF token issuance** is **active** (Phase 8.6.1.1) — see below.
+
+---
+
+## CSRF issuance (active) — Task 8.6.1.1
+
+**Location:** `server/src/middlewares/csrfIssuance.ts` (`ensureCsrfTokenAttached`)  
+**Order:** Registered in `app.ts` **after** `cookieParser()` and **before** `ROUTE_PATHS.API`.
+
+| Contract | Value |
+|----------|--------|
+| Session store | `Session.sess` JSONB key `csrfToken` (64-char hex from 32 random bytes) |
+| Readable cookie | Name: **`csrf_token`** — `httpOnly: false`, `sameSite: lax`, `secure` in production |
+| Header for mutating requests (validation pending 8.6.1.2) | **`X-CSRF-Token`** — send the same value as `csrf_token` |
+| When skipped | No session cookie, or session row missing/expired — no cookie set |
+
+**Exports:** `CSRF_TOKEN_COOKIE_NAME`, `CSRF_HEADER_NAME`, `CSRF_SESS_KEY` from `csrfIssuance.ts` for server and documentation parity with the Vue client (8.6.2).
+
+### How to verify (manual)
+
+1. Log in so you have a valid session cookie (Feature 7).
+2. `GET` any API route with that cookie (e.g. `curl -v` with `-b` cookie jar after login).
+3. Response `Set-Cookie` should include **`csrf_token`** (non-HttpOnly).
+4. Confirm `sessions.sess` JSON for your `sid` contains `"csrfToken"`.
 
 ---
 
@@ -222,9 +245,8 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 
 ### csrfProtection
 
-- Extract CSRF token from request header (e.g. `X-CSRF-Token`).
-- Compare against session/token store.
-- Reject requests with invalid or missing tokens (e.g. 403 Forbidden).
+- **Issuance (done):** see **CSRF issuance (active)** above.
+- **Validation (planned 8.6.1.2):** Extract CSRF token from header `X-CSRF-Token` (see `CSRF_HEADER_NAME`), compare to `Session.sess.csrfToken`, reject with 403/400 when missing or mismatched on unsafe methods.
 
 ### requireAuth
 
