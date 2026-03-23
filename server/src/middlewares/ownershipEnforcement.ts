@@ -40,7 +40,7 @@ function isStaffScopedResourceName(name: string): name is StaffScopedResourceNam
   return Object.prototype.hasOwnProperty.call(STAFF_SCOPED_MODELS, name)
 }
 
-export function idsEqual(a: unknown, b: unknown): boolean {
+function idsEqual(a: unknown, b: unknown): boolean {
   if (a === null || a === undefined || b === null || b === undefined) {
     return false
   }
@@ -48,7 +48,7 @@ export function idsEqual(a: unknown, b: unknown): boolean {
 }
 
 /** Agent, transaction_manager, and seller may mutate internal admin resources without a per-row user owner. */
-export function isInternalStaffRole(role: string | undefined): boolean {
+function isInternalStaffRole(role: string | undefined): boolean {
   if (role === undefined || role === '') {
     return false
   }

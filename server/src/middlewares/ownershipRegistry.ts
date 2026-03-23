@@ -6,7 +6,7 @@ import type { Model, ModelStatic } from 'sequelize'
 import { Appointment, User } from '../config/app.js'
 
 /** How to compare `req.user.id` to a loaded Sequelize row (8.7.1.2). */
-export type OwnershipOwnerResolution =
+type OwnershipOwnerResolution =
   | { mode: 'column'; field: string }
   | { mode: 'row_pk_is_user' }
 
@@ -24,7 +24,7 @@ export type OwnershipRegistryEntry =
  * Every `resourceName` currently passed to `checkOwnership` (manual calls + `createCrudRouter`).
  * Keep in sync with `rg "checkOwnership\\(" server` and `resourceName:` in CRUD configs.
  */
-export const OWNERSHIP_RESOURCE_NAMES = [
+const OWNERSHIP_RESOURCE_NAMES = [
   'appointment',
   'appointmentFeeSummary',
   'beta feedback',
@@ -40,7 +40,7 @@ export const OWNERSHIP_RESOURCE_NAMES = [
   'wizardSetting',
 ] as const
 
-export type OwnershipResourceName = (typeof OWNERSHIP_RESOURCE_NAMES)[number]
+type OwnershipResourceName = (typeof OWNERSHIP_RESOURCE_NAMES)[number]
 
 const OWNERSHIP_REGISTRY: Record<OwnershipResourceName, OwnershipRegistryEntry> = {
   appointment: {
@@ -116,6 +116,6 @@ export function getOwnershipRegistryEntry(resourceName: string): OwnershipRegist
   return OWNERSHIP_REGISTRY[resourceName]
 }
 
-export function isOwnershipResourceName(name: string): name is OwnershipResourceName {
+function isOwnershipResourceName(name: string): name is OwnershipResourceName {
   return (OWNERSHIP_RESOURCE_NAMES as readonly string[]).includes(name)
 }
