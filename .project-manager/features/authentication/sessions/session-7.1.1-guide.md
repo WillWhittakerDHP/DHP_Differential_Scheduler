@@ -1,4 +1,4 @@
-# Session 7.1.1 Guide: ** Migrations — `sessions` and `magic_links` tables, indexes, FK to `users` where required
+# Session 7.1.1 Guide: Migrations — sessions & magic_links
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -35,27 +35,27 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 7.1.1
-**Session Name:** ** Migrations — `sessions` and `magic_links` tables, indexes, FK to `users` where required
-**Description:** [Brief description of session objectives]
+**Session Name:** Migrations — sessions & magic_links
+**Description:** Add PostgreSQL migrations for `sessions` and `magic_links`; Sequelize models land in Session 7.1.2.
 
 **Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 7.1.1.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 7.1.1.1: Migration — `sessions` table
+**Goal:** Create the `sessions` table migration with columns, indexes, and FK to `users` as required by the session-store design for Phase 7.2.
+**Files:**
+- `server/migrations/*` (new file)
+**Approach:** Follow existing repo migration patterns; align column types with `users.id`; add indexes for session lookup and expiry maintenance.
+**Checkpoint:** `up`/`down` succeed on local Postgres when migrations are allowed to run; no model layer changes required for this task.
 
-- [ ] #### Task 7.1.1.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 7.1.1.2: Migration — `magic_links` table
+**Goal:** Create the `magic_links` table migration (hashed token, expiry, consumption state, indexes; optional `user_id` / email per design).
+**Files:**
+- `server/migrations/*` (new or follow-up file in same PR as 7.1.1.1 if using one migration)
+**Approach:** Store hashed token only; index fields used for verify and cleanup; FK to `users` when row is user-bound.
+**Checkpoint:** `up`/`down` succeed; schema ready for magic-link strategy in Phase 7.3 and models in 7.1.2.
 
 ---
 
