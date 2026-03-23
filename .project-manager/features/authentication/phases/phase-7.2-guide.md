@@ -35,7 +35,7 @@
 - Add auth config helpers for cookie/session behavior and environment-driven strategy selection
 - Replace placeholder planning ambiguity with concrete file locations and naming for the auth server module
 
-- [ ] ### Session 7.2.2: Session Manager and Cookie Lifecycle
+- [x] ### Session 7.2.2: Session Manager and Cookie Lifecycle
 **Description:** Add the persistent session layer that strategies can use without owning cookie or database lifecycle details directly.
 **Tasks:** 3
 **Focus:**
