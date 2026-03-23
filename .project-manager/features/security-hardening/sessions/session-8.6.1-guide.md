@@ -60,7 +60,7 @@ These sections contain session-specific content:
 **Approach:** Skip GET/HEAD/OPTIONS; validate header/body/cookie per chosen pattern; avoid silent catches; explicit return types on exported middleware.
 **Checkpoint:** `curl`/API client without token gets error; with valid token succeeds on at least one CRUD route behind `createCrudRouter`.
 
-- [ ] #### Task 8.6.1.3: Docs and handoff for 8.6.2
+- [x] #### Task 8.6.1.3: Docs and handoff for 8.6.2
 **Goal:** Update `docs/SECURITY_STUBS.md` (and `server/.env.example` if new vars) so Session 8.6.2 can wire the Vue client without guessing names.
 **Files:**
 - `docs/SECURITY_STUBS.md`

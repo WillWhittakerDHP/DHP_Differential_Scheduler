@@ -1,6 +1,6 @@
 # Security middleware stubs
 
-Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in. **`checkOwnership`** remains a stub. **`csrfProtection`** validation is **active** (Phase 8.6.1.2); **CSRF token issuance** is **active** (Phase 8.6.1.1) — see below.
+In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. **`csrfProtection`** (validation) and CSRF **issuance** are **active** (Phase 8.6.1.x) — see below. **`checkOwnership`** remains a **stub** (Phase 8.7). None of these are global — routes opt in.
 
 ---
 
@@ -36,6 +36,58 @@ Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs**
 | Session cookie but no DB row | **403** `FORBIDDEN` — CSRF validation failed |
 | Session row but no `sess.csrfToken` | **403** — client should issue token via a safe request first (`ensureCsrfTokenAttached` on GET) |
 | Header missing or mismatch | **403** — compared with `crypto.timingSafeEqual` (UTF-8 buffers, same length) |
+
+## Vue SPA — CSRF header wiring (Session 8.6.2)
+
+**Purpose:** One place for the Vue team to implement CSRF without reading `security.ts`. Mutating browser calls to internal API routes that use **`csrfProtection`** must send **`X-CSRF-Token`** when a **session cookie** is present, or the server responds **403** (`FORBIDDEN`, message **CSRF validation failed**).
+
+**CSRF env vars:** None. Names are **code constants** in `server/src/middlewares/csrfIssuance.ts` — do not add `CSRF_*` to `server/.env.example` for this contract.
+
+### Canonical names (keep in sync with server)
+
+| Role | Value | Server export (reference) |
+|------|--------|---------------------------|
+| Readable cookie | `csrf_token` | `CSRF_TOKEN_COOKIE_NAME` |
+| Request header | `X-CSRF-Token` | `CSRF_HEADER_NAME` |
+| DB `Session.sess` key | `csrfToken` | `CSRF_SESS_KEY` |
+
+In the client, use the **same string literals** or define matching constants in `client/src/` (e.g. next to your API module) so they stay aligned with the server file above.
+
+### End-to-end flow
+
+1. User has a **session** (HttpOnly session cookie from Feature 7).
+2. Issue the CSRF cookie: call any **safe** internal API with **`credentials: 'include'`** so the server runs **`ensureCsrfTokenAttached`** and responds with **`Set-Cookie: csrf_token=...`** (non-HttpOnly).
+3. Read the token (e.g. parse `document.cookie` for `csrf_token`, or read it from your wrapper after the response).
+4. On **POST**, **PUT**, **PATCH**, **DELETE** to protected routes, send **`X-CSRF-Token: <same value>`** and **`credentials: 'include'`**.
+
+**Skip path:** If there is **no** session cookie, **`csrfProtection`** does not require a header (e.g. first **`POST /auth/login`** / **`POST /auth/magic-link/request`**). After login, the session exists — subsequent mutating calls **must** include the header.
+
+### `fetch` shape (pseudo-code)
+
+```javascript
+await fetch(`${apiBase}/v1/internal/...`, {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': csrfTokenFromCookie,
+  },
+  body: JSON.stringify(body),
+})
+```
+
+For **axios**, use `withCredentials: true` and set `headers['X-CSRF-Token']` the same way.
+
+### Session 8.6.2 implementation checklist
+
+- [ ] Wire the **shared API layer** (`client/src/api` or equivalent) so **mutating** methods always attach **`X-CSRF-Token`** when the app expects an authenticated session.
+- [ ] Use **`credentials: 'include'`** (fetch) or **`withCredentials: true`** (axios) for same-site API calls so both session and **`csrf_token`** cookies are sent.
+- [ ] After login or app load, ensure at least one **GET** (or other safe) internal request runs **before** the first mutating call so **`csrf_token`** exists.
+- [ ] Smoke-test admin or booking CRUD after wiring.
+
+### Breaking change (until 8.6.2 ships)
+
+The SPA may get **403** on CRUD even for logged-in users if **`X-CSRF-Token`** is missing. **`createCrudRouter`** applies **`csrfProtection`** to **POST** / **PUT** / **PATCH** / **DELETE** on CRUD routers.
 
 ---
 
