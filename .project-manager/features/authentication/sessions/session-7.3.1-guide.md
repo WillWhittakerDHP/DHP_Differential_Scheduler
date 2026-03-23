@@ -43,6 +43,8 @@ These sections contain session-specific content:
 
 ### Tasks
 
+[To be planned] Task blocks below will be finalized when the session guide is materialized.
+
 - [ ] #### Task 7.3.1.1: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
