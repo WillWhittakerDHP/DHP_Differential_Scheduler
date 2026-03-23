@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "feature": "authentication",
-  "derivedAt": "2026-03-23T18:44:44.021Z",
+  "derivedAt": "2026-03-23T18:46:59.555Z",
   "sourceTier": "session",
   "phasesOnDisk": [
     "7.1",
@@ -32,6 +32,6 @@
   "sessionAcrossTotal": 3,
   "sessionIndex0Based": 0,
   "nextSessionAcross": "7.3.2",
-  "taskAcrossTotal": 2,
+  "taskAcrossTotal": 3,
   "nextTaskAcross": "7.3.1.1"
 }
