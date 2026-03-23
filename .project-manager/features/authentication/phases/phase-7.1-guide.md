@@ -24,7 +24,7 @@ Sessions and tasks for this phase. See **Sessions Breakdown** below.
 
 ## Sessions Breakdown
 
-- [ ] ### Session 7.1.1: Migrations — sessions & magic_links
+- [x] ### Session 7.1.1: Migrations — sessions & magic_links
 **Description:** Add Sequelize migrations creating `sessions` and `magic_links` (or agreed table names) with appropriate columns, indexes, and FK to `users` as needed.
 **Tasks:** [To be planned]
 **Focus:**
