@@ -413,3 +413,5 @@ Break each session into focused tasks:
 
 - Session scope stops at strategy + persistence; **7.3.2** adds request-link HTTP + mail/log delivery; **7.3.3** adds verify route + `sessionManager` + cookie.
 - Planning reference: `.project-manager/features/authentication/sessions/session-7.3.1-planning.md`
+
+<!-- end excerpt session -->

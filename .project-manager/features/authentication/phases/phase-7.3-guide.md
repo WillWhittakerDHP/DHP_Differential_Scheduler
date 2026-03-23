@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 7.3.1: Magic link strategy core
+- [x] ### Session 7.3.1: Magic link strategy core
 **Description:** Token generation, storage, and consumption rules using the `magic_links` model; strategy module registered with existing auth seams.  
 **Tasks:** 3  
 **Focus:**
