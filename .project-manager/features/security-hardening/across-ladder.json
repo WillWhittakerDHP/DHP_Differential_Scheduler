@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "security-hardening",
-  "derivedAt": "2026-03-23T21:14:36.254Z",
-  "sourceTier": "session_end",
+  "derivedAt": "2026-03-23T21:18:55.131Z",
+  "sourceTier": "session",
   "phasesOnDisk": [
     "8.1",
     "8.2",
@@ -41,10 +41,10 @@
       "8.6.2"
     ]
   },
-  "focusSessionId": "8.6.1",
+  "focusSessionId": "8.6.2",
   "sessionAcrossTotal": 2,
-  "sessionIndex0Based": 0,
-  "nextSessionAcross": "8.6.2",
-  "taskAcrossTotal": 3,
-  "nextTaskAcross": "8.6.1.1"
+  "sessionIndex0Based": 1,
+  "nextSessionAcross": null,
+  "taskAcrossTotal": 2,
+  "nextTaskAcross": "8.6.2.1"
 }
