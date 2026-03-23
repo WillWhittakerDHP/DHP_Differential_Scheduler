@@ -40,7 +40,7 @@
 **Approach:** Follow existing `wizard_settings` API shapes; return typed payloads for client; document URL shape for the logo.  
 **Checkpoint:** Migration applies on dev DB; API accepts and returns brand fields; uploaded file is reachable at the URL stored in DB.
 
-- [ ] ### Session 6.15.2: Admin brand UI with extraction, anchors, and palette preview  
+- [x] ### Session 6.15.2: Admin brand UI with extraction, anchors, and palette preview  
 **Goal:** Let admins upload a logo, derive candidate colors from the image, pick/verify primary and secondary hex, preview palettes, and save.  
 **Files:** Admin Vue components and composables under `client/src/` (brand settings tab or agreed surface), API client calls from 6.15.1.  
 **Approach:** Thin components; composable for extraction + form state; use `buildWizardModePaletteFromAnchors` for preview; explicit save/load.  
