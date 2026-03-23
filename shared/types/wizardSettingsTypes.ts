@@ -22,4 +22,10 @@ export interface WizardSettingsData extends WizardCopyLabelFields {
   showApplyCoupon?: boolean
   useBrandColors?: boolean
   selectTimeSlotLabel?: string
+  /** Primary brand anchor hex (e.g. #RRGGBB or RRGGBB), nullable when unset. */
+  brandPrimaryHex?: string | null
+  /** Secondary brand anchor hex, nullable when unset. */
+  brandSecondaryHex?: string | null
+  /** Public URL or path to uploaded wizard logo, nullable when unset. */
+  logoUrl?: string | null
 }
