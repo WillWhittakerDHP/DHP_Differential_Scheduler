@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 7.2.1: Strategy Contract and Auth Config Foundation
+- [x] ### Session 7.2.1: Strategy Contract and Auth Config Foundation
 **Description:** Start simple by defining the server auth seams: shared auth types, strategy interface, environment/config decisions, and router/auth module structure.
 **Tasks:** 3
 **Focus:**
